@@ -1,7 +1,3 @@
-body {
-    padding:50px 0 0;
-}
-
 .divider {
     height: 50px;
     margin: 0 9px;
@@ -16,4 +12,49 @@ body {
 .no-margin {
     margin-right: 0;
     margin-left: 0;
+}
+
+.left-margin {
+	margin-left:15px;
+}
+
+.right-margin, .nav.navbar-nav.navbar-right.right-margin {
+	margin-right:15px;
+}
+
+.dark-background {
+	background-color: #999999;
+}
+
+.navigation ul li a {
+	color: white;
+}
+
+.navigation ul li a:hover {
+	color: #999999;
+}
+
+.no-border {
+	border:0 none;
+}
+
+table {
+    table-layout:fixed;
+}
+
+.table-head {
+	margin-bottom: 0;
+}
+
+td {
+	width:20%;
+}
+
+.table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
+	border-bottom-width:0;
+}
+
+.div-table-content {
+  height:150px;
+  overflow-y:auto;
 }
