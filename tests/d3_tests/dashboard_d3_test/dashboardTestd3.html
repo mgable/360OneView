@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Dashboard Test with D3</title>
+    <link href="stylesheets/d3test.css" type="text/css" rel="stylesheet" />
+  </head>
+  <body>
+    <ul id="chartTypes"></ul>
+    <div id="dashboard"></div>
+    <script src="http://code.jquery.com/jquery-2.1.0.min.js" type="text/javascript"></script>
+    <script src="http://d3js.org/d3.v3.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+      var scenarios = null, chartData = null, chartDataMap = {}, averages = [];
+
+      var multipliers = {
+        0 : "",
+        1 : "K",
+        2 : "M",
+        3 : "B",
+        4 : "T"
+      }
+      $.getJSON("dashboardChartData.json", function(data){
+        chartData = data.data.scenarioCharts;
+        //console.log("Chart", chartData);
+        if(scenarios !== null){
+          loadDashboard();
+        }
+        
+      });
+      $.getJSON("dashboardScenarioList.json", function(data){
+        scenarios = data.data.scenariosList;
+        //console.log("Scenarios", scenarios);
+        if(chartData !== null){
+          loadDashboard();
+        }
+      });
+
+      function loadDashboard(){
+        console.log("START");
+        if(scenarios != null && scenarios.length > 0 && chartData != null && chartData.chartvalues.length > 0){
+          averages = getAverages(chartData.chartvalues);
+          chartDataMap = loadMap(chartData.chartvalues);
+          
+          for(var ct = 0; ct < chartData.charttypes.length; ct++){
+            d3.select("#chartTypes").append("li").text(chartData.charttypes[ct]);
+          }
+
+          for(var i = 0; i < scenarios.length; i++){
+            var current = scenarios[i];
+            var scenario = d3.select("#dashboard").append("div").attr("class","scenarioDetails");
+            var myData = [current.title, "Created by "+current.username, "Type: "+current.calcType, "Created: "+current.createDate];
+            scenario.append("div").attr("class","scenarioInfo").selectAll("p").data(myData).enter().append("p").text(function(d){return d;});
+           // console.log(current.scenarioId, chartDataMap[current.scenarioId]);
+            if(current.scenarioId && chartDataMap[current.scenarioId]){
+              var numberFormat = chartDataMap[current.scenarioId].numberFormat;
+              var chart = scenario.append("ul").attr("class", "charts").selectAll("li").data(chartDataMap[current.scenarioId].values).enter().append("li");
+               
+              chart.selectAll("div.bar").data(function(d, k){
+                  var shortCurrent = d.currentScenarioVal, countCurrent = 0, shortCompare = d.compareScenarioVal, countCompare = 0;
+                  while(shortCurrent > 1000){
+                    shortCurrent = (shortCurrent/1000).toFixed(1);
+                    countCurrent++;
+                  }
+                  while(shortCompare > 1000){
+                    shortCompare = (shortCompare/1000).toFixed(1);
+                    countCompare++;
+                  }
+                  return [
+                    {"class":"current",
+                      "percentage": d.currentScenarioVal * 50 / averages[k] < 75 ? Math.round(d.currentScenarioVal * 50 / averages[k]) : 75,
+                     "value": shortCurrent + multipliers[countCurrent]},
+                     {"class":"compare",
+                      "percentage": d.compareScenarioVal * 50 / averages[k] < 75 ? Math.round(d.compareScenarioVal * 50 / averages[k]) : 75,
+                     "value": shortCompare + multipliers[countCompare]}
+                   ];
+                 }).enter().append("div").attr("class", function(d){return "bar "+d.class;}).style("width", function(d){return d.percentage+"%"})
+                  .append("span").attr("class", "barLabel").text(function(d){return d.value});
+
+              //.selectAll("div.bar")
+            }
+          }
+        }
+      }
+
+      function getAverages(chartValues){
+        var counts = [], totals = [];
+        for(var cv = 0; cv < chartValues.length; cv++){
+          var values = chartValues[cv].values;
+          for(var v = 0; v < values.length; v++){
+            var value = values[v];
+            if(totals[v] == null){
+              totals[v] = value.compareScenarioVal + value.currentScenarioVal;
+            } else {
+              totals[v] += value.compareScenarioVal + value.currentScenarioVal;
+            }
+
+            if(counts[v] == null){
+              counts[v] = 2;
+            }else{
+              counts[v] += 2;
+            }
+          }
+        }
+
+        for(var t =0; t < totals.length; t++){
+          totals[t] = Math.round(totals[t] / counts[t]);
+        }
+
+        return totals;
+      }
+
+      function loadMap(chartValues){
+        var temp = {};
+        for(var i =0; i < chartValues.length; i++){
+          temp[chartValues[i].scenarioid] = chartValues[i];
+        }
+        return temp;
+      }
+    </script>
+  </body>
+</html>
