@@ -1,0 +1,77 @@
+@import "compass/reset";
+
+@mixin clearfix{
+   &:after{
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+$bgColor: #2E3036;
+$borderColor: #4F535F;
+$currentScenarioColor: #0099FF;
+$compareScenarioColor: #C6AE4E;
+
+body{
+  background-color: $bgColor;
+  color:#fff;
+}
+
+#chartTypes{
+  width: 1024px - 254px;
+
+  margin-left:256px;
+  margin-bottom: 20px;
+  @include clearfix;
+  li{
+    width: 20%;
+    float: left;
+    text-align: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #fff;
+  }
+}
+
+#dashboard{
+  width:1024px;
+  margin: 0 auto;
+  .scenarioDetails{
+    @include clearfix;
+    margin-bottom: 25px;
+    .scenarioInfo{
+      float:left;
+      width:25%;
+    }
+    .charts{
+      @include clearfix;
+      float: left;
+      width: 75%;
+      li{
+        float: left;
+        width: 20%;
+        height: 50px;
+        margin-left: -1px;
+        border-left: 1px solid $borderColor;
+        border-bottom: 1px solid $borderColor;
+        .bar{
+          height: 15px;
+          margin: 6px;
+          position: relative;
+          &.current{
+            background-color: $currentScenarioColor;
+          }
+          &.compare{
+            background-color: $compareScenarioColor;
+          }
+          .barLabel{
+            font-size: 12px;
+            line-height: 15px;
+            position: absolute;
+            left:102%;
+          }
+        }
+      }
+    }
+  }
+}
