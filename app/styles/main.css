@@ -1,6 +1,19 @@
+body {
+    padding:50px 0 0;
+}
+
 .divider {
     height: 50px;
     margin: 0 9px;
     border-left: 1px solid #F2F2F2;
     border-right: 1px solid #FFF;
+}
+
+.navigation {
+    padding:10px 0 0;
+}
+
+.no-margin {
+    margin-right: 0;
+    margin-left: 0;
 }
