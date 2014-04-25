@@ -1,0 +1,24 @@
+{
+  "headers": [
+    "ID",
+    "Description",
+    "Partner",
+    "Program",
+    "BIN",
+    "Status",
+    "Last User",
+    "Updated",
+    "Created"
+  ],
+  "body": [
+    "placeholder text",
+    "placeholder text",
+    "placeholder text",
+    "placeholder text",
+    "placeholder text",
+    "placeholder text",
+    "placeholder text",
+    "placeholder text",
+    "placeholder text"
+  ]
+}

@@ -47,8 +47,12 @@
     	  top:0;
     	  opacity: 0.0;
     	  transition: width  0.4s, opacity 1s ease 0s;
+        &:hover {
+          background: transparent url(../images/360sprite.png) -214px -3px no-repeat;
+        }
       }
       a:hover {
+        background: inherit;
         span {
           color: gold;
           text-decoration: none;
@@ -105,7 +109,4 @@
       }
     }
 	}
-  .nav > li > a:hover {
-    background: inherit;
-  }
 }

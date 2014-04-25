@@ -1,0 +1,24 @@
+{
+  "processors": [
+    "ID",
+    "Description",
+    "Partner",
+    "Program",
+    "BIN",
+    "Status",
+    "Last User",
+    "Updated",
+    "Created"
+  ],
+  "partners": [
+    "placeholder text",
+    "placeholder text",
+    "placeholder text",
+    "placeholder text",
+    "placeholder text",
+    "placeholder text",
+    "placeholder text",
+    "placeholder text",
+    "placeholder text"
+  ]
+}
