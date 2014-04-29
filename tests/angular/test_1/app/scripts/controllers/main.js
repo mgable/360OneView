@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('test1App')
-    .controller('MainCtrl', function($scope, Data) {
+    .controller('homeCtrl', function($scope, Data) {
         Data.getMenu('home').then(function(results) {
             $scope.menuItems = results;
         });
@@ -15,4 +15,6 @@ angular.module('test1App')
         Data.getMenu('decisionbook').then(function(results) {
             $scope.menuItems = results;
         });
+    }).controller('MainCtrl', function($scope) {
+        // stuff
     });
