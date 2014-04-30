@@ -5,7 +5,8 @@ angular
         'ngResource',
         'ngSanitize',
         'ngRoute',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'dialogs.main'
     ])
     .config(function($routeProvider) {
         $routeProvider

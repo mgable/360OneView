@@ -20,17 +20,18 @@
 		<div class='container-fluid'>
 			<div class="wrapper">
 
-			<div class="col-sm-2" id="sidebar-wrapper">
-				<ul class="nav sidebar-nav">
-					<li class="sidebar-brand"><span class="pie"></span><a class="logo">MarketShare Logo</span></a></li>
-					<li><a href="#"><span class="icon glyphicon glyphicon-search"></span><span class="label">Dashboard</span></a></li>
-					<li><a href="#"><span class="icon glyphicon glyphicon-glass"></span><span class="label">Decision Book</span></a></li>
-					<li><a href="#"><span class="icon glyphicon glyphicon-cloud"></span><span class="label">Projects</span></a></li>
-					<li><a href="#"><span class="icon glyphicon glyphicon-file"></span><span class="label">Analysis</span></a></li>
-					<li><a href="#"><span class="icon glyphicon glyphicon-home"></span><span class="label">Task</a></span></li>
-					<li><a href="#"><span class="icon glyphicon glyphicon-cog"></span><span class="label">Messages</a></span></li>
-				</ul>
-			</div>
+			<!-- Button trigger modal -->
+<button class="btn btn-primary btn-lg first" >
+  Launch demo modal first
+</button>
+
+<button class="btn btn-primary btn-lg second" >
+  Launch demo modal second
+</button>
+
+<button class="btn btn-primary btn-lg third" >
+  Launch demo modal third
+</button>
 
 		</div>
 
@@ -64,7 +65,50 @@
 
 			<!-- build:js({app,.tmp}) scripts/main.js -->
 			<script src="scripts/main.js"></script>
+			<script>
+				$(function(){
+
+					$(".first").on('click', function (){
+						$('#myModal').modal({
+						  remote: 'views/test1.html'
+						});
+						$('#myModal').modal('show');
+					});
+
+					$(".second").on('click', function (){
+						$('#myModal').modal({
+						  remote: 'views/test2.html'
+						});
+						$('#myModal').modal('show');
+					});
+
+					$(".third").on('click', function (){
+						$('#myModal').modal({
+						  remote: 'views/test3.html'
+						});
+						$('#myModal').modal('show');
+					});
+					
+
+
+					$('body').on('hidden.bs.modal', '.modal', function () {
+					  $(this).removeData('bs.modal');
+					  //$(this).empty();
+					});
+				})
+			</script>
 			<!-- endbuild -->
+
+			<!-- modal -->
+			<div class="modal fade" id="myModal">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			     	no content
+			    </div><!-- /.modal-content -->
+			  </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+
+
 		</div>
 	</body>
 </html>
