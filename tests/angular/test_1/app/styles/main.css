@@ -28,6 +28,12 @@
         color: #999; }
       #sidebar-wrapper .sidebar-nav li:hover .icon {
         color: gold; }
+      #sidebar-wrapper .sidebar-nav li.current a {
+        cursor: default; }
+      #sidebar-wrapper .sidebar-nav li.current .icon {
+        color: gold; }
+      #sidebar-wrapper .sidebar-nav li.current .label {
+        color: gold; }
       #sidebar-wrapper .sidebar-nav li a.logo {
         background: transparent url(../images/360sprite.png) -214px -3px no-repeat;
         height: 50px;
@@ -42,9 +48,9 @@
         transition: width  0.4s, opacity 1s ease 0s; }
         #sidebar-wrapper .sidebar-nav li a.logo:hover {
           background: transparent url(../images/360sprite.png) -214px -3px no-repeat; }
-      #sidebar-wrapper .sidebar-nav li a:hover {
+      #sidebar-wrapper .sidebar-nav li a:hover, #sidebar-wrapper .sidebar-nav li .current {
         background: inherit; }
-        #sidebar-wrapper .sidebar-nav li a:hover span {
+        #sidebar-wrapper .sidebar-nav li a:hover span, #sidebar-wrapper .sidebar-nav li .current span {
           color: gold;
           text-decoration: none; }
       #sidebar-wrapper .sidebar-nav li a:active,

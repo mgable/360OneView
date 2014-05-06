@@ -20,7 +20,9 @@
   </head>
   <body ng-app="test1App">
 
-    <div ng-controller="MainCtrl" class="pad"></div>
+    <div ng-controller="MainCtrl" class="pad">
+        <ng-view></ng-view>
+    </div>
    
 
     <!--[if lt IE 9]>
@@ -38,17 +40,23 @@
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-translate/angular-translate.js"></script>
-    <script src="scripts/vendor/dialogs.4.0.js" type="text/javascript"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/vendor/dialogs.4.0.js"></script>
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/config.js"></script>
         <script src="scripts/directives/mainnav.js"></script>
-        <script src="scripts/services/data.js"></script>
+        <script src="scripts/services/services.js"></script>
 
         
+        <script src="scripts/services/permissionsmanager.js"></script>
+        <script src="scripts/services/pagemanager.js"></script>
+        <script src="scripts/services/stooges.js"></script>
+        <script src="scripts/services/menu.js"></script>
+        <script src="scripts/directives/focus.js"></script>
         <!-- endbuild -->
 
      

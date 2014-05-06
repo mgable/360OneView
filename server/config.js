@@ -9,6 +9,15 @@ config.places = [{
 }, {
     "url": "/marketshare/decisionbook",
     "file": "./marketshare/data.json"
+}, {
+    "url": "/marketshare/login/fred/wilma",
+    "file": "./marketshare/success.json"
+}, {
+    "url": "/marketshare/login/*/*",
+    "file": "./marketshare/fail.json"
+}, {
+    "url": "/marketshare/test",
+    "file": "./marketshare/test.json"
 }];
 
 config.baseUrl = ''

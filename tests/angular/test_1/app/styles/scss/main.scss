@@ -35,6 +35,17 @@
             color: gold;
           }
         }
+        &.current {
+          a {
+            cursor: default;
+          }
+          .icon {
+            color: gold;
+          }
+          .label {
+            color:gold;
+          }
+        }
       a.logo {
     	  background: transparent url(../images/360sprite.png) -214px -3px no-repeat;
     	  height: 50px;
@@ -51,7 +62,7 @@
           background: transparent url(../images/360sprite.png) -214px -3px no-repeat;
         }
       }
-      a:hover {
+      a:hover, .current  {
         background: inherit;
         span {
           color: gold;

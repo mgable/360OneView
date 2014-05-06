@@ -11,18 +11,18 @@ angular
     .config(function($routeProvider) {
         $routeProvider
             .when('/', {
-                templateUrl: 'views/main.html',
-                controller: 'MainCtrl'
+                templateUrl: 'views/login.html',
+                controller: 'LogInViewCtrl'
             })
             .when('/dashboard', {
                 templateUrl: 'views/dashboard.html',
-                controller: 'dashboardCtrl'
+                controller: 'DashboardViewCtrl'
             })
             .when('/decisionbook', {
                 templateUrl: 'views/decisionbook.html',
-                controller: 'decisionbookCtrl'
+                controller: 'DecisionbookViewCtrl'
             })
             .otherwise({
                 redirectTo: '/'
             });
-    });
+    }).constant('SERVER', 'http://127.0.0.1:3001/marketshare');
