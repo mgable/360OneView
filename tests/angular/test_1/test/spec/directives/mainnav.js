@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 describe('Directive: mainNav', function() {
 
@@ -23,17 +23,23 @@ describe('Directive: mainNav', function() {
 
     beforeEach(inject(function($rootScope, $compile) {
         element = angular.element('<mainnav menu-items="menuItems"></mainnav>');
-        scope = $rootScope;
+        scope = $rootScope.$new();
         scope.menuItems = [{
-            "icon": "glyphicon-search",
-            "label": "Dashboard",
-            "url": "/dashboard"
+            'icon': 'glyphicon-search',
+            'label': 'Dashboard',
+            'url': '/dashboard'
         }];
         renderedDirective = $compile(element)(scope);
         scope.$digest();
     }));
 
-    it('should make hidden element visible', (function() {
-        expect(renderedDirective[0].outerHTML.replace(/\s/g, "")).toBe(renderedHtml.replace(/\s/g, ""));
-    }));
+    it('should render the directive', function() {
+        expect(renderedDirective[0].outerHTML.replace(/\s/g, '')).toBe(renderedHtml.replace(/\s/g, ''));
+    });
+
+    it('should highlight current location', function() {
+        element.isolateScope().currentLocation = 'dashboard';
+        expect(element.isolateScope().isCurrentLocation('Dash Board')).toBe('current');
+        expect(element.isolateScope().isCurrentLocation('xxx')).toBe('');
+    });
 });

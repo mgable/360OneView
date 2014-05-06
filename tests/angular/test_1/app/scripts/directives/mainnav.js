@@ -18,10 +18,10 @@ angular.module('test1App')
             },
             controller: function($scope, $location) {
                 $scope.currentLocation = $location.path().slice(1);
-                // $scope.isCurrentLocation = function(location) {
-                //     var location = angular.lowercase(location).replace(/\s/g, "");
-                //     return angular.lowercase(location) === $scope.currentLocation ? "current" : "";
-                // }
+                $scope.isCurrentLocation = function(loc) {
+                    var location = angular.lowercase(loc).replace(/\s/g, '');
+                    return angular.lowercase(location) === $scope.currentLocation ? 'current' : '';
+                };
             }
         };
     });
