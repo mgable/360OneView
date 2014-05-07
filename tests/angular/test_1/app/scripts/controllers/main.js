@@ -18,13 +18,9 @@ angular.module('test1App')
         var dlg = dialogs.create('/views/modals/login.html', 'LogInDialogCtrl', {});
         dlg.result.then(function(user) {
             //save
-            // $scope.username = user.username;
-            // $scope.password = user.password;
             $location.path('/dashboard');
-
         }, function() {
             //dismiss
-            // $scope.username = 'You decided not to enter in your name, that makes me sad.';
         });
     })
     .controller('LogInDialogCtrl', function($scope, $modalInstance, Permissionsmanager) {
@@ -39,7 +35,7 @@ angular.module('test1App')
 
         $scope.save = function() {
             Permissionsmanager.login($scope.user.username, $scope.user.password).then(function(result) {
-                $scope.something(result);
+                _something(result);
             });
 
         }; // end save
@@ -50,7 +46,7 @@ angular.module('test1App')
             }
         }; // end hitEnter
 
-        $scope.something = function(result) {
+        var _something = function(result) {
             if (result) {
                 $modalInstance.close($scope.user);
             } else {

@@ -1,4 +1,45 @@
 'use strict';
+describe('Controller: LogInViewCtrl', function() {
+    // load the controller's module
+    beforeEach(module('test1App'));
+
+    var dialogs,
+        scope,
+        dialogSpy,
+        q,
+        location,
+        LogInViewCtrl;
+
+    beforeEach(inject(function($controller, $rootScope, $location, dialogs, $q) {
+        q = $q.defer();
+
+        dialogSpy = spyOn(dialogs, "create").andReturn({
+            result: q.promise
+        });
+
+        scope = $rootScope.$new();
+        location = $location;
+
+        LogInViewCtrl = $controller('LogInViewCtrl', {
+            $scope: scope,
+            $location: location,
+        });
+
+
+
+    }));
+
+    it('should create a dialog instance', function() {
+        q.resolve(true);
+        expect(dialogSpy).toHaveBeenCalled();
+    });
+
+    it('should redirect to /dashboard', function() {
+        q.resolve(true);
+        scope.$apply();
+        expect(location.path()).toBe('/dashboard');
+    });
+});
 
 describe('Controller: LogInDialogCtrl', function() {
 
@@ -38,32 +79,29 @@ describe('Controller: LogInDialogCtrl', function() {
         }
 
         q.resolve(true);
-
         scope.save();
-        scope.$apply();
-
         expect(permissionSpy).toHaveBeenCalledWith('foo', 'bar');
     });
 
     it('should save on valid username / password', inject(function($q, Permissionsmanager) {
-        somethingSpy = spyOn(scope, "something").andCallThrough();
+        //somethingSpy = spyOn(scope, "something").andCallThrough();
         q.resolve(true);
 
         scope.save();
         scope.$apply();
 
-        expect(somethingSpy).toHaveBeenCalled();
+        //expect(somethingSpy).toHaveBeenCalled();
         expect(modalInstance.close).toHaveBeenCalledWith(scope.user);
     }));
 
     it('should fail on invalid username / password', inject(function($q, Permissionsmanager) {
-        somethingSpy = spyOn(scope, "something").andCallThrough();
+        //somethingSpy = spyOn(scope, "something").andCallThrough();
         q.resolve(false);
 
         scope.save();
         scope.$apply();
 
-        expect(somethingSpy).toHaveBeenCalled();
+        //expect(somethingSpy).toHaveBeenCalled();
         expect(scope.user.errorMsg).toBe('Username or password is incorrect.');
     }));
 
