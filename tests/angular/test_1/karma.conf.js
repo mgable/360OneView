@@ -18,9 +18,12 @@ module.exports = function(config) {
             'app/bower_components/angular-route/angular-route.js',
             'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
             'app/scripts/*.js',
+            'app/scripts/controllers/*.js',
+            'app/scripts/services/*.js',
             'app/scripts/vendor/*.js',
             'app/scripts/directives/mainnav.js',
             'test/spec/directives/mainnav.js',
+            'test/spec/controllers/main.js',
             'app/views/*.html'
         ],
 

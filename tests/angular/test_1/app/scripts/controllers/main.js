@@ -28,23 +28,18 @@ angular.module('test1App')
         });
     })
     .controller('LogInDialogCtrl', function($scope, $modalInstance, Permissionsmanager) {
-        $scope.user = {
-            username: '',
-            password: '',
-            errorMsg: ''
-        };
-
+        $scope.user = {};
+        //     username: '',
+        //     password: '',
+        //     errorMsg: ''
+        // };
         // $scope.cancel = function() {
         //     $modalInstance.dismiss('canceled');
         // }; // end cancel
 
         $scope.save = function() {
             Permissionsmanager.login($scope.user.username, $scope.user.password).then(function(result) {
-                if (result) {
-                    $modalInstance.close($scope.user);
-                } else {
-                    $scope.user.errorMsg = Permissionsmanager.getErrorMsg();
-                }
+                $scope.something(result);
             });
 
         }; // end save
@@ -54,4 +49,12 @@ angular.module('test1App')
                 $scope.save();
             }
         }; // end hitEnter
+
+        $scope.something = function(result) {
+            if (result) {
+                $modalInstance.close($scope.user);
+            } else {
+                $scope.user.errorMsg = Permissionsmanager.getErrorMsg();
+            }
+        };
     });
