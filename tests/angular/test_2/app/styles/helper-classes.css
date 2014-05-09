@@ -1,0 +1,30 @@
+.no-bottom-margin {
+  margin-bottom: 0; }
+
+.no-top-margin {
+  margin-top: 0; }
+
+.no-background-color {
+  background-color: transparent; }
+
+.no-padding {
+  padding: 0; }
+
+.left-margin {
+  margin-left: 20px; }
+
+.bold {
+  font-weight: bold; }
+
+.relative {
+  position: relative; }
+
+.inline-block {
+  display: inline-block; }
+
+ul {
+  list-style: none;
+  padding: 0; }
+
+.right-margin {
+  margin-right: 40px; }

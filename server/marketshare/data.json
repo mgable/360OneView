@@ -10,11 +10,11 @@
     }, {
         "icon": "glyphicon-cloud",
         "label": "Projects",
-        "url": "/"
+        "url": "/projects"
     }, {
         "icon": "glyphicon-file",
         "label": "Analysis",
-        "url": "/dashboard"
+        "url": "/"
     }, {
         "icon": "glyphicon-home",
         "label": "Task",
@@ -22,6 +22,6 @@
     }, {
         "icon": "glyphicon-cog",
         "label": "Messages",
-        "url": "/decisionbook"
+        "url": "/"
     }]
 }

@@ -10,25 +10,24 @@ describe('Directive: mainNav', function() {
     var element,
         renderedDirective,
         scope,
-        renderedHtml = '<div class="container-fluid ng-isolate-scope" menu-items="menuItems">' +
-            '<div class="wrapper">' +
-            '<div class="col-sm-2" id="sidebar-wrapper">' +
-            '<ul class="nav sidebar-nav">' +
-            '<li class="sidebar-brand"><span class="pie"></span><a class="logo">MarketShare Logo</a></li>' +
-            '<!-- ngRepeat: item in data --><li ng-repeat="item in data" ng-class="isCurrentLocation(item.label)" class="ng-scope"><a ng-href="#/dashboard" href="#/dashboard"><span class="icon glyphicon glyphicon-search" ng-class="item.icon"></span><span class="label ng-binding">Dashboard</span></a></li><!-- end ngRepeat: item in data --> ' +
-            '</ul>' +
-            '</div>' +
-            '</div>' +
-            '</div>';
+        location,
+        menufactorySpy,
+        renderedHtml = '<divclass="container-fluid"menu-items="menuItems"><divclass="wrapper"><divclass="col-sm-2"id="sidebar-wrapper"><ulclass="navsidebar-nav"><liclass="sidebar-brand"><spanclass="pie"></span><aclass="logo">MarketShareLogo</a></li><!--ngRepeat:itemindata--><ling-repeat="itemindata"ng-class="isCurrentLocation(item.label)"class="ng-scope"><ang-href="#/dashboard"href="#/dashboard"><spanclass="iconglyphiconglyphicon-search"ng-class="item.icon"></span><spanclass="labelng-binding">Dashboard</span></a></li><!--endngRepeat:itemindata--></ul></div></div></div>'
 
-    beforeEach(inject(function($rootScope, $compile) {
+    beforeEach(inject(function($rootScope, $compile, MenuFactory, $location) {
         element = angular.element('<mainnav menu-items="menuItems"></mainnav>');
         scope = $rootScope.$new();
-        scope.menuItems = [{
+
+        var menuItems = [{
             'icon': 'glyphicon-search',
             'label': 'Dashboard',
             'url': '/dashboard'
         }];
+
+        location = $location;
+
+        menufactorySpy = spyOn(MenuFactory, "get").andReturn(menuItems);
+
         renderedDirective = $compile(element)(scope);
         scope.$digest();
     }));
@@ -38,8 +37,8 @@ describe('Directive: mainNav', function() {
     });
 
     it('should highlight current location', function() {
-        element.isolateScope().currentLocation = 'dashboard';
-        expect(element.isolateScope().isCurrentLocation('Dash Board')).toBe('current');
-        expect(element.isolateScope().isCurrentLocation('xxx')).toBe('');
+        location.path('/dashboard');
+        expect(scope.isCurrentLocation('Dash Board')).toBe('current');
+        expect(scope.isCurrentLocation('xxx')).toBe('');
     });
 });

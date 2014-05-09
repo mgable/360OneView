@@ -1,0 +1,61 @@
+<div class="navbar-default navbar-static-side no-background-color" role="navigation">
+    <ul class="nav right-margin" id="side-menu">
+        <li class="sidebar-search">
+         <!-- search -->
+            <form class="navbar-form no-padding no-top-margin" role="search">
+                <div class="input-group add-on">
+                    <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                    </div>
+                </div>
+            </form>
+        </li>
+    </ul>
+    <ul ng-controller="FileManagerNavigationCtrl" class="file-manager-navigation">
+        <li ng-class="getClass(0)">
+            <a ng-click="toggleSelected(0)">All</a>
+        </li>
+        <li>
+            <a>Master Set</a>
+        </li>
+        <li>
+            <a>Media Plans</a>
+        </li>
+        <li ng-class="getClass(1)">
+            <a ng-click="toggleSelected(1)">Constraints</a>
+            <ul>
+                <li><a>Soft Contraints</a></li>
+                <li><a>Hard Contraints</a></li>
+            </ul>
+        </li>
+        <li>
+            <a>Cost Assumptions</a>
+        </li>
+        <li ng-class="getClass(2)">
+            <a ng-click="toggleSelected(2)">Environmental Factors</a>
+            <ul>
+                <li><a>Economic Variables</a></li>
+                <li><a>Marketing Factors</a></li>
+                <li><a>Competitive Spend</a></li>
+                <li><a>Brand Awardness</a></li>
+                <li><a>Pricing</a></li>
+                <li><a>Proudct Factors</a></li>
+            </ul>
+        </li>
+        <li>
+            <a>Objective</a>
+        </li>
+        <li>
+            <a>Scenarios</a>
+        </li>
+        <li>
+            <a>Playbook</a>
+        </li>
+        <li>
+            <a>Decision Books</a>
+        </li>
+
+    </ul>
+    <!-- /#side-menu -->
+</div>

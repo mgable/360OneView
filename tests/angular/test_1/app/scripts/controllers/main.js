@@ -4,15 +4,18 @@
 
 angular.module('test1App')
     .controller('DashboardViewCtrl', function($scope, Pagemanager, StoogesFactory) {
-        Pagemanager.view($scope, 'dashboard');
+        //Pagemanager.view($scope, 'dashboard');
         $scope.stooges = StoogesFactory.get();
     })
     .controller('DecisionbookViewCtrl', function($scope, Pagemanager) {
-        Pagemanager.view($scope, 'decisionbook');
+        //Pagemanager.view($scope, 'decisionbook');
     })
-    .controller('MainCtrl', function($scope, $location, $rootScope) {
-        // $scope.selectedMenuItem = '';
-        console.info('main coontroller');
+    .controller('ProjectsViewCtrl', function($scope, Pagemanager) {
+        //Pagemanager.view($scope, 'decisionbook');
+    })
+    .controller('MainCtrl', function($scope, MenuFactory) {
+        // Pagemanager.view($scope, 'dashboard');
+        //$scope.menuItems = MenuFactory.get();
     })
     .controller('LogInViewCtrl', function($scope, $location, dialogs) {
         var dlg = dialogs.create('/views/modals/login.html', 'LogInDialogCtrl', {});

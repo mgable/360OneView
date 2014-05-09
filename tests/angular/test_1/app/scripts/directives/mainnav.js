@@ -13,14 +13,12 @@ angular.module('test1App')
                 // console.info(attrs);
             },
             replace: true,
-            scope: {
-                data: '=menuItems'
-            },
-            controller: function($scope, $location) {
-                $scope.currentLocation = $location.path().slice(1);
+            controller: function($scope, $location, MenuFactory) {
+                $scope.data = MenuFactory.get("dashboard");
                 $scope.isCurrentLocation = function(loc) {
-                    var location = angular.lowercase(loc).replace(/\s/g, '');
-                    return angular.lowercase(location) === $scope.currentLocation ? 'current' : '';
+                    var location = angular.lowercase(loc).replace(/\s/g, ''),
+                        currentLocation = $location.path().slice(1);
+                    return angular.lowercase(location) === currentLocation ? 'current' : '';
                 };
             }
         };

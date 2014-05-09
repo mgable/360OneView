@@ -6,7 +6,8 @@ angular
         'ngSanitize',
         'ngRoute',
         'ui.bootstrap',
-        'dialogs.main'
+        'dialogs.main',
+        'ngAnimate'
     ])
     .config(function($routeProvider) {
         $routeProvider
@@ -21,6 +22,10 @@ angular
             .when('/decisionbook', {
                 templateUrl: 'views/decisionbook.html',
                 controller: 'DecisionbookViewCtrl'
+            })
+            .when('/projects', {
+                templateUrl: 'views/projects.html',
+                controller: 'ProjectsViewCtrl'
             })
             .otherwise({
                 redirectTo: '/'

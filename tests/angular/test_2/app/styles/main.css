@@ -1,0 +1,141 @@
+.no-bottom-margin {
+  margin-bottom: 0; }
+
+.no-top-margin {
+  margin-top: 0; }
+
+.no-background-color {
+  background-color: transparent; }
+
+.no-padding {
+  padding: 0; }
+
+.left-margin {
+  margin-left: 20px; }
+
+.bold {
+  font-weight: bold; }
+
+.relative {
+  position: relative; }
+
+.inline-block {
+  display: inline-block; }
+
+ul {
+  list-style: none;
+  padding: 0; }
+
+.right-margin {
+  margin-right: 40px; }
+
+@font-face {
+  font-family: "font awesome";
+  src: url("../fonts/fontawesome-webfont.eot");
+  src: url("../fonts/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff") format("woff"), url("../fonts/fontawesome-webfont.ttf") format("truetype"), url("../fonts/fontawesome-webfont.svg#fontawesome-webfont") format("svg"); }
+body {
+  background-color: white;
+  padding-top: 50px; }
+
+.navigation-holder a.logo {
+  background: transparent url(../images/360sprite.png) -214px -3px no-repeat;
+  display: inline-block;
+  height: 50px;
+  width: 200px;
+  text-indent: -1000px; }
+  .navigation-holder a.logo:hover {
+    background: transparent url(../images/360sprite.png) -214px -3px no-repeat; }
+.navigation-holder .add-on .input-group-btn > .btn {
+  border-left-width: 0;
+  left: -2px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
+
+ul.file-manager-navigation {
+  margin: 10px 0 0 10px; }
+  ul.file-manager-navigation li {
+    margin: 0 0 10px; }
+    ul.file-manager-navigation li > ul {
+      display: none;
+      margin: 10px 0 0 10px; }
+      ul.file-manager-navigation li > ul a {
+        color: darkgray;
+        font-size: 90%; }
+  ul.file-manager-navigation li.selected > a {
+    color: red; }
+  ul.file-manager-navigation li.selected > ul {
+    display: block; }
+  ul.file-manager-navigation a {
+    color: black;
+    cursor: pointer;
+    text-decoration: none; }
+    ul.file-manager-navigation a:hover {
+      text-decoration: none; }
+
+.file-manager .sorting-bar > span {
+  position: absolute; }
+.file-manager .sorting-bar .name {
+  padding-left: 10px; }
+  .file-manager .sorting-bar .name:after {
+    font-family: "font awesome";
+    color: black;
+    content: '\f0de'; }
+  .file-manager .sorting-bar .name.selected {
+    color: red; }
+    .file-manager .sorting-bar .name.selected:after {
+      content: '\f0dd'; }
+.file-manager .sorting-bar .modified-by {
+  right: 210px; }
+.file-manager .sorting-bar .last-modified {
+  right: 100px; }
+.file-manager .sorting-bar .file-type {
+  right: 17px; }
+.file-manager .file-cell {
+  border-bottom: 1px solid #ddd;
+  padding: 15px 15px 26px 15px; }
+  .file-manager .file-cell:last-child {
+    margin: 0;
+    border-bottom: 0 none; }
+  .file-manager .file-cell:hover {
+    background-color: #ddd; }
+    .file-manager .file-cell:hover .file-management-buttons {
+      opacity: 1.0; }
+  .file-manager .file-cell span {
+    position: absolute; }
+  .file-manager .file-cell .modified-by {
+    right: 195px; }
+  .file-manager .file-cell .last-modified {
+    right: 85px; }
+  .file-manager .file-cell .file-type {
+    right: 3px; }
+  .file-manager .file-cell h5 {
+    margin-left: 22px; }
+.file-manager .icon {
+  display: table-cell;
+  height: 15px;
+  width: 15px;
+  background-color: red;
+  color: white;
+  font-size: 9px;
+  text-align: center;
+  vertical-align: middle;
+  left: 23px;
+  top: 3px;
+  padding: 2px 0 0; }
+.file-manager .multi-select {
+  margin-right: 10px; }
+.file-manager .text {
+  font-size: 13px;
+  margin-left: 47px; }
+.file-manager .file-management-buttons {
+  opacity: 0.0;
+  transition: all 0.4s ease 0s; }
+  .file-manager .file-management-buttons > div {
+    font-size: 10px;
+    padding-right: 5px; }
+    .file-manager .file-management-buttons > div > i {
+      font-size: 14px;
+      padding-right: 3px; }
+
+.file-filter-list {
+  margin-right: 30px; }
