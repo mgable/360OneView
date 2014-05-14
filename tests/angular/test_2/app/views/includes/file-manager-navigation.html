@@ -1,4 +1,4 @@
-<div class="navbar-default navbar-static-side no-background-color" role="navigation">
+<div class="navbar-default navbar-static-side no-background-color" role="navigation" ng-controller="FileManagerNavigationCtrl">
     <ul class="nav right-margin" id="side-menu">
         <li class="sidebar-search">
          <!-- search -->
@@ -12,50 +12,15 @@
             </form>
         </li>
     </ul>
-    <ul ng-controller="FileManagerNavigationCtrl" class="file-manager-navigation">
-        <li ng-class="getClass(0)">
-            <a ng-click="toggleSelected(0)">All</a>
-        </li>
-        <li>
-            <a>Master Set</a>
-        </li>
-        <li>
-            <a>Media Plans</a>
-        </li>
-        <li ng-class="getClass(1)">
-            <a ng-click="toggleSelected(1)">Constraints</a>
-            <ul>
-                <li><a>Soft Contraints</a></li>
-                <li><a>Hard Contraints</a></li>
+    <ul  class="file-manager-navigation" nav firstSelected="true">
+        <li ng-repeat="item in menuItems" ng-class="getClass($index)">
+            <a ng-click="toggleSelected($index)">{{item.label}}</a>
+            <ul ng-if="item.subMenu">
+                <li ng-repeat="subMenuItem in item.subMenu">
+                    <a>{{subMenuItem.label}}</a>
+                </li>
             </ul>
         </li>
-        <li>
-            <a>Cost Assumptions</a>
-        </li>
-        <li ng-class="getClass(2)">
-            <a ng-click="toggleSelected(2)">Environmental Factors</a>
-            <ul>
-                <li><a>Economic Variables</a></li>
-                <li><a>Marketing Factors</a></li>
-                <li><a>Competitive Spend</a></li>
-                <li><a>Brand Awardness</a></li>
-                <li><a>Pricing</a></li>
-                <li><a>Proudct Factors</a></li>
-            </ul>
-        </li>
-        <li>
-            <a>Objective</a>
-        </li>
-        <li>
-            <a>Scenarios</a>
-        </li>
-        <li>
-            <a>Playbook</a>
-        </li>
-        <li>
-            <a>Decision Books</a>
-        </li>
-
     </ul>
     <!-- /#side-menu -->
 </div>

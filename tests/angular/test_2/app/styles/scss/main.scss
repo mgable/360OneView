@@ -64,34 +64,63 @@ ul.file-manager-navigation {
 
 .file-manager {
 	.sorting-bar {
+		a {
+			text-decoration:none;
+			color: black;
+			cursor: pointer;
+		}
 		> span {
 			position: absolute; 
-		}
-		.name {
-			padding-left:10px;
-			&:after {
+			&.selected:after {
 				font-family: "font awesome";
 				color:black;
 				content : '\f0de';
 			}
 			&.selected {
-				color:red;
+				a {color:red;}
 				&:after {
 					content: '\f0dd';
 				}
 			}
+			&.selected.reverse {
+				a {color:red;}
+				&:after {
+					content: '\f0de';
+				}
+			}
+		}
+		.name {
+			padding-left:10px;
 		}
 		.modified-by {
-			right:210px;
+			left:370px;
 		}
 		.last-modified {
-			right:100px;
+			left:500px;
 		}
 		.file-type {
-			right:17px;
+			left:615px;
 		}
 	}
 	.file-cell {
+		cursor: pointer;
+		.hidden-content {
+			// display:none;
+			// opacity: 0.0;
+			max-height:0;
+			overflow: hidden;
+			transition: all 0.4s ease 0s;
+		}
+		&.selected {
+			.hidden-content {
+				// display:block;
+				// opacity: 1.0;
+				max-height:500px;
+			}
+			.file-management-buttons {
+				opacity:1.0;
+			}
+		}
 		border-bottom: 1px solid #ddd;
 		padding: 15px 15px 26px 15px;
 		&:last-child {
@@ -99,26 +128,54 @@ ul.file-manager-navigation {
 			border-bottom: 0 none;
 		}
 		&:hover {
-			background-color: #ddd;
+			background-color: #eee;
 			.file-management-buttons {
 				opacity:1.0;
 			}
 		}
-		span {
-			position:absolute;
-		}
-		.modified-by {
-			right:195px;
-		}
-		.last-modified {
-			right:85px;
-		}
-		.file-type {
-			right:3px;
+		.info {
+			.modified-by {
+				left:355px;
+			}
+			.last-modified {
+				left:485px;
+			}
+			.file-type {
+				left:600px;
+			}
+			> span {
+				position:absolute;
+				min-width:100px;
+			}
 		}
 		h5 {
 			margin-left: 22px;
+			a {
+				text-decoration: none;
+				color: black;
+				 i {
+					opacity:0;
+					transition: all 0.4s ease 0s;
+				}
+			}
+			&:hover a i {
+				opacity:1.0;
+			}
+
 		}
+		.file-preview-pane {
+			border:1px solid black;
+			text-align:center;
+			width: 580px;
+			margin:10px auto;
+			height: 300px;
+			vertical-align: middle;
+		}
+	}
+	.symbol-holder {
+		left:23px;
+		top:3px;
+		position: absolute;
 	}
 	.icon {
 		display: table-cell;
@@ -129,8 +186,6 @@ ul.file-manager-navigation {
 		font-size: 9px;
 		text-align: center;
 		vertical-align: middle;
-		left:23px;
-		top:3px;
 		padding:2px 0 0;
 	}
 	.multi-select {
@@ -138,7 +193,7 @@ ul.file-manager-navigation {
 	}
 	.text {
 		font-size:13px;
-		margin-left: 47px;
+		margin: 0 0 8px 47px;
 	}
 	.file-management-buttons {
 		opacity: 0.0;
@@ -151,9 +206,63 @@ ul.file-manager-navigation {
 				padding-right:3px;
 			}
 		}
+		a {
+			color:black;
+			&:hover {
+				text-decoration: none;
+			}
+		}
 	}
 }
 
 .file-filter-list {
 	@include right-margin (30px);
+}
+
+.tableHead {
+	scrollbar-base-color: #999;
+	scrollbar-3dlight-color: #999;
+	scrollbar-highlight-color: #999;
+	scrollbar-track-color: #999;
+	scrollbar-arrow-color: #999;
+	scrollbar-shadow-color: #999;
+	scrollbar-dark-shadow-color: #999;
+}
+
+.tableHead::-webkit-scrollbar {background:#ddd;}
+
+.divTable {
+	width:580px;
+	margin:10px auto;
+	max-height:300px;
+	overflow: hidden;
+	transition: max-height 0.4s ease 0s;
+	&.myHide {
+		max-height: 0px;
+		border:0 none;
+	}
+	.cell {
+		display:inline-block;
+	}
+	.symbol {width:30px;}
+	.name {width: 230px}
+	.last-modified {width:100px}
+	.modified-by {width:175px}
+}
+
+.tableBody {
+	height:100px;
+	overflow-y:scroll;
+	padding:5px 0 0;
+}
+
+.tableHead {
+	overflow-y:scroll;
+	height:30px;
+	padding:5px 0 0 0;
+	background-color:#ddd;
+}
+
+.tableHead  div:first-child, .tableBody div  div:first-child {
+	padding:0 0 0 10px;
 }

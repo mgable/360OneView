@@ -7,61 +7,8 @@
 
     <!-- file browser -->
     <div class="col-xs-8">
-        <div class="panel panel-default file-manager">
-          <div class="panel-heading relative">
-            <form class="form-inline sorting-bar" name="sorting-bar">
-                <div class="checkbox">
-                    <input type="checkbox" />
-                </div>
-                <span class="name selected">Name&nbsp;</span>
-                <span class="modified-by">Modified By</span>
-                <span class="last-modified">Last Modified</span>
-                <span class="file-type">File Type</span>
-            </form>
-
-          </div>
-          <div class="panel-body relative no-padding">
-            <div class="file-cell">
-                <form class="form-inline relative">
-                    <div class="checkbox pull-left multi-select">
-                        <input type="checkbox" />
-                    </div>
-                    <span class="icon">M</span>
-                    <h5 class="media-heading bold inline-block">Carls' Econ Variables Scenario 1</h5>
-                    <span class="modified-by">Carl Sagan</span>
-                    <span class="last-modified">30 days ago</span>
-                    <span class="file-type">Scenario</span>
-                </form>
-                <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt ligula vitae mi interdum suscipit. Sed lectus sapien, cursus et purus nec, cursus semper tellus. Sed id aliquet nulla, nec porttitor dui. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</div>
-                <div class="btn-toolbar pull-right file-management-buttons" role="toolbar">
-                    <div class="btn-group"><i class="icon-home"></i>&nbsp;Set as Master</div>
-                    <div class="btn-group"><i class="icon-eye-open"></i>&nbsp;View</div>
-                    <div class="btn-group"><i class="icon-sitemap"></i>&nbsp;Clone</div>
-                    <div class="btn-group"><i class="icon-trash"></i>&nbsp;Delete</div>
-                </div>
-            </div>
-
-            <div class="file-cell">
-                <form class="form-inline relative">
-                    <div class="checkbox pull-left multi-select">
-                        <input type="checkbox" />
-                    </div>
-                    <span class="icon">M</span>
-                    <h5 class="media-heading bold inline-block">Carls' Econ Variables Scenario 1</h5>
-                    <span class="modified-by">Carl Sagan</span>
-                    <span class="last-modified">30 days ago</span>
-                    <span class="file-type">Scenario</span>
-                </form>
-                <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt ligula vitae mi interdum suscipit. Sed lectus sapien, cursus et purus nec, cursus semper tellus. Sed id aliquet nulla, nec porttitor dui. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</div>
-                <div class="btn-toolbar pull-right file-management-buttons" role="toolbar">
-                    <div class="btn-group"><i class="icon-home"></i>&nbsp;Set as Master</div>
-                    <div class="btn-group"><i class="icon-eye-open"></i>&nbsp;View</div>
-                    <div class="btn-group"><i class="icon-sitemap"></i>&nbsp;Clone</div>
-                    <div class="btn-group"><i class="icon-trash"></i>&nbsp;Delete</div>
-                </div>
-            </div>
-          </div>
-        </div>
+        <!-- file manager browser -->
+        <ng-include src="'/views/includes/file-manager-browser.html'"></ng-include>
     </div>
 
 </div>

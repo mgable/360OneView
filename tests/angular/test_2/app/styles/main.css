@@ -72,44 +72,81 @@ ul.file-manager-navigation {
     ul.file-manager-navigation a:hover {
       text-decoration: none; }
 
+.file-manager .sorting-bar a {
+  text-decoration: none;
+  color: black;
+  cursor: pointer; }
 .file-manager .sorting-bar > span {
   position: absolute; }
-.file-manager .sorting-bar .name {
-  padding-left: 10px; }
-  .file-manager .sorting-bar .name:after {
+  .file-manager .sorting-bar > span.selected:after {
     font-family: "font awesome";
     color: black;
     content: '\f0de'; }
-  .file-manager .sorting-bar .name.selected {
+  .file-manager .sorting-bar > span.selected a {
     color: red; }
-    .file-manager .sorting-bar .name.selected:after {
-      content: '\f0dd'; }
+  .file-manager .sorting-bar > span.selected:after {
+    content: '\f0dd'; }
+  .file-manager .sorting-bar > span.selected.reverse a {
+    color: red; }
+  .file-manager .sorting-bar > span.selected.reverse:after {
+    content: '\f0de'; }
+.file-manager .sorting-bar .name {
+  padding-left: 10px; }
 .file-manager .sorting-bar .modified-by {
-  right: 210px; }
+  left: 370px; }
 .file-manager .sorting-bar .last-modified {
-  right: 100px; }
+  left: 500px; }
 .file-manager .sorting-bar .file-type {
-  right: 17px; }
+  left: 615px; }
 .file-manager .file-cell {
+  cursor: pointer;
   border-bottom: 1px solid #ddd;
   padding: 15px 15px 26px 15px; }
+  .file-manager .file-cell .hidden-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.4s ease 0s; }
+  .file-manager .file-cell.selected .hidden-content {
+    max-height: 500px; }
+  .file-manager .file-cell.selected .file-management-buttons {
+    opacity: 1.0; }
   .file-manager .file-cell:last-child {
     margin: 0;
     border-bottom: 0 none; }
   .file-manager .file-cell:hover {
-    background-color: #ddd; }
+    background-color: #eee; }
     .file-manager .file-cell:hover .file-management-buttons {
       opacity: 1.0; }
-  .file-manager .file-cell span {
-    position: absolute; }
-  .file-manager .file-cell .modified-by {
-    right: 195px; }
-  .file-manager .file-cell .last-modified {
-    right: 85px; }
-  .file-manager .file-cell .file-type {
-    right: 3px; }
+  .file-manager .file-cell .info .modified-by {
+    left: 355px; }
+  .file-manager .file-cell .info .last-modified {
+    left: 485px; }
+  .file-manager .file-cell .info .file-type {
+    left: 600px; }
+  .file-manager .file-cell .info > span {
+    position: absolute;
+    min-width: 100px; }
   .file-manager .file-cell h5 {
     margin-left: 22px; }
+    .file-manager .file-cell h5 a {
+      text-decoration: none;
+      color: black; }
+      .file-manager .file-cell h5 a i {
+        opacity: 0;
+        transition: all 0.4s ease 0s; }
+    .file-manager .file-cell h5:hover a i {
+      opacity: 1.0; }
+  .file-manager .file-cell .file-preview-pane {
+    border: 1px solid black;
+    text-align: center;
+    width: 580px;
+    margin: 10px auto;
+    height: 300px;
+    vertical-align: middle; }
+.file-manager .symbol-holder {
+  left: 23px;
+  top: 3px;
+  position: absolute; }
 .file-manager .icon {
   display: table-cell;
   height: 15px;
@@ -119,14 +156,12 @@ ul.file-manager-navigation {
   font-size: 9px;
   text-align: center;
   vertical-align: middle;
-  left: 23px;
-  top: 3px;
   padding: 2px 0 0; }
 .file-manager .multi-select {
   margin-right: 10px; }
 .file-manager .text {
   font-size: 13px;
-  margin-left: 47px; }
+  margin: 0 0 8px 47px; }
 .file-manager .file-management-buttons {
   opacity: 0.0;
   transition: all 0.4s ease 0s; }
@@ -136,6 +171,56 @@ ul.file-manager-navigation {
     .file-manager .file-management-buttons > div > i {
       font-size: 14px;
       padding-right: 3px; }
+  .file-manager .file-management-buttons a {
+    color: black; }
+    .file-manager .file-management-buttons a:hover {
+      text-decoration: none; }
 
 .file-filter-list {
   margin-right: 30px; }
+
+.tableHead {
+  scrollbar-base-color: #999;
+  scrollbar-3dlight-color: #999;
+  scrollbar-highlight-color: #999;
+  scrollbar-track-color: #999;
+  scrollbar-arrow-color: #999;
+  scrollbar-shadow-color: #999;
+  scrollbar-dark-shadow-color: #999; }
+
+.tableHead::-webkit-scrollbar {
+  background: #ddd; }
+
+.divTable {
+  width: 580px;
+  margin: 10px auto;
+  max-height: 300px;
+  overflow: hidden;
+  transition: max-height 0.4s ease 0s; }
+  .divTable.myHide {
+    max-height: 0px;
+    border: 0 none; }
+  .divTable .cell {
+    display: inline-block; }
+  .divTable .symbol {
+    width: 30px; }
+  .divTable .name {
+    width: 230px; }
+  .divTable .last-modified {
+    width: 100px; }
+  .divTable .modified-by {
+    width: 175px; }
+
+.tableBody {
+  height: 100px;
+  overflow-y: scroll;
+  padding: 5px 0 0; }
+
+.tableHead {
+  overflow-y: scroll;
+  height: 30px;
+  padding: 5px 0 0 0;
+  background-color: #ddd; }
+
+.tableHead div:first-child, .tableBody div div:first-child {
+  padding: 0 0 0 10px; }
