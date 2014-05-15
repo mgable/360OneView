@@ -1,3 +1,6 @@
+.column {
+  overflow: hidden; }
+
 .no-bottom-margin {
   margin-bottom: 0; }
 
@@ -35,7 +38,11 @@ ul {
   src: url("../fonts/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff") format("woff"), url("../fonts/fontawesome-webfont.ttf") format("truetype"), url("../fonts/fontawesome-webfont.svg#fontawesome-webfont") format("svg"); }
 body {
   background-color: white;
-  padding-top: 50px; }
+  padding-top: 50px;
+  min-width: 970px; }
+
+.file-manager-mavigation .sidebar-search form .input-group {
+  max-width: 270px; }
 
 .navigation-holder a.logo {
   background: transparent url(../images/360sprite.png) -214px -3px no-repeat;
@@ -45,11 +52,8 @@ body {
   text-indent: -1000px; }
   .navigation-holder a.logo:hover {
     background: transparent url(../images/360sprite.png) -214px -3px no-repeat; }
-.navigation-holder .add-on .input-group-btn > .btn {
-  border-left-width: 0;
-  left: -2px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
+.navigation-holder .container-fluid {
+  min-width: 970px; }
 
 ul.file-manager-navigation {
   margin: 10px 0 0 10px; }
@@ -72,109 +76,116 @@ ul.file-manager-navigation {
     ul.file-manager-navigation a:hover {
       text-decoration: none; }
 
-.file-manager .sorting-bar a {
-  text-decoration: none;
-  color: black;
-  cursor: pointer; }
-.file-manager .sorting-bar > span {
-  position: absolute; }
-  .file-manager .sorting-bar > span.selected:after {
-    font-family: "font awesome";
+.file-manager {
+  min-width: 650px; }
+  .file-manager .sorting-bar a {
+    text-decoration: none;
     color: black;
-    content: '\f0de'; }
-  .file-manager .sorting-bar > span.selected a {
-    color: red; }
-  .file-manager .sorting-bar > span.selected:after {
-    content: '\f0dd'; }
-  .file-manager .sorting-bar > span.selected.reverse a {
-    color: red; }
-  .file-manager .sorting-bar > span.selected.reverse:after {
-    content: '\f0de'; }
-.file-manager .sorting-bar .name {
-  padding-left: 10px; }
-.file-manager .sorting-bar .modified-by {
-  left: 370px; }
-.file-manager .sorting-bar .last-modified {
-  left: 500px; }
-.file-manager .sorting-bar .file-type {
-  left: 615px; }
-.file-manager .file-cell {
-  cursor: pointer;
-  border-bottom: 1px solid #ddd;
-  padding: 15px 15px 26px 15px; }
-  .file-manager .file-cell .hidden-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: all 0.4s ease 0s; }
-  .file-manager .file-cell.selected .hidden-content {
-    max-height: 500px; }
-  .file-manager .file-cell.selected .file-management-buttons {
-    opacity: 1.0; }
-  .file-manager .file-cell:last-child {
-    margin: 0;
-    border-bottom: 0 none; }
-  .file-manager .file-cell:hover {
-    background-color: #eee; }
-    .file-manager .file-cell:hover .file-management-buttons {
+    cursor: pointer; }
+  .file-manager .sorting-bar .heading {
+    display: inline-flex;
+    overflow: hidden; }
+    .file-manager .sorting-bar .heading.selected:after {
+      font-family: "font awesome";
+      color: black;
+      content: '\f0de'; }
+    .file-manager .sorting-bar .heading.selected a {
+      color: red; }
+    .file-manager .sorting-bar .heading.selected:after {
+      content: '\f0dd'; }
+    .file-manager .sorting-bar .heading.selected.reverse a {
+      color: red; }
+    .file-manager .sorting-bar .heading.selected.reverse:after {
+      content: '\f0de'; }
+  .file-manager .sorting-bar .name {
+    padding-left: 10px;
+    min-width: 270px; }
+  .file-manager .sorting-bar .modifiedBy {
+    width: 100px; }
+  .file-manager .sorting-bar .lastModified {
+    width: 120px; }
+  .file-manager .sorting-bar .fileType {
+    width: 100px; }
+  .file-manager .file-cell {
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    padding: 15px 15px 26px 15px; }
+    .file-manager .file-cell .hidden-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.4s ease 0s; }
+    .file-manager .file-cell.selected .hidden-content {
+      max-height: 500px; }
+    .file-manager .file-cell.selected .file-management-buttons {
       opacity: 1.0; }
-  .file-manager .file-cell .info .modified-by {
-    left: 355px; }
-  .file-manager .file-cell .info .last-modified {
-    left: 485px; }
-  .file-manager .file-cell .info .file-type {
-    left: 600px; }
-  .file-manager .file-cell .info > span {
-    position: absolute;
-    min-width: 100px; }
-  .file-manager .file-cell h5 {
-    margin-left: 22px; }
-    .file-manager .file-cell h5 a {
-      text-decoration: none;
-      color: black; }
-      .file-manager .file-cell h5 a i {
-        opacity: 0;
-        transition: all 0.4s ease 0s; }
-    .file-manager .file-cell h5:hover a i {
-      opacity: 1.0; }
-  .file-manager .file-cell .file-preview-pane {
-    border: 1px solid black;
+    .file-manager .file-cell:last-child {
+      margin: 0;
+      border-bottom: 0 none; }
+    .file-manager .file-cell:hover {
+      background-color: #eee; }
+      .file-manager .file-cell:hover .file-management-buttons {
+        opacity: 1.0; }
+    .file-manager .file-cell .categories .name {
+      display: inline-block;
+      font-weight: bold; }
+    .file-manager .file-cell .categories .modifiedBy {
+      width: 100px; }
+    .file-manager .file-cell .categories .lastModified {
+      width: 120px; }
+    .file-manager .file-cell .categories .fileType {
+      width: 100px; }
+    .file-manager .file-cell .categories > div .heading {
+      display: inline-flex;
+      min-width: 100px; }
+    .file-manager .file-cell h5 {
+      margin-left: 22px; }
+      .file-manager .file-cell h5 a {
+        text-decoration: none;
+        color: black; }
+        .file-manager .file-cell h5 a i {
+          opacity: 0;
+          transition: all 0.4s ease 0s; }
+      .file-manager .file-cell h5:hover a i {
+        opacity: 1.0; }
+    .file-manager .file-cell .file-preview-pane {
+      border: 1px solid black;
+      text-align: center;
+      width: 580px;
+      margin: 10px auto;
+      height: 300px;
+      vertical-align: middle; }
+  .file-manager .symbol-holder {
+    left: 23px;
+    top: 3px;
+    position: absolute; }
+  .file-manager .icon {
+    display: table-cell;
+    height: 15px;
+    width: 15px;
+    background-color: red;
+    color: white;
+    font-size: 9px;
     text-align: center;
-    width: 580px;
-    margin: 10px auto;
-    height: 300px;
-    vertical-align: middle; }
-.file-manager .symbol-holder {
-  left: 23px;
-  top: 3px;
-  position: absolute; }
-.file-manager .icon {
-  display: table-cell;
-  height: 15px;
-  width: 15px;
-  background-color: red;
-  color: white;
-  font-size: 9px;
-  text-align: center;
-  vertical-align: middle;
-  padding: 2px 0 0; }
-.file-manager .multi-select {
-  margin-right: 10px; }
-.file-manager .text {
-  font-size: 13px;
-  margin: 0 0 8px 47px; }
-.file-manager .file-management-buttons {
-  opacity: 0.0;
-  transition: all 0.4s ease 0s; }
-  .file-manager .file-management-buttons > div {
-    font-size: 10px;
-    padding-right: 5px; }
-    .file-manager .file-management-buttons > div > i {
-      font-size: 14px;
-      padding-right: 3px; }
-  .file-manager .file-management-buttons a {
-    color: black; }
-    .file-manager .file-management-buttons a:hover {
-      text-decoration: none; }
+    vertical-align: middle;
+    padding: 2px 0 0; }
+  .file-manager .multi-select {
+    margin-right: 10px; }
+  .file-manager .text {
+    font-size: 13px;
+    margin: 0 0 8px 47px; }
+  .file-manager .file-management-buttons {
+    opacity: 0.0;
+    transition: all 0.4s ease 0s; }
+    .file-manager .file-management-buttons > div {
+      font-size: 10px;
+      padding-right: 5px; }
+      .file-manager .file-management-buttons > div > i {
+        font-size: 14px;
+        padding-right: 3px; }
+    .file-manager .file-management-buttons a {
+      color: black; }
+      .file-manager .file-management-buttons a:hover {
+        text-decoration: none; }
 
 .file-filter-list {
   margin-right: 30px; }

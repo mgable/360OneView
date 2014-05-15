@@ -1,3 +1,6 @@
+<!-- this is a hack becausse the <form> tag is stripped out of the <rename> directive when used through the popover directive -->
+<span style="display:none;"><rename id='{{item.id}}'></rename></span>
+
 <div class="panel panel-default file-manager" ng-controller="FileBrowserCtrl" nav orderBy="lastModified">
   <div class="panel-heading relative">
     <form class="form-inline sorting-bar" name="sorting-bar">
@@ -5,36 +8,42 @@
             <input type="checkbox" />
         </div>
 
-        <!-- <a  popover-title="<b>Rename Simulation</b>" popover-placement="right" mypopover="<div test>xxx</div>"  popover-trigger="click">click me</a> -->
-
-        <span class="name" ng-class="{'selected': orderBy === 'name'}"><a ng-click="sortBy('name')">Name&nbsp;</a></span>
-        <span class="modified-by" ng-class="{'selected': orderBy === 'author'}"><a <a ng-click="sortBy('author')">Modified By&nbsp;</a></span>
-        <span class="last-modified" ng-class="{'selected': orderBy === 'lastModified'}"><a ng-click="sortBy('lastModified')">Last Modified&nbsp;</a></span>
-        <span class="file-type" ng-class="{'selected': orderBy === 'fileType'}"><a ng-click="sortBy('fileType')">File Type&nbsp;</a></span>
+        <!-- <span class="name heading" ng-class="{'selected': orderBy === 'name'}"><a ng-click="sortBy('name')">Name&nbsp;</a></span> -->
+        <sorting-options label="name"></sorting-options>
+        <div class="pull-right">
+<!--             <span class="modified-by heading" ng-class="{'selected': orderBy === 'author'}"><a <a ng-click="sortBy('author')">Modified By&nbsp;</a></span> -->
+            <sorting-options label="modifiedBy"></sorting-options>
+           <!--  <span class="last-modified heading" ng-class="{'selected': orderBy === 'lastModified'}"><a ng-click="sortBy('lastModified')">Last Modified&nbsp;</a></span> -->
+           <sorting-options label="lastModified"></sorting-options>
+<!--             <span class="file-type heading" ng-class="{'selected': orderBy === 'fileType'}"><a ng-click="sortBy('fileType')">File Type&nbsp;</a></span> -->
+            <sorting-options label="fileType"></sorting-options>
+        </div>
     </form>
 
   </div>
   <div class="panel-body relative no-padding">
 
-    <div ng-repeat="item in data | orderBy: orderBy" class="file-cell" ng-class="getClass($index)" ng-click="toggleSelected($index)">
-         <form class="form-inline relative info">
+    <div ng-repeat="item in data | orderBy: orderBy : reverse" class="file-cell" ng-class="getClass($index)" ng-click="toggleSelected($index)">
+         <form class="form-inline relative categories">
             <div class="checkbox pull-left multi-select">
                 <input type="checkbox" />
             </div>
-            <div class="symbol-holder"><span class="icon">{{item[$index].icon}}</span></div>
-            <h5 class="media-heading bold inline-block"><a>{{item[$index].name}}&nbsp;</a><a  class="edit"  popover-title="<b>Rename Simulation</b>" popover-placement="right" mypopover="<test position='{{$index}}'></test>"  popover-trigger="click" ng-click='stop($event)'><i class="icon-pencil"></i></a></h5>
-            <span class="modified-by">{{item[$index].author}}</span>
-            <span class="last-modified">{{item[$index].lastModified}}</span>
-            <span class="file-type">{{item[$index].fileType}}</span>
+            <div class="symbol-holder"><span class="icon">{{item.icon}}</span></div>
+            <h5 class="media-heading name"><a>{{item.name}}&nbsp;</a><a  class="edit"  popover-title="<b>Rename Simulation</b>" popover-placement="right" mypopover="<rename id='{{item.id}}'></rename>"  popover-trigger="click" ng-click="stop($event)"><i class="icon-pencil"></i></a></h5>
+            <div class="pull-right">
+                <span class="modifiedBy heading">{{item.modifiedBy}}</span>
+                <span class="lastModified heading">{{item.lastModified}}</span>
+                <span class="fileType heading">{{item.fileType}}</span>
+            </div>
         </form>
-        <div class="text">{{item[$index].description}}</div>
+        <div class="text">{{item.description}}</div>
 
         <div class="hidden-content">
             <div class="file-preview-pane">If there was a preview, it would appear here.</div>
 
-            <div class="dependency-count text">This entity is being used in {{item[$index].scenarios.length}} scenarios. <a ng-click="toggleScenarioView($event)">{{hideScenarios ? "Show" : "Hide"}} scenarios</a></div>
+            <div class="dependency-count text">This entity is being used in {{item.scenarios.length}} scenarios. <a ng-click="toggleScenarioView($event)">{{hideScenarios ? "Show" : "Hide"}} scenarios</a></div>
 
-            <div ng-if="item[$index].scenarios.length" class="panel panel-default divTable" ng-class="{'myHide': hideScenarios}">
+            <div ng-if="item.scenarios.length" class="panel panel-default divTable" ng-class="{'myHide': hideScenarios}">
                 <div class="tableHead">
                     <div class="symbol cell"><span class="icon">M</span></div>
                     <div class="name cell">Name</div>
@@ -42,7 +51,7 @@
                     <div class="modified-by cell">Modified By</div>
                 </div>
                 <div class="tableBody">
-                    <div ng-repeat="scenario in item[$index].scenarios">
+                    <div ng-repeat="scenario in item.scenarios">
                         <div class="symbol cell"><span class="icon">{{scenario.icon}}</span></div>
                         <div class="name cell">{{scenario.name}}</div>
                         <div class="last-modified cell">{{scenario.lastModified}}</div>

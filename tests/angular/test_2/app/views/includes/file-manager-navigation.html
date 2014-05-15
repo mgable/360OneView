@@ -1,26 +1,28 @@
-<div class="navbar-default navbar-static-side no-background-color" role="navigation" ng-controller="FileManagerNavigationCtrl">
-    <ul class="nav right-margin" id="side-menu">
-        <li class="sidebar-search">
-         <!-- search -->
-            <form class="navbar-form no-padding no-top-margin" role="search">
-                <div class="input-group add-on">
-                    <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
-                    <div class="input-group-btn">
-                        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+<div class="file-manager-mavigation">
+    <div class="navbar-default navbar-static-side no-background-color" role="navigation" ng-controller="FileManagerNavigationCtrl">
+        <ul class="nav right-margin" id="side-menu">
+            <li class="sidebar-search">
+             <!-- search -->
+                <form class="navbar-form no-padding no-top-margin" role="search">
+                    <div class="input-group add-on">
+                        <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </li>
-    </ul>
-    <ul  class="file-manager-navigation" nav firstSelected="true">
-        <li ng-repeat="item in menuItems" ng-class="getClass($index)">
-            <a ng-click="toggleSelected($index)">{{item.label}}</a>
-            <ul ng-if="item.subMenu">
-                <li ng-repeat="subMenuItem in item.subMenu">
-                    <a>{{subMenuItem.label}}</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
-    <!-- /#side-menu -->
+                </form>
+            </li>
+        </ul>
+        <ul  class="file-manager-navigation" nav firstSelected="true">
+            <li ng-repeat="item in menuItems" ng-class="getClass($index)">
+                <a ng-click="toggleSelected($index)">{{item.label}}</a>
+                <ul ng-if="item.subMenu">
+                    <li ng-repeat="subMenuItem in item.subMenu">
+                        <a>{{subMenuItem.label}}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <!-- /#side-menu -->
+    </div>
 </div>

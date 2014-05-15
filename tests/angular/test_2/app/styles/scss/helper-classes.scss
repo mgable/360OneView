@@ -6,6 +6,10 @@
 	margin-left: $howMuch;
 }
 
+.column {
+	overflow:hidden;
+}
+
 .no-bottom-margin {
 	margin-bottom:0;
 }

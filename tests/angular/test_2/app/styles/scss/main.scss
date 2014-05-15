@@ -10,6 +10,13 @@
 body {
 	background-color: white;
 	padding-top:50px;
+	min-width:970px;
+}
+
+.file-manager-mavigation {
+	.sidebar-search form .input-group {
+		max-width: 270px;
+	}
 }
 
 .navigation-holder {
@@ -24,11 +31,10 @@ body {
 		}
 	}
 
-	.add-on .input-group-btn > .btn {
-	  border-left-width:0;left:-2px;
-	  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-	  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	.container-fluid {
+		min-width: 970px;
 	}
+	
 }
 
 ul.file-manager-navigation {
@@ -63,14 +69,16 @@ ul.file-manager-navigation {
 }
 
 .file-manager {
+	min-width:650px;
 	.sorting-bar {
 		a {
 			text-decoration:none;
 			color: black;
 			cursor: pointer;
 		}
-		> span {
-			position: absolute; 
+		.heading {
+			display:inline-flex;
+			overflow:hidden;
 			&.selected:after {
 				font-family: "font awesome";
 				color:black;
@@ -91,15 +99,16 @@ ul.file-manager-navigation {
 		}
 		.name {
 			padding-left:10px;
+			min-width:270px
 		}
-		.modified-by {
-			left:370px;
+		.modifiedBy {
+			width:100px
 		}
-		.last-modified {
-			left:500px;
+		.lastModified {
+			width:120px
 		}
-		.file-type {
-			left:615px;
+		.fileType {
+			width:100px
 		}
 	}
 	.file-cell {
@@ -133,18 +142,22 @@ ul.file-manager-navigation {
 				opacity:1.0;
 			}
 		}
-		.info {
-			.modified-by {
-				left:355px;
+		.categories {
+			.name {
+				display: inline-block;
+				font-weight:bold;
 			}
-			.last-modified {
-				left:485px;
+			.modifiedBy {
+				width:100px;
 			}
-			.file-type {
-				left:600px;
+			.lastModified {
+				width:120px;
 			}
-			> span {
-				position:absolute;
+			.fileType {
+				width:100px;
+			}
+			> div .heading {
+				display:inline-flex;
 				min-width:100px;
 			}
 		}

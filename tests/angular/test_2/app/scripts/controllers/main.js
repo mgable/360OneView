@@ -59,18 +59,23 @@ angular.module('filemanagerApp')
             "label": "Decision Books"
         }];
     }).controller('FileBrowserCtrl', function($scope) {
-        //$scope.selectedIndex = 0;
 
+        $scope.modalOpen = false;
         $scope.hideScenarios = false;
+
+
+        $scope.$on('$close', function() {
+            $scope.modalOpen = false;
+        })
+
         $scope.stop = function(evt) {
             evt.stopPropagation();
             evt.preventDefault();
-            console.info(evt);
+            $scope.modalOpen = true;
         }
 
         $scope.sortBy = function(which) {
             $scope.orderBy = which;
-            $scope.reverse = !$scope.reverse;
         }
 
         $scope.toggleScenarioView = function(evt) {
@@ -79,90 +84,101 @@ angular.module('filemanagerApp')
             $scope.hideScenarios = $scope.hideScenarios === false ? true : false;
         }
 
+        $scope.updateName = function(data, list) {
+            for (var x = 0, limit = list.length; x < limit; x++) {
+                for (var prop in list[x]) {
+                    if (list[x].hasOwnProperty(prop)) {
+                        if (prop === "id" && list[x][prop] === +data.id) {
+                            list[x]['name'] = data.name;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
         $scope.$on('update', function(evt, data) {
-            $scope.data[data.position][data.position]['name'] = data.name;
+            $scope.updateName(data, $scope.data)
         })
 
         $scope.data = [{
-            0: {
+            "id": 1,
+            "icon": "M",
+            "name": "Carls\' Econ Variables Scenario 1",
+            "modifiedBy": "Carl Sagan",
+            "lastModified": "30 days ago",
+            "fileType": "Scenario",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt ligula vitae mi interdum suscipit. Sed lectus sapien, cursus et purus nec, cursus semper tellus. Sed id aliquet nulla, nec porttitor dui. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
+            "scenarios": [{
                 "icon": "M",
-                "name": "Carls\' Econ Variables Scenario 1",
-                "author": "Carl Sagan",
+                "name": "Al's AIB 2Q 2015",
                 "lastModified": "30 days ago",
-                "fileType": "Scenario",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt ligula vitae mi interdum suscipit. Sed lectus sapien, cursus et purus nec, cursus semper tellus. Sed id aliquet nulla, nec porttitor dui. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
-                "scenarios": [{
-                    "icon": "M",
-                    "name": "Al's AIB 2Q 2015",
-                    "lastModified": "30 days ago",
-                    "author": "Al Green"
-                }, {
-                    "icon": "M",
-                    "name": "Al 's AIB 2Q 2015",
-                    "lastModified": "30 days ago",
-                    "author": "Al Green"
-                }, {
-                    "icon": "M",
-                    "name": "Al\'s AIB 2Q 2015 ",
-                    "lastModified": "30 days ago",
-                    "author": "Al Green"
-                }, {
-                    "icon": "M",
-                    "name": "Al's AIB 2Q 2015",
-                    "lastModified": "30 days ago",
-                    "author": "Al Green"
-                }, {
-                    "icon": "M",
-                    "name": "Al 's AIB 2Q 2015",
-                    "lastModified": "30 days ago",
-                    "author": "Al Green"
-                }, {
-                    "icon": "M",
-                    "name": "Al\'s AIB 2Q 2015 ",
-                    "lastModified": "30 days ago",
-                    "author": "Al Green"
-                }]
-            }
+                "author": "Al Green"
+            }, {
+                "icon": "M",
+                "name": "Al 's AIB 2Q 2015",
+                "lastModified": "30 days ago",
+                "author": "Al Green"
+            }, {
+                "icon": "M",
+                "name": "Al\'s AIB 2Q 2015 ",
+                "lastModified": "30 days ago",
+                "author": "Al Green"
+            }, {
+                "icon": "M",
+                "name": "Al's AIB 2Q 2015",
+                "lastModified": "30 days ago",
+                "author": "Al Green"
+            }, {
+                "icon": "M",
+                "name": "Al 's AIB 2Q 2015",
+                "lastModified": "30 days ago",
+                "author": "Al Green"
+            }, {
+                "icon": "M",
+                "name": "Al\'s AIB 2Q 2015 ",
+                "lastModified": "30 days ago",
+                "author": "Al Green"
+            }]
         }, {
-            1: {
+            "id": 2,
+            "icon": "A",
+            "name": "Zeke\'s' Assumptions 2015",
+            "modifiedBy": "Pete Moffett",
+            "lastModified": "1 week ago",
+            "fileType": "Econ Variable",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt ligula vitae mi interdum suscipit. Sed lectus sapien, cursus et purus nec, cursus semper tellus. Sed id aliquet nulla, nec porttitor dui. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
+            "scenarios": [{
                 "icon": "A",
-                "name": "Zeke\'s' Assumptions 2015",
-                "author": "Pete Moffett",
-                "lastModified": "1 week ago",
-                "fileType": "Econ Variable",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt ligula vitae mi interdum suscipit. Sed lectus sapien, cursus et purus nec, cursus semper tellus. Sed id aliquet nulla, nec porttitor dui. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
-                "scenarios": [{
-                    "icon": "A",
-                    "name": "Al\'s Simulate 2Q 2015",
-                    "lastModified": "1 day ago",
-                    "author": "Ann Kross"
-                }, {
-                    "icon": "M",
-                    "name": "Al 's AIB 2Q 2015",
-                    "lastModified": "30 days ago",
-                    "author": "Fred Flintstone"
-                }, {
-                    "icon": "S",
-                    "name": "Bob\'s Simulate 4Q 2014",
-                    "lastModified": "30 days ago",
-                    "author": "Barney Rubble"
-                }, {
-                    "icon": "H",
-                    "name": "Ann\'s Allocate 3Q",
-                    "lastModified": "30 days ago",
-                    "author": "George Jetson"
-                }, {
-                    "icon": "M",
-                    "name": "Dan\'s Digital Hit Target",
-                    "lastModified": "30 days ago",
-                    "author": "Al Green"
-                }, {
-                    "icon": "S",
-                    "name": "Brent\'s Simulate 2014",
-                    "lastModified": "30 days ago",
-                    "author": "Freddy Mercury"
-                }]
-            }
+                "name": "Al\'s Simulate 2Q 2015",
+                "lastModified": "1 day ago",
+                "author": "Ann Kross"
+            }, {
+                "icon": "M",
+                "name": "Al 's AIB 2Q 2015",
+                "lastModified": "30 days ago",
+                "author": "Fred Flintstone"
+            }, {
+                "icon": "S",
+                "name": "Bob\'s Simulate 4Q 2014",
+                "lastModified": "30 days ago",
+                "author": "Barney Rubble"
+            }, {
+                "icon": "H",
+                "name": "Ann\'s Allocate 3Q",
+                "lastModified": "30 days ago",
+                "author": "George Jetson"
+            }, {
+                "icon": "M",
+                "name": "Dan\'s Digital Hit Target",
+                "lastModified": "30 days ago",
+                "author": "Al Green"
+            }, {
+                "icon": "S",
+                "name": "Brent\'s Simulate 2014",
+                "lastModified": "30 days ago",
+                "author": "Freddy Mercury"
+            }]
         }]
 
     });

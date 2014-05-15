@@ -1,7 +1,12 @@
 'use strict';
 
 angular.module('filemanagerApp')
-    .directive('nav', function() {
+    .directive('fileManagementButtons', function() {
+        return {
+            templateUrl: '/views/directives/fileManagementButtons.html',
+            restrict: 'E',
+        };
+    }).directive('nav', function() {
         return {
             restrict: 'A',
             link: function postLink(scope, element, attrs) {
@@ -12,11 +17,15 @@ angular.module('filemanagerApp')
                 scope.reverse = false;
             },
             controller: function($scope) {
+
                 $scope.toggleSelected = function(index) {
-                    if (index !== $scope.selectedIndex) {
-                        $scope.selectedIndex = index;
-                    } else {
-                        $scope.selectedIndex = -1;
+
+                    if (!$scope.modalOpen) {
+                        if (index !== $scope.selectedIndex) {
+                            $scope.selectedIndex = index;
+                        } else {
+                            $scope.selectedIndex = -1;
+                        }
                     }
                 }
 
@@ -30,7 +39,7 @@ angular.module('filemanagerApp')
             }
         };
     })
-    .directive('test', function() {
+    .directive('rename', function() {
         return {
             restrict: 'AE',
             link: function postLink(scope, element, attrs) {
@@ -39,6 +48,8 @@ angular.module('filemanagerApp')
             },
             transclude: true,
             controller: function($scope, $element, $attrs, $rootScope) {
+                console.info($scope);
+
                 $scope.close = function(evt) {
                     evt.stopPropagation();
                     evt.preventDefault();
@@ -51,7 +62,7 @@ angular.module('filemanagerApp')
 
                     $scope.$emit('update', {
                         name: $scope.name,
-                        position: $attrs['position']
+                        id: $attrs['id']
                     });
                 };
 
@@ -61,6 +72,31 @@ angular.module('filemanagerApp')
                 }
             },
             //template: '<div><span ng-repeat="item in [1,2,3,]">{{item}}</span>hello <span ng-transclude></span></div>'
-            template: '<form><div class="form-group" style="width:100%"><input type="text" class="form-control" style="width:100%;margin:0 0 5px;" ng-model="name"/></div><div class="pull-right" style="margin:0 0 5px"><button class="btn btn-primary" ng-click="submit($event)">Rename</button> <button ng-click="cancel($event)" class="btn btn-default">Cancel</button></div></form>'
+            templateUrl: '/views/directives/rename.html'
+        };
+    })
+    .directive('sortingOptions', function() {
+        return {
+            restrict: 'AE',
+            link: function postLink(scope, element, attrs) {
+
+            },
+            replace: true,
+            scope: true,
+            controller: function($scope, $element, $attrs, $rootScope) {
+                $scope.label = $attrs.label;
+                $scope.reverse = false;
+
+                $scope.sort = function(which) {
+                    if (which === $scope.orderBy) {
+                        console.info("chaning reverse");
+                        $scope.reverse = !$scope.reverse;
+                    }
+                    $scope.$parent.reverse = $scope.reverse;
+                    $scope.sortBy(which);
+                }
+            },
+
+            templateUrl: '/views/directives/sortingOptions.html'
         };
     });
