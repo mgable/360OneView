@@ -97,18 +97,20 @@ ul.file-manager-navigation {
 				}
 			}
 		}
-		.name {
-			padding-left:10px;
-			min-width:270px
-		}
-		.modifiedBy {
-			width:100px
-		}
-		.lastModified {
-			width:120px
-		}
-		.fileType {
-			width:100px
+		&.plans {
+			.name {
+				padding-left:10px;
+				min-width:270px
+			}
+			.modifiedBy {
+				width:100px
+			}
+			.lastModified {
+				width:120px
+			}
+			.fileType {
+				width:100px
+			}
 		}
 	}
 	.file-cell {
@@ -254,25 +256,25 @@ ul.file-manager-navigation {
 		max-height: 0px;
 		border:0 none;
 	}
-	.cell {
+	span {
 		display:inline-block;
 	}
 	.symbol {width:30px;}
-	.name {width: 230px}
-	.last-modified {width:100px}
-	.modified-by {width:175px}
+	.name {width: 215px}
+	.lastModified {width:115px}
+	.modifiedBy {width:175px}
 }
 
 .tableBody {
 	height:100px;
 	overflow-y:scroll;
-	padding:5px 0 0;
+	padding:5px 5px 0 8px;
 }
 
 .tableHead {
 	overflow-y:scroll;
 	height:30px;
-	padding:5px 0 0 0;
+	padding:5px 5px 0 8px;
 	background-color:#ddd;
 }
 

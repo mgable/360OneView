@@ -13,8 +13,6 @@ angular.module('filemanagerApp')
                 // element.text('this is the nav directive');
                 //console.info(attrs['firstselected']);
                 scope.selectedIndex = (attrs['firstselected']) ? 0 : -1;
-                scope.orderBy = attrs['orderby'];
-                scope.reverse = false;
             },
             controller: function($scope) {
 
@@ -48,7 +46,6 @@ angular.module('filemanagerApp')
             },
             transclude: true,
             controller: function($scope, $element, $attrs, $rootScope) {
-                console.info($scope);
 
                 $scope.close = function(evt) {
                     evt.stopPropagation();
@@ -78,18 +75,20 @@ angular.module('filemanagerApp')
     .directive('sortingOptions', function() {
         return {
             restrict: 'AE',
-            link: function postLink(scope, element, attrs) {
-
+            link: function postLink(scope, element, attrs, ctlr) {
+                // no link function
             },
             replace: true,
             scope: true,
+            require: "?sorter",
             controller: function($scope, $element, $attrs, $rootScope) {
                 $scope.label = $attrs.label;
                 $scope.reverse = false;
 
-                $scope.sort = function(which) {
+                $scope.sort = function(evt, which) {
+                    evt.stopPropagation();
+                    evt.preventDefault();
                     if (which === $scope.orderBy) {
-                        console.info("chaning reverse");
                         $scope.reverse = !$scope.reverse;
                     }
                     $scope.$parent.reverse = $scope.reverse;
@@ -99,4 +98,22 @@ angular.module('filemanagerApp')
 
             templateUrl: '/views/directives/sortingOptions.html'
         };
+    }).directive('sorter', function() {
+        return {
+            restrict: "E",
+            replace: true,
+            transclude: true,
+            template: '<div ng-transclude></div>',
+            link: function postLink(scope, element, attrs) {
+                scope.orderBy = attrs['orderby'];
+                scope.reverse = false;
+            },
+            controller: function($scope, $element, $attrs) {
+
+                $scope.sortBy = function(which) {
+                    console.info("I am sorting on " + which);
+                    $scope.orderBy = which;
+                }
+            }
+        }
     });

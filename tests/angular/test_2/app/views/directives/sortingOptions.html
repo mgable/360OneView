@@ -1,4 +1,4 @@
-<span class="{{label}} heading" ng-class="{'selected': orderBy === label, 'reverse': reverse}"><a ng-click="sort(label)">{{label | unCamelCase | capitalize}}&nbsp;</a></span>
+<span class="{{label}} heading" ng-class="{'selected': orderBy === label, 'reverse': reverse}"><a ng-click="sort($event, label)">{{label | unCamelCase | capitalize}}</a>&nbsp;</span>
 
 
 

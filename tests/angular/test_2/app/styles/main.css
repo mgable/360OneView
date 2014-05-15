@@ -97,14 +97,14 @@ ul.file-manager-navigation {
       color: red; }
     .file-manager .sorting-bar .heading.selected.reverse:after {
       content: '\f0de'; }
-  .file-manager .sorting-bar .name {
+  .file-manager .sorting-bar.plans .name {
     padding-left: 10px;
     min-width: 270px; }
-  .file-manager .sorting-bar .modifiedBy {
+  .file-manager .sorting-bar.plans .modifiedBy {
     width: 100px; }
-  .file-manager .sorting-bar .lastModified {
+  .file-manager .sorting-bar.plans .lastModified {
     width: 120px; }
-  .file-manager .sorting-bar .fileType {
+  .file-manager .sorting-bar.plans .fileType {
     width: 100px; }
   .file-manager .file-cell {
     cursor: pointer;
@@ -211,26 +211,26 @@ ul.file-manager-navigation {
   .divTable.myHide {
     max-height: 0px;
     border: 0 none; }
-  .divTable .cell {
+  .divTable span {
     display: inline-block; }
   .divTable .symbol {
     width: 30px; }
   .divTable .name {
-    width: 230px; }
-  .divTable .last-modified {
-    width: 100px; }
-  .divTable .modified-by {
+    width: 215px; }
+  .divTable .lastModified {
+    width: 115px; }
+  .divTable .modifiedBy {
     width: 175px; }
 
 .tableBody {
   height: 100px;
   overflow-y: scroll;
-  padding: 5px 0 0; }
+  padding: 5px 5px 0 8px; }
 
 .tableHead {
   overflow-y: scroll;
   height: 30px;
-  padding: 5px 0 0 0;
+  padding: 5px 5px 0 8px;
   background-color: #ddd; }
 
 .tableHead div:first-child, .tableBody div div:first-child {

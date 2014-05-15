@@ -2,22 +2,7 @@
 
 angular.module('filemanagerApp')
     .controller('MainCtrl', function($scope) {
-        // $scope.toggleSelected = function(index) {
-        //     console.info(index);
-        //     if (index !== $scope.selectedIndex) {
-        //         $scope.selectedIndex = index;
-        //     } else {
-        //         $scope.selectedIndex = -1;
-        //     }
-        // };
 
-        // $scope.getClass = function(index) {
-        //     if (index === $scope.selectedIndex) {
-        //         return 'selected';
-        //     } else {
-        //         return '';
-        //     }
-        // }
     }).controller('FileManagerNavigationCtrl', function($scope) {
         $scope.menuItems = [{
             "label": "All"
@@ -110,35 +95,35 @@ angular.module('filemanagerApp')
             "fileType": "Scenario",
             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt ligula vitae mi interdum suscipit. Sed lectus sapien, cursus et purus nec, cursus semper tellus. Sed id aliquet nulla, nec porttitor dui. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
             "scenarios": [{
-                "icon": "M",
-                "name": "Al's AIB 2Q 2015",
-                "lastModified": "30 days ago",
-                "author": "Al Green"
+                "icon": "S",
+                "name": "Vern's AIB 2Q 2015",
+                "lastModified": "2 days ago",
+                "modifiedBy": "Al Green"
             }, {
                 "icon": "M",
-                "name": "Al 's AIB 2Q 2015",
-                "lastModified": "30 days ago",
-                "author": "Al Green"
+                "name": "Fred\'s AIB 2014",
+                "lastModified": "1 days ago",
+                "modifiedBy": "Wilma Flintstone"
+            }, {
+                "icon": "A",
+                "name": "Just a test",
+                "lastModified": "2 weeks ago",
+                "modifiedBy": "Barney Rubble"
+            }, {
+                "icon": "C",
+                "name": "Dino Hit Target test",
+                "lastModified": "10 minutes ago",
+                "modifiedBy": "Dino the Dino"
             }, {
                 "icon": "M",
-                "name": "Al\'s AIB 2Q 2015 ",
-                "lastModified": "30 days ago",
-                "author": "Al Green"
+                "name": "Fred Allocat Q3 2013",
+                "lastModified": "1 year ago",
+                "modifiedBy": "Fred Flintstone"
             }, {
-                "icon": "M",
-                "name": "Al's AIB 2Q 2015",
-                "lastModified": "30 days ago",
-                "author": "Al Green"
-            }, {
-                "icon": "M",
-                "name": "Al 's AIB 2Q 2015",
-                "lastModified": "30 days ago",
-                "author": "Al Green"
-            }, {
-                "icon": "M",
-                "name": "Al\'s AIB 2Q 2015 ",
-                "lastModified": "30 days ago",
-                "author": "Al Green"
+                "icon": "A",
+                "name": "2014 Re-Allocate",
+                "lastModified": "4 hours ago",
+                "modifiedBy": "Betty Rubble"
             }]
         }, {
             "id": 2,
@@ -150,34 +135,34 @@ angular.module('filemanagerApp')
             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt ligula vitae mi interdum suscipit. Sed lectus sapien, cursus et purus nec, cursus semper tellus. Sed id aliquet nulla, nec porttitor dui. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
             "scenarios": [{
                 "icon": "A",
-                "name": "Al\'s Simulate 2Q 2015",
+                "name": "Zekes Simulate 2Q 2015",
                 "lastModified": "1 day ago",
-                "author": "Ann Kross"
+                "modifiedBy": "Ann Kross"
             }, {
                 "icon": "M",
                 "name": "Al 's AIB 2Q 2015",
                 "lastModified": "30 days ago",
-                "author": "Fred Flintstone"
+                "modifiedBy": "Fred Flintstone"
             }, {
                 "icon": "S",
                 "name": "Bob\'s Simulate 4Q 2014",
                 "lastModified": "30 days ago",
-                "author": "Barney Rubble"
+                "modifiedBy": "Barney Rubble"
             }, {
                 "icon": "H",
                 "name": "Ann\'s Allocate 3Q",
                 "lastModified": "30 days ago",
-                "author": "George Jetson"
+                "modifiedBy": "George Jetson"
             }, {
                 "icon": "M",
                 "name": "Dan\'s Digital Hit Target",
                 "lastModified": "30 days ago",
-                "author": "Al Green"
+                "modifiedBy": "Al Green"
             }, {
                 "icon": "S",
                 "name": "Brent\'s Simulate 2014",
                 "lastModified": "30 days ago",
-                "author": "Freddy Mercury"
+                "modifiedBy": "Freddy Mercury"
             }]
         }]
 
