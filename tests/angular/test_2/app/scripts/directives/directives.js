@@ -13,27 +13,34 @@ angular.module('filemanagerApp')
             link: function postLink(scope, element, attrs) {
                 // element.text('this is the nav directive');
                 //console.info(attrs['firstselected']);
-                scope.selectedIndex = (attrs['firstselected']) ? 0 : -1;
+                scope.selectedIndex = (attrs['firstselected']) ? attrs['firstselected'] : -1;
+                scope.radio = attrs['radio'];
             },
             controller: function($scope) {
 
-                $scope.toggleSelected = function(index) {
-
+                $scope.toggleSelected = function(index, subMenu) {
+                    console.info($scope.radio);
                     if (!$scope.modalOpen) {
+                        if (subMenu) {
+                            $scope.activeSubMenu = typeof subMenu === "boolean" ? index : subMenu;
+                        } else {
+                            $scope.activeSubMenu = false;
+                        }
+
                         if (index !== $scope.selectedIndex) {
                             $scope.selectedIndex = index;
                         } else {
-                            $scope.selectedIndex = -1;
+                            if ($scope.radio) {
+                                return;
+                            } else {
+                                $scope.selectedIndex = -1;
+                            }
                         }
                     }
                 }
 
                 $scope.getClass = function(index) {
-                    if (index === $scope.selectedIndex) {
-                        return 'selected';
-                    } else {
-                        return '';
-                    }
+                    return (index === $scope.selectedIndex) ? 'selected' : '';
                 }
             }
         };
@@ -123,13 +130,11 @@ angular.module('filemanagerApp')
             link: function(scope, element, attrs) {
 
                 scope.text = attrs.text;
-                scope.completedText = attrs.completedtext;
-                scope.completedTitle = attrs.completedtitle;
+                scope.completedText = attrs["completedtext"];
+                scope.completedTitle = attrs["completedtitle"];
             },
             controller: function($scope, $element, $attrs, $rootScope, $timeout) {
                 $scope.completed = false;
-
-                console.info($scope);
 
                 $scope.close = function(evt) {
                     evt.stopPropagation();

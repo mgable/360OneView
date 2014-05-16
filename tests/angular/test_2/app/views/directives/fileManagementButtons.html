@@ -1,12 +1,9 @@
  <div class="btn-toolbar pull-right file-management-buttons" role="toolbar" ng-class="{'selected': modalOpen}">
     <div class="btn-group"><a ng-click="stop($event)" popover-title="<b>Set as Master</b>" popover-placement="left" mypopover="<set-as-master text='Do you want to set this file as the Master file?' completedText='This file has been promoted as part of the master set.' completedTitle='<b>Set!</b>'></setAsMaster>"  popover-trigger="click"><i class="icon-home"></i>&nbsp;Set as Master</a></div>
 
-
     <div class="btn-group"><a href="#"><i class="icon-eye-open"></i>&nbsp;View</a></div>
 
+    <div class="btn-group"><a ng-click="stop($event)" popover-title="<b>Clone</b>" popover-placement="left" mypopover="<set-as-master text='Would you like to clone file {{item.name | escape}}?' completedText='The file  has been cloned as {{item.name | escape}} 2.' completedTitle='<b>Cloned!</b>'></setAsMaster>"  popover-trigger="click"><i class="icon-sitemap"></i>&nbsp;Clone</a></div>
 
-    <div class="btn-group"><a ng-click="stop($event)" popover-title="<b>Clone</b>" popover-placement="left" mypopover="<set-as-master text='Whould you like to clone file <filename>?' completedText='The file <filename> has been cloned as <filename> 2.' completedTitle='<b>Cloned!</b>'></setAsMaster>"  popover-trigger="click"><i class="icon-sitemap"></i>&nbsp;Clone</a></div>
-
-
-    <div class="btn-group"><a ng-click="stop($event)" popover-title="<b>Delete</b>" popover-placement="left" mypopover="<set-as-master text='Are you sure you want to delete <filename>?' completedText='The file has been successfully deleted.' completedTitle='<b>Deleted!</b>'></setAsMaster>"  popover-trigger="click"><i class="icon-trash"></i>&nbsp;Delete</a></div>
+    <div class="btn-group"><a ng-click="stop($event)" popover-title="<b>Delete</b>" popover-placement="left" mypopover="<set-as-master text='Are you sure you want to delete {{item.name | escape}}?' completedText='The file has been successfully deleted.' completedTitle='<b>Deleted!</b>'></setAsMaster>"  popover-trigger="click"><i class="icon-trash"></i>&nbsp;Delete</a></div>
 </div>

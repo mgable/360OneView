@@ -32,7 +32,7 @@ angular.module('filemanagerApp')
             }, {
                 "label": "Pricing"
             }, {
-                "label": "Proudct Factors"
+                "label": "Product Factors"
             }]
         }, {
             "label": "Objectives"
@@ -128,7 +128,7 @@ angular.module('filemanagerApp')
         }, {
             "id": 2,
             "icon": "A",
-            "name": "Zeke\'s' Assumptions 2015",
+            "name": "Zeke\'s Assumptions 2015",
             "modifiedBy": "Pete Moffett",
             "lastModified": "1 week ago",
             "fileType": "Econ Variable",

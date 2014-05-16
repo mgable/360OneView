@@ -8,4 +8,9 @@ angular.module('filemanagerApp')
         return function(input, scope) {
             return input.replace(/([a-z\d])([A-Z])/g, '$1 $2');
         }
-    });
+    })
+    .filter('escape', function() {
+        return function(input, scope) {
+            return input.replace(/'/g, "&apos;").replace(/"/g, '&quot;');
+        }
+    })

@@ -54,24 +54,41 @@ body {
 
 ul.file-manager-navigation {
   margin: 10px 0 0 10px; }
-  ul.file-manager-navigation li {
+  ul.file-manager-navigation > li {
     margin: 0 0 10px; }
-    ul.file-manager-navigation li > ul {
-      display: none;
-      margin: 10px 0 0 10px; }
-      ul.file-manager-navigation li > ul a {
+    ul.file-manager-navigation > li > ul {
+      max-height: 500px;
+      opacity: 1.0;
+      transition: all 0.3s ease 0s; }
+      ul.file-manager-navigation > li > ul li {
+        max-height: 500px;
+        transition: all 0.3s ease 0s;
+        opacity: 1.0; }
+      ul.file-manager-navigation > li > ul a {
         color: darkgray;
+        margin: 10px 0 0 10px;
+        display: inline-block;
         font-size: 90%; }
+      ul.file-manager-navigation > li > ul.hideXXX {
+        max-height: 0px;
+        opacity: 0.0; }
+        ul.file-manager-navigation > li > ul.hideXXX li {
+          max-height: 0;
+          overflow: hidden;
+          opacity: 0.0; }
   ul.file-manager-navigation li.selected > a {
     color: red; }
-  ul.file-manager-navigation li.selected > ul {
-    display: block; }
   ul.file-manager-navigation a {
     color: black;
     cursor: pointer;
     text-decoration: none; }
     ul.file-manager-navigation a:hover {
       text-decoration: none; }
+
+.popover .popover-inner .close {
+  position: absolute;
+  top: 6px;
+  right: 10px; }
 
 .file-manager {
   min-width: 660px; }
