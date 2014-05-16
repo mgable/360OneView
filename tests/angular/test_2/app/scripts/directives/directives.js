@@ -3,6 +3,7 @@
 angular.module('filemanagerApp')
     .directive('fileManagementButtons', function() {
         return {
+            replace: true,
             templateUrl: '/views/directives/fileManagementButtons.html',
             restrict: 'E',
         };
@@ -54,7 +55,6 @@ angular.module('filemanagerApp')
                 };
 
                 $scope.submit = function(evt) {
-                    console.info("submit");
                     $scope.close(evt);
 
                     $scope.$emit('update', {
@@ -64,7 +64,6 @@ angular.module('filemanagerApp')
                 };
 
                 $scope.cancel = function(evt) {
-                    console.info("cancel");
                     $scope.close(evt);
                 }
             },
@@ -113,6 +112,42 @@ angular.module('filemanagerApp')
                 $scope.sortBy = function(which) {
                     console.info("I am sorting on " + which);
                     $scope.orderBy = which;
+                }
+            }
+        }
+    }).directive('setAsMaster', function() {
+        return {
+            restrict: 'E',
+            replace: true,
+            templateUrl: '/views/directives/setAsMaster.html',
+            link: function(scope, element, attrs) {
+
+                scope.text = attrs.text;
+                scope.completedText = attrs.completedtext;
+                scope.completedTitle = attrs.completedtitle;
+            },
+            controller: function($scope, $element, $attrs, $rootScope, $timeout) {
+                $scope.completed = false;
+
+                console.info($scope);
+
+                $scope.close = function(evt) {
+                    evt.stopPropagation();
+                    evt.preventDefault();
+                };
+
+                $scope.submit = function(evt) {
+                    $scope.close(evt);
+                    $scope.completed = true;
+                    $scope.setTitle($scope.completedTitle);
+                    $timeout(function() {
+                        $rootScope.$broadcast("$close")
+                    }, 3000);
+                };
+
+                $scope.cancel = function(evt) {
+                    $scope.close(evt);
+                    $rootScope.$broadcast("$close");
                 }
             }
         }

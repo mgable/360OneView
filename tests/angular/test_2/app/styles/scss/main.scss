@@ -69,7 +69,7 @@ ul.file-manager-navigation {
 }
 
 .file-manager {
-	min-width:650px;
+	min-width:660px;
 	.sorting-bar {
 		a {
 			text-decoration:none;
@@ -129,6 +129,11 @@ ul.file-manager-navigation {
 				max-height:500px;
 			}
 			.file-management-buttons {
+				opacity:1.0;
+			}
+		}
+		.file-management-buttons {
+			&.selected {
 				opacity:1.0;
 			}
 		}
@@ -208,7 +213,10 @@ ul.file-manager-navigation {
 	}
 	.text {
 		font-size:13px;
-		margin: 0 0 8px 47px;
+		// margin: 0 0 8px 47px;
+	}
+	.indent {
+		margin:0 0 5px 45px;
 	}
 	.file-management-buttons {
 		opacity: 0.0;
