@@ -5,7 +5,7 @@
              <!-- search -->
                 <form class="navbar-form no-padding no-top-margin" role="search">
                     <div class="input-group add-on">
-                        <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+                        <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term" ng-model="filterService.searchText">
                         <div class="input-group-btn">
                             <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                         </div>
@@ -15,10 +15,10 @@
         </ul>
         <ul class="file-manager-navigation" nav firstSelected="All" radio="true">
             <li ng-repeat="item in menuItems" ng-class="getClass(item.label)">
-                <a ng-click="toggleSelected(item.label, !!item.subMenu)">{{item.label}}</a>
+                <a ng-click="toggleSelected(item.label, !!item.subMenu); setFilter(item.label, !!item.subMenu)">{{item.label}}</a>
                 <ul ng-if="item.subMenu" ng-class="{'hideXXX': activeSubMenu !== item.label}">
                     <li ng-repeat="subMenuItem in item.subMenu" ng-class="getClass(subMenuItem.label)">
-                        <a ng-click="toggleSelected(subMenuItem.label, item.label)">{{subMenuItem.label}}</a>
+                        <a ng-click="toggleSelected(subMenuItem.label, item.label); setFilter(item.label, subMenuItem.label)">{{subMenuItem.label}}</a>
                     </li>
                 </ul>
             </li>

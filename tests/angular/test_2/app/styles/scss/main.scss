@@ -224,12 +224,72 @@ ul.file-manager-navigation {
 		display: table-cell;
 		height:15px;
 		width:15px;
-		background-color:red;
 		color:white;
 		font-size: 9px;
 		text-align: center;
 		vertical-align: middle;
-		padding:2px 0 0;
+		font-family: arial, helvetica, sans-serif;
+		padding:2px 0 0 0;
+		&.icon-costassumptions {
+			background-color:blue;
+			&:after {
+				content:'C';
+			}
+		}
+		&.icon-scenarios {
+			background-color:gold;
+			&:after {
+				content:'S';
+			}
+		}
+		&.icon-objectives {
+			background-color:green;
+			&:after {
+				content:'O';
+			}
+		}
+		&.icon-decisionbooks {
+			background-color:violet;
+			&:after {
+				content:'D';
+			}
+		}
+		&.icon-productfactors {
+			background-color:darkblue;
+			&:after {
+				content:'P';
+			}
+		}
+		&.icon-mediaplans {
+			background-color:darkgreen;
+			&:after {
+				content:'M';
+			}
+		}
+		&.icon-playbook {
+			background-color:aqua;
+			&:after {
+				content:'B';
+			}
+		}
+		&.icon-hardconstraints {
+			background-color:blueviolet;
+			&:after {
+				content:'HC';
+			}
+		}
+		&.icon-softconstraints {
+			background-color:brown;
+			&:after {
+				content:'SC';
+			}
+		}
+		&.icon-economicvariables {
+			background-color:gray;
+			&:after {
+				content:'EV';
+			}
+		}
 	}
 	.multi-select {
 		margin-right: 10px;

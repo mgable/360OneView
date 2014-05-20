@@ -178,12 +178,52 @@ ul.file-manager-navigation {
     display: table-cell;
     height: 15px;
     width: 15px;
-    background-color: red;
     color: white;
     font-size: 9px;
     text-align: center;
     vertical-align: middle;
-    padding: 2px 0 0; }
+    font-family: arial, helvetica, sans-serif;
+    padding: 2px 0 0 0; }
+    .file-manager .icon.icon-costassumptions {
+      background-color: blue; }
+      .file-manager .icon.icon-costassumptions:after {
+        content: 'C'; }
+    .file-manager .icon.icon-scenarios {
+      background-color: gold; }
+      .file-manager .icon.icon-scenarios:after {
+        content: 'S'; }
+    .file-manager .icon.icon-objectives {
+      background-color: green; }
+      .file-manager .icon.icon-objectives:after {
+        content: 'O'; }
+    .file-manager .icon.icon-decisionbooks {
+      background-color: violet; }
+      .file-manager .icon.icon-decisionbooks:after {
+        content: 'D'; }
+    .file-manager .icon.icon-productfactors {
+      background-color: darkblue; }
+      .file-manager .icon.icon-productfactors:after {
+        content: 'P'; }
+    .file-manager .icon.icon-mediaplans {
+      background-color: darkgreen; }
+      .file-manager .icon.icon-mediaplans:after {
+        content: 'M'; }
+    .file-manager .icon.icon-playbook {
+      background-color: aqua; }
+      .file-manager .icon.icon-playbook:after {
+        content: 'B'; }
+    .file-manager .icon.icon-hardconstraints {
+      background-color: blueviolet; }
+      .file-manager .icon.icon-hardconstraints:after {
+        content: 'HC'; }
+    .file-manager .icon.icon-softconstraints {
+      background-color: brown; }
+      .file-manager .icon.icon-softconstraints:after {
+        content: 'SC'; }
+    .file-manager .icon.icon-economicvariables {
+      background-color: gray; }
+      .file-manager .icon.icon-economicvariables:after {
+        content: 'EV'; }
   .file-manager .multi-select {
     margin-right: 10px; }
   .file-manager .text {

@@ -1,7 +1,10 @@
 var express = require('express'),
     app = express(),
     fs = require('fs'),
-    config = require('./config');
+    config = require('./config'),
+    data = require('./marketshare/makeData.js');
+
+console.info(data.makeData());
 
 function init() {
     for (var i = 0, limit = config.places.length; i < limit; i++) {
@@ -13,6 +16,11 @@ function init() {
             sendResponse(res, readFile(config.baseUrl + config.places[i].file));
         });
     }
+
+
+    app.get("/marketshare/filemanager", function(req, res) {
+        sendResponse(res, data.makeData());
+    });
 }
 
 init();
