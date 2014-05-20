@@ -10,7 +10,7 @@
                 <input type="checkbox" />
             </div>
 
-            <sorting-options label="name"></sorting-options>
+            <sorting-options label="title"></sorting-options>
             <div class="pull-right">
                 <sorting-options label="modifiedBy"></sorting-options>
                 <sorting-options label="lastModified"></sorting-options>
@@ -37,23 +37,30 @@
             <div class="text indent">{{item.description}}</div>
 
             <div class="hidden-content">
-                <div class="file-preview-pane">If there was a preview, it would appear here.</div>
+                <div class="dependency-count text indent">This entity is being used in {{item.scenarios.length}} scenarios. <a ng-click="toggleScenarioView($event)">{{hideScenarios ? "Show" : "Hide"}} scenarios</a></div>
+                <div class="text indent">Created by: {{item.createdBy}}</div>
+                <div class="text indent">Created On: {{item.createdDate | date : fullDate}}</div>
 
-                <div class="dependency-count text">This entity is being used in {{item.scenarios.length}} scenarios. <a ng-click="toggleScenarioView($event)">{{hideScenarios ? "Show" : "Hide"}} scenarios</a></div>
-
-                <sorter orderBy="title" ng-if="item.scenarios.length">
+                <sorter orderBy="lastModified" ng-if="item.scenarios.length">
                     <div class="panel panel-default divTable" ng-class="{'myHide': hideScenarios}">
                         <div class="tableHead sorting-bar">
-                            <span class="symbol cell"><span class="icon">M</span></span>
-                            <sorting-options label="name"></sorting-options>
+                            <span class="symbol cell">   
+                                <span class="file-type-icon">
+                                  <span class='square red'>&nbsp;</span>
+                                  <span class='square yellow'>&nbsp;</span>
+                                  <span class='square green'>&nbsp;</span>
+                                  <span class='square blue'>&nbsp;</span>
+                                </span>
+                            </span>
+                            <sorting-options label="title"></sorting-options>
                             <sorting-options label="lastModified"></sorting-options>
                             <sorting-options label="modifiedBy"></sorting-options>
                         </div>
                         <div class="tableBody">
                             <div ng-repeat="scenario in item.scenarios | orderBy: orderBy : reverse">
-                                <span class="symbol cell"><span class="icon">{{scenario.icon}}</span></span>
+                                <span class="symbol cell"><span class=" icon icon-{{scenario.fileType | fileType | normalize}}"></span></span>
                                 <span class="name cell">{{scenario.title}}</span>
-                                <span class="lastModified cell">{{scenario.lastModified}}</span>
+                                <span class="lastModified cell">{{scenario.lastModified | timeago}}</span>
                                 <span class="modifiedBy cell">{{scenario.modifiedBy}}</span>
                             </div>
                         </div>

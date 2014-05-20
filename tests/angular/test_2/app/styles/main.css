@@ -98,7 +98,8 @@ ul.file-manager-navigation {
     cursor: pointer; }
   .file-manager .sorting-bar .heading {
     display: inline-flex;
-    overflow: hidden; }
+    overflow: hidden;
+    vertical-align: top; }
     .file-manager .sorting-bar .heading.selected:after {
       font-family: "font awesome";
       color: black;
@@ -111,7 +112,7 @@ ul.file-manager-navigation {
       color: red; }
     .file-manager .sorting-bar .heading.selected.reverse:after {
       content: '\f0de'; }
-  .file-manager .sorting-bar.plans .name {
+  .file-manager .sorting-bar.plans .title {
     padding-left: 10px;
     min-width: 270px; }
   .file-manager .sorting-bar.plans .modifiedBy {
@@ -224,6 +225,14 @@ ul.file-manager-navigation {
       background-color: gray; }
       .file-manager .icon.icon-economicvariables:after {
         content: 'EV'; }
+    .file-manager .icon.icon-competitivespend {
+      background-color: darkgray; }
+      .file-manager .icon.icon-competitivespend:after {
+        content: 'CS'; }
+    .file-manager .icon.icon-pricing {
+      background-color: crimson; }
+      .file-manager .icon.icon-pricing:after {
+        content: 'P'; }
   .file-manager .multi-select {
     margin-right: 10px; }
   .file-manager .text {
@@ -272,12 +281,33 @@ ul.file-manager-navigation {
     display: inline-block; }
   .divTable .symbol {
     width: 30px; }
-  .divTable .name {
-    width: 215px; }
+  .divTable .name, .divTable .title {
+    width: 215px;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0 10px 0 0;
+    vertical-align: bottom;
+    text-overflow: ellipsis; }
   .divTable .lastModified {
     width: 115px; }
   .divTable .modifiedBy {
-    width: 175px; }
+    width: 160px; }
+  .divTable .file-type-icon {
+    width: 20px;
+    height: 20px;
+    display: inline-block; }
+  .divTable .square {
+    width: 10px;
+    height: 10px;
+    float: left; }
+  .divTable .blue {
+    background-color: blue; }
+  .divTable .green {
+    background-color: green; }
+  .divTable .yellow {
+    background-color: yellow; }
+  .divTable .red {
+    background-color: red; }
 
 .tableBody {
   height: 100px;
@@ -290,5 +320,5 @@ ul.file-manager-navigation {
   padding: 5px 5px 0 8px;
   background-color: #ddd; }
 
-.tableHead div:first-child, .tableBody div div:first-child {
+.tableBody div div:first-child {
   padding: 0 0 0 10px; }

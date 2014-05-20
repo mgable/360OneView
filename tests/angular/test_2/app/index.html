@@ -36,19 +36,12 @@
         <div class="container-fluid"> 
           <h4 class="pull-left">File Manager</h1>
 
-          <div class="btn-group pull-right file-filter-list" dropdown is-open="status.isopen">
-            <button type="button" class="btn btn-primary dropdown-toggle" ng-disabled="disabled">
-            Button dropdown <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="#">All</a></li>
-              <li><a href="#">Created by me</a></li>
-              <li><a href="#">Imported documents</a></li>
-              <li><a href="#">Master documents only</a></li>
-              <li><a href="#">Project create documents</a></li>
-            </ul>
+          <div class="btn-group pull-right file-filter-list" ng-controller="FileManagerNavigationCtrl">
+            <label>Filter by: </label>
+            <select ng-model="filterService.activeFilters.createdBy" ng-options="item.filter as item.label for item in [{'label':'Created by me', filter: 'Ann Kross'}, {'label':'Imported documents', 'filter': 'imported'}]" ng-change="clearCreatedBy(filterService.activeFilters.createdBy)">
+              <option value="">All</option></select>
+              {{filterService.activeFilters.createdBy}}
           </div>
-
         </div>
       <div ng-view=""></div>
     </div>
