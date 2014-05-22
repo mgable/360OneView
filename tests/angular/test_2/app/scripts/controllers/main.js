@@ -3,8 +3,19 @@
 angular.module('filemanagerApp')
     .controller('MainCtrl', function($scope) {
 
-    }).controller('FileManagerNavigationCtrl', function($scope, filterService) {
+    }).controller('FileManagerNavigationCtrl', function($scope, filterService, GroupDelete) {
         $scope.filterService = filterService;
+
+        $scope.filesToDeleteCount = GroupDelete.getDeleteCount();
+        $scope.filesToDelete;
+
+        $scope.$watch(GroupDelete.getDeleteCount, function() {
+            $scope.filesToDeleteCount = GroupDelete.getDeleteCount();
+        });
+
+        $scope.$watch(GroupDelete.getFilesToDelete, function() {
+            $scope.filesToDelete = GroupDelete.getFilesToDelete();
+        });
 
         $scope.setFilter = function(filter, other) {
             if (other) {
@@ -14,18 +25,15 @@ angular.module('filemanagerApp')
                 filterService.activeFilters.fileType = filter === "All" ? "" : filter;
                 filterService.activeFilters.search = "";
             }
-            console.info(filterService.activeFilters);
         }
 
         $scope.setFilterCreated = function(filter) {
-            console.info("created filter " + filter)
             filterService.activeFilters.createdBy = (filter === "All") ? "" : filter;
         }
 
         $scope.clearCreatedBy = function(x) {
             if (x === null) {
                 delete filterService.activeFilters.createdBy;
-                console.info('deleting created by');
             }
         };
 
@@ -74,14 +82,12 @@ angular.module('filemanagerApp')
         $scope.modalOpen = false;
         $scope.hideScenarios = false;
 
-
         $scope.$on('$close', function() {
             $scope.modalOpen = false;
         })
 
         $scope.stop = function(evt) {
-            evt.stopPropagation();
-            evt.preventDefault();
+            $scope.dontPassEvent(evt);
             $scope.modalOpen = true;
         }
 
@@ -89,9 +95,13 @@ angular.module('filemanagerApp')
             $scope.orderBy = which;
         }
 
-        $scope.toggleScenarioView = function(evt) {
+        $scope.dontPassEvent = function(evt) {
             evt.stopPropagation();
-            evt.preventDefault();
+            //evt.preventDefault();
+        }
+
+        $scope.toggleScenarioView = function(evt) {
+            $scope.dontPassEvent(evt)
             $scope.hideScenarios = $scope.hideScenarios === false ? true : false;
         }
 

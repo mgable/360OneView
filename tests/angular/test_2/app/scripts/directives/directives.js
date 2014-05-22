@@ -132,6 +132,7 @@ angular.module('filemanagerApp')
                 scope.text = attrs.text;
                 scope.completedText = attrs["completedtext"];
                 scope.completedTitle = attrs["completedtitle"];
+                scope.callback = attrs['callback'];
             },
             controller: function($scope, $element, $attrs, $rootScope, $timeout) {
                 $scope.completed = false;
@@ -156,4 +157,64 @@ angular.module('filemanagerApp')
                 }
             }
         }
+    }).directive('triStateCheckbox', function() {
+        return {
+            replace: true,
+            restrict: 'E',
+            scope: {
+                checkboxes: '='
+            },
+            template: '<input type="checkbox" ng-model="master" ng-change="masterChange()">',
+            controller: function($scope, $element, GroupDelete) {
+                $scope.masterChange = function() {
+                    $scope.totalSelected = 0;
+                    $scope.files = [];
+                    if ($scope.master) {
+                        angular.forEach($scope.checkboxes, function(cb, index) {
+                            cb.isSelected = true;
+                            $scope.totalSelected++
+                            $scope.files.push(cb);
+                        });
+                    } else {
+                        angular.forEach($scope.checkboxes, function(cb, index) {
+                            cb.isSelected = false;
+                        });
+                    }
+                    // console.info("the total selected is " + $scope.totalSelected);
+                    GroupDelete.setDeleteCount($scope.totalSelected);
+                    GroupDelete.setFilesToDelete($scope.files);
+                };
+                $scope.$watch('checkboxes', function() {
+                    var allSet = true,
+                        allClear = true;
+
+                    $scope.totalSelected = 0;
+                    $scope.files = [];
+                    angular.forEach($scope.checkboxes, function(cb, index) {
+                        if (cb.isSelected) {
+                            $scope.totalSelected++;
+                            $scope.files.push(cb);
+                            allClear = false;
+                        } else {
+                            allSet = false;
+                        }
+                        //console.info("the total selected is " + $scope.totalSelected);
+                    });
+
+                    GroupDelete.setDeleteCount($scope.totalSelected);
+                    GroupDelete.setFilesToDelete($scope.files);
+
+                    if (allSet) {
+                        $scope.master = true;
+                        $element.prop('indeterminate', false);
+                    } else if (allClear) {
+                        $scope.master = false;
+                        $element.prop('indeterminate', false);
+                    } else {
+                        $scope.master = false;
+                        $element.prop('indeterminate', true);
+                    }
+                }, true);
+            }
+        };
     });

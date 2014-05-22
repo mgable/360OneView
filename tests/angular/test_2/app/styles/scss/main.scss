@@ -93,6 +93,7 @@ ul.file-manager-navigation {
 
 .file-manager {
 	min-width:660px;
+	clear:both;
 	.sorting-bar {
 		a {
 			text-decoration:none;
@@ -335,7 +336,29 @@ ul.file-manager-navigation {
 }
 
 .file-filter-list {
-	@include right-margin (30px);
+	height:30px;
+	width: 100%;
+	.master-delete {
+		position:absolute;
+		left: 20px
+	}
+	.filter-by {
+		position:absolute;
+		right:20px;
+		width:230px;
+	}
+	.master-delete {
+		a {
+			color:black;
+			text-decoration: none;
+		}
+		&[disabled] {
+			pointer-events:none;
+			a {
+				color:lightgray;
+			}
+		}
+	}
 }
 
 .tableHead {

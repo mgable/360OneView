@@ -2,12 +2,26 @@
 <!-- TODO: fix me -->
 <span style="display:none;"><rename id='{{item.id}}'></rename></span>
 
+<div class="btn-group file-filter-list" ng-controller="FileManagerNavigationCtrl">
+    <div class="master-delete" ng-disabled="filesToDeleteCount === 0">
+        
+        <a ng-click="stop($event)" popover-callback="foo bar" popover-title="<b>Group Delete</b>" popover-placement="left" mypopover="<set-as-master text='Are you sure you want to delete the {{filesToDeleteCount}} files?' completedText='The files has been successfully deleted.' completedTitle='<b>Deleted!</b>'></setAsMaster>"  popover-trigger="click" ><i class="icon-trash"></i>&nbsp;Delete ({{filesToDeleteCount}})</a>
+
+    </div>
+    <div class="filter-by">
+        <label>Filter by: </label>
+        <select ng-model="filterService.activeFilters.createdBy" ng-options="item.filter as item.label for item in [{'label':'Created by me', filter: 'Ann Kross'}, {'label':'Imported documents', 'filter': 'imported'}]" ng-change="clearCreatedBy(filterService.activeFilters.createdBy)">
+            <option value="">All</option>
+        </select>
+  </div>
+</div>
+
 <sorter orderBy="lastModified">
     <div class="panel panel-default file-manager" ng-controller="FileBrowserCtrl" nav>
       <div class="panel-heading relative">
         <form class="form-inline sorting-bar plans" name="sorting-bar">
             <div class="checkbox">
-                <input type="checkbox" />
+                <tri-state-checkbox checkboxes="data"  class="select-all-cb"></tri-state-checkbox>
             </div>
 
             <sorting-options label="title"></sorting-options>
@@ -23,7 +37,7 @@
         <div ng-repeat="item in data | orderBy: orderBy : reverse | filter: filterService.activeFilters | filter: filterService.searchText" class="file-cell" ng-class="getClass($index)" ng-click="toggleSelected($index)">
              <form class="form-inline relative categories">
                 <div class="checkbox pull-left multi-select">
-                    <input type="checkbox" />
+                    <input type="checkbox" ng-click="dontPassEvent($event)" ng-model="item.isSelected" />
                 </div>
                 <div class="symbol-holder"><span class=" icon icon-{{item.fileType | fileType | normalize}}"></span></div>
                 <h5 class="media-heading name"><a>{{item.title}}&nbsp;</a><a  class="edit"  popover-title="<b>Rename Simulation</b>" popover-placement="right" mypopover="<rename id='{{item.id}}'></rename>"  popover-trigger="click" ng-click="stop($event)"><i class="icon-pencil"></i></a></h5>

@@ -35,13 +35,6 @@
         </div>
         <div class="container-fluid"> 
           <h4 class="pull-left">File Manager</h1>
-
-          <div class="btn-group pull-right file-filter-list" ng-controller="FileManagerNavigationCtrl">
-            <label>Filter by: </label>
-            <select ng-model="filterService.activeFilters.createdBy" ng-options="item.filter as item.label for item in [{'label':'Created by me', filter: 'Ann Kross'}, {'label':'Imported documents', 'filter': 'imported'}]" ng-change="clearCreatedBy(filterService.activeFilters.createdBy)">
-              <option value="">All</option></select>
-              {{filterService.activeFilters.createdBy}}
-          </div>
         </div>
       <div ng-view=""></div>
     </div>
@@ -74,6 +67,7 @@
         <script src="scripts/directives/directives.js"></script>
         <script src="scripts/filters/filters.js"></script>
         <script src="scripts/services/factory.js"></script>
+        <script src="scripts/services/service.js"></script>
         <!-- endbuild -->
 </body>
 </html>
