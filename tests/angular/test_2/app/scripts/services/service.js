@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('filemanagerApp')
-    .service('GroupDelete', function Service() {
-        var fileCount = 0,
-            filesToDelete = [];
+    .service('GroupFileDelete', function Service() {
+        var filesToDelete = [],
+            reset = false;
 
         this.setFilesToDelete = function(files) {
             filesToDelete = files
@@ -13,17 +13,19 @@ angular.module('filemanagerApp')
             return filesToDelete;
         }
 
-        this.setDeleteCount = function(total) {
-            fileCount = total;
-        }
-
-        this.getDeleteCount = function() {
-            return fileCount;
+        this.getFileCount = function() {
+            return filesToDelete.length;
         }
 
         this.reset = function() {
-            console.info("reset");
-            this.setDeleteCount = 0;
-            this.setFilesToDelete = "";
+            reset = true;
+            filesToDelete = [];
+        }
+        this.resetReset = function() {
+            reset = false;
+        }
+
+        this.getReset = function() {
+            return reset;
         }
     });

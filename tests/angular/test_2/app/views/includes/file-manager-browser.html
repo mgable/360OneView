@@ -5,7 +5,7 @@
 <div class="btn-group file-filter-list" ng-controller="FileManagerNavigationCtrl">
     <div class="master-delete" ng-disabled="filesToDeleteCount === 0">
         
-        <a ng-click="stop($event)" popover-callback="foo bar" popover-title="<b>Group Delete</b>" popover-placement="left" mypopover="<set-as-master text='Are you sure you want to delete the {{filesToDeleteCount}} files?' completedText='The files has been successfully deleted.' completedTitle='<b>Deleted!</b>'></setAsMaster>"  popover-trigger="click" ><i class="icon-trash"></i>&nbsp;Delete ({{filesToDeleteCount}})</a>
+        <a ng-click="stop($event)" popover-title="<b>Group Delete</b>" popover-placement="left" mypopover="<set-as-master text='Are you sure you want to delete the {{filesToDeleteCount}} files?' completedText='The files has been successfully deleted.' completedTitle='<b>Deleted!</b>' callback='cb'></setAsMaster>"  popover-trigger="click" ><i class="icon-trash"></i>&nbsp;Delete ({{filesToDeleteCount}})</a>
 
     </div>
     <div class="filter-by">
@@ -21,7 +21,7 @@
       <div class="panel-heading relative">
         <form class="form-inline sorting-bar plans" name="sorting-bar">
             <div class="checkbox">
-                <tri-state-checkbox checkboxes="data"  class="select-all-cb"></tri-state-checkbox>
+                <tri-state-checkbox checkboxes="data"  class="select-all-cb" delete-service-For-checkbox></tri-state-checkbox>
             </div>
 
             <sorting-options label="title"></sorting-options>

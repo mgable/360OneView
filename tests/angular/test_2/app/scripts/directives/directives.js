@@ -11,15 +11,12 @@ angular.module('filemanagerApp')
         return {
             restrict: 'A',
             link: function postLink(scope, element, attrs) {
-                // element.text('this is the nav directive');
-                //console.info(attrs['firstselected']);
                 scope.selectedIndex = (attrs['firstselected']) ? attrs['firstselected'] : -1;
                 scope.radio = attrs['radio'];
             },
             controller: function($scope) {
 
                 $scope.toggleSelected = function(index, subMenu) {
-                    console.info($scope.radio);
                     if (!$scope.modalOpen) {
                         if (subMenu) {
                             $scope.activeSubMenu = typeof subMenu === "boolean" ? index : subMenu;
@@ -117,7 +114,6 @@ angular.module('filemanagerApp')
             controller: function($scope, $element, $attrs) {
 
                 $scope.sortBy = function(which) {
-                    console.info("I am sorting on " + which);
                     $scope.orderBy = which;
                 }
             }
@@ -146,6 +142,9 @@ angular.module('filemanagerApp')
                     $scope.close(evt);
                     $scope.completed = true;
                     $scope.setTitle($scope.completedTitle);
+                    //TODO this is a very strong dependency
+                    $scope.$parent.$parent[$scope.callback]();
+
                     $timeout(function() {
                         $rootScope.$broadcast("$close")
                     }, 3000);
@@ -165,44 +164,47 @@ angular.module('filemanagerApp')
                 checkboxes: '='
             },
             template: '<input type="checkbox" ng-model="master" ng-change="masterChange()">',
-            controller: function($scope, $element, GroupDelete) {
+            controller: function($scope, $element) {
+                $scope.items = [];
+                var self = this;
+
+                this.getSelectedCheckBoxes = function() {
+                    return $scope.items;
+                }
+
                 $scope.masterChange = function() {
-                    $scope.totalSelected = 0;
-                    $scope.files = [];
+                    $scope.items = [];
                     if ($scope.master) {
                         angular.forEach($scope.checkboxes, function(cb, index) {
                             cb.isSelected = true;
-                            $scope.totalSelected++
-                            $scope.files.push(cb);
+                            $scope.items.push(cb);
                         });
                     } else {
                         angular.forEach($scope.checkboxes, function(cb, index) {
                             cb.isSelected = false;
                         });
                     }
-                    // console.info("the total selected is " + $scope.totalSelected);
-                    GroupDelete.setDeleteCount($scope.totalSelected);
-                    GroupDelete.setFilesToDelete($scope.files);
                 };
+
+                this.reset = function() {
+                    angular.forEach($scope.checkboxes, function(cb, index) {
+                        cb.isSelected = false;
+                    });
+                };
+
                 $scope.$watch('checkboxes', function() {
+                    $scope.items = [];
                     var allSet = true,
                         allClear = true;
-
-                    $scope.totalSelected = 0;
-                    $scope.files = [];
+                    self.items = [];
                     angular.forEach($scope.checkboxes, function(cb, index) {
                         if (cb.isSelected) {
-                            $scope.totalSelected++;
-                            $scope.files.push(cb);
+                            $scope.items.push(cb);
                             allClear = false;
                         } else {
                             allSet = false;
                         }
-                        //console.info("the total selected is " + $scope.totalSelected);
-                    });
-
-                    GroupDelete.setDeleteCount($scope.totalSelected);
-                    GroupDelete.setFilesToDelete($scope.files);
+                    })
 
                     if (allSet) {
                         $scope.master = true;
@@ -214,7 +216,22 @@ angular.module('filemanagerApp')
                         $scope.master = false;
                         $element.prop('indeterminate', true);
                     }
+
                 }, true);
             }
         };
+    }).directive('deleteServiceForCheckbox', function(GroupFileDelete) {
+        return {
+            restrict: "A",
+            require: "triStateCheckbox",
+            link: function(scope, element, attrs, ctrl) {
+                scope.$watch(ctrl.getSelectedCheckBoxes, function() {
+                    GroupFileDelete.setFilesToDelete(ctrl.getSelectedCheckBoxes())
+                });
+                scope.$watch(GroupFileDelete.getReset, function() {
+                    ctrl.reset();
+                    GroupFileDelete.resetReset();
+                });
+            }
+        }
     });

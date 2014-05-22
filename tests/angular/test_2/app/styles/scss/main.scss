@@ -351,6 +351,7 @@ ul.file-manager-navigation {
 		a {
 			color:black;
 			text-decoration: none;
+			cursor:pointer;
 		}
 		&[disabled] {
 			pointer-events:none;

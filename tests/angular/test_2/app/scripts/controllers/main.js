@@ -3,18 +3,22 @@
 angular.module('filemanagerApp')
     .controller('MainCtrl', function($scope) {
 
-    }).controller('FileManagerNavigationCtrl', function($scope, filterService, GroupDelete) {
+    }).controller('FileManagerNavigationCtrl', function($scope, filterService, GroupFileDelete) {
         $scope.filterService = filterService;
 
-        $scope.filesToDeleteCount = GroupDelete.getDeleteCount();
-        $scope.filesToDelete;
+        $scope.filesToDeleteCount = GroupFileDelete.getFileCount();
+        $scope.filesToDelete = GroupFileDelete.getFilesToDelete();
 
-        $scope.$watch(GroupDelete.getDeleteCount, function() {
-            $scope.filesToDeleteCount = GroupDelete.getDeleteCount();
+        $scope.$watch(GroupFileDelete.getFileCount, function() {
+            $scope.filesToDeleteCount = GroupFileDelete.getFileCount();
         });
 
-        $scope.$watch(GroupDelete.getFilesToDelete, function() {
-            $scope.filesToDelete = GroupDelete.getFilesToDelete();
+        $scope.cb = function() {
+            GroupFileDelete.reset();
+        }
+
+        $scope.$watch(GroupFileDelete.getFilesToDelete, function() {
+            $scope.filesToDelete = GroupFileDelete.getFilesToDelete();
         });
 
         $scope.setFilter = function(filter, other) {
