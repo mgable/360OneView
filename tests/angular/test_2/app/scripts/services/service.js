@@ -28,4 +28,11 @@ angular.module('filemanagerApp')
         this.getReset = function() {
             return reset;
         }
+    }).service("GetData", function($resource) {
+        return $resource('http://127.0.0.1:3001/marketshare/filemanager', {}, {
+            'query': {
+                method: 'GET',
+                isArray: false
+            }
+        });
     });

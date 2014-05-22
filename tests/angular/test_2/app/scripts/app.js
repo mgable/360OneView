@@ -13,7 +13,12 @@ angular
         $routeProvider
             .when('/', {
                 templateUrl: 'views/filemanager.html',
-                controller: 'MainCtrl'
+                controller: 'MainCtrl',
+                resolve: {
+                    Data: function(GetData) {
+                        return GetData.query();
+                    }
+                }
             })
             .otherwise({
                 redirectTo: '/'
