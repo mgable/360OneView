@@ -2,9 +2,20 @@ var express = require('express'),
     app = express(),
     fs = require('fs'),
     config = require('./config'),
-    data = require('./marketshare/makeData.js');
+    data = require('./marketshare/makeData.js'),
+    currentData = data.makeData();
 
-console.info(data.makeData());
+app.configure(function() {
+    app.use(express.json());
+    app.use(express.urlencoded());
+    app.use(express.methodOverride());
+    app.use(express.bodyParser());
+    app.use(app.router);
+    app.use(function(req, res, next) {
+        console.log('missing: ' + '%s %s', req.method, req.url);
+        next();
+    });
+});
 
 function init() {
     for (var i = 0, limit = config.places.length; i < limit; i++) {
@@ -17,16 +28,24 @@ function init() {
         });
     }
 
-
     app.get("/marketshare/filemanager", function(req, res) {
-        sendResponse(res, data.makeData());
+        sendResponse(res, currentData);
+    });
+
+    app.post("/marketshare/filemanager", function(req, res) {
+        console.log(req.body);
+        currentData = {
+            "data": [req.body]
+        }
+        sendResponse(res, {
+            "foo": "bar"
+        });
     });
 }
 
 init();
 
 function readFile(file) {
-    //return fs.readFileSync(file, 'utf-8');
     return require(file);
 }
 
@@ -39,22 +58,7 @@ function sendResponse(res, body) {
     res.end(res.jsonp(body));
 }
 
-// var allowCrossDomain = function(req, res, next) {
 
-
-//     next();
-// }
 
 app.listen(3001);
 console.log('listing on port 3001');
-
-// app.use(allowCrossDomain);
-
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
-app.use(app.router);
-app.use(function(req, res, next) {
-    console.log('missing: ' + '%s %s', req.method, req.url);
-    next();
-});

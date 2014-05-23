@@ -15,8 +15,11 @@ angular
                 templateUrl: 'views/filemanager.html',
                 controller: 'MainCtrl',
                 resolve: {
-                    Data: function(GetData) {
-                        return GetData.query();
+                    myData: function(FilesFactory) {
+                        var x = FilesFactory.get();
+                        console.info("hey");
+                        console.info(x);
+                        return x;
                     }
                 }
             })

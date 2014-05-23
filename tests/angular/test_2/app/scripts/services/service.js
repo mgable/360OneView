@@ -35,4 +35,23 @@ angular.module('filemanagerApp')
                 isArray: false
             }
         });
+    }).service('Fetch', function(GetData, Data) {
+        return function(menu) {
+            return Data(GetData.query({
+                endpoint: menu
+            }));
+        };
+    }).service('Data', function($q) {
+        return function(data) {
+            var defer = $q.defer();
+            data.$promise.then(
+                function(data) {
+                    return defer.resolve(data.data);
+                },
+                function(data) {
+                    return defer.reject(data.data);
+                }
+            );
+            return defer.promise;
+        };
     });

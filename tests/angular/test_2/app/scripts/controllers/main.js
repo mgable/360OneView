@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('filemanagerApp')
-    .controller('MainCtrl', function($scope, Data) {
-        $scope.data = Data.data;
+    .controller('MainCtrl', function($scope, myData) {
+        $scope.data = myData;
     }).controller('FileManagerNavigationCtrl', function($scope, filterService, GroupFileDelete) {
         $scope.filterService = filterService;
 
