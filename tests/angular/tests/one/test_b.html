@@ -1,0 +1,31 @@
+<html>
+<head>
+	<title></title>
+	<script src="angular.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/q.js/1.0.1/q.js"></script>
+	<script src="main.js"></script>
+	<script src="resource.js"></script>
+	<script src="roster.js"></script>
+	<script src="unit.js"></script>
+</head>
+<body ng-app="myApp">
+
+	<div ng-controller="MainCtrl">
+
+		<div ng-controller='UnitCtrl'>
+			<div ng-repeat="unit in units">
+				{{unit.data.title}}
+			</div>
+		</div>
+
+	</div>
+
+	<script>
+		
+
+
+	</script>
+
+</body>
+</html>

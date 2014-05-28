@@ -21,7 +21,7 @@
       <div class="panel-heading relative">
         <form class="form-inline sorting-bar plans" name="sorting-bar">
             <div class="checkbox">
-                <tri-state-checkbox checkboxes="data"  class="select-all-cb" delete-service-For-checkbox></tri-state-checkbox>
+                <tri-state-checkbox checkboxes="data.data"  class="select-all-cb" delete-service-For-checkbox></tri-state-checkbox>
             </div>
 
             <sorting-options label="title"></sorting-options>
@@ -34,13 +34,13 @@
 
       </div>
       <div class="panel-body relative no-padding">
-        <div ng-repeat="item in data | orderBy: orderBy : reverse | filter: filterService.activeFilters | filter: filterService.searchText" class="file-cell" ng-class="getClass($index)" ng-click="toggleSelected($index)">
+        <div ng-repeat="item in data.data | orderBy: orderBy : reverse | filter: filterService.activeFilters | filter: filterService.searchText" class="file-cell" ng-class="getClass($index)" ng-click="toggleSelected($index)">
              <form class="form-inline relative categories">
                 <div class="checkbox pull-left multi-select">
                     <input type="checkbox" ng-click="dontPassEvent($event)" ng-model="item.isSelected" />
                 </div>
                 <div class="symbol-holder"><span class=" icon icon-{{item.fileType | fileType | normalize}}"></span></div>
-                <h5 class="media-heading name"><a>{{item.title}}&nbsp;</a><a  class="edit"  popover-title="<b>Rename Simulation</b>" popover-placement="right" mypopover="<rename id='{{item.id}}'></rename>"  popover-trigger="click" ng-click="stop($event)"><i class="icon-pencil"></i></a></h5>
+                <h5 class="media-heading name"><a>{{item.title}}&nbsp;</a><a  class="edit"  popover-title="<b>Rename Simulation</b>" popover-placement="right" mypopover="<rename id='{{item.id}}' callback='cb'></rename>"  popover-trigger="click" ng-click="stop($event)"><i class="icon-pencil"></i></a></h5>
                 <div class="pull-right">
                     <span class="modifiedBy heading">{{item.modifiedBy}}</span>
                     <span class="lastModified heading">{{item.lastModified | timeago}}</span>

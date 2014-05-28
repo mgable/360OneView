@@ -51,7 +51,7 @@ data.makeData = function() {
 
         newData = function() {
             var objs = [];
-            for (var x = 0, limit = titles.length; x < limit; x++) {
+            for (var x = 0, limit = 1; x < limit; x++) {
                 var obj = {}, fileType = pick(fileTypes);
                 obj.id = x + 1;
                 obj.title = titles[x];

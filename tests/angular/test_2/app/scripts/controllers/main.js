@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('filemanagerApp')
-    .controller('MainCtrl', function($scope, myData) {
+    .controller('MainCtrl', function($scope, myData, FilesFactory) {
         $scope.data = myData;
     }).controller('FileManagerNavigationCtrl', function($scope, filterService, GroupFileDelete) {
         $scope.filterService = filterService;
@@ -80,7 +80,7 @@ angular.module('filemanagerApp')
         }, {
             "label": "Decision Books"
         }];
-    }).controller('FileBrowserCtrl', function($scope, filterService) {
+    }).controller('FileBrowserCtrl', function($scope, filterService, FilesFactory) {
         $scope.filterService = filterService;
 
         $scope.modalOpen = false;
@@ -88,41 +88,46 @@ angular.module('filemanagerApp')
 
         $scope.$on('$close', function() {
             $scope.modalOpen = false;
-        })
+        });
+
+        $scope.cb = function() {
+            console.info("rename");
+        };
 
         $scope.stop = function(evt) {
             $scope.dontPassEvent(evt);
             $scope.modalOpen = true;
-        }
+        };
 
         $scope.sortBy = function(which) {
             $scope.orderBy = which;
-        }
+        };
 
         $scope.dontPassEvent = function(evt) {
             evt.stopPropagation();
             //evt.preventDefault();
-        }
+        };
 
         $scope.toggleScenarioView = function(evt) {
             $scope.dontPassEvent(evt)
             $scope.hideScenarios = $scope.hideScenarios === false ? true : false;
-        }
+        };
 
         $scope.updateName = function(data, list) {
             for (var x = 0, limit = list.length; x < limit; x++) {
                 for (var prop in list[x]) {
                     if (list[x].hasOwnProperty(prop)) {
                         if (prop === "id" && list[x][prop] === +data.id) {
-                            list[x]['name'] = data.name;
+                            list[x]['title'] = data.name;
+                            FilesFactory.set(data.id, list[0]);
                             return;
                         }
                     }
                 }
             }
-        }
+        };
 
         $scope.$on('update', function(evt, data) {
-            $scope.updateName(data, $scope.data)
-        })
+            $scope.updateName(data, $scope.data.data)
+        });
     });

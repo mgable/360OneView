@@ -1,8 +1,7 @@
 var express = require('express'),
     app = express(),
-    //fs = require('fs'),
-    // config = require('./config'),
-    cors = require('cors'),
+    fs = require('fs'),
+    config = require('./config'),
     data = require('./marketshare/makeData.js'),
     currentData = data.makeData();
 
@@ -19,26 +18,23 @@ app.configure(function() {
 });
 
 function init() {
-    var collection = {
-        data: makeCollection(currentData.data)
-    };
-
-    function makeCollection(data) {
-        return data.reduce(function(previous, current, index, array) {
-            previous.push(current.id);
-            return previous;
-        }, []);
+    for (var i = 0, limit = config.places.length; i < limit; i++) {
+        createResponse(i);
     }
 
-    app.options("*", cors());
+    function createResponse(i) {
+        app.get(config.places[i].url, function(req, res) {
+            sendResponse(res, readFile(config.baseUrl + config.places[i].file));
+        });
+    }
 
     // get all or query
-    app.get("/api/item", function(req, res) {
+    app.get("/marketshare/filemanager", function(req, res) {
         sendResponse(res, currentData);
     });
 
     // get single
-    app.get("/api/item/:id", function(req, res) {
+    app.get("/marketshare/filemanager/:id", function(req, res) {
         var results = getRecordById(req.params.id, currentData.data),
             status = (results) ? "success" : "fail";
 
@@ -48,30 +44,26 @@ function init() {
         });
     });
 
-    // app.post("/marketshare/filemanager", function(req, res) {
+    app.post("/marketshare/filemanager", function(req, res) {
 
-    //     currentData = {
-    //         "data": [req.body]
-    //     }
-    //     sendResponse(res, {
-    //         "foo": "bar"
-    //     });
-    // });
+        currentData = {
+            "data": [req.body]
+        }
+        sendResponse(res, {
+            "foo": "bar"
+        });
+    });
 
     // update
-    app.put("/api/item/:id", cors(), function(req, res) {
+    app.put("/marketshare/filemanager/:id", function(req, res) {
 
-        var index = getIndexById(req.params.id, currentData.data),
-            status = (index !== false) ? "success" : "fail";
-
-        currentData.data[index] = req.body;
+        var results = getRecordById(req.params.id, currentData.data),
+            status = (results) ? "success" : "fail";
 
         sendResponse(res, {
             status: status,
-            data: index
+            data: results
         });
-
-        console.info(currentData.data);
     });
 
     function getRecordById(id, arr) {
@@ -119,7 +111,7 @@ function readFile(file) {
 
 function sendResponse(res, body) {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,OPTIONS');
+    res.setHeader('Access-Control-Allow-Methods', '*');
     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With");
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Content-Length', body.length);

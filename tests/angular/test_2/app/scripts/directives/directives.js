@@ -89,6 +89,7 @@ angular.module('filemanagerApp')
                 $scope.reverse = false;
 
                 $scope.sort = function(evt, which) {
+                console.info("sorting by " + which)
                     evt.stopPropagation();
                     evt.preventDefault();
                     if (which === $scope.orderBy) {
@@ -142,8 +143,11 @@ angular.module('filemanagerApp')
                     $scope.close(evt);
                     $scope.completed = true;
                     $scope.setTitle($scope.completedTitle);
-                    //TODO this is a very strong dependency
-                    $scope.$parent.$parent[$scope.callback]();
+
+                    //TODO:  this is a very strong dependency
+                    if ($scope.callback) {
+                        $scope.$parent.$parent[$scope.callback]();
+                    }
 
                     $timeout(function() {
                         $rootScope.$broadcast("$close")
