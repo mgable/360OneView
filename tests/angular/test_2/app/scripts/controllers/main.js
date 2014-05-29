@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('filemanagerApp')
-    .controller('MainCtrl', function($scope, myData, FilesFactory) {
+    .controller('MainCtrl', function($scope, myData) {
         $scope.data = myData;
     }).controller('FileManagerNavigationCtrl', function($scope, filterService, GroupFileDelete) {
         $scope.filterService = filterService;
@@ -14,7 +14,7 @@ angular.module('filemanagerApp')
         });
 
         $scope.cb = function() {
-            GroupFileDelete.reset();
+            GroupFileDelete.remove();
         }
 
         $scope.$watch(GroupFileDelete.getFilesToDelete, function() {
@@ -90,8 +90,16 @@ angular.module('filemanagerApp')
             $scope.modalOpen = false;
         });
 
-        $scope.cb = function() {
-            console.info("rename");
+        // delete single file 
+        $scope.deleteSingleFile = function(which) {
+            $scope.deleteFiles(which, $scope.data.data)
+        };
+
+        $scope.cloneFile = function(which) {
+            console.info("cloning " + which)
+            FilesFactory.clone(which).then(function(data) {
+                $scope.data.data.push(data);
+            });
         };
 
         $scope.stop = function(evt) {
@@ -117,9 +125,11 @@ angular.module('filemanagerApp')
             for (var x = 0, limit = list.length; x < limit; x++) {
                 for (var prop in list[x]) {
                     if (list[x].hasOwnProperty(prop)) {
-                        if (prop === "id" && list[x][prop] === +data.id) {
+                        if (prop === "id" && list[x][prop] === data.id) {
                             list[x]['title'] = data.name;
-                            FilesFactory.set(data.id, list[0]);
+                            //TODO: get this out of here
+                            FilesFactory.set(data.id, list[x]);
+
                             return;
                         }
                     }
@@ -127,7 +137,33 @@ angular.module('filemanagerApp')
             }
         };
 
+        $scope.deleteFiles = function(data, list) {
+            var indexes = [],
+                itemsToDelete = _.isArray(data) ? data : [data];
+
+            for (var x = 0, limit = itemsToDelete.length; x < limit; x++) {
+                _.each(list, function(e, i, l) {
+                    if (e.id === itemsToDelete[x]) {
+                        indexes.push(i);
+                        return;
+                    }
+                })
+            }
+
+            indexes.sort().reverse();
+
+            for (var x = 0, limit = indexes.length; x < limit; x++) {
+                list.splice(indexes[x], 1);
+            }
+
+            FilesFactory.remove(data);
+        }
+
         $scope.$on('update', function(evt, data) {
             $scope.updateName(data, $scope.data.data)
+        });
+
+        $scope.$on('delete', function(evt, data) {
+            $scope.deleteFiles(data, $scope.data.data)
         });
     });

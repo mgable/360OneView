@@ -55,4 +55,35 @@
         return deferred.promise;
     };
 
+    Resource.prototype.remove = function(ids) {
+        var deferred = Q.defer();
+
+        this._http
+            .delete(this._path, {
+                params: {
+                    ids: ids
+                }
+            })
+            .success(deferred.resolve)
+            .error(deferred.reject);
+
+        return deferred.promise;
+    };
+
+    Resource.prototype.clone = function(id) {
+        var deferred = Q.defer(),
+            path = this._path + '/' + id;
+
+        this._http
+            .post(path, {
+                params: {
+                    id: id
+                }
+            })
+            .success(deferred.resolve)
+            .error(deferred.reject);
+
+        return deferred.promise;
+    };
+
 })();

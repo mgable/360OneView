@@ -304,6 +304,13 @@ ul.file-manager-navigation {
 				content:'P';
 			}
 		}
+		&.icon-brandawardness {
+			background-color:darkcyan;
+			&:after {
+				content:'BA';
+			}
+		}
+		
 	}
 	.multi-select {
 		margin-right: 10px;

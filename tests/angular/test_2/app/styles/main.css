@@ -234,6 +234,10 @@ ul.file-manager-navigation {
       background-color: crimson; }
       .file-manager .icon.icon-pricing:after {
         content: 'P'; }
+    .file-manager .icon.icon-brandawardness {
+      background-color: darkcyan; }
+      .file-manager .icon.icon-brandawardness:after {
+        content: 'BA'; }
   .file-manager .multi-select {
     margin-right: 10px; }
   .file-manager .text {

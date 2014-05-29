@@ -23,6 +23,14 @@ Files.set = function(id, data) {
     return Files.$$resource.set(id, data);
 }
 
+Files.remove = function(ids) {
+    return Files.$$resource.remove(ids)
+}
+
+Files.clone = function(id) {
+    return Files.$$resource.clone(id);
+}
+
 Files.$factory = [
     '$timeout',
     //'Fetch',

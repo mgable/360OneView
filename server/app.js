@@ -1,4 +1,5 @@
 var express = require('express'),
+    _ = require('underscore'),
     app = express(),
     //fs = require('fs'),
     // config = require('./config'),
@@ -37,7 +38,7 @@ function init() {
         sendResponse(res, currentData);
     });
 
-    // get single
+    // get single record
     app.get("/api/item/:id", function(req, res) {
         var results = getRecordById(req.params.id, currentData.data),
             status = (results) ? "success" : "fail";
@@ -48,17 +49,24 @@ function init() {
         });
     });
 
-    // app.post("/marketshare/filemanager", function(req, res) {
+    // clone record
+    app.post("/api/item/:id", function(req, res) {
+        var temp = {
+            "id": "xbde795-67dd-426c-87bb-4e8df26a0255",
+            "title": "new cloned thingy",
+            "description": "new description",
+            "createdBy": "Some Dude",
+            "createdDate": new Date(),
+            "fileType": "Playbook",
+            "search": "",
+            "modifiedBy": "nobody",
+            "lastModified": ""
+        };
+        currentData.data.push(temp)
+        sendResponse(res, temp);
+    });
 
-    //     currentData = {
-    //         "data": [req.body]
-    //     }
-    //     sendResponse(res, {
-    //         "foo": "bar"
-    //     });
-    // });
-
-    // update
+    // update single record
     app.put("/api/item/:id", cors(), function(req, res) {
 
         var index = getIndexById(req.params.id, currentData.data),
@@ -71,8 +79,37 @@ function init() {
             data: index
         });
 
-        console.info(currentData.data);
+        //console.info(currentData.data);
     });
+
+    //delete record(s)
+    app.delete("/api/item", function(req, res) {
+        console.info("delete");
+        console.info(req.query.ids);
+        var indexes = [],
+            itemsToDelete = _.isArray(req.query.ids) ? req.query.ids : [req.query.ids];
+
+        for (var x = 0, limit = itemsToDelete.length; x < limit; x++) {
+            _.each(currentData.data, function(e, i, l) {
+                if (e.id === itemsToDelete[x]) {
+                    indexes.push(i);
+                    return;
+                }
+            })
+        }
+
+        indexes.sort().reverse();
+
+        for (var x = 0, limit = indexes.length; x < limit; x++) {
+            currentData.data.splice(indexes[x], 1);
+        }
+
+        sendResponse(res, {
+            status: "status",
+            data: "results"
+        });
+    });
+
 
     function getRecordById(id, arr) {
         var record = false;
@@ -94,21 +131,6 @@ function init() {
         return record;
     }
 
-    //delete 
-    app.delete("/marketshare/filemanager/:id", function(req, res) {
-
-        var results = getIndexById(req.params.id, currentData.data),
-            status = (results !== false) ? "success" : "fail";
-
-        if (results !== false) {
-            currentData.data.splice(results, 1);
-        }
-
-        sendResponse(res, {
-            status: status,
-            data: results
-        });
-    });
 }
 
 init();

@@ -45,12 +45,10 @@ angular.module('filemanagerApp')
     .directive('rename', function() {
         return {
             restrict: 'AE',
-            link: function postLink(scope, element, attrs) {
-                // console.info("test directive");
-
-            },
+            link: function postLink(scope, element, attrs) {},
             transclude: true,
             controller: function($scope, $element, $attrs, $rootScope) {
+
 
                 $scope.close = function(evt) {
                     evt.stopPropagation();
@@ -89,7 +87,7 @@ angular.module('filemanagerApp')
                 $scope.reverse = false;
 
                 $scope.sort = function(evt, which) {
-                console.info("sorting by " + which)
+                    console.info("sorting by " + which)
                     evt.stopPropagation();
                     evt.preventDefault();
                     if (which === $scope.orderBy) {
@@ -130,6 +128,7 @@ angular.module('filemanagerApp')
                 scope.completedText = attrs["completedtext"];
                 scope.completedTitle = attrs["completedtitle"];
                 scope.callback = attrs['callback'];
+                scope.callbackData = attrs['callbackdata'];
             },
             controller: function($scope, $element, $attrs, $rootScope, $timeout) {
                 $scope.completed = false;
@@ -146,7 +145,7 @@ angular.module('filemanagerApp')
 
                     //TODO:  this is a very strong dependency
                     if ($scope.callback) {
-                        $scope.$parent.$parent[$scope.callback]();
+                        $scope.$parent.$parent[$scope.callback]($scope.callbackData);
                     }
 
                     $timeout(function() {

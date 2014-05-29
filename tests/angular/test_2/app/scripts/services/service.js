@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('filemanagerApp')
-    .service('GroupFileDelete', function Service() {
+    .service('GroupFileDelete', function Service($rootScope) {
         var filesToDelete = [],
             reset = false;
 
@@ -11,6 +11,11 @@ angular.module('filemanagerApp')
 
         this.getFilesToDelete = function() {
             return filesToDelete;
+        }
+
+        this.remove = function() {
+            $rootScope.$broadcast("delete", _.pluck(filesToDelete, 'id'));
+            this.reset();
         }
 
         this.getFileCount = function() {

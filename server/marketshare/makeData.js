@@ -51,19 +51,19 @@ data.makeData = function() {
 
         newData = function() {
             var objs = [];
-            for (var x = 0, limit = 1; x < limit; x++) {
+            for (var x = 0, limit = titles.length; x < limit; x++) {
                 var obj = {}, fileType = pick(fileTypes);
-                obj.id = x + 1;
+                obj.id = generateUUID();
                 obj.title = titles[x];
-                obj.description = descriptions[x];
-                obj.createdBy = pick(modifiedBy);
-                obj.createdDate = lastModified(180);
-                obj.fileType = typeof fileType === "object" ? makeFileType(fileType) : fileType;
-                obj.search = typeof fileType === "object" ? makeSearchType(fileType) : '';
-                obj.modifiedBy = pick(modifiedBy);
-                obj.lastModified = lastModified(180);
-                obj.scenarios = makeScenarios();
-                obj.masterSet = masterSet;
+            obj.description = descriptions[x];
+            obj.createdBy = pick(modifiedBy);
+            obj.createdDate = lastModified(180);
+            obj.fileType = typeof fileType === "object" ? makeFileType(fileType) : fileType;
+            obj.search = typeof fileType === "object" ? makeSearchType(fileType) : '';
+            obj.modifiedBy = pick(modifiedBy);
+            obj.lastModified = lastModified(180);
+            obj.scenarios = makeScenarios();
+            obj.masterSet = masterSet;
                 objs.push(obj);
             }
             return objs
@@ -109,6 +109,16 @@ data.makeData = function() {
 
         pick = function(array) {
             return array[Math.floor(Math.random() * array.length)];
+        },
+
+        generateUUID = function() {
+            var d = new Date().getTime();
+            var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = (d + Math.random() * 16) % 16 | 0;
+                d = Math.floor(d / 16);
+                return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
+            });
+            return uuid;
         },
 
         objs = [],

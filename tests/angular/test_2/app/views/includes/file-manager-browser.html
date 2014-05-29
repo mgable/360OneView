@@ -5,7 +5,7 @@
 <div class="btn-group file-filter-list" ng-controller="FileManagerNavigationCtrl">
     <div class="master-delete" ng-disabled="filesToDeleteCount === 0">
         
-        <a ng-click="stop($event)" popover-title="<b>Group Delete</b>" popover-placement="left" mypopover="<set-as-master text='Are you sure you want to delete the {{filesToDeleteCount}} files?' completedText='The files has been successfully deleted.' completedTitle='<b>Deleted!</b>' callback='cb'></setAsMaster>"  popover-trigger="click" ><i class="icon-trash"></i>&nbsp;Delete ({{filesToDeleteCount}})</a>
+        <a ng-click="stop($event)" popover-title="<b>Group Delete</b>" popover-placement="left" mypopover="<set-as-master text='Are you sure you want to delete the {{filesToDeleteCount}} files?' completedText='The files has been successfully deleted.' completedTitle='<b>Deleted!</b>' callback='cb'></set-as-master>"  popover-trigger="click" ><i class="icon-trash"></i>&nbsp;Delete ({{filesToDeleteCount}})</a>
 
     </div>
     <div class="filter-by">
@@ -40,7 +40,7 @@
                     <input type="checkbox" ng-click="dontPassEvent($event)" ng-model="item.isSelected" />
                 </div>
                 <div class="symbol-holder"><span class=" icon icon-{{item.fileType | fileType | normalize}}"></span></div>
-                <h5 class="media-heading name"><a>{{item.title}}&nbsp;</a><a  class="edit"  popover-title="<b>Rename Simulation</b>" popover-placement="right" mypopover="<rename id='{{item.id}}' callback='cb'></rename>"  popover-trigger="click" ng-click="stop($event)"><i class="icon-pencil"></i></a></h5>
+                <h5 class="media-heading name"><a>{{item.title}}&nbsp;</a><a  class="edit"  popover-title="<b>Rename Simulation</b>" popover-placement="right" mypopover="<rename id='{{item.id}}'></rename>"  popover-trigger="click" ng-click="stop($event)"><i class="icon-pencil"></i></a></h5>
                 <div class="pull-right">
                     <span class="modifiedBy heading">{{item.modifiedBy}}</span>
                     <span class="lastModified heading">{{item.lastModified | timeago}}</span>
@@ -51,7 +51,7 @@
             <div class="text indent">{{item.description}}</div>
 
             <div class="hidden-content">
-                <div class="dependency-count text indent">This entity is being used in {{item.scenarios.length}} scenarios. <a ng-click="toggleScenarioView($event)">{{hideScenarios ? "Show" : "Hide"}} scenarios</a></div>
+                <div class="dependency-count text indent">This entity is being used in {{item.scenarios.length || 'no'}} scenarios. <a ng-click="toggleScenarioView($event)" ng-show="item.scenarios.length">{{hideScenarios ? "Show" : "Hide"}} scenarios</a></div>
                 <div class="text indent">Created by: {{item.createdBy}}</div>
                 <div class="text indent">Created On: {{item.createdDate | date : fullDate}}</div>
 
