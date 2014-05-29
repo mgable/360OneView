@@ -15,7 +15,7 @@
         </ul>
         <ul class="file-manager-navigation" nav firstSelected="All" radio="true">
             <li ng-repeat="item in menuItems" ng-class="getClass(item.label)">
-                <a ng-click="toggleSelected(item.label, !!item.subMenu); setFilter(item.label, !!item.subMenu)">{{item.label}}</a>
+                <a ng-click="toggleSelected(item.label, !!item.subMenu || item.label === 'Master Set'); setFilter(item.label, !!item.subMenu || item.label === 'Master Set')">{{item.label}}</a>
                 <ul ng-if="item.subMenu" ng-class="{'hideXXX': activeSubMenu !== item.label}">
                     <li ng-repeat="subMenuItem in item.subMenu" ng-class="getClass(subMenuItem.label)">
                         <a ng-click="toggleSelected(subMenuItem.label, item.label); setFilter(item.label, subMenuItem.label)">{{subMenuItem.label}}</a>

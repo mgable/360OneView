@@ -121,20 +121,68 @@ angular.module('filemanagerApp')
             $scope.hideScenarios = $scope.hideScenarios === false ? true : false;
         };
 
-        $scope.updateName = function(data, list) {
-            for (var x = 0, limit = list.length; x < limit; x++) {
-                for (var prop in list[x]) {
-                    if (list[x].hasOwnProperty(prop)) {
-                        if (prop === "id" && list[x][prop] === data.id) {
-                            list[x]['title'] = data.name;
-                            //TODO: get this out of here
-                            FilesFactory.set(data.id, list[x]);
+        // $scope.updateName = function(data, list) {
+        //     for (var x = 0, limit = list.length; x < limit; x++) {
+        //         for (var prop in list[x]) {
+        //             if (list[x].hasOwnProperty(prop)) {
+        //                 if (prop === "id" && list[x][prop] === data.id) {
+        //                     list[x]['title'] = data.name;
+        //                     //TODO: get this out of here
+        //                     FilesFactory.set(data.id, list[x]);
 
-                            return;
-                        }
-                    }
+        //                     return;
+        //                 }
+        //             }
+        //         }
+        //     }
+        // };
+
+        $scope.save = function(id, item) {
+            FilesFactory.set(id, item);
+        }
+
+        $scope.setAsMaster = function(id) {
+            $scope.updateProperty({
+                id: id,
+                prop: 'masterSet',
+                name: true
+            }, $scope.data.data);
+
+            $scope.appendProperty({
+                id: id,
+                prop: 'search',
+                name: 'Master Set'
+            }, $scope.data.data);
+        }
+
+        $scope.updateProperty = function(config, data) {
+            var item = $scope.getItemById(config.id, data);
+            if (item) {
+                item[config.prop] = config.name;
+                $scope.save(config.id, item);
+            };
+        };
+
+        $scope.appendProperty = function(config, data) {
+            var item = $scope.getItemById(config.id, data);
+            if (item) {
+                if (item[config.prop] === '') {
+                    item[config.prop] = config.name;
+                } else {
+                    item[config.prop] = [item[config.prop], config.name];
+                }
+                $scope.save(config.id, item);
+            };
+        };
+
+        $scope.getItemById = function(id, items) {
+            var item = false;
+            for (var x = 0, limit = items.length; x < limit; x++) {
+                if (items[x].id === id) {
+                    return items[x];
                 }
             }
+            return item;
         };
 
         $scope.deleteFiles = function(data, list) {
@@ -160,7 +208,7 @@ angular.module('filemanagerApp')
         }
 
         $scope.$on('update', function(evt, data) {
-            $scope.updateName(data, $scope.data.data)
+            $scope.updateProperty(data, $scope.data.data)
         });
 
         $scope.$on('delete', function(evt, data) {

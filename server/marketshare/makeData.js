@@ -55,15 +55,15 @@ data.makeData = function() {
                 var obj = {}, fileType = pick(fileTypes);
                 obj.id = generateUUID();
                 obj.title = titles[x];
-            obj.description = descriptions[x];
-            obj.createdBy = pick(modifiedBy);
-            obj.createdDate = lastModified(180);
-            obj.fileType = typeof fileType === "object" ? makeFileType(fileType) : fileType;
-            obj.search = typeof fileType === "object" ? makeSearchType(fileType) : '';
-            obj.modifiedBy = pick(modifiedBy);
-            obj.lastModified = lastModified(180);
-            obj.scenarios = makeScenarios();
-            obj.masterSet = masterSet;
+                obj.description = descriptions[x];
+                obj.createdBy = pick(modifiedBy);
+                obj.createdDate = lastModified(180);
+                obj.fileType = typeof fileType === "object" ? makeFileType(fileType) : fileType;
+                obj.search = typeof fileType === "object" ? makeSearchType(fileType) : '';
+                obj.modifiedBy = pick(modifiedBy);
+                obj.lastModified = lastModified(180);
+                obj.scenarios = makeScenarios();
+                obj.masterSet = masterSet;
                 objs.push(obj);
             }
             return objs

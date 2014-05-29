@@ -39,7 +39,12 @@
                 <div class="checkbox pull-left multi-select">
                     <input type="checkbox" ng-click="dontPassEvent($event)" ng-model="item.isSelected" />
                 </div>
-                <div class="symbol-holder"><span class=" icon icon-{{item.fileType | fileType | normalize}}"></span></div>
+                <div class="symbol-holder">
+                    <span ng-switch='item.masterSet'>
+                        <span ng-switch-when='false' class="icon icon-{{item.fileType | fileType | normalize}}"></span>
+                        <span ng-switch-default class="icon icon-masterset"></span>
+                    </span>
+                </div>
                 <h5 class="media-heading name"><a>{{item.title}}&nbsp;</a><a  class="edit"  popover-title="<b>Rename Simulation</b>" popover-placement="right" mypopover="<rename id='{{item.id}}'></rename>"  popover-trigger="click" ng-click="stop($event)"><i class="icon-pencil"></i></a></h5>
                 <div class="pull-right">
                     <span class="modifiedBy heading">{{item.modifiedBy}}</span>

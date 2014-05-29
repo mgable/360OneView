@@ -51,19 +51,16 @@ function init() {
 
     // clone record
     app.post("/api/item/:id", function(req, res) {
-        var temp = {
-            "id": "xbde795-67dd-426c-87bb-4e8df26a0255",
-            "title": "new cloned thingy",
-            "description": "new description",
-            "createdBy": "Some Dude",
-            "createdDate": new Date(),
-            "fileType": "Playbook",
-            "search": "",
-            "modifiedBy": "nobody",
-            "lastModified": ""
-        };
-        currentData.data.push(temp)
-        sendResponse(res, temp);
+        console.info("Cloning " + req.params.id);
+        var tempRecord = _.clone(getRecordById(req.params.id, currentData.data));
+        tempRecord.id = generateUUID();
+        tempRecord.title += " CLONED";
+        tempRecord.createdDate = new Date();
+        tempRecord.modifiedBy = "nobody";
+        tempRecord.lastModified = "";
+        tempRecord.createdBy = "you";
+        currentData.data.push(tempRecord)
+        sendResponse(res, tempRecord);
     });
 
     // update single record
@@ -78,8 +75,6 @@ function init() {
             status: status,
             data: index
         });
-
-        //console.info(currentData.data);
     });
 
     //delete record(s)
@@ -109,6 +104,16 @@ function init() {
             data: "results"
         });
     });
+
+    function generateUUID() {
+        var d = new Date().getTime();
+        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = (d + Math.random() * 16) % 16 | 0;
+            d = Math.floor(d / 16);
+            return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
+        });
+        return uuid;
+    }
 
 
     function getRecordById(id, arr) {

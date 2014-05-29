@@ -60,6 +60,7 @@ angular.module('filemanagerApp')
                     $scope.close(evt);
 
                     $scope.$emit('update', {
+                        prop: 'title',
                         name: $scope.name,
                         id: $attrs['id']
                     });

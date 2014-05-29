@@ -235,7 +235,7 @@ ul.file-manager-navigation {
 		&.icon-costassumptions {
 			background-color:blue;
 			&:after {
-				content:'C';
+				content:'CA';
 			}
 		}
 		&.icon-scenarios {
@@ -253,25 +253,25 @@ ul.file-manager-navigation {
 		&.icon-decisionbooks {
 			background-color:violet;
 			&:after {
-				content:'D';
+				content:'DB';
 			}
 		}
 		&.icon-productfactors {
 			background-color:darkblue;
 			&:after {
-				content:'P';
+				content:'PF';
 			}
 		}
 		&.icon-mediaplans {
 			background-color:darkgreen;
 			&:after {
-				content:'M';
+				content:'MP';
 			}
 		}
 		&.icon-playbook {
 			background-color:aqua;
 			&:after {
-				content:'B';
+				content:'PB';
 			}
 		}
 		&.icon-hardconstraints {
@@ -310,7 +310,18 @@ ul.file-manager-navigation {
 				content:'BA';
 			}
 		}
-		
+		&.icon-masterset {
+			background-color:red;
+			&:after {
+				content:'M';
+			}
+		}
+		&.icon-marketingfactors {
+			background-color:hotpink;
+			&:after {
+				content:'MF';
+			}
+		}
 	}
 	.multi-select {
 		margin-right: 10px;
