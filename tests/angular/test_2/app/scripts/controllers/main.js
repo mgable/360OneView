@@ -141,17 +141,16 @@ angular.module('filemanagerApp')
             FilesFactory.set(id, item);
         }
 
-        $scope.setAsMaster = function(config) {
-            console.info(config.id);
-            console.info(config.masterSet);
+        $scope.setAsMaster = function(id) {
+            console.info(id);
             $scope.updateProperty({
-                id: config.id,
+                id: id,
                 prop: 'masterSet',
-                name: !config.masterSet
+                name: true,
             }, $scope.data.data);
 
             $scope.appendProperty({
-                id: config.id,
+                id: id,
                 prop: 'search',
                 name: 'Master Set'
             }, $scope.data.data);
@@ -219,17 +218,12 @@ angular.module('filemanagerApp')
         });
     }).controller("PaginationDemoCtrl", function($scope, FilesFactory) {
         $scope.$watch('bigCurrentPage', function() {
-            console.info("the page is " + $scope.bigCurrentPage)
-            FilesFactory.query($scope.bigCurrentPage, ($scope.bigCurrentPage + $scope.itemsPerPage)).then(function(data) {
-                $scope.data.data = data.data;
-                // $scope.$apply(function() {
-                //     console.info("scope apply")
-                //     $scope.data.data = data.data
-                // });
+            FilesFactory.query((($scope.bigCurrentPage - 1) * $scope.itemsPerPage), ($scope.bigCurrentPage * $scope.itemsPerPage)).then(function(data) {
+                $scope.$apply(function() {
+                    $scope.data.data = data.data
+                });
             });
         })
-
-        console.info($scope.data)
 
         $scope.maxSize = 5;
         $scope.bigTotalItems = 10;

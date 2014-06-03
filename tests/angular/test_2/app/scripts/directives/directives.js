@@ -140,6 +140,7 @@ angular.module('filemanagerApp')
                 };
 
                 $scope.submit = function(evt) {
+                    console.info("submit");
                     $scope.close(evt);
                     $scope.completed = true;
                     $scope.setTitle($scope.completedTitle);
@@ -155,8 +156,9 @@ angular.module('filemanagerApp')
                 };
 
                 $scope.cancel = function(evt) {
+                    console.info("cancel")
                     $scope.close(evt);
-                    $rootScope.$broadcast("$close");
+                $rootScope.$broadcast("$close");
                 }
             }
         }

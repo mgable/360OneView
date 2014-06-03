@@ -31,6 +31,18 @@ function init() {
         }, []);
     }
 
+    var fileTypeCounts = currentData.data.reduce(function(pv, cv, i, arr) {
+        (cv.fileType in pv) ? pv[cv.fileType]++ : pv[cv.fileType] = 1;
+        if (!_.isEmpty(cv.search)) {
+            (cv.search in pv) ? pv[cv.search]++ : pv[cv.search] = 1;
+        }
+
+        return pv;
+    }, {
+        All: currentData.data.length
+    })
+
+
     app.options("*", cors());
 
     // get all or query
@@ -46,7 +58,8 @@ function init() {
 
         sendResponse(res, {
             status: status,
-            totalItems: results.length,
+            totalItemsReturned: results.length,
+            fileTypeCounts: fileTypeCounts,
             data: results
         });
     });

@@ -26,8 +26,8 @@
 
             <sorting-options label="title"></sorting-options>
             <div class="pull-right">
-                <sorting-options label="modifiedBy"></sorting-options>
                 <sorting-options label="lastModified"></sorting-options>
+                <sorting-options label="modifiedBy"></sorting-options>
                 <sorting-options label="fileType"></sorting-options>
             </div>
         </form>
@@ -47,8 +47,8 @@
                 </div>
                 <h5 class="media-heading name"><a>{{item.title}}</a>&nbsp;<a class="edit"  popover-title="<b>Rename Simulation</b>" popover-placement="right" mypopover="<rename id='{{item.id}}'></rename>"  popover-trigger="click" ng-click="stop($event)"><i class="icon-pencil"></i></a></h5>
                 <div class="pull-right">
-                    <span class="modifiedBy heading">{{item.modifiedBy}}</span>
                     <span class="lastModified heading">{{item.lastModified | timeago}}</span>
+                    <span class="modifiedBy heading">{{item.modifiedBy}}</span>
                     <span class="fileType heading">{{item.fileType}}</span>
                     <span class="hide">{{item.search}}</span>
                 </div>
@@ -74,6 +74,7 @@
                             <sorting-options label="title"></sorting-options>
                             <sorting-options label="lastModified"></sorting-options>
                             <sorting-options label="modifiedBy"></sorting-options>
+                            <sorting-options label="fileType"></sorting-options>
                         </div>
                         <div class="tableBody">
                             <div ng-repeat="scenario in item.scenarios | orderBy: orderBy : reverse">
@@ -81,6 +82,7 @@
                                 <span class="name cell">{{scenario.title}}</span>
                                 <span class="lastModified cell">{{scenario.lastModified | timeago}}</span>
                                 <span class="modifiedBy cell">{{scenario.modifiedBy}}</span>
+                                <span class="fileType cell">{{scenario.fileType}}</span>
                             </div>
                         </div>
                     </div>
@@ -94,7 +96,5 @@
 
 <div ng-controller="PaginationDemoCtrl">
     <pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages" items-per-page="itemsPerPage"></pagination>
-
-    <pre>Page: {{bigCurrentPage}} / {{numPages}}</pre>
 </div>
 

@@ -19,19 +19,15 @@
 
 <div ng-controller="PopoverDemoCtrl" style="margin:100px 0 0 300px">
 
-        <a one mypopover="hey there"  popover-title="{{title || 'no title'}}" popover-trigger="{{trigger || 'click'}}" popover-placement="{{placement || 'top'}}">{{ label || 'Xclick'}}</a>
+  <one><two></two></one>
 
 </div>
 
 <script>
     angular.module('myApp', ['ngSanitize','ui.bootstrap']);
       var PopoverDemoCtrl = function ($scope) {
-          $scope.data = {};
-          $scope.data.file = 'foo.txt';
-
-          $scope.doIt = function (data){console.info ("controller callback called with "); console.info (data);}
-
-          $scope.rename = function (which) {console.info ("file " + $scope.data.file + " has been renamed to " + which );$scope.data.file = which}
+        $scope.data = {};
+        $scope.data.foo = "bar";
     };
 
     var x = angular.module('myApp');
@@ -41,6 +37,9 @@
       return {
         priority:130,
         scope: true, 
+        restrict: "AE",
+        transclude: true,
+        template: "<div><h1><span ng-transclude></span><h1>Other content is here</div>",
         link: function ($scope, $element, $attrs){
           console.info ("one")
         }, 
@@ -51,7 +50,7 @@
     });
 
     // I will be the popUp content
-    x.directive('rename', function(){
+    x.directive('two', function(){
       return {
         restrict: "E",
         replace: true,
@@ -83,7 +82,7 @@
 
 
     x.run(function($templateCache) {
-      $templateCache.put('input.html', "<form novalidate name='myForm'><div>rename file {{file}}</div><label>Enter name<input type='text' placeholder='please enter a name' ng-model='filename' required/></label><br/><button class='btn btn-primary' ng-click='submit(filename)' ng-disabled='myForm.$invalid'>submit</button>&nbsp;<button class='btn btn-default' ng-click='cancel()'>cancel</button></form>");
+      $templateCache.put('input.html', "<form novalidate name='myForm'><div>rename file {{data.foo}}</div><label>Enter name<input type='text' placeholder='please enter a name' ng-model='filename' required/></label><br/><button class='btn btn-primary' ng-click='submit(filename)' ng-disabled='myForm.$invalid'>submit</button>&nbsp;<button class='btn btn-default' ng-click='cancel()'>cancel</button></form>");
     });
 
 

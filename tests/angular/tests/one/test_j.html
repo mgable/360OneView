@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add title</title>
+
+			<script src="../bower_components/jquery/dist/jquery.js"></script>
+			<script src="../bower_components/underscore/underscore.js"></script>
+			<link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css" >
+			<script type="text/javascript" src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+			<script> var data = {
+				  "data": [
+				    {
+				      "id": "f8b8d52e-55bf-43b8-ff71-d5c6d654214c",
+				      "title": "All assumptions 2015",
+				      "description": "Nullam lobortis placerat massa eu fermentum. Proin interdum ipsum eu urna malesuada tincidunt. Morbi velit enim, faucibus quis neque sed, aliquet vestibulum mi.",
+				      "createdBy": "Erik Lee",
+				      "createdDate": "2014-02-18T00:44:25.773Z",
+				      "fileType": "Cost Assumptions",
+				      "search": "",
+				      "modifiedBy": "Barney Rubble",
+				      "lastModified": "2013-12-30T00:44:25.773Z",
+				      "scenarios": [
+				        {
+				          "title": "Carl's Econ Variable Simulation 1",
+				          "lastModified": "2014-05-29T00:44:25.773Z",
+				          "modifiedBy": "Bob Belcher",
+				          "fileType": "Objectives"
+				        },
+				        {
+				          "title": "Al's AIB 2Q 2015 ",
+				          "lastModified": "2014-05-27T00:44:25.773Z",
+				          "modifiedBy": "Barney Rubble",
+				          "fileType": "Objectives"
+				        },
+				        {
+				          "title": "Al's Simulate 2Q 2015",
+				          "lastModified": "2014-06-01T00:44:25.773Z",
+				          "modifiedBy": "Al Green",
+				          "fileType": "Objectives"
+				        },
+				        {
+				          "title": "Ann's AIB Q1 2015 TV ONLY v3",
+				          "lastModified": "2014-05-31T00:44:25.773Z",
+				          "modifiedBy": "Barney Rubble",
+				          "fileType": "Media Plans"
+				        },
+				        {
+				          "title": "Ann's Allocate 3Q",
+				          "lastModified": "2014-06-01T00:44:25.773Z",
+				          "modifiedBy": "Erik Lee",
+				          "fileType": "Playbook"
+				        },
+				        {
+				          "title": "Bob’s Simulate 4Q 2014",
+				          "lastModified": "2014-05-31T00:44:25.773Z",
+				          "modifiedBy": "Ann Kross",
+				          "fileType": "Decision Books"
+				        },
+				        {
+				          "title": "Brent's Simulate 3Q",
+				          "lastModified": "2014-05-30T00:44:25.773Z",
+				          "modifiedBy": "Carl Sagan",
+				          "fileType": "Scenarios"
+				        },
+				        {
+				          "title": "Dan's Digital Hit Target",
+				          "lastModified": "2014-05-29T00:44:25.773Z",
+				          "modifiedBy": "Barney Rubble",
+				          "fileType": "Media Plans"
+				        },
+				        {
+				          "title": "Erik's Cut Budget 2Q 2015 TV and Radio",
+				          "lastModified": "2014-05-31T00:44:25.773Z",
+				          "modifiedBy": "Dan Cox",
+				          "fileType": "Media Plans"
+				        },
+				        {
+				          "title": "Francis' Max Profit for Q4 2014",
+				          "lastModified": "2014-06-01T00:44:25.773Z",
+				          "modifiedBy": "Dan Cox",
+				          "fileType": "Playbook"
+				        }
+				      ],
+				      "masterSet": false
+				    },
+				    {
+				      "id": "147656f3-c849-4621-fe55-688e91d5dd05",
+				      "title": "Carl's Econ Variable Simulation 1",
+				      "description": "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nam adipiscing nulla sit amet nunc vehicula pellentesque",
+				      "createdBy": "Al Green",
+				      "createdDate": "2014-02-09T00:44:25.773Z",
+				      "fileType": "Soft Constraints",
+				      "search": "Constraints",
+				      "modifiedBy": "Barney Rubble",
+				      "lastModified": "2013-12-14T00:44:25.774Z",
+				      "scenarios": [
+				        {
+				          "title": "Carl's Econ Variable Simulation 1",
+				          "lastModified": "2014-05-30T00:44:25.774Z",
+				          "modifiedBy": "Al Green",
+				          "fileType": "Scenarios"
+				        },
+				        {
+				          "title": "Al's AIB 2Q 2015 ",
+				          "lastModified": "2014-05-31T00:44:25.774Z",
+				          "modifiedBy": "Ann Kross",
+				          "fileType": "Competitive Spend"
+				        },
+				        {
+				          "title": "Al's Simulate 2Q 2015",
+				          "lastModified": "2014-05-28T00:44:25.774Z",
+				          "modifiedBy": "Ann Kross",
+				          "fileType": "Media Plans"
+				        },
+				        {
+				          "title": "Ann's AIB Q1 2015 TV ONLY v3",
+				          "lastModified": "2014-05-27T00:44:25.774Z",
+				          "modifiedBy": "Ann Kross",
+				          "fileType": "Cost Assumptions"
+				        },
+				        {
+				          "title": "Ann's Allocate 3Q",
+				          "lastModified": "2014-06-01T00:44:25.774Z",
+				          "modifiedBy": "Ann Kross",
+				          "fileType": "Scenarios"
+				        },
+				        {
+				          "title": "Bob’s Simulate 4Q 2014",
+				          "lastModified": "2014-06-02T00:44:25.774Z",
+				          "modifiedBy": "Al Green",
+				          "fileType": "Objectives"
+				        },
+				        {
+				          "title": "Brent's Simulate 3Q",
+				          "lastModified": "2014-05-29T00:44:25.774Z",
+				          "modifiedBy": "Dan Cox",
+				          "fileType": "Playbook"
+				        },
+				        {
+				          "title": "Dan's Digital Hit Target",
+				          "lastModified": "2014-06-01T00:44:25.774Z",
+				          "modifiedBy": "Carl Sagan",
+				          "fileType": "Product Factors"
+				        },
+				        {
+				          "title": "Erik's Cut Budget 2Q 2015 TV and Radio",
+				          "lastModified": "2014-05-28T00:44:25.774Z",
+				          "modifiedBy": "Fred Flintstone",
+				          "fileType": "Product Factors"
+				        },
+				        {
+				          "title": "Francis' Max Profit for Q4 2014",
+				          "lastModified": "2014-05-29T00:44:25.774Z",
+				          "modifiedBy": "Ann Kross",
+				          "fileType": "Scenarios"
+				        }
+				      ],
+				      "masterSet": false
+				    },
+				    {
+				      "id": "35cdc4a7-5fdc-4994-9ddf-2e7238218db0",
+				      "title": "Hit Target - with exceptions",
+				      "description": "Pellentesque eleifend, turpis rutrum ornare lacinia, sem purus commodo arcu, eget condimentum lorem nisi quis eros. Proin bibendum, purus ut tempus cursus, enim urna sodales lacus, at volutpat erat mauris in massa. Phasellus commodo risus vitae risus volutpat tempus.",
+				      "createdBy": "Carl Sagan",
+				      "createdDate": "2014-01-17T00:44:25.774Z",
+				      "fileType": "Cost Assumptions",
+				      "search": "",
+				      "modifiedBy": "Bob Belcher",
+				      "lastModified": "2014-03-07T00:44:25.774Z",
+				      "scenarios": [
+				        {
+				          "title": "Carl's Econ Variable Simulation 1",
+				          "lastModified": "2014-05-28T00:44:25.774Z",
+				          "modifiedBy": "Erik Lee",
+				          "fileType": "Media Plans"
+				        },
+				        {
+				          "title": "Al's AIB 2Q 2015 ",
+				          "lastModified": "2014-06-03T00:44:25.774Z",
+				          "modifiedBy": "Bob Belcher",
+				          "fileType": "Objectives"
+				        },
+				        {
+				          "title": "Al's Simulate 2Q 2015",
+				          "lastModified": "2014-05-28T00:44:25.774Z",
+				          "modifiedBy": "Dan Cox",
+				          "fileType": "Objectives"
+				        },
+				        {
+				          "title": "Ann's AIB Q1 2015 TV ONLY v3",
+				          "lastModified": "2014-06-03T00:44:25.774Z",
+				          "modifiedBy": "Fred Flintstone",
+				          "fileType": "Soft Constraints"
+				        },
+				        {
+				          "title": "Ann's Allocate 3Q",
+				          "lastModified": "2014-05-31T00:44:25.774Z",
+				          "modifiedBy": "Dan Cox",
+				          "fileType": "Decision Books"
+				        },
+				        {
+				          "title": "Bob’s Simulate 4Q 2014",
+				          "lastModified": "2014-05-31T00:44:25.774Z",
+				          "modifiedBy": "Fred Flintstone",
+				          "fileType": "Scenarios"
+				        },
+				        {
+				          "title": "Brent's Simulate 3Q",
+				          "lastModified": "2014-06-01T00:44:25.774Z",
+				          "modifiedBy": "Erik Lee",
+				          "fileType": "Cost Assumptions"
+				        },
+				        {
+				          "title": "Dan's Digital Hit Target",
+				          "lastModified": "2014-06-03T00:44:25.774Z",
+				          "modifiedBy": "Barney Rubble",
+				          "fileType": "Media Plans"
+				        },
+				        {
+				          "title": "Erik's Cut Budget 2Q 2015 TV and Radio",
+				          "lastModified": "2014-05-31T00:44:25.774Z",
+				          "modifiedBy": "Ann Kross",
+				          "fileType": "Objectives"
+				        },
+				        {
+				          "title": "Francis' Max Profit for Q4 2014",
+				          "lastModified": "2014-05-31T00:44:25.774Z",
+				          "modifiedBy": "Fred Flintstone",
+				          "fileType": "Scenarios"
+				        }
+				      ],
+				      "masterSet": false
+				    },
+				    {
+				      "id": "d0035102-e7b5-437e-d867-c68d0ae66678",
+				      "title": "Bad Economic Variables 2015 March",
+				      "description": "Duis vel turpis nisl. Suspendisse semper feugiat quam, ut commodo arcu pulvinar id. Donec quis turpis sed lacus blandit pretium in eu nunc.",
+				      "createdBy": "Ann Kross",
+				      "createdDate": "2014-03-15T00:44:25.774Z",
+				      "fileType": "Hard Constraints",
+				      "search": "Constraints",
+				      "modifiedBy": "Al Green",
+				      "lastModified": "2014-03-16T00:44:25.774Z",
+				      "scenarios": [
+				        {
+				          "title": "Carl's Econ Variable Simulation 1",
+				          "lastModified": "2014-06-01T00:44:25.774Z",
+				          "modifiedBy": "Fred Flintstone",
+				          "fileType": "Media Plans"
+				        },
+				        {
+				          "title": "Al's AIB 2Q 2015 ",
+				          "lastModified": "2014-05-29T00:44:25.774Z",
+				          "modifiedBy": "Bob Belcher",
+				          "fileType": "Economic Variables"
+				        },
+				        {
+				          "title": "Al's Simulate 2Q 2015",
+				          "lastModified": "2014-05-31T00:44:25.774Z",
+				          "modifiedBy": "Ann Kross",
+				          "fileType": "Marketing Factors"
+				        },
+				        {
+				          "title": "Ann's AIB Q1 2015 TV ONLY v3",
+				          "lastModified": "2014-05-29T00:44:25.774Z",
+				          "modifiedBy": "Bob Belcher",
+				          "fileType": "Media Plans"
+				        },
+				        {
+				          "title": "Ann's Allocate 3Q",
+				          "lastModified": "2014-05-31T00:44:25.774Z",
+				          "modifiedBy": "Barney Rubble",
+				          "fileType": "Objectives"
+				        },
+				        {
+				          "title": "Bob’s Simulate 4Q 2014",
+				          "lastModified": "2014-05-30T00:44:25.774Z",
+				          "modifiedBy": "Bob Belcher",
+				          "fileType": "Decision Books"
+				        },
+				        {
+				          "title": "Brent's Simulate 3Q",
+				          "lastModified": "2014-05-29T00:44:25.774Z",
+				          "modifiedBy": "Ann Kross",
+				          "fileType": "Scenarios"
+				        },
+				        {
+				          "title": "Dan's Digital Hit Target",
+				          "lastModified": "2014-05-29T00:44:25.774Z",
+				          "modifiedBy": "Dan Cox",
+				          "fileType": "Scenarios"
+				        },
+				        {
+				          "title": "Erik's Cut Budget 2Q 2015 TV and Radio",
+				          "lastModified": "2014-06-02T00:44:25.774Z",
+				          "modifiedBy": "Carl Sagan",
+				          "fileType": "Scenarios"
+				        },
+				        {
+				          "title": "Francis' Max Profit for Q4 2014",
+				          "lastModified": "2014-06-01T00:44:25.774Z",
+				          "modifiedBy": "Al Green",
+				          "fileType": "Scenarios"
+				        }
+				      ],
+				      "masterSet": false
+				    },
+				    {
+				      "id": "2631a02e-2de1-43c2-993e-f8b29600dbd2",
+				      "title": "2015 Q3 Marketing Plan",
+				      "description": "Nam dapibus metus orci, eu porttitor felis facilisis at.",
+				      "createdBy": "Barney Rubble",
+				      "createdDate": "2014-03-14T00:44:25.775Z",
+				      "fileType": "Objectives",
+				      "search": "",
+				      "modifiedBy": "Bob Belcher",
+				      "lastModified": "2014-05-06T00:44:25.775Z",
+				      "scenarios": [
+				        {
+				          "title": "Carl's Econ Variable Simulation 1",
+				          "lastModified": "2014-06-02T00:44:25.775Z",
+				          "modifiedBy": "Carl Sagan",
+				          "fileType": "Cost Assumptions"
+				        },
+				        {
+				          "title": "Al's AIB 2Q 2015 ",
+				          "lastModified": "2014-06-02T00:44:25.775Z",
+				          "modifiedBy": "Ann Kross",
+				          "fileType": "Soft Constraints"
+				        },
+				        {
+				          "title": "Al's Simulate 2Q 2015",
+				          "lastModified": "2014-05-28T00:44:25.775Z",
+				          "modifiedBy": "Erik Lee",
+				          "fileType": "Media Plans"
+				        },
+				        {
+				          "title": "Ann's AIB Q1 2015 TV ONLY v3",
+				          "lastModified": "2014-06-02T00:44:25.775Z",
+				          "modifiedBy": "Al Green",
+				          "fileType": "Playbook"
+				        },
+				        {
+				          "title": "Ann's Allocate 3Q",
+				          "lastModified": "2014-06-02T00:44:25.775Z",
+				          "modifiedBy": "Erik Lee",
+				          "fileType": "Objectives"
+				        },
+				        {
+				          "title": "Bob’s Simulate 4Q 2014",
+				          "lastModified": "2014-06-02T00:44:25.775Z",
+				          "modifiedBy": "Erik Lee",
+				          "fileType": "Scenarios"
+				        },
+				        {
+				          "title": "Brent's Simulate 3Q",
+				          "lastModified": "2014-06-03T00:44:25.775Z",
+				          "modifiedBy": "Dan Cox",
+				          "fileType": "Product Factors"
+				        },
+				        {
+				          "title": "Dan's Digital Hit Target",
+				          "lastModified": "2014-06-01T00:44:25.775Z",
+				          "modifiedBy": "Dan Cox",
+				          "fileType": "Scenarios"
+				        },
+				        {
+				          "title": "Erik's Cut Budget 2Q 2015 TV and Radio",
+				          "lastModified": "2014-05-29T00:44:25.775Z",
+				          "modifiedBy": "Al Green",
+				          "fileType": "Decision Books"
+				        },
+				        {
+				          "title": "Francis' Max Profit for Q4 2014",
+				          "lastModified": "2014-05-27T00:44:25.775Z",
+				          "modifiedBy": "Ann Kross",
+				          "fileType": "Objectives"
+				        }
+				      ],
+				      "masterSet": false
+				    },
+				    {
+				      "id": "94db13de-3e52-49c9-965a-dd57abd75010",
+				      "title": "2014 Q2 Mareting Plan",
+				      "description": "Praesent cursus",
+				      "createdBy": "Al Green",
+				      "createdDate": "2014-02-08T00:44:25.775Z",
+				      "fileType": "Competitive Spend",
+				      "search": "Environmental Factors",
+				      "modifiedBy": "Al Green",
+				      "lastModified": "2014-01-06T00:44:25.775Z",
+				      "scenarios": [
+				        {
+				          "title": "Carl's Econ Variable Simulation 1",
+				          "lastModified": "2014-06-02T00:44:25.775Z",
+				          "modifiedBy": "Al Green",
+				          "fileType": "Marketing Factors"
+				        },
+				        {
+				          "title": "Al's AIB 2Q 2015 ",
+				          "lastModified": "2014-06-02T00:44:25.775Z",
+				          "modifiedBy": "Al Green",
+				          "fileType": "Brand Awardness"
+				        },
+				        {
+				          "title": "Al's Simulate 2Q 2015",
+				          "lastModified": "2014-05-31T00:44:25.775Z",
+				          "modifiedBy": "Barney Rubble",
+				          "fileType": "Cost Assumptions"
+				        },
+				        {
+				          "title": "Ann's AIB Q1 2015 TV ONLY v3",
+				          "lastModified": "2014-06-03T00:44:25.775Z",
+				          "modifiedBy": "Dan Cox",
+				          "fileType": "Objectives"
+				        },
+				        {
+				          "title": "Ann's Allocate 3Q",
+				          "lastModified": "2014-06-01T00:44:25.775Z",
+				          "modifiedBy": "Fred Flintstone",
+				          "fileType": "Cost Assumptions"
+				        },
+				        {
+				          "title": "Bob’s Simulate 4Q 2014",
+				          "lastModified": "2014-06-02T00:44:25.775Z",
+				          "modifiedBy": "Erik Lee",
+				          "fileType": "Media Plans"
+				        },
+				        {
+				          "title": "Brent's Simulate 3Q",
+				          "lastModified": "2014-05-31T00:44:25.775Z",
+				          "modifiedBy": "Al Green",
+				          "fileType": "Decision Books"
+				        },
+				        {
+				          "title": "Dan's Digital Hit Target",
+				          "lastModified": "2014-05-29T00:44:25.775Z",
+				          "modifiedBy": "Bob Belcher",
+				          "fileType": "Hard Constraints"
+				        },
+				        {
+				          "title": "Erik's Cut Budget 2Q 2015 TV and Radio",
+				          "lastModified": "2014-06-01T00:44:25.775Z",
+				          "modifiedBy": "Erik Lee",
+				          "fileType": "Playbook"
+				        },
+				        {
+				          "title": "Francis' Max Profit for Q4 2014",
+				          "lastModified": "2014-06-03T00:44:25.775Z",
+				          "modifiedBy": "Carl Sagan",
+				          "fileType": "Playbook"
+				        }
+				      ],
+				      "masterSet": false
+				    },
+				    {
+				      "id": "29fb4905-52c0-4a71-a74d-ee7a5ddeaca2",
+				      "title": "Marketing Playbook",
+				      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dignissim a nisi non blandit. Nam gravida elit vel leo scelerisque, a semper magna blandit. Phasellus et sapien metus. Maecenas sit amet nisl eros. Nam id vehicula eros. Morbi sapien neque, dictum eget lacus quis, congue posuere velit.",
+				      "createdBy": "Fred Flintstone",
+				      "createdDate": "2014-05-03T00:44:25.775Z",
+				      "fileType": "Competitive Spend",
+				      "search": "Environmental Factors",
+				      "modifiedBy": "Ann Kross",
+				      "lastModified": "2014-01-05T00:44:25.775Z",
+				      "scenarios": [
+				        {
+				          "title": "Carl's Econ Variable Simulation 1",
+				          "lastModified": "2014-05-31T00:44:25.775Z",
+				          "modifiedBy": "Barney Rubble",
+				          "fileType": "Scenarios"
+				        },
+				        {
+				          "title": "Al's AIB 2Q 2015 ",
+				          "lastModified": "2014-05-31T00:44:25.775Z",
+				          "modifiedBy": "Ann Kross",
+				          "fileType": "Objectives"
+				        },
+				        {
+				          "title": "Al's Simulate 2Q 2015",
+				          "lastModified": "2014-06-03T00:44:25.775Z",
+				          "modifiedBy": "Carl Sagan",
+				          "fileType": "Objectives"
+				        },
+				        {
+				          "title": "Ann's AIB Q1 2015 TV ONLY v3",
+				          "lastModified": "2014-05-28T00:44:25.775Z",
+				          "modifiedBy": "Al Green",
+				          "fileType": "Cost Assumptions"
+				        },
+				        {
+				          "title": "Ann's Allocate 3Q",
+				          "lastModified": "2014-05-28T00:44:25.775Z",
+				          "modifiedBy": "Bob Belcher",
+				          "fileType": "Competitive Spend"
+				        },
+				        {
+				          "title": "Bob’s Simulate 4Q 2014",
+				          "lastModified": "2014-05-29T00:44:25.775Z",
+				          "modifiedBy": "Erik Lee",
+				          "fileType": "Brand Awardness"
+				        },
+				        {
+				          "title": "Brent's Simulate 3Q",
+				          "lastModified": "2014-06-02T00:44:25.775Z",
+				          "modifiedBy": "Bob Belcher",
+				          "fileType": "Media Plans"
+				        },
+				        {
+				          "title": "Dan's Digital Hit Target",
+				          "lastModified": "2014-06-03T00:44:25.775Z",
+				          "modifiedBy": "Dan Cox",
+				          "fileType": "Objectives"
+				        },
+				        {
+				          "title": "Erik's Cut Budget 2Q 2015 TV and Radio",
+				          "lastModified": "2014-05-27T00:44:25.775Z",
+				          "modifiedBy": "Bob Belcher",
+				          "fileType": "Decision Books"
+				        },
+				        {
+				          "title": "Francis' Max Profit for Q4 2014",
+				          "lastModified": "2014-05-30T00:44:25.775Z",
+				          "modifiedBy": "Al Green",
+				          "fileType": "Decision Books"
+				        }
+				      ],
+				      "masterSet": false
+				    },
+				    {
+				      "id": "6d4cfc91-e608-4175-9fa8-cd0ad6ff149a",
+				      "title": "Fred's Stuff",
+				      "description": "Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
+				      "createdBy": "Carl Sagan",
+				      "createdDate": "2013-12-21T00:44:25.776Z",
+				      "fileType": "Product Factors",
+				      "search": "Environmental Factors",
+				      "modifiedBy": "Fred Flintstone",
+				      "lastModified": "2014-03-22T00:44:25.776Z",
+				      "scenarios": [
+				        {
+				          "title": "Carl's Econ Variable Simulation 1",
+				          "lastModified": "2014-05-29T00:44:25.776Z",
+				          "modifiedBy": "Al Green",
+				          "fileType": "Scenarios"
+				        },
+				        {
+				          "title": "Al's AIB 2Q 2015 ",
+				          "lastModified": "2014-05-28T00:44:25.776Z",
+				          "modifiedBy": "Barney Rubble",
+				          "fileType": "Cost Assumptions"
+				        },
+				        {
+				          "title": "Al's Simulate 2Q 2015",
+				          "lastModified": "2014-05-27T00:44:25.776Z",
+				          "modifiedBy": "Dan Cox",
+				          "fileType": "Product Factors"
+				        },
+				        {
+				          "title": "Ann's AIB Q1 2015 TV ONLY v3",
+				          "lastModified": "2014-05-29T00:44:25.776Z",
+				          "modifiedBy": "Fred Flintstone",
+				          "fileType": "Media Plans"
+				        },
+				        {
+				          "title": "Ann's Allocate 3Q",
+				          "lastModified": "2014-05-27T00:44:25.776Z",
+				          "modifiedBy": "Al Green",
+				          "fileType": "Objectives"
+				        },
+				        {
+				          "title": "Bob’s Simulate 4Q 2014",
+				          "lastModified": "2014-05-29T00:44:25.776Z",
+				          "modifiedBy": "Fred Flintstone",
+				          "fileType": "Media Plans"
+				        },
+				        {
+				          "title": "Brent's Simulate 3Q",
+				          "lastModified": "2014-05-31T00:44:25.776Z",
+				          "modifiedBy": "Dan Cox",
+				          "fileType": "Decision Books"
+				        },
+				        {
+				          "title": "Dan's Digital Hit Target",
+				          "lastModified": "2014-06-01T00:44:25.776Z",
+				          "modifiedBy": "Al Green",
+				          "fileType": "Cost Assumptions"
+				        },
+				        {
+				          "title": "Erik's Cut Budget 2Q 2015 TV and Radio",
+				          "lastModified": "2014-05-30T00:44:25.776Z",
+				          "modifiedBy": "Al Green",
+				          "fileType": "Scenarios"
+				        },
+				        {
+				          "title": "Francis' Max Profit for Q4 2014",
+				          "lastModified": "2014-06-02T00:44:25.776Z",
+				          "modifiedBy": "Carl Sagan",
+				          "fileType": "Decision Books"
+				        }
+				      ],
+				      "masterSet": false
+				    },
+				    {
+				      "id": "6ad94a2d-977f-4cc9-fcca-5a72db3d7b14",
+				      "title": "Hit Target - Master",
+				      "description": "Nunc sagittis erat non odio sollicitudin varius. Integer sem ante, tincidunt id sapien a, faucibus auctor nisi. Praesent quis mattis enim, sed porttitor neque.",
+				      "createdBy": "Ann Kross",
+				      "createdDate": "2014-04-01T00:44:25.776Z",
+				      "fileType": "Objectives",
+				      "search": "",
+				      "modifiedBy": "Dan Cox",
+				      "lastModified": "2014-03-05T00:44:25.776Z",
+				      "scenarios": [
+				        {
+				          "title": "Carl's Econ Variable Simulation 1",
+				          "lastModified": "2014-05-31T00:44:25.776Z",
+				          "modifiedBy": "Al Green",
+				          "fileType": "Hard Constraints"
+				        },
+				        {
+				          "title": "Al's AIB 2Q 2015 ",
+				          "lastModified": "2014-05-30T00:44:25.776Z",
+				          "modifiedBy": "Carl Sagan",
+				          "fileType": "Decision Books"
+				        },
+				        {
+				          "title": "Al's Simulate 2Q 2015",
+				          "lastModified": "2014-05-29T00:44:25.776Z",
+				          "modifiedBy": "Fred Flintstone",
+				          "fileType": "Objectives"
+				        },
+				        {
+				          "title": "Ann's AIB Q1 2015 TV ONLY v3",
+				          "lastModified": "2014-05-29T00:44:25.776Z",
+				          "modifiedBy": "Dan Cox",
+				          "fileType": "Cost Assumptions"
+				        },
+				        {
+				          "title": "Ann's Allocate 3Q",
+				          "lastModified": "2014-05-27T00:44:25.776Z",
+				          "modifiedBy": "Carl Sagan",
+				          "fileType": "Cost Assumptions"
+				        },
+				        {
+				          "title": "Bob’s Simulate 4Q 2014",
+				          "lastModified": "2014-05-29T00:44:25.776Z",
+				          "modifiedBy": "Barney Rubble",
+				          "fileType": "Cost Assumptions"
+				        },
+				        {
+				          "title": "Brent's Simulate 3Q",
+				          "lastModified": "2014-05-29T00:44:25.776Z",
+				          "modifiedBy": "Al Green",
+				          "fileType": "Hard Constraints"
+				        },
+				        {
+				          "title": "Dan's Digital Hit Target",
+				          "lastModified": "2014-05-30T00:44:25.776Z",
+				          "modifiedBy": "Erik Lee",
+				          "fileType": "Objectives"
+				        },
+				        {
+				          "title": "Erik's Cut Budget 2Q 2015 TV and Radio",
+				          "lastModified": "2014-05-31T00:44:25.776Z",
+				          "modifiedBy": "Erik Lee",
+				          "fileType": "Soft Constraints"
+				        },
+				        {
+				          "title": "Francis' Max Profit for Q4 2014",
+				          "lastModified": "2014-05-28T00:44:25.776Z",
+				          "modifiedBy": "Fred Flintstone",
+				          "fileType": "Product Factors"
+				        }
+				      ],
+				      "masterSet": false
+				    },
+				    {
+				      "id": "16e77eef-d342-4575-8245-1b97dc1801a4",
+				      "title": "Good Econ 2015",
+				      "description": "Cras auctor tellus ut massa convallis, vitae blandit nisi feugiat. Fusce venenatis purus id tempor semper. Quisque posuere in ipsum vel ullamcorper. Morbi a congue magna. Ut vel eleifend tortor. Suspendisse volutpat diam risus, sed ultrices tellus congue nec.",
+				      "createdBy": "Al Green",
+				      "createdDate": "2014-04-19T00:44:25.777Z",
+				      "fileType": "Scenarios",
+				      "search": "",
+				      "modifiedBy": "Al Green",
+				      "lastModified": "2014-04-12T00:44:25.777Z",
+				      "scenarios": [
+				        {
+				          "title": "Carl's Econ Variable Simulation 1",
+				          "lastModified": "2014-05-29T00:44:25.777Z",
+				          "modifiedBy": "Bob Belcher",
+				          "fileType": "Cost Assumptions"
+				        },
+				        {
+				          "title": "Al's AIB 2Q 2015 ",
+				          "lastModified": "2014-05-27T00:44:25.777Z",
+				          "modifiedBy": "Ann Kross",
+				          "fileType": "Brand Awardness"
+				        },
+				        {
+				          "title": "Al's Simulate 2Q 2015",
+				          "lastModified": "2014-05-30T00:44:25.777Z",
+				          "modifiedBy": "Ann Kross",
+				          "fileType": "Scenarios"
+				        },
+				        {
+				          "title": "Ann's AIB Q1 2015 TV ONLY v3",
+				          "lastModified": "2014-06-02T00:44:25.777Z",
+				          "modifiedBy": "Dan Cox",
+				          "fileType": "Cost Assumptions"
+				        },
+				        {
+				          "title": "Ann's Allocate 3Q",
+				          "lastModified": "2014-05-28T00:44:25.777Z",
+				          "modifiedBy": "Fred Flintstone",
+				          "fileType": "Objectives"
+				        },
+				        {
+				          "title": "Bob’s Simulate 4Q 2014",
+				          "lastModified": "2014-05-31T00:44:25.777Z",
+				          "modifiedBy": "Bob Belcher",
+				          "fileType": "Playbook"
+				        },
+				        {
+				          "title": "Brent's Simulate 3Q",
+				          "lastModified": "2014-06-03T00:44:25.777Z",
+				          "modifiedBy": "Barney Rubble",
+				          "fileType": "Decision Books"
+				        },
+				        {
+				          "title": "Dan's Digital Hit Target",
+				          "lastModified": "2014-06-02T00:44:25.777Z",
+				          "modifiedBy": "Al Green",
+				          "fileType": "Scenarios"
+				        },
+				        {
+				          "title": "Erik's Cut Budget 2Q 2015 TV and Radio",
+				          "lastModified": "2014-05-29T00:44:25.777Z",
+				          "modifiedBy": "Carl Sagan",
+				          "fileType": "Cost Assumptions"
+				        },
+				        {
+				          "title": "Francis' Max Profit for Q4 2014",
+				          "lastModified": "2014-06-03T00:44:25.777Z",
+				          "modifiedBy": "Dan Cox",
+				          "fileType": "Objectives"
+				        }
+				      ],
+				      "masterSet": false
+				    }
+				  ]
+				}
+				</script>
+
+				<script>
+					var newData = data.data.reduce(function(pv, cv,i, arr){
+						(cv.fileType in pv) ? pv[cv.fileType]++ : pv[cv.fileType] = 1;
+						return pv;
+					},{})
+
+					console.info (newData);
+
+				</script>
+</head>
+<body>
+
+</body>
+</html>

@@ -6,6 +6,7 @@ angular
         'ngSanitize',
         'ngRoute',
         'ui.bootstrap',
+        'ui.bootstrap.mypopover',
         'dialogs.main',
         'ngAnimate'
     ])

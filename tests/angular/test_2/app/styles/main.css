@@ -304,7 +304,7 @@ ul.file-manager-navigation {
   background: #ddd; }
 
 .divTable {
-  width: 580px;
+  width: 682px;
   margin: 10px auto;
   max-height: 300px;
   overflow: hidden;
@@ -313,7 +313,8 @@ ul.file-manager-navigation {
     max-height: 0px;
     border: 0 none; }
   .divTable span {
-    display: inline-block; }
+    display: inline-block;
+    font-size: 12px; }
   .divTable .symbol {
     width: 30px; }
   .divTable .name, .divTable .title {
@@ -326,7 +327,7 @@ ul.file-manager-navigation {
   .divTable .lastModified {
     width: 115px; }
   .divTable .modifiedBy {
-    width: 160px; }
+    width: 130px; }
   .divTable .file-type-icon {
     width: 20px;
     height: 20px;

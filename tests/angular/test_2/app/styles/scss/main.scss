@@ -402,7 +402,7 @@ ul.file-manager-navigation {
 .tableHead::-webkit-scrollbar {background:#ddd;}
 
 .divTable {
-	width:580px;
+	width:682px;
 	margin:10px auto;
 	max-height:300px;
 	overflow: hidden;
@@ -413,6 +413,7 @@ ul.file-manager-navigation {
 	}
 	span {
 		display:inline-block;
+		font-size:12px;
 	}
 	.symbol {width:30px;}
 	.name, .title {
@@ -424,7 +425,7 @@ ul.file-manager-navigation {
 		text-overflow: ellipsis;
 	}
 	.lastModified {width:115px}
-	.modifiedBy {width:160px}
+	.modifiedBy {width:130px}
     .file-type-icon {width:20px;height:20px;display:inline-block;}
     .square {width:10px;height:10px;float:left;}
     .blue {background-color:blue;}
