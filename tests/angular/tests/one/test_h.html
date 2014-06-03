@@ -1,0 +1,109 @@
+<!doctype html>
+<html ng-app="myApp">
+  <head>
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="./angular.js"></script>
+        <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+      <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    .popover .popover-inner .close {
+      position: absolute;
+      top: 6px;
+      right: 10px;
+      }
+  </style>
+
+  </head>
+  <body ng-controller="MainCtrl">
+
+<div ng-controller="PopoverDemoCtrl" style="margin:100px 0 0 300px">
+
+        <a one mypopover="hey there"  popover-title="{{title || 'no title'}}" popover-trigger="{{trigger || 'click'}}" popover-placement="{{placement || 'top'}}">{{ label || 'Xclick'}}</a>
+
+</div>
+
+<script>
+    angular.module('myApp', ['ngSanitize','ui.bootstrap']);
+      var PopoverDemoCtrl = function ($scope) {
+          $scope.data = {};
+          $scope.data.file = 'foo.txt';
+
+          $scope.doIt = function (data){console.info ("controller callback called with "); console.info (data);}
+
+          $scope.rename = function (which) {console.info ("file " + $scope.data.file + " has been renamed to " + which );$scope.data.file = which}
+    };
+
+    var x = angular.module('myApp');
+
+    // I will be the popup
+    x.directive('one', function($interpolate, $templateCache){
+      return {
+        priority:130,
+        scope: true, 
+        link: function ($scope, $element, $attrs){
+          console.info ("one")
+        }, 
+        controller: function ($scope){
+          
+        }
+      }
+    });
+
+    // I will be the popUp content
+    x.directive('rename', function(){
+      return {
+        restrict: "E",
+        replace: true,
+        templateUrl: "input.html",
+        link:function (scope, element, attrs){
+          angular.extend(scope, attrs);
+          console.info (scope)
+        },
+        controller: function ($scope, $rootScope){
+          $scope.submit = function (which){
+            console.info ("you submitted " + which);
+             $scope.$parent.$parent[$scope.callback](which);
+
+            $rootScope.$broadcast("$close");
+          }
+          $scope.cancel = function(){
+            console.info("cancelled");
+            $rootScope.$broadcast("$close");
+          }
+        }
+      }
+    });
+
+
+    x.run(function($templateCache) {
+      $templateCache.put('renameDirective.html', "<rename {{additionaldata}}></rename>");
+    });
+
+
+
+    x.run(function($templateCache) {
+      $templateCache.put('input.html', "<form novalidate name='myForm'><div>rename file {{file}}</div><label>Enter name<input type='text' placeholder='please enter a name' ng-model='filename' required/></label><br/><button class='btn btn-primary' ng-click='submit(filename)' ng-disabled='myForm.$invalid'>submit</button>&nbsp;<button class='btn btn-default' ng-click='cancel()'>cancel</button></form>");
+    });
+
+
+
+
+    x.controller('MainCtrl', function($scope){
+      // $scope.name = "Tripp";
+      // $scope.doIt = function (){
+      //   console.info ("doing it");
+      // }
+    });
+
+
+    x.controller('ThirdCtrl', function($scope){
+  
+    });
+
+
+    
+
+  </script>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+@import "utility_classes";
+
+.app {
+	min-width:970px;
+	.navigation {
+		margin:50px 0 0 0;
+		a.logo {
+			background: transparent url($spirte) -214px -3px no-repeat;
+			display:inline-block;
+			height: 50px;
+			width: 200px;
+			text-indent: -1000px;
+			margin:0 0 0 15px;
+			&:hover {
+				background: transparent url($spirte) -214px -3px no-repeat;
+			}
+		}
+	}
+	.fileManager {
+		.search {
+			background-color: green;
+		}
+		.display {
+			background-color: blue;
+		}
+	}
+}

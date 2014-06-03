@@ -16,15 +16,14 @@ angular
                 controller: 'MainCtrl',
                 resolve: {
                     myData: function(FilesFactory) {
-                        return FilesFactory.get();
+                        return FilesFactory.query(0, 2);
                     }
                 }
             })
             .otherwise({
                 redirectTo: '/'
             });
-    }).constant('SERVER', 'http://127.0.0.1:3001/api')
-    .config(['$sceDelegateProvider',
+    }).config(['$sceDelegateProvider',
         function($sceDelegateProvider) {
             $sceDelegateProvider.resourceUrlWhitelist(['self', 'http://127.0.0.1:3001/**']);
 

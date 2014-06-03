@@ -38,6 +38,19 @@ function init() {
         sendResponse(res, currentData);
     });
 
+    // get paginated items
+    app.get("/api/item/:start/:end", function(req, res) {
+        var results = currentData.data.slice(req.params.start, req.params.end)
+        status = (results) ? "success" : "fail",
+            totalRecords = results.length;
+
+        sendResponse(res, {
+            status: status,
+            totalItems: results.length,
+            data: results
+        });
+    });
+
     // get single record
     app.get("/api/item/:id", function(req, res) {
         var results = getRecordById(req.params.id, currentData.data),

@@ -1,0 +1,48 @@
+<html>
+<head>
+	<title></title>
+	<script src="angular.js"></script>
+</head>
+<body ng-app="myApp">
+
+	<div ng-controller="MainCtrl">
+
+		<div ng-controller="FirstCtrl">
+			<div ng-controller="SecondCtrl">
+				<div ng-controller="ThirdCtrl">
+					<button ng-click="doIt()">click</button>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<script>
+		var x = angular.module('myApp', []);
+		x.controller('MainCtrl', function($scope){
+			$scope.doIt = function (){
+				console.info ("doing it");
+			}
+		});
+
+		x.controller('FirstCtrl', function($scope){
+
+		});
+
+
+		x.controller('SecondCtrl', function($scope){
+
+		});
+
+
+		x.controller('ThirdCtrl', function($scope){
+	
+		});
+
+
+		
+
+	</script>
+
+</body>
+</html>

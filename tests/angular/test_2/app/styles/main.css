@@ -121,7 +121,7 @@ ul.file-manager-navigation {
   .file-manager .sorting-bar.plans .lastModified {
     width: 120px; }
   .file-manager .sorting-bar.plans .fileType {
-    width: 100px; }
+    width: 130px; }
   .file-manager .file-cell {
     cursor: pointer;
     border-bottom: 1px solid #ddd;
@@ -151,7 +151,7 @@ ul.file-manager-navigation {
     .file-manager .file-cell .categories .lastModified {
       width: 120px; }
     .file-manager .file-cell .categories .fileType {
-      width: 100px; }
+      width: 130px; }
     .file-manager .file-cell .categories > div .heading {
       display: inline-flex;
       min-width: 100px; }
@@ -163,8 +163,14 @@ ul.file-manager-navigation {
         .file-manager .file-cell h5 a i {
           opacity: 0;
           transition: all 0.4s ease 0s; }
-      .file-manager .file-cell h5:hover a i {
-        opacity: 1.0; }
+        .file-manager .file-cell h5 a:hover {
+          text-decoration: underline; }
+      .file-manager .file-cell h5:hover .edit {
+        text-decoration: none; }
+        .file-manager .file-cell h5:hover .edit i {
+          opacity: 0.4; }
+          .file-manager .file-cell h5:hover .edit i:hover {
+            opacity: 1.0; }
     .file-manager .file-cell .file-preview-pane {
       border: 1px solid black;
       text-align: center;
@@ -256,7 +262,7 @@ ul.file-manager-navigation {
     opacity: 0.0;
     transition: all 0.4s ease 0s; }
     .file-manager .file-management-buttons > div {
-      font-size: 10px;
+      font-size: 12px;
       padding-right: 5px; }
       .file-manager .file-management-buttons > div > i {
         font-size: 14px;

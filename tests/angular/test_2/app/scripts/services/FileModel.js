@@ -31,6 +31,10 @@ Files.clone = function(id) {
     return Files.$$resource.clone(id);
 }
 
+Files.query = function(start, end) {
+    return Files.$$resource.query(start, end);
+}
+
 Files.$factory = [
     '$timeout',
     //'Fetch',

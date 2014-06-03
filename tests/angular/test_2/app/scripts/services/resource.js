@@ -39,6 +39,17 @@
         return deferred.promise;
     };
 
+    Resource.prototype.query = function(start, end) {
+        var deferred = Q.defer();
+
+        this._http
+            .get(this._path + "/" + start + "/" + end)
+            .success(deferred.resolve)
+            .error(deferred.reject);
+
+        return deferred.promise;
+    };
+
     Resource.prototype.path = function(uid) {
         return uid ? this._path + '/' + uid : this._path;
     };

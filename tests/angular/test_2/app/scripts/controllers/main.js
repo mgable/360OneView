@@ -141,15 +141,17 @@ angular.module('filemanagerApp')
             FilesFactory.set(id, item);
         }
 
-        $scope.setAsMaster = function(id) {
+        $scope.setAsMaster = function(config) {
+            console.info(config.id);
+            console.info(config.masterSet);
             $scope.updateProperty({
-                id: id,
+                id: config.id,
                 prop: 'masterSet',
-                name: true
+                name: !config.masterSet
             }, $scope.data.data);
 
             $scope.appendProperty({
-                id: id,
+                id: config.id,
                 prop: 'search',
                 name: 'Master Set'
             }, $scope.data.data);
@@ -157,6 +159,7 @@ angular.module('filemanagerApp')
 
         $scope.updateProperty = function(config, data) {
             var item = $scope.getItemById(config.id, data);
+            console.info(item);
             if (item) {
                 item[config.prop] = config.name;
                 $scope.save(config.id, item);
@@ -214,4 +217,22 @@ angular.module('filemanagerApp')
         $scope.$on('delete', function(evt, data) {
             $scope.deleteFiles(data, $scope.data.data)
         });
+    }).controller("PaginationDemoCtrl", function($scope, FilesFactory) {
+        $scope.$watch('bigCurrentPage', function() {
+            console.info("the page is " + $scope.bigCurrentPage)
+            FilesFactory.query($scope.bigCurrentPage, ($scope.bigCurrentPage + $scope.itemsPerPage)).then(function(data) {
+                $scope.data.data = data.data;
+                // $scope.$apply(function() {
+                //     console.info("scope apply")
+                //     $scope.data.data = data.data
+                // });
+            });
+        })
+
+        console.info($scope.data)
+
+        $scope.maxSize = 5;
+        $scope.bigTotalItems = 10;
+        $scope.bigCurrentPage = 1;
+        $scope.itemsPerPage = 2;
     });

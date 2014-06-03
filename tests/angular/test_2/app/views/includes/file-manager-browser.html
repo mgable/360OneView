@@ -45,7 +45,7 @@
                         <span ng-switch-default class="icon icon-masterset"></span>
                     </span>
                 </div>
-                <h5 class="media-heading name"><a>{{item.title}}&nbsp;</a><a  class="edit"  popover-title="<b>Rename Simulation</b>" popover-placement="right" mypopover="<rename id='{{item.id}}'></rename>"  popover-trigger="click" ng-click="stop($event)"><i class="icon-pencil"></i></a></h5>
+                <h5 class="media-heading name"><a>{{item.title}}</a>&nbsp;<a class="edit"  popover-title="<b>Rename Simulation</b>" popover-placement="right" mypopover="<rename id='{{item.id}}'></rename>"  popover-trigger="click" ng-click="stop($event)"><i class="icon-pencil"></i></a></h5>
                 <div class="pull-right">
                     <span class="modifiedBy heading">{{item.modifiedBy}}</span>
                     <span class="lastModified heading">{{item.lastModified | timeago}}</span>
@@ -91,3 +91,10 @@
       </div>
     </div>
 </sorter>
+
+<div ng-controller="PaginationDemoCtrl">
+    <pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages" items-per-page="itemsPerPage"></pagination>
+
+    <pre>Page: {{bigCurrentPage}} / {{numPages}}</pre>
+</div>
+
