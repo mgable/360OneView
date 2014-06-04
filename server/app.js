@@ -31,23 +31,31 @@ function init() {
         }, []);
     }
 
-    var fileTypeCounts = currentData.data.reduce(function(pv, cv, i, arr) {
-        (cv.fileType in pv) ? pv[cv.fileType]++ : pv[cv.fileType] = 1;
-        if (!_.isEmpty(cv.search)) {
-            (cv.search in pv) ? pv[cv.search]++ : pv[cv.search] = 1;
-        }
+    function fileTypeCounts() {
+        return currentData.data.reduce(function(pv, cv, i, arr) {
+            (cv.fileType in pv) ? pv[cv.fileType]++ : pv[cv.fileType] = 1;
+            if (!_.isEmpty(cv.search)) {
+                (cv.search in pv) ? pv[cv.search]++ : pv[cv.search] = 1;
+            }
 
-        return pv;
-    }, {
-        All: currentData.data.length
-    })
+            return pv;
+        }, {
+            All: currentData.data.length
+        })
+    }
 
 
     app.options("*", cors());
 
     // get all or query
     app.get("/api/item", function(req, res) {
-        sendResponse(res, currentData);
+        sendResponse(res, {
+            status: "success",
+            totalItemsReturned: currentData.data.length,
+            fileTypeCounts: fileTypeCounts(),
+            data: currentData.data
+        });
+
     });
 
     // get paginated items
@@ -58,8 +66,8 @@ function init() {
 
         sendResponse(res, {
             status: status,
-            totalItemsReturned: results.length,
-            fileTypeCounts: fileTypeCounts,
+            totalItemsReturned: totalRecords,
+            fileTypeCounts: fileTypeCounts(),
             data: results
         });
     });
@@ -88,6 +96,28 @@ function init() {
         currentData.data.push(tempRecord)
         sendResponse(res, tempRecord);
     });
+
+    // create record
+    app.post("/api/item", function(req, res) {
+        console.info("creating new record ");
+        console.info(req.body.params);
+
+        var tempRecord = {};
+        tempRecord.id = generateUUID();
+        tempRecord.title = req.body.params.data.title;
+        tempRecord.description = req.body.params.data.description;
+        tempRecord.createdDate = new Date();
+        tempRecord.modifiedBy = "nobody";
+        tempRecord.lastModified = "";
+        tempRecord.createdBy = "you";
+        tempRecord.masterSet = false;
+        currentData.data.push(tempRecord)
+        sendResponse(res, {
+            status: "success",
+            data: currentData.data
+        });
+    });
+
 
     // update single record
     app.put("/api/item/:id", cors(), function(req, res) {
@@ -126,8 +156,8 @@ function init() {
         }
 
         sendResponse(res, {
-            status: "status",
-            data: "results"
+            status: "success",
+            data: currentData.data
         });
     });
 

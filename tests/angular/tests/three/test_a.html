@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add title</title>
+	<script src="../bower_components/angular/angular.js"></script>
+	<style>
+		.master { color: red;}
+	</style>
+
+</head>
+<body ng-app="myApp">
+
+	<set-as-master></set-as-master>
+
+	<div ng-controller="MainCtrl">
+		<ul>
+			<li ng-repeat="item in roster.data track by item.id"><span ng-class="{master: item.masterSet}">{{item.title}}</span> <button ng-click="dump(item.id)">clone me</button></li>
+		</ul>
+	</div>
+
+	<div ng-controller="UnitCtrl">
+		<ul>
+			<li ng-repeat="item in rosterXXX.data track by item.id"><span ng-class="{master: item.masterSet}">{{item.title}}</span> <button ng-click="dump(item.id)">delete me</button> </li>
+		</ul>
+	</div>
+
+	<rename></rename>
+
+	<create></create>
+		
+	<script>
+		angular.module("myApp", [])
+		.controller('MainCtrl', function($scope, bdRoster){
+			$scope.roster = bdRoster.$get();
+
+			$scope.dump = function(which) {
+	            console.info("cloning " + which)
+	            bdRoster.$clone(which);
+	        };
+		}).controller('UnitCtrl', function($scope, bdRoster) {
+			$scope.rosterXXX = bdRoster.$get();
+			$scope.dump = function (which){bdRoster.$delete(which)}
+		}).controller("OtherCtrl", function($scope, bdRoster){
+
+		}).run(function(bdRoster){
+				bdRoster.$find();
+		}).directive("rename", function(bdRoster){
+			return{
+				restrict: "AE",
+				template:"<div><ul><li ng-repeat='item in data.data track by item.id'>{{item.title}} <input type='text' ng-model='item.title' /><button ng-click='dump(item)'>change title</button></li></ul></div>",
+				replace:true,
+				scope:{},
+				link:function($scope){
+					$scope.data = bdRoster.$get();
+					$scope.dump = function(which) {
+						bdRoster.$edit(which);
+					};
+				}
+			}
+		})
+		.directive("create", function(bdRoster){
+			return {
+				restrict: "AE",
+				template: "<div><form name='myForm'><label>title <input type='text' ng-model='data.title'></label> <label>description <input type='text' ng-model='data.description'></label><button ng-click='dump(data)'>create</button></form></div>",
+				link:function($scope){
+					$scope.dump = function(which){
+						bdRoster.$create(which);
+					}
+				},
+				scope: {}
+			}
+		}).directive("setAsMaster", function(bdRoster){
+			return {
+				restrict: "AE",
+				template: "<div><ul><li ng-repeat='item in data.data track by item.id'><span ng-class='{master: item.masterSet}''>{{item.title}}</span> | <span>{{item.masterSet}}</span><button ng-click='dump(item)'><span ng-hide='item.masterSet'>set as master</span><span ng-show='item.masterSet'>Unset as master</span></button></li></ul></div>",
+				link:function($scope){
+					$scope.data = bdRoster.$get();
+					$scope.dump = function(which){
+						which.masterSet = !which.masterSet;
+						bdRoster.$edit(which);
+					}
+				},
+				scope: {}
+			}
+		}).constant('SERVER', 'http://127.0.0.1:3001');
+	</script>
+
+	<script src="../bower_components/underscore/underscore.js"></script>
+	<script src="../bower_components/q/q.js"></script>
+	<script src="./resource.js"></script>
+	<script src="./roster-model.js"></script>
+	<script src="./unit-model.js"></script>
+</body>
+</html>

@@ -1,10 +1,14 @@
 'use strict';
 
 angular.module('filemanagerApp')
-    .controller('MainCtrl', function($scope, myData) {
+    .controller('MainCtrl', function($scope, myData, FilesFactory) {
         $scope.data = myData;
-    }).controller('FileManagerNavigationCtrl', function($scope, filterService, GroupFileDelete) {
+    }).controller('FileManagerNavigationCtrl', function($scope, filterService, GroupFileDelete, FilesFactory) {
         $scope.filterService = filterService;
+        FilesFactory.get().$futureFilesData.then(function(response) {
+            $scope.data = response;
+        });
+        console.info($scope.data.data);
 
         $scope.filesToDeleteCount = GroupFileDelete.getFileCount();
         $scope.filesToDelete = GroupFileDelete.getFilesToDelete();
@@ -216,17 +220,4 @@ angular.module('filemanagerApp')
         $scope.$on('delete', function(evt, data) {
             $scope.deleteFiles(data, $scope.data.data)
         });
-    }).controller("PaginationDemoCtrl", function($scope, FilesFactory) {
-        $scope.$watch('bigCurrentPage', function() {
-            FilesFactory.query((($scope.bigCurrentPage - 1) * $scope.itemsPerPage), ($scope.bigCurrentPage * $scope.itemsPerPage)).then(function(data) {
-                $scope.$apply(function() {
-                    $scope.data.data = data.data
-                });
-            });
-        })
-
-        $scope.maxSize = 5;
-        $scope.bigTotalItems = 10;
-        $scope.bigCurrentPage = 1;
-        $scope.itemsPerPage = 2;
     });

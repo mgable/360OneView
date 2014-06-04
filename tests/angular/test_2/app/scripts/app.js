@@ -17,7 +17,7 @@ angular
                 controller: 'MainCtrl',
                 resolve: {
                     myData: function(FilesFactory) {
-                        return FilesFactory.query(0, 2);
+                        return FilesFactory.get();
                     }
                 }
             })

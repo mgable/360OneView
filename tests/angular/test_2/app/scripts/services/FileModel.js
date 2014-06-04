@@ -32,7 +32,12 @@ Files.clone = function(id) {
 }
 
 Files.query = function(start, end) {
-    return Files.$$resource.query(start, end);
+    return new Files(this.$$resource.query(start, end));
+}
+
+Files.ask = function() {
+    console.info("the current data is ");
+    console.info(this);
 }
 
 Files.$factory = [
