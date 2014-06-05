@@ -28,7 +28,22 @@
 
     var config = {
         transformResponse: function(data, headers) {
-
+            var data = JSON.parse(data);
+            _.each(data.data, function(data) {
+                if (typeof data.fileType === "object") {
+                    var obj, result = {}
+                    for (var name in data.fileType) {
+                        obj = data.fileType[name]
+                    }
+                    result[name] = obj;
+                    data.fileType = obj;
+                    data.search = name;
+                } else {
+                    data.search = "";
+                }
+            })
+            console.info(data);
+            return data;
         }
     };
 

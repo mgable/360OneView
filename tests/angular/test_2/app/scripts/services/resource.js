@@ -26,8 +26,6 @@
 
     angular.module('filemanagerApp').factory('Resource', Resource.$factory);
 
-    /* Record retrieval */
-
     var config = {
         transformResponse: function(data, headers) {
             var data = JSON.parse(data);
@@ -48,6 +46,8 @@
             return data;
         }
     };
+
+    /* Record retrieval */
 
     Resource.prototype.get = function(uid) {
         var deferred = Q.defer();
@@ -75,12 +75,12 @@
         return uid ? this._path + '/' + uid : this._path;
     };
 
-    Resource.prototype.set = function(uid, newValue) {
+    Resource.prototype.set = function(item) {
         var deferred = Q.defer();
-        var path = this._path + '/' + uid;
+        var path = this._path + '/' + item.id;
 
         this._http
-            .put(path, newValue)
+            .put(path, item)
             .success(deferred.resolve)
             .error(deferred.reject);
 
@@ -114,6 +114,22 @@
             })
             .success(deferred.resolve)
             .error(deferred.reject);
+
+        return deferred.promise;
+    };
+
+    Resource.prototype.create = function(data) {
+        var deferred = Q.defer(),
+            path = this._path
+
+            this._http
+                .post(path, {
+                    params: {
+                        data: data
+                    }
+                })
+                .success(deferred.resolve)
+                .error(deferred.reject);
 
         return deferred.promise;
     };

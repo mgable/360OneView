@@ -1,13 +1,12 @@
 'use strict';
 
 angular.module('filemanagerApp')
-    .controller('MainCtrl', function($scope, myData, FilesFactory) {
-        $scope.data = myData;
+    .controller('MainCtrl', function($scope, FilesFactory) {
+        $scope.data = FilesFactory.$get();
     }).controller('FileManagerNavigationCtrl', function($scope, filterService, GroupFileDelete, FilesFactory) {
         $scope.filterService = filterService;
-        FilesFactory.get().$futureFilesData.then(function(response) {
-            $scope.data = response;
-        });
+
+        $scope.data = FilesFactory.$get();
 
         $scope.filesToDeleteCount = GroupFileDelete.getFileCount();
         $scope.filesToDelete = GroupFileDelete.getFilesToDelete();
@@ -100,7 +99,7 @@ angular.module('filemanagerApp')
 
         $scope.cloneFile = function(which) {
             console.info("cloning " + which)
-            FilesFactory.clone(which).then(function(data) {
+            FilesFactory.$clone(which).then(function(data) {
                 $scope.data.data.push(data);
             });
         };
@@ -141,7 +140,7 @@ angular.module('filemanagerApp')
         // };
 
         $scope.save = function(id, item) {
-            FilesFactory.set(id, item);
+            FilesFactory.$set(id, item);
         }
 
         $scope.setAsMaster = function(id) {
@@ -209,7 +208,7 @@ angular.module('filemanagerApp')
                 list.splice(indexes[x], 1);
             }
 
-            FilesFactory.remove(data);
+            FilesFactory.$delete(data);
         }
 
         $scope.$on('update', function(evt, data) {

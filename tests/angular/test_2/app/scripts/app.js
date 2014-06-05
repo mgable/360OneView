@@ -14,12 +14,7 @@ angular
         $routeProvider
             .when('/', {
                 templateUrl: 'views/filemanager.html',
-                controller: 'MainCtrl',
-                resolve: {
-                    myData: function(FilesFactory) {
-                        return FilesFactory.get();
-                    }
-                }
+                controller: 'MainCtrl'
             })
             .otherwise({
                 redirectTo: '/'
@@ -29,4 +24,7 @@ angular
             $sceDelegateProvider.resourceUrlWhitelist(['self', 'http://127.0.0.1:3001/**']);
 
         }
-    ])
+    ]).constant('SERVER', 'http://127.0.0.1:3001')
+    .run(function(FilesFactory) {
+        FilesFactory.$find();
+    });
