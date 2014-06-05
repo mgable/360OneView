@@ -59,10 +59,10 @@ data.makeData = function() {
                 obj.createdBy = pick(modifiedBy);
                 obj.createdDate = lastModified(180);
                 obj.fileType = typeof fileType === "object" ? makeFileType(fileType) : fileType;
-                obj.search = typeof fileType === "object" ? makeSearchType(fileType) : '';
+                //obj.search = typeof fileType === "object" ? makeSearchType(fileType) : '';
                 obj.modifiedBy = pick(modifiedBy);
                 obj.lastModified = lastModified(180);
-                obj.scenarios = makeScenarios();
+                //obj.scenarios = makeScenarios();
                 obj.masterSet = masterSet;
                 objs.push(obj);
             }
@@ -83,11 +83,13 @@ data.makeData = function() {
         },
 
         makeFileType = function(which) {
-            var obj;
+            var obj, result = {};
             for (var prop in which) {
                 obj = pick(which[prop]);
             }
-            return obj;
+            //return obj;
+            result[prop] = obj;
+            return result;
         },
 
         makeSearchType = function(which) {
@@ -95,7 +97,7 @@ data.makeData = function() {
             for (var prop in which) {
                 obj = prop;
             }
-            return obj;
+            return [obj];
         },
 
         shuffle = function(arry) {

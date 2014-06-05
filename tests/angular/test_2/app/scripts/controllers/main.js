@@ -8,7 +8,6 @@ angular.module('filemanagerApp')
         FilesFactory.get().$futureFilesData.then(function(response) {
             $scope.data = response;
         });
-        console.info($scope.data.data);
 
         $scope.filesToDeleteCount = GroupFileDelete.getFileCount();
         $scope.filesToDelete = GroupFileDelete.getFilesToDelete();
@@ -27,11 +26,11 @@ angular.module('filemanagerApp')
 
         $scope.setFilter = function(filter, other) {
             if (other) {
-                filterService.activeFilters.search = filter;
+                filterService.activeFilters.search = [filter];
                 filterService.activeFilters.fileType = (typeof other === "string") ? other : "";
             } else {
-                filterService.activeFilters.fileType = filter === "All" ? "" : filter;
                 filterService.activeFilters.search = "";
+                filterService.activeFilters.fileType = filter === "All" ? "" : filter;
             }
         }
 

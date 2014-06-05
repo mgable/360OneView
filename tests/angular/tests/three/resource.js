@@ -26,13 +26,19 @@
 
     angular.module('myApp').factory('bdResource', Resource.$factory);
 
+    var config = {
+        transformResponse: function(data, headers) {
+
+        }
+    };
+
     /* Record retrieval */
 
     Resource.prototype.get = function(uid) {
         var deferred = Q.defer();
 
         this._http
-            .get(this.path(uid))
+            .get(this.path(uid), config)
             .success(deferred.resolve)
             .error(deferred.reject);
 

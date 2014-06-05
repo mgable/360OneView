@@ -33,6 +33,7 @@
         </form>
 
       </div>
+
       <div class="panel-body relative no-padding">
         <div ng-repeat="item in data.data | orderBy: orderBy : reverse | filter: filterService.activeFilters | filter: filterService.searchText" class="file-cell" ng-class="getClass($index)" ng-click="toggleSelected($index)">
              <form class="form-inline relative categories">
