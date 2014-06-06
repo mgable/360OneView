@@ -3,7 +3,7 @@
 angular.module('filemanagerApp')
     .controller('MainCtrl', function($scope, FilesFactory) {
         $scope.data = FilesFactory.$get();
-    }).controller('FileManagerNavigationCtrl', function($scope, filterService, GroupFileDelete, FilesFactory) {
+    }).controller('FileManagerNavigationCtrl', function($scope, filterService, GroupFileDelete, FilesFactory, $rootScope) {
         $scope.filterService = filterService;
 
         $scope.data = FilesFactory.$get();
@@ -25,12 +25,13 @@ angular.module('filemanagerApp')
 
         $scope.setFilter = function(filter, other) {
             if (other) {
-                filterService.activeFilters.search = [filter];
+                filterService.activeFilters.search = filter;
                 filterService.activeFilters.fileType = (typeof other === "string") ? other : "";
             } else {
                 filterService.activeFilters.search = "";
                 filterService.activeFilters.fileType = filter === "All" ? "" : filter;
             }
+            $rootScope.$broadcast("$filter");
         }
 
         $scope.setFilterCreated = function(filter) {
@@ -84,6 +85,7 @@ angular.module('filemanagerApp')
         }];
     }).controller('FileBrowserCtrl', function($scope, filterService, FilesFactory) {
         $scope.filterService = filterService;
+        $scope.data = FilesFactory.$get();
 
         $scope.modalOpen = false;
         $scope.hideScenarios = false;
@@ -123,39 +125,28 @@ angular.module('filemanagerApp')
             $scope.hideScenarios = $scope.hideScenarios === false ? true : false;
         };
 
-        // $scope.updateName = function(data, list) {
-        //     for (var x = 0, limit = list.length; x < limit; x++) {
-        //         for (var prop in list[x]) {
-        //             if (list[x].hasOwnProperty(prop)) {
-        //                 if (prop === "id" && list[x][prop] === data.id) {
-        //                     list[x]['title'] = data.name;
-        //                     //TODO: get this out of here
-        //                     FilesFactory.set(data.id, list[x]);
-
-        //                     return;
-        //                 }
-        //             }
-        //         }
-        //     }
-        // };
 
         $scope.save = function(id, item) {
             FilesFactory.$set(id, item);
         }
 
         $scope.setAsMaster = function(id) {
-            console.info(id);
-            $scope.updateProperty({
-                id: id,
-                prop: 'masterSet',
-                name: true,
-            }, $scope.data.data);
+            var item = $scope.getItemById(id, $scope.data.data)
+            // $scope.updateProperty({
+            //     id: id,
+            //     prop: 'masterSet',
+            //     name: true,
+            // }, $scope.data.data);
 
-            $scope.appendProperty({
-                id: id,
-                prop: 'search',
-                name: 'Master Set'
-            }, $scope.data.data);
+
+            if (item.masterSet) {
+                item.search.splice(_.indexOf(item.search, "Master Set"), 1)
+            } else {
+                item.search.push('Master Set');
+            }
+
+            item.masterSet = !item.masterSet;
+            FilesFactory.$edit(item);
         }
 
         $scope.updateProperty = function(config, data) {
@@ -163,7 +154,6 @@ angular.module('filemanagerApp')
             console.info(item);
             if (item) {
                 item[config.prop] = config.name;
-                $scope.save(config.id, item);
             };
         };
 
@@ -171,11 +161,10 @@ angular.module('filemanagerApp')
             var item = $scope.getItemById(config.id, data);
             if (item) {
                 if (item[config.prop] === '') {
-                    item[config.prop] = config.name;
+                    item[config.prop] = [config.name];
                 } else {
-                    item[config.prop] = [item[config.prop], config.name];
+                    item[config.prop].push(config.name);
                 }
-                $scope.save(config.id, item);
             };
         };
 

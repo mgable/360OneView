@@ -34,9 +34,9 @@ function init() {
     function fileTypeCounts() {
         return currentData.data.reduce(function(pv, cv, i, arr) {
             (cv.fileType in pv) ? pv[cv.fileType]++ : pv[cv.fileType] = 1;
-            if (!_.isEmpty(cv.search)) {
-                (cv.search in pv) ? pv[cv.search]++ : pv[cv.search] = 1;
-            }
+            // if (!_.isEmpty(cv.search)) {
+            //     (cv.search in pv) ? pv[cv.search]++ : pv[cv.search] = 1;
+            // }
 
             return pv;
         }, {
@@ -52,7 +52,7 @@ function init() {
         sendResponse(res, {
             status: "success",
             totalItemsReturned: currentData.data.length,
-            fileTypeCounts: fileTypeCounts(),
+            // fileTypeCounts: fileTypeCounts(),
             data: currentData.data
         });
 
@@ -67,7 +67,7 @@ function init() {
         sendResponse(res, {
             status: status,
             totalItemsReturned: totalRecords,
-            fileTypeCounts: fileTypeCounts(),
+            //fileTypeCounts: fileTypeCounts(),
             data: results
         });
     });
@@ -171,7 +171,6 @@ function init() {
         return uuid;
     }
 
-
     function getRecordById(id, arr) {
         var record = false;
         for (var x = 0, limit = arr.length; x < limit; x++) {
@@ -201,9 +200,10 @@ function readFile(file) {
 }
 
 function sendResponse(res, body) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,OPTIONS');
+    res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:9001');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,OPTIONS,DELETE,POST');
     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With");
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Content-Length', body.length);
     res.end(res.jsonp(body));

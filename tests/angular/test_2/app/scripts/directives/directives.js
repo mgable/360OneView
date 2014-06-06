@@ -124,7 +124,6 @@ angular.module('filemanagerApp')
             replace: true,
             templateUrl: '/views/directives/setAsMaster.html',
             link: function(scope, element, attrs) {
-
                 scope.text = attrs.text;
                 scope.completedText = attrs["completedtext"];
                 scope.completedTitle = attrs["completedtitle"];
@@ -138,6 +137,9 @@ angular.module('filemanagerApp')
                     evt.stopPropagation();
                     evt.preventDefault();
                 };
+
+                console.info($scope.data)
+
 
                 $scope.submit = function(evt) {
                     console.info("submit");
@@ -158,7 +160,7 @@ angular.module('filemanagerApp')
                 $scope.cancel = function(evt) {
                     console.info("cancel")
                     $scope.close(evt);
-                $rootScope.$broadcast("$close");
+                    $rootScope.$broadcast("$close");
                 }
             }
         }
@@ -170,7 +172,7 @@ angular.module('filemanagerApp')
                 checkboxes: '='
             },
             template: '<input type="checkbox" ng-model="master" ng-change="masterChange()">',
-            controller: function($scope, $element) {
+            controller: function($scope, $element, $attrs, filterFilter, filterService) {
                 $scope.items = [];
                 var self = this;
 
@@ -178,10 +180,16 @@ angular.module('filemanagerApp')
                     return $scope.items;
                 }
 
+                // reset delete files on filter change
+                $scope.$on("$filter", function() {
+                    console.info("filetr")
+                    $scope.masterChange();
+                })
+
                 $scope.masterChange = function() {
                     $scope.items = [];
                     if ($scope.master) {
-                        angular.forEach($scope.checkboxes, function(cb, index) {
+                        angular.forEach(filterFilter($scope.checkboxes, filterService.activeFilters), function(cb, index) {
                             cb.isSelected = true;
                             $scope.items.push(cb);
                         });

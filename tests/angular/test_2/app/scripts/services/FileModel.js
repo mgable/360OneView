@@ -51,6 +51,10 @@
         Files.$$resource.set(which);
     }
 
+    Files.$set = function(which) {
+        Files.$edit(which);
+    }
+
     Files.$create = function(config) {
         console.info("creating ")
         console.info(config);

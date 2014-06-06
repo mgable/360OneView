@@ -1,4 +1,4 @@
-var data = {};
+var data = {}, _ = require('underscore');
 
 data.makeData = function() {
 
@@ -52,22 +52,40 @@ data.makeData = function() {
         newData = function() {
             var objs = [];
             for (var x = 0, limit = titles.length; x < limit; x++) {
-                var obj = {}, fileType = pick(fileTypes);
+                var obj = {}, type = pick(fileTypes);
+
+                obj.fileType = typeof type === "object" ? makeFileType(type) : type;
                 obj.id = generateUUID();
                 obj.title = titles[x];
                 obj.description = descriptions[x];
                 obj.createdBy = pick(modifiedBy);
                 obj.createdDate = lastModified(180);
-                obj.fileType = typeof fileType === "object" ? makeFileType(fileType) : fileType;
-                //obj.search = typeof fileType === "object" ? makeSearchType(fileType) : '';
+                obj.type = typeof type === "object" ? makeFileTypeObj(type) : type;
                 obj.modifiedBy = pick(modifiedBy);
                 obj.lastModified = lastModified(180);
                 //obj.scenarios = makeScenarios();
-                obj.masterSet = masterSet;
+                obj.masterSet = trueFalse();
+                obj.search = _.flatten(makeSearch(obj));
                 objs.push(obj);
             }
             return objs
         },
+
+        makeSearch = function(obj) {
+            var results = [""]
+            if (obj.masterSet) {
+                results.push('Master Set"')
+            }
+            if (typeof obj.type === "object") {
+                results.push(makeSearchType(obj.type))
+            }
+            return results;
+        },
+
+        trueFalse = function() {
+            return !!Math.floor(Math.random() * 2);
+        },
+
 
         makeScenarios = function() {
             var objs = [];
@@ -83,12 +101,22 @@ data.makeData = function() {
         },
 
         makeFileType = function(which) {
-            var obj, result = {};
+            var val, result = {};
             for (var prop in which) {
-                obj = pick(which[prop]);
+                val = pick(which[prop]);
             }
-            //return obj;
-            result[prop] = obj;
+            return val;
+            // result[prop] = obj;
+            // return result;
+        },
+
+        makeFileTypeObj = function(which) {
+            var val, result = {};
+            for (var prop in which) {
+                val = pick(which[prop]);
+            }
+
+            result[prop] = val;
             return result;
         },
 
@@ -97,7 +125,7 @@ data.makeData = function() {
             for (var prop in which) {
                 obj = prop;
             }
-            return [obj];
+            return [obj, which[prop]];
         },
 
         shuffle = function(arry) {
