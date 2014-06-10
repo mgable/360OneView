@@ -60,7 +60,6 @@ data.makeData = function() {
                 obj.description = descriptions[x];
                 obj.createdBy = pick(modifiedBy);
                 obj.createdDate = lastModified(180);
-                obj.type = typeof type === "object" ? makeFileTypeObj(type) : type;
                 obj.modifiedBy = pick(modifiedBy);
                 obj.lastModified = lastModified(180);
                 //obj.scenarios = makeScenarios();
@@ -74,10 +73,10 @@ data.makeData = function() {
         makeSearch = function(obj) {
             var results = [""]
             if (obj.masterSet) {
-                results.push('Master Set"')
+                results.push('Master Set')
             }
-            if (typeof obj.type === "object") {
-                results.push(makeSearchType(obj.type))
+            if (typeof obj.fileType === "object") {
+                results.push(makeSearchType(obj.fileType))
             }
             return results;
         },
@@ -105,9 +104,9 @@ data.makeData = function() {
             for (var prop in which) {
                 val = pick(which[prop]);
             }
-            return val;
-            // result[prop] = obj;
-            // return result;
+            //return val;
+            result[prop] = val;
+            return result;
         },
 
         makeFileTypeObj = function(which) {

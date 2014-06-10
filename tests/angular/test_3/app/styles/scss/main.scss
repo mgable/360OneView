@@ -1,4 +1,5 @@
 @import "utility_classes";
+@import "ms-popover";
 
 .app {
 	min-width:970px;
@@ -17,11 +18,74 @@
 		}
 	}
 	.fileManager {
-		.search {
-			background-color: green;
+		.file-manager-search {
+			.search-field {
+				max-width: 270px;
+			}
+			ul {
+				list-style: none;
+				padding: 0;
+				li {
+					a {
+						color: $black;
+						text-decoration: none;
+						cursor: pointer;
+					}
+					&.selected {
+						> a {
+							color: $selected
+						}
+					}
+					margin: 10px 0 0 10px;
+					transition: all 0.3s ease 0s;
+					/* sub menu styles only */
+					> ul {
+						max-height: 500px;
+						opacity: 1.0;
+						transition: all 0.3s ease 0s;
+						> li {
+							a {
+								color: $darkgray;
+								display: inline-block;
+							}
+						}
+						&.closed {
+							max-height: 0px;
+							opacity: 0.0;
+							> li {
+								margin:0;
+							}
+						}
+					}
+				}
+			}
+			.file-manager-filters {
+				margin:10px 0 0 10px;
+			}
 		}
-		.display {
-			background-color: blue;
+	}
+	.delete-and-filter {
+		height:30px;
+		width: 100%;
+		.filter-by {
+			position:absolute;
+			right:20px;
+			width:230px;
+		}
+		.master-delete {
+			position:absolute;
+			left: 20px
+			a {
+				color:black;
+				text-decoration: none;
+				cursor:pointer;
+			}
+			&[disabled] {
+				pointer-events:none;
+				a {
+					color:lightgray;
+				}
+			}
 		}
 	}
 }

@@ -1,3 +1,22 @@
+/*color variables */
+@font-face {
+  font-family: "font awesome";
+  src: url("../fonts/fontawesome-webfont.eot");
+  src: url("../fonts/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff") format("woff"), url("../fonts/fontawesome-webfont.ttf") format("truetype"), url("../fonts/fontawesome-webfont.svg#fontawesome-webfont") format("svg"); }
+.no-background-color {
+  background-color: transparent; }
+
+.no-top-margin {
+  margin-top: 0; }
+
+.no-padding {
+  padding: 0; }
+
+.popover .popover-inner .close {
+  position: absolute;
+  top: 6px;
+  right: 10px; }
+
 .app {
   min-width: 970px; }
   .app .navigation {
@@ -11,7 +30,49 @@
       margin: 0 0 0 15px; }
       .app .navigation a.logo:hover {
         background: transparent url("../images/360sprite.png") -214px -3px no-repeat; }
-  .app .fileManager .search {
-    background-color: green; }
-  .app .fileManager .display {
-    background-color: blue; }
+  .app .fileManager .file-manager-search .search-field {
+    max-width: 270px; }
+  .app .fileManager .file-manager-search ul {
+    list-style: none;
+    padding: 0; }
+    .app .fileManager .file-manager-search ul li {
+      margin: 10px 0 0 10px;
+      transition: all 0.3s ease 0s;
+      /* sub menu styles only */ }
+      .app .fileManager .file-manager-search ul li a {
+        color: black;
+        text-decoration: none;
+        cursor: pointer; }
+      .app .fileManager .file-manager-search ul li.selected > a {
+        color: red; }
+      .app .fileManager .file-manager-search ul li > ul {
+        max-height: 500px;
+        opacity: 1.0;
+        transition: all 0.3s ease 0s; }
+        .app .fileManager .file-manager-search ul li > ul > li a {
+          color: darkgray;
+          display: inline-block; }
+        .app .fileManager .file-manager-search ul li > ul.closed {
+          max-height: 0px;
+          opacity: 0.0; }
+          .app .fileManager .file-manager-search ul li > ul.closed > li {
+            margin: 0; }
+  .app .fileManager .file-manager-search .file-manager-filters {
+    margin: 10px 0 0 10px; }
+  .app .delete-and-filter {
+    height: 30px;
+    width: 100%; }
+    .app .delete-and-filter .filter-by {
+      position: absolute;
+      right: 20px;
+      width: 230px; }
+    .app .delete-and-filter .master-delete {
+      position: absolute;
+      left: 20px a;
+        left-color: black;
+        left-text-decoration: none;
+        left-cursor: pointer; }
+      .app .delete-and-filter .master-delete[disabled] {
+        pointer-events: none; }
+        .app .delete-and-filter .master-delete[disabled] a {
+          color: lightgray; }

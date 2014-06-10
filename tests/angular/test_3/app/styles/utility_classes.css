@@ -1,0 +1,13 @@
+/*color variables */
+@font-face {
+  font-family: "font awesome";
+  src: url("../fonts/fontawesome-webfont.eot");
+  src: url("../fonts/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff") format("woff"), url("../fonts/fontawesome-webfont.ttf") format("truetype"), url("../fonts/fontawesome-webfont.svg#fontawesome-webfont") format("svg"); }
+.no-background-color {
+  background-color: transparent; }
+
+.no-top-margin {
+  margin-top: 0; }
+
+.no-padding {
+  padding: 0; }
