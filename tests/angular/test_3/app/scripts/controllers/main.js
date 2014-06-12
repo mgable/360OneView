@@ -9,6 +9,7 @@ angular.module('fileManagerApp')
         $scope.FilterService = FilterService;
         $scope.filesToDeleteCount = FileDeleteService.getFileCount();
         $scope.data = FilesModel.$get();
+        $scope.hideScenarios = false;
 
         // set the default selected item
         $scope.FilterService.filterBy = $scope.filterBy[0].filter;
@@ -18,45 +19,48 @@ angular.module('fileManagerApp')
             $scope.filesToDeleteCount = FileDeleteService.getFileCount();
         });
 
-        $scope.deleteFiles = function() {
-            FileDeleteService.remove();
-        }
-
         $scope.$watch(FileDeleteService.getFilesToDelete, function() {
             $scope.filesToDelete = FileDeleteService.getFilesToDelete();
         });
+
+        $scope.deleteFiles = function() {
+            FileDeleteService.remove();
+        }
 
         $scope.dontPassEvent = function(evt) {
             evt.stopPropagation();
         };
 
-        $scope.setAsMaster = function(id) {
-            // if (item.masterSet) {
-            //     item.search.splice(_.indexOf(item.search, "Master Set"), 1)
-            // } else {
-            //     item.search.push('Master Set');
-            // }
+        //TODO: clean this up
+        $scope.setAsMaster = function(config) {
+            var config = config.split(',');
+            var id = config[0],
+                value = (config[1] === 'true') ? true : false;
 
-            // item.masterSet = !item.masterSet;
-            // FilesModel.$edit(item);
+            console.info(id, value)
             FilesModel.update({
                 prop: 'masterSet',
-                value: true,
+                value: !value,
                 id: id
             });
-        }
+        };
 
-        // $scope.getItemById = function(id, items) {
-        //     console.info(items);
-        //     var item = false;
-        //     for (var x = 0, limit = items.length; x < limit; x++) {
-        //         console.info(items[x], id)
-        //         if (items[x].id === id) {
-        //             return items[x];
-        //         }
-        //     }
-        //     return item;
-        // };
+        $scope.toggleScenarioView = function(evt) {
+            $scope.dontPassEvent(evt);
+            $scope.hideScenarios = $scope.hideScenarios === false ? true : false;
+        };
+
+        $scope.deleteSingleFile = function(id) {
+            FileDeleteService.setFilesToDelete([{
+                id: id
+            }]);
+            $scope.deleteFiles();
+        };
+
+        $scope.cloneFile = function(id) {
+            FilesModel.$clone(id);
+        };
+
     })
     .controller('FileManagerSearchCtrl', function($scope, SEARCHITEMS, FilterService, $rootScope) {
         $scope.menuItems = SEARCHITEMS;

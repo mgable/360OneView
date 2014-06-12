@@ -88,17 +88,17 @@ describe('Directives:', function() {
             $httpBackend.expectGET("http://127.0.0.1:3001/api/item").respond({
                 hello: 'World'
             });
-            element = angular.element('<div sorter orderBy="time"><div sorting-options label="mylabel"></div></div>');
+            element = angular.element('<sorter orderby="time"><div sorting-options label="mylabel"></div></sorter>');
             $compile(element)(scope);
             scope.$digest();
 
-            ctrl = $controller('SortingController', {
-                $scope: scope,
-                $element: null,
-                $attrs: {
-                    label: "mylabel"
-                }
-            });
+            // ctrl = $controller('SortingController', {
+            //     $scope: scope,
+            //     $element: null,
+            //     $attrs: {
+            //         label: "mylabel"
+            //     }
+            // });
         }));
 
         it("should correctly initialize", function() {

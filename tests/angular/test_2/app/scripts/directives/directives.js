@@ -77,9 +77,9 @@ angular.module('filemanagerApp')
     .directive('sortingOptions', function() {
         return {
             restrict: 'AE',
-            link: function postLink(scope, element, attrs, ctlr) {
-                // no link function
-            },
+        link: function postLink(scope, element, attrs, ctlr) {
+            // no link function
+        },
             replace: true,
             scope: true,
             require: "?sorter",

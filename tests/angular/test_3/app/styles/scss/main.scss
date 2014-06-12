@@ -3,6 +3,7 @@
 
 .app {
 	min-width:970px;
+	font-size: 13px;
 	.ms-popover {
 		z-index:2000;
 	}
@@ -198,6 +199,51 @@
 				height: 300px;
 				vertical-align: middle;
 			}
+			.scenarios {
+				width:682px;
+				margin:10px auto;
+				max-height:300px;
+				overflow: hidden;
+				transition: max-height 0.4s ease 0s;
+				.tableBody {
+					height:100px;
+					overflow-y:scroll;
+					padding:5px 5px 0 8px;
+					div div:first-child {
+						padding:0 0 0 10px;
+					}
+					span {
+						display:inline-block;
+					}
+					.name, .title {
+						width: 215px; 
+						overflow:hidden;
+						white-space: nowrap;
+						margin: 0 10px 0 0;
+						vertical-align:bottom;
+						text-overflow: ellipsis;
+					}
+				}
+				&.myHide {
+					max-height: 0px;
+					border:0 none;
+				}
+				.symbol {
+					width:30px;
+					.icon {
+						font-size:9px;
+					}
+				}
+				.title {width: 215px;margin: 0 10px;}
+				.lastModified {width:115px;}
+				.modifiedBy {width:130px;}
+			    .file-type-icon {width:20px;height:20px;display:inline-block;}
+			    .square {width:10px;height:10px;float:left;}
+			    .blue {background-color:blue;}
+			    .green {background-color:green;}
+			    .yellow {background-color:yellow;}
+			    .red {background-color:red;}
+			}
 		}
 		.symbol-holder {
 			left:23px;
@@ -307,9 +353,6 @@
 		}
 		.multi-select {
 			margin-right: 10px;
-		}
-		.text {
-			font-size:13px;
 		}
 		.file-management-buttons {
 			opacity: 0.0;

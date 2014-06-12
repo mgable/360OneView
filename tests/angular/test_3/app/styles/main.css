@@ -21,13 +21,30 @@
 .relative {
   position: relative; }
 
+.no-scroll-bars {
+  scrollbar-base-color: #999;
+  scrollbar-3dlight-color: #999;
+  scrollbar-highlight-color: #999;
+  scrollbar-track-color: #999;
+  scrollbar-arrow-color: #999;
+  scrollbar-shadow-color: #999;
+  scrollbar-dark-shadow-color: #999;
+  overflow-y: scroll;
+  height: 30px;
+  padding: 5px 5px 0 8px;
+  background-color: #ddd; }
+
+.no-scroll-bars::-webkit-scrollbar {
+  background: #ddd; }
+
 .popover .popover-inner .close {
   position: absolute;
   top: 6px;
   right: 10px; }
 
 .app {
-  min-width: 970px; }
+  min-width: 970px;
+  font-size: 13px; }
   .app .ms-popover {
     z-index: 2000; }
   .app .navigation {
@@ -159,6 +176,57 @@
         margin: 10px auto;
         height: 300px;
         vertical-align: middle; }
+      .app .file-manager-display .file-cell .scenarios {
+        width: 682px;
+        margin: 10px auto;
+        max-height: 300px;
+        overflow: hidden;
+        transition: max-height 0.4s ease 0s; }
+        .app .file-manager-display .file-cell .scenarios .tableBody {
+          height: 100px;
+          overflow-y: scroll;
+          padding: 5px 5px 0 8px; }
+          .app .file-manager-display .file-cell .scenarios .tableBody div div:first-child {
+            padding: 0 0 0 10px; }
+          .app .file-manager-display .file-cell .scenarios .tableBody span {
+            display: inline-block; }
+          .app .file-manager-display .file-cell .scenarios .tableBody .name, .app .file-manager-display .file-cell .scenarios .tableBody .title {
+            width: 215px;
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0 10px 0 0;
+            vertical-align: bottom;
+            text-overflow: ellipsis; }
+        .app .file-manager-display .file-cell .scenarios.myHide {
+          max-height: 0px;
+          border: 0 none; }
+        .app .file-manager-display .file-cell .scenarios .symbol {
+          width: 30px; }
+          .app .file-manager-display .file-cell .scenarios .symbol .icon {
+            font-size: 9px; }
+        .app .file-manager-display .file-cell .scenarios .title {
+          width: 215px;
+          margin: 0 10px; }
+        .app .file-manager-display .file-cell .scenarios .lastModified {
+          width: 115px; }
+        .app .file-manager-display .file-cell .scenarios .modifiedBy {
+          width: 130px; }
+        .app .file-manager-display .file-cell .scenarios .file-type-icon {
+          width: 20px;
+          height: 20px;
+          display: inline-block; }
+        .app .file-manager-display .file-cell .scenarios .square {
+          width: 10px;
+          height: 10px;
+          float: left; }
+        .app .file-manager-display .file-cell .scenarios .blue {
+          background-color: blue; }
+        .app .file-manager-display .file-cell .scenarios .green {
+          background-color: green; }
+        .app .file-manager-display .file-cell .scenarios .yellow {
+          background-color: yellow; }
+        .app .file-manager-display .file-cell .scenarios .red {
+          background-color: red; }
     .app .file-manager-display .symbol-holder {
       left: 23px;
       top: 3px;
@@ -235,8 +303,6 @@
           content: 'MF'; }
     .app .file-manager-display .multi-select {
       margin-right: 10px; }
-    .app .file-manager-display .text {
-      font-size: 13px; }
     .app .file-manager-display .file-management-buttons {
       opacity: 0.0;
       transition: all 0.4s ease 0s; }

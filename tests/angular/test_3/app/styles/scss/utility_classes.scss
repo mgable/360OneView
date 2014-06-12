@@ -35,3 +35,19 @@ $selected: red;
 .relative {
 	position: relative;
 }
+
+.no-scroll-bars {
+	scrollbar-base-color: #999;
+	scrollbar-3dlight-color: #999;
+	scrollbar-highlight-color: #999;
+	scrollbar-track-color: #999;
+	scrollbar-arrow-color: #999;
+	scrollbar-shadow-color: #999;
+	scrollbar-dark-shadow-color: #999;
+	overflow-y:scroll;
+	height:30px;
+	padding:5px 5px 0 8px;
+	background-color:#ddd;
+}
+
+.no-scroll-bars::-webkit-scrollbar {background:#ddd;}

@@ -62,8 +62,9 @@ data.makeData = function() {
                 obj.createdDate = lastModified(180);
                 obj.modifiedBy = pick(modifiedBy);
                 obj.lastModified = lastModified(180);
-                //obj.scenarios = makeScenarios();
+                obj.scenarios = makeScenarios();
                 obj.masterSet = trueFalse();
+                obj.imported = trueFalse();
                 obj.search = _.flatten(makeSearch(obj));
                 objs.push(obj);
             }

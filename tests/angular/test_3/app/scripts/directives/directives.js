@@ -80,16 +80,18 @@ angular.module('fileManagerApp')
             replace: true,
             scope: true,
             require: "^sorter",
-            link: function($scope, $element, $attrs, sortCtrl) {
+            link: function($scope, $element, $attrs, ctrl) {
                 $scope.label = $attrs.label;
                 $scope.reverse = false;
 
                 $scope.sort = function(evt, which) {
+                    evt.stopPropagation();
+                    evt.preventDefault();
                     if (which === $scope.orderBy) {
                         $scope.reverse = !$scope.reverse;
                     }
-                    $scope.$parent.reverse = $scope.reverse;
-                    sortCtrl.sort(which)
+                    ctrl.setReverse($scope.reverse);
+                    ctrl.setOrderBy(which);
                 }
             },
             templateUrl: '/views/directives/sortingOptions.html'
@@ -97,14 +99,20 @@ angular.module('fileManagerApp')
     })
     .directive('sorter', function() {
         return {
-            restrict: "A",
+            restrict: "E",
             replace: true,
-            link: function(scope, element, attrs) {
-                scope.orderBy = attrs['orderby'];
-                scope.reverse = false;
-            },
-            controller: 'SortingController'
-        }
+            controller: function($scope, $element, $attrs) {
+
+                $scope.reverse = false;
+                $scope.orderBy = $attrs['orderby'];
+                this.setOrderBy = function(which) {
+                    $scope.orderBy = which;
+                }
+                this.setReverse = function(reverse) {
+                    $scope.reverse = reverse;
+                }
+            }
+        };
     })
     .directive('triStateCheckbox', function() {
         return {
@@ -124,7 +132,6 @@ angular.module('fileManagerApp')
 
                 // reset delete files on filter change
                 $scope.$on("$filter", function() {
-                    console.info("filetr")
                     $scope.masterChange();
                 })
 

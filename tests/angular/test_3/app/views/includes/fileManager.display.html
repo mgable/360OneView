@@ -9,81 +9,82 @@
       </div>
     </div>
     
-    <div class="panel panel-default file-manager-display" link-group sorter orderBy="lastModified">
-      <div class="panel-heading relative">
-        <form class="form-inline sorting-bar plans" name="sorting-bar">
-            <div class="checkbox">
-                <tri-state-checkbox checkboxes="data.data"  class="select-all-cb" delete-service-for-checkbox></tri-state-checkbox>
-            </div>
-
-            <sorting-options label="title"></sorting-options>
-            <div class="pull-right">
-                <sorting-options label="lastModified"></sorting-options>
-                <sorting-options label="modifiedBy"></sorting-options>
-                <sorting-options label="fileType"></sorting-options>
-            </div>
-        </form>
-
-      </div>
-
-      <div class="panel-body relative no-padding">
-        <div ng-repeat="item in data.data | orderBy: orderBy : reverse | filter: FilterService.activeFilters | filter: FilterService.filterBy| filter: FilterService.searchText" class="file-cell" ng-class="{selected: $index === selectedItem}" ng-click="toggleSelected($index)">
-             <form class="form-inline relative categories">
-                <div class="checkbox pull-left multi-select">
-                    <input type="checkbox" ng-click="dontPassEvent($event)" ng-model="item.isSelected" />
+    <sorter orderby="lastModified">
+        <div class="panel panel-default file-manager-display" link-group>
+          <div class="panel-heading relative">
+            <form class="form-inline sorting-bar plans" name="sorting-bar">
+                <div class="checkbox">
+                    <tri-state-checkbox checkboxes="data.data"  class="select-all-cb" delete-service-for-checkbox></tri-state-checkbox>
                 </div>
-                <div class="symbol-holder">
-                    <span ng-switch='item.masterSet'>
-                        <span ng-switch-when='false' class="icon icon-{{item.fileType | fileType | normalize}}"></span>
-                        <span ng-switch-default class="icon icon-masterset"></span>
-                    </span>
-                </div>
-                <h5 class="media-heading name"><a>{{item.title}}</a>&nbsp;<a class="edit"  popover-title="Rename Entity" popover-placement="right" mspopover="<rename id='{{item.id}}'></rename>"  popover-trigger="click" ng-click="dontPassEvent($event)"><i class="icon-pencil"></i></a></h5>
+
+                <sorting-options label="title"></sorting-options>
                 <div class="pull-right">
-                    <span class="lastModified heading">{{item.lastModified | timeago}}</span>
-                    <span class="modifiedBy heading">{{item.modifiedBy}}</span>
-                    <span class="fileType heading">{{item.fileType | fileType }}</span>
-                    <span class="hide">{{item.search.toString()}}</span>
+                    <sorting-options label="lastModified"></sorting-options>
+                    <sorting-options label="modifiedBy"></sorting-options>
+                    <sorting-options label="fileType"></sorting-options>
                 </div>
             </form>
-            <div class="text">{{item.description}}</div>
 
-            <div class="hidden-content">
-                <div class="dependency-count text">This entity is being used in {{item.scenarios.length || 'no'}} scenarios. <a ng-click="toggleScenarioView($event)" ng-show="item.scenarios.length">{{hideScenarios ? "Show" : "Hide"}} scenarios</a></div>
-                <div class="text">Created by: {{item.createdBy}}</div>
-                <div class="text">Created On: {{item.createdDate | date : fullDate}}</div>
+          </div>
 
-                <sorter orderBy="lastModified" ng-if="item.scenarios.length">
-                    <div class="panel panel-default divTable" ng-hide="hideScenarios">
-                        <div class="tableHead sorting-bar">
-                            <span class="symbol cell">   
-                                <span class="file-type-icon">
-                                  <span class='square red'>&nbsp;</span>
-                                  <span class='square yellow'>&nbsp;</span>
-                                  <span class='square green'>&nbsp;</span>
-                                  <span class='square blue'>&nbsp;</span>
+          <div class="panel-body relative no-padding">
+            <div ng-repeat="item in data.data | orderBy: orderBy : reverse | filter: FilterService.activeFilters | filter: FilterService.filterBy| filter: FilterService.searchText" class="file-cell" ng-class="{selected: $index === selectedItem}" ng-click="toggleSelected($index)">
+                 <form class="form-inline relative categories">
+                    <div class="checkbox pull-left multi-select">
+                        <input type="checkbox" ng-click="dontPassEvent($event)" ng-model="item.isSelected" />
+                    </div>
+                    <div class="symbol-holder">
+                        <span ng-switch='item.masterSet'>
+                            <span ng-switch-when='false' class="icon icon-{{item.fileType | fileType | normalize}}"></span>
+                            <span ng-switch-default class="icon icon-masterset"></span>
+                        </span>
+                    </div>
+                    <h5 class="media-heading name"><a>{{item.title}}</a>&nbsp;<a class="edit"  popover-title="Rename Entity" popover-placement="right" mspopover="<rename id='{{item.id}}'></rename>"  popover-trigger="click" ng-click="dontPassEvent($event)"><i class="icon-pencil"></i></a></h5>
+                    <div class="pull-right">
+                        <span class="lastModified heading">{{item.lastModified | timeago}}</span>
+                        <span class="modifiedBy heading">{{item.modifiedBy}}</span>
+                        <span class="fileType heading">{{item.fileType | fileType }}</span>
+                    </div>
+                </form>
+                <div class="text">{{item.description}}</div>
+
+                <div class="hidden-content">
+                    <div class="dependency-count text">This entity is being used in {{item.scenarios.length || 'no'}} scenarios. <a ng-click="toggleScenarioView($event)" ng-show="item.scenarios.length">{{hideScenarios ? "Show" : "Hide"}} scenarios</a></div>
+                    <div class="text">Created by: {{item.createdBy}}</div>
+                    <div class="text">Created On: {{item.createdDate | date : fullDate}}</div>
+
+                    <sorter orderBy="lastModified" ng-if="item.scenarios.length">
+                        <div class="panel panel-default scenarios" ng-hide="hideScenarios">
+                            <div class="no-scroll-bars sorting-bar">
+                                <span class="symbol">   
+                                    <span class="file-type-icon">
+                                      <span class='square red'>&nbsp;</span>
+                                      <span class='square yellow'>&nbsp;</span>
+                                      <span class='square green'>&nbsp;</span>
+                                      <span class='square blue'>&nbsp;</span>
+                                    </span>
                                 </span>
-                            </span>
-                            <sorting-options label="title"></sorting-options>
-                            <sorting-options label="lastModified"></sorting-options>
-                            <sorting-options label="modifiedBy"></sorting-options>
-                            <sorting-options label="fileType"></sorting-options>
-                        </div>
-                        <div class="tableBody">
-                            <div ng-repeat="scenario in item.scenarios | orderBy: orderBy : reverse">
-                                <span class="symbol cell"><span class=" icon icon-{{scenario.fileType | fileType | normalize}}"></span></span>
-                                <span class="name cell">{{scenario.title}}</span>
-                                <span class="lastModified cell">{{scenario.lastModified | timeago}}</span>
-                                <span class="modifiedBy cell">{{scenario.modifiedBy}}</span>
-                                <span class="fileType cell">{{scenario.fileType | fileType}}</span>
+                                <sorting-options label="title"></sorting-options>
+                                <sorting-options label="lastModified"></sorting-options>
+                                <sorting-options label="modifiedBy"></sorting-options>
+                                <sorting-options label="fileType"></sorting-options>
+                            </div>
+                            <div class="tableBody">
+                                <div ng-repeat="scenario in item.scenarios | orderBy: orderBy : reverse">
+                                    <span class="symbol"><span class=" icon icon-{{scenario.fileType | fileType | normalize}}"></span></span>
+                                    <span class="name">{{scenario.title}}</span>
+                                    <span class="lastModified">{{scenario.lastModified | timeago}}</span>
+                                    <span class="modifiedBy">{{scenario.modifiedBy}}</span>
+                                    <span class="fileType">{{scenario.fileType | fileType}}</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </sorter>
+                    </sorter>
+                </div>
+                <file-management-buttons></file-management-buttons>
             </div>
-            <file-management-buttons></file-management-buttons>
+          </div>
         </div>
-      </div>
-    </div>
+    </sorter>
 
 </div>
