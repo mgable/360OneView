@@ -63,6 +63,25 @@
         });
     };
 
+    Files.update = function(config) {
+        var item = Files.getItemById(config.id);
+        if (item) {
+            item[config.prop] = config.value;
+            Files.$set(item);
+        };
+    };
+
+    Files.getItemById = function(id) {
+        var item = false,
+            items = Files.data.data;
+        for (var x = 0, limit = items.length; x < limit; x++) {
+            if (items[x].id === id) {
+                return items[x];
+            }
+        }
+        return item;
+    };
+
     Files.prototype.$unwrap = function(futureFilesData) {
         var self = this;
 

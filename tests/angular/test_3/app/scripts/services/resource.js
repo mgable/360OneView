@@ -70,14 +70,12 @@
     Resource.prototype.remove = function(ids) {
         var deferred = Q.defer();
 
-        angular.extend(config, {
-            params: {
-                ids: ids
-            }
-        })
-
         this._http
-            .delete(this._path)
+            .delete(this._path, {
+                params: {
+                    ids: ids
+                }
+            })
             .success(deferred.resolve)
             .error(deferred.reject);
 

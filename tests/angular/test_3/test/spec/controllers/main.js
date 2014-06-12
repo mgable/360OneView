@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller: FileManagerCtrl', function() {
+xdescribe('Controller: FileManagerCtrl', function() {
 
     // load the controller's module
     beforeEach(module('fileManagerApp'));

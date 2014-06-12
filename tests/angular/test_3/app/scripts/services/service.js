@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('fileManagerApp')
-    .service('FileDeleteService', function Service($rootScope) {
+    .service('FileDeleteService', function Service(FilesModel) {
         var filesToDelete = [],
             reset = false;
 
@@ -16,8 +16,12 @@ angular.module('fileManagerApp')
         };
 
         this.remove = function() {
-            $rootScope.$broadcast('delete', _.pluck(filesToDelete, 'id'));
+            this.deleteFiles(_.pluck(filesToDelete, 'id'));
             this.reset();
+        };
+
+        this.deleteFiles = function(files) {
+            FilesModel.$delete(files);
         };
 
         this.getFileCount = function() {
@@ -35,35 +39,5 @@ angular.module('fileManagerApp')
 
         this.getReset = function() {
             return reset;
-        };
-    }).service('GetData', function($resource, SERVER) {
-        return $resource(SERVER, {}, {
-            'query': {
-                method: 'GET',
-                url: SERVER + '/:endpoint',
-                params: {
-                    endpoint: '@endpoint'
-                },
-                isArray: false
-            }
-        });
-    }).service('Fetch', function(GetData, Data) {
-        return function(menu) {
-            return Data(GetData.query({
-                endpoint: menu
-            }));
-        };
-    }).service('Data', function($q) {
-        return function(data) {
-            var defer = $q.defer();
-            data.$promise.then(
-                function(data) {
-                    return defer.resolve(data.data);
-                },
-                function(data) {
-                    return defer.reject(data.data);
-                }
-            );
-            return defer.promise;
         };
     });

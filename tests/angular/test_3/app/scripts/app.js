@@ -6,7 +6,8 @@ angular
         'ngSanitize',
         'ngRoute',
         'ui.bootstrap',
-        'ui.bootstrap.mspopover'
+        'ui.bootstrap.mspopover',
+        '/views/directives/popoverTemplate.html'
     ])
     .config(function($routeProvider) {
         $routeProvider
@@ -17,7 +18,6 @@ angular
             .otherwise({
                 redirectTo: '/'
             });
-
     })
     .constant('SERVER', 'http://127.0.0.1:3001')
     .constant('SEARCHITEMS', [{
@@ -59,12 +59,36 @@ angular
     }, {
         'label': 'Decision Books'
     }]).constant('FILTERBY', [{
+        'label': 'Nothing',
+        'filter': {}
+    }, {
         'label': 'Created by me',
-        'filter': 'Ann Kross'
+        'filter': {
+            'createdBy': 'Ann Kross'
+        }
     }, {
         'label': 'Imported documents',
-        'filter': 'imported'
+        'filter': {
+            'imported': true
+        }
     }])
     .run(function(FilesModel) {
         FilesModel.$find();
     });
+
+angular.module('/views/directives/popoverTemplate.html', []).run(['$templateCache',
+    function($templateCache) {
+        $templateCache.put('/views/directives/popoverTemplate.html',
+            "<div>" +
+            "<div ng-hide='completed'>" +
+            "<div class='text'>{{text}}</div>" +
+            "<div style='white-space:nowrap;margin:5px 0 5px;' class='pull-right'><button class='btn btn-primary' ng-click='submit($event)'>Ok</button>&nbsp;<button ng-click='cancel($event)' class='btn btn-default'>Cancel</button></div>" +
+            "</div>" +
+            "<div ng-show='completed'>" +
+            "<div class='text'>{{completedtext}}</div>" +
+            "</div>" +
+            "</div>"
+
+        );
+    }
+]);

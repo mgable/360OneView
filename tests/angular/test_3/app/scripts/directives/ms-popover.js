@@ -32,7 +32,7 @@ angular.module('ui.bootstrap.mspopover', ['template/popover/mspopover.html', 'ui
 angular.module('template/popover/mspopover.html', []).run(['$templateCache',
     function($templateCache) {
         $templateCache.put('template/popover/mspopover.html',
-            "<div class=\"popover {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\">\n" +
+            "<div class=\"popover {{placement}} ms-popover\" ng-class=\"{ in: isOpen(), fade: animation() }\">\n" +
             "  <div class=\"arrow\"></div>\n" +
             "\n" +
             "  <div class=\"popover-inner\">\n" +
