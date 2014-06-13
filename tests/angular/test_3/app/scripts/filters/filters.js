@@ -1,6 +1,32 @@
 "use strict";
 
 angular.module('fileManagerApp')
+    .filter('dateRange', function() {
+        var dayInMillisec = 86400000;
+        return function(input, daysBack) {
+            var results = [],
+                daysBack = parseInt(daysBack, 10),
+                now = Date.now(),
+                threshold = new Date(now - (dayInMillisec * daysBack));
+
+            console.info("daysBack is " + daysBack)
+
+            if (daysBack === 0) {
+                return input;
+            }
+            //console.info(input);
+            for (var i = 0, limit = input.length; i < limit; i++) {
+
+                console.info(new Date(input[i].lastModified), threshold)
+
+                if (new Date(input[i].lastModified) > threshold) {
+                    results.push(input[i]);
+                }
+            }
+
+            return results;
+        };
+    })
     .filter('capitalize', function() {
         return function(input, scope) {
             return input.substring(0, 1).toUpperCase() + input.substring(1);

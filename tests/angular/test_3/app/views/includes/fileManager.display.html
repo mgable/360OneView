@@ -6,6 +6,9 @@
         <div class="filter-by">
             <label>Filter by: </label>
             <select ng-model="FilterService.filterBy" ng-options="item.filter as item.label for item in filterBy"></select>
+
+            <label>Date Range: </label>
+            <select ng-model="FilterService.dateRange" ng-options="item.filter as item.label for item in dateRange"></select>
       </div>
     </div>
     
@@ -24,11 +27,10 @@
                     <sorting-options label="fileType"></sorting-options>
                 </div>
             </form>
-
           </div>
 
           <div class="panel-body relative no-padding">
-            <div ng-repeat="item in data.data | orderBy: orderBy : reverse | filter: FilterService.activeFilters | filter: FilterService.filterBy| filter: FilterService.searchText" class="file-cell" ng-class="{selected: $index === selectedItem}" ng-click="toggleSelected($index)">
+            <div ng-repeat="item in data.data | orderBy: orderBy : reverse | filter: FilterService.activeFilters | filter: FilterService.filterBy | filter: FilterService.searchText | dateRange : FilterService.dateRange" class="file-cell" ng-class="{selected: $index === selectedItem}" ng-click="toggleSelected($index)">
                  <form class="form-inline relative categories">
                     <div class="checkbox pull-left multi-select">
                         <input type="checkbox" ng-click="dontPassEvent($event)" ng-model="item.isSelected" />

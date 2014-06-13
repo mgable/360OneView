@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add title</title>
+	<script src="../bower_components/angular/angular.js"></script>
+	<style>
+		.master { color: red;}
+	</style>
+
+</head>
+<body ng-app="myApp">
+heuy
+<ul ng-controller="MainCtrl">
+	<li ng-repeat="item in data | dateRange: item">{{item}}</li>
+</ul>
+		
+	<script>
+		angular.module("myApp", []).controller("MainCtrl", function($scope){
+			$scope.data = ['one','two','three','four','five']
+		})
+
+		angular.module('myApp')
+	    .filter('dateRange', function() {
+	        return function(input, x) {
+	        	console.info (arguments);
+	            console.info("threshold is " + x)
+	            var results = [],
+	                threshold = new Date(2014, 4, 1);
+
+	            for (var i = 0, limit = input.length; i < limit; i++) {
+	                if (new Date(input[i].lastModified) > threshold) {
+	                    results.push(input[i]);
+	                }
+	            }
+	            console.info(results)
+	            return results;
+	        };
+	    })
+	</script>
+
+	<script src="../bower_components/underscore/underscore.js"></script>
+	<script src="../bower_components/q/q.js"></script>
+
+</html>

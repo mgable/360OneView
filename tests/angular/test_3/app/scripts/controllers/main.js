@@ -4,24 +4,35 @@ angular.module('fileManagerApp')
     .controller('FileManagerCtrl', function($scope) {
         // controller here
     })
-    .controller('FileManagerDisplayCtrl', function($scope, FILTERBY, FileDeleteService, FilterService, FilesModel) {
-        $scope.filterBy = FILTERBY;
+    .controller('FileManagerDisplayCtrl', function($scope, FILTERBY, FileDeleteService, FilterService, FilesModel, DATERANGE) {
         $scope.FilterService = FilterService;
+        $scope.filterBy = FILTERBY;
+        // set the default selected item for the filterBy dropdown
+        $scope.FilterService.filterBy = $scope.filterBy[0].filter;
+
+        $scope.dateRange = DATERANGE;
+        // set the default selected item for the date range dropdown
+        $scope.FilterService.dateRange = $scope.dateRange[0].filter;
+
         $scope.filesToDeleteCount = FileDeleteService.getFileCount();
         $scope.data = FilesModel.$get();
         $scope.hideScenarios = false;
 
-        // set the default selected item
-        $scope.FilterService.filterBy = $scope.filterBy[0].filter;
 
-        // Multiple file delete
+
+        // Multiple file delete file count
         $scope.$watch(FileDeleteService.getFileCount, function() {
             $scope.filesToDeleteCount = FileDeleteService.getFileCount();
         });
 
-        $scope.$watch(FileDeleteService.getFilesToDelete, function() {
-            $scope.filesToDelete = FileDeleteService.getFilesToDelete();
-        });
+        // $scope.$watch(FileDeleteService.getFilesToDelete, function() {
+        //     $scope.filesToDelete = FileDeleteService.getFilesToDelete();
+        // });
+
+        $scope.alert = function(data) {
+            console.info("the data is ")
+            console.info(data)
+        }
 
         $scope.deleteFiles = function() {
             FileDeleteService.remove();

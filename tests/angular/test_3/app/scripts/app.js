@@ -71,6 +71,21 @@ angular
         'filter': {
             'imported': true
         }
+    }]).constant('DATERANGE', [{
+        'label': 'All Time',
+        'filter': '0'
+    }, {
+        'label': 'Last Week',
+        'filter': 7
+    }, {
+        'label': 'Last Month',
+        'filter': 31
+    }, {
+        'label': 'Last Quarter',
+        'filter': 90
+    }, {
+        'label': 'Last Year',
+        'filter': 365
     }])
     .run(function(FilesModel) {
         FilesModel.$find();

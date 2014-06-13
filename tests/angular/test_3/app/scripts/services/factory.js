@@ -5,6 +5,7 @@ angular.module('fileManagerApp')
         return {
             activeFilters: {},
             filterBy: {},
+            dateRange: '',
             searchText: ''
         };
     });
