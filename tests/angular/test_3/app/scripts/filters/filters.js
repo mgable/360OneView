@@ -9,15 +9,11 @@ angular.module('fileManagerApp')
                 now = Date.now(),
                 threshold = new Date(now - (dayInMillisec * daysBack));
 
-            console.info("daysBack is " + daysBack)
-
             if (daysBack === 0) {
                 return input;
             }
             //console.info(input);
             for (var i = 0, limit = input.length; i < limit; i++) {
-
-                console.info(new Date(input[i].lastModified), threshold)
 
                 if (new Date(input[i].lastModified) > threshold) {
                     results.push(input[i]);

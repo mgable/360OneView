@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('fileManagerApp')
-    .controller('FileManagerCtrl', function($scope) {
-        // controller here
+    .controller('FileManagerCtrl', function($scope, Modal) {
+    $scope.$on("modal", function(evt, data) {
+        $scope.modelEnabled = data
+    });
     })
     .controller('FileManagerDisplayCtrl', function($scope, FILTERBY, FileDeleteService, FilterService, FilesModel, DATERANGE) {
         $scope.FilterService = FilterService;
@@ -18,16 +20,10 @@ angular.module('fileManagerApp')
         $scope.data = FilesModel.$get();
         $scope.hideScenarios = false;
 
-
-
         // Multiple file delete file count
         $scope.$watch(FileDeleteService.getFileCount, function() {
             $scope.filesToDeleteCount = FileDeleteService.getFileCount();
         });
-
-        // $scope.$watch(FileDeleteService.getFilesToDelete, function() {
-        //     $scope.filesToDelete = FileDeleteService.getFilesToDelete();
-        // });
 
         $scope.alert = function(data) {
             console.info("the data is ")

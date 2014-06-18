@@ -23,9 +23,6 @@
 	}
 	.fileManager {
 		.file-manager-search {
-			.search-field {
-				max-width: 270px;
-			}
 			ul {
 				list-style: none;
 				padding: 0;
@@ -70,7 +67,7 @@
 		}
 	}
 	.file-manager-display {
-		min-width:660px;
+		min-width:703px;
 		clear:both;
 		.sorting-bar {
 			a {
@@ -103,7 +100,7 @@
 			&.plans {
 				.title {
 					padding-left:10px;
-					min-width:260px
+					min-width:245px
 				}
 				.modifiedBy {
 					width:100px
@@ -119,11 +116,16 @@
 		.file-cell {
 			cursor: pointer;
 			border-bottom: 1px solid #ddd;
-			padding: 15px 15px 26px 15px;
+			padding: 15px 15px 30px 15px;
 			.hidden-content {
 				max-height:0;
 				overflow: hidden;
 				transition: all 0.4s ease 0s;
+			}
+			.text {
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
 			}
 			&.selected {
 				.hidden-content {
@@ -131,6 +133,10 @@
 				}
 				.file-management-buttons {
 					opacity:1.0;
+				}
+				.text {
+					white-space: normal;
+					overflow: visible;
 				}
 			}
 			.file-management-buttons {
@@ -201,7 +207,7 @@
 			}
 			.scenarios {
 				width:682px;
-				margin:10px auto;
+				margin:10px auto 0;
 				max-height:300px;
 				overflow: hidden;
 				transition: max-height 0.4s ease 0s;
@@ -356,6 +362,7 @@
 		}
 		.file-management-buttons {
 			opacity: 0.0;
+			margin:10px 0;
 			transition: all 0.4s ease 0s;
 			> div {
 				font-size:12px;
@@ -376,14 +383,25 @@
 	.delete-and-filter {
 		height:30px;
 		width: 100%;
+		margin: 0 0 10px;
+		.select-menus {
+			margin:0 10px;
+			.filter-by {
+				margin:0 5px 0 0;
+			}
+		}
+		.search-field {
+			overflow:hidden;
+			.search {
+				width:100%;
+			}
+		}
 		.filter-by {
-			position:absolute;
-			right:20px;
-			width:390px;
+			margin:0 5px 0;
 		}
 		.master-delete {
-			position:absolute;
-			left: 20px;
+			float:left;
+			margin: 8px 10px 0;
 			a {
 				color:$black;
 				text-decoration: none;

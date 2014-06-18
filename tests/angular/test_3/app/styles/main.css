@@ -37,10 +37,17 @@
 .no-scroll-bars::-webkit-scrollbar {
   background: #ddd; }
 
+.disabled {
+  pointer-events: none; }
+
 .popover .popover-inner .close {
   position: absolute;
   top: 6px;
   right: 10px; }
+.popover .popover-inner .text {
+  font-weight: normal; }
+.popover .popover-inner h3 {
+  font-weight: bold; }
 
 .app {
   min-width: 970px;
@@ -58,8 +65,6 @@
       margin: 0 0 0 15px; }
       .app .navigation a.logo:hover {
         background: transparent url("../images/360sprite.png") -214px -3px no-repeat; }
-  .app .fileManager .file-manager-search .search-field {
-    max-width: 270px; }
   .app .fileManager .file-manager-search ul {
     list-style: none;
     padding: 0; }
@@ -89,7 +94,7 @@
   .app .fileManager .file-manager-search .file-manager-filters {
     margin: 10px 0 0 10px; }
   .app .file-manager-display {
-    min-width: 660px;
+    min-width: 703px;
     clear: both; }
     .app .file-manager-display .sorting-bar a {
       text-decoration: none;
@@ -113,7 +118,7 @@
         content: '\f0de'; }
     .app .file-manager-display .sorting-bar.plans .title {
       padding-left: 10px;
-      min-width: 260px; }
+      min-width: 245px; }
     .app .file-manager-display .sorting-bar.plans .modifiedBy {
       width: 100px; }
     .app .file-manager-display .sorting-bar.plans .lastModified {
@@ -123,15 +128,22 @@
     .app .file-manager-display .file-cell {
       cursor: pointer;
       border-bottom: 1px solid #ddd;
-      padding: 15px 15px 26px 15px; }
+      padding: 15px 15px 30px 15px; }
       .app .file-manager-display .file-cell .hidden-content {
         max-height: 0;
         overflow: hidden;
         transition: all 0.4s ease 0s; }
+      .app .file-manager-display .file-cell .text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; }
       .app .file-manager-display .file-cell.selected .hidden-content {
         max-height: 500px; }
       .app .file-manager-display .file-cell.selected .file-management-buttons {
         opacity: 1.0; }
+      .app .file-manager-display .file-cell.selected .text {
+        white-space: normal;
+        overflow: visible; }
       .app .file-manager-display .file-cell .file-management-buttons.selected {
         opacity: 1.0; }
       .app .file-manager-display .file-cell:last-child {
@@ -178,7 +190,7 @@
         vertical-align: middle; }
       .app .file-manager-display .file-cell .scenarios {
         width: 682px;
-        margin: 10px auto;
+        margin: 10px auto 0;
         max-height: 300px;
         overflow: hidden;
         transition: max-height 0.4s ease 0s; }
@@ -305,6 +317,7 @@
       margin-right: 10px; }
     .app .file-manager-display .file-management-buttons {
       opacity: 0.0;
+      margin: 10px 0;
       transition: all 0.4s ease 0s; }
       .app .file-manager-display .file-management-buttons > div {
         font-size: 12px;
@@ -318,14 +331,21 @@
           text-decoration: none; }
   .app .delete-and-filter {
     height: 30px;
-    width: 100%; }
+    width: 100%;
+    margin: 0 0 10px; }
+    .app .delete-and-filter .select-menus {
+      margin: 0 10px; }
+      .app .delete-and-filter .select-menus .filter-by {
+        margin: 0 5px 0 0; }
+    .app .delete-and-filter .search-field {
+      overflow: hidden; }
+      .app .delete-and-filter .search-field .search {
+        width: 100%; }
     .app .delete-and-filter .filter-by {
-      position: absolute;
-      right: 20px;
-      width: 390px; }
+      margin: 0 5px 0; }
     .app .delete-and-filter .master-delete {
-      position: absolute;
-      left: 20px; }
+      float: left;
+      margin: 8px 10px 0; }
       .app .delete-and-filter .master-delete a {
         color: black;
         text-decoration: none;

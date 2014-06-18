@@ -1,8 +1,7 @@
 <div class="file-manager-search" ng-controller="FileManagerSearchCtrl">
     <div class="navbar-default navbar-static-side no-background-color" role="navigation">
-        <ul class="right-margin" id="side-menu">
+<!--         <ul class="right-margin" id="side-menu">
             <li class="sidebar-search">
-             <!-- search field -->
                 <form class="navbar-form no-padding no-top-margin" role="search">
                     <div class="input-group search-field">
                         <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term" ng-model="FilterService.searchText">
@@ -12,7 +11,7 @@
                     </div>
                 </form>
             </li>
-        </ul>
+        </ul> -->
         <!-- filter links -->
         <ul class="file-manager-filters" link-group firstSelected="All" radio="true">
             <li ng-repeat="item in menuItems" ng-class="{selected: item.label === selectedItem}">

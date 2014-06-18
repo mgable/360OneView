@@ -51,3 +51,7 @@ $selected: red;
 }
 
 .no-scroll-bars::-webkit-scrollbar {background:#ddd;}
+
+.disabled {
+	pointer-events:none;
+}

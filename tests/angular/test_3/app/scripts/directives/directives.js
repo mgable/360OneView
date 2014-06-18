@@ -37,9 +37,12 @@ angular.module('fileManagerApp')
             restrict: 'E',
             replace: true,
             templateUrl: '/views/directives/popoverTemplate.html',
-            controller: function($scope, $element, $attrs, $timeout, $rootScope) {
+            controller: function($scope, $element, $attrs, $timeout, $rootScope, Modal) {
                 $scope.completed = false;
                 $rootScope.$broadcast('linkGroup', false);
+                $timeout(function() {
+                    Modal.setStatus(true, $element);
+                });
 
                 angular.extend($scope, msFilterObjByFn($attrs, function(prop) {
                     return !/^\$/.test(prop);
@@ -50,6 +53,7 @@ angular.module('fileManagerApp')
                     evt.preventDefault();
                     $rootScope.$broadcast('linkGroup', true);
                     $rootScope.$broadcast('fileManagementButton', false);
+                    Modal.setStatus(false, $element);
                 };
 
                 $scope.submit = function(evt) {
@@ -203,14 +207,18 @@ angular.module('fileManagerApp')
         return {
             restrict: 'AE',
             replace: true,
-            controller: function($scope, $element, $attrs, $rootScope, FilesModel) {
+            controller: function($scope, $element, $attrs, $rootScope, $timeout, FilesModel, Modal) {
                 $rootScope.$broadcast('linkGroup', false);
+                $timeout(function() {
+                    Modal.setStatus(true, $element);
+                });
 
                 $scope.close = function(evt) {
                     evt.stopPropagation();
                     evt.preventDefault();
                     $rootScope.$broadcast('linkGroup', true);
                     $rootScope.$broadcast("$close");
+                    Modal.setStatus(false, $element);
                 };
 
                 $scope.submit = function(evt) {

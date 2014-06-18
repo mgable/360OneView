@@ -19,7 +19,6 @@ angular
                 redirectTo: '/'
             });
     })
-    .constant('SERVER', 'http://127.0.0.1:3001')
     .constant('SEARCHITEMS', [{
         'label': 'All'
     }, {

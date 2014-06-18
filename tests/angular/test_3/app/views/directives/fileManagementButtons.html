@@ -1,11 +1,13 @@
  <div ng-click="setActive(true)" class="btn-toolbar pull-right file-management-buttons" role="toolbar" ng-class="{'selected': active}">
     <div class="btn-group">
-        <!-- set master set -->
-        <a ng-if="!item.masterSet" popover-title="Set as Master" popover-placement="left" mspopover="<popover-content text='Do you want to set {{item.title | escape}} as a Master file?' completedText='{{item.title | escape}} has been promoted as part of the master set.' completedTitle='Set!' callback='setAsMaster' callbackdata='{{item.id}},{{item.masterSet}}'></popover-content>"  popover-trigger="click"><i class="icon-home"></i>&nbsp;Set as Master</a>
+        <span ng-class="{'disabled': modelEnabled && item.id !== modelEnabled}">
+            <!-- set master set -->
+            <a ng-if="!item.masterSet" popover-title="Set as Master" popover-placement="left" mspopover="<popover-content text='Do you want to set {{item.title | escape}} as a Master file?' completedText='{{item.title | escape}} has been promoted as part of the master set.' id='{{item.id}}' completedTitle='Set!' callback='setAsMaster' callbackdata='{{item.id}},{{item.masterSet}}'></popover-content>"  popover-trigger="click"><i class="icon-home"></i>&nbsp;Set as Master</a>
 
-        <!-- unset master set -->
-         <a ng-if="item.masterSet" popover-title="UnSet as Master" popover-placement="left" 
-        mspopover="<popover-content text='Do you want to unset {{item.title | escape}} as a Master file?' completedText='{{item.title | escape}} has been unset.' completedTitle='Unset!' callback='setAsMaster' callbackdata='{{item.id}},{{item.masterSet}}'></popover-content>" popover-trigger="click"><i class="icon-home"></i>&nbsp;Unset as Master</a>
+            <!-- unset master set -->
+             <a ng-if="item.masterSet" popover-title="UnSet as Master" popover-placement="left" 
+            mspopover="<popover-content text='Do you want to unset {{item.title | escape}} as a Master file?' completedText='{{item.title | escape}} has been unset.'  id='{{item.id}}' completedTitle='Unset!' callback='setAsMaster' callbackdata='{{item.id}},{{item.masterSet}}'></popover-content>" popover-trigger="click"><i class="icon-home"></i>&nbsp;Unset as Master</a>
+        </span>
     </div>
 
     <!-- <div class="btn-group"><a href="#"><i class="icon-eye-open"></i>&nbsp;View</a></div> -->
