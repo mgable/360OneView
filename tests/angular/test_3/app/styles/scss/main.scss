@@ -2,7 +2,18 @@
 @import "ms-popover";
 @import "animation";
 
+.cap {
+	width:100%;
+	background-color:#222;
+	height: 50px;
+	position: fixed;
+	z-index: 1000;
+}
+
 .app {
+	width:970px;
+	font-size: 13px;
+	margin: auto;
 	.col-3 {
 		width: 200px;
 	}
@@ -10,13 +21,31 @@
 		min-width: 745px;
 		max-width:900px;
 	}
-	min-width:970px;
-	font-size: 13px;
+	.col-12 {
+		height: 45px;
+	}
 	.ms-popover {
 		z-index:2000;
 	}
+	.header {
+		position:fixed;
+	}
 	.navigation {
 		margin:50px 0 0 0;
+		.bar {
+			width:970px;
+			margin:auto;
+			position: fixed;
+			z-index:1000;
+			top:0;
+			ul li a {
+				color:$lightgray;
+				&:hover {
+					background-color: inherit;
+					color: $darkgray;
+				}
+			}
+		}
 		a.logo {
 			background: transparent url($spirte) -214px -3px no-repeat;
 			display:inline-block;
@@ -32,6 +61,7 @@
 	.fileManager {
 		min-width: 1024px;
 		.file-manager-search {
+			position:fixed;
 			ul {
 				list-style: none;
 				padding: 0;
@@ -225,7 +255,7 @@
 				overflow: hidden;
 				transition: max-height 0.4s ease 0s;
 				.tableBody {
-					height:100px;
+					max-height:200px;
 					overflow-y:scroll;
 					padding:5px 5px 0 8px;
 					> div {

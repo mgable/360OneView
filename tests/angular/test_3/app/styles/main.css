@@ -62,18 +62,41 @@
 .fade-in.ng-leave.ng-leave-active {
   opacity: 0.0; }
 
+.cap {
+  width: 100%;
+  background-color: #222;
+  height: 50px;
+  position: fixed;
+  z-index: 1000; }
+
 .app {
-  min-width: 970px;
-  font-size: 13px; }
+  width: 970px;
+  font-size: 13px;
+  margin: auto; }
   .app .col-3 {
     width: 200px; }
   .app .col-9 {
     min-width: 745px;
     max-width: 900px; }
+  .app .col-12 {
+    height: 45px; }
   .app .ms-popover {
     z-index: 2000; }
+  .app .header {
+    position: fixed; }
   .app .navigation {
     margin: 50px 0 0 0; }
+    .app .navigation .bar {
+      width: 970px;
+      margin: auto;
+      position: fixed;
+      z-index: 1000;
+      top: 0; }
+      .app .navigation .bar ul li a {
+        color: lightgray; }
+        .app .navigation .bar ul li a:hover {
+          background-color: inherit;
+          color: darkgray; }
     .app .navigation a.logo {
       background: transparent url("../images/360sprite.png") -214px -3px no-repeat;
       display: inline-block;
@@ -85,34 +108,36 @@
         background: transparent url("../images/360sprite.png") -214px -3px no-repeat; }
   .app .fileManager {
     min-width: 1024px; }
-    .app .fileManager .file-manager-search ul {
-      list-style: none;
-      padding: 0; }
-      .app .fileManager .file-manager-search ul li {
-        margin: 10px 0 0 10px;
-        transition: all 0.3s ease 0s;
-        /* sub menu styles only */ }
-        .app .fileManager .file-manager-search ul li a {
-          color: black;
-          text-decoration: none;
-          cursor: pointer; }
-        .app .fileManager .file-manager-search ul li.selected > a {
-          color: red; }
-        .app .fileManager .file-manager-search ul li > ul {
-          max-height: 500px;
-          opacity: 1.0;
-          transition: all 0.3s ease 0s; }
-          .app .fileManager .file-manager-search ul li > ul > li a {
-            color: darkgray;
-            display: inline-block; }
-          .app .fileManager .file-manager-search ul li > ul.closed {
-            max-height: 0px;
-            opacity: 0.0;
-            pointer-events: none; }
-            .app .fileManager .file-manager-search ul li > ul.closed > li {
-              margin: 0; }
-    .app .fileManager .file-manager-search .file-manager-filters {
-      margin: 10px 0 0 10px; }
+    .app .fileManager .file-manager-search {
+      position: fixed; }
+      .app .fileManager .file-manager-search ul {
+        list-style: none;
+        padding: 0; }
+        .app .fileManager .file-manager-search ul li {
+          margin: 10px 0 0 10px;
+          transition: all 0.3s ease 0s;
+          /* sub menu styles only */ }
+          .app .fileManager .file-manager-search ul li a {
+            color: black;
+            text-decoration: none;
+            cursor: pointer; }
+          .app .fileManager .file-manager-search ul li.selected > a {
+            color: red; }
+          .app .fileManager .file-manager-search ul li > ul {
+            max-height: 500px;
+            opacity: 1.0;
+            transition: all 0.3s ease 0s; }
+            .app .fileManager .file-manager-search ul li > ul > li a {
+              color: darkgray;
+              display: inline-block; }
+            .app .fileManager .file-manager-search ul li > ul.closed {
+              max-height: 0px;
+              opacity: 0.0;
+              pointer-events: none; }
+              .app .fileManager .file-manager-search ul li > ul.closed > li {
+                margin: 0; }
+      .app .fileManager .file-manager-search .file-manager-filters {
+        margin: 10px 0 0 10px; }
   .app .file-manager-display {
     min-width: 703px;
     clear: both; }
@@ -218,7 +243,7 @@
         overflow: hidden;
         transition: max-height 0.4s ease 0s; }
         .app .file-manager-display .file-cell .scenarios .tableBody {
-          height: 100px;
+          max-height: 200px;
           overflow-y: scroll;
           padding: 5px 5px 0 8px; }
           .app .file-manager-display .file-cell .scenarios .tableBody > div {

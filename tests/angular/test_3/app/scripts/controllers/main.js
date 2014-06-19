@@ -6,7 +6,7 @@ angular.module('fileManagerApp')
             $scope.modelEnabled = data
         });
     })
-    .controller('FileManagerDisplayCtrl', function($scope, FILTERBY, FilterService, FilesModel, DATERANGE) {
+    .controller('FileManagerDisplayCtrl', function($scope, FILTERBY, FileDeleteService, FilterService, FilesModel, DATERANGE) {
         $scope.FilterService = FilterService;
         $scope.filterBy = FILTERBY;
         // set the default selected item for the filterBy dropdown
@@ -15,7 +15,7 @@ angular.module('fileManagerApp')
         $scope.dateRange = DATERANGE;
         // set the default selected item for the date range dropdown
         $scope.FilterService.dateRange = $scope.dateRange[0].filter;
-
+        
         $scope.data = FilesModel.$get();
         $scope.hideScenarios = false;
 
