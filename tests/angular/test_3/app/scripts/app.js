@@ -5,6 +5,7 @@ angular
         'ngResource',
         'ngSanitize',
         'ngRoute',
+        'ngAnimate',
         'ui.bootstrap',
         'ui.bootstrap.mspopover',
         '/views/directives/popoverTemplate.html'

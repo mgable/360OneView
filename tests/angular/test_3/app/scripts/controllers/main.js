@@ -2,11 +2,11 @@
 
 angular.module('fileManagerApp')
     .controller('FileManagerCtrl', function($scope, Modal) {
-    $scope.$on("modal", function(evt, data) {
-        $scope.modelEnabled = data
-    });
+        $scope.$on("modal", function(evt, data) {
+            $scope.modelEnabled = data
+        });
     })
-    .controller('FileManagerDisplayCtrl', function($scope, FILTERBY, FileDeleteService, FilterService, FilesModel, DATERANGE) {
+    .controller('FileManagerDisplayCtrl', function($scope, FILTERBY, FilterService, FilesModel, DATERANGE) {
         $scope.FilterService = FilterService;
         $scope.filterBy = FILTERBY;
         // set the default selected item for the filterBy dropdown
@@ -16,14 +16,9 @@ angular.module('fileManagerApp')
         // set the default selected item for the date range dropdown
         $scope.FilterService.dateRange = $scope.dateRange[0].filter;
 
-        $scope.filesToDeleteCount = FileDeleteService.getFileCount();
         $scope.data = FilesModel.$get();
         $scope.hideScenarios = false;
 
-        // Multiple file delete file count
-        $scope.$watch(FileDeleteService.getFileCount, function() {
-            $scope.filesToDeleteCount = FileDeleteService.getFileCount();
-        });
 
         $scope.alert = function(data) {
             console.info("the data is ")

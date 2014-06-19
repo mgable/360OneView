@@ -12,7 +12,6 @@ angular.module('fileManagerApp')
             if (daysBack === 0) {
                 return input;
             }
-            //console.info(input);
             for (var i = 0, limit = input.length; i < limit; i++) {
 
                 if (new Date(input[i].lastModified) > threshold) {
@@ -30,7 +29,7 @@ angular.module('fileManagerApp')
     })
     .filter('unCamelCase', function() {
         return function(input, scope) {
-            return input.replace(/([a-z\d])([A-Z])/g, '$1 $2');
+            return input.replace(/([a-z\d])([A-Z\d])/g, '$1 $2');
         }
     })
     .filter('escape', function() {

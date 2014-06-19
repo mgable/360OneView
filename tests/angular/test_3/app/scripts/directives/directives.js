@@ -1,6 +1,21 @@
 'use strict';
 
 angular.module('fileManagerApp')
+    .directive('groupDelete', function() {
+        return {
+            restrict: 'AE',
+            replace: true,
+            template: '<span class="delete" ng-disabled="filesToDeleteCount === 0"><i class="icon-trash"></i>&nbsp;Delete ({{filesToDeleteCount || 0}})</span>',
+            controller: function($scope, FileDeleteService) {
+                $scope.filesToDeleteCount = FileDeleteService.getFileCount();
+
+                // Multiple file delete file count
+                $scope.$on("FileDeleteService:change", function() {
+                    $scope.filesToDeleteCount = FileDeleteService.getFileCount();
+                });
+            }
+        }
+    })
     .directive('linkGroup', function() {
         return {
             restrict: 'A',

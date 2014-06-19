@@ -1,7 +1,15 @@
 @import "utility_classes";
 @import "ms-popover";
+@import "animation";
 
 .app {
+	.col-3 {
+		width: 200px;
+	}
+	.col-9 {
+		min-width: 745px;
+		max-width:900px;
+	}
 	min-width:970px;
 	font-size: 13px;
 	.ms-popover {
@@ -22,6 +30,7 @@
 		}
 	}
 	.fileManager {
+		min-width: 1024px;
 		.file-manager-search {
 			ul {
 				list-style: none;
@@ -114,9 +123,12 @@
 			}
 		}
 		.file-cell {
-			cursor: pointer;
+			cursor: default;
 			border-bottom: 1px solid #ddd;
-			padding: 15px 15px 30px 15px;
+			padding: 15px 15px 35px 15px;
+			a, input[type=checkbox] {
+				cursor: pointer;
+			}
 			.hidden-content {
 				max-height:0;
 				overflow: hidden;
@@ -126,6 +138,7 @@
 				white-space: nowrap;
 				overflow: hidden;
 				text-overflow: ellipsis;
+				margin:0 0 0 45px;
 			}
 			&.selected {
 				.hidden-content {
@@ -215,6 +228,9 @@
 					height:100px;
 					overflow-y:scroll;
 					padding:5px 5px 0 8px;
+					> div {
+						margin: 0 0 10px 0;
+					}
 					div div:first-child {
 						padding:0 0 0 10px;
 					}
@@ -362,11 +378,11 @@
 		}
 		.file-management-buttons {
 			opacity: 0.0;
-			margin:10px 0;
+			margin:10px 20px 0 0;
 			transition: all 0.4s ease 0s;
 			> div {
 				font-size:12px;
-				padding-right:5px;
+				padding-right:10px;
 				> i {
 					font-size:14px;
 					padding-right:3px;
@@ -375,7 +391,7 @@
 			a {
 				color:black;
 				&:hover {
-					text-decoration: none;
+					// text-decoration: none;
 				}
 			}
 		}
@@ -407,9 +423,10 @@
 				text-decoration: none;
 				cursor:pointer;
 			}
-			&[disabled] {
+			.delete[disabled] {
 				pointer-events:none;
-				a {
+				color:lightgray;
+				a, span {
 					color:lightgray;
 				}
 			}

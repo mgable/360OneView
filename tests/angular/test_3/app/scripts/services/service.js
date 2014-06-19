@@ -3,12 +3,13 @@
 'use strict';
 
 angular.module('fileManagerApp')
-    .service('FileDeleteService', function Service(FilesModel) {
+    .service('FileDeleteService', function Service(FilesModel, $rootScope) {
         var filesToDelete = [],
             reset = false;
 
         this.setFilesToDelete = function(files) {
             filesToDelete = files;
+            $rootScope.$broadcast('FileDeleteService:change');
         };
 
         this.getFilesToDelete = function() {
@@ -31,6 +32,7 @@ angular.module('fileManagerApp')
         this.reset = function() {
             reset = true;
             filesToDelete = [];
+            $rootScope.$broadcast('FileDeleteService:change');
         };
 
         this.resetReset = function() {

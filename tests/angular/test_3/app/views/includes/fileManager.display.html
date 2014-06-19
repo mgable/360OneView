@@ -1,8 +1,8 @@
 <form class="delete-and-filter form-inline">
-    <div class="master-delete form-group" ng-disabled="filesToDeleteCount === 0" ng-controller="FileManagerDisplayCtrl">
+    <div class="master-delete form-group" ng-controller="FileManagerDisplayCtrl">
         <label>
             <span ng-class="{'disabled': modelEnabled && 'master-delete' !== modelEnabled}">
-                <a ng-click="dontPassEvent($event)" popover-title="Group Delete" popover-placement="left" mspopover="<popover-content id='master-delete' text='Are you sure you want to delete the {{filesToDeleteCount}} file(s)?' completedText='The file(s) has been successfully deleted.' completedTitle='Deleted!' callback='deleteFiles'></popover-content>"  popover-trigger="click" ><i class="icon-trash"></i>&nbsp;Delete ({{filesToDeleteCount || 0}})</a>
+                <a ng-click="dontPassEvent($event)" popover-title="Group Delete" popover-placement="left" mspopover="<popover-content id='master-delete' text='Are you sure you want to delete the {{filesToDeleteCount}} file(s)?' completedText='The file(s) has been successfully deleted.' completedTitle='Deleted!' callback='deleteFiles'></popover-content>"  popover-trigger="click" ><span group-delete></span></a>
             </span>
         </label>
     </div>
@@ -44,7 +44,7 @@
       </div>
 
       <div class="panel-body relative no-padding">
-        <div ng-repeat="item in data.data | orderBy: orderBy : reverse | filter: FilterService.activeFilters | filter: FilterService.filterBy | filter: FilterService.searchText | dateRange : FilterService.dateRange" class="file-cell" ng-class="{selected: $index === selectedItem}" ng-click="toggleSelected($index)">
+        <div ng-repeat="item in data.data | orderBy: orderBy : reverse | filter: FilterService.activeFilters | filter: FilterService.filterBy | filter: FilterService.searchText | dateRange : FilterService.dateRange" class="file-cell fade-in" ng-class="{selected: $index === selectedItem}" ng-click="toggleSelected($index)">
              <form class="form-inline relative categories">
                 <div class="checkbox pull-left multi-select">
                     <input type="checkbox" ng-click="dontPassEvent($event)" ng-model="item.isSelected" />
