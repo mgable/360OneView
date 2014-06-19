@@ -2,11 +2,10 @@
 
 angular.module('fileManagerApp')
     .service('Modal', function Modal($rootScope) {
-        var open = false;
+        var isOpen = false;
 
-        this.setStatus = function(status, which) {
-            console.info(which)
-            open = (status) ? which[0].id : false;
-            $rootScope.$broadcast("modal", open);
+        this.setStatus = function(trueOrFaLse, which) {
+            isOpen = (trueOrFaLse) ? which[0].id : trueOrFaLse;
+            $rootScope.$broadcast("modal", isOpen);
         };
     });

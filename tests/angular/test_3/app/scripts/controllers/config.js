@@ -1,1 +1,1 @@
-angular.module('fileManagerApp').constant('SERVER', 'http://ec2-54-204-44-149.compute-1.amazonaws.com:3001')
+angular.module('fileManagerApp').constant('SERVER', 'http://127.0.0.1:3001')

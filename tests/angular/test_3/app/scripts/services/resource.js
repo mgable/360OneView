@@ -4,7 +4,6 @@
     'use strict';
 
     /** Constructor  **/
-
     function Resource($http, path) {
         _.extend(this, {
             _http: $http,
@@ -13,7 +12,6 @@
     }
 
     /* Factory */
-
     Resource.$factory = ['$http',
         function($http) {
             return function(path) {
@@ -23,11 +21,9 @@
     ];
 
     /* Registration */
-
     angular.module('fileManagerApp').factory('Resource', Resource.$factory);
 
     /* Record retrieval */
-
     Resource.prototype.get = function(uid) {
         var deferred = Q.defer();
 
@@ -41,6 +37,11 @@
 
     Resource.prototype.query = function(start, end) {
         var deferred = Q.defer();
+        if (typeof start === "undefined" || typeof end === "undefined") {
+            deferred.reject("I need a start and end");
+            return deferred.promise;
+            //throw new Error("I need a start and end");
+        }
 
         this._http
             .get(this._path + "/" + start + "/" + end)
@@ -50,15 +51,17 @@
         return deferred.promise;
     };
 
-    Resource.prototype.path = function(uid) {
-        return uid ? this._path + '/' + uid : this._path;
-    };
-
     Resource.prototype.set = function(item) {
-        var deferred = Q.defer();
-        var path = this._path + '/' + item.id;
-        console.info("setting from resources");
-        console.info(item);
+        var deferred = Q.defer(),
+            path;
+
+        if (typeof item === "undefined") {
+            deferred.reject('I need an item with an id');
+            return deferred.promise;
+        }
+
+        path = this._path + '/' + item.id;
+
         this._http
             .put(path, item)
             .success(deferred.resolve)
@@ -69,6 +72,11 @@
 
     Resource.prototype.remove = function(ids) {
         var deferred = Q.defer();
+
+        if (typeof ids === "undefined") {
+            deferred.reject('I need an array with a list of ids');
+            return deferred.promise;
+        }
 
         this._http
             .delete(this._path, {
@@ -84,8 +92,14 @@
 
     Resource.prototype.clone = function(id) {
         var deferred = Q.defer(),
-            path = this._path + '/' + id;
+            path;
 
+        if (typeof id === "undefined") {
+            deferred.reject('I need an id');
+            return deferred.promise;
+        }
+
+        path = this._path + '/' + id;
         this._http
             .post(path, {
                 params: {
@@ -100,18 +114,29 @@
 
     Resource.prototype.create = function(data) {
         var deferred = Q.defer(),
-            path = this._path
+            path;
 
-            this._http
-                .post(path, {
-                    params: {
-                        data: data
-                    }
-                })
-                .success(deferred.resolve)
-                .error(deferred.reject);
+        if (typeof data === "undefined") {
+            deferred.reject('I need an item template');
+            return deferred.promise;
+        }
+
+        path = this._path;
+
+        this._http
+            .post(path, {
+                params: {
+                    data: data
+                }
+            })
+            .success(deferred.resolve)
+            .error(deferred.reject);
 
         return deferred.promise;
+    };
+
+    Resource.prototype.path = function(uid) {
+        return uid ? this._path + '/' + uid : this._path;
     };
 
 })();

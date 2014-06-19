@@ -1,6 +1,6 @@
 'use strict';
 
-xdescribe('Services: FilterService', function() {
+describe('Services: FilterService', function() {
 
     // load the directive's module
     beforeEach(module('fileManagerApp'));
@@ -9,5 +9,6 @@ xdescribe('Services: FilterService', function() {
         expect(FilterService.activeFilters).toBeDefined();
         expect(FilterService.filterBy).toBeDefined();
         expect(FilterService.searchText).toBe('');
+        expect(FilterService.dateRange).toBe('');
     }));
 });

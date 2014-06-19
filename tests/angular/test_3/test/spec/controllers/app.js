@@ -27,7 +27,6 @@ describe('Routes test: ', function() {
         it("should load index page on unknown route", function() {
             location.path('/nowheresville');
             rootScope.$digest();
-            console.info(route.current)
             expect(route.current.controller).toBe('FileManagerCtrl');
         });
     });
