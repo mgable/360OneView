@@ -11,7 +11,7 @@ describe('Routes test: ', function() {
 
     describe('index route', function() {
         beforeEach(inject(function($httpBackend) {
-            $httpBackend.expectGET('http://127.0.0.1:3001/api/item').respond({
+            $httpBackend.expectGET('http://127.0.0.1:3001/api/items').respond({
                 "doesnot": "matter"
             });
             $httpBackend.expectGET('views/fileManager.html').respond({

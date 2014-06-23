@@ -1,0 +1,56 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required" : true,
+  "properties": {
+    "fileType": {
+      "type": "object | string",
+      "required" : true
+    },
+    "id": {
+      "type": "string",
+      "required" : true
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "string",
+      "required" : false
+    },
+    "createdBy": {
+      "type" : "string",
+      "required" : true
+    },
+    "createdDate": {
+      "type" : "date",
+      "required" : true
+    },
+    "modifiedBy": {
+      "type": "string",
+      "required" : false
+    },
+    "lastModified": {
+      "type": "date",
+      "required": false
+    },
+    "scenarios": {
+      "type": "array",
+      "required": true
+    },
+    "masterSet": {
+      "type": "boolean",
+      "required": true
+    },
+    "imported": {
+      "type": "boolean",
+      "required": true
+    },
+    "search": {
+      "type": "array",
+      "required": true
+    }         
+  }
+}

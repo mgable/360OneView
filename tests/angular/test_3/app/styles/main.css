@@ -102,8 +102,7 @@
       display: inline-block;
       height: 50px;
       width: 200px;
-      text-indent: -1000px;
-      margin: 0 0 0 15px; }
+      text-indent: -1000px; }
       .app .navigation a.logo:hover {
         background: transparent url("../images/360sprite.png") -214px -3px no-repeat; }
   .app .fileManager {

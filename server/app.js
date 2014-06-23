@@ -48,32 +48,23 @@ function init() {
     app.options("*", cors());
 
     // get all or query
-    app.get("/api/item", function(req, res) {
+    app.get("/api/items", function(req, res) {
+        console.info(req.query)
+        var results = currentData.data;
+        if (req.query && (req.query.start && req.query.end)) {
+            results = currentData.data.slice(req.query.start, req.query.end)
+        }
+
         sendResponse(res, {
             status: "success",
-            totalItemsReturned: currentData.data.length,
-            // fileTypeCounts: fileTypeCounts(),
-            data: currentData.data
-        });
-
-    });
-
-    // get paginated items
-    app.get("/api/item/:start/:end", function(req, res) {
-        var results = currentData.data.slice(req.params.start, req.params.end)
-        status = (results) ? "success" : "fail",
-            totalRecords = results.length;
-
-        sendResponse(res, {
-            status: status,
-            totalItemsReturned: totalRecords,
-            //fileTypeCounts: fileTypeCounts(),
+            totalItemsReturned: results.length,
             data: results
         });
+
     });
 
     // get single record
-    app.get("/api/item/:id", function(req, res) {
+    app.get("/api/items/:id", function(req, res) {
         var results = getRecordById(req.params.id, currentData.data),
             status = (results) ? "success" : "fail";
 
@@ -84,7 +75,7 @@ function init() {
     });
 
     // clone record
-    app.post("/api/item/:id", function(req, res) {
+    app.post("/api/items/:id", function(req, res) {
         console.info("Cloning " + req.params.id);
         var tempRecord = _.clone(getRecordById(req.params.id, currentData.data));
         tempRecord.id = generateUUID();
@@ -98,14 +89,14 @@ function init() {
     });
 
     // create record
-    app.post("/api/item", function(req, res) {
+    app.post("/api/items", function(req, res) {
         console.info("creating new record ");
-        console.info(req.body.params);
+        console.info(req.body);
 
         var tempRecord = {};
         tempRecord.id = generateUUID();
-        tempRecord.title = req.body.params.data.title;
-        tempRecord.description = req.body.params.data.description;
+        tempRecord.title = req.body.title;
+        tempRecord.description = req.body.description;
         tempRecord.createdDate = new Date();
         tempRecord.modifiedBy = "nobody";
         tempRecord.lastModified = "";
@@ -113,6 +104,7 @@ function init() {
         tempRecord.masterSet = false;
         currentData.data.push(tempRecord)
         sendResponse(res, {
+            totalItemsReturned: currentData.data.length,
             status: "success",
             data: currentData.data
         });
@@ -120,7 +112,7 @@ function init() {
 
 
     // update single record
-    app.put("/api/item/:id", cors(), function(req, res) {
+    app.put("/api/items/:id", cors(), function(req, res) {
 
         var index = getIndexById(req.params.id, currentData.data),
             status = (index !== false) ? "success" : "fail";
@@ -134,7 +126,7 @@ function init() {
     });
 
     //delete record(s)
-    app.delete("/api/item", function(req, res) {
+    app.delete("/api/items", function(req, res) {
         console.info("delete");
         console.info(req.query.ids);
         var indexes = [],
@@ -156,6 +148,7 @@ function init() {
         }
 
         sendResponse(res, {
+            totalItemsReturned: currentData.data.length,
             status: "success",
             data: currentData.data
         });

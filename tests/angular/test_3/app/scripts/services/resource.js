@@ -126,7 +126,8 @@
         this._http
             .post(path, {
                 params: {
-                    data: data
+                    title: data.title,
+                    description: data.description
                 }
             })
             .success(deferred.resolve)

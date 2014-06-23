@@ -1,9 +1,19 @@
 'use strict';
 
 angular.module('fileManagerApp')
-    .controller('FileManagerCtrl', function($scope, Modal) {
+    .controller('FileManagerCtrl', function($scope, Modal, $location) {
         $scope.$on("modal", function(evt, data) {
             $scope.modelEnabled = data
+        });
+
+        $scope.displayState = {};
+
+        $scope.$on('$routeUpdate', function(evt) {
+            $scope.displayState = {};
+            angular.forEach($location.search(), function(value, key) {
+                $scope.displayState[key] = value
+            });
+            console.info($scope.displayState);
         });
     })
     .controller('FileManagerDisplayCtrl', function($scope, FILTERBY, FileDeleteService, FilterService, FilesModel, DATERANGE) {
@@ -15,10 +25,9 @@ angular.module('fileManagerApp')
         $scope.dateRange = DATERANGE;
         // set the default selected item for the date range dropdown
         $scope.FilterService.dateRange = $scope.dateRange[0].filter;
-        
+
         $scope.data = FilesModel.$get();
         $scope.hideScenarios = false;
-
 
         $scope.alert = function(data) {
             console.info("the data is ")
@@ -77,11 +86,5 @@ angular.module('fileManagerApp')
                 FilterService.activeFilters.fileType = filter === 'All' ? '' : filter;
             }
             $rootScope.$broadcast('$filter');
-        }
-    }).controller('SortingController', function($scope) {
-        $scope.reverse = false;
-
-        this.sort = function(which) {
-            $scope.orderBy = which;
         }
     });

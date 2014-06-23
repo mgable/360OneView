@@ -16,12 +16,12 @@ describe('Service: Resource', function() {
         putSpy = spyOn($http, "put").andCallThrough();
         deleteSpy = spyOn($http, "delete").andCallThrough();
         postSpy = spyOn($http, "post").andCallThrough();
-        resource = new Resource("http://127.0.0.1:3001/api/item");
+        resource = new Resource("http://127.0.0.1:3001/api/items");
 
-        $httpBackend.expectGET('http://127.0.0.1:3001/api/item').respond({
+        $httpBackend.expectGET('http://127.0.0.1:3001/api/items').respond({
             "doesnot": "matter"
         });
-        $httpBackend.expectGET('http://127.0.0.1:3001/api/item/0/1').respond({
+        $httpBackend.expectGET('http://127.0.0.1:3001/api/items/0/1').respond({
             "doesnot": "matter"
         });
     }));
@@ -33,10 +33,10 @@ describe('Service: Resource', function() {
 
     it('should properly "GET"', function() {
         var promise = resource.get();
-        expect(getSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/item');
+        expect(getSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/items');
 
         promise = resource.get('1234');
-        expect(getSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/item/1234');
+        expect(getSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/items/1234');
     });
 
     it('should properly "Query"', function(done) {
@@ -50,7 +50,7 @@ describe('Service: Resource', function() {
         expect(getSpy).not.toHaveBeenCalled();
 
         result = resource.query(0, 1);
-        expect(getSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/item/0/1');
+        expect(getSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/items/0/1');
         //TODO: determine result
     });
 
@@ -62,7 +62,7 @@ describe('Service: Resource', function() {
         result = resource.set({
             id: '1234'
         });
-        expect(putSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/item/1234', {
+        expect(putSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/items/1234', {
             id: '1234'
         });
 
@@ -75,12 +75,12 @@ describe('Service: Resource', function() {
         expect(deleteSpy).not.toHaveBeenCalled();
 
         result = resource.remove(['1234']);
-        expect(deleteSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/item', {
+        expect(deleteSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/items', {
             params: {
                 ids: ['1234']
             },
             method: 'delete',
-            url: 'http://127.0.0.1:3001/api/item'
+            url: 'http://127.0.0.1:3001/api/items'
         });
         //TODO: determine result
     });
@@ -91,7 +91,7 @@ describe('Service: Resource', function() {
         expect(postSpy).not.toHaveBeenCalled();
 
         result = resource.clone('1234');
-        expect(postSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/item/1234', {
+        expect(postSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/items/1234', {
             params: {
                 id: '1234'
             }
@@ -104,10 +104,14 @@ describe('Service: Resource', function() {
         expect(result.source.exception).toBe('I need an item template');
         expect(postSpy).not.toHaveBeenCalled();
 
-        result = resource.create('1234');
-        expect(postSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/item', {
+        result = resource.create({
+            title: "title",
+            description: "description"
+        });
+        expect(postSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/items', {
             params: {
-                data: '1234'
+                title: 'title',
+                description: "description"
             }
         });
         //TODO: determine result
@@ -115,9 +119,9 @@ describe('Service: Resource', function() {
 
     it('should properly make a path', function() {
         var result = resource.path();
-        expect(result).toBe('http://127.0.0.1:3001/api/item')
+        expect(result).toBe('http://127.0.0.1:3001/api/items')
 
         result = resource.path('1234');
-        expect(result).toBe('http://127.0.0.1:3001/api/item/1234')
+        expect(result).toBe('http://127.0.0.1:3001/api/items/1234')
     });
 });

@@ -1,0 +1,101 @@
+#%RAML 0.8
+title: Marketshare 360 "One View" API
+baseUri: http://ec2-54-204-44-149.compute-1.amazonaws.com:3001/api
+version: v0.1
+protocols: [HTTPS]
+mediaType: application/json
+
+schemas:
+- item: !include item.schema
+    
+resourceTypes:
+- collection:
+    description: "Collection of available <<resourcePathName>>"
+    get:
+      description: "Get a list of <<resourcePathName>>"
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                <<exampleCollection>>
+    post:
+      description: "Add a new <<resourcePathName|!singularize>>"
+      body:
+          application/json:
+            schema: <<resourcePathName|!singularize>>
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                 <<exampleItem>>
+                
+- collection-item:
+    description: Entity representing a <<resourcePathName|!singularize>>
+    get:
+      description: Get the <<resourcePathName|!singularize>> with <<resourcePathName|!singularize>>Id ={<<resourcePathName|!singularize>>Id}
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+               <<exampleItem>>
+        404:
+          body:
+            application/json:
+              example: |
+                <<exampleItem>>
+    
+/items:
+  type: 
+    collection:
+      exampleCollection: !include exampleCollection.sample
+      exampleItem: !include exampleItem.sample
+  delete:
+    description: "Delete single or multiple records"
+    queryParameters:
+      ids:
+        description: "The id(s) of the items to be deleted"
+        required: true
+        type: string
+        example: "550e8400-e29b-41d4-a716-446655440000,550e8400-e29b-41d4-a716-446655440111"
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include exampleCollection.sample
+  /{id}:
+    type: 
+      collection-item:
+         exampleItem: !include exampleItem.sample
+    get:
+      responses:
+          200:
+            body:
+              application/json:
+                example: !include exampleCollection.sample
+          404:
+           body:
+             application/json:
+               example: |
+                 {"message": "record not found"}         
+    post:
+      description: Clone a entity record
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include exampleCollection.sample
+                
+    put:
+      description: Update a single record
+      body:
+        application/json:
+          schema: record,
+          example: !include exampleItem.sample
+      responses:
+        200:
+          body:  
+            application/json:
+              example: !include exampleCollection.sample

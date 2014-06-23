@@ -13,7 +13,7 @@
         'SERVER',
         function($timeout, Resource, SERVER) {
             _.extend(Files, {
-                $$resource: new Resource(SERVER + '/api/item'),
+                $$resource: new Resource(SERVER + '/api/items'),
                 $timeout: $timeout
             });
 

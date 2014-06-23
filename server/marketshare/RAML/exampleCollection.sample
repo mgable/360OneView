@@ -1,0 +1,29 @@
+ {
+   "status" : "success",
+    "totalReturnedItems": 1, 
+    "data": [
+      {
+        "fileType": "Playbook",
+        "id": "84097c6d-7603-4311-e4b7-bcc451d80046",
+        "title": "Fred's Stuff",
+        "description": "Nam dapibus metus orci, eu porttitor felis facilisis at.",
+        "createdBy": "Barney Rubble",
+        "createdDate": "2014-03-27T23:03:31.341Z",
+        "modifiedBy": "Ann Kross",
+        "lastModified": "2014-04-17T23:03:31.341Z",
+        "scenarios": [
+          {
+            title: "Carl's Econ Variable Simulation 1",
+            lastModified: "2014-06-14T23:03:31.341Z",
+            modifiedBy: "Ann Kross",
+            fileType: {
+              Constraints: "Soft Constraints"
+            }
+          }
+        ],
+        "masterSet": false,
+        "imported": false,
+        "search": [""]
+      }
+    ]
+  }

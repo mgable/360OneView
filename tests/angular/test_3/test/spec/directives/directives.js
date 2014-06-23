@@ -85,7 +85,7 @@ describe('Directives:', function() {
             scope = $rootScope.$new();
 
             $httpBackend = $httpBackend;
-            $httpBackend.expectGET("http://127.0.0.1:3001/api/item").respond({
+            $httpBackend.expectGET("http://127.0.0.1:3001/api/items").respond({
                 hello: 'World'
             });
             element = angular.element('<sorter orderby="time"><div sorting-options label="mylabel"></div></sorter>');

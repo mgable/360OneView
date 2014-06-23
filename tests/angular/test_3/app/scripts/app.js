@@ -14,7 +14,8 @@ angular
         $routeProvider
             .when('/', {
                 templateUrl: 'views/fileManager.html',
-                controller: 'FileManagerCtrl'
+                controller: 'FileManagerCtrl',
+                reloadOnSearch: false
             })
             .otherwise({
                 redirectTo: '/'
