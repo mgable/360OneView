@@ -70,14 +70,17 @@
   z-index: 1000; }
 
 .app {
-  width: 970px;
+  max-width: 1300px;
   font-size: 13px;
   margin: auto; }
+  .app .status {
+    text-align: center; }
   .app .col-3 {
     width: 200px; }
   .app .col-9 {
-    min-width: 745px;
-    max-width: 900px; }
+    float: none;
+    margin-left: 200px;
+    width: auto; }
   .app .col-12 {
     height: 45px; }
   .app .ms-popover {
@@ -85,9 +88,12 @@
   .app .header {
     position: fixed; }
   .app .navigation {
-    margin: 50px 0 0 0; }
+    margin: 50px 0 0 0;
+    max-width: 1300px; }
     .app .navigation .bar {
-      width: 970px;
+      max-width: 1300px;
+      min-width: 1024px;
+      width: 100%;
       margin: auto;
       position: fixed;
       z-index: 1000;
@@ -387,7 +393,8 @@
     .app .delete-and-filter .search-field {
       overflow: hidden; }
       .app .delete-and-filter .search-field .search {
-        width: 100%; }
+        width: 100%;
+        max-width: 250px; }
     .app .delete-and-filter .filter-by {
       margin: 0 5px 0; }
     .app .delete-and-filter .master-delete {

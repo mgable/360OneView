@@ -11,29 +11,36 @@
 }
 
 .app {
-	width:970px;
+	max-width:1300px;
 	font-size: 13px;
 	margin: auto;
+	.status {
+		text-align: center;
+	}
 	.col-3 {
 		width: 200px;
 	}
 	.col-9 {
-		min-width: 745px;
-		max-width:900px;
+		float: none;
+		margin-left: 200px;
+		width:auto;
 	}
 	.col-12 {
 		height: 45px;
 	}
 	.ms-popover {
-		z-index:2000;
+		z-index: 2000;
 	}
 	.header {
 		position:fixed;
 	}
 	.navigation {
-		margin:50px 0 0 0;
+		margin: 50px 0 0 0;
+		max-width: 1300px;
 		.bar {
-			width:970px;
+			max-width:1300px;
+			min-width:1024px;
+			width:100%;
 			margin:auto;
 			position: fixed;
 			z-index:1000;
@@ -439,6 +446,7 @@
 			overflow:hidden;
 			.search {
 				width:100%;
+				max-width:250px;
 			}
 		}
 		.filter-by {
