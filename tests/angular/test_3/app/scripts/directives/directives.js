@@ -101,6 +101,7 @@ angular.module('fileManagerApp')
             require: "^sorter",
             link: function($scope, $element, $attrs, ctrl) {
                 $scope.label = $attrs.label;
+                $scope.display = $attrs.display;
                 $scope.reverse = false;
 
                 $scope.sort = function(evt, which) {

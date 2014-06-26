@@ -51,12 +51,14 @@ data.makeData = function() {
 
         newData = function() {
             var objs = [];
+            //for (var i = 0, limit = 1; i < limit; i++) {
             for (var x = 0, limit = titles.length; x < limit; x++) {
                 var obj = {}, type = pick(fileTypes);
 
                 obj.fileType = typeof type === "object" ? makeFileType(type) : type;
+                obj.icon = obj.fileType.replace(/\s/g, "").toLowerCase();
                 obj.id = generateUUID();
-                obj.title = titles[x];
+                obj.title = titles[x] + "_";
                 obj.description = descriptions[x];
                 obj.createdBy = pick(modifiedBy);
                 obj.createdDate = lastModified(180);
@@ -65,19 +67,20 @@ data.makeData = function() {
                 obj.scenarios = makeScenarios();
                 obj.masterSet = trueFalse();
                 obj.imported = trueFalse();
-                obj.search = _.flatten(makeSearch(obj));
+                obj.search = _.flatten(makeSearch(obj, type));
                 objs.push(obj);
             }
+            //}
             return objs
         },
 
-        makeSearch = function(obj) {
+        makeSearch = function(obj, type) {
             var results = [""]
             if (obj.masterSet) {
                 results.push('Master Set')
             }
-            if (typeof obj.fileType === "object") {
-                results.push(makeSearchType(obj.fileType))
+            if (typeof type === "object") {
+                results.push(makeSearchType(type));
             }
             return results;
         },
@@ -95,6 +98,7 @@ data.makeData = function() {
                 obj.lastModified = lastModified(7);
                 obj.modifiedBy = pick(modifiedBy);
                 obj.fileType = typeof fileType === "object" ? makeFileType(fileType) : fileType;
+                obj.icon = obj.fileType.replace(/\s/g, "").toLowerCase();
                 objs.push(obj);
             }
             return objs;
@@ -107,7 +111,7 @@ data.makeData = function() {
             }
             //return val;
             result[prop] = val;
-            return result;
+            return val;
         },
 
         makeFileTypeObj = function(which) {
@@ -125,7 +129,7 @@ data.makeData = function() {
             for (var prop in which) {
                 obj = prop;
             }
-            return [obj, which[prop]];
+            return obj;
         },
 
         shuffle = function(arry) {

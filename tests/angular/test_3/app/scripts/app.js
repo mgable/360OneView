@@ -8,6 +8,7 @@ angular
         'ngAnimate',
         'ui.bootstrap',
         'ui.bootstrap.mspopover',
+        'pasvaz.bindonce',
         '/views/directives/popoverTemplate.html'
     ])
     .config(function($routeProvider) {
@@ -97,11 +98,11 @@ angular.module('/views/directives/popoverTemplate.html', []).run(['$templateCach
         $templateCache.put('/views/directives/popoverTemplate.html',
             "<div>" +
             "<div ng-hide='completed'>" +
-            "<div class='text'>{{text}}</div>" +
+            "<div>{{text}}</div>" +
             "<div style='white-space:nowrap;margin:5px 0 5px;' class='pull-right'><button class='btn btn-primary' ng-click='submit($event)'>Ok</button>&nbsp;<button ng-click='cancel($event)' class='btn btn-default'>Cancel</button></div>" +
             "</div>" +
             "<div ng-show='completed'>" +
-            "<div class='text'>{{completedtext}}</div>" +
+            "<div>{{completedtext}}</div>" +
             "</div>" +
             "</div>"
 
