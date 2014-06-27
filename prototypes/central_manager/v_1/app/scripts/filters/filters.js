@@ -2,25 +2,11 @@
 'use strict';
 
 angular.module('centralManagerApp')
-    .filter('msFilterObjByFn', function() {
-        return function(input, fn) {
-            var results = {};
-            if (typeof input !== 'object' || typeof fn !== 'function') {
-                return input;
-            }
-
-            for (var prop in input) {
-                if (fn(prop)) {
-                    results[prop] = input[prop];
-                }
-            }
-            return results;
-        };
-    })
     .filter('dateRange', function() {
         var dayInMillisec = 86400000;
-        return function(input, db) {
+        return function(input, db, prop) {
             var results = [],
+                prop = prop || "lastModified",
                 daysBack = parseInt(db, 10),
                 now = Date.now(),
                 threshold = new Date(now - (dayInMillisec * daysBack));
@@ -29,10 +15,9 @@ angular.module('centralManagerApp')
                 return input;
             }
 
-
             for (var i = 0, limit = input.length; i < limit; i++) {
 
-                if (new Date(input[i].lastModified) > threshold) {
+                if (new Date(input[i][prop]) > threshold) {
                     results.push(input[i]);
                 }
             }
@@ -50,11 +35,12 @@ angular.module('centralManagerApp')
             return input.replace(/([a-z\d])([A-Z\d])/g, '$1 $2');
         };
     })
-    .filter('escape', function() {
+    .filter('normalize', function() {
         return function(input) {
-            return input.replace(/'/g, '&apos;').replace(/"/g, '&quot;');
+            return input.replace(/\s/g, '').toLowerCase();
         };
-    }).filter('timeago', function() {
+    })
+    .filter('timeago', function() {
         //time: the time
         //local: compared to what time? default: now
         //raw: wheter you want in a format of '5 minutes ago', or '5 minutes'
@@ -119,17 +105,5 @@ angular.module('centralManagerApp')
                 return span;
             }
             return (time <= local) ? span + ' ago' : 'in ' + span;
-        };
-    }).filter('fileType', function() {
-        return function(input) {
-            if (typeof input === 'object') {
-                return input[Object.keys(input)[0]];
-            } else {
-                return input;
-            }
-        };
-    }).filter('normalize', function() {
-        return function(input) {
-            return input.replace(/\s/g, '').toLowerCase();
         };
     });

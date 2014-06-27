@@ -3,7 +3,7 @@
 describe('Directives:', function() {
 
     // load the directive's module
-    beforeEach(module('fileManagerApp'));
+    beforeEach(module('centralManagerApp'));
 
     beforeEach(module('my.templates'));
 

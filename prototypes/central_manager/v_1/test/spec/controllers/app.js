@@ -1,7 +1,7 @@
-describe('Routes test: ', function() {
+describe('Routes tests: ', function() {
     var location, route, rootscope;
 
-    beforeEach(module('fileManagerApp'));
+    beforeEach(module('centralManagerApp'));
 
     beforeEach(inject(function($rootScope, $location, $route) {
         location = $location;
@@ -10,24 +10,24 @@ describe('Routes test: ', function() {
     }));
 
     describe('index route', function() {
-        beforeEach(inject(function($httpBackend) {
-            $httpBackend.expectGET('http://127.0.0.1:3001/api/items').respond({
+        beforeEach(inject(function($httpBackend, SERVER, CENTRAL_MANAGER_REST_API) {
+            $httpBackend.expectGET(SERVER + CENTRAL_MANAGER_REST_API).respond({
                 "doesnot": "matter"
             });
-            $httpBackend.expectGET('views/fileManager.html').respond({
+            $httpBackend.expectGET('views/central_manager.tpl.html').respond({
                 "doesnot": "matter"
             });
         }));
         it("should load index page", function() {
             location.path('/');
             rootScope.$digest();
-            expect(route.current.controller).toBe('FileManagerCtrl');
+            expect(route.current.controller).toBe('CentralManagerCtrl');
         });
 
         it("should load index page on unknown route", function() {
             location.path('/nowheresville');
             rootScope.$digest();
-            expect(route.current.controller).toBe('FileManagerCtrl');
+            expect(route.current.controller).toBe('CentralManagerCtrl');
         });
     });
 });

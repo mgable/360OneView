@@ -3,11 +3,11 @@
 describe('Service: Resource', function() {
 
     // load the service's module
-    beforeEach(module('fileManagerApp'));
+    beforeEach(module('centralManagerApp'));
 
     // instantiate service
-    var Resource, $http, getSpy, putSpy, deleteSpy, postSpy, resource, $rootScope, $httpBackend;
-    beforeEach(inject(function(_Resource_, _$http_, _$rootScope_, _$httpBackend_) {
+    var Resource, $http, getSpy, putSpy, deleteSpy, postSpy, resource, $rootScope, $httpBackend, SERVER, CENTRAL_MANAGER_REST_API;
+    beforeEach(inject(function(_Resource_, _$http_, _$rootScope_, _$httpBackend_, _SERVER_, _CENTRAL_MANAGER_REST_API_) {
         Resource = _Resource_;
         $http = _$http_;
         $rootScope = _$rootScope_;
@@ -16,12 +16,14 @@ describe('Service: Resource', function() {
         putSpy = spyOn($http, "put").andCallThrough();
         deleteSpy = spyOn($http, "delete").andCallThrough();
         postSpy = spyOn($http, "post").andCallThrough();
-        resource = new Resource("http://127.0.0.1:3001/api/items");
+        CENTRAL_MANAGER_REST_API = _CENTRAL_MANAGER_REST_API_;
+        SERVER = _SERVER_;
+        resource = new Resource(SERVER + CENTRAL_MANAGER_REST_API);
 
-        $httpBackend.expectGET('http://127.0.0.1:3001/api/items').respond({
+        $httpBackend.expectGET(SERVER + CENTRAL_MANAGER_REST_API).respond({
             "doesnot": "matter"
         });
-        $httpBackend.expectGET('http://127.0.0.1:3001/api/items/0/1').respond({
+        $httpBackend.expectGET(SERVER + CENTRAL_MANAGER_REST_API + '/0/1').respond({
             "doesnot": "matter"
         });
     }));
@@ -33,10 +35,10 @@ describe('Service: Resource', function() {
 
     it('should properly "GET"', function() {
         var promise = resource.get();
-        expect(getSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/items');
+        expect(getSpy).toHaveBeenCalledWith(SERVER + CENTRAL_MANAGER_REST_API);
 
         promise = resource.get('1234');
-        expect(getSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/items/1234');
+        expect(getSpy).toHaveBeenCalledWith(SERVER + CENTRAL_MANAGER_REST_API + '/1234');
     });
 
     it('should properly "Query"', function(done) {
@@ -50,7 +52,7 @@ describe('Service: Resource', function() {
         expect(getSpy).not.toHaveBeenCalled();
 
         result = resource.query(0, 1);
-        expect(getSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/items/0/1');
+        expect(getSpy).toHaveBeenCalledWith(SERVER + CENTRAL_MANAGER_REST_API + '/0/1');
         //TODO: determine result
     });
 
@@ -62,7 +64,7 @@ describe('Service: Resource', function() {
         result = resource.set({
             id: '1234'
         });
-        expect(putSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/items/1234', {
+        expect(putSpy).toHaveBeenCalledWith(SERVER + CENTRAL_MANAGER_REST_API + '/1234', {
             id: '1234'
         });
 
@@ -75,12 +77,12 @@ describe('Service: Resource', function() {
         expect(deleteSpy).not.toHaveBeenCalled();
 
         result = resource.remove(['1234']);
-        expect(deleteSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/items', {
+        expect(deleteSpy).toHaveBeenCalledWith(SERVER + CENTRAL_MANAGER_REST_API, {
             params: {
                 ids: ['1234']
             },
             method: 'delete',
-            url: 'http://127.0.0.1:3001/api/items'
+            url: SERVER + CENTRAL_MANAGER_REST_API
         });
         //TODO: determine result
     });
@@ -91,7 +93,7 @@ describe('Service: Resource', function() {
         expect(postSpy).not.toHaveBeenCalled();
 
         result = resource.clone('1234');
-        expect(postSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/items/1234', {
+        expect(postSpy).toHaveBeenCalledWith(SERVER + CENTRAL_MANAGER_REST_API + '/1234', {
             params: {
                 id: '1234'
             }
@@ -108,7 +110,7 @@ describe('Service: Resource', function() {
             title: "title",
             description: "description"
         });
-        expect(postSpy).toHaveBeenCalledWith('http://127.0.0.1:3001/api/items', {
+        expect(postSpy).toHaveBeenCalledWith(SERVER + CENTRAL_MANAGER_REST_API, {
             params: {
                 title: 'title',
                 description: "description"
@@ -119,9 +121,9 @@ describe('Service: Resource', function() {
 
     it('should properly make a path', function() {
         var result = resource.path();
-        expect(result).toBe('http://127.0.0.1:3001/api/items')
+        expect(result).toBe(SERVER + CENTRAL_MANAGER_REST_API)
 
         result = resource.path('1234');
-        expect(result).toBe('http://127.0.0.1:3001/api/items/1234')
+        expect(result).toBe(SERVER + CENTRAL_MANAGER_REST_API + '/1234')
     });
 });
