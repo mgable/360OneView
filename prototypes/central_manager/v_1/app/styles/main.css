@@ -12,9 +12,6 @@
 .no-padding {
   padding: 0; }
 
-.no-padding {
-  padding: 0; }
-
 .bold {
   font-weight: bold; }
 
@@ -73,36 +70,23 @@
   max-width: 1300px;
   font-size: 13px;
   margin: auto; }
-  .app .status {
-    text-align: center; }
   .app .col-3 {
     width: 200px; }
   .app .col-9 {
     float: none;
     margin-left: 200px;
     width: auto; }
-  .app .col-12 {
-    height: 45px; }
-  .app .ms-popover {
-    z-index: 2000; }
-  .app .header {
-    position: fixed; }
   .app .navigation {
-    margin: 50px 0 0 0;
-    max-width: 1300px; }
+    margin: 50px 0 0 0; }
     .app .navigation .bar {
       max-width: 1300px;
       min-width: 1024px;
       width: 100%;
-      margin: auto;
+      height: 50px;
+      padding: 0 15px;
       position: fixed;
       z-index: 1000;
       top: 0; }
-      .app .navigation .bar ul li a {
-        color: lightgray; }
-        .app .navigation .bar ul li a:hover {
-          background-color: inherit;
-          color: darkgray; }
     .app .navigation a.logo {
       background: transparent url("../images/360sprite.png") -214px -3px no-repeat;
       display: inline-block;
@@ -111,301 +95,9 @@
       text-indent: -1000px; }
       .app .navigation a.logo:hover {
         background: transparent url("../images/360sprite.png") -214px -3px no-repeat; }
-  .app .fileManager {
-    min-width: 1024px; }
-    .app .fileManager .file-manager-search {
-      position: fixed; }
-      .app .fileManager .file-manager-search ul {
-        list-style: none;
-        padding: 0; }
-        .app .fileManager .file-manager-search ul li {
-          margin: 10px 0 0 10px;
-          transition: all 0.3s ease 0s;
-          /* sub menu styles only */ }
-          .app .fileManager .file-manager-search ul li a {
-            color: black;
-            text-decoration: none;
-            cursor: pointer; }
-          .app .fileManager .file-manager-search ul li.selected > a {
-            color: red; }
-          .app .fileManager .file-manager-search ul li > ul {
-            max-height: 500px;
-            opacity: 1.0;
-            transition: all 0.3s ease 0s; }
-            .app .fileManager .file-manager-search ul li > ul > li a {
-              color: darkgray;
-              display: inline-block; }
-            .app .fileManager .file-manager-search ul li > ul.closed {
-              max-height: 0px;
-              opacity: 0.0;
-              pointer-events: none; }
-              .app .fileManager .file-manager-search ul li > ul.closed > li {
-                margin: 0; }
-      .app .fileManager .file-manager-search .file-manager-filters {
-        margin: 10px 0 0 10px; }
-  .app .file-manager-display {
-    min-width: 703px;
-    clear: both; }
-    .app .file-manager-display .sorting-bar a {
-      text-decoration: none;
-      color: black;
-      cursor: pointer; }
-    .app .file-manager-display .sorting-bar .heading {
-      display: inline-flex;
-      overflow: hidden;
-      vertical-align: top; }
-      .app .file-manager-display .sorting-bar .heading.selected:after {
-        font-family: "font awesome";
-        color: black;
-        content: '\f0de'; }
-      .app .file-manager-display .sorting-bar .heading.selected a {
-        color: red; }
-      .app .file-manager-display .sorting-bar .heading.selected:after {
-        content: '\f0dd'; }
-      .app .file-manager-display .sorting-bar .heading.selected.reverse a {
-        color: red; }
-      .app .file-manager-display .sorting-bar .heading.selected.reverse:after {
-        content: '\f0de'; }
-    .app .file-manager-display .sorting-bar.plans .title {
-      padding-left: 10px;
-      min-width: 245px; }
-    .app .file-manager-display .sorting-bar.plans .modifiedBy {
-      width: 100px; }
-    .app .file-manager-display .sorting-bar.plans .lastModified {
-      width: 120px; }
-    .app .file-manager-display .sorting-bar.plans .fileType {
-      width: 130px; }
-    .app .file-manager-display .file-cell {
-      cursor: default;
-      border-bottom: 1px solid #ddd;
-      padding: 15px 15px 35px 15px; }
-      .app .file-manager-display .file-cell a, .app .file-manager-display .file-cell input[type=checkbox] {
-        cursor: pointer; }
-      .app .file-manager-display .file-cell .hidden-content {
-        max-height: 0;
-        overflow: hidden;
-        transition: all 0.4s ease 0s; }
-      .app .file-manager-display .file-cell .text {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        margin: 0 0 0 45px; }
-      .app .file-manager-display .file-cell.selected .hidden-content {
-        max-height: 500px; }
-      .app .file-manager-display .file-cell.selected .file-management-buttons {
-        opacity: 1.0; }
-      .app .file-manager-display .file-cell.selected .text {
-        white-space: normal;
-        overflow: visible; }
-      .app .file-manager-display .file-cell .file-management-buttons.selected {
-        opacity: 1.0; }
-      .app .file-manager-display .file-cell:last-child {
-        margin: 0;
-        border-bottom: 0 none; }
-      .app .file-manager-display .file-cell:hover {
-        background-color: #eee; }
-        .app .file-manager-display .file-cell:hover .file-management-buttons {
-          opacity: 1.0; }
-      .app .file-manager-display .file-cell .categories .name {
-        display: inline-block;
-        font-weight: bold; }
-      .app .file-manager-display .file-cell .categories .modifiedBy {
-        width: 100px; }
-      .app .file-manager-display .file-cell .categories .lastModified {
-        width: 120px; }
-      .app .file-manager-display .file-cell .categories .fileType {
-        width: 130px; }
-      .app .file-manager-display .file-cell .categories > div .heading {
-        display: inline-flex;
-        min-width: 100px; }
-      .app .file-manager-display .file-cell h5 {
-        margin-left: 22px; }
-        .app .file-manager-display .file-cell h5 a {
-          text-decoration: none;
-          color: black; }
-          .app .file-manager-display .file-cell h5 a i {
-            opacity: 0;
-            transition: all 0.4s ease 0s; }
-          .app .file-manager-display .file-cell h5 a:hover {
-            text-decoration: underline; }
-        .app .file-manager-display .file-cell h5:hover .edit {
-          text-decoration: none; }
-          .app .file-manager-display .file-cell h5:hover .edit i {
-            opacity: 0.4; }
-            .app .file-manager-display .file-cell h5:hover .edit i:hover {
-              opacity: 1.0; }
-      .app .file-manager-display .file-cell .file-preview-pane {
-        border: 1px solid black;
-        text-align: center;
-        width: 580px;
-        margin: 10px auto;
-        height: 300px;
-        vertical-align: middle; }
-      .app .file-manager-display .file-cell .scenarios {
-        width: 682px;
-        margin: 10px auto 0;
-        max-height: 300px;
-        overflow: hidden;
-        transition: max-height 0.4s ease 0s; }
-        .app .file-manager-display .file-cell .scenarios .tableBody {
-          max-height: 200px;
-          overflow-y: scroll;
-          padding: 5px 5px 0 8px; }
-          .app .file-manager-display .file-cell .scenarios .tableBody > div {
-            margin: 0 0 10px 0; }
-          .app .file-manager-display .file-cell .scenarios .tableBody div div:first-child {
-            padding: 0 0 0 10px; }
-          .app .file-manager-display .file-cell .scenarios .tableBody span {
-            display: inline-block; }
-          .app .file-manager-display .file-cell .scenarios .tableBody .name, .app .file-manager-display .file-cell .scenarios .tableBody .title {
-            width: 215px;
-            overflow: hidden;
-            white-space: nowrap;
-            margin: 0 10px 0 0;
-            vertical-align: bottom;
-            text-overflow: ellipsis; }
-        .app .file-manager-display .file-cell .scenarios.myHide {
-          max-height: 0px;
-          border: 0 none; }
-        .app .file-manager-display .file-cell .scenarios .symbol {
-          width: 30px; }
-          .app .file-manager-display .file-cell .scenarios .symbol .icon {
-            font-size: 9px; }
-        .app .file-manager-display .file-cell .scenarios .title {
-          width: 215px;
-          margin: 0 10px; }
-        .app .file-manager-display .file-cell .scenarios .lastModified {
-          width: 115px; }
-        .app .file-manager-display .file-cell .scenarios .modifiedBy {
-          width: 130px; }
-        .app .file-manager-display .file-cell .scenarios .file-type-icon {
-          width: 20px;
-          height: 20px;
-          display: inline-block; }
-        .app .file-manager-display .file-cell .scenarios .square {
-          width: 10px;
-          height: 10px;
-          float: left; }
-        .app .file-manager-display .file-cell .scenarios .blue {
-          background-color: blue; }
-        .app .file-manager-display .file-cell .scenarios .green {
-          background-color: green; }
-        .app .file-manager-display .file-cell .scenarios .yellow {
-          background-color: yellow; }
-        .app .file-manager-display .file-cell .scenarios .red {
-          background-color: red; }
-    .app .file-manager-display .symbol-holder {
-      left: 23px;
-      top: 3px;
-      position: absolute; }
-    .app .file-manager-display .icon {
-      display: table-cell;
-      height: 15px;
-      width: 15px;
-      color: white;
-      font-size: 9px;
-      text-align: center;
-      vertical-align: middle;
-      font-family: arial, helvetica, sans-serif;
-      padding: 2px 0 0 0; }
-      .app .file-manager-display .icon.icon-costassumptions {
-        background-color: blue; }
-        .app .file-manager-display .icon.icon-costassumptions:after {
-          content: 'CA'; }
-      .app .file-manager-display .icon.icon-scenarios {
-        background-color: gold; }
-        .app .file-manager-display .icon.icon-scenarios:after {
-          content: 'S'; }
-      .app .file-manager-display .icon.icon-objectives {
-        background-color: green; }
-        .app .file-manager-display .icon.icon-objectives:after {
-          content: 'O'; }
-      .app .file-manager-display .icon.icon-decisionbooks {
-        background-color: violet; }
-        .app .file-manager-display .icon.icon-decisionbooks:after {
-          content: 'DB'; }
-      .app .file-manager-display .icon.icon-productfactors {
-        background-color: darkblue; }
-        .app .file-manager-display .icon.icon-productfactors:after {
-          content: 'PF'; }
-      .app .file-manager-display .icon.icon-mediaplans {
-        background-color: darkgreen; }
-        .app .file-manager-display .icon.icon-mediaplans:after {
-          content: 'MP'; }
-      .app .file-manager-display .icon.icon-playbook {
-        background-color: aqua; }
-        .app .file-manager-display .icon.icon-playbook:after {
-          content: 'PB'; }
-      .app .file-manager-display .icon.icon-hardconstraints {
-        background-color: blueviolet; }
-        .app .file-manager-display .icon.icon-hardconstraints:after {
-          content: 'HC'; }
-      .app .file-manager-display .icon.icon-softconstraints {
-        background-color: brown; }
-        .app .file-manager-display .icon.icon-softconstraints:after {
-          content: 'SC'; }
-      .app .file-manager-display .icon.icon-economicvariables {
-        background-color: gray; }
-        .app .file-manager-display .icon.icon-economicvariables:after {
-          content: 'EV'; }
-      .app .file-manager-display .icon.icon-competitivespend {
-        background-color: darkgray; }
-        .app .file-manager-display .icon.icon-competitivespend:after {
-          content: 'CS'; }
-      .app .file-manager-display .icon.icon-pricing {
-        background-color: crimson; }
-        .app .file-manager-display .icon.icon-pricing:after {
-          content: 'P'; }
-      .app .file-manager-display .icon.icon-brandawardness {
-        background-color: darkcyan; }
-        .app .file-manager-display .icon.icon-brandawardness:after {
-          content: 'BA'; }
-      .app .file-manager-display .icon.icon-masterset {
-        background-color: red; }
-        .app .file-manager-display .icon.icon-masterset:after {
-          content: 'M'; }
-      .app .file-manager-display .icon.icon-marketingfactors {
-        background-color: hotpink; }
-        .app .file-manager-display .icon.icon-marketingfactors:after {
-          content: 'MF'; }
-    .app .file-manager-display .multi-select {
-      margin-right: 10px; }
-    .app .file-manager-display .file-management-buttons {
-      opacity: 0.0;
-      margin: 10px 20px 0 0;
-      transition: all 0.4s ease 0s; }
-      .app .file-manager-display .file-management-buttons > div {
-        font-size: 12px;
-        padding-right: 10px; }
-        .app .file-manager-display .file-management-buttons > div > i {
-          font-size: 14px;
-          padding-right: 3px; }
-      .app .file-manager-display .file-management-buttons a {
-        color: black; }
-  .app .delete-and-filter {
-    height: 30px;
-    width: 100%;
-    margin: 0 0 10px; }
-    .app .delete-and-filter .select-menus {
-      margin: 0 10px; }
-      .app .delete-and-filter .select-menus .filter-by {
-        margin: 0 5px 0 0; }
-    .app .delete-and-filter .search-field {
-      overflow: hidden; }
-      .app .delete-and-filter .search-field .search {
-        width: 100%;
-        max-width: 250px; }
-    .app .delete-and-filter .filter-by {
-      margin: 0 5px 0; }
-    .app .delete-and-filter .master-delete {
-      float: left;
-      margin: 8px 10px 0; }
-      .app .delete-and-filter .master-delete a {
-        color: black;
-        text-decoration: none;
-        cursor: pointer; }
-      .app .delete-and-filter .master-delete .delete[disabled] {
-        pointer-events: none;
+    .app .navigation .navbar-nav li a:hover {
+      background-color: inherit; }
+      .app .navigation .navbar-nav li a:hover .glyphicon {
         color: lightgray; }
-        .app .delete-and-filter .master-delete .delete[disabled] a, .app .delete-and-filter .master-delete .delete[disabled] span {
-          color: lightgray; }
+    .app .navigation .navbar-nav li a .glyphicon {
+      color: white; }

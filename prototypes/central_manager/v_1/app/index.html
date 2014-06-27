@@ -20,22 +20,23 @@
     <!-- endbuild -->
 </head>
 <body ng-app="centralManagerApp">
+    <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
     <div class="cap"></div>
+
     <div class="app">
-        <!--[if lt IE 7]>
-          <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        
-        <ng-include src="'/views/includes/navigation.html'"></ng-include>
+        <ng-include src="'/views/includes/navigation.tpl.html'"></ng-include>
 
-        <div ng-view=""></div>
+        <div class="container-fluid">
+            <div ng-view=""></div>
+        </div>
 
-    </div> <!-- end .app -->
-
+    </div> <!-- end app -->
 
     <!--[if lt IE 9]>
-    <script src="bower_components/es5-shim/es5-shim.js"></script>
-    <script src="bower_components/json3/lib/json3.min.js"></script>
+        <script src="bower_components/es5-shim/es5-shim.js"></script>
+        <script src="bower_components/json3/lib/json3.min.js"></script>
     <![endif]-->
 
     <!-- build:js scripts/vendor.js -->

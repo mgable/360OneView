@@ -100,7 +100,7 @@ angular.module('centralManagerApp')
                 checkboxes: '='
             },
             template: '<input type="checkbox" ng-model="master" ng-change="masterChange()">',
-            controller: function($scope, $element, $attrs, filterFilter, FilterService, dateRangeFilter) {
+            controller: function($scope, $element, $attrs) {
                 $scope.items = [];
                 var self = this;
 
@@ -108,23 +108,10 @@ angular.module('centralManagerApp')
                     return $scope.items;
                 };
 
-                // reset delete files on filter change
-                $scope.$on("$filter", function() {
-                    $scope.masterChange();
-                });
-
-                var filterAll = function(data) {
-                    var temp = filterFilter(data, FilterService.activeFilters);
-                    temp = filterFilter(temp, FilterService.searchText);
-                    temp = filterFilter(temp, FilterService.filterBy);
-                    temp = dateRangeFilter(temp, FilterService.dateRange);
-                    return temp;
-                };
-
                 $scope.masterChange = function() {
                     $scope.items = [];
                     if ($scope.master) {
-                        angular.forEach(filterAll($scope.checkboxes), function(cb, index) {
+                        angular.forEach($scope.checkboxes, function(cb, index) {
                             cb.isSelected = true;
                             $scope.items.push(cb);
                         });
