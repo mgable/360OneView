@@ -12,6 +12,8 @@ angular.module('fileManagerApp')
             if (daysBack === 0) {
                 return input;
             }
+
+
             for (var i = 0, limit = input.length; i < limit; i++) {
 
                 if (new Date(input[i].lastModified) > threshold) {

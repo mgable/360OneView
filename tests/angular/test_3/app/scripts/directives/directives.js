@@ -105,13 +105,16 @@ angular.module('fileManagerApp')
                 $scope.reverse = false;
 
                 $scope.sort = function(evt, which) {
-                    evt.stopPropagation();
-                    evt.preventDefault();
+                    if (evt) {
+                        evt.stopPropagation();
+                        evt.preventDefault();
+                    }
                     if (which === $scope.orderBy) {
                         $scope.reverse = !$scope.reverse;
                     }
                     ctrl.setReverse($scope.reverse);
                     ctrl.setOrderBy(which);
+                    //ctrl.sort(which, $scope.reverse);
                 }
             },
             templateUrl: '/views/directives/sortingOptions.html'
@@ -142,7 +145,7 @@ angular.module('fileManagerApp')
                 checkboxes: '='
             },
             template: '<input type="checkbox" ng-model="master" ng-change="masterChange()">',
-            controller: function($scope, $element, $attrs, filterFilter, FilterService) {
+            controller: function($scope, $element, $attrs, filterFilter, FilterService, dateRangeFilter) {
                 $scope.items = [];
                 var self = this;
 
@@ -155,10 +158,18 @@ angular.module('fileManagerApp')
                     $scope.masterChange();
                 })
 
+                var filterAll = function(data) {
+                    var temp = filterFilter(data, FilterService.activeFilters);
+                    temp = filterFilter(temp, FilterService.searchText);
+                    temp = filterFilter(temp, FilterService.filterBy);
+                    temp = dateRangeFilter(temp, FilterService.dateRange);
+                    return temp;
+                }
+
                 $scope.masterChange = function() {
                     $scope.items = [];
                     if ($scope.master) {
-                        angular.forEach(filterFilter($scope.checkboxes, FilterService.activeFilters), function(cb, index) {
+                        angular.forEach(filterAll($scope.checkboxes), function(cb, index) {
                             cb.isSelected = true;
                             $scope.items.push(cb);
                         });

@@ -51,26 +51,26 @@ data.makeData = function() {
 
         newData = function() {
             var objs = [];
-            //for (var i = 0, limit = 1; i < limit; i++) {
-            for (var x = 0, limit = titles.length; x < limit; x++) {
-                var obj = {}, type = pick(fileTypes);
+            for (var i = 0, ilimit = 10; i < ilimit; i++) {
+                for (var x = 0, limit = titles.length; x < limit; x++) {
+                    var obj = {}, type = pick(fileTypes);
 
-                obj.fileType = typeof type === "object" ? makeFileType(type) : type;
-                obj.icon = obj.fileType.replace(/\s/g, "").toLowerCase();
-                obj.id = generateUUID();
-                obj.title = titles[x] + "_";
-                obj.description = descriptions[x];
-                obj.createdBy = pick(modifiedBy);
-                obj.createdDate = lastModified(180);
-                obj.modifiedBy = pick(modifiedBy);
-                obj.lastModified = lastModified(180);
-                obj.scenarios = makeScenarios();
-                obj.masterSet = trueFalse();
-                obj.imported = trueFalse();
-                obj.search = _.flatten(makeSearch(obj, type));
-                objs.push(obj);
+                    obj.fileType = typeof type === "object" ? makeFileType(type) : type;
+                    obj.icon = obj.fileType.replace(/\s/g, "").toLowerCase();
+                    obj.id = generateUUID();
+                    obj.title = titles[x] + "_" + i + "_" + x;
+                    obj.description = descriptions[x];
+                    obj.createdBy = pick(modifiedBy);
+                    obj.createdDate = lastModified(180);
+                    obj.modifiedBy = pick(modifiedBy);
+                    obj.lastModified = lastModified(180);
+                    obj.scenarios = makeScenarios();
+                    obj.masterSet = trueFalse();
+                    obj.imported = trueFalse();
+                    obj.search = _.flatten(makeSearch(obj, type));
+                    objs.push(obj);
+                }
             }
-            //}
             return objs
         },
 

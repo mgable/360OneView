@@ -5,18 +5,8 @@ angular.module('fileManagerApp')
         $scope.$on("modal", function(evt, data) {
             $scope.modelEnabled = data
         });
-
-        $scope.displayState = {};
-
-        $scope.$on('$routeUpdate', function(evt) {
-            $scope.displayState = {};
-            angular.forEach($location.search(), function(value, key) {
-                $scope.displayState[key] = value
-            });
-            console.info($scope.displayState);
-        });
     })
-    .controller('FileManagerDisplayCtrl', function($scope, FILTERBY, FileDeleteService, FilterService, FilesModel, DATERANGE) {
+    .controller('FileManagerDisplayCtrl', function($scope, $rootScope, FILTERBY, FileDeleteService, FilterService, FilesModel, DATERANGE) {
         $scope.FilterService = FilterService;
         $scope.filterBy = FILTERBY;
         // set the default selected item for the filterBy dropdown
@@ -27,7 +17,7 @@ angular.module('fileManagerApp')
         $scope.FilterService.dateRange = $scope.dateRange[0].filter;
 
         $scope.data = FilesModel.$get();
-        $scope.hideScenarios = false;
+        $scope.hideScenarios = true;
 
         $scope.alert = function(data) {
             console.info("the data is ")
@@ -71,6 +61,10 @@ angular.module('fileManagerApp')
         $scope.cloneFile = function(id) {
             FilesModel.$clone(id);
         };
+
+    $scope.clearFilters = function() {
+            $rootScope.$broadcast('$filter');
+        }
 
     })
     .controller('FileManagerSearchCtrl', function($scope, SEARCHITEMS, FilterService, $rootScope) {
