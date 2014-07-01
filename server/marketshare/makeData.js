@@ -1,4 +1,5 @@
-var data = {}, _ = require('underscore');
+var data = {}, _ = require('underscore'),
+    date = require('datejs');
 
 data.makeData = function() {
 
@@ -50,11 +51,12 @@ data.makeData = function() {
         },
 
         newData = function() {
-            var objs = [];
+            var objs = [],
+                indexer = 1;
             for (var i = 0, ilimit = 10; i < ilimit; i++) {
                 for (var x = 0, limit = titles.length; x < limit; x++) {
                     var obj = {}, type = pick(fileTypes);
-
+                    obj.index = indexer++;
                     obj.fileType = typeof type === "object" ? makeFileType(type) : type;
                     obj.icon = obj.fileType.replace(/\s/g, "").toLowerCase();
                     obj.id = generateUUID();
@@ -64,7 +66,8 @@ data.makeData = function() {
                     obj.createdDate = lastModified(180);
                     obj.modifiedBy = pick(modifiedBy);
                     obj.lastModified = lastModified(180);
-                    obj.scenarios = makeScenarios();
+                    obj.lastModified_display = obj.lastModified.toString('MMMM dS, yyyy');
+                    //obj.scenarios = makeScenarios();
                     obj.masterSet = trueFalse();
                     obj.imported = trueFalse();
                     obj.search = _.flatten(makeSearch(obj, type));

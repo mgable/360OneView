@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add title</title>
+	<script src="./bower_components/jquery/dist/jquery.js"></script>
+	<link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css" >
+	<script type="text/javascript" src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="./bower_components/angular/angular.js"></script>
+	<script src="./bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+	<script src="./bower_components/underscore/underscore.js"></script>
+</head>
+<body ng-app='myApp'>
+	<div class='container'  ng-controller="MainCtlr">
+		<div>{{greeting}}</div>
+		<div class="col-xs-4">
+			<button ng-click="objsort('title')">alpha sort</button> &nbsp; | &nbsp; 
+			<button ng-click="reverse = !reverse">reverse</button> reverse is {{reverse}}
+			<hr/>
+			<button ng-click="objsort('lastModified')">date sort</button> 
+			<hr/>
+
+			<form role="form">
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" ng-model="FilterService.imported" ng-change="filter()"/>show imported only
+					</label>
+				</div>
+
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" ng-model="FilterService.masterSet" ng-change="filter()"/>show masterset only
+					</label>
+				</div>
+
+
+				<div class="radio">
+					<label>
+						<input type="radio"  name="fileType" ng-model="FilterService.fileType" ng-change="filter()" value="" selected>All
+					</label>
+				</div>
+
+				<div class="radio">
+					<label>
+						<input type="radio"  name="fileType" ng-model="FilterService.fileType" ng-change="filter()" value="Cost Assumptions">Cost Assumptions
+					</label>
+				</div>
+
+				<div class="radio">
+					<label>
+						<input type="radio"  name="fileType" ng-model="FilterService.fileType"  ng-change="filter()" value="Pricing">Pricing
+					</label>
+				</div>
+
+				<div class="radio">
+					<label>
+						<input type="radio"  name="fileType" ng-model="FilterService.fileType" ng-change="filter()" value="Scenarios">Scenarios
+					</label>
+				</div>
+			</form>
+
+
+			<hr/>
+			total displayed items: {{data.displayObjects.length}} &nbsp; | &nbsp; total  items: {{data.objects.length}}
+			<hr/>
+
+			FilterService: {{FilterService}}
+
+			<hr/>
+			page number: <input type="text" ng-model="start" /> <br/>
+		</div>
+		<div class="col-xs-8">
+			<table class="table">
+				<!-- <li ng-repeat="item in data.animals | pagination : start: howmany ">{{item}}</li> -->
+				<tr ng-repeat="item in data.displayObjects | pagination : start: howmany"><td>{{item.index}}</td><td>{{item.title}} </td><td> {{item.fileType}} </td><td> {{item.lastModified_display}}</td><td>{{item.imported}}</td></tr> <!--  -->
+			</table>
+
+			<div ng-controller="PaginationDemoCtrl">
+	        	<pagination total-items="data.displayObjects.length" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages" items-per-page="itemsPerPage" ng-click='setPage(bigCurrentPage)'></pagination>
+	        </div>
+		</div>
+	</div>
+<!-- 		<button ng-click="reverse = !reverse">reverse</button> reverse is {{reverse}}<br/> -->
+		
+
+<!-- 		 -->
+
+	<script>
+		angular.module("myApp", ['ui.bootstrap']).controller(
+			'MainCtlr', function($scope, $filter, $http, FilterService){
+				$scope.greeting = 'hello';
+				$scope.reverse = false;
+				$scope.start = 0;
+				$scope.howmany = 10;
+				$scope.data = {};
+				$scope.FilterService = FilterService;
+
+				$http.get('http://127.0.0.1:3001/api/items').then(function(response){
+					$scope.data.objects = response.data.data;
+					$scope.data.displayObjects = angular.copy($scope.data.objects);
+				});
+
+
+				$scope.$on('PaginationDemoCtrl:pageChange', function(event, data){
+					$scope.start = data.currentpage * $scope.howmany;
+				})
+
+				$scope.filterAll = function(data){
+					var temp = angular.copy(data);
+ 					for (var prop in FilterService){
+ 						if (FilterService[prop] !== ""){
+ 							temp = $filter(prop)(temp, prop, FilterService[prop]);
+ 						}
+					}
+					return  temp;
+				}
+
+				$scope.filter = function(){
+					$scope.data.displayObjects = $scope.filterAll($scope.data.objects)
+				}
+				
+
+				$scope.objsort = function(prop){
+					var reverse = $scope.reverse ? -1 : 1;
+					$scope.data.objects.sort(function(a,b){
+						var x = a[prop]; var y = b[prop];
+   		 				return reverse * ( ((x < y) ? -1 : ((x > y) ? 1 : 0)) );
+					});
+
+					$scope.data.displayObjects = $scope.filterAll($scope.data.objects);
+				}
+
+			}
+		).filter('pagination', function(){
+			return function (input, start, howmany){
+				console.info ('pagination')
+				var end = +start +  +howmany;
+				if (input){
+					return input.slice(start, end);
+				}
+				return input;
+			}
+		})
+		.filter('fileType', function(){
+			return function (input, prop, value){
+				return _.filter(input, function (a){ if (a[prop] === value) {return a }})
+			}
+		}).filter('imported', function(){
+			return function (input, prop, onOrOff){
+				if (onOrOff){
+					return _.filter(input, function (a){ if (a[prop]) {return a }})
+				}else{
+					return input;
+				}
+			}
+		}).filter('masterSet', function(){
+			return function (input, prop, onOrOff){
+				if (onOrOff){
+					return _.filter(input, function (a){ if (a[prop]) {return a }})
+				}else{
+					return input;
+				}
+			}
+		}).factory('FilterService', function(){
+			return {
+				imported: '',
+				fileType: '',
+				masterSet: ''
+			}
+		}).controller("PaginationDemoCtrl", function($scope, $rootScope) {
+	
+			$scope.setPage = function(pageNumber) {
+				$rootScope.$broadcast('PaginationDemoCtrl:pageChange', {currentpage: pageNumber - 1 })
+			};
+
+			$scope.maxSize = 5;
+	        $scope.bigCurrentPage = 1;
+	        $scope.itemsPerPage = 10;
+	    });
+	</script>
+</body>
+</html>
+
+ 				
