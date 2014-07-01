@@ -18,6 +18,8 @@
 			<hr/>
 			<button ng-click="objsort('lastModified')">date sort</button> 
 			<hr/>
+			<button ng-click="filter()">Search</button>&nbsp;<input type="text" ng-model="FilterService.searchText" />
+			<hr/>
 
 			<form role="form">
 				<div class="checkbox">
@@ -32,7 +34,7 @@
 					</label>
 				</div>
 
-
+				<hr />
 				<div class="radio">
 					<label>
 						<input type="radio"  name="fileType" ng-model="FilterService.fileType" ng-change="filter()" value="" selected>All
@@ -56,6 +58,40 @@
 						<input type="radio"  name="fileType" ng-model="FilterService.fileType" ng-change="filter()" value="Scenarios">Scenarios
 					</label>
 				</div>
+
+				<hr />
+
+				<div class="radio">
+					<label>
+						<input type="radio"  name="dateRange" ng-model="FilterService.dateRange" ng-change="filter()" value="" selected>All Time
+					</label>
+				</div>
+
+				<div class="radio">
+					<label>
+						<input type="radio"  name="dateRange" ng-model="FilterService.dateRange" ng-change="filter()" value="7" >One Week
+					</label>
+				</div>
+
+				<div class="radio">
+					<label>
+						<input type="radio"  name="dateRange" ng-model="FilterService.dateRange" ng-change="filter()" value="31">One Month
+					</label>
+				</div>
+
+				<div class="radio">
+					<label>
+						<input type="radio"  name="dateRange" ng-model="FilterService.dateRange" ng-change="filter()" value="90">Last Quarter
+					</label>
+				</div>
+
+				<div class="radio">
+					<label>
+						<input type="radio"  name="dateRange" ng-model="FilterService.dateRange" ng-change="filter()" value="365">Last Year
+					</label>
+				</div>
+
+
 			</form>
 
 
@@ -107,6 +143,7 @@
 				$scope.filterAll = function(data){
 					var temp = angular.copy(data);
  					for (var prop in FilterService){
+ 						console.info (typeof FilterService[prop])
  						if (FilterService[prop] !== ""){
  							temp = $filter(prop)(temp, prop, FilterService[prop]);
  						}
@@ -132,7 +169,7 @@
 			}
 		).filter('pagination', function(){
 			return function (input, start, howmany){
-				console.info ('pagination')
+				//console.info ('pagination')
 				var end = +start +  +howmany;
 				if (input){
 					return input.slice(start, end);
@@ -160,11 +197,48 @@
 					return input;
 				}
 			}
+		}).filter('searchText', function(){
+			return function (input, prop, value){
+				if (value){
+
+					return _.filter(input, function (a){ 
+						var v = _.compact(_.map(_.values(a), function(b){if (typeof b === "string"){
+							return b.toLowerCase();
+						}}));
+
+						if (_.find(v, function(item){ return item.indexOf(value) > -1 ? true : false })){return a}
+					})
+				}else{
+					return input;
+				}
+			}
+		}).filter('dateRange', function(){
+			var dayInMillisec = 86400000;
+	        return function(input, prop, daysBack) {
+	            var results = [],
+	                daysBack = parseInt(daysBack, 10),
+	                now = Date.now(),
+	                threshold = new Date(now - (dayInMillisec * daysBack));
+
+	            if (daysBack === 0) {
+	                return input;
+	            }
+	            for (var i = 0, limit = input.length; i < limit; i++) {
+
+	                if (new Date(input[i].lastModified) > threshold) {
+	                    results.push(input[i]);
+	                }
+	            }
+
+	            return results;
+	        };
 		}).factory('FilterService', function(){
 			return {
 				imported: '',
 				fileType: '',
-				masterSet: ''
+				masterSet: '',
+				searchText: '',
+				dateRange: ''
 			}
 		}).controller("PaginationDemoCtrl", function($scope, $rootScope) {
 	
