@@ -8,26 +8,15 @@ data.makeData = function() {
         scenarioTitles = ['Carl\'s Econ Variable Simulation 1', 'Al\'s AIB 2Q 2015 ', 'Al\'s Simulate 2Q 2015', 'Ann\'s AIB Q1 2015 TV ONLY v3', 'Ann\'s Allocate 3Q', 'Bob’s Simulate 4Q 2014', 'Brent\'s Simulate 3Q', 'Dan\'s Digital Hit Target', 'Erik\'s Cut Budget 2Q 2015 TV and Radio', 'Francis\' Max Profit for Q4 2014'],
 
         fileTypes = [
-            'Media Plans', {
-                'Constraints': [
-                    'Hard Constraints',
-                    'Soft Constraints'
-                ]
-            },
             "Cost Assumptions", {
-                'Environmental Factors': [
-                    'Economic Variables',
-                    'Marketing Factors',
-                    'Competitive Spend',
+                'Non-Marketing Factors': [
+                    'Economy',
+                    'Labor Costs',
+                    'Competition',
                     'Brand Awardness',
-                    'Pricing',
-                    'Product Factors'
+                    'Pricing'
                 ]
-            },
-            'Objectives',
-            'Scenarios',
-            'Playbook',
-            'Decision Books'
+            }
         ],
 
         masterSet = false,
@@ -61,15 +50,15 @@ data.makeData = function() {
                     obj.icon = obj.fileType.replace(/\s/g, "").toLowerCase();
                     obj.id = generateUUID();
                     obj.title = titles[x] + "_" + i + "_" + x;
-                    obj.description = descriptions[x];
-                    obj.createdBy = pick(modifiedBy);
-                    obj.createdDate = lastModified(180);
+                    //obj.description = descriptions[x];
+                    //obj.createdBy = pick(modifiedBy);
+                    //obj.createdDate = lastModified(180);
                     obj.modifiedBy = pick(modifiedBy);
-                    obj.lastModified = lastModified(180);
-                    obj.lastModified_display = obj.lastModified.toString('MMMM dS, yyyy');
+                    //obj.lastModified = lastModified(180);
+                    obj.lastModified_display = timeAgo(lastModified(180));
                     //obj.scenarios = makeScenarios();
                     obj.masterSet = trueFalse();
-                    obj.imported = trueFalse();
+                    //obj.imported = trueFalse();
                     obj.search = _.flatten(makeSearch(obj, type));
                     objs.push(obj);
                 }
@@ -77,94 +66,161 @@ data.makeData = function() {
             return objs
         },
 
-        makeSearch = function(obj, type) {
-            var results = [""]
-            if (obj.masterSet) {
-                results.push('Master Set')
-            }
-            if (typeof type === "object") {
-                results.push(makeSearchType(type));
-            }
-            return results;
-        },
+        timeAgo = function(time, local, raw) {
 
-        trueFalse = function() {
-            return !!Math.floor(Math.random() * 2);
-        },
+            if (!time) return "never";
 
-
-        makeScenarios = function() {
-            var objs = [];
-            for (var x = 0, limit = scenarioTitles.length; x < limit; x++) {
-                var obj = {}, fileType = pick(fileTypes);
-                obj.title = scenarioTitles[x];
-                obj.lastModified = lastModified(7);
-                obj.modifiedBy = pick(modifiedBy);
-                obj.fileType = typeof fileType === "object" ? makeFileType(fileType) : fileType;
-                obj.icon = obj.fileType.replace(/\s/g, "").toLowerCase();
-                objs.push(obj);
-            }
-            return objs;
-        },
-
-        makeFileType = function(which) {
-            var val, result = {};
-            for (var prop in which) {
-                val = pick(which[prop]);
-            }
-            //return val;
-            result[prop] = val;
-            return val;
-        },
-
-        makeFileTypeObj = function(which) {
-            var val, result = {};
-            for (var prop in which) {
-                val = pick(which[prop]);
+            if (!local) {
+                (local = Date.now())
             }
 
-            result[prop] = val;
-            return result;
-        },
-
-        makeSearchType = function(which) {
-            var obj;
-            for (var prop in which) {
-                obj = prop;
+            if (isDate(time)) {
+                time = time.getTime();
+            } else if (typeof time === "string") {
+                time = new Date(time).getTime();
             }
-            return obj;
-        },
 
-        shuffle = function(arry) {
-            var results = [];
-            while (arry.length > 0) {
-                results.push(arry.splice(Math.floor(Math.random() * arry.length), 1).join());
+            if (isDate(local)) {
+                local = local.getTime();
+            } else if (typeof local === "string") {
+                local = new Date(local).getTime();
             }
-            return results;
+
+            if (typeof time !== 'number' || typeof local !== 'number') {
+                return;
+            }
+
+            var
+            offset = Math.abs((local - time) / 1000),
+                span = [],
+                MINUTE = 60,
+                HOUR = 3600,
+                DAY = 86400,
+                WEEK = 604800,
+                MONTH = 2629744,
+                YEAR = 31556926,
+                DECADE = 315569260;
+
+            if (offset <= MINUTE) span = ['', raw ? 'now' : 'less than a minute'];
+            else if (offset < (MINUTE * 60)) span = [Math.round(Math.abs(offset / MINUTE)), 'min'];
+            else if (offset < (HOUR * 24)) span = [Math.round(Math.abs(offset / HOUR)), 'hr'];
+            else if (offset < (DAY * 7)) span = [Math.round(Math.abs(offset / DAY)), 'day'];
+            else if (offset < (WEEK * 52)) span = [Math.round(Math.abs(offset / WEEK)), 'week'];
+            else if (offset < (YEAR * 10)) span = [Math.round(Math.abs(offset / YEAR)), 'year'];
+            else if (offset < (DECADE * 100)) span = [Math.round(Math.abs(offset / DECADE)), 'decade'];
+            else span = ['', 'a long time'];
+
+            span[1] += (span[0] === 0 || span[0] > 1) ? 's' : '';
+            span = span.join(' ');
+
+            if (raw === true) {
+                return span;
+            }
+            return (time <= local) ? span + ' ago' : 'in ' + span;
         },
 
+        isDate = function(d) {
+            if (Object.prototype.toString.call(d) === "[object Date]") {
+                // it is a date
+                if (isNaN(d.getTime())) { // d.valueOf() could also work
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        }
 
-        pick = function(array) {
-            return array[Math.floor(Math.random() * array.length)];
-        },
+    makeSearch = function(obj, type) {
+        var results = [""]
+        if (obj.masterSet) {
+            results.push('Master Set')
+        }
+        if (typeof type === "object") {
+            results.push(makeSearchType(type));
+        }
+        return results;
+    },
 
-        generateUUID = function() {
-            var d = new Date().getTime();
-            var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                var r = (d + Math.random() * 16) % 16 | 0;
-                d = Math.floor(d / 16);
-                return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
-            });
-            return uuid;
-        },
+    trueFalse = function() {
+        return !!Math.floor(Math.random() * 2);
+    },
 
-        objs = [],
-        titles = shuffle(titles),
 
-        descriptions = shuffle(descriptions);
+    makeScenarios = function() {
+        var objs = [];
+        for (var x = 0, limit = scenarioTitles.length; x < limit; x++) {
+            var obj = {}, fileType = pick(fileTypes);
+            obj.title = scenarioTitles[x];
+            obj.lastModified = lastModified(7);
+            obj.modifiedBy = pick(modifiedBy);
+            obj.fileType = typeof fileType === "object" ? makeFileType(fileType) : fileType;
+            obj.icon = obj.fileType.replace(/\s/g, "").toLowerCase();
+            objs.push(obj);
+        }
+        return objs;
+    },
+
+    makeFileType = function(which) {
+        var val, result = {};
+        for (var prop in which) {
+            val = pick(which[prop]);
+        }
+        //return val;
+        result[prop] = val;
+        return val;
+    },
+
+    makeFileTypeObj = function(which) {
+        var val, result = {};
+        for (var prop in which) {
+            val = pick(which[prop]);
+        }
+
+        result[prop] = val;
+        return result;
+    },
+
+    makeSearchType = function(which) {
+        var obj;
+        for (var prop in which) {
+            obj = prop;
+        }
+        return obj;
+    },
+
+    shuffle = function(arry) {
+        var results = [];
+        while (arry.length > 0) {
+            results.push(arry.splice(Math.floor(Math.random() * arry.length), 1).join());
+        }
+        return results;
+    },
+
+
+    pick = function(array) {
+        return array[Math.floor(Math.random() * array.length)];
+    },
+
+    generateUUID = function() {
+        var d = new Date().getTime();
+        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = (d + Math.random() * 16) % 16 | 0;
+            d = Math.floor(d / 16);
+            return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
+        });
+        return uuid;
+    },
+
+    objs = [],
+    titles = shuffle(titles),
+
+    descriptions = shuffle(descriptions);
 
     return {
-        "data": newData()
+        "data": newData(),
+        "makeScenarios": makeScenarios
     };
 };
 

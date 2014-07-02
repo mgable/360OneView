@@ -3,6 +3,9 @@
   font-family: "font awesome";
   src: url("../fonts/fontawesome-webfont.eot");
   src: url("../fonts/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff") format("woff"), url("../fonts/fontawesome-webfont.ttf") format("truetype"), url("../fonts/fontawesome-webfont.svg#fontawesome-webfont") format("svg"); }
+.space-after {
+  margin-bottom: 20px; }
+
 .no-background-color {
   background-color: transparent; }
 
@@ -37,15 +40,6 @@
 .disabled {
   pointer-events: none; }
 
-.popover .popover-inner .close {
-  position: absolute;
-  top: 6px;
-  right: 10px; }
-.popover .popover-inner .text {
-  font-weight: normal; }
-.popover .popover-inner h3 {
-  font-weight: bold; }
-
 .fade-in.ng-enter, .fade-in.ng-leave {
   transition: 0.3s linear all;
   -webkit-transition: 0.3s linear all; }
@@ -70,12 +64,22 @@
   max-width: 1300px;
   font-size: 13px;
   margin: auto; }
-  .app .col-3 {
-    width: 200px; }
-  .app .col-9 {
+  .app .col-4 {
+    width: 300px;
+    height: 100%; }
+  .app .col-8 {
     float: none;
-    margin-left: 200px;
+    margin-left: 300px;
     width: auto; }
+  .app .col-2 {
+    float: left;
+    width: 200px; }
+  .app .left-column {
+    background-color: lightgray;
+    position: absolute;
+    top: 0;
+    bottom: 100%;
+    padding: 50px 15px 0; }
   .app .navigation {
     margin: 50px 0 0 0; }
     .app .navigation .bar {
@@ -101,3 +105,123 @@
         color: lightgray; }
     .app .navigation .navbar-nav li a .glyphicon {
       color: white; }
+  .app .display-actions .title {
+    width: 400px;
+    font-weight: bold; }
+    .app .display-actions .title span {
+      color: lightgray; }
+  .app .display-actions span {
+    font-family: "font awesome"; }
+  .app .display-actions .actions {
+    margin: 10px 10px 10px 0;
+    border-right: 1px solid gray;
+    width: 132px; }
+    .app .display-actions .actions span {
+      padding: 0 10px 0 0;
+      font-size: 17px;
+      color: gray; }
+      .app .display-actions .actions span.enabled {
+        color: cornflowerblue;
+        cursor: pointer; }
+  .app .display-actions .search-field {
+    margin: 10px 0;
+    width: 340px;
+    border-right: 1px solid gray; }
+  .app .display-actions .info {
+    margin: 10px 0 0 10px; }
+  .app .display-table thead {
+    background-color: lightgray; }
+    .app .display-table thead th a {
+      color: black; }
+    .app .display-table thead th.selected:after {
+      font-family: "font awesome";
+      color: black;
+      content: '\f0de'; }
+    .app .display-table thead th.selected a {
+      color: red; }
+    .app .display-table thead th.selected:after {
+      content: '\f0dd'; }
+    .app .display-table thead th.selected.reverse a {
+      color: red; }
+    .app .display-table thead th.selected.reverse:after {
+      content: '\f0de'; }
+  .app .search .title {
+    margin: 10px 0 30px 0; }
+  .app .search .header {
+    font-weight: bold; }
+    .app .search .header.selected {
+      color: red; }
+  .app .search .file-types {
+    margin: 0 0 20px 20px; }
+
+.symbol {
+  display: inline-block;
+  margin: 0 5px 0 0;
+  height: 18px;
+  width: 18px;
+  color: white;
+  font-size: 9px;
+  text-align: center;
+  vertical-align: middle;
+  font-family: arial, helvetica, sans-serif;
+  padding: 2px 0 0 0; }
+  .symbol.icon-costassumptions {
+    background-color: blue; }
+    .symbol.icon-costassumptions:after {
+      content: 'CA'; }
+  .symbol.icon-competition {
+    background-color: gold; }
+    .symbol.icon-competition:after {
+      content: 'S'; }
+  .symbol.icon-objectives {
+    background-color: green; }
+    .symbol.icon-objectives:after {
+      content: 'O'; }
+  .symbol.icon-economy {
+    background-color: violet; }
+    .symbol.icon-economy:after {
+      content: 'DB'; }
+  .symbol.icon-productfactors {
+    background-color: darkblue; }
+    .symbol.icon-productfactors:after {
+      content: 'PF'; }
+  .symbol.icon-mediaplans {
+    background-color: darkgreen; }
+    .symbol.icon-mediaplans:after {
+      content: 'MP'; }
+  .symbol.icon-playbook {
+    background-color: aqua; }
+    .symbol.icon-playbook:after {
+      content: 'PB'; }
+  .symbol.icon-hardconstraints {
+    background-color: blueviolet; }
+    .symbol.icon-hardconstraints:after {
+      content: 'HC'; }
+  .symbol.icon-softconstraints {
+    background-color: brown; }
+    .symbol.icon-softconstraints:after {
+      content: 'SC'; }
+  .symbol.icon-economicvariables {
+    background-color: gray; }
+    .symbol.icon-economicvariables:after {
+      content: 'EV'; }
+  .symbol.icon-competitivespend {
+    background-color: darkgray; }
+    .symbol.icon-competitivespend:after {
+      content: 'CS'; }
+  .symbol.icon-pricing {
+    background-color: crimson; }
+    .symbol.icon-pricing:after {
+      content: 'P'; }
+  .symbol.icon-brandawardness {
+    background-color: darkcyan; }
+    .symbol.icon-brandawardness:after {
+      content: 'BA'; }
+  .symbol.icon-masterset {
+    background-color: red; }
+    .symbol.icon-masterset:after {
+      content: 'M'; }
+  .symbol.icon-marketingfactors {
+    background-color: hotpink; }
+    .symbol.icon-marketingfactors:after {
+      content: 'MF'; }

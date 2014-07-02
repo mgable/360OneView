@@ -3,6 +3,9 @@
   font-family: "font awesome";
   src: url("../fonts/fontawesome-webfont.eot");
   src: url("../fonts/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff") format("woff"), url("../fonts/fontawesome-webfont.ttf") format("truetype"), url("../fonts/fontawesome-webfont.svg#fontawesome-webfont") format("svg"); }
+.space-after {
+  margin-bottom: 20px; }
+
 .no-background-color {
   background-color: transparent; }
 

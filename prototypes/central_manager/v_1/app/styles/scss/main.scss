@@ -1,5 +1,4 @@
 @import "utility_classes";
-@import "ms-popover";
 @import "animation";
 
 .cap {
@@ -15,13 +14,25 @@
 	font-size: 13px;
 	margin: auto;
 
-	.col-3 {
-		width: 200px;
+	.col-4 {
+		width: 300px;
+		height:100%;
 	}
-	.col-9 {
+	.col-8 {
 		float: none;
-		margin-left: 200px;
+		margin-left: 300px;
 		width:auto;
+	}
+	.col-2 {
+		float:left;
+		width:200px;
+	}
+	.left-column {
+		background-color:$lightgray;
+		position:absolute;
+		top:0;
+		bottom: 100%;
+		padding:50px 15px 0;
 	}
 	.navigation {
 		margin: 50px 0 0 0;
@@ -58,6 +69,184 @@
 					color: white;
 				}
 			}
+		}
+	}
+	.display-actions {
+		.title {
+			width:400px;
+			font-weight:bold;
+			span {
+				color:$lightgray;
+			}
+		}
+		span {
+			font-family: "font awesome";
+		}
+		.actions {
+			margin:10px 10px 10px 0;
+			border-right: 1px solid $gray;
+			width:132px;
+			span {
+				padding: 0 10px 0 0;
+				font-size: 17px;
+				color:$gray;
+				&.enabled {
+					color:$active;
+					cursor: pointer;
+				}
+			}
+		}
+		.search-field {
+			margin:10px 0;
+			width:340px;
+			border-right: 1px solid $gray;
+		}
+		.info {
+			margin:10px 0 0 10px;
+		}
+	}
+	.display-table {
+		thead {
+			background-color:$lightgray;
+			th {
+				a {
+					color:$black;
+				}
+				&.selected:after {
+					font-family: "font awesome";
+					color: $black;
+					content : '\f0de';
+				}
+				&.selected {
+					a {color:red;}
+					&:after {
+						content: '\f0dd';
+					}
+				}
+				&.selected.reverse {
+					a {color:red;}
+					&:after {
+						content: '\f0de';
+					}
+				}
+			}
+		}
+	}
+	.search {
+		.title {
+			margin: 10px 0 30px 0;
+		}
+		.header {
+			font-weight:bold;
+			&.selected {
+				color:$selected;
+			}
+		}
+		.file-types {
+			margin: 0 0 20px 20px;
+		}
+	}
+}
+
+.symbol{
+	display: inline-block;
+	margin: 0 5px 0 0;
+	height:18px;
+	width:18px;
+	color:white;
+	font-size: 9px;
+	text-align: center;
+	vertical-align: middle;
+	font-family: arial, helvetica, sans-serif;
+	padding:2px 0 0 0;
+	&.icon-costassumptions {
+		background-color:blue;
+		&:after {
+			content:'CA';
+		}
+	}
+	&.icon-competition {
+		background-color:gold;
+		&:after {
+			content:'S';
+		}
+	}
+	&.icon-objectives {
+		background-color:green;
+		&:after {
+			content:'O';
+		}
+	}
+	&.icon-economy {
+		background-color:violet;
+		&:after {
+			content:'DB';
+		}
+	}
+	&.icon-productfactors {
+		background-color:darkblue;
+		&:after {
+			content:'PF';
+		}
+	}
+	&.icon-mediaplans {
+		background-color:darkgreen;
+		&:after {
+			content:'MP';
+		}
+	}
+	&.icon-playbook {
+		background-color:aqua;
+		&:after {
+			content:'PB';
+		}
+	}
+	&.icon-hardconstraints {
+		background-color:blueviolet;
+		&:after {
+			content:'HC';
+		}
+	}
+	&.icon-softconstraints {
+		background-color:brown;
+		&:after {
+			content:'SC';
+		}
+	}
+	&.icon-economicvariables {
+		background-color:gray;
+		&:after {
+			content:'EV';
+		}
+	}
+	&.icon-competitivespend {
+		background-color:darkgray;
+		&:after {
+			content:'CS';
+		}
+	}
+	&.icon-pricing {
+		background-color:crimson;
+		&:after {
+			content:'P';
+		}
+	}
+	&.icon-brandawardness {
+		background-color:darkcyan;
+		&:after {
+			content:'BA';
+		}
+	}
+	&.icon-masterset {
+		background-color:red;
+		&:after {
+			content:'M';
+		}
+	}
+	&.icon-marketingfactors {
+		background-color:hotpink;
+		&:after {
+			content:'MF';
 		}
 	}
 }

@@ -1,13 +1,7 @@
-<div id="centralManager" class="centralManager">
-	<h1>Central Manager</h1>
-	<h5>{{greeting}}</h5>
-    <!-- top row -->
-    <div class="col-12"><div ng-include src=""></div></div>
-
-    <div style="clear:both;">
-	    <!-- left column -->
-	    <div class="col-3"><div class="fade-in" ng-include src=""></div></div>
-	    <!-- right column -->
-	    <div class="col-9"><div class="fade-in" ng-include src=""></div></div>
-	</div>
+<div id="centralManager" class="centralManager" ng-controller="CentralManagerCtrl">
+    <!-- left column -->
+    <div class="col-4 left-column"><div class="fade-in" ng-include src="'views/includes/central_manager_search.tpl.html'"></div></div>
+    <!-- right column -->
+    <div class="col-8 right-column"><div class="fade-in" ng-include src="'views/includes/central_manager_display.tpl.html'"></div></div>
+    <div class="col-2 hidden-column"><div class="fade-in">foo bar</div></div>
 </div>

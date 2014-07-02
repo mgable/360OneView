@@ -74,6 +74,17 @@ function init() {
         });
     });
 
+    // get single record scenarios
+    app.get("/api/items/:id/scenarios", function(req, res) {
+        var results = getRecordById(req.params.id, currentData.data),
+            status = (results) ? "success" : "fail";
+
+        sendResponse(res, {
+            status: status,
+            data: currentData.makeScenarios()
+        });
+    });
+
     // clone record
     app.post("/api/items/:id", function(req, res) {
         console.info("Cloning " + req.params.id);

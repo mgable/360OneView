@@ -18,7 +18,7 @@
 			<hr/>
 			<button ng-click="objsort('lastModified')">date sort</button> 
 			<hr/>
-			<button ng-click="filter()">Search</button>&nbsp;<input type="text" ng-model="FilterService.searchText" />
+			<button ng-click="filter()">Search</button>&nbsp;<input type="text" ng-model="FilterService.searchText" /> &nbsp; <button ng-click="clearSearch()">clear search</button>
 			<hr/>
 
 			<form role="form">
@@ -106,7 +106,6 @@
 		</div>
 		<div class="col-xs-8">
 			<table class="table">
-				<!-- <li ng-repeat="item in data.animals | pagination : start: howmany ">{{item}}</li> -->
 				<tr ng-repeat="item in data.displayObjects | pagination : start: howmany"><td>{{item.index}}</td><td>{{item.title}} </td><td> {{item.fileType}} </td><td> {{item.lastModified_display}}</td><td>{{item.imported}}</td></tr> <!--  -->
 			</table>
 
@@ -115,10 +114,6 @@
 	        </div>
 		</div>
 	</div>
-<!-- 		<button ng-click="reverse = !reverse">reverse</button> reverse is {{reverse}}<br/> -->
-		
-
-<!-- 		 -->
 
 	<script>
 		angular.module("myApp", ['ui.bootstrap']).controller(
@@ -135,15 +130,18 @@
 					$scope.data.displayObjects = angular.copy($scope.data.objects);
 				});
 
-
 				$scope.$on('PaginationDemoCtrl:pageChange', function(event, data){
 					$scope.start = data.currentpage * $scope.howmany;
-				})
+				});
+
+				$scope.clearSearch = function(){
+					FilterService.searchText = "";
+					$scope.filter();
+				}
 
 				$scope.filterAll = function(data){
 					var temp = angular.copy(data);
  					for (var prop in FilterService){
- 						console.info (typeof FilterService[prop])
  						if (FilterService[prop] !== ""){
  							temp = $filter(prop)(temp, prop, FilterService[prop]);
  						}
@@ -155,7 +153,6 @@
 					$scope.data.displayObjects = $scope.filterAll($scope.data.objects)
 				}
 				
-
 				$scope.objsort = function(prop){
 					var reverse = $scope.reverse ? -1 : 1;
 					$scope.data.objects.sort(function(a,b){
@@ -169,7 +166,7 @@
 			}
 		).filter('pagination', function(){
 			return function (input, start, howmany){
-				//console.info ('pagination')
+				console.info ('pagination')
 				var end = +start +  +howmany;
 				if (input){
 					return input.slice(start, end);
@@ -179,10 +176,12 @@
 		})
 		.filter('fileType', function(){
 			return function (input, prop, value){
+				console.info ('fileType')
 				return _.filter(input, function (a){ if (a[prop] === value) {return a }})
 			}
 		}).filter('imported', function(){
 			return function (input, prop, onOrOff){
+				console.info ('imported')
 				if (onOrOff){
 					return _.filter(input, function (a){ if (a[prop]) {return a }})
 				}else{
@@ -191,6 +190,7 @@
 			}
 		}).filter('masterSet', function(){
 			return function (input, prop, onOrOff){
+				console.info ('master set')
 				if (onOrOff){
 					return _.filter(input, function (a){ if (a[prop]) {return a }})
 				}else{
@@ -199,8 +199,9 @@
 			}
 		}).filter('searchText', function(){
 			return function (input, prop, value){
+				console.info ("text search")
 				if (value){
-
+					value = value.toLowerCase();
 					return _.filter(input, function (a){ 
 						var v = _.compact(_.map(_.values(a), function(b){if (typeof b === "string"){
 							return b.toLowerCase();
@@ -213,6 +214,7 @@
 				}
 			}
 		}).filter('dateRange', function(){
+			console.info ('date range')
 			var dayInMillisec = 86400000;
 	        return function(input, prop, daysBack) {
 	            var results = [],
