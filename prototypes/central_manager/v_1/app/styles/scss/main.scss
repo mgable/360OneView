@@ -1,6 +1,4 @@
 @import "utility_classes";
-@import "animation";
-
 .cap {
 	width:100%;
 	background-color:#222;
@@ -11,28 +9,40 @@
 
 .app {
 	max-width:1300px;
+	min-width:1024px;
 	font-size: 13px;
 	margin: auto;
-
-	.col-4 {
-		width: 300px;
-		height:100%;
-	}
-	.col-8 {
-		float: none;
-		margin-left: 300px;
-		width:auto;
-	}
-	.col-2 {
-		float:left;
+	position: relative;
+	.left { 
 		width:200px;
-	}
-	.left-column {
 		background-color:$lightgray;
 		position:absolute;
 		top:0;
-		bottom: 100%;
-		padding:50px 15px 0;
+		bottom:0;
+		height:100%;
+		padding:50px 10px 0;
+	}
+	.center {
+		transition: 0.3s linear all;
+		-webkit-transition: 0.3s linear all;
+		margin:0 0 0 200px;
+		height:100%;
+		padding: 0 0 0 10px;
+		&.condense {
+			min-width:1100px;
+		}
+	}
+	.right {
+		width:300px;
+		background-color:$lightgray;
+		height: 100%;
+		position: absolute;
+		right: 0;
+	}
+
+	.holder {
+		max-width:1300px;
+		margin:auto;
 	}
 	.navigation {
 		margin: 50px 0 0 0;
@@ -71,13 +81,46 @@
 			}
 		}
 	}
+	.display-table {
+		&.condense {
+			float:left;
+			width:784px;
+		}
+		table {
+			font-size:13px;
+			transition: 0.3s linear all;
+			-webkit-transition: 0.3s linear all;
+			width: 100%;
+			&.condense {
+				// width: 750px;
+			}
+			td {
+				white-space: nowrap;
+			}
+		}
+	}
 	.display-actions {
+		float:left;
+		min-width:772px;
+		width:100%;
+		&.condense {
+			width: inherit;
+		}
 		.title {
-			width:400px;
+			max-width:400px;
 			font-weight:bold;
 			span {
 				color:$lightgray;
 			}
+			&.condense {
+				// width:150px;
+				// text-overflow: ellipsis;
+				// overflow: hidden;
+				// white-space: nowrap;
+			}
+		}
+		.table {
+			font-size:13px;
 		}
 		span {
 			font-family: "font awesome";
@@ -85,7 +128,8 @@
 		.actions {
 			margin:10px 10px 10px 0;
 			border-right: 1px solid $gray;
-			width:132px;
+			max-width:132px;
+			display:inline-block;
 			span {
 				padding: 0 10px 0 0;
 				font-size: 17px;
@@ -96,9 +140,18 @@
 				}
 			}
 		}
+		.toggle-info-tray {
+			padding:0 15px;
+			a {
+				cursor: pointer;
+				text-decoration: none;
+			}
+		}
 		.search-field {
+			display:inline-block;
 			margin:10px 0;
-			width:340px;
+			padding:0 15px 0 0;
+			max-width:340px;
 			border-right: 1px solid $gray;
 		}
 		.info {
@@ -250,3 +303,5 @@
 		}
 	}
 }
+
+@import "animation";

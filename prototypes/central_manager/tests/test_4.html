@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+	<script src="./bower_components/angular/angular.js"></script>
+	<script src="./bower_components/angular-animate/angular-animate.js"></script>
+	<title></title>
+	<style>
+		body {
+			padding:0;
+			margin:0;
+		}
+
+		#css-table { 
+			display: table; 
+			height:100%;
+			position:absolute;
+			top:0;
+			bottom:0;
+			max-width: 1300px;
+			min-width:1024px;
+		}
+		#css-table .col { 
+			display: table-cell; 
+			padding: 10px; 
+		}
+
+		#css-table .col.left { 
+			width:200px;
+		}
+
+		#css-table .col.info { 
+			overflow: hidden;
+			width:0; 
+		}
+
+		#css-table .col.right { 
+			width:auto;
+		}
+
+
+		#css-table .col:nth-child(even) { 
+			background: #ccc;
+		}
+		#css-table .col:nth-child(odd) { 
+			background: #eee;
+		}
+
+/*		.slide-in.ng-hide-add,
+		.slide-in.ng-hide-remove {
+		-webkit-transition:0.5s linear all;
+		  transition:0.5s linear all;
+		  display: table-cell !important;
+		}*/
+
+		.slide-in.ng-hide-add {
+		 width:300px;
+		}
+
+		.slide-in.ng-hide-add.ng-hide-add-active {
+			width:0px;
+		}
+
+		.slide-in.ng-hide-remove {
+			width:0px;
+		}
+
+		.slide-in.ng-hide-remove.ng-hide-remove-active {
+			width:300px;
+		}
+
+		.holder {
+			max-width:1300px;
+			margin:auto;
+		}
+
+		.clearfix:after {
+		     visibility: hidden;
+		     display: block;
+		     font-size: 0;
+		     content: " ";
+		     clear: both;
+		     height: 0;
+		     }
+		.clearfix { display: inline-block; }
+		/* start commented backslash hack \*/
+		* html .clearfix { height: 1%; }
+		.clearfix { display: block; }
+/* close commented backslash hack */
+	</style>
+</head>
+	<body ng-app="myapp" ng-controller="MainCtrl">
+
+		<div class='holder clearfix'>
+			<div id="css-table">
+				<div class="col left"><p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p></div>
+				<div class="col right"><button ng-click="toggleRight()">showRight</button><p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p></div>
+				<div class="col info slide-in"><p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p></div>
+			</div>
+		</div>
+				
+
+		<script>
+			angular.module('myapp',['ngAnimate']).controller('MainCtrl', function($scope){
+				$scope.showRight = false;
+
+				$scope.toggleRight = function(){
+					$scope.showRight = !$scope.showRight;
+				}
+			});
+
+		</script>
+	</body>
+</html>

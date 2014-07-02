@@ -1,20 +1,25 @@
-<div class="display-actions">
-	<h4 class="pull-left title">Default Scenario Elements&nbsp;<span>(7)</span></h4>
-	<div class="pull-left actions">
-		<span class='enabled'>&#xf067</span>
-		<span>&#xf0c5</span>
-		<span><img src="images/ms-confirm_gray.png" width="18" height="16"/></span>
-		<span>&#xf014</span>
+<div class="display-actions" ng-class="{condense: showinfotray}">
+	<h4 class="pull-left title" ng-class="{condense: showinfotray}">Default Scenario Elements&nbsp;<span>(7)</span></h4>
+	
+	<div class="pull-right">
+
+		<div class="actions">
+			<span class='enabled'>&#xf067</span>
+			<span>&#xf0c5</span>
+			<span><img src="images/ms-confirm_gray.png" width="18" height="16"/></span>
+			<span>&#xf014</span>
+		</div>
+		<div class='search-field'>
+			<i class="icon-search"></i>
+			<input type="text" placeholder="Search" ng-model="searchText" />
+		</div>
+		<span class="toggle-info-tray"><a ng-click="toggleInfoTray()">&#xf05a</a></span>
+
 	</div>
-	<div class="pull-left search-field">
-		<i class="icon-search"></i>
-		<input type="text" placeholder="Search" ng-model="searchText" />
-	</div>
-	<div class="info pull-left"><span><a ng-click="toggleInfoTray()">&#xf05a</a></span></div>
 </div>
 
-<form class="form-inline">
-	<table class="table table-hover display-table">
+<form class="form-inline display-table" ng-class="{condense: showinfotray}">
+	<table class="table table-hover">
 		<thead>
 			<th>
 				<div class="checkbox">
@@ -28,15 +33,15 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="item in data.data">
-				<td>
+				<td style="width:1%">
 					<div class="checkbox pull-left multi-select">
 	                    <input type="checkbox" ng-model="item.isSelected" />
 	                </div>
 	            </td>
 				<td><span class="symbol icon-{{item.icon}}"></span>{{item.title}}</td>
-				<td>{{item.lastModified_display}}</td>
-				<td>{{item.modifiedBy}}</td>
-				<td>{{item.fileType}}</td>
+				<td style="width:1%">{{item.lastModified_display}}</td>
+				<td style="width:1%">{{item.modifiedBy}}</td>
+				<td style="width:1%">{{item.fileType}}</td>
 			</tr>
 		</tbody>
 	</table>

@@ -1,5 +1,8 @@
 <html>
 <head>
+	<script src="./bower_components/jquery/dist/jquery.js"></script>
+	<link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css" >
+	<script type="text/javascript" src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 	<script src="./bower_components/angular/angular.js"></script>
 	<script src="./bower_components/angular-animate/angular-animate.js"></script>
 	<title></title>
@@ -61,6 +64,9 @@
 			width:300px;
 		}
 
+		th {
+			text-align:left;
+		}
 
 	</style>
 </head>
@@ -68,12 +74,12 @@
 		<div class="holder">
 			<div class=" left column">left</div>
 			<div class="slide-in right" ng-show="showRight">right</div>
-			<div class="center">center<button ng-click="toggleRight()">showRight</button>
+			<div class="center"><button ng-click="toggleRight()">showRight</button>
 				
 				<table class="table table-hover">
 		<thead>
 			<tr><th>
-				<div class="checkbox">
+				<div class="checkbox" >
 	                <input type="checkbox" ng-model="master" ng-change="masterChange()" checkboxes="data.data" class="select-all-cb ng-isolate-scope ng-pristine ng-valid" delete-service-for-checkbox="">
 	            </div>
 	        </th>
@@ -85,6 +91,48 @@
 		<tbody>
 			<tr >
 				<td style="width:1%">
+					<div class="checkbox pull-left multi-select">
+	                    <input type="checkbox" ng-model="item.isSelected" class="ng-pristine ng-valid">
+	                </div>
+	            </td>
+				<td ><span class="symbol icon-costassumptions"></span>Fred's Stuff_0_0</td>
+				<td >22 weeks ago</td>
+				<td >Carl Sagan</td>
+				<td >Cost Assumptions</td>
+			</tr><tr >
+				<td>
+					<div class="checkbox pull-left multi-select">
+	                    <input type="checkbox" ng-model="item.isSelected" class="ng-pristine ng-valid">
+	                </div>
+	            </td>
+				<td ><span class="symbol icon-brandawardness"></span>2015 Q3 Marketing Plan_0_1</td>
+				<td >17 weeks ago</td>
+				<td >Fred Flintstone</td>
+				<td >Brand Awardness</td>
+			</tr>
+			<tr >
+				<td>
+					<div class="checkbox pull-left multi-select">
+	                    <input type="checkbox" ng-model="item.isSelected" class="ng-pristine ng-valid">
+	                </div>
+	            </td>
+				<td ><span class="symbol icon-costassumptions"></span>Fred's Stuff_0_0</td>
+				<td >22 weeks ago</td>
+				<td >Carl Sagan</td>
+				<td >Cost Assumptions</td>
+			</tr><tr >
+				<td>
+					<div class="checkbox pull-left multi-select">
+	                    <input type="checkbox" ng-model="item.isSelected" class="ng-pristine ng-valid">
+	                </div>
+	            </td>
+				<td ><span class="symbol icon-brandawardness"></span>2015 Q3 Marketing Plan_0_1</td>
+				<td >17 weeks ago</td>
+				<td >Fred Flintstone</td>
+				<td >Brand Awardness</td>
+			</tr>
+			<tr >
+				<td>
 					<div class="checkbox pull-left multi-select">
 	                    <input type="checkbox" ng-model="item.isSelected" class="ng-pristine ng-valid">
 	                </div>

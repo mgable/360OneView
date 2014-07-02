@@ -40,19 +40,6 @@
 .disabled {
   pointer-events: none; }
 
-.fade-in.ng-enter, .fade-in.ng-leave {
-  transition: 0.3s linear all;
-  -webkit-transition: 0.3s linear all; }
-
-.fade-in.ng-enter {
-  opacity: 0.0; }
-
-.fade-in.ng-enter.ng-enter-active {
-  opacity: 1; }
-
-.fade-in.ng-leave.ng-leave-active {
-  opacity: 0.0; }
-
 .cap {
   width: 100%;
   background-color: #222;
@@ -62,24 +49,35 @@
 
 .app {
   max-width: 1300px;
+  min-width: 1024px;
   font-size: 13px;
-  margin: auto; }
-  .app .col-4 {
-    width: 300px;
-    height: 100%; }
-  .app .col-8 {
-    float: none;
-    margin-left: 300px;
-    width: auto; }
-  .app .col-2 {
-    float: left;
-    width: 200px; }
-  .app .left-column {
+  margin: auto;
+  position: relative; }
+  .app .left {
+    width: 200px;
     background-color: lightgray;
     position: absolute;
     top: 0;
-    bottom: 100%;
-    padding: 50px 15px 0; }
+    bottom: 0;
+    height: 100%;
+    padding: 50px 10px 0; }
+  .app .center {
+    transition: 0.3s linear all;
+    -webkit-transition: 0.3s linear all;
+    margin: 0 0 0 200px;
+    height: 100%;
+    padding: 0 0 0 10px; }
+    .app .center.condense {
+      min-width: 1100px; }
+  .app .right {
+    width: 300px;
+    background-color: lightgray;
+    height: 100%;
+    position: absolute;
+    right: 0; }
+  .app .holder {
+    max-width: 1300px;
+    margin: auto; }
   .app .navigation {
     margin: 50px 0 0 0; }
     .app .navigation .bar {
@@ -105,30 +103,56 @@
         color: lightgray; }
     .app .navigation .navbar-nav li a .glyphicon {
       color: white; }
-  .app .display-actions .title {
-    width: 400px;
-    font-weight: bold; }
-    .app .display-actions .title span {
-      color: lightgray; }
-  .app .display-actions span {
-    font-family: "font awesome"; }
-  .app .display-actions .actions {
-    margin: 10px 10px 10px 0;
-    border-right: 1px solid gray;
-    width: 132px; }
-    .app .display-actions .actions span {
-      padding: 0 10px 0 0;
-      font-size: 17px;
-      color: gray; }
-      .app .display-actions .actions span.enabled {
-        color: cornflowerblue;
-        cursor: pointer; }
-  .app .display-actions .search-field {
-    margin: 10px 0;
-    width: 340px;
-    border-right: 1px solid gray; }
-  .app .display-actions .info {
-    margin: 10px 0 0 10px; }
+  .app .display-table.condense {
+    float: left;
+    width: 784px; }
+  .app .display-table table {
+    font-size: 13px;
+    transition: 0.3s linear all;
+    -webkit-transition: 0.3s linear all;
+    width: 100%; }
+    .app .display-table table td {
+      white-space: nowrap; }
+  .app .display-actions {
+    float: left;
+    min-width: 772px;
+    width: 100%; }
+    .app .display-actions.condense {
+      width: inherit; }
+    .app .display-actions .title {
+      max-width: 400px;
+      font-weight: bold; }
+      .app .display-actions .title span {
+        color: lightgray; }
+    .app .display-actions .table {
+      font-size: 13px; }
+    .app .display-actions span {
+      font-family: "font awesome"; }
+    .app .display-actions .actions {
+      margin: 10px 10px 10px 0;
+      border-right: 1px solid gray;
+      max-width: 132px;
+      display: inline-block; }
+      .app .display-actions .actions span {
+        padding: 0 10px 0 0;
+        font-size: 17px;
+        color: gray; }
+        .app .display-actions .actions span.enabled {
+          color: cornflowerblue;
+          cursor: pointer; }
+    .app .display-actions .toggle-info-tray {
+      padding: 0 15px; }
+      .app .display-actions .toggle-info-tray a {
+        cursor: pointer;
+        text-decoration: none; }
+    .app .display-actions .search-field {
+      display: inline-block;
+      margin: 10px 0;
+      padding: 0 15px 0 0;
+      max-width: 340px;
+      border-right: 1px solid gray; }
+    .app .display-actions .info {
+      margin: 10px 0 0 10px; }
   .app .display-table thead {
     background-color: lightgray; }
     .app .display-table thead th a {
@@ -225,3 +249,38 @@
     background-color: hotpink; }
     .symbol.icon-marketingfactors:after {
       content: 'MF'; }
+
+.fade-in.ng-enter, .fade-in.ng-leave {
+  transition: 0.3s linear all;
+  -webkit-transition: 0.3s linear all; }
+
+.fade-in.ng-enter {
+  opacity: 0.0; }
+
+.fade-in.ng-enter.ng-enter-active {
+  opacity: 1; }
+
+.fade-in.ng-leave.ng-leave-active {
+  opacity: 0.0; }
+
+.slide-in.ng-hide-add,
+.slide-in.ng-hide-remove {
+  -webkit-transition: 0.5s linear all;
+  transition: 0.5s linear all;
+  display: block !important; }
+
+.slide-in.ng-hide-add {
+  /* opacity: 1.0;*/
+  width: 300px; }
+
+.slide-in.ng-hide-add.ng-hide-add-active {
+  /*opacity: 0.0;*/
+  width: 0px; }
+
+.slide-in.ng-hide-remove {
+  /*opacity: 0.0;*/
+  width: 0px; }
+
+.slide-in.ng-hide-remove.ng-hide-remove-active {
+  /*opacity: 1.0;*/
+  width: 300px; }

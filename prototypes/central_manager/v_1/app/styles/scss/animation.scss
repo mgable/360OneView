@@ -16,3 +16,31 @@
 .fade-in.ng-leave.ng-leave-active {
 	opacity: 0.0;
 }
+
+
+.slide-in.ng-hide-add,
+.slide-in.ng-hide-remove {
+-webkit-transition:0.5s linear all;
+  transition:0.5s linear all;
+  display: block !important;
+}
+
+.slide-in.ng-hide-add {
+ /* opacity: 1.0;*/
+ width:300px;
+}
+
+.slide-in.ng-hide-add.ng-hide-add-active {
+	/*opacity: 0.0;*/
+	width:0px;
+}
+
+.slide-in.ng-hide-remove {
+	/*opacity: 0.0;*/
+	width:0px;
+}
+
+.slide-in.ng-hide-remove.ng-hide-remove-active {
+	/*opacity: 1.0;*/
+	width:300px;
+}
