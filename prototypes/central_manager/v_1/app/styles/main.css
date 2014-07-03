@@ -73,8 +73,7 @@
     width: 300px;
     background-color: lightgray;
     height: 100%;
-    position: absolute;
-    right: 0; }
+    float: right; }
   .app .holder {
     max-width: 1300px;
     margin: auto; }
@@ -103,29 +102,16 @@
         color: lightgray; }
     .app .navigation .navbar-nav li a .glyphicon {
       color: white; }
-  .app .display-table.condense {
-    float: left;
-    width: 784px; }
-  .app .display-table table {
-    font-size: 13px;
-    transition: 0.3s linear all;
-    -webkit-transition: 0.3s linear all;
-    width: 100%; }
-    .app .display-table table td {
-      white-space: nowrap; }
+  .app .display-table table td {
+    white-space: nowrap; }
   .app .display-actions {
-    float: left;
     min-width: 772px;
-    width: 100%; }
-    .app .display-actions.condense {
-      width: inherit; }
+    height: 50px; }
     .app .display-actions .title {
       max-width: 400px;
       font-weight: bold; }
       .app .display-actions .title span {
         color: lightgray; }
-    .app .display-actions .table {
-      font-size: 13px; }
     .app .display-actions span {
       font-family: "font awesome"; }
     .app .display-actions .actions {
@@ -250,6 +236,13 @@
     .symbol.icon-marketingfactors:after {
       content: 'MF'; }
 
+.table {
+  width: inherit;
+  font-size: 13px; }
+
+table {
+  max-width: 100%; }
+
 .fade-in.ng-enter, .fade-in.ng-leave {
   transition: 0.3s linear all;
   -webkit-transition: 0.3s linear all; }
@@ -284,3 +277,23 @@
 .slide-in.ng-hide-remove.ng-hide-remove-active {
   /*opacity: 1.0;*/
   width: 300px; }
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0; }
+
+.clearfix {
+  display: inline-block; }
+
+/* start commented backslash hack \*/
+* html .clearfix {
+  height: 1%; }
+
+.clearfix {
+  display: block; }
+
+/* close commented backslash hack */

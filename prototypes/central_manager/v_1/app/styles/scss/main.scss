@@ -36,8 +36,7 @@
 		width:300px;
 		background-color:$lightgray;
 		height: 100%;
-		position: absolute;
-		right: 0;
+    float:right;
 	}
 
 	.holder {
@@ -82,30 +81,15 @@
 		}
 	}
 	.display-table {
-		&.condense {
-			float:left;
-			width:784px;
-		}
 		table {
-			font-size:13px;
-			transition: 0.3s linear all;
-			-webkit-transition: 0.3s linear all;
-			width: 100%;
-			&.condense {
-				// width: 750px;
-			}
 			td {
 				white-space: nowrap;
 			}
 		}
 	}
 	.display-actions {
-		float:left;
 		min-width:772px;
-		width:100%;
-		&.condense {
-			width: inherit;
-		}
+    height:50px;
 		.title {
 			max-width:400px;
 			font-weight:bold;
@@ -118,9 +102,6 @@
 				// overflow: hidden;
 				// white-space: nowrap;
 			}
-		}
-		.table {
-			font-size:13px;
 		}
 		span {
 			font-family: "font awesome";
@@ -304,4 +285,27 @@
 	}
 }
 
+.table {
+  width: inherit;
+  font-size:13px;
+}
+
+table {
+  max-width: 100%
+}
+
 @import "animation";
+
+.clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+     }
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */

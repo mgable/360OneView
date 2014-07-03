@@ -68,6 +68,10 @@
 			text-align:left;
 		}
 
+		.table {
+			width:inherit;
+		}
+
 	</style>
 </head>
 	<body ng-app="myapp" ng-controller="MainCtrl">
@@ -77,83 +81,83 @@
 			<div class="center"><button ng-click="toggleRight()">showRight</button>
 				
 				<table class="table table-hover">
-		<thead>
-			<tr><th>
-				<div class="checkbox" >
-	                <input type="checkbox" ng-model="master" ng-change="masterChange()" checkboxes="data.data" class="select-all-cb ng-isolate-scope ng-pristine ng-valid" delete-service-for-checkbox="">
-	            </div>
-	        </th>
-			<th><a>Name</a>&nbsp;</th>
-			<th><a>Last Modified</a>&nbsp;</th>
-			<th class="selected"><a>Modified By</a>&nbsp;</th>
-			<th><a>Type</a>&nbsp;</th>
-		</tr></thead>
-		<tbody>
-			<tr >
-				<td style="width:1%">
-					<div class="checkbox pull-left multi-select">
-	                    <input type="checkbox" ng-model="item.isSelected" class="ng-pristine ng-valid">
-	                </div>
-	            </td>
-				<td ><span class="symbol icon-costassumptions"></span>Fred's Stuff_0_0</td>
-				<td >22 weeks ago</td>
-				<td >Carl Sagan</td>
-				<td >Cost Assumptions</td>
-			</tr><tr >
-				<td>
-					<div class="checkbox pull-left multi-select">
-	                    <input type="checkbox" ng-model="item.isSelected" class="ng-pristine ng-valid">
-	                </div>
-	            </td>
-				<td ><span class="symbol icon-brandawardness"></span>2015 Q3 Marketing Plan_0_1</td>
-				<td >17 weeks ago</td>
-				<td >Fred Flintstone</td>
-				<td >Brand Awardness</td>
-			</tr>
-			<tr >
-				<td>
-					<div class="checkbox pull-left multi-select">
-	                    <input type="checkbox" ng-model="item.isSelected" class="ng-pristine ng-valid">
-	                </div>
-	            </td>
-				<td ><span class="symbol icon-costassumptions"></span>Fred's Stuff_0_0</td>
-				<td >22 weeks ago</td>
-				<td >Carl Sagan</td>
-				<td >Cost Assumptions</td>
-			</tr><tr >
-				<td>
-					<div class="checkbox pull-left multi-select">
-	                    <input type="checkbox" ng-model="item.isSelected" class="ng-pristine ng-valid">
-	                </div>
-	            </td>
-				<td ><span class="symbol icon-brandawardness"></span>2015 Q3 Marketing Plan_0_1</td>
-				<td >17 weeks ago</td>
-				<td >Fred Flintstone</td>
-				<td >Brand Awardness</td>
-			</tr>
-			<tr >
-				<td>
-					<div class="checkbox pull-left multi-select">
-	                    <input type="checkbox" ng-model="item.isSelected" class="ng-pristine ng-valid">
-	                </div>
-	            </td>
-				<td ><span class="symbol icon-costassumptions"></span>Fred's Stuff_0_0</td>
-				<td >22 weeks ago</td>
-				<td >Carl Sagan</td>
-				<td >Cost Assumptions</td>
-			</tr><tr >
-				<td>
-					<div class="checkbox pull-left multi-select">
-	                    <input type="checkbox" ng-model="item.isSelected" class="ng-pristine ng-valid">
-	                </div>
-	            </td>
-				<td ><span class="symbol icon-brandawardness"></span>2015 Q3 Marketing Plan_0_1</td>
-				<td >17 weeks ago</td>
-				<td >Fred Flintstone</td>
-				<td >Brand Awardness</td>
-			</tr>
-		</tbody>
-	</table>
+					<thead>
+						<tr><th>
+							<div class="checkbox" >
+				                <input type="checkbox" ng-model="master" ng-change="masterChange()" checkboxes="data.data" class="select-all-cb ng-isolate-scope ng-pristine ng-valid" delete-service-for-checkbox="">
+				            </div>
+				        </th>
+						<th><a>Name</a>&nbsp;</th>
+						<th><a>Last Modified</a>&nbsp;</th>
+						<th class="selected"><a>Modified By</a>&nbsp;</th>
+						<th><a>Type</a>&nbsp;</th>
+					</tr></thead>
+					<tbody>
+						<tr >
+							<td style="width:1%">
+								<div class="checkbox pull-left multi-select">
+				                    <input type="checkbox" ng-model="item.isSelected" class="ng-pristine ng-valid">
+				                </div>
+				            </td>
+							<td ><span class="symbol icon-costassumptions"></span>Fred's Stuff_0_0</td>
+							<td >22 weeks ago</td>
+							<td >Carl Sagan</td>
+							<td >Cost Assumptions</td>
+						</tr><tr >
+							<td>
+								<div class="checkbox pull-left multi-select">
+				                    <input type="checkbox" ng-model="item.isSelected" class="ng-pristine ng-valid">
+				                </div>
+				            </td>
+							<td ><span class="symbol icon-brandawardness"></span>2015 Q3 Marketing Plan_0_1</td>
+							<td >17 weeks ago</td>
+							<td >Fred Flintstone</td>
+							<td >Brand Awardness</td>
+						</tr>
+						<tr >
+							<td>
+								<div class="checkbox pull-left multi-select">
+				                    <input type="checkbox" ng-model="item.isSelected" class="ng-pristine ng-valid">
+				                </div>
+				            </td>
+							<td ><span class="symbol icon-costassumptions"></span>Fred's Stuff_0_0</td>
+							<td >22 weeks ago</td>
+							<td >Carl Sagan</td>
+							<td >Cost Assumptions</td>
+						</tr><tr >
+							<td>
+								<div class="checkbox pull-left multi-select">
+				                    <input type="checkbox" ng-model="item.isSelected" class="ng-pristine ng-valid">
+				                </div>
+				            </td>
+							<td ><span class="symbol icon-brandawardness"></span>2015 Q3 Marketing Plan_0_1</td>
+							<td >17 weeks ago</td>
+							<td >Fred Flintstone</td>
+							<td >Brand Awardness</td>
+						</tr>
+						<tr >
+							<td>
+								<div class="checkbox pull-left multi-select">
+				                    <input type="checkbox" ng-model="item.isSelected" class="ng-pristine ng-valid">
+				                </div>
+				            </td>
+							<td ><span class="symbol icon-costassumptions"></span>Fred's Stuff_0_0</td>
+							<td >22 weeks ago</td>
+							<td >Carl Sagan</td>
+							<td >Cost Assumptions</td>
+						</tr><tr >
+							<td>
+								<div class="checkbox pull-left multi-select">
+				                    <input type="checkbox" ng-model="item.isSelected" class="ng-pristine ng-valid">
+				                </div>
+				            </td>
+							<td ><span class="symbol icon-brandawardness"></span>2015 Q3 Marketing Plan_0_1</td>
+							<td >17 weeks ago</td>
+							<td >Fred Flintstone</td>
+							<td >Brand Awardness</td>
+						</tr>
+					</tbody>
+				</table>
 
 			</div>
 		</div>

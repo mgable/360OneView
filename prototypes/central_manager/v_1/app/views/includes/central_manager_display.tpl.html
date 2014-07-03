@@ -1,5 +1,5 @@
-<div class="display-actions" ng-class="{condense: showinfotray}">
-	<h4 class="pull-left title" ng-class="{condense: showinfotray}">Default Scenario Elements&nbsp;<span>(7)</span></h4>
+<div class="display-actions">
+	<h4 class="pull-left title">Default Scenario Elements&nbsp;<span>(7)</span></h4>
 	
 	<div class="pull-right">
 
@@ -18,12 +18,12 @@
 	</div>
 </div>
 
-<form class="form-inline display-table" ng-class="{condense: showinfotray}">
+<!-- <form class="form-inline display-table"> -->
 	<table class="table table-hover">
 		<thead>
 			<th>
 				<div class="checkbox">
-	                <tri-state-checkbox checkboxes="data.data"  class="select-all-cb" delete-service-for-checkbox></tri-state-checkbox>
+<!-- 	                <tri-state-checkbox checkboxes="data.data"  class="select-all-cb" delete-service-for-checkbox></tri-state-checkbox> -->
 	            </div>
 	        </th>
 			<th><a>Name</a>&nbsp;</th>
@@ -34,15 +34,15 @@
 		<tbody>
 			<tr ng-repeat="item in data.data">
 				<td style="width:1%">
-					<div class="checkbox pull-left multi-select">
+<!-- 					<div class="checkbox pull-left multi-select">
 	                    <input type="checkbox" ng-model="item.isSelected" />
-	                </div>
+	                </div> -->
 	            </td>
 				<td><span class="symbol icon-{{item.icon}}"></span>{{item.title}}</td>
-				<td style="width:1%">{{item.lastModified_display}}</td>
-				<td style="width:1%">{{item.modifiedBy}}</td>
-				<td style="width:1%">{{item.fileType}}</td>
+				<td>{{item.lastModified_display}}</td>
+				<td>{{item.modifiedBy}}</td>
+				<td>{{item.fileType}}</td>
 			</tr>
 		</tbody>
 	</table>
-</form>
+<!-- </form> -->
