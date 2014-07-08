@@ -1,0 +1,206 @@
+<html>
+<head>
+	<script src="./bower_components/jquery/dist/jquery.js"></script>
+
+	<script src="./bower_components/angular/angular.js"></script>
+	<script src="./bower_components/angular-sanitize/angular-sanitize.js"></script>
+	<script src="./bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+	<link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css" >
+	<title></title>
+	
+</head>
+	<body ng-app="myapp" ng-controller="MainCtrl">
+
+		<style>
+
+		@font-face {
+		  font-family: "font awesome";
+		  src: url("./fonts/fontawesome-webfont.eot");
+		  src: url('./fonts/fontawesome-webfont.eot?#iefix') format('embedded-opentype'),
+		  url('./fonts/fontawesome-webfont.woff') format('woff'), url('./fonts/fontawesome-webfont.ttf') format('truetype'), url('./fonts/fontawesome-webfont.svg#fontawesome-webfont') format('svg');
+}
+			.test {
+				margin: 50px auto;
+				width:200px;
+			}
+
+			.ms-dropdown {
+				position:relative;
+				font-size: 13px;
+				display: block;
+			}
+
+			.ms-select-list {
+				display:inline-block;
+				border:1px solid #7D7D7D;
+				padding:5px 0;
+			}
+
+			.dropshadow {
+				-webkit-box-shadow: 8px 8px 5px 0px rgba(125, 125, 125 ,1);
+				-moz-box-shadow: 8px 8px 5px 0px rgba(125, 125, 125 ,1);
+				box-shadow: 8px 8px 5px 0px rgba(125, 125, 125 ,1);
+			}
+
+			ul {
+				list-style-type: none;
+				margin:0;
+				padding: 0;
+			}
+
+			li {
+				margin: 0 0 5px;
+			}
+			.ms-label {
+				font-size: 14px;
+				cursor: pointer;
+				margin:0;
+			}
+
+			.sort-order {
+				display:inline-block;
+				margin:10px 0;
+				cursor: pointer;
+			}
+
+			.sort-order:after {
+				font-family: "font awesome";
+  				content : '\f0de';
+  			}
+
+			.sort-order.reverse:after {
+				font-family: "font awesome";
+				content: '\f0dd';
+			}
+
+			.ms-item {
+				text-indent:20px;
+			}
+
+			.ms-item.disabled {
+				cursor: default;
+				color:#999999;
+			}
+
+			.ms-item.disabled:hover {
+				cursor: default;
+				background-color: inherit;
+			}
+
+			.ms-item:hover {
+				cursor: pointer;
+				background-color: #BBBBBB;
+			}
+
+			.ms-item.selected {
+				color:red;
+			}
+
+			.ms-holder {
+				padding:2px 20px 0 20px;
+			}
+
+			.ms-sublabel {
+				font-weight:bold;
+				text-indent: 10px;
+			}
+			.divider {
+				border-bottom: 1px solid  #7D7D7D;
+				margin:0 5px 5px;
+			}
+
+
+		</style>
+		
+		<div class="test">
+			<h1>Test 8</h1>
+
+			<ms-dropdown></ms-dropdown>
+
+		</div>
+
+
+
+		<script type="text/ng-template" id="/tpl.html">
+			<div class="ms-dropdown">is active is {{isActive}}
+				<h6 class="ms-label"><span ng-click="toggle($event)">{{selected || 'Last Modified'}}</span>&nbsp<span class="sort-order" ng-class="{reverse: reverse}" ng-click="setReverse()"></span></h6>
+				<ul class="ms-select-list dropshadow hide">
+					<li class="ms-item" ng-repeat="item in items" ng-class="{disabled:item === selected}" ng-click="select(item)">{{item}}</li>
+					<li class="divider"></li>
+					<li class="ms-sublabel">FILTER</li>
+					<li class="ms-item" ng-click="filter($event, 'Modified by Me')" ng-class="{selected:'Modified by Me' === filtered}">Modified by Me</li>
+					<li class="ms-item" ng-click="filter($event, 'Modified by')" ng-class="{selected:'Modified by' === filtered}">Modified by</li>
+					<li class="ms-holder"><input type="text" class="ms-name-input" ng-model="name" placeholder=" Enter Name"/></li>
+					<li class="ms-holder"><button class="btn btn-primary ms-apply"  ng-click="toggle($event)">apply</button></li>
+				</ul>
+			</div>
+
+
+		</script>
+		
+
+		<script>
+			angular.module('myapp',['ui.bootstrap', 'ngSanitize']).controller('MainCtrl', function($scope){
+
+			}).controller("MSDropdown", function($scope){
+				//$scope.visible = false;
+			}).directive('msDropdown', function($document){
+				return {
+					restrict: "AE",
+					templateUrl: "/tpl.html",
+					replace: true,
+					scope:{},
+					controller:function($scope,$element,$attrs){
+						$scope.items = ["Last Modified","Modified By","Type","Owner","Defaults"];
+						$scope.selected = $scope.items[0];
+						$scope.reverse = false;
+						$scope.filtered;
+						$scope.name;
+						$scope.isActive = false;
+						var dropdown = $($element).find('.ms-select-list'),
+						toggle = function(evt){
+							evt.preventDefault();
+                			evt.stopPropagation();
+							
+							if ($scope.isActive)$scope.toggle(evt);
+						}
+
+						$document.on('click', toggle)
+
+						
+						$scope.setReverse = function(){
+							$scope.reverse = !$scope.reverse;
+						}
+
+
+						$scope.toggle = function (evt){
+							if(evt) {
+								evt.preventDefault();
+                				evt.stopPropagation();
+                			}
+
+							if (dropdown.hasClass('hide')){
+								dropdown.removeClass('hide')
+								$scope.isActive = true;
+							} else {
+								dropdown.addClass('hide')
+								$scope.isActive = false;
+							}
+						}
+
+						$scope.select = function(which){
+							$scope.selected = which;
+							$scope.toggle();
+						}
+
+						$scope.filter = function(evt, which){
+							evt.preventDefault();
+                				evt.stopPropagation();
+							$scope.filtered = ($scope.filtered === which) ? "" : which;
+						}
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

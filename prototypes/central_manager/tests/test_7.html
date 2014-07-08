@@ -1,0 +1,74 @@
+<html>
+<head>
+	<script src="./bower_components/jquery/dist/jquery.js"></script>
+
+	<script src="./bower_components/angular/angular.js"></script>
+	<script src="./bower_components/angular-sanitize/angular-sanitize.js"></script>
+	<script src="./bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+		<link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css" >
+	<title></title>
+	<style>
+
+	</style>
+</head>
+	<body ng-app="myapp" ng-controller="MainCtrl">
+		
+		<div>
+			<h1>My test </h1>
+
+			<div style='margin:300px'>
+				<ms-dropdown label="Last Modified"></ms-dropdown>
+			</div>
+			    
+
+		</div>
+		
+
+		<script>
+			angular.module('myapp',['ui.bootstrap', 'ngSanitize']).controller('MainCtrl', function($scope){
+				$scope.$on("$close", function(evt, data){
+					console.info ("the name is " + data.name)
+				})
+			}).directive('msDropdown', function(){
+				return {
+					restrict:"AE",
+					template: '<span class="dropdown" on-toggle="toggled(open)"><a href class="dropdown-toggle">{{label}}</a><ul class="dropdown-menu"><li ng-repeat="choice in choices" ng-class="{disabled:label === choice}" ng-bind-html="choice"></li></ul></span>',
+					controller:'DropdownCtrl',
+					scope: {
+						label: "@"
+					}
+				}
+			}).controller('DropdownCtrl', function ($scope, $timeout, $rootScope, $sce) {
+				 
+
+				   var button = $sce.trustAsHtml ('<button class="btn btn-primary">Apply</button>'),
+				   input = $sce.trustAsHtml ('<input type="text" placeholder="Enter Name" ng-model="name"/>');
+
+				    $scope.choices = ['Last Modified', 'Modified By', '<b>Type</b>', 'Owner', 'Defaults', input,  button]
+
+				  $scope.status = {
+				    isopen: false
+				  };
+
+				  $scope.close = function(){
+				  	console.info ("close");
+				  	//$rootScope.$broadcast("$close", {name: name})
+				  }
+
+				  $scope.toggled = function(open) {
+				    console.log('Dropdown is now: ', open);
+				    // $timeout(function(){
+				    // 	//$scope.status.isopen = false;
+				    // })
+				  };
+
+				  $scope.toggleDropdown = function($event) {
+				    $event.preventDefault();
+				    $event.stopPropagation();
+				    $scope.status.isopen = !$scope.status.isopen;
+				  };
+				});
+
+		</script>
+	</body>
+</html>

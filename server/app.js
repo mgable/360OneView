@@ -32,16 +32,33 @@ function init() {
     }
 
     function fileTypeCounts() {
-        return currentData.data.reduce(function(pv, cv, i, arr) {
-            (cv.fileType in pv) ? pv[cv.fileType]++ : pv[cv.fileType] = 1;
-            // if (!_.isEmpty(cv.search)) {
-            //     (cv.search in pv) ? pv[cv.search]++ : pv[cv.search] = 1;
-            // }
+        var results = {};
 
-            return pv;
-        }, {
-            All: currentData.data.length
-        })
+        _.each(currentData.data, function(e, i, l) {
+            if (e.fileType in results) {
+                results[e.fileType]++
+            } else {
+                results[e.fileType] = 1
+            }
+
+            if (e.defaultScenariosElements) {
+                if (results['Default Scenarios Elements']) {
+                    results['Default Scenarios Elements']++;
+                } else {
+                    results['Default Scenarios Elements'] = 1;
+                }
+            }
+
+            if (e.search.indexOf("Non-Marketing Factors") > -1) {
+                if (results["Non-Marketing Factors"]) {
+                    results["Non-Marketing Factors"]++
+                } else {
+                    results["Non-Marketing Factors"] = 1;
+                }
+            }
+        });
+
+        return results;
     }
 
 
@@ -58,6 +75,7 @@ function init() {
         sendResponse(res, {
             status: "success",
             totalItemsReturned: results.length,
+            counts: fileTypeCounts(),
             data: results
         });
 

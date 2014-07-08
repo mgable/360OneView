@@ -11,7 +11,7 @@ data.makeData = function() {
             "Cost Assumptions", {
                 'Non-Marketing Factors': [
                     'Economy',
-                    'Labor Costs',
+                    'Labor Cost',
                     'Competition',
                     'Brand Awardness',
                     'Pricing'
@@ -42,7 +42,7 @@ data.makeData = function() {
         newData = function() {
             var objs = [],
                 indexer = 1;
-            for (var i = 0, ilimit = 10; i < ilimit; i++) {
+            for (var i = 0, ilimit = 1; i < ilimit; i++) {
                 for (var x = 0, limit = titles.length; x < limit; x++) {
                     var obj = {}, type = pick(fileTypes);
                     obj.index = indexer++;
@@ -57,7 +57,7 @@ data.makeData = function() {
                     //obj.lastModified = lastModified(180);
                     obj.lastModified_display = timeAgo(lastModified(180));
                     //obj.scenarios = makeScenarios();
-                    obj.masterSet = trueFalse();
+                    obj.defaultScenariosElements = trueFalse();
                     //obj.imported = trueFalse();
                     obj.search = _.flatten(makeSearch(obj, type));
                     objs.push(obj);
@@ -134,8 +134,8 @@ data.makeData = function() {
 
     makeSearch = function(obj, type) {
         var results = [""]
-        if (obj.masterSet) {
-            results.push('Master Set')
+        if (obj.defaultScenariosElements) {
+            results.push('Default Scenarios Elements')
         }
         if (typeof type === "object") {
             results.push(makeSearchType(type));

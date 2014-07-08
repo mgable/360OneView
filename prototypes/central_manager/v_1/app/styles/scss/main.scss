@@ -7,6 +7,44 @@
 	z-index: 1000;
 }
 
+.navigation {
+  margin: 50px 0 0 0;
+  .bar {
+    max-width:1300px;
+    min-width:1024px;
+    width:100%;
+    height:50px;
+    padding:0 15px;
+    position: fixed;
+    z-index:1000;
+    top:0;
+    
+  }
+  a.logo {
+    background: transparent url($spirte) -214px -3px no-repeat;
+    display:inline-block;
+    height: 50px;
+    width: 200px;
+    text-indent: -1000px;
+    &:hover {
+      background: transparent url($spirte) -214px -3px no-repeat;
+    }
+  }
+  .navbar-nav {
+    li a {
+      &:hover {
+        background-color: inherit;
+        .glyphicon {
+          color: $lightgray;
+        }
+      }
+      .glyphicon {
+        color: white;
+      }
+    }
+  }
+}
+
 .app {
 	max-width:1300px;
 	min-width:1024px;
@@ -16,11 +54,11 @@
 	.left { 
 		width:200px;
 		background-color:$lightgray;
-		position:absolute;
+		position:fixed;
 		top:0;
 		bottom:0;
 		height:100%;
-		padding:50px 10px 0;
+		padding:0 10px 0;
 	}
 	.center {
 		transition: 0.3s linear all;
@@ -28,67 +66,23 @@
 		margin:0 0 0 200px;
 		height:100%;
 		padding: 0 0 0 10px;
-		&.condense {
-			min-width:1100px;
-		}
 	}
 	.right {
 		width:300px;
 		background-color:$lightgray;
 		height: 100%;
     float:right;
-	}
-
-	.holder {
-		max-width:1300px;
-		margin:auto;
-	}
-	.navigation {
-		margin: 50px 0 0 0;
-		.bar {
-			max-width:1300px;
-			min-width:1024px;
-			width:100%;
-			height:50px;
-			padding:0 15px;
-			position: fixed;
-			z-index:1000;
-			top:0;
-			
-		}
-		a.logo {
-			background: transparent url($spirte) -214px -3px no-repeat;
-			display:inline-block;
-			height: 50px;
-			width: 200px;
-			text-indent: -1000px;
-			&:hover {
-				background: transparent url($spirte) -214px -3px no-repeat;
-			}
-		}
-		.navbar-nav {
-			li a {
-				&:hover {
-					background-color: inherit;
-					.glyphicon {
-						color: $lightgray;
-					}
-				}
-				.glyphicon {
-					color: white;
-				}
-			}
-		}
+    overflow: hidden;
 	}
 	.display-table {
 		table {
 			td {
 				white-space: nowrap;
+				cursor: pointer;
 			}
 		}
 	}
 	.display-actions {
-		min-width:772px;
     height:50px;
 		.title {
 			max-width:400px;
@@ -96,15 +90,9 @@
 			span {
 				color:$lightgray;
 			}
-			&.condense {
-				// width:150px;
-				// text-overflow: ellipsis;
-				// overflow: hidden;
-				// white-space: nowrap;
-			}
 		}
 		span {
-			font-family: "font awesome";
+			// font-family: "font awesome";
 		}
 		.actions {
 			margin:10px 10px 10px 0;
@@ -145,43 +133,108 @@
 			th {
 				a {
 					color:$black;
+          text-decoration: none;
+          cursor: pointer;
 				}
-				&.selected:after {
-					font-family: "font awesome";
-					color: $black;
-					content : '\f0de';
-				}
-				&.selected {
-					a {color:red;}
-					&:after {
-						content: '\f0dd';
-					}
-				}
-				&.selected.reverse {
-					a {color:red;}
-					&:after {
-						content: '\f0de';
-					}
-				}
+        span {
+  				&.selected:after {
+  					font-family: "font awesome";
+  					color: $black;
+  					content : '\f0de';
+  				}
+  				&.selected {
+  					a {color:red;}
+  					&:after {
+  						content: '\f0dd';
+  					}
+  				}
+  				&.selected.reverse {
+  					a {color:red;}
+  					&:after {
+  						content: '\f0de';
+  					}
+  				}
+        }
 			}
 		}
 	}
 	.search {
+    .menu > li {
+      margin: 0 0 20px;
+    }
 		.title {
 			margin: 10px 0 30px 0;
 		}
 		.header {
 			font-weight:bold;
-			&.selected {
+			&.selected > a{
 				color:$selected;
 			}
 		}
+    .submenu {
+      margin:0 0 0 10px;
+      li {
+        font-weight:normal;
+        margin: 5px 0 0;
+          &.selected > a{
+          color:$selected;
+        }
+      }
+    }
+    ul {
+      li a {
+        color: $black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    }
 		.file-types {
 			margin: 0 0 20px 20px;
 		}
 	}
 }
 
+.info-tray {
+  .details {
+    .sub-header {
+      
+    }
+    margin:0 0 10px;
+    p {
+      margin:0 0 5px;
+    }
+  }
+  h4, h5, h6 {
+    margin-top:0;
+    clear:both;
+    border-bottom: 1px solid $black;
+  }
+  p {
+    margin:0;
+  }
+  margin:10px;
+  width: 280px;
+  .entity-holder {
+    height: 100px;
+    overflow:hidden;
+    &.see-all {
+      height: auto;
+    }
+  }
+  .see-all-toggle {
+    margin:5px 0  0;
+    cursor: pointer;
+  }
+  .entity {
+    margin:0 0 5px;
+  }
+  .profile{
+    padding:8px 5px;
+    margin-bottom:10px
+  }
+}
+
+/* Icons */
 .symbol{
 	display: inline-block;
 	margin: 0 5px 0 0;
@@ -223,7 +276,7 @@
 			content:'PF';
 		}
 	}
-	&.icon-mediaplans {
+	&.icon-laborcost {
 		background-color:darkgreen;
 		&:after {
 			content:'MP';
@@ -285,6 +338,7 @@
 	}
 }
 
+/* Bootstrap overrides */
 .table {
   width: inherit;
   font-size:13px;
@@ -294,18 +348,5 @@ table {
   max-width: 100%
 }
 
+/* this has to be below everything to work */
 @import "animation";
-
-.clearfix:after {
-     visibility: hidden;
-     display: block;
-     font-size: 0;
-     content: " ";
-     clear: both;
-     height: 0;
-     }
-.clearfix { display: inline-block; }
-/* start commented backslash hack \*/
-* html .clearfix { height: 1%; }
-.clearfix { display: block; }
-/* close commented backslash hack */

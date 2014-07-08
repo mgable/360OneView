@@ -1,13 +1,13 @@
 <div class="display-actions">
-	<h4 class="pull-left title">Default Scenario Elements&nbsp;<span>(7)</span></h4>
+	<h4 class="pull-left title">{{selectedCategory}}&nbsp;<span>({{data.counts[selectedCategory] || 0}})</span></h4>
 	
 	<div class="pull-right">
 
 		<div class="actions">
-			<span class='enabled'>&#xf067</span>
-			<span>&#xf0c5</span>
+			<span class='enabled FA'>&#xf067</span>
+			<span class="FA">&#xf0c5</span>
 			<span><img src="images/ms-confirm_gray.png" width="18" height="16"/></span>
-			<span>&#xf014</span>
+			<span class="FA">&#xf014</span>
 		</div>
 		<div class='search-field'>
 			<i class="icon-search"></i>
@@ -18,31 +18,33 @@
 	</div>
 </div>
 
-<!-- <form class="form-inline display-table"> -->
-	<table class="table table-hover">
-		<thead>
-			<th>
-				<div class="checkbox">
-<!-- 	                <tri-state-checkbox checkboxes="data.data"  class="select-all-cb" delete-service-for-checkbox></tri-state-checkbox> -->
-	            </div>
-	        </th>
-			<th><a>Name</a>&nbsp;</th>
-			<th><a>Last Modified</a>&nbsp;</th>
-			<th class="selected"><a>Modified By</a>&nbsp;</th>
-			<th><a>Type</a>&nbsp;</th>
-		</thead>
-		<tbody>
-			<tr ng-repeat="item in data.data">
-				<td style="width:1%">
-<!-- 					<div class="checkbox pull-left multi-select">
-	                    <input type="checkbox" ng-model="item.isSelected" />
-	                </div> -->
-	            </td>
-				<td><span class="symbol icon-{{item.icon}}"></span>{{item.title}}</td>
-				<td>{{item.lastModified_display}}</td>
-				<td>{{item.modifiedBy}}</td>
-				<td>{{item.fileType}}</td>
-			</tr>
-		</tbody>
-	</table>
-<!-- </form> -->
+<sorter orderby="lastModified">
+	<form class="form-inline display-table">
+		<table class="table table-hover">
+			<thead>
+				<th>
+					<div class="checkbox">
+		                <tri-state-checkbox checkboxes="data.data"  class="select-all-cb" delete-service-for-checkbox></tri-state-checkbox>
+		            </div>
+		        </th>
+				<th><sorting-options label="title" display="Name"></sorting-options></th>
+				<th><sorting-options label="lastModified" display="Last Modified"></sorting-options></th>
+				<th><sorting-options label="modifiedBy" display="Modified By"></sorting-options></th>
+				<th><sorting-options label="fileType" display="Type"></sorting-options></th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in data.data | filter : FilterService.activeFilters">
+					<td style="width:1%">
+						<div class="checkbox pull-left multi-select">
+		                    <input type="checkbox" ng-model="item.isSelected" />
+		                </div>
+		            </td>
+					<td><span class="symbol icon-{{item.icon}}"></span>{{item.title}}</td>
+					<td>{{item.lastModified_display}}</td>
+					<td>{{item.modifiedBy}}</td>
+					<td>{{item.fileType}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</sorter>

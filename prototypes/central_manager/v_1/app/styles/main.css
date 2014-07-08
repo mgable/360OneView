@@ -3,6 +3,9 @@
   font-family: "font awesome";
   src: url("../fonts/fontawesome-webfont.eot");
   src: url("../fonts/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff") format("woff"), url("../fonts/fontawesome-webfont.ttf") format("truetype"), url("../fonts/fontawesome-webfont.svg#fontawesome-webfont") format("svg"); }
+.FA {
+  font-family: "font awesome"; }
+
 .space-after {
   margin-bottom: 20px; }
 
@@ -14,6 +17,9 @@
 
 .no-padding {
   padding: 0; }
+
+.no-margin {
+  margin: 0; }
 
 .bold {
   font-weight: bold; }
@@ -40,12 +46,62 @@
 .disabled {
   pointer-events: none; }
 
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0; }
+
+.clearfix {
+  display: inline-block; }
+
+/* start commented backslash hack \*/
+* html .clearfix {
+  height: 1%; }
+
+.clearfix {
+  display: block; }
+
+/* close commented backslash hack */
+ul {
+  padding: 0; }
+  ul li {
+    list-style-type: none; }
+
 .cap {
   width: 100%;
   background-color: #222;
   height: 50px;
   position: fixed;
   z-index: 1000; }
+
+.navigation {
+  margin: 50px 0 0 0; }
+  .navigation .bar {
+    max-width: 1300px;
+    min-width: 1024px;
+    width: 100%;
+    height: 50px;
+    padding: 0 15px;
+    position: fixed;
+    z-index: 1000;
+    top: 0; }
+  .navigation a.logo {
+    background: transparent url("../images/360sprite.png") -214px -3px no-repeat;
+    display: inline-block;
+    height: 50px;
+    width: 200px;
+    text-indent: -1000px; }
+    .navigation a.logo:hover {
+      background: transparent url("../images/360sprite.png") -214px -3px no-repeat; }
+  .navigation .navbar-nav li a:hover {
+    background-color: inherit; }
+    .navigation .navbar-nav li a:hover .glyphicon {
+      color: lightgray; }
+  .navigation .navbar-nav li a .glyphicon {
+    color: white; }
 
 .app {
   max-width: 1300px;
@@ -56,64 +112,33 @@
   .app .left {
     width: 200px;
     background-color: lightgray;
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     height: 100%;
-    padding: 50px 10px 0; }
+    padding: 0 10px 0; }
   .app .center {
     transition: 0.3s linear all;
     -webkit-transition: 0.3s linear all;
     margin: 0 0 0 200px;
     height: 100%;
     padding: 0 0 0 10px; }
-    .app .center.condense {
-      min-width: 1100px; }
   .app .right {
     width: 300px;
     background-color: lightgray;
     height: 100%;
-    float: right; }
-  .app .holder {
-    max-width: 1300px;
-    margin: auto; }
-  .app .navigation {
-    margin: 50px 0 0 0; }
-    .app .navigation .bar {
-      max-width: 1300px;
-      min-width: 1024px;
-      width: 100%;
-      height: 50px;
-      padding: 0 15px;
-      position: fixed;
-      z-index: 1000;
-      top: 0; }
-    .app .navigation a.logo {
-      background: transparent url("../images/360sprite.png") -214px -3px no-repeat;
-      display: inline-block;
-      height: 50px;
-      width: 200px;
-      text-indent: -1000px; }
-      .app .navigation a.logo:hover {
-        background: transparent url("../images/360sprite.png") -214px -3px no-repeat; }
-    .app .navigation .navbar-nav li a:hover {
-      background-color: inherit; }
-      .app .navigation .navbar-nav li a:hover .glyphicon {
-        color: lightgray; }
-    .app .navigation .navbar-nav li a .glyphicon {
-      color: white; }
+    float: right;
+    overflow: hidden; }
   .app .display-table table td {
-    white-space: nowrap; }
+    white-space: nowrap;
+    cursor: pointer; }
   .app .display-actions {
-    min-width: 772px;
     height: 50px; }
     .app .display-actions .title {
       max-width: 400px;
       font-weight: bold; }
       .app .display-actions .title span {
         color: lightgray; }
-    .app .display-actions span {
-      font-family: "font awesome"; }
     .app .display-actions .actions {
       margin: 10px 10px 10px 0;
       border-right: 1px solid gray;
@@ -142,28 +167,71 @@
   .app .display-table thead {
     background-color: lightgray; }
     .app .display-table thead th a {
-      color: black; }
-    .app .display-table thead th.selected:after {
+      color: black;
+      text-decoration: none;
+      cursor: pointer; }
+    .app .display-table thead th span.selected:after {
       font-family: "font awesome";
       color: black;
       content: '\f0de'; }
-    .app .display-table thead th.selected a {
+    .app .display-table thead th span.selected a {
       color: red; }
-    .app .display-table thead th.selected:after {
+    .app .display-table thead th span.selected:after {
       content: '\f0dd'; }
-    .app .display-table thead th.selected.reverse a {
+    .app .display-table thead th span.selected.reverse a {
       color: red; }
-    .app .display-table thead th.selected.reverse:after {
+    .app .display-table thead th span.selected.reverse:after {
       content: '\f0de'; }
+  .app .search .menu > li {
+    margin: 0 0 20px; }
   .app .search .title {
     margin: 10px 0 30px 0; }
   .app .search .header {
     font-weight: bold; }
-    .app .search .header.selected {
+    .app .search .header.selected > a {
       color: red; }
+  .app .search .submenu {
+    margin: 0 0 0 10px; }
+    .app .search .submenu li {
+      font-weight: normal;
+      margin: 5px 0 0; }
+      .app .search .submenu li.selected > a {
+        color: red; }
+  .app .search ul li a {
+    color: black;
+    text-decoration: none;
+    cursor: pointer; }
   .app .search .file-types {
     margin: 0 0 20px 20px; }
 
+.info-tray {
+  margin: 10px;
+  width: 280px; }
+  .info-tray .details {
+    margin: 0 0 10px; }
+    .info-tray .details p {
+      margin: 0 0 5px; }
+  .info-tray h4, .info-tray h5, .info-tray h6 {
+    margin-top: 0;
+    clear: both;
+    border-bottom: 1px solid black; }
+  .info-tray p {
+    margin: 0; }
+  .info-tray .entity-holder {
+    height: 100px;
+    overflow: hidden; }
+    .info-tray .entity-holder.see-all {
+      height: auto; }
+  .info-tray .see-all-toggle {
+    margin: 5px 0  0;
+    cursor: pointer; }
+  .info-tray .entity {
+    margin: 0 0 5px; }
+  .info-tray .profile {
+    padding: 8px 5px;
+    margin-bottom: 10px; }
+
+/* Icons */
 .symbol {
   display: inline-block;
   margin: 0 5px 0 0;
@@ -195,9 +263,9 @@
     background-color: darkblue; }
     .symbol.icon-productfactors:after {
       content: 'PF'; }
-  .symbol.icon-mediaplans {
+  .symbol.icon-laborcost {
     background-color: darkgreen; }
-    .symbol.icon-mediaplans:after {
+    .symbol.icon-laborcost:after {
       content: 'MP'; }
   .symbol.icon-playbook {
     background-color: aqua; }
@@ -236,6 +304,7 @@
     .symbol.icon-marketingfactors:after {
       content: 'MF'; }
 
+/* Bootstrap overrides */
 .table {
   width: inherit;
   font-size: 13px; }
@@ -243,6 +312,7 @@
 table {
   max-width: 100%; }
 
+/* this has to be below everything to work */
 .fade-in.ng-enter, .fade-in.ng-leave {
   transition: 0.3s linear all;
   -webkit-transition: 0.3s linear all; }
@@ -277,23 +347,3 @@ table {
 .slide-in.ng-hide-remove.ng-hide-remove-active {
   /*opacity: 1.0;*/
   width: 300px; }
-
-.clearfix:after {
-  visibility: hidden;
-  display: block;
-  font-size: 0;
-  content: " ";
-  clear: both;
-  height: 0; }
-
-.clearfix {
-  display: inline-block; }
-
-/* start commented backslash hack \*/
-* html .clearfix {
-  height: 1%; }
-
-.clearfix {
-  display: block; }
-
-/* close commented backslash hack */

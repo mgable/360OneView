@@ -1,13 +1,14 @@
 <div class="search">
 	<h4 class="title">Scenarios Elements</h4>
 
-	<p class="header space-after selected">Default Scenarios Elements</p>
-	<p class="header">Non-Marketing Factors</p>
-	<div class="file-types">
-		<p>Economy</p>
-		<p>Competition</p>
-		<p>Labor Cost</p>
-		<p>Pricing</p>
-	</div>
-	<p class="header">Cost Assumptions</p>
+        <ul link-group firstSelected="{{menuItems[0].label}}" radio="true" class='menu'>
+			<li ng-repeat="item in menuItems" class="header" ng-class="{selected: item.label === selectedItem}">
+				 <a ng-click="toggleSelected(item.label, !!item.subMenu || item.label === 'Default Scenarios Elements'); setFilter(item.label, !!item.subMenu || item.label === 'Default Scenarios Elements')">{{item.label}}</a>
+				  <ul ng-if="item.subMenu" class="submenu">
+                    <li ng-repeat="subMenuItem in item.subMenu" ng-class="{selected: subMenuItem.label === selectedItem}">
+                        <a ng-click="toggleSelected(subMenuItem.label, item.label); setFilter(item.label, subMenuItem.label)">{{subMenuItem.label}}</a>
+                    </li>
+                </ul>
+			</li>
+        </ul>
 </div>

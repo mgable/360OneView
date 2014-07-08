@@ -3,6 +3,9 @@
   font-family: "font awesome";
   src: url("../fonts/fontawesome-webfont.eot");
   src: url("../fonts/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff") format("woff"), url("../fonts/fontawesome-webfont.ttf") format("truetype"), url("../fonts/fontawesome-webfont.svg#fontawesome-webfont") format("svg"); }
+.FA {
+  font-family: "font awesome"; }
+
 .space-after {
   margin-bottom: 20px; }
 
@@ -14,6 +17,9 @@
 
 .no-padding {
   padding: 0; }
+
+.no-margin {
+  margin: 0; }
 
 .bold {
   font-weight: bold; }
@@ -39,3 +45,27 @@
 
 .disabled {
   pointer-events: none; }
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0; }
+
+.clearfix {
+  display: inline-block; }
+
+/* start commented backslash hack \*/
+* html .clearfix {
+  height: 1%; }
+
+.clearfix {
+  display: block; }
+
+/* close commented backslash hack */
+ul {
+  padding: 0; }
+  ul li {
+    list-style-type: none; }

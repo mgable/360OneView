@@ -21,4 +21,19 @@ angular
     })
     .run(function(FilesModel) {
         FilesModel.$find();
-    });
+    }).constant('SEARCHITEMS', [{
+        label: 'Default Scenarios Elements'
+    }, {
+        label: 'Non-Marketing Factors',
+        subMenu: [{
+            label: 'Economy'
+        }, {
+            label: 'Competition'
+        }, {
+            label: 'Labor Cost'
+        }, {
+            label: 'Pricing'
+        }]
+    }, {
+        label: 'Cost Assumptions'
+    }]);

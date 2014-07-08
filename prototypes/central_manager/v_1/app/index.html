@@ -24,12 +24,10 @@
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <div class="cap"></div>
+    <ng-include src="'/views/includes/navigation.tpl.html'"></ng-include>
 
     <div class="app" ng-controller="CentralManagerCtrl">
-        <ng-include src="'/views/includes/navigation.tpl.html'"></ng-include>
-
-       <div ng-view=""></div>
-
+        <div ng-view=""></div>
     </div> <!-- end app -->
 
     <!--[if lt IE 9]>
