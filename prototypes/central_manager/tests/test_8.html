@@ -21,7 +21,7 @@
 }
 			.test {
 				margin: 50px auto;
-				width:200px;
+				width:600px;
 			}
 
 			.ms-dropdown {
@@ -34,6 +34,7 @@
 				display:inline-block;
 				border:1px solid #7D7D7D;
 				padding:5px 0;
+				min-width:195px;
 			}
 
 			.dropshadow {
@@ -79,7 +80,6 @@
 
 			.ms-item.disabled {
 				cursor: default;
-				color:#999999;
 			}
 
 			.ms-item.disabled:hover {
@@ -87,13 +87,22 @@
 				background-color: inherit;
 			}
 
+			.ms-item.disabled .ms-ok {
+				visibility: visible;
+			}
+
+			.ms-item .ms-ok {
+				visibility: hidden;
+				display:inline;
+			}
+
 			.ms-item:hover {
 				cursor: pointer;
 				background-color: #BBBBBB;
 			}
 
-			.ms-item.selected {
-				color:red;
+			.ms-item.selected .ms-ok {
+				visibility: visible;
 			}
 
 			.ms-holder {
@@ -109,98 +118,252 @@
 				margin:0 5px 5px;
 			}
 
+			.ms-ok {
+				display:inline;
+				padding: 0 10px 0 0;
+			}	
+
 
 		</style>
 		
 		<div class="test">
 			<h1>Test 8</h1>
 
-			<ms-dropdown></ms-dropdown>
+
+			<div style="width:300px;float:left;"><ms-dropdown selected="Last Modified" index=0 active="Last Modified"></ms-dropdown></div>
+			<div style="width:300px;float:left;"><ms-dropdown selected="Modified by" index=1></ms-dropdown></div>
+
 
 		</div>
 
 
 
 		<script type="text/ng-template" id="/tpl.html">
-			<div class="ms-dropdown">is active is {{isActive}}
-				<h6 class="ms-label"><span ng-click="toggle($event)">{{selected || 'Last Modified'}}</span>&nbsp<span class="sort-order" ng-class="{reverse: reverse}" ng-click="setReverse()"></span></h6>
+
+			<div class="ms-dropdown">
+				<h6 class="ms-label" ng-class='{active: SelectionService.getActive() === index}'><span ng-click="toggle($event, index)">{{selected}}</span>&nbsp<span class="sort-order" ng-class="{reverse: reverse}" ng-click="setReverse()"></span></h6>
 				<ul class="ms-select-list dropshadow hide">
-					<li class="ms-item" ng-repeat="item in items" ng-class="{disabled:item === selected}" ng-click="select(item)">{{item}}</li>
-					<li class="divider"></li>
-					<li class="ms-sublabel">FILTER</li>
-					<li class="ms-item" ng-click="filter($event, 'Modified by Me')" ng-class="{selected:'Modified by Me' === filtered}">Modified by Me</li>
-					<li class="ms-item" ng-click="filter($event, 'Modified by')" ng-class="{selected:'Modified by' === filtered}">Modified by</li>
-					<li class="ms-holder"><input type="text" class="ms-name-input" ng-model="name" placeholder=" Enter Name"/></li>
-					<li class="ms-holder"><button class="btn btn-primary ms-apply"  ng-click="toggle($event)">apply</button></li>
+					<li class="ms-item" ng-repeat="item in items" ng-class="{disabled:item === selected}" ng-click="select(item, index)"><span class="glyphicon glyphicon-ok ms-ok"></span>{{item}}</li>
+
+					<ul ng-show="selected=='Modified by' || selected=='Owner' ">
+						<li class="divider"></li>
+						<li class="ms-sublabel">FILTER</li>
+						<li class="ms-item" ng-click="filter($event, selected + ' Me')" ng-class="{selected:selected + ' Me' === filtered}"><span class="glyphicon glyphicon-ok ms-ok"></span>{{selected | correctLabel}} Me</li>
+						<li class="ms-item" ng-click="filter($event, selected)" ng-class="{selected:selected === filtered}"><span class="glyphicon glyphicon-ok ms-ok"></span>{{selected | correctLabel }}</li>
+						<li class="ms-holder"><input type="text" class="ms-name-input" ng-model="name" placeholder=" Enter Name" ng-click="dontPassEvent($event)" ng-disabled="selected + ' Me' === filtered || filtered === ''"/></li>
+						<li class="ms-holder"><button class="btn btn-primary ms-apply"  ng-click="apply($event)">apply</button></li>
+					</ul>
+
+					<ul ng-show="selected=='Defaults'">
+						<li class="divider"></li>
+						<li class="ms-sublabel">FILTER</li>
+						<li class="ms-item" ng-click="filter($event, 'defaults')" ng-class="{selected:'defaults' === filtered}"><span class="glyphicon glyphicon-ok ms-ok"></span>Show only defaults</li>
+					</ul>
+
+
 				</ul>
 			</div>
+
 
 
 		</script>
 		
 
 		<script>
-			angular.module('myapp',['ui.bootstrap', 'ngSanitize']).controller('MainCtrl', function($scope){
+			angular.module('myapp',['ui.bootstrap', 'ngSanitize'])
+			.controller('MainCtrl', function($scope){
 
-			}).controller("MSDropdown", function($scope){
-				//$scope.visible = false;
-			}).directive('msDropdown', function($document){
-				return {
-					restrict: "AE",
-					templateUrl: "/tpl.html",
-					replace: true,
-					scope:{},
-					controller:function($scope,$element,$attrs){
-						$scope.items = ["Last Modified","Modified By","Type","Owner","Defaults"];
-						$scope.selected = $scope.items[0];
-						$scope.reverse = false;
-						$scope.filtered;
-						$scope.name;
-						$scope.isActive = false;
-						var dropdown = $($element).find('.ms-select-list'),
-						toggle = function(evt){
-							evt.preventDefault();
-                			evt.stopPropagation();
-							
-							if ($scope.isActive)$scope.toggle(evt);
-						}
-
-						$document.on('click', toggle)
-
-						
-						$scope.setReverse = function(){
-							$scope.reverse = !$scope.reverse;
-						}
-
-
-						$scope.toggle = function (evt){
-							if(evt) {
-								evt.preventDefault();
-                				evt.stopPropagation();
-                			}
-
-							if (dropdown.hasClass('hide')){
-								dropdown.removeClass('hide')
-								$scope.isActive = true;
-							} else {
-								dropdown.addClass('hide')
-								$scope.isActive = false;
-							}
-						}
-
-						$scope.select = function(which){
-							$scope.selected = which;
-							$scope.toggle();
-						}
-
-						$scope.filter = function(evt, which){
-							evt.preventDefault();
-                				evt.stopPropagation();
-							$scope.filtered = ($scope.filtered === which) ? "" : which;
-						}
-					}
+			})
+			.filter ('correctLabel', function(){
+				return function(input){
+					if (input === "Owner") return "Owned by";
+					return input
 				}
 			})
+		.directive('msDropdown', function($document, $timeout, $rootScope, SelectionService, FilterService) {
+        return {
+            restrict: "AE",
+            templateUrl: "/tpl.html",
+            replace: true,
+            scope: {
+                selected: "@",
+                index: "@",
+                active: "@"
+            },
+            controller: function($scope, $element, $attrs) {
+                var inputField = ($element.find('input'));
+                $scope.items = ["Last Modified", "Modified by", "Type", "Owner", "Defaults"];
+                $scope.reverse = false;
+                $scope.filtered = '';
+                $scope.name;
+                $scope.isActive = false;
+                $scope.SelectionService = SelectionService;
+
+
+                var dropdown = $($element).find('.ms-select-list'),
+                    toggle = function(evt) {
+                        $scope.dontPassEvent(evt);
+
+                        if ($scope.isActive) $scope.toggle(evt);
+                    },
+
+                    apply = function(evt) {
+                        $scope.dontPassEvent(evt);
+
+                        if ($scope.isActive) $scope.apply(evt);
+                    },
+                    setSelected = function(which) {
+                        SelectionService.setSelectedItems($scope.index, which);
+                        if ($scope.active) {
+                            SelectionService.setActive($scope.index)
+                            SelectionService.setOrderBy($scope.selected)
+                        }
+                    }
+                setSelected($scope.selected);
+
+                $document.on('click', apply);
+
+                $document.on('keydown', function(evt) {
+                    if (evt.keyCode === 13 && $scope.isActive) $scope.apply(evt);
+                });
+
+                $scope.dontPassEvent = function(evt) {
+                    if (evt) {
+                        evt.preventDefault();
+                        evt.stopPropagation();
+                    }
+                }
+
+                $scope.setReverse = function() {
+                    $scope.reverse = !$scope.reverse;
+                    SelectionService.setReverse($scope.reverse);
+                }
+
+                $scope.apply = function(evt) {
+                	console.info ("apply")
+                    if (($scope.filtered === "Modified by" || $scope.filtered === "Owned by") && (typeof $scope.name == "undefined" || $scope.name === "")) {
+                        $scope.dontPassEvent(evt);
+                        alert("Please enter a name to filter");
+                        inputField.focus();
+                    } else {
+                        if ($scope.filtered === "Modified by Me") {
+                            FilterService.filterBy = {
+                                modifiedBy: "Barney Rubble"
+                            };
+                        } else if ($scope.filtered === "Modified by") {
+                            FilterService.filterBy = {
+                                modifiedBy: $scope.name
+                            };
+                        } else if ($scope.filtered === "Owner") {
+                            FilterService.filterBy = {
+                                owner: $scope.name
+                            };
+                        } else if ($scope.filtered === "Owner Me") {
+                            FilterService.filterBy = {
+                                owner: "Barney Rubble"
+                            };
+                        } else {
+                            FilterService.filterBy = "";
+                        }
+                        //$scope.toggle(evt);
+                    }
+                }
+
+                $scope.$on("toggle", function(evt, index) {
+                    if ($scope.index !== index) {
+                        if (!dropdown.hasClass('hide')) {
+                            dropdown.addClass('hide');
+                        }
+                    } else {
+                        //$scope.apply();
+                    }
+                });
+
+                $scope.toggle = function(evt, index) {
+                    $scope.dontPassEvent(evt);
+                    $rootScope.$broadcast("toggle", index);
+
+
+                    if (dropdown.hasClass('hide')) {
+                        dropdown.removeClass('hide')
+                        $scope.isActive = true;
+                        SelectionService.setActive(index);
+                    } else {
+                        dropdown.addClass('hide');
+                        $scope.isActive = false;
+                    }
+                }
+
+                $scope.select = function(which, index) {
+                    console.info(which)
+                    $scope.selected = which;
+                    setSelected(which);
+                    $scope.toggle(false, index);
+                }
+
+                $scope.filter = function(evt, which) {
+                    console.info("filtering")
+                    $scope.filtered = ($scope.filtered === which) ? "" : which;
+
+                    if ($scope.filtered === "") {
+                        FilterService.filterBy = "";
+                    }
+
+                    if (which === "Modified by" || which == "Owner") {
+                        $timeout(function() {
+                            inputField.focus()
+                        });
+                    }
+                    $scope.dontPassEvent(evt);
+                }
+            }
+        }
+    }) .factory('SelectionService', function($rootScope, $filter) {
+        // Service logic
+        // ...
+
+        var selectedItems = [],
+            orderBy,
+            reverse = false,
+            active;
+
+        // Public API here
+        return {
+            getSelectedItems: function(index) {
+                return selectedItems[index];
+            },
+            setSelectedItems: function(index, item) {
+                //console.info("I just set " + item + " at postion " + index)
+                selectedItems[index] = item;
+            },
+            setOrderBy: function(which) {
+                orderBy = which;
+                $rootScope.$broadcast("orderBy")
+            },
+            getOrderBy: function() {
+                return $filter('camelCase')(orderBy);
+            },
+            setReverse: function(which) {
+                reverse = which;
+            },
+            getReverse: function() {
+                return reverse;
+            },
+            setActive: function(which) {
+                active = which;
+            },
+            getActive: function() {
+                return active;
+            }
+        };
+    }) .factory('FilterService', function() {
+        return {
+            activeFilters: {},
+            filterBy: '',
+            dateRange: '',
+            searchText: ''
+        };
+    });
 		</script>
 	</body>
 </html>

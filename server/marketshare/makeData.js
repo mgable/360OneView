@@ -46,16 +46,17 @@ data.makeData = function() {
                 for (var x = 0, limit = titles.length; x < limit; x++) {
                     var obj = {}, type = pick(fileTypes);
                     obj.index = indexer++;
-                    obj.fileType = typeof type === "object" ? makeFileType(type) : type;
-                    obj.icon = obj.fileType.replace(/\s/g, "").toLowerCase();
+                    obj.type = typeof type === "object" ? makeFileType(type) : type;
+                    obj.icon = obj.type.replace(/\s/g, "").toLowerCase();
                     obj.id = generateUUID();
                     obj.title = titles[x] + "_" + i + "_" + x;
                     //obj.description = descriptions[x];
                     //obj.createdBy = pick(modifiedBy);
                     //obj.createdDate = lastModified(180);
                     obj.modifiedBy = pick(modifiedBy);
-                    //obj.lastModified = lastModified(180);
-                    obj.lastModified_display = timeAgo(lastModified(180));
+                    obj.owner = pick(modifiedBy);
+                    obj.lastModified = lastModified(180);
+                    obj.lastModified_display = timeAgo(obj.lastModified);
                     //obj.scenarios = makeScenarios();
                     obj.defaultScenariosElements = trueFalse();
                     //obj.imported = trueFalse();

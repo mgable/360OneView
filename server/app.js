@@ -36,9 +36,9 @@ function init() {
 
         _.each(currentData.data, function(e, i, l) {
             if (e.fileType in results) {
-                results[e.fileType]++
+                results[e.type]++
             } else {
-                results[e.fileType] = 1
+                results[e.type] = 1
             }
 
             if (e.defaultScenariosElements) {

@@ -4,7 +4,7 @@ angular.module('centralManagerApp')
     .factory('FilterService', function() {
         return {
             activeFilters: {},
-            filterBy: {},
+            filterBy: '',
             dateRange: '',
             searchText: ''
         };

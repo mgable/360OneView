@@ -75,7 +75,7 @@ angular.module('centralManagerApp')
             templateUrl: '/views/directives/sortingOptions.html'
         };
     })
-    .directive('sorter', function() {
+    .directive('sorter', function(SelectionService, FilterService) {
         return {
             restrict: "E",
             replace: true,
@@ -84,10 +84,11 @@ angular.module('centralManagerApp')
                 $scope.reverse = false;
                 $scope.orderBy = $attrs.orderby;
                 this.setOrderBy = function(which) {
-                    $scope.orderBy = which;
+                    console.info("setting order by")
+                    SelectionService.setOrderBy(which);
                 };
                 this.setReverse = function(reverse) {
-                    $scope.reverse = reverse;
+                    SelectionService.setReverse(reverse);
                 };
             }
         };

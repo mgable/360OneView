@@ -1,0 +1,349 @@
+<html>
+<head>
+	<script src="./bower_components/jquery/dist/jquery.js"></script>
+
+	<script src="./bower_components/angular/angular.js"></script>
+	<script src="./bower_components/angular-sanitize/angular-sanitize.js"></script>
+	<script src="./bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+	<link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css" >
+	<title>Test 9</title>
+	
+</head>
+	<body ng-app="myapp" ng-controller="MainCtrl">
+
+		<style>
+
+		@font-face {
+		  font-family: "font awesome";
+		  src: url("./fonts/fontawesome-webfont.eot");
+		  src: url('./fonts/fontawesome-webfont.eot?#iefix') format('embedded-opentype'),
+		  url('./fonts/fontawesome-webfont.woff') format('woff'), url('./fonts/fontawesome-webfont.ttf') format('truetype'), url('./fonts/fontawesome-webfont.svg#fontawesome-webfont') format('svg');
+}
+			.test {
+				margin: 50px auto;
+				width:600px;
+			}
+
+			.ms-dropdown {
+				position:relative;
+				font-size: 13px;
+				display: block;
+			}
+
+			.ms-select-list {
+				display:inline-block;
+				border:1px solid #7D7D7D;
+				padding:5px 0;
+				min-width:195px;
+			}
+
+			.dropshadow {
+				-webkit-box-shadow: 8px 8px 5px 0px rgba(125, 125, 125 ,1);
+				-moz-box-shadow: 8px 8px 5px 0px rgba(125, 125, 125 ,1);
+				box-shadow: 8px 8px 5px 0px rgba(125, 125, 125 ,1);
+			}
+
+			ul {
+				list-style-type: none;
+				margin:0;
+				padding: 0;
+			}
+
+			li {
+				margin: 0 0 5px;
+			}
+			.ms-label {
+				font-size: 14px;
+				cursor: pointer;
+				margin:0;
+			}
+
+			.sort-order {
+				display:inline-block;
+				margin:10px 0;
+				cursor: pointer;
+			}
+
+			.sort-order:after {
+				font-family: "font awesome";
+  				content : '\f0de';
+  			}
+
+			.sort-order.reverse:after {
+				font-family: "font awesome";
+				content: '\f0dd';
+			}
+
+			.ms-item {
+				text-indent:20px;
+			}
+
+			.ms-item.disabled {
+				cursor: default;
+			}
+
+			.ms-item.disabled:hover {
+				cursor: default;
+				background-color: inherit;
+			}
+
+			.ms-item.disabled .ms-ok {
+				visibility: visible;
+			}
+
+			.ms-item .ms-ok {
+				visibility: hidden;
+				display:inline;
+			}
+
+			.ms-item:hover {
+				cursor: pointer;
+				background-color: #BBBBBB;
+			}
+
+			.ms-item.selected .ms-ok {
+				visibility: visible;
+			}
+
+			.ms-holder {
+				padding:2px 20px 0 20px;
+			}
+
+			.ms-sublabel {
+				font-weight:bold;
+				text-indent: 10px;
+			}
+			.divider {
+				border-bottom: 1px solid  #7D7D7D;
+				margin:0 5px 5px;
+			}
+
+			.ms-ok {
+				display:inline;
+				padding: 0 10px 0 0;
+			}	
+
+
+		</style>
+		
+		<div class="test">
+			<h1>Test 9</h1>
+
+
+			<div style="width:300px;float:left;"><ms-dropdown selected-sort-index="0"></ms-dropdown></div>
+			<div style="width:300px;float:left;"><ms-dropdown selected-sort-index="1"></ms-dropdown></div>
+
+
+		</div>
+
+
+
+		<script type="text/ng-template" id="/tpl.html">
+			<div class="ms-dropdown">
+				<h6 class="ms-label" ng-class='{active: DropdownService.getActive() === ID}'><span ng-click="toggle()">{{selectedItem.label}}</span>&nbsp<span class="sort-order" ng-class="{reverse: reverse}" ng-click="setReverse()"></span></h6>
+				<ul class="ms-select-list dropshadow hide">
+					<li class="ms-item" ng-repeat="item in items" ng-class="{disabled:item.label === selectedItem.label}" ng-click="selectSort(item)"><span class="glyphicon glyphicon-ok ms-ok"></span>{{item.label}}</li>
+
+					<ul ng-if="selectedItem.filters">
+						<li class="divider"></li>
+						<li class="ms-sublabel">FILTER</li>
+
+						<li ng-repeat="filter in selectedItem.filters" class="ms-item" ng-click="selectFilter(filter)" ng-class="{selected:selectedFilter === filter}"><span class="glyphicon glyphicon-ok ms-ok"></span>{{filter.label}}</li>
+
+						<li ng-if="selectedItem.template"><ng-include src="selectedItem.template"></ng-include></li>
+					</ul>
+
+				</ul>
+			</div>
+		</script>
+
+		<script  type="text/ng-template" id="/name.html">
+
+			<li class="ms-holder"><input type="text" class="ms-name-input" ng-model="name" placeholder="Enter Name" ng-disabled="enabledOn(selectedFilter)"/></li>
+			<li class="ms-holder"><button class="btn btn-primary ms-apply"  ng-disabled="enabledOn(selectedFilter)" ng-click="submit(name)">apply</button></li>
+
+		</script>
+		
+
+		<script>
+			angular.module('myapp',['ui.bootstrap', 'ngSanitize'])
+			.controller('MainCtrl', function($scope){
+
+			})
+			.filter ('correctLabel', function(){
+				return function(input){
+					if (input === "Owner") return "Owned by";
+					return input
+				}
+			})
+		.directive('msDropdown', function($document, $timeout, DROPDOWNITEMS) {
+        return {
+            restrict: "AE",
+            templateUrl: "/tpl.html",
+            replace: true,
+            scope: {
+                selectedSortIndex: "@",
+                ID: "@",
+            },
+            controller: function($scope, $element, $attrs) {
+                $scope.items = DROPDOWNITEMS;
+                $scope.reverse = false;
+                $scope.name = null;
+                $scope.selectedItem = DROPDOWNITEMS[$scope.selectedSortIndex]
+                $scope.selectedFilter = null;
+
+                var dropdown = $($element).find('.ms-select-list'),
+                focusInput = function(){
+                	var inputField = $element.find('input');
+                    if (inputField) {
+                    	$timeout(function(){inputField.focus()});
+                    }
+                },
+                close = function(){
+                	console.info ("close");
+                    dropdown.addClass('hide');
+                    $document.off('click', close);
+                }
+
+      //           $document.on('keydown', function(evt) {
+      //               if (evt.keyCode === 13) {
+						// if (!$scope.enabledOn($scope.selectedFilter)){
+						// 	console.info ("submit");
+						// } else {
+						// 	console.info ("no submit");
+						// }
+      //               }
+      //           });
+
+				$scope.enabledOn = function(which) {
+					return which ? ((which.label === $scope.selectedItem.enabledOn) ? false : true) : true;
+				}
+
+                $scope.setReverse = function() {
+                    $scope.reverse = !$scope.reverse;
+                }
+
+                $scope.submit = function(name) {
+                    if (($scope.selectedFilter.label === $scope.selectedItem.enabledOn) && (name === null || name === "")) {
+                        alert("Please enter a name to filter");
+                        focusInput();
+                    } else {
+                       $scope.name = name;
+                       console.info ("subbmitted: " + $scope.name);
+                       close();
+                    }
+                }
+
+                $scope.toggle = function() {
+                    if (dropdown.hasClass('hide')) {
+                        dropdown.removeClass('hide')
+                        $timeout(function(){$document.on('click', close);});
+                    } else {
+                        dropdown.addClass('hide');
+                        $document.off('click', close);
+                    }
+                }
+
+                $scope.selectSort = function(item) {
+                    $scope.selectedItem = item;
+                }
+
+                $scope.selectFilter = function(which) {
+                	if (!$scope.enabledOn(which)){
+                		$document.off('click', close);
+                	}
+
+                	if (!$scope.enabledOn($scope.selectedFilter)) {
+                		$document.on('click', close);
+                	}
+
+                    $scope.selectedFilter = ($scope.selectedFilter === which) ? "" : which;
+                    if (which.label === $scope.selectedItem.enabledOn ){
+                    	focusInput();
+                    }
+                }
+            }
+        }
+    })
+	.factory("DropdownService", function(){
+		var active; //ID of currently active 
+
+		return {
+			getActive: function(){
+				return active;
+			},
+			setActive: function(which){
+				active = which;
+			}
+		}
+	})
+	.factory('SelectionService', function($rootScope, $filter) {
+        // Service logic
+        // ...
+
+        var selectedItems = [],
+            orderBy,
+            reverse = false,
+            active;
+
+        // Public API here
+        return {
+            getSelectedItems: function(index) {
+                return selectedItems[index];
+            },
+            setSelectedItems: function(index, item) {
+                //console.info("I just set " + item + " at postion " + index)
+                selectedItems[index] = item;
+            },
+            setOrderBy: function(which) {
+                orderBy = which;
+                $rootScope.$broadcast("orderBy")
+            },
+            getOrderBy: function() {
+                return $filter('camelCase')(orderBy);
+            },
+            setReverse: function(which) {
+                reverse = which;
+            },
+            getReverse: function() {
+                return reverse;
+            },
+            setActive: function(which) {
+                active = which;
+            },
+            getActive: function() {
+                return active;
+            }
+        };
+    }) .factory('FilterService', function() {
+        return {
+            activeFilters: {},
+            filterBy: '',
+            dateRange: '',
+            searchText: ''
+        };
+    }).constant('DROPDOWNITEMS', [{
+	label:"Last Modified"
+	},
+	{
+		label:"Modified By",
+		filters: [{label: 'Modified by me'},{label: 'Modified by:'}],
+		template: '/name.html',
+		enabledOn: 'Modified by:'
+	},
+	{
+		label:"Type"
+	},
+	{
+		label:"Owner",
+		filters: [{label: 'Owned by me'},{label: 'Owned by:'}],
+		template: '/name.html',
+		enabledOn: 'Owned by:'
+	},
+	{
+		label:"Defaults",
+		filters: [{label: 'Show only defaults'}]
+	}]);
+		</script>
+	</body>
+</html>

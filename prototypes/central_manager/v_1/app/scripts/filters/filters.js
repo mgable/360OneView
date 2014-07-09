@@ -2,6 +2,13 @@
 'use strict';
 
 angular.module('centralManagerApp')
+    .filter('camelCase', function() {
+        return function (input) { 
+            return input.toLowerCase().replace(/ (.)/g, function(match, group1) {
+                return group1.toUpperCase();
+            });
+        }
+    })
     .filter('dateRange', function() {
         var dayInMillisec = 86400000;
         return function(input, db, prop) {
