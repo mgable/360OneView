@@ -3,10 +3,12 @@
 
 angular.module('centralManagerApp')
     .filter('camelCase', function() {
-        return function (input) { 
-            return input.toLowerCase().replace(/ (.)/g, function(match, group1) {
-                return group1.toUpperCase();
-            });
+        return function(input) {
+            if (input) {
+                return input.toLowerCase().replace(/ (.)/g, function(match, group1) {
+                    return group1.toUpperCase();
+                });
+            }
         }
     })
     .filter('dateRange', function() {

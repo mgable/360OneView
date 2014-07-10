@@ -18,13 +18,7 @@
 	</div>
 </div>
 
-orderBy is {{SelectionService.getOrderBy()}}<br/>
-
-filterby is {{FilterService.filterBy}} <br/>
-
-active menu is {{SelectionService.getActive()}}
-
-<sorter orderby="lastModified">
+<sorter>
 	<form class="form-inline display-table">
 		<table class="table table-hover">
 			<colgroup>
@@ -40,28 +34,34 @@ active menu is {{SelectionService.getActive()}}
 		            </div>
 		        </th>
 				<th><sorting-options label="title" display="Name"></sorting-options></th>
-				<th><ms-dropdown selected="Last Modified" index=0 active="Last Modified"></ms-dropdown></th>
-				<th><ms-dropdown selected="Modified by" index=1></ms-dropdown></th>
+				<th><ms-dropdown selected-sort-index="0" is-active=true id="column_1"></ms-dropdown></th>
+				<th><ms-dropdown selected-sort-index="1" id="column_2"></ms-dropdown></th>
 			</thead>
 			<tbody>
-				<tr ng-repeat="item in data.data | orderBy: SelectionService.getOrderBy() : SelectionService.getReverse() | filter : FilterService.activeFilters | filter: FilterService.searchText | filter: FilterService.filterBy">
+				SortAndFilterService.getOrderBy() is {{SortAndFilterService.getOrderBy()}} <br/>
+				SortAndFilterService.activeFilters is {{SortAndFilterService.activeFilters}} <br/>
+				SortAndFilterService.getFilterBy is {{SortAndFilterService.getFilterBy()}} <br/>
+				SortAndFilterService 1 is {{SortAndFilterService.getSorter("column_1")}} <br/>
+				SortAndFilterService 2 is {{SortAndFilterService.getSorter("column_2")}}
+				<tr ng-repeat="item in data.data | orderBy: SortAndFilterService.getOrderBy() : SortAndFilterService.getReverse() | filter : SortAndFilterService.activeFilters">
+					<!--  | filter : FilterService.activeFilters | filter: FilterService.searchText | filter: FilterService.filterBy -->
 					<td style="width:1%">
 						<div class="checkbox pull-left multi-select">
 		                    <input type="checkbox" ng-model="item.isSelected" />
 		                </div>
 		            </td>
 					<td ng-click="item.isSelected=!item.isSelected"><span class="symbol icon-{{item.icon}}"></span>{{item.title}}</td>
-					<td ng-click="item.isSelected=!item.isSelected" ng-switch on="SelectionService.getSelectedItems(0)">
+					<td ng-click="item.isSelected=!item.isSelected" ng-switch on="SortAndFilterService.getSorter('column_1')">
 						<div ng-switch-when="Last Modified">{{item.lastModified_display}}</div>
-						<div ng-switch-when="Modified by">{{item.modifiedBy}}</div>
+						<div ng-switch-when="Modified By">{{item.modifiedBy}}</div>
 						<div ng-switch-when="Type">{{item.type}}</div>
 						<div ng-switch-when="Owner">{{item.owner}}</div>
 						<div ng-switch-when="Defaults">{{item.defaultScenariosElements}}</div>
 					</td>
-					<td ng-click="item.isSelected=!item.isSelected" ng-switch on="SelectionService.getSelectedItems(1)">
+					<td ng-click="item.isSelected=!item.isSelected" ng-switch on="SortAndFilterService.getSorter('column_2')">
 						<div ng-switch-when="Last Modified">{{item.lastModified_display}}</div>
-						<div ng-switch-when="Modified by">{{item.modifiedBy}}</div>
-						<div ng-switch-when="Type">{{item.fileType}}</div>
+						<div ng-switch-when="Modified By">{{item.modifiedBy}}</div>
+						<div ng-switch-when="Type">{{item.type}}</div>
 						<div ng-switch-when="Owner">{{item.owner}}</div>
 						<div ng-switch-when="Defaults">{{item.defaultScenariosElements}}</div>
 					</td>
@@ -70,29 +70,3 @@ active menu is {{SelectionService.getActive()}}
 		</table>
 	</form>
 </sorter>
-
-<script type="text/ng-template" id="/tpl.html">
-	<div class="ms-dropdown">
-		<h6 class="ms-label" ng-class='{active: SelectionService.getActive() === index}'><span ng-click="toggle($event, index)">{{selected}}</span>&nbsp<span class="sort-order" ng-class="{reverse: reverse}" ng-click="setReverse()"></span></h6>
-		<ul class="ms-select-list dropshadow hide">
-			<li class="ms-item" ng-repeat="item in items" ng-class="{disabled:item === selected}" ng-click="select(item, index)"><span class="glyphicon glyphicon-ok ms-ok"></span>{{item}}</li>
-
-			<ul ng-show="selected=='Modified by' || selected=='Owner' ">
-				<li class="divider"></li>
-				<li class="ms-sublabel">FILTER</li>
-				<li class="ms-item" ng-click="filter($event, selected + ' Me')" ng-class="{selected:selected + ' Me' === filtered}"><span class="glyphicon glyphicon-ok ms-ok"></span>{{selected | correctLabel}} Me</li>
-				<li class="ms-item" ng-click="filter($event, selected)" ng-class="{selected:selected === filtered}"><span class="glyphicon glyphicon-ok ms-ok"></span>{{selected | correctLabel }}</li>
-				<li class="ms-holder"><input type="text" class="ms-name-input" ng-model="name" placeholder=" Enter Name" ng-click="dontPassEvent($event)" ng-disabled="selected + ' Me' === filtered || filtered === ''"/></li>
-				<li class="ms-holder"><button class="btn btn-primary ms-apply"  ng-click="apply($event)">apply</button></li>
-			</ul>
-
-			<ul ng-show="selected=='Defaults'">
-				<li class="divider"></li>
-				<li class="ms-sublabel">FILTER</li>
-				<li class="ms-item" ng-click="filter($event, 'defaults')" ng-class="{selected:'defaults' === filtered}"><span class="glyphicon glyphicon-ok ms-ok"></span>Show only defaults</li>
-			</ul>
-
-
-		</ul>
-	</div>
-</script>

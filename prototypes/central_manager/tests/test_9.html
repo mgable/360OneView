@@ -6,6 +6,7 @@
 	<script src="./bower_components/angular-sanitize/angular-sanitize.js"></script>
 	<script src="./bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 	<link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="./fonts/font-awesome.css">
 	<title>Test 9</title>
 	
 </head>
@@ -13,12 +14,7 @@
 
 		<style>
 
-		@font-face {
-		  font-family: "font awesome";
-		  src: url("./fonts/fontawesome-webfont.eot");
-		  src: url('./fonts/fontawesome-webfont.eot?#iefix') format('embedded-opentype'),
-		  url('./fonts/fontawesome-webfont.woff') format('woff'), url('./fonts/fontawesome-webfont.ttf') format('truetype'), url('./fonts/fontawesome-webfont.svg#fontawesome-webfont') format('svg');
-}
+
 			.test {
 				margin: 50px auto;
 				width:600px;
@@ -56,6 +52,10 @@
 				font-size: 14px;
 				cursor: pointer;
 				margin:0;
+			}
+
+			.ms-label.active  .status{
+				color:red;
 			}
 
 			.sort-order {
@@ -129,18 +129,24 @@
 		<div class="test">
 			<h1>Test 9</h1>
 
+			<div style="width:300px;float:left;"><ms-dropdown selected-sort-index="0" is-active=true msid="column_1"></ms-dropdown></div>
+			<div style="width:300px;float:left;"><ms-dropdown selected-sort-index="1" msid="column_2"></ms-dropdown></div>
 
-			<div style="width:300px;float:left;"><ms-dropdown selected-sort-index="0"></ms-dropdown></div>
-			<div style="width:300px;float:left;"><ms-dropdown selected-sort-index="1"></ms-dropdown></div>
 
 
+			<div class="well" style="position:absolute;top:400px;">
+				<h4>Sort and Filter</h4>
+				<div>Active: {{DropdownService.getActive()}}</div>
+				<div>Order By: {{SortAndFilterService.orderBy}}</div>
+				<div>Filter By: {{SortAndFilterService.filterBy}}</div>
+			</div>
 		</div>
 
 
 
 		<script type="text/ng-template" id="/tpl.html">
-			<div class="ms-dropdown">
-				<h6 class="ms-label" ng-class='{active: DropdownService.getActive() === ID}'><span ng-click="toggle()">{{selectedItem.label}}</span>&nbsp<span class="sort-order" ng-class="{reverse: reverse}" ng-click="setReverse()"></span></h6>
+			<div class="ms-dropdown" id="{{id}}">
+				<h6 class="ms-label" ng-class='{active: DropdownService.getActive() === id}'><span ng-click="selectSort(selectedItem)" class='status'>{{selectedItem.label}}</span>&nbsp<span ng-click="toggle(id)" class="glyphicon glyphicon-collapse-down"></span></h6>
 				<ul class="ms-select-list dropshadow hide">
 					<li class="ms-item" ng-repeat="item in items" ng-class="{disabled:item.label === selectedItem.label}" ng-click="selectSort(item)"><span class="glyphicon glyphicon-ok ms-ok"></span>{{item.label}}</li>
 
@@ -159,40 +165,31 @@
 
 		<script  type="text/ng-template" id="/name.html">
 
-			<li class="ms-holder"><input type="text" class="ms-name-input" ng-model="name" placeholder="Enter Name" ng-disabled="enabledOn(selectedFilter)"/></li>
-			<li class="ms-holder"><button class="btn btn-primary ms-apply"  ng-disabled="enabledOn(selectedFilter)" ng-click="submit(name)">apply</button></li>
+			<li class="ms-holder"><input type="text" class="ms-name-input" ng-model="name" placeholder="Enter Name" ng-disabled="enabledOn(selectedFilter)" ng-click="dontPassEvent($event)"/></li>
+			<li class="ms-holder"><button class="btn btn-primary ms-apply submit-button"  
+			 ng-disabled="name == '' || enabledOn(selectedFilter)" ng-click="submit(name)">apply</button></li>
 
 		</script>
 		
 
 		<script>
 			angular.module('myapp',['ui.bootstrap', 'ngSanitize'])
-			.controller('MainCtrl', function($scope){
-
+			.controller('MainCtrl', function($scope, DropdownService, SortAndFilterService, DropdownService){
+				$scope.SortAndFilterService = SortAndFilterService;
+				$scope.DropdownService = DropdownService;
 			})
-			.filter ('correctLabel', function(){
-				return function(input){
-					if (input === "Owner") return "Owned by";
-					return input
-				}
-			})
-		.directive('msDropdown', function($document, $timeout, DROPDOWNITEMS) {
-        return {
+		.directive('msDropdown', function($document, $timeout, DROPDOWNITEMS, DropdownService, SortAndFilterService) {
+        	return {
             restrict: "AE",
             templateUrl: "/tpl.html",
             replace: true,
             scope: {
                 selectedSortIndex: "@",
-                ID: "@",
+                isActive: "@",
+                id: "@msid"
             },
             controller: function($scope, $element, $attrs) {
-                $scope.items = DROPDOWNITEMS;
-                $scope.reverse = false;
-                $scope.name = null;
-                $scope.selectedItem = DROPDOWNITEMS[$scope.selectedSortIndex]
-                $scope.selectedFilter = null;
-
-                var dropdown = $($element).find('.ms-select-list'),
+            	var dropdown = $($element).find('.ms-select-list'),
                 focusInput = function(){
                 	var inputField = $element.find('input');
                     if (inputField) {
@@ -200,28 +197,69 @@
                     }
                 },
                 close = function(){
-                	console.info ("close");
                     dropdown.addClass('hide');
                     $document.off('click', close);
+                },
+                setOrderBy = function(item){
+                	SortAndFilterService.orderBy = item.label;
+                	DropdownService.setActive($scope.id);
+                },
+                setFilterBy = function(item, who){
+                	SortAndFilterService.filterBy = {};
+                	if (isActive() && item){
+                		SortAndFilterService.filterBy[item.label] = who;
+                	}
+                }, 
+                setAsActive = function(id) {
+                	DropdownService.setActive(id);
+                    setOrderBy($scope.selectedItem);
+                    setFilterBy($scope.selectedFilter, getName($scope.selectedFilter));
+                },
+                getName = function(filter){
+                	if (filter) {
+						return (filter.label.indexOf('by me') > -1) ? $scope.me : $scope.name;
+					}
+					return "";
+                },
+                isActive = function (){
+                	return $scope.id === DropdownService.getActive();
+                },
+                dontPassEvent = function(evt){
+                	if (evt) {
+                        evt.preventDefault();
+                        evt.stopPropagation();
+                    }
                 }
 
-      //           $document.on('keydown', function(evt) {
-      //               if (evt.keyCode === 13) {
-						// if (!$scope.enabledOn($scope.selectedFilter)){
-						// 	console.info ("submit");
-						// } else {
-						// 	console.info ("no submit");
-						// }
-      //               }
-      //           });
+                $scope.dontPassEvent = dontPassEvent;
+
+                $document.on('keypress', function(event){
+                	if (event.keyCode == 13 && $scope.isActive && !$scope.enabledOn($scope.selectedFilter)){
+                		var menu = DropdownService.getActive(), 
+                		submitButton = $("#" + menu + " .submit-button")
+                		$timeout(function(){angular.element(submitButton).triggerHandler('click');})
+                	}
+                })
+
+
+                $scope.DropdownService = DropdownService;
+                $scope.items = DROPDOWNITEMS;
+
+                $scope.selectedItem = DROPDOWNITEMS[$scope.selectedSortIndex]
+                $scope.selectedFilter = null;
+                $scope.me = "Pete";
+                $scope.name = "";
+
+                if ($scope.isActive) {
+                	// ***
+                	DropdownService.setActive($scope.id);
+                	SortAndFilterService.orderBy = $scope.selectedItem.label;
+                }
 
 				$scope.enabledOn = function(which) {
 					return which ? ((which.label === $scope.selectedItem.enabledOn) ? false : true) : true;
 				}
 
-                $scope.setReverse = function() {
-                    $scope.reverse = !$scope.reverse;
-                }
 
                 $scope.submit = function(name) {
                     if (($scope.selectedFilter.label === $scope.selectedItem.enabledOn) && (name === null || name === "")) {
@@ -229,14 +267,20 @@
                         focusInput();
                     } else {
                        $scope.name = name;
-                       console.info ("subbmitted: " + $scope.name);
+                       console.info ("submitted: " + $scope.name);
                        close();
+
+                    	// ***
+                    	setFilterBy($scope.selectedFilter, $scope.name);
                     }
                 }
 
-                $scope.toggle = function() {
+                $scope.toggle = function(id) {
                     if (dropdown.hasClass('hide')) {
-                        dropdown.removeClass('hide')
+                        dropdown.removeClass('hide');
+
+                        // ***
+                        setAsActive(id);
                         $timeout(function(){$document.on('click', close);});
                     } else {
                         dropdown.addClass('hide');
@@ -246,6 +290,9 @@
 
                 $scope.selectSort = function(item) {
                     $scope.selectedItem = item;
+
+                    // ***
+                    setOrderBy(item);
                 }
 
                 $scope.selectFilter = function(which) {
@@ -261,6 +308,9 @@
                     if (which.label === $scope.selectedItem.enabledOn ){
                     	focusInput();
                     }
+
+                    // ***
+                    setFilterBy($scope.selectedFilter, getName($scope.selectedFilter));
                 }
             }
         }
@@ -276,51 +326,10 @@
 				active = which;
 			}
 		}
-	})
-	.factory('SelectionService', function($rootScope, $filter) {
-        // Service logic
-        // ...
-
-        var selectedItems = [],
-            orderBy,
-            reverse = false,
-            active;
-
-        // Public API here
+    }).factory('SortAndFilterService', function() {
         return {
-            getSelectedItems: function(index) {
-                return selectedItems[index];
-            },
-            setSelectedItems: function(index, item) {
-                //console.info("I just set " + item + " at postion " + index)
-                selectedItems[index] = item;
-            },
-            setOrderBy: function(which) {
-                orderBy = which;
-                $rootScope.$broadcast("orderBy")
-            },
-            getOrderBy: function() {
-                return $filter('camelCase')(orderBy);
-            },
-            setReverse: function(which) {
-                reverse = which;
-            },
-            getReverse: function() {
-                return reverse;
-            },
-            setActive: function(which) {
-                active = which;
-            },
-            getActive: function() {
-                return active;
-            }
-        };
-    }) .factory('FilterService', function() {
-        return {
-            activeFilters: {},
-            filterBy: '',
-            dateRange: '',
-            searchText: ''
+            filterBy: {},
+            orderBy: {}
         };
     }).constant('DROPDOWNITEMS', [{
 	label:"Last Modified"

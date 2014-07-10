@@ -2,6 +2,141 @@
 'use strict';
 
 angular.module('centralManagerApp')
+    .directive('msDropdown', function($document, $timeout, DROPDOWNITEMS, DropdownService, SortAndFilterService) {
+        return {
+            restrict: "AE",
+            templateUrl: "/tpl.html",
+            replace: true,
+            scope: {
+                selectedSortIndex: "@",
+                isActive: "@",
+                id: "@"
+            },
+            controller: function($scope, $element, $attrs) {
+                var dropdown = $($element).find('.ms-select-list'),
+                    focusInput = function() {
+                        var inputField = $element.find('input');
+                        if (inputField) {
+                            $timeout(function() {
+                                inputField.focus()
+                            });
+                        }
+                    },
+                    close = function() {
+                        dropdown.addClass('hide');
+                        $document.off('click', close);
+                    },
+                    setOrderBy = function(item) {
+                        SortAndFilterService.setOrderBy(item.label);
+                        SortAndFilterService.setSorter($scope.id, item.label);
+                    },
+                    setReverse = function(reverse) {
+                        if (isActive()) {
+                            SortAndFilterService.setReverse(reverse);
+                        }
+                    },
+                    setFilterBy = function(item, who) {
+                        console.info("setFilterBy");
+                        console.info(item, who)
+                        SortAndFilterService.filterBy = {};
+                        if (isActive() && item) {
+                            SortAndFilterService.setFilterBy(item.label, who);
+                        }
+                    },
+                    setAsActive = function(id) {
+                        DropdownService.setActive(id);
+                        setOrderBy($scope.selectedItem);
+                        setReverse($scope.reverse);
+                        setFilterBy($scope.selectedFilter, $scope.name);
+                    },
+
+                    isActive = function() {
+                        return $scope.id === DropdownService.getActive();
+                    }
+
+                $scope.DropdownService = DropdownService;
+                $scope.items = DROPDOWNITEMS;
+                $scope.reverse = false;
+                $scope.selectedItem = DROPDOWNITEMS[$scope.selectedSortIndex]
+                $scope.selectedFilter = null;
+                $scope.me = "Barney Rubble";
+                $scope.name = "";
+
+                SortAndFilterService.setSorter($scope.id, $scope.selectedItem.label);
+
+                if ($scope.isActive) {
+                    // ***
+                    DropdownService.setActive($scope.id);
+                    SortAndFilterService.setOrderBy($scope.selectedItem.label);
+                }
+
+                $scope.enabledOn = function(which) {
+                    return which ? ((which.label === $scope.selectedItem.enabledOn) ? false : true) : true;
+                }
+
+                $scope.setReverse = function() {
+                    $scope.reverse = !$scope.reverse;
+
+                    // ***
+                    setReverse($scope.reverse)
+                }
+
+                $scope.submit = function(name) {
+                    if (($scope.selectedFilter.label === $scope.selectedItem.enabledOn) && (name === null || name === "")) {
+                        alert("Please enter a name to filter");
+                        focusInput();
+                    } else {
+                        $scope.name = name;
+                        console.info("subbmitted: " + $scope.name);
+                        close();
+
+                        // ***
+                        setFilterBy($scope.selectedFilter, $scope.name);
+                    }
+                }
+
+                $scope.toggle = function(id) {
+                    if (dropdown.hasClass('hide')) {
+                        dropdown.removeClass('hide');
+
+                        // ***
+                        setAsActive(id);
+                        $timeout(function() {
+                            $document.on('click', close);
+                        });
+                    } else {
+                        dropdown.addClass('hide');
+                        $document.off('click', close);
+                    }
+                }
+
+                $scope.selectSort = function(item) {
+                    $scope.selectedItem = item;
+
+                    // ***
+                    setOrderBy(item);
+                }
+
+                $scope.selectFilter = function(which) {
+                    if (!$scope.enabledOn(which)) {
+                        $document.off('click', close);
+                    }
+
+                    if (!$scope.enabledOn($scope.selectedFilter)) {
+                        $document.on('click', close);
+                    }
+
+                    $scope.selectedFilter = ($scope.selectedFilter === which) ? "" : which;
+                    if (which.label === $scope.selectedItem.enabledOn) {
+                        focusInput();
+                    }
+
+                    // ***
+                    setFilterBy($scope.selectedFilter, $scope.me);
+                }
+            }
+        }
+    })
     .directive('groupDelete', function() {
         return {
             restrict: 'AE',
@@ -75,7 +210,7 @@ angular.module('centralManagerApp')
             templateUrl: '/views/directives/sortingOptions.html'
         };
     })
-    .directive('sorter', function(SelectionService, FilterService) {
+    .directive('sorter', function(SortAndFilterService) {
         return {
             restrict: "E",
             replace: true,
@@ -85,10 +220,10 @@ angular.module('centralManagerApp')
                 $scope.orderBy = $attrs.orderby;
                 this.setOrderBy = function(which) {
                     console.info("setting order by")
-                    SelectionService.setOrderBy(which);
+                    SortAndFilterService.setOrderBy(which);
                 };
                 this.setReverse = function(reverse) {
-                    SelectionService.setReverse(reverse);
+                    SortAndFilterService.setReverse(reverse);
                 };
             }
         };
