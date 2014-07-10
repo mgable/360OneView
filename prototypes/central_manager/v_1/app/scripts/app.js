@@ -44,9 +44,10 @@ angular
         label: "Modified By",
         filters: [{
             label: 'Modified by me',
-            term: "Modified By"
+            term: "modifiedBy"
         }, {
-            label: 'Modified by:'
+            label: 'Modified by:',
+            term: "modifiedBy"
         }],
         template: '/name.html',
         enabledOn: 'Modified by:'
@@ -56,10 +57,10 @@ angular
         label: "Owner",
         filters: [{
             label: 'Owned by me',
-            term: 'Owner'
+            term: 'owner'
         }, {
             label: 'Owned by:',
-            term: 'Owner'
+            term: 'owner'
         }],
         template: '/name.html',
         enabledOn: 'Owned by:'
@@ -73,8 +74,9 @@ angular
 angular.module('/name.html', []).run(['$templateCache',
     function($templateCache) {
         $templateCache.put('/name.html',
-            '<li class="ms-holder"><input type="text" class="ms-name-input" ng-model="name" placeholder="Enter Name" ng-disabled="enabledOn(selectedFilter)"/></li>' +
-            '<li class="ms-holder"><button class="btn btn-primary ms-apply"  ng-disabled="enabledOn(selectedFilter)" ng-click="submit(name)">apply</button></li>'
+            '<li class="ms-holder"><input type="text" class="ms-name-input" ng-model="name" placeholder="Enter Name" ng-disabled="enabledOn(selectedFilter)" ng-click="dontPassEvent($event)"/></li>' +
+            '<li class="ms-holder"><button class="btn btn-primary ms-apply submit-button"  ' +
+            'ng-disabled="name == \'\' || enabledOn(selectedFilter)" ng-click="submit(name)">apply</button></li>'
         );
     }
 ]);
@@ -82,8 +84,8 @@ angular.module('/name.html', []).run(['$templateCache',
 angular.module('/tpl.html', []).run(['$templateCache',
     function($templateCache) {
         $templateCache.put('/tpl.html',
-            '<div class="ms-dropdown">' +
-            '<h6 class="ms-label" ng-class="{active: DropdownService.getActive() === id}"><span ng-click="toggle(id)">{{selectedItem.label}}</span>&nbsp<span class="sort-order" ng-class="{reverse: reverse}" ng-click="setReverse()"></span></h6>' +
+            '<div class="ms-dropdown" id="{{id}}">' +
+            '<h6 class="ms-label" ng-class=\"{active: DropdownService.getActive() === id}\"><span ng-click="selectSort(selectedItem)" class="status">{{selectedItem.label}}</span>&nbsp<span ng-click="toggle(id)" class="glyphicon glyphicon-collapse-down"></span></h6>' +
             '<ul class="ms-select-list dropshadow hide">' +
             '<li class="ms-item" ng-repeat="item in items" ng-class="{disabled:item.label === selectedItem.label}" ng-click="selectSort(item)"><span class="glyphicon glyphicon-ok ms-ok"></span>{{item.label}}</li>' +
             '<ul ng-if="selectedItem.filters">' +

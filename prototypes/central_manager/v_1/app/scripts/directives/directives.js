@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('centralManagerApp')
-    .directive('msDropdown', function($document, $timeout, DROPDOWNITEMS, DropdownService, SortAndFilterService) {
+    .directive('msDropdown', function($document, $timeout, DROPDOWNITEMS, DropdownService, SortAndFilterService, $filter) {
         return {
             restrict: "AE",
             templateUrl: "/tpl.html",
@@ -10,7 +10,7 @@ angular.module('centralManagerApp')
             scope: {
                 selectedSortIndex: "@",
                 isActive: "@",
-                id: "@"
+                id: "@msid"
             },
             controller: function($scope, $element, $attrs) {
                 var dropdown = $($element).find('.ms-select-list'),
@@ -27,39 +27,58 @@ angular.module('centralManagerApp')
                         $document.off('click', close);
                     },
                     setOrderBy = function(item) {
+                        $scope.selectedFilter = "";
+                        DropdownService.setActive($scope.id);
+                        SortAndFilterService.resetFilterBy();
                         SortAndFilterService.setOrderBy(item.label);
                         SortAndFilterService.setSorter($scope.id, item.label);
                     },
-                    setReverse = function(reverse) {
-                        if (isActive()) {
-                            SortAndFilterService.setReverse(reverse);
-                        }
-                    },
                     setFilterBy = function(item, who) {
-                        console.info("setFilterBy");
-                        console.info(item, who)
-                        SortAndFilterService.filterBy = {};
+                        SortAndFilterService.resetFilterBy();
                         if (isActive() && item) {
-                            SortAndFilterService.setFilterBy(item.label, who);
+                            SortAndFilterService.setFilterBy(item.term, who);
                         }
                     },
                     setAsActive = function(id) {
                         DropdownService.setActive(id);
                         setOrderBy($scope.selectedItem);
-                        setReverse($scope.reverse);
-                        setFilterBy($scope.selectedFilter, $scope.name);
+                        setFilterBy($scope.selectedFilter, getName($scope.selectedFilter));
                     },
-
+                    getName = function(filter) {
+                        if (filter) {
+                            return (filter.label.indexOf('by me') > -1) ? $scope.me : $scope.name;
+                        }
+                        return "";
+                    },
                     isActive = function() {
                         return $scope.id === DropdownService.getActive();
+                    },
+                    dontPassEvent = function(evt) {
+                        if (evt) {
+                            evt.preventDefault();
+                            evt.stopPropagation();
+                        }
                     }
+
+                $scope.dontPassEvent = dontPassEvent;
+
+                $document.on('keypress', function(event) {
+                    if (event.keyCode == 13 && $scope.isActive && !$scope.enabledOn($scope.selectedFilter)) {
+                        var menu = DropdownService.getActive(),
+                            submitButton = $("#" + menu + " .submit-button")
+                            $timeout(function() {
+                                angular.element(submitButton).triggerHandler('click');
+                            })
+                    }
+                })
+
 
                 $scope.DropdownService = DropdownService;
                 $scope.items = DROPDOWNITEMS;
-                $scope.reverse = false;
+
                 $scope.selectedItem = DROPDOWNITEMS[$scope.selectedSortIndex]
                 $scope.selectedFilter = null;
-                $scope.me = "Barney Rubble";
+                $scope.me = "Fred Flintstone";
                 $scope.name = "";
 
                 SortAndFilterService.setSorter($scope.id, $scope.selectedItem.label);
@@ -74,12 +93,6 @@ angular.module('centralManagerApp')
                     return which ? ((which.label === $scope.selectedItem.enabledOn) ? false : true) : true;
                 }
 
-                $scope.setReverse = function() {
-                    $scope.reverse = !$scope.reverse;
-
-                    // ***
-                    setReverse($scope.reverse)
-                }
 
                 $scope.submit = function(name) {
                     if (($scope.selectedFilter.label === $scope.selectedItem.enabledOn) && (name === null || name === "")) {
@@ -87,7 +100,7 @@ angular.module('centralManagerApp')
                         focusInput();
                     } else {
                         $scope.name = name;
-                        console.info("subbmitted: " + $scope.name);
+                        console.info("submitted: " + $scope.name);
                         close();
 
                         // ***
@@ -100,7 +113,7 @@ angular.module('centralManagerApp')
                         dropdown.removeClass('hide');
 
                         // ***
-                        setAsActive(id);
+                        //setAsActive(id);
                         $timeout(function() {
                             $document.on('click', close);
                         });
@@ -132,7 +145,7 @@ angular.module('centralManagerApp')
                     }
 
                     // ***
-                    setFilterBy($scope.selectedFilter, $scope.me);
+                    setFilterBy($scope.selectedFilter, getName($scope.selectedFilter));
                 }
             }
         }

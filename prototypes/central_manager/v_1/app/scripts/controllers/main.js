@@ -18,7 +18,9 @@ angular.module('centralManagerApp')
         })
 
         $scope.toggleInfoTray = function() {
-            $scope.showinfotray = !$scope.showinfotray;
+            if ($scope.enableDisplayActions == 1) {
+                $scope.showinfotray = !$scope.showinfotray;
+            }
         };
 
         $scope.$on('FileDeleteService:change', function() {

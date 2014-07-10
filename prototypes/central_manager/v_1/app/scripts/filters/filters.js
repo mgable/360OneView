@@ -4,11 +4,12 @@
 angular.module('centralManagerApp')
     .filter('camelCase', function() {
         return function(input) {
-            if (input) {
+            if (typeof input == "string") {
                 return input.toLowerCase().replace(/ (.)/g, function(match, group1) {
                     return group1.toUpperCase();
                 });
             }
+            return input;
         }
     })
     .filter('dateRange', function() {

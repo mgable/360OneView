@@ -15,10 +15,11 @@ angular.module('centralManagerApp')
     }).factory('SortAndFilterService', function($filter) {
         var sorters = {},
             filterBy = {},
-            orderBy = {},
+            orderBy = "",
             reverse = false;
         return {
             activeFilters: {},
+            searchText: "",
             setSorter: function(id, sorter) {
                 sorters[id] = sorter;
             },
@@ -44,6 +45,9 @@ angular.module('centralManagerApp')
             },
             getFilterBy: function() {
                 return filterBy;
+            },
+            resetFilterBy: function() {
+                filterBy = {};
             }
         };
     });
