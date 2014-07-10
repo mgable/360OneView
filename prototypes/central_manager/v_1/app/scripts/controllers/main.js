@@ -43,4 +43,14 @@ angular.module('centralManagerApp')
             }
             $rootScope.$broadcast('$filter');
         }
+    }).controller('LogInViewCtrl', function($scope, $location, dialogs) {
+        var dlg = dialogs.create('/views/modal/login.html', 'LogInDialogCtrl', {});
+        dlg.result.then(function(user) {
+            //save
+            $location.path('/dashboard');
+        }, function() {
+            //dismiss
+        });
+    }).controller('LogInDialogCtrl', function() {
+
     });

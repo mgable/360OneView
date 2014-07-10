@@ -9,6 +9,7 @@ angular
         'ui.bootstrap',
         'pasvaz.bindonce',
         '/name.html',
+        'dialogs.main',
         '/tpl.html'
     ])
     .config(function($routeProvider) {
