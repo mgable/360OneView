@@ -190,6 +190,14 @@ li {
   .navigation .navbar-nav li a .glyphicon {
     color: white; }
 
+button.delete {
+  padding: 0;
+  margin: 0 10px 0 0;
+  border: 0 none;
+  background-color: white;
+  color: gray;
+  font-size: 17px; }
+
 .app {
   max-width: 1300px;
   min-width: 1024px;
@@ -208,7 +216,6 @@ li {
     transition: 0.3s linear all;
     -webkit-transition: 0.3s linear all;
     margin: 0 0 0 200px;
-    height: 100%;
     padding: 0 0 0 10px; }
   .app .right {
     width: 300px;

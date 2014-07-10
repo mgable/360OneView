@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('centralManagerApp')
-    .controller('CentralManagerCtrl', function($scope, $rootScope, FilesModel, SortAndFilterService, SEARCHITEMS, FileDeleteService, $filter) {
+    .controller('CentralManagerCtrl', function($scope, $rootScope, $filter, FilesModel, SortAndFilterService, SEARCHITEMS, FileDeleteService, DialogService) {
         $scope.data = FilesModel.$get();
         $scope.showinfotray = false;
         $scope.menuItems = SEARCHITEMS;
@@ -31,6 +31,10 @@ angular.module('centralManagerApp')
             alert(msg);
         }
 
+        $scope.delete = function() {
+            DialogService.create('/views/modal/login.html', 'DialogCtrl')
+        }
+
         $scope.setFilter = function(filter, other) {
             $scope.selectedCategory = other ? (typeof other === "boolean" ? filter : other) : filter;
 
@@ -43,14 +47,6 @@ angular.module('centralManagerApp')
             }
             $rootScope.$broadcast('$filter');
         }
-    }).controller('LogInViewCtrl', function($scope, $location, dialogs) {
-        var dlg = dialogs.create('/views/modal/login.html', 'LogInDialogCtrl', {});
-        dlg.result.then(function(user) {
-            //save
-            $location.path('/dashboard');
-        }, function() {
-            //dismiss
-        });
-    }).controller('LogInDialogCtrl', function() {
+    }).controller('DialogCtrl', function() {
 
     });

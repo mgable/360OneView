@@ -7,7 +7,7 @@
 			<span class='FA enabled create' ng-click="alert('This will take you to a create new page')">&#xf067</span>
 			<span class="FA copy" ng-class='{enabled: enableDisplayActions==1}'>&#xf0c5</span>
 			<span class="set-as-default"><a ng-class='{enabled: enableDisplayActions==1}'><img src="images/ms-confirm_gray.png" width="18" height="16"/></a></span>
-			<span class="FA trash" ng-class='{enabled: enableDisplayActions > 0}'>&#xf014</span>
+			<button class="FA delete" ng-click="delete()" ng-disabled='!enableDisplayActions > 0'>&#xf014</button>
 		</div>
 		<div class='search-field'>
 			<i class="icon-search"></i>
