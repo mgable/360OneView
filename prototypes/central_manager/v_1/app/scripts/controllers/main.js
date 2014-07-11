@@ -11,11 +11,11 @@ angular.module('centralManagerApp')
         $scope.SortAndFilterService = SortAndFilterService;
         $scope.SortAndFilterService.activeFilters.search = $scope.menuItems[0].label;
 
-        $scope.$on("orderBy", function() {
-            console.info("received orderby event")
-            $scope.orderBy = $filter('camelCase')(SortAndFilterService.getOrderBy());
-            console.info($scope.orderBy)
-        })
+    // $scope.$on("orderBy", function() {
+    //     console.info("received orderby event")
+    //     $scope.orderBy = $filter('camelCase')(SortAndFilterService.getOrderBy());
+    //     console.info($scope.orderBy)
+    // })
 
         $scope.toggleInfoTray = function() {
             if ($scope.enableDisplayActions == 1) {
