@@ -195,17 +195,6 @@ li {
   .navigation .navbar-nav li a .glyphicon {
     color: white; }
 
-button.delete {
-  padding: 0;
-  margin: 0 10px 0 0;
-  border: 0 none;
-  background-color: white;
-  color: gray;
-  font-size: 17px; }
-
-button.delete.enabled {
-  color: cornflowerblue; }
-
 .app {
   max-width: 1300px;
   min-width: 1024px;
@@ -230,7 +219,7 @@ button.delete.enabled {
     background-color: lightgray;
     height: 100%;
     float: right;
-    overflow: hidden; }
+    overflow-x: hidden; }
   .app .display-table table td {
     white-space: nowrap;
     cursor: pointer; }
@@ -246,6 +235,17 @@ button.delete.enabled {
       border-right: 1px solid gray;
       max-width: 132px;
       display: inline-block; }
+      .app .display-actions .actions button.delete {
+        padding: 0;
+        margin: 0 10px 0 0;
+        border: 0 none;
+        background-color: white;
+        color: gray;
+        font-size: 17px; }
+      .app .display-actions .actions button.delete.enabled {
+        color: cornflowerblue; }
+        .app .display-actions .actions button.delete.enabled:hover {
+          color: navy; }
       .app .display-actions .actions span {
         padding: 0 10px 0 0;
         font-size: 17px;
@@ -253,6 +253,8 @@ button.delete.enabled {
         .app .display-actions .actions span.enabled {
           color: cornflowerblue;
           cursor: pointer; }
+          .app .display-actions .actions span.enabled:hover {
+            color: navy; }
       .app .display-actions .actions .set-as-default a.enabled {
         cursor: pointer;
         background-color: cornflowerblue; }
@@ -264,6 +266,10 @@ button.delete.enabled {
       .app .display-actions .toggle-info-tray.enabled a {
         cursor: pointer;
         color: cornflowerblue; }
+        .app .display-actions .toggle-info-tray.enabled a:hover {
+          color: navy; }
+      .app .display-actions .toggle-info-tray .close {
+        margin: 0 20px 0 0; }
     .app .display-actions .search-field {
       display: inline-block;
       margin: 10px 0;
@@ -310,15 +316,23 @@ button.delete.enabled {
   width: 280px; }
   .info-tray .details {
     margin: 0 0 10px; }
+    .info-tray .details .sub-header {
+      font-weight: bold; }
     .info-tray .details p {
       margin: 0 0 5px; }
       .info-tray .details p a {
-        color: black;
+        cursor: pointer;
+        color: cornflowerblue;
         text-decoration: none; }
+        .info-tray .details p a:hover {
+          color: navy; }
+          .info-tray .details p a:hover span.enabled {
+            color: navy; }
   .info-tray h4, .info-tray h5, .info-tray h6 {
     margin-top: 0;
     clear: both;
-    border-bottom: 1px solid black; }
+    border-bottom: 1px solid black;
+    padding: 0 0 4px 0; }
   .info-tray p {
     margin: 0; }
   .info-tray .entity-holder {

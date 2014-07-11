@@ -47,19 +47,6 @@
   }
 }
 
-button.delete {
-	padding:0;
-	margin:0 10px 0 0;
-	border:0 none;
-	background-color:white;
-	color:gray;
-	font-size:17px;
-}
-
-button.delete.enabled {
-	color:$enabled;
-}
-
 .app {
 	max-width:1300px;
 	min-width:1024px;
@@ -85,8 +72,8 @@ button.delete.enabled {
 		width:300px;
 		background-color:$lightgray;
 		height: 100%;
-    float:right;
-    overflow: hidden;
+    	float:right;
+    	overflow-x: hidden;
 	}
 	.display-table {
 		table {
@@ -97,7 +84,7 @@ button.delete.enabled {
 		}
 	}
 	.display-actions {
-    height:50px;
+    	height:50px;
 		.title {
 			max-width:400px;
 			font-weight:bold;
@@ -113,6 +100,21 @@ button.delete.enabled {
 			border-right: 1px solid $gray;
 			max-width:132px;
 			display:inline-block;
+			button.delete {
+				padding:0;
+				margin:0 10px 0 0;
+				border:0 none;
+				background-color:white;
+				color:gray;
+				font-size:17px;
+			}
+
+			button.delete.enabled {
+				color:$enabled;
+				&:hover {
+					color: navy;
+				}
+			}
 			span {
 				padding: 0 10px 0 0;
 				font-size: 17px;
@@ -120,6 +122,9 @@ button.delete.enabled {
 				&.enabled {
 					color:$active;
 					cursor: pointer;
+					&:hover {
+						color:navy;
+					}
 				}
 			}
 			.set-as-default a.enabled {
@@ -136,6 +141,12 @@ button.delete.enabled {
 			&.enabled a {
 				cursor: pointer;
 				color:$enabled;
+				&:hover {
+					color:navy;
+				}
+			}
+			.close {
+				margin: 0 20px 0 0;
 			}
 		}
 		.search-field {
@@ -209,14 +220,21 @@ button.delete.enabled {
 .info-tray {
   .details {
     .sub-header {
-      
+      font-weight: bold;
     }
     margin:0 0 10px;
     p {
       margin:0 0 5px;
       a {
-      	color:$black;
+      	cursor: pointer;
+      	color:$active;
       	text-decoration: none;
+      	&:hover {
+      		span.enabled {
+      			color:navy;
+      		}
+      		color:navy;
+      	}
       }
     }
   }
@@ -224,6 +242,7 @@ button.delete.enabled {
     margin-top:0;
     clear:both;
     border-bottom: 1px solid $black;
+    padding: 0 0 4px 0;
   }
   p {
     margin:0;

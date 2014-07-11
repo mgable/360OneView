@@ -42,7 +42,7 @@ data.makeData = function() {
         newData = function() {
             var objs = [],
                 indexer = 1;
-            for (var i = 0, ilimit = 1; i < ilimit; i++) {
+            for (var i = 0, ilimit = 3; i < ilimit; i++) {
                 for (var x = 0, limit = titles.length; x < limit; x++) {
                     var obj = {}, type = pick(fileTypes);
                     obj.index = indexer++;
@@ -58,13 +58,17 @@ data.makeData = function() {
                     obj.lastModified = lastModified(180);
                     obj.lastModified_display = timeAgo(obj.lastModified);
                     //obj.scenarios = makeScenarios();
-                    obj.defaultScenariosElements = trueFalse();
+                    obj.defaultScenariosElements = trueThenFalse(indexer);
                     //obj.imported = trueFalse();
                     obj.search = _.flatten(makeSearch(obj, type));
                     objs.push(obj);
                 }
             }
             return objs
+        },
+
+        trueThenFalse = function(index) {
+            return (index < 6) ? true : false;
         },
 
         timeAgo = function(time, local, raw) {

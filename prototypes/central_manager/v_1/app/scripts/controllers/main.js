@@ -22,7 +22,7 @@ angular.module('centralManagerApp')
                     value: !value,
                     id: id
                 });
-            $scope.FileDeleteService.reset();
+            //$scope.FileDeleteService.reset();
         };
 
         $scope.toggleInfoTray = function() {

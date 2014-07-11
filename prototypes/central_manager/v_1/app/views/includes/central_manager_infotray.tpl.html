@@ -2,10 +2,17 @@
 	<div class="details">
 		<p class="sub-header pull-left">DETAILS</p>
 		<button type="button" class="close" ng-click="toggleInfoTray()"><span aria-hidden="true">&times;</span></button>
-		<h4>TV Budget Planning 2016</h4>
-		<p>Type: Competition</p>
-		<p><a><img src="images/ms-confirm_gray.png" width="18" height="16">&nbsp;Make default</a></p>
-		<p><a><span class="FA">&#xf0c5</span>&nbsp;Copy</a></p>
+		<h4>{{FileDeleteService.getFilesToDelete()[0].title}}</h4>
+		<p>Type: {{FileDeleteService.getFilesToDelete()[0].type}}</p>
+		<p>
+			<a ng-click="setAsMaster(FileDeleteService.getFilesToDelete()[0])"><img src="images/ms-confirm_gray.png" width="18" height="16">
+				<span ng-switch on="FileDeleteService.getFilesToDelete()[0].defaultScenariosElements">
+					<span ng-switch-when="true">&nbsp;Unset as default</span>
+					<span ng-switch-default>&nbsp;Make default</span>
+				</span>
+			</a>
+		</p>
+		<p><a ng-click="alert('This will take you to a CREATE page')"><span class='FA enabled create' >&#xf067</span>&nbsp;Copy</a></p>
 	</div>
 
 	<div class="well profile">
@@ -16,8 +23,8 @@
 		    </a>
 		    <div class="media-body">
 		      <h5 class="media-heading bold">Created by:</h5>
-		      <p class="name">Pete Lastname</p>
-		      <p class="date">June 07, 2013</p>
+		      <p class="name">{{FileDeleteService.getFilesToDelete()[0].owner}}</p>
+		      <p class="date">{{FileDeleteService.getFilesToDelete()[0].lastModified | date}}</p>
 		    </div>
 		  </li>
 		</ul>
@@ -30,8 +37,8 @@
 		    </a>
 		    <div class="media-body">
 		      <h5 class="media-heading bold">Last Modified by:</h5>
-		      <p class="name">John Wayne</p>
-		      <p class="date">August 17, 2014</p>
+		      <p class="name">{{FileDeleteService.getFilesToDelete()[0].modifiedBy | date}}</p>
+		      <p class="date">{{FileDeleteService.getFilesToDelete()[0].lastModified | date}}</p>
 		    </div>
 		  </li>
 		</ul>
