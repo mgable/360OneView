@@ -79,6 +79,7 @@ angular.module('centralManagerApp')
                 $scope.selectedItem = DROPDOWNITEMS[$scope.selectedSortIndex]
                 $scope.selectedFilter = null;
                 $scope.me = "Fred Flintstone";
+                $scope.reverse = false;
                 $scope.name = "";
 
                 SortAndFilterService.setSorter($scope.id, $scope.selectedItem.label);
@@ -112,8 +113,6 @@ angular.module('centralManagerApp')
                     if (dropdown.hasClass('hide')) {
                         dropdown.removeClass('hide');
 
-                        // ***
-                        //setAsActive(id);
                         $timeout(function() {
                             $document.on('click', close);
                         });
@@ -128,6 +127,19 @@ angular.module('centralManagerApp')
 
                     // ***
                     setOrderBy(item);
+                }
+
+                $scope.select = function(item) {
+
+                    if (!isActive()) {
+                        $scope.selectedItem = item;
+                        // ***
+                        setOrderBy(item);
+                    } else {
+                        $scope.reverse = !$scope.reverse;
+                        // ***
+                        SortAndFilterService.setReverse($scope.reverse);
+                    }
                 }
 
                 $scope.selectFilter = function(which) {

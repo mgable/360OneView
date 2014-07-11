@@ -37,12 +37,13 @@
 				<th><ms-dropdown selected-sort-index="1" msid="column_2"></ms-dropdown></th>
 			</thead>
 			<tbody>
-<!-- SortAndFilterService.getOrderBy() is {{SortAndFilterService.getOrderBy()}} <br/>
+				SortAndFilterService.getReverse() is {{SortAndFilterService.getReverse()}} <br/>
+				SortAndFilterService.getOrderBy() is {{SortAndFilterService.getOrderBy()}} <br/>
 				SortAndFilterService.activeFilters is {{SortAndFilterService.activeFilters}} <br/>
 				SortAndFilterService.getFilterBy is {{SortAndFilterService.getFilterBy()}} <br/>
 				SortAndFilterService 1 is {{SortAndFilterService.getSorter("column_1")}} <br/>
-				SortAndFilterService 2 is {{SortAndFilterService.getSorter("column_2")}} -->
-				<tr ng-repeat="item in data.data | orderBy: SortAndFilterService.getOrderBy() | filter : SortAndFilterService.activeFilters | filter: SortAndFilterService.searchText | filter: SortAndFilterService.getFilterBy()">
+				SortAndFilterService 2 is {{SortAndFilterService.getSorter("column_2")}}
+				<tr ng-repeat="item in data.data | orderBy: SortAndFilterService.getOrderBy() : SortAndFilterService.getReverse() | filter : SortAndFilterService.activeFilters | filter: SortAndFilterService.searchText | filter: SortAndFilterService.getFilterBy()">
 					<td style="width:1%">
 						<div class="checkbox pull-left multi-select">
 		                    <input type="checkbox" ng-model="item.isSelected" />
