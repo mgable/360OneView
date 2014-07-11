@@ -4,10 +4,10 @@
 	<div class="pull-right">
 
 		<div class="actions">
-			<span class='FA enabled create' ng-click="alert('This will take you to a create new page')">&#xf067</span>
-			<span class="FA copy" ng-class='{enabled: enableDisplayActions==1}'>&#xf0c5</span>
-			<span class="set-as-default"><a ng-class='{enabled: enableDisplayActions==1}'><img src="images/ms-confirm_gray.png" width="18" height="16"/></a></span>
-			<button class="FA delete" ng-click="delete()" ng-disabled='!enableDisplayActions > 0'>&#xf014</button>
+			<span class='FA enabled create' ng-click="alert('This will take you to a CREATE page')">&#xf067</span>
+			<span class="FA copy" ng-class='{enabled: enableDisplayActions==1}'ng-click="alert('This will take you to a COPY page')">&#xf0c5</span>
+			<span class="set-as-default"><a ng-click="setAsMaster(FileDeleteService.getFilesToDelete()[0])" ng-class='{enabled: enableDisplayActions==1}'><img src="images/ms-confirm_gray.png" width="18" height="16"/></a></span>
+			<button class="FA delete" ng-click="delete()" ng-class='{enabled: enableDisplayActions > 0}' ng-disabled='!enableDisplayActions > 0'>&#xf014</button>
 		</div>
 		<div class='search-field'>
 			<i class="icon-search"></i>
@@ -32,24 +32,32 @@
 		                <tri-state-checkbox checkboxes="data.data"  class="select-all-cb" delete-service-for-checkbox></tri-state-checkbox>
 		            </div>
 		        </th>
-				<th><sorting-options label="title" display="Name"></sorting-options></th>
+				<th><sorting-options label="title" display="Name" msid="name-field"></sorting-options></th>
 				<th><ms-dropdown selected-sort-index="0" is-active=true msid="column_1"></ms-dropdown></th>
 				<th><ms-dropdown selected-sort-index="1" msid="column_2"></ms-dropdown></th>
 			</thead>
 			<tbody>
+<!-- 				DropdownService.getActive() is {{DropdownService.getActive()}} <br/>
 				SortAndFilterService.getReverse() is {{SortAndFilterService.getReverse()}} <br/>
 				SortAndFilterService.getOrderBy() is {{SortAndFilterService.getOrderBy()}} <br/>
 				SortAndFilterService.activeFilters is {{SortAndFilterService.activeFilters}} <br/>
 				SortAndFilterService.getFilterBy is {{SortAndFilterService.getFilterBy()}} <br/>
 				SortAndFilterService 1 is {{SortAndFilterService.getSorter("column_1")}} <br/>
-				SortAndFilterService 2 is {{SortAndFilterService.getSorter("column_2")}}
+				SortAndFilterService 2 is {{SortAndFilterService.getSorter("column_2")}} -->
 				<tr ng-repeat="item in data.data | orderBy: SortAndFilterService.getOrderBy() : SortAndFilterService.getReverse() | filter : SortAndFilterService.activeFilters | filter: SortAndFilterService.searchText | filter: SortAndFilterService.getFilterBy()">
 					<td style="width:1%">
 						<div class="checkbox pull-left multi-select">
 		                    <input type="checkbox" ng-model="item.isSelected" />
 		                </div>
 		            </td>
-					<td ng-click="item.isSelected=!item.isSelected"><span class="symbol icon-{{item.icon}}"></span>{{item.title}}</td>
+					<td ng-click="item.isSelected=!item.isSelected">
+						<div class="symbol-holder">
+	                    	<span ng-switch='item.defaultScenariosElements'>
+		                        <span ng-switch-when='false' class="symbol icon-{{item.icon}}"></span>
+		                        <span ng-switch-default class="symbol icon-masterset"></span>
+	                    	</span>{{item.title}}
+	                	</div>
+					</td>
 					<td ng-click="item.isSelected=!item.isSelected" ng-switch on="SortAndFilterService.getSorter('column_1')">
 						<div ng-switch-when="Last Modified">{{item.lastModified_display}}</div>
 						<div ng-switch-when="Modified By">{{item.modifiedBy}}</div>

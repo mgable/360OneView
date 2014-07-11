@@ -69,11 +69,11 @@
             item[config.prop] = config.value;
 
             //TODO: move this logic elsewhere or refactor out
-            if (config.prop === 'masterSet') {
-                if (item.masterSet) {
-                    item.search.push('Master Set');
+            if (config.prop === 'defaultScenariosElements') {
+                if (item.defaultScenariosElements) {
+                    item.search.push('Default Scenarios Elements');
                 } else {
-                    item.search.splice(_.indexOf(item.search, 'Master Set'), 1);
+                    item.search.splice(_.indexOf(item.search, 'Default Scenarios Elements'), 1);
                 }
             }
             Files.$set(item);

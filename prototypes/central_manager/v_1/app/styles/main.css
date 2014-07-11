@@ -70,6 +70,10 @@ ul {
   ul li {
     list-style-type: none; }
 
+/* Modals */
+.delete-modal .files-to-delete {
+  width: 100%; }
+
 .ms-dropdown {
   position: relative;
   font-size: 13px;
@@ -99,7 +103,8 @@ li {
 .ms-label {
   font-size: 14px;
   cursor: pointer;
-  margin: 0; }
+  margin: 0;
+  font-weight: bold; }
 
 .ms-label.active .status {
   color: red; }
@@ -198,6 +203,9 @@ button.delete {
   color: gray;
   font-size: 17px; }
 
+button.delete.enabled {
+  color: cornflowerblue; }
+
 .app {
   max-width: 1300px;
   min-width: 1024px;
@@ -246,6 +254,7 @@ button.delete {
           color: cornflowerblue;
           cursor: pointer; }
       .app .display-actions .actions .set-as-default a.enabled {
+        cursor: pointer;
         background-color: cornflowerblue; }
     .app .display-actions .toggle-info-tray {
       padding: 0 15px; }
@@ -271,16 +280,9 @@ button.delete {
       cursor: pointer; }
     .app .display-table thead th span.selected:after {
       font-family: "font awesome";
-      color: black;
-      content: '\f0de'; }
+      color: black; }
     .app .display-table thead th span.selected a {
       color: red; }
-    .app .display-table thead th span.selected:after {
-      content: '\f0dd'; }
-    .app .display-table thead th span.selected.reverse a {
-      color: red; }
-    .app .display-table thead th span.selected.reverse:after {
-      content: '\f0de'; }
   .app .search .menu > li {
     margin: 0 0 20px; }
   .app .search .title {

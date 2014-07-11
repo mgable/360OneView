@@ -1,4 +1,1 @@
-<span class="{{label}} heading" ng-class="{'selected': orderBy === label, 'reverse': reverse}"><a ng-click="sort($event, label)" ng-bind="display"></a>&nbsp;</span> 
-
-
-
+<span class="{{label}} heading" ng-class="{'selected': SortAndFilterService.getOrderBy() === label}"><a ng-click="sort($event, label)" ng-bind="display"></a>&nbsp;</span> 

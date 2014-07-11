@@ -35,7 +35,7 @@ function init() {
         var results = {};
 
         _.each(currentData.data, function(e, i, l) {
-            if (e.fileType in results) {
+            if (e.type in results) {
                 results[e.type]++
             } else {
                 results[e.type] = 1

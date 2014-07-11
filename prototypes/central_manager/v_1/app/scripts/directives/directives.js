@@ -208,7 +208,7 @@ angular.module('centralManagerApp')
 
         };
     })
-    .directive('sortingOptions', function() {
+    .directive('sortingOptions', function(SortAndFilterService) {
         return {
             restrict: 'AE',
             replace: true,
@@ -217,25 +217,27 @@ angular.module('centralManagerApp')
             link: function($scope, $element, $attrs, ctrl) {
                 $scope.label = $attrs.label;
                 $scope.display = $attrs.display;
+                $scope.id = $attrs.msid;
                 $scope.reverse = false;
+                $scope.SortAndFilterService = SortAndFilterService;
 
                 $scope.sort = function(evt, which) {
                     if (evt) {
                         evt.stopPropagation();
                         evt.preventDefault();
                     }
-                    if (which === $scope.orderBy) {
+                    if (which === $scope.SortAndFilterService.getOrderBy()) {
                         $scope.reverse = !$scope.reverse;
                     }
                     ctrl.setReverse($scope.reverse);
-                    ctrl.setOrderBy(which);
+                    ctrl.setOrderBy(which, $scope.id);
                     //ctrl.sort(which, $scope.reverse);
                 };
             },
             templateUrl: '/views/directives/sortingOptions.html'
         };
     })
-    .directive('sorter', function(SortAndFilterService) {
+    .directive('sorter', function(SortAndFilterService, DropdownService) {
         return {
             restrict: "E",
             replace: true,
@@ -243,9 +245,10 @@ angular.module('centralManagerApp')
 
                 $scope.reverse = false;
                 $scope.orderBy = $attrs.orderby;
-                this.setOrderBy = function(which) {
-                    console.info("setting order by")
+                this.setOrderBy = function(which, id) {
+                    console.info("setting order by " + which)
                     SortAndFilterService.setOrderBy(which);
+                    DropdownService.setActive(id);
                 };
                 this.setReverse = function(reverse) {
                     SortAndFilterService.setReverse(reverse);
@@ -268,6 +271,11 @@ angular.module('centralManagerApp')
                 this.getSelectedCheckBoxes = function() {
                     return $scope.items;
                 };
+
+                // reset delete files on filter change
+                $scope.$on("$filter", function() {
+                    $scope.masterChange();
+                })
 
                 $scope.masterChange = function() {
                     $scope.items = [];
