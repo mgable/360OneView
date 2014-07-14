@@ -15,14 +15,13 @@ angular.module('centralManagerApp')
 
         $scope.setAsMaster = function(item) {
             var id = item.id,
-                value = item.defaultScenariosElements
-                console.info(id, value)
-                FilesModel.update({
-                    prop: 'defaultScenariosElements',
-                    value: !value,
-                    id: id
-                });
-            //$scope.FileDeleteService.reset();
+                value = item.defaultScenariosElements;
+            console.info(id, value);
+            FilesModel.update({
+                prop: 'defaultScenariosElements',
+                value: !value,
+                id: id
+            });
         };
 
         $scope.toggleInfoTray = function() {
