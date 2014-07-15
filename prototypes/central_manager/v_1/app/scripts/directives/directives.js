@@ -264,7 +264,7 @@ angular.module('centralManagerApp')
                 checkboxes: '='
             },
             template: '<input type="checkbox" ng-model="master" ng-change="masterChange()">',
-            controller: function($scope, $element, $attrs) {
+            controller: function($scope, $element, $attrs, filterFilter, SortAndFilterService) {
                 $scope.items = [];
                 var self = this;
 
@@ -280,7 +280,7 @@ angular.module('centralManagerApp')
                 $scope.masterChange = function() {
                     $scope.items = [];
                     if ($scope.master) {
-                        angular.forEach($scope.checkboxes, function(cb, index) {
+                        angular.forEach(filterFilter($scope.checkboxes, SortAndFilterService.activeFilters), function(cb, index) {
                             cb.isSelected = true;
                             $scope.items.push(cb);
                         });
@@ -340,4 +340,31 @@ angular.module('centralManagerApp')
                 });
             }
         };
+    }).directive('sortableColumns', function(SortAndFilterService) {
+        return {
+            template: '<div ng-switch on="displayBy">' +
+                '<div ng-switch-when="Last Modified">{{item.lastModified_display}}</div>' +
+                '<div ng-switch-when="Modified By">{{item.modifiedBy}}</div>' +
+                '<div ng-switch-when="Type">{{item.type}}</div>' +
+                '<div ng-switch-when="Owner">{{item.owner}}</div>' +
+                '<div ng-switch-when="Defaults">{{item.defaultScenariosElements}}</div>' +
+                '<div ng-switch-default>FAIL</div>' +
+                '</div>',
+            restrict: "AE",
+            replace: true,
+            scope: {
+                item: '=',
+                displayBy: '='
+            }
+        }
+    }).directive('focus', function($timeout) {
+        return {
+            restrict: "A",
+            link: function(scope, element, attrs) {
+                console.info(element);
+                $timeout(function() {
+                    element[0].focus();
+                }, 300)
+            }
+        }
     });

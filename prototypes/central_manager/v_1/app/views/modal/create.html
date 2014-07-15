@@ -1,0 +1,43 @@
+<div id="create-modal" class="create-modal">
+	<div class="modal-header">
+		<h4 class="modal-title"><span class="glyphicon glyphicon-star"></span>Create a New Cost Assumption</h4>
+		<button class="close" ng-click="close()">&times;</button>
+	</div>
+	<div class="modal-body">
+		<div ng-bind="user.errorMsg" class="text-danger"></div>
+		<form name="nameDialog" novalidate role="form" class="form-horizontal">
+
+			<div class="form-group">
+				<label class="col-2">Name:&nbsp;</label>
+				<div class="col-4">
+					<input type="text" class="form-control" ng-model="name" focus />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-2" >Base:&nbsp;</label>
+				<div class="col-4">
+					<select>
+						<option>Heavy Competition 2014</option>
+						<option>Heavy Competition 2013</option>
+						<option>Heavy Competition 2012</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-2" >Access:&nbsp;</label>
+				<div class="col-4">
+					<select>
+						<option>Everyone can edit</option>
+						<option>Only I can edit</option>
+					</select>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" ng-disabled="!name" class="btn btn-primary" ng-click="create(name)">Create New Element</button>
+		<button type="button" class="btn btn-default" ng-click="close()">Cancel</button>
+	</div>
+</div>

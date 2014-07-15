@@ -1,12 +1,12 @@
-<div class="info-tray">
+<div class="info-tray" ng-controller="InfoTrayCtrl">
 	<div class="details">
 		<p class="sub-header pull-left">DETAILS</p>
-		<button type="button" class="close" ng-click="toggleInfoTray()"><span aria-hidden="true">&times;</span></button>
-		<h4>{{FileDeleteService.getFilesToDelete()[0].title}}</h4>
-		<p>Type: {{FileDeleteService.getFilesToDelete()[0].type}}</p>
+		<button type="button" style="margin:0 15px 0 0" class="close" ng-click="toggleInfoTray()"><span aria-hidden="true">&times;</span></button>
+		<h4>{{item.title}}</h4>
+		<p>Type: {{item.type}}</p>
 		<p>
-			<a ng-click="setAsMaster(FileDeleteService.getFilesToDelete()[0])"><img src="images/ms-confirm_gray.png" width="18" height="16">
-				<span ng-switch on="FileDeleteService.getFilesToDelete()[0].defaultScenariosElements">
+			<a ng-click="setAsMaster(item)"><img src="images/ms-confirm_gray.png" width="18" height="16">
+				<span ng-switch on="item.defaults">
 					<span ng-switch-when="true">&nbsp;Unset as default</span>
 					<span ng-switch-default>&nbsp;Make default</span>
 				</span>
@@ -23,8 +23,8 @@
 		    </a>
 		    <div class="media-body">
 		      <h5 class="media-heading bold">Created by:</h5>
-		      <p class="name">{{FileDeleteService.getFilesToDelete()[0].owner}}</p>
-		      <p class="date">{{FileDeleteService.getFilesToDelete()[0].lastModified | date}}</p>
+		      <p class="name">{{item.owner}}</p>
+		      <p class="date">{{item.lastModified | date}}</p>
 		    </div>
 		  </li>
 		</ul>
@@ -37,8 +37,8 @@
 		    </a>
 		    <div class="media-body">
 		      <h5 class="media-heading bold">Last Modified by:</h5>
-		      <p class="name">{{FileDeleteService.getFilesToDelete()[0].modifiedBy | date}}</p>
-		      <p class="date">{{FileDeleteService.getFilesToDelete()[0].lastModified | date}}</p>
+		      <p class="name">{{item.modifiedBy | date}}</p>
+		      <p class="date">{{item.lastModified | date}}</p>
 		    </div>
 		  </li>
 		</ul>

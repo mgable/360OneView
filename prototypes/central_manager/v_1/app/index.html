@@ -23,8 +23,8 @@
     <!--[if lt IE 7]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <div class="cap"></div>
-    <ng-include src="'/views/includes/navigation.tpl.html'"></ng-include>
+    <div class="cap"><ng-include src="'/views/includes/navigation.tpl.html'"></ng-include></div>
+    
 
     <div class="app">
         <div ng-view=""></div>
@@ -49,6 +49,7 @@
     <script src="bower_components/angular-bindonce/bindonce.js"></script>
     <script src="bower_components/angular-pusher/angular-pusher.js"></script>
     <script src="bower_components/q/q.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -64,6 +65,7 @@
         <script src="scripts/services/resource.js"></script>
         <script src="scripts/filters/filters.js"></script>
         <script src="scripts/services/dialogservice.js"></script>
+        <script src="scripts/services/activeselection.js"></script>
         <!-- endbuild -->
 </body>
 </html>

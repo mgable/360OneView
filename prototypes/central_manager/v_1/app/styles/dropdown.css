@@ -25,13 +25,16 @@ li {
   margin: 0 0 5px; }
 
 .ms-label {
-  font-size: 14px;
+  font-size: 13px;
   cursor: pointer;
   margin: 0;
-  font-weight: bold; }
+  font-weight: bold;
+  min-width: 100px;
+  white-space: nowrap;
+  color: #8695B4; }
 
 .ms-label.active .status {
-  color: red; }
+  color: orange; }
 
 .sort-order {
   display: inline-block;
@@ -85,3 +88,20 @@ li {
 .ms-ok {
   display: inline;
   padding: 0 10px 0 0; }
+
+.ms-actions-holder {
+  min-width: 50px; }
+  .ms-actions-holder .dropdown-trigger {
+    display: none;
+    line-height: 6px; }
+  .ms-actions-holder .ms-actions {
+    position: relative; }
+    .ms-actions-holder .ms-actions .ms-actions-menu {
+      position: absolute;
+      left: -150px;
+      padding: 6px 10px; }
+      .ms-actions-holder .ms-actions .ms-actions-menu li a {
+        padding: 3px 0;
+        color: cornflowerblue; }
+        .ms-actions-holder .ms-actions .ms-actions-menu li a .ms-icon {
+          padding: 0 8px 0 0; }

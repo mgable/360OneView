@@ -127,7 +127,7 @@
             .post(path, {
                 params: {
                     title: data.title,
-                    description: data.description
+                    description: "New Entity"
                 }
             })
             .success(deferred.resolve)

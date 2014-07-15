@@ -10,16 +10,13 @@
 }
 
 .navigation {
-  margin: 50px 0 0 0;
   .bar {
     max-width:1300px;
     min-width:1024px;
     width:100%;
     height:50px;
     padding:0 15px;
-    position: fixed;
-    z-index:1000;
-    top:0;
+    margin:auto;
     
   }
   a.logo {
@@ -53,20 +50,19 @@
 	font-size: 13px;
 	margin: auto;
 	position: relative;
+	top: 50px;
 	.left { 
 		width:200px;
-		background-color:$lightgray;
+		border:1px solid $lightgray;
 		position:fixed;
-		top:0;
+		top:50px;
 		bottom:0;
 		height:100%;
-		padding:0 10px 0;
 	}
 	.center {
 		transition: 0.3s linear all;
 		-webkit-transition: 0.3s linear all;
 		margin:0 0 0 200px;
-		padding: 0 0 0 10px;
 	}
 	.right {
 		width:300px;
@@ -81,91 +77,78 @@
 				white-space: nowrap;
 				cursor: pointer;
 			}
+			tr.active  td{
+				background-color:#F2F5A9;
+			}
+		}
+		.default {
+			color: goldenrod;
 		}
 	}
 	.display-actions {
+		padding:0 0 0 10px;
     	height:50px;
+
+    	.trash {
+    		margin:0 30px 0 0;
+    		font-size:14px;
+    		color:#0081DB;
+    		cursor: pointer;
+    	}
 		.title {
+			color:gray;
 			max-width:400px;
 			font-weight:bold;
+			text-transform: capitalize;
 			span {
 				color:$lightgray;
 			}
 		}
 		span {
-			// font-family: "font awesome";
+			i {
+				font-size:24px;
+			}
 		}
 		.actions {
-			margin:10px 10px 10px 0;
-			border-right: 1px solid $gray;
-			max-width:132px;
+			height:50px;
+			max-width:200px;
 			display:inline-block;
-			button.delete {
-				padding:0;
-				margin:0 10px 0 0;
-				border:0 none;
-				background-color:white;
-				color:gray;
-				font-size:17px;
-			}
-
-			button.delete.enabled {
-				color:$enabled;
-				&:hover {
-					color: navy;
-				}
-			}
+			border-left: 1px solid  #BCC6D0;
 			span {
-				padding: 0 10px 0 0;
+				padding: 12px;
 				font-size: 17px;
 				color:$gray;
-				&.enabled {
-					color:$active;
-					cursor: pointer;
-					&:hover {
-						color:navy;
-					}
-				}
-			}
-			.set-as-default a.enabled {
+				display:inline-block;
+				border-right: 1px solid  #BCC6D0;
+				height:100%;
 				cursor: pointer;
-				background-color:$enabled;
-			}
-		}
-		.toggle-info-tray {
-			padding:0 15px;
-			a {
-				color:$disabled;
-				text-decoration: none;
-			}
-			&.enabled a {
-				cursor: pointer;
-				color:$enabled;
 				&:hover {
 					color:navy;
 				}
 			}
-			.close {
-				margin: 0 20px 0 0;
+			.toggle-info-tray {
+				cursor: default;
+				&:hover {
+					color:$gray;
+				}
+				&.enabled {
+					&:hover {
+						cursor: pointer;
+						color:navy;
+					}
+				}
 			}
-		}
-		.search-field {
-			display:inline-block;
-			margin:10px 0;
-			padding:0 15px 0 0;
-			max-width:340px;
-			border-right: 1px solid $gray;
-		}
-		.info {
-			margin:10px 0 0 10px;
 		}
 	}
 	.display-table {
 		thead {
-			background-color:$lightgray;
 			th {
+				background-color:#F6F6F6;
+				border: 0 none;
+				border-top:1px solid #BCC6D0 !important;
+				border-bottom:1px solid #BCC6D0;
 				a {
-					color:$black;
+					color:#8695B4;
           			text-decoration: none;
           			cursor: pointer;
 				}
@@ -180,18 +163,31 @@
 	        	}
 			}
 		}
+		tbody tr:hover .dropdown-trigger {
+			display: block;
+		}
 	}
 	.search {
+			text-transform: uppercase;
+			font-size:14px;
+			font-weight: bold;
 	    .menu > li {
-	      margin: 0 0 20px;
+	    	padding: 0 10px;
+	     	margin: 0 0 10px;
 	    }
 		.title {
-			margin: 10px 0 30px 0;
+			font-weight: bold;
+			font-size:14px;
+			color: gray;
+			margin: 10px 0 30px;
+			padding: 0 10px;
 		}
 		.header {
-			font-weight:bold;
-			&.selected > a{
-				color:$selected;
+			&.selected {
+				background-color: #8796B4;
+				> a {
+					color:white;
+				}
 			}
 		}
     .submenu {
@@ -360,10 +356,8 @@
 		}
 	}
 	&.icon-masterset {
-		background-color:red;
-		&:after {
-			content:'M';
-		}
+		background-color:goldenrod;
+		background-image: url(../images/ms-confirm_gray.png);
 	}
 	&.icon-marketingfactors {
 		background-color:hotpink;

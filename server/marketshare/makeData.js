@@ -8,15 +8,12 @@ data.makeData = function() {
         scenarioTitles = ['Carl\'s Econ Variable Simulation 1', 'Al\'s AIB 2Q 2015 ', 'Al\'s Simulate 2Q 2015', 'Ann\'s AIB Q1 2015 TV ONLY v3', 'Ann\'s Allocate 3Q', 'Bob’s Simulate 4Q 2014', 'Brent\'s Simulate 3Q', 'Dan\'s Digital Hit Target', 'Erik\'s Cut Budget 2Q 2015 TV and Radio', 'Francis\' Max Profit for Q4 2014'],
 
         fileTypes = [
-            "Cost Assumptions", {
-                'Non-Marketing Factors': [
-                    'Economy',
-                    'Labor Cost',
-                    'Competition',
-                    'Brand Awardness',
-                    'Pricing'
-                ]
-            }
+            "Cost Assumptions",
+            'Economy',
+            'Labor Cost',
+            'Competition',
+            'Brand Awardness',
+            'Pricing'
         ],
 
         masterSet = false,
@@ -58,9 +55,9 @@ data.makeData = function() {
                     obj.lastModified = lastModified(180);
                     obj.lastModified_display = timeAgo(obj.lastModified);
                     //obj.scenarios = makeScenarios();
-                    obj.defaultScenariosElements = trueThenFalse(indexer);
+                    obj.defaults = trueThenFalse(indexer);
                     //obj.imported = trueFalse();
-                    obj.search = _.flatten(makeSearch(obj, type));
+                    //obj.search = _.flatten(makeSearch(obj, type));
                     objs.push(obj);
                 }
             }
@@ -225,7 +222,8 @@ data.makeData = function() {
 
     return {
         "data": newData(),
-        "makeScenarios": makeScenarios
+        "makeScenarios": makeScenarios,
+        "timeAgo": timeAgo
     };
 };
 

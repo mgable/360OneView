@@ -43,6 +43,7 @@
         Files.$$resource.remove(ids).then(function(response) {
             Files.$timeout(function() {
                 Files.data.data = response.data;
+                Files.data.counts = response.counts;
             });
         });
     };
@@ -58,7 +59,9 @@
     Files.$create = function(config) {
         Files.$$resource.create(config).then(function(response) {
             Files.$timeout(function() {
+                console.info(response);
                 Files.data.data = response.data;
+                Files.data.counts = response.counts;
             });
         });
     };

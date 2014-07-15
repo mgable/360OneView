@@ -25,18 +25,15 @@ angular
     .run(function(FilesModel) {
         FilesModel.$find();
     }).constant('SEARCHITEMS', [{
-        label: 'Default Scenarios Elements'
+        label: 'defaults',
     }, {
-        label: 'Non-Marketing Factors',
-        subMenu: [{
-            label: 'Economy'
-        }, {
-            label: 'Competition'
-        }, {
-            label: 'Labor Cost'
-        }, {
-            label: 'Pricing'
-        }]
+        label: 'Economy'
+    }, {
+        label: 'Competition'
+    }, {
+        label: 'Labor Cost'
+    }, {
+        label: 'Pricing'
     }, {
         label: 'Cost Assumptions'
     }]).constant('DROPDOWNITEMS', [{

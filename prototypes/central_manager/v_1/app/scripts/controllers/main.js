@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('centralManagerApp')
-    .controller('CentralManagerCtrl', function($scope, $rootScope, $filter, FilesModel, SortAndFilterService, SEARCHITEMS, FileDeleteService, DialogService, DropdownService) {
+    .controller('CentralManagerCtrl', function($scope, $rootScope, $filter, $timeout, FilesModel, SortAndFilterService, SEARCHITEMS, FileDeleteService, DialogService, DropdownService, ActiveSelection) {
         $scope.data = FilesModel.$get();
         $scope.showinfotray = false;
         $scope.menuItems = SEARCHITEMS;
@@ -9,14 +9,16 @@ angular.module('centralManagerApp')
         $scope.selectedCategory = $scope.menuItems[0].label;
         $scope.enableDisplayActions = false;
         $scope.SortAndFilterService = SortAndFilterService;
-        $scope.SortAndFilterService.activeFilters.search = $scope.menuItems[0].label;
+        $scope.SortAndFilterService.setReverse(true);
+        $scope.SortAndFilterService.activeFilters.defaults = true;
         $scope.FileDeleteService = FileDeleteService;
         $scope.DropdownService = DropdownService;
+        $scope.ActiveSelection = ActiveSelection;
 
         $scope.setAsMaster = function(item) {
             var id = item.id,
                 value = item.defaultScenariosElements;
-            console.info(id, value);
+
             FilesModel.update({
                 prop: 'defaultScenariosElements',
                 value: !value,
@@ -24,9 +26,13 @@ angular.module('centralManagerApp')
             });
         };
 
-        $scope.toggleInfoTray = function() {
-            if ($scope.enableDisplayActions == 1) {
-                $scope.showinfotray = !$scope.showinfotray;
+        $scope.toggleInfoTray = function(item) {
+            if ($scope.ActiveSelection.isActiveRow(item)) {
+                $scope.showinfotray = false;
+                $scope.ActiveSelection.clearActiveRow()
+            } else {
+                $scope.ActiveSelection.setActiveRow(item)
+                $scope.showinfotray = true
             }
         };
 
@@ -42,23 +48,36 @@ angular.module('centralManagerApp')
             alert(msg);
         }
 
-        $scope.delete = function() {
+        $scope.trash = function() {
             DialogService.create('/views/modal/delete.html', 'DialogCtrl');
         }
 
-        $scope.setFilter = function(filter, other) {
-            $scope.selectedCategory = other ? (typeof other === "boolean" ? filter : other) : filter;
+        $scope.create = function() {
+            DialogService.create('/views/modal/create.html', 'CreateCtrl', {}, {
+                size: 'sm'
+            });
+        }
 
-            if (other) {
-                SortAndFilterService.activeFilters.search = filter;
-                SortAndFilterService.activeFilters.type = (typeof other === 'string') ? other : '';
+        $scope.setFilter = function(filter) {
+            $scope.selectedCategory = filter;
+
+            if (filter === "defaults") {
+                SortAndFilterService.activeFilters.defaults = true;
+                SortAndFilterService.activeFilters.type = '';
             } else {
-                SortAndFilterService.activeFilters.search = '';
-                SortAndFilterService.activeFilters.type = filter === 'All' ? '' : filter;
+                SortAndFilterService.activeFilters.defaults = '';
+                SortAndFilterService.activeFilters.type = filter;
             }
+
             $rootScope.$broadcast('$filter');
             $scope.closeInfoTray();
         }
+    }).controller('InfoTrayCtrl', function($scope, ActiveSelection) {
+        $scope.activeSelection = ActiveSelection;
+        $scope.$on('activeRowChange', function() {
+            $scope.item = $scope.activeSelection.getActiveRow()
+        })
+
     }).controller('DialogCtrl', function($scope, $modalInstance, FileDeleteService) {
 
         $scope.FileDeleteService = FileDeleteService;
@@ -72,4 +91,17 @@ angular.module('centralManagerApp')
             FileDeleteService.remove();
             $modalInstance.close('save');
         }; // end save
+    }).controller('CreateCtrl', function($scope, $modalInstance, FilesModel) {
+        $scope.create = function(name) {
+            console.info("create");
+            FilesModel.$create({
+                title: name
+            });
+            $modalInstance.dismiss('create');
+        }; //
+
+        $scope.close = function() {
+            console.info("cancel")
+            $modalInstance.dismiss('canceled');
+        }; // end cancel
     });

@@ -3,9 +3,6 @@
   font-family: "font awesome";
   src: url("../fonts/fontawesome-webfont.eot");
   src: url("../fonts/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff") format("woff"), url("../fonts/fontawesome-webfont.ttf") format("truetype"), url("../fonts/fontawesome-webfont.svg#fontawesome-webfont") format("svg"); }
-.FA {
-  font-family: "font awesome"; }
-
 .space-after {
   margin-bottom: 20px; }
 
@@ -74,6 +71,9 @@ ul {
 .delete-modal .files-to-delete {
   width: 100%; }
 
+.create-modal .modal-header {
+  height: 50px; }
+
 .ms-dropdown {
   position: relative;
   font-size: 13px;
@@ -101,13 +101,16 @@ li {
   margin: 0 0 5px; }
 
 .ms-label {
-  font-size: 14px;
+  font-size: 13px;
   cursor: pointer;
   margin: 0;
-  font-weight: bold; }
+  font-weight: bold;
+  min-width: 100px;
+  white-space: nowrap;
+  color: #8695B4; }
 
 .ms-label.active .status {
-  color: red; }
+  color: orange; }
 
 .sort-order {
   display: inline-block;
@@ -162,6 +165,23 @@ li {
   display: inline;
   padding: 0 10px 0 0; }
 
+.ms-actions-holder {
+  min-width: 50px; }
+  .ms-actions-holder .dropdown-trigger {
+    display: none;
+    line-height: 6px; }
+  .ms-actions-holder .ms-actions {
+    position: relative; }
+    .ms-actions-holder .ms-actions .ms-actions-menu {
+      position: absolute;
+      left: -150px;
+      padding: 6px 10px; }
+      .ms-actions-holder .ms-actions .ms-actions-menu li a {
+        padding: 3px 0;
+        color: cornflowerblue; }
+        .ms-actions-holder .ms-actions .ms-actions-menu li a .ms-icon {
+          padding: 0 8px 0 0; }
+
 .cap {
   width: 100%;
   background-color: #222;
@@ -169,51 +189,46 @@ li {
   position: fixed;
   z-index: 1000; }
 
-.navigation {
-  margin: 50px 0 0 0; }
-  .navigation .bar {
-    max-width: 1300px;
-    min-width: 1024px;
-    width: 100%;
-    height: 50px;
-    padding: 0 15px;
-    position: fixed;
-    z-index: 1000;
-    top: 0; }
-  .navigation a.logo {
-    background: transparent url("../images/360sprite.png") -214px -3px no-repeat;
-    display: inline-block;
-    height: 50px;
-    width: 200px;
-    text-indent: -1000px; }
-    .navigation a.logo:hover {
-      background: transparent url("../images/360sprite.png") -214px -3px no-repeat; }
-  .navigation .navbar-nav li a:hover {
-    background-color: inherit; }
-    .navigation .navbar-nav li a:hover .glyphicon {
-      color: lightgray; }
-  .navigation .navbar-nav li a .glyphicon {
-    color: white; }
+.navigation .bar {
+  max-width: 1300px;
+  min-width: 1024px;
+  width: 100%;
+  height: 50px;
+  padding: 0 15px;
+  margin: auto; }
+.navigation a.logo {
+  background: transparent url("../images/360sprite.png") -214px -3px no-repeat;
+  display: inline-block;
+  height: 50px;
+  width: 200px;
+  text-indent: -1000px; }
+  .navigation a.logo:hover {
+    background: transparent url("../images/360sprite.png") -214px -3px no-repeat; }
+.navigation .navbar-nav li a:hover {
+  background-color: inherit; }
+  .navigation .navbar-nav li a:hover .glyphicon {
+    color: lightgray; }
+.navigation .navbar-nav li a .glyphicon {
+  color: white; }
 
 .app {
   max-width: 1300px;
   min-width: 1024px;
   font-size: 13px;
   margin: auto;
-  position: relative; }
+  position: relative;
+  top: 50px; }
   .app .left {
     width: 200px;
-    background-color: lightgray;
+    border: 1px solid lightgray;
     position: fixed;
-    top: 0;
+    top: 50px;
     bottom: 0;
-    height: 100%;
-    padding: 0 10px 0; }
+    height: 100%; }
   .app .center {
     transition: 0.3s linear all;
     -webkit-transition: 0.3s linear all;
-    margin: 0 0 0 200px;
-    padding: 0 0 0 10px; }
+    margin: 0 0 0 200px; }
   .app .right {
     width: 300px;
     background-color: lightgray;
@@ -223,65 +238,56 @@ li {
   .app .display-table table td {
     white-space: nowrap;
     cursor: pointer; }
+  .app .display-table table tr.active td {
+    background-color: #F2F5A9; }
+  .app .display-table .default {
+    color: goldenrod; }
   .app .display-actions {
+    padding: 0 0 0 10px;
     height: 50px; }
+    .app .display-actions .trash {
+      margin: 0 30px 0 0;
+      font-size: 14px;
+      color: #0081DB;
+      cursor: pointer; }
     .app .display-actions .title {
+      color: gray;
       max-width: 400px;
-      font-weight: bold; }
+      font-weight: bold;
+      text-transform: capitalize; }
       .app .display-actions .title span {
         color: lightgray; }
+    .app .display-actions span i {
+      font-size: 24px; }
     .app .display-actions .actions {
-      margin: 10px 10px 10px 0;
-      border-right: 1px solid gray;
-      max-width: 132px;
-      display: inline-block; }
-      .app .display-actions .actions button.delete {
-        padding: 0;
-        margin: 0 10px 0 0;
-        border: 0 none;
-        background-color: white;
-        color: gray;
-        font-size: 17px; }
-      .app .display-actions .actions button.delete.enabled {
-        color: cornflowerblue; }
-        .app .display-actions .actions button.delete.enabled:hover {
-          color: navy; }
-      .app .display-actions .actions span {
-        padding: 0 10px 0 0;
-        font-size: 17px;
-        color: gray; }
-        .app .display-actions .actions span.enabled {
-          color: cornflowerblue;
-          cursor: pointer; }
-          .app .display-actions .actions span.enabled:hover {
-            color: navy; }
-      .app .display-actions .actions .set-as-default a.enabled {
-        cursor: pointer;
-        background-color: cornflowerblue; }
-    .app .display-actions .toggle-info-tray {
-      padding: 0 15px; }
-      .app .display-actions .toggle-info-tray a {
-        color: gray;
-        text-decoration: none; }
-      .app .display-actions .toggle-info-tray.enabled a {
-        cursor: pointer;
-        color: cornflowerblue; }
-        .app .display-actions .toggle-info-tray.enabled a:hover {
-          color: navy; }
-      .app .display-actions .toggle-info-tray .close {
-        margin: 0 20px 0 0; }
-    .app .display-actions .search-field {
+      height: 50px;
+      max-width: 200px;
       display: inline-block;
-      margin: 10px 0;
-      padding: 0 15px 0 0;
-      max-width: 340px;
-      border-right: 1px solid gray; }
-    .app .display-actions .info {
-      margin: 10px 0 0 10px; }
-  .app .display-table thead {
-    background-color: lightgray; }
+      border-left: 1px solid  #BCC6D0; }
+      .app .display-actions .actions span {
+        padding: 12px;
+        font-size: 17px;
+        color: gray;
+        display: inline-block;
+        border-right: 1px solid  #BCC6D0;
+        height: 100%;
+        cursor: pointer; }
+        .app .display-actions .actions span:hover {
+          color: navy; }
+      .app .display-actions .actions .toggle-info-tray {
+        cursor: default; }
+        .app .display-actions .actions .toggle-info-tray:hover {
+          color: gray; }
+        .app .display-actions .actions .toggle-info-tray.enabled:hover {
+          cursor: pointer;
+          color: navy; }
+  .app .display-table thead th {
+    background-color: #F6F6F6;
+    border: 0 none;
+    border-top: 1px solid #BCC6D0 !important;
+    border-bottom: 1px solid #BCC6D0; }
     .app .display-table thead th a {
-      color: black;
+      color: #8695B4;
       text-decoration: none;
       cursor: pointer; }
     .app .display-table thead th span.selected:after {
@@ -289,27 +295,38 @@ li {
       color: black; }
     .app .display-table thead th span.selected a {
       color: red; }
-  .app .search .menu > li {
-    margin: 0 0 20px; }
-  .app .search .title {
-    margin: 10px 0 30px 0; }
-  .app .search .header {
+  .app .display-table tbody tr:hover .dropdown-trigger {
+    display: block; }
+  .app .search {
+    text-transform: uppercase;
+    font-size: 14px;
     font-weight: bold; }
-    .app .search .header.selected > a {
-      color: red; }
-  .app .search .submenu {
-    margin: 0 0 0 10px; }
-    .app .search .submenu li {
-      font-weight: normal;
-      margin: 5px 0 0; }
-      .app .search .submenu li.selected > a {
-        color: red; }
-  .app .search ul li a {
-    color: black;
-    text-decoration: none;
-    cursor: pointer; }
-  .app .search .file-types {
-    margin: 0 0 20px 20px; }
+    .app .search .menu > li {
+      padding: 0 10px;
+      margin: 0 0 10px; }
+    .app .search .title {
+      font-weight: bold;
+      font-size: 14px;
+      color: gray;
+      margin: 10px 0 30px;
+      padding: 0 10px; }
+    .app .search .header.selected {
+      background-color: #8796B4; }
+      .app .search .header.selected > a {
+        color: white; }
+    .app .search .submenu {
+      margin: 0 0 0 10px; }
+      .app .search .submenu li {
+        font-weight: normal;
+        margin: 5px 0 0; }
+        .app .search .submenu li.selected > a {
+          color: red; }
+    .app .search ul li a {
+      color: black;
+      text-decoration: none;
+      cursor: pointer; }
+    .app .search .file-types {
+      margin: 0 0 20px 20px; }
 
 .info-tray {
   margin: 10px;
@@ -414,9 +431,8 @@ li {
     .symbol.icon-brandawardness:after {
       content: 'BA'; }
   .symbol.icon-masterset {
-    background-color: red; }
-    .symbol.icon-masterset:after {
-      content: 'M'; }
+    background-color: goldenrod;
+    background-image: url(../images/ms-confirm_gray.png); }
   .symbol.icon-marketingfactors {
     background-color: hotpink; }
     .symbol.icon-marketingfactors:after {

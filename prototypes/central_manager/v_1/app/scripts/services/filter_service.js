@@ -16,7 +16,7 @@ angular.module('centralManagerApp')
         var sorters = {},
             filterBy = {},
             orderBy = "",
-            reverse = false;
+    reverse = false;
         return {
             activeFilters: {},
             searchText: "",

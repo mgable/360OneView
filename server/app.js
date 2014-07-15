@@ -41,21 +41,14 @@ function init() {
                 results[e.type] = 1
             }
 
-            if (e.defaultScenariosElements) {
-                if (results['Default Scenarios Elements']) {
-                    results['Default Scenarios Elements']++;
+            if (e.defaults) {
+                if (results['defaults']) {
+                    results['defaults']++;
                 } else {
-                    results['Default Scenarios Elements'] = 1;
+                    results['defaults'] = 1;
                 }
             }
 
-            if (e.search.indexOf("Non-Marketing Factors") > -1) {
-                if (results["Non-Marketing Factors"]) {
-                    results["Non-Marketing Factors"]++
-                } else {
-                    results["Non-Marketing Factors"] = 1;
-                }
-            }
         });
 
         return results;
@@ -122,19 +115,23 @@ function init() {
         console.info("creating new record ");
         console.info(req.body);
 
-        var tempRecord = {};
-        tempRecord.id = generateUUID();
-        tempRecord.title = req.body.title;
-        tempRecord.description = req.body.description;
-        tempRecord.createdDate = new Date();
-        tempRecord.modifiedBy = "nobody";
-        tempRecord.lastModified = "";
-        tempRecord.createdBy = "you";
-        tempRecord.masterSet = false;
-        currentData.data.push(tempRecord)
+        var tr = {};
+        tr.index = currentData.data.length + 1;
+        tr.id = generateUUID();
+        tr.type = "Cost Assumptions";
+        tr.title = req.body.params.title;
+        tr.createdDate = new Date();
+        tr.modifiedBy = "nobody";
+        tr.lastModified = "";
+        tr.lastModified_display = currentData.timeAgo(tr.lastModified);
+        tr.owner = "Fred Flintstone";
+        tr.defaultScenariosElements = false;
+        tr.search = [""];
+        currentData.data.push(tr)
         sendResponse(res, {
             totalItemsReturned: currentData.data.length,
             status: "success",
+            counts: fileTypeCounts(),
             data: currentData.data
         });
     });
@@ -179,6 +176,7 @@ function init() {
         sendResponse(res, {
             totalItemsReturned: currentData.data.length,
             status: "success",
+            counts: fileTypeCounts(),
             data: currentData.data
         });
     });
