@@ -127,8 +127,7 @@ function init() {
         tr.lastModified = "";
         tr.lastModified_display = currentData.timeAgo(tr.lastModified);
         tr.owner = "Fred Flintstone";
-        tr.defaultScenariosElements = false;
-        tr.search = [""];
+        tr.defaults = false;
         currentData.data.push(tr)
         sendResponse(res, {
             totalItemsReturned: currentData.data.length,

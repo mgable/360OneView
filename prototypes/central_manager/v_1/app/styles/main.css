@@ -71,6 +71,8 @@ ul {
 .delete-modal .files-to-delete {
   width: 100%; }
 
+.create-modal .modal-title {
+  float: left; }
 .create-modal .modal-header {
   height: 50px; }
 
@@ -207,7 +209,7 @@ li {
 .navigation .navbar-nav li a:hover {
   background-color: inherit; }
   .navigation .navbar-nav li a:hover .glyphicon {
-    color: lightgray; }
+    color: #f6f6f6; }
 .navigation .navbar-nav li a .glyphicon {
   color: white; }
 
@@ -220,7 +222,7 @@ li {
   top: 50px; }
   .app .left {
     width: 200px;
-    border: 1px solid lightgray;
+    border: 1px solid #f6f6f6;
     position: fixed;
     top: 50px;
     bottom: 0;
@@ -231,10 +233,13 @@ li {
     margin: 0 0 0 200px; }
   .app .right {
     width: 300px;
-    background-color: lightgray;
+    background-color: #f6f6f6;
     height: 100%;
     float: right;
-    overflow-x: hidden; }
+    overflow-x: hidden;
+    -webkit-box-shadow: -5px 1px 5px 0px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: -5px 1px 5px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: -5px 1px 5px 0px rgba(0, 0, 0, 0.3); }
   .app .display-table table td {
     white-space: nowrap;
     cursor: pointer; }
@@ -255,8 +260,6 @@ li {
       max-width: 400px;
       font-weight: bold;
       text-transform: capitalize; }
-      .app .display-actions .title span {
-        color: lightgray; }
     .app .display-actions span i {
       font-size: 24px; }
     .app .display-actions .actions {
@@ -346,24 +349,54 @@ li {
             color: navy; }
   .info-tray h4, .info-tray h5, .info-tray h6 {
     margin-top: 0;
-    clear: both;
-    border-bottom: 1px solid black;
-    padding: 0 0 4px 0; }
+    clear: both; }
   .info-tray p {
     margin: 0; }
   .info-tray .entity-holder {
-    height: 100px;
+    clear: both;
+    height: 191px;
+    padding: 0 10px;
     overflow: hidden; }
     .info-tray .entity-holder.see-all {
       height: auto; }
   .info-tray .see-all-toggle {
-    margin: 5px 0  0;
+    margin: 0 8px;
+    float: right;
     cursor: pointer; }
   .info-tray .entity {
     margin: 0 0 5px; }
+    .info-tray .entity .in-project {
+      margin: 0 0 10px 30px;
+      font-style: italic;
+      color: gray;
+      line-height: 9px; }
+  .info-tray .measures h4 {
+    margin: 0 0 8px 10px; }
+  .info-tray .measures ul li {
+    list-style-type: disc;
+    margin: 0 0 5px 25px; }
   .info-tray .profile {
     padding: 8px 5px;
-    margin-bottom: 10px; }
+    margin-bottom: 10px;
+    background-color: white; }
+    .info-tray .profile .used-in {
+      float: left;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 0 0 0 10px; }
+      .info-tray .profile .used-in span {
+        color: orange; }
+    .info-tray .profile .add-scenario-holder {
+      position: relative; }
+      .info-tray .profile .add-scenario-holder .add-scenario {
+        margin: 15px auto 5px;
+        width: 140px;
+        display: block; }
+      .info-tray .profile .add-scenario-holder > ul li {
+        padding: 0 12px; }
+        .info-tray .profile .add-scenario-holder > ul li:hover {
+          background-color: #f6f6f6;
+          cursor: pointer; }
 
 /* Icons */
 .symbol {

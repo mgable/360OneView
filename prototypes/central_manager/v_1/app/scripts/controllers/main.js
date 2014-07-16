@@ -38,7 +38,10 @@ angular.module('centralManagerApp')
                 $scope.showinfotray = false;
                 $scope.ActiveSelection.clearActiveRow()
             }
+            $scope.selectedItem = item;
         };
+
+
 
         $scope.closeInfoTray = function() {
             $scope.showinfotray = false;
@@ -56,7 +59,7 @@ angular.module('centralManagerApp')
             if (item) {
                 FileDeleteService.setFilesToDelete([item]);
             }
-            DialogService.create('/views/modal/delete.html', 'DialogCtrl');
+            DialogService.create('/views/modal/delete.html', 'DeleteCtrl', $scope.closeInfoTray);
         }
 
         $scope.copy = function(item) {
@@ -101,21 +104,24 @@ angular.module('centralManagerApp')
     }).controller('InfoTrayCtrl', function($scope, ActiveSelection) {
         $scope.activeSelection = ActiveSelection;
         $scope.seeAll = false;
-        $scope.$on('activeRowChange', function() {
-            $scope.item = $scope.activeSelection.getActiveRow()
-        })
 
-    }).controller('DialogCtrl', function($scope, $modalInstance, FileDeleteService) {
+        $scope.$on('ActiveSelection:activeRowChange', function() {
+            $scope.selectedItem = $scope.activeSelection.getActiveRow()
+        });
+
+    }).controller('DeleteCtrl', function($scope, data, $modalInstance, FileDeleteService) {
 
         $scope.FileDeleteService = FileDeleteService;
         $scope.cancel = function() {
             console.info("cancel")
+            FileDeleteService.reset();
             $modalInstance.dismiss('canceled');
         }; // end cancel
 
         $scope.delete = function() {
             console.info("delete")
             FileDeleteService.remove();
+            data();
             $modalInstance.close('delete');
         }; // end save
     }).controller('CreateCtrl', function($scope, $modalInstance, FilesModel) {
@@ -136,9 +142,9 @@ angular.module('centralManagerApp')
 
         $scope.rename = function(name) {
             console.info("rename");
-        // FilesModel.$create({
-        //     title: name
-        // });
+            // FilesModel.$create({
+            //     title: name
+            // });
             $scope.data.title = name;
             FilesModel.$set($scope.data)
 

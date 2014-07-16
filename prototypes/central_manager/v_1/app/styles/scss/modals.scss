@@ -4,6 +4,11 @@
 	width:100%;
 }
 
-.create-modal .modal-header {
-	height:50px;
+.create-modal {
+	.modal-title {
+		float:left;
+	}
+	.modal-header {
+		height:50px;
+	}
 }

@@ -11,10 +11,12 @@
         '$timeout',
         'Resource',
         'SERVER',
-        function($timeout, Resource, SERVER) {
+        '$rootScope',
+        function($timeout, Resource, SERVER, $rootScope) {
             _.extend(Files, {
                 $$resource: new Resource(SERVER + '/api/items'),
-                $timeout: $timeout
+                $timeout: $timeout,
+                $rootScope: $rootScope
             });
 
             return Files;
@@ -54,7 +56,10 @@
         Files.$$resource.set(item).then(function(response) {
             Files.$timeout(function() {
                 Files.data.data[index] = response.data;
-            })
+                Files.$rootScope.$broadcast("FilesModel:edit", {
+                    data: response.data
+                })
+            });
         });
     };
 
@@ -72,22 +77,14 @@
         });
     };
 
-    // Files.update = function(config) {
-    //     var item = Files.getItemById(config.id);
-    //     if (item) {
-    //         item[config.prop] = config.value;
+    Files.update = function(config) {
+        var item = Files.getItemById(config.id);
+        if (item) {
+            item[config.prop] = config.value;
 
-    //         //TODO: move this logic elsewhere or refactor out
-    //         if (config.prop === 'defaults') {
-    //             if (item.defaults) {
-    //                 item.search.push('Default Scenarios Elements');
-    //             } else {
-    //                 item.search.splice(_.indexOf(item.search, 'Default Scenarios Elements'), 1);
-    //             }
-    //         }
-    //         Files.$set(item);
-    //     }
-    // };
+            Files.$set(item);
+        }
+    };
 
     Files.getItemById = function(id) {
         var item = false,

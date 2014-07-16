@@ -70,6 +70,11 @@
 		height: 100%;
     	float:right;
     	overflow-x: hidden;
+
+    	-webkit-box-shadow: -5px 1px 5px 0px rgba(0,0,0,0.3);
+		-moz-box-shadow: -5px 1px 5px 0px rgba(0,0,0,0.3);
+		box-shadow: -5px 1px 5px 0px rgba(0,0,0,0.3);
+
 	}
 	.display-table {
 		table {
@@ -101,7 +106,7 @@
 			font-weight:bold;
 			text-transform: capitalize;
 			span {
-				color:$lightgray;
+				// color:$lightgray;
 			}
 		}
 		span {
@@ -237,8 +242,6 @@
   h4, h5, h6 {
     margin-top:0;
     clear:both;
-    border-bottom: 1px solid $black;
-    padding: 0 0 4px 0;
   }
   p {
     margin:0;
@@ -246,22 +249,70 @@
   margin:10px;
   width: 280px;
   .entity-holder {
-    height: 100px;
+  	clear: both;
+    height: 191px;
+    padding: 0 10px;
     overflow:hidden;
     &.see-all {
       height: auto;
     }
   }
   .see-all-toggle {
-    margin:5px 0  0;
+    margin:0 8px;
+    float:right;
     cursor: pointer;
   }
   .entity {
     margin:0 0 5px;
+    .in-project {
+    	margin: 0 0 10px 30px;
+    	font-style: italic;
+    	color: gray;
+    	line-height: 9px;
+    }
   }
-  .profile{
+  .measures {
+    	h4 {
+    		margin: 0 0 8px 10px;
+    	}
+    	ul li {
+    		list-style-type: disc;
+    		margin: 0 0 5px 25px
+    	}
+    }
+  .profile {
     padding:8px 5px;
-    margin-bottom:10px
+    margin-bottom:10px;
+    background-color: white;
+    .used-in {
+    	float:left;
+    	font: {
+    		size: 16px;
+    		weight: bold;
+    	}
+    	padding: 0 0 0 10px;
+    	span {
+    		color: orange;
+    	}
+    }
+    .add-scenario-holder{
+    	position: relative;
+	    .add-scenario {
+	    	margin: 15px auto 5px;
+	    	width: 140px;
+	    	display:block;
+	    }
+	    > ul {
+    		li {
+    			padding: 0 12px;
+    			&:hover {
+    				background-color:$lightgray;
+    				cursor: pointer;
+    			}
+    		}
+
+	    }
+	}
   }
 }
 
