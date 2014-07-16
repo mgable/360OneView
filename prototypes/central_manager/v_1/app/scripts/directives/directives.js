@@ -162,21 +162,6 @@ angular.module('centralManagerApp')
             }
         }
     })
-    .directive('groupDelete', function() {
-        return {
-            restrict: 'AE',
-            replace: true,
-            template: '<span class="delete" ng-disabled="filesToDeleteCount === 0"><i class="icon-trash"></i>&nbsp;Delete ({{filesToDeleteCount || 0}})</span>',
-            controller: function($scope, FileDeleteService) {
-                $scope.filesToDeleteCount = FileDeleteService.getFileCount();
-
-                // Multiple file delete file count
-                $scope.$on("FileDeleteService:change", function() {
-                    $scope.filesToDeleteCount = FileDeleteService.getFileCount();
-                });
-            }
-        };
-    })
     .directive('linkGroup', function() {
         return {
             restrict: 'A',
@@ -321,7 +306,6 @@ angular.module('centralManagerApp')
                         $scope.master = false;
                         $element.prop('indeterminate', true);
                     }
-
                 }, true);
             }
         };
@@ -367,4 +351,25 @@ angular.module('centralManagerApp')
                 }, 300)
             }
         }
-    });
+    }).directive('search', function($timeout) {
+        return {
+            template: '<span><i class="fa fa-search" ng-click="doSearch()"></i>&nbsp;<input type="text" ng-model="SortAndFilterService.searchText" ng-show="searchVisible" /></span>',
+            restrict: "AE",
+            link: function($scope, $element, $attrs) {
+                var inputField = $element.find("input");
+                console.info(inputField);
+                $scope.searchVisible = false;
+
+                $scope.doSearch = function() {
+                    if ($scope.searchVisible) {
+                        $scope.SortAndFilterService.searchText = "";
+                    } else {
+                        $timeout(function() {
+                            inputField[0].focus();
+                        }, 300);
+                    }
+                    $scope.searchVisible = !$scope.searchVisible
+                }
+            }
+        }
+    })

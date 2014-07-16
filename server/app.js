@@ -101,11 +101,13 @@ function init() {
         console.info("Cloning " + req.params.id);
         var tempRecord = _.clone(getRecordById(req.params.id, currentData.data));
         tempRecord.id = generateUUID();
+        tempRecord.index = currentData.data.length + 1;
         tempRecord.title += " CLONED";
         tempRecord.createdDate = new Date();
         tempRecord.modifiedBy = "nobody";
         tempRecord.lastModified = "";
-        tempRecord.createdBy = "you";
+        tempRecord.lastModified_display = currentData.timeAgo(tempRecord.lastModified);
+        tempRecord.owner = "Fred Flintstone";
         currentData.data.push(tempRecord)
         sendResponse(res, tempRecord);
     });
@@ -147,7 +149,7 @@ function init() {
 
         sendResponse(res, {
             status: status,
-            data: index
+            data: currentData.data[index]
         });
     });
 

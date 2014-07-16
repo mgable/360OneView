@@ -48,12 +48,18 @@
         });
     };
 
-    Files.$edit = function(which) {
-        Files.$$resource.set(which);
+    Files.$edit = function(item) {
+        var index = Files.getItemIndex(item);
+        console.info(index);
+        Files.$$resource.set(item).then(function(response) {
+            Files.$timeout(function() {
+                Files.data.data[index] = response.data;
+            })
+        });
     };
 
-    Files.$set = function(which) {
-        Files.$edit(which);
+    Files.$set = function(item) {
+        Files.$edit(item);
     };
 
     Files.$create = function(config) {
@@ -66,22 +72,22 @@
         });
     };
 
-    Files.update = function(config) {
-        var item = Files.getItemById(config.id);
-        if (item) {
-            item[config.prop] = config.value;
+    // Files.update = function(config) {
+    //     var item = Files.getItemById(config.id);
+    //     if (item) {
+    //         item[config.prop] = config.value;
 
-            //TODO: move this logic elsewhere or refactor out
-            if (config.prop === 'defaultScenariosElements') {
-                if (item.defaultScenariosElements) {
-                    item.search.push('Default Scenarios Elements');
-                } else {
-                    item.search.splice(_.indexOf(item.search, 'Default Scenarios Elements'), 1);
-                }
-            }
-            Files.$set(item);
-        }
-    };
+    //         //TODO: move this logic elsewhere or refactor out
+    //         if (config.prop === 'defaults') {
+    //             if (item.defaults) {
+    //                 item.search.push('Default Scenarios Elements');
+    //             } else {
+    //                 item.search.splice(_.indexOf(item.search, 'Default Scenarios Elements'), 1);
+    //             }
+    //         }
+    //         Files.$set(item);
+    //     }
+    // };
 
     Files.getItemById = function(id) {
         var item = false,
@@ -93,6 +99,15 @@
         }
         return item;
     };
+
+    Files.getItemIndex = function(item) {
+        var index = false;
+        for (var x = 0, limit = Files.data.data.length; x < limit; x++) {
+            if (item.id === Files.data.data[x].id) {
+                return x;
+            }
+        }
+    }
 
     Files.prototype.$unwrap = function(futureFilesData) {
         var self = this;

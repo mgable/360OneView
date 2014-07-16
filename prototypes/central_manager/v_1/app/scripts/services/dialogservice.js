@@ -7,8 +7,8 @@ angular.module('centralManagerApp')
 
         // Public API here
         return {
-            create: function(templateUrl, ctrl) {
-                var dlg = dialogs.create(templateUrl, ctrl, {});
+            create: function(templateUrl, ctrl, scope, config) {
+                var dlg = dialogs.create(templateUrl, ctrl, scope, config);
                 dlg.result.then(function(user) {
                     //save
                 }, function() {
