@@ -1,0 +1,34 @@
+<html>
+<head>
+	<script src="./bower_components/jquery/dist/jquery.js"></script>
+
+	<script src="./bower_components/angular/angular.js"></script>
+	<script src="./bower_components/angular-sanitize/angular-sanitize.js"></script>
+	<script src="./bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+	<link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="./fonts/font-awesome.css">
+	<title>Test 10</title>
+
+	<style>
+		.textHolder {
+			overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+		}
+	</style>
+</head>
+	<body ng-app="myapp" ng-controller="MainCtrl">
+
+		<div style='float:left;background-color:yellow;width:{{width}}px;height:1000px;'>
+
+				<div  class="textHolder"> <span>This is a string of text</span> <span>This is a string of text</span> <span>This is a string of text</span></div>
+
+		</div>
+
+		<input type="text" ng-model="width" style="float:right;margin:200px;"/>
+
+		<script>
+			angular.module('myapp', []).controller("MainCtrl", function($scope){
+				$scope.width = 300;
+			})
+		</script>
+	</body>
+</html>

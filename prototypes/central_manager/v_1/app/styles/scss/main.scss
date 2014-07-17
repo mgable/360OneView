@@ -61,6 +61,8 @@
 		transition: 0.3s linear all;
 		-webkit-transition: 0.3s linear all;
 		margin:0 0 0 200px;
+		width: auto;
+		overflow:hidden;
 	}
 	.right {
 		width:300px;
@@ -315,6 +317,14 @@
 	    }
 	}
   }
+}
+
+.text-holder {
+	overflow:hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	// width:100px;
+	// max-width:300px;
 }
 
 /* Icons */

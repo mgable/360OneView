@@ -326,13 +326,13 @@ angular.module('centralManagerApp')
         };
     }).directive('sortableColumns', function(SortAndFilterService) {
         return {
-            template: '<div ng-switch on="displayBy">' +
-                '<div ng-switch-when="Last Modified">{{item.lastModified_display}}</div>' +
-                '<div ng-switch-when="Modified By">{{item.modifiedBy}}</div>' +
-                '<div ng-switch-when="Type">{{item.type}}</div>' +
-                '<div ng-switch-when="Owner">{{item.owner}}</div>' +
-                '<div ng-switch-when="Defaults">{{item.defaultScenariosElements}}</div>' +
-                '<div ng-switch-default>FAIL</div>' +
+            template: '<div ng-switch on="displayBy" class="text-holder">' +
+                '<span ng-switch-when="Last Modified">{{item.lastModified_display}}</span>' +
+                '<span ng-switch-when="Modified By">{{item.modifiedBy}}</span>' +
+                '<span ng-switch-when="Type">{{item.type}}</span>' +
+                '<span ng-switch-when="Owner">{{item.owner}}</span>' +
+                '<span ng-switch-when="Defaults">{{item.defaultScenariosElements}}</span>' +
+                '<span ng-switch-default>FAIL</span>' +
                 '</div>',
             restrict: "AE",
             replace: true,

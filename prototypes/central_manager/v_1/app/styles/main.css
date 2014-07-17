@@ -228,7 +228,9 @@ li {
   .app .center {
     transition: 0.3s linear all;
     -webkit-transition: 0.3s linear all;
-    margin: 0 0 0 200px; }
+    margin: 0 0 0 200px;
+    width: auto;
+    overflow: hidden; }
   .app .right {
     width: 300px;
     background-color: #f6f6f6;
@@ -398,6 +400,11 @@ li {
         .info-tray .profile .add-scenario-holder > ul li:hover {
           background-color: #f6f6f6;
           cursor: pointer; }
+
+.text-holder {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; }
 
 /* Icons */
 .symbol {
