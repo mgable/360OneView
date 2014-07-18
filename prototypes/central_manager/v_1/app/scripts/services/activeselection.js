@@ -5,30 +5,36 @@ angular.module('centralManagerApp')
         // Service logic
         // ...
 
-        var activeRow = "",
+        var activeItem = "",
             self = this;
 
         // Public API here
 
-        this.isActiveRow = function(item) {
-            return activeRow === item
+        this.isActiveItem = function(item) {
+            return activeItem === item
         }
 
-        this.setActiveRow = function(item) {
-            activeRow = this.isActiveRow(item) ? "" : item;
-            $rootScope.$broadcast('ActiveSelection:activeRowChange');
+        this.setActiveItem = function(item) {
+            activeItem = this.isActiveItem(item) ? "" : item;
+            $rootScope.$broadcast('ActiveSelection:activeItemChange', {
+                data: activeItem
+            });
         }
 
-        this.getActiveRow = function(item) {
-            return activeRow;
+        this.getActiveItem = function(item) {
+            return activeItem;
         }
 
-        this.clearActiveRow = function() {
-            activeRow = "";
+        this.activeItem = function() {
+            return (activeItem.length === 0) ? false : true;
+        }
+
+        this.clearActiveItem = function() {
+            activeItem = "";
         }
 
         $rootScope.$on('FilesModel:edit', function(event, response) {
-            self.setActiveRow(response.data);
+            self.setActiveItem(response.data);
         });
 
     });

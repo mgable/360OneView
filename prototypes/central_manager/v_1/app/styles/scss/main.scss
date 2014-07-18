@@ -1,117 +1,126 @@
+@import "variables";
 @import "utility_classes";
 @import "modals";
 @import "dropdown";
+
 .cap {
 	width:100%;
-	background-color:#222;
-	height: 50px;
+	background-color:$black;
+	height: $cap_height;
 	position: relative;
 	z-index: 1000;
+	.navigation {
+		.bar {
+		max-width:$app_max_width;
+		min-width:$app_min_width;
+		width:100%;
+		height:$cap_height;
+		padding:0 15px;
+		margin:auto;
+		}
+		a.logo {
+			background: transparent url($spirte) -214px -3px no-repeat;
+			display:inline-block;
+			height: 50px;
+			width: 200px;
+			text-indent: -1000px;
+		}
+		.navbar-nav {
+			li a {
+				&:hover {
+					background-color: inherit;
+					.glyphicon {
+						color: $darkgray;
+					}
+				}
+				.glyphicon {
+					color: $white;
+				}
+			}
+		}
+	}
 }
 
-.navigation {
-  .bar {
-    max-width:1300px;
-    min-width:1024px;
-    width:100%;
-    height:50px;
-    padding:0 15px;
-    margin:auto;
-    
-  }
-  a.logo {
-    background: transparent url($spirte) -214px -3px no-repeat;
-    display:inline-block;
-    height: 50px;
-    width: 200px;
-    text-indent: -1000px;
-    &:hover {
-      background: transparent url($spirte) -214px -3px no-repeat;
-    }
-  }
-  .navbar-nav {
-    li a {
-      &:hover {
-        background-color: inherit;
-        .glyphicon {
-          color: $lightgray;
-        }
-      }
-      .glyphicon {
-        color: white;
-      }
-    }
-  }
-}
 
 .app {
-	max-width:1300px;
-	min-width:1024px;
+	max-width: $app_max_width;
+	min-width: $app_min_width;
 	font-size: 13px;
 	margin: auto;
 	.left { 
-		width:200px;
-		border:1px solid $lightgray;
+		width:$app_left;
+		border:1px solid $divider;
 		position:fixed;
-		top:50px;
+		top:$cap_height;
 		bottom:0;
 		height:100%;
 	}
 	.center {
 		transition: 0.3s linear all;
 		-webkit-transition: 0.3s linear all;
-		margin:0 0 0 200px;
+		margin: -$cap_height 0 0 $app_left;
+		padding: $cap_height 0 0 0;
 		width: auto;
 		overflow:hidden;
+		height:100%;
 	}
 	.right {
-		width:300px;
+		width:$app_right;
 		background-color:$lightgray;
 		height: 100%;
     	float:right;
     	overflow-x: hidden;
     	overflow-y: auto;
-    	padding: 50px 0 0 0;
-    	margin: -50px 0 0 0;
+    	padding: $cap_height 0 0 0;
 
     	-webkit-box-shadow: -5px 1px 5px 0px rgba(0,0,0,0.3);
 		-moz-box-shadow: -5px 1px 5px 0px rgba(0,0,0,0.3);
 		box-shadow: -5px 1px 5px 0px rgba(0,0,0,0.3);
 
 	}
-	.display-table {
-		table {
-			td {
-				white-space: nowrap;
-				cursor: pointer;
-			}
-			tr.active  td{
-				background-color:#F2F5A9;
-			}
+	.search {
+		text-transform: uppercase;
+		font-size:14px;
+		font-weight: bold;
+		.title {
+			color: $gray;
+			margin: 10px 0 30px;
+			padding: 0 10px;
+			/* over write bootstrap */
+			font-size:14px;
+			font-weight: bold;
 		}
-		.default {
-			color: goldenrod;
-		}
+	    .menu > .header {
+	    	padding: 0 10px;
+	     	margin: 0 0 10px;
+	     	a {
+		        color: $black;
+		        text-decoration: none;
+		        cursor: pointer;
+		    }
+		    &.selected {
+				background-color: $mouseover;
+				> a {
+					color:$white;
+				}
+			}
+	    }
 	}
 	.display-actions {
 		padding:0 0 0 10px;
     	height:50px;
-
-    	.trash {
-    		margin:0 30px 0 0;
-    		font-size:14px;
-    		color:#0081DB;
-    		cursor: pointer;
-    	}
-		.title {
-			color:gray;
+    	.title {
+			color:$gray;
 			max-width:400px;
 			font-weight:bold;
 			text-transform: capitalize;
-			span {
-				// color:$lightgray;
-			}
 		}
+    	.trash {
+    		margin:0 30px 0 0;
+    		font-size:14px;
+    		color:$enabled;
+    		cursor: pointer;
+    	}
 		span {
 			i {
 				font-size:24px;
@@ -119,19 +128,17 @@
 		}
 		.actions {
 			height:50px;
-			// max-width:200px;
-			display:inline-block;
-			border-left: 1px solid  #BCC6D0;
+			border-left: 1px solid  $divider;
 			span {
 				padding: 12px;
 				font-size: 17px;
 				color:$gray;
 				display:inline-block;
-				border-right: 1px solid  #BCC6D0;
+				border-right: 1px solid  $divider;
 				height:100%;
 				cursor: pointer;
 				&:hover {
-					color:navy;
+					color:$mouseover;
 				}
 			}
 			.toggle-info-tray {
@@ -142,21 +149,30 @@
 				&.enabled {
 					&:hover {
 						cursor: pointer;
-						color:navy;
+						color:$mouseover;
 					}
 				}
 			}
 		}
 	}
 	.display-table {
+		table {
+			td {
+				white-space: nowrap;
+				cursor: pointer;
+			}
+			tr.active  td{
+				background-color:$active;
+			}
+		}
 		thead {
 			th {
-				background-color:#F6F6F6;
+				background-color:$lightgray;
 				border: 0 none;
-				border-top:1px solid #BCC6D0 !important;
-				border-bottom:1px solid #BCC6D0;
+				border-top:1px solid $divider !important;
+				border-bottom:1px solid $divider;
 				a {
-					color:#8695B4;
+					color:$mouseover;
           			text-decoration: none;
           			cursor: pointer;
 				}
@@ -175,76 +191,38 @@
 			display: block;
 		}
 	}
-	.search {
-			text-transform: uppercase;
-			font-size:14px;
-			font-weight: bold;
-	    .menu > li {
-	    	padding: 0 10px;
-	     	margin: 0 0 10px;
-	    }
-		.title {
-			font-weight: bold;
-			font-size:14px;
-			color: gray;
-			margin: 10px 0 30px;
-			padding: 0 10px;
-		}
-		.header {
-			&.selected {
-				background-color: #8796B4;
-				> a {
-					color:white;
-				}
-			}
-		}
-    .submenu {
-      margin:0 0 0 10px;
-      li {
-        font-weight:normal;
-        margin: 5px 0 0;
-          &.selected > a{
-          color:$selected;
-        }
-      }
-    }
-    ul {
-      li a {
-        color: $black;
-        text-decoration: none;
-        cursor: pointer;
-      }
-    }
-		.file-types {
-			margin: 0 0 20px 20px;
-		}
-	}
 }
 
 .info-tray {
   .details {
     .sub-header {
-      font-weight: bold;
+    	margin:0 0 10px;
+    	font-weight: bold;
     }
-    margin:0 0 10px;
     p {
       margin:0 0 5px;
       a {
       	cursor: pointer;
-      	color:$active;
+      	color:$enabled;
       	text-decoration: none;
       	&:hover {
       		span.enabled {
-      			color:navy;
+      			color:$mouseover;
       		}
-      		color:navy;
+      		color:$mouseover;
       	}
       }
+    }
+    .close {
+    	margin:0 15px 0 0;
     }
   }
   h4, h5, h6 {
     margin-top:0;
     clear:both;
+ 	a {
+ 		cursor: pointer;
+ 	}
   }
   p {
     margin:0;
@@ -270,7 +248,7 @@
     .in-project {
     	margin: 0 0 10px 30px;
     	font-style: italic;
-    	color: gray;
+    	color: $gray;
     	line-height: 9px;
     }
   }
@@ -295,7 +273,7 @@
     	}
     	padding: 0 0 0 10px;
     	span {
-    		color: orange;
+    		color: $highlight;
     	}
     }
     .add-scenario-holder{
@@ -313,19 +291,12 @@
     				cursor: pointer;
     			}
     		}
-
 	    }
 	}
   }
 }
 
-.text-holder {
-	overflow:hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	// width:100px;
-	// max-width:300px;
-}
+
 
 /* Icons */
 .symbol{
@@ -427,16 +398,6 @@
 			content:'MF';
 		}
 	}
-}
-
-/* Bootstrap overrides */
-.table {
-  width: inherit;
-  font-size:13px;
-}
-
-table {
-  max-width: 100%
 }
 
 /* this has to be below everything to work */

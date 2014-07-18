@@ -1,18 +1,17 @@
 'use strict';
 
 angular.module('centralManagerApp')
-    .controller('CentralManagerCtrl', function($scope, $rootScope, $filter, $timeout, FilesModel, SortAndFilterService, SEARCHITEMS, FileDeleteService, DialogService, DropdownService, ActiveSelection, dialogs) {
+    .controller('CentralManagerCtrl', function($scope, InfoTrayService, DiaglogService, FilesModel, SortAndFilterService, FileDeleteService, ActiveSelection) {
         $scope.data = FilesModel.$get();
-        $scope.showinfotray = false;
-        $scope.menuItems = SEARCHITEMS;
-        $scope.selectedCategory = $scope.menuItems[0].label;
-        $scope.enableDisplayActions = false;
+
         $scope.SortAndFilterService = SortAndFilterService;
         $scope.SortAndFilterService.setReverse(true);
-        $scope.SortAndFilterService.activeFilters.defaults = true;
+        $scope.SortAndFilterService.setFilter('defaults');
+
         $scope.FileDeleteService = FileDeleteService;
-        $scope.DropdownService = DropdownService;
         $scope.ActiveSelection = ActiveSelection;
+        $scope.InfoTrayService = InfoTrayService;
+        $scope.DiaglogService = DiaglogService;
 
         $scope.setAsMaster = function(item) {
             var id = item.id,
@@ -24,93 +23,21 @@ angular.module('centralManagerApp')
                 id: id
             });
         };
-
-        $scope.toggleInfoTray = function(item) {
-            if (item) {
-                if ($scope.ActiveSelection.isActiveRow(item)) {
-                    $scope.showinfotray = false;
-                    $scope.ActiveSelection.clearActiveRow()
-                } else {
-                    $scope.ActiveSelection.setActiveRow(item)
-                    $scope.showinfotray = true
-                }
-            } else {
-                $scope.showinfotray = false;
-                $scope.ActiveSelection.clearActiveRow()
-            }
-            $scope.selectedItem = item;
-        };
-
-
-
-        $scope.closeInfoTray = function() {
-            $scope.showinfotray = false;
-        }
-
-        $scope.$on('FileDeleteService:change', function() {
-            $scope.enableDisplayActions = FileDeleteService.getFileCount();
-        });
-
-        $scope.alert = function(msg) {
-            alert(msg);
-        }
-
-        $scope.trash = function(item) {
-            if (item) {
-                FileDeleteService.setFilesToDelete([item]);
-            }
-            DialogService.create('/views/modal/delete.html', 'DeleteCtrl', $scope.closeInfoTray);
-        }
-
-        $scope.copy = function(item) {
-            var dlg = dialogs.confirm("Copy Entity", "Do you want to copy " + item.title + "?");
-            dlg.result.then(
-                function(btn) {
-                    console.info(btn);
-                    FilesModel.$clone(item.id);
-                },
-                function(btn) {
-                    console.info(btn)
-                }
-            )
-        }
-
-        $scope.rename = function(item) {
-            DialogService.create('/views/modal/rename.html', 'RenameCtrl', item, {
-                size: 'sm'
-            });
-        }
-
-        $scope.create = function() {
-            DialogService.create('/views/modal/create.html', 'CreateCtrl', {}, {
-                size: 'sm'
-            });
-        }
-
-        $scope.setFilter = function(filter) {
-            $scope.selectedCategory = filter;
-
-            if (filter === "defaults") {
-                SortAndFilterService.activeFilters.defaults = true;
-                SortAndFilterService.activeFilters.type = '';
-            } else {
-                SortAndFilterService.activeFilters.defaults = '';
-                SortAndFilterService.activeFilters.type = filter;
-            }
-
-            $rootScope.$broadcast('$filter');
-            $scope.closeInfoTray();
-        }
     }).controller('InfoTrayCtrl', function($scope, ActiveSelection) {
-        $scope.activeSelection = ActiveSelection;
+        $scope.selectedItem = ActiveSelection.getActiveItem();
         $scope.seeAll = false;
 
-        $scope.$on('ActiveSelection:activeRowChange', function() {
-            $scope.selectedItem = $scope.activeSelection.getActiveRow()
+        $scope.$on('ActiveSelection:activeItemChange', function(event, response) {
+            if (response.data !== "") {
+                $scope.selectedItem = response.data;
+            }
         });
 
+    }).controller('SearchCtrl', function($scope, SortAndFilterService, CENTRALMANAGER) {
+        $scope.setFilter = SortAndFilterService.setFilter;
+        $scope.menuItems = CENTRALMANAGER;
     }).controller('DeleteCtrl', function($scope, data, $modalInstance, FileDeleteService) {
-
+        var callback = data;
         $scope.FileDeleteService = FileDeleteService;
         $scope.cancel = function() {
             console.info("cancel")
@@ -121,7 +48,7 @@ angular.module('centralManagerApp')
         $scope.delete = function() {
             console.info("delete")
             FileDeleteService.remove();
-            data();
+            callback();
             $modalInstance.close('delete');
         }; // end save
     }).controller('CreateCtrl', function($scope, $modalInstance, FilesModel) {
@@ -141,18 +68,14 @@ angular.module('centralManagerApp')
         $scope.data = data;
 
         $scope.rename = function(name) {
-            console.info("rename");
-            // FilesModel.$create({
-            //     title: name
-            // });
             $scope.data.title = name;
             FilesModel.$set($scope.data)
 
             $modalInstance.dismiss('create');
-        }; //
+        };
 
         $scope.close = function() {
             console.info("cancel")
             $modalInstance.dismiss('canceled');
-        }; // end cancel
-    });;
+        };
+    });

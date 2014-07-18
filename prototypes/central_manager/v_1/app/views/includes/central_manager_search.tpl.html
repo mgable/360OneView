@@ -1,14 +1,9 @@
-<div class="search">
-	<h4 class="title">&lt;&gt;Scenarios Elements</h4>
-
-        <ul link-group firstSelected="{{menuItems[0].label}}" radio="true" class='menu'>
-			<li ng-repeat="item in menuItems" class="header" ng-class="{selected: item.label === selectedItem}">
-				 <a ng-click="toggleSelected(item.label, !!item.subMenu || item.label === 'Default Scenarios Elements'); setFilter(item.label, !!item.subMenu || item.label === 'Default Scenarios Elements')">{{item.label}}</a>
-				  <ul ng-if="item.subMenu" class="submenu">
-                    <li ng-repeat="subMenuItem in item.subMenu" ng-class="{selected: subMenuItem.label === selectedItem}">
-                        <a ng-click="toggleSelected(subMenuItem.label, item.label); setFilter(item.label, subMenuItem.label)">{{subMenuItem.label}}</a>
-                    </li>
-                </ul>
-			</li>
-        </ul>
+<div class="search" ng-controller='SearchCtrl'>
+	<h4 class="title">{{menuItems.title}}</h4>
+    <ul link-group firstSelected="{{menuItems.firstSelected}}" radio="true" class='menu'>
+		<li ng-repeat="item in menuItems.items" class="header" ng-class="{selected: item.label === selectedItem}">
+			 <a ng-click="toggleSelected(item.label);setFilter(item.label);">{{item.label}}</a>
+		</li>
+    </ul>
 </div>
+

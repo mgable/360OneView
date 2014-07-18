@@ -1,15 +1,3 @@
-$spirte: "../images/360sprite.png";
-
-/*color variables */
-$darkgray: darkgray;
-$black: black;
-$selected: red;
-$lightgray: #F6F6F6;
-$gray: gray;
-$disabled: gray;
-$enabled: cornflowerblue;
-$active: cornflowerblue;
-
 @font-face {
   font-family: "font awesome";
   src: url("../fonts/fontawesome-webfont.eot");
@@ -79,9 +67,25 @@ $active: cornflowerblue;
 .clearfix { display: block; }
 /* close commented backslash hack */
 
+/* Bootstrap overrides */
+.table {
+  width: inherit;
+  font-size:13px;
+}
+
+table {
+  max-width: 100%
+}
+
 ul {
 	padding:0;
 	li {
 		list-style-type: none;
 	}
+}
+
+.text-holder {
+	overflow:hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }

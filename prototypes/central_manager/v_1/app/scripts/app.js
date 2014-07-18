@@ -10,7 +10,7 @@ angular
         'pasvaz.bindonce',
         '/name.html',
         'dialogs.main',
-        '/tpl.html'
+        '/msDropdown.html'
     ])
     .config(function($routeProvider) {
         $routeProvider
@@ -24,19 +24,23 @@ angular
     })
     .run(function(FilesModel) {
         FilesModel.$find();
-    }).constant('SEARCHITEMS', [{
-        label: 'defaults',
-    }, {
-        label: 'Economy'
-    }, {
-        label: 'Competition'
-    }, {
-        label: 'Labor Cost'
-    }, {
-        label: 'Pricing'
-    }, {
-        label: 'Cost Assumptions'
-    }]).constant('DROPDOWNITEMS', [{
+    }).constant('CENTRALMANAGER', {
+        firstSelected: 'defaults',
+        title: 'Scenario Elements',
+        items: [{
+            label: 'defaults',
+        }, {
+            label: 'Economy'
+        }, {
+            label: 'Competition'
+        }, {
+            label: 'Labor Cost'
+        }, {
+            label: 'Pricing'
+        }, {
+            label: 'Cost Assumptions'
+        }]
+    }).constant('DROPDOWNITEMS', [{
         label: "Last Modified"
     }, {
         label: "Modified By",
@@ -65,10 +69,12 @@ angular
     }, {
         label: "Defaults",
         filters: [{
-            label: 'Show only defaults'
+            label: 'Show only defaults',
+            term: 'defaults'
         }]
     }]);
 
+/* template for drop down menu filter input field */
 angular.module('/name.html', []).run(['$templateCache',
     function($templateCache) {
         $templateCache.put('/name.html',
@@ -79,9 +85,10 @@ angular.module('/name.html', []).run(['$templateCache',
     }
 ]);
 
-angular.module('/tpl.html', []).run(['$templateCache',
+/* template for drop down menus */
+angular.module('/msDropdown.html', []).run(['$templateCache',
     function($templateCache) {
-        $templateCache.put('/tpl.html',
+        $templateCache.put('/msDropdown.html',
             '<div class="ms-dropdown" id="{{id}}">' +
             '<h6 class="ms-label" ng-class=\"{active: DropdownService.getActive() === id}\"><span ng-click="select(selectedItem)" class="status">{{selectedItem.label}}</span>&nbsp<span ng-click="toggle(id)" class="glyphicon glyphicon-collapse-down"></span></h6>' +
             '<ul class="ms-select-list dropshadow hide">' +

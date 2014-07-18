@@ -5,7 +5,7 @@ angular.module('centralManagerApp')
     .directive('msDropdown', function($document, $timeout, DROPDOWNITEMS, DropdownService, SortAndFilterService, $filter) {
         return {
             restrict: "AE",
-            templateUrl: "/tpl.html",
+            templateUrl: "/msDropdown.html",
             replace: true,
             scope: {
                 selectedSortIndex: "@",
@@ -46,9 +46,9 @@ angular.module('centralManagerApp')
                     },
                     getName = function(filter) {
                         if (filter) {
-                            return (filter.label.indexOf('by me') > -1) ? $scope.me : $scope.name;
+                            return (filter.label.indexOf('by me') > -1) ? $scope.me : $scope.name ? $scope.name : true;
                         }
-                        return "";
+                        return true;
                     },
                     isActive = function() {
                         return $scope.id === DropdownService.getActive();
@@ -66,9 +66,9 @@ angular.module('centralManagerApp')
                     if (event.keyCode == 13 && $scope.isActive && !$scope.enabledOn($scope.selectedFilter)) {
                         var menu = DropdownService.getActive(),
                             submitButton = $("#" + menu + " .submit-button")
-                            $timeout(function() {
-                                angular.element(submitButton).triggerHandler('click');
-                            })
+                        $timeout(function() {
+                            angular.element(submitButton).triggerHandler('click');
+                        })
                     }
                 })
 
@@ -216,7 +216,6 @@ angular.module('centralManagerApp')
                     }
                     ctrl.setReverse($scope.reverse);
                     ctrl.setOrderBy(which, $scope.id);
-                    //ctrl.sort(which, $scope.reverse);
                 };
             },
             templateUrl: '/views/directives/sortingOptions.html'
@@ -258,14 +257,14 @@ angular.module('centralManagerApp')
                 };
 
                 // reset delete files on filter change
-                $scope.$on("$filter", function() {
+                $scope.$on("SortAndFilterService:filter", function() {
                     $scope.masterChange();
                 })
 
                 $scope.masterChange = function() {
                     $scope.items = [];
                     if ($scope.master) {
-                        angular.forEach(filterFilter($scope.checkboxes, SortAndFilterService.activeFilters), function(cb, index) {
+                        angular.forEach(filterFilter($scope.checkboxes, SortAndFilterService.getActiveFilters()), function(cb, index) {
                             cb.isSelected = true;
                             $scope.items.push(cb);
                         });
@@ -331,7 +330,7 @@ angular.module('centralManagerApp')
                 '<span ng-switch-when="Modified By">{{item.modifiedBy}}</span>' +
                 '<span ng-switch-when="Type">{{item.type}}</span>' +
                 '<span ng-switch-when="Owner">{{item.owner}}</span>' +
-                '<span ng-switch-when="Defaults">{{item.defaultScenariosElements}}</span>' +
+                '<span ng-switch-when="Defaults">{{item.defaults}}</span>' +
                 '<span ng-switch-default>FAIL</span>' +
                 '</div>',
             restrict: "AE",
@@ -357,7 +356,6 @@ angular.module('centralManagerApp')
             restrict: "AE",
             link: function($scope, $element, $attrs) {
                 var inputField = $element.find("input");
-                console.info(inputField);
                 $scope.searchVisible = false;
 
                 $scope.doSearch = function() {
@@ -372,4 +370,4 @@ angular.module('centralManagerApp')
                 }
             }
         }
-    })
+    });

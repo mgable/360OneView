@@ -1,9 +1,9 @@
 <div class="info-tray" ng-controller="InfoTrayCtrl">
 	<div class="details">
 		<p class="sub-header pull-left">DETAILS</p>
-		<button type="button" style="margin:0 15px 0 0" class="close" ng-click="toggleInfoTray()"><span aria-hidden="true">&times;</span></button>
-		<h4>{{selectedItem.title}}&nbsp;<a ng-click="rename(selectedItem)"><i class="fa fa-pencil"></i></a></h4>
-		<p>Type: {{selectedItem.type}}</p>
+		<button type="button"  class="close" ng-click="InfoTrayService.closeInfoTray()"><span aria-hidden="true">&times;</span></button>
+		<h4>{{selectedItem.title}}&nbsp;<a ng-click="DiaglogService.rename(selectedItem)"><i class="fa fa-pencil"></i></a></h4>
+		<p>Type:&nbsp;{{selectedItem.type}}</p>
 		<p>
 			<a ng-click="setAsMaster(selectedItem)"><img src="images/ms-confirm_gray.png" width="18" height="16">
 				<span ng-switch on="selectedItem.defaults">
@@ -12,7 +12,7 @@
 				</span>
 			</a>
 		</p>
-		<p><a ng-click="copy(selectedItem)"><span class='FA enabled create' >&#xf067</span>&nbsp;Copy</a></p>
+		<p><a ng-click="copy(selectedItem)"><span class='fa enabled create' >&#xf067</span>&nbsp;Copy</a></p>
 	</div>
 
 	<div class="well profile">
@@ -88,5 +88,5 @@
 		</ul>
 	</div>
 
-	<div class="details"><p><a ng-click="trash(selectedItem);"><span class="ms-icon fa">&#xf014</span>&nbsp;Delete</a></p></div>
+	<div class="details"><p><a ng-click="DiaglogService.trash(selectedItem);"><span class="ms-icon fa">&#xf014</span>&nbsp;Delete</a></p></div>
 </div>

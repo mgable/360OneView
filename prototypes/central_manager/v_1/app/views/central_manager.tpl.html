@@ -1,3 +1,9 @@
-<div class="left"><ng-include src="'views/includes/central_manager_search.tpl.html'"></ng-include></div>
-<div class="right slide-in" ng-show="showinfotray"><ng-include src="'views/includes/central_manager_infotray.tpl.html'"></div>
-<div class="center"><ng-include src="'views/includes/central_manager_display.tpl.html'"></ng-include></div>
+<div class="left">
+	<ng-include  src="'views/includes/central_manager_search.tpl.html'"></ng-include>
+</div>
+<div class="right slide-in" ng-show="InfoTrayService.getShowInfoTray()">
+	<ng-include src="'views/includes/central_manager_infotray.tpl.html'"></ng-include>
+</div>
+<div class="center">
+	<ng-include src="'views/includes/central_manager_display.tpl.html'"></ng-include>
+</div>
