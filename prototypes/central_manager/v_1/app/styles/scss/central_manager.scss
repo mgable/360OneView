@@ -1,0 +1,414 @@
+@import "variables";
+
+.cap {
+	width:100%;
+	background-color:$black;
+	height: $cap_height;
+	position: relative;
+	z-index: 1000;
+	.navigation {
+		.bar {
+		max-width:$app_max_width;
+		min-width:$app_min_width;
+		width:100%;
+		height:$cap_height;
+		padding:0 15px;
+		margin:auto;
+		}
+		a.logo {
+			background: transparent url($spirte) -214px -3px no-repeat;
+			display:inline-block;
+			height: 50px;
+			width: 200px;
+			text-indent: -1000px;
+		}
+		.navbar-nav {
+			li a {
+				&:hover {
+					background-color: inherit;
+					.glyphicon {
+						color: $darkgray;
+					}
+				}
+				.glyphicon {
+					color: $white;
+				}
+			}
+		}
+	}
+}
+
+
+.app {
+	max-width: $app_max_width;
+	min-width: $app_min_width;
+	font-size: 13px;
+	margin: auto;
+	.left { 
+		width:$app_left;
+		border:1px solid $divider;
+		position:fixed;
+		top:$cap_height;
+		bottom:0;
+		height:100%;
+	}
+	.center {
+		transition: 0.3s linear all;
+		-webkit-transition: 0.3s linear all;
+		margin: -$cap_height 0 0 $app_left;
+		padding: $cap_height 0 0 0;
+		width: auto;
+		overflow:hidden;
+		height:100%;
+	}
+	.right {
+		width:$app_right;
+		background-color:$lightgray;
+		height: 100%;
+    	float:right;
+    	overflow-x: hidden;
+    	overflow-y: auto;
+    	padding: $cap_height 0 0 0;
+
+    	-webkit-box-shadow: -5px 1px 5px 0px rgba(0,0,0,0.3);
+		-moz-box-shadow: -5px 1px 5px 0px rgba(0,0,0,0.3);
+		box-shadow: -5px 1px 5px 0px rgba(0,0,0,0.3);
+
+	}
+	.search {
+		text-transform: uppercase;
+		font-size:14px;
+		font-weight: bold;
+		.title {
+			color: $gray;
+			margin: 10px 0 30px;
+			padding: 0 10px;
+			/* over write bootstrap */
+			font-size:14px;
+			font-weight: bold;
+		}
+	    .menu > .header {
+	    	padding: 0 10px;
+	     	margin: 0 0 10px;
+	     	a {
+		        color: $black;
+		        text-decoration: none;
+		        cursor: pointer;
+		        display: inline-block;
+				width: 100%;
+		    }
+		    &.selected {
+				background-color: $mouseover;
+				> a {
+					color:$white;
+				}
+			}
+	    }
+	}
+	.display-actions {
+		padding:0 0 0 10px;
+    	height:50px;
+    	.title {
+			color:$gray;
+			max-width:400px;
+			font-weight:bold;
+			text-transform: capitalize;
+		}
+    	.trash {
+    		margin:0 30px 0 0;
+    		font-size:14px;
+    		color:$enabled;
+    		cursor: pointer;
+    	}
+		span {
+			i {
+				font-size:24px;
+			}
+		}
+		.actions {
+			height:50px;
+			border-left: 1px solid  $divider;
+			display:inline-block;
+			> span {
+				padding: 12px;
+				font-size: 17px;
+				color:$gray;
+				display:inline-block;
+				border-right: 1px solid  $divider;
+				height:100%;
+				cursor: pointer;
+				&:hover {
+					color:$mouseover;
+				}
+			}
+			.search-holder {
+				border: 1px solid $gray;
+				display: inline-block;
+				padding: 2px 5px;
+				.search-input {
+					border: 0 none;
+					font-size: 14px;
+					width: 250px;
+				}
+				.close-button i {
+					font-size: 18px;
+				}
+			}
+			.toggle-info-tray {
+				cursor: default;
+				color:$lightgray;
+				&:hover {
+					cursor:default;
+					color: $lightgray;
+				}
+				&.enabled {
+					color:$gray;
+					&:hover {
+						cursor: pointer;
+						color:$mouseover;
+					}
+				}
+			}
+		}
+	}
+	.display-table {
+		table {
+			td {
+				white-space: nowrap;
+				cursor: pointer;
+			}
+			tr.active  td{
+				background-color:$active;
+			}
+		}
+		thead {
+			.title.active a{
+				color: $highlight;
+			}
+			th {
+				background-color:$lightgray;
+				border: 0 none;
+				border-top:1px solid $divider !important;
+				border-bottom:1px solid $divider;
+				a {
+					color:$mouseover;
+          			text-decoration: none;
+          			cursor: pointer;
+				}
+			}
+		}
+		tbody tr:hover .dropdown-trigger {
+			display: block;
+		}
+	}
+}
+
+.info-tray {
+  .details {
+    .sub-header {
+    	margin:0 0 10px;
+    	font-weight: bold;
+    }
+    p {
+      margin:0 0 5px;
+      a {
+      	cursor: pointer;
+      	color:$enabled;
+      	text-decoration: none;
+      	&:hover {
+      		span.enabled {
+      			color:$mouseover;
+      		}
+      		color:$mouseover;
+      	}
+      	&.disabled {
+      		color: $disabled;
+      	}
+      }
+    }
+    .close {
+    	margin:0 15px 0 0;
+    }
+  }
+  h4, h5, h6 {
+    margin-top:0;
+    clear:both;
+ 	a {
+ 		cursor: pointer;
+ 	}
+  }
+  p {
+    margin:0;
+  }
+  margin:10px;
+  width: 280px;
+  .entity-holder {
+  	clear: both;
+    height: 191px;
+    padding: 0 10px;
+    overflow:hidden;
+    &.see-all {
+      height: auto;
+    }
+  }
+  .see-all-toggle {
+    margin:0 8px;
+    float:right;
+    cursor: pointer;
+  }
+  .entity {
+    margin:0 0 5px;
+    .in-project {
+    	margin: 0 0 10px 30px;
+    	font-style: italic;
+    	color: $gray;
+    	line-height: 9px;
+    }
+  }
+  .measures {
+    	h4 {
+    		margin: 0 0 8px 10px;
+    	}
+    	ul li {
+    		list-style-type: disc;
+    		margin: 0 0 5px 25px
+    	}
+    }
+  .profile {
+    padding:8px 5px;
+    margin-bottom:10px;
+    background-color: white;
+    .used-in {
+    	float:left;
+    	font: {
+    		size: 16px;
+    		weight: bold;
+    	}
+    	padding: 0 0 0 10px;
+    	span {
+    		color: $highlight;
+    	}
+    }
+    .add-scenario-holder{
+    	position: relative;
+	    .add-scenario {
+	    	margin: 15px auto 5px;
+	    	width: 140px;
+	    	display:block;
+	    }
+	    > ul {
+    		li {
+    			padding: 0 12px;
+    			&:hover {
+    				background-color:$lightgray;
+    				cursor: pointer;
+    			}
+    		}
+	    }
+	}
+  }
+}
+
+
+
+/* Icons */
+.symbol{
+	display: inline-block;
+	margin: 0 5px 0 0;
+	height:18px;
+	width:18px;
+	color:white;
+	font-size: 9px;
+	text-align: center;
+	vertical-align: middle;
+	font-family: arial, helvetica, sans-serif;
+	padding:2px 0 0 0;
+	&.icon-costassumptions {
+		background-color:blue;
+		&:after {
+			content:'CA';
+		}
+	}
+	&.icon-competition {
+		background-color:gold;
+		&:after {
+			content:'S';
+		}
+	}
+	&.icon-objectives {
+		background-color:green;
+		&:after {
+			content:'O';
+		}
+	}
+	&.icon-economy {
+		background-color:violet;
+		&:after {
+			content:'DB';
+		}
+	}
+	&.icon-productfactors {
+		background-color:darkblue;
+		&:after {
+			content:'PF';
+		}
+	}
+	&.icon-laborcost {
+		background-color:darkgreen;
+		&:after {
+			content:'MP';
+		}
+	}
+	&.icon-playbook {
+		background-color:aqua;
+		&:after {
+			content:'PB';
+		}
+	}
+	&.icon-hardconstraints {
+		background-color:blueviolet;
+		&:after {
+			content:'HC';
+		}
+	}
+	&.icon-softconstraints {
+		background-color:brown;
+		&:after {
+			content:'SC';
+		}
+	}
+	&.icon-economicvariables {
+		background-color:gray;
+		&:after {
+			content:'EV';
+		}
+	}
+	&.icon-competitivespend {
+		background-color:darkgray;
+		&:after {
+			content:'CS';
+		}
+	}
+	&.icon-pricing {
+		background-color:crimson;
+		&:after {
+			content:'P';
+		}
+	}
+	&.icon-brandawardness {
+		background-color:darkcyan;
+		&:after {
+			content:'BA';
+		}
+	}
+	&.icon-masterset {
+		background-color:goldenrod;
+		background-image: url(../images/ms-confirm_gray.png);
+	}
+	&.icon-marketingfactors {
+		background-color:hotpink;
+		&:after {
+			content:'MF';
+		}
+	}
+}

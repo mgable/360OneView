@@ -116,17 +116,20 @@ function init() {
     app.post("/api/items", function(req, res) {
         console.info("creating new record ");
         console.info(req.body);
+        var x = req.body.params.data;
 
         var tr = {};
         tr.index = currentData.data.length + 1;
         tr.id = generateUUID();
-        tr.type = "Cost Assumptions";
-        tr.title = req.body.params.title;
+        tr.type = x.type;
+        tr.title = x.title;
         tr.createdDate = new Date();
-        tr.modifiedBy = "nobody";
-        tr.lastModified = "";
-        tr.lastModified_display = currentData.timeAgo(tr.lastModified);
         tr.owner = "Fred Flintstone";
+        tr.modifiedBy = tr.owner;
+        tr.lastModified = tr.createdDate;
+        tr.lastModified_display = currentData.timeAgo(tr.lastModified);
+        tr.access = x.access;
+        tr.base = x.base;
         tr.defaults = false;
         currentData.data.push(tr)
         sendResponse(res, {

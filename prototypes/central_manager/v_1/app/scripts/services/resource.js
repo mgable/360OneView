@@ -126,8 +126,7 @@
         this._http
             .post(path, {
                 params: {
-                    title: data.title,
-                    description: "New Entity"
+                    data: data
                 }
             })
             .success(deferred.resolve)

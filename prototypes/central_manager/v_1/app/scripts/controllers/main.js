@@ -13,6 +13,10 @@ angular.module('centralManagerApp')
         $scope.InfoTrayService = InfoTrayService;
         $scope.DiaglogService = DiaglogService;
 
+        $scope.console = function(msg) {
+            console.info(msg);
+        }
+
         $scope.setAsMaster = function(item) {
             var id = item.id,
                 value = item.defaults;
@@ -23,6 +27,10 @@ angular.module('centralManagerApp')
                 id: id
             });
         };
+    }).controller("ScenarioEditCtrl", function($scope) {
+        $scope.foo = "bar";
+    }).controller("ProjectsCtrl", function($scope) {
+        $scope.foo = "bar";
     }).controller('InfoTrayCtrl', function($scope, ActiveSelection) {
         $scope.selectedItem = ActiveSelection.getActiveItem();
         $scope.seeAll = false;
@@ -51,13 +59,17 @@ angular.module('centralManagerApp')
             callback();
             $modalInstance.close('delete');
         }; // end save
-    }).controller('CreateCtrl', function($scope, $modalInstance, FilesModel) {
-        $scope.create = function(name) {
+    }).controller('CreateCtrl', function($scope, $modalInstance, $location, FilesModel) {
+        $scope.create = function(item) {
             console.info("create");
             FilesModel.$create({
-                title: name
+                title: item.name,
+                type: item.type,
+                base: item.base,
+                access: item.access
             });
             $modalInstance.dismiss('create');
+            $location.path("/scenarioEdit")
         }; //
 
         $scope.close = function() {
@@ -66,6 +78,7 @@ angular.module('centralManagerApp')
         }; // end cancel
     }).controller('RenameCtrl', function($scope, $modalInstance, FilesModel, data) {
         $scope.data = data;
+        $scope.name = $scope.data.title;
 
         $scope.rename = function(name) {
             $scope.data.title = name;

@@ -1,0 +1,31 @@
+/*color variables */
+/* sizes */
+.scenario-edit {
+  margin: 25px; }
+  .scenario-edit .ms-breadcrumb {
+    margin: 20px 0; }
+    .scenario-edit .ms-breadcrumb a {
+      font-size: 16px;
+      font-weight: bold; }
+      .scenario-edit .ms-breadcrumb a:hover {
+        text-decoration: none; }
+  .scenario-edit .details {
+    margin: 0 0 20px 0; }
+  .scenario-edit .display {
+    width: 100%; }
+    .scenario-edit .display .actions {
+      border: 1px solid #dddddd;
+      border-bottom: 0 none;
+      height: 30px; }
+      .scenario-edit .display .actions .holder {
+        border-right: 1px solid #dddddd;
+        height: 29px;
+        padding: 4px 0 0 9px; }
+        .scenario-edit .display .actions .holder:last-child {
+          border-right: 0 none; }
+    .scenario-edit .display table thead {
+      background-color: #f6f6f6; }
+      .scenario-edit .display table thead th {
+        text-transform: uppercase;
+        color: #8796b4;
+        font-size: 12px; }

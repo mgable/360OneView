@@ -352,13 +352,14 @@ angular.module('centralManagerApp')
         }
     }).directive('search', function($timeout) {
         return {
-            template: '<span><i class="fa fa-search" ng-click="doSearch()"></i>&nbsp;<input type="text" ng-model="SortAndFilterService.searchText" ng-show="searchVisible" /></span>',
+            template: '<span><i class="fa fa-search" ng-click="toggleSearchField()"></i>&nbsp;<span ng-show="searchVisible" class="search-holder"><input type="text" class="search-input" ng-model="SortAndFilterService.searchText" />&nbsp<a ng-click="toggleSearchField()" class="close-button"><i class="fa fa-times"></i></a></span></span>',
             restrict: "AE",
+            replace: true,
             link: function($scope, $element, $attrs) {
                 var inputField = $element.find("input");
                 $scope.searchVisible = false;
 
-                $scope.doSearch = function() {
+                $scope.toggleSearchField = function() {
                     if ($scope.searchVisible) {
                         $scope.SortAndFilterService.searchText = "";
                     } else {
@@ -370,4 +371,37 @@ angular.module('centralManagerApp')
                 }
             }
         }
+    }).directive('inlineRename', function(FilesModel) {
+        return {
+            template: '<h4 ng-hide="isActive">{{item.title}}&nbsp;<a ng-click="action()"><i class="fa fa-pencil"></i></a></h4>' +
+                '<h4 ng-show="isActive"><input ng-model="item.title" type="text"></input>&nbsp;<a ng-click="submit()"><i class="fa fa-check"></i></a>&nbsp;<a ng-click="cancel()"><i class="fa fa-times"></i></a></h4>',
+            restrict: 'E',
+            scope: {
+                item: "=",
+                // action: "&"
+            },
+            controller: function($scope, $element, $attrs) {
+                var temp;
+
+                $scope.isActive = false;
+                $scope.action = function() {
+                    if (!$scope.isActive) {
+                        temp = $scope.item.title;
+                        $scope.isActive = true;
+                    } else {
+                        $scope.isActive = false;
+                    }
+                }
+
+                $scope.submit = function() {
+                    FilesModel.$set($scope.item);
+                    $scope.isActive = false;
+                }
+
+                $scope.cancel = function() {
+                    $scope.item.title = temp;
+                    $scope.isActive = false;
+                }
+            }
+        };
     });

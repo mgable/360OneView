@@ -1,3 +1,5 @@
+@import "variables";
+
 .ms-dropdown {
 	position:relative;
 	font-size: 13px;
@@ -125,6 +127,10 @@ li {
 				color: cornflowerblue;
 				.ms-icon{
 					padding:0 8px 0 0;
+				}
+				&.disabled {
+					color: $disabled;
+					cursor: default;
 				}
 			}
 		}

@@ -18,6 +18,14 @@ angular
                 templateUrl: 'views/central_manager.tpl.html',
                 controller: 'CentralManagerCtrl',
             })
+            .when('/scenarioEdit', {
+                templateUrl: 'views/scenario_edit.tpl.html',
+                controller: 'ScenarioEditCtrl',
+            })
+            .when('/projects', {
+                templateUrl: 'views/projects.tpl.html',
+                controller: 'ProjectsCtrl',
+            })
             .otherwise({
                 redirectTo: '/'
             });

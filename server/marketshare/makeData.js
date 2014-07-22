@@ -1,4 +1,5 @@
-var data = {}, _ = require('underscore'),
+var data = {},
+    _ = require('underscore'),
     date = require('datejs');
 
 data.makeData = function() {
@@ -8,11 +9,10 @@ data.makeData = function() {
         scenarioTitles = ['Carl\'s Econ Variable Simulation 1', 'Al\'s AIB 2Q 2015 ', 'Al\'s Simulate 2Q 2015', 'Ann\'s AIB Q1 2015 TV ONLY v3', 'Ann\'s Allocate 3Q', 'Bob’s Simulate 4Q 2014', 'Brent\'s Simulate 3Q', 'Dan\'s Digital Hit Target', 'Erik\'s Cut Budget 2Q 2015 TV and Radio', 'Francis\' Max Profit for Q4 2014'],
 
         fileTypes = [
-            "Cost Assumptions",
+            'Cost Assumptions',
             'Economy',
             'Labor Cost',
             'Competition',
-            'Brand Awardness',
             'Pricing'
         ],
 
@@ -41,9 +41,11 @@ data.makeData = function() {
                 indexer = 1;
             for (var i = 0, ilimit = 3; i < ilimit; i++) {
                 for (var x = 0, limit = titles.length; x < limit; x++) {
-                    var obj = {}, type = pick(fileTypes);
+                    var obj = {},
+                        type = pick(fileTypes);
                     obj.index = indexer++;
-                    obj.type = typeof type === "object" ? makeFileType(type) : type;
+                    //obj.type = typeof type === "object" ? makeFileType(type) : type;
+                    obj.type = returnInOrder(fileTypes, obj.index, fileTypes.length)
                     obj.icon = obj.type.replace(/\s/g, "").toLowerCase();
                     obj.id = generateUUID();
                     obj.title = titles[x] + "_" + i + "_" + x;
@@ -58,6 +60,8 @@ data.makeData = function() {
                     obj.defaults = trueThenFalse(indexer);
                     //obj.imported = trueFalse();
                     //obj.search = _.flatten(makeSearch(obj, type));
+                    obj.access = 'Everyone can edit';
+                    obj.base = "";
                     objs.push(obj);
                 }
             }
@@ -65,7 +69,7 @@ data.makeData = function() {
         },
 
         trueThenFalse = function(index) {
-            return (index < 6) ? true : false;
+            return (index <= 6) ? true : false;
         },
 
         timeAgo = function(time, local, raw) {
@@ -93,7 +97,7 @@ data.makeData = function() {
             }
 
             var
-            offset = Math.abs((local - time) / 1000),
+                offset = Math.abs((local - time) / 1000),
                 span = [],
                 MINUTE = 60,
                 HOUR = 3600,
@@ -153,7 +157,8 @@ data.makeData = function() {
     makeScenarios = function() {
         var objs = [];
         for (var x = 0, limit = scenarioTitles.length; x < limit; x++) {
-            var obj = {}, fileType = pick(fileTypes);
+            var obj = {},
+                fileType = pick(fileTypes);
             obj.title = scenarioTitles[x];
             obj.lastModified = lastModified(7);
             obj.modifiedBy = pick(modifiedBy);
@@ -200,9 +205,12 @@ data.makeData = function() {
         return results;
     },
 
+    pick = function(arry) {
+        return arry[Math.floor(Math.random() * arry.length)];
+    },
 
-    pick = function(array) {
-        return array[Math.floor(Math.random() * array.length)];
+    returnInOrder = function(arry, index, limit) {
+        return arry[(index % limit)];
     },
 
     generateUUID = function() {

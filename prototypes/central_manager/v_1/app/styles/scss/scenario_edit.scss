@@ -1,0 +1,46 @@
+@import "variables";
+
+.scenario-edit {
+	margin: 25px;
+	.ms-breadcrumb {
+		margin: 20px 0;
+		a {
+			font: {
+				size:16px;
+				weight: bold;
+			}
+			&:hover {
+				text-decoration: none;
+			}
+		}
+	}
+	.details {
+		margin: 0 0 20px 0;
+	}
+	.display {
+		width: 100%;
+		.actions {
+			border: 1px solid $mediumgray;
+			border-bottom: 0 none;
+			height: 30px;
+			.holder {
+				border-right: 1px solid $mediumgray;
+				height:29px;
+				padding:4px 0 0 9px;
+				&:last-child {
+					border-right: 0 none;
+				}
+			}
+		}
+		table {
+			thead {
+				background-color:$lightgray;
+				th {
+					text-transform:uppercase;
+					color: $mouseover;
+					font-size:12px;
+				}
+			}
+		}
+	}
+}
