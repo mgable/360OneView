@@ -58,7 +58,8 @@
 		margin: -$cap_height 0 0 $app_left;
 		padding: $cap_height 0 0 0;
 		width: auto;
-		overflow:hidden;
+		overflow-y: scroll;
+		overflow-x: hidden;
 		height:100%;
 	}
 	.right {

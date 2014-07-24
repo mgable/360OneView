@@ -76,7 +76,7 @@ angular.module('centralManagerApp')
                 $scope.DropdownService = DropdownService;
                 $scope.items = DROPDOWNITEMS;
 
-                $scope.selectedItem = DROPDOWNITEMS[$scope.selectedSortIndex]
+                $scope.selectedItem = DROPDOWNITEMS[$scope.selectedSortIndex];
                 $scope.selectedFilter = null;
                 $scope.me = "Fred Flintstone";
                 $scope.reverse = false;
@@ -323,10 +323,10 @@ angular.module('centralManagerApp')
                 });
             }
         };
-    }).directive('sortableColumns', function(SortAndFilterService) {
+    }).directive('sortableColumns', function() {
         return {
             template: '<div ng-switch on="displayBy" class="text-holder">' +
-                '<span ng-switch-when="Last Modified">{{item.lastModified_display}}</span>' +
+                '<span ng-switch-when="Last Modified">{{item.lastModified | timeago }}</span>' +
                 '<span ng-switch-when="Modified By">{{item.modifiedBy}}</span>' +
                 '<span ng-switch-when="Type">{{item.type}}</span>' +
                 '<span ng-switch-when="Owner">{{item.owner}}</span>' +

@@ -4,8 +4,48 @@ var express = require('express'),
     //fs = require('fs'),
     // config = require('./config'),
     cors = require('cors'),
-    data = require('./marketshare/makeData.js'),
-    currentData = data.makeData();
+    data = require('./marketshare/makeData2.js'),
+    dataFn = data.createData(),
+    currentData = dataFn.parse({
+        meta: {},
+        data: {
+            count: 30,
+            obj: {
+                index: 'indexer',
+                id: 'generateUUID()',
+                type: 'returnInOrder(fileTypes, indexer, fileTypes.length)',
+                title: 'titles[indexer % titles.length]',
+                owner: 'pick(modifiedBy)',
+                modifiedBy: 'pick(modifiedBy)',
+                lastModified: 'lastModified(180)',
+                lastModified_display: 'timeAgo(obj.lastModified)',
+                scenarios: '{}',
+                defaults: 'trueThenFalse(indexer++)',
+                access: "'Everyone can edit'",
+                base: "''"
+            }
+        }
+    }),
+
+    currentProjectData = dataFn.parse({
+        meta: {},
+        data: {
+            count: 10,
+            obj: {
+                index: 'indexer',
+                id: 'generateUUID()',
+                title: 'titles[indexer++ % titles.length]',
+                owner: 'pick(modifiedBy)',
+                modifiedBy: 'pick(modifiedBy)',
+                lastModified: 'lastModified(180)',
+                lastModified_display: 'timeAgo(obj.lastModified)',
+                access: "'Everyone can edit'",
+                base: "''"
+            }
+        }
+    });
+
+
 
 app.configure(function() {
     app.use(express.json());
@@ -54,6 +94,22 @@ function init() {
         return results;
     }
 
+    function projectsCounts() {
+        var results = {
+            master: 1
+        };
+
+        _.each(currentProjectData.data, function(e, i, l) {
+            if (e.favorite && 'favorite' in results) {
+                results['favorite']++;
+            } else if (e.favorite) {
+                results['favorite'] = 1;
+            }
+        });
+
+        return results;
+    }
+
 
     app.options("*", cors());
 
@@ -69,6 +125,23 @@ function init() {
             status: "success",
             totalItemsReturned: results.length,
             counts: fileTypeCounts(),
+            data: results
+        });
+
+    });
+
+    //get all or query
+    app.get("/api/projects", function(req, res) {
+        console.info(req.query)
+        var results = currentProjectData.data;
+        if (req.query && (req.query.start && req.query.end)) {
+            results = currentData.data.slice(req.query.start, req.query.end)
+        }
+
+        sendResponse(res, {
+            status: "success",
+            totalItemsReturned: results.length,
+            counts: projectsCounts(),
             data: results
         });
 

@@ -11,6 +11,9 @@ angular.module('centralManagerApp')
             searchText = "",
             self = this;
 
+        this.enabledDefaults = function(trueOrFalse) {
+            enabledDefaultChecking = trueOrFalse;
+        };
         this.setSorter = function(id, sorter) {
             sorters[id] = sorter;
         };
@@ -19,30 +22,40 @@ angular.module('centralManagerApp')
         }
         this.setOrderBy = function(which) {
             orderBy = which;
+            $rootScope.$broadcast('SortAndFilterService:filter');
         }
         this.getOrderBy = function() {
             return $filter('camelCase')(orderBy);
         }
         this.setReverse = function(which) {
             reverse = which;
+            $rootScope.$broadcast('SortAndFilterService:filter');
         }
         this.getReverse = function() {
             return reverse;
         }
         this.setFilterBy = function(filter, value) {
             filterBy[filter] = value;
+            $rootScope.$broadcast('SortAndFilterService:filter');
         }
         this.getFilterBy = function() {
             return filterBy;
         }
         this.resetFilterBy = function() {
             filterBy = {};
+            $rootScope.$broadcast('SortAndFilterService:filter');
         }
         this.getActiveFilters = function() {
             return activeFilters;
         }
-        this.setActiveFilters = function(key, value) {
-            activeFilters[key] = value;
+        // this.setActiveFilters = function(key, value) {
+        //     activeFilters[key] = value;
+        // }
+        this.setActiveFilters = function(value) {
+            activeFilters = value;
+        }
+        this.clearActiveFilters = function() {
+            activeFilters = {};
         }
         this.getSearchText = function() {
             return this.searchText;
@@ -54,21 +67,17 @@ angular.module('centralManagerApp')
             return selected;
         }
         this.setSelected = function(value) {
-            selected = value
+            selected = value;
         }
 
         this.searchText = searchText;
 
-        this.setFilter = function(filter) {
-
-            self.setSelected(filter);
-
-            if (filter === "defaults") {
-                activeFilters.defaults = true;
-                activeFilters.type = '';
+        this.setFilter = function(item) {
+            if (item) {
+                self.setSelected(item);
+                self.setActiveFilters(item.filter);
             } else {
-                activeFilters.defaults = '';
-                activeFilters.type = filter;
+                self.clearActiveFilters();
             }
 
             $rootScope.$broadcast('SortAndFilterService:filter');
