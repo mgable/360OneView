@@ -16,6 +16,7 @@ angular.module('centralManagerApp')
 
         this.setActiveItem = function(item) {
             activeItem = this.isActiveItem(item) ? "" : item;
+            console.info(activeItem)
             $rootScope.$broadcast('ActiveSelection:activeItemChange', {
                 data: activeItem
             });

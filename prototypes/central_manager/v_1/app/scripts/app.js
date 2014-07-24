@@ -16,37 +16,73 @@ angular
         $routeProvider
             .when('/', {
                 templateUrl: 'views/central_manager.tpl.html',
-                controller: 'CentralManagerCtrl',
+                controller: 'CentralManagerCtrl'
             })
             .when('/scenarioEdit', {
                 templateUrl: 'views/scenario_edit.tpl.html',
-                controller: 'ScenarioEditCtrl',
+                controller: 'ScenarioEditCtrl'
             })
             .when('/projects', {
                 templateUrl: 'views/projects.tpl.html',
-                controller: 'ProjectsCtrl',
+                controller: 'ProjectManagerCtrl'
             })
             .otherwise({
                 redirectTo: '/'
             });
     })
-    .run(function(FilesModel) {
+    .config(function() {
+        String.prototype.bool = function() {
+            return (/^true$/i).test(this);
+        };
+    })
+    .run(function(FilesModel, ProjectsModel) {
         FilesModel.$find();
+        ProjectsModel.$find();
+    }).constant('PROJECTS', {
+        firstSelected: 'All Projects',
+        title: 'Projects',
+        items: [{
+            label: 'All Projects',
+            filter: {}
+        }, {
+            label: 'Favorite Projects',
+            filter: {
+                'favorites': true
+            }
+        }]
     }).constant('CENTRALMANAGER', {
         firstSelected: 'defaults',
         title: 'Scenario Elements',
         items: [{
             label: 'defaults',
+            filter: {
+                'defaults': true
+            }
         }, {
-            label: 'Economy'
+            label: 'Economy',
+            filter: {
+                type: 'Economy'
+            }
         }, {
-            label: 'Competition'
+            label: 'Competition',
+            filter: {
+                type: 'Competition'
+            }
         }, {
-            label: 'Labor Cost'
+            label: 'Labor Cost',
+            filter: {
+                type: 'Labor Cost'
+            }
         }, {
-            label: 'Pricing'
+            label: 'Pricing',
+            filter: {
+                type: 'Pricing'
+            }
         }, {
-            label: 'Cost Assumptions'
+            label: 'Cost Assumptions',
+            filter: {
+                type: 'Cost Assumptions'
+            }
         }]
     }).constant('DROPDOWNITEMS', [{
         label: "Last Modified"
@@ -54,10 +90,10 @@ angular
         label: "Modified By",
         filters: [{
             label: 'Modified by me',
-            term: "modifiedBy"
+            filter: "modifiedBy"
         }, {
             label: 'Modified by:',
-            term: "modifiedBy"
+            filter: "modifiedBy"
         }],
         template: '/name.html',
         enabledOn: 'Modified by:'
@@ -67,10 +103,10 @@ angular
         label: "Owner",
         filters: [{
             label: 'Owned by me',
-            term: 'owner'
+            filter: 'owner'
         }, {
             label: 'Owned by:',
-            term: 'owner'
+            filter: 'owner'
         }],
         template: '/name.html',
         enabledOn: 'Owned by:'
@@ -78,9 +114,12 @@ angular
         label: "Defaults",
         filters: [{
             label: 'Show only defaults',
-            term: 'defaults'
+            filter: 'defaults'
         }]
-    }]);
+    }]).constant("USERDATA", {
+        username: 'Fred Flintstone',
+        favorites: []
+    });
 
 /* template for drop down menu filter input field */
 angular.module('/name.html', []).run(['$templateCache',

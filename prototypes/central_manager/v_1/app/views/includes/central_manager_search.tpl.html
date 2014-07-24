@@ -1,9 +1,0 @@
-<div class="search" ng-controller='SearchCtrl'>
-	<h4 class="title">{{menuItems.title}}</h4>
-    <ul link-group firstSelected="{{menuItems.firstSelected}}" radio="true" class='menu'>
-		<li ng-repeat="item in menuItems.items" class="header" ng-class="{selected: item.label === selectedItem}">
-			 <a ng-click="toggleSelected(item.label);setFilter(item.label);">{{item.label}}</a>
-		</li>
-    </ul>
-</div>
-

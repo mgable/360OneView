@@ -1,0 +1,9 @@
+<div class="search">
+	<h4 class="title">{{menuItems.title}}</h4>
+    <ul ms-link-group firstSelected="{{menuItems.firstSelected}}" radio="true" class='menu'>
+		<li ng-repeat="item in menuItems.items" class="header" ng-class="{selected: item.label === selectedItem}">
+			 <a ms-link="{{item.label}}" ng-click="SortAndFilterService.setFilter('activeFilter', item, true);">{{item.label}}</a>
+		</li>
+    </ul>
+</div>
+

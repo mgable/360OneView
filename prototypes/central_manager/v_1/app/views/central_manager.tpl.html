@@ -1,9 +1,9 @@
-<div class="left">
-	<ng-include  src="'views/includes/central_manager_search.tpl.html'"></ng-include>
+<div class="left" ng-controller='SearchCtrl'>
+	<ng-include  src="'views/includes/search.tpl.html'"></ng-include>
 </div>
 <div class="right slide-in" ng-show="InfoTrayService.getShowInfoTray()">
 	<ng-include src="'views/includes/central_manager_infotray.tpl.html'"></ng-include>
 </div>
-<div class="center">
-	<ng-include src="'views/includes/central_manager_display.tpl.html'"></ng-include>
+<div class="center {{masterClass}}">
+	<ng-include src="'views/includes/display.tpl.html'"></ng-include>
 </div>

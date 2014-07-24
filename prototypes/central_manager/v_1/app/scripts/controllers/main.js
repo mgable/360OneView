@@ -1,13 +1,19 @@
 'use strict';
 
 angular.module('centralManagerApp')
-    .controller('CentralManagerCtrl', function($scope, InfoTrayService, DiaglogService, FilesModel, SortAndFilterService, FileDeleteService, ActiveSelection) {
-        $scope.data = FilesModel.$get();
+    .controller('CentralManagerCtrl', function($scope, $rootScope, $timeout, filterFilter, $filter, InfoTrayService, DiaglogService, FilesModel, SortAndFilterService, FileDeleteService, ActiveSelection, CENTRALMANAGER) {
+        $scope.masterClass = "scenario-elements";
+
+        FilesModel.$get().$futureFilesData.then(function(response) {
+            $scope.$apply(SortAndFilterService.init({
+                data: response,
+                orderBy: 'Last Modified',
+                filter: CENTRALMANAGER.items[0],
+                reverse: true
+            }));
+        });
 
         $scope.SortAndFilterService = SortAndFilterService;
-        $scope.SortAndFilterService.setReverse(true);
-        $scope.SortAndFilterService.setFilter('defaults');
-
         $scope.FileDeleteService = FileDeleteService;
         $scope.ActiveSelection = ActiveSelection;
         $scope.InfoTrayService = InfoTrayService;
@@ -29,8 +35,22 @@ angular.module('centralManagerApp')
         };
     }).controller("ScenarioEditCtrl", function($scope) {
         $scope.foo = "bar";
-    }).controller("ProjectsCtrl", function($scope) {
-        $scope.foo = "bar";
+    }).controller("ProjectManagerCtrl", function($scope, ProjectsModel, SortAndFilterService, PROJECTS, ActiveSelection, InfoTrayService) {
+
+        $scope.masterClass = "projects";
+
+        ProjectsModel.$get().$futureProjectsData.then(function(response) {
+            $scope.$apply(SortAndFilterService.init({
+                data: response,
+                orderBy: 'Last Modified',
+                filter: PROJECTS.items[0],
+                reverse: true
+            }));
+        });
+
+        $scope.SortAndFilterService = SortAndFilterService;
+        $scope.ActiveSelection = ActiveSelection;
+        $scope.InfoTrayService = InfoTrayService;
     }).controller('InfoTrayCtrl', function($scope, ActiveSelection) {
         $scope.selectedItem = ActiveSelection.getActiveItem();
         $scope.seeAll = false;
@@ -44,6 +64,9 @@ angular.module('centralManagerApp')
     }).controller('SearchCtrl', function($scope, SortAndFilterService, CENTRALMANAGER) {
         $scope.setFilter = SortAndFilterService.setFilter;
         $scope.menuItems = CENTRALMANAGER;
+    }).controller('ProjectsSearchCtrl', function($scope, SortAndFilterService, PROJECTS) {
+        $scope.setFilter = SortAndFilterService.setFilter;
+        $scope.menuItems = PROJECTS;
     }).controller('DeleteCtrl', function($scope, data, $modalInstance, FileDeleteService) {
         var callback = data;
         $scope.FileDeleteService = FileDeleteService;
