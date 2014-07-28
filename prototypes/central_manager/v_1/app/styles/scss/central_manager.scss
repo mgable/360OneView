@@ -177,6 +177,31 @@
 			td {
 				white-space: nowrap;
 				cursor: pointer;
+				.master {
+					font: {
+						weight:bold;
+						size:16px;
+					}
+				}
+				&.favorites {
+					padding:8px 0;
+					a {
+						font-family: "font awesome";
+						display: inline-block;
+						width: 10px;
+						height: 10px;
+						background-color:inherit;
+						&:hover {
+							text-decoration: none;
+							&:after {
+								content: '\f006';
+							}
+						}
+						&.favorite:after {
+							content: '\f005';
+						}
+					}
+				}
 			}
 			tr.active  td{
 				background-color:$active;
@@ -412,4 +437,10 @@
 			content:'MF';
 		}
 	}
+}
+
+/* over writes */
+
+.scenario-elements .favorites {
+	display:none;
 }

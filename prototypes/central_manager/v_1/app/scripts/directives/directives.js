@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('centralManagerApp')
-    .directive('msDropdown', function($document, $timeout, DROPDOWNITEMS, DropdownService, SortAndFilterService, $filter) {
+    .directive('msDropdown', function($document, $timeout, $rootScope, DROPDOWNITEMS, DropdownService, SortAndFilterService, $filter) {
         return {
             restrict: "AE",
             templateUrl: "/msDropdown.html",
@@ -10,9 +10,12 @@ angular.module('centralManagerApp')
             scope: {
                 selectedSortIndex: "@",
                 isActive: "@",
-                id: "@msid"
+                id: "@msid",
+                reverse: "@"
             },
             controller: function($scope, $element, $attrs) {
+                $scope.reverse = $scope.reverse.bool();
+
                 var dropdown = $($element).find('.ms-select-list'),
                     focusInput = function() {
                         var inputField = $element.find('input');
@@ -29,14 +32,19 @@ angular.module('centralManagerApp')
                     setOrderBy = function(item) {
                         $scope.selectedFilter = "";
                         DropdownService.setActive($scope.id);
-                        SortAndFilterService.resetFilterBy();
-                        SortAndFilterService.setOrderBy(item.label);
+                        SortAndFilterService.setFilter("reset", "", false);
+                        SortAndFilterService.setFilter("orderBy", item.label, true);
                         SortAndFilterService.setSorter($scope.id, item.label);
                     },
                     setFilterBy = function(item, who) {
-                        SortAndFilterService.resetFilterBy();
                         if (isActive() && item) {
-                            SortAndFilterService.setFilterBy(item.term, who);
+                            SortAndFilterService.setFilter("reset", "", false);
+                            SortAndFilterService.setFilter("filterBy", {
+                                filter: item.filter,
+                                value: who
+                            }, true);
+                        } else {
+                            SortAndFilterService.setFilter("reset", "", true);
                         }
                     },
                     setAsActive = function(id) {
@@ -72,6 +80,9 @@ angular.module('centralManagerApp')
                     }
                 })
 
+                $rootScope.$on("SortAndFilterService:resetFilterBy", function() {
+                    $scope.selectedFilter = null;
+                });
 
                 $scope.DropdownService = DropdownService;
                 $scope.items = DROPDOWNITEMS;
@@ -79,7 +90,6 @@ angular.module('centralManagerApp')
                 $scope.selectedItem = DROPDOWNITEMS[$scope.selectedSortIndex];
                 $scope.selectedFilter = null;
                 $scope.me = "Fred Flintstone";
-                $scope.reverse = false;
                 $scope.name = "";
 
                 SortAndFilterService.setSorter($scope.id, $scope.selectedItem.label);
@@ -87,7 +97,7 @@ angular.module('centralManagerApp')
                 if ($scope.isActive) {
                     // ***
                     DropdownService.setActive($scope.id);
-                    SortAndFilterService.setOrderBy($scope.selectedItem.label);
+                    SortAndFilterService.setFilter("orderBy", $scope.selectedItem.label, false);
                 }
 
                 $scope.enabledOn = function(which) {
@@ -131,14 +141,20 @@ angular.module('centralManagerApp')
 
                 $scope.select = function(item) {
 
+                    if (typeof $scope.reverse !== "boolean") {
+                        $scope.reverse = $scope.reverse.bool()
+                    }
+
                     if (!isActive()) {
                         $scope.selectedItem = item;
+                        SortAndFilterService.setFilter("reverse", $scope.reverse, false);
                         // ***
                         setOrderBy(item);
                     } else {
                         $scope.reverse = !$scope.reverse;
+
                         // ***
-                        SortAndFilterService.setReverse($scope.reverse);
+                        SortAndFilterService.setFilter("reverse", $scope.reverse, true);
                     }
                 }
 
@@ -156,42 +172,65 @@ angular.module('centralManagerApp')
                         focusInput();
                     }
 
+                    console.info("$scope.selectedFilter is ")
+                    console.info($scope.selectedFilter)
+
                     // ***
                     setFilterBy($scope.selectedFilter, getName($scope.selectedFilter));
                 }
             }
         }
     })
-    .directive('linkGroup', function() {
+    .directive('msLinkGroup', function($timeout) {
         return {
             restrict: 'A',
-            link: function(scope, element, attrs) {
-                scope.selectedItem = attrs.firstselected || 'none';
-                scope.radio = attrs.radio || false;
-                scope.activeSubMenu = false;
-                scope.enabled = true;
+            controller: function($scope, $element, $attrs) {
+                $timeout(function() {
+                    $scope.selectedItem = $attrs.firstselected || 'none';
+                })
 
-                scope.toggleSelected = function(item, subMenu) {
-                    if (scope.enabled) {
-                        if (subMenu) {
-                            scope.activeSubMenu = typeof subMenu === 'boolean' ? item : subMenu;
-                        } else {
-                            scope.activeSubMenu = false;
-                        }
+                $scope.radio = $attrs.radio || false;
+                $scope.enabled = true;
 
-                        if (item !== scope.selectedItem) {
-                            scope.selectedItem = item;
-                        } else if (!scope.radio) {
-                            scope.selectedItem = 'none';
+                this.toggleSelected = function(event) {
+                    var item = event.data.label;
+                    $scope.$apply(
+                        function() {
+                            if ($scope.enabled) {
+                                if (item !== $scope.selectedItem) {
+                                    $scope.selectedItem = item;
+                                } else if (!$scope.radio) {
+                                    $scope.selectedItem = 'none';
+                                }
+                            }
                         }
-                    }
+                    );
                 };
-                scope.$on('linkGroup', function(event, state) {
-                    scope.enabled = state;
-                });
+
             }
 
         };
+    }).directive("msLink", function() {
+        return {
+            restrict: "A",
+            require: "^msLinkGroup",
+            link: function(scope, element, attrs, ctrl) {
+                element.on('click', {
+                    label: attrs.msLink
+                }, ctrl.toggleSelected)
+
+            }
+        }
+    }).directive("msSetActiveItem", function(ActiveSelection) {
+        return {
+            restrict: "A",
+            link: function(scope, element, attrs) {
+                console.info(attrs.msSetActiveItem);
+                element.on('click', {
+                    item: attrs.msSetActiveItem
+                }, ActiveSelection.setActiveItem);
+            }
+        }
     })
     .directive('sortingOptions', function(SortAndFilterService) {
         return {
@@ -207,15 +246,19 @@ angular.module('centralManagerApp')
                 $scope.SortAndFilterService = SortAndFilterService;
 
                 $scope.sort = function(evt, which) {
+                    console.info("sorting " + which)
+                    console.info("order by " + $scope.SortAndFilterService.getOrderBy())
+
                     if (evt) {
                         evt.stopPropagation();
                         evt.preventDefault();
                     }
                     if (which === $scope.SortAndFilterService.getOrderBy()) {
                         $scope.reverse = !$scope.reverse;
+                    } else {
+                        ctrl.setOrderBy(which, $scope.id, false);
                     }
-                    ctrl.setReverse($scope.reverse);
-                    ctrl.setOrderBy(which, $scope.id);
+                    ctrl.setReverse($scope.reverse, true);
                 };
             },
             templateUrl: '/views/directives/sortingOptions.html'
@@ -229,13 +272,14 @@ angular.module('centralManagerApp')
 
                 $scope.reverse = false;
                 $scope.orderBy = $attrs.orderby;
-                this.setOrderBy = function(which, id) {
+                this.setOrderBy = function(which, id, filter) {
                     console.info("setting order by " + which)
-                    SortAndFilterService.setOrderBy(which);
+                    SortAndFilterService.setFilter("orderBy", which, filter);
                     DropdownService.setActive(id);
                 };
-                this.setReverse = function(reverse) {
-                    SortAndFilterService.setReverse(reverse);
+                this.setReverse = function(reverse, filter) {
+                    console.info("setting revere to", reverse, filter)
+                    SortAndFilterService.setFilter("reverse", reverse, filter);
                 };
             }
         };
@@ -350,9 +394,9 @@ angular.module('centralManagerApp')
                 }, 300)
             }
         }
-    }).directive('search', function($timeout) {
+    }).directive('search', function($timeout, SortAndFilterService) {
         return {
-            template: '<span><i class="fa fa-search" ng-click="toggleSearchField()"></i>&nbsp;<span ng-show="searchVisible" class="search-holder"><input type="text" class="search-input" ng-model="SortAndFilterService.searchText" />&nbsp<a ng-click="toggleSearchField()" class="close-button"><i class="fa fa-times"></i></a></span></span>',
+            template: '<span><i class="fa fa-search" ng-click="toggleSearchField()"></i>&nbsp;<span ng-show="searchVisible" class="search-holder"><input type="text" class="search-input" ng-model="SortAndFilterService.searchText" ng-change="SortAndFilterService.filter()"/>&nbsp<a ng-click="toggleSearchField()" class="close-button"><i class="fa fa-times"></i></a></span></span>',
             restrict: "AE",
             replace: true,
             link: function($scope, $element, $attrs) {

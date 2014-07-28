@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('centralManagerApp')
-    .service('SortAndFilterService', function($filter, $rootScope) {
+    .service('SortAndFilterService', function($filter, $rootScope, filterFilter) {
         var sorters = {},
             filterBy = {},
             orderBy = "",
@@ -34,9 +34,8 @@ angular.module('centralManagerApp')
         this.getReverse = function() {
             return reverse;
         }
-        this.setFilterBy = function(filter, value) {
-            filterBy[filter] = value;
-            $rootScope.$broadcast('SortAndFilterService:filter');
+        this.setFilterBy = function(obj) {
+            filterBy[obj.filter] = obj.value;
         }
         this.getFilterBy = function() {
             return filterBy;
@@ -72,7 +71,10 @@ angular.module('centralManagerApp')
 
         this.searchText = searchText;
 
-        this.setFilter = function(item) {
+
+        this.setActiveFilter = function(item) {
+            console.info("set filter")
+
             if (item) {
                 self.setSelected(item);
                 self.setActiveFilters(item.filter);
@@ -80,6 +82,54 @@ angular.module('centralManagerApp')
                 self.clearActiveFilters();
             }
 
+            this.resetFilterBy();
+            $rootScope.$broadcast("SortAndFilterService:resetFilterBy");
+        }
+
+        this.setFilter = function(which, toWhat, filter) {
+            switch (which) {
+                case "activeFilter":
+                    this.setActiveFilter(toWhat);
+                    break;
+                case "reverse":
+                    this.setReverse(toWhat);
+                    break;
+                case "filterBy":
+                    this.setFilterBy(toWhat);
+                    break;
+                case "orderBy":
+                    this.setOrderBy(toWhat);
+                    break;
+                case "reset":
+                    this.resetFilterBy();
+                    break;
+            }
+
+            if (filter) {
+                this.filter();
+            }
+        }
+
+        this.init = function(config) {
+            console.info("init")
+            this.data = config.data;
+            this.display = angular.copy(this.data);
+            this.setFilter("orderBy", config.orderBy, false);
+            this.setFilter("reverse", config.reverse, false);
+            this.setFilter("activeFilter", config.filter, true);
+        }
+
+        this.filter = function() {
+            console.info("filter")
+            var activeFilters = this.getActiveFilters(),
+                filterBy = this.getFilterBy(),
+                searchText = this.getSearchText(),
+                temp = filterFilter(this.data.data, activeFilters);
+            temp = filterFilter(temp, filterBy);
+            temp = filterFilter(temp, searchText);
+            temp = $filter('orderBy')(temp, this.getOrderBy(), this.getReverse());
+
+            this.display.data = temp;
             $rootScope.$broadcast('SortAndFilterService:filter');
         }
     });

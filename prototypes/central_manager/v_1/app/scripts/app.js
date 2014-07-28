@@ -24,11 +24,16 @@ angular
             })
             .when('/projects', {
                 templateUrl: 'views/projects.tpl.html',
-                controller: 'ProjectsDisplayCtrl'
+                controller: 'ProjectManagerCtrl'
             })
             .otherwise({
                 redirectTo: '/'
             });
+    })
+    .config(function() {
+        String.prototype.bool = function() {
+            return (/^true$/i).test(this);
+        };
     })
     .run(function(FilesModel, ProjectsModel) {
         FilesModel.$find();
@@ -85,10 +90,10 @@ angular
         label: "Modified By",
         filters: [{
             label: 'Modified by me',
-            term: "modifiedBy"
+            filter: "modifiedBy"
         }, {
             label: 'Modified by:',
-            term: "modifiedBy"
+            filter: "modifiedBy"
         }],
         template: '/name.html',
         enabledOn: 'Modified by:'
@@ -98,10 +103,10 @@ angular
         label: "Owner",
         filters: [{
             label: 'Owned by me',
-            term: 'owner'
+            filter: 'owner'
         }, {
             label: 'Owned by:',
-            term: 'owner'
+            filter: 'owner'
         }],
         template: '/name.html',
         enabledOn: 'Owned by:'
@@ -109,7 +114,7 @@ angular
         label: "Defaults",
         filters: [{
             label: 'Show only defaults',
-            term: 'defaults'
+            filter: 'defaults'
         }]
     }]).constant("USERDATA", {
         username: 'Fred Flintstone',

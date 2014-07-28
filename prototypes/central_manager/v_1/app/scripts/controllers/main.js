@@ -3,46 +3,16 @@
 angular.module('centralManagerApp')
     .controller('CentralManagerCtrl', function($scope, $rootScope, $timeout, filterFilter, $filter, InfoTrayService, DiaglogService, FilesModel, SortAndFilterService, FileDeleteService, ActiveSelection, CENTRALMANAGER) {
 
-        console.info("CentralManagerCtrl");
+        $scope.masterClass = "scenario-elements";
 
         FilesModel.$get().$futureFilesData.then(function(response) {
-            console.info("getting data in CentralManagerCtrl")
-            console.info(response)
-            $scope.data = response;
-            $scope.display = angular.copy($scope.data);
-            SortAndFilterService.setOrderBy('Last Modified');
-            SortAndFilterService.setReverse(true);
-            SortAndFilterService.setFilter(CENTRALMANAGER.items[0]);
+            $scope.$apply(SortAndFilterService.init({
+                data: response,
+                orderBy: 'Last Modified',
+                filter: CENTRALMANAGER.items[0],
+                reverse: true
+            }));
         });
-
-        $scope.$on('SortAndFilterService:filter', function(evt) {
-            filter()
-        });
-
-        $scope.$watch('SortAndFilterService.searchText', function() {
-            filter()
-        });
-
-        function filter() {
-            console.info("filtering in CentralManagerCtrl")
-            if ($scope.data && $scope.data.data) {
-                console.info("data")
-                var activeFilters = SortAndFilterService.getActiveFilters(),
-                    filterBy = SortAndFilterService.getFilterBy(),
-                    searchText = SortAndFilterService.getSearchText(),
-                    temp = filterFilter($scope.data.data, activeFilters);
-                temp = filterFilter(temp, filterBy);
-                temp = filterFilter(temp, searchText);
-                temp = $filter('orderBy')(temp, SortAndFilterService.getOrderBy(), SortAndFilterService.getReverse());
-
-                $scope.display.data = temp;
-            }
-        }
-
-        // $scope.SortAndFilterService = SortAndFilterService;
-        // $scope.SortAndFilterService.enabledDefaults(true);
-        // $scope.SortAndFilterService.setReverse(true);
-        // $scope.SortAndFilterService.setFilter(CENTRALMANAGER.items[1].label);
 
         $scope.SortAndFilterService = SortAndFilterService;
         $scope.FileDeleteService = FileDeleteService;
@@ -66,47 +36,22 @@ angular.module('centralManagerApp')
         };
     }).controller("ScenarioEditCtrl", function($scope) {
         $scope.foo = "bar";
-    }).controller("ProjectsDisplayCtrl", function($scope, ProjectsModel, SortAndFilterService, filterFilter, $filter, PROJECTS) {
+    }).controller("ProjectManagerCtrl", function($scope, ProjectsModel, SortAndFilterService, PROJECTS, ActiveSelection, InfoTrayService) {
 
-
-        console.info("ProjectsDisplayCtrl");
+        $scope.masterClass = "projects";
 
         ProjectsModel.$get().$futureProjectsData.then(function(response) {
-            console.info("getting data in ProjectsDisplayCtrl")
-            console.info(response)
-            $scope.data = response;
-            $scope.display = angular.copy($scope.data);
-            SortAndFilterService.setOrderBy('Last Modified');
-            SortAndFilterService.setReverse(true);
-            SortAndFilterService.setFilter(PROJECTS.items[0]);
+            $scope.$apply(SortAndFilterService.init({
+                data: response,
+                orderBy: 'Last Modified',
+                filter: PROJECTS.items[0],
+                reverse: true
+            }));
         });
 
         $scope.SortAndFilterService = SortAndFilterService;
-
-        $scope.$on('SortAndFilterService:filter', function(evt) {
-            filter()
-        });
-
-        $scope.$watch('SortAndFilterService.searchText', function() {
-            filter()
-        });
-
-        function filter() {
-            console.info("filtering in ProjectsDisplayCtrl")
-            if ($scope.data && $scope.data.data) {
-                console.info("data")
-                var activeFilters = SortAndFilterService.getActiveFilters(),
-                    filterBy = SortAndFilterService.getFilterBy(),
-                    searchText = SortAndFilterService.getSearchText(),
-                    temp = filterFilter($scope.data.data, activeFilters);
-                temp = filterFilter(temp, filterBy);
-                temp = filterFilter(temp, searchText);
-                temp = $filter('orderBy')(temp, SortAndFilterService.getOrderBy(), SortAndFilterService.getReverse());
-
-                $scope.display.data = temp;
-            }
-        }
-
+        $scope.ActiveSelection = ActiveSelection;
+        $scope.InfoTrayService = InfoTrayService;
     }).controller('InfoTrayCtrl', function($scope, ActiveSelection) {
         $scope.selectedItem = ActiveSelection.getActiveItem();
         $scope.seeAll = false;

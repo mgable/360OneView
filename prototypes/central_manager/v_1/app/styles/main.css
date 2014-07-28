@@ -340,6 +340,23 @@ li {
   .app .display-table table td {
     white-space: nowrap;
     cursor: pointer; }
+    .app .display-table table td .master {
+      font-weight: bold;
+      font-size: 16px; }
+    .app .display-table table td.favorites {
+      padding: 8px 0; }
+      .app .display-table table td.favorites a {
+        font-family: "font awesome";
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        background-color: inherit; }
+        .app .display-table table td.favorites a:hover {
+          text-decoration: none; }
+          .app .display-table table td.favorites a:hover:after {
+            content: '\f006'; }
+        .app .display-table table td.favorites a.favorite:after {
+          content: '\f005'; }
   .app .display-table table tr.active td {
     background-color: #f2f5a9; }
   .app .display-table thead .title.active a {
@@ -500,6 +517,10 @@ li {
     background-color: hotpink; }
     .symbol.icon-marketingfactors:after {
       content: 'MF'; }
+
+/* over writes */
+.scenario-elements .favorites {
+  display: none; }
 
 /*color variables */
 /* sizes */

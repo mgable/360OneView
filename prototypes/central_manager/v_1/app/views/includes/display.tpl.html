@@ -1,5 +1,5 @@
 <div class="display-actions">
-	<h4 class="pull-left title">{{SortAndFilterService.getSelected().label}}&nbsp;<span>({{display.data.length || '?'}})</span></h4>
+	<h4 class="pull-left title">{{SortAndFilterService.getSelected().label}}&nbsp;<span>({{SortAndFilterService.display.data.length || '0'}})</span></h4>
 	
 	<div class="pull-right">
 
@@ -20,7 +20,8 @@
 		<table class="table table-hover">
 			<colgroup>
 			    <col width="30">
-			    <col width="700">
+			    <col width="10" class="favorites">
+			    <col width="690">
 			    <col width="230">
 			    <col width="230">
 			    <col width="30">
@@ -28,17 +29,18 @@
 			<thead>
 				<th>
 					<div class="checkbox">
-		                <tri-state-checkbox checkboxes="data.data"  class="select-all-cb" delete-service-for-checkbox></tri-state-checkbox>
+		                <tri-state-checkbox checkboxes="SortAndFilterService.display.data"  class="select-all-cb" delete-service-for-checkbox></tri-state-checkbox>
 		            </div>
 		        </th>
+		        <th class="favorites"></th>
 				<th><sorting-options label="title" display="Name" msid="name-field"></sorting-options></th>
-				<th><ms-dropdown selected-sort-index="0" is-active=true msid="column_1"></ms-dropdown></th>
-				<th><ms-dropdown selected-sort-index="1" msid="column_2"></ms-dropdown></th>
-<!-- 				<th><ms-dropdown selected-sort-index="2" msid="column_3"></ms-dropdown></th> -->
+				<th><ms-dropdown selected-sort-index="0" reverse=true is-active=true msid="column_1"></ms-dropdown></th>
+				<th><ms-dropdown selected-sort-index="1" reverse=false msid="column_2"></ms-dropdown></th>
 				<th>&nbsp;</th>
 			</thead>
 			<tbody>
-    				SortAndFilterService.searchText is {{SortAndFilterService.searchText}} <br/>
+
+<!--     				SortAndFilterService.searchText is {{SortAndFilterService.searchText}} <br/>
  				SortAndFilterService.getSearchText() is {{SortAndFilterService.getSearchText()}} <br />
 				SortAndFilterService.getReverse() is {{SortAndFilterService.getReverse()}} <br/>
 				SortAndFilterService.getOrderBy() is {{SortAndFilterService.getOrderBy()}} <br/>
@@ -46,26 +48,30 @@
 				SortAndFilterService.getFilterBy is {{SortAndFilterService.getFilterBy()}} <br/>
 				SortAndFilterService 1 is {{SortAndFilterService.getSorter("column_1")}} <br/>
 				SortAndFilterService 2 is {{SortAndFilterService.getSorter("column_2")}}
+				SortAndFilterService 2 is {{SortAndFilterService.getSorter("column_2")}} -->
+
 <!-- 				ActiveSelection.getActiveItem() is {{ActiveSelection.getActiveItem()}}<br/>
 				ActiveSelection.activeItem() is {{ActiveSelection.activeItem()}}<br/> -->
 <!-- 				FileDeleteService.getFilesToDelete() is {{FileDeleteService.getFilesToDelete()}}</br/> -->
 
 			<!-- 	<tr ng-repeat="item in display.data | orderBy: SortAndFilterService.getOrderBy() : SortAndFilterService.getReverse() | filter : SortAndFilterService.getActiveFilters() | filter: SortAndFilterService.getSearchText() | filter: SortAndFilterService.getFilterBy()" ng-class="{active: ActiveSelection.isActiveItem(item)}"> -->
 
-				<tr ng-repeat="item in display.data" ng-class="{active: ActiveSelection.isActiveItem(item)}">
-
+				<tr ng-repeat="item in SortAndFilterService.display.data" ng-class="{active: ActiveSelection.isActiveItem(item)}">
 
 					<td style="width:1%">
 						<div class="checkbox pull-left multi-select">
 		                    <input type="checkbox" ng-model="item.isSelected" />
 		                </div>
 		            </td>
+		            <td class="favorites"><a class="not"></a>&nbsp;</td>
 					<td ng-click="ActiveSelection.setActiveItem(item);InfoTrayService.toggleInfoTray()">
 						<div class="text-holder">
 	                    	<span ng-switch='item.defaults'>
 		                        <span ng-switch-when='false'>{{item.title}}</span>
-		                        <span ng-switch-default><span class="default"><span class="symbol icon-masterset"></span>{{item.title}}</span></span>
+		                        <span ng-switch-when='master' class="default master"><span class="symbol icon-masterset"></span>{{item.title}}</span>
+		                        <span ng-switch-default class="default"><span class="symbol icon-masterset"></span>{{item.title}}</span>
 	                    	</span>
+	                    	<span ng-show="item.access === 'view only'">(view only)</span>
 	                	</div>
 					</td>
 					<td ng-click="ActiveSelection.setActiveItem(item);InfoTrayService.toggleInfoTray()"><sortable-columns item=item display-by="SortAndFilterService.getSorter('column_1')"></sortable-columns></td>
