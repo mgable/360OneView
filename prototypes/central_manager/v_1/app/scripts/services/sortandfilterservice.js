@@ -111,7 +111,6 @@ angular.module('centralManagerApp')
         }
 
         this.init = function(config) {
-            console.info("init")
             this.data = config.data;
             this.display = angular.copy(this.data);
             this.setFilter("orderBy", config.orderBy, false);
@@ -128,8 +127,21 @@ angular.module('centralManagerApp')
             temp = filterFilter(temp, filterBy);
             temp = filterFilter(temp, searchText);
             temp = $filter('orderBy')(temp, this.getOrderBy(), this.getReverse());
+            temp = $filter('isFavorite')(temp);
 
             this.display.data = temp;
             $rootScope.$broadcast('SortAndFilterService:filter');
+        }
+
+        this.filterPipline = function(data) {
+            var favorite = function(data) {
+                return $filter('isFavorite')(data);
+            }
+
+            filters = [favorite]
+
+            _.each(filters, function(e, i, a) {
+
+            })
         }
     });

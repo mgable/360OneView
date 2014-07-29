@@ -2,6 +2,21 @@
 'use strict';
 
 angular.module('centralManagerApp')
+    .filter('isFavorite', function(FavoritesService) {
+        var results = []
+        return function(input) {
+            if (FavoritesService.getFavorites().length > 0) {
+                _.each(input, function(e, i, a) {
+                    if (FavoritesService.isFavorite(e.id)) {
+                        results.push(e);
+                    }
+                })
+            } else {
+                return input;
+            }
+            return results;
+        }
+    })
     .filter('camelCase', function() {
         return function(input) {
             if (typeof input == "string") {
@@ -80,7 +95,7 @@ angular.module('centralManagerApp')
             }
 
             var
-            offset = Math.abs((local - time) / 1000),
+                offset = Math.abs((local - time) / 1000),
                 span = [],
                 MINUTE = 60,
                 HOUR = 3600,

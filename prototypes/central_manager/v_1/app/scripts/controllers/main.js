@@ -36,7 +36,7 @@ angular.module('centralManagerApp')
         };
     }).controller("ScenarioEditCtrl", function($scope) {
         $scope.foo = "bar";
-    }).controller("ProjectManagerCtrl", function($scope, ProjectsModel, SortAndFilterService, PROJECTS, ActiveSelection, InfoTrayService) {
+    }).controller("ProjectManagerCtrl", function($scope, FavoritesService, ProjectsModel, SortAndFilterService, PROJECTS, ActiveSelection, InfoTrayService) {
 
         $scope.masterClass = "projects";
 
@@ -52,6 +52,7 @@ angular.module('centralManagerApp')
         $scope.SortAndFilterService = SortAndFilterService;
         $scope.ActiveSelection = ActiveSelection;
         $scope.InfoTrayService = InfoTrayService;
+    $scope.FavoritesService = FavoritesService;
     }).controller('InfoTrayCtrl', function($scope, ActiveSelection) {
         $scope.selectedItem = ActiveSelection.getActiveItem();
         $scope.seeAll = false;

@@ -31,14 +31,11 @@ var express = require('express'),
         meta: {},
         data: {
             count: 10,
-<<<<<<< HEAD
-=======
             inital: [{
                 title: "Master Project",
                 defaults: "master",
                 access: "view only",
             }],
->>>>>>> new_filtering
             obj: {
                 index: 'indexer',
                 id: 'generateUUID()',
@@ -48,12 +45,9 @@ var express = require('express'),
                 lastModified: 'lastModified(180)',
                 lastModified_display: 'timeAgo(obj.lastModified)',
                 access: "'Everyone can edit'",
-<<<<<<< HEAD
-                base: "''"
-=======
+
                 base: "''",
                 defaults: false
->>>>>>> new_filtering
             }
         }
     });

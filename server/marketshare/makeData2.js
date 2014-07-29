@@ -63,9 +63,6 @@ data.createData = function() {
                 for (i = 0, limit = obj.data.count; i < limit; i++) {
                     result.data.push(create(obj.data.obj));
                 }
-<<<<<<< HEAD
-=======
-
                 if (obj.data.inital) {
                     for (var i = 0, limit = obj.data.inital.length; i < limit; i++) {
                         var currentObj = result.data[i],
@@ -81,22 +78,16 @@ data.createData = function() {
 
                     }
                 }
->>>>>>> new_filtering
+
                 return result;
             } else {
                 return false;
             }
-<<<<<<< HEAD
-        },
-        trueThenFalse = function(index) {
-            return (index <= 6) ? true : false;
-=======
-
 
         },
         trueThenFalse = function(index) {
             return (index <= 4) ? true : false;
->>>>>>> new_filtering
+
         },
 
         timeAgo = function(time, local, raw) {

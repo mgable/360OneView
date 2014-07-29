@@ -55,7 +55,7 @@
 <!-- 				FileDeleteService.getFilesToDelete() is {{FileDeleteService.getFilesToDelete()}}</br/> -->
 
 			<!-- 	<tr ng-repeat="item in display.data | orderBy: SortAndFilterService.getOrderBy() : SortAndFilterService.getReverse() | filter : SortAndFilterService.getActiveFilters() | filter: SortAndFilterService.getSearchText() | filter: SortAndFilterService.getFilterBy()" ng-class="{active: ActiveSelection.isActiveItem(item)}"> -->
-
+<!-- FavoritesService is {{FavoritesService.getFavorites()}} -->
 				<tr ng-repeat="item in SortAndFilterService.display.data" ng-class="{active: ActiveSelection.isActiveItem(item)}">
 
 					<td style="width:1%">
@@ -63,7 +63,7 @@
 		                    <input type="checkbox" ng-model="item.isSelected" />
 		                </div>
 		            </td>
-		            <td class="favorites"><a class="not"></a>&nbsp;</td>
+		            <td class="favorites"><a ng-class="{favorite:FavoritesService.isFavorite(item.id)}" ng-click="FavoritesService.toggleFavorite(item.id)"></a>&nbsp;</td>
 					<td ng-click="ActiveSelection.setActiveItem(item);InfoTrayService.toggleInfoTray()">
 						<div class="text-holder">
 	                    	<span ng-switch='item.defaults'>
