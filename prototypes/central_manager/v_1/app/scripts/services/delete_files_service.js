@@ -3,9 +3,17 @@
 'use strict';
 
 angular.module('centralManagerApp')
-    .service('FileDeleteService', function Service(FilesModel, $rootScope) {
+    .service('FileDeleteService', function($rootScope) {
         var filesToDelete = [],
-            reset = false;
+            reset = false,
+            service;
+
+        console.info('FileDeleteService')
+
+        $rootScope.$on('ViewService:modelChange', function(event, data) {
+            console.info("FileDeleteService " + data);
+            service = data;
+        });
 
         this.setFilesToDelete = function(files) {
             filesToDelete = files;
@@ -22,7 +30,7 @@ angular.module('centralManagerApp')
         };
 
         this.deleteFiles = function(files) {
-            FilesModel.$delete(files);
+            service.$delete(files);
         };
 
         this.getFileCount = function() {

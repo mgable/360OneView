@@ -39,20 +39,19 @@ var express = require('express'),
             obj: {
                 index: 'indexer',
                 id: 'generateUUID()',
-                title: 'titles[indexer++ % titles.length]',
+                title: 'titles[indexer % titles.length]',
                 owner: 'pick(modifiedBy)',
                 modifiedBy: 'pick(modifiedBy)',
                 lastModified: 'lastModified(180)',
                 lastModified_display: 'timeAgo(obj.lastModified)',
-                access: "'Everyone can edit'",
-
-                base: "''",
+                access: 'makeAccess()',
+                description: 'descriptions[indexer++ % descriptions.length]',
+                base: "'Current Plan'",
+                scenarios: "makeScenarios(10)",
                 defaults: false
             }
         }
     });
-
-
 
 app.configure(function() {
     app.use(express.json());
@@ -176,21 +175,39 @@ function init() {
         });
     });
 
-    // clone record
-    app.post("/api/items/:id", function(req, res) {
+    // copy project
+    app.post("/api/projects/:id", function(req, res) {
         console.info("Cloning " + req.params.id);
-        var tempRecord = _.clone(getRecordById(req.params.id, currentData.data));
+        var tempRecord = _.clone(getRecordById(req.params.id, currentProjectData.data));
+        console.info('tempRecord ' + tempRecord)
         tempRecord.id = generateUUID();
-        tempRecord.index = currentData.data.length + 1;
+        tempRecord.index = currentProjectData.data.length + 1;
         tempRecord.title += " CLONED";
         tempRecord.createdDate = new Date();
-        tempRecord.modifiedBy = "nobody";
-        tempRecord.lastModified = "";
-        tempRecord.lastModified_display = currentData.timeAgo(tempRecord.lastModified);
         tempRecord.owner = "Fred Flintstone";
-        currentData.data.push(tempRecord)
+        tempRecord.modifiedBy = tempRecord.owner;
+        tempRecord.lastModified = tempRecord.createdDate;
+        tempRecord.lastModified_display = dataFn.timeAgo(tempRecord.lastModified);
+        tempRecord.defaults = false;
+        currentProjectData.data.push(tempRecord)
         sendResponse(res, tempRecord);
     });
+
+    // clone record
+    // app.post("/api/items/:id", function(req, res) {
+    //     console.info("Cloning " + req.params.id);
+    //     var tempRecord = _.clone(getRecordById(req.params.id, currentData.data));
+    //     tempRecord.id = generateUUID();
+    //     tempRecord.index = currentData.data.length + 1;
+    //     tempRecord.title += " CLONED";
+    //     tempRecord.createdDate = new Date();
+    //     tempRecord.modifiedBy = "nobody";
+    //     tempRecord.lastModified = "";
+    //     tempRecord.lastModified_display = dataFn.timeAgo(tempRecord.lastModified);
+    //     tempRecord.owner = "Fred Flintstone";
+    //     currentData.data.push(tempRecord)
+    //     sendResponse(res, tempRecord);
+    // });
 
     // create record
     app.post("/api/items", function(req, res) {
@@ -224,26 +241,54 @@ function init() {
     // update single record
     app.put("/api/items/:id", cors(), function(req, res) {
 
-        var index = getIndexById(req.params.id, currentData.data),
+        // var index = getIndexById(req.params.id, currentData.data),
+        //     status = (index !== false) ? "success" : "fail";
+
+        // currentData.data[index] = req.body;
+
+        // sendResponse(res, {
+        //     status: status,
+        //     data: currentData.data[index]
+        // });
+        update(currentData.data, req, res);
+    });
+
+    // update single record
+    app.put("/api/projects/:id", cors(), function(req, res) {
+        update(currentProjectData.data, req, res)
+    });
+
+    function update(data, req, res) {
+        var index = getIndexById(req.params.id, data),
             status = (index !== false) ? "success" : "fail";
 
-        currentData.data[index] = req.body;
+        data[index] = req.body;
 
         sendResponse(res, {
             status: status,
-            data: currentData.data[index]
+            data: data[index]
         });
-    });
+    }
 
     //delete record(s)
     app.delete("/api/items", function(req, res) {
+        remove(currentData.data, req, res);
+    });
+
+    //delete record(s)
+    app.delete("/api/projects", function(req, res) {
+        remove(currentProjectData.data, req, res);
+    });
+
+    function remove(data, req, res) {
         console.info("delete");
         console.info(req.query.ids);
         var indexes = [],
-            itemsToDelete = _.isArray(req.query.ids) ? req.query.ids : [req.query.ids];
+            itemsToDelete = _.isArray(req.query.ids) ? req.query.ids : [req.query.ids],
+            status;
 
         for (var x = 0, limit = itemsToDelete.length; x < limit; x++) {
-            _.each(currentData.data, function(e, i, l) {
+            _.each(data, function(e, i, l) {
                 if (e.id === itemsToDelete[x]) {
                     indexes.push(i);
                     return;
@@ -253,17 +298,20 @@ function init() {
 
         indexes.sort().reverse();
 
+        status = indexes.length ? "success" : "nothing to delete";
+
+
         for (var x = 0, limit = indexes.length; x < limit; x++) {
-            currentData.data.splice(indexes[x], 1);
+            data.splice(indexes[x], 1);
         }
 
         sendResponse(res, {
-            totalItemsReturned: currentData.data.length,
-            status: "success",
+            totalItemsReturned: data.length,
+            status: status,
             counts: fileTypeCounts(),
-            data: currentData.data
+            data: data
         });
-    });
+    }
 
     function generateUUID() {
         var d = new Date().getTime();

@@ -58,7 +58,7 @@
 		margin: -$cap_height 0 0 $app_left;
 		padding: $cap_height 0 0 0;
 		width: auto;
-		overflow-y: scroll;
+		overflow-y: auto;
 		overflow-x: hidden;
 		height:100%;
 	}
@@ -87,6 +87,9 @@
 			/* over write bootstrap */
 			font-size:14px;
 			font-weight: bold;
+			> i {
+				padding: 0 5px 0 0;
+			}
 		}
 	    .menu > .header {
 	    	padding: 0 10px;
@@ -114,59 +117,65 @@
 			max-width:400px;
 			font-weight:bold;
 			text-transform: capitalize;
+			margin-top: 15px;
 		}
     	.trash {
-    		margin:0 30px 0 0;
+    		margin:11px 30px 0 0;
     		font-size:14px;
     		color:$enabled;
     		cursor: pointer;
+    		display:inline-block;
     	}
 		span {
 			i {
 				font-size:24px;
 			}
 		}
-		.actions {
-			height:50px;
-			border-left: 1px solid  $divider;
-			display:inline-block;
-			> span {
-				padding: 12px;
-				font-size: 17px;
-				color:$gray;
+		.button-holder {
+			float:right;
+			height: 50px;
+			width: auto;
+			.actions {
+				border-left: 1px solid  $divider;
 				display:inline-block;
-				border-right: 1px solid  $divider;
-				height:100%;
-				cursor: pointer;
-				&:hover {
-					color:$mouseover;
-				}
-			}
-			.search-holder {
-				border: 1px solid $gray;
-				display: inline-block;
-				padding: 2px 5px;
-				.search-input {
-					border: 0 none;
-					font-size: 14px;
-					width: 250px;
-				}
-				.close-button i {
-					font-size: 18px;
-				}
-			}
-			.toggle-info-tray {
-				cursor: default;
-				color:$lightgray;
-				&:hover {
-					cursor:default;
-					color: $lightgray;
-				}
-				&.enabled {
+				> span {
+					padding: 12px;
+					font-size: 17px;
 					color:$gray;
+					display:inline-block;
+					border-right: 1px solid  $divider;
+					height:100%;
+					cursor: pointer;
 					&:hover {
-						cursor: pointer;
 						color:$mouseover;
+					}
+				}
+				.search-holder {
+					border: 1px solid $gray;
+					display: inline-block;
+					padding: 2px 5px;
+					.search-input {
+						border: 0 none;
+						font-size: 14px;
+						width: 250px;
+					}
+					.close-button i {
+						font-size: 18px;
+					}
+				}
+				.toggle-info-tray {
+					cursor: default;
+					color:$lightgray;
+					&:hover {
+						cursor:default;
+						color: $lightgray;
+					}
+					&.enabled {
+						color:$gray;
+						&:hover {
+							cursor: pointer;
+							color:$mouseover;
+						}
 					}
 				}
 			}
@@ -182,6 +191,12 @@
 						weight:bold;
 						size:16px;
 					}
+				}
+				.title {
+					font-weight: bold;
+				}
+				.view-only {
+					color: $gray;
 				}
 				&.favorites {
 					padding:8px 0;
@@ -230,15 +245,43 @@
 }
 
 .info-tray {
+	a {
+ 		cursor: pointer;
+ 	}
   .details {
     .sub-header {
     	margin:0 0 10px;
     	font-weight: bold;
+    	color: $gray;
+    }
+    .title-holder {
+    	border-bottom: 1px solid $gray;
+	    .title {
+	    	overflow: hidden;
+	    	text-overflow: ellipsis;
+	    	white-space: nowrap;
+	    	float: left;
+	    	width: 240px;
+	    	padding: 0 0 3px;
+	    }
+	}
+    .pencil {
+    	float:right;
+    	font-size: 18px;
+    	margin: 0 15px 0 0;
+    }
+    input {
+    	width: 225px;
+    }
+    .contextual-menu {
+    	margin:10px 0;
+    	.details, .divider {
+    		display:none;
+    	}
     }
     p {
       margin:0 0 5px;
       a {
-      	cursor: pointer;
       	color:$enabled;
       	text-decoration: none;
       	&:hover {
@@ -259,9 +302,6 @@
   h4, h5, h6 {
     margin-top:0;
     clear:both;
- 	a {
- 		cursor: pointer;
- 	}
   }
   p {
     margin:0;
@@ -270,11 +310,12 @@
   width: 280px;
   .entity-holder {
   	clear: both;
-    height: 191px;
+    max-height: 100px;
     padding: 0 10px;
     overflow:hidden;
     &.see-all {
       height: auto;
+      max-height: none;
     }
   }
   .see-all-toggle {
@@ -282,8 +323,8 @@
     float:right;
     cursor: pointer;
   }
-  .entity {
-    margin:0 0 5px;
+  .scenario {
+    margin:0 0 8px;
     .in-project {
     	margin: 0 0 10px 30px;
     	font-style: italic;
@@ -304,6 +345,21 @@
     padding:8px 5px;
     margin-bottom:10px;
     background-color: white;
+    &.description-holder {
+    	.field-label {
+    		font-weight: bold; 
+    		float:left;
+    	}
+    	.edit {
+    		float:right;
+    	}
+    	.description {
+    		clear:both;
+    		width:100%;
+    		display:block;
+    		border: 0 none;
+    	}
+    }
     .used-in {
     	float:left;
     	font: {
@@ -437,6 +493,11 @@
 			content:'MF';
 		}
 	}
+}
+
+.fa-marketshare {
+	background-color:goldenrod;
+	background-image: url(../images/ms-confirm_gray.png);
 }
 
 /* over writes */

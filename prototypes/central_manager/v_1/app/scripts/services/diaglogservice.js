@@ -9,12 +9,16 @@ angular.module('centralManagerApp')
             dialogs.create('/views/modal/delete.html', 'DeleteCtrl', InfoTrayService.closeInfoTray);
         }
 
-        this.copy = function(item) {
-            var dlg = dialogs.confirm("Copy Entity", "Do you want to copy " + item.title + "?");
+        this.copy = function(item, config, service) {
+            var header = config.header || "Copy",
+                text = config.text || "Do you want to copy ",
+                dlg = dialogs.confirm(header, text + item.title + "?");
+
             dlg.result.then(
                 function(btn) {
                     console.info(btn);
-                    FilesModel.$clone(item.id);
+                    //FilesModel.$clone(item.id);
+                    service.$clone(item.id);
                 },
                 function(btn) {
                     console.info(btn)
@@ -22,15 +26,28 @@ angular.module('centralManagerApp')
             )
         }
 
-        this.rename = function(item) {
-            dialogs.create('/views/modal/rename.html', 'RenameCtrl', item, {
+        this.rename = function(item, service) {
+            dialogs.create('/views/modal/rename.html', 'RenameCtrl', {
+                item: item,
+                service: service
+            }, {
                 size: 'sm'
             });
         }
 
-        this.create = function() {
-            console.info("create")
-            dialogs.create('/views/modal/create.html', 'CreateCtrl', {}, {
+        this.create = function(type) {
+            console.info("create");
+            var createTypes = {
+                'element': {
+                    controller: 'CreateCtrl',
+                    template: '/views/modal/createScenarioElement.html'
+                },
+                'project': {
+                    controller: 'ProjectCreateCtrl',
+                    template: '/views/modal/createProject.html'
+                }
+            };
+            dialogs.create(createTypes[type].template, createTypes[type].controller, {}, {
                 size: 'sm'
             });
         }

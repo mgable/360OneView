@@ -26,7 +26,7 @@
     <div class="cap"><ng-include src="'/views/includes/navigation.tpl.html'"></ng-include></div>
     
 
-    <div class="app">
+    <div class="app" ng-controller="MainCtrl">
         <div ng-view=""></div>
     </div> <!-- end app -->
 
@@ -70,6 +70,7 @@
         <script src="scripts/services/diaglogservice.js"></script>
         <script src="scripts/services/projects_model.js"></script>
         <script src="scripts/services/favoritesservice.js"></script>
+        <script src="scripts/services/viewservice.js"></script>
         <!-- endbuild -->
 </body>
 </html>

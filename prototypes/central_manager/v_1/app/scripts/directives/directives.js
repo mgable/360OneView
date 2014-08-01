@@ -11,7 +11,8 @@ angular.module('centralManagerApp')
                 selectedSortIndex: "@",
                 isActive: "@",
                 id: "@msid",
-                reverse: "@"
+                reverse: "@",
+                remove: "@"
             },
             controller: function($scope, $element, $attrs) {
                 $scope.reverse = $scope.reverse.bool();
@@ -66,6 +67,15 @@ angular.module('centralManagerApp')
                             evt.preventDefault();
                             evt.stopPropagation();
                         }
+                    },
+                    prune = function(arr, attr, which) {
+                        _.each(arr, function(oe, oi, oa) {
+                            _.each(which, function(ie, ii, ia) {
+                                if (oe[attr] == ie) {
+                                    arr.splice(oi, 1);
+                                }
+                            })
+                        })
                     }
 
                 $scope.dontPassEvent = dontPassEvent;
@@ -85,7 +95,10 @@ angular.module('centralManagerApp')
                 });
 
                 $scope.DropdownService = DropdownService;
+
                 $scope.items = DROPDOWNITEMS;
+
+                prune($scope.items, 'label', $scope.$eval($scope.remove));
 
                 $scope.selectedItem = DROPDOWNITEMS[$scope.selectedSortIndex];
                 $scope.selectedFilter = null;
@@ -405,7 +418,7 @@ angular.module('centralManagerApp')
 
                 $scope.toggleSearchField = function() {
                     if ($scope.searchVisible) {
-                        $scope.SortAndFilterService.searchText = "";
+                        $scope.SortAndFilterService.clearSearchText();
                     } else {
                         $timeout(function() {
                             inputField[0].focus();
@@ -415,22 +428,22 @@ angular.module('centralManagerApp')
                 }
             }
         }
-    }).directive('inlineRename', function(FilesModel) {
+    }).directive('inlineRename', function(ViewService) {
         return {
-            template: '<h4 ng-hide="isActive">{{item.title}}&nbsp;<a ng-click="action()"><i class="fa fa-pencil"></i></a></h4>' +
-                '<h4 ng-show="isActive"><input ng-model="item.title" type="text"></input>&nbsp;<a ng-click="submit()"><i class="fa fa-check"></i></a>&nbsp;<a ng-click="cancel()"><i class="fa fa-times"></i></a></h4>',
+            template: '<h4 class="title" ng-hide="isActive">{{item.title}}&nbsp;</h4><a ng-click="action()"><icon ng-hide="isActive" type="pencil" class="pencil clearfix"></icon></a>' +
+                '<h4 ng-show="isActive"><input ng-model="item.title" type="text"></input>&nbsp;<a ng-click="submit()"><icon type="check"></icon></a>&nbsp;<a ng-click="cancel()"><icon type="times"></icon></a></h4>',
             restrict: 'E',
             scope: {
                 item: "=",
-                // action: "&"
             },
-            controller: function($scope, $element, $attrs) {
-                var temp;
+            link: function($scope, $element, $attrs) {
+                var tempTitle,
+                    service = ViewService.getModel();
 
                 $scope.isActive = false;
                 $scope.action = function() {
                     if (!$scope.isActive) {
-                        temp = $scope.item.title;
+                        tempTitle = $scope.item.title;
                         $scope.isActive = true;
                     } else {
                         $scope.isActive = false;
@@ -438,14 +451,137 @@ angular.module('centralManagerApp')
                 }
 
                 $scope.submit = function() {
-                    FilesModel.$set($scope.item);
+                    service.$set($scope.item);
                     $scope.isActive = false;
                 }
 
                 $scope.cancel = function() {
-                    $scope.item.title = temp;
+                    $scope.item.title = tempTitle;
                     $scope.isActive = false;
                 }
             }
         };
-    });
+    }).directive("icon", function() {
+        return {
+            restrict: "E",
+            scope: {
+                icon: "@type",
+                cname: "@"
+            },
+            replace: true,
+            template: '<i class="fa fa-{{icon}} {{cname}}"></i>'
+        }
+    }).directive("displayActions", function(DiaglogService) {
+        return {
+            restrict: "AE",
+            templateUrl: "views/directives/displayActions.tpl.html",
+            link: function(scope, element, attrs) {
+                scope.view = {};
+                scope.view.create = false;
+                scope.view.filter = false;
+                scope.view.search = false
+                scope.view.tray = false;
+
+                var show = scope.$eval(attrs.show);
+
+                function toggleActions(which) {
+                    _.each(show, function(e, i, a) {
+                        scope.view[e] = true;
+                    })
+                }
+
+                toggleActions(show);
+
+                scope.trash = function() {
+                    DiaglogService.trash();
+                }
+
+                scope.create = function() {
+                    DiaglogService.create('project');
+                }
+            }
+
+        }
+    }).directive("contextualMenu", function($rootScope, ActiveSelection, DiaglogService, FavoritesService, ViewService, InfoTrayService) {
+        return {
+            restrict: "AE",
+            templateUrl: "views/directives/contextual_menu.tpl.html",
+            scope: {
+                xxx: "=item",
+                cname: "@",
+                listen: "@"
+            },
+            replace: true,
+            link: function(scope, element, attrs) {
+                var actions = ['copy', 'favorites', 'sharing', 'rename', 'delete', 'add', 'details'];
+                scope.DiaglogService = DiaglogService;
+                scope.FavoritesService = FavoritesService;
+                scope.InfoTrayService = InfoTrayService;
+                scope.ActiveSelection = ActiveSelection;
+                scope.service = ViewService.getModel();;
+
+                console.info("contextualMenu")
+
+                $rootScope.$on('ViewService:modelChange', function(event, data) {
+                    console.info("service " + data)
+                    scope.service = data;
+                });
+
+                scope.alert = function(msg) {
+                    alert(msg);
+                }
+
+                function setView(item) {
+                    if (item) {
+                        if (item.defaults === "master") {
+                            setValues(actions, "1000001")
+                        } else if (item.access === 'view only') {
+                            setValues(actions, "1100001")
+                        } else {
+                            setValues(actions, "1111111")
+                        }
+                    }
+                }
+
+                function setValues(actions, values) {
+                    _.each(actions, function(e, i, a) {
+                        scope[e] = {};
+                        scope[e].show = !!parseInt(values[i]);
+                    });
+                }
+
+                if (scope.xxx) {
+                    scope.item = scope.xxx;
+                } else {
+                    scope.item = ActiveSelection.getActiveItem();
+                }
+
+                setView(scope.item);
+
+                if (scope.listen) {
+                    scope.$on('ActiveSelection:activeItemChange', function() {
+                        scope.item = ActiveSelection.getActiveItem();
+                        setView(scope.item);
+                    });
+                }
+            }
+        }
+    }).directive('elastic', [
+        '$timeout', 'ActiveSelection',
+        function($timeout, ActiveSelection) {
+            return {
+                restrict: 'A',
+                link: function(scope, element) {
+                    var resize = function() {
+                        return element[0].style.height = "" + element[0].scrollHeight + "px";
+                    };
+                    element.on("blur keyup change", resize);
+                    $timeout(resize, 0);
+
+                    scope.$on('ActiveSelection:activeItemChange', function() {
+                        $timeout(resize, 0);
+                    })
+                }
+            };
+        }
+    ]);

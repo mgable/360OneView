@@ -1,125 +1,17 @@
+<!DOCTYPE>
 <html>
 <head>
-	<script src="./bower_components/angular/angular.js"></script>
-	<script src="./bower_components/angular-animate/angular-animate.js"></script>
-	<title></title>
+	<title>Task One</title>
 	<style>
-		body {
-			padding:0;
-			margin:0;
-		}
-		.left { 
-			width:200px;
-			background-color:red;
-			position:absolute;
-			top:0;
-			bottom:100%;
-			height:100%;
-		}
-		.center {
-			margin:0 0 0 200px;
-			background-color:yellow;
-			height:100%;
-		}
-		.right {
-			width:300px;
-			background-color:cyan;
-			height: 100%;
-			opacity: 1.0;
-			float:right;
-		}
-
-		.holder {
-			max-width:1300px;
-			margin:auto;
-		}
-
-		.slide-in.ng-hide-add,
-		.slide-in.ng-hide-remove {
-		-webkit-transition:0.5s linear all;
-		  transition:0.5s linear all;
-		  display: block !important;
-		}
-
-		.slide-in.ng-hide-add {
-		 /* opacity: 1.0;*/
-		 width:300px;
-		}
-
-		.slide-in.ng-hide-add.ng-hide-add-active {
-			/*opacity: 0.0;*/
-			width:0px;
-		}
-
-		.slide-in.ng-hide-remove {
-			/*opacity: 0.0;*/
-			width:0px;
-		}
-
-		.slide-in.ng-hide-remove.ng-hide-remove-active {
-			/*opacity: 1.0;*/
-			width:300px;
-		}
-
-
+		body {position: relative;}
+		.left {background-color: blue; width: 200px; float: left;position:absolute;top:0;bottom:0;}
+		.center {background-color: red;height:100%;}
+		.right {background-color: yellow; width: 200px; float: right;height:100%;}
 	</style>
 </head>
-	<body ng-app="myapp" ng-controller="MainCtrl">
-		<div class="holder">
-			<div class=" left column">left</div>
-			<div class="slide-in right" ng-show="showRight">right</div>
-			<div class="center">center<button ng-click="toggleRight()">showRight</button>
-				
-				<table class="table table-hover">
-		<thead>
-			<tr><th>
-				<div class="checkbox">
-	                <input type="checkbox" ng-model="master" ng-change="masterChange()" checkboxes="data.data" class="select-all-cb ng-isolate-scope ng-pristine ng-valid" delete-service-for-checkbox="">
-	            </div>
-	        </th>
-			<th><a>Name</a>&nbsp;</th>
-			<th><a>Last Modified</a>&nbsp;</th>
-			<th class="selected"><a>Modified By</a>&nbsp;</th>
-			<th><a>Type</a>&nbsp;</th>
-		</tr></thead>
-		<tbody>
-			<tr >
-				<td style="width:1%">
-					<div class="checkbox pull-left multi-select">
-	                    <input type="checkbox" ng-model="item.isSelected" class="ng-pristine ng-valid">
-	                </div>
-	            </td>
-				<td ><span class="symbol icon-costassumptions"></span>Fred's Stuff_0_0</td>
-				<td >22 weeks ago</td>
-				<td >Carl Sagan</td>
-				<td >Cost Assumptions</td>
-			</tr><tr >
-				<td>
-					<div class="checkbox pull-left multi-select">
-	                    <input type="checkbox" ng-model="item.isSelected" class="ng-pristine ng-valid">
-	                </div>
-	            </td>
-				<td ><span class="symbol icon-brandawardness"></span>2015 Q3 Marketing Plan_0_1</td>
-				<td >17 weeks ago</td>
-				<td >Fred Flintstone</td>
-				<td >Brand Awardness</td>
-			</tr>
-		</tbody>
-	</table>
-
-			</div>
-		</div>
-		
-
-		<script>
-			angular.module('myapp',['ngAnimate']).controller('MainCtrl', function($scope){
-				$scope.showRight = false;
-
-				$scope.toggleRight = function(){
-					$scope.showRight = !$scope.showRight;
-				}
-			});
-
-		</script>
-	</body>
+<body>
+	<div class='left'>left</div>
+	<div class='right'>right</div>
+	<div class='center'>center</div>
+</body>
 </html>

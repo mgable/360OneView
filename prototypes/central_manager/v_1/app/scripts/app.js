@@ -23,7 +23,7 @@ angular
                 controller: 'ScenarioEditCtrl'
             })
             .when('/projects', {
-                templateUrl: 'views/projects.tpl.html',
+                templateUrl: 'views/project_manager.tpl.html',
                 controller: 'ProjectManagerCtrl'
             })
             .otherwise({
@@ -38,16 +38,29 @@ angular
     .run(function(FilesModel, ProjectsModel) {
         FilesModel.$find();
         ProjectsModel.$find();
-    }).constant('PROJECTS', {
-        firstSelected: 'All Projects',
+    }).constant('PROJECTMANAGER', {
+        firstSelected: 0,
+        icon: 'suitcase',
         title: 'Projects',
         items: [{
-            label: 'All Projects',
+            label: 'All',
+            filterType: 'activeFilter',
             filter: {}
         }, {
-            label: 'Favorite Projects',
+            label: 'Favorites',
+            filterType: 'filterPipeline',
+            filter: 'favorites'
+        }, {
+            label: 'Created by me',
+            filterType: 'activeFilter',
             filter: {
-                'favorites': true
+                owner: 'Barney Rubble'
+            }
+        }, {
+            label: 'I can edit',
+            filterType: 'activeFilter',
+            filter: {
+                access: 'Everyone can edit'
             }
         }]
     }).constant('CENTRALMANAGER', {

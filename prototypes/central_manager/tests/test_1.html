@@ -2,26 +2,60 @@
 <html>
 <head>
 	<title>Add title</title>
+			<script src="./bower_components/underscore/underscore.js"></script>
 
+			<script>
+				var a = [{
+			        label: "Last Modified"
+			    }, {
+			        label: "Modified By",
+			        filters: [{
+			            label: 'Modified by me',
+			            filter: "modifiedBy"
+			        }, {
+			            label: 'Modified by:',
+			            filter: "modifiedBy"
+			        }],
+			        template: '/name.html',
+			        enabledOn: 'Modified by:'
+			    }, {
+			        label: "Type"
+			    }, {
+			        label: "Owner",
+			        filters: [{
+			            label: 'Owned by me',
+			            filter: 'owner'
+			        }, {
+			            label: 'Owned by:',
+			            filter: 'owner'
+			        }],
+			        template: '/name.html',
+			        enabledOn: 'Owned by:'
+			    }, {
+			        label: "Defaults",
+			        filters: [{
+			            label: 'Show only defaults',
+			            filter: 'defaults'
+			        }]
+			    }];
+    		</script>
 </head>
 <body>
-
 	<script>
-	function add (a,b){
-  console.info (a,b)
-  return a + b;
-}
+		console.info (a);
+		function prune(attr, which){
+			_.each(a, function(oe,oi,oa){
+				_.each (which, function (ie,ii,ia){
+					if (oe[attr] == ie){
+						a.splice(oi,1);
+						return oi
+					}
+				})
+			})
+		}
 
-
-function doIt (which){
-  switch (which){
-    case 1: return add (1,2);
-     case 2: return add (2,2);
-  }
-}
-
-console.info (doIt(2))
-</script>
-	</body>
-	</html>
-	
+		prune("label",["Type", "Defaults"])
+		console.info (a);
+	</script>
+</body>
+</html>

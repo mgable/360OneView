@@ -37,6 +37,9 @@
         Projects.$$resource.clone(id).then(function(response) {
             Projects.$timeout(function() {
                 Projects.data.data.push(response);
+                Projects.$rootScope.$broadcast("ProjectsModel:dataChange", {
+                    data: Projects.data
+                })
             });
         });
     };
@@ -45,19 +48,20 @@
         Projects.$$resource.remove(ids).then(function(response) {
             Projects.$timeout(function() {
                 Projects.data.data = response.data;
-                Projects.data.counts = response.counts;
+                Projects.$rootScope.$broadcast("ProjectsModel:dataChange", {
+                    data: Projects.data
+                })
             });
         });
     };
 
     Projects.$edit = function(item) {
         var index = Projects.getItemIndex(item);
-        console.info(index);
         Projects.$$resource.set(item).then(function(response) {
             Projects.$timeout(function() {
                 Projects.data.data[index] = response.data;
-                Projects.$rootScope.$broadcast("ProjectsModel:edit", {
-                    data: response.data
+                Projects.$rootScope.$broadcast("ProjectsModel:dataChange", {
+                    data: Projects.data
                 })
             });
         });

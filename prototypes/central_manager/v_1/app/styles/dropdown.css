@@ -95,7 +95,8 @@ li {
   min-width: 50px; }
   .ms-actions-holder .dropdown-trigger {
     display: none;
-    line-height: 6px; }
+    font-size: 26px;
+    line-height: 20px; }
   .ms-actions-holder .ms-actions {
     position: relative; }
     .ms-actions-holder .ms-actions .ms-actions-menu {

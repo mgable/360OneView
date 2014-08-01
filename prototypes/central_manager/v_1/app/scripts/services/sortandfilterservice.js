@@ -65,15 +65,24 @@ angular.module('centralManagerApp')
         this.getSelected = function() {
             return selected;
         }
+        this.getSelectedLabel = function() {
+            return selected.label;
+        }
         this.setSelected = function(value) {
             selected = value;
+        }
+        this.getCount = function() {
+            return this.display.data.length;
+        }
+        this.clearSearchText = function() {
+            this.searchText = searchText = "";
+            this.filter();
         }
 
         this.searchText = searchText;
 
-
         this.setActiveFilter = function(item) {
-            console.info("set filter")
+            this.clearPipeline();
 
             if (item) {
                 self.setSelected(item);
@@ -103,6 +112,10 @@ angular.module('centralManagerApp')
                 case "reset":
                     this.resetFilterBy();
                     break;
+                case "filterPipeline":
+                    this.clearActiveFilters();
+                    this.addToPipline(toWhat);
+                    break;
             }
 
             if (filter) {
@@ -116,6 +129,11 @@ angular.module('centralManagerApp')
             this.setFilter("orderBy", config.orderBy, false);
             this.setFilter("reverse", config.reverse, false);
             this.setFilter("activeFilter", config.filter, true);
+
+            $rootScope.$on("ProjectsModel:dataChange", function(event, data) {
+                self.data = data.data;
+                self.filter();
+            });
         }
 
         this.filter = function() {
@@ -127,21 +145,31 @@ angular.module('centralManagerApp')
             temp = filterFilter(temp, filterBy);
             temp = filterFilter(temp, searchText);
             temp = $filter('orderBy')(temp, this.getOrderBy(), this.getReverse());
-            temp = $filter('isFavorite')(temp);
-
+            temp = this.filterPipline(temp);
             this.display.data = temp;
+
             $rootScope.$broadcast('SortAndFilterService:filter');
         }
 
-        this.filterPipline = function(data) {
-            var favorite = function(data) {
+        var favorites = function(data) {
                 return $filter('isFavorite')(data);
-            }
+            },
+            filters = [];
 
-            filters = [favorite]
+        this.addToPipline = function(which) {
+            self.setSelected(which);
+            filters.push(eval(which.filter));
+        }
 
-            _.each(filters, function(e, i, a) {
+        this.clearPipeline = function() {
+            filters = [];
+        }
 
-            })
+        this.filterPipline = function(data) {
+            return (_.reduce(filters, function(memo, num) {
+                console.info("filter pipeline");
+                return num(memo);
+                //return memo;
+            }, data))
         }
     });

@@ -1,0 +1,79 @@
+<div class="info-tray" ng-controller="InfoTrayCtrl">
+	<div class="details">
+		<p class="sub-header pull-left">DETAILS</p>
+		<button type="button"  class="close" ng-click="InfoTrayService.closeInfoTray()"><span aria-hidden="true">&times;</span></button>
+
+		<p class="clearfix title-holder"><inline-rename item="selectedItem"></inline-rename></p>
+		<p ng-if="selectedItem.type">Type:&nbsp;{{selectedItem.type}}</p>
+
+		<contextual-menu class="contextual-menu" listen=true></contextual-menu>
+	</div>
+
+	<div ng-if="selectedItem.description" class="well profile description-holder">
+		<span class='field-label'>Description</span><span class='edit'><a ng-click="disabled = !disabled"><icon type="pencil"></icon></a></span>
+		<textarea ng-init="disabled=true" ng-disabled="disabled" ng-model=selectedItem.description class="description" elastic></textarea>
+	</div>
+
+	<div class="well profile">
+		<ul class="media-list no-margin">
+		  <li class="media">
+		    <a class="pull-left" href="#">
+		      <img class="media-object" src="images/user_pic_pete_small.png" width="35" height="34">
+		    </a>
+		    <div class="media-body">
+		      <h5 class="media-heading bold">Created by:</h5>
+		      <p class="name">{{selectedItem.owner}}</p>
+		      <p class="date">{{selectedItem.lastModified | date}}</p>
+		    </div>
+		  </li>
+		</ul>
+	</div>
+
+
+	<div class="well profile" ng-show="selectedItem.lastModified">
+		<ul class="media-list no-margin">
+		  <li class="media">
+		    <a class="pull-left" href="#">
+		      <img class="media-object" src="images/user_pic_johnwayne_small.png" width="35" height="34">
+		    </a>
+		    <div class="media-body">
+		      <h5 class="media-heading bold">Last Modified by:</h5>
+		      <p class="name">{{selectedItem.modifiedBy | date}}</p>
+		      <p class="date">{{selectedItem.lastModified | date}}</p>
+		    </div>
+		  </li>
+		</ul>
+	</div>
+
+	<div class="well profile">
+		<h4 class="used-in">Used in <span>{{selectedItem.scenarios.length}}</span> Scenarios</h4>
+		<div class="see-all-toggle" ng-click="seeAll = !seeAll">See <span ng-hide="seeAll">all&nbsp;<i class="fa fa-chevron-down"></i></span><span ng-show="seeAll">less&nbsp;<i class="fa fa-chevron-up"></i></span></div>
+		<div class="entity-holder" ng-class="{'see-all': seeAll}">
+			<div class="scenario" ng-repeat="scenario in selectedItem.scenarios">
+				<span class="symbol icon-costassumptions"></span>
+				{{scenario.title}}
+<!-- 				<div class="in-project">In project: Joe's Project</div> -->
+			</div>
+		</div>
+		<!-- <div class="add-scenario-holder">
+			<button class="btn btn-primary btn-sm add-scenario dropdown-toggle" data-toggle="dropdown">ADD A SCENARIO</button>
+			<ul class="dropdown-menu" role="menu">
+				<li class="entity"><span class="symbol icon-economy"></span> Scenarios title 1<div class="in-project">In project: Joe's Project</div></li>
+				<li class="entity"><span class="symbol icon-economy"></span> Scenarios title 2<div class="in-project">In project: Joe's Project</div></li>
+				<li class="entity"><span class="symbol icon-laborcost"></span> Scenarios title 3<div class="in-project">In project: Joe's Project</div></li>
+				<li class="entity"><span class="symbol icon-pricing"></span> Scenarios title 4<div class="in-project">In project: Joe's Project</div></li>
+			</ul>
+		</div> -->
+	</div>
+	<div class="well profile measures">
+		<h5 class="bold">Base Scenario</h5>
+		<p><icon type="marketshare" class="symbol"></icon>&nbsp;{{selectedItem.base}}</p>
+	</div>
+
+	<div class="well profile measures">
+		<h5 class="bold">Sharing Settings</h5>
+		<p><icon type="users"></icon>&nbsp;{{selectedItem.access}}</p>
+	</div>
+
+	<div class="details"><p><a ng-click="DiaglogService.trash(selectedItem);"><icon type="trash-o"></icon>&nbsp;Delete</a></p></div>
+</div>

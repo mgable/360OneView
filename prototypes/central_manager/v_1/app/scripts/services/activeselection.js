@@ -2,13 +2,9 @@
 
 angular.module('centralManagerApp')
     .service('ActiveSelection', function($rootScope) {
-        // Service logic
-        // ...
 
         var activeItem = "",
             self = this;
-
-        // Public API here
 
         this.isActiveItem = function(item) {
             return activeItem === item
@@ -16,7 +12,6 @@ angular.module('centralManagerApp')
 
         this.setActiveItem = function(item) {
             activeItem = this.isActiveItem(item) ? "" : item;
-            console.info(activeItem)
             $rootScope.$broadcast('ActiveSelection:activeItemChange', {
                 data: activeItem
             });

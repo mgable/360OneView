@@ -6,6 +6,8 @@ data.createData = function() {
 
     var titles = ['Carl\'s Econ Variable Simulation 1', '2015 Q3 Marketing Plan', 'Bad Economic Variables 2015 March', 'Hit Target - Master', 'All assumptions 2015', 'Marketing Playbook', '2014 Q2 Mareting Plan', 'Hit Target - with exceptions', 'Fred\'s Stuff', 'Good Econ 2015'],
         scenarioTitles = ['Carl\'s Econ Variable Simulation 1', 'Al\'s AIB 2Q 2015 ', 'Al\'s Simulate 2Q 2015', 'Ann\'s AIB Q1 2015 TV ONLY v3', 'Ann\'s Allocate 3Q', 'Bob’s Simulate 4Q 2014', 'Brent\'s Simulate 3Q', 'Dan\'s Digital Hit Target', 'Erik\'s Cut Budget 2Q 2015 TV and Radio', 'Francis\' Max Profit for Q4 2014'],
+        descriptions = ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dignissim a nisi non blandit. Nam gravida elit vel leo scelerisque, a semper magna blandit. Phasellus et sapien metus. Maecenas sit amet nisl eros. Nam id vehicula eros. Morbi sapien neque, dictum eget lacus quis, congue posuere velit.', 'Cras auctor tellus ut massa convallis, vitae blandit nisi feugiat. Fusce venenatis purus id tempor semper. Quisque posuere in ipsum vel ullamcorper. Morbi a congue magna. Ut vel eleifend tortor. Suspendisse volutpat diam risus, sed ultrices tellus congue nec.', 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nam adipiscing nulla sit amet nunc vehicula pellentesque', 'Nullam lobortis placerat massa eu fermentum. Proin interdum ipsum eu urna malesuada tincidunt. Morbi velit enim, faucibus quis neque sed, aliquet vestibulum mi.', 'Pellentesque eleifend, turpis rutrum ornare lacinia, sem purus commodo arcu, eget condimentum lorem nisi quis eros. Proin bibendum, purus ut tempus cursus, enim urna sodales lacus, at volutpat erat mauris in massa. Phasellus commodo risus vitae risus volutpat tempus.', 'Nunc sagittis erat non odio sollicitudin varius. Integer sem ante, tincidunt id sapien a, faucibus auctor nisi. Praesent quis mattis enim, sed porttitor neque.', 'Duis vel turpis nisl. Suspendisse semper feugiat quam, ut commodo arcu pulvinar id. Donec quis turpis sed lacus blandit pretium in eu nunc.', 'Nam dapibus metus orci, eu porttitor felis facilisis at.', 'Praesent cursus', 'Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.'],
+
 
         fileTypes = [
             'Cost Assumptions',
@@ -69,9 +71,7 @@ data.createData = function() {
                             replaces = obj.data.inital[i];
 
                         for (prop in replaces) {
-                            console.info("prop is " + prop)
                             if (prop in currentObj) {
-                                console.info(prop + " prop is in obj")
                                 currentObj[prop] = replaces[prop]
                             }
                         }
@@ -89,7 +89,6 @@ data.createData = function() {
             return (index <= 4) ? true : false;
 
         },
-
         timeAgo = function(time, local, raw) {
 
             if (!time) return "never";
@@ -171,17 +170,20 @@ data.createData = function() {
             return !!Math.floor(Math.random() * 2);
         },
 
-
-        makeScenarios = function() {
-            var objs = [];
-            for (var x = 0, limit = scenarioTitles.length; x < limit; x++) {
-                var obj = {},
-                    fileType = pick(fileTypes);
-                obj.title = scenarioTitles[x];
+        makeAccess = function() {
+            return trueFalse() ? "view only" : "Everyone can edit";
+        },
+        makeScenarios = function(limit) {
+            var objs = [],
+                total = Math.floor(Math.random() * limit);
+            for (var x = 0; x < total; x++) {
+                var obj = {};
+                // fileType = pick(fileTypes);
+                obj.title = scenarioTitles[x % scenarioTitles.length];
                 obj.lastModified = lastModified(7);
                 obj.modifiedBy = pick(modifiedBy);
-                obj.fileType = typeof fileType === "object" ? makeFileType(fileType) : fileType;
-                obj.icon = obj.fileType.replace(/\s/g, "").toLowerCase();
+                //obj.fileType = typeof fileType === "object" ? makeFileType(fileType) : fileType;
+                //obj.icon = obj.fileType.replace(/\s/g, "").toLowerCase();
                 objs.push(obj);
             }
             return objs;

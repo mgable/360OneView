@@ -3,16 +3,14 @@
 
 angular.module('centralManagerApp')
     .filter('isFavorite', function(FavoritesService) {
-        var results = []
         return function(input) {
+            var results = [];
             if (FavoritesService.getFavorites().length > 0) {
                 _.each(input, function(e, i, a) {
                     if (FavoritesService.isFavorite(e.id)) {
                         results.push(e);
                     }
                 })
-            } else {
-                return input;
             }
             return results;
         }

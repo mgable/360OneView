@@ -1,7 +1,17 @@
 'use strict';
 
 angular.module('centralManagerApp')
-    .controller('CentralManagerCtrl', function($scope, $rootScope, $timeout, filterFilter, $filter, InfoTrayService, DiaglogService, FilesModel, SortAndFilterService, FileDeleteService, ActiveSelection, CENTRALMANAGER) {
+    .controller('MainCtrl', function($scope, SortAndFilterService, FileDeleteService, ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ProjectsModel) {
+        // this is the services layer
+        $scope.SortAndFilterService = SortAndFilterService;
+        $scope.FileDeleteService = FileDeleteService;
+        $scope.ActiveSelection = ActiveSelection;
+        $scope.InfoTrayService = InfoTrayService;
+        $scope.DiaglogService = DiaglogService;
+        $scope.FavoritesService = FavoritesService;
+
+    })
+    .controller('CentralManagerCtrl', function($scope, FilesModel, CENTRALMANAGER, SortAndFilterService, ViewService) {
 
         $scope.masterClass = "scenario-elements";
 
@@ -14,14 +24,14 @@ angular.module('centralManagerApp')
             }));
         });
 
-        $scope.SortAndFilterService = SortAndFilterService;
-        $scope.FileDeleteService = FileDeleteService;
-        $scope.ActiveSelection = ActiveSelection;
-        $scope.InfoTrayService = InfoTrayService;
-        $scope.DiaglogService = DiaglogService;
+        ViewService.setModel(FilesModel);
 
         $scope.console = function(msg) {
             console.info(msg);
+        }
+
+        $scope.alert = function(msg) {
+            alert(msg);
         }
 
         $scope.setAsMaster = function(item) {
@@ -36,23 +46,23 @@ angular.module('centralManagerApp')
         };
     }).controller("ScenarioEditCtrl", function($scope) {
         $scope.foo = "bar";
-    }).controller("ProjectManagerCtrl", function($scope, FavoritesService, ProjectsModel, SortAndFilterService, PROJECTS, ActiveSelection, InfoTrayService) {
+    }).controller("ProjectManagerCtrl", function($scope, ProjectsModel, SortAndFilterService, PROJECTMANAGER, ViewService) {
 
         $scope.masterClass = "projects";
 
         ProjectsModel.$get().$futureProjectsData.then(function(response) {
+            $scope.data = response;
             $scope.$apply(SortAndFilterService.init({
                 data: response,
                 orderBy: 'Last Modified',
-                filter: PROJECTS.items[0],
+                filter: PROJECTMANAGER.items[0],
                 reverse: true
             }));
         });
 
-        $scope.SortAndFilterService = SortAndFilterService;
-        $scope.ActiveSelection = ActiveSelection;
-        $scope.InfoTrayService = InfoTrayService;
-    $scope.FavoritesService = FavoritesService;
+        console.info("ScenarioEditCtrl")
+        ViewService.setModel(ProjectsModel);
+
     }).controller('InfoTrayCtrl', function($scope, ActiveSelection) {
         $scope.selectedItem = ActiveSelection.getActiveItem();
         $scope.seeAll = false;
@@ -66,9 +76,9 @@ angular.module('centralManagerApp')
     }).controller('SearchCtrl', function($scope, SortAndFilterService, CENTRALMANAGER) {
         $scope.setFilter = SortAndFilterService.setFilter;
         $scope.menuItems = CENTRALMANAGER;
-    }).controller('ProjectsSearchCtrl', function($scope, SortAndFilterService, PROJECTS) {
+    }).controller('ProjectsSearchCtrl', function($scope, SortAndFilterService, PROJECTMANAGER) {
         $scope.setFilter = SortAndFilterService.setFilter;
-        $scope.menuItems = PROJECTS;
+        $scope.menuItems = PROJECTMANAGER;
     }).controller('DeleteCtrl', function($scope, data, $modalInstance, FileDeleteService) {
         var callback = data;
         $scope.FileDeleteService = FileDeleteService;
@@ -102,12 +112,15 @@ angular.module('centralManagerApp')
             $modalInstance.dismiss('canceled');
         }; // end cancel
     }).controller('RenameCtrl', function($scope, $modalInstance, FilesModel, data) {
-        $scope.data = data;
+        var service = data.service;
+        $scope.data = data.item;
         $scope.name = $scope.data.title;
+
+        console.info(data);
 
         $scope.rename = function(name) {
             $scope.data.title = name;
-            FilesModel.$set($scope.data)
+            service.$set($scope.data)
 
             $modalInstance.dismiss('create');
         };
@@ -116,4 +129,14 @@ angular.module('centralManagerApp')
             console.info("cancel")
             $modalInstance.dismiss('canceled');
         };
-    });
+    }).controller('ProjectCreateCtrl', function($scope, $modalInstance) {
+        $scope.close = function() {
+            console.info("cancel")
+            $modalInstance.dismiss('canceled');
+        };
+
+        $scope.create = function(item) {
+            alert("this will take you to the create project work flow")
+            $modalInstance.dismiss('create');
+        };
+    })
