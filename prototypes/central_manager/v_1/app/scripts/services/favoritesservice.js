@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('centralManagerApp')
+angular.module('ThreeSixtyOneView')
     .service('FavoritesService', function() {
         var favorites = [],
 

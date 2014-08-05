@@ -21,7 +21,7 @@
     ];
 
     /* Registration */
-    angular.module('centralManagerApp').factory('Resource', Resource.$factory);
+    angular.module('ThreeSixtyOneView').factory('Resource', Resource.$factory);
 
     /* Record retrieval */
     Resource.prototype.get = function(uid) {

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('centralManagerApp')
+angular.module('ThreeSixtyOneView')
     .service('InfoTrayService', function($rootScope, ActiveSelection) {
         var showInfoTray = false,
             self = this;

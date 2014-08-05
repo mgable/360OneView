@@ -3,8 +3,8 @@
 (function() {
     'use strict';
 
-    function Projects(futureProjectsData) {
-        this.$unwrap(futureProjectsData);
+    function Projects(futureData) {
+        this.$unwrap(futureData);
     }
 
     Projects.$factory = [
@@ -23,7 +23,7 @@
         }
     ];
 
-    angular.module('centralManagerApp').factory('ProjectsModel', Projects.$factory);
+    angular.module('ThreeSixtyOneView').factory('ProjectsModel', Projects.$factory);
 
     Projects.$find = function(uid) {
         Projects.data = new Projects(this.$$resource.get(uid));
@@ -110,11 +110,11 @@
         }
     }
 
-    Projects.prototype.$unwrap = function(futureProjectsData) {
+    Projects.prototype.$unwrap = function(futureData) {
         var self = this;
 
-        this.$futureProjectsData = futureProjectsData;
-        this.$futureProjectsData.then(function(data) {
+        this.$futureData = futureData;
+        this.$futureData.then(function(data) {
             Projects.$timeout(function() {
                 _.extend(self, data);
             });

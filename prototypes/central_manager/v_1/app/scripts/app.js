@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-    .module('centralManagerApp', [
+    .module('ThreeSixtyOneView', [
         'ngResource',
         'ngSanitize',
         'ngRoute',
@@ -15,16 +15,18 @@ angular
     .config(function($routeProvider) {
         $routeProvider
             .when('/', {
-                templateUrl: 'views/central_manager.tpl.html',
-                controller: 'CentralManagerCtrl'
+                templateUrl: 'views/display_manager.tpl.html',
+                controller: 'ManagerCtrl',
+                viewName: "CentralManager"
             })
             .when('/scenarioEdit', {
                 templateUrl: 'views/scenario_edit.tpl.html',
                 controller: 'ScenarioEditCtrl'
             })
             .when('/projects', {
-                templateUrl: 'views/project_manager.tpl.html',
-                controller: 'ProjectManagerCtrl'
+                templateUrl: 'views/display_manager.tpl.html',
+                controller: 'ManagerCtrl',
+                viewName: "ProjectManager"
             })
             .otherwise({
                 redirectTo: '/'
@@ -38,100 +40,160 @@ angular
     .run(function(FilesModel, ProjectsModel) {
         FilesModel.$find();
         ProjectsModel.$find();
-    }).constant('PROJECTMANAGER', {
-        firstSelected: 0,
-        icon: 'suitcase',
-        title: 'Projects',
-        items: [{
-            label: 'All',
-            filterType: 'activeFilter',
-            filter: {}
-        }, {
-            label: 'Favorites',
-            filterType: 'filterPipeline',
-            filter: 'favorites'
-        }, {
-            label: 'Created by me',
-            filterType: 'activeFilter',
-            filter: {
-                owner: 'Barney Rubble'
+    }).constant('CONFIG', {
+        "application": {
+            menus: {
+                displayColumns: [{
+                    label: "Last Modified"
+                }, {
+                    label: "Modified By",
+                    filters: [{
+                        label: "Modified by me",
+                        filter: "modifiedBy"
+                    }, {
+                        label: "Modified by:",
+                        filter: "modifiedBy"
+                    }],
+                    template: "/name.html",
+                    enabledOn: "Modified by:"
+                }, {
+                    label: "Type"
+                }, {
+                    label: "Owner",
+                    filters: [{
+                        label: "Owned by me",
+                        filter: "owner"
+                    }, {
+                        label: "Owned by:",
+                        filter: "owner"
+                    }],
+                    template: "/name.html",
+                    enabledOn: "Owned by:"
+                }, {
+                    label: "Defaults",
+                    filters: [{
+                        label: "Show only defaults",
+                        filter: "defaults"
+                    }]
+                }]
             }
-        }, {
-            label: 'I can edit',
-            filterType: 'activeFilter',
-            filter: {
-                access: 'Everyone can edit'
+        },
+        "session": {},
+        "view": {
+            "CentralManager": {
+                "model": "FilesModel",
+                "orderBy": 'Last Modified',
+                "filter": 'CONFIG.view.CentralManager.menuItems.items[0]',
+                "reverse": true,
+                "menuItems": {
+                    firstSelected: 0,
+                    title: "Scenario Elements",
+                    icon: "cog",
+                    items: [{
+                        label: "defaults",
+                        filterType: "activeFilter",
+                        filter: {
+                            "defaults": true
+                        }
+                    }, {
+                        label: "Economy",
+                        filterType: "activeFilter",
+                        filter: {
+                            type: "Economy"
+                        }
+                    }, {
+                        label: "Competition",
+                        filterType: "activeFilter",
+                        filter: {
+                            type: "Competition"
+                        }
+                    }, {
+                        label: "Labor Cost",
+                        filterType: "activeFilter",
+                        filter: {
+                            type: "Labor Cost"
+                        }
+                    }, {
+                        label: "Pricing",
+                        filterType: "activeFilter",
+                        filter: {
+                            type: "Pricing"
+                        }
+                    }, {
+                        label: "Cost Assumptions",
+                        filterType: "activeFilter",
+                        filter: {
+                            type: "Cost Assumptions"
+                        }
+                    }]
+                },
+                "contextualMenu": {
+                    actions: ['copy', 'sharing', 'rename', 'delete', 'add', 'details'],
+                    views: {
+                        "defaults": {
+                            "type": "master",
+                            "value": "100001"
+                        },
+                        "access": {
+                            "type": "view only",
+                            "value": "100001"
+                        },
+                        "otherwise": "101101"
+                    }
+                }
+            },
+            "ProjectManager": {
+                "model": "ProjectsModel",
+                "orderBy": 'Last Modified',
+                "filter": 'CONFIG.view.ProjectManager.menuItems.items[0]',
+                "reverse": true,
+                "menuItems": {
+                    firstSelected: 0,
+                    icon: "suitcase",
+                    title: "Projects",
+                    items: [{
+                        label: "All",
+                        filterType: "activeFilter",
+                        filter: {}
+                    }, {
+                        label: "Favorites",
+                        filterType: "filterPipeline",
+                        filter: "favorites"
+                    }, {
+                        label: "Created by me",
+                        filterType: "activeFilter",
+                        filter: {
+                            owner: "Barney Rubble"
+                        }
+                    }, {
+                        label: "I can edit",
+                        filterType: "activeFilter",
+                        filter: {
+                            access: "Everyone can edit"
+                        }
+                    }]
+                },
+                "contextualMenu": {
+                    actions: ['copy', 'favorites', 'sharing', 'rename', 'delete', 'add', 'details'],
+                    views: {
+                        "defaults": {
+                            "type": "master",
+                            "value": "1000001"
+                        },
+                        "access": {
+                            "type": "view only",
+                            "value": "1100001"
+                        },
+                        "otherwise": "1101101"
+                    }
+                }
             }
-        }]
-    }).constant('CENTRALMANAGER', {
-        firstSelected: 'defaults',
-        title: 'Scenario Elements',
-        items: [{
-            label: 'defaults',
-            filter: {
-                'defaults': true
-            }
-        }, {
-            label: 'Economy',
-            filter: {
-                type: 'Economy'
-            }
-        }, {
-            label: 'Competition',
-            filter: {
-                type: 'Competition'
-            }
-        }, {
-            label: 'Labor Cost',
-            filter: {
-                type: 'Labor Cost'
-            }
-        }, {
-            label: 'Pricing',
-            filter: {
-                type: 'Pricing'
-            }
-        }, {
-            label: 'Cost Assumptions',
-            filter: {
-                type: 'Cost Assumptions'
-            }
-        }]
-    }).constant('DROPDOWNITEMS', [{
-        label: "Last Modified"
-    }, {
-        label: "Modified By",
-        filters: [{
-            label: 'Modified by me',
-            filter: "modifiedBy"
-        }, {
-            label: 'Modified by:',
-            filter: "modifiedBy"
-        }],
-        template: '/name.html',
-        enabledOn: 'Modified by:'
-    }, {
-        label: "Type"
-    }, {
-        label: "Owner",
-        filters: [{
-            label: 'Owned by me',
-            filter: 'owner'
-        }, {
-            label: 'Owned by:',
-            filter: 'owner'
-        }],
-        template: '/name.html',
-        enabledOn: 'Owned by:'
-    }, {
-        label: "Defaults",
-        filters: [{
-            label: 'Show only defaults',
-            filter: 'defaults'
-        }]
-    }]).constant("USERDATA", {
-        username: 'Fred Flintstone',
-        favorites: []
+        },
+        "user": {
+            "name": "Fred Flintstone",
+            "role": "default user",
+            "favorites": []
+        }
     });
 
 /* template for drop down menu filter input field */

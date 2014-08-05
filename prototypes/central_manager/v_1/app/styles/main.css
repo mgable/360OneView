@@ -564,10 +564,6 @@ li {
   background-color: goldenrod;
   background-image: url(../images/ms-confirm_gray.png); }
 
-/* over writes */
-.scenario-elements .favorites {
-  display: none; }
-
 /*color variables */
 /* sizes */
 .scenario-edit {

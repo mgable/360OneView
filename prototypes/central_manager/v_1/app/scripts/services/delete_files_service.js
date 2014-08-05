@@ -2,16 +2,13 @@
 
 'use strict';
 
-angular.module('centralManagerApp')
+angular.module('ThreeSixtyOneView')
     .service('FileDeleteService', function($rootScope) {
         var filesToDelete = [],
             reset = false,
             service;
 
-        console.info('FileDeleteService')
-
         $rootScope.$on('ViewService:modelChange', function(event, data) {
-            console.info("FileDeleteService " + data);
             service = data;
         });
 

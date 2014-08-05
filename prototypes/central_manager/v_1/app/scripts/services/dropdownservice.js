@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('centralManagerApp')
+angular.module('ThreeSixtyOneView')
     .factory("DropdownService", function() {
         var active; //ID of currently active 
 

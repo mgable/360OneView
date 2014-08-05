@@ -1,7 +1,7 @@
 /*jshint  quotmark: false, unused: false */
 'use strict';
 
-angular.module('centralManagerApp')
+angular.module('ThreeSixtyOneView')
     .filter('isFavorite', function(FavoritesService) {
         return function(input) {
             var results = [];

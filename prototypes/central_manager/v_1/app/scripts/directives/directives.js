@@ -1,8 +1,8 @@
 /*jshint  quotmark: false, unused: false */
 'use strict';
 
-angular.module('centralManagerApp')
-    .directive('msDropdown', function($document, $timeout, $rootScope, DROPDOWNITEMS, DropdownService, SortAndFilterService, $filter) {
+angular.module('ThreeSixtyOneView')
+    .directive('msDropdown', function($document, $timeout, $rootScope, CONFIG, DropdownService, SortAndFilterService, $filter) {
         return {
             restrict: "AE",
             templateUrl: "/msDropdown.html",
@@ -94,15 +94,16 @@ angular.module('centralManagerApp')
                     $scope.selectedFilter = null;
                 });
 
+
                 $scope.DropdownService = DropdownService;
+                $scope.items = CONFIG.application.menus.displayColumns;
 
-                $scope.items = DROPDOWNITEMS;
-
+                // remove "details" from the Info Tray contextual menu
                 prune($scope.items, 'label', $scope.$eval($scope.remove));
 
-                $scope.selectedItem = DROPDOWNITEMS[$scope.selectedSortIndex];
+                $scope.selectedItem = CONFIG.application.menus.displayColumns[$scope.selectedSortIndex];
                 $scope.selectedFilter = null;
-                $scope.me = "Fred Flintstone";
+                $scope.me = CONFIG.user.name
                 $scope.name = "";
 
                 SortAndFilterService.setSorter($scope.id, $scope.selectedItem.label);
@@ -502,7 +503,7 @@ angular.module('centralManagerApp')
             }
 
         }
-    }).directive("contextualMenu", function($rootScope, ActiveSelection, DiaglogService, FavoritesService, ViewService, InfoTrayService) {
+    }).directive("contextualMenu", function($rootScope, $route, CONFIG, ActiveSelection, DiaglogService, FavoritesService, ViewService, InfoTrayService) {
         return {
             restrict: "AE",
             templateUrl: "views/directives/contextual_menu.tpl.html",
@@ -513,17 +514,15 @@ angular.module('centralManagerApp')
             },
             replace: true,
             link: function(scope, element, attrs) {
-                var actions = ['copy', 'favorites', 'sharing', 'rename', 'delete', 'add', 'details'];
+                var actions = CONFIG.view[ViewService.getCurrentView()].contextualMenu.actions,
+                    menuViews = CONFIG.view[ViewService.getCurrentView()].contextualMenu.views
                 scope.DiaglogService = DiaglogService;
                 scope.FavoritesService = FavoritesService;
                 scope.InfoTrayService = InfoTrayService;
                 scope.ActiveSelection = ActiveSelection;
-                scope.service = ViewService.getModel();;
-
-                console.info("contextualMenu")
+                scope.service = ViewService.getModel();
 
                 $rootScope.$on('ViewService:modelChange', function(event, data) {
-                    console.info("service " + data)
                     scope.service = data;
                 });
 
@@ -531,14 +530,20 @@ angular.module('centralManagerApp')
                     alert(msg);
                 }
 
-                function setView(item) {
-                    if (item) {
-                        if (item.defaults === "master") {
-                            setValues(actions, "1000001")
-                        } else if (item.access === 'view only') {
-                            setValues(actions, "1100001")
-                        } else {
-                            setValues(actions, "1111111")
+
+
+                function setView(which) {
+                    if (which) {
+                        var set = false;
+                        for (var prop in menuViews) {
+                            if (which[prop] && which[prop] == menuViews[prop].type) {
+                                setValues(actions, menuViews[prop].value);
+                                set = true;
+                                break;
+                            }
+                        }
+                        if (!set) {
+                            setValues(actions, menuViews['otherwise'])
                         }
                     }
                 }

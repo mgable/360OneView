@@ -1,10 +1,10 @@
 'use strict';
 
-angular.module('centralManagerApp')
-    .service('ViewService', function($rootScope) {
-        var model;
+angular.module('ThreeSixtyOneView')
+    .service('ViewService', function($rootScope, $route) {
+        var model, currentView = $route.current.$$route.viewName,
+            self = this;
 
-        console.info("veiw service")
 
         this.setModel = function(which) {
             model = which;
@@ -14,4 +14,16 @@ angular.module('centralManagerApp')
         this.getModel = function() {
             return model;
         }
+
+        this.setCurrentView = function(view) {
+            currentView = view;
+        }
+
+        this.getCurrentView = function() {
+            return currentView;
+        }
+
+        $rootScope.$on("$routeChangeSuccess", function() {
+            self.setCurrentView($route.current.$$route.viewName)
+        })
     });

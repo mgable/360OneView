@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('centralManagerApp')
+angular.module('ThreeSixtyOneView')
     .service('ActiveSelection', function($rootScope) {
 
         var activeItem = "",

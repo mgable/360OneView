@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('centralManagerApp')
+angular.module('ThreeSixtyOneView')
     .service('SortAndFilterService', function($filter, $rootScope, filterFilter) {
         var sorters = {},
             filterBy = {},
@@ -137,7 +137,7 @@ angular.module('centralManagerApp')
         }
 
         this.filter = function() {
-            console.info("filter")
+            //console.info("filter")
             var activeFilters = this.getActiveFilters(),
                 filterBy = this.getFilterBy(),
                 searchText = this.getSearchText(),

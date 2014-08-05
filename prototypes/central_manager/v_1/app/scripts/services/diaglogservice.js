@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('centralManagerApp')
-    .service('DiaglogService', function(InfoTrayService, FileDeleteService, FilesModel, dialogs) {
+angular.module('ThreeSixtyOneView')
+    .service('DiaglogService', function(InfoTrayService, FileDeleteService, dialogs) {
         this.trash = function(item) {
             if (item) {
                 FileDeleteService.setFilesToDelete([item]);
