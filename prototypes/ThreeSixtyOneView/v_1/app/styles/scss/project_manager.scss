@@ -1,0 +1,347 @@
+@import "variables";
+
+.app {
+	.CentralManager, .ProjectManager {
+		.left { 
+			width: $app_left;
+			border: 1px solid $mediumgray;
+			position: fixed;
+			top: $cap_height;
+			bottom: 0;
+			height: 100%;
+		}
+		.center {
+			margin: -$cap_height 0 0 $app_left;
+			padding: $cap_height 0 0 0;
+			width: auto;
+			overflow-y: auto;
+			overflow-x: hidden;
+			height: 100%;
+		}
+		.right {
+			width: $app_right;
+			background-color: $lightgray;
+			height: 100%;
+	    	float: right;
+	    	overflow-x: hidden;
+	    	overflow-y: auto;
+	    	padding: $cap_height 0 0 0;
+	    	@include drop-shadow(-5px, 1px, 5px, 0px, 0.3)
+		}
+		.filters {
+			text-transform: uppercase;
+			font: {
+				size:14px;
+				weight: bold;
+			}
+			.title {
+				color: $gray;
+				margin: 10px 0 30px;
+				padding: 0 10px;
+				/* over write bootstrap */
+				font: {
+					size:14px;
+					weight: bold;
+				}
+				> i {
+					padding: 0 5px 0 0;
+				}
+			}
+		    .menu > .header {
+		    	padding: 0 10px;
+		     	margin: 0 0 10px;
+		     	a {
+			        color: $black;
+			        text-decoration: none;
+			        cursor: pointer;
+			        display: inline-block;
+					width: 100%;
+			    }
+			    &.selected {
+					background-color: $mouseover;
+					> a {
+						color:$white;
+					}
+				}
+		    }
+		}
+		.display-actions {
+			padding:0 0 0 10px;
+	    	height:50px;
+	    	.title {
+				color:$gray;
+				max-width:400px;
+				font-weight:bold;
+				text-transform: capitalize;
+				margin-top: 15px;
+			}
+			.button-holder {
+				float:right;
+				height: 50px;
+				width: auto;
+				.trash {
+		    		margin:11px 30px 0 0;
+		    		font-size:14px;
+		    		color:$enabled;
+		    		cursor: pointer;
+		    		display:inline-block;
+		    	}
+				.actions {
+					border-left: 1px solid  $mediumgray;
+					display:inline-block;
+					> span {
+						padding: 12px;
+						font-size: 17px;
+						color:$gray;
+						display:inline-block;
+						border-right: 1px solid  $mediumgray;
+						height:100%;
+						cursor: pointer;
+						&:hover {
+							color:$mouseover;
+						}
+						i {
+							font-size:24px;
+						}
+					}
+					.search-holder {
+						border: 1px solid $gray;
+						display: inline-block;
+						padding: 2px 5px;
+						.search-input {
+							border: 0 none;
+							font-size: 14px;
+							width: 250px;
+						}
+						.close-button i {
+							font-size: 18px;
+						}
+					}
+					.toggle-info-tray {
+						cursor: default;
+						color:$lightgray;
+						&:hover {
+							cursor:default;
+							color: $lightgray;
+						}
+						&.enabled {
+							color:$gray;
+							&:hover {
+								cursor: pointer;
+								color:$mouseover;
+							}
+						}
+					}
+				}
+			}
+		}
+		.display-table {
+			table {
+				td {
+					white-space: nowrap;
+					cursor: pointer;
+					.master {
+						font: {
+							weight:bold;
+							size:16px;
+						}
+					}
+					.title {
+						font-weight: bold;
+					}
+					.view-only {
+						color: $gray;
+					}
+					&.favorites {
+						padding:8px 0;
+						a {
+							font-family: "font awesome";
+							display: inline-block;
+							width: 10px;
+							height: 10px;
+							background-color:inherit;
+							&:hover {
+								text-decoration: none;
+								&:after {
+									content: '\f006';
+								}
+							}
+							&.favorite:after {
+								content: '\f005';
+							}
+						}
+					}
+				}
+				tr.active  td{
+					background-color:$active;
+				}
+			}
+			thead {
+				.title.active a{
+					color: $highlight;
+				}
+				th {
+					background-color:$lightgray;
+					border: 0 none;
+					border-top:1px solid $mediumgray !important;
+					border-bottom:1px solid $mediumgray;
+					a {
+						color:$mouseover;
+	          			text-decoration: none;
+	          			cursor: pointer;
+					}
+				}
+			}
+			tbody tr:hover .dropdown-trigger {
+				display: block;
+			}
+		}
+	}
+
+	.info-tray {
+		a {
+	 		cursor: pointer;
+	 	}
+	  .details {
+	    .sub-header {
+	    	margin:0 0 10px;
+	    	font-weight: bold;
+	    	color: $gray;
+	    }
+	    .title-holder {
+	    	border-bottom: 1px solid $gray;
+		    .title {
+		    	overflow: hidden;
+		    	text-overflow: ellipsis;
+		    	white-space: nowrap;
+		    	float: left;
+		    	width: 240px;
+		    	padding: 0 0 3px;
+		    }
+		}
+	    .pencil {
+	    	float:right;
+	    	font-size: 18px;
+	    	margin: 0 15px 0 0;
+	    }
+	    input {
+	    	width: 225px;
+	    }
+	    .contextual-menu {
+	    	margin:10px 0;
+	    	.details, .divider {
+	    		display:none;
+	    	}
+	    }
+	    p {
+	      margin:0 0 5px;
+	      a {
+	      	color:$enabled;
+	      	text-decoration: none;
+	      	&:hover {
+	      		span.enabled {
+	      			color:$mouseover;
+	      		}
+	      		color:$mouseover;
+	      	}
+	      	&.disabled {
+	      		color: $disabled;
+	      	}
+	      }
+	    }
+	    .close {
+	    	margin:0 15px 0 0;
+	    }
+	  }
+	  h4, h5, h6 {
+	    margin-top:0;
+	    clear:both;
+	  }
+	  p {
+	    margin:0;
+	  }
+	  margin:10px;
+	  width: 280px;
+	  .entity-holder {
+	  	clear: both;
+	    max-height: 100px;
+	    padding: 0 10px;
+	    overflow:hidden;
+	    &.see-all {
+	      height: auto;
+	      max-height: none;
+	    }
+	  }
+	  .see-all-toggle {
+	    margin:0 8px;
+	    float:right;
+	    cursor: pointer;
+	  }
+	  .scenario {
+	    margin:0 0 8px;
+	    .in-project {
+	    	margin: 0 0 10px 30px;
+	    	font-style: italic;
+	    	color: $gray;
+	    	line-height: 9px;
+	    }
+	  }
+	  .measures {
+	    	h4 {
+	    		margin: 0 0 8px 10px;
+	    	}
+	    	ul li {
+	    		list-style-type: disc;
+	    		margin: 0 0 5px 25px
+	    	}
+	    }
+	  .profile {
+	    padding:8px 5px;
+	    margin-bottom:10px;
+	    background-color: white;
+	    &.description-holder {
+	    	.field-label {
+	    		font-weight: bold; 
+	    		float:left;
+	    	}
+	    	.edit {
+	    		float:right;
+	    	}
+	    	.description {
+	    		clear:both;
+	    		width:100%;
+	    		display:block;
+	    		border: 0 none;
+	    	}
+	    }
+	    .used-in {
+	    	float:left;
+	    	font: {
+	    		size: 16px;
+	    		weight: bold;
+	    	}
+	    	padding: 0 0 0 10px;
+	    	span {
+	    		color: $highlight;
+	    	}
+	    }
+	    .add-scenario-holder{
+	    	position: relative;
+		    .add-scenario {
+		    	margin: 15px auto 5px;
+		    	width: 140px;
+		    	display:block;
+		    }
+		    > ul {
+	    		li {
+	    			padding: 0 12px;
+	    			&:hover {
+	    				background-color:$lightgray;
+	    				cursor: pointer;
+	    			}
+	    		}
+		    }
+		}
+	  }
+	}
+}

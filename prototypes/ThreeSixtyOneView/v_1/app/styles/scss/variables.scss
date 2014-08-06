@@ -1,0 +1,39 @@
+// images and sprites 
+$spirte: "../images/360sprite.png";
+
+// action colors
+$mouseover: #8796B4;
+$disabled: gray;
+$enabled: cornflowerblue;
+$active: #F2F5A9;
+$selected: red;
+$highlight: orange;
+
+// color variables
+$black: #222;
+$darkgray: darkgray;
+$mediumgray: #dddddd;
+$gray: gray;
+$lightgray: #E9E9E9;
+$white: white;
+
+// sizes
+$cap_height: 50px;
+$app_left: 200px;
+$app_right: 300px;
+$app_max_width: 1300px;
+$app_min_width: 1024px;
+$body_font_size: 13px;
+
+// mixins
+@mixin drop-shadow($t,$r,$b,$l,$o) {
+	-webkit-box-shadow: $t $r $b $l rgba(0,0,0,$o);
+	-moz-box-shadow: $t $r $b $l rgba(0,0,0,$o);
+	box-shadow: $t $r $b $l rgba(0,0,0,$o);
+}
+
+@mixin transition($d:"0.3s", $s:"linear", $c:"all") {
+	-webkit-transition: #{$d} #{$s} #{$c};
+	transition: #{$d} #{$s} #{$c};
+	display: block !important;
+}

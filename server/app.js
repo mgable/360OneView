@@ -147,7 +147,7 @@ function init() {
         sendResponse(res, {
             status: "success",
             totalItemsReturned: results.length,
-            counts: projectsCounts(),
+            master: currentProjectData.data[0].id,
             data: results
         });
 

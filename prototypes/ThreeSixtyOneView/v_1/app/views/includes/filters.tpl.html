@@ -1,0 +1,9 @@
+<div class="filters">
+	<h4 class="title"><icon type="{{menuItems.icon}}"></icon>{{menuItems.title}}</h4>
+    <ul ms-link-group firstSelected="{{menuItems.items[menuItems.firstSelected].label}}" radio="true" class='menu'>
+		<li ng-repeat="item in menuItems.items" class="header" ng-class="{selected: item.label === selectedItem}">
+			 <a ms-link="{{item.label}}" ng-click="SortAndFilterService.setFilter(item.filterType, item, true);">{{item.label}}</a>
+		</li>
+    </ul>
+</div>
+

@@ -1,0 +1,109 @@
+/* Icon Styles */
+@import "variables";
+
+.fa-marketshare {
+	background-color:$white;
+	background-image: url(../images/ms-confirm_gray.png);
+}
+
+	/* Icons */
+	.symbol{
+		display: inline-block;
+		margin: 0 5px 0 0;
+		height:18px;
+		width:18px;
+		color:white;
+		font-size: 9px;
+		text-align: center;
+		vertical-align: middle;
+		font-family: arial, helvetica, sans-serif;
+		padding:2px 0 0 0;
+		&.icon-costassumptions {
+			background-color:blue;
+			&:after {
+				content:'CA';
+			}
+		}
+		&.icon-competition {
+			background-color:gold;
+			&:after {
+				content:'S';
+			}
+		}
+		&.icon-objectives {
+			background-color:green;
+			&:after {
+				content:'O';
+			}
+		}
+		&.icon-economy {
+			background-color:violet;
+			&:after {
+				content:'DB';
+			}
+		}
+		&.icon-productfactors {
+			background-color:darkblue;
+			&:after {
+				content:'PF';
+			}
+		}
+		&.icon-laborcost {
+			background-color:darkgreen;
+			&:after {
+				content:'MP';
+			}
+		}
+		&.icon-playbook {
+			background-color:aqua;
+			&:after {
+				content:'PB';
+			}
+		}
+		&.icon-hardconstraints {
+			background-color:blueviolet;
+			&:after {
+				content:'HC';
+			}
+		}
+		&.icon-softconstraints {
+			background-color:brown;
+			&:after {
+				content:'SC';
+			}
+		}
+		&.icon-economicvariables {
+			background-color:gray;
+			&:after {
+				content:'EV';
+			}
+		}
+		&.icon-competitivespend {
+			background-color:darkgray;
+			&:after {
+				content:'CS';
+			}
+		}
+		&.icon-pricing {
+			background-color:crimson;
+			&:after {
+				content:'P';
+			}
+		}
+		&.icon-brandawardness {
+			background-color:darkcyan;
+			&:after {
+				content:'BA';
+			}
+		}
+		&.icon-masterset {
+			background-color:goldenrod;
+			background-image: url(../images/ms-confirm_gray.png);
+		}
+		&.icon-marketingfactors {
+			background-color:hotpink;
+			&:after {
+				content:'MF';
+			}
+		}
+	}

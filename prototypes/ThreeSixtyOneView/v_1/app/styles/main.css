@@ -1,0 +1,627 @@
+@font-face {
+  font-family: "font awesome";
+  src: url("../fonts/fontawesome-webfont.eot");
+  src: url("../fonts/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff") format("woff"), url("../fonts/fontawesome-webfont.ttf") format("truetype"), url("../fonts/fontawesome-webfont.svg#fontawesome-webfont") format("svg"); }
+.space-after {
+  margin-bottom: 20px; }
+
+.no-background-color {
+  background-color: transparent; }
+
+.no-top-margin {
+  margin-top: 0; }
+
+.no-padding {
+  padding: 0; }
+
+.no-margin {
+  margin: 0; }
+
+.bold {
+  font-weight: bold; }
+
+.relative {
+  position: relative; }
+
+.no-scroll-bars {
+  scrollbar-base-color: #999;
+  scrollbar-3dlight-color: #999;
+  scrollbar-highlight-color: #999;
+  scrollbar-track-color: #999;
+  scrollbar-arrow-color: #999;
+  scrollbar-shadow-color: #999;
+  scrollbar-dark-shadow-color: #999;
+  overflow-y: scroll;
+  height: 30px;
+  padding: 5px 5px 0 8px;
+  background-color: #ddd; }
+
+.no-scroll-bars::-webkit-scrollbar {
+  background: #ddd; }
+
+.disabled {
+  pointer-events: none; }
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0; }
+
+.clearfix {
+  display: inline-block; }
+
+/* start commented backslash hack \*/
+* html .clearfix {
+  height: 1%; }
+
+.clearfix {
+  display: block; }
+
+/* close commented backslash hack */
+/* Bootstrap overrides */
+.table {
+  width: inherit;
+  font-size: 13px; }
+
+table {
+  max-width: 100%; }
+
+ul {
+  padding: 0; }
+  ul li {
+    list-style-type: none; }
+
+.text-holder {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; }
+
+/* Modals */
+.delete-modal .files-to-delete {
+  width: 100%; }
+
+.create-modal .modal-title {
+  float: left; }
+.create-modal .modal-header {
+  height: 50px; }
+
+.ms-dropdown {
+  position: relative;
+  font-size: 13px;
+  display: block; }
+
+.ms-select-list {
+  display: inline-block;
+  border: 1px solid #7D7D7D;
+  padding: 5px 0;
+  min-width: 195px;
+  position: absolute;
+  background-color: white; }
+
+.dropshadow {
+  -webkit-box-shadow: 8px 8px 5px 0px #7d7d7d;
+  -moz-box-shadow: 8px 8px 5px 0px #7d7d7d;
+  box-shadow: 8px 8px 5px 0px #7d7d7d; }
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0; }
+
+li {
+  margin: 0 0 5px; }
+
+.ms-label {
+  font-size: 13px;
+  cursor: pointer;
+  margin: 0;
+  font-weight: bold;
+  min-width: 100px;
+  white-space: nowrap;
+  color: #8695B4; }
+
+.ms-label.active .status {
+  color: orange; }
+
+.sort-order {
+  display: inline-block;
+  margin: 10px 0;
+  cursor: pointer; }
+
+.sort-order:after {
+  font-family: "font awesome";
+  content: '\f0de'; }
+
+.sort-order.reverse:after {
+  font-family: "font awesome";
+  content: '\f0dd'; }
+
+.ms-item {
+  text-indent: 20px;
+  font-weight: normal; }
+
+.ms-item.disabled {
+  cursor: default; }
+
+.ms-item.disabled:hover {
+  cursor: default;
+  background-color: inherit; }
+
+.ms-item.disabled .ms-ok {
+  visibility: visible; }
+
+.ms-item .ms-ok {
+  visibility: hidden;
+  display: inline; }
+
+.ms-item:hover {
+  cursor: pointer;
+  background-color: #BBBBBB; }
+
+.ms-item.selected .ms-ok {
+  visibility: visible; }
+
+.ms-holder {
+  padding: 2px 20px 0 20px; }
+
+.ms-sublabel {
+  font-weight: bold;
+  text-indent: 10px; }
+
+.divider {
+  border-bottom: 1px solid  #7D7D7D;
+  margin: 0 5px 5px; }
+
+.ms-ok {
+  display: inline;
+  padding: 0 10px 0 0; }
+
+.ms-actions-holder {
+  min-width: 50px; }
+  .ms-actions-holder .dropdown-trigger {
+    display: none;
+    font-size: 26px;
+    line-height: 20px; }
+  .ms-actions-holder .ms-actions {
+    position: relative; }
+    .ms-actions-holder .ms-actions .ms-actions-menu {
+      position: absolute;
+      left: -150px;
+      padding: 6px 10px; }
+      .ms-actions-holder .ms-actions .ms-actions-menu li a {
+        padding: 3px 0;
+        color: cornflowerblue; }
+        .ms-actions-holder .ms-actions .ms-actions-menu li a .ms-icon {
+          padding: 0 8px 0 0; }
+        .ms-actions-holder .ms-actions .ms-actions-menu li a.disabled {
+          color: gray;
+          cursor: default; }
+
+/* Application Styles */
+.cap {
+  width: 100%;
+  background-color: #222222;
+  height: 50px;
+  position: relative;
+  z-index: 1000; }
+  .cap .navigation {
+    /* temporary style */ }
+    .cap .navigation .bar {
+      max-width: 1300px;
+      min-width: 1024px;
+      width: 100%;
+      height: 50px;
+      padding: 0 15px;
+      margin: auto; }
+    .cap .navigation a.logo {
+      background: transparent url("../images/360sprite.png") -214px -3px no-repeat;
+      display: inline-block;
+      height: 50px;
+      width: 200px;
+      text-indent: -1000px; }
+    .cap .navigation .temp-nav {
+      height: 50px; }
+    .cap .navigation .navbar-nav li a.information {
+      color: white;
+      cursor: pointer; }
+      .cap .navigation .navbar-nav li a.information:hover {
+        background-color: inherit;
+        color: #8796b4; }
+
+.app {
+  max-width: 1300px;
+  min-width: 1024px;
+  font-size: 13px;
+  margin: auto; }
+
+/* Icon Styles */
+.fa-marketshare {
+  background-color: white;
+  background-image: url(../images/ms-confirm_gray.png); }
+
+/* Icons */
+.symbol {
+  display: inline-block;
+  margin: 0 5px 0 0;
+  height: 18px;
+  width: 18px;
+  color: white;
+  font-size: 9px;
+  text-align: center;
+  vertical-align: middle;
+  font-family: arial, helvetica, sans-serif;
+  padding: 2px 0 0 0; }
+  .symbol.icon-costassumptions {
+    background-color: blue; }
+    .symbol.icon-costassumptions:after {
+      content: 'CA'; }
+  .symbol.icon-competition {
+    background-color: gold; }
+    .symbol.icon-competition:after {
+      content: 'S'; }
+  .symbol.icon-objectives {
+    background-color: green; }
+    .symbol.icon-objectives:after {
+      content: 'O'; }
+  .symbol.icon-economy {
+    background-color: violet; }
+    .symbol.icon-economy:after {
+      content: 'DB'; }
+  .symbol.icon-productfactors {
+    background-color: darkblue; }
+    .symbol.icon-productfactors:after {
+      content: 'PF'; }
+  .symbol.icon-laborcost {
+    background-color: darkgreen; }
+    .symbol.icon-laborcost:after {
+      content: 'MP'; }
+  .symbol.icon-playbook {
+    background-color: aqua; }
+    .symbol.icon-playbook:after {
+      content: 'PB'; }
+  .symbol.icon-hardconstraints {
+    background-color: blueviolet; }
+    .symbol.icon-hardconstraints:after {
+      content: 'HC'; }
+  .symbol.icon-softconstraints {
+    background-color: brown; }
+    .symbol.icon-softconstraints:after {
+      content: 'SC'; }
+  .symbol.icon-economicvariables {
+    background-color: gray; }
+    .symbol.icon-economicvariables:after {
+      content: 'EV'; }
+  .symbol.icon-competitivespend {
+    background-color: darkgray; }
+    .symbol.icon-competitivespend:after {
+      content: 'CS'; }
+  .symbol.icon-pricing {
+    background-color: crimson; }
+    .symbol.icon-pricing:after {
+      content: 'P'; }
+  .symbol.icon-brandawardness {
+    background-color: darkcyan; }
+    .symbol.icon-brandawardness:after {
+      content: 'BA'; }
+  .symbol.icon-masterset {
+    background-color: goldenrod;
+    background-image: url(../images/ms-confirm_gray.png); }
+  .symbol.icon-marketingfactors {
+    background-color: hotpink; }
+    .symbol.icon-marketingfactors:after {
+      content: 'MF'; }
+
+.app .CentralManager .left, .app .ProjectManager .left {
+  width: 200px;
+  border: 1px solid #dddddd;
+  position: fixed;
+  top: 50px;
+  bottom: 0;
+  height: 100%; }
+.app .CentralManager .center, .app .ProjectManager .center {
+  margin: -50px 0 0 200px;
+  padding: 50px 0 0 0;
+  width: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%; }
+.app .CentralManager .right, .app .ProjectManager .right {
+  width: 300px;
+  background-color: #e9e9e9;
+  height: 100%;
+  float: right;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 50px 0 0 0;
+  -webkit-box-shadow: -5px 1px 5px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: -5px 1px 5px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: -5px 1px 5px 0px rgba(0, 0, 0, 0.3); }
+.app .CentralManager .filters, .app .ProjectManager .filters {
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: bold; }
+  .app .CentralManager .filters .title, .app .ProjectManager .filters .title {
+    color: gray;
+    margin: 10px 0 30px;
+    padding: 0 10px;
+    /* over write bootstrap */
+    font-size: 14px;
+    font-weight: bold; }
+    .app .CentralManager .filters .title > i, .app .ProjectManager .filters .title > i {
+      padding: 0 5px 0 0; }
+  .app .CentralManager .filters .menu > .header, .app .ProjectManager .filters .menu > .header {
+    padding: 0 10px;
+    margin: 0 0 10px; }
+    .app .CentralManager .filters .menu > .header a, .app .ProjectManager .filters .menu > .header a {
+      color: #222222;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-block;
+      width: 100%; }
+    .app .CentralManager .filters .menu > .header.selected, .app .ProjectManager .filters .menu > .header.selected {
+      background-color: #8796b4; }
+      .app .CentralManager .filters .menu > .header.selected > a, .app .ProjectManager .filters .menu > .header.selected > a {
+        color: white; }
+.app .CentralManager .display-actions, .app .ProjectManager .display-actions {
+  padding: 0 0 0 10px;
+  height: 50px; }
+  .app .CentralManager .display-actions .title, .app .ProjectManager .display-actions .title {
+    color: gray;
+    max-width: 400px;
+    font-weight: bold;
+    text-transform: capitalize;
+    margin-top: 15px; }
+  .app .CentralManager .display-actions .button-holder, .app .ProjectManager .display-actions .button-holder {
+    float: right;
+    height: 50px;
+    width: auto; }
+    .app .CentralManager .display-actions .button-holder .trash, .app .ProjectManager .display-actions .button-holder .trash {
+      margin: 11px 30px 0 0;
+      font-size: 14px;
+      color: cornflowerblue;
+      cursor: pointer;
+      display: inline-block; }
+    .app .CentralManager .display-actions .button-holder .actions, .app .ProjectManager .display-actions .button-holder .actions {
+      border-left: 1px solid #dddddd;
+      display: inline-block; }
+      .app .CentralManager .display-actions .button-holder .actions > span, .app .ProjectManager .display-actions .button-holder .actions > span {
+        padding: 12px;
+        font-size: 17px;
+        color: gray;
+        display: inline-block;
+        border-right: 1px solid #dddddd;
+        height: 100%;
+        cursor: pointer; }
+        .app .CentralManager .display-actions .button-holder .actions > span:hover, .app .ProjectManager .display-actions .button-holder .actions > span:hover {
+          color: #8796b4; }
+        .app .CentralManager .display-actions .button-holder .actions > span i, .app .ProjectManager .display-actions .button-holder .actions > span i {
+          font-size: 24px; }
+      .app .CentralManager .display-actions .button-holder .actions .search-holder, .app .ProjectManager .display-actions .button-holder .actions .search-holder {
+        border: 1px solid gray;
+        display: inline-block;
+        padding: 2px 5px; }
+        .app .CentralManager .display-actions .button-holder .actions .search-holder .search-input, .app .ProjectManager .display-actions .button-holder .actions .search-holder .search-input {
+          border: 0 none;
+          font-size: 14px;
+          width: 250px; }
+        .app .CentralManager .display-actions .button-holder .actions .search-holder .close-button i, .app .ProjectManager .display-actions .button-holder .actions .search-holder .close-button i {
+          font-size: 18px; }
+      .app .CentralManager .display-actions .button-holder .actions .toggle-info-tray, .app .ProjectManager .display-actions .button-holder .actions .toggle-info-tray {
+        cursor: default;
+        color: #e9e9e9; }
+        .app .CentralManager .display-actions .button-holder .actions .toggle-info-tray:hover, .app .ProjectManager .display-actions .button-holder .actions .toggle-info-tray:hover {
+          cursor: default;
+          color: #e9e9e9; }
+        .app .CentralManager .display-actions .button-holder .actions .toggle-info-tray.enabled, .app .ProjectManager .display-actions .button-holder .actions .toggle-info-tray.enabled {
+          color: gray; }
+          .app .CentralManager .display-actions .button-holder .actions .toggle-info-tray.enabled:hover, .app .ProjectManager .display-actions .button-holder .actions .toggle-info-tray.enabled:hover {
+            cursor: pointer;
+            color: #8796b4; }
+.app .CentralManager .display-table table td, .app .ProjectManager .display-table table td {
+  white-space: nowrap;
+  cursor: pointer; }
+  .app .CentralManager .display-table table td .master, .app .ProjectManager .display-table table td .master {
+    font-weight: bold;
+    font-size: 16px; }
+  .app .CentralManager .display-table table td .title, .app .ProjectManager .display-table table td .title {
+    font-weight: bold; }
+  .app .CentralManager .display-table table td .view-only, .app .ProjectManager .display-table table td .view-only {
+    color: gray; }
+  .app .CentralManager .display-table table td.favorites, .app .ProjectManager .display-table table td.favorites {
+    padding: 8px 0; }
+    .app .CentralManager .display-table table td.favorites a, .app .ProjectManager .display-table table td.favorites a {
+      font-family: "font awesome";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background-color: inherit; }
+      .app .CentralManager .display-table table td.favorites a:hover, .app .ProjectManager .display-table table td.favorites a:hover {
+        text-decoration: none; }
+        .app .CentralManager .display-table table td.favorites a:hover:after, .app .ProjectManager .display-table table td.favorites a:hover:after {
+          content: '\f006'; }
+      .app .CentralManager .display-table table td.favorites a.favorite:after, .app .ProjectManager .display-table table td.favorites a.favorite:after {
+        content: '\f005'; }
+.app .CentralManager .display-table table tr.active td, .app .ProjectManager .display-table table tr.active td {
+  background-color: #f2f5a9; }
+.app .CentralManager .display-table thead .title.active a, .app .ProjectManager .display-table thead .title.active a {
+  color: orange; }
+.app .CentralManager .display-table thead th, .app .ProjectManager .display-table thead th {
+  background-color: #e9e9e9;
+  border: 0 none;
+  border-top: 1px solid #dddddd !important;
+  border-bottom: 1px solid #dddddd; }
+  .app .CentralManager .display-table thead th a, .app .ProjectManager .display-table thead th a {
+    color: #8796b4;
+    text-decoration: none;
+    cursor: pointer; }
+.app .CentralManager .display-table tbody tr:hover .dropdown-trigger, .app .ProjectManager .display-table tbody tr:hover .dropdown-trigger {
+  display: block; }
+.app .info-tray {
+  margin: 10px;
+  width: 280px; }
+  .app .info-tray a {
+    cursor: pointer; }
+  .app .info-tray .details .sub-header {
+    margin: 0 0 10px;
+    font-weight: bold;
+    color: gray; }
+  .app .info-tray .details .title-holder {
+    border-bottom: 1px solid gray; }
+    .app .info-tray .details .title-holder .title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      float: left;
+      width: 240px;
+      padding: 0 0 3px; }
+  .app .info-tray .details .pencil {
+    float: right;
+    font-size: 18px;
+    margin: 0 15px 0 0; }
+  .app .info-tray .details input {
+    width: 225px; }
+  .app .info-tray .details .contextual-menu {
+    margin: 10px 0; }
+    .app .info-tray .details .contextual-menu .details, .app .info-tray .details .contextual-menu .divider {
+      display: none; }
+  .app .info-tray .details p {
+    margin: 0 0 5px; }
+    .app .info-tray .details p a {
+      color: cornflowerblue;
+      text-decoration: none; }
+      .app .info-tray .details p a:hover {
+        color: #8796b4; }
+        .app .info-tray .details p a:hover span.enabled {
+          color: #8796b4; }
+      .app .info-tray .details p a.disabled {
+        color: gray; }
+  .app .info-tray .details .close {
+    margin: 0 15px 0 0; }
+  .app .info-tray h4, .app .info-tray h5, .app .info-tray h6 {
+    margin-top: 0;
+    clear: both; }
+  .app .info-tray p {
+    margin: 0; }
+  .app .info-tray .entity-holder {
+    clear: both;
+    max-height: 100px;
+    padding: 0 10px;
+    overflow: hidden; }
+    .app .info-tray .entity-holder.see-all {
+      height: auto;
+      max-height: none; }
+  .app .info-tray .see-all-toggle {
+    margin: 0 8px;
+    float: right;
+    cursor: pointer; }
+  .app .info-tray .scenario {
+    margin: 0 0 8px; }
+    .app .info-tray .scenario .in-project {
+      margin: 0 0 10px 30px;
+      font-style: italic;
+      color: gray;
+      line-height: 9px; }
+  .app .info-tray .measures h4 {
+    margin: 0 0 8px 10px; }
+  .app .info-tray .measures ul li {
+    list-style-type: disc;
+    margin: 0 0 5px 25px; }
+  .app .info-tray .profile {
+    padding: 8px 5px;
+    margin-bottom: 10px;
+    background-color: white; }
+    .app .info-tray .profile.description-holder .field-label {
+      font-weight: bold;
+      float: left; }
+    .app .info-tray .profile.description-holder .edit {
+      float: right; }
+    .app .info-tray .profile.description-holder .description {
+      clear: both;
+      width: 100%;
+      display: block;
+      border: 0 none; }
+    .app .info-tray .profile .used-in {
+      float: left;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 0 0 0 10px; }
+      .app .info-tray .profile .used-in span {
+        color: orange; }
+    .app .info-tray .profile .add-scenario-holder {
+      position: relative; }
+      .app .info-tray .profile .add-scenario-holder .add-scenario {
+        margin: 15px auto 5px;
+        width: 140px;
+        display: block; }
+      .app .info-tray .profile .add-scenario-holder > ul li {
+        padding: 0 12px; }
+        .app .info-tray .profile .add-scenario-holder > ul li:hover {
+          background-color: #e9e9e9;
+          cursor: pointer; }
+
+.scenario-edit {
+  margin: 25px; }
+  .scenario-edit .ms-breadcrumb {
+    margin: 20px 0; }
+    .scenario-edit .ms-breadcrumb a {
+      font-size: 16px;
+      font-weight: bold; }
+      .scenario-edit .ms-breadcrumb a:hover {
+        text-decoration: none; }
+  .scenario-edit .details {
+    margin: 0 0 20px 0; }
+  .scenario-edit .display {
+    width: 100%; }
+    .scenario-edit .display .actions {
+      border: 1px solid #dddddd;
+      border-bottom: 0 none;
+      height: 30px; }
+      .scenario-edit .display .actions .holder {
+        border-right: 1px solid #dddddd;
+        height: 29px;
+        padding: 4px 0 0 9px; }
+        .scenario-edit .display .actions .holder:last-child {
+          border-right: 0 none; }
+    .scenario-edit .display table thead {
+      background-color: #e9e9e9; }
+      .scenario-edit .display table thead th {
+        text-transform: uppercase;
+        color: #8796b4;
+        font-size: 12px; }
+
+/* this has to be below everything to work */
+/* Animation CSS */
+#fade-in.ng-enter, #fade-in.ng-leave {
+  -webkit-transition: 0.3s linear all;
+  transition: 0.3s linear all;
+  display: block !important; }
+
+#fade-in.ng-enter {
+  opacity: 0.0; }
+
+#fade-in.ng-enter.ng-enter-active {
+  opacity: 1; }
+
+#fade-in.ng-leave.ng-leave-active {
+  opacity: 0.0; }
+
+#slide-in.ng-hide-add,
+#slide-in.ng-hide-remove {
+  -webkit-transition: 0.3s linear all;
+  transition: 0.3s linear all;
+  display: block !important; }
+
+#slide-in.ng-hide-add {
+  width: 300px; }
+
+#slide-in.ng-hide-add.ng-hide-add-active {
+  width: 0px; }
+
+#slide-in.ng-hide-remove {
+  width: 0px; }
+
+#slide-in.ng-hide-remove.ng-hide-remove-active {
+  width: 300px; }

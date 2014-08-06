@@ -1,0 +1,48 @@
+/* Application Styles */
+@import "variables";
+
+.cap {
+	width:100%;
+	background-color:$black;
+	height: $cap_height;
+	position: relative;
+	z-index: 1000;
+	.navigation {
+		.bar {
+			max-width:$app_max_width;
+			min-width:$app_min_width;
+			width:100%;
+			height:$cap_height;
+			padding:0 15px;
+			margin:auto;
+		}
+		a.logo {
+			background: transparent url($spirte) -214px -3px no-repeat;
+			display:inline-block;
+			height: 50px;
+			width: 200px;
+			text-indent: -1000px;
+		}
+		/* temporary style */
+		.temp-nav {
+			height: $cap_height;
+		}
+		.navbar-nav {
+			li a.information {
+				color: $white;
+				cursor: pointer;
+				&:hover {
+					background-color: inherit;
+					color: $mouseover;
+				}
+			}
+		}
+	}
+}
+
+.app {
+	max-width: $app_max_width;
+	min-width: $app_min_width;
+	font-size: $body_font_size;
+	margin: auto;
+}
