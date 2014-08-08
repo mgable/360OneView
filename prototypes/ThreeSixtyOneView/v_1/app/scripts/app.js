@@ -1,7 +1,8 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView.services', ['dialogs.main']);
+angular.module('ThreeSixtyOneView.services', ['dialogs.main', 'ThreeSixtyOneView.filters']);
 angular.module('ThreeSixtyOneView.directives', ['ThreeSixtyOneView.services']);
+angular.module('ThreeSixtyOneView.filters', []);
 
 angular.module('ThreeSixtyOneView', [
     'ngResource',
@@ -52,7 +53,7 @@ angular.module('ThreeSixtyOneView', [
         "view": {
             "CentralManager": {
                 "model": "FilesModel",
-                "orderBy": 'Last Modified',
+                "orderBy": 'lastModified',
                 "filter": 'CONFIG.view.CentralManager.filterMenu.items[0]',
                 "reverse": true,
                 "favorites": false,
@@ -114,9 +115,11 @@ angular.module('ThreeSixtyOneView', [
                 },
                 "sortMenu": {
                     "displayColumns": [{
-                        "label": "Last Modified"
+                        "label": "Last Modified",
+                        "filter": "lastModified"
                     }, {
                         "label": "Modified By",
+                        "filter": "modifiedBy",
                         "filters": [{
                             "label": "Modified by me",
                             "filter": "modifiedBy"
@@ -128,6 +131,7 @@ angular.module('ThreeSixtyOneView', [
                         "enabledOn": "Modified by:"
                     }, {
                         "label": "Owner",
+                        "filter": "owner",
                         "filters": [{
                             "label": "Owned by me",
                             "filter": "owner"
@@ -142,22 +146,22 @@ angular.module('ThreeSixtyOneView', [
             },
             "ProjectManager": {
                 "model": "ProjectsModel",
-                "orderBy": 'Last Modified',
+                "orderBy": 'lastModified',
                 "filter": 'CONFIG.view.ProjectManager.filterMenu.items[0]',
                 "reverse": true,
                 "favorites": true,
                 "filterMenu": {
-                    firstSelected: 0,
-                    icon: "suitcase",
-                    title: "Projects",
-                    items: [{
+                    "firstSelected": 0,
+                    "icon": "suitcase",
+                    "title": "Projects",
+                    "items": [{
                         label: "All",
                         filterType: "activeFilter",
                         filter: {}
                     }, {
                         label: "Favorites",
                         filterType: "filterPipeline",
-                        filter: "favorites"
+                        filter: "isFavorite"
                     }, {
                         label: "Created by me",
                         filterType: "activeFilter",
@@ -173,8 +177,8 @@ angular.module('ThreeSixtyOneView', [
                     }]
                 },
                 "contextualMenu": {
-                    actions: ['copy', 'favorites', 'sharing', 'rename', 'delete', 'add', 'details'],
-                    views: {
+                    "actions": ['copy', 'favorites', 'sharing', 'rename', 'delete', 'add', 'details'],
+                    "views": {
                         "defaults": {
                             "type": "master",
                             "value": "1000001"
@@ -188,26 +192,33 @@ angular.module('ThreeSixtyOneView', [
                 },
                 "sortMenu": {
                     "displayColumns": [{
-                        "label": "Last Modified"
+                        "label": "Last Modified",
+                        "filter": "lastModified"
                     }, {
                         "label": "Modified By",
+                        "filter": "modifiedBy",
                         "filters": [{
                             "label": "Modified by me",
-                            "filter": "modifiedBy"
+                            "filter": "modifiedBy",
+                            "who": "me"
                         }, {
                             "label": "Modified by:",
-                            "filter": "modifiedBy"
+                            "filter": "modifiedBy",
+                            "who": "name"
                         }],
                         "template": "/name.html",
                         "enabledOn": "Modified by:"
                     }, {
                         "label": "Owner",
+                        "filter": "owner",
                         "filters": [{
                             "label": "Owned by me",
-                            "filter": "owner"
+                            "filter": "owner",
+                            "who": "me"
                         }, {
                             "label": "Owned by:",
-                            "filter": "owner"
+                            "filter": "owner",
+                            "who": "name"
                         }],
                         "template": "/name.html",
                         "enabledOn": "Owned by:"

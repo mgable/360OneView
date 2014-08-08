@@ -39,11 +39,11 @@ angular.module('ThreeSixtyOneView.services')
             var createTypes = {
                 'element': {
                     controller: 'CreateCtrl',
-                    template: '/views/modal/createScenarioElement.html'
+                    template: '/views/modal/create_scenario_element.html'
                 },
                 'project': {
                     controller: 'ProjectCreateCtrl',
-                    template: '/views/modal/createProject.html'
+                    template: '/views/modal/create_project.html'
                 }
             };
             dialogs.create(createTypes[type].template, createTypes[type].controller, {}, {

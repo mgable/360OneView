@@ -13,6 +13,7 @@ angular.module("ThreeSixtyOneView")
         $scope.ViewService = ViewService;
         // for testing only
         $scope.foo = "foobar!!!!";
+
         // convenience methods
         $scope.console = function(msg) {
             console.info(msg);
@@ -31,8 +32,10 @@ angular.module("ThreeSixtyOneView")
 
         $scope.menuItems = CONFIG.view[currentView].filterMenu;
         $scope.hasFavorites = CONFIG.view[currentView].favorites;
+        $scope.data = {};
 
         viewModel.$get().$futureData.then(function(response) {
+            $scope.data = response;
             $scope.$apply($scope.SortAndFilterService.init({
                 data: response,
                 orderBy: orderBy,
@@ -40,8 +43,9 @@ angular.module("ThreeSixtyOneView")
                 reverse: reverse
             }));
 
-            $scope.FavoritesService.addFavorite($scope.SortAndFilterService.getMasterProject())
-            console.info($scope.FavoritesService.getFavorites())
+            if ($scope.hasFavorites && $scope.data.master) {
+                $scope.FavoritesService.addFavorite($scope.data.master);
+            }
         });
 
         $scope.ViewService.setModel(viewModel);

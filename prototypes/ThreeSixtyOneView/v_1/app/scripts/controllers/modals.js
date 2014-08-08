@@ -53,14 +53,17 @@ angular.module('ThreeSixtyOneView')
             console.info("cancel")
             $modalInstance.dismiss('canceled');
         };
-    }).controller('ProjectCreateCtrl', function($scope, $modalInstance) {
+    }).controller('ProjectCreateCtrl', function($scope, $modalInstance, ProjectsModel) {
         $scope.close = function() {
             console.info("cancel")
             $modalInstance.dismiss('canceled');
         };
 
         $scope.create = function(item) {
-            alert("this will take you to the create project work flow")
+            alert("this will take you to the create project work flow");
+            ProjectsModel.$create({
+                name: item
+            });
             $modalInstance.dismiss('create');
         };
     })

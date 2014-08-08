@@ -2,22 +2,85 @@
 
 angular.module('ThreeSixtyOneView.services')
     .service('SortAndFilterService', function($filter, $rootScope, filterFilter) {
-        var sorters = {},
-            filterBy = {},
-            orderBy = "",
-            reverse = false,
-            activeFilters = {},
-            selected = "",
-            searchText = "",
-            self = this,
-            filters = [],
-            favorites = function(data) {
-                return $filter('isFavorite')(data);
-            };
+        var sorters = {}, // <ms-dropdown> instances
+            filterBy = {}, // <ms-dropdown> instances filter selection
+            orderBy = "", // <ms-dropdown> instances orderby selection
+            reverse = false, // <ms-dropdown> instances reverse selection
+            activeFilters = {}, // filters (from filter include)
+            selected = {
+                'label': 'default'
+            }, // selected filter (use for display label)
+            searchText = "", // search input text value
+            filters = [], // additional filters
+            data, // holds all data
+            display, // holds filtered data
+            getFilter = function(filter) {
+                return function(data) {
+                    return $filter(filter)(data);
+                }
+            },
+            set = { // object mapping
+                "activeFilter": function(toWhat) {
+                    setActiveFilter(toWhat);
+                },
+                "reverse": function(toWhat) {
+                    this.setReverse(toWhat);
+                },
+                "filterBy": function(toWhat) {
+                    this.setFilterBy(toWhat);
+                },
+                "orderBy": function(toWhat) {
+                    this.setOrderBy(toWhat);
+                },
+                "reset": function() {
+                    resetFilterBy();
+                },
+                "filterPipeline": function(toWhat) {
+                    resetActiveFilters();
+                    setSelected(toWhat);
+                    addToPipline(toWhat);
+                }
+            },
+            addToPipline = function(which) {
+                var filter = getFilter(which.filter);
+                filters.push(filter);
+            },
+            clearPipeline = function() {
+                filters = [];
+            },
+            filterPipline = function(data) {
+                return (_.reduce(filters, function(memo, num) {
+                    return num(memo);
+                }, data))
+            },
+            resetFilterBy = function() {
+                filterBy = {};
+            },
 
-        this.enabledDefaults = function(trueOrFalse) {
-            enabledDefaultChecking = trueOrFalse;
-        };
+            setActiveFilters = function(value) {
+                activeFilters = value;
+            },
+
+            resetActiveFilters = function() {
+                activeFilters = {};
+            },
+            setSelected = function(value) {
+                selected = value;
+            },
+            setActiveFilter = function(item) {
+                clearPipeline();
+
+                if (item) {
+                    setSelected(item);
+                    setActiveFilters(item.filter);
+                } else {
+                    resetActiveFilters();
+                }
+
+                resetFilterBy();
+                $rootScope.$broadcast("SortAndFilterService:resetFilterBy");
+            },
+            self = this;
 
         this.setSorter = function(id, sorter) {
             sorters[id] = sorter;
@@ -29,16 +92,15 @@ angular.module('ThreeSixtyOneView.services')
 
         this.setOrderBy = function(which) {
             orderBy = which;
-            $rootScope.$broadcast('SortAndFilterService:filter');
+            //$rootScope.$broadcast('SortAndFilterService:filter');
         };
 
         this.getOrderBy = function() {
-            return $filter('camelCase')(orderBy);
+            return orderBy;
         };
 
         this.setReverse = function(which) {
             reverse = which;
-            $rootScope.$broadcast('SortAndFilterService:filter');
         };
 
         this.getReverse = function() {
@@ -46,28 +108,14 @@ angular.module('ThreeSixtyOneView.services')
         };
 
         this.setFilterBy = function(obj) {
-            filterBy[obj.filter] = obj.value;
+            filterBy = obj;
         };
 
         this.getFilterBy = function() {
             return filterBy;
         };
-
-        this.resetFilterBy = function() {
-            filterBy = {};
-            $rootScope.$broadcast('SortAndFilterService:filter');
-        };
-
         this.getActiveFilters = function() {
             return activeFilters;
-        };
-
-        this.setActiveFilters = function(value) {
-            activeFilters = value;
-        };
-
-        this.clearActiveFilters = function() {
-            activeFilters = {};
         };
 
         this.getSearchText = function() {
@@ -75,7 +123,12 @@ angular.module('ThreeSixtyOneView.services')
         };
 
         this.setSearchText = function(value) {
-            searchText = value;
+            this.searchText = searchText = value;
+        };
+
+        this.resetSearchText = function() {
+            this.searchText = searchText = "";
+            this.filter();
         };
 
         this.getSelected = function() {
@@ -86,65 +139,18 @@ angular.module('ThreeSixtyOneView.services')
             return selected.label;
         };
 
-        this.setSelected = function(value) {
-            selected = value;
-        };
-
         this.getCount = function() {
-            return this.display.data.length;
+            return display.data.length;
         };
 
         this.getData = function() {
-            return this.display.data;
-        }
-
-        this.clearSearchText = function() {
-            this.searchText = searchText = "";
-            this.filter();
+            return display.data;
         };
-
-        this.getMasterProject = function() {
-            return this.data.master;
-        }
 
         this.searchText = searchText;
 
-        this.setActiveFilter = function(item) {
-            this.clearPipeline();
-
-            if (item) {
-                self.setSelected(item);
-                self.setActiveFilters(item.filter);
-            } else {
-                self.clearActiveFilters();
-            }
-
-            this.resetFilterBy();
-            $rootScope.$broadcast("SortAndFilterService:resetFilterBy");
-        }
-
         this.setFilter = function(which, toWhat, filter) {
-            switch (which) {
-                case "activeFilter":
-                    this.setActiveFilter(toWhat);
-                    break;
-                case "reverse":
-                    this.setReverse(toWhat);
-                    break;
-                case "filterBy":
-                    this.setFilterBy(toWhat);
-                    break;
-                case "orderBy":
-                    this.setOrderBy(toWhat);
-                    break;
-                case "reset":
-                    this.resetFilterBy();
-                    break;
-                case "filterPipeline":
-                    this.clearActiveFilters();
-                    this.addToPipline(toWhat);
-                    break;
-            }
+            set [which].call(this, toWhat);
 
             if (filter) {
                 this.filter();
@@ -152,14 +158,14 @@ angular.module('ThreeSixtyOneView.services')
         }
 
         this.init = function(config) {
-            this.data = config.data;
-            this.display = angular.copy(this.data);
+            data = config.data;
+            display = angular.copy(data);
             this.setFilter("orderBy", config.orderBy, false);
             this.setFilter("reverse", config.reverse, false);
             this.setFilter("activeFilter", config.filter, true);
 
             $rootScope.$on("ProjectsModel:dataChange", function(event, data) {
-                self.data = data.data;
+                data = data.data;
                 self.filter();
             });
         }
@@ -169,31 +175,16 @@ angular.module('ThreeSixtyOneView.services')
             var activeFilters = this.getActiveFilters(),
                 filterBy = this.getFilterBy(),
                 searchText = this.getSearchText(),
-                temp = filterFilter(this.data.data, activeFilters);
+                temp = data.data;
+            temp = filterFilter(temp, activeFilters);
             temp = filterFilter(temp, filterBy);
             temp = filterFilter(temp, {
                 title: searchText
             });
             temp = $filter('orderBy')(temp, this.getOrderBy(), this.getReverse());
-            temp = this.filterPipline(temp);
-            this.display.data = temp;
+            temp = filterPipline(temp);
+            display.data = temp;
 
             $rootScope.$broadcast('SortAndFilterService:filter');
-        }
-
-        this.addToPipline = function(which) {
-            self.setSelected(which);
-            filters.push(eval(which.filter));
-        }
-
-        this.clearPipeline = function() {
-            filters = [];
-        }
-
-        this.filterPipline = function(data) {
-            return (_.reduce(filters, function(memo, num) {
-                console.info("filter pipeline");
-                return num(memo);
-            }, data))
         }
     });

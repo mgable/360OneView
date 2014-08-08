@@ -13,17 +13,17 @@
 				</div>
 			</div>
 
-			<div class="form-group">
+<!-- 			<div class="form-group">
 				<label class="col-2" >Access:&nbsp;</label>
 				<div class="col-4">
 					<select ng-model="item.access" ng-options="item for item in ['Everyone can edit','Only I can edit']" required>
 						<option value=""> --&gt; Choose access &lt;-- </option>
 					</select>
 				</div>
-			</div>
+			</div> -->
 		</div>
 		<div class="modal-footer">
-			<button type="button" ng-disabled="createEntity.$invalid" class="btn btn-primary" ng-click="create(item)">Create New Project</button>
+			<button type="button" ng-disabled="createEntity.$invalid" class="btn btn-primary" ng-click="create(item.name)">Create New Project</button>
 			<button type="button" class="btn btn-default" ng-click="close()">Cancel</button>
 		</div>
 	</form>

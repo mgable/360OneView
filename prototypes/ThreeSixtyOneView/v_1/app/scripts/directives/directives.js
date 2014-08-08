@@ -35,16 +35,17 @@ angular.module('ThreeSixtyOneView.directives')
                         $scope.selectedFilter = "";
                         DropdownService.setActive($scope.id);
                         SortAndFilterService.setFilter("reset", "", false);
-                        SortAndFilterService.setFilter("orderBy", item.label, true);
+                        SortAndFilterService.setFilter("orderBy", item.filter, true);
                         SortAndFilterService.setSorter($scope.id, item.label);
                     },
                     setFilterBy = function(item, who) {
+                        var filter = {};
+                        filter[item.filter] = $scope[who];
+
+                        console.info(who, $scope[who])
                         if (isActive() && item) {
                             SortAndFilterService.setFilter("reset", "", false);
-                            SortAndFilterService.setFilter("filterBy", {
-                                filter: item.filter,
-                                value: who
-                            }, true);
+                            SortAndFilterService.setFilter("filterBy", filter, true);
                         } else {
                             SortAndFilterService.setFilter("reset", "", true);
                         }
@@ -54,12 +55,12 @@ angular.module('ThreeSixtyOneView.directives')
                         setOrderBy($scope.selectedItem);
                         setFilterBy($scope.selectedFilter, getName($scope.selectedFilter));
                     },
-                    getName = function(filter) {
-                        if (filter) {
-                            return (filter.label.indexOf('by me') > -1) ? $scope.me : $scope.name ? $scope.name : true;
-                        }
-                        return true;
-                    },
+                    // getName = function(filter) {
+                    //     if (filter) {
+                    //         return (filter.label.indexOf('by me') > -1) ? $scope.me : $scope.name ? $scope.name : true;
+                    //     }
+                    //     return true;
+                    // },
                     isActive = function() {
                         return $scope.id === DropdownService.getActive();
                     },
@@ -114,7 +115,7 @@ angular.module('ThreeSixtyOneView.directives')
                 if ($scope.isActive) {
                     // ***
                     DropdownService.setActive($scope.id);
-                    SortAndFilterService.setFilter("orderBy", $scope.selectedItem.label, false);
+                    SortAndFilterService.setFilter("orderBy", $scope.selectedItem.filter, false);
                 }
 
                 $scope.enabledOn = function(which) {
@@ -128,11 +129,10 @@ angular.module('ThreeSixtyOneView.directives')
                         focusInput();
                     } else {
                         $scope.name = name;
-                        console.info("submitted: " + $scope.name);
                         close();
 
                         // ***
-                        setFilterBy($scope.selectedFilter, $scope.name);
+                        setFilterBy($scope.selectedFilter, "name");
                     }
                 }
 
@@ -190,7 +190,9 @@ angular.module('ThreeSixtyOneView.directives')
                     }
 
                     // ***
-                    setFilterBy($scope.selectedFilter, getName($scope.selectedFilter));
+                    console.info("$scope.selectedFilter");
+                    console.info($scope.selectedFilter)
+                    setFilterBy($scope.selectedFilter, $scope.selectedFilter.who);
                 }
             }
         }
@@ -406,7 +408,7 @@ angular.module('ThreeSixtyOneView.directives')
 
                 $scope.toggleSearchField = function() {
                     if ($scope.searchVisible) {
-                        $scope.SortAndFilterService.clearSearchText();
+                        $scope.SortAndFilterService.resetSearchText();
                     } else {
                         $timeout(function() {
                             inputField[0].focus();

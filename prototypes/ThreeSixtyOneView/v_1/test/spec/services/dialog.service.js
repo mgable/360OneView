@@ -5,8 +5,6 @@ describe('Services:', function() {
     // load the directive's module
     beforeEach(module('ThreeSixtyOneView.services'));
 
-    beforeEach(module('my.templates'));
-
     var DiaglogService, dialogs;
 
     beforeEach(inject(function(_DiaglogService_, _dialogs_) {
@@ -22,7 +20,7 @@ describe('Services:', function() {
         it("should create the correct dialog box", function() {
             var spy = spyOn(dialogs, "create");
             DiaglogService.create('project')
-            expect(spy).toHaveBeenCalledWith('/views/modal/createProject.html', 'ProjectCreateCtrl', {}, {
+            expect(spy).toHaveBeenCalledWith('/views/modal/create_project.html', 'ProjectCreateCtrl', {}, {
                 size: 'sm'
             });
         });
