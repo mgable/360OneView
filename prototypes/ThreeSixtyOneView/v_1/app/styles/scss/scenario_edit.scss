@@ -23,6 +23,10 @@
 			border: 1px solid $mediumgray;
 			border-bottom: 0 none;
 			height: 30px;
+			span:hover {
+				background-color:$mouseover;
+				cursor: pointer;
+			}
 			.holder {
 				border-right: 1px solid $mediumgray;
 				height:29px;
@@ -30,6 +34,25 @@
 				&:last-child {
 					border-right: 0 none;
 				}
+			}
+		}
+		.tableHolder {
+			.trayHolder {
+				border:1px solid $mediumgray;
+				border-right: 0 none;
+				width: 300px;
+				overflow:hidden;
+				.tray {
+					overflow: hidden;
+				}
+
+			}
+			.pivitTableHolder {
+				border:1px solid $mediumgray;
+				padding: 0;
+			}
+			 table {
+				width: 100%;
 			}
 		}
 		table {

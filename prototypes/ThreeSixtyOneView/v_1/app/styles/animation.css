@@ -1,7 +1,7 @@
 /* Animation CSS */
 #fade-in.ng-enter, #fade-in.ng-leave {
-  -webkit-transition: 0.3s linear all;
-  transition: 0.3s linear all;
+  -webkit-transition: 10.3s linear all;
+  transition: 10.3s linear all;
   display: block !important; }
 
 #fade-in.ng-enter {
@@ -15,8 +15,8 @@
 
 #slide-in.ng-hide-add,
 #slide-in.ng-hide-remove {
-  -webkit-transition: 0.3s linear all;
-  transition: 0.3s linear all;
+  -webkit-transition: 10.3s linear all;
+  transition: 10.3s linear all;
   display: block !important; }
 
 #slide-in.ng-hide-add {

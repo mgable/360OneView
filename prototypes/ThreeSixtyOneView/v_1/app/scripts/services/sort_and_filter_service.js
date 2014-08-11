@@ -14,11 +14,6 @@ angular.module('ThreeSixtyOneView.services')
             filters = [], // additional filters
             data, // holds all data
             display, // holds filtered data
-            getFilter = function(filter) {
-                return function(data) {
-                    return $filter(filter)(data);
-                }
-            },
             set = { // object mapping
                 "activeFilter": function(toWhat) {
                     setActiveFilter(toWhat);
@@ -39,6 +34,11 @@ angular.module('ThreeSixtyOneView.services')
                     resetActiveFilters();
                     setSelected(toWhat);
                     addToPipline(toWhat);
+                }
+            },
+            getFilter = function(filter) {
+                return function(data) {
+                    return $filter(filter)(data);
                 }
             },
             addToPipline = function(which) {
