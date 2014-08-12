@@ -18,11 +18,17 @@ angular.module('ThreeSixtyOneView.services')
             return index > -1 ? true : false;
         }
 
-        this.toggleFavorite = function(itemID) {
-            if (this.isFavorite(itemID)) {
-                removeFavorite(itemID);
-            } else {
-                this.addFavorite(itemID);
+        this.toggleFavorite = function(item, evt) {
+            var itemID = item.id;
+            if (item.access === "Everyone can edit"){
+                if (this.isFavorite(itemID)) {
+                    removeFavorite(itemID);
+                } else {
+                    this.addFavorite(itemID);
+                }
+            }
+            if (evt){
+                evt.stopPropagation();
             }
         }
 

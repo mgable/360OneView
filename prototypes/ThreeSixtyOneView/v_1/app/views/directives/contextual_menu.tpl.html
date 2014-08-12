@@ -5,8 +5,8 @@
 			copy
 		</a>
 	</li>
-	<li ng-if="favorites.show" class='favorites'>
-		<a ng-click="FavoritesService.toggleFavorite(item.id)">
+	<li ng-if="favorites.show" class='favorites no-after'>
+		<a ng-click="FavoritesService.toggleFavorite(item)">
 			<span ng-if="!FavoritesService.isFavorite(item.id)">
 				<icon type="star"></icon>
 				favorite

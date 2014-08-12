@@ -19,8 +19,11 @@ angular.module("ThreeSixtyOneView")
             console.info(msg);
         }
 
-        $scope.alert = function(msg) {
+        $scope.alert = function(msg, evt) {
             alert(msg);
+            if (evt){
+                evt.stopPropagation();
+            }
         }
     }).controller("ManagerCtrl", function($scope, $injector, CONFIG) {
 

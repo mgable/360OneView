@@ -3,14 +3,20 @@
 		<p class="sub-header pull-left">DETAILS</p>
 		<button type="button"  class="close" ng-click="InfoTrayService.closeInfoTray()"><span aria-hidden="true">&times;</span></button>
 
-		<p class="clearfix title-holder"><inline-rename item="selectedItem"></inline-rename></p>
-		<p ng-if="selectedItem.type">Type:&nbsp;{{selectedItem.type}}</p>
+		<div class="clearfix title-holder">
+			<span ng-switch="selectedItem.access">
+				<h4 ng-switch-when="view only" class="title clear"><span class="symbol icon-masterset"></span>{{selectedItem.title}}</h4>
+				<span ng-switch-default>
+					<inline-rename item="selectedItem"><span class="favorites" ng-class="{disabled:selectedItem.access==='view only'}"><a ng-class="{favorite:FavoritesService.isFavorite(selectedItem.id)}" ng-click="FavoritesService.toggleFavorite(selectedItem)"></a></span></inline-rename>
+				</span>
+			</span>
+		</div>
 
-		<contextual-menu class="contextual-menu" listen=true></contextual-menu>
+		<p ng-if="selectedItem.type">Type:&nbsp;{{selectedItem.type}}</p>
 	</div>
 
 	<div ng-if="selectedItem.description" class="well profile description-holder">
-		<span class='field-label'>Description</span><span class='edit'><a ng-click="disabled = !disabled"><icon type="pencil"></icon></a></span>
+		<span class='field-label'>Description</span><span class='edit' ng-hide="selectedItem.access==='view only'"><a ng-click="disabled = !disabled"><icon type="pencil"></icon></a></span>
 		<textarea ng-init="disabled=true" ng-disabled="disabled" ng-model=selectedItem.description class="description" elastic></textarea>
 	</div>
 
@@ -65,15 +71,4 @@
 			</ul>
 		</div> -->
 	</div>
-	<div class="well profile measures">
-		<h5 class="bold">Base Scenario</h5>
-		<p><icon type="marketshare" class="symbol"></icon>&nbsp;{{selectedItem.base}}</p>
-	</div>
-
-	<div class="well profile measures">
-		<h5 class="bold">Sharing Settings</h5>
-		<p><icon type="users"></icon>&nbsp;{{selectedItem.access}}</p>
-	</div>
-
-	<div class="details"><p><a ng-click="DiaglogService.trash(selectedItem);"><icon type="trash-o"></icon>&nbsp;Delete</a></p></div>
 </div>

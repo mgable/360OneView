@@ -32,7 +32,7 @@ $body_font_size: 13px;
 	box-shadow: $t $r $b $l rgba(0,0,0,$o);
 }
 
-@mixin transition($d:"10.3s", $s:"linear", $c:"all") {
+@mixin transition($d:"0.3s", $s:"linear", $c:"all") {
 	-webkit-transition: #{$d} #{$s} #{$c};
 	transition: #{$d} #{$s} #{$c};
 	display: block !important;

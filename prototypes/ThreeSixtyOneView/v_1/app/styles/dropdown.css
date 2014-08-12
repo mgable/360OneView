@@ -32,6 +32,8 @@ li {
   min-width: 100px;
   white-space: nowrap;
   color: #8695B4; }
+  .ms-label .filter-icon {
+    margin: 0 4px 0 -13px; }
 
 .ms-label.active .status {
   color: orange; }
@@ -94,7 +96,7 @@ li {
   .ms-actions-holder .dropdown-trigger {
     display: none;
     font-size: 26px;
-    line-height: 20px; }
+    line-height: 18px; }
   .ms-actions-holder .ms-actions {
     position: relative; }
     .ms-actions-holder .ms-actions .ms-actions-menu {

@@ -114,6 +114,11 @@ angular.module('ThreeSixtyOneView.services')
         this.getFilterBy = function() {
             return filterBy;
         };
+
+        this.hasFilterBy = function(){
+            return !_.isEmpty(filterBy) ? true : false;
+        };
+
         this.getActiveFilters = function() {
             return activeFilters;
         };
@@ -185,6 +190,6 @@ angular.module('ThreeSixtyOneView.services')
             temp = filterPipline(temp);
             display.data = temp;
 
-            $rootScope.$broadcast('SortAndFilterService:filter');
+           $rootScope.$broadcast('SortAndFilterService:filter');
         }
     });

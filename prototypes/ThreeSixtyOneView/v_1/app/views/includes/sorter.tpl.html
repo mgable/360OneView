@@ -1,25 +1,13 @@
-<!-- <pre>
-SortAndFilterService.getActiveFilters() is {{SortAndFilterService.getActiveFilters()}}
-</pre> -->
-
 <sorter>
 	<form class="form-inline display-table">
 		<table class="table table-hover">
 			<colgroup>
-			    <col width="30">
-			    <col width="10" ng-show="hasFavorites">
 			    <col width="690">
 			    <col width="230">
 			    <col width="230">
 			    <col width="30">
 			</colgroup>
 			<thead>
-				<th>
-					<div class="checkbox">
-		                <tri-state-checkbox checkboxes="SortAndFilterService.getData()"  class="select-all-cb" delete-service-for-checkbox></tri-state-checkbox>
-		            </div>
-		        </th>
-		        <th class="favorites" ng-show="hasFavorites"></th>
 				<th><sorting-options label="title" display="Name" msid="name-field"></sorting-options></th>
 				<th><ms-dropdown selected-sort-index="0" reverse=true is-active=true msid="column_1"></ms-dropdown></th>
 				<th><ms-dropdown selected-sort-index="1" reverse=false msid="column_2"></ms-dropdown></th>
@@ -27,21 +15,14 @@ SortAndFilterService.getActiveFilters() is {{SortAndFilterService.getActiveFilte
 			</thead>
 			<tbody>
 				<tr ng-repeat="item in SortAndFilterService.getData()" ng-class="{active: ActiveSelection.isActiveItem(item)}">
-
-					<td style="width:1%">
-						<div class="checkbox pull-left multi-select">
-		                    <input type="checkbox" ng-model="item.isSelected" />
-		                </div>
-		            </td>
-		            <td class="favorites" ng-show="hasFavorites"><a ng-class="{favorite:FavoritesService.isFavorite(item.id)}" ng-click="FavoritesService.toggleFavorite(item.id)"></a>&nbsp;</td>
 					<td ng-click="ActiveSelection.setActiveItem(item);InfoTrayService.toggleInfoTray()">
 						<div class="text-holder">
-	                    	<span ng-switch='item.defaults' class="title">
+	                    	<span ng-switch='item.defaults' class="title" ng-click="alert('This will go to the project edit page', $event)">
 		                        <span ng-switch-when='false'>{{item.title}}</span>
-		                        <span ng-switch-when='master' class="default master"><span class="symbol icon-masterset"></span>{{item.title}}</span>
+		                        <span ng-switch-when='master' class="default master">{{item.title}}&nbsp;<span class="symbol icon-masterset"></span></span>
 		                        <span ng-switch-default class="default"><span class="symbol icon-masterset"></span>{{item.title}}</span>
 	                    	</span>
-	                    	<span class="view-only" ng-if="item.access === 'view only'">(view only)</span>
+	                    	<span class="favorites" ng-class="{disabled:item.access==='view only'}"><a ng-class="{favorite:FavoritesService.isFavorite(item.id)}" ng-click="FavoritesService.toggleFavorite(item, $event)"></a></span>
 	                	</div>
 					</td>
 					<td ng-click="ActiveSelection.setActiveItem(item);InfoTrayService.toggleInfoTray()">

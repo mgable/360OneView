@@ -66,7 +66,7 @@
 		    }
 		}
 		.display-actions {
-			padding:0 0 0 10px;
+			padding:0 0 0 20px;
 	    	height:50px;
 	    	.title {
 				color:$gray;
@@ -137,13 +137,46 @@
 		}
 		.display-table {
 			table {
+				th {
+					&:first-child {
+						padding: 8px 8px 8px 20px;
+					}
+				}
 				td {
 					white-space: nowrap;
 					cursor: pointer;
+					&:first-child {
+						padding:8px 0 0 20px;
+					}
 					.master {
 						font: {
 							weight:bold;
 							size:16px;
+						}
+					}
+					.text-holder {
+						.favorites {
+						 	&.disabled {
+						 		cursor: default;
+						 		display:none;
+						 	}
+					    	padding:8px 0;
+						    a {
+						      font-family: "font awesome";
+						      display: inline-block;
+						      width: 10px;
+						      height: 10px;
+						      background-color:inherit;
+						      &:hover {
+						        text-decoration: none;
+						        &:after {
+						          content: '\f006';
+						        }
+						      }
+						      &.favorite:after {
+						        content: '\f005';
+						      }
+						    }
 						}
 					}
 					.title {
@@ -151,25 +184,6 @@
 					}
 					.view-only {
 						color: $gray;
-					}
-					&.favorites {
-						padding:8px 0;
-						a {
-							font-family: "font awesome";
-							display: inline-block;
-							width: 10px;
-							height: 10px;
-							background-color:inherit;
-							&:hover {
-								text-decoration: none;
-								&:after {
-									content: '\f006';
-								}
-							}
-							&.favorite:after {
-								content: '\f005';
-							}
-						}
 					}
 				}
 				tr.active  td{
@@ -201,8 +215,10 @@
 	.info-tray {
 		a {
 	 		cursor: pointer;
+	 		text-decoration: none;
 	 	}
 	  .details {
+	  	margin:0 0 10px;
 	    .sub-header {
 	    	margin:0 0 10px;
 	    	font-weight: bold;
@@ -210,13 +226,32 @@
 	    }
 	    .title-holder {
 	    	border-bottom: 1px solid $gray;
+	    	.favorites {
+	    		clear: both;
+	    		float:left;
+	    		padding: 0 8px 0 0;
+	    		a {
+	    			font-family: "font awesome";
+	    			&:after {
+			    		content: '\f006';
+			    	}
+	    			&.favorite {
+			    		&:after {
+			    			content: '\f005';
+			    		}
+			    	}
+		    	}
+	    	}
 		    .title {
 		    	overflow: hidden;
 		    	text-overflow: ellipsis;
 		    	white-space: nowrap;
 		    	float: left;
-		    	width: 240px;
+		    	width: 220px;
 		    	padding: 0 0 3px;
+		    }
+		    .title.clear {
+		    	clear: both;
 		    }
 		}
 	    .pencil {
@@ -224,15 +259,23 @@
 	    	font-size: 18px;
 	    	margin: 0 15px 0 0;
 	    }
-	    input {
-	    	width: 225px;
-	    }
-	    .contextual-menu {
-	    	margin:10px 0;
-	    	.details, .divider {
-	    		display:none;
-	    	}
-	    }
+	    .inlineRename {
+		    input {
+		    	width: 210px;
+		    	float:left;
+		    	margin: 0 0 8px;
+		    }
+		    a {
+		    	float:left;
+		    	padding:0 0 0 3px;
+		    }
+		    .edit {
+		    	visibility: hidden;
+		    }
+		    &:hover .edit{
+		    	visibility: visible;
+		    }
+		}
 	    p {
 	      margin:0 0 5px;
 	      a {
@@ -255,7 +298,6 @@
 	  }
 	  h4, h5, h6 {
 	    margin-top:0;
-	    clear:both;
 	  }
 	  p {
 	    margin:0;
@@ -306,12 +348,16 @@
 	    	}
 	    	.edit {
 	    		float:right;
+	    		visibility: hidden;
 	    	}
 	    	.description {
 	    		clear:both;
 	    		width:100%;
 	    		display:block;
 	    		border: 0 none;
+	    	}
+	    	&:hover .edit {
+	    		visibility: visible;
 	    	}
 	    }
 	    .used-in {

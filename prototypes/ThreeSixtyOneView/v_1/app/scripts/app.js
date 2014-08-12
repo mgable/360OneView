@@ -100,7 +100,7 @@ angular.module('ThreeSixtyOneView', [
                     }]
                 },
                 "contextualMenu": {
-                    actions: ['copy', 'sharing', 'rename', 'delete', 'add', 'details'],
+                    actions: ['copy', 'sharing', 'rename', 'archive', 'add', 'details'],
                     views: {
                         "defaults": {
                             "type": "master",
@@ -177,17 +177,17 @@ angular.module('ThreeSixtyOneView', [
                     }]
                 },
                 "contextualMenu": {
-                    "actions": ['copy', 'favorites', 'sharing', 'rename', 'delete', 'add', 'details'],
+                    "actions": ['copy', 'favorites', 'sharing', 'rename', 'archive', 'add', 'details'],
                     "views": {
                         "defaults": {
                             "type": "master",
-                            "value": "1000001"
+                            "value": "0000001"
                         },
                         "access": {
                             "type": "view only",
-                            "value": "1100001"
+                            "value": "0100001"
                         },
-                        "otherwise": "1101101"
+                        "otherwise": "0101101"
                     }
                 },
                 "sortMenu": {
@@ -249,7 +249,7 @@ angular.module('/msDropdown.html', []).run(['$templateCache',
     function($templateCache) {
         $templateCache.put('/msDropdown.html',
             '<div class="ms-dropdown" id="{{id}}">' +
-            '<h6 class="ms-label" ng-class=\"{active: DropdownService.getActive() === id}\"><span ng-click="select(selectedItem)" class="status">{{selectedItem.label}}</span>&nbsp<span ng-click="toggle(id)" class="glyphicon glyphicon-collapse-down"></span></h6>' +
+            '<h6 class="ms-label" ng-class=\"{active: DropdownService.getActive() === id}\"><span ng-show="filterBy"><icon type="filter" cname="filter-icon"></icon></span><span ng-click="select(selectedItem)" class="status">{{selectedItem.label}}</span>&nbsp<span ng-click="toggle(id)" class="glyphicon glyphicon-collapse-down"></span></h6>' +
             '<ul class="ms-select-list dropshadow hide">' +
             '<li class="ms-item" ng-repeat="item in items" ng-class="{disabled:item.label === selectedItem.label}" ng-click="selectSort(item)"><span class="glyphicon glyphicon-ok ms-ok"></span>{{item.label}}</li>' +
             '<ul ng-if="selectedItem.filters">' +

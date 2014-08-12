@@ -50,7 +50,7 @@
       .app .CentralManager .filters .menu > .header.selected > a, .app .ProjectManager .filters .menu > .header.selected > a {
         color: white; }
 .app .CentralManager .display-actions, .app .ProjectManager .display-actions {
-  padding: 0 0 0 10px;
+  padding: 0 0 0 20px;
   height: 50px; }
   .app .CentralManager .display-actions .title, .app .ProjectManager .display-actions .title {
     color: gray;
@@ -104,30 +104,37 @@
           .app .CentralManager .display-actions .button-holder .actions .toggle-info-tray.enabled:hover, .app .ProjectManager .display-actions .button-holder .actions .toggle-info-tray.enabled:hover {
             cursor: pointer;
             color: #8796b4; }
+.app .CentralManager .display-table table th:first-child, .app .ProjectManager .display-table table th:first-child {
+  padding: 8px 8px 8px 20px; }
 .app .CentralManager .display-table table td, .app .ProjectManager .display-table table td {
   white-space: nowrap;
   cursor: pointer; }
+  .app .CentralManager .display-table table td:first-child, .app .ProjectManager .display-table table td:first-child {
+    padding: 8px 0 0 20px; }
   .app .CentralManager .display-table table td .master, .app .ProjectManager .display-table table td .master {
     font-weight: bold;
     font-size: 16px; }
-  .app .CentralManager .display-table table td .title, .app .ProjectManager .display-table table td .title {
-    font-weight: bold; }
-  .app .CentralManager .display-table table td .view-only, .app .ProjectManager .display-table table td .view-only {
-    color: gray; }
-  .app .CentralManager .display-table table td.favorites, .app .ProjectManager .display-table table td.favorites {
+  .app .CentralManager .display-table table td .text-holder .favorites, .app .ProjectManager .display-table table td .text-holder .favorites {
     padding: 8px 0; }
-    .app .CentralManager .display-table table td.favorites a, .app .ProjectManager .display-table table td.favorites a {
+    .app .CentralManager .display-table table td .text-holder .favorites.disabled, .app .ProjectManager .display-table table td .text-holder .favorites.disabled {
+      cursor: default;
+      display: none; }
+    .app .CentralManager .display-table table td .text-holder .favorites a, .app .ProjectManager .display-table table td .text-holder .favorites a {
       font-family: "font awesome";
       display: inline-block;
       width: 10px;
       height: 10px;
       background-color: inherit; }
-      .app .CentralManager .display-table table td.favorites a:hover, .app .ProjectManager .display-table table td.favorites a:hover {
+      .app .CentralManager .display-table table td .text-holder .favorites a:hover, .app .ProjectManager .display-table table td .text-holder .favorites a:hover {
         text-decoration: none; }
-        .app .CentralManager .display-table table td.favorites a:hover:after, .app .ProjectManager .display-table table td.favorites a:hover:after {
+        .app .CentralManager .display-table table td .text-holder .favorites a:hover:after, .app .ProjectManager .display-table table td .text-holder .favorites a:hover:after {
           content: '\f006'; }
-      .app .CentralManager .display-table table td.favorites a.favorite:after, .app .ProjectManager .display-table table td.favorites a.favorite:after {
+      .app .CentralManager .display-table table td .text-holder .favorites a.favorite:after, .app .ProjectManager .display-table table td .text-holder .favorites a.favorite:after {
         content: '\f005'; }
+  .app .CentralManager .display-table table td .title, .app .ProjectManager .display-table table td .title {
+    font-weight: bold; }
+  .app .CentralManager .display-table table td .view-only, .app .ProjectManager .display-table table td .view-only {
+    color: gray; }
 .app .CentralManager .display-table table tr.active td, .app .ProjectManager .display-table table tr.active td {
   background-color: #f2f5a9; }
 .app .CentralManager .display-table thead .title.active a, .app .ProjectManager .display-table thead .title.active a {
@@ -147,46 +154,65 @@
   margin: 10px;
   width: 280px; }
   .app .info-tray a {
-    cursor: pointer; }
-  .app .info-tray .details .sub-header {
-    margin: 0 0 10px;
-    font-weight: bold;
-    color: gray; }
-  .app .info-tray .details .title-holder {
-    border-bottom: 1px solid gray; }
-    .app .info-tray .details .title-holder .title {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    cursor: pointer;
+    text-decoration: none; }
+  .app .info-tray .details {
+    margin: 0 0 10px; }
+    .app .info-tray .details .sub-header {
+      margin: 0 0 10px;
+      font-weight: bold;
+      color: gray; }
+    .app .info-tray .details .title-holder {
+      border-bottom: 1px solid gray; }
+      .app .info-tray .details .title-holder .favorites {
+        clear: both;
+        float: left;
+        padding: 0 8px 0 0; }
+        .app .info-tray .details .title-holder .favorites a {
+          font-family: "font awesome"; }
+          .app .info-tray .details .title-holder .favorites a:after {
+            content: '\f006'; }
+          .app .info-tray .details .title-holder .favorites a.favorite:after {
+            content: '\f005'; }
+      .app .info-tray .details .title-holder .title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        float: left;
+        width: 220px;
+        padding: 0 0 3px; }
+      .app .info-tray .details .title-holder .title.clear {
+        clear: both; }
+    .app .info-tray .details .pencil {
+      float: right;
+      font-size: 18px;
+      margin: 0 15px 0 0; }
+    .app .info-tray .details .inlineRename input {
+      width: 210px;
       float: left;
-      width: 240px;
-      padding: 0 0 3px; }
-  .app .info-tray .details .pencil {
-    float: right;
-    font-size: 18px;
-    margin: 0 15px 0 0; }
-  .app .info-tray .details input {
-    width: 225px; }
-  .app .info-tray .details .contextual-menu {
-    margin: 10px 0; }
-    .app .info-tray .details .contextual-menu .details, .app .info-tray .details .contextual-menu .divider {
-      display: none; }
-  .app .info-tray .details p {
-    margin: 0 0 5px; }
-    .app .info-tray .details p a {
-      color: cornflowerblue;
-      text-decoration: none; }
-      .app .info-tray .details p a:hover {
-        color: #8796b4; }
-        .app .info-tray .details p a:hover span.enabled {
+      margin: 0 0 8px; }
+    .app .info-tray .details .inlineRename a {
+      float: left;
+      padding: 0 0 0 3px; }
+    .app .info-tray .details .inlineRename .edit {
+      visibility: hidden; }
+    .app .info-tray .details .inlineRename:hover .edit {
+      visibility: visible; }
+    .app .info-tray .details p {
+      margin: 0 0 5px; }
+      .app .info-tray .details p a {
+        color: cornflowerblue;
+        text-decoration: none; }
+        .app .info-tray .details p a:hover {
           color: #8796b4; }
-      .app .info-tray .details p a.disabled {
-        color: gray; }
-  .app .info-tray .details .close {
-    margin: 0 15px 0 0; }
+          .app .info-tray .details p a:hover span.enabled {
+            color: #8796b4; }
+        .app .info-tray .details p a.disabled {
+          color: gray; }
+    .app .info-tray .details .close {
+      margin: 0 15px 0 0; }
   .app .info-tray h4, .app .info-tray h5, .app .info-tray h6 {
-    margin-top: 0;
-    clear: both; }
+    margin-top: 0; }
   .app .info-tray p {
     margin: 0; }
   .app .info-tray .entity-holder {
@@ -221,12 +247,15 @@
       font-weight: bold;
       float: left; }
     .app .info-tray .profile.description-holder .edit {
-      float: right; }
+      float: right;
+      visibility: hidden; }
     .app .info-tray .profile.description-holder .description {
       clear: both;
       width: 100%;
       display: block;
       border: 0 none; }
+    .app .info-tray .profile.description-holder:hover .edit {
+      visibility: visible; }
     .app .info-tray .profile .used-in {
       float: left;
       font-size: 16px;

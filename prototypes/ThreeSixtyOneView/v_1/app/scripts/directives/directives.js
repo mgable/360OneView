@@ -54,13 +54,8 @@ angular.module('ThreeSixtyOneView.directives')
                         DropdownService.setActive(id);
                         setOrderBy($scope.selectedItem);
                         setFilterBy($scope.selectedFilter, getName($scope.selectedFilter));
+
                     },
-                    // getName = function(filter) {
-                    //     if (filter) {
-                    //         return (filter.label.indexOf('by me') > -1) ? $scope.me : $scope.name ? $scope.name : true;
-                    //     }
-                    //     return true;
-                    // },
                     isActive = function() {
                         return $scope.id === DropdownService.getActive();
                     },
@@ -97,6 +92,7 @@ angular.module('ThreeSixtyOneView.directives')
                 });
 
                 $scope.DropdownService = DropdownService;
+                $scope.filterBy = false;
                 $scope.items = CONFIG.view[currentView].sortMenu.displayColumns;
 
                 // remove menu item(s) from the Info Tray contextual menu
@@ -114,6 +110,7 @@ angular.module('ThreeSixtyOneView.directives')
 
                 if ($scope.isActive) {
                     // ***
+                   
                     DropdownService.setActive($scope.id);
                     SortAndFilterService.setFilter("orderBy", $scope.selectedItem.filter, false);
                 }
@@ -190,9 +187,8 @@ angular.module('ThreeSixtyOneView.directives')
                     }
 
                     // ***
-                    console.info("$scope.selectedFilter");
-                    console.info($scope.selectedFilter)
                     setFilterBy($scope.selectedFilter, $scope.selectedFilter.who);
+                    $scope.filterBy = SortAndFilterService.hasFilterBy();
                 }
             }
         }
@@ -420,9 +416,11 @@ angular.module('ThreeSixtyOneView.directives')
         }
     }).directive('inlineRename', function(ViewService) {
         return {
-            template: '<h4 class="title" ng-hide="isActive">{{item.title}}&nbsp;</h4><a ng-click="action()"><icon ng-hide="isActive" type="pencil" class="pencil clearfix"></icon></a>' +
-                '<h4 ng-show="isActive"><input ng-model="item.title" type="text"></input>&nbsp;<a ng-click="submit()"><icon type="check"></icon></a>&nbsp;<a ng-click="cancel()"><icon type="times"></icon></a></h4>',
+            replace: true,
+            template: '<div class="inlineRename"><span ng-transclude></span><h4 class="title" ng-hide="isActive">{{item.title}}&nbsp;</h4><a class="edit" ng-click="action()"><icon ng-hide="isActive" type="pencil" class="pencil clearfix"></icon></a>' +
+                '<h4 ng-show="isActive"><input ng-model="item.title" type="text"></input>&nbsp;<a ng-click="submit()"><icon type="check"></icon></a>&nbsp;<a ng-click="cancel()"><icon type="times"></icon></a></h4></div>',
             restrict: 'E',
+            transclude: true,
             scope: {
                 item: "=",
             },
