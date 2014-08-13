@@ -37,11 +37,12 @@
 			}
 		}
 		.tableHolder {
+			width: 100%;
 			.trayHolder {
 				border:1px solid $mediumgray;
 				border-right: 0 none;
 				width: 300px;
-				overflow:hidden;
+				overflow: hidden;
 				.tray {
 					overflow: hidden;
 				}

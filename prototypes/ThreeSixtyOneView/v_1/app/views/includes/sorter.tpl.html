@@ -1,48 +1,52 @@
-<sorter>
-	<form class="form-inline display-table">
-		<table class="table table-hover">
-			<colgroup>
-			    <col width="690">
-			    <col width="230">
-			    <col width="230">
-			    <col width="30">
-			</colgroup>
-			<thead>
-				<th><sorting-options label="title" display="Name" msid="name-field"></sorting-options></th>
-				<th><ms-dropdown selected-sort-index="0" reverse=true is-active=true msid="column_1"></ms-dropdown></th>
-				<th><ms-dropdown selected-sort-index="1" reverse=false msid="column_2"></ms-dropdown></th>
-				<th>&nbsp;</th>
-			</thead>
-			<tbody>
-				<tr ng-repeat="item in SortAndFilterService.getData()" ng-class="{active: ActiveSelection.isActiveItem(item)}">
-					<td ng-click="ActiveSelection.setActiveItem(item);InfoTrayService.toggleInfoTray()">
-						<div class="text-holder">
-	                    	<span ng-switch='item.defaults' class="title" ng-click="alert('This will go to the project edit page', $event)">
-		                        <span ng-switch-when='false'>{{item.title}}</span>
-		                        <span ng-switch-when='master' class="default master">{{item.title}}&nbsp;<span class="symbol icon-masterset"></span></span>
-		                        <span ng-switch-default class="default"><span class="symbol icon-masterset"></span>{{item.title}}</span>
-	                    	</span>
-	                    	<span class="favorites" ng-class="{disabled:item.access==='view only'}"><a ng-class="{favorite:FavoritesService.isFavorite(item.id)}" ng-click="FavoritesService.toggleFavorite(item, $event)"></a></span>
-	                	</div>
-					</td>
-					<td ng-click="ActiveSelection.setActiveItem(item);InfoTrayService.toggleInfoTray()">
-						<sortable-columns item=item display-by="SortAndFilterService.getSorter('column_1')"></sortable-columns>
-					</td>
-					<td ng-click="ActiveSelection.setActiveItem(item);InfoTrayService.toggleInfoTray()">
-						<sortable-columns item=item display-by="SortAndFilterService.getSorter('column_2')"></sortable-columns>
-					</td>
-					<td class="ms-actions-holder">
+<div class="display-table" sorter>
+	<table class="table table-hover">
+		<colgroup>
+			<col width="30" ng-if="CONFIG.status"> <!-- only include column if we have status indicators -->
+		    <col width="690">
+		    <col width="230">
+		    <col width="230">
+		    <col width="30">
+		</colgroup>
+		<thead>
+			<th ng-if="CONFIG.status"><!-- holds a column for the status indicator icon, if applicable --></th>
+			<th><sorting-options label="title" display="Name" msid="name-field"></sorting-options></th>
+			<th><ms-dropdown selected-sort-index="0" reverse=true is-active=true msid="column_1"></ms-dropdown></th>
+			<th><ms-dropdown selected-sort-index="1" reverse=false msid="column_2"></ms-dropdown></th>
+			<th><!-- holds a column for the contextual menu --></th>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in SortAndFilterService.getData()" ng-class="{active: ActiveSelection.isActiveItem(item)}" class="{{CONFIG.status && item.status.className || ''}}"> 
+				<td ng-if="CONFIG.status">
+					<span ng-if="item.status"><icon type="{{item.status.icon}}" cname="{{item.status.spin}}"></icon></span>
+				</td>
+				<td ng-click="ActiveSelection.setActiveItem(item);InfoTrayService.toggleInfoTray()">
+					<div class="text-holder">
+                    	<span ng-switch='item.defaults' class="title" ng-click="goto(item, $event)">
+	                        <span ng-switch-when='false'>{{item.title}}</span>
+	                        <span ng-switch-when='master' class="default master">{{item.title}}&nbsp;<span class="symbol icon-masterset"></span></span>
+	                        <span ng-switch-default class="default"><span class="symbol icon-masterset"></span>{{item.title}}</span>
+                    	</span>
+                    	<span class="item.status" ng-if="status && item.status !==''">{{item.status.label}}</span>
+                    	<span class="favorites" ng-if="CONFIG.hasFavorites" ng-class="{disabled:item.access==='view only'}"><a ng-class="{favorite:FavoritesService.isFavorite(item.id)}" ng-click="FavoritesService.toggleFavorite(item, $event)"></a></span>
+                	</div>
+				</td>
+				<td ng-click="ActiveSelection.setActiveItem(item);InfoTrayService.toggleInfoTray()">
+					<sortable-columns item=item display-by="SortAndFilterService.getSorter('column_1')"></sortable-columns>
+				</td>
+				<td ng-click="ActiveSelection.setActiveItem(item);InfoTrayService.toggleInfoTray()">
+					<sortable-columns item=item display-by="SortAndFilterService.getSorter('column_2')"></sortable-columns>
+				</td>
+				<td class="ms-actions-holder">
 
-						<div class="ms-actions">
-							<div class='dropdown-toggle' data-toggle="dropdown">
-								<icon type="ellipsis-v" cname="dropdown-trigger"></icon>
-							</div>
-							<contextual-menu item=item cname="dropdown-menu ms-actions-menu"></contextual-menu>
+					<div class="ms-actions">
+						<div class='dropdown-toggle' data-toggle="dropdown">
+							<icon type="ellipsis-v" cname="dropdown-trigger"></icon>
 						</div>
-												
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</form>
-</sorter>
+						<contextual-menu item=item cname="dropdown-menu ms-actions-menu"></contextual-menu>
+					</div>
+											
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

@@ -1,7 +1,9 @@
 /* Icon Styles */
 .fa-marketshare {
   background-color: white;
-  background-image: url(../images/ms-confirm_gray.png); }
+  background-image: url(../images/ms-confirm_gray.png);
+  width: 16px;
+  height: 16px; }
 
 /* Icons */
 .symbol {

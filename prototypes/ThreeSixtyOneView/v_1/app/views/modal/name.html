@@ -1,0 +1,15 @@
+<div class="modal-header">
+	<h4 class="modal-title"><icon type="star"></icon>&nbsp;{{config.title}}</h4>
+</div>
+<div class="modal-body">
+	<form name="nameDialog" novalidate role="form">
+		<div class="form-group input-group-lg" ng-class="{true: 'has-error'}[nameDialog.username.$dirty && nameDialog.username.$invalid]">
+			<label class="control-label" for="course">{{config.description}}</label>
+			<input type="text" class="form-control" ng-model="name" ng-keyup="hitEnter($event)" required focus tabindex="1"/>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-primary" ng-click="submit(name)" ng-disabled="(nameDialog.$dirty && nameDialog.$invalid)">{{config.submit.label}}</button>
+	<button type="button" class="btn btn-default" ng-click="close()">{{config.cancel.label || 'Cancel'}}</button>
+</div>

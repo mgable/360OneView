@@ -35,16 +35,33 @@ angular.module('ThreeSixtyOneView')
             console.info("cancel")
             $modalInstance.dismiss('canceled');
         }; // end cancel
-    }).controller('RenameCtrl', function($scope, $modalInstance, FilesModel, data) {
+    }).controller('RenameCtrl', function($scope, $modalInstance, data) {
         var service = data.service;
         $scope.data = data.item;
         $scope.name = $scope.data.title;
 
-        console.info(data);
-
         $scope.rename = function(name) {
             $scope.data.title = name;
             service.$set($scope.data)
+
+            $modalInstance.dismiss('create');
+        };
+
+        $scope.close = function() {
+            console.info("cancel")
+            $modalInstance.dismiss('canceled');
+        };
+    }).controller('NameCtrl', function($scope, $modalInstance, data, ViewService) {
+        var service = data.service;
+        $scope.data = data.item;
+        $scope.config = data.config
+        $scope.name = $scope.data.title + " - copy";
+
+        $scope.submit = function(name) {
+            //$scope.data.title = name;
+            //service.$set($scope.data)
+            var service = ViewService.getModel();
+            service.$clone(data.item.id, name);
 
             $modalInstance.dismiss('create');
         };

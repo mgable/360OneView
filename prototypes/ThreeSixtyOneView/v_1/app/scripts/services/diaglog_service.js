@@ -25,12 +25,19 @@ angular.module('ThreeSixtyOneView.services')
             )
         }
 
+        this.name = function (item, config, service){
+            console.info(config)
+            dialogs.create('/views/modal/name.html', 'NameCtrl', {
+                item: item,
+                service: service,
+                config: config.config
+            });
+        }
+
         this.rename = function(item, service) {
             dialogs.create('/views/modal/rename.html', 'RenameCtrl', {
                 item: item,
                 service: service
-            }, {
-                size: 'sm'
             });
         }
 

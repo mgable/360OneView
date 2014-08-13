@@ -33,8 +33,8 @@
         return Projects.data;
     };
 
-    Projects.$clone = function(id) {
-        Projects.$$resource.clone(id).then(function(response) {
+    Projects.$clone = function(id, name) {
+        Projects.$$resource.clone(id, name).then(function(response) {
             Projects.$timeout(function() {
                 Projects.data.data.push(response);
                 Projects.$rootScope.$broadcast("ProjectsModel:dataChange", {

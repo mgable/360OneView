@@ -265,19 +265,16 @@ angular.module('ThreeSixtyOneView.directives')
     })
     .directive('sorter', function(SortAndFilterService, DropdownService) {
         return {
-            restrict: "E",
-            replace: true,
+            restrict: "AE",
             controller: function($scope, $element, $attrs) {
 
                 $scope.reverse = false;
                 $scope.orderBy = $attrs.orderby;
                 this.setOrderBy = function(which, id, filter) {
-                    console.info("setting order by " + which)
                     SortAndFilterService.setFilter("orderBy", which, filter);
                     DropdownService.setActive(id);
                 };
                 this.setReverse = function(reverse, filter) {
-                    console.info("setting revere to", reverse, filter)
                     SortAndFilterService.setFilter("reverse", reverse, filter);
                 };
             }
@@ -498,9 +495,8 @@ angular.module('ThreeSixtyOneView.directives')
             restrict: "AE",
             templateUrl: "views/directives/contextual_menu.tpl.html",
             scope: {
-                xxx: "=item",
-                cname: "@",
-                listen: "@"
+                item: "=",
+                cname: "@"
             },
             replace: true,
             link: function(scope, element, attrs) {
@@ -511,6 +507,7 @@ angular.module('ThreeSixtyOneView.directives')
                 scope.InfoTrayService = InfoTrayService;
                 scope.ActiveSelection = ActiveSelection;
                 scope.service = ViewService.getModel();
+                scope.actions = actions;
 
                 $rootScope.$on('ViewService:modelChange', function(event, data) {
                     scope.service = data;
@@ -519,8 +516,6 @@ angular.module('ThreeSixtyOneView.directives')
                 scope.alert = function(msg) {
                     alert(msg);
                 }
-
-
 
                 function setView(which) {
                     if (which) {
@@ -540,24 +535,24 @@ angular.module('ThreeSixtyOneView.directives')
 
                 function setValues(actions, values) {
                     _.each(actions, function(e, i, a) {
-                        scope[e] = {};
-                        scope[e].show = !!parseInt(values[i]);
+                        scope[e.name] = {};
+                        scope[e.name].show = !!parseInt(values[i]);
+                        scope[e.name].label = e.label || e.name;
+                        scope[e.name].config = e.config;
                     });
                 }
 
-                if (scope.xxx) {
-                    scope.item = scope.xxx;
-                } else {
-                    scope.item = ActiveSelection.getActiveItem();
-                }
+                // if (scope.xxx) {
+                //     scope.item = scope.xxx;
+                // } else {
+                //     scope.item = ActiveSelection.getActiveItem();
+                // }
 
                 setView(scope.item);
 
-                if (scope.listen) {
-                    scope.$on('ActiveSelection:activeItemChange', function() {
-                        scope.item = ActiveSelection.getActiveItem();
-                        setView(scope.item);
-                    });
+                scope.copyFn = function(item){
+                    console.info(scope.copy)
+                    DiaglogService.name(item, scope.copy, scope.service)
                 }
             }
         }

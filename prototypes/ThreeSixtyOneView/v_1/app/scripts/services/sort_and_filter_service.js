@@ -12,8 +12,8 @@ angular.module('ThreeSixtyOneView.services')
             }, // selected filter (use for display label)
             searchText = "", // search input text value
             filters = [], // additional filters
-            data, // holds all data
-            display, // holds filtered data
+            data = {}, // holds all data
+            display = {}, // holds filtered data
             set = { // object mapping
                 "activeFilter": function(toWhat) {
                     setActiveFilter(toWhat);
@@ -81,6 +81,7 @@ angular.module('ThreeSixtyOneView.services')
                 $rootScope.$broadcast("SortAndFilterService:resetFilterBy");
             },
             self = this;
+            display.data = {};
 
         this.setSorter = function(id, sorter) {
             sorters[id] = sorter;
@@ -169,9 +170,11 @@ angular.module('ThreeSixtyOneView.services')
             this.setFilter("reverse", config.reverse, false);
             this.setFilter("activeFilter", config.filter, true);
 
-            $rootScope.$on("ProjectsModel:dataChange", function(event, data) {
-                data = data.data;
-                self.filter();
+            $rootScope.$on("ProjectsModel:dataChange", function(event, response) {
+                $rootScope.$apply(function(){
+                    data = response.data;
+                    self.filter();
+                });
             });
         }
 

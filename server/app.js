@@ -35,6 +35,7 @@ var express = require('express'),
                 title: "Master Project",
                 defaults: "master",
                 access: "view only",
+                status: ""
             }],
             obj: {
                 index: 'indexer',
@@ -48,6 +49,7 @@ var express = require('express'),
                 description: 'descriptions[indexer++ % descriptions.length]',
                 base: "'Current Plan'",
                 scenarios: "makeScenarios(10)",
+                status: "makeStatus()",
                 defaults: false
             }
         }
@@ -177,12 +179,14 @@ function init() {
 
     // copy project
     app.post("/api/projects/:id", function(req, res) {
-        console.info("Cloning " + req.params.id);
+        console.info("Cloning ");
+        console.info(req.params);
+        console.info(req.body);
         var tempRecord = _.clone(getRecordById(req.params.id, currentProjectData.data));
         console.info('tempRecord ' + tempRecord)
         tempRecord.id = generateUUID();
         tempRecord.index = currentProjectData.data.length + 1;
-        tempRecord.title += " CLONED";
+        tempRecord.title = req.body.params.name;
         tempRecord.createdDate = new Date();
         tempRecord.owner = "Fred Flintstone";
         tempRecord.modifiedBy = tempRecord.owner;

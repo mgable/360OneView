@@ -1,11 +1,11 @@
 <div id="delete-modal" class="delete-modal">
 	<div class="modal-header">
-		<h4 class="modal-title"><span class="glyphicon glyphicon-star"></span>Confirm Delete</h4>
+		<h4 class="modal-title"><span class="glyphicon glyphicon-star"></span>Confirm Archive</h4>
 	</div>
 	<div class="modal-body">
 		<div ng-bind="user.errorMsg" class="text-danger"></div>
 		<ng-form name="nameDialog" novalidate role="form">
-			<h4>Are you sure you want to delete 
+			<h4>Are you sure you want to archive 
 				<span ng-switch on="FileDeleteService.getFileCount()">
 					<span ng-switch-when="1">this file:</span>
 					<span ng-switch-default>these {{FileDeleteService.getFileCount()}} files:</span>

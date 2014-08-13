@@ -1,16 +1,17 @@
 @import "variables";
 
 .app {
-	.CentralManager, .ProjectManager {
+	.CentralManager, .ProjectManager, .Dashboard {
 		.left { 
 			width: $app_left;
 			border: 1px solid $mediumgray;
-			position: fixed;
-			top: $cap_height;
+			position: absolute;
+			top: 0;
 			bottom: 0;
 			height: 100%;
 		}
 		.center {
+			border-top: 1px solid $lightgray;
 			margin: -$cap_height 0 0 $app_left;
 			padding: $cap_height 0 0 0;
 			width: auto;
@@ -26,7 +27,38 @@
 	    	overflow-x: hidden;
 	    	overflow-y: auto;
 	    	padding: $cap_height 0 0 0;
-	    	@include drop-shadow(-5px, 1px, 5px, 0px, 0.3)
+	    	@include drop-shadow(-5px, 1px, 5px, 0px, 0.3);
+		}
+		.top {
+			padding: 15px 10px;
+			height: 100px;
+			.project-title {
+				float:left;
+				margin: 0;
+			}
+			i {
+				font-size: 18px;
+				margin: 6px 0 0 4px;
+			}
+			p {
+				clear:both;
+			}
+		}
+		.middle {
+			.center {
+				margin: 0 0 0 200px;
+				padding:0;
+			}
+			.right {
+				padding:0;
+			}
+			.alerts {
+				padding:10px;
+				border-bottom: 1px solid $lightgray;
+				p {
+					margin: 0px;
+				}
+			}
 		}
 		.filters {
 			text-transform: uppercase;
@@ -142,11 +174,37 @@
 						padding: 8px 8px 8px 20px;
 					}
 				}
+				tr {
+					&.error {
+						background-color:#FFF2F1;
+						i, .status {
+							color:$error;
+						}
+					}
+					&.completed {
+						i {
+							color:$completed;
+						}
+					}
+					&.inprogress {
+						background-color:$lightestgray;
+					}
+				}
 				td {
 					white-space: nowrap;
 					cursor: pointer;
 					&:first-child {
 						padding:8px 0 0 20px;
+					}
+					.status {
+						font: {
+							size:10px;
+							weight:bold;
+						}
+						text-transform: uppercase;
+						color:$darkgray;
+
+						padding:0 0 0 5px;
 					}
 					.master {
 						font: {
@@ -211,7 +269,6 @@
 			}
 		}
 	}
-
 	.info-tray {
 		a {
 	 		cursor: pointer;

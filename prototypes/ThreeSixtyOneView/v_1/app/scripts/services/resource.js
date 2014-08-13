@@ -90,7 +90,7 @@
         return deferred.promise;
     };
 
-    Resource.prototype.clone = function(id) {
+    Resource.prototype.clone = function(id, name) {
         var deferred = Q.defer(),
             path;
 
@@ -103,7 +103,8 @@
         this._http
             .post(path, {
                 params: {
-                    id: id
+                    id: id,
+                    name: name
                 }
             })
             .success(deferred.resolve)

@@ -51,24 +51,21 @@
 		</ul>
 	</div>
 
+	<div class="well profile" ng-show="selectedItem.base">
+		<h4 class="used-in">Base Scenario</h4>
+		<p class="entity-holder"><a ng-click="alert('edit base scenario')"><span class="symbol icon-costassumptions"></span> {{selectedItem.base}}</a></p>
+	</div>
+
 	<div class="well profile">
 		<h4 class="used-in">Used in <span>{{selectedItem.scenarios.length}}</span> Scenarios</h4>
 		<div class="see-all-toggle" ng-click="seeAll = !seeAll">See <span ng-hide="seeAll">all&nbsp;<i class="fa fa-chevron-down"></i></span><span ng-show="seeAll">less&nbsp;<i class="fa fa-chevron-up"></i></span></div>
 		<div class="entity-holder" ng-class="{'see-all': seeAll}">
 			<div class="scenario" ng-repeat="scenario in selectedItem.scenarios">
-				<span class="symbol icon-costassumptions"></span>
-				{{scenario.title}}
-<!-- 				<div class="in-project">In project: Joe's Project</div> -->
+				<a ng-click="alert('edit scenario')">
+					<span class="symbol icon-costassumptions"></span>
+					{{scenario.title}}
+				</a>
 			</div>
 		</div>
-		<!-- <div class="add-scenario-holder">
-			<button class="btn btn-primary btn-sm add-scenario dropdown-toggle" data-toggle="dropdown">ADD A SCENARIO</button>
-			<ul class="dropdown-menu" role="menu">
-				<li class="entity"><span class="symbol icon-economy"></span> Scenarios title 1<div class="in-project">In project: Joe's Project</div></li>
-				<li class="entity"><span class="symbol icon-economy"></span> Scenarios title 2<div class="in-project">In project: Joe's Project</div></li>
-				<li class="entity"><span class="symbol icon-laborcost"></span> Scenarios title 3<div class="in-project">In project: Joe's Project</div></li>
-				<li class="entity"><span class="symbol icon-pricing"></span> Scenarios title 4<div class="in-project">In project: Joe's Project</div></li>
-			</ul>
-		</div> -->
 	</div>
 </div>

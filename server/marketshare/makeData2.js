@@ -243,6 +243,11 @@ data.createData = function() {
             return uuid;
         },
 
+        makeStatus = function(){
+            var status = [{className:"inprogress", icon: "spinner", spin: "fa-spin", label: "Calculating . . . 10%"}, {className: "error", "icon": "exclamation-triangle", label:"Calculation Error"}, {className:"completed", icon:"check-circle", label: "Calculation Complete"}, "", "", "", "", ""]
+            return status[Math.floor(Math.random() * (status.length-1))]
+        },
+
         titles = shuffle(titles);
 
     return {

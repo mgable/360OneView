@@ -105,7 +105,8 @@ li {
       padding: 6px 10px; }
       .ms-actions-holder .ms-actions .ms-actions-menu li a {
         padding: 3px 0;
-        color: cornflowerblue; }
+        color: cornflowerblue;
+        white-space: normal; }
         .ms-actions-holder .ms-actions .ms-actions-menu li a .ms-icon {
           padding: 0 8px 0 0; }
         .ms-actions-holder .ms-actions .ms-actions-menu li a.disabled {

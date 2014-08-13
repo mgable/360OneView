@@ -1,18 +1,19 @@
-.app .CentralManager .left, .app .ProjectManager .left {
+.app .CentralManager .left, .app .ProjectManager .left, .app .Dashboard .left {
   width: 200px;
   border: 1px solid #dddddd;
-  position: fixed;
-  top: 50px;
+  position: absolute;
+  top: 0;
   bottom: 0;
   height: 100%; }
-.app .CentralManager .center, .app .ProjectManager .center {
+.app .CentralManager .center, .app .ProjectManager .center, .app .Dashboard .center {
+  border-top: 1px solid #e9e9e9;
   margin: -50px 0 0 200px;
   padding: 50px 0 0 0;
   width: auto;
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%; }
-.app .CentralManager .right, .app .ProjectManager .right {
+.app .CentralManager .right, .app .ProjectManager .right, .app .Dashboard .right {
   width: 300px;
   background-color: #e9e9e9;
   height: 100%;
@@ -23,55 +24,76 @@
   -webkit-box-shadow: -5px 1px 5px 0px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: -5px 1px 5px 0px rgba(0, 0, 0, 0.3);
   box-shadow: -5px 1px 5px 0px rgba(0, 0, 0, 0.3); }
-.app .CentralManager .filters, .app .ProjectManager .filters {
+.app .CentralManager .top, .app .ProjectManager .top, .app .Dashboard .top {
+  padding: 15px 10px;
+  height: 100px; }
+  .app .CentralManager .top .project-title, .app .ProjectManager .top .project-title, .app .Dashboard .top .project-title {
+    float: left;
+    margin: 0; }
+  .app .CentralManager .top i, .app .ProjectManager .top i, .app .Dashboard .top i {
+    font-size: 18px;
+    margin: 6px 0 0 4px; }
+  .app .CentralManager .top p, .app .ProjectManager .top p, .app .Dashboard .top p {
+    clear: both; }
+.app .CentralManager .middle .center, .app .ProjectManager .middle .center, .app .Dashboard .middle .center {
+  margin: 0 0 0 200px;
+  padding: 0; }
+.app .CentralManager .middle .right, .app .ProjectManager .middle .right, .app .Dashboard .middle .right {
+  padding: 0; }
+.app .CentralManager .middle .alerts, .app .ProjectManager .middle .alerts, .app .Dashboard .middle .alerts {
+  padding: 10px;
+  border-bottom: 1px solid #e9e9e9; }
+  .app .CentralManager .middle .alerts p, .app .ProjectManager .middle .alerts p, .app .Dashboard .middle .alerts p {
+    margin: 0px; }
+.app .CentralManager .filters, .app .ProjectManager .filters, .app .Dashboard .filters {
   text-transform: uppercase;
   font-size: 14px;
   font-weight: bold; }
-  .app .CentralManager .filters .title, .app .ProjectManager .filters .title {
+  .app .CentralManager .filters .title, .app .ProjectManager .filters .title, .app .Dashboard .filters .title {
     color: gray;
     margin: 10px 0 30px;
     padding: 0 10px;
     /* over write bootstrap */
     font-size: 14px;
     font-weight: bold; }
-    .app .CentralManager .filters .title > i, .app .ProjectManager .filters .title > i {
+    .app .CentralManager .filters .title > i, .app .ProjectManager .filters .title > i, .app .Dashboard .filters .title > i {
       padding: 0 5px 0 0; }
-  .app .CentralManager .filters .menu > .header, .app .ProjectManager .filters .menu > .header {
+  .app .CentralManager .filters .menu > .header, .app .ProjectManager .filters .menu > .header, .app .Dashboard .filters .menu > .header {
     padding: 0 10px;
     margin: 0 0 10px; }
-    .app .CentralManager .filters .menu > .header a, .app .ProjectManager .filters .menu > .header a {
+    .app .CentralManager .filters .menu > .header a, .app .ProjectManager .filters .menu > .header a, .app .Dashboard .filters .menu > .header a {
       color: #222222;
       text-decoration: none;
       cursor: pointer;
       display: inline-block;
       width: 100%; }
-    .app .CentralManager .filters .menu > .header.selected, .app .ProjectManager .filters .menu > .header.selected {
+    .app .CentralManager .filters .menu > .header.selected, .app .ProjectManager .filters .menu > .header.selected, .app .Dashboard .filters .menu > .header.selected {
       background-color: #8796b4; }
-      .app .CentralManager .filters .menu > .header.selected > a, .app .ProjectManager .filters .menu > .header.selected > a {
+      .app .CentralManager .filters .menu > .header.selected > a, .app .ProjectManager .filters .menu > .header.selected > a, .app .Dashboard .filters .menu > .header.selected > a {
         color: white; }
-.app .CentralManager .display-actions, .app .ProjectManager .display-actions {
+.app .CentralManager .display-actions, .app .ProjectManager .display-actions, .app .Dashboard .display-actions {
   padding: 0 0 0 20px;
   height: 50px; }
-  .app .CentralManager .display-actions .title, .app .ProjectManager .display-actions .title {
+  .app .CentralManager .display-actions .title, .app .ProjectManager .display-actions .title, .app .Dashboard .display-actions .title {
     color: gray;
     max-width: 400px;
     font-weight: bold;
     text-transform: capitalize;
     margin-top: 15px; }
-  .app .CentralManager .display-actions .button-holder, .app .ProjectManager .display-actions .button-holder {
+  .app .CentralManager .display-actions .button-holder, .app .ProjectManager .display-actions .button-holder, .app .Dashboard .display-actions .button-holder {
     float: right;
     height: 50px;
     width: auto; }
-    .app .CentralManager .display-actions .button-holder .trash, .app .ProjectManager .display-actions .button-holder .trash {
+    .app .CentralManager .display-actions .button-holder .trash, .app .ProjectManager .display-actions .button-holder .trash, .app .Dashboard .display-actions .button-holder .trash {
       margin: 11px 30px 0 0;
       font-size: 14px;
       color: cornflowerblue;
       cursor: pointer;
       display: inline-block; }
-    .app .CentralManager .display-actions .button-holder .actions, .app .ProjectManager .display-actions .button-holder .actions {
+    .app .CentralManager .display-actions .button-holder .actions, .app .ProjectManager .display-actions .button-holder .actions, .app .Dashboard .display-actions .button-holder .actions {
       border-left: 1px solid #dddddd;
       display: inline-block; }
-      .app .CentralManager .display-actions .button-holder .actions > span, .app .ProjectManager .display-actions .button-holder .actions > span {
+      .app .CentralManager .display-actions .button-holder .actions > span, .app .ProjectManager .display-actions .button-holder .actions > span, .app .Dashboard .display-actions .button-holder .actions > span {
         padding: 12px;
         font-size: 17px;
         color: gray;
@@ -79,76 +101,90 @@
         border-right: 1px solid #dddddd;
         height: 100%;
         cursor: pointer; }
-        .app .CentralManager .display-actions .button-holder .actions > span:hover, .app .ProjectManager .display-actions .button-holder .actions > span:hover {
+        .app .CentralManager .display-actions .button-holder .actions > span:hover, .app .ProjectManager .display-actions .button-holder .actions > span:hover, .app .Dashboard .display-actions .button-holder .actions > span:hover {
           color: #8796b4; }
-        .app .CentralManager .display-actions .button-holder .actions > span i, .app .ProjectManager .display-actions .button-holder .actions > span i {
+        .app .CentralManager .display-actions .button-holder .actions > span i, .app .ProjectManager .display-actions .button-holder .actions > span i, .app .Dashboard .display-actions .button-holder .actions > span i {
           font-size: 24px; }
-      .app .CentralManager .display-actions .button-holder .actions .search-holder, .app .ProjectManager .display-actions .button-holder .actions .search-holder {
+      .app .CentralManager .display-actions .button-holder .actions .search-holder, .app .ProjectManager .display-actions .button-holder .actions .search-holder, .app .Dashboard .display-actions .button-holder .actions .search-holder {
         border: 1px solid gray;
         display: inline-block;
         padding: 2px 5px; }
-        .app .CentralManager .display-actions .button-holder .actions .search-holder .search-input, .app .ProjectManager .display-actions .button-holder .actions .search-holder .search-input {
+        .app .CentralManager .display-actions .button-holder .actions .search-holder .search-input, .app .ProjectManager .display-actions .button-holder .actions .search-holder .search-input, .app .Dashboard .display-actions .button-holder .actions .search-holder .search-input {
           border: 0 none;
           font-size: 14px;
           width: 250px; }
-        .app .CentralManager .display-actions .button-holder .actions .search-holder .close-button i, .app .ProjectManager .display-actions .button-holder .actions .search-holder .close-button i {
+        .app .CentralManager .display-actions .button-holder .actions .search-holder .close-button i, .app .ProjectManager .display-actions .button-holder .actions .search-holder .close-button i, .app .Dashboard .display-actions .button-holder .actions .search-holder .close-button i {
           font-size: 18px; }
-      .app .CentralManager .display-actions .button-holder .actions .toggle-info-tray, .app .ProjectManager .display-actions .button-holder .actions .toggle-info-tray {
+      .app .CentralManager .display-actions .button-holder .actions .toggle-info-tray, .app .ProjectManager .display-actions .button-holder .actions .toggle-info-tray, .app .Dashboard .display-actions .button-holder .actions .toggle-info-tray {
         cursor: default;
         color: #e9e9e9; }
-        .app .CentralManager .display-actions .button-holder .actions .toggle-info-tray:hover, .app .ProjectManager .display-actions .button-holder .actions .toggle-info-tray:hover {
+        .app .CentralManager .display-actions .button-holder .actions .toggle-info-tray:hover, .app .ProjectManager .display-actions .button-holder .actions .toggle-info-tray:hover, .app .Dashboard .display-actions .button-holder .actions .toggle-info-tray:hover {
           cursor: default;
           color: #e9e9e9; }
-        .app .CentralManager .display-actions .button-holder .actions .toggle-info-tray.enabled, .app .ProjectManager .display-actions .button-holder .actions .toggle-info-tray.enabled {
+        .app .CentralManager .display-actions .button-holder .actions .toggle-info-tray.enabled, .app .ProjectManager .display-actions .button-holder .actions .toggle-info-tray.enabled, .app .Dashboard .display-actions .button-holder .actions .toggle-info-tray.enabled {
           color: gray; }
-          .app .CentralManager .display-actions .button-holder .actions .toggle-info-tray.enabled:hover, .app .ProjectManager .display-actions .button-holder .actions .toggle-info-tray.enabled:hover {
+          .app .CentralManager .display-actions .button-holder .actions .toggle-info-tray.enabled:hover, .app .ProjectManager .display-actions .button-holder .actions .toggle-info-tray.enabled:hover, .app .Dashboard .display-actions .button-holder .actions .toggle-info-tray.enabled:hover {
             cursor: pointer;
             color: #8796b4; }
-.app .CentralManager .display-table table th:first-child, .app .ProjectManager .display-table table th:first-child {
+.app .CentralManager .display-table table th:first-child, .app .ProjectManager .display-table table th:first-child, .app .Dashboard .display-table table th:first-child {
   padding: 8px 8px 8px 20px; }
-.app .CentralManager .display-table table td, .app .ProjectManager .display-table table td {
+.app .CentralManager .display-table table tr.error, .app .ProjectManager .display-table table tr.error, .app .Dashboard .display-table table tr.error {
+  background-color: #FFF2F1; }
+  .app .CentralManager .display-table table tr.error i, .app .CentralManager .display-table table tr.error .status, .app .ProjectManager .display-table table tr.error i, .app .ProjectManager .display-table table tr.error .status, .app .Dashboard .display-table table tr.error i, .app .Dashboard .display-table table tr.error .status {
+    color: #ff817c; }
+.app .CentralManager .display-table table tr.completed i, .app .ProjectManager .display-table table tr.completed i, .app .Dashboard .display-table table tr.completed i {
+  color: #0096ff; }
+.app .CentralManager .display-table table tr.inprogress, .app .ProjectManager .display-table table tr.inprogress, .app .Dashboard .display-table table tr.inprogress {
+  background-color: whitesmoke; }
+.app .CentralManager .display-table table td, .app .ProjectManager .display-table table td, .app .Dashboard .display-table table td {
   white-space: nowrap;
   cursor: pointer; }
-  .app .CentralManager .display-table table td:first-child, .app .ProjectManager .display-table table td:first-child {
+  .app .CentralManager .display-table table td:first-child, .app .ProjectManager .display-table table td:first-child, .app .Dashboard .display-table table td:first-child {
     padding: 8px 0 0 20px; }
-  .app .CentralManager .display-table table td .master, .app .ProjectManager .display-table table td .master {
+  .app .CentralManager .display-table table td .status, .app .ProjectManager .display-table table td .status, .app .Dashboard .display-table table td .status {
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: darkgray;
+    padding: 0 0 0 5px; }
+  .app .CentralManager .display-table table td .master, .app .ProjectManager .display-table table td .master, .app .Dashboard .display-table table td .master {
     font-weight: bold;
     font-size: 16px; }
-  .app .CentralManager .display-table table td .text-holder .favorites, .app .ProjectManager .display-table table td .text-holder .favorites {
+  .app .CentralManager .display-table table td .text-holder .favorites, .app .ProjectManager .display-table table td .text-holder .favorites, .app .Dashboard .display-table table td .text-holder .favorites {
     padding: 8px 0; }
-    .app .CentralManager .display-table table td .text-holder .favorites.disabled, .app .ProjectManager .display-table table td .text-holder .favorites.disabled {
+    .app .CentralManager .display-table table td .text-holder .favorites.disabled, .app .ProjectManager .display-table table td .text-holder .favorites.disabled, .app .Dashboard .display-table table td .text-holder .favorites.disabled {
       cursor: default;
       display: none; }
-    .app .CentralManager .display-table table td .text-holder .favorites a, .app .ProjectManager .display-table table td .text-holder .favorites a {
+    .app .CentralManager .display-table table td .text-holder .favorites a, .app .ProjectManager .display-table table td .text-holder .favorites a, .app .Dashboard .display-table table td .text-holder .favorites a {
       font-family: "font awesome";
       display: inline-block;
       width: 10px;
       height: 10px;
       background-color: inherit; }
-      .app .CentralManager .display-table table td .text-holder .favorites a:hover, .app .ProjectManager .display-table table td .text-holder .favorites a:hover {
+      .app .CentralManager .display-table table td .text-holder .favorites a:hover, .app .ProjectManager .display-table table td .text-holder .favorites a:hover, .app .Dashboard .display-table table td .text-holder .favorites a:hover {
         text-decoration: none; }
-        .app .CentralManager .display-table table td .text-holder .favorites a:hover:after, .app .ProjectManager .display-table table td .text-holder .favorites a:hover:after {
+        .app .CentralManager .display-table table td .text-holder .favorites a:hover:after, .app .ProjectManager .display-table table td .text-holder .favorites a:hover:after, .app .Dashboard .display-table table td .text-holder .favorites a:hover:after {
           content: '\f006'; }
-      .app .CentralManager .display-table table td .text-holder .favorites a.favorite:after, .app .ProjectManager .display-table table td .text-holder .favorites a.favorite:after {
+      .app .CentralManager .display-table table td .text-holder .favorites a.favorite:after, .app .ProjectManager .display-table table td .text-holder .favorites a.favorite:after, .app .Dashboard .display-table table td .text-holder .favorites a.favorite:after {
         content: '\f005'; }
-  .app .CentralManager .display-table table td .title, .app .ProjectManager .display-table table td .title {
+  .app .CentralManager .display-table table td .title, .app .ProjectManager .display-table table td .title, .app .Dashboard .display-table table td .title {
     font-weight: bold; }
-  .app .CentralManager .display-table table td .view-only, .app .ProjectManager .display-table table td .view-only {
+  .app .CentralManager .display-table table td .view-only, .app .ProjectManager .display-table table td .view-only, .app .Dashboard .display-table table td .view-only {
     color: gray; }
-.app .CentralManager .display-table table tr.active td, .app .ProjectManager .display-table table tr.active td {
+.app .CentralManager .display-table table tr.active td, .app .ProjectManager .display-table table tr.active td, .app .Dashboard .display-table table tr.active td {
   background-color: #f2f5a9; }
-.app .CentralManager .display-table thead .title.active a, .app .ProjectManager .display-table thead .title.active a {
+.app .CentralManager .display-table thead .title.active a, .app .ProjectManager .display-table thead .title.active a, .app .Dashboard .display-table thead .title.active a {
   color: orange; }
-.app .CentralManager .display-table thead th, .app .ProjectManager .display-table thead th {
+.app .CentralManager .display-table thead th, .app .ProjectManager .display-table thead th, .app .Dashboard .display-table thead th {
   background-color: #e9e9e9;
   border: 0 none;
   border-top: 1px solid #dddddd !important;
   border-bottom: 1px solid #dddddd; }
-  .app .CentralManager .display-table thead th a, .app .ProjectManager .display-table thead th a {
+  .app .CentralManager .display-table thead th a, .app .ProjectManager .display-table thead th a, .app .Dashboard .display-table thead th a {
     color: #8796b4;
     text-decoration: none;
     cursor: pointer; }
-.app .CentralManager .display-table tbody tr:hover .dropdown-trigger, .app .ProjectManager .display-table tbody tr:hover .dropdown-trigger {
+.app .CentralManager .display-table tbody tr:hover .dropdown-trigger, .app .ProjectManager .display-table tbody tr:hover .dropdown-trigger, .app .Dashboard .display-table tbody tr:hover .dropdown-trigger {
   display: block; }
 .app .info-tray {
   margin: 10px;
