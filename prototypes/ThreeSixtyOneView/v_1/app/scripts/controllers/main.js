@@ -2,7 +2,7 @@
 
 // View controllers
 angular.module("ThreeSixtyOneView")
-    .controller("MainCtrl", function($scope, $location, SortAndFilterService, FileDeleteService, ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService) {
+    .controller("MainCtrl", function($scope, SortAndFilterService, FileDeleteService, ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService, Urlmaker) {
         // make all services available to app
         $scope.SortAndFilterService = SortAndFilterService;
         $scope.FileDeleteService = FileDeleteService;
@@ -11,6 +11,7 @@ angular.module("ThreeSixtyOneView")
         $scope.DiaglogService = DiaglogService;
         $scope.FavoritesService = FavoritesService;
         $scope.ViewService = ViewService;
+        $scope.Urlmaker = Urlmaker;
         // for testing only
         $scope.foo = "foobar!!!!";
 
@@ -26,33 +27,31 @@ angular.module("ThreeSixtyOneView")
             }
         }
 
-        $scope.gotoDashboard = function(item, evt){
-            console.info("gotoDASHBOARD " + "/dashboard/" + item.title)
-            $location.path("/dashboard/" + item.title);
-            evt.stopPropagation();
-        }
-
-        $scope.gotoScenarioEdit = function(item, evt){
-             console.info("goto scenario edit")
-            $location.path("/scenarioEdit");
-            evt.stopPropagation();
-        }
-
-    }).controller("ManagerCtrl", function($scope, $injector,  $routeParams, CONFIG) {
+    }).controller("ManagerCtrl", function($scope, $injector, $location, $routeParams, CONFIG) {
 
         var currentView = CONFIG.view[$scope.ViewService.getCurrentView()],
             currentModel = currentView.model,
             viewModel,
             filter = eval(currentView.filter),
             reverse = currentView.reverse,
-            orderBy = currentView.orderBy;
+            orderBy = currentView.orderBy
+
+        $scope.gotoDashboard = function(item, evt){
+            $location.path("/dashboard/" + item.title);
+            evt.stopPropagation();
+        }
+
+        $scope.gotoScenarioEdit = function(item, evt){
+            $location.path("/scenarioEdit/"+ $scope.CONFIG.projectName + "/" + item.title);
+            evt.stopPropagation();
+        }
 
         $scope.data = {};
         $scope.CONFIG = {};
         $scope.CONFIG.hasFavorites = currentView.favorites;
         $scope.CONFIG.topInclude = currentView.topInclude || false;
         $scope.CONFIG.status = currentView.status || false;
-        $scope.CONFIG.routeParams =  $routeParams;
+        $scope.CONFIG.projectName =  $routeParams.name;
         $scope.CONFIG.menuItems = currentView.filterMenu;
         $scope.goto = $scope[currentView.where];
 
@@ -96,6 +95,7 @@ angular.module("ThreeSixtyOneView")
             }
         });
 
-    }).controller("ScenarioEditCtrl", function($scope) {
-        //$scope.foo = "bar";
+    }).controller("ScenarioEditCtrl", function($scope, $routeParams) {
+        $scope.projectName = $routeParams.project;
+        $scope.entity = $routeParams.entity;
     });

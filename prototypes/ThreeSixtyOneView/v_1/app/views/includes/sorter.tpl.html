@@ -26,7 +26,7 @@
 	                        <span ng-switch-when='master' class="default master">{{item.title}}&nbsp;<span class="symbol icon-masterset"></span></span>
 	                        <span ng-switch-default class="default"><span class="symbol icon-masterset"></span>{{item.title}}</span>
                     	</span>
-                    	<span class="item.status" ng-if="status && item.status !==''">{{item.status.label}}</span>
+                    	<span class="status" ng-if="CONFIG.status && item.status !==''">{{item.status.label}}</span>
                     	<span class="favorites" ng-if="CONFIG.hasFavorites" ng-class="{disabled:item.access==='view only'}"><a ng-class="{favorite:FavoritesService.isFavorite(item.id)}" ng-click="FavoritesService.toggleFavorite(item, $event)"></a></span>
                 	</div>
 				</td>

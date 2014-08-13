@@ -24,7 +24,7 @@ angular.module('ThreeSixtyOneView', [
                 controller: 'ManagerCtrl',
                 viewName: "CentralManager"
             })
-            .when('/scenarioEdit', {
+            .when('/scenarioEdit/:project/:entity', {
                 templateUrl: 'views/scenario_edit.tpl.html',
                 controller: 'ScenarioEditCtrl'
             })
