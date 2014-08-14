@@ -30,15 +30,15 @@
 	    	@include drop-shadow(-5px, 1px, 5px, 0px, 0.3);
 		}
 		.top {
-			padding: 15px 10px;
+			padding: 15px 10px 0 20px;
 			height: 100px;
 			.project-title {
 				float:left;
 				margin: 0;
 			}
-			i {
+			.star {
 				font-size: 18px;
-				margin: 6px 0 0 4px;
+				margin: 9px 0 0 4px;
 			}
 			p {
 				clear:both;

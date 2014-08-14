@@ -4,13 +4,18 @@ angular.module('ThreeSixtyOneView')
   .service('Urlmaker', function($location) {
   	this.makeUrl = function(config){
   		switch(config.type){
-  			case "dashboard" : makeProjectUrl(config.name);break;
+  			case "dashboard" : makeDashboardUrl(config.name);break;
+  			case "projects" : makeProjectUrl(); break;
   		}
   	}
 
-  	var makeProjectUrl = function(name){
+  	var makeDashboardUrl = function(name){
   		var url = "/dashboard/" + name;
   		console.info("i am making an url " + url)
   		$location.path(url)
+  	}
+
+  	var makeProjectUrl = function(){
+  		$location.path("/projects")
   	}
   });

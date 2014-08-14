@@ -79,6 +79,17 @@ ul {
   white-space: nowrap;
   text-overflow: ellipsis; }
 
+.ms-breadcrumb {
+  margin: 0 0 10px 0; }
+  .ms-breadcrumb a {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold; }
+    .ms-breadcrumb a:hover {
+      text-decoration: none; }
+  .ms-breadcrumb i {
+    font-size: 16px; }
+
 /* Modals */
 .delete-modal .files-to-delete {
   width: 100%; }
@@ -346,14 +357,14 @@ li {
   -moz-box-shadow: -5px 1px 5px 0px rgba(0, 0, 0, 0.3);
   box-shadow: -5px 1px 5px 0px rgba(0, 0, 0, 0.3); }
 .app .CentralManager .top, .app .ProjectManager .top, .app .Dashboard .top {
-  padding: 15px 10px;
+  padding: 15px 10px 0 20px;
   height: 100px; }
   .app .CentralManager .top .project-title, .app .ProjectManager .top .project-title, .app .Dashboard .top .project-title {
     float: left;
     margin: 0; }
-  .app .CentralManager .top i, .app .ProjectManager .top i, .app .Dashboard .top i {
+  .app .CentralManager .top .star, .app .ProjectManager .top .star, .app .Dashboard .top .star {
     font-size: 18px;
-    margin: 6px 0 0 4px; }
+    margin: 9px 0 0 4px; }
   .app .CentralManager .top p, .app .ProjectManager .top p, .app .Dashboard .top p {
     clear: both; }
 .app .CentralManager .middle .center, .app .ProjectManager .middle .center, .app .Dashboard .middle .center {
@@ -634,13 +645,6 @@ li {
 
 .scenario-edit {
   margin: 25px; }
-  .scenario-edit .ms-breadcrumb {
-    margin: 20px 0; }
-    .scenario-edit .ms-breadcrumb a {
-      font-size: 16px;
-      font-weight: bold; }
-      .scenario-edit .ms-breadcrumb a:hover {
-        text-decoration: none; }
   .scenario-edit .details {
     margin: 0 0 20px 0; }
   .scenario-edit .display {

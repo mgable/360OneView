@@ -1,12 +1,5 @@
 .scenario-edit {
   margin: 25px; }
-  .scenario-edit .ms-breadcrumb {
-    margin: 20px 0; }
-    .scenario-edit .ms-breadcrumb a {
-      font-size: 16px;
-      font-weight: bold; }
-      .scenario-edit .ms-breadcrumb a:hover {
-        text-decoration: none; }
   .scenario-edit .details {
     margin: 0 0 20px 0; }
   .scenario-edit .display {

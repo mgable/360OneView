@@ -78,3 +78,14 @@ ul {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis; }
+
+.ms-breadcrumb {
+  margin: 0 0 10px 0; }
+  .ms-breadcrumb a {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold; }
+    .ms-breadcrumb a:hover {
+      text-decoration: none; }
+  .ms-breadcrumb i {
+    font-size: 16px; }
