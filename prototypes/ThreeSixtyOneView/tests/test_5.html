@@ -1,0 +1,138 @@
+<html>
+<head>
+	<title></title>
+		<script src="./bower_components/underscore/underscore.js"></script>
+</head>
+<body>
+	<script>
+	var ID = {a:"a1", b:"b1", c:"c1", d:"d1", e:"e1", f: {g:"g1"}};
+
+	var newID = {a:"a1", b:{c: {d: "b1"}}, c:"c1", d:"d1", e:"e1", f: {g: {d:"no", h:"this is correct"}, i:"no", j:"no"}};
+
+	var IDList = [{a:"a1", b:"b1", c:"c1", d:"d1", e:"e1", f: {g:"g1"}},{a:"a1", b:"b1", c:"c1", d:"d1", e:"e1", f: {g:"g1"}},{a:"a1", b:"b1", c:"c1", d:"d1", e:"e1", f: {g:"g1"}},{a:"a1", b:"b1", c:"c1", d:"d1", e:"e1", f: {g:"g1"}}];
+	var translator = {a:"AA", b:"BB", c:"CC", d:"DD", f:{label:"FF", value:"h"}};
+
+	var realObj = {
+			"uuid" : "763bbfa1cdebdca519cfc0d9635a433e",
+			"name" : "my proj",
+			"description" : "My Description 1",
+			"isMaster" : false,
+			"auditInfo" : {
+				"createdOn" : 1408033273750,
+				"createdBy" : {
+					"name" : "fred"
+				},
+				"lastUpdatedOn" : 1408033273750,
+				"lastUpdatedBy" : {
+				"name" : "barney"
+			}
+		}
+	}
+
+	var realTranslator = {
+		"uuid": "id",
+		"name": "title",
+		"description": "description",
+		//"auditInfo": [{label: "createdBy", value: "name"},{label: "createdOn", value: "createdOn"}]
+		//"auditInfo": {label: "lastModifiedOn", value: "lastUpdatedOn"},
+		"auditInfo": {label: "lastModifiedBy", value: "name"},
+		//"auditInfo": {label: "lastModifiedBy", value: "createdOn"},
+	}
+
+
+	function translate(data, translator){
+		var results;
+
+		if (_.isArray(data)){
+			results = [];
+			_.each(data, function(e,i,a){
+				results.push(translateObj(e)) 
+			})
+		} else if (_.isObject){
+			return translateObj(data);
+		}
+
+		function translateObj(data){
+			var result = {}, t;
+			_.each(data, function(e,i,a){
+				// console.info(e,i,a)
+				// console.info("___________________")
+				t = translator[i];
+				if (t) {
+					if (_.isString(t)){
+						result[t] = e;
+					} else if (_.isArray(t)){
+						console.info("I have an array")
+						_.each(t, function(e1,i1,a1){
+							// console.info(e1,i1,a1)
+							var obj ={}
+							obj[i] = e1
+							console.info(obj)
+							return translateObj(obj)
+						})
+					} else if (_.isObject(t)){
+						// console.info("i have an object")
+						result[t.label] = find(a, t.value)
+					}
+				}
+
+			})
+			return result;
+		}
+
+		function find(obj, prop){
+			var result;
+			_.each(obj, function(k,v,o){
+				var temp;
+				if (_.isObject(k)){
+					temp = findIt(k);
+				} else {
+					if(_.has(o, v)){
+						temp = o[prop];
+					}
+				}
+				if (temp){
+					result = temp;
+				}
+			})
+
+			function findIt(obj){
+				var result;
+				_.each(obj, function(e,i,a){
+					if (_.isObject(e)){
+						result = findIt(e, prop)
+					}
+					if(_.has(a, prop)){
+						result = a[prop];
+					}
+				})	
+				return result;
+			}
+
+			return result
+		}
+
+		return results
+	}
+
+	
+
+	// var r = translate(IDList, translator)
+	// console.info ("the original structure is ");
+	// console.info(IDList)
+	// console.info("The translated structure is ");
+	// console.info(r)
+
+
+	// var r = translate(newID, translator)
+	// console.info ("the original structure is ");
+	// console.info(newID)
+	// console.info("The translated structure is ");
+	// console.info(r)
+
+	var r = translate(realObj, realTranslator);
+	console.info(r)
+
+	</script>
+</body>
+</html>

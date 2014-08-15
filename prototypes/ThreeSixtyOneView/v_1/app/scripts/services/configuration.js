@@ -4,12 +4,22 @@ angular.module('ThreeSixtyOneView')
 .constant('CONFIG', {
         "application": {
             // application level data here
+            "api": {
+                "projects": "/rubix/v1/project"
+            },
+            "models": {
+                "ProjectsModel": {
+                    "translator": {"isMaster": "isMaster", "id" : "uuid", "title": "name", "description": "description", "createdBy":{selector:"['auditInfo']['createdBy']['name']"}, "createdOn":{selector:"['auditInfo']['createdOn']"}, "modifiedBy":{selector:"['auditInfo']['lastUpdatedBy']['name']"}, "modifiedOn":{selector:"['auditInfo']['lastUpdatedOn']"}}
+                }
+            }
         },
-        "session": {},
+        "session": {
+            // session level data here
+        },
         "view": {
             "Dashboard": {
                 "model": "ProjectsModel",
-                "orderBy": 'lastModified',
+                "orderBy": 'modifiedOn',
                 "filter": 'CONFIG.view.Dashboard.filterMenu.items[0]',
                 "reverse": true,
                 "topInclude": "views/includes/dashboard_top.tpl.html",
@@ -28,7 +38,7 @@ angular.module('ThreeSixtyOneView')
                 "sortMenu": {
                     "displayColumns": [{
                         "label": "Last Modified",
-                        "filter": "lastModified"
+                        "filter": "modifiedOn"
                     }, {
                         "label": "Modified By",
                         "filter": "modifiedBy",
@@ -44,19 +54,19 @@ angular.module('ThreeSixtyOneView')
                         "template": "/name.html",
                         "enabledOn": "Modified by:"
                     }, {
-                        "label": "Owner",
-                        "filter": "owner",
+                        "label": "Creator",
+                        "filter": "createdBy",
                         "filters": [{
-                            "label": "Owned by me",
-                            "filter": "owner",
+                            "label": "Created by me",
+                            "filter": "createdBy",
                             "who": "me"
                         }, {
-                            "label": "Owned by:",
-                            "filter": "owner",
+                            "label": "Created by:",
+                            "filter": "createdBy",
                             "who": "name"
                         }],
                         "template": "/name.html",
-                        "enabledOn": "Owned by:"
+                        "enabledOn": "Created by:"
                     }]
                 },
                 "contextualMenu": {
@@ -179,7 +189,7 @@ angular.module('ThreeSixtyOneView')
             },
             "ProjectManager": {
                 "model": "ProjectsModel",
-                "orderBy": 'lastModified',
+                "orderBy": 'modifiedOn',
                 "filter": 'CONFIG.view.ProjectManager.filterMenu.items[0]',
                 "reverse": true,
                 "favorites": true,
@@ -201,7 +211,7 @@ angular.module('ThreeSixtyOneView')
                         label: "Created by me",
                         filterType: "activeFilter",
                         filter: {
-                            owner: "Barney Rubble"
+                            createdBy: "me"
                         }
                     }, {
                         label: "I can edit",
@@ -236,7 +246,7 @@ angular.module('ThreeSixtyOneView')
                 "sortMenu": {
                     "displayColumns": [{
                         "label": "Last Modified",
-                        "filter": "lastModified"
+                        "filter": "modifiedOn"
                     }, {
                         "label": "Modified By",
                         "filter": "modifiedBy",
@@ -252,25 +262,25 @@ angular.module('ThreeSixtyOneView')
                         "template": "/name.html",
                         "enabledOn": "Modified by:"
                     }, {
-                        "label": "Owner",
-                        "filter": "owner",
+                        "label": "Creator",
+                        "filter": "createdBy",
                         "filters": [{
-                            "label": "Owned by me",
-                            "filter": "owner",
+                            "label": "Created by me",
+                            "filter": "createdBy",
                             "who": "me"
                         }, {
-                            "label": "Owned by:",
-                            "filter": "owner",
+                            "label": "Created by:",
+                            "filter": "createdBy",
                             "who": "name"
                         }],
                         "template": "/name.html",
-                        "enabledOn": "Owned by:"
+                        "enabledOn": "Created by:"
                     }]
                 }
             }
         },
         "user": {
-            "name": "Fred Flintstone",
+            "name": "me",
             "role": "default user",
             "favorites": []
         }

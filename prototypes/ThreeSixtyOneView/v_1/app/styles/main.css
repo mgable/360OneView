@@ -479,9 +479,13 @@ li {
     text-transform: uppercase;
     color: darkgray;
     padding: 0 0 0 5px; }
+  .app .CentralManager .display-table table td .symbol.icon-masterset, .app .ProjectManager .display-table table td .symbol.icon-masterset, .app .Dashboard .display-table table td .symbol.icon-masterset {
+    display: none; }
   .app .CentralManager .display-table table td .master, .app .ProjectManager .display-table table td .master, .app .Dashboard .display-table table td .master {
     font-weight: bold;
     font-size: 16px; }
+    .app .CentralManager .display-table table td .master > .symbol, .app .ProjectManager .display-table table td .master > .symbol, .app .Dashboard .display-table table td .master > .symbol {
+      display: inline-block; }
   .app .CentralManager .display-table table td .text-holder .favorites, .app .ProjectManager .display-table table td .text-holder .favorites, .app .Dashboard .display-table table td .text-holder .favorites {
     padding: 8px 0; }
     .app .CentralManager .display-table table td .text-holder .favorites.disabled, .app .ProjectManager .display-table table td .text-holder .favorites.disabled, .app .Dashboard .display-table table td .text-holder .favorites.disabled {
@@ -647,6 +651,10 @@ li {
   margin: 25px; }
   .scenario-edit .details {
     margin: 0 0 20px 0; }
+    .scenario-edit .details .media {
+      margin: 0 0 20px 0; }
+    .scenario-edit .details form {
+      display: inline-block; }
   .scenario-edit .display {
     width: 100%; }
     .scenario-edit .display .actions {

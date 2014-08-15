@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Service: configuration', function () {
+xdescribe('Service: configuration', function () {
 
   // load the service's module
   beforeEach(module('centralManagerApp'));

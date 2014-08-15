@@ -2,6 +2,10 @@
   margin: 25px; }
   .scenario-edit .details {
     margin: 0 0 20px 0; }
+    .scenario-edit .details .media {
+      margin: 0 0 20px 0; }
+    .scenario-edit .details form {
+      display: inline-block; }
   .scenario-edit .display {
     width: 100%; }
     .scenario-edit .display .actions {

@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Service: Urlmaker', function () {
+xdescribe('Service: Urlmaker', function () {
 
   // load the service's module
   beforeEach(module('centralManagerApp'));

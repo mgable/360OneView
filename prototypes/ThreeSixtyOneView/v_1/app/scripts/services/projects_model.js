@@ -9,14 +9,16 @@
 
     Projects.$factory = [
         '$timeout',
-        'Resource',
-        'SERVER',
         '$rootScope',
-        function($timeout, Resource, SERVER, $rootScope) {
+        'Resource',
+        'CONFIG',
+        'SERVER',
+        function($timeout, $rootScope, Resource, CONFIG, SERVER) {
             _.extend(Projects, {
-                $$resource: new Resource(SERVER + '/api/projects'),
+                $$resource: new Resource(SERVER.remote + CONFIG.application.api.projects),
                 $timeout: $timeout,
-                $rootScope: $rootScope
+                $rootScope: $rootScope,
+                translator: CONFIG.application.models.ProjectsModel.translator
             });
 
             return Projects;
@@ -25,8 +27,40 @@
 
     angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', Projects.$factory);
 
+    Projects.config = {
+        transformResponse: function(data){ return {data:translate(data, Projects.translator)} }
+    }
+
+    function translate(data, translator){
+        var results, data = JSON.parse(data);
+
+        if (_.isArray(data)){
+            results = [];
+            _.each(data, function(e,i,a){
+                results.push(translateObj(e)) 
+            })
+        } else if (_.isObject){
+            return translateObj(data);
+        }
+
+        function translateObj(data){
+            var result = {}, t;
+            _.each(translator, function(k,v,o){
+                t = data[k];
+                if (typeof t !== "undefined") {
+                    result[v] = t;
+                } else if (_.isObject(k)){
+                    result[v] = eval("data" + k.selector)
+                }
+            })
+            return result;
+        }
+        return results
+    }
+
+
     Projects.$find = function(uid) {
-        Projects.data = new Projects(this.$$resource.get(uid));
+        Projects.data = new Projects(this.$$resource.get(uid, Projects.config));
     };
 
     Projects.$get = function() {

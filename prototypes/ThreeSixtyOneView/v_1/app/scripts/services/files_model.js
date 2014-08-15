@@ -14,7 +14,7 @@
         '$rootScope',
         function($timeout, Resource, SERVER, $rootScope) {
             _.extend(Files, {
-                $$resource: new Resource(SERVER + '/api/items'),
+                $$resource: new Resource(SERVER.local + '/api/items'),
                 $timeout: $timeout,
                 $rootScope: $rootScope
             });

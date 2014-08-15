@@ -366,11 +366,10 @@ angular.module('ThreeSixtyOneView.directives')
     }).directive('sortableColumns', function() {
         return {
             template: '<div ng-switch on="displayBy" class="text-holder">' +
-                '<span ng-switch-when="Last Modified">{{item.lastModified | timeago }}</span>' +
+                '<span ng-switch-when="Last Modified">{{item.modifiedOn | timeago }}</span>' +
                 '<span ng-switch-when="Modified By">{{item.modifiedBy}}</span>' +
                 '<span ng-switch-when="Type">{{item.type}}</span>' +
-                '<span ng-switch-when="Owner">{{item.owner}}</span>' +
-                '<span ng-switch-when="Defaults">{{item.defaults}}</span>' +
+                '<span ng-switch-when="Creator">{{item.createdBy}}</span>' +
                 '<span ng-switch-default>FAIL</span>' +
                 '</div>',
             restrict: "AE",
@@ -414,7 +413,7 @@ angular.module('ThreeSixtyOneView.directives')
     }).directive('inlineRename', function(ViewService) {
         return {
             replace: true,
-            template: '<div class="inlineRename"><span ng-transclude></span><h4 class="title" ng-hide="isActive">{{item.title}}&nbsp;</h4><a class="edit" ng-click="action()"><icon ng-hide="isActive" type="pencil" class="pencil clearfix"></icon></a>' +
+            template: '<div class="inlineRename"><span ng-transclude></span><h4 class="title" ng-hide="isActive">{{item.title}}</h4>&nbsp;<a class="edit" ng-click="action()"><icon ng-hide="isActive" type="pencil" class="pencil clearfix"></icon></a>' +
                 '<h4 ng-show="isActive"><input ng-model="item.title" type="text"></input>&nbsp;<a ng-click="submit()"><icon type="check"></icon></a>&nbsp;<a ng-click="cancel()"><icon type="times"></icon></a></h4></div>',
             restrict: 'E',
             transclude: true,

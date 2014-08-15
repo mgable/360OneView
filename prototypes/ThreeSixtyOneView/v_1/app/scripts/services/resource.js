@@ -24,11 +24,10 @@
     angular.module('ThreeSixtyOneView.services').factory('Resource', Resource.$factory);
 
     /* Record retrieval */
-    Resource.prototype.get = function(uid) {
-        var deferred = Q.defer();
-
+    Resource.prototype.get = function(uid, config) {
+        var deferred = Q.defer(), config = config || {};
         this._http
-            .get(this.path(uid))
+            .get(this.path(uid), config)
             .success(deferred.resolve)
             .error(deferred.reject);
 

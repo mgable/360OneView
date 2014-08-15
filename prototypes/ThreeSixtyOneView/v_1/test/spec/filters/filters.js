@@ -2,15 +2,29 @@
 
 'use strict';
 
-xdescribe('Filters:', function() {
+describe('Filters:', function() {
     // load the directive's module
-    beforeEach(module('centralManagerApp'));
+    beforeEach(module('ThreeSixtyOneView.filters', 'ThreeSixtyOneView.services'));
 
     var filter;
 
     beforeEach(inject(function($filter) {
         filter = $filter;
     }));
+
+    describe('isFavorite filter', function(){
+        var FavoritesService;
+        beforeEach(inject(function(_FavoritesService_){
+            FavoritesService = _FavoritesService_;
+            FavoritesService.addFavorite(2)
+            FavoritesService.addFavorite(234);
+        }))
+
+        it('should filter put all non-favorites', function(){
+            expect(filter('isFavorite')([{id:1},{id:2}, {id:123}, {id:234}])).toEqual([{id:2},{id:234}]);
+        })
+
+    })
 
     describe('String filters', function() {
         it('should capitalize', function() {

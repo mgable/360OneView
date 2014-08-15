@@ -138,6 +138,16 @@ function init() {
 
     });
 
+
+    //get all or query
+    app.get("/test.js", function(req, res) {
+        console.info(req.headers.host)
+
+        sendJSResponse(res, "var localhost = '" + req.headers.host + "'; ");
+
+    });
+
+
     //get all or query
     app.get("/api/projects", function(req, res) {
         console.info(req.query)
@@ -363,6 +373,15 @@ function sendResponse(res, body) {
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Content-Length', body.length);
     res.end(res.jsonp(body));
+}
+
+function sendJSResponse(res, body) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET');
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With");
+    res.setHeader('Content-Type', 'application/javascript');
+    res.setHeader('Content-Length', body.length);
+    res.send(body);
 }
 
 

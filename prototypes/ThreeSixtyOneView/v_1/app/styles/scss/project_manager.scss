@@ -206,10 +206,16 @@
 
 						padding:0 0 0 5px;
 					}
+					.symbol.icon-masterset {
+						display:none;
+					}
 					.master {
 						font: {
 							weight:bold;
 							size:16px;
+						}
+						> .symbol {
+							display:inline-block;
 						}
 					}
 					.text-holder {

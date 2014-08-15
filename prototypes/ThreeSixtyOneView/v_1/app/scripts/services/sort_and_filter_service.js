@@ -93,7 +93,6 @@ angular.module('ThreeSixtyOneView.services')
 
         this.setOrderBy = function(which) {
             orderBy = which;
-            //$rootScope.$broadcast('SortAndFilterService:filter');
         };
 
         this.getOrderBy = function() {
@@ -146,7 +145,11 @@ angular.module('ThreeSixtyOneView.services')
         };
 
         this.getCount = function() {
-            return display.data.length;
+            try{
+                return display.data.length;
+            }catch(e){
+                console.info("No data")
+            }
         };
 
         this.getData = function() {

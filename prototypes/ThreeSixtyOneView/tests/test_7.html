@@ -1,0 +1,64 @@
+<html>
+<head>
+	<title></title>
+		<script src="./bower_components/underscore/underscore.js"></script>
+</head>
+<body>
+	<script>
+	var ID = {a:"a1", b:"b1", c:"c1", d:"d1", e:"e1", f: {g:"suprise"}};
+	var IDList = [{a:"a1", b:"b1", c:"c1", d:"d1", e:"e1", f: {g:"g1"}},{a:"a1", b:"b1", c:"c1", d:"d1", e:"e1", f: {g:"g1"}},{a:"a1", b:"b1", c:"c1", d:"d1", e:"e1", f: {g:"g1"}}]
+
+	//var translator = {a:"AA", b:"BB", c:"CC", d:"DD", f:{label:"FF", value:"h"}};
+	var translator = {"AA" : "a", "BB": "b", "CC": "c", "DD":"d", "FF": {target:"['f']['g']"}};
+
+
+	function translate(data, translator){
+		var results;
+
+		if (_.isArray(data)){
+			results = [];
+			_.each(data, function(e,i,a){
+				results.push(translateObj(e)) 
+			})
+		} else if (_.isObject){
+			return translateObj(data);
+		}
+
+		function translateObj(data){
+			var result = {}, t;
+			_.each(translator, function(k,v,o){
+				t = data[k];
+				if (t) {
+					if (_.isString(t)){
+						result[v] = t;
+					} 
+				} else if (_.isObject(k)){
+					result[v] = eval("data" + k.target)
+				}
+			})
+			return result;
+		}
+		return results
+	}
+
+	
+
+	var r = translate(ID, translator)
+	console.info ("the original structure is ");
+	console.info(ID)
+	console.info("The translated structure is ");
+	console.info(r)
+
+
+	var r = translate(IDList, translator)
+	console.info ("the original structure is ");
+	console.info(IDList)
+	console.info("The translated structure is ");
+	console.info(r)
+
+	// var r = translate(realObj, realTranslator);
+	// console.info(r)
+
+	</script>
+</body>
+</html>

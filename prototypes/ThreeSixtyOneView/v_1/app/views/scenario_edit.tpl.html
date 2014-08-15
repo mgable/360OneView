@@ -11,6 +11,22 @@
 				<div style="clear:both;">Decription: Bacon ipsum dolor sit amet pastrami chuck andouille, shankle jerky drumstick chicken frankfurter fatback. Ham hock tri-tip andouille turducken.</div>
 			</div>
 		</div>
+		<div>
+			<form class="form-inline">
+				<div class='form-group'>
+					<label>Edit:&nbsp;
+						<select ng-model="scenarioElementType" ng-options="value for value in types"></select>
+					</label>
+				</div>
+			</form>
+
+			<span class="results">Results (Not Calculated)</span>
+			<span class="pull-right">
+				<span>Last saved 1 sec ago</span>&nbsp;
+				<button class="btn btn-primary">simulate</button>
+			</span>
+		</div>
+
 	</div>
 
 	<div class="display">

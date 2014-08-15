@@ -27,7 +27,8 @@ angular.module("ThreeSixtyOneView")
             }
         }
 
-    }).controller("ManagerCtrl", function($scope, $injector, $location, $routeParams, CONFIG) {
+    }).controller("ManagerCtrl", function($scope, $injector, $location, $routeParams, CONFIG, Urlmaker) {
+
 
         var currentView = CONFIG.view[$scope.ViewService.getCurrentView()],
             currentModel = currentView.model,
@@ -37,12 +38,12 @@ angular.module("ThreeSixtyOneView")
             orderBy = currentView.orderBy
 
         $scope.gotoDashboard = function(item, evt){
-            $location.path("/dashboard/" + item.title);
+            Urlmaker.makeUrl({type:"dashboard", name:item.title});
             evt.stopPropagation();
         }
 
         $scope.gotoScenarioEdit = function(item, evt){
-            $location.path("/scenarioEdit/"+ $scope.CONFIG.projectName + "/" + item.title);
+            Urlmaker.makeUrl({type:"scenarioEdit", project:$scope.CONFIG.projectName, item:item});
             evt.stopPropagation();
         }
 
@@ -69,8 +70,13 @@ angular.module("ThreeSixtyOneView")
                     reverse: reverse
                 }));
 
-                if ($scope.CONFIG.hasFavorites && $scope.data.master) {
-                    $scope.FavoritesService.addFavorite($scope.data.master);
+                if ($scope.CONFIG.hasFavorites) {
+                    var item;
+                    _.each($scope.data, function(element){
+                       item = _.find(element, function(elem){return elem.isMaster})
+                    })
+
+                    $scope.FavoritesService.addFavorite(item.id);
                 }
             });
 
@@ -98,4 +104,6 @@ angular.module("ThreeSixtyOneView")
     }).controller("ScenarioEditCtrl", function($scope, $routeParams) {
         $scope.projectName = $routeParams.project;
         $scope.entity = $routeParams.entity;
+        $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
+        $scope.scenarioElementType = $scope.types[0];
     });
