@@ -20,10 +20,10 @@
 				</div>
 			</form>
 
-			<span class="results">Results (Not Calculated)</span>
+			<span class="results" ng-class="{disabled: !resultsCalculated}">Results: (Not Calculated)</span>
 			<span class="pull-right">
-				<span>Last saved 1 sec ago</span>&nbsp;
-				<button class="btn btn-primary">simulate</button>
+				<saved-state></saved-state>
+				<button class="btn btn-primary" ng-click="resultsCalculated=true">simulate</button>
 			</span>
 		</div>
 
@@ -31,10 +31,39 @@
 
 	<div class="display">
 		<div class="actions">
-			<span class="holder col-3"><i class="fa fa-eye"></i>&nbsp;Your View: <span>Fiesta 2015 v2</span></span>
+			<span class="holder col-4 pivotTableControlsHolder"><span ng-click="showDrop = !showDrop"><i class="fa fa-eye"></i>&nbsp;Your View: <span>Fiesta 2015 v2</span></span>
+
+
+				<div class="pivotTableControls" ng-show="showDrop">
+
+					<div class="dimensions">
+						<div class="dimension">
+							<icon type="tag" cname="tag"></icon>&nbsp;<span class="type">product</span><span class='name:'><a>Fiesta</a></span><icon type="play" cname="trigger"></icon>
+						</div>
+						<div class="dimension">
+							<icon type="flask" cname="tag"></icon>&nbsp;<span class="type">touchpoint</span><span class='name:'><a>All</a></span><icon type="play" cname="trigger"></icon>
+						</div>
+						<div class="dimension">
+							<icon type="globe" cname="tag"></icon>&nbsp;<span class="type">geography</span><span class='name:'><a>All</a></span><icon type="play" cname="trigger"></icon>
+						</div>
+						<div class="dimension">
+							<icon type="calendar" cname="tag"></icon>&nbsp;<span class="type">time</span><span class='name:'><a>2015</a></span><icon type="play" cname="trigger"></icon>
+						</div>
+					</div>
+
+					<div class="fields">fields here</div>
+
+					<div class="columnsAndRows">coulns and rows here</div>
+
+					<div class="footer">footer here</div>
+
+				</div>
+
+
+			</span>
 			<span class="holder col-2" ng-click="showTray=!showTray"><i class="fa fa-book"></i>&nbsp;Contentual Info</span>
 			<span class="holder col-2"><i class="fa fa-building"></i>&nbsp;Adjust Amounts</span>
-			<span class="holder col-2"><i class="fa fa-expand"></i>&nbsp;Import/Export</span>
+			<span class="holder col-1"><i class="fa fa-expand"></i>&nbsp;Import/Export</span>
 			<span class="holder col-1">&nbsp;</span>
 			<span class="holder col-1"><i class="fa fa-undo"></i>&nbsp;Undo</span>
 			<span class="holder col-1"><i class="fa fa-cog"></i>&nbsp;</span>
@@ -45,37 +74,70 @@
 					<div class="tray" ng-show="showTray" id="slide-in">the tray</div>
 				</td>
 				<td class="pivitTableHolder" >
-					<table class="table table-hover no-margin">
+					<table class="table table-hover table-bordered no-margin" edit-group>
 						<thead>
-							<th>Measure</th>
-							<th>Last Modified</th>
-							<th>Modified By</th>
-							<th>Type</th>
+							<th>Nameplate Category</th>
+							<th>Leaf Touchpoint</th>
+							<th>January 2014</th>
+							<th>February 2014</th>
+							<th>March 2014</th>
 						</thead>
 						<tbody>
 							<tr>
-								<td>TV Cost per GRP</td>
-								<td>$1.6K</td>
-								<td>$1.6K</td>
-								<td>$1.6K</td>
+								<td class="bold">Cars</td>
+								<td>National TV Nameplate</td>
+								<td class="editable"><input-edit value="$1.6K"></input-edit></td>
+								<td class="editable"><input-edit value="$1.6K"></input-edit></td>
+								<td class="editable"><input-edit value="$1.6K"></input-edit></td>
 							</tr>
 							<tr>
-								<td>Paid Search CPC</td>
-								<td>$1.35</td>
-								<td>$1.35</td>
-								<td>$1.35</td>
+								<td></td>
+								<td>Local TV Nameplate</td>
+								<td class="editable">$2.35</td>
+								<td class="editable">$2.35</td>
+								<td class="editable">$$2.35</td>
 							</tr>
 							<tr>
-								<td>Display CPM</td>
-								<td>$0.04</td>
-								<td>$0.04</td>
-								<td>$0.04</td>
+								<td class="bold">Trucks</td>
+								<td>National TV Nameplate</td>
+								<td class="editable">$0.04</td>
+								<td class="editable">$0.04</td>
+								<td class="editable">$0.04</td>
 							</tr>
 							<tr>
-								<td>OOH CPM</td>
-								<td>$1.50</td>
-								<td>$1.50</td>
-								<td>$1.50</td>
+								<td></td>
+								<td>Local TV Nameplate</td>
+								<td class="editable">$1.50</td>
+								<td class="editable">$1.50</td>
+								<td class="editable">$1.50</td>
+							</tr>
+							<tr>
+								<td class="bold">SUV</td>
+								<td>National TV Nameplate</td>
+								<td class="editable">$0.04</td>
+								<td class="editable">$0.04</td>
+								<td class="editable">$0.04</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>Local TV Nameplate</td>
+								<td class="editable">$0.04</td>
+								<td class="editable">$0.04</td>
+								<td class="editable">$0.04</td>
+							</tr>
+							<tr>
+								<td class="bold">N/A</td>
+								<td>National TV Nameplate</td>
+								<td class="editable">$0.04</td>
+								<td class="editable">$0.04</td>
+								<td class="editable">$0.04</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>Local TV Nameplate</td>
+								<td class="editable">$0.04</td>
+								<td class="editable">$0.04</td>
+								<td class="editable">$0.04</td>
 							</tr>
 						</tbody>
 					</table>

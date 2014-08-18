@@ -112,9 +112,11 @@
         return deferred.promise;
     };
 
-    Resource.prototype.create = function(data) {
+    Resource.prototype.create = function(data, config) {
         var deferred = Q.defer(),
             path;
+
+
 
         if (typeof data === 'undefined') {
             deferred.reject('I need an item template');
@@ -124,11 +126,7 @@
         path = this._path;
 
         this._http
-            .post(path, {
-                params: {
-                    data: data
-                }
-            })
+            .post(path, data, config)
             .success(deferred.resolve)
             .error(deferred.reject);
 

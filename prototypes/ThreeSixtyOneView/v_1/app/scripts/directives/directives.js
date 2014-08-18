@@ -192,8 +192,7 @@ angular.module('ThreeSixtyOneView.directives')
                 }
             }
         }
-    })
-    .directive('msLinkGroup', function($timeout) {
+    }).directive('msLinkGroup', function($timeout) {
         return {
             restrict: 'A',
             controller: function($scope, $element, $attrs) {
@@ -262,8 +261,7 @@ angular.module('ThreeSixtyOneView.directives')
             },
             templateUrl: '/views/directives/sorting_options.html'
         };
-    })
-    .directive('sorter', function(SortAndFilterService, DropdownService) {
+    }).directive('sorter', function(SortAndFilterService, DropdownService) {
         return {
             restrict: "AE",
             controller: function($scope, $element, $attrs) {
@@ -279,8 +277,7 @@ angular.module('ThreeSixtyOneView.directives')
                 };
             }
         };
-    })
-    .directive('triStateCheckbox', function() {
+    }).directive('triStateCheckbox', function() {
         return {
             replace: true,
             restrict: 'E',
@@ -348,8 +345,7 @@ angular.module('ThreeSixtyOneView.directives')
                 }, true);
             }
         };
-    })
-    .directive('deleteServiceForCheckbox', function(FileDeleteService) {
+    }).directive('deleteServiceForCheckbox', function(FileDeleteService) {
         return {
             restrict: "A",
             require: "triStateCheckbox",

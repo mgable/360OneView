@@ -10,6 +10,14 @@
 		form {
 			display:inline-block;
 		}
+		.results {
+			display:inline-block;
+			margin:0 0 0 10px;
+			cursor:pointer;
+			&.disabled {
+				color:$disabled;
+			}
+		}
 	}
 	.display {
 		width: 100%;
@@ -17,7 +25,7 @@
 			border: 1px solid $mediumgray;
 			border-bottom: 0 none;
 			height: 30px;
-			span:hover {
+			> span:hover {
 				background-color:$mouseover;
 				cursor: pointer;
 			}
@@ -28,6 +36,41 @@
 				&:last-child {
 					border-right: 0 none;
 				}
+			}
+			.pivotTableControlsHolder {
+				position: relative;
+				.pivotTableControls {
+					position: absolute;
+					top: 29px;
+					left: 0px;
+					width:100%;
+					border: 1px solid $mediumgray;
+					background-color: $white;
+					.dimensions {
+						padding:15px;
+						.dimension {
+							margin: 0 0 8px;
+							span {
+								display:inline-block;
+							}
+							.tag {
+								font-size:14px;
+								color: $darkgray;
+								margin:0 5px 0 0;
+							}
+							.type {
+								width:120px;
+								text-transform: uppercase;
+							}
+							.name {width:100px}
+							.trigger {float:right}
+						}
+					}
+				}
+			}
+			.pivitTableHolder {
+				border:1px solid $mediumgray;
+				padding: 0;
 			}
 		}
 		.tableHolder {
@@ -42,12 +85,17 @@
 				}
 
 			}
-			.pivitTableHolder {
-				border:1px solid $mediumgray;
-				padding: 0;
-			}
 			 table {
 				width: 100%;
+				tr {
+					td.editable {
+						cursor:pointer;
+						width:170px;
+						input {
+							width:120px;
+						}
+					}
+				}
 			}
 		}
 		table {
