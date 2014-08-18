@@ -10,6 +10,14 @@
 		form {
 			display:inline-block;
 		}
+		.results {
+			display:inline-block;
+			margin:0 0 0 10px;
+			cursor:pointer;
+			&.disabled {
+				color:$disabled;
+			}
+		}
 	}
 	.display {
 		width: 100%;
@@ -48,6 +56,15 @@
 			}
 			 table {
 				width: 100%;
+				tr {
+					td.editable {
+						cursor:pointer;
+						width:170px;
+						input {
+							width:120px;
+						}
+					}
+				}
 			}
 		}
 		table {

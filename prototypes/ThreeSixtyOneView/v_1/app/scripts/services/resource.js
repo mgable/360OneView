@@ -116,6 +116,8 @@
         var deferred = Q.defer(),
             path;
 
+
+
         if (typeof data === 'undefined') {
             deferred.reject('I need an item template');
             return deferred.promise;
@@ -125,9 +127,7 @@
 
         this._http
             .post(path, {
-                params: {
-                    data: data
-                }
+                params: data
             })
             .success(deferred.resolve)
             .error(deferred.reject);
