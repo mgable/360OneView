@@ -232,13 +232,9 @@ angular.module('ThreeSixtyOneView')
                         {'name':'details'}
                     ],
                     "views": {
-                        "defaults": {
-                            "type": "master",
+                        "isMaster": {
+                            "type": true,
                             "value": "0000001"
-                        },
-                        "access": {
-                            "type": "view only",
-                            "value": "0100001"
                         },
                         "otherwise": "1101101"
                     }
