@@ -112,7 +112,7 @@
         return deferred.promise;
     };
 
-    Resource.prototype.create = function(data) {
+    Resource.prototype.create = function(data, config) {
         var deferred = Q.defer(),
             path;
 
@@ -126,9 +126,7 @@
         path = this._path;
 
         this._http
-            .post(path, {
-                params: data
-            })
+            .post(path, data, config)
             .success(deferred.resolve)
             .error(deferred.reject);
 

@@ -61,6 +61,7 @@
 
     Projects.$find = function(uid) {
         Projects.data = new Projects(this.$$resource.get(uid, Projects.config));
+
     };
 
     Projects.$get = function() {
@@ -70,7 +71,7 @@
     Projects.$clone = function(id, name) {
         Projects.$$resource.clone(id, name).then(function(response) {
             Projects.$timeout(function() {
-                Projects.data.data.push(response);
+                Projects.data.push(response);
                 Projects.$rootScope.$broadcast("ProjectsModel:dataChange", {
                     data: Projects.data
                 })
@@ -93,7 +94,7 @@
         var index = Projects.getItemIndex(item);
         Projects.$$resource.set(item).then(function(response) {
             Projects.$timeout(function() {
-                Projects.data.data[index] = response.data;
+                Projects.data[index] = response.data;
                 Projects.$rootScope.$broadcast("ProjectsModel:dataChange", {
                     data: Projects.data
                 })
@@ -105,12 +106,13 @@
         Projects.$edit(item);
     };
 
-    Projects.$create = function(config) {
-        Projects.$$resource.create(config).then(function(response) {
+    Projects.$create = function(data) {
+        Projects.$$resource.create(data, Projects.config).then(function(response) {
             Projects.$timeout(function() {
-                console.info(response);
-                Projects.data.data = response.data;
-                Projects.data.counts = response.counts;
+                Projects.data.data.push(response.data);
+                Projects.$rootScope.$broadcast("ProjectsModel:dataChange", {
+                    data: Projects.data.data
+                });
             });
         });
     };
@@ -126,7 +128,7 @@
 
     Projects.getItemById = function(id) {
         var item = false,
-            items = Projects.data.data;
+            items = Projects.data;
         for (var x = 0, limit = items.length; x < limit; x++) {
             if (items[x].id === id) {
                 return items[x];
@@ -137,8 +139,8 @@
 
     Projects.getItemIndex = function(item) {
         var index = false;
-        for (var x = 0, limit = Projects.data.data.length; x < limit; x++) {
-            if (item.id === Projects.data.data[x].id) {
+        for (var x = 0, limit = Projects.data.length; x < limit; x++) {
+            if (item.id === Projects.data[x].id) {
                 return x;
             }
         }
@@ -146,7 +148,6 @@
 
     Projects.prototype.$unwrap = function(futureData) {
         var self = this;
-
         this.$futureData = futureData;
         this.$futureData.then(function(data) {
             Projects.$timeout(function() {
