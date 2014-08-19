@@ -477,7 +477,7 @@ li {
     font-size: 10px;
     font-weight: bold;
     text-transform: uppercase;
-    color: darkgray;
+    color: #666666;
     padding: 0 0 0 5px; }
   .app .CentralManager .display-table table td .symbol.icon-masterset, .app .ProjectManager .display-table table td .symbol.icon-masterset, .app .Dashboard .display-table table td .symbol.icon-masterset {
     display: none; }
@@ -667,7 +667,7 @@ li {
       border: 1px solid #dddddd;
       border-bottom: 0 none;
       height: 30px; }
-      .scenario-edit .display .actions span:hover {
+      .scenario-edit .display .actions > span:hover {
         background-color: #8796b4;
         cursor: pointer; }
       .scenario-edit .display .actions .holder {
@@ -676,6 +676,35 @@ li {
         padding: 4px 0 0 9px; }
         .scenario-edit .display .actions .holder:last-child {
           border-right: 0 none; }
+      .scenario-edit .display .actions .pivotTableControlsHolder {
+        position: relative; }
+        .scenario-edit .display .actions .pivotTableControlsHolder .pivotTableControls {
+          position: absolute;
+          top: 29px;
+          left: 0px;
+          width: 100%;
+          border: 1px solid #dddddd;
+          background-color: white; }
+          .scenario-edit .display .actions .pivotTableControlsHolder .pivotTableControls .dimensions {
+            padding: 15px; }
+            .scenario-edit .display .actions .pivotTableControlsHolder .pivotTableControls .dimensions .dimension {
+              margin: 0 0 8px; }
+              .scenario-edit .display .actions .pivotTableControlsHolder .pivotTableControls .dimensions .dimension span {
+                display: inline-block; }
+              .scenario-edit .display .actions .pivotTableControlsHolder .pivotTableControls .dimensions .dimension .tag {
+                font-size: 14px;
+                color: #666666;
+                margin: 0 5px 0 0; }
+              .scenario-edit .display .actions .pivotTableControlsHolder .pivotTableControls .dimensions .dimension .type {
+                width: 120px;
+                text-transform: uppercase; }
+              .scenario-edit .display .actions .pivotTableControlsHolder .pivotTableControls .dimensions .dimension .name {
+                width: 100px; }
+              .scenario-edit .display .actions .pivotTableControlsHolder .pivotTableControls .dimensions .dimension .trigger {
+                float: right; }
+      .scenario-edit .display .actions .pivitTableHolder {
+        border: 1px solid #dddddd;
+        padding: 0; }
     .scenario-edit .display .tableHolder {
       width: 100%; }
       .scenario-edit .display .tableHolder .trayHolder {
@@ -685,9 +714,6 @@ li {
         overflow: hidden; }
         .scenario-edit .display .tableHolder .trayHolder .tray {
           overflow: hidden; }
-      .scenario-edit .display .tableHolder .pivitTableHolder {
-        border: 1px solid #dddddd;
-        padding: 0; }
       .scenario-edit .display .tableHolder table {
         width: 100%; }
         .scenario-edit .display .tableHolder table tr td.editable {

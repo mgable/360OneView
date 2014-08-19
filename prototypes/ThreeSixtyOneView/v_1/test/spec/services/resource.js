@@ -1,13 +1,13 @@
 'use strict';
 
-xdescribe('Service: Resource', function() {
+describe('Service: Resource', function() {
 
     // load the service's module
-    beforeEach(module('centralManagerApp'));
+    beforeEach(module('ThreeSixtyOneView'));
 
     // instantiate service
-    var Resource, $http, getSpy, putSpy, deleteSpy, postSpy, resource, $rootScope, $httpBackend, SERVER, CENTRAL_MANAGER_REST_API;
-    beforeEach(inject(function(_Resource_, _$http_, _$rootScope_, _$httpBackend_, _SERVER_, _CENTRAL_MANAGER_REST_API_) {
+    var Resource, $http, getSpy, putSpy, deleteSpy, postSpy, resource, $rootScope, $httpBackend, SERVER, CONFIG, url;
+    beforeEach(inject(function(_Resource_, _$http_, _$rootScope_, _$httpBackend_, _SERVER_, _CONFIG_) {
         Resource = _Resource_;
         $http = _$http_;
         $rootScope = _$rootScope_;
@@ -16,16 +16,16 @@ xdescribe('Service: Resource', function() {
         putSpy = spyOn($http, "put").andCallThrough();
         deleteSpy = spyOn($http, "delete").andCallThrough();
         postSpy = spyOn($http, "post").andCallThrough();
-        CENTRAL_MANAGER_REST_API = _CENTRAL_MANAGER_REST_API_;
         SERVER = _SERVER_;
-        resource = new Resource(SERVER + CENTRAL_MANAGER_REST_API);
+        CONFIG = _CONFIG_;
+        url = SERVER.remote + CONFIG.application.api.projects
 
-        $httpBackend.expectGET(SERVER + CENTRAL_MANAGER_REST_API).respond({
+        resource = new Resource(url);
+
+        $httpBackend.expectGET(url).respond({
             "doesnot": "matter"
         });
-        $httpBackend.expectGET(SERVER + CENTRAL_MANAGER_REST_API + '/0/1').respond({
-            "doesnot": "matter"
-        });
+
     }));
 
     it('should be defined', function() {
@@ -35,13 +35,10 @@ xdescribe('Service: Resource', function() {
 
     it('should properly "GET"', function() {
         var promise = resource.get();
-        expect(getSpy).toHaveBeenCalledWith(SERVER + CENTRAL_MANAGER_REST_API);
-
-        promise = resource.get('1234');
-        expect(getSpy).toHaveBeenCalledWith(SERVER + CENTRAL_MANAGER_REST_API + '/1234');
+        expect(getSpy).toHaveBeenCalledWith(url,{method:"get", url: url});
     });
 
-    it('should properly "Query"', function(done) {
+    xit('should properly "Query"', function(done) {
         var result = resource.query();
         //expect(resource.query).not.toThrow(new Error("I need a start and end"));
         expect(result.source.exception).toBe("I need a start and end");
@@ -56,7 +53,7 @@ xdescribe('Service: Resource', function() {
         //TODO: determine result
     });
 
-    it('should properly "set"', function() {
+    xit('should properly "set"', function() {
         var result = resource.set();
         expect(result.source.exception).toBe('I need an item with an id');
         expect(putSpy).not.toHaveBeenCalled();
@@ -71,7 +68,7 @@ xdescribe('Service: Resource', function() {
         //TODO: determine result
     });
 
-    it('should properly "remove"', function() {
+    xit('should properly "remove"', function() {
         var result = resource.remove();
         expect(result.source.exception).toBe('I need an array with a list of ids');
         expect(deleteSpy).not.toHaveBeenCalled();
@@ -87,7 +84,7 @@ xdescribe('Service: Resource', function() {
         //TODO: determine result
     });
 
-    it('should properly "clone"', function() {
+    xit('should properly "clone"', function() {
         var result = resource.clone();
         expect(result.source.exception).toBe('I need an id');
         expect(postSpy).not.toHaveBeenCalled();
@@ -106,24 +103,19 @@ xdescribe('Service: Resource', function() {
         expect(result.source.exception).toBe('I need an item template');
         expect(postSpy).not.toHaveBeenCalled();
 
-        result = resource.create({
-            title: "title",
-            description: "description"
-        });
-        expect(postSpy).toHaveBeenCalledWith(SERVER + CENTRAL_MANAGER_REST_API, {
-            params: {
-                title: 'title',
-                description: "description"
-            }
-        });
-        //TODO: determine result
+        var obj = {
+            name: 'title',
+            description: "description",
+            isMaster: false,
+            parentId: ''
+        }
+
+        result = resource.create(obj);
+        expect(postSpy).toHaveBeenCalledWith(url,obj, undefined);
     });
 
     it('should properly make a path', function() {
         var result = resource.path();
-        expect(result).toBe(SERVER + CENTRAL_MANAGER_REST_API)
-
-        result = resource.path('1234');
-        expect(result).toBe(SERVER + CENTRAL_MANAGER_REST_API + '/1234')
+        expect(result).toBe(url)
     });
 });

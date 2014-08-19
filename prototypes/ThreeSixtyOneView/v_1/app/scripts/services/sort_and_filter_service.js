@@ -175,7 +175,7 @@ angular.module('ThreeSixtyOneView.services')
 
             $rootScope.$on("ProjectsModel:dataChange", function(event, response) {
                 $rootScope.$apply(function(){
-                    data = response.data;
+                    data.data = response.data;
                     self.filter();
                 });
             });
@@ -194,7 +194,12 @@ angular.module('ThreeSixtyOneView.services')
             });
             temp = $filter('orderBy')(temp, this.getOrderBy(), this.getReverse());
             temp = filterPipline(temp);
-            display.data = temp;
+
+            // $rootScope.$apply(function(){
+            //     console.info("the data is")
+            //     console.info(data)
+                display.data = temp;
+            //});
 
            $rootScope.$broadcast('SortAndFilterService:filter');
         }

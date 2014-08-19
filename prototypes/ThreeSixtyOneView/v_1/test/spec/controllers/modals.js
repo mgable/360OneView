@@ -29,11 +29,13 @@ describe('Controllers: ', function() {
         expect(modalInstance.dismiss).toHaveBeenCalledWith('create');
     });
 
-
     it("should call the Projects Model with the name of the new project", function() {
         scope.create("xyz");
         expect(ProjectsModel.$create).toHaveBeenCalledWith({
-            name: 'xyz'
+            name: 'xyz',
+            description: "this is a test",
+            isMaster: false,
+            parentId: ''
         });
     });
 });
