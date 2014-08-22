@@ -42,7 +42,6 @@ angular.module('ThreeSixtyOneView.directives')
                         var filter = {};
                         filter[item.filter] = $scope[who];
 
-                        console.info(who, $scope[who])
                         if (isActive() && item) {
                             SortAndFilterService.setFilter("reset", "", false);
                             SortAndFilterService.setFilter("filterBy", filter, true);

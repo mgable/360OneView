@@ -68,7 +68,7 @@ angular.module('/msDropdown.html', []).run(['$templateCache',
     function($templateCache) {
         $templateCache.put('/msDropdown.html',
             '<div class="ms-dropdown" id="{{id}}">' +
-            '<h6 class="ms-label" ng-class=\"{active: DropdownService.getActive() === id}\"><span ng-show="filterBy"><icon type="filter" cname="filter-icon"></icon></span><span ng-click="select(selectedItem)" class="status">{{selectedItem.label}}</span>&nbsp<span ng-click="toggle(id)" class="glyphicon glyphicon-collapse-down"></span></h6>' +
+            '<h6 class="ms-label" ng-class=\"{active: DropdownService.getActive() === id}\"><span ng-show="filterBy"><icon type="filter" cname="filter-icon"></icon></span><span ng-click="select(selectedItem)" class="status">{{selectedItem.label}}</span>&nbsp<span ng-click="toggle(id);select(selectedItem)" class="glyphicon glyphicon-collapse-down"></span></h6>' +
             '<ul class="ms-select-list dropshadow hide">' +
             '<li class="ms-item" ng-repeat="item in items" ng-class="{disabled:item.label === selectedItem.label}" ng-click="selectSort(item)"><span class="glyphicon glyphicon-ok ms-ok"></span>{{item.label}}</li>' +
             '<ul ng-if="selectedItem.filters">' +

@@ -182,7 +182,6 @@ angular.module('ThreeSixtyOneView.services')
         }
 
         this.filter = function() {
-            //console.info("filter")
             var activeFilters = this.getActiveFilters(),
                 filterBy = this.getFilterBy(),
                 searchText = this.getSearchText(),
@@ -195,11 +194,7 @@ angular.module('ThreeSixtyOneView.services')
             temp = $filter('orderBy')(temp, this.getOrderBy(), this.getReverse());
             temp = filterPipline(temp);
 
-            // $rootScope.$apply(function(){
-            //     console.info("the data is")
-            //     console.info(data)
-                display.data = temp;
-            //});
+            display.data = temp;
 
            $rootScope.$broadcast('SortAndFilterService:filter');
         }

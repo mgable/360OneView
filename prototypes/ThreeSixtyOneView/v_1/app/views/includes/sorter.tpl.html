@@ -34,15 +34,8 @@
 				<td ng-click="ActiveSelection.setActiveItem(item);InfoTrayService.toggleInfoTray()">
 					<sortable-columns item=item display-by="SortAndFilterService.getSorter('column_2')"></sortable-columns>
 				</td>
-				<td class="ms-actions-holder">
-
-					<div class="ms-actions">
-						<div class='dropdown-toggle' data-toggle="dropdown">
-							<icon type="ellipsis-v" cname="dropdown-trigger"></icon>
-						</div>
-						<contextual-menu item=item cname="dropdown-menu ms-actions-menu"></contextual-menu>
-					</div>
-											
+				<td>
+					<contextual-menu item=item></contextual-menu>				
 				</td>
 			</tr>
 		</tbody>

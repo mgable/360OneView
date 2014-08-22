@@ -42,6 +42,11 @@
 .disabled {
   pointer-events: none; }
 
+.dropshadow {
+  -webkit-box-shadow: 8px 8px 5px 0px #7d7d7d;
+  -moz-box-shadow: 8px 8px 5px 0px #7d7d7d;
+  box-shadow: 8px 8px 5px 0px #7d7d7d; }
+
 .clearfix:after {
   visibility: hidden;
   display: block;
