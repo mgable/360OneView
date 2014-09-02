@@ -219,12 +219,13 @@
 						}
 					}
 					.text-holder {
+						max-width:350px;
 						.favorites {
+							padding:8px 0;
 						 	&.disabled {
 						 		cursor: default;
 						 		display:none;
 						 	}
-					    	padding:8px 0;
 						    a {
 						      font-family: "font awesome";
 						      display: inline-block;

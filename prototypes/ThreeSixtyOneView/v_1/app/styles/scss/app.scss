@@ -1,6 +1,10 @@
 /* Application Styles */
 @import "variables";
 
+body {
+  overflow-y:hidden;
+}
+
 .cap {
 	width:100%;
 	background-color:$black;

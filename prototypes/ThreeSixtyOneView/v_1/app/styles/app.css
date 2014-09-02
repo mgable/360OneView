@@ -1,4 +1,7 @@
 /* Application Styles */
+body {
+  overflow-y: hidden; }
+
 .cap {
   width: 100%;
   background-color: #222222;

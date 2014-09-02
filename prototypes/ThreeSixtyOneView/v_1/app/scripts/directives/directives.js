@@ -378,7 +378,6 @@ angular.module('ThreeSixtyOneView.directives')
         return {
             restrict: "A",
             link: function(scope, element, attrs) {
-                console.info(element);
                 $timeout(function() {
                     element[0].focus();
                 }, 300)
