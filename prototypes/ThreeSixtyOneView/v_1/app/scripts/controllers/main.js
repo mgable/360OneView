@@ -2,7 +2,7 @@
 
 // View controllers
 angular.module("ThreeSixtyOneView")
-    .controller("MainCtrl", function($scope, SortAndFilterService, FileDeleteService, ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService, Urlmaker) {
+    .controller("MainCtrl", function($scope, localStorageService, SortAndFilterService, FileDeleteService, ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService, Urlmaker) {
         // make all services available to app
         $scope.SortAndFilterService = SortAndFilterService;
         $scope.FileDeleteService = FileDeleteService;
@@ -14,6 +14,10 @@ angular.module("ThreeSixtyOneView")
         $scope.Urlmaker = Urlmaker;
         // for testing only
         $scope.foo = "foobar!!!!";
+
+        localStorageService.set("foo", "bar");
+
+        console.info(localStorageService.get("foo"))
 
         // convenience methods
         $scope.console = function(msg) {
@@ -61,7 +65,7 @@ angular.module("ThreeSixtyOneView")
         }
 
         if (viewModel) {
-            viewModel.$get().$futureData.then(function(response) {
+            viewModel.get().then(function(response) {
                 $scope.data = response;
                 $scope.$apply($scope.SortAndFilterService.init({
                     data: response,

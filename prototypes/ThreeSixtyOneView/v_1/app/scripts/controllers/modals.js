@@ -78,7 +78,7 @@ angular.module('ThreeSixtyOneView')
 
         $scope.create = function(item) {
             alert("this will take you to the create project work flow");
-            ProjectsModel.$create({
+            ProjectsModel.create({
                 "name": item,
                 "description" : "this is a test",
                 "isMaster": false,

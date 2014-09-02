@@ -9,7 +9,7 @@ describe('Controllers: ', function() {
             dismiss: jasmine.createSpy('modalInstance.dismiss'),
         };
         ProjectsModel = {
-            $create: jasmine.createSpy('ProjectsModel.$create'),
+            create: jasmine.createSpy('ProjectsModel.create'),
         }
         ctrl = $controller('ProjectCreateCtrl', {
             $scope: scope,
@@ -31,7 +31,7 @@ describe('Controllers: ', function() {
 
     it("should call the Projects Model with the name of the new project", function() {
         scope.create("xyz");
-        expect(ProjectsModel.$create).toHaveBeenCalledWith({
+        expect(ProjectsModel.create).toHaveBeenCalledWith({
             name: 'xyz',
             description: "this is a test",
             isMaster: false,
