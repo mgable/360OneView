@@ -40,6 +40,7 @@
                     _.extend(self, data);
                 });
             });
+
         }, 
         self = this;
 
