@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-    .service('InfoTrayService', function($rootScope, ActiveSelection) {
+    .service('InfoTrayService', ["$rootScope", "ActiveSelection", function($rootScope, ActiveSelection) {
         var showInfoTray = false,
             self = this;
 
@@ -19,4 +19,4 @@ angular.module('ThreeSixtyOneView.services')
         }
 
         $rootScope.$on('SortAndFilterService:filter', self.closeInfoTray);
-    });
+    }]);

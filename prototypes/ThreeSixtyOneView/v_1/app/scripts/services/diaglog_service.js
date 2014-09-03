@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-    .service('DiaglogService', function(InfoTrayService, FileDeleteService, dialogs) {
+    .service('DiaglogService', ["InfoTrayService", "FileDeleteService", "dialogs", function(InfoTrayService, FileDeleteService, dialogs) {
         this.trash = function(item) {
             if (item) {
                 FileDeleteService.setFilesToDelete([item]);
@@ -57,4 +57,4 @@ angular.module('ThreeSixtyOneView.services')
                 size: 'sm'
             });
         }
-    });
+    }]);

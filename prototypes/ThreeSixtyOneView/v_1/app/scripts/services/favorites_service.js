@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-    .service('FavoritesService', function() {
+    .service('FavoritesService', [function() {
         var favorites = [],
             removeFavorite = function(itemID) {
                 if (_.indexOf(favorites, itemID) > -1) {
@@ -36,4 +36,4 @@ angular.module('ThreeSixtyOneView.services')
             return favorites;
         }
 
-    });
+    }]);

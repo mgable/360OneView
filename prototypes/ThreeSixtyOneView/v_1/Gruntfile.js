@@ -83,8 +83,8 @@ module.exports = function(grunt) {
             options: {
                 port: 9001,
                 // Change this to '0.0.0.0' to access the server from outside.
-                //hostname: 'localhost',
-                hostname: '0.0.0.0',
+                hostname: 'localhost',
+                //hostname: '0.0.0.0',
                 livereload: 35730
             },
             livereload: {
@@ -176,7 +176,7 @@ module.exports = function(grunt) {
                     src: [
                         '<%= yeoman.dist %>/scripts/{,*/}*.js',
                         '<%= yeoman.dist %>/styles/{,*/}*.css',
-                        '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+                        // '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
                         '<%= yeoman.dist %>/styles/fonts/*'
                     ]
                 }
@@ -214,7 +214,8 @@ module.exports = function(grunt) {
         // The following *-min tasks produce minified files in the dist folder
         cssmin: {
             options: {
-                root: '<%= yeoman.app %>'
+                root: '<%= yeoman.app %>',
+                noRebase: true
             }
         },
 
@@ -299,6 +300,12 @@ module.exports = function(grunt) {
                     cwd: '.tmp/images',
                     dest: '<%= yeoman.dist %>/images',
                     src: ['generated/*']
+                }, {
+                  expand: true,
+                  flatten: true,
+                  cwd: '<%= yeoman.app %>',
+                  dest: '<%= yeoman.dist %>/fonts',
+                  src: ['bower_components/bootstrap/dist/css/*.*', 'bower_components/components-font-awesome/css/*.*']
                 }]
             },
             styles: {
