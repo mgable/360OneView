@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-    .service('SortAndFilterService', function($filter, $rootScope, filterFilter) {
+    .service('SortAndFilterService', ["$filter", "$rootScope", "filterFilter", function($filter, $rootScope, filterFilter) {
         var sorters = {}, // <ms-dropdown> instances
             filterBy = {}, // <ms-dropdown> instances filter selection
             orderBy = "", // <ms-dropdown> instances orderby selection
@@ -198,4 +198,4 @@ angular.module('ThreeSixtyOneView.services')
 
            $rootScope.$broadcast('SortAndFilterService:filter');
         }
-    });
+    }]);

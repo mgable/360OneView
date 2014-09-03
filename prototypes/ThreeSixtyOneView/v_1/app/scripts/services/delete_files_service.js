@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-    .service('FileDeleteService', function($rootScope) {
+    .service('FileDeleteService', ["$rootScope", function($rootScope) {
         var filesToDelete = [],
             reset = false,
             service;
@@ -47,4 +47,4 @@ angular.module('ThreeSixtyOneView.services')
         this.getReset = function() {
             return reset;
         };
-    });
+    }]);

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-    .factory("DropdownService", function() {
+    .factory("DropdownService", [function() {
         var active; //ID of currently active 
 
         return {
@@ -12,4 +12,4 @@ angular.module('ThreeSixtyOneView.services')
                 active = which;
             }
         }
-    })
+    }]);

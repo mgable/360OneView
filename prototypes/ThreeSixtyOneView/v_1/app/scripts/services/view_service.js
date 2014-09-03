@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-    .service('ViewService', function($rootScope, $route) {
+    .service('ViewService', ["$rootScope", "$route", function($rootScope, $route) {
         var model, currentView, self = this;
 
         this.setModel = function(which) {
@@ -24,4 +24,4 @@ angular.module('ThreeSixtyOneView.services')
         $rootScope.$on("$routeChangeSuccess", function() {
             self.setCurrentView($route.current.$$route.viewName)
         })
-    });
+    }]);

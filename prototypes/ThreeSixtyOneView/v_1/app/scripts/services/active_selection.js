@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-    .service('ActiveSelection', function($rootScope) {
+    .service('ActiveSelection', ["$rootScope", function($rootScope) {
 
         var activeItem = "",
             self = this;
@@ -33,4 +33,4 @@ angular.module('ThreeSixtyOneView.services')
             self.setActiveItem(response.data);
         });
 
-    });
+    }]);

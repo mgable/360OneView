@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.filters')
-    .filter('isFavorite', function(FavoritesService) {
+    .filter('isFavorite', ["FavoritesService", function(FavoritesService) {
         return function(input) {
             var results = [];
             if (FavoritesService.getFavorites().length > 0) {
@@ -14,8 +14,8 @@ angular.module('ThreeSixtyOneView.filters')
             }
             return results;
         }
-    })
-    .filter('camelCase', function() {
+    }])
+    .filter('camelCase', [function() {
         return function(input) {
             if (typeof input == "string") {
                 return input.toLowerCase().replace(/ (.)/g, function(match, group1) {
@@ -24,8 +24,8 @@ angular.module('ThreeSixtyOneView.filters')
             }
             return input;
         }
-    })
-    .filter('dateRange', function() {
+    }])
+    .filter('dateRange', [function() {
         var dayInMillisec = 86400000;
         return function(input, db, prop) {
             var results = [],
@@ -47,23 +47,23 @@ angular.module('ThreeSixtyOneView.filters')
 
             return results;
         };
-    })
-    .filter('capitalize', function() {
+    }])
+    .filter('capitalize', [function() {
         return function(input) {
             return input.substring(0, 1).toUpperCase() + input.substring(1);
         };
-    })
-    .filter('unCamelCase', function() {
+    }])
+    .filter('unCamelCase', [function() {
         return function(input) {
             return input.replace(/([a-z\d])([A-Z\d])/g, '$1 $2');
         };
-    })
-    .filter('normalize', function() {
+    }])
+    .filter('normalize', [function() {
         return function(input) {
             return input.replace(/\s/g, '').toLowerCase();
         };
-    })
-    .filter('timeago', function() {
+    }])
+    .filter('timeago', [function() {
         //time: the time
         //local: compared to what time? default: now
         //raw: wheter you want in a format of '5 minutes ago', or '5 minutes'
@@ -129,4 +129,4 @@ angular.module('ThreeSixtyOneView.filters')
             }
             return (time <= local) ? span + ' ago' : 'in ' + span;
         };
-    });
+    }]);

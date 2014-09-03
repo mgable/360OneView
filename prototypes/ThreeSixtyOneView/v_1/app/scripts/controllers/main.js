@@ -2,7 +2,7 @@
 
 // View controllers
 angular.module("ThreeSixtyOneView")
-    .controller("MainCtrl", function($scope, localStorageService, SortAndFilterService, FileDeleteService, ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService, Urlmaker) {
+    .controller("MainCtrl", ["$scope", "SortAndFilterService", "FileDeleteService", "ActiveSelection", "InfoTrayService", "DiaglogService", "FavoritesService", "ViewService", "Urlmaker", function($scope, SortAndFilterService, FileDeleteService, ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService, Urlmaker) {
         // make all services available to app
         $scope.SortAndFilterService = SortAndFilterService;
         $scope.FileDeleteService = FileDeleteService;
@@ -15,9 +15,9 @@ angular.module("ThreeSixtyOneView")
         // for testing only
         $scope.foo = "foobar!!!!";
 
-        localStorageService.set("foo", "bar");
+        //localStorageService.set("foo", "bar");
 
-        console.info(localStorageService.get("foo"))
+        //console.info(localStorageService.get("foo"))
 
         // convenience methods
         $scope.console = function(msg) {
@@ -31,9 +31,7 @@ angular.module("ThreeSixtyOneView")
             }
         }
 
-    }).controller("ManagerCtrl", function($scope, $injector, $location, $routeParams, CONFIG, Urlmaker) {
-
-
+    }]).controller("ManagerCtrl", ["$scope", "$injector", "$location", "$routeParams", "CONFIG", "Urlmaker", function($scope, $injector, $location, $routeParams, CONFIG, Urlmaker) {
         var currentView = CONFIG.view[$scope.ViewService.getCurrentView()],
             currentModel = currentView.model,
             viewModel,
@@ -95,7 +93,7 @@ angular.module("ThreeSixtyOneView")
             $scope.alertSrc = "views/includes/alert.tpl.html"
         }
 
-    }).controller('InfoTrayCtrl', function($scope) {
+    }]).controller('InfoTrayCtrl', ["$scope", function($scope) {
         $scope.selectedItem = $scope.ActiveSelection.getActiveItem();
         $scope.seeAll = false;
 
@@ -105,9 +103,9 @@ angular.module("ThreeSixtyOneView")
             }
         });
 
-    }).controller("ScenarioEditCtrl", function($scope, $routeParams) {
+    }]).controller("ScenarioEditCtrl", ["$scope", "$routeParams", function($scope, $routeParams) {
         $scope.projectName = $routeParams.project;
         $scope.entity = $routeParams.entity;
         $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
         $scope.scenarioElementType = $scope.types[0];
-    });
+    }]);

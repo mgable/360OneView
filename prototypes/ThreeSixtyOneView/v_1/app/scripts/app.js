@@ -10,8 +10,8 @@ angular.module('ThreeSixtyOneView', [
     'ngRoute',
     'ngAnimate',
     'ui.bootstrap',
-    'pasvaz.bindonce',
-    'LocalStorageModule',
+    // 'pasvaz.bindonce',
+    // 'LocalStorageModule',
     '/name.html',
     'dialogs.main',
     '/msDropdown.html',
@@ -48,15 +48,15 @@ angular.module('ThreeSixtyOneView', [
             return (/^true$/i).test(this);
         };
     })
-    .config(function(localStorageServiceProvider){
-        //var data = localStorageService.get('managerSettings');
-        //console.info(data)
-    })
-    .run(function(FilesModel, ProjectsModel) {
+    // .config(function(localStorageServiceProvider){
+    //     //var data = localStorageService.get('managerSettings');
+    //     //console.info(data)
+    // })
+    .run(["FilesModel", "ProjectsModel", function(FilesModel, ProjectsModel) {
         //FilesModel.$find();
         ProjectsModel.find();
         //localStorageService.set('managerSettings', 'foobar')
-    });
+    }]);
 
 /* template for drop down menu filter input field */
 angular.module('/name.html', []).run(['$templateCache',

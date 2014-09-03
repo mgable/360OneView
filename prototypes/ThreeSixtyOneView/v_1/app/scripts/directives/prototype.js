@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.directives')
-  .directive('inputEdit', function ($rootScope) {
+  .directive('inputEdit', ["$rootScope", function ($rootScope) {
     return {
       template: '<span><span ng-click="activate(this)"><span ng-hide="editMode">{{value}}</span><span ng-show="editMode"><input class="editable" type="text" ng-model="value" ng-change="change()"/></span></span><span ng-show="editMode">&nbsp;<a ng-click="submit()"><icon type="check"></icon></a>&nbsp;<a ng-click="cancel()"><icon type="times"></icon></a></span></span>',      restrict: 'EA',
       scope: {
@@ -41,7 +41,7 @@ angular.module('ThreeSixtyOneView.directives')
         	})
       }
     };
-  }).directive("savedState", function($timeout, $rootScope){
+  }]).directive("savedState", ["$timeout", "$rootScope", function($timeout, $rootScope){
   	return {
   		template: "<span>{{state}}</span>",
   		replace: true,
@@ -75,4 +75,4 @@ angular.module('ThreeSixtyOneView.directives')
         	})
   		}
   	}
-  })
+  }])

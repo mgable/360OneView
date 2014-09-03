@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.directives')
-    .directive('msDropdown', function($document, $timeout, $rootScope, $filter, CONFIG, DropdownService, SortAndFilterService, ViewService) {
+    .directive('msDropdown', ["$document", "$timeout", "$rootScope", "$filter", "CONFIG", "DropdownService", "SortAndFilterService", "ViewService", function($document, $timeout, $rootScope, $filter, CONFIG, DropdownService, SortAndFilterService, ViewService) {
         return {
             restrict: "AE",
             templateUrl: "/msDropdown.html",
@@ -191,7 +191,7 @@ angular.module('ThreeSixtyOneView.directives')
                 }
             }
         }
-    }).directive('msLinkGroup', function($timeout) {
+    }]).directive('msLinkGroup', ["$timeout", function($timeout) {
         return {
             restrict: 'A',
             controller: function($scope, $element, $attrs) {
@@ -220,7 +220,7 @@ angular.module('ThreeSixtyOneView.directives')
             }
 
         };
-    }).directive("msLink", function() {
+    }]).directive("msLink", [function() {
         return {
             restrict: "A",
             require: "^msLinkGroup",
@@ -231,7 +231,7 @@ angular.module('ThreeSixtyOneView.directives')
 
             }
         }
-    }).directive('sortingOptions', function(SortAndFilterService) {
+    }]).directive('sortingOptions', ["SortAndFilterService", function(SortAndFilterService) {
         return {
             restrict: 'AE',
             replace: true,
@@ -260,7 +260,7 @@ angular.module('ThreeSixtyOneView.directives')
             },
             templateUrl: '/views/directives/sorting_options.html'
         };
-    }).directive('sorter', function(SortAndFilterService, DropdownService) {
+    }]).directive('sorter', ["SortAndFilterService", "DropdownService", function(SortAndFilterService, DropdownService) {
         return {
             restrict: "AE",
             controller: function($scope, $element, $attrs) {
@@ -276,7 +276,7 @@ angular.module('ThreeSixtyOneView.directives')
                 };
             }
         };
-    }).directive('triStateCheckbox', function() {
+    }]).directive('triStateCheckbox', [function() {
         return {
             replace: true,
             restrict: 'E',
@@ -344,7 +344,7 @@ angular.module('ThreeSixtyOneView.directives')
                 }, true);
             }
         };
-    }).directive('deleteServiceForCheckbox', function(FileDeleteService) {
+    }]).directive('deleteServiceForCheckbox', ["FileDeleteService", function(FileDeleteService) {
         return {
             restrict: "A",
             require: "triStateCheckbox",
@@ -358,7 +358,7 @@ angular.module('ThreeSixtyOneView.directives')
                 });
             }
         };
-    }).directive('sortableColumns', function() {
+    }]).directive('sortableColumns', [function() {
         return {
             template: '<div ng-switch on="displayBy" class="text-holder">' +
                 '<span ng-switch-when="Last Modified">{{item.modifiedOn | timeago }}</span>' +
@@ -374,7 +374,7 @@ angular.module('ThreeSixtyOneView.directives')
                 displayBy: '='
             }
         }
-    }).directive('focus', function($timeout) {
+    }]).directive('focus', ["$timeout", function($timeout) {
         return {
             restrict: "A",
             link: function(scope, element, attrs) {
@@ -383,7 +383,7 @@ angular.module('ThreeSixtyOneView.directives')
                 }, 300)
             }
         }
-    }).directive('search', function($timeout, SortAndFilterService) {
+    }]).directive('search', ["$timeout", "SortAndFilterService", function($timeout, SortAndFilterService) {
         return {
             template: '<span><i class="fa fa-search" ng-click="toggleSearchField()"></i>&nbsp;<span ng-show="searchVisible" class="search-holder"><input type="text" class="search-input" ng-model="SortAndFilterService.searchText" ng-change="SortAndFilterService.filter()"/>&nbsp<a ng-click="toggleSearchField()" class="close-button"><i class="fa fa-times"></i></a></span></span>',
             restrict: "AE",
@@ -404,7 +404,7 @@ angular.module('ThreeSixtyOneView.directives')
                 }
             }
         }
-    }).directive('inlineRename', function(ViewService) {
+    }]).directive('inlineRename', ["ViewService", function(ViewService) {
         return {
             replace: true,
             template: '<div class="inlineRename"><span ng-transclude></span><h4 class="title" ng-hide="isActive">{{item.title}}</h4>&nbsp;<a class="edit" ng-click="action()"><icon ng-hide="isActive" type="pencil" class="pencil clearfix"></icon></a>' +
@@ -439,7 +439,7 @@ angular.module('ThreeSixtyOneView.directives')
                 }
             }
         };
-    }).directive("icon", function() {
+    }]).directive("icon", [function() {
         return {
             restrict: "E",
             scope: {
@@ -449,7 +449,7 @@ angular.module('ThreeSixtyOneView.directives')
             replace: true,
             template: '<i class="fa fa-{{icon}} {{cname}}"></i>'
         }
-    }).directive("displayActions", function() {
+    }]).directive("displayActions", [function() {
         return {
             restrict: "AE",
             replace: true,
@@ -483,7 +483,7 @@ angular.module('ThreeSixtyOneView.directives')
             }
 
         }
-    }).directive("contextualMenu", function($rootScope, $route, CONFIG, ActiveSelection, DiaglogService, FavoritesService, ViewService, InfoTrayService) {
+    }]).directive("contextualMenu", ["$rootScope", "$route", "CONFIG", "ActiveSelection", "DiaglogService", "FavoritesService", "ViewService", "InfoTrayService", function($rootScope, $route, CONFIG, ActiveSelection, DiaglogService, FavoritesService, ViewService, InfoTrayService) {
         return {
             restrict: "AE",
             templateUrl: "views/directives/contextual_menu.tpl.html",
@@ -535,12 +535,6 @@ angular.module('ThreeSixtyOneView.directives')
                     });
                 }
 
-                // if (scope.xxx) {
-                //     scope.item = scope.xxx;
-                // } else {
-                //     scope.item = ActiveSelection.getActiveItem();
-                // }
-
                 setView(scope.item);
 
                 scope.copyFn = function(item){
@@ -549,9 +543,7 @@ angular.module('ThreeSixtyOneView.directives')
                 }
             }
         }
-    }).directive('elastic', [
-        '$timeout', 'ActiveSelection',
-        function($timeout, ActiveSelection) {
+    }]).directive('elastic', ['$timeout', 'ActiveSelection', function($timeout, ActiveSelection) {
             return {
                 restrict: 'A',
                 link: function(scope, element) {

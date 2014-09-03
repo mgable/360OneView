@@ -1,18 +1,26 @@
 /* global angular, _ */
     'use strict';
 
-    angular.module('ThreeSixtyOneView.services').service('ProjectsModel', function($timeout, $rootScope, Resource, CONFIG, SERVER){
+    angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout", "$rootScope", "Resource", "CONFIG", "SERVER", function($timeout, $rootScope, Resource, CONFIG, SERVER){
         var resource = new Resource(SERVER.remote + CONFIG.application.api.projects),
         translator = CONFIG.application.models.ProjectsModel.translator, 
         data, futureData,
         config = {transformResponse: function(data){ return {data:translate(data, translator)} }},
         translate = function (data, translator){
-            var results, data = JSON.parse(data);
+            var results, data;
+
+            try {
+                data = JSON.parse(data);
+            }
+            catch(e){
+                console.error ("no data received or data will not parse to json");
+                return;
+            }
 
             if (_.isArray(data)){
                 results = [];
                 _.each(data, function(e,i,a){
-                    results.push(translateObj(e)) 
+                    results.push(translateObj(e));
                 })
             } else if (_.isObject){
                 return translateObj(data);
@@ -25,12 +33,12 @@
                     if (typeof t !== "undefined") {
                         result[v] = t;
                     } else if (_.isObject(k)){
-                        result[v] = eval("data" + k.selector)
+                        result[v] = eval("data" + k.selector);
                     }
-                })
+                });
                 return result;
             }
-            return results
+            return results;
         }, 
         unwrap = function(futureData) {
             var self = this;
@@ -61,11 +69,4 @@
                 });
             });
         };
-    });
-
-
-
-   
-
-   
- 
+    }]);

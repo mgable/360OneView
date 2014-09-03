@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .controller('DeleteCtrl', function($scope, data, $modalInstance, FileDeleteService) {
+    .controller('DeleteCtrl', ["$scope", "data", "$modalInstance", "FileDeleteService", function($scope, data, $modalInstance, FileDeleteService) {
         var callback = data;
         $scope.FileDeleteService = FileDeleteService;
         $scope.cancel = function() {
@@ -18,7 +18,7 @@ angular.module('ThreeSixtyOneView')
             callback();
             $modalInstance.close('delete');
         }; // end save
-    }).controller('CreateCtrl', function($scope, $modalInstance, $location, FilesModel) {
+    }]).controller('CreateCtrl', ["$scope", "$modalInstance", "$location", "FilesModel", function($scope, $modalInstance, $location, FilesModel) {
         $scope.create = function(item) {
             console.info("create");
             FilesModel.$create({
@@ -35,7 +35,7 @@ angular.module('ThreeSixtyOneView')
             console.info("cancel")
             $modalInstance.dismiss('canceled');
         }; // end cancel
-    }).controller('RenameCtrl', function($scope, $modalInstance, data) {
+    }]).controller('RenameCtrl', ["$scope", "$modalInstance", "data", function($scope, $modalInstance, data) {
         var service = data.service;
         $scope.data = data.item;
         $scope.name = $scope.data.title;
@@ -51,28 +51,23 @@ angular.module('ThreeSixtyOneView')
             console.info("cancel")
             $modalInstance.dismiss('canceled');
         };
-    }).controller('NameCtrl', function($scope, $modalInstance, data, ViewService) {
+    }]).controller('NameCtrl', ["$scope", "$modalInstance", "data", "ViewService", function($scope, $modalInstance, data, ViewService) {
         var service = data.service;
         $scope.data = data.item;
         $scope.config = data.config
         $scope.name = $scope.data.title + " - copy";
 
         $scope.submit = function(name) {
-            //$scope.data.title = name;
-            //service.$set($scope.data)
             var service = ViewService.getModel();
             service.$clone(data.item.id, name);
-
             $modalInstance.dismiss('create');
         };
 
         $scope.close = function() {
-            console.info("cancel")
             $modalInstance.dismiss('canceled');
         };
-    }).controller('ProjectCreateCtrl', function($scope, $modalInstance, ProjectsModel) {
+    }]).controller('ProjectCreateCtrl', ["$scope", "$modalInstance", "ProjectsModel", function($scope, $modalInstance, ProjectsModel) {
         $scope.close = function() {
-            console.info("cancel")
             $modalInstance.dismiss('canceled');
         };
 
@@ -86,4 +81,4 @@ angular.module('ThreeSixtyOneView')
             });
             $modalInstance.dismiss('create');
         };
-    })
+    }])

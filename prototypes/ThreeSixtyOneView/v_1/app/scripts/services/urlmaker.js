@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-  .service('Urlmaker', function($location) {
+  .service('Urlmaker', ["$location", function($location) {
   	this.makeUrl = function(config){
   		switch(config.type){
   			case "dashboard" : makeDashboardUrl(config.name);break;
@@ -23,4 +23,4 @@ angular.module('ThreeSixtyOneView')
       var url = "/scenarioEdit/"+ project + "/" + item.title;
       $location.path(url);
     }
-  });
+  }]);
