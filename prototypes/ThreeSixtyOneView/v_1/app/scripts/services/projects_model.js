@@ -50,6 +50,18 @@
             });
 
         }, 
+        // used for the rename functions
+        put = function(data){
+            resource.put(data, config).then(function(response){
+                var item = _.indexOf(self.data, _.findWhere(self.data, {id: response.data.id}));
+                self.data.splice(item, 1, response.data)
+                $timeout(function(){
+                     $rootScope.$broadcast("ProjectsModel:dataChange", {
+                        data: self.data
+                    });
+                })
+            })
+        },
         self = this;
 
         this.find = function(uid) {
@@ -70,4 +82,10 @@
                 });
             });
         };
+
+        this.rename = function(data){
+            var obj = (_.pick(data, 'name', 'description'));
+            obj.uuid = data.id;
+            put.call(this, obj);
+        }
     }]);

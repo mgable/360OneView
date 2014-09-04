@@ -7,7 +7,6 @@ describe('Service: ProjectModel', function() {
     beforeEach(module('ThreeSixtyOneView.services'));
     beforeEach(module('ThreeSixtyOneView'));
 
-
     beforeEach(inject(function(_ProjectsModel_) {
     	ProjectsModel = _ProjectsModel_;
     }));
@@ -19,12 +18,10 @@ describe('Service: ProjectModel', function() {
         expect(ProjectsModel.create).toBeDefined();
     });
 
-
     xit("should create a new project", function(){
         //console.info("resource is")
         //console.info(Resource.prototype)
         //var spy = spyOn(Resource.prototype, "create");
         //expect(spy).toHaveBeenCalled();
     })
-
 });

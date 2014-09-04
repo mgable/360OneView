@@ -41,8 +41,8 @@ angular.module('ThreeSixtyOneView')
         $scope.name = $scope.data.title;
 
         $scope.rename = function(name) {
-            $scope.data.title = name;
-            service.$set($scope.data)
+            $scope.data.name = name;
+            service.rename($scope.data)
 
             $modalInstance.dismiss('create');
         };

@@ -65,12 +65,12 @@ angular.module("ThreeSixtyOneView")
         if (viewModel) {
             viewModel.get().then(function(response) {
                 $scope.data = response;
-                $scope.$apply($scope.SortAndFilterService.init({
+                $scope.SortAndFilterService.init({
                     data: response,
                     orderBy: orderBy,
                     filter: filter,
                     reverse: reverse
-                }));
+                });
 
                 if ($scope.CONFIG.hasFavorites) {
                     var item;
