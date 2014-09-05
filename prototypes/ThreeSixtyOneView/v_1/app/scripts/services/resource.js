@@ -10,12 +10,15 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
             this._http = http;
             this._path = path;
             this._q = q;
+            var getPath = function (uid){
+                return uid ? this._path + '/' + uid : this._path;
+            }
 
             this.get = function(uid, config){
                 var deferred = this._q.defer(), config = config || {};
 
                 this._http
-                    .get(this.getPath(uid), config)
+                    .get(getPath.call(this,uid), config)
                     .success(deferred.resolve)
                     .error(deferred.reject);
 
@@ -56,10 +59,5 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
 
                 return deferred.promise;
             };
-
-
-            this.getPath = function (uid){
-                return uid ? this._path + '/' + uid : this._path;
-            }
         }
     })

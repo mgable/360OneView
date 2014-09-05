@@ -99,6 +99,10 @@ angular.module('ThreeSixtyOneView.services')
             return orderBy;
         };
 
+        this.isActive = function(which){
+            return this.getOrderBy() === which;
+        };
+
         this.setReverse = function(which) {
             reverse = which;
         };

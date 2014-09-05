@@ -136,23 +136,6 @@ describe('Services:', function() {
             expect(SortAndFilterService.getFilterBy()).toEqual(config);
         });
 
-        xit("should reset filterBy", function() {
-            SortAndFilterService.setFilterBy(config);
-            SortAndFilterService.resetFilterBy()
-            expect(SortAndFilterService.getFilterBy()).toEqual({});
-        });
-
-        xit("should get and set active filter", function() {
-            SortAndFilterService.setActiveFilters(config);
-            expect(SortAndFilterService.getActiveFilters()).toEqual(config);
-        });
-
-        xit("should reset active filter", function() {
-            SortAndFilterService.setActiveFilters(config);
-            SortAndFilterService.resetActiveFilters();
-            expect(SortAndFilterService.getActiveFilters()).toEqual({});
-        });
-
         it("should get and set search text", function() {
             SortAndFilterService.setSearchText("test");
             expect(SortAndFilterService.getSearchText()).toEqual("test");
@@ -164,14 +147,11 @@ describe('Services:', function() {
             expect(SortAndFilterService.getSearchText()).toEqual("");
         });
 
-        xit("should get and set selected", function() {
-            var config = {
-                label: "test"
-            };
-            SortAndFilterService.setSelected(config);
-            SortAndFilterService.resetSearchText();
-            expect(SortAndFilterService.getSelected()).toBe(config);
-        });
+        it("should get the active selection", function(){
+            SortAndFilterService.setOrderBy("foo");
+            expect(SortAndFilterService.isActive("foo")).toBe(true);
+            expect(SortAndFilterService.isActive("foobar")).toBe(false);
+        })
 
         it("should get selected label", function() {
             //SortAndFilterService.setSelected(config);

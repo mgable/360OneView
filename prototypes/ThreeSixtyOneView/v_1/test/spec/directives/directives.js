@@ -3,7 +3,7 @@
 describe('Directives:', function() {
 
     // load the directive's module
-    beforeEach(module('ThreeSixtyOneView.directives','ThreeSixtyOneView.services','ngRoute'));
+    beforeEach(module('ThreeSixtyOneView.directives','ThreeSixtyOneView.services','ngRoute', 'ThreeSixtyOneView.config'));
 
     beforeEach(module('my.templates'));
 
@@ -31,6 +31,70 @@ describe('Directives:', function() {
         });
     });
 
+    describe("MS Dropdown:", function(){
+        var scope, element, CONFIG, $httpBackend, ViewService, ViewServiceSpy;
+        beforeEach(inject(function($rootScope, $compile, CONFIG, ViewService){   
+            scope = $rootScope.$new();
+            CONFIG = CONFIG;
+            element = angular.element('<ms-dropdown selected-sort-index="1" reverse=false msid="column_2"></ms-dropdown>');
+            element = $compile(element)(scope);
+            ViewServiceSpy = spyOn(ViewService, "getCurrentView").and.returnValue("ProjectManager")
+            scope.$digest();
+        }));
+
+        it("should compile", function(){
+            //console.info(element)
+        });
+    });
+
+    describe("Sortable Columns:", function(){
+        var scope, element, displayBy;
+        beforeEach(inject(function($rootScope, $compile, $httpBackend){
+            scope = $rootScope.$new();
+            scope.item = {
+                modifiedOn: new Date(),
+                createdBy: "me",
+                type: "foo",
+                modifiedBy: "you"
+            }
+            element = angular.element('<sortable-columns item="item" display-by="displayBy">');
+        }));
+
+        it("should display last modified correctly", inject(function($compile){
+            scope.displayBy = 'Last Modified';
+            element = $compile(element)(scope);
+            scope.$digest();
+            expect(element.find("span").text()).toBe(' less than a minute ago');
+        }));
+
+        it("should display Creator correctly", inject(function($compile){
+            scope.displayBy = 'Creator';
+            element = $compile(element)(scope);
+            scope.$digest();
+            expect(element.find("span").text()).toBe('me');
+        }));
+
+        it("should display Type correctly", inject(function($compile){
+            scope.displayBy = 'Type';
+            element = $compile(element)(scope);
+            scope.$digest();
+            expect(element.find("span").text()).toBe('foo');
+        }));
+
+        it("should display Modified By correctly", inject(function($compile){
+            scope.displayBy = 'Modified By';
+            element = $compile(element)(scope);
+            scope.$digest();
+            expect(element.find("span").text()).toBe('you');
+        }));
+
+        it("should fail correctly", inject(function($compile){
+            scope.displayBy = 'xxxx';
+            element = $compile(element)(scope);
+            scope.$digest();
+            expect(element.find("span").text()).toBe('FAIL');
+        }));
+    });
 
     describe("Inline Rename", function(){
         var element,

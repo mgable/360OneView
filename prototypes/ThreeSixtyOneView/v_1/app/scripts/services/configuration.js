@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView')
+angular.module('ThreeSixtyOneView.config')
 .constant('CONFIG', {
         "application": {
             // application level data here
@@ -51,7 +51,7 @@ angular.module('ThreeSixtyOneView')
                             "filter": "modifiedBy",
                             "who": "name"
                         }],
-                        "template": "/name.html",
+                        "template": "views/directives/name.tpl.html",
                         "enabledOn": "Modified by:"
                     }, {
                         "label": "Creator",
@@ -65,7 +65,7 @@ angular.module('ThreeSixtyOneView')
                             "filter": "createdBy",
                             "who": "name"
                         }],
-                        "template": "/name.html",
+                        "template": "views/directives/name.tpl.html",
                         "enabledOn": "Created by:"
                     }]
                 },
@@ -170,7 +170,7 @@ angular.module('ThreeSixtyOneView')
                             "label": "Modified by:",
                             "filter": "modifiedBy"
                         }],
-                        "template": "/name.html",
+                        "template": "views/directives/name.tpl.html",
                         "enabledOn": "Modified by:"
                     }, {
                         "label": "Owner",
@@ -182,7 +182,7 @@ angular.module('ThreeSixtyOneView')
                             "label": "Owned by:",
                             "filter": "owner"
                         }],
-                        "template": "/name.html",
+                        "template": "views/directives/name.tpl.html",
                         "enabledOn": "Owned by:"
                     }]
                 }
@@ -255,7 +255,7 @@ angular.module('ThreeSixtyOneView')
                             "filter": "modifiedBy",
                             "who": "name"
                         }],
-                        "template": "/name.html",
+                        "template": "views/directives/name.tpl.html",
                         "enabledOn": "Modified by:"
                     }, {
                         "label": "Creator",
@@ -269,7 +269,7 @@ angular.module('ThreeSixtyOneView')
                             "filter": "createdBy",
                             "who": "name"
                         }],
-                        "template": "/name.html",
+                        "template": "views/directives/name.tpl.html",
                         "enabledOn": "Created by:"
                     }]
                 }

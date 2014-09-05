@@ -65,6 +65,19 @@ module.exports = function(grunt) {
             }
         },
 
+        ngtemplates: {
+            ThreeSixtyOneView: {
+              // options: {
+              //   base:       'public/partials',
+              //   prepend:    'partials/',
+              //   module:     'project'
+              // },
+              cwd:'app',
+              src: 'views/directives/*.html',
+              dest: 'app/views/directives/templates.js'
+            }
+        },
+
         sass: {
             dist: {
                 files: [{

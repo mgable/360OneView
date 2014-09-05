@@ -13,9 +13,6 @@
     "angular-resource": "1.2.16",
     "underscore": "1.6.0",
     "angular-animate": "1.2.16",
-    "angular-bindonce": "~0.3.1",
-    "angular-pusher": "~0.0.8",
-    "q": "1.0.1",
     "angular-translate": "~2.2.0",
     "components-font-awesome": "~4.1.0"
   },

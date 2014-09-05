@@ -5,7 +5,7 @@ angular.module('ThreeSixtyOneView.directives')
     .directive('msDropdown', ["$document", "$timeout", "$rootScope", "$filter", "CONFIG", "DropdownService", "SortAndFilterService", "ViewService", function($document, $timeout, $rootScope, $filter, CONFIG, DropdownService, SortAndFilterService, ViewService) {
         return {
             restrict: "AE",
-            templateUrl: "/msDropdown.html",
+            templateUrl: "views/directives/msDropdown.tpl.html",
             replace: true,
             scope: {
                 selectedSortIndex: "@",
@@ -360,13 +360,7 @@ angular.module('ThreeSixtyOneView.directives')
         };
     }]).directive('sortableColumns', [function() {
         return {
-            template: '<div ng-switch on="displayBy" class="text-holder">' +
-                '<span ng-switch-when="Last Modified">{{item.modifiedOn | timeago }}</span>' +
-                '<span ng-switch-when="Modified By">{{item.modifiedBy}}</span>' +
-                '<span ng-switch-when="Type">{{item.type}}</span>' +
-                '<span ng-switch-when="Creator">{{item.createdBy}}</span>' +
-                '<span ng-switch-default>FAIL</span>' +
-                '</div>',
+            templateUrl: 'views/directives/sortable_columns.tpl.html',
             restrict: "AE",
             replace: true,
             scope: {

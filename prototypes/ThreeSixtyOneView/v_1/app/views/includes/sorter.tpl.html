@@ -24,8 +24,8 @@
                     	<span class="title" ng-click="goto(item, $event)">
 	                        <span  class="default" ng-class="{master: item.isMaster}"><span class="symbol icon-masterset"></span>&nbsp;{{item.title}}</span>
                     	</span>
-                    	<span class="status" ng-if="CONFIG.status && item.status !==''">{{item.status.label}}</span>
-                    	<span class="favorites" ng-if="CONFIG.hasFavorites" ng-class="{disabled:item.access==='view only'}"><a ng-class="{favorite:FavoritesService.isFavorite(item.id)}" ng-click="FavoritesService.toggleFavorite(item, $event)"></a></span>
+<!--                     	<span class="status" ng-if="CONFIG.status && item.status !==''">{{item.status.label}}</span> -->
+                    	<span class="favorites" ng-if="CONFIG.hasFavorites"><a ng-class="{favorite:FavoritesService.isFavorite(item.id)}" ng-click="FavoritesService.toggleFavorite(item, $event)"></a></span>
                 	</div>
 				</td>
 				<td ng-click="ActiveSelection.setActiveItem(item);InfoTrayService.toggleInfoTray()">
