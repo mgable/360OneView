@@ -16,19 +16,6 @@
             });
 
         };
-        // // used for the rename functions
-        // put = function(data){
-        //     resource.put(data, config).then(function(response){
-        //         var item = _.indexOf(self.data, _.findWhere(self.data, {id: response.data.id}));
-        //         self.data.splice(item, 1, response.data)
-        //         $timeout(function(){
-        //              $rootScope.$broadcast("ProjectsModel:dataChange", {
-        //                 data: self.data
-        //             });
-        //         })
-        //     })
-        // },
-        // self = this;
 
         this.find = function(id) {
             unwrap.call(this, resource.get(id, config))
@@ -44,20 +31,4 @@
             })
         };
 
-        // this.create = function(data) {
-        //     resource.create(data, config).then(function(response) {
-        //         $timeout(function() {
-        //             self.data.push(response.data);
-        //             $rootScope.$broadcast("ProjectsModel:dataChange", {
-        //                 data: self.data
-        //             });
-        //         });
-        //     });
-        // };
-
-        // this.rename = function(data){
-        //     var obj = (_.pick(data, 'name', 'description'));
-        //     obj.uuid = data.id;
-        //     put.call(this, obj);
-        // }
     }]);
