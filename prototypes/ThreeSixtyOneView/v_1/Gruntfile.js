@@ -357,15 +357,18 @@ module.exports = function(grunt) {
         //     }
         //   }
         // },
-        // uglify: {
-        //   dist: {
-        //     files: {
-        //       '<%= yeoman.dist %>/scripts/scripts.js': [
-        //         '<%= yeoman.dist %>/scripts/scripts.js'
-        //       ]
-        //     }
-        //   }
-        // },
+        uglify: {
+          // dist: {
+            options: {
+                mangle: false
+            },
+            files: {
+              '<%= yeoman.dist %>/scripts/scripts.js': [
+                '<%= yeoman.dist %>/scripts/scripts.js'
+              ]
+            }
+          // }
+        },
         // concat: {
         //   dist: {}
         // },
@@ -394,6 +397,15 @@ module.exports = function(grunt) {
             'watch'
         ]);
     });
+
+    grunt.registerTask('msserve', function(target) {
+
+        grunt.task.run([
+            'connect:dist:keepalive'
+        ]);
+    });
+
+
 
     grunt.registerTask('server', function(target) {
         grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
