@@ -1,20 +1,30 @@
 'use strict';
 
 describe('Service: ProjectModel', function() {
-	var scope, ProjectsModel, resource, resourceSpy, rootScope, $httpBackend, url;
+	var scope, ProjectsModel, resource, resourceSpy, rootScope, $httpBackend, url, favoritesUrl, data;
 
     // load the service's module
     beforeEach(module('ThreeSixtyOneView.services'));
     beforeEach(module('ThreeSixtyOneView'));
 
-    beforeEach(inject(function($httpBackend, $rootScope, _ProjectsModel_, Resource, SERVER, CONFIG) {
+    beforeEach(inject(function(_$httpBackend_, $rootScope, _ProjectsModel_, Resource, SERVER, CONFIG) {
     	url = SERVER.remote + CONFIG.application.api.projects;
+        favoritesUrl = SERVER.remote + CONFIG.application.api.favorites;
         ProjectsModel = _ProjectsModel_;
+        $httpBackend = _$httpBackend_;
         resource = new Resource(url)
         resourceSpy = spyOn(resource, "get").and.returnValue({foo:"bar"})
         rootScope = $rootScope;
 
-        $httpBackend.whenGET(url).respond({
+        data = [ {
+          "uuid" : "70091b27e3b95079172f4f29757eb0a7"
+        }, {
+          "uuid" : "c9ca31205c4216bb69b57c0fb4edb644"
+        }, {
+          "uuid" : "d62bf05b50946c86364e78aa46595313"
+        } ];
+
+        $httpBackend.whenGET(favoritesUrl).respond({
             "doesnot": "matter"
         });
     }));
@@ -26,10 +36,21 @@ describe('Service: ProjectModel', function() {
         expect(ProjectsModel.create).toBeDefined();
     });
 
-    xit("should find all data", function(){
-        // ProjectsModel.find();
-        // rootScope.$apply();
-        console.info(ProjectsModel.$futureData)
-        expect(resourceSpy).toHaveBeenCalled();
+    it("should find all data", function(){
+        $httpBackend.expectGET(url).respond(data);
+        $httpBackend.verifyNoOutstandingExpectation();
+    });
+
+    it("should get all data", function(){
+        var result;
+        $httpBackend.expectGET(url).respond({data:data});
+
+        rootScope.$apply(ProjectsModel.get().then(function(response){
+            result = response;
+        }))
+
+        $httpBackend.flush();
+        //expect(result).toEqual(data);
+        $httpBackend.verifyNoOutstandingExpectation();
     })
 });

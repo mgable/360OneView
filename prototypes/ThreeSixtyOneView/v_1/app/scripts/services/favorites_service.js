@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-    .service('FavoritesService', [function() {
+    .service('FavoritesService', ["FavoritesModel", function(FavoritesModel) {
         var favorites = [],
             removeFavorite = function(itemID) {
                 if (_.indexOf(favorites, itemID) > -1) {
@@ -9,8 +9,13 @@ angular.module('ThreeSixtyOneView.services')
                 }
             };
 
+        this.setFavorites = function(f){
+            favorites = f;
+        }
+
         this.addFavorite = function(itemID) {
             favorites.push(itemID);
+            FavoritesModel.setAsFavorite(itemID)
         }
 
         this.isFavorite = function(itemID) {
@@ -20,13 +25,13 @@ angular.module('ThreeSixtyOneView.services')
 
         this.toggleFavorite = function(item, evt) {
             var itemID = item.id;
-            //if (item.access === "Everyone can edit"){
-                if (this.isFavorite(itemID)) {
-                    removeFavorite(itemID);
-                } else {
-                    this.addFavorite(itemID);
-                }
-            //}
+
+            if (this.isFavorite(itemID)) {
+                removeFavorite(itemID);
+            } else {
+                this.addFavorite(itemID);
+            }
+            
             if (evt){
                 evt.stopPropagation();
             }

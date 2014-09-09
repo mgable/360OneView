@@ -31,14 +31,71 @@ angular.module("ThreeSixtyOneView")
             }
         }
 
-    }]).controller("ManagerCtrl", ["$scope", "$injector", "$location", "$routeParams", "CONFIG", "Urlmaker", function($scope, $injector, $location, $routeParams, CONFIG, Urlmaker) {
+    }]).controller("ManagerCtrl", ["$scope", "$injector", "$location", "$routeParams", "CONFIG", "Urlmaker", "FavoritesModel", "FavoritesService",  function($scope, $injector, $location, $routeParams, CONFIG, Urlmaker, FavoritesModel, FavoritesService) {
         var currentView = CONFIG.view[$scope.ViewService.getCurrentView()],
             currentModel = currentView.model,
             viewModel,
             filter = eval(currentView.filter),
             reverse = currentView.reverse,
-            orderBy = currentView.orderBy
+            orderBy = currentView.orderBy,
+            init = function(){
+                // bootstrap view with data
+                $scope.data = {};
+                $scope.CONFIG = {};
+                $scope.CONFIG.hasFavorites = currentView.favorites;
+                $scope.CONFIG.topInclude = currentView.topInclude || false;
+                $scope.CONFIG.status = currentView.status || false;
+                $scope.CONFIG.projectName =  $routeParams.name;
+                $scope.CONFIG.menuItems = currentView.filterMenu;
+                $scope.goto = $scope[currentView.where];
 
+                // detemine which view model to get
+                if (currentModel){
+                    viewModel = $injector.get(currentModel);
+                }
+
+                // if there is a view model get the associated data
+                if (viewModel) {
+                    viewModel.get().then(function(response) {
+                        $scope.data = response;
+                        $scope.SortAndFilterService.init({
+                            data: response,
+                            orderBy: orderBy,
+                            filter: filter,
+                            reverse: reverse
+                        });
+
+                        // get favorite data, if view has favorites
+                        if ($scope.CONFIG.hasFavorites) {
+                            // the master project is always a favorite and not in the favorite REST call (yet)
+                            var master;
+                            _.each($scope.data, function(element){
+                               master = _.find(element, function(elem){return elem.isMaster})
+                            })
+
+                            // get all favorites
+                            FavoritesModel.get().then(function(response){
+                                FavoritesService.setFavorites(_.pluck(response, 'uuid'));
+                                FavoritesService.addFavorite(master.id);
+                            })
+                        }
+                    });
+
+                    $scope.ViewService.setModel(viewModel);
+                } else {
+                    console.info ("no view model")
+                }
+
+                //TEMP CODE !!!!!!!!!!!!
+                if ($scope.ViewService.getCurrentView() == "Dashboard"){
+                    $scope.CONFIG.hasAlerts = true;
+                    $scope.alertSrc = "views/includes/alert.tpl.html"
+                }
+            }
+
+        init();
+
+        // Controller API
         $scope.gotoDashboard = function(item, evt){
             Urlmaker.makeUrl({type:"dashboard", name:item.title});
             evt.stopPropagation();
@@ -48,51 +105,6 @@ angular.module("ThreeSixtyOneView")
             Urlmaker.makeUrl({type:"scenarioEdit", project:$scope.CONFIG.projectName, item:item});
             evt.stopPropagation();
         }
-
-        $scope.data = {};
-        $scope.CONFIG = {};
-        $scope.CONFIG.hasFavorites = currentView.favorites;
-        $scope.CONFIG.topInclude = currentView.topInclude || false;
-        $scope.CONFIG.status = currentView.status || false;
-        $scope.CONFIG.projectName =  $routeParams.name;
-        $scope.CONFIG.menuItems = currentView.filterMenu;
-        $scope.goto = $scope[currentView.where];
-
-        if (currentModel){
-            viewModel = $injector.get(currentModel);
-        }
-
-        if (viewModel) {
-            viewModel.get().then(function(response) {
-                $scope.data = response;
-                $scope.SortAndFilterService.init({
-                    data: response,
-                    orderBy: orderBy,
-                    filter: filter,
-                    reverse: reverse
-                });
-
-                if ($scope.CONFIG.hasFavorites) {
-                    var item;
-                    _.each($scope.data, function(element){
-                       item = _.find(element, function(elem){return elem.isMaster})
-                    })
-
-                    $scope.FavoritesService.addFavorite(item.id);
-                }
-            });
-
-            $scope.ViewService.setModel(viewModel);
-        } else {
-            console.info ("no view model")
-        }
-
-        //TEMP CODE !!!!!!!!!!!!
-        if ($scope.ViewService.getCurrentView() == "Dashboard"){
-            $scope.CONFIG.hasAlerts = true;
-            $scope.alertSrc = "views/includes/alert.tpl.html"
-        }
-
     }]).controller('InfoTrayCtrl', ["$scope", function($scope) {
         $scope.selectedItem = $scope.ActiveSelection.getActiveItem();
         $scope.seeAll = false;

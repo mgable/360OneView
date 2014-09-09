@@ -5,7 +5,8 @@ angular.module('ThreeSixtyOneView.config')
         "application": {
             // application level data here
             "api": {
-                "projects": "/rubix/v1/project"
+                "projects": "/rubix/v1/project",
+                "favorites": "/rubix/v1/favorite/project/"
             },
             "models": {
                 "ProjectsModel": {

@@ -25,7 +25,7 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
                 return deferred.promise;
             }
 
-            this.create = function(data, config) {
+            this.post = function(data, config) {
                 var deferred = this._q.defer(), path, config = config || {};
 
                 if (typeof data === 'undefined') {
@@ -43,6 +43,8 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
                 return deferred.promise;
             };
 
+            //Alias for now
+            this.create = this.post;
 
             this.put = function(item, config) {
                 var deferred = this._q.defer(), config = config || {};

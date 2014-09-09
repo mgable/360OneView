@@ -52,9 +52,10 @@ angular.module('ThreeSixtyOneView', [
     //     //var data = localStorageService.get('managerSettings');
     //     //console.info(data)
     // })
-    .run(["FilesModel", "ProjectsModel", function(FilesModel, ProjectsModel) {
+    .run(["FavoritesModel", "ProjectsModel", function(FavoritesModel, ProjectsModel) {
         //FilesModel.$find();
         ProjectsModel.find();
+        FavoritesModel.find();
         //localStorageService.set('managerSettings', 'foobar')
     }]);
 
