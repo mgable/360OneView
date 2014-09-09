@@ -32,19 +32,160 @@ describe('Directives:', function() {
     });
 
     describe("MS Dropdown:", function(){
-        var scope, element, CONFIG, $httpBackend, ViewService, ViewServiceSpy;
-        beforeEach(inject(function($rootScope, $compile, CONFIG, ViewService){   
+        var scope, element, CONFIG, $httpBackend, ViewService, ViewServiceSpy, currentView, dropdownSpy, sortAndFilterSpy, DropdownService, SortAndFilterService, $document, $timeout;
+        beforeEach(inject(function($rootScope, $controller, $compile, _$document_, _$timeout_, _CONFIG_, ViewService, _DropdownService_, _SortAndFilterService_){   
+            SortAndFilterService = _SortAndFilterService_;
+            DropdownService = _DropdownService_
+            $document = _$document_;
+            $timeout = _$timeout_;
             scope = $rootScope.$new();
-            CONFIG = CONFIG;
+            CONFIG = _CONFIG_;
             element = angular.element('<ms-dropdown selected-sort-index="1" reverse=false msid="column_2"></ms-dropdown>');
             element = $compile(element)(scope);
-            ViewServiceSpy = spyOn(ViewService, "getCurrentView").and.returnValue("ProjectManager")
+            currentView = "ProjectManager";
+            ViewServiceSpy = spyOn(ViewService, "getCurrentView").and.returnValue(currentView);
             scope.$digest();
+            sortAndFilterSpy = spyOn(SortAndFilterService, "setFilter");
         }));
 
         it("should compile", function(){
-            //console.info(element)
+            expect(element).toBeDefined();
         });
+
+        it("should correctly set the attributes", inject(function($compile){
+            expect(element.isolateScope().selectedSortIndex).toEqual('1');
+            expect(element.isolateScope().reverse).toEqual('false');
+            expect(element.isolateScope().id).toEqual("column_2");
+
+            element = angular.element('<ms-dropdown selected-sort-index="0" reverse=true msid="column_1"></ms-dropdown>');
+            element = $compile(element)(scope);
+            scope.$digest();
+
+            expect(element.isolateScope().selectedSortIndex).toEqual('0');
+            expect(element.isolateScope().reverse).toEqual('true');
+            expect(element.isolateScope().id).toEqual("column_1");
+
+        }));
+
+        it("should set the correct label", function(){
+            expect(element.find("h6 .status").text()).toBe(CONFIG.view[currentView].sortMenu.displayColumns[element.isolateScope().selectedSortIndex].label)
+        });
+
+        it("should reverse when clicked when active", function(){
+            dropdownSpy = spyOn(DropdownService, "getActive").and.returnValue(element.isolateScope().id);
+            element.find("h6 .status").click();
+            expect(dropdownSpy).toHaveBeenCalled();
+            expect(element.isolateScope().reverse).toEqual(true);
+            expect(sortAndFilterSpy).toHaveBeenCalledWith('reverse', true, true)
+            element.find("h6 .status").click();
+            expect(element.isolateScope().reverse).toEqual(false);
+            expect(sortAndFilterSpy).toHaveBeenCalledWith('reverse', false, true)
+        });
+
+        it("should not reverse when clicked when not active", function(){ 
+            dropdownSpy = spyOn(DropdownService, "getActive").and.returnValue("foo");
+            element.isolateScope().selectedFilter = "foo"
+            element.find("h6 .status").click();
+            expect(element.isolateScope().selectedItem).toEqual(CONFIG.view[currentView].sortMenu.displayColumns[element.isolateScope().selectedSortIndex])
+            expect(dropdownSpy).toHaveBeenCalled();
+            expect(element.isolateScope().reverse).toEqual(false);
+            expect(sortAndFilterSpy).toHaveBeenCalledWith('reverse', false, false);
+            expect(element.isolateScope().selectedFilter).toEqual('');
+        });
+
+        it("should sort correctly", function(){
+            dropdownSpy = spyOn(DropdownService, "setActive");
+            var sortAndFilterSpySetSorter  = spyOn(SortAndFilterService, "setSorter")
+            element.find("h6 .status").click();
+            expect(dropdownSpy).toHaveBeenCalledWith("column_2");
+            expect(sortAndFilterSpy.calls.count()).toEqual(3);
+            expect(sortAndFilterSpy.calls.argsFor(0)).toEqual(["reverse", false, false]);
+            expect(sortAndFilterSpy.calls.argsFor(1)).toEqual(["reset", "", false]);
+            expect(sortAndFilterSpy.calls.argsFor(2)).toEqual(["orderBy", "modifiedBy", true]);
+            expect(sortAndFilterSpySetSorter).toHaveBeenCalledWith("column_2", "Modified By")
+        });
+
+        it("should correctly detemine whether to load an additional template", function(){
+            expect(element.isolateScope().enabledOn({label: "foo"})).toBe(true);
+            expect(element.isolateScope().enabledOn({label: "Modified by:"})).toBe(false);
+        });
+
+        it("should properly load any additional templates", inject(function($compile){
+            var submitButton = element.find("button.submit-button");
+            expect(submitButton.length).toBe(1);
+
+            element = angular.element('<ms-dropdown selected-sort-index="0" reverse=true msid="column_1"></ms-dropdown>');
+            element = $compile(element)(scope);
+            scope.$digest();
+
+            submitButton = element.find("button.submit-button");
+            expect(submitButton.length).toBe(0);
+        }));
+
+        it("should properly enabled and disabled the submit button", function(){
+            var submitButton = element.find("button.submit-button"),
+            submitSpy = spyOn(element.isolateScope(), "submit");
+            expect(submitButton[0].disabled).toBe(true);
+
+            element.isolateScope().name = "foobar"
+            element.isolateScope().selectedFilter = {label: "Modified by:"};
+            scope.$digest();
+
+            expect(submitButton[0].disabled).toBe(false);
+            submitButton.click();
+            expect(submitSpy).toHaveBeenCalledWith("foobar")
+        });
+
+        it("should properly submit", function(){
+            var submitButton = element.find("button.submit-button"),
+            submitSpy = spyOn(element.isolateScope(), "submit").and.callThrough(),
+            alertSpy = spyOn(window, "alert");
+            element.isolateScope().selectedFilter = {label: "Modified by:"};
+
+            submitButton.click();
+            expect(alertSpy).toHaveBeenCalledWith("Please enter a name to filter");
+
+            element.isolateScope().name = "foobar"
+            scope.$digest();
+            submitButton.click();
+            expect(alertSpy.calls.count()).toBe(1);
+        });
+
+        it ("should toggle correctly", function(){
+            var toggleButton = element.find(".toggle"), 
+            dropDown = element.find('.ms-select-list'), 
+            docOnSpy = spyOn($document, "on"),
+            docOffSpy = spyOn($document, "off");
+            expect(toggleButton[0]).toBeDefined();
+            expect(dropDown.hasClass("hide")).toBe(true);
+            toggleButton.click();
+            expect(dropDown.hasClass("hide")).toBe(false);
+            $timeout.flush();
+            expect(docOnSpy).toHaveBeenCalledWith("click", jasmine.any(Function));
+            expect(docOffSpy).not.toHaveBeenCalled();
+            toggleButton.click(); 
+            docOnSpy.calls.reset();
+            expect(dropDown.hasClass("hide")).toBe(true);
+            expect(docOffSpy).toHaveBeenCalledWith("click", jasmine.any(Function));
+            expect(docOnSpy).not.toHaveBeenCalled();
+        });
+
+        it("should select correctly", function(){
+            var selectButton = element.find(".select"),
+            selectSpy = spyOn(element.isolateScope(), "select").and.callThrough(),
+            dropdownSpy = spyOn(DropdownService, "setActive").and.callThrough();
+            DropdownService.setActive("column_2");
+            expect(element.isolateScope().reverse).toEqual('false');
+            selectButton.click();
+            expect(selectSpy).toHaveBeenCalledWith(CONFIG.view.ProjectManager.sortMenu.displayColumns[1]);
+            expect(element.isolateScope().reverse).toEqual(true);
+            expect(sortAndFilterSpy).toHaveBeenCalledWith("reverse", true, true);
+            sortAndFilterSpy.calls.reset();
+            selectButton.click();
+            expect(element.isolateScope().selectedItem).toEqual(CONFIG.view.ProjectManager.sortMenu.displayColumns[1]);
+            expect(sortAndFilterSpy).toHaveBeenCalledWith("reverse", false, true);
+            expect(dropdownSpy).toHaveBeenCalledWith("column_2");
+        })
     });
 
     describe("Sortable Columns:", function(){

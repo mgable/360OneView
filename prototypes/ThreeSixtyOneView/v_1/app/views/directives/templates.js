@@ -202,7 +202,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/msDropdown.tpl.html',
     "<div class=\"ms-dropdown\" id=\"{{id}}\"> \r" +
     "\n" +
-    "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.getActive() === id}\"><span ng-show=\"filterBy\"><icon type=\"filter\" cname=\"filter-icon\"></icon></span><span ng-click=\"select(selectedItem)\" class=\"status\">{{selectedItem.label}}</span>&nbsp<span ng-click=\"toggle(id);select(selectedItem)\" class=\"glyphicon glyphicon-collapse-down\"></span></h6> \r" +
+    "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.getActive() === id}\"><span ng-show=\"filterBy\"><icon type=\"filter\" cname=\"filter-icon\"></icon></span><span ng-click=\"select(selectedItem)\" class=\"status\">{{selectedItem.label}}</span>&nbsp<span ng-click=\"toggle()\"><icon type=\"caret-square-o-down\"></icon></span></h6> \r" +
     "\n" +
     "\t<ul class=\"ms-select-list dropshadow hide\"> \r" +
     "\n" +
@@ -235,7 +235,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "<li class=\"ms-holder\">\r" +
     "\n" +
-    "\t<button class=\"btn btn-primary ms-apply submit-button\" ng-disabled=\"name === '' || enabledOn(selectedFilter)\" ng-click=\"submit(name)\">apply</button>\r" +
+    "\t<button class=\"btn btn-primary ms-apply submit-button\" ng-disabled=\"!name || enabledOn(selectedFilter)\" ng-click=\"submit(name)\">apply</button>\r" +
     "\n" +
     "</li>\r" +
     "\n"

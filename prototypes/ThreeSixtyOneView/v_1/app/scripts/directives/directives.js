@@ -15,8 +15,6 @@ angular.module('ThreeSixtyOneView.directives')
                 remove: "@"
             },
             controller: function($scope, $element, $attrs) {
-                $scope.reverse = $scope.reverse.bool();
-
                 var dropdown = $($element).find('.ms-select-list'),
                     currentView = ViewService.getCurrentView(),
                     focusInput = function() {
@@ -49,12 +47,12 @@ angular.module('ThreeSixtyOneView.directives')
                             SortAndFilterService.setFilter("reset", "", true);
                         }
                     },
-                    setAsActive = function(id) {
-                        DropdownService.setActive(id);
-                        setOrderBy($scope.selectedItem);
-                        setFilterBy($scope.selectedFilter, getName($scope.selectedFilter));
+                    // setAsActive = function(id) {
+                    //     DropdownService.setActive(id);
+                    //     setOrderBy($scope.selectedItem);
+                    //     setFilterBy($scope.selectedFilter, getName($scope.selectedFilter));
 
-                    },
+                    // },
                     isActive = function() {
                         return $scope.id === DropdownService.getActive();
                     },
@@ -63,18 +61,7 @@ angular.module('ThreeSixtyOneView.directives')
                             evt.preventDefault();
                             evt.stopPropagation();
                         }
-                    },
-                    prune = function(arr, attr, which) {
-                        _.each(arr, function(oe, oi, oa) {
-                            _.each(which, function(ie, ii, ia) {
-                                if (oe[attr] == ie) {
-                                    arr.splice(oi, 1);
-                                }
-                            })
-                        })
                     }
-
-                $scope.dontPassEvent = dontPassEvent;
 
                 $document.on('keypress', function(event) {
                     if (event.keyCode == 13 && $scope.isActive && !$scope.enabledOn($scope.selectedFilter)) {
@@ -90,20 +77,15 @@ angular.module('ThreeSixtyOneView.directives')
                     $scope.selectedFilter = null;
                 });
 
+                $scope.dontPassEvent = dontPassEvent;
                 $scope.DropdownService = DropdownService;
                 $scope.filterBy = false;
-                $scope.items = CONFIG.view[currentView].sortMenu.displayColumns;
-
-                // remove menu item(s) from the Info Tray contextual menu
-                // this can probably be re-factored away
-                if ($scope.remove) {
-                    prune($scope.items, 'label', $scope.$eval($scope.remove));
-                }
-
-                $scope.selectedItem = CONFIG.view[currentView].sortMenu.displayColumns[$scope.selectedSortIndex];
                 $scope.selectedFilter = null;
                 $scope.me = CONFIG.user.name
                 $scope.name = "";
+                $scope.reverse = $scope.reverse.bool();
+                $scope.items = CONFIG.view[currentView].sortMenu.displayColumns;
+                $scope.selectedItem = CONFIG.view[currentView].sortMenu.displayColumns[$scope.selectedSortIndex];
 
                 SortAndFilterService.setSorter($scope.id, $scope.selectedItem.label);
 
@@ -114,25 +96,24 @@ angular.module('ThreeSixtyOneView.directives')
                     SortAndFilterService.setFilter("orderBy", $scope.selectedItem.filter, false);
                 }
 
+                // determines if a menu selection has a related template
                 $scope.enabledOn = function(which) {
                     return which ? ((which.label === $scope.selectedItem.enabledOn) ? false : true) : true;
                 }
 
 
                 $scope.submit = function(name) {
-                    if (($scope.selectedFilter.label === $scope.selectedItem.enabledOn) && (name === null || name === "")) {
+                    if (($scope.selectedFilter && $scope.selectedFilter.label === $scope.selectedItem.enabledOn) && (name === null || name === "")) {
                         alert("Please enter a name to filter");
                         focusInput();
                     } else {
                         $scope.name = name;
                         close();
-
-                        // ***
                         setFilterBy($scope.selectedFilter, "name");
                     }
                 }
 
-                $scope.toggle = function(id) {
+                $scope.toggle = function() {
                     if (dropdown.hasClass('hide')) {
                         dropdown.removeClass('hide');
 
@@ -147,7 +128,8 @@ angular.module('ThreeSixtyOneView.directives')
 
                 $scope.selectSort = function(item) {
                     $scope.selectedItem = item;
-
+                    SortAndFilterService.setFilter("reset", "", false);
+                    $scope.filterBy = SortAndFilterService.hasFilterBy();
                     // ***
                     setOrderBy(item);
                 }
