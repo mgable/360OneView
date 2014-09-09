@@ -4,7 +4,7 @@
 
 describe('Filters:', function() {
     // load the directive's module
-    beforeEach(module('ThreeSixtyOneView.filters', 'ThreeSixtyOneView.services'));
+    beforeEach(module('ThreeSixtyOneView.filters', 'ThreeSixtyOneView.services', 'ThreeSixtyOneView.config'));
 
     var filter;
 
@@ -16,11 +16,11 @@ describe('Filters:', function() {
         var FavoritesService;
         beforeEach(inject(function(_FavoritesService_){
             FavoritesService = _FavoritesService_;
-            FavoritesService.addFavorite(2)
-            FavoritesService.addFavorite(234);
         }))
 
-        it('should filter put all non-favorites', function(){
+        it('should filter out all non-favorites', function(){
+            FavoritesService.addFavorite(2);
+            FavoritesService.addFavorite(234);
             expect(filter('isFavorite')([{id:1},{id:2}, {id:123}, {id:234}])).toEqual([{id:2},{id:234}]);
         })
 

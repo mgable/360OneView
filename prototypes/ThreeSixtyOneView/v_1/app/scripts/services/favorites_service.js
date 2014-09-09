@@ -1,13 +1,17 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-    .service('FavoritesService', [function() {
+    .service('FavoritesService', ["FavoritesModel", function(FavoritesModel) {
         var favorites = [],
             removeFavorite = function(itemID) {
                 if (_.indexOf(favorites, itemID) > -1) {
                     favorites.splice(_.indexOf(favorites, itemID), 1);
                 }
             };
+
+        this.setFavorites = function(f){
+            favorites = f;
+        }
 
         this.addFavorite = function(itemID) {
             favorites.push(itemID);
