@@ -15,6 +15,7 @@ angular.module('ThreeSixtyOneView.services')
 
         this.addFavorite = function(itemID) {
             favorites.push(itemID);
+            FavoritesModel.setAsFavorite(itemID)
         }
 
         this.isFavorite = function(itemID) {

@@ -30,12 +30,18 @@
         // },
         // self = this;
 
-        this.find = function(uid) {
-            unwrap.call(this, resource.get(uid, config))
+        this.find = function(id) {
+            unwrap.call(this, resource.get(id, config))
         };
 
         this.get = function() {
             return this.$futureData;
+        };
+
+        this.setAsFavorite = function(id) {
+            resource.post({'uuid': id}, config).then(function(response){
+                console.info(response)
+            })
         };
 
         // this.create = function(data) {
