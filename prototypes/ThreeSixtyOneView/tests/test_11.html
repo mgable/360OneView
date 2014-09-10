@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="drag-and-drop">
+  <head lang="en">
+    <meta charset="utf-8">
+    <title>Drag & Drop: Multiple listsr</title>
+    <script src="./bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="./bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <script src="./bower_components/angular/angular.js"></script>
+    <link href="./bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+          <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css" >
+
+    <script src="../v_1/app/scripts/vendor/angular-dragdrop.min.js"></script>
+    <script>
+
+var App = angular.module('drag-and-drop', ['ngDragDrop']);
+
+App.controller('OverviewCtrl', function($scope) {
+  $scope.list1 = {title: 'One - Drag Me'};
+  $scope.list2 = {title: 'Two - Drag Me'};
+  $scope.list3 = {title: 'Three - Drag Me'};
+  $scope.list4 = [];
+});
+
+    </script>
+    <style>
+      .thumbnailX { height: 280px; width: 200px; position: absolute;  left:300px; top:300px; border:1px solid black;}
+
+    </style>
+  </head>
+  <body>
+   <div ng-controller="OverviewCtrl">
+
+
+<div class="btn btn-primary" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{animate:true}" ng-hide="!list1.title">{{list1.title}}</div>
+
+<div class="btn btn-primary" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="list2" jqyoui-draggable="{animate:true}" ng-hide="!list2.title">{{list2.title}}</div>
+
+<div class="btn btn-primary" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="list3" jqyoui-draggable="{animate:true}" ng-hide="!list3.title">{{list3.title}}</div>
+   
+<div class="thumbnailX" data-drop="true" data-jqyoui-options="{multiple: true, stack: true}" ng-model="list4" jqyoui-droppable>
+  <div class="btn btn-success" data-drag="false" data-jqyoui-options ng-model="list4" jqyoui-draggable ng-hide="!list4.title">{{list4.title}}</div>
+</div>
+
+
+    </div>
+  </body>  
+</html>

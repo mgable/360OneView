@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add title</title>
+	<script src="bower_components/jquery/dist/jquery.js"></script>
+	<script src="bower_components/angular/angular.js"></script>
+</head>
+<body ng-app="myapp" ng-controller="MainCtrl">
+	<div>{{foo}}</div>
+	<div>{{foobar}}</div>
+
+	<div>{{foobar1}}</div>
+
+	<div>{{foobar2}}</div>
+
+
+<script>
+	angular.module("myapp", []).controller("MainCtrl", function($scope, Test){
+
+		var test = new Test ("http://echo.jsontest.com");
+		test.get("/key/value").then(function(data){
+			$scope.foobar = data;
+		});
+
+		var test1 = new Test ("http://echo.jsontest.com");
+		test1.get("/animal/cat").then(function(data){
+			$scope.foobar1 = data;
+		});
+
+		var test2 = new Test ("http://echo.jsontest.com");
+		test2.get("/person/woman").then(function(data){
+			$scope.foobar2 = data;
+		});
+
+		$scope.foo = test;
+
+	}).factory("Test", function($http, $q){
+		return function (path){
+			return new Resource ($http, $q, path);
+		}
+
+		function Resource(http, q, path){
+			this._http = http;
+			this._path = path;
+			this._q = q;
+
+			// this.get = function(uid, config){
+	 	// 		var deferred = this._q.defer(), config = config || {};
+
+	  //       	this._http
+	  //           .get(this.path(uid), config)
+	  //           .success(deferred.resolve)
+	  //           .error(deferred.reject);
+
+	  //       	return deferred.promise;
+			// }
+
+			this.create = function(data, config) {
+		        var deferred = this._q.defer(),
+		            path;
+
+		        if (typeof data === 'undefined') {
+		            deferred.reject('I need an item template');
+		            return deferred.promise;
+		        }
+
+		        path = this._path;
+
+		        this._http
+		            .post(path, data, config)
+		            .success(deferred.resolve)
+		            .error(deferred.reject);
+
+		        return deferred.promise;
+		    };
+
+			this.path = function (uid){
+				return uid ? this._path + '/' + uid : this._path;
+			}
+		}
+
+		Resource.prototype.get = function(uid, config){
+	 			var deferred = this._q.defer(), config = config || {};
+
+	        	this._http
+	            .get(this.path(uid), config)
+	            .success(deferred.resolve)
+	            .error(deferred.reject);
+
+	        	return deferred.promise;
+			}
+
+	})
+
+</script>
+</body>
+</html>

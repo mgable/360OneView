@@ -1,0 +1,27 @@
+<html>
+<head>
+	<title>
+	</title>
+			<script src="./bower_components/jquery/dist/jquery.js"></script>
+			<script src="./bower_components/jquery-ui/jquery-ui.js"></script>
+			<link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css" >
+			<script type="text/javascript" src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="./bower_components/angular/angular.js"></script>
+		<script src="../v_1/app/scripts/vendor/angular-dragdrop.min.js"></script>
+
+		    <link href="./bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body ng-app='myapp' ng-controller="Mainctrl">
+
+	<script type="text/javascript">
+		angular.module('myapp', []).controller("Mainctrl", function($scope){
+			$scope.foo = "bar";
+
+			$scope.list1 = {title: 'AngularJS - Drag Me'};
+  			$scope.list2 = {};
+		})
+	</script>
+
+<div class="btn btn-primary ng-pristine ng-valid ng-binding ui-draggable" data-drag="true" data-jqyoui-options="{revert: 'invalid'}" ng-model="list1" jqyoui-draggable="{animate:true}" ng-hide="!list1.title" aria-disabled="false" style="position: relative; z-index: auto; left: 0px; top: 0px;">AngularJS - Drag Me</div>
+
+</html>
