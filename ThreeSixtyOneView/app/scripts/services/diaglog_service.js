@@ -6,7 +6,7 @@ angular.module('ThreeSixtyOneView.services')
             if (item) {
                 FileDeleteService.setFilesToDelete([item]);
             }
-            dialogs.create('/views/modal/delete.html', 'DeleteCtrl', InfoTrayService.closeInfoTray);
+            dialogs.create('views/modal/delete.html', 'DeleteCtrl', InfoTrayService.closeInfoTray);
         }
 
         this.copy = function(item, config, service) {
@@ -27,7 +27,7 @@ angular.module('ThreeSixtyOneView.services')
 
         this.name = function (item, config, service){
             console.info(config)
-            dialogs.create('/views/modal/name.html', 'NameCtrl', {
+            dialogs.create('views/modal/name.html', 'NameCtrl', {
                 item: item,
                 service: service,
                 config: config.config
@@ -35,7 +35,7 @@ angular.module('ThreeSixtyOneView.services')
         }
 
         this.rename = function(item, service) {
-            dialogs.create('/views/modal/rename.html', 'RenameCtrl', {
+            dialogs.create('views/modal/rename.html', 'RenameCtrl', {
                 item: item,
                 service: service
             });
@@ -46,11 +46,11 @@ angular.module('ThreeSixtyOneView.services')
             var createTypes = {
                 'element': {
                     controller: 'CreateCtrl',
-                    template: '/views/modal/create_scenario_element.html'
+                    template: 'views/modal/create_scenario_element.html'
                 },
                 'project': {
                     controller: 'ProjectCreateCtrl',
-                    template: '/views/modal/create_project.html'
+                    template: 'views/modal/create_project.html'
                 }
             };
             dialogs.create(createTypes[type].template, createTypes[type].controller, {}, {
