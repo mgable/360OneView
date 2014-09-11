@@ -25,12 +25,11 @@ angular.module('ThreeSixtyOneView.services')
             )
         }
 
-        this.name = function (item, config, service){
-            console.info(config)
+        this.name = function (item, data, service){
             dialogs.create('views/modal/name.html', 'NameCtrl', {
                 item: item,
                 service: service,
-                config: config.config
+                config: data.config
             });
         }
 
