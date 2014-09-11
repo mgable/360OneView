@@ -23,7 +23,7 @@ angular.module('ThreeSixtyOneView', [
             .when('/', {
                 templateUrl: 'views/display_manager.tpl.html',
                 controller: 'ManagerCtrl',
-                viewName: "CentralManager"
+                viewName: "ProjectManager"
             })
             .when('/scenarioEdit/:project/:entity', {
                 templateUrl: 'views/scenario_edit.tpl.html',

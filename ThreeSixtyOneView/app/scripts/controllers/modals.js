@@ -66,19 +66,17 @@ angular.module('ThreeSixtyOneView')
         $scope.close = function() {
             $modalInstance.dismiss('canceled');
         };
-    }]).controller('ProjectCreateCtrl', ["$scope", "$modalInstance", "ProjectsModel", function($scope, $modalInstance, ProjectsModel) {
+    }]).controller('ProjectCreateCtrl', ["$scope", "$modalInstance", "ProjectsModel", "CONFIG", function($scope, $modalInstance, ProjectsModel, CONFIG) {
         $scope.close = function() {
             $modalInstance.dismiss('canceled');
         };
 
-        $scope.create = function(item) {
+        $scope.create = function(name) {
             alert("this will take you to the create project work flow");
-            ProjectsModel.create({
-                "name": item,
-                "description" : "this is a test",
-                "isMaster": false,
-                "parentId": ""
-            });
+
+            var newProject = CONFIG.view.ProjectManager.newProject;
+            newProject.name = name
+            ProjectsModel.create(newProject);
             $modalInstance.dismiss('create');
         };
     }])

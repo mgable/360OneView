@@ -48,6 +48,7 @@ angular.module("ThreeSixtyOneView")
                 $scope.CONFIG.projectName =  $routeParams.name;
                 $scope.CONFIG.menuItems = currentView.filterMenu;
                 $scope.goto = $scope[currentView.where];
+                $scope.displayActionsCreate = currentView.displayActionsCreate;
 
                 // detemine which view model to get
                 if (currentModel){

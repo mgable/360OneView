@@ -41,7 +41,7 @@ angular.module('ThreeSixtyOneView.services')
         }
 
         this.create = function(type) {
-            console.info("create");
+            console.info("create " + type);
             var createTypes = {
                 'element': {
                     controller: 'CreateCtrl',

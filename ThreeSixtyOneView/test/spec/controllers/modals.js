@@ -34,8 +34,7 @@ describe('Controllers: ', function() {
         expect(ProjectsModel.create).toHaveBeenCalledWith({
             name: 'xyz',
             description: "this is a test",
-            isMaster: false,
-            parentId: ''
+            isMaster: false
         });
     });
 });
