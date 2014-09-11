@@ -183,7 +183,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<div class=\"actions\">\r" +
     "\n" +
-    "\t\t\t<span ng-if=\"view.create\" ng-click=\"create(displayActionsCreate)\"><icon type=\"plus\"></icon></span>\r" +
+    "\t\t\t<span ng-if=\"view.create\" ng-click=\"create(CONFIG.displayActionsCreate)\"><icon type=\"plus\"></icon></span>\r" +
     "\n" +
     "\t\t\t<span ng-if=\"view.filter\"><icon type=\"filter\"></icon></span>\r" +
     "\n" +

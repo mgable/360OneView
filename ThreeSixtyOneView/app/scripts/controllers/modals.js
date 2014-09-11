@@ -18,18 +18,18 @@ angular.module('ThreeSixtyOneView')
             callback();
             $modalInstance.close('delete');
         }; // end save
-    }]).controller('CreateCtrl', ["$scope", "$modalInstance", "$location", "FilesModel", function($scope, $modalInstance, $location, FilesModel) {
+    }]).controller('CreateCtrl', ["$scope", "$rootScope", "$modalInstance", "$location", function($scope, $rootScope, $modalInstance, $location) {
         $scope.create = function(item) {
-            console.info("create");
-            FilesModel.$create({
-                title: item.name,
-                type: item.type,
-                base: item.base,
-                access: item.access
-            });
+            var name = item.name, project = item.project
+            // FilesModel.$create({
+            //     title: item.name,
+            //     type: item.type,
+            //     base: item.base,
+            //     access: item.access
+            // });
             $modalInstance.dismiss('create');
-            $location.path("/scenarioEdit")
-        }; //
+            $rootScope.$broadcast("CreateCtrl:create", item);
+        }; 
 
         $scope.close = function() {
             console.info("cancel")
@@ -66,17 +66,16 @@ angular.module('ThreeSixtyOneView')
         $scope.close = function() {
             $modalInstance.dismiss('canceled');
         };
-    }]).controller('ProjectCreateCtrl', ["$scope", "$modalInstance", "ProjectsModel", "CONFIG", function($scope, $modalInstance, ProjectsModel, CONFIG) {
+    }]).controller('ProjectCreateCtrl', ["$scope", "$rootScope", "$modalInstance", "ProjectsModel", "CONFIG", function($scope, $rootScope, $modalInstance, ProjectsModel, CONFIG) {
         $scope.close = function() {
             $modalInstance.dismiss('canceled');
         };
 
         $scope.create = function(name) {
-            alert("this will take you to the create project work flow");
-
             var newProject = CONFIG.view.ProjectManager.newProject;
             newProject.name = name
             ProjectsModel.create(newProject);
+            $rootScope.$broadcast("ProjectCreateCtrl:create", newProject.name)
             $modalInstance.dismiss('create');
         };
     }])

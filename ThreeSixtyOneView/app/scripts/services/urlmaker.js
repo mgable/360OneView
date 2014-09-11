@@ -2,11 +2,13 @@
 
 angular.module('ThreeSixtyOneView')
   .service('Urlmaker', ["$location", function($location) {
-  	this.makeUrl = function(config){
-  		switch(config.type){
-  			case "dashboard" : makeDashboardUrl(config.name);break;
-  			case "projects" : makeProjectUrl(); break;
-        case "scenarioEdit": makeScenarioEditURL(config.project, config.item);break;
+  	this.makeUrl = function(type){
+      var args =  Array.prototype.slice.call(arguments, 1);
+  		switch(type){
+  			case "dashboard" : makeDashboardUrl.apply(this, args); break;
+  			case "projects" : makeProjectUrl.apply(this, args); break;
+        case "scenarioEdit": makeScenarioEditURL.apply(this, args);break;
+        case "scenarioCreate": makeScenarioCreateUrl.apply(this, args); break;
   		}
   	}
 
@@ -16,11 +18,17 @@ angular.module('ThreeSixtyOneView')
   	}
 
   	var makeProjectUrl = function(){
-  		$location.path("/projects")
+      var url = "/projects";
+  		$location.path(url)
   	}
 
-    var makeScenarioEditURL = function(project, item){
-      var url = "/scenarioEdit/"+ project + "/" + item.title;
+    var makeScenarioEditURL = function(project, scenario){
+      var url = "/scenarioEdit/"+ project + "/" + scenario;
+      $location.path(url);
+    }
+
+    var makeScenarioCreateUrl = function(project, scenario){
+      var url = "/scenarioCreate/" + project + "/" + scenario;
       $location.path(url);
     }
   }]);

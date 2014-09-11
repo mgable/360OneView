@@ -1,4 +1,6 @@
-<div class="ms-breadcrumb"><a ng-click="Urlmaker.makeUrl({type:'projects'})"><i class="fa fa-chevron-left"></i><i class="fa fa-chevron-left"></i>&nbsp;Projects</a></div>
+<div class="ms-breadcrumb"><a ng-click="gotoProjects($event)">
+	<icon type="chevron-left"></icon>
+	<icon type="chevron-left"></icon>
+	&nbsp;Projects</a></div>
 
 <h2 class="project-title">{{CONFIG.projectName || 'Some Project Name'}}</h2>&nbsp;<icon type="star-o" cname="star"></icon>
-<!-- <p>Shared with: <a><icon type="users"></icon>&nbsp;Everyone</a></p> -->

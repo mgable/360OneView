@@ -21,7 +21,7 @@ describe('Services:', function() {
         it("should create a 'create project' dialog box", function() {
             
             DiaglogService.create('project')
-            expect(spy).toHaveBeenCalledWith('views/modal/create_project.html', 'ProjectCreateCtrl', {}, {
+            expect(spy).toHaveBeenCalledWith('views/modal/create_project.tpl.html', 'ProjectCreateCtrl', {}, {
                 size: 'sm'
             });
         });

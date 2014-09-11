@@ -41,15 +41,14 @@ angular.module('ThreeSixtyOneView.services')
         }
 
         this.create = function(type) {
-            console.info("create " + type);
             var createTypes = {
                 'element': {
                     controller: 'CreateCtrl',
-                    template: 'views/modal/create_scenario_element.html'
+                    template: 'views/modal/create_scenario.tpl.html'
                 },
                 'project': {
                     controller: 'ProjectCreateCtrl',
-                    template: 'views/modal/create_project.html'
+                    template: 'views/modal/create_project.tpl.html'
                 }
             };
             dialogs.create(createTypes[type].template, createTypes[type].controller, {}, {
