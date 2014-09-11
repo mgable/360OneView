@@ -240,7 +240,7 @@ angular.module('ThreeSixtyOneView.directives')
                     ctrl.setReverse($scope.reverse, true);
                 };
             },
-            templateUrl: '/views/directives/sorting_options.html'
+            templateUrl: 'views/directives/sorting_options.html'
         };
     }]).directive('sorter', ["SortAndFilterService", "DropdownService", function(SortAndFilterService, DropdownService) {
         return {
