@@ -232,6 +232,7 @@ module.exports = function(grunt) {
             }
         },
 
+
         imagemin: {
             dist: {
                 files: [{
