@@ -1,5 +1,3 @@
-// Modal controllers
-
 'use strict';
 
 angular.module('ThreeSixtyOneView')
@@ -7,32 +5,25 @@ angular.module('ThreeSixtyOneView')
         var callback = data;
         $scope.FileDeleteService = FileDeleteService;
         $scope.cancel = function() {
-            console.info("cancel")
+            console.info("cancel");
             FileDeleteService.reset();
             $modalInstance.dismiss('canceled');
         }; // end cancel
 
         $scope.delete = function() {
-            console.info("delete")
+            console.info("delete");
             FileDeleteService.remove();
             callback();
             $modalInstance.close('delete');
         }; // end save
-    }]).controller('CreateCtrl', ["$scope", "$modalInstance", "$location", "FilesModel", function($scope, $modalInstance, $location, FilesModel) {
+    }]).controller('CreateCtrl', ["$scope", "$rootScope", "$modalInstance", function($scope, $rootScope, $modalInstance) {
         $scope.create = function(item) {
-            console.info("create");
-            FilesModel.$create({
-                title: item.name,
-                type: item.type,
-                base: item.base,
-                access: item.access
-            });
             $modalInstance.dismiss('create');
-            $location.path("/scenarioEdit")
-        }; //
+            $rootScope.$broadcast("CreateCtrl:create", item);
+        };
 
         $scope.close = function() {
-            console.info("cancel")
+            console.info("cancel");
             $modalInstance.dismiss('canceled');
         }; // end cancel
     }]).controller('RenameCtrl', ["$scope", "$modalInstance", "data", function($scope, $modalInstance, data) {
@@ -42,19 +33,18 @@ angular.module('ThreeSixtyOneView')
 
         $scope.rename = function(name) {
             $scope.data.name = name;
-            service.rename($scope.data)
+            service.rename($scope.data);
 
             $modalInstance.dismiss('create');
         };
 
         $scope.close = function() {
-            console.info("cancel")
+            console.info("cancel");
             $modalInstance.dismiss('canceled');
         };
     }]).controller('NameCtrl', ["$scope", "$modalInstance", "data", "ViewService", function($scope, $modalInstance, data, ViewService) {
-        var service = data.service;
         $scope.data = data.item;
-        $scope.config = data.config
+        $scope.config = data.config;
         $scope.name = $scope.data.title + " - copy";
 
         $scope.submit = function(name) {
@@ -66,19 +56,16 @@ angular.module('ThreeSixtyOneView')
         $scope.close = function() {
             $modalInstance.dismiss('canceled');
         };
-    }]).controller('ProjectCreateCtrl', ["$scope", "$modalInstance", "ProjectsModel", function($scope, $modalInstance, ProjectsModel) {
+    }]).controller('ProjectCreateCtrl', ["$scope", "$rootScope", "$modalInstance", "ProjectsModel", "CONFIG", function($scope, $rootScope, $modalInstance, ProjectsModel, CONFIG) {
         $scope.close = function() {
             $modalInstance.dismiss('canceled');
         };
 
-        $scope.create = function(item) {
-            alert("this will take you to the create project work flow");
-            ProjectsModel.create({
-                "name": item,
-                "description" : "this is a test",
-                "isMaster": false,
-                "parentId": ""
-            });
+        $scope.create = function(name) {
+            var newProject = CONFIG.view.ProjectManager.newProject;
+            newProject.name = name;
+            ProjectsModel.create(newProject);
+            $rootScope.$broadcast("ProjectCreateCtrl:create", newProject.name);
             $modalInstance.dismiss('create');
         };
-    }])
+    }]);

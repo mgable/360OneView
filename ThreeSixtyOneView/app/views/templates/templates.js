@@ -183,7 +183,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<div class=\"actions\">\r" +
     "\n" +
-    "\t\t\t<span ng-if=\"view.create\" ng-click=\"create('project')\"><icon type=\"plus\"></icon></span>\r" +
+    "\t\t\t<span ng-if=\"view.create\" ng-click=\"create(CONFIG.displayActionsCreate)\"><icon type=\"plus\"></icon></span>\r" +
     "\n" +
     "\t\t\t<span ng-if=\"view.filter\"><icon type=\"filter\"></icon></span>\r" +
     "\n" +
@@ -202,11 +202,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/msDropdown.tpl.html',
     "<div class=\"ms-dropdown\" id=\"{{id}}\"> \r" +
     "\n" +
-    "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.getActive() === id}\"><span ng-show=\"filterBy\"><icon type=\"filter\" cname=\"filter-icon\"></icon></span><span ng-click=\"select(selectedItem)\" class=\"status\">{{selectedItem.label}}</span>&nbsp<span ng-click=\"toggle()\"><icon type=\"caret-square-o-down\"></icon></span></h6> \r" +
+    "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.getActive() === id}\"><span ng-show=\"filterBy\"><icon type=\"filter\" cname=\"filter-icon\"></icon></span><span ng-click=\"select(selectedItem)\" class=\"status select\">{{selectedItem.label}}</span>&nbsp<span ng-click=\"toggle()\" class=\"toggle\"><icon type=\"caret-square-o-down\"></icon></span></h6> \r" +
     "\n" +
     "\t<ul class=\"ms-select-list dropshadow hide\"> \r" +
     "\n" +
-    "\t\t<li class=\"ms-item\" ng-repeat=\"item in items\" ng-class=\"{disabled:item.label === selectedItem.label}\" ng-click=\"selectSort(item)\"><span class=\"glyphicon glyphicon-ok ms-ok\"></span>{{item.label}}</li> \r" +
+    "\t\t<li class=\"ms-item selectSort\" ng-repeat=\"item in items\" ng-class=\"{disabled:item.label === selectedItem.label}\" ng-click=\"selectSort(item)\"><span class=\"glyphicon glyphicon-ok ms-ok\"></span>{{item.label}}</li> \r" +
     "\n" +
     "\t\t<ul ng-if=\"selectedItem.filters\"> \r" +
     "\n" +
@@ -214,7 +214,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<li class=\"ms-sublabel\">FILTER</li> \r" +
     "\n" +
-    "\t\t\t<li ng-repeat=\"filter in selectedItem.filters\" class=\"ms-item\" ng-click=\"selectFilter(filter)\" ng-class=\"{selected:selectedFilter === filter}\"><span class=\"glyphicon glyphicon-ok ms-ok\"></span>{{filter.label}}</li> \r" +
+    "\t\t\t<li ng-repeat=\"filter in selectedItem.filters\" class=\"ms-item selectFilter\" ng-click=\"selectFilter(filter)\" ng-class=\"{selected:selectedFilter === filter}\"><span class=\"glyphicon glyphicon-ok ms-ok\"></span>{{filter.label}}</li> \r" +
     "\n" +
     "\t\t\t<li ng-if=\"selectedItem.template\"><ng-include src=\"selectedItem.template\"></ng-include></li> \r" +
     "\n" +

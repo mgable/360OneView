@@ -1,19 +1,35 @@
 /* global angular, _ */
+/* jshint unused: false */
+
     'use strict';
 
-    angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout", "$rootScope", "Resource", "CONFIG", "SERVER", function($timeout, $rootScope, Resource, CONFIG, SERVER){
+    angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout", "$rootScope", "Resource", "CONFIG", "SERVER", "dialogs", function($timeout, $rootScope, Resource, CONFIG, SERVER, dialogs){
         var resource = new Resource(SERVER.remote + CONFIG.application.api.projects),
-        translator = CONFIG.application.models.ProjectsModel.translator, 
-        data, futureData,
-        config = {transformResponse: function(data){ return {data:translate(data, translator)} }},
-        translate = function (data, translator){
-            var results, data;
+        translator = CONFIG.application.models.ProjectsModel.translator,
+        config = {transformResponse: function(data){ return {data:translate(data, translator)}; }},
+        translate = function (response, translator){
+            var results, data,
+            translateObj = function(data){
+                var result = {}, t;
+                _.each(translator, function(k,v,o){
+                    t = data[k];
+                    if (typeof t !== "undefined") {
+                        result[v] = t;
+                    } else if (_.isObject(k)){
+                        /* jshint ignore:start */
+                        result[v] = eval("data" + k.selector);
+                        /* jshint ignore:end */
+                    }
+                });
+                return result;
+            };
 
             try {
-                data = JSON.parse(data);
+                data = JSON.parse(response);
             }
             catch(e){
                 console.error ("no data received or data will not parse to json");
+                dialogs.error("No data received!!!", "Either the server is down or the response is not JSON.");
                 return;
             }
 
@@ -21,25 +37,13 @@
                 results = [];
                 _.each(data, function(e,i,a){
                     results.push(translateObj(e));
-                })
+                });
             } else if (_.isObject){
                 return translateObj(data);
             }
 
-            function translateObj(data){
-                var result = {}, t;
-                _.each(translator, function(k,v,o){
-                    t = data[k];
-                    if (typeof t !== "undefined") {
-                        result[v] = t;
-                    } else if (_.isObject(k)){
-                        result[v] = eval("data" + k.selector);
-                    }
-                });
-                return result;
-            }
             return results;
-        }, 
+        },
         unwrap = function(futureData) {
             var self = this;
             this.$futureData = futureData;
@@ -49,23 +53,23 @@
                 });
             });
 
-        }, 
+        },
         // used for the rename functions
         put = function(data){
             resource.put(data, config).then(function(response){
                 var item = _.indexOf(self.data, _.findWhere(self.data, {id: response.data.id}));
-                self.data.splice(item, 1, response.data)
+                self.data.splice(item, 1, response.data);
                 $timeout(function(){
                      $rootScope.$broadcast("ProjectsModel:dataChange", {
                         data: self.data
                     });
-                })
-            })
+                });
+            });
         },
         self = this;
 
         this.find = function(uid) {
-            unwrap.call(this, resource.get(uid, config))
+            unwrap.call(this, resource.get(uid, config));
         };
 
         this.get = function() {
@@ -87,5 +91,5 @@
             var obj = (_.pick(data, 'name', 'description'));
             obj.uuid = data.id;
             put.call(this, obj);
-        }
+        };
     }]);

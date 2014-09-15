@@ -1,3 +1,5 @@
+/* global _ */
+
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
@@ -39,7 +41,7 @@ angular.module('ThreeSixtyOneView.services')
             getFilter = function(filter) {
                 return function(data) {
                     return $filter(filter)(data);
-                }
+                };
             },
             addToPipline = function(which) {
                 var filter = getFilter(which.filter);
@@ -51,7 +53,7 @@ angular.module('ThreeSixtyOneView.services')
             filterPipline = function(data) {
                 return (_.reduce(filters, function(memo, num) {
                     return num(memo);
-                }, data))
+                }, data));
             },
             resetFilterBy = function() {
                 filterBy = {};
@@ -152,7 +154,7 @@ angular.module('ThreeSixtyOneView.services')
             try{
                 return display.data.length;
             }catch(e){
-                console.info("No data")
+                console.info("No data");
             }
         };
 
@@ -168,7 +170,7 @@ angular.module('ThreeSixtyOneView.services')
             if (filter) {
                 this.filter();
             }
-        }
+        };
 
         this.init = function(config) {
             data = config.data;
@@ -183,7 +185,7 @@ angular.module('ThreeSixtyOneView.services')
                     self.filter();
                 });
             });
-        }
+        };
 
         this.filter = function() {
             var activeFilters = this.getActiveFilters(),
@@ -201,5 +203,5 @@ angular.module('ThreeSixtyOneView.services')
             display.data = temp;
 
            $rootScope.$broadcast('SortAndFilterService:filter');
-        }
+        };
     }]);

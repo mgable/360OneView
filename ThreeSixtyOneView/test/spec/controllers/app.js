@@ -1,33 +1,85 @@
-xdescribe('Routes tests: ', function() {
-    var location, route, rootscope;
+describe('Routes tests: ', function() {
+    var location, route, rootscope, urlProjects, urlFavorites, SERVER, CONFIG;
 
-    beforeEach(module('centralManagerApp'));
+    beforeEach(module('ThreeSixtyOneView'));
 
-    beforeEach(inject(function($rootScope, $location, $route) {
+    beforeEach(inject(function($rootScope, $location, $route, _SERVER_, _CONFIG_) {
         location = $location;
         rootScope = $rootScope;
         route = $route;
+        SERVER = _SERVER_;
+        CONFIG = _CONFIG_;
+        urlProjects = SERVER.remote + CONFIG.application.api.projects;
+        urlFavorites = SERVER.remote + CONFIG.application.api.favorites;
+
     }));
 
+
+
     describe('index route', function() {
-        beforeEach(inject(function($httpBackend, SERVER, CENTRAL_MANAGER_REST_API) {
-            $httpBackend.expectGET(SERVER + CENTRAL_MANAGER_REST_API).respond({
+        beforeEach(inject(function(_$httpBackend_) {
+            $httpBackend = _$httpBackend_;
+            $httpBackend.expectGET(urlProjects).respond({
                 "doesnot": "matter"
             });
-            $httpBackend.expectGET('views/central_manager.tpl.html').respond({
+            $httpBackend.expectGET(urlFavorites).respond({
                 "doesnot": "matter"
             });
         }));
+
         it("should load index page", function() {
+            $httpBackend.expectGET('views/display_manager.tpl.html').respond({
+                "doesnot": "matter"
+            })
             location.path('/');
             rootScope.$digest();
-            expect(route.current.controller).toBe('CentralManagerCtrl');
+            expect(route.current.controller).toBe('ManagerCtrl');
+            expect(route.current.viewName).toBe('ProjectManager');
+            $httpBackend.verifyNoOutstandingExpectation();
+        });
+
+        it("should load projects page", function() {
+            $httpBackend.expectGET('views/display_manager.tpl.html').respond({
+                "doesnot": "matter"
+            })
+            location.path('/projects');
+            rootScope.$digest();
+            expect(route.current.controller).toBe('ManagerCtrl');
+            expect(route.current.viewName).toBe('ProjectManager');
+            $httpBackend.verifyNoOutstandingExpectation();
         });
 
         it("should load index page on unknown route", function() {
+            $httpBackend.expectGET('views/display_manager.tpl.html').respond({
+                "doesnot": "matter"
+            })
             location.path('/nowheresville');
             rootScope.$digest();
-            expect(route.current.controller).toBe('CentralManagerCtrl');
+            expect(route.current.controller).toBe('ManagerCtrl');
+            expect(route.current.viewName).toBe('ProjectManager');
+            $httpBackend.verifyNoOutstandingExpectation();
         });
+
+        it("should load scenario edit page", function() {
+            $httpBackend.expectGET('views/scenario_edit.tpl.html').respond({
+                "doesnot": "matter"
+            });
+            location.path('/scenarioEdit/project/scenario');
+            rootScope.$digest();
+            expect(route.current.controller).toBe('ScenarioEditCtrl');
+            expect(route.current.viewName).not.toBeDefined();
+            $httpBackend.verifyNoOutstandingExpectation();
+        });
+
+        it ("should load the scenario create page", function(){
+             $httpBackend.expectGET('views/scenario_create.tpl.html').respond({
+                "doesnot": "matter"
+            });
+            location.path('/scenarioCreate/projectName/scenarioName');
+            rootScope.$digest();
+            expect(route.current.controller).toBe('ScenarioCreateCtrl');
+            expect(route.current.viewName).not.toBeDefined();
+            $httpBackend.verifyNoOutstandingExpectation();
+        })
     });
 });

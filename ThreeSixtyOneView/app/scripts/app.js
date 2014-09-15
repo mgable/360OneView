@@ -3,7 +3,7 @@
 angular.module('ThreeSixtyOneView.services', ['dialogs.main', 'ThreeSixtyOneView.filters']);
 angular.module('ThreeSixtyOneView.directives', ['ThreeSixtyOneView.services']);
 angular.module('ThreeSixtyOneView.filters', []);
-angular.module('ThreeSixtyOneView.config',[])
+angular.module('ThreeSixtyOneView.config',[]);
 
 angular.module('ThreeSixtyOneView', [
     'ngResource',
@@ -23,18 +23,22 @@ angular.module('ThreeSixtyOneView', [
             .when('/', {
                 templateUrl: 'views/display_manager.tpl.html',
                 controller: 'ManagerCtrl',
-                viewName: "CentralManager"
+                viewName: "ProjectManager"
             })
-            .when('/scenarioEdit/:project/:entity', {
+            .when('/scenarioEdit/:project/:scenario', {
                 templateUrl: 'views/scenario_edit.tpl.html',
                 controller: 'ScenarioEditCtrl'
+            })
+            .when('/scenarioCreate/:projectName/:scenarioName', {
+                templateUrl: 'views/scenario_create.tpl.html',
+                controller: 'ScenarioCreateCtrl'
             })
             .when('/projects', {
                 templateUrl: 'views/display_manager.tpl.html',
                 controller: 'ManagerCtrl',
                 viewName: "ProjectManager"
             })
-            .when('/dashboard/:name?', {
+            .when('/dashboard/:projectName', {
                 templateUrl: 'views/display_manager.tpl.html',
                 controller: 'ManagerCtrl',
                 viewName: "Dashboard"

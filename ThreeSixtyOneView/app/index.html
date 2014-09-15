@@ -20,7 +20,7 @@
         <!-- endbuild -->
     </head>
     <body ng-app="ThreeSixtyOneView" ng-controller="MainCtrl">
-        <!--[if lt IE 7]>
+        <!--[if lt IE 9]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         <div class="cap" ng-include src="'views/includes/navigation.tpl.html'"></div>
@@ -52,7 +52,6 @@
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/vendor/dialogs.js"></script>
         <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/config.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/directives/directives.js"></script>
         <script src="scripts/services/delete_files_service.js"></script>
@@ -69,10 +68,11 @@
         <script src="scripts/services/favorites_service.js"></script>
         <script src="scripts/services/view_service.js"></script>
         <script src="scripts/controllers/modals.js"></script>
-        <script src="scripts/services/configuration.js"></script>
+        <script src="scripts/configuration/serverConfiguration.js"></script>
+        <script src="scripts/configuration/appConfiguration.js"></script>
         <script src="scripts/services/urlmaker.js"></script>
         <script src="scripts/directives/prototype.js"></script>
-        <script src="views/directives/templates.js"></script>
+        <script src="views/templates/templates.js"></script>
         <!-- endbuild -->
     </body>
 </html>

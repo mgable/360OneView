@@ -26,6 +26,7 @@ angular.module('ThreeSixtyOneView.config')
                 "topInclude": "views/includes/dashboard_top.tpl.html",
                 "status": true,
                 "where": "gotoScenarioEdit",
+                "displayActionsCreate": "element",
                 "filterMenu": {
                     "firstSelected": 0,
                     "title": "Scenarios",
@@ -196,6 +197,12 @@ angular.module('ThreeSixtyOneView.config')
                 "favorites": true,
                 "status": false,
                 "where": 'gotoDashboard',
+                "displayActionsCreate": "project",
+                "newProject": {
+                    "name": "new name goes here",
+                    "description" : "this is a test",
+                    "isMaster": false
+                },
                 "filterMenu": {
                     "firstSelected": 0,
                     "icon": "suitcase",

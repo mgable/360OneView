@@ -1,10 +1,9 @@
 /* global angular, _ */
-    'use strict';
+'use strict';
 
     angular.module('ThreeSixtyOneView.services').service('FavoritesModel', ["$timeout", "$rootScope", "Resource", "CONFIG", "SERVER", function($timeout, $rootScope, Resource, CONFIG, SERVER){
         var resource = new Resource(SERVER.remote + CONFIG.application.api.favorites),
         // translator = CONFIG.application.models.ProjectsModel.translator, 
-        data, futureData,
         config = {},
         unwrap = function(futureData) {
             var self = this;
@@ -18,7 +17,7 @@
         };
 
         this.find = function(id) {
-            unwrap.call(this, resource.get(id, config))
+            unwrap.call(this, resource.get(id, config));
         };
 
         this.get = function() {
@@ -28,15 +27,15 @@
         this.setAsFavorite = function(id) {
             resource.post({'uuid': id}, config).then(function(response){
                 // TODO: see error responses
-                console.info(response)
-            })
+                console.info(response);
+            });
         };
 
         this.unFavorite = function(id){
             var params = {params:{"uuid": id}};
             resource.delete(params, config).then(function(response){
-                console.info(response)
-            })
-        }
+                console.info(response);
+            });
+        };
 
     }]);

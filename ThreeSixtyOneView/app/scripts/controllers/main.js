@@ -2,7 +2,7 @@
 
 // View controllers
 angular.module("ThreeSixtyOneView")
-    .controller("MainCtrl", ["$scope", "SortAndFilterService", "FileDeleteService", "ActiveSelection", "InfoTrayService", "DiaglogService", "FavoritesService", "ViewService", "Urlmaker", function($scope, SortAndFilterService, FileDeleteService, ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService, Urlmaker) {
+    .controller("MainCtrl", ["$scope", "SortAndFilterService", "FileDeleteService", "ActiveSelection", "InfoTrayService", "DiaglogService", "FavoritesService", "ViewService", function($scope, SortAndFilterService, FileDeleteService, ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService) {
         // make all services available to app
         $scope.SortAndFilterService = SortAndFilterService;
         $scope.FileDeleteService = FileDeleteService;
@@ -11,13 +11,6 @@ angular.module("ThreeSixtyOneView")
         $scope.DiaglogService = DiaglogService;
         $scope.FavoritesService = FavoritesService;
         $scope.ViewService = ViewService;
-        $scope.Urlmaker = Urlmaker;
-        // for testing only
-        $scope.foo = "foobar!!!!";
-
-        //localStorageService.set("foo", "bar");
-
-        //console.info(localStorageService.get("foo"))
 
         // convenience methods
         $scope.console = function(msg) {
@@ -31,13 +24,22 @@ angular.module("ThreeSixtyOneView")
             }
         }
 
-    }]).controller("ManagerCtrl", ["$scope", "$injector", "$location", "$routeParams", "CONFIG", "Urlmaker", "FavoritesModel", "FavoritesService",  function($scope, $injector, $location, $routeParams, CONFIG, Urlmaker, FavoritesModel, FavoritesService) {
-        var currentView = CONFIG.view[$scope.ViewService.getCurrentView()],
+    }]).controller("ManagerCtrl", ["$scope", "$injector", "$location", "$routeParams", "CONFIG", "Urlmaker", "FavoritesModel", "FavoritesService", "ViewService",  function($scope, $injector, $location, $routeParams, CONFIG, Urlmaker, FavoritesModel, FavoritesService, ViewService) {
+        var currentView = CONFIG.view[ViewService.getCurrentView()],
             currentModel = currentView.model,
             viewModel,
             filter = eval(currentView.filter),
             reverse = currentView.reverse,
             orderBy = currentView.orderBy,
+            gotoDashboard = function(item, evt){
+                Urlmaker.makeUrl("dashboard", item.title);
+            },
+            gotoScenarioEdit = function(item, evt){
+                Urlmaker.makeUrl("scenarioEdit", $scope.CONFIG.projectName, item);
+            },
+            gotoProjects = function(evt){
+                Urlmaker.makeUrl("projects");
+            },
             init = function(){
                 // bootstrap view with data
                 $scope.data = {};
@@ -45,9 +47,11 @@ angular.module("ThreeSixtyOneView")
                 $scope.CONFIG.hasFavorites = currentView.favorites;
                 $scope.CONFIG.topInclude = currentView.topInclude || false;
                 $scope.CONFIG.status = currentView.status || false;
-                $scope.CONFIG.projectName =  $routeParams.name;
+                $scope.CONFIG.projectName =  $routeParams.projectName;
                 $scope.CONFIG.menuItems = currentView.filterMenu;
-                $scope.goto = $scope[currentView.where];
+                $scope.CONFIG.displayActionsCreate = currentView.displayActionsCreate;
+                $scope.CONFIG.currentView = {};
+                $scope.CONFIG.currentView.where = currentView.where;
 
                 // detemine which view model to get
                 if (currentModel){
@@ -81,13 +85,13 @@ angular.module("ThreeSixtyOneView")
                         }
                     });
 
-                    $scope.ViewService.setModel(viewModel);
+                    ViewService.setModel(viewModel);
                 } else {
                     console.info ("no view model")
                 }
 
                 //TEMP CODE !!!!!!!!!!!!
-                if ($scope.ViewService.getCurrentView() == "Dashboard"){
+                if (ViewService.getCurrentView() == "Dashboard"){
                     $scope.CONFIG.hasAlerts = true;
                     $scope.alertSrc = "views/includes/alert.tpl.html"
                 }
@@ -96,15 +100,24 @@ angular.module("ThreeSixtyOneView")
         init();
 
         // Controller API
-        $scope.gotoDashboard = function(item, evt){
-            Urlmaker.makeUrl({type:"dashboard", name:item.title});
+        $scope.goto = function(where, item, evt){
             evt.stopPropagation();
-        }
+            switch(where){
+                case "gotoScenarioEdit": gotoScenarioEdit(item); break;
+                case "gotoDashboard": gotoDashboard(item); break;
+                case "gotoProjects": gotoProjects(); break;
+            };
+        };
 
-        $scope.gotoScenarioEdit = function(item, evt){
-            Urlmaker.makeUrl({type:"scenarioEdit", project:$scope.CONFIG.projectName, item:item});
-            evt.stopPropagation();
-        }
+        // Event Listeners
+        $scope.$on("CreateCtrl:create", function (event, data){
+            Urlmaker.makeUrl("scenarioCreate", $scope.CONFIG.projectName, data.name)
+        });
+
+        $scope.$on("ProjectCreateCtrl:create", function (event, data){
+            Urlmaker.makeUrl("dashboard", data)
+        });
+
     }]).controller('InfoTrayCtrl', ["$scope", function($scope) {
         $scope.selectedItem = $scope.ActiveSelection.getActiveItem();
         $scope.seeAll = false;
@@ -114,10 +127,23 @@ angular.module("ThreeSixtyOneView")
                 $scope.selectedItem = response.data;
             }
         });
-
-    }]).controller("ScenarioEditCtrl", ["$scope", "$routeParams", function($scope, $routeParams) {
+    }]).controller("ScenarioEditCtrl", ["$scope", "$routeParams", "Urlmaker", function($scope, $routeParams, Urlmaker) {
         $scope.projectName = $routeParams.project;
         $scope.entity = $routeParams.entity;
         $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
         $scope.scenarioElementType = $scope.types[0];
-    }]);
+
+        $scope.backToProject = function(project){
+            Urlmaker.makeUrl ("dashboard", project);
+        }
+
+    }]).controller("ScenarioCreateCtrl", ["$scope", "$routeParams", "Urlmaker", function($scope, $routeParams, Urlmaker){
+        $scope.scenario = {
+            name: $routeParams.scenarioName,
+            project: $routeParams.projectName
+        }
+
+        $scope.editScenario = function (project, scenario){
+            Urlmaker.makeUrl ("scenarioEdit", project, scenario);
+        }
+    }])

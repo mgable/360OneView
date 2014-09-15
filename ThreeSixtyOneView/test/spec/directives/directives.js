@@ -13,6 +13,8 @@ describe('Directives:', function() {
 
         beforeEach(inject(function($rootScope, $compile) {
             scope = $rootScope.$new();
+            scope.CONFIG = {};
+            scope.CONFIG.displayActionsCreate = 'project';
             element = angular.element('<display-actions show=["create"]></display-actions>');
             element = $compile(element)(scope);
             scope.$digest();
@@ -27,7 +29,7 @@ describe('Directives:', function() {
         it("should open the dialog box when the create button is clicked", function() {
             var spy = spyOn(scope, "create");
             button.click();
-            expect(spy).toHaveBeenCalledWith('project')
+            expect(spy).toHaveBeenCalledWith(scope.CONFIG.displayActionsCreate)
         });
     });
 

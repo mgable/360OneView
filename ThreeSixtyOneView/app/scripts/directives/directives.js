@@ -1,4 +1,5 @@
 /*jshint  quotmark: false, unused: false */
+/* globals $, _, window */
 'use strict';
 
 angular.module('ThreeSixtyOneView.directives')
@@ -21,7 +22,7 @@ angular.module('ThreeSixtyOneView.directives')
                         var inputField = $element.find('input');
                         if (inputField) {
                             $timeout(function() {
-                                inputField.focus()
+                                inputField.focus();
                             });
                         }
                     },
@@ -61,17 +62,17 @@ angular.module('ThreeSixtyOneView.directives')
                             evt.preventDefault();
                             evt.stopPropagation();
                         }
-                    }
+                    };
 
                 $document.on('keypress', function(event) {
-                    if (event.keyCode == 13 && $scope.isActive && !$scope.enabledOn($scope.selectedFilter)) {
+                    if (event.keyCode === 13 && $scope.isActive && !$scope.enabledOn($scope.selectedFilter)) {
                         var menu = DropdownService.getActive(),
-                            submitButton = $("#" + menu + " .submit-button")
+                            submitButton = $("#" + menu + " .submit-button");
                         $timeout(function() {
                             angular.element(submitButton).triggerHandler('click');
-                        })
+                        });
                     }
-                })
+                });
 
                 $rootScope.$on("SortAndFilterService:resetFilterBy", function() {
                     $scope.selectedFilter = null;
@@ -81,7 +82,7 @@ angular.module('ThreeSixtyOneView.directives')
                 $scope.DropdownService = DropdownService;
                 $scope.filterBy = false;
                 $scope.selectedFilter = null;
-                $scope.me = CONFIG.user.name
+                $scope.me = CONFIG.user.name;
                 $scope.name = "";
                 $scope.reverse = $scope.reverse.bool();
                 $scope.items = CONFIG.view[currentView].sortMenu.displayColumns;
@@ -99,19 +100,19 @@ angular.module('ThreeSixtyOneView.directives')
                 // determines if a menu selection has a related template
                 $scope.enabledOn = function(which) {
                     return which ? ((which.label === $scope.selectedItem.enabledOn) ? false : true) : true;
-                }
+                };
 
 
                 $scope.submit = function(name) {
                     if (($scope.selectedFilter && $scope.selectedFilter.label === $scope.selectedItem.enabledOn) && (name === null || name === "")) {
-                        alert("Please enter a name to filter");
+                        window.alert("Please enter a name to filter");
                         focusInput();
                     } else {
                         $scope.name = name;
                         close();
                         setFilterBy($scope.selectedFilter, "name");
                     }
-                }
+                };
 
                 $scope.toggle = function() {
                     if (dropdown.hasClass('hide')) {
@@ -124,7 +125,7 @@ angular.module('ThreeSixtyOneView.directives')
                         dropdown.addClass('hide');
                         $document.off('click', close);
                     }
-                }
+                };
 
                 $scope.selectSort = function(item) {
                     $scope.selectedItem = item;
@@ -132,12 +133,12 @@ angular.module('ThreeSixtyOneView.directives')
                     $scope.filterBy = SortAndFilterService.hasFilterBy();
                     // ***
                     setOrderBy(item);
-                }
+                };
 
                 $scope.select = function(item) {
 
                     if (typeof $scope.reverse !== "boolean") {
-                        $scope.reverse = $scope.reverse.bool()
+                        $scope.reverse = $scope.reverse.bool();
                     }
 
                     if (!isActive()) {
@@ -151,7 +152,7 @@ angular.module('ThreeSixtyOneView.directives')
                         // ***
                         SortAndFilterService.setFilter("reverse", $scope.reverse, true);
                     }
-                }
+                };
 
                 $scope.selectFilter = function(which) {
                     if (!$scope.enabledOn(which)) {
@@ -170,16 +171,16 @@ angular.module('ThreeSixtyOneView.directives')
                     // ***
                     setFilterBy($scope.selectedFilter, $scope.selectedFilter.who);
                     $scope.filterBy = SortAndFilterService.hasFilterBy();
-                }
+                };
             }
-        }
+        };
     }]).directive('msLinkGroup', ["$timeout", function($timeout) {
         return {
             restrict: 'A',
             controller: function($scope, $element, $attrs) {
                 $timeout(function() {
                     $scope.selectedItem = $attrs.firstselected || 'none';
-                })
+                });
 
                 $scope.radio = $attrs.radio || false;
                 $scope.enabled = true;
@@ -209,10 +210,10 @@ angular.module('ThreeSixtyOneView.directives')
             link: function(scope, element, attrs, ctrl) {
                 element.on('click', {
                     label: attrs.msLink
-                }, ctrl.toggleSelected)
+                }, ctrl.toggleSelected);
 
             }
-        }
+        };
     }]).directive('sortingOptions', ["SortAndFilterService", function(SortAndFilterService) {
         return {
             restrict: 'AE',
@@ -277,7 +278,7 @@ angular.module('ThreeSixtyOneView.directives')
                 // reset delete files on filter change
                 $scope.$on("SortAndFilterService:filter", function() {
                     $scope.masterChange();
-                })
+                });
 
                 $scope.masterChange = function() {
                     $scope.items = [];
@@ -349,16 +350,16 @@ angular.module('ThreeSixtyOneView.directives')
                 item: '=',
                 displayBy: '='
             }
-        }
+        };
     }]).directive('focus', ["$timeout", function($timeout) {
         return {
             restrict: "A",
             link: function(scope, element, attrs) {
                 $timeout(function() {
                     element[0].focus();
-                }, 300)
+                }, 300);
             }
-        }
+        };
     }]).directive('search', ["$timeout", "SortAndFilterService", function($timeout, SortAndFilterService) {
         return {
             template: '<span><i class="fa fa-search" ng-click="toggleSearchField()"></i>&nbsp;<span ng-show="searchVisible" class="search-holder"><input type="text" class="search-input" ng-model="SortAndFilterService.searchText" ng-change="SortAndFilterService.filter()"/>&nbsp<a ng-click="toggleSearchField()" class="close-button"><i class="fa fa-times"></i></a></span></span>',
@@ -376,10 +377,10 @@ angular.module('ThreeSixtyOneView.directives')
                             inputField[0].focus();
                         }, 300);
                     }
-                    $scope.searchVisible = !$scope.searchVisible
-                }
+                    $scope.searchVisible = !$scope.searchVisible;
+                };
             }
-        }
+        };
     }]).directive('inlineRename', ["ViewService", function(ViewService) {
         return {
             replace: true,
@@ -402,17 +403,17 @@ angular.module('ThreeSixtyOneView.directives')
                     } else {
                         $scope.isActive = false;
                     }
-                }
+                };
 
                 $scope.submit = function() {
                     service.$set($scope.item);
                     $scope.isActive = false;
-                }
+                };
 
                 $scope.cancel = function() {
                     $scope.item.title = tempTitle;
                     $scope.isActive = false;
-                }
+                };
             }
         };
     }]).directive("icon", [function() {
@@ -424,7 +425,7 @@ angular.module('ThreeSixtyOneView.directives')
             },
             replace: true,
             template: '<i class="fa fa-{{icon}} {{cname}}"></i>'
-        }
+        };
     }]).directive("displayActions", [function() {
         return {
             restrict: "AE",
@@ -435,7 +436,7 @@ angular.module('ThreeSixtyOneView.directives')
                 scope.view = {};
                 scope.view.create = false;
                 scope.view.filter = false;
-                scope.view.search = false
+                scope.view.search = false;
                 scope.view.tray = false;
 
                 var show = scope.$eval(attrs.show);
@@ -443,7 +444,7 @@ angular.module('ThreeSixtyOneView.directives')
                 function toggleActions(which) {
                     _.each(show, function(e, i, a) {
                         scope.view[e] = true;
-                    })
+                    });
                 }
 
                 toggleActions(show);
@@ -451,14 +452,14 @@ angular.module('ThreeSixtyOneView.directives')
                 //API
                 scope.trash = function() {
                     scope.DiaglogService.trash();
-                }
+                };
 
                 scope.create = function(type) {
                     scope.DiaglogService.create(type);
-                }
+                };
             }
 
-        }
+        };
     }]).directive("contextualMenu", ["$rootScope", "$route", "CONFIG", "ActiveSelection", "DiaglogService", "FavoritesService", "ViewService", "InfoTrayService", function($rootScope, $route, CONFIG, ActiveSelection, DiaglogService, FavoritesService, ViewService, InfoTrayService) {
         return {
             restrict: "AE",
@@ -470,7 +471,7 @@ angular.module('ThreeSixtyOneView.directives')
             replace: true,
             link: function(scope, element, attrs) {
                 var actions = CONFIG.view[ViewService.getCurrentView()].contextualMenu.actions,
-                    menuViews = CONFIG.view[ViewService.getCurrentView()].contextualMenu.views
+                    menuViews = CONFIG.view[ViewService.getCurrentView()].contextualMenu.views;
                 scope.DiaglogService = DiaglogService;
                 scope.FavoritesService = FavoritesService;
                 scope.InfoTrayService = InfoTrayService;
@@ -483,21 +484,21 @@ angular.module('ThreeSixtyOneView.directives')
                 });
 
                 scope.alert = function(msg) {
-                    alert(msg);
-                }
+                    window.alert(msg);
+                };
 
                 function setView(which) {
                     if (which) {
                         var set = false;
                         for (var prop in menuViews) {
-                            if (which[prop] && which[prop] == menuViews[prop].type) {
+                            if (which[prop] && which[prop] === menuViews[prop].type) {
                                 setValues(actions, menuViews[prop].value);
                                 set = true;
                                 break;
                             }
                         }
                         if (!set) {
-                            setValues(actions, menuViews['otherwise'])
+                            setValues(actions, menuViews.otherwise);
                         }
                     }
                 }
@@ -514,24 +515,24 @@ angular.module('ThreeSixtyOneView.directives')
                 setView(scope.item);
 
                 scope.copyFn = function(item){
-                    console.info(scope.copy)
-                    DiaglogService.name(item, scope.copy, scope.service)
-                }
+                    console.info(scope.copy);
+                    DiaglogService.name(item, scope.copy, scope.service);
+                };
             }
-        }
+        };
     }]).directive('elastic', ['$timeout', 'ActiveSelection', function($timeout, ActiveSelection) {
             return {
                 restrict: 'A',
                 link: function(scope, element) {
                     var resize = function() {
-                        return element[0].style.height = "" + element[0].scrollHeight + "px";
+                        return element[0].style.height + "px" + element[0].scrollHeight + "px";
                     };
                     element.on("blur keyup change", resize);
                     $timeout(resize, 0);
 
                     scope.$on('ActiveSelection:activeItemChange', function() {
                         $timeout(resize, 0);
-                    })
+                    });
                 }
             };
         }

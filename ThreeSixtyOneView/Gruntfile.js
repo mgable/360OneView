@@ -74,7 +74,7 @@ module.exports = function(grunt) {
               // },
               cwd:'app',
               src: 'views/directives/*.html',
-              dest: 'app/views/directives/templates.js'
+              dest: 'app/views/templates/templates.js'
             }
         },
 

@@ -11,5 +11,5 @@ angular.module('ThreeSixtyOneView.services')
             setActive: function(which) {
                 active = which;
             }
-        }
+        };
     }]);

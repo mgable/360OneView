@@ -7,7 +7,7 @@ angular.module('ThreeSixtyOneView.services')
                 FileDeleteService.setFilesToDelete([item]);
             }
             dialogs.create('views/modal/delete.html', 'DeleteCtrl', InfoTrayService.closeInfoTray);
-        }
+        };
 
         this.copy = function(item, config, service) {
             var header = config.header || "Copy",
@@ -20,41 +20,39 @@ angular.module('ThreeSixtyOneView.services')
                     service.$clone(item.id);
                 },
                 function(btn) {
-                    console.info(btn)
+                    console.info(btn);
                 }
-            )
-        }
+            );
+        };
 
-        this.name = function (item, config, service){
-            console.info(config)
+        this.name = function (item, data, service){
             dialogs.create('views/modal/name.html', 'NameCtrl', {
                 item: item,
                 service: service,
-                config: config.config
+                config: data.config
             });
-        }
+        };
 
         this.rename = function(item, service) {
             dialogs.create('views/modal/rename.html', 'RenameCtrl', {
                 item: item,
                 service: service
             });
-        }
+        };
 
         this.create = function(type) {
-            console.info("create");
             var createTypes = {
                 'element': {
                     controller: 'CreateCtrl',
-                    template: 'views/modal/create_scenario_element.html'
+                    template: 'views/modal/create_scenario.tpl.html'
                 },
                 'project': {
                     controller: 'ProjectCreateCtrl',
-                    template: 'views/modal/create_project.html'
+                    template: 'views/modal/create_project.tpl.html'
                 }
             };
             dialogs.create(createTypes[type].template, createTypes[type].controller, {}, {
                 size: 'sm'
             });
-        }
+        };
     }]);
