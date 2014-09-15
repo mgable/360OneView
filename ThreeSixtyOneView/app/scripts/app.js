@@ -3,7 +3,7 @@
 angular.module('ThreeSixtyOneView.services', ['dialogs.main', 'ThreeSixtyOneView.filters']);
 angular.module('ThreeSixtyOneView.directives', ['ThreeSixtyOneView.services']);
 angular.module('ThreeSixtyOneView.filters', []);
-angular.module('ThreeSixtyOneView.config',[])
+angular.module('ThreeSixtyOneView.config',[]);
 
 angular.module('ThreeSixtyOneView', [
     'ngResource',
@@ -38,7 +38,7 @@ angular.module('ThreeSixtyOneView', [
                 controller: 'ManagerCtrl',
                 viewName: "ProjectManager"
             })
-            .when('/dashboard/:projectName?', {
+            .when('/dashboard/:projectName', {
                 templateUrl: 'views/display_manager.tpl.html',
                 controller: 'ManagerCtrl',
                 viewName: "Dashboard"

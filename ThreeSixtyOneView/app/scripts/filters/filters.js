@@ -1,4 +1,5 @@
 /*jshint  quotmark: false, unused: false */
+/* global _ */
 'use strict';
 
 angular.module('ThreeSixtyOneView.filters')
@@ -10,26 +11,26 @@ angular.module('ThreeSixtyOneView.filters')
                     if (FavoritesService.isFavorite(e.id)) {
                         results.push(e);
                     }
-                })
+                });
             }
             return results;
-        }
+        };
     }])
     .filter('camelCase', [function() {
         return function(input) {
-            if (typeof input == "string") {
+            if (typeof input === "string") {
                 return input.toLowerCase().replace(/ (.)/g, function(match, group1) {
                     return group1.toUpperCase();
                 });
             }
             return input;
-        }
+        };
     }])
     .filter('dateRange', [function() {
         var dayInMillisec = 86400000;
-        return function(input, db, prop) {
+        return function(input, db, p) {
             var results = [],
-                prop = prop || "lastModified",
+                prop = p || "lastModified",
                 daysBack = parseInt(db, 10),
                 now = Date.now(),
                 threshold = new Date(now - (dayInMillisec * daysBack));

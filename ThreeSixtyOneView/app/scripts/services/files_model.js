@@ -58,7 +58,7 @@
                 Files.data.data[index] = response.data;
                 Files.$rootScope.$broadcast("FilesModel:edit", {
                     data: response.data
-                })
+                });
             });
         });
     };
@@ -98,13 +98,12 @@
     };
 
     Files.getItemIndex = function(item) {
-        var index = false;
         for (var x = 0, limit = Files.data.data.length; x < limit; x++) {
             if (item.id === Files.data.data[x].id) {
                 return x;
             }
         }
-    }
+    };
 
     Files.prototype.$unwrap = function(futureData) {
         var self = this;

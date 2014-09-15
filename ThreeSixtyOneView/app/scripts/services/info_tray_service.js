@@ -11,12 +11,12 @@ angular.module('ThreeSixtyOneView.services')
 
         this.closeInfoTray = function() {
             showInfoTray = false;
-            ActiveSelection.clearActiveItem()
-        }
+            ActiveSelection.clearActiveItem();
+        };
 
         this.getShowInfoTray = function() {
             return showInfoTray;
-        }
+        };
 
         $rootScope.$on('SortAndFilterService:filter', self.closeInfoTray);
     }]);

@@ -7,7 +7,7 @@ angular.module('ThreeSixtyOneView.services')
                 FileDeleteService.setFilesToDelete([item]);
             }
             dialogs.create('views/modal/delete.html', 'DeleteCtrl', InfoTrayService.closeInfoTray);
-        }
+        };
 
         this.copy = function(item, config, service) {
             var header = config.header || "Copy",
@@ -20,10 +20,10 @@ angular.module('ThreeSixtyOneView.services')
                     service.$clone(item.id);
                 },
                 function(btn) {
-                    console.info(btn)
+                    console.info(btn);
                 }
-            )
-        }
+            );
+        };
 
         this.name = function (item, data, service){
             dialogs.create('views/modal/name.html', 'NameCtrl', {
@@ -31,14 +31,14 @@ angular.module('ThreeSixtyOneView.services')
                 service: service,
                 config: data.config
             });
-        }
+        };
 
         this.rename = function(item, service) {
             dialogs.create('views/modal/rename.html', 'RenameCtrl', {
                 item: item,
                 service: service
             });
-        }
+        };
 
         this.create = function(type) {
             var createTypes = {
@@ -54,5 +54,5 @@ angular.module('ThreeSixtyOneView.services')
             dialogs.create(createTypes[type].template, createTypes[type].controller, {}, {
                 size: 'sm'
             });
-        }
+        };
     }]);

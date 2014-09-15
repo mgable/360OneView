@@ -2,20 +2,16 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services').factory("Resource", function($http, $q){
-        return function (path){
-            return new Resource ($http, $q, path);
-        }
-
         function Resource(http, q, path){
             this._http = http;
             this._path = path;
             this._q = q;
             var getPath = function (uid){
                 return uid ? this._path + '/' + uid : this._path;
-            }
+            };
 
-            this.get = function(uid, config){
-                var deferred = this._q.defer(), config = config || {};
+            this.get = function(uid, con){
+                var deferred = this._q.defer(), config = con || {};
 
                 this._http
                     .get(getPath.call(this,uid), config)
@@ -23,10 +19,10 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
                     .error(deferred.reject);
 
                 return deferred.promise;
-            }
+            };
 
-            this.post = function(data, config) {
-                var deferred = this._q.defer(), path, config = config || {};
+            this.post = function(data, con) {
+                var deferred = this._q.defer(), path, config = con || {};
 
                 if (typeof data === 'undefined') {
                     deferred.reject('I need an item template');
@@ -46,8 +42,8 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
             //Alias for now
             this.create = this.post;
 
-            this.put = function(params, config) {
-                var deferred = this._q.defer(), config = config || {};
+            this.put = function(params, con) {
+                var deferred = this._q.defer(), config = con || {};
 
                 if (typeof params === 'undefined') {
                     deferred.reject('I need an params with an id');
@@ -62,8 +58,8 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
                 return deferred.promise;
             };
 
-            this.delete = function(item, config){
-                var deferred = this._q.defer(), config = config || {};
+            this.delete = function(item, con){
+                var deferred = this._q.defer(), config = con || {};
 
                 if (typeof item === 'undefined') {
                     deferred.reject('I need an item with an id');
@@ -76,6 +72,10 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
                     .error(deferred.reject);
 
                 return deferred.promise;
-            }
+            };
         }
-    })
+
+        return function (path){
+            return new Resource ($http, $q, path);
+        };
+    });
