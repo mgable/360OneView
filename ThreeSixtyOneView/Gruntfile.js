@@ -221,16 +221,16 @@ module.exports = function(grunt) {
                 assetsDirs: ['<%= yeoman.dist %>']
             },
             html: ['<%= yeoman.dist %>/{,*/}*.html']
-            // , css: ['<%= yeoman.dist %>/styles/{,*/}*.css']
+            , css: ['<%= yeoman.dist %>/styles/{,*/}*.css']
         },
 
         //The following *-min tasks produce minified files in the dist folder
-        cssmin: {
-            options: {
-                root: '<%= yeoman.app %>',
-                noRebase: true
-            }
-        },
+        // cssmin: {
+        //     options: {
+        //         root: '<%= yeoman.app %>',
+        //         noRebase: true
+        //     }
+        // },
 
 
         imagemin: {
