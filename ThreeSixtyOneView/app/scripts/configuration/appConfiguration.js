@@ -73,7 +73,7 @@ angular.module('ThreeSixtyOneView.config')
                 },
                 "contextualMenu": {
                     'actions': [
-                        {'name':'base', 'label': "use as base for a new scenario"}, 
+                        {'name':'base', 'label': "use as base for a new scenario"},
                         {'name':'copy', 'label': "copy as a new scenario", config: {title: 'Copy Scenario', description: '', submit: {'label':"copy as new scenario"}, cancel: {'label':'cancel'}}},
                         {'name':'set', 'label': "set as current plan"},
                         {'name': 'rename'},
@@ -139,11 +139,11 @@ angular.module('ThreeSixtyOneView.config')
                 },
                 "contextualMenu": {
                     actions: [
-                        {'name': 'copy'}, 
-                        {'name':'sharing'}, 
-                        {'name':'rename'}, 
-                        {'name':'archive'}, 
-                        {'name':'add'}, 
+                        {'name': 'copy'},
+                        {'name':'sharing'},
+                        {'name':'rename'},
+                        {'name':'archive'},
+                        {'name':'add'},
                         {'name':'details'}
                     ],
                     views: {
@@ -231,12 +231,12 @@ angular.module('ThreeSixtyOneView.config')
                 },
                 "contextualMenu": {
                     "actions": [
-                        {'name':'copy', config: {title: 'Copy Project', description: 'xxxxxxxxxxxxx', submit: {label:"copy"}, cancel: {label:'cancel'}}}, 
-                        {'name':'favorites', label: "favorite"}, 
-                        {'name':'sharing'}, 
-                        {'name':'rename'}, 
-                        {'name':'archive'}, 
-                        {'name':'add'}, 
+                        {'name':'copy', config: {title: 'Copy Project', description: 'xxxxxxxxxxxxx', submit: {label:"copy"}, cancel: {label:'cancel'}}},
+                        {'name':'favorites', label: "favorite"},
+                        {'name':'sharing'},
+                        {'name':'rename'},
+                        {'name':'archive'},
+                        {'name':'add'},
                         {'name':'details'}
                     ],
                     "views": {

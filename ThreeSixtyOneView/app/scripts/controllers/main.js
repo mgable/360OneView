@@ -1,3 +1,5 @@
+/* globals _, window */
+
 'use strict';
 
 // View controllers
@@ -15,29 +17,31 @@ angular.module("ThreeSixtyOneView")
         // convenience methods
         $scope.console = function(msg) {
             console.info(msg);
-        }
+        };
 
         $scope.alert = function(msg, evt) {
-            alert(msg);
+            window.alert(msg);
             if (evt){
                 evt.stopPropagation();
             }
-        }
+        };
 
     }]).controller("ManagerCtrl", ["$scope", "$injector", "$location", "$routeParams", "CONFIG", "Urlmaker", "FavoritesModel", "FavoritesService", "ViewService",  function($scope, $injector, $location, $routeParams, CONFIG, Urlmaker, FavoritesModel, FavoritesService, ViewService) {
         var currentView = CONFIG.view[ViewService.getCurrentView()],
-            currentModel = currentView.model,
+            currentModel = currentView.model, filter = "",
             viewModel,
+            /* jshint ignore:start */
             filter = eval(currentView.filter),
+            /* jshint ignore:end */
             reverse = currentView.reverse,
             orderBy = currentView.orderBy,
-            gotoDashboard = function(item, evt){
+            gotoDashboard = function(item){
                 Urlmaker.makeUrl("dashboard", item.title);
             },
-            gotoScenarioEdit = function(item, evt){
+            gotoScenarioEdit = function(item){
                 Urlmaker.makeUrl("scenarioEdit", $scope.CONFIG.projectName, item);
             },
-            gotoProjects = function(evt){
+            gotoProjects = function(){
                 Urlmaker.makeUrl("projects");
             },
             init = function(){
@@ -52,6 +56,9 @@ angular.module("ThreeSixtyOneView")
                 $scope.CONFIG.displayActionsCreate = currentView.displayActionsCreate;
                 $scope.CONFIG.currentView = {};
                 $scope.CONFIG.currentView.where = currentView.where;
+
+                console.info(currentView);
+                console.info($scope.CONFIG);
 
                 // detemine which view model to get
                 if (currentModel){
@@ -74,28 +81,28 @@ angular.module("ThreeSixtyOneView")
                             // the master project is always a favorite and not in the favorite REST call (yet)
                             var master;
                             _.each($scope.data, function(element){
-                               master = _.find(element, function(elem){return elem.isMaster})
-                            })
+                               master = _.find(element, function(elem){return elem.isMaster;});
+                            });
 
                             // get all favorites
                             FavoritesModel.get().then(function(response){
                                 FavoritesService.setFavorites(_.pluck(response, 'uuid'));
                                 FavoritesService.addFavorite(master.id);
-                            })
+                            });
                         }
                     });
 
                     ViewService.setModel(viewModel);
                 } else {
-                    console.info ("no view model")
+                    console.info ("no view model");
                 }
 
                 //TEMP CODE !!!!!!!!!!!!
-                if (ViewService.getCurrentView() == "Dashboard"){
+                if (ViewService.getCurrentView() === "Dashboard"){
                     $scope.CONFIG.hasAlerts = true;
-                    $scope.alertSrc = "views/includes/alert.tpl.html"
+                    $scope.alertSrc = "views/includes/alert.tpl.html";
                 }
-            }
+            };
 
         init();
 
@@ -106,16 +113,16 @@ angular.module("ThreeSixtyOneView")
                 case "gotoScenarioEdit": gotoScenarioEdit(item); break;
                 case "gotoDashboard": gotoDashboard(item); break;
                 case "gotoProjects": gotoProjects(); break;
-            };
+            }
         };
 
         // Event Listeners
         $scope.$on("CreateCtrl:create", function (event, data){
-            Urlmaker.makeUrl("scenarioCreate", $scope.CONFIG.projectName, data.name)
+            Urlmaker.makeUrl("scenarioCreate", $scope.CONFIG.projectName, data.name);
         });
 
         $scope.$on("ProjectCreateCtrl:create", function (event, data){
-            Urlmaker.makeUrl("dashboard", data)
+            Urlmaker.makeUrl("dashboard", data);
         });
 
     }]).controller('InfoTrayCtrl', ["$scope", function($scope) {
@@ -135,15 +142,15 @@ angular.module("ThreeSixtyOneView")
 
         $scope.backToProject = function(project){
             Urlmaker.makeUrl ("dashboard", project);
-        }
+        };
 
     }]).controller("ScenarioCreateCtrl", ["$scope", "$routeParams", "Urlmaker", function($scope, $routeParams, Urlmaker){
         $scope.scenario = {
             name: $routeParams.scenarioName,
             project: $routeParams.projectName
-        }
+        };
 
         $scope.editScenario = function (project, scenario){
             Urlmaker.makeUrl ("scenarioEdit", project, scenario);
-        }
-    }])
+        };
+    }]);

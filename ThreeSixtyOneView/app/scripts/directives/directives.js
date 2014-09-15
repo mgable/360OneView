@@ -1,4 +1,4 @@
-/*jshint  quotmark: false, unused: false */
+/* jshint  quotmark: false, unused: false */
 /* globals $, _, window */
 'use strict';
 
