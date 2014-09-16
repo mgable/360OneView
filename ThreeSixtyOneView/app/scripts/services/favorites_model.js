@@ -1,8 +1,8 @@
 /* global angular, _ */
 'use strict';
 
-    angular.module('ThreeSixtyOneView.services').service('FavoritesModel', ["$timeout", "$rootScope", "Resource", "CONFIG", "SERVER", function($timeout, $rootScope, Resource, CONFIG, SERVER){
-        var resource = new Resource(SERVER.remote + CONFIG.application.api.favorites),
+    angular.module('ThreeSixtyOneView.services').service('FavoritesModel', ["$timeout", "$rootScope", "$location", "Resource", "CONFIG", "SERVER", function($timeout, $rootScope, $location, Resource, CONFIG, SERVER){
+        var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.favorites),
         // translator = CONFIG.application.models.ProjectsModel.translator, 
         config = {},
         unwrap = function(futureData) {
@@ -13,7 +13,6 @@
                     _.extend(self, data);
                 });
             });
-
         };
 
         this.find = function(id) {
