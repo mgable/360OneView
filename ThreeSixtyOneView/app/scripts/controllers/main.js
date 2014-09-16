@@ -57,9 +57,6 @@ angular.module("ThreeSixtyOneView")
                 $scope.CONFIG.currentView = {};
                 $scope.CONFIG.currentView.where = currentView.where;
 
-                console.info(currentView);
-                console.info($scope.CONFIG);
-
                 // detemine which view model to get
                 if (currentModel){
                     viewModel = $injector.get(currentModel);

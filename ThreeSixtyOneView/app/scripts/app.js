@@ -52,10 +52,10 @@ angular.module('ThreeSixtyOneView', [
             return (/^true$/i).test(this);
         };
     })
-    // .config(function(localStorageServiceProvider){
-    //     //var data = localStorageService.get('managerSettings');
-    //     //console.info(data)
-    // })
+    .run(function($location, SERVER){
+        console.info($location.host());
+        console.info(SERVER[$location.host()]);
+    })
     .run(["FavoritesModel", "ProjectsModel", function(FavoritesModel, ProjectsModel) {
         //FilesModel.$find();
         ProjectsModel.find();
