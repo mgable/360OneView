@@ -203,15 +203,6 @@ module.exports = function(grunt) {
             html: '<%= yeoman.app %>/index.html',
             options: {
                 dest: '<%= yeoman.dist %>',
-                 flow: {
-                     html: {
-                         steps: {
-                             js: ['concat', 'uglifyjs'],
-                             css: ['cssmin']
-                         },
-                         post: {}
-                     }
-                 }
             }
         },
 
@@ -222,7 +213,6 @@ module.exports = function(grunt) {
             options: {
                 assetsDirs: ['<%= yeoman.dist %>']
             }
-
         },
 
         //The following *-min tasks produce minified files in the dist folder
