@@ -203,35 +203,34 @@ module.exports = function(grunt) {
             html: '<%= yeoman.app %>/index.html',
             options: {
                 dest: '<%= yeoman.dist %>',
-                 flow: {
-                     html: {
-                         steps: {
-                             js: ['concat', 'uglifyjs'],
-                             css: ['cssmin']
-                         },
-                         post: {}
-                     }
-                 }
+                // flow: {
+                //     html: {
+                //         steps: {
+                //             js: ['concat', 'uglifyjs'],
+                //             css: ['cssmin']
+                //         },
+                //         post: {}
+                //     }
+                // }
             }
         },
 
         // Performs rewrites based on rev and the useminPrepare configuration
         usemin: {
-            html: ['<%= yeoman.dist %>/{,*/}*.html'],
-            css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
             options: {
                 assetsDirs: ['<%= yeoman.dist %>']
-            }
-
+            },
+            html: ['<%= yeoman.dist %>/{,*/}*.html']
+            , css: ['<%= yeoman.dist %>/styles/{,*/}*.css']
         },
 
         //The following *-min tasks produce minified files in the dist folder
-        cssmin: {
-            options: {
-                root: '<%= yeoman.app %>',
-                noRebase: true
-            }
-        },
+        // cssmin: {
+        //     options: {
+        //         root: '<%= yeoman.app %>',
+        //         noRebase: true
+        //     }
+        // },
 
 
         imagemin: {
