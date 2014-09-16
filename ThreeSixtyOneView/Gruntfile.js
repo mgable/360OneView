@@ -424,6 +424,7 @@ module.exports = function(grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'bowerInstall',
+        'sass',
         'useminPrepare',
         'concurrent:dist',
         'autoprefixer',
