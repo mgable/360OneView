@@ -36,13 +36,13 @@ angular.module("ThreeSixtyOneView")
             reverse = currentView.reverse,
             orderBy = currentView.orderBy,
             gotoDashboard = function(item){
-                Urlmaker.makeUrl("dashboard", item.title);
+                Urlmaker.gotoView("dashboard", item.title);
             },
             gotoScenarioEdit = function(item){
-                Urlmaker.makeUrl("scenarioEdit", $scope.CONFIG.projectName, item);
+                Urlmaker.gotoView("scenarioEdit", $scope.CONFIG.projectName, item);
             },
             gotoProjects = function(){
-                Urlmaker.makeUrl("projects");
+                Urlmaker.gotoView("projects");
             },
             init = function(){
                 // bootstrap view with data
@@ -114,12 +114,12 @@ angular.module("ThreeSixtyOneView")
         };
 
         // Event Listeners
-        $scope.$on("CreateCtrl:create", function (event, data){
-            Urlmaker.makeUrl("scenarioCreate", $scope.CONFIG.projectName, data.name);
+        $scope.$on("scenario:create", function (event){
+            Urlmaker.gotoView("scenarioCreate", $scope.CONFIG.projectName);
         });
 
         $scope.$on("ProjectCreateCtrl:create", function (event, data){
-            Urlmaker.makeUrl("dashboard", data);
+            Urlmaker.gotoView("dashboard", data);
         });
 
     }]).controller('InfoTrayCtrl', ["$scope", function($scope) {
@@ -138,7 +138,7 @@ angular.module("ThreeSixtyOneView")
         $scope.scenarioElementType = $scope.types[0];
 
         $scope.backToProject = function(project){
-            Urlmaker.makeUrl ("dashboard", project);
+            Urlmaker.gotoView ("dashboard", project);
         };
 
     }]).controller("ScenarioCreateCtrl", ["$scope", "$routeParams", "Urlmaker", function($scope, $routeParams, Urlmaker){
@@ -148,6 +148,6 @@ angular.module("ThreeSixtyOneView")
         };
 
         $scope.editScenario = function (project, scenario){
-            Urlmaker.makeUrl ("scenarioEdit", project, scenario);
+            Urlmaker.gotoView ("scenarioEdit", project, scenario);
         };
     }]);

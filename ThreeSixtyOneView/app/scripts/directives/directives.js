@@ -6,7 +6,7 @@ angular.module('ThreeSixtyOneView.directives')
     .directive('msDropdown', ["$document", "$timeout", "$rootScope", "$filter", "CONFIG", "DropdownService", "SortAndFilterService", "ViewService", function($document, $timeout, $rootScope, $filter, CONFIG, DropdownService, SortAndFilterService, ViewService) {
         return {
             restrict: "AE",
-            templateUrl: "views/directives/msDropdown.tpl.html",
+            templateUrl: "views/directives/ms_dropdown.tpl.html",
             replace: true,
             scope: {
                 selectedSortIndex: "@",
@@ -437,7 +437,6 @@ angular.module('ThreeSixtyOneView.directives')
                 scope.view.create = false;
                 scope.view.filter = false;
                 scope.view.search = false;
-                scope.view.tray = false;
 
                 var show = scope.$eval(attrs.show);
 
@@ -454,8 +453,9 @@ angular.module('ThreeSixtyOneView.directives')
                     scope.DiaglogService.trash();
                 };
 
-                scope.create = function(type) {
-                    scope.DiaglogService.create(type);
+                scope.create = function(action) {
+                    console.info("the action is " + action)
+                    eval(action);
                 };
             }
 

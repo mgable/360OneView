@@ -2,7 +2,7 @@
 
 angular.module('ThreeSixtyOneView.services')
 	.service('Urlmaker', ["$location", function($location) {
-		this.makeUrl = function(type){
+		this.gotoView = function(type){
 			var args =  Array.prototype.slice.call(arguments, 1);
 			switch(type){
 				case "dashboard" : makeDashboardUrl.apply(this, args); break;
@@ -27,8 +27,8 @@ angular.module('ThreeSixtyOneView.services')
 			$location.path(url);
 		};
 
-		var makeScenarioCreateUrl = function(project, scenario){
-			var url = "/scenarioCreate/" + project + "/" + scenario;
+		var makeScenarioCreateUrl = function(project){
+			var url = "/scenarioCreate/" + project;
 			$location.path(url);
 		};
 	}]);

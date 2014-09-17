@@ -26,7 +26,7 @@ angular.module('ThreeSixtyOneView.config')
                 "topInclude": "views/includes/dashboard_top.tpl.html",
                 "status": true,
                 "where": "gotoScenarioEdit",
-                "displayActionsCreate": "element",
+                "displayActionsCreate": "scope.$emit('scenario:create')",
                 "filterMenu": {
                     "firstSelected": 0,
                     "title": "Scenarios",
@@ -197,7 +197,7 @@ angular.module('ThreeSixtyOneView.config')
                 "favorites": true,
                 "status": false,
                 "where": 'gotoDashboard',
-                "displayActionsCreate": "project",
+                "displayActionsCreate": "scope.DiaglogService.create('project')",
                 "newProject": {
                     "name": "new name goes here",
                     "description" : "this is a test",

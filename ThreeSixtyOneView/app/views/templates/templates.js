@@ -199,7 +199,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
-  $templateCache.put('views/directives/msDropdown.tpl.html',
+  $templateCache.put('views/directives/ms_dropdown.tpl.html',
     "<div class=\"ms-dropdown\" id=\"{{id}}\"> \r" +
     "\n" +
     "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.getActive() === id}\"><span ng-show=\"filterBy\"><icon type=\"filter\" cname=\"filter-icon\"></icon></span><span ng-click=\"select(selectedItem)\" class=\"status select\">{{selectedItem.label}}</span>&nbsp<span ng-click=\"toggle()\" class=\"toggle\"><icon type=\"caret-square-o-down\"></icon></span></h6> \r" +

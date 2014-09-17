@@ -57,7 +57,7 @@ describe('Controllers: ', function() {
         });
 
         it("should define an api", function(){
-            var spy = spyOn(Urlmaker, "makeUrl"),  $event = {stopPropagation:angular.noop};
+            var spy = spyOn(Urlmaker, "gotoView"),  $event = {stopPropagation:angular.noop};
             expect(scope.goto).toBeDefined();
             scope.goto("gotoScenarioEdit", {foo: "bar"}, $event);
             expect(spy).toHaveBeenCalledWith('scenarioEdit','foo', {foo:'bar'});
@@ -70,12 +70,12 @@ describe('Controllers: ', function() {
         });
 
         it("should attach event listeners", function(){
-            var spy = spyOn(Urlmaker, "makeUrl"),  $event = {stopPropagation:angular.noop};
-            expect(onSpy.calls.argsFor(0)).toContain("CreateCtrl:create");
+            var spy = spyOn(Urlmaker, "gotoView"),  $event = {stopPropagation:angular.noop};
+            expect(onSpy.calls.argsFor(0)).toContain("scenario:create");
             expect(onSpy.calls.argsFor(1)).toContain("ProjectCreateCtrl:create");
             
-            $rootScope.$broadcast("CreateCtrl:create", {"name": "bar"});
-            expect(spy).toHaveBeenCalledWith("scenarioCreate", "foo", "bar");
+            $rootScope.$broadcast("scenario:create");
+            expect(spy).toHaveBeenCalledWith("scenarioCreate", "foo");
 
             $rootScope.$broadcast("ProjectCreateCtrl:create", {"name": "bar"});
             expect(spy).toHaveBeenCalledWith("dashboard", {"name": "bar"});

@@ -16,7 +16,7 @@ describe('Routes tests: ', function() {
 
 
 
-    describe('index route', function() {
+    describe('Routes', function() {
         beforeEach(inject(function(_$httpBackend_) {
             $httpBackend = _$httpBackend_;
             $httpBackend.expectGET(urlProjects).respond({
@@ -75,7 +75,7 @@ describe('Routes tests: ', function() {
              $httpBackend.expectGET('views/scenario_create.tpl.html').respond({
                 "doesnot": "matter"
             });
-            location.path('/scenarioCreate/projectName/scenarioName');
+            location.path('/scenarioCreate/projectName');
             rootScope.$digest();
             expect(route.current.controller).toBe('ScenarioCreateCtrl');
             expect(route.current.viewName).not.toBeDefined();
