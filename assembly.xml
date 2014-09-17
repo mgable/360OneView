@@ -15,6 +15,7 @@
 			<outputDirectory></outputDirectory>
 			<filtered>false</filtered>
 			<lineEnding>keep</lineEnding>
+			<useDefaultExcludes>false</useDefaultExcludes>
 				<includes>
 					<include>**/*</include>
 				</includes>
