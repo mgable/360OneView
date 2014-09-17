@@ -1,4 +1,5 @@
 /* globals _, window */
+/*jshint unused:false*/
 
 'use strict';
 

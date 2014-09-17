@@ -454,8 +454,9 @@ angular.module('ThreeSixtyOneView.directives')
                 };
 
                 scope.create = function(action) {
-                    console.info("the action is " + action)
+                    /* jshint ignore:start */
                     eval(action);
+                    /* jshint ignore:end */
                 };
             }
 
