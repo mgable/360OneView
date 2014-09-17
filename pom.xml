@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.marketshare.tool.build.parent-pom</groupId>
+		<artifactId>ms-parent-pom</artifactId>
+		<version>2.0.0</version>
+	</parent>
+
+	<groupId>com.marketshare.oneview</groupId>
+	<artifactId>360-ov-app</artifactId>
+	<packaging>pom</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>360 oneview app</name>
+	<url>http://marketshare.360oneview.com</url>
+	<description>Marketshare 360 oneview application</description>
+	<scm>
+		<url>https://git.marketshare.com:8443/projects/DES/repos/ms360uiux</url>
+		<developerConnection>scm:git:ssh://git@git.marketshare.com:7999/des/ms360uiux.git</developerConnection>
+		<connection>scm:git:git://git.marketshare.com:7999/des/ms360uiux.git</connection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-assembly-plugin</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>create-distribution</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<descriptors>
+								<descriptor>assembly.xml</descriptor>
+							</descriptors>
+							<finalName>${project.artifactId}</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
