@@ -447,12 +447,7 @@ angular.module('ThreeSixtyOneView.directives')
                 }
 
                 toggleActions(show);
-
-                //API
-                scope.trash = function() {
-                    scope.DiaglogService.trash();
-                };
-
+                
                 scope.create = function(action) {
                     /* jshint ignore:start */
                     eval(action);
@@ -514,11 +509,6 @@ angular.module('ThreeSixtyOneView.directives')
                 }
 
                 setView(scope.item);
-
-                scope.copyFn = function(item){
-                    console.info(scope.copy);
-                    DiaglogService.name(item, scope.copy, scope.service);
-                };
             }
         };
     }]).directive('elastic', ['$timeout', 'ActiveSelection', function($timeout, ActiveSelection) {

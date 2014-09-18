@@ -10,6 +10,7 @@ angular.module('ThreeSixtyOneView').config(function() {
     console.info(SERVER[$location.host()]);
 })
 .run(["FavoritesModel", "ProjectsModel", function(FavoritesModel, ProjectsModel) {
+	// For now, pre-fetch all data
     ProjectsModel.find();
     FavoritesModel.find();
 }]);

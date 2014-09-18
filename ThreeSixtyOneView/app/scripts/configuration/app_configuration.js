@@ -94,7 +94,7 @@ angular.module('ThreeSixtyOneView.config')
                 "orderBy": 'modifiedOn',
                 "filter": 'CONFIG.view.ProjectManager.filterMenu.items[0]',
                 "reverse": true,
-                "favorites": true,
+                "hasFavorites": true,
                 "status": false,
                 "where": 'gotoDashboard',
                 "displayActionsCreate": "scope.DiaglogService.create('project')",
@@ -115,13 +115,15 @@ angular.module('ThreeSixtyOneView.config')
                         "label": "Favorites",
                         "filterType": "filterPipeline",
                         "filter": "isFavorite"
-                    }, {
-                        "label": "Created by me",
-                        "filterType": "activeFilter",
-                        "filter": {
-                            "createdBy": "me"
-                        }
-                    }]
+                    }
+                    // ,{
+                    //     "label": "Created by me",
+                    //     "filterType": "activeFilter",
+                    //     "filter": {
+                    //         "createdBy": "me"
+                    //     }
+                    // }
+                    ]
                 },
                 "contextualMenu": {
                     "actions": [
@@ -179,7 +181,6 @@ angular.module('ThreeSixtyOneView.config')
         },
         "user": {
             "name": "me",
-            "role": "default user",
-            "favorites": []
+            "role": "default user"
         }
     });

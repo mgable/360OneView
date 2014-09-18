@@ -13,6 +13,7 @@ angular.module('ThreeSixtyOneView', [
     'ui.bootstrap',
     // 'pasvaz.bindonce',
     // 'LocalStorageModule',
+    'ui.utils',
     'dialogs.main',
     'ThreeSixtyOneView.directives',
     'ThreeSixtyOneView.services',
