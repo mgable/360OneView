@@ -111,9 +111,10 @@ angular.module("ThreeSixtyOneView")
 
     }]).controller('InfoTrayCtrl', ["$scope", function($scope) {
         $scope.selectedItem = $scope.ActiveSelection.getActiveItem();
-        $scope.seeAll = false;
+        $scope.disabled = true;
 
         $scope.$on('ActiveSelection:activeItemChange', function(event, response) {
+            $scope.disabled = true;
             if (response.data !== "") {
                 $scope.selectedItem = response.data;
             }

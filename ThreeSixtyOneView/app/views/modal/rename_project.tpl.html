@@ -4,8 +4,8 @@
 <div class="modal-body">
 	<form name="nameDialog" novalidate role="form">
 		<div class="form-group input-group-lg" ng-class="{true: 'has-error'}[nameDialog.username.$dirty && nameDialog.username.$invalid]">
-			<label class="control-label" for="course">Enter a new name for Project &quot;{{data.title}}&quot;</label>
-			<input type="text" class="form-control" ng-model="name" required focus tabindex="1"/>
+			<label class="control-label" for="inputField">Enter a new name for Project &quot;{{data.title}}&quot;</label>
+			<input type="text" class="form-control" id="inputField" ng-model="name" required focus tabindex="1"/>
 		</div>
 	</form>
 </div>

@@ -48,12 +48,6 @@ angular.module('ThreeSixtyOneView.directives')
                             SortAndFilterService.setFilter("reset", "", true);
                         }
                     },
-                    // setAsActive = function(id) {
-                    //     DropdownService.setActive(id);
-                    //     setOrderBy($scope.selectedItem);
-                    //     setFilterBy($scope.selectedFilter, getName($scope.selectedFilter));
-
-                    // },
                     isActive = function() {
                         return $scope.id === DropdownService.getActive();
                     },
@@ -199,9 +193,7 @@ angular.module('ThreeSixtyOneView.directives')
                         }
                     );
                 };
-
             }
-
         };
     }]).directive("msLink", [function() {
         return {
@@ -211,7 +203,6 @@ angular.module('ThreeSixtyOneView.directives')
                 element.on('click', {
                     label: attrs.msLink
                 }, ctrl.toggleSelected);
-
             }
         };
     }]).directive('sortingOptions', ["SortAndFilterService", function(SortAndFilterService) {
@@ -241,7 +232,7 @@ angular.module('ThreeSixtyOneView.directives')
                     ctrl.setReverse($scope.reverse, true);
                 };
             },
-            templateUrl: 'views/directives/sorting_options.html'
+            templateUrl: 'views/directives/sorting_options.tpl.html'
         };
     }]).directive('sorter', ["SortAndFilterService", "DropdownService", function(SortAndFilterService, DropdownService) {
         return {
@@ -257,88 +248,6 @@ angular.module('ThreeSixtyOneView.directives')
                 this.setReverse = function(reverse, filter) {
                     SortAndFilterService.setFilter("reverse", reverse, filter);
                 };
-            }
-        };
-    }]).directive('triStateCheckbox', [function() {
-        return {
-            replace: true,
-            restrict: 'E',
-            scope: {
-                checkboxes: '='
-            },
-            template: '<input type="checkbox" ng-model="master" ng-change="masterChange()">',
-            controller: function($scope, $element, $attrs, filterFilter, SortAndFilterService) {
-                $scope.items = [];
-                var self = this;
-
-                this.getSelectedCheckBoxes = function() {
-                    return $scope.items;
-                };
-
-                // reset delete files on filter change
-                $scope.$on("SortAndFilterService:filter", function() {
-                    $scope.masterChange();
-                });
-
-                $scope.masterChange = function() {
-                    $scope.items = [];
-                    if ($scope.master) {
-                        angular.forEach(filterFilter($scope.checkboxes, SortAndFilterService.getActiveFilters()), function(cb, index) {
-                            cb.isSelected = true;
-                            $scope.items.push(cb);
-                        });
-                    } else {
-                        angular.forEach($scope.checkboxes, function(cb, index) {
-                            cb.isSelected = false;
-                        });
-                    }
-                };
-
-                this.reset = function() {
-                    angular.forEach($scope.checkboxes, function(cb, index) {
-                        cb.isSelected = false;
-                    });
-                };
-
-                $scope.$watch('checkboxes', function() {
-                    $scope.items = [];
-                    var allSet = true,
-                        allClear = true;
-                    self.items = [];
-                    angular.forEach($scope.checkboxes, function(cb, index) {
-                        if (cb.isSelected) {
-                            $scope.items.push(cb);
-                            allClear = false;
-                        } else {
-                            allSet = false;
-                        }
-                    });
-
-                    if (allSet) {
-                        $scope.master = true;
-                        $element.prop('indeterminate', false);
-                    } else if (allClear) {
-                        $scope.master = false;
-                        $element.prop('indeterminate', false);
-                    } else {
-                        $scope.master = false;
-                        $element.prop('indeterminate', true);
-                    }
-                }, true);
-            }
-        };
-    }]).directive('deleteServiceForCheckbox', ["FileDeleteService", function(FileDeleteService) {
-        return {
-            restrict: "A",
-            require: "triStateCheckbox",
-            link: function(scope, element, attrs, ctrl) {
-                scope.$watch(ctrl.getSelectedCheckBoxes, function() {
-                    FileDeleteService.setFilesToDelete(ctrl.getSelectedCheckBoxes());
-                });
-                scope.$watch(FileDeleteService.getReset, function() {
-                    ctrl.reset();
-                    FileDeleteService.resetReset();
-                });
             }
         };
     }]).directive('sortableColumns', [function() {
@@ -362,7 +271,7 @@ angular.module('ThreeSixtyOneView.directives')
         };
     }]).directive('search', ["$timeout", "SortAndFilterService", function($timeout, SortAndFilterService) {
         return {
-            template: '<span><i class="fa fa-search" ng-click="toggleSearchField()"></i>&nbsp;<span ng-show="searchVisible" class="search-holder"><input type="text" class="search-input" ng-model="SortAndFilterService.searchText" ng-change="SortAndFilterService.filter()"/>&nbsp<a ng-click="toggleSearchField()" class="close-button"><i class="fa fa-times"></i></a></span></span>',
+            template: '<span><span ng-click="toggleSearchField()"><icon type="search"></icon></span>&nbsp;<span ng-show="searchVisible" class="search-holder"><input type="text" class="search-input" ng-model="SortAndFilterService.searchText" ng-change="SortAndFilterService.filter()"/>&nbsp<a ng-click="toggleSearchField()" class="close-button"><i class="fa fa-times"></i></a></span></span>',
             restrict: "AE",
             replace: true,
             link: function($scope, $element, $attrs) {
@@ -384,8 +293,8 @@ angular.module('ThreeSixtyOneView.directives')
     }]).directive('inlineRename', ["ViewService", function(ViewService) {
         return {
             replace: true,
-            template: '<div class="inlineRename"><span ng-transclude></span><h4 class="title" ng-hide="isActive">{{item.title}}</h4>&nbsp;<a class="edit" ng-click="action()"><icon ng-hide="isActive" type="pencil" class="pencil clearfix"></icon></a>' +
-                '<h4 ng-show="isActive"><input ng-model="item.title" type="text"></input>&nbsp;<a ng-click="submit()"><icon type="check"></icon></a>&nbsp;<a ng-click="cancel()"><icon type="times"></icon></a></h4></div>',
+            template: '<div class="inlineRename"><span ng-transclude></span><h4 class="title" ng-hide="isActive">{{item.title}}</h4>&nbsp;<a class="edit" ng-click="action()"><icon ng-hide="isActive" type="pencil" cname="pencil clearfix"></icon></a>' +
+                '<h4 ng-show="isActive"><input ng-model="item.title" type="text"></input>&nbsp;<a ng-click="submit(item.title)"><icon type="check"></icon></a>&nbsp;<a ng-click="cancel()"><icon type="times"></icon></a></h4></div>',
             restrict: 'E',
             transclude: true,
             scope: {
@@ -405,8 +314,9 @@ angular.module('ThreeSixtyOneView.directives')
                     }
                 };
 
-                $scope.submit = function() {
-                    service.$set($scope.item);
+                $scope.submit = function(name) {
+                    $scope.item.name = name;
+                    service.rename($scope.item);
                     $scope.isActive = false;
                 };
 
@@ -511,20 +421,4 @@ angular.module('ThreeSixtyOneView.directives')
                 setView(scope.item);
             }
         };
-    }]).directive('elastic', ['$timeout', 'ActiveSelection', function($timeout, ActiveSelection) {
-            return {
-                restrict: 'A',
-                link: function(scope, element) {
-                    var resize = function() {
-                        return element[0].style.height + "px" + element[0].scrollHeight + "px";
-                    };
-                    element.on("blur keyup change", resize);
-                    $timeout(resize, 0);
-
-                    scope.$on('ActiveSelection:activeItemChange', function() {
-                        $timeout(resize, 0);
-                    });
-                }
-            };
-        }
-    ]);
+    }]);
