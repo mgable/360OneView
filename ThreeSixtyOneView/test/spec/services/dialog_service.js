@@ -32,7 +32,7 @@ describe('Dialog Services:', function() {
                 service: "service"
             }
             DiaglogService.rename("item", "service");
-            expect(spy).toHaveBeenCalledWith('views/modal/rename_project.html', 'ProjectRenameCtrl', data);
+            expect(spy).toHaveBeenCalledWith('views/modal/rename_project.tpl.html', 'ProjectRenameCtrl', data);
         });
 
     });

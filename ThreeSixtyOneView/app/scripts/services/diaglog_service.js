@@ -3,7 +3,7 @@
 angular.module('ThreeSixtyOneView.services')
     .service('DiaglogService', ["dialogs", function(dialogs) {
         this.rename = function(item, service) {
-            dialogs.create('views/modal/rename_project.html', 'ProjectRenameCtrl', {
+            dialogs.create('views/modal/rename_project.tpl.html', 'ProjectRenameCtrl', {
                 item: item,
                 service: service
             });
