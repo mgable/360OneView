@@ -4,3 +4,4 @@ projects
 ng-directive-testing
 node_modules
 code snippets
+/target
