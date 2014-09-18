@@ -89,112 +89,12 @@ angular.module('ThreeSixtyOneView.config')
                     }
                 }
             },
-            "CentralManager": {
-                "model": "FilesModel",
-                "orderBy": 'lastModified',
-                "filter": 'CONFIG.view.CentralManager.filterMenu.items[0]',
-                "reverse": true,
-                "favorites": false,
-                "filterMenu": {
-                    firstSelected: 0,
-                    title: "Scenario Elements",
-                    icon: "cog",
-                    items: [{
-                        label: "defaults",
-                        filterType: "activeFilter",
-                        filter: {
-                            "defaults": true
-                        }
-                    }, {
-                        label: "Economy",
-                        filterType: "activeFilter",
-                        filter: {
-                            type: "Economy"
-                        }
-                    }, {
-                        label: "Competition",
-                        filterType: "activeFilter",
-                        filter: {
-                            type: "Competition"
-                        }
-                    }, {
-                        label: "Labor Cost",
-                        filterType: "activeFilter",
-                        filter: {
-                            type: "Labor Cost"
-                        }
-                    }, {
-                        label: "Pricing",
-                        filterType: "activeFilter",
-                        filter: {
-                            type: "Pricing"
-                        }
-                    }, {
-                        label: "Cost Assumptions",
-                        filterType: "activeFilter",
-                        filter: {
-                            type: "Cost Assumptions"
-                        }
-                    }]
-                },
-                "contextualMenu": {
-                    actions: [
-                        {'name': 'copy'},
-                        {'name':'sharing'},
-                        {'name':'rename'},
-                        {'name':'archive'},
-                        {'name':'add'},
-                        {'name':'details'}
-                    ],
-                    views: {
-                        "defaults": {
-                            "type": "master",
-                            "value": "100001"
-                        },
-                        "access": {
-                            "type": "view only",
-                            "value": "100001"
-                        },
-                        "otherwise": "101101"
-                    }
-                },
-                "sortMenu": {
-                    "displayColumns": [{
-                        "label": "Last Modified",
-                        "filter": "lastModified"
-                    }, {
-                        "label": "Modified By",
-                        "filter": "modifiedBy",
-                        "filters": [{
-                            "label": "Modified by me",
-                            "filter": "modifiedBy"
-                        }, {
-                            "label": "Modified by:",
-                            "filter": "modifiedBy"
-                        }],
-                        "template": "views/directives/name.tpl.html",
-                        "enabledOn": "Modified by:"
-                    }, {
-                        "label": "Owner",
-                        "filter": "owner",
-                        "filters": [{
-                            "label": "Owned by me",
-                            "filter": "owner"
-                        }, {
-                            "label": "Owned by:",
-                            "filter": "owner"
-                        }],
-                        "template": "views/directives/name.tpl.html",
-                        "enabledOn": "Owned by:"
-                    }]
-                }
-            },
             "ProjectManager": {
                 "model": "ProjectsModel",
                 "orderBy": 'modifiedOn',
                 "filter": 'CONFIG.view.ProjectManager.filterMenu.items[0]',
                 "reverse": true,
-                "favorites": true,
+                "hasFavorites": true,
                 "status": false,
                 "where": 'gotoDashboard',
                 "displayActionsCreate": "scope.DiaglogService.create('project')",
@@ -208,26 +108,22 @@ angular.module('ThreeSixtyOneView.config')
                     "icon": "suitcase",
                     "title": "Projects",
                     "items": [{
-                        label: "All",
-                        filterType: "activeFilter",
-                        filter: {}
+                        "label": "All",
+                        "filterType": "activeFilter",
+                        "filter": {}
                     }, {
-                        label: "Favorites",
-                        filterType: "filterPipeline",
-                        filter: "isFavorite"
-                    }, {
-                        label: "Created by me",
-                        filterType: "activeFilter",
-                        filter: {
-                            createdBy: "me"
-                        }
-                    }, {
-                        label: "I can edit",
-                        filterType: "activeFilter",
-                        filter: {
-                            access: "Everyone can edit"
-                        }
-                    }]
+                        "label": "Favorites",
+                        "filterType": "filterPipeline",
+                        "filter": "isFavorite"
+                    }
+                    // ,{
+                    //     "label": "Created by me",
+                    //     "filterType": "activeFilter",
+                    //     "filter": {
+                    //         "createdBy": "me"
+                    //     }
+                    // }
+                    ]
                 },
                 "contextualMenu": {
                     "actions": [
@@ -244,7 +140,7 @@ angular.module('ThreeSixtyOneView.config')
                             "type": true,
                             "value": "0000001"
                         },
-                        "otherwise": "1101101"
+                        "otherwise": "0101001"
                     }
                 },
                 "sortMenu": {
@@ -285,7 +181,6 @@ angular.module('ThreeSixtyOneView.config')
         },
         "user": {
             "name": "me",
-            "role": "default user",
-            "favorites": []
+            "role": "default user"
         }
     });

@@ -400,7 +400,6 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('msserve', function(target) {
-
         grunt.task.run([
             'connect:dist:keepalive'
         ]);
@@ -425,6 +424,7 @@ module.exports = function(grunt) {
         'clean:dist',
         'bowerInstall',
         'sass',
+        'ngtemplates',
         'useminPrepare',
         'concurrent:dist',
         'autoprefixer',

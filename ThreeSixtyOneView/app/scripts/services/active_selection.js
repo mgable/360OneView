@@ -3,8 +3,7 @@
 angular.module('ThreeSixtyOneView.services')
     .service('ActiveSelection', ["$rootScope", function($rootScope) {
 
-        var activeItem = "",
-            self = this;
+        var activeItem = "";
 
         this.isActiveItem = function(item) {
             return activeItem === item;
@@ -28,9 +27,4 @@ angular.module('ThreeSixtyOneView.services')
         this.clearActiveItem = function() {
             activeItem = "";
         };
-
-        $rootScope.$on('FilesModel:edit', function(event, response) {
-            self.setActiveItem(response.data);
-        });
-
     }]);

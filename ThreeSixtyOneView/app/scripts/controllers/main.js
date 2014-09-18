@@ -1,13 +1,13 @@
 /* globals _, window */
+/*jshint unused:false*/
 
 'use strict';
 
 // View controllers
 angular.module("ThreeSixtyOneView")
-    .controller("MainCtrl", ["$scope", "SortAndFilterService", "FileDeleteService", "ActiveSelection", "InfoTrayService", "DiaglogService", "FavoritesService", "ViewService", function($scope, SortAndFilterService, FileDeleteService, ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService) {
+    .controller("MainCtrl", ["$scope", "SortAndFilterService", "ActiveSelection", "InfoTrayService", "DiaglogService", "FavoritesService", "ViewService", function($scope, SortAndFilterService,  ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService) {
         // make all services available to app
         $scope.SortAndFilterService = SortAndFilterService;
-        $scope.FileDeleteService = FileDeleteService;
         $scope.ActiveSelection = ActiveSelection;
         $scope.InfoTrayService = InfoTrayService;
         $scope.DiaglogService = DiaglogService;
@@ -47,15 +47,8 @@ angular.module("ThreeSixtyOneView")
             init = function(){
                 // bootstrap view with data
                 $scope.data = {};
-                $scope.CONFIG = {};
-                $scope.CONFIG.hasFavorites = currentView.favorites;
-                $scope.CONFIG.topInclude = currentView.topInclude || false;
-                $scope.CONFIG.status = currentView.status || false;
-                $scope.CONFIG.projectName =  $routeParams.projectName;
-                $scope.CONFIG.menuItems = currentView.filterMenu;
-                $scope.CONFIG.displayActionsCreate = currentView.displayActionsCreate;
-                $scope.CONFIG.currentView = {};
-                $scope.CONFIG.currentView.where = currentView.where;
+                $scope.CONFIG = currentView;
+                _.extend($scope.CONFIG, $routeParams);
 
                 // detemine which view model to get
                 if (currentModel){
@@ -92,12 +85,6 @@ angular.module("ThreeSixtyOneView")
                     ViewService.setModel(viewModel);
                 } else {
                     console.info ("no view model");
-                }
-
-                //TEMP CODE !!!!!!!!!!!!
-                if (ViewService.getCurrentView() === "Dashboard"){
-                    $scope.CONFIG.hasAlerts = true;
-                    $scope.alertSrc = "views/includes/alert.tpl.html";
                 }
             };
 

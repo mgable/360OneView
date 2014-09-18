@@ -42,9 +42,4 @@ describe('Service: Active Selection', function () {
     expect(rootScopeSpy).toHaveBeenCalledWith("ActiveSelection:activeItemChange", {data: {id: '123'}});
   });
 
-  it ("should set the event handlers correctly", function(){
-    expect(ActiveSelection.isActiveItem(item)).toBe(false);
-    $rootScope.$broadcast("FilesModel:edit",{data:item});
-    expect(ActiveSelection.isActiveItem(item)).toBe(true);
-  });
 });

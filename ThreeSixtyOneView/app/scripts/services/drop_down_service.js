@@ -10,6 +10,9 @@ angular.module('ThreeSixtyOneView.services')
             },
             setActive: function(which) {
                 active = which;
+            },
+            isActive: function (which){
+                return active === which;
             }
         };
     }]);
