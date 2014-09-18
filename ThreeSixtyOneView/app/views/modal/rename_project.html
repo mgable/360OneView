@@ -1,10 +1,10 @@
 <div class="modal-header">
-	<h4 class="modal-title"><span class="glyphicon glyphicon-star"></span> Rename Entity</h4>
+	<h4 class="modal-title"><span class="glyphicon glyphicon-star"></span> Rename Project</h4>
 </div>
 <div class="modal-body">
 	<form name="nameDialog" novalidate role="form">
 		<div class="form-group input-group-lg" ng-class="{true: 'has-error'}[nameDialog.username.$dirty && nameDialog.username.$invalid]">
-			<label class="control-label" for="course">Enter a new name for entity {{data.title}}</label>
+			<label class="control-label" for="course">Enter a new name for Project &quot;{{data.title}}&quot;</label>
 			<input type="text" class="form-control" ng-model="name" ng-keyup="hitEnter($event)" required focus tabindex="1"/>
 		</div>
 	</form>

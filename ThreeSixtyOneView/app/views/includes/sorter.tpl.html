@@ -21,7 +21,7 @@
 				</td>
 				<td ng-click="ActiveSelection.setActiveItem(item);InfoTrayService.toggleInfoTray()">
 					<div class="text-holder">
-                    	<span class="title" ng-click="goto(CONFIG.currentView.where, item, $event)">
+                    	<span class="title" ng-click="goto(CONFIG.where, item, $event)">
 	                        <span  class="default" ng-class="{master: item.isMaster}"><span class="symbol icon-masterset"></span>&nbsp;{{item.title}}</span>
                     	</span>
 <!--                     	<span class="status" ng-if="CONFIG.status && item.status !==''">{{item.status.label}}</span> -->

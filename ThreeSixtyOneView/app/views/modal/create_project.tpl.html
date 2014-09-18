@@ -1,4 +1,4 @@
-<div id="create-modal" class="create-modal">
+<div id="create-modal" class="create-modal" ui-keypress="{'esc': 'close($event)'}">
 	<form name="createEntity" novalidate role="form" class="form-horizontal">
 		<div class="modal-header">
 			<h4 class="modal-title"><span class="glyphicon glyphicon-star"></span>&nbsp;Create a New Project</h4>
@@ -14,8 +14,8 @@
 
 		</div>
 		<div class="modal-footer">
-			<button type="button" ng-disabled="createEntity.$invalid" class="btn btn-primary" ng-click="create(item.name)">Create New Project</button>
-			<button type="button" class="btn btn-default" ng-click="close()">Cancel</button>
+			<button type="button" ng-disabled="createEntity.$invalid" class="btn btn-primary" ng-click="create(item.name)" ui-keypress="{13: 'create(item.name, $event)'}">Create New Project</button>
+			<button type="button" class="btn btn-default" ng-click="close($event)">Cancel</button>
 		</div>
 	</form>
 </div>

@@ -1,15 +1,14 @@
 describe('Controllers: ', function() {
-    var scope, ctrl, spy, SortAndFilterService, FileDeleteService, ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService, CONFIG, Urlmaker, $rootScope, onSpy;
+    var scope, ctrl, spy, SortAndFilterService, ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService, CONFIG, Urlmaker, $rootScope, onSpy;
 
     beforeEach(module('ThreeSixtyOneView', 'ThreeSixtyOneView.services'));
 
     describe("MainCtrl: ", function(){
-        beforeEach(inject(function($rootScope, $controller, _SortAndFilterService_, _FileDeleteService_, _ActiveSelection_, _InfoTrayService_, _DiaglogService_, _FavoritesService_, _ViewService_) {
+        beforeEach(inject(function($rootScope, $controller, _SortAndFilterService_,  _ActiveSelection_, _InfoTrayService_, _DiaglogService_, _FavoritesService_, _ViewService_) {
             scope = $rootScope.$new();
             ctrl = $controller('MainCtrl', {
                 $scope: scope,
                 SortAndFilterService: _SortAndFilterService_,
-                FileDeleteService: _FileDeleteService_,
                 ActiveSelection: _ActiveSelection_,
                 InfoTrayService: _InfoTrayService_,
                 DiaglogService: _DiaglogService_,
@@ -20,7 +19,6 @@ describe('Controllers: ', function() {
 
         it("should define all services", function(){
             expect(scope.SortAndFilterService).toBeDefined();
-            expect(scope.FileDeleteService).toBeDefined();
             expect(scope.ActiveSelection).toBeDefined();
             expect(scope.InfoTrayService).toBeDefined();
             expect(scope.ViewService).toBeDefined();
@@ -48,11 +46,11 @@ describe('Controllers: ', function() {
         it("should bootstrap all data", function(){
             expect(scope.data).toEqual({});
             expect(scope.CONFIG).toBeDefined();
-            expect(scope.CONFIG.hasFavorites).toEqual(CONFIG.view.ProjectManager.favorites);
-            expect(scope.CONFIG.topInclude).toBe(false);
-            expect(scope.CONFIG.status).toBe(false);
+            expect(scope.CONFIG.hasFavorites).toEqual(CONFIG.view.ProjectManager.hasFavorites);
+            expect(scope.CONFIG.topInclude).toBeFalsy();
+            expect(scope.CONFIG.status).toBeFalsy();
             expect(scope.CONFIG.projectName).toBe("foo");
-            expect(scope.CONFIG.menuItems).toBe(CONFIG.view.ProjectManager.filterMenu);
+            expect(scope.CONFIG.filterMenu).toBe(CONFIG.view.ProjectManager.filterMenu);
             expect(scope.CONFIG.displayActionsCreate).toBe(CONFIG.view.ProjectManager.displayActionsCreate);
         });
 
