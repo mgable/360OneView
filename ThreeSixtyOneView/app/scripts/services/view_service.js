@@ -13,8 +13,8 @@ angular.module('ThreeSixtyOneView.services')
             return model;
         };
 
-        this.setCurrentView = function(view) {
-            currentView = view;
+        this.setCurrentView = function(which) {
+            currentView = which;
         };
 
         this.getCurrentView = function() {

@@ -14,8 +14,6 @@ describe('Routes tests: ', function() {
 
     }));
 
-
-
     describe('Routes', function() {
         beforeEach(inject(function(_$httpBackend_) {
             $httpBackend = _$httpBackend_;

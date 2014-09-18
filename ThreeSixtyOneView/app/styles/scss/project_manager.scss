@@ -1,7 +1,7 @@
 @import "variables";
 
 .app {
-	.CentralManager, .ProjectManager, .Dashboard {
+	.ProjectManager, .Dashboard {
 		.left { 
 			width: $app_left;
 			border: 1px solid $mediumgray;
@@ -23,11 +23,11 @@
 			width: $app_right;
 			background-color: $lightgray;
 			height: 100%;
-	    	float: right;
-	    	overflow-x: hidden;
-	    	overflow-y: auto;
-	    	padding: $cap_height 0 0 0;
-	    	@include drop-shadow(-5px, 1px, 5px, 0px, 0.3);
+			float: right;
+			overflow-x: hidden;
+			overflow-y: auto;
+			padding: $cap_height 0 0 0;
+			@include drop-shadow(-5px, 1px, 5px, 0px, 0.3);
 		}
 		.top {
 			padding: 15px 10px 0 20px;
@@ -79,28 +79,28 @@
 					padding: 0 5px 0 0;
 				}
 			}
-		    .menu > .header {
-		    	padding: 0 10px;
-		     	margin: 0 0 10px;
-		     	a {
-			        color: $black;
-			        text-decoration: none;
-			        cursor: pointer;
-			        display: inline-block;
+			.menu > .header {
+				padding: 0 10px;
+				margin: 0 0 10px;
+				a {
+					color: $black;
+					text-decoration: none;
+					cursor: pointer;
+					display: inline-block;
 					width: 100%;
-			    }
-			    &.selected {
+				}
+				&.selected {
 					background-color: $mouseover;
 					> a {
 						color:$white;
 					}
 				}
-		    }
+			}
 		}
 		.display-actions {
 			padding:0 0 0 20px;
-	    	height:50px;
-	    	.title {
+			height:50px;
+			.title {
 				color:$gray;
 				max-width:400px;
 				font-weight:bold;
@@ -112,12 +112,12 @@
 				height: 50px;
 				width: auto;
 				.trash {
-		    		margin:11px 30px 0 0;
-		    		font-size:14px;
-		    		color:$enabled;
-		    		cursor: pointer;
-		    		display:inline-block;
-		    	}
+					margin:11px 30px 0 0;
+					font-size:14px;
+					color:$enabled;
+					cursor: pointer;
+					display:inline-block;
+				}
 				.actions {
 					border-left: 1px solid  $mediumgray;
 					display:inline-block;
@@ -206,15 +206,19 @@
 
 						padding:0 0 0 5px;
 					}
-					.symbol.icon-masterset {
-						display:none;
+					.title {
+						font-weight: bold;
+						i {
+							visibility: hidden;
+						}
 					}
 					.master {
 						font: {
 							weight:bold;
 							size:16px;
 						}
-						> .symbol {
+						> i {
+							visibility: visible;
 							display:inline-block;
 						}
 					}
@@ -222,33 +226,27 @@
 						max-width:350px;
 						.favorites {
 							padding:8px 0;
-						 	&.disabled {
-						 		cursor: default;
-						 		display:none;
-						 	}
-						    a {
-						      font-family: "font awesome";
-						      display: inline-block;
-						      width: 10px;
-						      height: 10px;
-						      background-color:inherit;
-						      &:hover {
-						        text-decoration: none;
-						        &:after {
-						          content: '\f006';
-						        }
-						      }
-						      &.favorite:after {
-						        content: '\f005';
-						      }
-						    }
+							&.disabled {
+								cursor: default;
+								display:none;
+							}
+							a {
+							  font-family: "font awesome";
+							  display: inline-block;
+							  width: 10px;
+							  height: 10px;
+							  background-color:inherit;
+							  &:hover {
+								text-decoration: none;
+								&:after {
+								  content: '\f006';
+								}
+							  }
+							  &.favorite:after {
+								content: '\f005';
+							  }
+							}
 						}
-					}
-					.title {
-						font-weight: bold;
-					}
-					.view-only {
-						color: $gray;
 					}
 				}
 				tr.active  td{
@@ -266,8 +264,8 @@
 					border-bottom:1px solid $mediumgray;
 					a {
 						color:$mouseover;
-	          			text-decoration: none;
-	          			cursor: pointer;
+						text-decoration: none;
+						cursor: pointer;
 					}
 				}
 			}
@@ -277,181 +275,107 @@
 		}
 	}
 	.info-tray {
-		a {
-	 		cursor: pointer;
-	 		text-decoration: none;
-	 	}
-	  .details {
-	  	margin:0 0 10px;
-	    .sub-header {
-	    	margin:0 0 10px;
-	    	font-weight: bold;
-	    	color: $gray;
-	    }
-	    .title-holder {
-	    	border-bottom: 1px solid $gray;
-	    	.favorites {
-	    		clear: both;
-	    		float:left;
-	    		padding: 0 8px 0 0;
-	    		a {
-	    			font-family: "font awesome";
-	    			&:after {
-			    		content: '\f006';
-			    	}
-	    			&.favorite {
-			    		&:after {
-			    			content: '\f005';
-			    		}
-			    	}
-		    	}
-	    	}
-		    .title {
-		    	overflow: hidden;
-		    	text-overflow: ellipsis;
-		    	white-space: nowrap;
-		    	float: left;
-		    	width: 220px;
-		    	padding: 0 0 3px;
-		    }
-		    .title.clear {
-		    	clear: both;
-		    }
+		margin:10px;
+	  	width: 280px;
+		.details {
+			margin:0 0 10px;
+			.sub-header {
+				margin:0 0 10px;
+				font-weight: bold;
+				color: $gray;
+				float:left;
+			}
+			.title-holder {
+				border-bottom: 1px solid $gray;
+				&:hover {
+					.inlineRename {
+						.edit {
+							visibility: visible;
+						}
+					}
+				}
+				.favorites {
+					clear: both;
+					float:left;
+					padding: 0 8px 0 0;
+					a {
+						cursor:pointer;
+						font-family: "font awesome";
+						&:after {
+							content: '\f006';
+						}
+						&.favorite {
+							&:after {
+								content: '\f005';
+							}
+						}
+						&:hover {
+							text-decoration: none;
+						}
+					}
+				}
+				.title {
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					float: left;
+					width: 220px;
+					padding: 0 0 3px;
+					margin: 0 0 10px 0;
+				}
+				.title.clear {
+					clear: both;
+				}
+			}
+			.pencil {
+				float:right;
+				font-size: 18px;
+				margin: 0 15px 0 0;
+				cursor: pointer;
+			}
+			.inlineRename {
+				input {
+					width: 205px;
+					float:left;
+					margin: 0 0 8px;
+				}
+				a {
+					float:left;
+					padding:0 0 0 3px;
+					cursor: pointer;
+				}
+				.edit {
+					visibility: hidden;
+				}
+			}
+			.close {
+				margin:0 15px 0 0;
+			}
 		}
-	    .pencil {
-	    	float:right;
-	    	font-size: 18px;
-	    	margin: 0 15px 0 0;
-	    }
-	    .inlineRename {
-		    input {
-		    	width: 210px;
-		    	float:left;
-		    	margin: 0 0 8px;
-		    }
-		    a {
-		    	float:left;
-		    	padding:0 0 0 3px;
-		    }
-		    .edit {
-		    	visibility: hidden;
-		    }
-		    &:hover .edit{
-		    	visibility: visible;
-		    }
+		.profile {
+			padding:8px 5px;
+			margin-bottom:10px;
+			background-color: white;
+			&.description-holder {
+				.field-label {
+					font-weight: bold; 
+					float:left;
+				}
+				.edit {
+					float:right;
+					visibility: hidden;
+					cursor: pointer;
+				}
+				.description {
+					clear:both;
+					width:100%;
+					display:block;
+					border: 0 none;
+				}
+				&:hover .edit {
+					visibility: visible;
+				}
+			}
 		}
-	    p {
-	      margin:0 0 5px;
-	      a {
-	      	color:$enabled;
-	      	text-decoration: none;
-	      	&:hover {
-	      		span.enabled {
-	      			color:$mouseover;
-	      		}
-	      		color:$mouseover;
-	      	}
-	      	&.disabled {
-	      		color: $disabled;
-	      	}
-	      }
-	    }
-	    .close {
-	    	margin:0 15px 0 0;
-	    }
-	  }
-	  h4, h5, h6 {
-	    margin-top:0;
-	  }
-	  p {
-	    margin:0;
-	  }
-	  margin:10px;
-	  width: 280px;
-	  .entity-holder {
-	  	clear: both;
-	    max-height: 100px;
-	    padding: 0 10px;
-	    overflow:hidden;
-	    &.see-all {
-	      height: auto;
-	      max-height: none;
-	    }
-	  }
-	  .see-all-toggle {
-	    margin:0 8px;
-	    float:right;
-	    cursor: pointer;
-	  }
-	  .scenario {
-	    margin:0 0 8px;
-	    .in-project {
-	    	margin: 0 0 10px 30px;
-	    	font-style: italic;
-	    	color: $gray;
-	    	line-height: 9px;
-	    }
-	  }
-	  .measures {
-	    	h4 {
-	    		margin: 0 0 8px 10px;
-	    	}
-	    	ul li {
-	    		list-style-type: disc;
-	    		margin: 0 0 5px 25px
-	    	}
-	    }
-	  .profile {
-	    padding:8px 5px;
-	    margin-bottom:10px;
-	    background-color: white;
-	    &.description-holder {
-	    	.field-label {
-	    		font-weight: bold; 
-	    		float:left;
-	    	}
-	    	.edit {
-	    		float:right;
-	    		visibility: hidden;
-	    	}
-	    	.description {
-	    		clear:both;
-	    		width:100%;
-	    		display:block;
-	    		border: 0 none;
-	    	}
-	    	&:hover .edit {
-	    		visibility: visible;
-	    	}
-	    }
-	    .used-in {
-	    	float:left;
-	    	font: {
-	    		size: 16px;
-	    		weight: bold;
-	    	}
-	    	padding: 0 0 0 10px;
-	    	span {
-	    		color: $highlight;
-	    	}
-	    }
-	    .add-scenario-holder{
-	    	position: relative;
-		    .add-scenario {
-		    	margin: 15px auto 5px;
-		    	width: 140px;
-		    	display:block;
-		    }
-		    > ul {
-	    		li {
-	    			padding: 0 12px;
-	    			&:hover {
-	    				background-color:$lightgray;
-	    				cursor: pointer;
-	    			}
-	    		}
-		    }
-		}
-	  }
 	}
 }

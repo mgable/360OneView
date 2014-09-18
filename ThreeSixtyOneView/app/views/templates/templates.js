@@ -206,7 +206,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<ul class=\"ms-select-list dropshadow hide\"> \r" +
     "\n" +
-    "\t\t<li class=\"ms-item selectSort\" ng-repeat=\"item in items\" ng-class=\"{disabled:item.label === selectedItem.label}\" ng-click=\"selectSort(item)\"><span class=\"glyphicon glyphicon-ok ms-ok\"></span>{{item.label}}</li> \r" +
+    "\t\t<li class=\"ms-item selectSort\" ng-repeat=\"item in items\" ng-class=\"{disabled:item.label === selectedItem.label}\" ng-click=\"selectSort(item)\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{item.label}}</li> \r" +
     "\n" +
     "\t\t<ul ng-if=\"selectedItem.filters\"> \r" +
     "\n" +
@@ -214,7 +214,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<li class=\"ms-sublabel\">FILTER</li> \r" +
     "\n" +
-    "\t\t\t<li ng-repeat=\"filter in selectedItem.filters\" class=\"ms-item selectFilter\" ng-click=\"selectFilter(filter)\" ng-class=\"{selected:selectedFilter === filter}\"><span class=\"glyphicon glyphicon-ok ms-ok\"></span>{{filter.label}}</li> \r" +
+    "\t\t\t<li ng-repeat=\"filter in selectedItem.filters\" class=\"ms-item selectFilter\" ng-click=\"selectFilter(filter)\" ng-class=\"{selected:selectedFilter === filter}\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{filter.label}}</li> \r" +
     "\n" +
     "\t\t\t<li ng-if=\"selectedItem.template\"><ng-include src=\"selectedItem.template\"></ng-include></li> \r" +
     "\n" +
@@ -259,7 +259,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
-  $templateCache.put('views/directives/sorting_options.html',
+  $templateCache.put('views/directives/sorting_options.tpl.html',
     "<div class=\"{{label}} heading\" ng-class=\"{'active': SortAndFilterService.isActive(label)}\">\r" +
     "\n" +
     "\t<a ng-click=\"sort($event, label)\" ng-bind=\"display\"></a>&nbsp;\r" +
