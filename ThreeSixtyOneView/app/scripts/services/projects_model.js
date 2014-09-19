@@ -38,7 +38,7 @@
                 _.each(data, function(e,i,a){
                     results.push(translateObj(e));
                 });
-            } else if (_.isObject){
+            } else if (_.isObject(data)){
                 return translateObj(data);
             }
 

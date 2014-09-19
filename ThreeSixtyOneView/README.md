@@ -6,13 +6,13 @@ Please note, the build system is Unix based and does not work well with the DOS 
 
 Steps to recreate the project:
 <ol>
-	<li>Node download - http://nodejs.org/download/ </li>
-	<li>use npm to install Yeoman. See http://yeoman.io/</li>
-	<li>clone the git repo</li>
-	<li>from the project root download the build dependencies by running "npm install" from the command line</li>
-	<li>from the project root download the application dependencies by running "bower install" from the command line</li>
-	<li>from the project root start the local server by running "grunt serve" from the command line</li>
-	<li>after the page opens in the browser, navigate to http://127.0.0.1:9001/#/projects</li>
+	<li>Install Node - http://nodejs.org/download/ </li>
+	<li>Use npm to install Yeoman. <code>npm install -g yo</code> See http://yeoman.io/ for more details</li>
+	<li>Clone the git repo</li>
+	<li>From the project root download the build dependencies by running <code>npm install</code> from the command line</li>
+	<li>From the project root download the application dependencies by running <code>bower install</code>from the command line</li>
+	<li>From the project root start the local server by running <code>grunt serve</code> from the command line</li>
+	<li>After the page opens in the browser, navigate to http://127.0.0.1:9001/#/projects</li>
 </ol>
 
 At this point, everything you need to run the application is located in the /app directory however it will not run by launching the index.html file. It needs to be run from port 9001. 
