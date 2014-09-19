@@ -20,7 +20,7 @@ describe('Dialog Services:', function() {
         });
 
         it("should create a 'create project' dialog box", function() {
-            DiaglogService.create('project')
+            DiaglogService.create('project');
             expect(spy).toHaveBeenCalledWith('views/modal/create_project.tpl.html', 'ProjectCreateCtrl', {}, {
                 size: 'sm'
             });
@@ -30,7 +30,7 @@ describe('Dialog Services:', function() {
             var data = {
                 item: "item",
                 service: "service"
-            }
+            };
             DiaglogService.rename("item", "service");
             expect(spy).toHaveBeenCalledWith('views/modal/rename_project.tpl.html', 'ProjectRenameCtrl', data, {size: 'sm'});
         });

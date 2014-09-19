@@ -1,3 +1,7 @@
+/* jshint unused:false */
+
+'use strict';
+
 describe('Controllers: ', function() {
     var scope, ctrl, spy, SortAndFilterService, ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService, CONFIG, Urlmaker, $rootScope, onSpy;
 
@@ -77,6 +81,6 @@ describe('Controllers: ', function() {
 
             $rootScope.$broadcast("ProjectCreateCtrl:create", {"name": "bar"});
             expect(spy).toHaveBeenCalledWith("dashboard", {"name": "bar"});
-        })
-    })
+        });
+    });
 });

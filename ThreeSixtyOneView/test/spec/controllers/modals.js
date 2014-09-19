@@ -1,3 +1,5 @@
+"use strict";
+
 describe('Controllers: ', function() {
     var scope, ctrl, modalInstance, ProjectsModel;
 
@@ -10,12 +12,12 @@ describe('Controllers: ', function() {
         };
         ProjectsModel = {
             create: jasmine.createSpy('ProjectsModel.create'),
-        }
+        };
         ctrl = $controller('ProjectCreateCtrl', {
             $scope: scope,
             $modalInstance: modalInstance,
             ProjectsModel: ProjectsModel
-        })
+        });
 
     }));
 

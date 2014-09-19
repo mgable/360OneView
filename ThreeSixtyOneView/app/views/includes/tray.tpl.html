@@ -15,7 +15,7 @@
 
 	<div  class="well profile description-holder">
 		<span class='field-label'>Description</span><span class='edit'><a ng-click="disabled = !disabled"><icon type="pencil"></icon></a></span>
-		<textarea ng-disabled="disabled" ng-model="selectedItem.description" class="description"></textarea>
+		<textarea ng-readonly="disabled" ng-model="selectedItem.description" class="description"></textarea>
 	</div>
 
 	<div class="well profile">

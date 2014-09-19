@@ -1,5 +1,5 @@
 /* jshint quotmark: false */
-
+/* jshint unused:false */
 'use strict';
 
 describe('Filters:', function() {
@@ -16,15 +16,15 @@ describe('Filters:', function() {
         var FavoritesService;
         beforeEach(inject(function(_FavoritesService_){
             FavoritesService = _FavoritesService_;
-        }))
+        }));
 
         it('should filter out all non-favorites', function(){
             FavoritesService.addFavorite(2);
             FavoritesService.addFavorite(234);
             expect(filter('isFavorite')([{id:1},{id:2}, {id:123}, {id:234}])).toEqual([{id:2},{id:234}]);
-        })
+        });
 
-    })
+    });
 
     describe('String filters', function() {
         it('should capitalize', function() {

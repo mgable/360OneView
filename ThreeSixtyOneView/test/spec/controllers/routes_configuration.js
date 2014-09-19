@@ -1,5 +1,7 @@
+"use strict";
+
 describe('Routes tests: ', function() {
-    var location, route, rootscope, urlProjects, urlFavorites, SERVER, CONFIG;
+    var location, route, rootScope, urlProjects, urlFavorites, SERVER, CONFIG, $httpBackend;
 
     beforeEach(module('ThreeSixtyOneView'));
 
@@ -28,7 +30,7 @@ describe('Routes tests: ', function() {
         it("should load index page", function() {
             $httpBackend.expectGET('views/display_manager.tpl.html').respond({
                 "doesnot": "matter"
-            })
+            });
             location.path('/');
             rootScope.$digest();
             expect(route.current.controller).toBe('ManagerCtrl');
@@ -39,7 +41,7 @@ describe('Routes tests: ', function() {
         it("should load projects page", function() {
             $httpBackend.expectGET('views/display_manager.tpl.html').respond({
                 "doesnot": "matter"
-            })
+            });
             location.path('/projects');
             rootScope.$digest();
             expect(route.current.controller).toBe('ManagerCtrl');
@@ -50,7 +52,7 @@ describe('Routes tests: ', function() {
         it("should load index page on unknown route", function() {
             $httpBackend.expectGET('views/display_manager.tpl.html').respond({
                 "doesnot": "matter"
-            })
+            });
             location.path('/nowheresville');
             rootScope.$digest();
             expect(route.current.controller).toBe('ManagerCtrl');
@@ -78,6 +80,6 @@ describe('Routes tests: ', function() {
             expect(route.current.controller).toBe('ScenarioCreateCtrl');
             expect(route.current.viewName).not.toBeDefined();
             $httpBackend.verifyNoOutstandingExpectation();
-        })
+        });
     });
 });

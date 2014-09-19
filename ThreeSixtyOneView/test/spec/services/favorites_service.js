@@ -6,10 +6,9 @@ describe('Services:', function() {
     beforeEach(module('ThreeSixtyOneView.filters'));
     beforeEach(module('ThreeSixtyOneView.config'));
 
-    var $rootScope, FavoritesService;
+    var  FavoritesService;
 
-    beforeEach(inject(function($rootScope, _FavoritesService_){
-        $rootScope = $rootScope;
+    beforeEach(inject(function(_FavoritesService_){
         FavoritesService = _FavoritesService_;
     }));
 
@@ -39,8 +38,8 @@ describe('Services:', function() {
         var item = {"id": "111"};
         FavoritesService.addFavorite(item.id);
         FavoritesService.toggleFavorite(item);
-        expect(FavoritesService.isFavorite("111")).toBe(false)
+        expect(FavoritesService.isFavorite("111")).toBe(false);
         FavoritesService.toggleFavorite(item);
-        expect(FavoritesService.isFavorite("111")).toBe(true)
-    })
+        expect(FavoritesService.isFavorite("111")).toBe(true);
+    });
 });
