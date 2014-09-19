@@ -6,7 +6,7 @@ angular.module('ThreeSixtyOneView.services')
             dialogs.create('views/modal/rename_project.tpl.html', 'ProjectRenameCtrl', {
                 item: item,
                 service: service
-            });
+            },{size: 'sm'});
         };
 
         this.create = function(type) {
