@@ -8,13 +8,14 @@ angular.module('ThreeSixtyOneView.config',[]);
 angular.module('ThreeSixtyOneView', [
     'ngResource',
     'ngSanitize',
-    'ngRoute',
+    // 'ngRoute',
     'ngAnimate',
     'ui.bootstrap',
     // 'pasvaz.bindonce',
     // 'LocalStorageModule',
     'ui.utils',
     'dialogs.main',
+    'ui.router',
     'ThreeSixtyOneView.directives',
     'ThreeSixtyOneView.services',
     'ThreeSixtyOneView.config'

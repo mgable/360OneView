@@ -26,7 +26,7 @@ angular.module("ThreeSixtyOneView")
             }
         };
 
-    }]).controller("ManagerCtrl", ["$scope", "$injector", "$location", "$routeParams", "CONFIG", "Urlmaker", "FavoritesModel", "FavoritesService", "ViewService",  function($scope, $injector, $location, $routeParams, CONFIG, Urlmaker, FavoritesModel, FavoritesService, ViewService) {
+    }]).controller("ManagerCtrl", ["$scope", "$injector", "$location", "$stateParams", "CONFIG", "Urlmaker", "FavoritesModel", "FavoritesService", "ViewService",  function($scope, $injector, $location, $stateParams, CONFIG, Urlmaker, FavoritesModel, FavoritesService, ViewService) {
         var currentView = CONFIG.view[ViewService.getCurrentView()],
             currentModel = currentView.model, filter = "",
             viewModel,
@@ -48,7 +48,7 @@ angular.module("ThreeSixtyOneView")
                 // bootstrap view with data
                 $scope.data = {};
                 $scope.CONFIG = currentView;
-                _.extend($scope.CONFIG, $routeParams);
+                _.extend($scope.CONFIG, $stateParams);
 
                 // detemine which view model to get
                 if (currentModel){
@@ -119,9 +119,9 @@ angular.module("ThreeSixtyOneView")
                 $scope.selectedItem = response.data;
             }
         });
-    }]).controller("ScenarioEditCtrl", ["$scope", "$routeParams", "Urlmaker", function($scope, $routeParams, Urlmaker) {
-        $scope.projectName = $routeParams.project;
-        $scope.entity = $routeParams.entity;
+    }]).controller("ScenarioEditCtrl", ["$scope", "$stateParams", "Urlmaker", function($scope, $stateParams, Urlmaker) {
+        $scope.projectName = $stateParams.project;
+        $scope.entity = $stateParams.entity;
         $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
         $scope.scenarioElementType = $scope.types[0];
 
@@ -129,10 +129,10 @@ angular.module("ThreeSixtyOneView")
             Urlmaker.gotoView ("dashboard", project);
         };
 
-    }]).controller("ScenarioCreateCtrl", ["$scope", "$routeParams", "Urlmaker", function($scope, $routeParams, Urlmaker){
+    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "Urlmaker", function($scope, $stateParams, Urlmaker){
         $scope.scenario = {
-            name: $routeParams.scenarioName,
-            project: $routeParams.projectName
+            name: $stateParams.scenarioName,
+            project: $stateParams.projectName
         };
 
         $scope.editScenario = function (project, scenario){

@@ -5,7 +5,7 @@
 describe('Directives:', function() {
 
     // load the directive's module
-    beforeEach(module('ThreeSixtyOneView.directives','ThreeSixtyOneView.services','ngRoute', 'ThreeSixtyOneView.config'));
+    beforeEach(module('ThreeSixtyOneView.directives','ThreeSixtyOneView.services', 'ThreeSixtyOneView.config'));
 
     beforeEach(module('my.templates'));
 

@@ -43,7 +43,7 @@ describe('Controllers: ', function() {
             ctrl = $controller('ManagerCtrl', {
                 $scope: scope,
                 ViewService: _ViewService_,
-                '$routeParams': {projectName:"foo"}
+                '$stateParams': {projectName:"foo"}
             });
         }));
 

@@ -366,7 +366,7 @@ angular.module('ThreeSixtyOneView.directives')
             }
 
         };
-    }]).directive("contextualMenu", ["$rootScope", "$route", "CONFIG", "ActiveSelection", "DiaglogService", "FavoritesService", "ViewService", "InfoTrayService", function($rootScope, $route, CONFIG, ActiveSelection, DiaglogService, FavoritesService, ViewService, InfoTrayService) {
+    }]).directive("contextualMenu", ["$rootScope", "CONFIG", "ActiveSelection", "DiaglogService", "FavoritesService", "ViewService", "InfoTrayService", function($rootScope,  CONFIG, ActiveSelection, DiaglogService, FavoritesService, ViewService, InfoTrayService) {
         return {
             restrict: "AE",
             templateUrl: "views/directives/contextual_menu.tpl.html",
