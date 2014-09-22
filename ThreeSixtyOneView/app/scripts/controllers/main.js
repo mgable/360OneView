@@ -26,8 +26,8 @@ angular.module("ThreeSixtyOneView")
             }
         };
 
-    }]).controller("ManagerCtrl", ["$scope", "$injector", "$location", "$stateParams", "CONFIG", "Urlmaker", "FavoritesModel", "FavoritesService", "ViewService",  function($scope, $injector, $location, $stateParams, CONFIG, Urlmaker, FavoritesModel, FavoritesService, ViewService) {
-        var currentView = CONFIG.view[ViewService.getCurrentView()],
+    }]).controller("ManagerCtrl", ["$scope", "$injector", "$location", "$stateParams", "$state", "CONFIG", "Urlmaker", "FavoritesModel", "FavoritesService", "ViewService",  function($scope, $injector, $location, $stateParams, $state, CONFIG, Urlmaker, FavoritesModel, FavoritesService, ViewService) {
+        var currentView = CONFIG.view[$state.current.name],
             currentModel = currentView.model, filter = "",
             viewModel,
             /* jshint ignore:start */
