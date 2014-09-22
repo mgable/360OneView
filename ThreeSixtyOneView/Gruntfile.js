@@ -65,6 +65,19 @@ module.exports = function(grunt) {
             }
         },
 
+        usebanner: {
+            taskName: {
+                options: {
+                    position: 'bottom',
+                    banner: '<!-- <%= grunt.template.today("mm-dd-yyyy::hh:mm:ss") %> -->',
+                    linebreak: true
+                },
+                files: {
+                    src: [ 'dist/index.html' ]
+                }
+            }
+        },
+
         ngtemplates: {
             ThreeSixtyOneView: {
               // options: {
@@ -437,7 +450,8 @@ module.exports = function(grunt) {
         'uglify',
         'rev',
         'usemin',
-        'htmlmin'
+        'htmlmin',
+        'usebanner'
     ]);
 
     grunt.registerTask('default', [

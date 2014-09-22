@@ -175,12 +175,6 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<div class=\"button-holder\">\r" +
     "\n" +
-    "\r" +
-    "\n" +
-    "<!-- \t\t<span ng-show=\"FileDeleteService.getFileCount()\" ng-click=\"trash()\" class=\"trash\"><icon type=\"trash-o\"></icon>&nbsp;Delete({{FileDeleteService.getFileCount()}})</span> -->\r" +
-    "\n" +
-    "\r" +
-    "\n" +
     "\t\t<div class=\"actions\">\r" +
     "\n" +
     "\t\t\t<span ng-if=\"view.create\" ng-click=\"create(CONFIG.displayActionsCreate)\"><icon type=\"plus\"></icon></span>\r" +
