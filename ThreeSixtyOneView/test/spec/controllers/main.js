@@ -3,7 +3,7 @@
 'use strict';
 
 describe('Controllers: ', function() {
-    var scope, ctrl, spy, SortAndFilterService, ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService, CONFIG, Urlmaker, $rootScope, onSpy;
+    var scope, ctrl, spy, $state, SortAndFilterService, ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService, CONFIG, Urlmaker, $rootScope, onSpy;
 
     beforeEach(module('ThreeSixtyOneView', 'ThreeSixtyOneView.services'));
 
@@ -32,13 +32,14 @@ describe('Controllers: ', function() {
     });
 
     describe("ManagerCtrl", function(){
-        beforeEach(inject(function(_$rootScope_, $controller, _CONFIG_, _ViewService_, _Urlmaker_) {
+        beforeEach(inject(function(_$rootScope_, _$state_, $controller, _CONFIG_, _ViewService_, _Urlmaker_) {
             $rootScope = _$rootScope_;
             scope = $rootScope.$new();
             CONFIG = _CONFIG_;
             ViewService = _ViewService_;
             Urlmaker = _Urlmaker_;
-            spy = spyOn(ViewService, "getCurrentView").and.returnValue("ProjectManager");
+            $state = _$state_;
+            $state.current.name = "ProjectManager";
             onSpy = spyOn(scope, "$on").and.callThrough();
             ctrl = $controller('ManagerCtrl', {
                 $scope: scope,

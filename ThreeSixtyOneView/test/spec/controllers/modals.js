@@ -35,7 +35,7 @@ describe('Controllers: ', function() {
         scope.create("xyz");
         expect(ProjectsModel.create).toHaveBeenCalledWith({
             name: 'xyz',
-            description: "this is a test",
+            description: "",
             isMaster: false
         });
     });
