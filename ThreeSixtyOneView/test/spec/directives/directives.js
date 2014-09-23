@@ -251,7 +251,7 @@ describe('Directives:', function() {
             ViewService = _ViewService_;
             scope.item = {};
             scope.item.title = "the title";
-            element = angular.element('<inline-rename item=item></inline-rename>');
+            element = angular.element('<inline-rename template="inline_rename" item=item></inline-rename>');
             element = $compile(element)(scope);
             ViewService.setModel("ProjectsModel");
             scope.$digest();

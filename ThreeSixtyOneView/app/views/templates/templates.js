@@ -193,6 +193,41 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
+  $templateCache.put('views/directives/inline_description.tpl.html',
+    "<div class=\"inlineDescription\">\r" +
+    "\n" +
+    "\t<span class='field-label'>Description</span>\r" +
+    "\n" +
+    "\t<a ng-hide=\"isActive\" class='edit'ng-click=\"action()\"><icon  type=\"pencil\"></icon></a>\r" +
+    "\n" +
+    "\r" +
+    "\n" +
+    "\t<span ng-show=\"isActive\" class=\"controls\"><a ng-click=\"submit(item)\"><icon type=\"check\"></icon></a>&nbsp;<a ng-click=\"cancel()\"><icon type=\"times\"></icon></a></span>\r" +
+    "\n" +
+    "\r" +
+    "\n" +
+    "\t<textarea ng-disabled=\"!isActive\" ng-model=\"item.description\" class=\"description inputTarget\"></textarea>\r" +
+    "\n" +
+    "</div>"
+  );
+
+
+  $templateCache.put('views/directives/inline_rename.tpl.html',
+    "<div class=\"inlineRename\">\r" +
+    "\n" +
+    "\t<span ng-transclude></span>\r" +
+    "\n" +
+    "\t<h4 class=\"title\" ng-hide=\"isActive\">{{item.title}}</h4>&nbsp;\r" +
+    "\n" +
+    "\t<a class=\"edit\" ng-click=\"action()\"><icon ng-hide=\"isActive\" type=\"pencil\" cname=\"pencil clearfix\"></icon></a>\r" +
+    "\n" +
+    "    <h4 ng-show=\"isActive\"><input class=\"inputTarget\" ng-model=\"item.title\" type=\"text\"></input>&nbsp;<a ng-click=\"submit(item)\"><icon type=\"check\"></icon></a>&nbsp;<a ng-click=\"cancel()\"><icon type=\"times\"></icon></a></h4>\r" +
+    "\n" +
+    "</div>\r" +
+    "\n"
+  );
+
+
   $templateCache.put('views/directives/ms_dropdown.tpl.html',
     "<div class=\"ms-dropdown\" id=\"{{id}}\"> \r" +
     "\n" +

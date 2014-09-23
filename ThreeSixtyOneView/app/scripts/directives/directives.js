@@ -290,40 +290,51 @@ angular.module('ThreeSixtyOneView.directives')
                 };
             }
         };
-    }]).directive('inlineRename', ["ViewService", function(ViewService) {
+    }]).directive('inlineRename', ["$timeout", "$rootScope", "ViewService", function($timeout, $rootScope, ViewService) {
         return {
             replace: true,
-            template: '<div class="inlineRename"><span ng-transclude></span><h4 class="title" ng-hide="isActive">{{item.title}}</h4>&nbsp;<a class="edit" ng-click="action()"><icon ng-hide="isActive" type="pencil" cname="pencil clearfix"></icon></a>' +
-                '<h4 ng-show="isActive"><input ng-model="item.title" type="text"></input>&nbsp;<a ng-click="submit(item.title)"><icon type="check"></icon></a>&nbsp;<a ng-click="cancel()"><icon type="times"></icon></a></h4></div>',
+            templateUrl: function(elem, attrs){
+                return "views/directives/" + attrs.template + ".tpl.html";
+            },
             restrict: 'E',
             transclude: true,
             scope: {
                 item: "=",
             },
             link: function($scope, $element, $attrs) {
-                var tempTitle,
-                    service = ViewService.getModel();
+                var tempItem = angular.copy($scope.item),
+                    service = ViewService.getModel(),
+                    inputTarget = $element.find(".inputTarget");
 
                 $scope.isActive = false;
+
                 $scope.action = function() {
                     if (!$scope.isActive) {
-                        tempTitle = $scope.item.title;
+                        tempItem = angular.copy($scope.item);
                         $scope.isActive = true;
+                        $timeout(function(){inputTarget[0].focus();}, 100);
                     } else {
                         $scope.isActive = false;
                     }
                 };
 
-                $scope.submit = function(name) {
-                    $scope.item.name = name;
+                $scope.submit = function(item) {
+                    $scope.item = item;
                     service.rename($scope.item);
                     $scope.isActive = false;
                 };
 
                 $scope.cancel = function() {
-                    $scope.item.title = tempTitle;
+                    $scope.item.title = tempItem.title;
+                    $scope.item.description = tempItem.description;
                     $scope.isActive = false;
                 };
+
+                $rootScope.$on("ActiveSelection:activeItemChange", function(data){
+                    if ($scope.isActive){
+                        $scope.cancel();
+                    }
+                });
             }
         };
     }]).directive("icon", [function() {

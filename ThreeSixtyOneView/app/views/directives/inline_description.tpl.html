@@ -1,0 +1,8 @@
+<div class="inlineDescription">
+	<span class='field-label'>Description</span>
+	<a ng-hide="isActive" class='edit'ng-click="action()"><icon  type="pencil"></icon></a>
+
+	<span ng-show="isActive" class="controls"><a ng-click="submit(item)"><icon type="check"></icon></a>&nbsp;<a ng-click="cancel()"><icon type="times"></icon></a></span>
+
+	<textarea ng-disabled="!isActive" ng-model="item.description" class="description inputTarget"></textarea>
+</div>

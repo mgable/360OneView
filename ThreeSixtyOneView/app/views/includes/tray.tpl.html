@@ -7,15 +7,16 @@
 			<span ng-switch="selectedItem.isMaster">
 				<h4 ng-switch-when="true" class="title clear"><icon type="marketshare"></icon>&nbsp;{{selectedItem.title}}</h4>
 				<span ng-switch-default>
-					<inline-rename item="selectedItem"><span class="favorites"><a ng-class="{favorite:FavoritesService.isFavorite(selectedItem.id)}" ng-click="FavoritesService.toggleFavorite(selectedItem)"></a></span></inline-rename>
+					<inline-rename template="inline_rename" item="selectedItem"><span class="favorites"><a ng-class="{favorite:FavoritesService.isFavorite(selectedItem.id)}" ng-click="FavoritesService.toggleFavorite(selectedItem)"></a></span></inline-rename>
 				</span>
 			</span>
 		</div>
 	</div>
 
 	<div  class="well profile description-holder">
-		<span class='field-label'>Description</span><span class='edit'><a ng-click="disabled = !disabled"><icon type="pencil"></icon></a></span>
-		<textarea ng-readonly="disabled" ng-model="selectedItem.description" class="description"></textarea>
+		<!-- <span class='field-label'>Description</span><span class='edit'><a ng-click="disabled = !disabled"><icon type="pencil"></icon></a></span>
+		<textarea ng-disabled="disabled" ng-model="selectedItem.description" class="description" ng-blur="update(selectedItem)"></textarea> -->
+		<inline-rename template="inline_description" item="selectedItem"></inline-rename>
 	</div>
 
 	<div class="well profile">

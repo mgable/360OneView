@@ -109,9 +109,18 @@ angular.module("ThreeSixtyOneView")
             Urlmaker.gotoView("dashboard", data);
         });
 
-    }]).controller('InfoTrayCtrl', ["$scope", function($scope) {
+    }]).controller('InfoTrayCtrl', ["$scope", "ViewService", function($scope, ViewService) {
         $scope.selectedItem = $scope.ActiveSelection.getActiveItem();
         $scope.disabled = true;
+
+        $scope.update = function(item) {
+            var service = ViewService.getModel();
+            // TODO: refactor this out
+            if (item.name !== item.title) {
+                item.name = item.title;
+                service.rename(item);
+            }
+        };
 
         $scope.$on('ActiveSelection:activeItemChange', function(event, response) {
             $scope.disabled = true;

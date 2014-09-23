@@ -3,7 +3,7 @@
 
 'use strict';
 
-angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout", "$rootScope", "$location", "Resource", "CONFIG", "SERVER", "dialogs", function($timeout, $rootScope, $location, Resource, CONFIG, SERVER, dialogs){
+angular.module('ThreeSixtyOneView.services').service('ScenarioModel', ["$timeout", "$rootScope", "$location", "Resource", "CONFIG", "SERVER", "dialogs", function($timeout, $rootScope, $location, Resource, CONFIG, SERVER, dialogs){
     var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.projects),
     responseTranslator = CONFIG.application.models.ProjectsModel.responseTranslator,
     requestTranslator = CONFIG.application.models.ProjectsModel.requestTranslator,

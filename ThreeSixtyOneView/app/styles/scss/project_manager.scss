@@ -362,6 +362,12 @@
 					font-weight: bold; 
 					float:left;
 				}
+				.controls {
+					float: right;
+					a {
+						cursor: pointer;
+					}
+				}
 				.edit {
 					float:right;
 					visibility: hidden;
