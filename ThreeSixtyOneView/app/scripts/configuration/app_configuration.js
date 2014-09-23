@@ -99,8 +99,8 @@ angular.module('ThreeSixtyOneView.config')
                 "where": 'gotoDashboard',
                 "displayActionsCreate": "scope.DiaglogService.create('project')",
                 "newProject": {
-                    "name": "new name goes here",
-                    "description" : "this is a test",
+                    "name": "",
+                    "description" : "",
                     "isMaster": false
                 },
                 "filterMenu": {
