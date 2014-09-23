@@ -10,7 +10,8 @@ angular.module('ThreeSixtyOneView.config')
             },
             "models": {
                 "ProjectsModel": {
-                    "translator": {"isMaster": "isMaster", "id" : "uuid", "title": "name", "description": "description", "createdBy":{selector:"['auditInfo']['createdBy']['name']"}, "createdOn":{selector:"['auditInfo']['createdOn']"}, "modifiedBy":{selector:"['auditInfo']['lastUpdatedBy']['name']"}, "modifiedOn":{selector:"['auditInfo']['lastUpdatedOn']"}}
+                    "responseTranslator": {"isMaster": "isMaster", "id" : "uuid", "title": "name", "description": "description", "createdBy":{"selector":"['auditInfo']['createdBy']['name']"}, "createdOn":{"selector":"['auditInfo']['createdOn']"}, "modifiedBy":{"selector":"['auditInfo']['lastUpdatedBy']['name']"}, "modifiedOn":{"selector":"['auditInfo']['lastUpdatedOn']"}},
+                    "requestTranslator": {"uuid" : "id", "name": "title", "description": "description"}
                 }
             }
         },
