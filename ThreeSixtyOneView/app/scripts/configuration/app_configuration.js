@@ -11,7 +11,7 @@ angular.module('ThreeSixtyOneView.config')
             "models": {
                 "ProjectsModel": {
                     "responseTranslator": {"isMaster": "isMaster", "id" : "uuid", "title": "name", "description": "description", "createdBy":{"selector":"['auditInfo']['createdBy']['name']"}, "createdOn":{"selector":"['auditInfo']['createdOn']"}, "modifiedBy":{"selector":"['auditInfo']['lastUpdatedBy']['name']"}, "modifiedOn":{"selector":"['auditInfo']['lastUpdatedOn']"}},
-                    "requestTranslator": {"uuid" : "id", "name": "title", "description": "description"}
+                    "requestTranslator": {"uuid" : "id", "name": "title", "description": "description", "isMaster": "isMaster"}
                 }
             }
         },
@@ -100,7 +100,7 @@ angular.module('ThreeSixtyOneView.config')
                 "where": 'gotoDashboard',
                 "displayActionsCreate": "scope.DiaglogService.create('project')",
                 "newProject": {
-                    "name": "",
+                    "title": "",
                     "description" : "",
                     "isMaster": false
                 },
@@ -148,35 +148,43 @@ angular.module('ThreeSixtyOneView.config')
                     "displayColumns": [{
                         "label": "Last Modified",
                         "filter": "modifiedOn"
-                    }, {
-                        "label": "Modified By",
-                        "filter": "modifiedBy",
-                        "filters": [{
-                            "label": "Modified by me",
-                            "filter": "modifiedBy",
-                            "who": "me"
-                        }, {
-                            "label": "Modified by:",
-                            "filter": "modifiedBy",
-                            "who": "name"
-                        }],
-                        "template": "views/directives/name.tpl.html",
-                        "enabledOn": "Modified by:"
-                    }, {
-                        "label": "Creator",
-                        "filter": "createdBy",
-                        "filters": [{
-                            "label": "Created by me",
-                            "filter": "createdBy",
-                            "who": "me"
-                        }, {
-                            "label": "Created by:",
-                            "filter": "createdBy",
-                            "who": "name"
-                        }],
-                        "template": "views/directives/name.tpl.html",
-                        "enabledOn": "Created by:"
-                    }]
+                    },
+                    {
+                        "label": "Created Date",
+                        "filter": "createdOn"
+                    }
+                    // {
+                    //     "label": "Modified By",
+                    //     "filter": "modifiedBy",
+                    //     "filters": [{
+                    //         "label": "Modified by me",
+                    //         "filter": "modifiedBy",
+                    //         "who": "me"
+                    //     }, 
+                    //     {
+                    //         "label": "Modified by:",
+                    //         "filter": "modifiedBy",
+                    //         "who": "name"
+                    //     }],
+                    //     "template": "views/directives/name.tpl.html",
+                    //     "enabledOn": "Modified by:"
+                    // }, 
+                    // {
+                    //     "label": "Creator",
+                    //     "filter": "createdBy",
+                    //     "filters": [{
+                    //         "label": "Created by me",
+                    //         "filter": "createdBy",
+                    //         "who": "me"
+                    //     }, {
+                    //         "label": "Created by:",
+                    //         "filter": "createdBy",
+                    //         "who": "name"
+                    //     }],
+                    //     "template": "views/directives/name.tpl.html",
+                    //     "enabledOn": "Created by:"
+                    // }
+                    ]
                 }
             }
         },

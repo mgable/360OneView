@@ -26,7 +26,7 @@ angular.module("ThreeSixtyOneView")
             }
         };
 
-    }]).controller("ManagerCtrl", ["$scope", "$injector", "$location", "$stateParams", "$state", "CONFIG", "Urlmaker", "FavoritesModel", "FavoritesService", "ViewService",  function($scope, $injector, $location, $stateParams, $state, CONFIG, Urlmaker, FavoritesModel, FavoritesService, ViewService) {
+    }]).controller("ManagerCtrl", ["$scope", "$injector", "$location", "$stateParams", "$state", "CONFIG", "Urlmaker", "FavoritesModel", "FavoritesService", "ViewService", "InfoTrayService", function($scope, $injector, $location, $stateParams, $state, CONFIG, Urlmaker, FavoritesModel, FavoritesService, ViewService, InfoTrayService) {
         var currentView = CONFIG.view[$state.current.name],
             currentModel = currentView.model, filter = "",
             viewModel,
@@ -98,6 +98,7 @@ angular.module("ThreeSixtyOneView")
                 case "gotoDashboard": gotoDashboard(item); break;
                 case "gotoProjects": gotoProjects(); break;
             }
+            InfoTrayService.closeInfoTray();
         };
 
         // Event Listeners
@@ -106,7 +107,7 @@ angular.module("ThreeSixtyOneView")
         });
 
         $scope.$on("ProjectCreateCtrl:create", function (event, data){
-            Urlmaker.gotoView("dashboard", data);
+            Urlmaker.gotoView("dashboard", data.title);
         });
 
     }]).controller('InfoTrayCtrl', ["$scope", "ViewService", function($scope, ViewService) {

@@ -2,17 +2,20 @@
 'use strict';
 
 describe('Service: FavoritesModel', function() {
-	var FavoritesModel, rootScope, $httpBackend, url, projectUrl, data, resource;
+	var FavoritesModel, rootScope, $httpBackend, url, projectUrl, data, resource, SERVER, CONFIG;
 
 	// load the service's module
 	beforeEach(module('ThreeSixtyOneView.services'));
 	beforeEach(module('ThreeSixtyOneView'));
 
-	beforeEach(inject(function(_$httpBackend_, $rootScope, _FavoritesModel_, SERVER, CONFIG, _Resource_) {
+	beforeEach(inject(function(_$httpBackend_, $location, $rootScope, _FavoritesModel_, _SERVER_, _CONFIG_, _Resource_) {
+		CONFIG = _CONFIG_;
+		SERVER = _SERVER_;
 		url = SERVER.remote + CONFIG.application.api.favorites;
 		projectUrl = SERVER.remote + CONFIG.application.api.projects;
 		FavoritesModel = _FavoritesModel_;
 		$httpBackend = _$httpBackend_;
+		spyOn($location, "host").and.returnValue("SERVER.remote");
 		resource = new _Resource_(url);
 		rootScope = $rootScope;
 		data = [ {

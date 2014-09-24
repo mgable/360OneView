@@ -1,6 +1,6 @@
 "use strict";
 
-describe('Controllers: ', function() {
+describe('Controllers: Modals: ', function() {
     var scope, ctrl, modalInstance, ProjectsModel;
 
     beforeEach(module('ThreeSixtyOneView'));
@@ -34,7 +34,7 @@ describe('Controllers: ', function() {
     it("should call the Projects Model with the name of the new project", function() {
         scope.create("xyz");
         expect(ProjectsModel.create).toHaveBeenCalledWith({
-            name: 'xyz',
+            title: 'xyz',
             description: "",
             isMaster: false
         });

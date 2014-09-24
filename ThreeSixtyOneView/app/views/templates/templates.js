@@ -282,6 +282,8 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<span ng-switch-when=\"Creator\">{{item.createdBy}}</span> \r" +
     "\n" +
+    "\t<span ng-switch-when=\"Created Date\">{{item.createdOn | date: 'longDate' }}</span> \r" +
+    "\n" +
     "\t<span ng-switch-default>FAIL</span> \r" +
     "\n" +
     "</div>"

@@ -24,13 +24,14 @@ angular.module('ThreeSixtyOneView')
             $modalInstance.dismiss('canceled');
         };
 
-        $scope.create = function(name, evt) {
+        $scope.create = function(title, evt) {
             if (evt) { evt.preventDefault(); }
             var newProject = CONFIG.view.ProjectManager.newProject;
-            newProject.name = name;
+            newProject.title = title;
+            // create the new project
             ProjectsModel.create(newProject);
             // redirect to dashboard view
-            $rootScope.$broadcast("ProjectCreateCtrl:create", newProject.name);
+            $rootScope.$broadcast("ProjectCreateCtrl:create", newProject);
             $modalInstance.dismiss('create');
         };
     }]);

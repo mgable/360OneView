@@ -1,4 +1,4 @@
-/* global $ */
+/* global $, xit */
 /* jshint unused:false */
 'use strict';
 
@@ -105,16 +105,18 @@ describe('Directives:', function() {
             expect(sortAndFilterSpy.calls.count()).toEqual(3);
             expect(sortAndFilterSpy.calls.argsFor(0)).toEqual(["reverse", false, false]);
             expect(sortAndFilterSpy.calls.argsFor(1)).toEqual(["reset", "", false]);
-            expect(sortAndFilterSpy.calls.argsFor(2)).toEqual(["orderBy", "modifiedBy", true]);
-            expect(sortAndFilterSpySetSorter).toHaveBeenCalledWith("column_2", "Modified By");
+            expect(sortAndFilterSpy.calls.argsFor(2)).toEqual(["orderBy", "createdOn", true]);
+            expect(sortAndFilterSpySetSorter).toHaveBeenCalledWith("column_2", "Created Date");
         });
 
-        it("should correctly detemine whether to load an additional template", function(){
+        xit("should correctly detemine whether to load an additional template", function(){
+            // additional templates removed for John Wayne
             expect(element.isolateScope().enabledOn({label: "foo"})).toBe(true);
             expect(element.isolateScope().enabledOn({label: "Modified by:"})).toBe(false);
         });
 
-        it("should properly load any additional templates", inject(function($compile){
+        xit("should properly load any additional templates", inject(function($compile){
+            // additional templates removed for John Wayne
             var submitButton = element.find("button.submit-button");
             expect(submitButton.length).toBe(1);
 
@@ -126,13 +128,14 @@ describe('Directives:', function() {
             expect(submitButton.length).toBe(0);
         }));
 
-        it("should properly enabled and disabled the submit button", function(){
+        xit("should properly enabled and disabled the submit button", function(){
+            // additional templates removed for John Wayne
             var submitButton = element.find("button.submit-button"),
             submitSpy = spyOn(element.isolateScope(), "submit");
             expect(submitButton[0].disabled).toBe(true);
 
             element.isolateScope().name = "foobar";
-            element.isolateScope().selectedFilter = {label: "Modified by:"};
+            element.isolateScope().selectedFilter = {label: "Last Modified:"};
             scope.$digest();
 
             expect(submitButton[0].disabled).toBe(false);
@@ -140,11 +143,12 @@ describe('Directives:', function() {
             expect(submitSpy).toHaveBeenCalledWith("foobar");
         });
 
-        it("should properly submit", function(){
+        xit("should properly submit", function(){
+            // additional templates removed for John Wayne
             var submitButton = element.find("button.submit-button"),
             submitSpy = spyOn(element.isolateScope(), "submit").and.callThrough(),
             alertSpy = spyOn(window, "alert");
-            element.isolateScope().selectedFilter = {label: "Modified by:"};
+            element.isolateScope().selectedFilter = {label: "Last Modified:"};
 
             submitButton.click();
             expect(alertSpy).toHaveBeenCalledWith("Please enter a name to filter");

@@ -79,6 +79,10 @@ angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout
     },
     self = this;
 
+    // surface data for unit tests
+    this.resource = resource;
+    this.config = config;
+
     this.find = function(uid) {
         unwrap.call(this, resource.get(uid, config));
     };

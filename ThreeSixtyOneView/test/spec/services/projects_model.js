@@ -2,32 +2,24 @@
 'use strict';
 
 describe('Service: ProjectModel', function() {
-	var ProjectsModel, resource, resourceSpy, rootScope, $httpBackend, url, favoritesUrl, data;
+	var ProjectsModel, resource,  rootScope, projectsUrl, favoritesUrl, data, newProject, deferred, CONFIG, SERVER;
 
 	// load the service's module
 	beforeEach(module('ThreeSixtyOneView.services'));
-	beforeEach(module('ThreeSixtyOneView'));
+	beforeEach(module('ThreeSixtyOneView.config'));
 
-	beforeEach(inject(function(_$httpBackend_, $rootScope, _ProjectsModel_, _Resource_, SERVER, CONFIG) {
-		url = SERVER.remote + CONFIG.application.api.projects;
+	beforeEach(inject(function($q, $rootScope, $location,  _ProjectsModel_, _Resource_, _SERVER_, _CONFIG_) {
+		CONFIG = _CONFIG_;
+		SERVER = _SERVER_;
+		projectsUrl = SERVER.remote + CONFIG.application.api.projects;
 		favoritesUrl = SERVER.remote + CONFIG.application.api.favorites;
 		ProjectsModel = _ProjectsModel_;
-		$httpBackend = _$httpBackend_;
-		resource = new _Resource_(url);
-		resourceSpy = spyOn(resource, "get").and.returnValue({foo:"bar"});
 		rootScope = $rootScope;
-
-		data = [ {
-			"uuid" : "70091b27e3b95079172f4f29757eb0a7"
-		}, {
-			"uuid" : "c9ca31205c4216bb69b57c0fb4edb644"
-		}, {
-			"uuid" : "d62bf05b50946c86364e78aa46595313"
-		} ];
-
-		$httpBackend.whenGET(favoritesUrl).respond({
-			"doesnot": "matter"
-		});
+		data = {title: "title", isMaster: false, id: 1234, description: "this is a test"};
+		resource = new _Resource_(projectsUrl);
+		newProject = CONFIG.view.ProjectManager.newProject;
+		deferred = $q.defer();
+		deferred.resolve(data);
 	}));
 
 	it("should exist and define an API", function(){
@@ -38,19 +30,29 @@ describe('Service: ProjectModel', function() {
 	});
 
 	it("should find all data", function(){
-		$httpBackend.expectGET(url).respond(data);
-		$httpBackend.verifyNoOutstandingExpectation();
+		var resourceSpy = spyOn(ProjectsModel.resource, "get").and.returnValue(deferred.promise);
+		ProjectsModel.find();
+		expect(resourceSpy).toHaveBeenCalledWith(undefined, ProjectsModel.config);
 	});
 
 	it("should get all data", function(){
-		var result;
-		$httpBackend.expectGET(url).respond({data:data});
+		spyOn(ProjectsModel.resource, "get").and.returnValue(deferred.promise);
+		ProjectsModel.find();
+		ProjectsModel.get().then(function(response){
+			expect(response).toEqual(data);
+		});
+	});
 
-		rootScope.$apply(ProjectsModel.get().then(function(response){
-			result = response;
-		}));
+	it("should create a project", function (){
+		var resourceSpy = spyOn(ProjectsModel.resource, "create").and.callThrough();
+		ProjectsModel.create(newProject);
+		expect(resourceSpy).toHaveBeenCalledWith(newProject, ProjectsModel.config);
+	});
 
-		$httpBackend.flush();
-		$httpBackend.verifyNoOutstandingExpectation();
+	it ("should rename a project", function(){
+		var resourceSpy = spyOn(ProjectsModel.resource, "put").and.returnValue(deferred.promise),
+		data = {title: "new title", description: "new description", id: 12345, foo: "bar", bar: "foo"};
+		ProjectsModel.rename(data);
+		expect(resourceSpy).toHaveBeenCalledWith({title: "new title", description: "new description", id: 12345}, ProjectsModel.config);
 	});
 });

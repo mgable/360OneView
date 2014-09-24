@@ -1,5 +1,7 @@
 angular.module('ThreeSixtyOneView.config')
 	.constant('SERVER', {
+		'server': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8080',
+		'remote': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8080',
 		//Local
 		'127.0.0.1': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8080',
 		//QA

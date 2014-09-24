@@ -32,11 +32,12 @@ describe('Controllers: ', function() {
     });
 
     describe("ManagerCtrl", function(){
-        beforeEach(inject(function(_$rootScope_, _$state_, $controller, _CONFIG_, _ViewService_, _Urlmaker_) {
+        beforeEach(inject(function(_$rootScope_, _$state_, $controller, _InfoTrayService_, _CONFIG_, _ViewService_, _Urlmaker_) {
             $rootScope = _$rootScope_;
             scope = $rootScope.$new();
             CONFIG = _CONFIG_;
             ViewService = _ViewService_;
+            InfoTrayService = _InfoTrayService_;
             Urlmaker = _Urlmaker_;
             $state = _$state_;
             $state.current.name = "ProjectManager";
@@ -79,9 +80,9 @@ describe('Controllers: ', function() {
             
             $rootScope.$broadcast("scenario:create");
             expect(spy).toHaveBeenCalledWith("scenarioCreate", "foo");
-
-            $rootScope.$broadcast("ProjectCreateCtrl:create", {"name": "bar"});
-            expect(spy).toHaveBeenCalledWith("dashboard", {"name": "bar"});
+            spy.calls.reset();
+            $rootScope.$broadcast("ProjectCreateCtrl:create", {"title": "bar"});
+            expect(spy).toHaveBeenCalledWith("dashboard",  "bar");
         });
     });
 });

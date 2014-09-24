@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Services:', function() {
+describe('Services: Favorites Service: ', function() {
 
     beforeEach(module('ThreeSixtyOneView.services'));
     beforeEach(module('ThreeSixtyOneView.filters'));

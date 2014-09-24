@@ -2,8 +2,8 @@
 
 angular.module('ThreeSixtyOneView.services')
 	.service('Urlmaker', ["$location", function($location) {
-		var makeDashboardUrl = function(name){
-			var url = "/dashboard/" + name;
+		var makeDashboardUrl = function(title){
+			var url = "/dashboard/" + title;
 			$location.path(url);
 		},
 		makeProjectUrl = function(){
