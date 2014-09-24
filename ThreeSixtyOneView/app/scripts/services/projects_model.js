@@ -68,11 +68,16 @@ angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout
     // used for the rename functions
     put = function(data){
         resource.put(data, config).then(function(response){
-            var item = _.indexOf(self.data, _.findWhere(self.data, {id: response.data.id}));
-            self.data.splice(item, 1, response.data);
+            var index = _.indexOf(self.data, _.findWhere(self.data, {id: response.data.id}));
+            self.data.splice(index, 1, response.data);
             $timeout(function(){
                  $rootScope.$broadcast("ProjectsModel:dataChange", {
                     data: self.data
+                });
+
+                // update active selection for data bind in tray
+                $rootScope.$broadcast("ProjectsModel:rename", {
+                    data: response.data
                 });
             });
         });

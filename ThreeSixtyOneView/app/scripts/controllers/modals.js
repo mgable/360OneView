@@ -10,7 +10,6 @@ angular.module('ThreeSixtyOneView')
             if (evt) { evt.preventDefault(); }
             $scope.data.title = title;
             service.rename($scope.data);
-
             $modalInstance.dismiss('create');
         };
 
