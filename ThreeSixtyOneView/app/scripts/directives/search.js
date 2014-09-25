@@ -5,7 +5,7 @@
 angular.module('ThreeSixtyOneView.directives')
     .directive('search', ["$timeout", "SortAndFilterService", function($timeout, SortAndFilterService) {
         return {
-            template: '<span><span ng-click="toggleSearchField()"><icon type="search"></icon></span>&nbsp;<span ng-show="searchVisible" class="search-holder"><input type="text" class="search-input" ng-model="SortAndFilterService.searchText" ng-change="SortAndFilterService.filter()"/>&nbsp<a ng-click="toggleSearchField()" class="close-button"><i class="fa fa-times"></i></a></span></span>',
+            template: '<span><span class="toggle" ng-click="toggleSearchField()"><icon type="search"></icon></span>&nbsp;<span ng-show="searchVisible" class="search-holder"><input type="text" class="search-input" ng-model="SortAndFilterService.searchText" ng-change="SortAndFilterService.filter()"/>&nbsp<a ng-click="toggleSearchField()" class="close-button"><i class="fa fa-times"></i></a></span></span>',
             restrict: "AE",
             replace: true,
             link: function($scope, $element, $attrs) {
