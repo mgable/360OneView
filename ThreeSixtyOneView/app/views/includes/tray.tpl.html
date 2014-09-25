@@ -7,7 +7,7 @@
 			<span ng-switch="selectedItem.isMaster">
 				<h4 ng-switch-when="true" class="title clear"><icon type="marketshare"></icon>&nbsp;{{selectedItem.title}}</h4>
 				<span ng-switch-default>
-					<inline-rename template="inline_rename" item="selectedItem"><span class="favorites"><a ng-class="{favorite:FavoritesService.isFavorite(selectedItem.id)}" ng-click="FavoritesService.toggleFavorite(selectedItem)"></a></span></inline-rename>
+					<inline-edit template="inline_rename" item="selectedItem"><span class="favorites"><a ng-class="{favorite:FavoritesService.isFavorite(selectedItem.id)}" ng-click="FavoritesService.toggleFavorite(selectedItem)"></a></span></inline-edit>
 				</span>
 			</span>
 		</div>
@@ -20,7 +20,7 @@
 				<textarea ng-disabled="true" ng-model="selectedItem.description" class="description"></textarea>
 			</span>
 			<span ng-switch-default>
-				<inline-rename template="inline_description" item="selectedItem"></inline-rename>
+				<inline-edit template="inline_description" item="selectedItem"></inline-edit>
 			</span>
 		</span>
 	</div>

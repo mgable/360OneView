@@ -11,7 +11,7 @@ describe('Directives:', function() {
 
     var element, scope, button;
 
-    describe("Inline Rename", function(){
+    describe("Inline Edit", function(){
         var element,
         ViewService,
         scope;
@@ -21,7 +21,7 @@ describe('Directives:', function() {
             ViewService = _ViewService_;
             scope.item = {};
             scope.item.title = "the title";
-            element = angular.element('<inline-rename template="inline_rename" item=item></inline-rename>');
+            element = angular.element('<inline-edit template="inline_rename" item=item></inline-edit>');
             element = $compile(element)(scope);
             ViewService.setModel("ProjectsModel");
             scope.$digest();

@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.directives')
-    .directive('inlineRename', ["$timeout", "$rootScope", "ViewService", function($timeout, $rootScope, ViewService) {
+    .directive('inlineEdit', ["$timeout", "$rootScope", "ViewService", function($timeout, $rootScope, ViewService) {
         return {
             replace: true,
             templateUrl: function(elem, attrs){
