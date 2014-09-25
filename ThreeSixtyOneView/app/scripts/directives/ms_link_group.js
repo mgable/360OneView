@@ -11,7 +11,7 @@ angular.module('ThreeSixtyOneView.directives')
                     $scope.selectedItem = $attrs.firstselected || 'none';
                 });
 
-                $scope.radio = $attrs.radio || false;
+                $scope.radio = $attrs.radio.bool() || false;
                 $scope.enabled = true;
 
                 this.toggleSelected = function(event) {
@@ -28,16 +28,6 @@ angular.module('ThreeSixtyOneView.directives')
                         }
                     );
                 };
-            }
-        };
-    }]).directive("msLink", [function() {
-        return {
-            restrict: "A",
-            require: "^msLinkGroup",
-            link: function(scope, element, attrs, ctrl) {
-                element.on('click', {
-                    label: attrs.msLink
-                }, ctrl.toggleSelected);
             }
         };
     }]);
