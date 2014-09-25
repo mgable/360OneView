@@ -13,10 +13,16 @@
 		</div>
 	</div>
 
-	<div  class="well profile description-holder">
-		<!-- <span class='field-label'>Description</span><span class='edit'><a ng-click="disabled = !disabled"><icon type="pencil"></icon></a></span>
-		<textarea ng-disabled="disabled" ng-model="selectedItem.description" class="description" ng-blur="update(selectedItem)"></textarea> -->
-		<inline-rename template="inline_description" item="selectedItem"></inline-rename>
+	<div class="well profile description-holder">
+		<span ng-switch="selectedItem.isMaster">
+			<span ng-switch-when="true">
+				<span class='field-label'>Description</span>
+				<textarea ng-disabled="true" ng-model="selectedItem.description" class="description"></textarea>
+			</span>
+			<span ng-switch-default>
+				<inline-rename template="inline_description" item="selectedItem"></inline-rename>
+			</span>
+		</span>
 	</div>
 
 	<div class="well profile">
