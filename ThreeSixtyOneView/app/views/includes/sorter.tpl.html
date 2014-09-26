@@ -21,7 +21,7 @@
 				</td>
 				<td ng-click="ActiveSelection.setActiveItem(item);InfoTrayService.toggleInfoTray()">
 					<div class="text-holder">
-                    	<span class="title" ng-click="goto(CONFIG.where, item, $event)">
+                    	<span class="title" ng-click="goto($event, CONFIG.where, item.title)">
 	                        <span  class="default" ng-class="{master: item.isMaster}"><icon type="marketshare"></icon>&nbsp;{{item.title}}</span>
                     	</span>
                     	<span class="favorites" ng-if="CONFIG.hasFavorites"><a ng-class="{favorite:FavoritesService.isFavorite(item.id)}" ng-click="FavoritesService.toggleFavorite(item, $event)"></a></span>

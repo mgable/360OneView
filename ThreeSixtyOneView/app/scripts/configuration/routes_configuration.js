@@ -38,12 +38,18 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
     .state('ProjectManager', {
       url: "/projects",
       templateUrl: "views/display_manager.tpl.html",
-      controller: "ManagerCtrl"
+      controller: "ManagerCtrl",
+      resolve: {
+        'Projects': function(ProjectsModel){return ProjectsModel.get();}
+      }
     })
     .state('Dashboard', {
       url: "/dashboard/:projectName",
       templateUrl: "views/display_manager.tpl.html",
-      controller: "ManagerCtrl"
+      controller: "ManagerCtrl",
+      resolve: {
+        'Projects': function(ProjectsModel){return ProjectsModel.get();}
+      }
     })
     .state('ScenarioCreate', {
       url: "/scenarioCreate/:projectName",

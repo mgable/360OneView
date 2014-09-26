@@ -32,7 +32,7 @@ describe('Controllers: ', function() {
     });
 
     describe("ManagerCtrl", function(){
-        beforeEach(inject(function(_$rootScope_, _$state_, $controller, _InfoTrayService_, _CONFIG_, _ViewService_, _Urlmaker_) {
+        beforeEach(inject(function(_$rootScope_, _$state_, $controller, _InfoTrayService_, _CONFIG_, _ViewService_, _Urlmaker_, _ActiveSelection_) {
             $rootScope = _$rootScope_;
             scope = $rootScope.$new();
             CONFIG = _CONFIG_;
@@ -45,7 +45,9 @@ describe('Controllers: ', function() {
             ctrl = $controller('ManagerCtrl', {
                 $scope: scope,
                 ViewService: _ViewService_,
-                '$stateParams': {projectName:"foo"}
+                ActiveSelection: _ActiveSelection_,
+                '$stateParams': {projectName:"foo"},
+                Projects:{}
             });
         }));
 
@@ -63,13 +65,13 @@ describe('Controllers: ', function() {
         it("should define an api", function(){
             var spy = spyOn(Urlmaker, "gotoView"),  $event = {stopPropagation:angular.noop};
             expect(scope.goto).toBeDefined();
-            scope.goto("gotoScenarioEdit", {foo: "bar"}, $event);
+            scope.goto($event, "gotoScenarioEdit", {foo: "bar"});
             expect(spy).toHaveBeenCalledWith('scenarioEdit','foo', {foo:'bar'});
             spy.calls.reset();
-            scope.goto("gotoDashboard", {title: "bar"}, $event);
-            expect(spy).toHaveBeenCalledWith('dashboard', 'bar');
+            scope.goto($event, "gotoDashboard", {title: "bar"});
+            expect(spy).toHaveBeenCalledWith('dashboard', {title: "bar"});
             spy.calls.reset();
-            scope.goto("gotoProjects", {}, $event);
+            scope.goto($event, "gotoProjects");
             expect(spy).toHaveBeenCalled();
         });
 

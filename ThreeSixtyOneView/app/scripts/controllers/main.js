@@ -26,7 +26,7 @@ angular.module("ThreeSixtyOneView")
             }
         };
 
-    }]).controller("ManagerCtrl", ["$scope", "$injector", "$location", "$stateParams", "$state", "CONFIG", "Urlmaker", "FavoritesModel", "FavoritesService", "ViewService", "InfoTrayService", function($scope, $injector, $location, $stateParams, $state, CONFIG, Urlmaker, FavoritesModel, FavoritesService, ViewService, InfoTrayService) {
+    }]).controller("ManagerCtrl", ["$scope", "$injector", "$location", "$stateParams", "$state", "CONFIG", "Urlmaker", "FavoritesModel", "FavoritesService", "ViewService", "InfoTrayService", "ProjectsService", "Projects", "ActiveSelection", function($scope, $injector, $location, $stateParams, $state, CONFIG, Urlmaker, FavoritesModel, FavoritesService, ViewService, InfoTrayService, ProjectsService, Projects, ActiveSelection) {
         var currentView = CONFIG.view[$state.current.name],
             currentModel = currentView.model, filter = "",
             viewModel,
@@ -35,11 +35,14 @@ angular.module("ThreeSixtyOneView")
             /* jshint ignore:end */
             reverse = currentView.reverse,
             orderBy = currentView.orderBy,
-            gotoDashboard = function(item){
-                Urlmaker.gotoView("dashboard", item.title);
+            getProjectName = function(){
+                return ActiveSelection.activeItem() ? ActiveSelection.getActiveItem().title : $scope.CONFIG.projectName;
             },
-            gotoScenarioEdit = function(item){
-                Urlmaker.gotoView("scenarioEdit", $scope.CONFIG.projectName, item);
+            gotoDashboard = function(item){
+                Urlmaker.gotoView("dashboard", item);
+            },
+            gotoScenarioEdit = function(project, scenario){
+                Urlmaker.gotoView("scenarioEdit", project, scenario);
             },
             gotoProjects = function(){
                 Urlmaker.gotoView("projects");
@@ -50,14 +53,17 @@ angular.module("ThreeSixtyOneView")
                 $scope.CONFIG = currentView;
                 _.extend($scope.CONFIG, $stateParams);
 
+                // add projects to the projects service
+                ProjectsService.setProjects(Projects);
+
                 // detemine which view model to get
                 if (currentModel){
                     viewModel = $injector.get(currentModel);
                 }
 
-                // if there is a view model get the associated data
+                // if there is a view model get the associated data and set it to the filter service
                 if (viewModel) {
-                    viewModel.get().then(function(response) {
+                    viewModel.get($scope.CONFIG.projectName).then(function(response) {
                         $scope.data = response;
                         $scope.SortAndFilterService.init({
                             data: response,
@@ -66,7 +72,7 @@ angular.module("ThreeSixtyOneView")
                             reverse: reverse
                         });
 
-                        // get favorite data, if view has favorites
+                        // if view has favorites get favorite data
                         if ($scope.CONFIG.hasFavorites) {
                             // the master project is always a favorite and not in the favorite REST call (yet)
                             var master;
@@ -91,10 +97,10 @@ angular.module("ThreeSixtyOneView")
         init();
 
         // Controller API
-        $scope.goto = function(where, item, evt){
+        $scope.goto = function(evt, where, item){
             evt.stopPropagation();
             switch(where){
-                case "gotoScenarioEdit": gotoScenarioEdit(item); break;
+                case "gotoScenarioEdit": gotoScenarioEdit(getProjectName(), item); break;
                 case "gotoDashboard": gotoDashboard(item); break;
                 case "gotoProjects": gotoProjects(); break;
             }
@@ -110,23 +116,28 @@ angular.module("ThreeSixtyOneView")
             Urlmaker.gotoView("dashboard", data.title);
         });
 
-    }]).controller('InfoTrayCtrl', ["$scope", "ViewService", function($scope, ViewService) {
+    }]).controller('InfoTrayCtrl', ["$scope", "ViewService", "ScenarioService", function($scope, ViewService, ScenarioService) {
+        var getScenarios = function(title){
+            return ScenarioService.get(title);
+        };
+
         $scope.selectedItem = $scope.ActiveSelection.getActiveItem();
-        $scope.disabled = true;
 
         $scope.update = function(item) {
             var service = ViewService.getModel();
-            // TODO: refactor this out
-            if (item.name !== item.title) {
-                item.name = item.title;
-                service.rename(item);
-            }
+            service.rename(item);
         };
 
         $scope.$on('ActiveSelection:activeItemChange', function(event, response) {
-            $scope.disabled = true;
             if (response.data !== "") {
                 $scope.selectedItem = response.data;
+            }
+
+            // TODO: refactor this out once entities are finished
+            if(ViewService.getCurrentView () === "ProjectManager") {
+                getScenarios($scope.selectedItem.title).then(function(response){
+                    $scope.selectedItem.scenarios = response.data;
+                });
             }
         });
     }]).controller("ScenarioEditCtrl", ["$scope", "$stateParams", "Urlmaker", function($scope, $stateParams, Urlmaker) {
