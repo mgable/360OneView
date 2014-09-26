@@ -11,6 +11,6 @@ angular.module('ThreeSixtyOneView').config(function() {
 // })
 .run(["FavoritesModel", "ProjectsModel", function(FavoritesModel, ProjectsModel) {
 	// For now, pre-fetch all data
-    ProjectsModel.find();
+	ProjectsModel.find();
     FavoritesModel.find();
 }]);

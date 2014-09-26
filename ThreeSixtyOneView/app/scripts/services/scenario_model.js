@@ -4,8 +4,8 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services').service('ScenarioModel', ["$timeout", "$rootScope", "$location", "Resource", "CONFIG", "SERVER", "dialogs", function($timeout, $rootScope, $location, Resource, CONFIG, SERVER, dialogs){
-    var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.projects),
-    responseTranslator = CONFIG.application.models.ProjectsModel.responseTranslator,
+    var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.scenarios),
+    responseTranslator = CONFIG.application.models.ScenarioModel.responseTranslator,
     requestTranslator = CONFIG.application.models.ProjectsModel.requestTranslator,
     translateObj = function(data, translator){
         var result = {}, t;
@@ -14,9 +14,14 @@ angular.module('ThreeSixtyOneView.services').service('ScenarioModel', ["$timeout
             if (typeof t !== "undefined") {
                 result[v] = t;
             } else if (_.isObject(k)){
-                /* jshint ignore:start */
-                result[v] = eval("data" + k.selector);
-                /* jshint ignore:end */
+                // k.replace(/([^\]]+\])/g, function(d, s){console.info ("hey " + s)});
+                try{
+                    /* jshint ignore:start */
+                    result[v] = eval("data" + k.selector);
+                    /* jshint ignore:end */
+                } catch(e){
+                    console.info (k.selector + " does not exist");
+                }
             }
         });
         return result;
@@ -65,41 +70,21 @@ angular.module('ThreeSixtyOneView.services').service('ScenarioModel', ["$timeout
         });
 
     },
-    // used for the rename functions
-    put = function(data){
-        resource.put(data, config).then(function(response){
-            var item = _.indexOf(self.data, _.findWhere(self.data, {id: response.data.id}));
-            self.data.splice(item, 1, response.data);
-            $timeout(function(){
-                 $rootScope.$broadcast("ProjectsModel:dataChange", {
-                    data: self.data
-                });
-            });
-        });
-    },
+    cache = {},
     self = this;
 
-    this.find = function(uid) {
+    this.get = function(uid) {
+        if (cache[uid]) {
+            return cache[uid];
+        }
         unwrap.call(this, resource.get(uid, config));
-    };
-
-    this.get = function() {
+        cache[uid] = this.$futureData;
         return this.$futureData;
     };
 
-    this.create = function(data) {
-        resource.create(data, config).then(function(response) {
-            $timeout(function() {
-                self.data.push(response.data);
-                $rootScope.$broadcast("ProjectsModel:dataChange", {
-                    data: self.data
-                });
-            });
-        });
-    };
+    // this.get = function() {
+    //     return this.$futureData;
+    // };
 
-    this.rename = function(data){
-        var obj = (_.pick(data, 'title', 'description', 'id'));
-        put.call(this, obj);
-    };
+
 }]);

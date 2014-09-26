@@ -171,6 +171,9 @@
 		.display-table {
 			table {
 				th {
+					.title {
+						margin: 0 0 0 20px;
+					}
 					&:first-child {
 						padding: 8px 8px 8px 20px;
 					}
@@ -381,6 +384,26 @@
 				}
 				&:hover .edit {
 					visibility: visible;
+				}
+			}
+			&.scenario-listing {
+				.used-in {
+					font-weight: bold;
+					margin: 0 0 10px;
+					float:left;
+				}
+				.see-all-toggle {
+					float:right;
+					cursor: pointer;
+				}
+				.entity-holder {
+					clear: both;
+					a {
+						cursor: pointer;
+						&:hover {
+							text-decoration: none;
+						}
+					}
 				}
 			}
 		}
