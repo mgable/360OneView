@@ -11,7 +11,7 @@
 	<includeBaseDirectory>false</includeBaseDirectory>
 	<fileSets>
 		<fileSet>
-			<directory>${basedir}/ThreeSixtyOneView/dist</directory>
+			<directory>${basedir}/../ThreeSixtyOneView/dist</directory>
 			<outputDirectory></outputDirectory>
 			<filtered>false</filtered>
 			<lineEnding>keep</lineEnding>
@@ -21,4 +21,11 @@
 				</includes>
 		</fileSet>
 	</fileSets>
+	<files>
+		<file>
+		  <source>src/main/resources/360uiversion.txt</source>
+		  <outputDirectory>/</outputDirectory>
+		  <filtered>true</filtered>
+		</file>
+	</files>
 </assembly>

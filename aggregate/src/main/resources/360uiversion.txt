@@ -1,0 +1,4 @@
+build.version=${project.version}
+build.time=${build.timestamp}
+build.number=${env.BUILD_NUMBER}
+job.name=${env.JOB_NAME}
