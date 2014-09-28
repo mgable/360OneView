@@ -175,12 +175,6 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<div class=\"button-holder\">\r" +
     "\n" +
-    "\r" +
-    "\n" +
-    "<!-- \t\t<span ng-show=\"FileDeleteService.getFileCount()\" ng-click=\"trash()\" class=\"trash\"><icon type=\"trash-o\"></icon>&nbsp;Delete({{FileDeleteService.getFileCount()}})</span> -->\r" +
-    "\n" +
-    "\r" +
-    "\n" +
     "\t\t<div class=\"actions\">\r" +
     "\n" +
     "\t\t\t<span ng-if=\"view.create\" ng-click=\"create(CONFIG.displayActionsCreate)\"><icon type=\"plus\"></icon></span>\r" +
@@ -199,14 +193,49 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
-  $templateCache.put('views/directives/msDropdown.tpl.html',
+  $templateCache.put('views/directives/inline_description.tpl.html',
+    "<div class=\"inlineDescription\">\r" +
+    "\n" +
+    "\t<span class='field-label'>Description</span>\r" +
+    "\n" +
+    "\t<a ng-hide=\"isActive\" class='edit'ng-click=\"action()\"><icon  type=\"pencil\"></icon></a>\r" +
+    "\n" +
+    "\r" +
+    "\n" +
+    "\t<span ng-show=\"isActive\" class=\"controls\"><a ng-click=\"submit(item)\"><icon type=\"check\"></icon></a>&nbsp;<a ng-click=\"cancel()\"><icon type=\"times\"></icon></a></span>\r" +
+    "\n" +
+    "\r" +
+    "\n" +
+    "\t<textarea ng-disabled=\"!isActive\" ng-model=\"item.description\" class=\"description inputTarget\"></textarea>\r" +
+    "\n" +
+    "</div>"
+  );
+
+
+  $templateCache.put('views/directives/inline_rename.tpl.html',
+    "<div class=\"inlineRename\">\r" +
+    "\n" +
+    "\t<span ng-transclude></span>\r" +
+    "\n" +
+    "\t<h4 class=\"title\" ng-hide=\"isActive\">{{item.title}}</h4>&nbsp;\r" +
+    "\n" +
+    "\t<a class=\"edit\" ng-click=\"action()\"><icon ng-hide=\"isActive\" type=\"pencil\" cname=\"pencil clearfix\"></icon></a>\r" +
+    "\n" +
+    "    <h4 ng-show=\"isActive\"><input class=\"inputTarget\" ng-model=\"item.title\" type=\"text\"></input>&nbsp;<a ng-click=\"submit(item)\"><icon type=\"check\"></icon></a>&nbsp;<a ng-click=\"cancel()\"><icon type=\"times\"></icon></a></h4>\r" +
+    "\n" +
+    "</div>\r" +
+    "\n"
+  );
+
+
+  $templateCache.put('views/directives/ms_dropdown.tpl.html',
     "<div class=\"ms-dropdown\" id=\"{{id}}\"> \r" +
     "\n" +
-    "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.getActive() === id}\"><span ng-show=\"filterBy\"><icon type=\"filter\" cname=\"filter-icon\"></icon></span><span ng-click=\"select(selectedItem)\" class=\"status select\">{{selectedItem.label}}</span>&nbsp<span ng-click=\"toggle()\" class=\"toggle\"><icon type=\"caret-square-o-down\"></icon></span></h6> \r" +
+    "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.isActive(id)}\"><span ng-show=\"filterBy\"><icon type=\"filter\" cname=\"filter-icon\"></icon></span><span ng-click=\"select(selectedItem)\" class=\"status select\">{{selectedItem.label}}</span>&nbsp<span ng-click=\"toggle()\" class=\"toggle\"><icon type=\"caret-square-o-down\"></icon></span></h6> \r" +
     "\n" +
     "\t<ul class=\"ms-select-list dropshadow hide\"> \r" +
     "\n" +
-    "\t\t<li class=\"ms-item selectSort\" ng-repeat=\"item in items\" ng-class=\"{disabled:item.label === selectedItem.label}\" ng-click=\"selectSort(item)\"><span class=\"glyphicon glyphicon-ok ms-ok\"></span>{{item.label}}</li> \r" +
+    "\t\t<li class=\"ms-item selectSort\" ng-repeat=\"item in items\" ng-class=\"{disabled:item.label === selectedItem.label}\" ng-click=\"selectSort(item)\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{item.label}}</li> \r" +
     "\n" +
     "\t\t<ul ng-if=\"selectedItem.filters\"> \r" +
     "\n" +
@@ -214,7 +243,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<li class=\"ms-sublabel\">FILTER</li> \r" +
     "\n" +
-    "\t\t\t<li ng-repeat=\"filter in selectedItem.filters\" class=\"ms-item selectFilter\" ng-click=\"selectFilter(filter)\" ng-class=\"{selected:selectedFilter === filter}\"><span class=\"glyphicon glyphicon-ok ms-ok\"></span>{{filter.label}}</li> \r" +
+    "\t\t\t<li ng-repeat=\"filter in selectedItem.filters\" class=\"ms-item selectFilter\" ng-click=\"selectFilter(filter)\" ng-class=\"{selected:selectedFilter === filter}\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{filter.label}}</li> \r" +
     "\n" +
     "\t\t\t<li ng-if=\"selectedItem.template\"><ng-include src=\"selectedItem.template\"></ng-include></li> \r" +
     "\n" +
@@ -253,13 +282,15 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<span ng-switch-when=\"Creator\">{{item.createdBy}}</span> \r" +
     "\n" +
+    "\t<span ng-switch-when=\"Created Date\">{{item.createdOn | date: 'longDate' }}</span> \r" +
+    "\n" +
     "\t<span ng-switch-default>FAIL</span> \r" +
     "\n" +
     "</div>"
   );
 
 
-  $templateCache.put('views/directives/sorting_options.html',
+  $templateCache.put('views/directives/sorting_options.tpl.html',
     "<div class=\"{{label}} heading\" ng-class=\"{'active': SortAndFilterService.isActive(label)}\">\r" +
     "\n" +
     "\t<a ng-click=\"sort($event, label)\" ng-bind=\"display\"></a>&nbsp;\r" +

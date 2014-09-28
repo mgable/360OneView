@@ -1,4 +1,6 @@
-describe('Controllers: ', function() {
+"use strict";
+
+describe('Controllers: Modals: ', function() {
     var scope, ctrl, modalInstance, ProjectsModel;
 
     beforeEach(module('ThreeSixtyOneView'));
@@ -10,12 +12,12 @@ describe('Controllers: ', function() {
         };
         ProjectsModel = {
             create: jasmine.createSpy('ProjectsModel.create'),
-        }
+        };
         ctrl = $controller('ProjectCreateCtrl', {
             $scope: scope,
             $modalInstance: modalInstance,
             ProjectsModel: ProjectsModel
-        })
+        });
 
     }));
 
@@ -32,8 +34,8 @@ describe('Controllers: ', function() {
     it("should call the Projects Model with the name of the new project", function() {
         scope.create("xyz");
         expect(ProjectsModel.create).toHaveBeenCalledWith({
-            name: 'xyz',
-            description: "this is a test",
+            title: 'xyz',
+            description: "",
             isMaster: false
         });
     });

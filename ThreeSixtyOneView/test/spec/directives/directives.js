@@ -1,9 +1,11 @@
+/* global $, xit */
+/* jshint unused:false */
 'use strict';
 
 describe('Directives:', function() {
 
     // load the directive's module
-    beforeEach(module('ThreeSixtyOneView.directives','ThreeSixtyOneView.services','ngRoute', 'ThreeSixtyOneView.config'));
+    beforeEach(module('ThreeSixtyOneView.directives','ThreeSixtyOneView.services', 'ThreeSixtyOneView.config'));
 
     beforeEach(module('my.templates'));
 
@@ -29,15 +31,15 @@ describe('Directives:', function() {
         it("should open the dialog box when the create button is clicked", function() {
             var spy = spyOn(scope, "create");
             button.click();
-            expect(spy).toHaveBeenCalledWith(scope.CONFIG.displayActionsCreate)
+            expect(spy).toHaveBeenCalledWith(scope.CONFIG.displayActionsCreate);
         });
     });
 
     describe("MS Dropdown:", function(){
         var scope, element, CONFIG, $httpBackend, ViewService, ViewServiceSpy, currentView, dropdownSpy, sortAndFilterSpy, DropdownService, SortAndFilterService, $document, $timeout;
-        beforeEach(inject(function($rootScope, $controller, $compile, _$document_, _$timeout_, _CONFIG_, ViewService, _DropdownService_, _SortAndFilterService_){   
+        beforeEach(inject(function($rootScope, $controller, $compile, _$document_, _$timeout_, _CONFIG_, ViewService, _DropdownService_, _SortAndFilterService_){
             SortAndFilterService = _SortAndFilterService_;
-            DropdownService = _DropdownService_
+            DropdownService = _DropdownService_;
             $document = _$document_;
             $timeout = _$timeout_;
             scope = $rootScope.$new();
@@ -70,7 +72,7 @@ describe('Directives:', function() {
         }));
 
         it("should set the correct label", function(){
-            expect(element.find("h6 .status").text()).toBe(CONFIG.view[currentView].sortMenu.displayColumns[element.isolateScope().selectedSortIndex].label)
+            expect(element.find("h6 .status").text()).toBe(CONFIG.view[currentView].sortMenu.displayColumns[element.isolateScope().selectedSortIndex].label);
         });
 
         it("should reverse when clicked when active", function(){
@@ -78,17 +80,17 @@ describe('Directives:', function() {
             element.find("h6 .status").click();
             expect(dropdownSpy).toHaveBeenCalled();
             expect(element.isolateScope().reverse).toEqual(true);
-            expect(sortAndFilterSpy).toHaveBeenCalledWith('reverse', true, true)
+            expect(sortAndFilterSpy).toHaveBeenCalledWith('reverse', true, true);
             element.find("h6 .status").click();
             expect(element.isolateScope().reverse).toEqual(false);
-            expect(sortAndFilterSpy).toHaveBeenCalledWith('reverse', false, true)
+            expect(sortAndFilterSpy).toHaveBeenCalledWith('reverse', false, true);
         });
 
-        it("should not reverse when clicked when not active", function(){ 
+        it("should not reverse when clicked when not active", function(){
             dropdownSpy = spyOn(DropdownService, "getActive").and.returnValue("foo");
-            element.isolateScope().selectedFilter = "foo"
+            element.isolateScope().selectedFilter = "foo";
             element.find("h6 .status").click();
-            expect(element.isolateScope().selectedItem).toEqual(CONFIG.view[currentView].sortMenu.displayColumns[element.isolateScope().selectedSortIndex])
+            expect(element.isolateScope().selectedItem).toEqual(CONFIG.view[currentView].sortMenu.displayColumns[element.isolateScope().selectedSortIndex]);
             expect(dropdownSpy).toHaveBeenCalled();
             expect(element.isolateScope().reverse).toEqual(false);
             expect(sortAndFilterSpy).toHaveBeenCalledWith('reverse', false, false);
@@ -97,22 +99,24 @@ describe('Directives:', function() {
 
         it("should sort correctly", function(){
             dropdownSpy = spyOn(DropdownService, "setActive");
-            var sortAndFilterSpySetSorter  = spyOn(SortAndFilterService, "setSorter")
+            var sortAndFilterSpySetSorter  = spyOn(SortAndFilterService, "setSorter");
             element.find("h6 .status").click();
             expect(dropdownSpy).toHaveBeenCalledWith("column_2");
             expect(sortAndFilterSpy.calls.count()).toEqual(3);
             expect(sortAndFilterSpy.calls.argsFor(0)).toEqual(["reverse", false, false]);
             expect(sortAndFilterSpy.calls.argsFor(1)).toEqual(["reset", "", false]);
-            expect(sortAndFilterSpy.calls.argsFor(2)).toEqual(["orderBy", "modifiedBy", true]);
-            expect(sortAndFilterSpySetSorter).toHaveBeenCalledWith("column_2", "Modified By")
+            expect(sortAndFilterSpy.calls.argsFor(2)).toEqual(["orderBy", "createdOn", true]);
+            expect(sortAndFilterSpySetSorter).toHaveBeenCalledWith("column_2", "Created Date");
         });
 
-        it("should correctly detemine whether to load an additional template", function(){
+        xit("should correctly detemine whether to load an additional template", function(){
+            // additional templates removed for John Wayne
             expect(element.isolateScope().enabledOn({label: "foo"})).toBe(true);
             expect(element.isolateScope().enabledOn({label: "Modified by:"})).toBe(false);
         });
 
-        it("should properly load any additional templates", inject(function($compile){
+        xit("should properly load any additional templates", inject(function($compile){
+            // additional templates removed for John Wayne
             var submitButton = element.find("button.submit-button");
             expect(submitButton.length).toBe(1);
 
@@ -124,38 +128,40 @@ describe('Directives:', function() {
             expect(submitButton.length).toBe(0);
         }));
 
-        it("should properly enabled and disabled the submit button", function(){
+        xit("should properly enabled and disabled the submit button", function(){
+            // additional templates removed for John Wayne
             var submitButton = element.find("button.submit-button"),
             submitSpy = spyOn(element.isolateScope(), "submit");
             expect(submitButton[0].disabled).toBe(true);
 
-            element.isolateScope().name = "foobar"
-            element.isolateScope().selectedFilter = {label: "Modified by:"};
+            element.isolateScope().name = "foobar";
+            element.isolateScope().selectedFilter = {label: "Last Modified:"};
             scope.$digest();
 
             expect(submitButton[0].disabled).toBe(false);
             submitButton.click();
-            expect(submitSpy).toHaveBeenCalledWith("foobar")
+            expect(submitSpy).toHaveBeenCalledWith("foobar");
         });
 
-        it("should properly submit", function(){
+        xit("should properly submit", function(){
+            // additional templates removed for John Wayne
             var submitButton = element.find("button.submit-button"),
             submitSpy = spyOn(element.isolateScope(), "submit").and.callThrough(),
             alertSpy = spyOn(window, "alert");
-            element.isolateScope().selectedFilter = {label: "Modified by:"};
+            element.isolateScope().selectedFilter = {label: "Last Modified:"};
 
             submitButton.click();
             expect(alertSpy).toHaveBeenCalledWith("Please enter a name to filter");
 
-            element.isolateScope().name = "foobar"
+            element.isolateScope().name = "foobar";
             scope.$digest();
             submitButton.click();
             expect(alertSpy.calls.count()).toBe(1);
         });
 
         it ("should toggle correctly", function(){
-            var toggleButton = element.find(".toggle"), 
-            dropDown = element.find('.ms-select-list'), 
+            var toggleButton = element.find(".toggle"),
+            dropDown = element.find('.ms-select-list'),
             docOnSpy = spyOn($document, "on"),
             docOffSpy = spyOn($document, "off");
             expect(toggleButton[0]).toBeDefined();
@@ -165,7 +171,7 @@ describe('Directives:', function() {
             $timeout.flush();
             expect(docOnSpy).toHaveBeenCalledWith("click", jasmine.any(Function));
             expect(docOffSpy).not.toHaveBeenCalled();
-            toggleButton.click(); 
+            toggleButton.click();
             docOnSpy.calls.reset();
             expect(dropDown.hasClass("hide")).toBe(true);
             expect(docOffSpy).toHaveBeenCalledWith("click", jasmine.any(Function));
@@ -187,7 +193,7 @@ describe('Directives:', function() {
             expect(element.isolateScope().selectedItem).toEqual(CONFIG.view.ProjectManager.sortMenu.displayColumns[1]);
             expect(sortAndFilterSpy).toHaveBeenCalledWith("reverse", false, true);
             expect(dropdownSpy).toHaveBeenCalledWith("column_2");
-        })
+        });
     });
 
     describe("Sortable Columns:", function(){
@@ -199,7 +205,7 @@ describe('Directives:', function() {
                 createdBy: "me",
                 type: "foo",
                 modifiedBy: "you"
-            }
+            };
             element = angular.element('<sortable-columns item="item" display-by="displayBy">');
         }));
 
@@ -249,22 +255,22 @@ describe('Directives:', function() {
             ViewService = _ViewService_;
             scope.item = {};
             scope.item.title = "the title";
-            element = angular.element('<inline-rename item=item></inline-rename>');
+            element = angular.element('<inline-rename template="inline_rename" item=item></inline-rename>');
             element = $compile(element)(scope);
-            ViewService.setModel("ProjectsModel")
+            ViewService.setModel("ProjectsModel");
             scope.$digest();
         }));
 
         it('should correctly set the title', function() {
-            var holder = element.find("h4.title")
+            var holder = element.find("h4.title");
             expect(holder.text()).toBe(scope.item.title);
             holder = element.find("input");
-            expect(holder.val()).toEqual(scope.item.title)
+            expect(holder.val()).toEqual(scope.item.title);
         });
 
 
         it('should hide the input field on start', function() {
-            var holder = element.find("h4")
+            var holder = element.find("h4");
             expect($(holder[0]).hasClass('ng-hide')).toEqual(false);
             expect($(holder[1]).hasClass('ng-hide')).toEqual(true);
         });
@@ -274,15 +280,15 @@ describe('Directives:', function() {
             expect(element.isolateScope().isActive).toBe(false);
             holder.click();
             expect(element.isolateScope().isActive).toBe(true);
-        })
+        });
 
         it("should fire cancel when clicked", function(){
             var cancelButton = element.find("h4:eq(1) a:eq(1)");
             expect(element.isolateScope().isActive).toBe(false);
             cancelButton.click();
             expect(element.isolateScope().isActive).toBe(false);
-        })
-    })
+        });
+    });
 });
 
         // modalInstance = {

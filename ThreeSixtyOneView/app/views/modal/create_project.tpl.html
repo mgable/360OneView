@@ -1,21 +1,15 @@
-<div id="create-modal" class="create-modal">
-	<form name="createEntity" novalidate role="form" class="form-horizontal">
-		<div class="modal-header">
-			<h4 class="modal-title"><span class="glyphicon glyphicon-star"></span>&nbsp;Create a New Project</h4>
-		</div>
-		<div class="modal-body">
-			<div ng-bind="user.errorMsg" class="text-danger"></div>
-			<div class="form-group">
-				<label class="col-2">Name:&nbsp;</label>
-				<div class="col-4">
-					<input type="text" class="form-control" ng-model="item.name" focus required ng-maxlength="256" ng-pattern='/^[^\\\/\?\:\*"><|]+$/' />
-				</div>
-			</div>
-
-		</div>
-		<div class="modal-footer">
-			<button type="button" ng-disabled="createEntity.$invalid" class="btn btn-primary" ng-click="create(item.name)">Create New Project</button>
-			<button type="button" class="btn btn-default" ng-click="close()">Cancel</button>
+<div class="modal-header" ui-keypress="{'esc': 'close($event)'}">
+	<h4 class="modal-title"><icon type="star"></icon>&nbsp;Create a New Project</h4>
+</div>
+<div class="modal-body">
+	<form name="nameDialog" novalidate role="form">
+		<div class="form-group input-group-lg" ng-class="{true: 'has-error'}[nameDialog.username.$dirty && nameDialog.username.$invalid]">
+			<label class="control-label" for="inputField">Name:&nbsp;</label>
+			<input type="text" class="form-control" id="inputField" ng-model="item.name" focus required ng-maxlength="256" ng-pattern='/^[^\\\/\?\:\*"><|]+$/' />
 		</div>
 	</form>
+</div>
+<div class="modal-footer">
+	<button type="button" ng-disabled="nameDialog.$invalid" class="btn btn-primary" ng-click="create(item.name)" ui-keypress="{13: 'create(item.name, $event)'}">Create New Project</button>
+	<button type="button" class="btn btn-default" ng-click="close($event)">Cancel</button>
 </div>

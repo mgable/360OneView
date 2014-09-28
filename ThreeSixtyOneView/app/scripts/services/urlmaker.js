@@ -2,7 +2,24 @@
 
 angular.module('ThreeSixtyOneView.services')
 	.service('Urlmaker', ["$location", function($location) {
-		this.makeUrl = function(type){
+		var makeDashboardUrl = function(title){
+			var url = "/dashboard/" + title;
+			$location.path(url);
+		},
+		makeProjectUrl = function(){
+			var url = "/projects";
+			$location.path(url);
+		},
+		makeScenarioEditURL = function(project, scenario){
+			var url = "/scenarioEdit/"+ project + "/" + scenario;
+			$location.path(url);
+		},
+		makeScenarioCreateUrl = function(project){
+			var url = "/scenarioCreate/" + project;
+			$location.path(url);
+		};
+
+		this.gotoView = function(type){
 			var args =  Array.prototype.slice.call(arguments, 1);
 			switch(type){
 				case "dashboard" : makeDashboardUrl.apply(this, args); break;
@@ -10,25 +27,5 @@ angular.module('ThreeSixtyOneView.services')
 				case "scenarioEdit": makeScenarioEditURL.apply(this, args);break;
 				case "scenarioCreate": makeScenarioCreateUrl.apply(this, args); break;
 			}
-		};
-
-		var makeDashboardUrl = function(name){
-			var url = "/dashboard/" + name;
-			$location.path(url);
-		};
-
-		var makeProjectUrl = function(){
-			var url = "/projects";
-			$location.path(url);
-		};
-
-		var makeScenarioEditURL = function(project, scenario){
-			var url = "/scenarioEdit/"+ project + "/" + scenario;
-			$location.path(url);
-		};
-
-		var makeScenarioCreateUrl = function(project, scenario){
-			var url = "/scenarioCreate/" + project + "/" + scenario;
-			$location.path(url);
 		};
 	}]);

@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Services:', function() {
+describe('Dialog Services:', function() {
 
     // load the directive's module
     beforeEach(module('ThreeSixtyOneView.services'));
@@ -14,39 +14,25 @@ describe('Services:', function() {
     }));
 
     describe("Dialog Service:", function() {
-        it("should have a create function", function() {
+        it("should define an api", function() {
             expect(angular.isFunction(DiaglogService.create)).toBe(true);
+            expect(angular.isFunction(DiaglogService.rename)).toBe(true);
         });
 
         it("should create a 'create project' dialog box", function() {
-            
-            DiaglogService.create('project')
+            DiaglogService.create('project');
             expect(spy).toHaveBeenCalledWith('views/modal/create_project.tpl.html', 'ProjectCreateCtrl', {}, {
                 size: 'sm'
             });
         });
 
-       
-        it("should create a 'name' dialog box", function() {
-             var data = {
-                item: "item",
-                service: "service",
-                config: "config"
-            };
-
-            DiaglogService.name("item", {config: "config"}, "service")
-            expect(spy).toHaveBeenCalledWith('views/modal/name.html', 'NameCtrl', data);
-        });
-
-        
-
         it("should create a 'rename' dialog box", function() {
             var data = {
                 item: "item",
                 service: "service"
-            }
+            };
             DiaglogService.rename("item", "service");
-            expect(spy).toHaveBeenCalledWith('views/modal/rename.html', 'RenameCtrl', data);
+            expect(spy).toHaveBeenCalledWith('views/modal/rename_project.tpl.html', 'ProjectRenameCtrl', data, {size: 'sm'});
         });
 
     });

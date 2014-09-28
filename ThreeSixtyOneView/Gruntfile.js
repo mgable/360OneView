@@ -65,6 +65,19 @@ module.exports = function(grunt) {
             }
         },
 
+        usebanner: {
+            taskName: {
+                options: {
+                    position: 'bottom',
+                    banner: '<!-- <%= grunt.template.today("mm-dd-yyyy::hh:mm:ss") %> -->',
+                    linebreak: true
+                },
+                files: {
+                    src: [ 'dist/index.html' ]
+                }
+            }
+        },
+
         ngtemplates: {
             ThreeSixtyOneView: {
               // options: {
@@ -188,7 +201,7 @@ module.exports = function(grunt) {
                 files: {
                     src: [
                         '<%= yeoman.dist %>/scripts/{,*/}*.js',
-                        // '<%= yeoman.dist %>/styles/{,*/}*.css',
+                        '<%= yeoman.dist %>/styles/{,*/}*.css',
                         // '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
                         '<%= yeoman.dist %>/styles/fonts/*'
                     ]
@@ -392,6 +405,7 @@ module.exports = function(grunt) {
         grunt.task.run([
             'clean:server',
             'bowerInstall',
+            'sass',
             'concurrent:server',
             'autoprefixer',
             'connect:livereload',
@@ -400,7 +414,6 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('msserve', function(target) {
-
         grunt.task.run([
             'connect:dist:keepalive'
         ]);
@@ -425,6 +438,7 @@ module.exports = function(grunt) {
         'clean:dist',
         'bowerInstall',
         'sass',
+        'ngtemplates',
         'useminPrepare',
         'concurrent:dist',
         'autoprefixer',
@@ -436,7 +450,8 @@ module.exports = function(grunt) {
         'uglify',
         'rev',
         'usemin',
-        'htmlmin'
+        'htmlmin',
+        'usebanner'
     ]);
 
     grunt.registerTask('default', [

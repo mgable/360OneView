@@ -201,7 +201,5 @@ angular.module('ThreeSixtyOneView.services')
             temp = filterPipline(temp);
 
             display.data = temp;
-
-           $rootScope.$broadcast('SortAndFilterService:filter');
         };
     }]);

@@ -26,7 +26,8 @@
         <div class="cap" ng-include src="'views/includes/navigation.tpl.html'"></div>
         
         <div class="app">
-            <div ng-view ng-class="ViewService.getCurrentView()"></div>
+            <!-- <div ng-view ng-class="ViewService.getCurrentView()"></div> -->
+            <div ui-view ng-class="ViewService.getCurrentView()"></div>
         </div> <!-- end app -->
 
         <!--[if lt IE 9]>
@@ -46,17 +47,20 @@
         <script src="bower_components/underscore/underscore.js"></script>
         <script src="bower_components/angular-animate/angular-animate.js"></script>
         <script src="bower_components/angular-translate/angular-translate.js"></script>
+        <script src="bower_components/angular-ui-utils/ui-utils.js"></script>
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/vendor/dialogs.js"></script>
         <script src="scripts/app.js"></script>
+        <script src="scripts/configuration/server_configuration.js"></script>
+        <script src="scripts/configuration/app_configuration.js"></script>
+        <script src="scripts/configuration/routes_configuration.js"></script>
+        <script src="scripts/configuration/misc_configuration.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/directives/directives.js"></script>
-        <script src="scripts/services/delete_files_service.js"></script>
         <script src="scripts/services/sort_and_filter_service.js"></script>
-        <script src="scripts/services/files_model.js"></script>
         <script src="scripts/services/resource.js"></script>
         <script src="scripts/filters/filters.js"></script>
         <script src="scripts/services/active_selection.js"></script>
@@ -68,10 +72,9 @@
         <script src="scripts/services/favorites_service.js"></script>
         <script src="scripts/services/view_service.js"></script>
         <script src="scripts/controllers/modals.js"></script>
-        <script src="scripts/configuration/serverConfiguration.js"></script>
-        <script src="scripts/configuration/appConfiguration.js"></script>
         <script src="scripts/services/urlmaker.js"></script>
         <script src="scripts/directives/prototype.js"></script>
+        <script src="scripts/vendor/dialogs.js"></script>
         <script src="views/templates/templates.js"></script>
         <!-- endbuild -->
     </body>

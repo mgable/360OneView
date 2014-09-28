@@ -1,9 +1,8 @@
 <div class="filters">
-	<h4 class="title"><icon type="{{CONFIG.menuItems.icon}}"></icon>{{CONFIG.menuItems.title}}</h4>
-    <ul ms-link-group firstSelected="{{CONFIG.menuItems.items[CONFIG.menuItems.firstSelected].label}}" radio="true" class='menu'>
-		<li ng-repeat="item in CONFIG.menuItems.items" class="header" ng-class="{selected: item.label === selectedItem}">
+	<h4 class="title"><icon type="{{CONFIG.filterMenu.icon}}"></icon>{{CONFIG.filterMenu.title}}</h4>
+    <ul ms-link-group firstSelected="{{CONFIG.filterMenu.items[CONFIG.filterMenu.firstSelected].label}}" radio="true" class='menu'>
+		<li ng-repeat="item in CONFIG.filterMenu.items" class="header" ng-class="{selected: item.label === selectedItem}">
 			 <a ms-link="{{item.label}}" ng-click="SortAndFilterService.setFilter(item.filterType, item, true);">{{item.label}}</a>
 		</li>
     </ul>
 </div>
-

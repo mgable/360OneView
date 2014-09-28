@@ -3,7 +3,7 @@
 
 'use strict';
 
-angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout", "$rootScope", "$location", "Resource", "CONFIG", "SERVER", "dialogs", function($timeout, $rootScope, $location, Resource, CONFIG, SERVER, dialogs){
+angular.module('ThreeSixtyOneView.services').service('ScenarioModel', ["$timeout", "$rootScope", "$location", "Resource", "CONFIG", "SERVER", "dialogs", function($timeout, $rootScope, $location, Resource, CONFIG, SERVER, dialogs){
     var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.projects),
     responseTranslator = CONFIG.application.models.ProjectsModel.responseTranslator,
     requestTranslator = CONFIG.application.models.ProjectsModel.requestTranslator,
@@ -68,25 +68,16 @@ angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout
     // used for the rename functions
     put = function(data){
         resource.put(data, config).then(function(response){
-            var index = _.indexOf(self.data, _.findWhere(self.data, {id: response.data.id}));
-            self.data.splice(index, 1, response.data);
+            var item = _.indexOf(self.data, _.findWhere(self.data, {id: response.data.id}));
+            self.data.splice(item, 1, response.data);
             $timeout(function(){
                  $rootScope.$broadcast("ProjectsModel:dataChange", {
                     data: self.data
-                });
-
-                // update active selection for data bind in tray
-                $rootScope.$broadcast("ProjectsModel:rename", {
-                    data: response.data
                 });
             });
         });
     },
     self = this;
-
-    // surface data for unit tests
-    this.resource = resource;
-    this.config = config;
 
     this.find = function(uid) {
         unwrap.call(this, resource.get(uid, config));

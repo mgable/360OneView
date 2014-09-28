@@ -2,8 +2,7 @@
 
 angular.module('ThreeSixtyOneView.services')
     .service('InfoTrayService', ["$rootScope", "ActiveSelection", function($rootScope, ActiveSelection) {
-        var showInfoTray = false,
-            self = this;
+        var showInfoTray = false;
 
         this.toggleInfoTray = function() {
             showInfoTray = ActiveSelection.activeItem() ? true : false;
@@ -17,6 +16,4 @@ angular.module('ThreeSixtyOneView.services')
         this.getShowInfoTray = function() {
             return showInfoTray;
         };
-
-        $rootScope.$on('SortAndFilterService:filter', self.closeInfoTray);
     }]);

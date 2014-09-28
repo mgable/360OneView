@@ -1,0 +1,6 @@
+<div class="inlineRename">
+	<span ng-transclude></span>
+	<h4 class="title" ng-hide="isActive">{{item.title}}</h4>&nbsp;
+	<a class="edit" ng-click="action()"><icon ng-hide="isActive" type="pencil" cname="pencil clearfix"></icon></a>
+    <h4 ng-show="isActive"><input class="inputTarget" ng-model="item.title" type="text"></input>&nbsp;<a ng-click="submit(item)"><icon type="check"></icon></a>&nbsp;<a ng-click="cancel()"><icon type="times"></icon></a></h4>
+</div>

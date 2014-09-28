@@ -1,4 +1,5 @@
 /* global angular, _ */
+/* jshint unused:false */
 'use strict';
 
     angular.module('ThreeSixtyOneView.services').service('FavoritesModel', ["$timeout", "$rootScope", "$location", "Resource", "CONFIG", "SERVER", function($timeout, $rootScope, $location, Resource, CONFIG, SERVER){

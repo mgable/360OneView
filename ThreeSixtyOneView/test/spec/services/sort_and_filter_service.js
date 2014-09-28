@@ -1,3 +1,4 @@
+/* global _ */
 'use strict';
 
 describe('Services:', function() {
@@ -6,7 +7,7 @@ describe('Services:', function() {
     beforeEach(module('ThreeSixtyOneView.filters'));
     beforeEach(module('ThreeSixtyOneView.config'));
 
-    var SortAndFilterService, $rootScope, $filter, filterFilter, FavoritesService, FavoritesModel, SERVER, CONFIG,
+    var SortAndFilterService, FavoritesService, FavoritesModel,
         config = {
             data: {
                 data: [{
@@ -29,24 +30,19 @@ describe('Services:', function() {
                 filter: "",
                 label: "foo"
             }
-        }
+        };
 
-    beforeEach(inject(function($rootScope, $filter, filterFilter, SERVER, CONFIG, _SortAndFilterService_, _FavoritesService_, _FavoritesModel_) {
+    beforeEach(inject(function(_SortAndFilterService_, _FavoritesService_, _FavoritesModel_) {
         SortAndFilterService = _SortAndFilterService_;
-        $rootScope = $rootScope;
-        $filter = $filter
-        filterFilter = filterFilter;
         FavoritesService = _FavoritesService_;
         FavoritesModel =_FavoritesModel_;
-        SERVER = SERVER;
-        CONFIG = CONFIG;
     }));
 
     describe("Sort and Filter Service:", function() {
 
         beforeEach(function() {
-            SortAndFilterService.init(config)
-        })
+            SortAndFilterService.init(config);
+        });
 
         it("should be defined", function() {
             expect(SortAndFilterService).toBeDefined();
@@ -72,15 +68,15 @@ describe('Services:', function() {
                 "type": "B"
             }, true);
             var filtered = _.filter(config.data.data, function(item) {
-                return item.type === "B"
-            })
+                return item.type === "B";
+            });
             expect(SortAndFilterService.getData()).toEqual(filtered);
             SortAndFilterService.setFilter("filterBy", {
                 "type": "A"
             }, true);
             filtered = _.filter(config.data.data, function(item) {
-                return item.type === "A"
-            })
+                return item.type === "A";
+            });
             expect(SortAndFilterService.getData()).toEqual(filtered);
         });
 
@@ -91,8 +87,8 @@ describe('Services:', function() {
                 }
             }, true);
             var filtered = _.filter(config.data.data, function(item) {
-                return item.type === "B"
-            })
+                return item.type === "B";
+            });
             expect(SortAndFilterService.getData()).toEqual(filtered);
             SortAndFilterService.setFilter("activeFilter", {
                 filter: {
@@ -100,8 +96,8 @@ describe('Services:', function() {
                 }
             }, true);
             filtered = _.filter(config.data.data, function(item) {
-                return item.type === "A"
-            })
+                return item.type === "A";
+            });
             expect(SortAndFilterService.getData()).toEqual(filtered);
         });
 
@@ -112,7 +108,7 @@ describe('Services:', function() {
             }, true);
             var filtered = _.filter(config.data.data, function(item) {
                 return item.id === 2;
-            })
+            });
             expect(SortAndFilterService.getData()).toEqual(filtered);
         });
 
@@ -122,7 +118,7 @@ describe('Services:', function() {
 
         it("should get and set sorter ID's", function() {
             SortAndFilterService.setSorter(1, config);
-            expect(SortAndFilterService.getSorter(1)).toEqual(config)
+            expect(SortAndFilterService.getSorter(1)).toEqual(config);
         });
 
         it("should get and set orderBy", function() {
@@ -155,7 +151,7 @@ describe('Services:', function() {
             SortAndFilterService.setOrderBy("foo");
             expect(SortAndFilterService.isActive("foo")).toBe(true);
             expect(SortAndFilterService.isActive("foobar")).toBe(false);
-        })
+        });
 
         it("should get selected label", function() {
             //SortAndFilterService.setSelected(config);

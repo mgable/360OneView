@@ -18,7 +18,7 @@ describe('Service: Resource', function() {
         postSpy = spyOn($http, "post").and.callThrough();
         SERVER = _SERVER_;
         CONFIG = _CONFIG_;
-        url = SERVER.remote + CONFIG.application.api.projects
+        url = SERVER.remote + CONFIG.application.api.projects;
 
         resource = new Resource(url);
 
@@ -39,7 +39,7 @@ describe('Service: Resource', function() {
 
   
     it('should properly "POST"', function() {
-        resource.create()
+        resource.create();
         expect(postSpy).not.toHaveBeenCalled();
 
         var obj = {
@@ -47,9 +47,9 @@ describe('Service: Resource', function() {
             description: "description",
             isMaster: false,
             parentId: ''
-        }
+        };
 
-        var result = resource.create(obj);
+        resource.create(obj);
         expect(postSpy).toHaveBeenCalledWith(url,obj, {method:'post', url:url, data:obj});
     });
 
@@ -60,10 +60,9 @@ describe('Service: Resource', function() {
                 isMaster: false,
                 parentId: ''
             }
-        }
+        };
         resource.put(obj);
         expect(putSpy).toHaveBeenCalledWith(url,obj, {method:'put', url:url, data:obj});
-    })
+    });
 
 });
-
