@@ -112,7 +112,7 @@ angular.module("ThreeSixtyOneView")
             Urlmaker.gotoView("scenarioCreate", $scope.CONFIG.projectName);
         });
 
-        $scope.$on("ProjectCreateCtrl:create", function (event, data){
+        $scope.$on("ProjectsModel:create", function (event, data){
             Urlmaker.gotoView("dashboard", data.title);
         });
 

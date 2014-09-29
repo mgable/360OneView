@@ -78,12 +78,12 @@ describe('Controllers: ', function() {
         it("should attach event listeners", function(){
             var spy = spyOn(Urlmaker, "gotoView"),  $event = {stopPropagation:angular.noop};
             expect(onSpy.calls.argsFor(0)).toContain("scenario:create");
-            expect(onSpy.calls.argsFor(1)).toContain("ProjectCreateCtrl:create");
+            expect(onSpy.calls.argsFor(1)).toContain("ProjectsModel:create");
             
             $rootScope.$broadcast("scenario:create");
             expect(spy).toHaveBeenCalledWith("scenarioCreate", "foo");
             spy.calls.reset();
-            $rootScope.$broadcast("ProjectCreateCtrl:create", {"title": "bar"});
+            $rootScope.$broadcast("ProjectsModel:create", {"title": "bar"});
             expect(spy).toHaveBeenCalledWith("dashboard",  "bar");
         });
     });

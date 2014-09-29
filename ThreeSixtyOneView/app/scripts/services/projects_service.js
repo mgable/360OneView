@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-	.service('ProjectsService', function () {
+	.service('ProjectsService',  function () {
 		var projects = [];
 
 		this.getProjectIDByTitle = function(_title_){

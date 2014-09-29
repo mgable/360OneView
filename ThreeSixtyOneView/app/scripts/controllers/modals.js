@@ -28,9 +28,8 @@ angular.module('ThreeSixtyOneView')
             var newProject = CONFIG.view.ProjectManager.newProject;
             newProject.title = title;
             // create the new project
+            //TODO: refactor this to an event
             ProjectsModel.create(newProject);
-            // redirect to dashboard view
-            $rootScope.$broadcast("ProjectCreateCtrl:create", newProject);
             $modalInstance.dismiss('create');
         };
     }]);

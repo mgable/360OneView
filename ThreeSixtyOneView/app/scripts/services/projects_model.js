@@ -96,13 +96,14 @@ angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout
         return this.$futureData;
     };
 
-    this.create = function(data) {
-        resource.create(data, config).then(function(response) {
+    this.create = function(_data_) {
+        resource.create(_data_, config).then(function(response) {
             $timeout(function() {
                 self.data.push(response.data);
                 $rootScope.$broadcast("ProjectsModel:dataChange", {
                     data: self.data
                 });
+                $rootScope.$broadcast("ProjectsModel:create", _data_);
             });
         });
     };
