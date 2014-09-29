@@ -15,7 +15,8 @@ angular.module('ThreeSixtyOneView.config')
                     "requestTranslator": {"uuid" : "id", "name": "title", "description": "description", "isMaster": "isMaster"}
                 },
                 "ScenarioModel": {
-                    "responseTranslator": {"title": "name", "id": "id", "description": "description", "type":{"selector":"['prediction']['type']"}, "createdBy":{"selector":"['auditInfo']['createdBy']['name']"}, "createdOn":{"selector":"['auditInfo']['createdOn']"}, "modifiedBy":{"selector":"['auditInfo']['lastUpdatedBy']['name']"}, "modifiedOn":{"selector":"['auditInfo']['lastUpdatedOn']"}}
+                    "responseTranslator": {"title": "name", "id": "id", "description": "description", "type":{"selector":"['prediction']['type']"}, "createdBy":{"selector":"['auditInfo']['createdBy']['name']"}, "createdOn":{"selector":"['auditInfo']['createdOn']"}, "modifiedBy":{"selector":"['auditInfo']['lastUpdatedBy']['name']"}, "modifiedOn":{"selector":"['auditInfo']['lastUpdatedOn']"}},
+                    "newScenario": {"name" : "", "description": "","referenceScenario": {"id": 1, "name": "Master Scenario"}, "prediction" : {"type" : "Simulation"}}
                 }
             }
         },

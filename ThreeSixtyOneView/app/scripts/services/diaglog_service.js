@@ -20,4 +20,11 @@ angular.module('ThreeSixtyOneView.services')
                 size: 'sm'
             });
         };
+
+        //Prototype
+        this.current_scenario = function(scenario) {
+            dialogs.create('views/modal/current_scenario.tpl.html','ProjectCurrentScenarioCtrl',{
+                scenario: scenario
+            },{size:'md'});
+        };
     }]);
