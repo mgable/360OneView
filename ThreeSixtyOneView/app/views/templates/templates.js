@@ -194,7 +194,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/inline_description.tpl.html',
-    "<div class=\"inlineDescription\">\r" +
+    "<form class=\"inlineDescription\" name=\"inlineDescription\">\r" +
     "\n" +
     "\t<span class='field-label'>Description</span>\r" +
     "\n" +
@@ -202,18 +202,18 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\r" +
     "\n" +
-    "\t<span ng-show=\"isActive\" class=\"controls\"><a ng-click=\"submit(item)\"><icon type=\"check\"></icon></a>&nbsp;<a ng-click=\"cancel()\"><icon type=\"times\"></icon></a></span>\r" +
+    "\t<span ng-show=\"isActive\" class=\"controls\"><button ng-click=\"submit(item)\" ng-disabled=\"(inlineDescription.$dirty && inlineDescription.$invalid) || inlineDescription.$pristine\"><icon type=\"check\"></icon></button>&nbsp;<button ng-click=\"cancel()\"><icon type=\"times\"></icon></button></span>\r" +
     "\n" +
     "\r" +
     "\n" +
-    "\t<textarea ng-disabled=\"!isActive\" ng-model=\"item.description\" class=\"description inputTarget\"></textarea>\r" +
+    "\t<textarea ng-disabled=\"!isActive\" ng-maxlength=\"256\" ng-pattern='/^[^\\\\\\/\\?\\:\\*\"><|]+$/' ng-model=\"item.description\" class=\"description inputTarget\"></textarea>\r" +
     "\n" +
-    "</div>"
+    "</form>"
   );
 
 
   $templateCache.put('views/directives/inline_rename.tpl.html',
-    "<div class=\"inlineRename\">\r" +
+    "<form class=\"inlineRename\" name=\"inlineRename\">\r" +
     "\n" +
     "\t<span ng-transclude></span>\r" +
     "\n" +
@@ -221,9 +221,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<a class=\"edit\" ng-click=\"action()\"><icon ng-hide=\"isActive\" type=\"pencil\" cname=\"pencil clearfix\"></icon></a>\r" +
     "\n" +
-    "    <h4 ng-show=\"isActive\"><input class=\"inputTarget\" ng-model=\"item.title\" type=\"text\"></input>&nbsp;<a ng-click=\"submit(item)\"><icon type=\"check\"></icon></a>&nbsp;<a ng-click=\"cancel()\"><icon type=\"times\"></icon></a></h4>\r" +
+    "    <h4 ng-show=\"isActive\">\r" +
     "\n" +
-    "</div>\r" +
+    "    \t<input ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='/^[^\\\\\\/\\?\\:\\*\"><|]+$/' class=\"inputTarget\" ng-model=\"item.title\" type=\"text\"></input>&nbsp;<button ng-click=\"submit(item)\" ng-disabled=\"(inlineRename.$dirty && inlineRename.$invalid) || inlineRename.$pristine\"><icon type=\"check\"></icon></button>&nbsp;<button ng-click=\"cancel()\"><icon type=\"times\"></icon></button></h4>\r" +
+    "\n" +
+    "</form>\r" +
     "\n"
   );
 

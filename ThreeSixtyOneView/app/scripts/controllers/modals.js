@@ -25,7 +25,7 @@ angular.module('ThreeSixtyOneView')
 
         $scope.create = function(title, evt) {
             if (evt) { evt.preventDefault(); }
-            var newProject = CONFIG.view.ProjectManager.newProject;
+            var newProject = CONFIG.application.models.ProjectsModel.newProject;
             newProject.title = title;
             // create the new project
             //TODO: refactor this to an event

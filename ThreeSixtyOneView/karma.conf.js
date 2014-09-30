@@ -14,7 +14,7 @@ module.exports = function(config) {
             'app/bower_components/jquery/dist/jquery.js',
             'app/bower_components/angular/angular.js',
             'app/bower_components/angular-mocks/angular-mocks.js',
-            'app/bower_components/angular-mocks/angular-stateMock.js',
+            'app/scripts/vendor/angular-stateMock.js',
             'app/bower_components/angular-resource/angular-resource.js',
             'app/bower_components/angular-sanitize/angular-sanitize.js',
             'app/bower_components/angular-animate/angular-animate.js',

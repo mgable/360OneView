@@ -12,7 +12,8 @@ angular.module('ThreeSixtyOneView.config')
             "models": {
                 "ProjectsModel": { // want: get
                     "responseTranslator": {"isMaster": "isMaster", "id" : "uuid", "title": "name", "description": "description", "createdBy":{"selector":"['auditInfo']['createdBy']['name']"}, "createdOn":{"selector":"['auditInfo']['createdOn']"}, "modifiedBy":{"selector":"['auditInfo']['lastUpdatedBy']['name']"}, "modifiedOn":{"selector":"['auditInfo']['lastUpdatedOn']"}},
-                    "requestTranslator": {"uuid" : "id", "name": "title", "description": "description", "isMaster": "isMaster"}
+                    "requestTranslator": {"uuid" : "id", "name": "title", "description": "description", "isMaster": "isMaster"},
+                    "newProject": {"title": "","description" : "", "isMaster": false}
                 },
                 "ScenarioModel": {
                     "responseTranslator": {"title": "name", "id": "id", "description": "description", "type":{"selector":"['prediction']['type']"}, "createdBy":{"selector":"['auditInfo']['createdBy']['name']"}, "createdOn":{"selector":"['auditInfo']['createdOn']"}, "modifiedBy":{"selector":"['auditInfo']['lastUpdatedBy']['name']"}, "modifiedOn":{"selector":"['auditInfo']['lastUpdatedOn']"}},
@@ -83,11 +84,6 @@ angular.module('ThreeSixtyOneView.config')
                 "status": false,
                 "where": 'gotoDashboard',
                 "displayActionsCreate": "scope.DiaglogService.create('project')",
-                "newProject": {
-                    "title": "",
-                    "description" : "",
-                    "isMaster": false
-                },
                 "filterMenu": {
                     "firstSelected": 0,
                     "icon": "suitcase",

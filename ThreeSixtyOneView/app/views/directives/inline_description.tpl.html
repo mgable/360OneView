@@ -1,8 +1,8 @@
-<div class="inlineDescription">
+<form class="inlineDescription" name="inlineDescription">
 	<span class='field-label'>Description</span>
 	<a ng-hide="isActive" class='edit'ng-click="action()"><icon  type="pencil"></icon></a>
 
-	<span ng-show="isActive" class="controls"><a ng-click="submit(item)"><icon type="check"></icon></a>&nbsp;<a ng-click="cancel()"><icon type="times"></icon></a></span>
+	<span ng-show="isActive" class="controls"><button ng-click="submit(item)" ng-disabled="(inlineDescription.$dirty && inlineDescription.$invalid) || inlineDescription.$pristine"><icon type="check"></icon></button>&nbsp;<button ng-click="cancel()"><icon type="times"></icon></button></span>
 
-	<textarea ng-disabled="!isActive" ng-model="item.description" class="description inputTarget"></textarea>
-</div>
+	<textarea ng-disabled="!isActive" ng-maxlength="256" ng-pattern='/^[^\\\/\?\:\*"><|]+$/' ng-model="item.description" class="description inputTarget"></textarea>
+</form>

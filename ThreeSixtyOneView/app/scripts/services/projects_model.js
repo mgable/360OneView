@@ -110,6 +110,9 @@ angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout
 
     this.rename = function(data){
         var obj = (_.pick(data, 'title', 'description', 'id'));
+        if (typeof obj.description === "undefined"){
+            obj.description = "";
+        }
         put.call(this, obj);
     };
 }]);
