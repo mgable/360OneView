@@ -11,8 +11,8 @@ describe('Service: FavoritesModel', function() {
 	beforeEach(inject(function(_$httpBackend_, $location, $rootScope, _FavoritesModel_, _SERVER_, _CONFIG_, _Resource_) {
 		CONFIG = _CONFIG_;
 		SERVER = _SERVER_;
-		url = SERVER.remote + CONFIG.application.api.favorites;
-		projectUrl = SERVER.remote + CONFIG.application.api.projects;
+		url = SERVER.server + CONFIG.application.api.favorites;
+		projectUrl = SERVER.server + CONFIG.application.api.projects;
 		FavoritesModel = _FavoritesModel_;
 		$httpBackend = _$httpBackend_;
 		spyOn($location, "host").and.returnValue("SERVER.remote");
