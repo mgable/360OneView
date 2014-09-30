@@ -6,8 +6,8 @@
 		</div>
 		<div class="col-md-6">
 		<div class="form-group has-feedback">
-	    	<input type="text" class="form-control" placeholder="Search by Name" />
-	    	<i class="glyphicon glyphicon-search form-control-feedback"></i>
+	    	<input type="text" class="form-control" placeholder="Search by Name" ng-model="searchText"/>
+	    	<icon type="search" cname="form-control-feedback"></icon>
 		</div>
 		</div>
 	</div>
@@ -19,7 +19,7 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td ng-click="getRow(0)">
+				<td ng-click="setRow(0)">
 					<div class="row" >
 						<div class="col-md-1">
 							<span><img alt="" src="http://dummyimage.com/20x20/075895/fff.gif&amp;text=S" class="media-object"> </span>
@@ -29,7 +29,7 @@
 							<span class="second-line">This is the scenario description lorem ipsum dolor sit</span> 
 						</div>
 						<div class="col-md-1">
-							<i class="glyphicon glyphicon-ok-sign" ng-show="0 == showRow()"></i>
+							<icon type="check-circle" cname="ok-sign" ng-show="showRow(0)"></icon>
 						</div>
 					</div>
 				</td>
@@ -40,9 +40,9 @@
 		<thead>
 			<th class="col-lg-6" data-align="left">{{scenario.project}} Project</th>
 		</thead>
-		<tbody ng-repeat="scenario in scenarioList">
-			<tr>
-				<td ng-click="getRow(scenario.id)">
+		<tbody>
+			<tr ng-repeat="scenario in scenarioList | filter: searchText">
+				<td ng-click="setRow(scenario.id)">
 					<div class="row" >
 						<div class="col-md-1">
 							<span><img alt="" src="http://dummyimage.com/20x20/{{scenario.color}}/fff.gif&amp;text={{scenario.label}}" class="media-object"></span>
@@ -51,7 +51,7 @@
 							<span class="{{scenario.type}}">{{scenario.name}}</span>
 						</div>
 						<div class="col-md-1">
-							<i class="glyphicon glyphicon-ok-sign" ng-show="scenario.id == showRow()"></i>
+							<span ng-show="showRow(scenario.id)"><icon type="check-circle" cname="ok-sign"></icon></span>
 						</div>
 					</div>
 				</td>
@@ -62,10 +62,10 @@
 <div class="modal-footer current-scenario-footer">
 	<div class="row">
 		<div class="col-md-6">
-			<a class="float-left" ng-click="close()" >Cancel</a>
+			<a class="pull-left" ng-click="close()" >Cancel</a>
 		</div>
 		<div class="col-md-6">
-			<button type="button" class="btn btn-primary float-right" ng-click="close()">Confirm Base Scenario</button>
+			<button type="button" class="btn btn-primary pull-right" ng-click="close()">Confirm Base Scenario</button>
 		</div>
 	</div>
 </div>

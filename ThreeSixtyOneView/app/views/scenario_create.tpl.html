@@ -1,26 +1,23 @@
-<div class="app">
+<form class="app" name="createScenario">
 	<div class="scenario-create">
 		<div class="ms-breadcrumb">
 			<a ng-click="backToProject(scenario.project)">
-				<i class="fa fa-chevron-left " type="chevron-left"></i>
-				<i class="fa fa-chevron-left " type="chevron-left"></i>
+				<icon type="chevron-left"></icon>
+				<icon type="chevron-left"></icon>
 				{{scenario.project}} Project
 			</a>
 		</div>
 		<div class="details scenario-form">
-			<form>
+			<div>
 				<h3>Create a Scenario</h3>
 				<label>
 					<img alt="" src="http://dummyimage.com/50x50/f2ca58/fff.gif&amp;text=S" class="media-object">
-					<input type="text" placeholder="Enter Scenario Name">
+					<input type="text" placeholder="Enter Scenario Name" required ng-maxlength="256" ng-minlength="2" ng-pattern='/^[^\\\/\?\:\*"><|]+$/' ng-model="scenario.title">
 				</label>
-				<br />
-				<label>
-					<span></span>
-					<input class="description" type="textarea" placeholder="Enter Scenario description (optional)">
+				<label class="description-holder">
+					<input class="description" type="text" placeholder="Enter Scenario description (optional)" ng-model="scenario.description" ng-maxlength="1024">
 				</label>
-				
-			</form>
+			</div>
 		</div>
 		<div class="details dotted_line">
 			<h4>Set Up Your Simulate Parameters</h4>
@@ -28,18 +25,16 @@
 		</div>
 		<div class="details dotted_line">
 			<div class="left-side">
-				<span class="glyphicon glyphicon-home"></span>
+				<icon type="home" cname="home"></icon>
 			</div>
 			<div class="push-right">
 				<span class="emphasize">Base scenario: </span><span>Select your base scenario to edit</span>
-				<p>Your base scenario is <a ng-click="DiaglogService.current_scenario(scenario)">Current Plan of Record Scenario</a></p>
+				<p>Your base scenario is <a ng-click="DiaglogService.currentScenario(scenario)">Current Plan of Record Scenario</a></p>
 			</div>
 		</div>
 		<div class="footer">
-			<button class="btn btn-primary" ng-click="editScenario(scenario.project, scenario)">CREATE SCENARIO</button>
+			<button class="btn btn-primary" ng-disabled="(createScenario.$dirty && createScenario.$invalid) || createScenario.$pristine" ng-click="editScenario(scenario.project, scenario)">CREATE SCENARIO</button>
 			<span class="right-side"><a ng-click="backToProject(scenario.project)">Cancel</a></span>
 		</div>
 	</div>
-</div>
-<!-- <div>The new scenario name is {{scenario.name}}</div> -->
-<!-- <button ng-click="editScenario(scenario.project, scenario.name)">Edit scenario</button> -->
+</form>

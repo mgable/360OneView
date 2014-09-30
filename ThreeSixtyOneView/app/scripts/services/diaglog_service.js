@@ -22,8 +22,8 @@ angular.module('ThreeSixtyOneView.services')
         };
 
         //Prototype
-        this.current_scenario = function(scenario) {
-            dialogs.create('views/modal/current_scenario.tpl.html','ProjectCurrentScenarioCtrl',{
+        this.currentScenario = function(scenario) {
+            dialogs.create('views/modal/create_scenario.tpl.html','CreateScenarioCtrl',{
                 scenario: scenario
             },{size:'md'});
         };
