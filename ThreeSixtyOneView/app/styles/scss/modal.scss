@@ -79,18 +79,18 @@
 		font-weight: normal;
 	}
 
-	.glyphicon-ok-sign {
+	.ok-sign {
 		color: $green;
 	}
 
 }
 
 .current-scenario-footer {
-	.float-left{
-		float: left;
-	}
-	.float-right{
-		float: right;
+	a{
+		cursor: pointer;
+		&:hover {
+			text-decoration: none;
+		}
 	}
 }
 
