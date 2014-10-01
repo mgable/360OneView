@@ -18,4 +18,8 @@ angular.module('ThreeSixtyOneView')
 		this.setProjects = function(_projects_){
 			projects = _projects_.data;
 		};
+
+		this.getProjects = function(){
+			return projects;
+		};
   });

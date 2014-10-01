@@ -150,7 +150,7 @@ angular.module("ThreeSixtyOneView")
             Urlmaker.gotoView ("dashboard", project);
         };
 
-    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "Urlmaker", function($scope, $stateParams, Urlmaker){
+    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "Urlmaker", "ScenarioService", function($scope, $stateParams, Urlmaker, ScenarioService){
         $scope.scenario = {
             name: $stateParams.scenarioName,
             project: $stateParams.projectName
@@ -158,6 +158,11 @@ angular.module("ThreeSixtyOneView")
 
         $scope.editScenario = function (project, scenario){
             Urlmaker.gotoView ("scenarioEdit", project, scenario);
+        };
+
+        $scope.createScenario = function(scenario){
+            ScenarioService.create(scenario);
+            Urlmaker.gotoView ("scenarioEdit", scenario.project, scenario.name);
         };
 
         $scope.backToProject = function(project){

@@ -8,8 +8,8 @@ angular.module('ThreeSixtyOneView.directives')
             setTimeout(function() {
                 $scope.$destroy();
                 $element.removeClass('ng-binding ng-scope');
-                !$element.attr('class') && $element.removeAttr('class')
+                !$element.attr('class') && $element.removeAttr('class');
             }, 0);
         }
-    }
-  });
+    };
+});

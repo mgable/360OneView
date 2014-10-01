@@ -6,7 +6,7 @@
 angular.module('ThreeSixtyOneView.services').service('ScenarioModel', ["$timeout", "$rootScope", "$location", "Resource", "CONFIG", "SERVER", "dialogs", function($timeout, $rootScope, $location, Resource, CONFIG, SERVER, dialogs){
     var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.scenarios),
     responseTranslator = CONFIG.application.models.ScenarioModel.responseTranslator,
-    requestTranslator = CONFIG.application.models.ProjectsModel.requestTranslator,
+    requestTranslator = CONFIG.application.models.ScenarioModel.requestTranslator,
     translateObj = function(data, translator){
         var result = {}, t;
         _.each(translator, function(k,v,o){
@@ -34,7 +34,7 @@ angular.module('ThreeSixtyOneView.services').service('ScenarioModel', ["$timeout
         if (request && translator) {
             return JSON.stringify(translateObj(request, translator));
         }
-        return request;
+        return JSON.stringify(request);
     },
     translateResponse = function (response, translator){
         var results, data;
@@ -70,21 +70,23 @@ angular.module('ThreeSixtyOneView.services').service('ScenarioModel', ["$timeout
         });
 
     },
-    cache = {},
+    //cache = {},
     self = this;
 
     this.get = function(uid) {
-        if (cache[uid]) {
-            return cache[uid];
-        }
+        // if (cache[uid]) {
+        //     return cache[uid];
+        // }
         unwrap.call(this, resource.get(uid, config));
-        cache[uid] = this.$futureData;
+        //cache[uid] = this.$futureData;
         return this.$futureData;
     };
 
-    // this.get = function() {
-    //     return this.$futureData;
-    // };
+    this.create = function(scenario, id){
+        resource.post(scenario, config, id).then(function(response){
+            console.info (response);
+        });
+    };
 
 
 }]);
