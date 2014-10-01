@@ -17,7 +17,7 @@ describe('Service: ProjectModel', function() {
 		rootScope = $rootScope;
 		data = {title: "title", isMaster: false, id: 1234, description: "this is a test"};
 		resource = new _Resource_(projectsUrl);
-		newProject = CONFIG.view.ProjectManager.newProject;
+		newProject = CONFIG.application.models.ProjectsModel.newProject;
 		deferred = $q.defer();
 		deferred.resolve(data);
 	}));
@@ -38,9 +38,9 @@ describe('Service: ProjectModel', function() {
 	it("should get all data", function(){
 		spyOn(ProjectsModel.resource, "get").and.returnValue(deferred.promise);
 		ProjectsModel.find();
-		ProjectsModel.get().then(function(response){
+		rootScope.$apply(ProjectsModel.get().then(function(response){
 			expect(response).toEqual(data);
-		});
+		}));
 	});
 
 	it("should create a project", function (){

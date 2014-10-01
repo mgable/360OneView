@@ -31,6 +31,8 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
 
                 path = params ? getPath.call(this, params) : this._path;
 
+                console.info("the path is " + path);
+
                 this._http
                     .post(path, data, config)
                     .success(deferred.resolve)
