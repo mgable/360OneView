@@ -159,4 +159,8 @@ angular.module("ThreeSixtyOneView")
         $scope.editScenario = function (project, scenario){
             Urlmaker.gotoView ("scenarioEdit", project, scenario);
         };
+
+        $scope.backToProject = function(project){
+            Urlmaker.gotoView ("dashboard", project);
+        };
     }]);
