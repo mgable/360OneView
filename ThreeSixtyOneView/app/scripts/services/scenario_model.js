@@ -73,6 +73,10 @@ angular.module('ThreeSixtyOneView.services').service('ScenarioModel', ["$timeout
     //cache = {},
     self = this;
 
+    // surface data for unit tests
+    this.resource = resource;
+    this.config = config;
+
     this.get = function(uid) {
         // if (cache[uid]) {
         //     return cache[uid];
@@ -83,7 +87,7 @@ angular.module('ThreeSixtyOneView.services').service('ScenarioModel', ["$timeout
     };
 
     this.create = function(scenario, id){
-        resource.post(scenario, config, id).then(function(response){
+        resource.create(scenario, config, id).then(function(response){
             console.info (response);
         });
     };

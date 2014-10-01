@@ -1,3 +1,5 @@
+/* global _ */
+
 'use strict';
 
 angular.module('ThreeSixtyOneView')
@@ -37,7 +39,7 @@ angular.module('ThreeSixtyOneView')
         var selectedRow = 0, getStatus = function (_id_){
             var element = _.findWhere($scope.scenarioList, {id: _id_});
             return element ? element.type !== 'not-calculated' : true ;
-        }
+        };
 
         $scope.scenarioList = [
             { id: 1, name: 'Scenario Title 1', color: 'ff2f92', label: 'Al', type: '' },
