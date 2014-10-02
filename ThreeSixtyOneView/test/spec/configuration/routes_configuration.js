@@ -16,8 +16,8 @@ describe('Routes tests: ', function() {
         $state = _$state_;
         SERVER = _SERVER_;
         CONFIG = _CONFIG_;
-        urlProjects = SERVER.remote + CONFIG.application.api.projects;
-        urlFavorites = SERVER.remote + CONFIG.application.api.favorites;
+        urlProjects = SERVER.server + CONFIG.application.api.projects;
+        urlFavorites = SERVER.server + CONFIG.application.api.favorites;
 
     }));
 

@@ -8,22 +8,18 @@ describe('Service: ScenarioModel', function () {
   beforeEach(module('ThreeSixtyOneView.config'));
 
   // instantiate service
-  var ScenarioModel, CONFIG, SERVER, scenariosUrl, rootScope, data, resource, newScenario, deferred;
-  beforeEach(inject(function ($rootScope, $q, _ScenarioModel_, _CONFIG_, _SERVER_, _Resource_) {
+  var ScenarioModel, rootScope, data, newScenario, deferred;
+  beforeEach(inject(function ($rootScope, $q, _ScenarioModel_, CONFIG) {
     ScenarioModel = _ScenarioModel_;
-    CONFIG = _CONFIG_;
-    SERVER = _SERVER_;
-    scenariosUrl = SERVER.remote + CONFIG.application.api.scenarios;
     rootScope = $rootScope;
     data = {title: "title", isMaster: false, id: 1234, description: "this is a test"};
-    resource = new _Resource_(scenariosUrl);
     newScenario = CONFIG.application.models.ScenarioModel.newScenario;
     deferred = $q.defer();
     deferred.resolve(data);
   }));
 
   it('should exist and define an API', function () {
-    expect(!!ScenarioModel).toBe(true);
+    expect(ScenarioModel).toBeDefined();
     expect(ScenarioModel.get).toBeDefined();
     expect(ScenarioModel.create).toBeDefined();
   });

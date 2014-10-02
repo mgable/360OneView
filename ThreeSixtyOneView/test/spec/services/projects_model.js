@@ -2,22 +2,18 @@
 'use strict';
 
 describe('Service: ProjectModel', function() {
-	var $timeout, ProjectsModel, resource,  rootScope, projectsUrl, favoritesUrl, data, newProject, deferred, CONFIG, SERVER;
+	var $timeout, ProjectsModel, rootScope, projectsUrl, data, newProject, deferred;
 
 	// load the service's module
 	beforeEach(module('ThreeSixtyOneView.services'));
 	beforeEach(module('ThreeSixtyOneView.config'));
 
-	beforeEach(inject(function($q, $rootScope, $httpBackend, $location, _$timeout_, _ProjectsModel_, _Resource_, _SERVER_, _CONFIG_) {
-		CONFIG = _CONFIG_;
-		SERVER = _SERVER_;
+	beforeEach(inject(function($q, $rootScope, $httpBackend, $location, _$timeout_, _ProjectsModel_, SERVER, CONFIG) {
 		$timeout = _$timeout_;
 		projectsUrl = SERVER.server + CONFIG.application.api.projects;
-		favoritesUrl = SERVER.server + CONFIG.application.api.favorites;
 		ProjectsModel = _ProjectsModel_;
 		rootScope = $rootScope;
 		data = {title: "title", isMaster: false, id: 1234, description: "this is a test"};
-		resource = new _Resource_(projectsUrl);
 		newProject = CONFIG.application.models.ProjectsModel.newProject;
 		deferred = $q.defer();
 		deferred.resolve(data);
