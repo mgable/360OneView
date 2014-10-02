@@ -7,7 +7,7 @@ angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout
     var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.projects),
     responseTranslator = CONFIG.application.models.ProjectsModel.responseTranslator,
     requestTranslator = CONFIG.application.models.ProjectsModel.requestTranslator,
-    config = ModelModel.makeConfig(ModelModel,responseTranslator, requestTranslator),
+    config = ModelModel.makeConfig(ModelModel, responseTranslator, requestTranslator),
 
     // used for the rename functions
     put = function(data){
@@ -32,11 +32,11 @@ angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout
     this.resource = resource;
     this.config = config;
 
-    this.find = function(uid) {
+    this.find = function(uid){
         ModelModel.unwrap.call(this, resource.get(uid, config));
     };
 
-    this.get = function() {
+    this.get = function(){
         return this.$futureData;
     };
 

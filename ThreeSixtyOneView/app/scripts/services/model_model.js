@@ -67,10 +67,11 @@ angular.module("ThreeSixtyOneView.services")
 
 		this.unwrap = function(futureData) {
 			var self = this;
+			self.data = {};
 			this.$futureData = futureData;
 			this.$futureData.then(function(data) {
 				$timeout(function() {
-					_.extend(self, data);
+					_.extend(self.data, data);
 				});
 			});
 		};

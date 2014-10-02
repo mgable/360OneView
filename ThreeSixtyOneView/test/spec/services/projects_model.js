@@ -2,17 +2,18 @@
 'use strict';
 
 describe('Service: ProjectModel', function() {
-	var ProjectsModel, resource,  rootScope, projectsUrl, favoritesUrl, data, newProject, deferred, CONFIG, SERVER;
+	var $timeout, ProjectsModel, resource,  rootScope, projectsUrl, favoritesUrl, data, newProject, deferred, CONFIG, SERVER;
 
 	// load the service's module
 	beforeEach(module('ThreeSixtyOneView.services'));
 	beforeEach(module('ThreeSixtyOneView.config'));
 
-	beforeEach(inject(function($q, $rootScope, $location,  _ProjectsModel_, _Resource_, _SERVER_, _CONFIG_) {
+	beforeEach(inject(function($q, $rootScope, $httpBackend, $location, _$timeout_, _ProjectsModel_, _Resource_, _SERVER_, _CONFIG_) {
 		CONFIG = _CONFIG_;
 		SERVER = _SERVER_;
-		projectsUrl = SERVER.remote + CONFIG.application.api.projects;
-		favoritesUrl = SERVER.remote + CONFIG.application.api.favorites;
+		$timeout = _$timeout_;
+		projectsUrl = SERVER.server + CONFIG.application.api.projects;
+		favoritesUrl = SERVER.server + CONFIG.application.api.favorites;
 		ProjectsModel = _ProjectsModel_;
 		rootScope = $rootScope;
 		data = {title: "title", isMaster: false, id: 1234, description: "this is a test"};
@@ -20,6 +21,9 @@ describe('Service: ProjectModel', function() {
 		newProject = CONFIG.application.models.ProjectsModel.newProject;
 		deferred = $q.defer();
 		deferred.resolve(data);
+		$httpBackend.expectPOST(projectsUrl).respond({
+            "doesnot": "matter"
+        });
 	}));
 
 	it("should exist and define an API", function(){
@@ -44,9 +48,12 @@ describe('Service: ProjectModel', function() {
 	});
 
 	it("should create a project", function (){
-		var resourceSpy = spyOn(ProjectsModel.resource, "create").and.callThrough();
+		var resourceSpy = spyOn(ProjectsModel.resource, "create").and.callThrough(),
+		rootSpy = spyOn(rootScope, "$broadcast").and.callThrough();
 		ProjectsModel.create(newProject);
+		$timeout.flush();
 		expect(resourceSpy).toHaveBeenCalledWith(newProject, ProjectsModel.config);
+		expect(rootSpy.calls.count()).toEqual(2);
 	});
 
 	it ("should rename a project", function(){
