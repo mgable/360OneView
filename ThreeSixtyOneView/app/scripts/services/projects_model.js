@@ -15,7 +15,7 @@ angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout
             var index = _.indexOf(self.data, _.findWhere(self.data, {id: response.data.id}));
             self.data.splice(index, 1, response.data);
             $timeout(function(){
-                 $rootScope.$broadcast("ProjectsModel:dataChange", {
+                $rootScope.$broadcast("ProjectsModel:dataChange", {
                     data: self.data
                 });
 

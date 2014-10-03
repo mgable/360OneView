@@ -62,7 +62,7 @@ angular.module("ThreeSixtyOneView")
                     viewModel = $injector.get(currentModel);
                 }
 
-                // if there is a view model get the associated data and set it to the filter service
+                // if there is a view model get the associated data and send it to the filter service
                 if (viewModel) {
                     viewModel.get($scope.CONFIG.projectName).then(function(response) {
                         $scope.data = response;

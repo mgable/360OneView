@@ -46,7 +46,7 @@ describe('Service: Model Model', function () {
     $timeout = _$timeout_;
     $rootScope = _$rootScope_;
     dialogs = _dialogs_;
-    data ={"uuid": "12345", "name": "foo", "description": "foobarfixx", "unneeded": "foobar", "auditInfo": {"createdBy": {"name": "bar"}}};
+    data = {data: {"uuid": "12345", "name": "foo", "description": "foobarfixx", "unneeded": "foobar", "auditInfo": {"createdBy": {"name": "bar"}}}};
     translator = {"id": "uuid", "title": "name", "description": "description", "createdBy": {"selector":"['auditInfo']['createdBy']['name']"},};
     result = {"id": "12345", "title": "foo", "description": "foobarfixx", "createdBy": "bar"};
   }));
@@ -64,19 +64,19 @@ describe('Service: Model Model', function () {
   });
 
   it('should translate objects correctly', function(){
-    expect(ModelModel.translateObj(data, translator)).toEqual(result);
+    expect(ModelModel.translateObj(data.data, translator)).toEqual(result);
   });
 
   it('should translate requests', function(){
-    expect(ModelModel.translateRequest(data, translator)).toEqual(JSON.stringify(result));
-    expect(ModelModel.translateRequest(data)).toBe(data);
+    expect(ModelModel.translateRequest(data.data, translator)).toEqual(JSON.stringify(result));
+    expect(ModelModel.translateRequest(data.data)).toBe(data.data);
   });
 
   it('should translate response', function(){
     var spy = spyOn(dialogs, "error");
     ModelModel.translateResponse("foo-to-you", translator);
     expect(spy).toHaveBeenCalled();
-    expect(ModelModel.translateResponse(JSON.stringify(data), translator)).toEqual(result);
+    expect(ModelModel.translateResponse(JSON.stringify(data.data), translator)).toEqual(result);
   });
 
   it('should make the config object', function(){
@@ -91,6 +91,6 @@ describe('Service: Model Model', function () {
     deferred.resolve(data);
     ModelModel.unwrap(deferred.promise);
     $timeout.flush();
-    expect(ModelModel.data).toEqual(data);
+    expect(ModelModel.data).toEqual(data.data);
   });
 });
