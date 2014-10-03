@@ -1,0 +1,273 @@
+<div id="pivotBuilder" ng-controller="PivotBuilderCtrl" >
+	<div class="pbTitle" ng-class="{pbTitleSel: pbShow}" ng-mouseOver="rename = true" ng-mouseOut="rename = false" style="display: inline-block;">
+		<span class="glyphicon glyphicon-eye-open" ng-show="pbShow"></span> 
+		<span class="pbTitleText" ng-clicks="pbShow = !pbShow; undoList = [];" ng-click="pbShow ? closeSlider() : (pbShow = true)" ng-hide="saveAs">{{viewName}}</span> 
+		<span class="pbSaveAsBox" ng-show="saveAs">
+			<input type="text" ng-model="saveAsName"> 
+			<span class="glyphicon glyphicon-ok clickable" ng-click="finishSaveAs()"></span> 
+			<span class="glyphicon glyphicon-remove clickable" ng-click="cancelSaveAs()"></span>
+		</span>
+		<span ng-show="pbShow && changeMade() && !saveAs" class="pbTitleEdited">- Edited</span>
+		<div class="pbRename"><span class="pbRenameButt glyphicon glyphicon-pencil clickable" ng-show="rename && pbShow && !saveAs" ng-click="startSaveAs()"></span></div>
+		<div class="pbViewConf" ng-mouseleave="viewMenu = false" ng-show="!saveAs">
+			<span ng-show="pbShow" class="glyphicon glyphicon-cog pbViewConfButt clickable" ng-class="{pbViewConfMenuBack: viewMenu}" ng-click="viewMenu = !viewMenu"></span>
+			<div class="pbViewConfMenu" ng-show="viewMenu">
+				<span class="pbViewConfMenuTitl">RECENT VIEWS</span>
+				<ul>
+					<li class="pbViewConfMenuSel clickable" ng-repeat="view in pbData.viewsList">
+						<span class="glyphicon glyphicon-eye-open"></span> {{view.name}}
+					</li>
+				</ul>
+				<span class="pbViewConfMenuSel bold clickable">View all saved views</span>
+				<hr>
+				<span class="pbViewConfMenuSel bold clickable">Share</span>
+				<span class="pbViewConfMenuSel bold clickable" ng-click="resetView(); viewMenu = false">Reset</span>
+			</div>
+		</div>
+		<div class="pbViewSaved" ng-show="notifMsg">{{titleMsg}}</div>
+		<div class="pbViewSave" ng-show="pbShow && !saveAs && !notifMsg" ng-click="viewSaveMenu = !viewSaveMenu" ng-mouseleave="viewSaveMenu = false">
+			<span class="clickable"><span class="glyphicon glyphicon-floppy-disk"></span> Save View <span class="caret"></span></span>
+			<div class="pbViewSaveMenu" ng-show="viewSaveMenu">
+				<span class="pbViewSaveMenuItem clickable" ng-click="saveView()" ng-class="{pbViewSaveDisabled: !changeMade()}">Save View</span>
+				<hr>
+				<span class="pbViewSaveMenuItem clickable" ng-click="startSaveAs()">Save As New</span>
+			</div>
+		</div>
+	</div>
+
+	<!-- <span class="holder col-2" ng-click="globalInfo.showTray=!globalInfo.showTray"><i class="fa fa-book"></i>&nbsp;Contentual Info</span>
+	<span class="holder col-2"><i class="fa fa-building"></i>&nbsp;Adjust Amounts</span>
+	<span class="holder col-1"><i class="fa fa-expand"></i>&nbsp;Import/Export</span>
+	<span class="holder col-1" style="width: 200px">&nbsp;</span>
+	<span class="holder col-1"><i class="fa fa-undo"></i>&nbsp;Undo</span>
+	<span class="holder col-1"><i class="fa fa-cog"></i>&nbsp;</span> -->
+
+	<div ng-class="{pbOpened: pbShow}" class="pbSlider">
+		<div class="pbSliderClose">
+			<span class="clickable" ng-click="closeSlider()"><span class="glyphicon glyphicon-remove"></span><span class="pbCloseText"> Close</span></span>
+			<div class="alert alert-warning alert-dismissible pbCloseAlert" ng-style="{opacity: alertOpacity, 'z-index': (alertOpacity - 0.2)*1000}" role="alert"> <!-- add a class to 0 z-index -->
+				<button type="button" class="close" ng-click="alertOpacity = 0;">&times;</span><span class="sr-only">Close</span></button>
+				<strong>Warning!</strong> You made changes that you haven't saved. Click '<span class="clickable" ng-click="saveView(); applyView(); pbShow = false; alertOpacity = 0;">Apply</span>' to commit these changes.
+			</div>
+		</div>
+		<div id="dragDropArea">
+			<div class="pbSec">
+				<div class="pbSecTitle"><span class="glyphicon glyphicon-th-list rotate90"></span> Columns</div>
+				<div class="pbItemsHolder" sortable="dragOptions" ng-model="pbData.viewData.columns">
+					<div class="pbItem" ng-repeat="item in pbData.viewData.columns" sortable-item>
+						<span class="pbItemInfo" sortable-item-handle>
+							<!-- <span class="pbItemCat">{{item.category}}</span> -->
+							<span class="pbItemName">{{item.name}}</span>
+						</span>
+						<span class="glyphicon glyphicon-remove" ng-click="delItem(item.name, 'columns')"></span>
+					</div>
+					<div class="pbAddBox">
+						<div class="pbItemAdd clickable" no-drag data-toggleq="modal" data-targetq="#addModal" ng-click="cancelAddItem(); add.selected = 'columns'; addPopUp['columns'] = !addPopUp['columns']; addPopUp['rows'] = false; popUpLocSet($event);">+ Add</div>
+						<div ng-show="addPopUp['columns']" class="pbAddPopUp modal-content" ng-style="{top: (popUpLoc.top + 30) + 'px', left: (popUpLoc.left - 150) + 'px'}">
+							<table>
+								<tr ng-repeat="category in pbData.itemsList">
+									<td>{{category.name}}</td>
+									<td>
+										<div ng-repeat="item in category.subitems">
+											<span class="pbItemAddEnabled" ng-if="!added[item.name]" ng-click="addItem(item.name, category.name)">{{item.name}}</span>
+											<span class="pbItemAddDisabled" ng-if="added[item.name]">{{item.name}}</span>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="pbSec">
+				<div class="pbSecTitle"><span class="glyphicon glyphicon-th-list"></span> Rows</div>
+				<div class="pbItemsHolder" sortable="dragOptions" ng-model="pbData.viewData.rows">
+					<div class="pbItem" ng-repeat="item in pbData.viewData.rows" sortable-item>
+						<span class="pbItemInfo" sortable-item-handle>
+							<!-- <span class="pbItemCat">{{item.category}}</span> -->
+							<span class="pbItemName">{{item.name}}</span>
+						</span>
+						<span class="glyphicon glyphicon-remove" ng-click="delItem(item.name, 'rows')"></span>
+					</div>
+					<div class="pbAddBox">
+						<div class="pbItemAdd clickable" data-toggle1="modal" data-target1="#addModal" ng-click="cancelAddItem(); add.selected = 'rows'; addPopUp['rows'] = !addPopUp['rows']; addPopUp['columns'] = false; popUpLocSet($event);">+ Add</div>
+						<div ng-show="addPopUp['rows']" class="pbAddPopUp modal-content" ng-style="{top: (popUpLoc.top + 30) + 'px', left: (popUpLoc.left - 150) + 'px'}">
+							<table>
+								<tr ng-repeat="category in pbData.itemsList">
+									<td>{{category.name}}</td>
+									<td>
+										<div ng-repeat="item in category.subitems">
+											<span class="pbItemAddEnabled" ng-if="!added[item.name]" ng-click="addItem(item.name, category.name)">{{item.name}}</span>
+											<span class="pbItemAddDisabled" ng-if="added[item.name]">{{item.name}}</span>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="pbSec">
+			<div class="pbSecTitle"><span class="glyphicon glyphicon-filter"></span> Filters</div>
+			<div ng-repeat="cat in pbData.itemsList" class="pbFilterBox clickable" ng-click="selectedFilter.cat = cat; cancelChangeFilter()" data-toggle="modal" data-target="#filterModal">
+				<div>
+					<div class="pbFilterCat">{{cat.name}} <span class="pbFilterSize">({{pbData.viewData.filters[$index].items.length}}/{{cat.subitems[cat.subitems.length - 1].subsubitems[0].values.length}})</span></div>
+					<div class="pbFilterVal" data-toggle="tooltip" data-placement="bottom" title="{{pbData.viewData.filters[$index].items.join(', ')}}"><span ng-repeat="fltr in pbData.viewData.filters[$index].items">{{fltr}}<span ng-hide="$last">, </span></span></div>
+				</div>
+			</div>
+		</div>
+		<div class="pull-right pbViewButt">
+			<button class="btn btn-default btn-undo" ng-click="undoViewChange()" ng-disabled="undoList.length === 0">Undo</button>
+			<button class="btn btn-primary" ng-click="applyView()" ng-disabled="viewApplied">APPLY</button>
+		</div>
+	</div>
+
+<!-- add column/row modal -->
+	<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title" id="myModalLabel" ng-if="add.selected == 'columns'">Add Column(s)</h4>
+					<h4 class="modal-title" id="myModalLabel" ng-if="add.selected == 'rows'">Add Row(s)</h4>
+				</div>
+				<div class="modal-body">
+					<div class="pbModalHeight" style="max-height: {{windowHeight - 230}}px;">
+						<div ng-repeat="cat in pbData.itemsList" class="pbItemAddOuter">
+							<div class="pbItemAddCat">{{cat.name}}</div>
+							<div ng-repeat="item in cat.subitems" class="pbItemAddItem">
+								<label><input type="checkbox" ng-model="addChecked[item.name]" ng-checked="added[item.name]" ng-disabled="added[item.name]" ng-click="toggleToAdd({category: cat.name, name: item.name})"> {{item.name}}</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default pull-left" data-dismiss="modal" ng-click="cancelAddItem()">CANCEL</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addItem()">APPLY</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!-- filter modal -->
+	<div class="modal fade" id="filterModalOld" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" resize>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title" id="myModalLabel">{{selectedFilter.cat.name}}</h4>
+				</div>
+				<div class="alert alert-danger" role="alert" ng-show="filterCount(addedFilter[selectedFilter.cat.name], false) == 0">
+					You should select at least one item.
+				</div>
+				<div class="modal-body">
+					<div class="pbFilterSelect">
+						View by: <select ng-model="selFil" ng-options="item.name for item in selectedFilter.cat.subitems">
+							<!-- <option value=""> --- Choose a group --- </option> -->
+						</select>
+					</div>
+
+					<div class="pbFilterSearch" ng-show="selFil">
+						<input type="text" placeholder="Search" ng-model="filterSearch.values">
+					</div>
+
+					<div class="pbModalHeight" style="height: {{windowHeight - 340}}px;">
+						<div class="pbItemAddOuter pbItemAddCat pbFilterAll" ng-show="selFil">
+							<label><input type="checkbox" ng-click="allFilters()" indeterminate ng-indeterminate="filterCount(addedFilter[selectedFilter.cat.name], false)/selectedFilter.cat.subitems[selectedFilter.cat.subitems.length - 1].subsubitems[0].values.length"> All</label>
+							<div class="pull-right">{{filterCount(addedFilter[selectedFilter.cat.name], false)}} of {{selectedFilter.cat.subitems[selectedFilter.cat.subitems.length - 1].subsubitems[0].values.length}} items selected</div>
+						</div>
+						<div class="pbItemAddOuter" ng-repeat="item in selFil.subsubitems | filter:filterSearch:strict">
+							<div class="pbItemAddCat" ng-show="item.name && item.values">
+								<label><input type="checkbox" indeterminate ng-indeterminate="filterCount(addedFilter[selectedFilter.cat.name], item.values)/item.values.length" ng-click="allCategoryFilters(item.values)"> {{item.name}}</label> 
+								<span class="glyphicon glyphicon-chevron-down pull-right" ng-class="{rotate90: filterCollapse[item.name]}" ng-click="filterCollapse[item.name] = !filterCollapse[item.name]"></span>
+							</div>
+							<div class="filterChildItem" ng-class="{zeroHeight: filterCollapse[item.name]}">
+								<div ng-repeat="value in item.values | filter:filterSearch.values" class="pbItemAddItem">
+									<div><label><input type="checkbox" ng-model="addedFilter[selectedFilter.cat.name][value]"> {{value}}</label></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default pull-left" data-dismiss="modal" ng-click="cancelChangeFilter()">CANCEL</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="changeFilter()" ng-disabled="filterCount(addedFilter[selectedFilter.cat.name], false) == 0">APPLY</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!-- revised filter modal -->
+	<div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" resize>
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title" id="myModalLabel">Filters</h4>
+				</div>
+				<div class="modal-body">
+					<div class="pbFilterModalLinks" ng-style="{height: (windowHeight - 128) + 'px'}">
+						<div class="pbFilterModalLink clickable" ng-repeat="cat in pbData.itemsList" ng-click="selectedFilter.cat = cat; selectedFilter.selFil = cat.subitems[cat.subitems.length - 1]; console.log('y');" ng-class="{active: cat.name == selectedFilter.cat.name}">
+							<div>{{cat.name}} 
+								<span class="pbFilterSize">({{filterCount(addedFilter[cat.name], false, '')}}/{{cat.subitems[cat.subitems.length - 1].subsubitems[0].values.length}})</span>
+							</div>
+							<div class="pbFilterModalValues" data-toggle="tooltip" data-placement="bottom" title="{{pbData.viewData.filters[$index].items.join(', ')}}">
+								<span ng-repeat="ind in addedFilter[cat.name] | objToArr">{{ind}}<span ng-hide="$last">, </span></span>
+							</div>
+						</div>
+					</div>
+					<div class="pbFilterModalMain">
+						<div class="pbFilterTitle">{{selectedFilter.cat.name}}</div>
+						<div class="pbFilterSelect control-label">
+							View by: <select ng-model="selectedFilter.selFil" ng-options="item.name for item in selectedFilter.cat.subitems" class="form-control">
+								<!-- <option value=""> --- Choose a group --- </option> -->
+							</select>
+						</div>
+
+						<div class="pbFilterSearch" ng-show="selectedFilter.selFil">
+							<input class="form-control" type="text" placeholder="Search" ng-model="filterSearch.values" ng-keyup="expandCategories(selectedFilter.selFil.subsubitems, filterSearch)">
+						</div>
+
+						<div class="pbModalHeight" ng-style="{height: (windowHeight - 290) + 'px'}">
+							<div class="pbItemAddOuter pbItemAddCat pbFilterAll" ng-show="selectedFilter.selFil">
+								<label><input type="checkbox" ng-click="allFilters(filterSearch.values)" indeterminate ng-indeterminate="filterCount(addedFilter[selectedFilter.cat.name], false, filterSearch.values)/totalFilterCount(selectedFilter.cat.subitems[selectedFilter.cat.subitems.length - 1].subsubitems[0].values, filterSearch.values)"> Select All<span ng-if="filterSearch.values != ''"> Search Results</span></label>
+								({{filterCount(addedFilter[selectedFilter.cat.name], false, filterSearch.values)}}/{{totalFilterCount(selectedFilter.cat.subitems[selectedFilter.cat.subitems.length - 1].subsubitems[0].values, filterSearch.values)}})
+							</div>
+							<div class="pbItemAddOuter" ng-repeat="item in selectedFilter.selFil.subsubitems | filter:filterSearch:strict">
+								<div class="pbItemAddCat" ng-show="item.name && item.values">
+									<div class="pbFilterValCol1">
+										<span class="glyphicon glyphicon-chevron-down clickable" ng-class="{rotate270: !filterCollapse[item.name]}" ng-click="filterCollapse[item.name] = !filterCollapse[item.name]"></span>
+										<label><input type="checkbox" indeterminate ng-indeterminate="filterCount(addedFilter[selectedFilter.cat.name], item.values, filterSearch.values)/totalFilterCount(item.values, filterSearch.values)" ng-click="allCategoryFilters(item.values, filterSearch.values)"> {{item.name}} <span>({{filterCount(addedFilter[selectedFilter.cat.name], item.values, filterSearch.values)}}/{{totalFilterCount(item.values, filterSearch.values)}})</span></label> 
+									</div>
+									<div class="pbFilterValCol2">$98,765</div>
+								</div>
+								<div class="filterChildItem" ng-class="{zeroHeight: !filterCollapse[item.name] && item.name != ''}">
+									<div ng-repeat="value in item.values | filter:filterSearch.values" class="pbItemAddItem">
+										<div class="pbFilterValCol1"><label><input type="checkbox" ng-model="addedFilter[selectedFilter.cat.name][value]"> {{value}}</label></div>
+										<div class="pbFilterValCol2">$12,345</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="pbFilterModalButtons">
+							<button type="button" class="btn btn-default pull-left" data-dismiss="modal" ng-click="cancelChangeFilter()">CANCEL</button>
+							<button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="changeFilter()" ng-disabled="filterCount(addedFilter[selectedFilter.cat.name], false,'') == 0">UPDATE</button>
+							<div class="alert alert-danger pbFilterModalAlert" role="alert" ng-show="filterCount(addedFilter[selectedFilter.cat.name], false, '') == 0">
+								You should select at least one item.
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="modal-footer">
+					
+				</div> -->
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 
+<pre>
+{{appliedView}}
+</pre> -->

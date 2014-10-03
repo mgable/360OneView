@@ -16,6 +16,7 @@ angular.module('ThreeSixtyOneView', [
     'ui.utils',
     'dialogs.main',
     'ui.router',
+    'ui.sortable',
     'ThreeSixtyOneView.directives',
     'ThreeSixtyOneView.services',
     'ThreeSixtyOneView.config'
