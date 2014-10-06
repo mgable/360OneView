@@ -1,6 +1,5 @@
 /* global _ */
 /* jshint unused:false */
-
 "use strict";
 
 angular.module("ThreeSixtyOneView.services")
