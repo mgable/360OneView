@@ -260,6 +260,14 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		$scope.saveAs = true;
 	};
 
+	$scope.renameAction = function (event) {
+		if(event.keyCode === 13) {
+			$scope.finishSaveAs()
+		} else if(event.keyCode === 27) {
+			$scope.cancelSaveAs();
+		}
+	}
+
 	$scope.finishSaveAs = function() {
 		$scope.viewName = $scope.saveAsName;
 		$scope.saveView();

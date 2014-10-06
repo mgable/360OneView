@@ -8,6 +8,16 @@
 		cursor: pointer;
 	}
 
+	.pbRenameArea {
+		display: inline-block;
+/*		padding: 0;
+		height: 16px;*/
+
+		.glyphicon-eye-open {
+			padding-top: -1em;
+		}
+	}
+
 	.pbTitle {
 		transition: all 0.5s linear;
 		width: 500px;
@@ -72,8 +82,14 @@
 		}
 
 		.pbTitleText {
-			padding: 0.2em 0;
 			cursor: pointer;
+			max-width: 250px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			display: inline-block;
+			height: 20px;
+			padding-top: 0.2em;
 		}
 
 		.pbTitleEdited {
@@ -245,9 +261,12 @@
 			clear: both;
 			margin-left: 1em;
 
+			.glyphicon {
+				font-size: 15px;
+			}
+
 			.pbItemsHolder {
 				display: inline-block;
-				/*float: left;*/
 				width: 85%;
 
 				.pbTempDrop {
@@ -267,11 +286,8 @@
 		}
 
 		.pbItem {
-			min-width: 90px;
 			background-color: rgba(235,235,235,1.0);
 			float: left;
-			/*display: inline;*/
-			/*min-width: 100px;*/
 
 			color: rgba(66,66,66,1.0);
 			padding: 0.3em;
