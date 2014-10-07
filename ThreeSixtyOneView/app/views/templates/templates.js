@@ -213,7 +213,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/inline_rename.tpl.html',
-    "<form class=\"inlineRename\" name=\"inlineRename\">\r" +
+    "<form class=\"inlineRename\" name=\"rename\" novalidate role=\"form\">\r" +
     "\n" +
     "\t<span ng-transclude></span>\r" +
     "\n" +
@@ -223,10 +223,15 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "    <h4 ng-show=\"isActive\">\r" +
     "\n" +
-    "    \t<input ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='/^[^\\\\\\/\\?\\:\\*\"><|]+$/' class=\"inputTarget\" ng-model=\"item.title\" type=\"text\"></input>&nbsp;<button ng-click=\"submit(item)\" ng-disabled=\"(inlineRename.$dirty && inlineRename.$invalid) || inlineRename.$pristine\"><icon type=\"check\"></icon></button>&nbsp;<button ng-click=\"cancel()\"><icon type=\"times\"></icon></button></h4>\r" +
+    "    \t<input type=\"text\" class=\"inputTarget\" ng-model=\"item.title\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\" />&nbsp;\r" +
     "\n" +
-    "</form>\r" +
-    "\n"
+    "    \t<button ng-click=\"submit(item)\" ng-disabled=\"(rename.$dirty && rename.$invalid) || rename.$pristine\"><icon type=\"check\"></icon></button>&nbsp;\r" +
+    "\n" +
+    "    \t<button ng-click=\"cancel()\"><icon type=\"times\"></icon></button>\r" +
+    "\n" +
+    "    </h4>\r" +
+    "\n" +
+    "</form>"
   );
 
 
