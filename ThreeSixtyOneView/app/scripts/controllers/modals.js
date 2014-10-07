@@ -3,8 +3,19 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .controller('ProjectRenameCtrl', ["$scope", "$modalInstance", "data", function($scope, $modalInstance, data) {
+    .controller("ModalBaseCtrl", ["$scope", "$modalInstance", "CONFIG", function($scope, $modalInstance, CONFIG){
+        $scope.inputRestrictions = CONFIG.application.inputRestrictions;
+
+        $scope.close = function(evt) {
+            if (evt) { evt.preventDefault(); }
+            $modalInstance.dismiss('canceled');
+        };
+    }])
+    .controller('ProjectRenameCtrl', ["$scope", "$controller", "$modalInstance", "data", "CONFIG", function($scope, $controller, $modalInstance, data, CONFIG) {
         var service = data.service;
+
+        angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+
         $scope.data = data.item;
         $scope.name = $scope.data.title;
 
@@ -15,15 +26,9 @@ angular.module('ThreeSixtyOneView')
             $modalInstance.dismiss('create');
         };
 
-        $scope.close = function() {
-            console.info("cancel");
-            $modalInstance.dismiss('canceled');
-        };
-    }]).controller('ProjectCreateCtrl', ["$scope", "$rootScope", "$modalInstance", "ProjectsModel", "CONFIG", function($scope, $rootScope, $modalInstance, ProjectsModel, CONFIG) {
-        $scope.close = function(evt) {
-            if (evt) { evt.preventDefault(); }
-            $modalInstance.dismiss('canceled');
-        };
+    }]).controller('ProjectCreateCtrl', ["$scope", "$controller", "$rootScope", "$modalInstance", "ProjectsModel", "CONFIG", function($scope, $controller, $rootScope, $modalInstance, ProjectsModel, CONFIG) {
+
+        angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
         $scope.create = function(title, evt) {
             if (evt) { evt.preventDefault(); }
@@ -34,7 +39,10 @@ angular.module('ThreeSixtyOneView')
             ProjectsModel.create(newProject);
             $modalInstance.dismiss('create');
         };
-    }]).controller('CreateScenarioCtrl', ["$scope", "$modalInstance", "data", "ScenarioService", function($scope, $modalInstance, data, ScenarioService) {
+    }]).controller('CreateScenarioCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG) {
+
+        angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+
         $scope.scenario = data.scenario;
         var selectedRow = 0, getStatus = function (_id_){
             var element = _.findWhere($scope.scenarioList, {id: _id_});
@@ -65,10 +73,5 @@ angular.module('ThreeSixtyOneView')
 
         $scope.showRow = function(row){
             return row === selectedRow;
-        };
-
-        $scope.close = function() {
-            console.info("cancel");
-            $modalInstance.dismiss('canceled');
         };
 }]);

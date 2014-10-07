@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.directives')
-    .directive('inlineEdit', ["$timeout", "$rootScope", "ViewService", function($timeout, $rootScope, ViewService) {
+    .directive('inlineEdit', ["$timeout", "$rootScope", "ViewService", "CONFIG", function($timeout, $rootScope, ViewService, CONFIG) {
         return {
             replace: true,
             templateUrl: function(elem, attrs){
@@ -20,6 +20,7 @@ angular.module('ThreeSixtyOneView.directives')
                     inputTarget = $element.find(".inputTarget");
 
                 $scope.isActive = false;
+                $scope.inputRestrictions = CONFIG.application.inputRestrictions;
 
                 $scope.action = function() {
                     if (!$scope.isActive) {

@@ -30,7 +30,7 @@ angular.module("ThreeSixtyOneView.services")
 			if (request && requestTranslator) {
 				return JSON.stringify(this.translateObj(request, requestTranslator));
 			}
-			return request;
+			return JSON.stringify(request);
 		};
 
 		this.translateResponse = function (response, responseTranslator){
