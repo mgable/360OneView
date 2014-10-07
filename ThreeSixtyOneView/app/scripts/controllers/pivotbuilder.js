@@ -387,8 +387,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			{name: 'Time', subitems: [
 				{name: 'Years', subsubitems: [
 					{name: '2013', values: ['January 2013', 'February 2013', 'March 2013', 'April 2013', 'May 2013', 'June 2013', 'July 2013', 'August 2013', 'September 2013', 'October 2013', 'November 2013', 'December 2013']},
-					{name: '2014', values: ['January 2014', 'February 2014', 'March 2014', 'April 2014', 'May 2014', 'June 2014', 'July 2014', 'August 2014', 'September 2014', 'October 2014', 'November 2014', 'December 2014']},
-					{name: '2015', values: ['January 2015', 'February 2015', 'March 2015', 'April 2015', 'May 2015', 'June 2015', 'July 2015', 'August 2015', 'September 2015', 'October 2015', 'November 2015', 'December 2015']}
+					{name: '2014', values: ['January 2014', 'February 2014', 'March 2014', 'April 2014', 'May 2014', 'June 2014', 'July 2014', 'August 2014', 'September 2014', 'October 2014', 'November 2014', 'December 2014']}
 					]},
 				{name: 'Quarters', subsubitems: [
 					{name: 'Q1 2013', values: ['January 2013', 'February 2013', 'March 2013']},
@@ -398,14 +397,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 					{name: 'Q1 2014', values: ['January 2014', 'February 2014', 'March 2014']},
 					{name: 'Q2 2014', values: ['April 2014', 'May 2014', 'June 2014']},
 					{name: 'Q3 2014', values: ['July 2014', 'August 2014', 'September 2014']},
-					{name: 'Q4 2014', values: ['October 2014', 'November 2014', 'December 2014']},
-					{name: 'Q1 2015', values: ['January 2015', 'February 2015', 'March 2015']},
-					{name: 'Q2 2015', values: ['April 2015', 'May 2015', 'June 2015']},
-					{name: 'Q3 2015', values: ['July 2015', 'August 2015', 'September 2015']},
-					{name: 'Q4 2015', values: ['October 2015', 'November 2015', 'December 2015']}
+					{name: 'Q4 2014', values: ['October 2014', 'November 2014', 'December 2014']}
 					]},
 				{name: 'Months', subsubitems: [
-					{name: '', values: ['January 2013', 'February 2013', 'March 2013', 'April 2013', 'May 2013', 'June 2013', 'July 2013', 'August 2013', 'September 2013', 'October 2013', 'November 2013', 'December 2013','January 2014', 'February 2014', 'March 2014', 'April 2014', 'May 2014', 'June 2014', 'July 2014', 'August 2014', 'September 2014', 'October 2014', 'November 2014', 'December 2014','January 2015', 'February 2015', 'March 2015', 'April 2015', 'May 2015', 'June 2015', 'July 2015', 'August 2015', 'September 2015', 'October 2015', 'November 2015', 'December 2015']}
+					{name: '', values: ['January 2013', 'February 2013', 'March 2013', 'April 2013', 'May 2013', 'June 2013', 'July 2013', 'August 2013', 'September 2013', 'October 2013', 'November 2013', 'December 2013','January 2014', 'February 2014', 'March 2014', 'April 2014', 'May 2014', 'June 2014', 'July 2014', 'August 2014', 'September 2014', 'October 2014', 'November 2014', 'December 2014']}
 					]}
 				]}
 			],

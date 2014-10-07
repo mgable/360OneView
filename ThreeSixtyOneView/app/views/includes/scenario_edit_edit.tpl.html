@@ -2,7 +2,11 @@
 	<span class="col-2"><ng-include src="'views/includes/pivot_table_builder.tpl.html'"></ng-include></span>
 	<span class="holder col-1" style="width: 0; padding: 0"></span>
 </div>
-<table class="tableHolder">
+
+<div ng-controller="spreadjsCtrl" style="width: 1217px; margin-left: 1.13em;">
+	<ng-include src="'views/includes/spreadjs.tpl.html'"></ng-include>
+</div>
+<!-- <table class="tableHolder">
 	<tr>
 		<td class="trayHolder" ng-show="showTray" id="slide-in" >
 			<div class="tray" ng-show="showTray" id="slide-in">the tray</div>
@@ -94,4 +98,4 @@
 			</table>
 		</td>
 	</tr>
-</table>
+</table> -->

@@ -19,5 +19,6 @@ angular.module('ThreeSixtyOneView', [
     'ui.sortable',
     'ThreeSixtyOneView.directives',
     'ThreeSixtyOneView.services',
-    'ThreeSixtyOneView.config'
+    'ThreeSixtyOneView.config',
+    'wijspread'
 ]);
