@@ -5,7 +5,7 @@
 
 // View controllers
 angular.module("ThreeSixtyOneView")
-    .controller("MainCtrl", ["$scope", "SortAndFilterService", "ActiveSelection", "InfoTrayService", "DiaglogService", "FavoritesService", "ViewService", function($scope, SortAndFilterService,  ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService) {
+    .controller("MainCtrl", ["$scope", "SortAndFilterService", "ActiveSelection", "InfoTrayService", "DiaglogService", "FavoritesService", "ViewService", "ProjectsService", function($scope, SortAndFilterService,  ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService, ProjectsService) {
         // make all services available to app
         $scope.SortAndFilterService = SortAndFilterService;
         $scope.ActiveSelection = ActiveSelection;
@@ -13,6 +13,7 @@ angular.module("ThreeSixtyOneView")
         $scope.DiaglogService = DiaglogService;
         $scope.FavoritesService = FavoritesService;
         $scope.ViewService = ViewService;
+        $scope.ProjectsService = ProjectsService;
 
         // convenience methods
         $scope.console = function(msg) {
@@ -54,14 +55,14 @@ angular.module("ThreeSixtyOneView")
                 _.extend($scope.CONFIG, $stateParams);
 
                 // add projects to the projects service
-                ProjectsService.setProjects(Projects);
+                ProjectsService.setProjects(Projects.data);
 
                 // detemine which view model to get
                 if (currentModel){
                     viewModel = $injector.get(currentModel);
                 }
 
-                // if there is a view model get the associated data and set it to the filter service
+                // if there is a view model get the associated data and send it to the filter service
                 if (viewModel) {
                     viewModel.get($scope.CONFIG.projectName).then(function(response) {
                         $scope.data = response;
@@ -150,7 +151,7 @@ angular.module("ThreeSixtyOneView")
             Urlmaker.gotoView ("dashboard", project);
         };
 
-    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "Urlmaker", function($scope, $stateParams, Urlmaker){
+    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "Urlmaker", "ScenarioService", function($scope, $stateParams, Urlmaker, ScenarioService){
         $scope.scenario = {
             name: $stateParams.scenarioName,
             project: $stateParams.projectName
@@ -158,6 +159,11 @@ angular.module("ThreeSixtyOneView")
 
         $scope.editScenario = function (project, scenario){
             Urlmaker.gotoView ("scenarioEdit", project, scenario);
+        };
+
+        $scope.createScenario = function(scenario){
+            ScenarioService.create(scenario);
+            Urlmaker.gotoView ("scenarioEdit", scenario.project, scenario.name);
         };
 
         $scope.backToProject = function(project){

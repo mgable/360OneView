@@ -41,7 +41,7 @@
 			<th class="col-lg-6" data-align="left">{{scenario.project}} Project</th>
 		</thead>
 		<tbody>
-			<tr ng-repeat="scenario in scenarioList | filter: searchText">
+			<tr ng-repeat="scenario in scenarioList | filter: {'name': searchText}">
 				<td ng-click="setRow(scenario.id)">
 					<div class="row" >
 						<div class="col-md-1">

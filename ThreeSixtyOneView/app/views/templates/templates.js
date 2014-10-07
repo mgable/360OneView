@@ -276,15 +276,15 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/sortable_columns.tpl.html',
     "<div ng-switch on=\"displayBy\" class=\"text-holder\"> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Last Modified\">{{item.modifiedOn | timeago }}</span> \r" +
+    "\t<span ng-switch-when=\"Last Modified\" bind-once>{{item.modifiedOn | timeago }}</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Modified By\">{{item.modifiedBy}}</span> \r" +
+    "\t<span ng-switch-when=\"Modified By\" bind-once>{{item.modifiedBy}}</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Type\">{{item.type}}</span> \r" +
+    "\t<span ng-switch-when=\"Type\" bind-once>{{item.type}}</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Creator\">{{item.createdBy}}</span> \r" +
+    "\t<span ng-switch-when=\"Creator\" bind-once>{{item.createdBy}}</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Created Date\">{{item.createdOn | date: 'longDate' }}</span> \r" +
+    "\t<span ng-switch-when=\"Created Date\" bind-once>{{item.createdOn | date: 'longDate' }}</span> \r" +
     "\n" +
     "\t<span ng-switch-default>FAIL</span> \r" +
     "\n" +

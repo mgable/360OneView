@@ -10,8 +10,8 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
                 return id ? this._path.replace(/:id/, id) : this._path;
             };
 
-            this.get = function(uid, con){
-                var deferred = this._q.defer(), config = con || {};
+            this.get = function(uid, _config_){
+                var deferred = this._q.defer(), config = _config_ || {};
 
                 this._http
                     .get(getPath.call(this, uid), config)
@@ -21,15 +21,15 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
                 return deferred.promise;
             };
 
-            this.post = function(data, con) {
-                var deferred = this._q.defer(), path, config = con || {};
+            this.post = function(data, _config_, params) {
+                var deferred = this._q.defer(), path, config = _config_ || {};
 
                 if (typeof data === 'undefined') {
                     deferred.reject('I need an item template');
                     return deferred.promise;
                 }
 
-                path = this._path;
+                path = params ? getPath.call(this, params) : this._path;
 
                 this._http
                     .post(path, data, config)
@@ -42,8 +42,8 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
             //Alias for now
             this.create = this.post;
 
-            this.put = function(params, con) {
-                var deferred = this._q.defer(), config = con || {};
+            this.put = function(params, _config_) {
+                var deferred = this._q.defer(), config = _config_ || {};
 
                 if (typeof params === 'undefined') {
                     deferred.reject('I need an params with an id');
@@ -58,8 +58,8 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
                 return deferred.promise;
             };
 
-            this.delete = function(item, con){
-                var deferred = this._q.defer(), config = con || {};
+            this.delete = function(item, _config_){
+                var deferred = this._q.defer(), config = _config_ || {};
 
                 if (typeof item === 'undefined') {
                     deferred.reject('I need an item with an id');
