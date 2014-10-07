@@ -34,12 +34,15 @@ angular.module('ThreeSixtyOneView')
             ProjectsModel.create(newProject);
             $modalInstance.dismiss('create');
         };
-    }]).controller('CreateScenarioCtrl', ["$scope", "$modalInstance", "data", function($scope, $modalInstance, data) {
+
+    }]).controller('CreateScenarioCtrl', ["$scope", "$modalInstance", "data", "ScenarioService", function($scope, $modalInstance, data, ScenarioService) {
         $scope.scenario = data.scenario;
         var selectedRow = 0, getStatus = function (_id_){
             var element = _.findWhere($scope.scenarioList, {id: _id_});
             return element ? element.type !== 'not-calculated' : true ;
         };
+
+        ScenarioService.getAll();
 
         $scope.scenarioList = [
             { id: 1, name: 'Scenario Title 1', color: 'ff2f92', label: 'Al', type: '' },

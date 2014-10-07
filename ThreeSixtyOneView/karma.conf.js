@@ -14,7 +14,6 @@ module.exports = function(config) {
             'app/bower_components/jquery/dist/jquery.js',
             'app/bower_components/angular/angular.js',
             'app/bower_components/angular-mocks/angular-mocks.js',
-            'app/scripts/vendor/angular-stateMock.js',
             'app/bower_components/angular-resource/angular-resource.js',
             'app/bower_components/angular-sanitize/angular-sanitize.js',
             'app/bower_components/angular-animate/angular-animate.js',
@@ -24,6 +23,11 @@ module.exports = function(config) {
             'app/bower_components/underscore/underscore.js',
             'app/bower_components/angular-translate/angular-translate.js',
             'app/bower_components/angular-ui-utils/ui-utils.js',
+            'app/bower_components/ng-sortable/dist/ng-sortable.js',
+            'app/scripts/vendor/dialogs.js',
+            'app/scripts/vendor/jquery.wijmo.wijspread.all.3.20142.11.js',
+            'app/scripts/vendor/angular.wijmo.wijspread.3.20142.11.js',
+            'app/scripts/vendor/',
             'app/scripts/*.js',
             'app/scripts/**/*.js',
             'test/mock/**/*.js',
@@ -32,7 +36,10 @@ module.exports = function(config) {
         ],
 
         // list of files / patterns to exclude
-        exclude: [],
+        exclude: [
+            // "app/scripts/vendor/*.wijmo.*.js",
+            // "app/scripts/vendor/wijmo.*.*.js"
+        ],
 
         // web server port
         port: 9876,

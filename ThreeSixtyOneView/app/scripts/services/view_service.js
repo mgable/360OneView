@@ -8,7 +8,7 @@ angular.module('ThreeSixtyOneView.services')
 
         this.setModel = function(which) {
             model = which;
-            $rootScope.$broadcast('ViewService:modelChange', which);
+            $rootScope.$broadcast('ViewService:modelChange', model);
         };
 
         this.getModel = function() {

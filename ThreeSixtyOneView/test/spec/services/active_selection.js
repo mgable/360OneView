@@ -6,10 +6,9 @@ describe('Service: Active Selection', function () {
   beforeEach(module('ThreeSixtyOneView'));
 
   // instantiate service
-  var ActiveSelection, $rootScope, item, rootScopeSpy;
-  beforeEach(inject(function (_$rootScope_, _ActiveSelection_) {
+  var ActiveSelection, item, rootScopeSpy;
+  beforeEach(inject(function ($rootScope, _ActiveSelection_) {
     ActiveSelection = _ActiveSelection_;
-    $rootScope = _$rootScope_;
     item = {"id": "123"};
     rootScopeSpy = spyOn($rootScope, "$broadcast").and.callThrough();
   }));

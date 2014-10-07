@@ -1,0 +1,12 @@
+<div class="row">
+	<wij-spread id="spreadjs" style="width:100%; height: 290px; border: 1px solid #D0D7E5;" backcolor="white" newtabvisible="false" tabstripvisible="false" canUserDragDrop="false" showVerticalScrollbar="false" showHorizontalScrollbar="true">
+		<sheets>
+			<sheet datasource="data" name="data"></sheet>
+		</sheets>
+	</wij-spread>
+</div>
+<div class="row" style="margin-top:20px">
+	<button type="button" class="btn btn-default" ng-click="lockCell()" ng-model="toggleText">{{toggleText}}</button>
+	<button type="button" class="btn btn-default" ng-click="sortAscending()">Sort A-Z</button>
+	<button type="button" class="btn btn-default" ng-click="sortDescending()">Sort Z-A</button>
+</div>

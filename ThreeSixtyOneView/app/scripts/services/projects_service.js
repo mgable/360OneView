@@ -11,12 +11,12 @@ angular.module('ThreeSixtyOneView')
 			if (item) {
 				return item.id;
 			} else {
-				console.error("No project named " + _title_ + " was found!");
+				console.error("The project named " + _title_ + " was NOT found!");
 			}
 		};
 
 		this.setProjects = function(_projects_){
-			projects = _projects_.data;
+			projects = _projects_;
 		};
 
 		this.getProjects = function(){

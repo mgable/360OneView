@@ -1,42 +1,12 @@
 <div class="actions">
-	<span class="holder col-4 pivotTableControlsHolder"><span ng-click="showDrop = !showDrop"><i class="fa fa-eye"></i>&nbsp;Your View: <span>Fiesta 2015 v2</span></span>
-
-
-		<div class="pivotTableControls" ng-show="showDrop">
-
-			<div class="dimensions">
-				<div class="dimension">
-					<icon type="tag" cname="tag"></icon>&nbsp;<span class="type">product</span><span class='name:'><a>Fiesta</a></span><icon type="play" cname="trigger"></icon>
-				</div>
-				<div class="dimension">
-					<icon type="flask" cname="tag"></icon>&nbsp;<span class="type">touchpoint</span><span class='name:'><a>All</a></span><icon type="play" cname="trigger"></icon>
-				</div>
-				<div class="dimension">
-					<icon type="globe" cname="tag"></icon>&nbsp;<span class="type">geography</span><span class='name:'><a>All</a></span><icon type="play" cname="trigger"></icon>
-				</div>
-				<div class="dimension">
-					<icon type="calendar" cname="tag"></icon>&nbsp;<span class="type">time</span><span class='name:'><a>2015</a></span><icon type="play" cname="trigger"></icon>
-				</div>
-			</div>
-
-			<div class="fields">fields here</div>
-
-			<div class="columnsAndRows">coulns and rows here</div>
-
-			<div class="footer">footer here</div>
-
-		</div>
-
-
-	</span>
-	<span class="holder col-2" ng-click="showTray=!showTray"><i class="fa fa-book"></i>&nbsp;Contentual Info</span>
-	<span class="holder col-2"><i class="fa fa-building"></i>&nbsp;Adjust Amounts</span>
-	<span class="holder col-1"><i class="fa fa-expand"></i>&nbsp;Import/Export</span>
-	<span class="holder col-1">&nbsp;</span>
-	<span class="holder col-1"><i class="fa fa-undo"></i>&nbsp;Undo</span>
-	<span class="holder col-1"><i class="fa fa-cog"></i>&nbsp;</span>
+	<span class="col-2"><ng-include src="'views/includes/pivot_table_builder.tpl.html'"></ng-include></span>
+	<span class="holder col-1" style="width: 0; padding: 0"></span>
 </div>
-<table class="tableHolder">
+
+<div ng-controller="spreadjsCtrl" style="width: 1217px; margin-left: 1.13em;">
+	<ng-include src="'views/includes/spreadjs.tpl.html'"></ng-include>
+</div>
+<!-- <table class="tableHolder">
 	<tr>
 		<td class="trayHolder" ng-show="showTray" id="slide-in" >
 			<div class="tray" ng-show="showTray" id="slide-in">the tray</div>
@@ -128,4 +98,4 @@
 			</table>
 		</td>
 	</tr>
-</table>
+</table> -->
