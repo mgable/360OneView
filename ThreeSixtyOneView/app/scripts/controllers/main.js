@@ -84,7 +84,7 @@ angular.module("ThreeSixtyOneView")
                             // get all favorites
                             FavoritesModel.get().then(function(response){
                                 FavoritesService.setFavorites(_.pluck(response, 'uuid'));
-                                FavoritesService.addFavorite(master.id);
+                                if (master) { FavoritesService.addFavorite(master.id); }
                             });
                         }
                     });
