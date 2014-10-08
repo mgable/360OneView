@@ -69,7 +69,7 @@ describe('Service: Model Model', function () {
 
   it('should translate requests', function(){
     expect(ModelModel.translateRequest(data.data, translator)).toEqual(JSON.stringify(result));
-    expect(ModelModel.translateRequest(data.data)).toBe(data.data);
+    expect(ModelModel.translateRequest(data.data)).toEqual(JSON.stringify(data.data));
   });
 
   it('should translate response', function(){
