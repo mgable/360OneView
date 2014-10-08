@@ -5,16 +5,8 @@
 
 // View controllers
 angular.module("ThreeSixtyOneView")
-    .controller("MainCtrl", ["$scope", "SortAndFilterService", "ActiveSelection", "InfoTrayService", "DiaglogService", "FavoritesService", "ViewService", "ProjectsService", function($scope, SortAndFilterService,  ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService, ProjectsService) {
-        // make all services available to app
-        $scope.SortAndFilterService = SortAndFilterService;
-        $scope.ActiveSelection = ActiveSelection;
-        $scope.InfoTrayService = InfoTrayService;
-        $scope.DiaglogService = DiaglogService;
-        $scope.FavoritesService = FavoritesService;
+    .controller("MainCtrl", ["$scope", "ViewService", function($scope, ViewService) {
         $scope.ViewService = ViewService;
-        $scope.ProjectsService = ProjectsService;
-
         // convenience methods
         $scope.console = function(msg) {
             console.info(msg);
@@ -27,7 +19,7 @@ angular.module("ThreeSixtyOneView")
             }
         };
 
-    }]).controller("ManagerCtrl", ["$scope", "$injector", "$location", "$stateParams", "$state", "CONFIG", "Urlmaker", "FavoritesModel", "FavoritesService", "ViewService", "InfoTrayService", "ProjectsService", "Projects", "ActiveSelection", function($scope, $injector, $location, $stateParams, $state, CONFIG, Urlmaker, FavoritesModel, FavoritesService, ViewService, InfoTrayService, ProjectsService, Projects, ActiveSelection) {
+    }]).controller("ManagerCtrl", ["$scope", "$injector", "$location", "$stateParams", "$state", "CONFIG", "Urlmaker", "FavoritesModel", "FavoritesService", "ViewService", "InfoTrayService", "ProjectsService", "Projects", "ActiveSelection", "SortAndFilterService", function($scope, $injector, $location, $stateParams, $state, CONFIG, Urlmaker, FavoritesModel, FavoritesService, ViewService, InfoTrayService, ProjectsService, Projects, ActiveSelection, SortAndFilterService) {
         var currentView = CONFIG.view[$state.current.name],
             currentModel = currentView.model, filter = "",
             viewModel,
@@ -66,7 +58,7 @@ angular.module("ThreeSixtyOneView")
                 if (viewModel) {
                     viewModel.get($scope.CONFIG.projectName).then(function(response) {
                         $scope.data = response;
-                        $scope.SortAndFilterService.init({
+                        SortAndFilterService.init({
                             data: response,
                             orderBy: orderBy,
                             filter: filter,
@@ -88,7 +80,7 @@ angular.module("ThreeSixtyOneView")
                             });
                         }
                     });
-
+                    //ViewService.setCurrentView($state.current.name);
                     ViewService.setModel(viewModel);
                 } else {
                     console.info ("no view model");
@@ -98,6 +90,7 @@ angular.module("ThreeSixtyOneView")
         init();
 
         // Controller API
+        $scope.SortAndFilterService = SortAndFilterService;
         $scope.goto = function(evt, where, item){
             evt.stopPropagation();
             switch(where){
@@ -117,12 +110,12 @@ angular.module("ThreeSixtyOneView")
             Urlmaker.gotoView("dashboard", data.title);
         });
 
-    }]).controller('InfoTrayCtrl', ["$scope", "ViewService", "ScenarioService", function($scope, ViewService, ScenarioService) {
+    }]).controller('InfoTrayCtrl', ["$scope", "ViewService", "ScenarioService", "ActiveSelection", function($scope, ViewService, ScenarioService, ActiveSelection) {
         var getScenarios = function(title){
             return ScenarioService.get(title);
         };
 
-        $scope.selectedItem = $scope.ActiveSelection.getActiveItem();
+        $scope.selectedItem = ActiveSelection.getActiveItem();
 
         $scope.update = function(item) {
             var service = ViewService.getModel();

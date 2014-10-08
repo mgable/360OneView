@@ -8,26 +8,16 @@ describe('Controllers: ', function() {
     beforeEach(module('ThreeSixtyOneView', 'ThreeSixtyOneView.services'));
 
     describe("MainCtrl: ", function(){
-        beforeEach(inject(function($rootScope, $controller, _SortAndFilterService_,  _ActiveSelection_, _InfoTrayService_, _DiaglogService_, _FavoritesService_, _ViewService_) {
+        beforeEach(inject(function($rootScope, $controller, _ViewService_) {
             scope = $rootScope.$new();
             ctrl = $controller('MainCtrl', {
                 $scope: scope,
-                SortAndFilterService: _SortAndFilterService_,
-                ActiveSelection: _ActiveSelection_,
-                InfoTrayService: _InfoTrayService_,
-                DiaglogService: _DiaglogService_,
-                FavoritesService: _FavoritesService_,
                 ViewService: _ViewService_
             });
         }));
 
         it("should define all services", function(){
-            expect(scope.SortAndFilterService).toBeDefined();
-            expect(scope.ActiveSelection).toBeDefined();
-            expect(scope.InfoTrayService).toBeDefined();
             expect(scope.ViewService).toBeDefined();
-            expect(scope.FavoritesService).toBeDefined();
-            expect(scope.DiaglogService).toBeDefined();
         });
     });
 
