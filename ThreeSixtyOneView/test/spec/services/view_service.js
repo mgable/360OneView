@@ -1,3 +1,6 @@
+/* global _ */
+/* jshint unused:false */
+
 'use strict';
 
 describe('Service: View Service', function () {
