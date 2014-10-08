@@ -5,6 +5,11 @@
 angular.module('ThreeSixtyOneView.services')
     .service('ViewService', ["$rootScope", function($rootScope) {
         var model, currentView, self = this;
+        this.init = function() {
+                $rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams) {
+                self.setCurrentView(toState.name);
+            });
+        };
 
         this.setModel = function(which) {
             model = which;
@@ -23,7 +28,6 @@ angular.module('ThreeSixtyOneView.services')
             return currentView;
         };
 
-        $rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams) {
-            self.setCurrentView(toState.name);
-        });
+        this.init();
+        
     }]);
