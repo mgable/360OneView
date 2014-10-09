@@ -175,7 +175,7 @@ angular.module("ThreeSixtyOneView")
         $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
         $scope.scenarioElementType = $scope.types[0];
 
-    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "GotoService", function($scope, $stateParams, ScenarioService, GotoService){
+    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DiaglogService", "GotoService", function($scope, $stateParams, ScenarioService, DiaglogService, GotoService){
             $scope.GotoService = GotoService;
             $scope.scenario = {
                 project: $stateParams.projectName
@@ -184,5 +184,9 @@ angular.module("ThreeSixtyOneView")
             $scope.createScenario = function(scenario){
                 ScenarioService.create(scenario);
                 GotoService.scenarioEdit(scenario.project, scenario.title);
+            };
+
+            $scope.currentScenario = function (scenario){
+                DiaglogService.currentScenario(scenario);
             };
     }]);
