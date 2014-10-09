@@ -3,86 +3,60 @@
 "use strict";
 
 describe('Routes tests: ', function() {
-    var location, $state, rootScope, urlProjects, urlFavorites, SERVER, CONFIG, $httpBackend, $urlRouter;
+    var $rootScope, $state, $httpBackend, urlProjects, urlFavorites, SERVER, CONFIG;
 
-    beforeEach(module('ThreeSixtyOneView'));
+    beforeEach(module('ThreeSixtyOneView'), function($provide){
+        $provide.value("ProjectsModel", projects = {}); //This does not work
+        projects.get = jasmine.createSpy('get').and.returnValue('settings-all');
+    });
 
-    beforeEach(module('stateMock'));
-
-    beforeEach(inject(function($rootScope, $location, _$state_, _SERVER_, _CONFIG_, _$urlRouter_) {
-        location = $location;
-        rootScope = $rootScope;
-        $urlRouter = _$urlRouter_;
+    beforeEach(inject(function(_$state_, _$rootScope_, _$httpBackend_, SERVER, CONFIG, ProjectsModel) {
         $state = _$state_;
-        SERVER = _SERVER_;
-        CONFIG = _CONFIG_;
+        $rootScope = _$rootScope_;
+        $httpBackend = _$httpBackend_;
         urlProjects = SERVER.server + CONFIG.application.api.projects;
         urlFavorites = SERVER.server + CONFIG.application.api.favorites;
-
+        // $httpBackend.whenGET(urlProjects).respond('');
+        // $httpBackend.whenGET(urlFavorites).respond('');
+        // $httpBackend.whenGET('views/display_manager.tpl.html').respond('');
     }));
 
     describe('Routes', function() {
-        beforeEach(inject(function(_$httpBackend_) {
-            $httpBackend = _$httpBackend_;
-            $httpBackend.expectGET(urlProjects).respond({
-                "doesnot": "matter"
-            });
-            $httpBackend.expectGET(urlFavorites).respond({
-                "doesnot": "matter"
-            });
+  
+        it("should have a projects state", inject(function($injector) {
+            var state = "ProjectManager", 
+            config = $state.get(state);
+            expect(config.name).toBe(state);
+            expect(config.url).toBe("/projects");
+            expect(config.controller).toBe("ManagerCtrl");
+            //$state.go(state);
+            //$rootScope.$digest();
+            //expect($state.current.name).toBe(state);
+            //expect($injector.invoke(config.resolve.Projects)).toEqual("")
         }));
 
-        xit("should load index page", function() {
-            $httpBackend.expectGET('views/display_manager.tpl.html').respond({
-                "doesnot": "matter"
-            });
-            location.path('/');
-            rootScope.$digest();
-            //console.info($urlRouter)
-            // expect($state.current.controller).toBe('ManagerCtrl');
-            // expect($state.current.viewName).toBe('ProjectManager');
-            $httpBackend.verifyNoOutstandingExpectation();
+        it("should have a scenario edit state", function() {
+            var state = "ScenarioEdit", 
+            config = $state.get(state);
+            expect(config.name).toBe(state);
+            expect(config.url).toBe("/scenarioEdit/:project/:scenario");
+            expect(config.controller).toBe("ScenarioEditCtrl");
         });
 
-        it("should load projects page", function() {
-            var state = "ProjectManager";
-            $state.expectTransitionTo(state);
-            $state.go(state);
-            expect($state.current.name).toBe(state);
-            $state.ensureAllTransitionsHappened();
+        it ("should have a scenario create state", function(){
+            var state = "ScenarioCreate", 
+            config = $state.get(state);
+            expect(config.name).toBe(state);
+            expect(config.url).toBe("/scenarioCreate/:projectName");
+            expect(config.controller).toBe("ScenarioCreateCtrl");
         });
 
-        xit("should load index page on unknown route", function() {
-            $httpBackend.expectGET('views/display_manager.tpl.html').respond({
-                "doesnot": "matter"
-            });
-            location.path('/nowheresville');
-            rootScope.$digest();
-            expect(state.current.controller).toBe('ManagerCtrl');
-            expect(state.current.viewName).toBe('ProjectManager');
-            $httpBackend.verifyNoOutstandingExpectation();
-        });
-
-        xit("should load scenario edit page", function() {
-            $httpBackend.expectGET('views/scenario_edit.tpl.html').respond({
-                "doesnot": "matter"
-            });
-            location.path('/scenarioEdit/project/scenario');
-            rootScope.$digest();
-            expect(state.current.controller).toBe('ScenarioEditCtrl');
-            expect(state.current.viewName).not.toBeDefined();
-            $httpBackend.verifyNoOutstandingExpectation();
-        });
-
-        xit ("should load the scenario create page", function(){
-             $httpBackend.expectGET('views/scenario_create.tpl.html').respond({
-                "doesnot": "matter"
-            });
-            location.path('/scenarioCreate/projectName');
-            rootScope.$digest();
-            expect(state.current.controller).toBe('ScenarioCreateCtrl');
-            expect(state.current.viewName).not.toBeDefined();
-            $httpBackend.verifyNoOutstandingExpectation();
+        it ("should have a dashboard state", function(){
+            var state = "Dashboard", 
+            config = $state.get(state);
+            expect(config.name).toBe(state);
+            expect(config.url).toBe("/dashboard/:projectName");
+            expect(config.controller).toBe("ManagerCtrl");
         });
     });
 });

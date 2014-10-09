@@ -12,7 +12,7 @@
  *
  **/
 var m = angular.module("wijspread", []);
-(function()
+(function($)
 {
     function lineBorderConverter(stringValue)
     {
@@ -1335,5 +1335,4 @@ var m = angular.module("wijspread", []);
                     }
             }
     })
-})()
-
+})($)
