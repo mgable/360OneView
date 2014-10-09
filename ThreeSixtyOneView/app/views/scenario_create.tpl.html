@@ -1,7 +1,7 @@
 <form class="app" name="ScenarioCreate">
 	<div class="scenario-create">
 		<div class="ms-breadcrumb">
-			<a ng-click="gotoDashboard(scenario.project)">
+			<a ng-click="GotoService.dashboard(scenario.project)">
 				<icon type="chevron-left"></icon>
 				<icon type="chevron-left"></icon>
 				{{scenario.project}} Project
@@ -34,7 +34,7 @@
 		</div>
 		<div class="footer">
 			<button class="btn btn-primary" ng-disabled="(ScenarioCreate.$dirty && ScenarioCreate.$invalid) || ScenarioCreate.$pristine" ng-click="createScenario(scenario)">CREATE SCENARIO</button>
-			<span class="right-side"><a ng-click="gotoDashboard(scenario.project)">Cancel</a></span>
+			<span class="right-side"><a ng-click="GotoService.dashboard(scenario.project)">Cancel</a></span>
 		</div>
 	</div>
 </form>

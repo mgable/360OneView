@@ -24,23 +24,7 @@ angular.module("ThreeSixtyOneView")
             }
         };
 
-        $scope.gotoScenarioEdit = function (project, scenario){
-            $state.go("ScenarioEdit", {"project": project, "scenario": scenario});
-        };
-
-        $scope.gotoDashboard = function(project){
-            $state.go("Dashboard", {"projectName": project});
-        };
-
-        $scope.gotoProjects = function(){
-            $state.go("ProjectManager");
-        };
-            
-        $scope.gotoScenarioCreate = function(projectName){
-            $state.go("ScenarioCreate", {"projectName": projectName});
-        };
-
-    }]).controller("ManagerCtrl", ["$scope", "$injector", "$location", "$stateParams", "$state", "CONFIG", "FavoritesModel", "FavoritesService", "ViewService", "InfoTrayService", "ProjectsService", "Projects", "ActiveSelection", "SortAndFilterService", function($scope, $injector, $location, $stateParams, $state, CONFIG, FavoritesModel, FavoritesService, ViewService, InfoTrayService, ProjectsService, Projects, ActiveSelection, SortAndFilterService) {
+    }]).controller("ManagerCtrl", ["$scope", "$injector",  "$stateParams", "$state", "CONFIG", "FavoritesModel", "FavoritesService", "ViewService", "InfoTrayService", "ProjectsService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", function($scope, $injector, $stateParams, $state, CONFIG, FavoritesModel, FavoritesService, ViewService, InfoTrayService, ProjectsService, Projects, ActiveSelection, SortAndFilterService, GotoService) {
         var currentView = CONFIG.view[$state.current.name],
             currentModel = currentView.model, filter = "",
             viewModel,
@@ -107,10 +91,10 @@ angular.module("ThreeSixtyOneView")
         $scope.goto = function(evt, where, item){
             //evt.stopPropagation();
             switch(where){
-                case "gotoScenarioEdit": $scope.gotoScenarioEdit(getProjectName(), item); break;
-                case "gotoDashboard": $scope.gotoDashboard(item); break;
-                case "gotoProjects": $scope.gotoProjects(); break;
-                case "gotoScenarioCreate": $scope.gotoScenarioCreate(item); break;
+                case "gotoScenarioEdit": GotoService.scenarioEdit(getProjectName(), item); break;
+                case "gotoDashboard": GotoService.dashboard(item); break;
+                case "gotoProjects": GotoService.projects(); break;
+                case "gotoScenarioCreate": GotoService.scenarioCreate(item); break;
             }
             InfoTrayService.closeInfoTray();
         };
@@ -148,19 +132,21 @@ angular.module("ThreeSixtyOneView")
                 });
             }
         });
-    }]).controller("ScenarioEditCtrl", ["$scope", "$state",  "$stateParams", function($scope, $state, $stateParams) {
+    }]).controller("ScenarioEditCtrl", ["$scope", "$state",  "$stateParams", "GotoService", function($scope, $state, $stateParams, GotoService) {
+        $scope.GotoService = GotoService;
         $scope.projectName = $stateParams.project;
         $scope.entity = $stateParams.entity;
         $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
         $scope.scenarioElementType = $scope.types[0];
 
-    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "$state", "ScenarioService", function($scope, $stateParams, $state, ScenarioService){
-        $scope.scenario = {
-            project: $stateParams.projectName
-        };
+    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "GotoService", function($scope, $stateParams, ScenarioService, GotoService){
+            $scope.GotoService = GotoService;
+            $scope.scenario = {
+                project: $stateParams.projectName
+            };
 
-        $scope.createScenario = function(scenario){
-            ScenarioService.create(scenario);
-            $scope.gotoScenarioEdit(scenario.project, scenario.title);
-        };
+            $scope.createScenario = function(scenario){
+                ScenarioService.create(scenario);
+                GotoService.scenarioEdit(scenario.project, scenario.title);
+            };
     }]);
