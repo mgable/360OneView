@@ -169,7 +169,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/display_actions.tpl.html',
     "<div class=\"display-actions\">\r" +
     "\n" +
-    "\t<h4 class=\"pull-left title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;<span>({{SortAndFilterService.getCount()}})</span></h4>\r" +
+    "\t<h4 class=\"pull-left title\">{{getSelectedLabel()}}&nbsp;<span>({{getCount()}})</span></h4>\r" +
     "\n" +
     "\t\r" +
     "\n" +

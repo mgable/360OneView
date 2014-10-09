@@ -86,8 +86,6 @@ angular.module("ThreeSixtyOneView")
         init();
 
         // Controller API
-        $scope.SortAndFilterService = SortAndFilterService;
-
         $scope.goto = function(evt, where, item){
             //evt.stopPropagation();
             switch(where){
@@ -97,6 +95,44 @@ angular.module("ThreeSixtyOneView")
                 case "gotoScenarioCreate": GotoService.scenarioCreate(item); break;
             }
             InfoTrayService.closeInfoTray();
+        };
+
+        $scope.showDetails = function(item){
+            ActiveSelection.setActiveItem(item);
+            InfoTrayService.toggleInfoTray();
+        };
+
+        $scope.toggleFavorite = function($event, itemID){
+            $event.stopPropagation();
+            FavoritesService.toggleFavorite(itemID);
+        };
+
+        $scope.isFavorite = function(itemID){
+            return FavoritesService.isFavorite(itemID);
+        };
+
+        $scope.isActiveItem = function (item){
+            return ActiveSelection.isActiveItem(item);
+        };
+
+        $scope.getData = function () {
+            return SortAndFilterService.getData();
+        };
+
+        $scope.getSorter = function(column) {
+            return SortAndFilterService.getSorter(column);
+        };
+
+        $scope.getSelectedLabel = function() {
+            return SortAndFilterService.getSelectedLabel();
+        };
+
+        $scope.getCount = function() {
+            return SortAndFilterService.getCount();
+        };
+
+        $scope.setFilter = function(type, item, forceFilter) {
+            SortAndFilterService.setFilter(type, item, forceFilter);
         };
 
         // Event Listeners

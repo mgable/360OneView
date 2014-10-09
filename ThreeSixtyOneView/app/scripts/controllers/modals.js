@@ -12,8 +12,6 @@ angular.module('ThreeSixtyOneView')
         };
     }])
     .controller('ProjectRenameCtrl', ["$scope", "$controller", "$modalInstance", "data", "CONFIG", function($scope, $controller, $modalInstance, data, CONFIG) {
-        var service = data.service;
-
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
         $scope.data = data.item;
@@ -22,21 +20,19 @@ angular.module('ThreeSixtyOneView')
         $scope.rename = function(title, evt) {
             if (evt) { evt.preventDefault(); }
             $scope.data.title = title;
-            service.rename($scope.data);
+            $scope.$emit("project:rename", $scope.data);
             $modalInstance.dismiss('create');
         };
 
-    }]).controller('ProjectCreateCtrl', ["$scope", "$controller", "$rootScope", "$modalInstance", "ProjectsModel", "CONFIG", function($scope, $controller, $rootScope, $modalInstance, ProjectsModel, CONFIG) {
-
+    }]).controller('ProjectCreateCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", function($scope, $controller, $modalInstance, CONFIG) {
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
         $scope.create = function(title, evt) {
             if (evt) { evt.preventDefault(); }
             var newProject = CONFIG.application.models.ProjectsModel.newProject;
             newProject.title = title;
-            // create the new project
-            //TODO: refactor this to an event
-            ProjectsModel.create(newProject);
+
+            $scope.$emit("project:create", newProject);
             $modalInstance.dismiss('create');
         };
     }]).controller('CreateScenarioCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG) {

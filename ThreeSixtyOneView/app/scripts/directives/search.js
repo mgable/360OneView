@@ -14,7 +14,7 @@ angular.module('ThreeSixtyOneView.directives')
 
                 $scope.toggleSearchField = function() {
                     if ($scope.searchVisible) {
-                        $scope.SortAndFilterService.resetSearchText();
+                        SortAndFilterService.resetSearchText();
                     } else {
                         $timeout(function() {
                             inputField[0].focus();

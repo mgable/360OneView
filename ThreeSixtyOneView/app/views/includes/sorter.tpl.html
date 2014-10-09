@@ -15,23 +15,23 @@
 			<th><!-- holds a column for the contextual menu --></th>
 		</thead>
 		<tbody>
-			<tr ng-repeat="item in SortAndFilterService.getData()" ng-class="{active: ActiveSelection.isActiveItem(item)}" class="{{CONFIG.status && item.status.className || ''}}"> 
+			<tr ng-repeat="item in getData()" ng-class="{active: isActiveItem(item)}" class="{{CONFIG.status && item.status.className || ''}}"> 
 				<td ng-if="CONFIG.status">
 					<span ng-if="item.status"><icon type="{{item.status.icon}}" cname="{{item.status.spin}}"></icon></span>
 				</td>
-				<td ng-click="ActiveSelection.setActiveItem(item);InfoTrayService.toggleInfoTray()">
+				<td ng-click="showDetails(item)">
 					<div class="text-holder">
                     	<span class="title" ng-click="goto($event, CONFIG.where, item.title)">
 	                        <span  class="default" ng-class="{master: item.isMaster}"><icon type="marketshare"></icon>&nbsp;{{item.title}}</span>
                     	</span>
-                    	<span class="favorites" ng-if="CONFIG.hasFavorites"><a ng-class="{favorite:FavoritesService.isFavorite(item.id)}" ng-click="FavoritesService.toggleFavorite(item, $event)"></a></span>
+                    	<span class="favorites" ng-if="CONFIG.hasFavorites"><a ng-class="{favorite:isFavorite(item.id)}" ng-click="toggleFavorite($event, item.id)"></a></span>
                 	</div>
 				</td>
-				<td ng-click="ActiveSelection.setActiveItem(item);InfoTrayService.toggleInfoTray()">
-					<sortable-columns item=item display-by="SortAndFilterService.getSorter('column_1')"></sortable-columns>
+				<td ng-click="showDetails(item)">
+					<sortable-columns item=item display-by="getSorter('column_1')"></sortable-columns>
 				</td>
-				<td ng-click="ActiveSelection.setActiveItem(item);InfoTrayService.toggleInfoTray()">
-					<sortable-columns item=item display-by="SortAndFilterService.getSorter('column_2')"></sortable-columns>
+				<td ng-click="showDetails(item)">
+					<sortable-columns item=item display-by="getSorter('column_2')"></sortable-columns>
 				</td>
 				<td>
 					<contextual-menu item=item></contextual-menu>				

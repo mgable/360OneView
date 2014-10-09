@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-	.service('ProjectsService',  function () {
+	.service('ProjectsService',  ["$rootScope", "ProjectsModel", function ($rootScope, ProjectsModel) {
 		var projects = [];
 
 		this.getProjectIDByTitle = function(_title_){
@@ -22,4 +22,13 @@ angular.module('ThreeSixtyOneView')
 		this.getProjects = function(){
 			return projects;
 		};
-  });
+
+		$rootScope.$on("project:rename", function($event, data){
+			ProjectsModel.rename(data);
+		});
+
+		$rootScope.$on("project:create", function($event, data){
+			console.info("creating");
+			ProjectsModel.create(data);
+		});
+  }]);
