@@ -83,6 +83,8 @@ angular.module("ThreeSixtyOneView")
                 }
             };
 
+            console.info(FavoritesService);
+
         init();
 
         // Controller API
