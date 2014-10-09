@@ -265,7 +265,8 @@
 
 			.pbItemsHolder {
 				display: inline-block;
-				width: 85%;
+				max-width: 85%;
+				outline: 0;
 
 				.pbTempDrop {
 					background-color: rgba(96,96,96,1.0);
@@ -314,6 +315,7 @@
 		}
 
 		.pbAddBox {
+			float: left;
 
 			.pbItemAdd {
 				padding: 0.2em 0.5em;

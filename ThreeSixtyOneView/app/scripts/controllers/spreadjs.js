@@ -2,14 +2,13 @@
 
 // spreadjs controller
 angular.module("ThreeSixtyOneView").controller("spreadjsCtrl", function($scope, $http, $timeout) {
-	$http.get('data/spreadjs.json').success(function(response) {
-		$scope.data = response.data;
-		$scope.headers = response.headers;
-
-		$timeout(function() { init(); }, 60);
-	});
+	$timeout(function() { init(); }, 60);
 	
 	var init = function() {
+		// Behrooz: getting data from outer controller
+		$scope.data = $scope.pivotTableData;
+		$scope.headers = $scope.pivotTableHeaders;
+
 		var rowLevel = 1;
 		var rowCnt = $scope.data.length - rowLevel;
 		var colLevel = 2;

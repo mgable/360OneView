@@ -9,7 +9,7 @@
 */
 angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($scope, $timeout, $filter, pbData) {
 	var init = function() {
-		$scope.pbShow = false;
+		$scope.pbShow = true;
 		$scope.pbData = angular.copy(pbData);
 		$scope.viewName = pbData.viewData.name;
 
@@ -65,6 +65,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		// 	}
 		// 	// containment: '#dragDropArea'
 		// };
+
+		$scope.identity = angular.identity();
 	};
 
 	$scope.delItem =  function(itemName, dim) {
@@ -93,9 +95,16 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		}
 	};
 
-	$scope.addItem = function(item, category) {
+	$scope.addItem = function(item, category, outerIndex) {
 		var val = {category: category, name: item};
-		$scope.pbData.viewData[$scope.add.selected].push(val);
+
+		if($scope.add.replaceItem > -1) {
+			$scope.added[$scope.pbData.viewData[$scope.add.selected][$scope.add.replaceItem].name] = false;
+			$scope.pbData.viewData[$scope.add.selected].splice($scope.add.replaceItem, 1, val);
+		} else {
+			$scope.pbData.viewData[$scope.add.selected].push(val);
+		}
+		
 		$scope.added[item] = true;
 
 		$scope.addPopUp[$scope.add.selected] = !$scope.addPopUp[$scope.add.selected];
@@ -291,7 +300,50 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 	$scope.applyView = function() {
 		$scope.appliedView = JSON.stringify(angular.copy($scope.pbData.viewData), null, '\t');
+
+		var numCols = $scope.pbData.viewData.columns.length;
+		var numRows = $scope.pbData.viewData.rows.length;
+		
+		var totalRowCount = 1;
+		var pivotRows = [];
+		var rowCounter = [];
+
+		for(var i = 0; i < numRows; i++) {
+			var category = $scope.pbData.itemsList.filter(function(obj) {
+					return obj.name === $scope.pbData.viewData.rows[i].category;
+				});
+
+			var item = category[0].subitems.filter(function(obj) {
+				return obj.name === $scope.pbData.viewData.rows[i].name;
+			});
+
+			if(item[0].subsubitems.length === 1) {
+				pivotRows[i] = item[0].subsubitems[0].values;
+				totalRowCount *= item[0].subsubitems[0].values.length;
+			} else {
+				totalRowCount *= item[0].subsubitems.length;
+				for(var j = 0; j < item[0].subsubitems.length; j++) {
+					if(!angular.isArray(pivotRows[i])) pivotRows[i] = [];
+					pivotRows[i][j] = item[0].subsubitems[j].name;
+				}
+			}
+
+			rowCounter[i] = 0;
+		}
+
 		$scope.viewApplied = true;
+		$scope.pivotTableData[0]['2015_February'] = '123';
+		$scope.pivotTableData[8] = {};
+		$scope.pivotTableData[8]['nameplate_category'] = '123';
+		$scope.pivotTableData[8]['leaf_touchpoint'] = '123';
+		$scope.pivotTableData[8]['2015_January'] = '123';
+		$scope.pivotTableData[8]['2015_February'] = '123';
+		$scope.pivotTableData[8]['2015_March'] = '123';
+		console.log($scope.pivotTableData);
+
+		for(i = 0; i < totalRowCount; i++) {
+			// $scope.pivotTableData
+		}
 	};
 
 	$scope.undoViewChange = function() {
@@ -314,12 +366,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 		$scope.undoPerformed = true;
 		$scope.viewApplied = false;
-	};
-
-	$scope.test = function(val, ind) {
-		console.log('val');
-		console.log(arguments);
-		return false;
 	};
 
 	init();
@@ -416,72 +462,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 				{name: 'Time', items: ['March 2014']},
 				{name: 'KPI', items: []}
 				]
-		},
-		tableValues: [{
-			"sub channel": "sub channel",
-			"media channel": "media channel",
-			"spend": "spend",
-			"revenue": "revenue",
-			"bookings": "bookings",
-			"cpu": "cpu",
-			"roi": "roi"
-		}, {
-			"sub channel": "",
-			"media channel": "SEM",
-			"spend": 12077513,
-			"revenue": 154625976431,
-			"bookings": 233741432,
-			"cpu": 51.670494265019826,
-			"roi": 12.80279938427721
-		}, {
-			"sub channel": "",
-			"media channel": "SEM 2",
-			"spend": 12412346,
-			"revenue": 123436345132,
-			"bookings": 123542525,
-			"cpu": 53.1235435435214114,
-			"roi": 21.123543252354324
-		}, {
-			"sub channel": "SEM Brand",
-			"media channel": "Total",
-			"spend": 24489859,
-			"revenue": 278062321563,
-			"bookings": 357283957,
-			"cpu": 104.794037809,
-			"roi": 33.9263426366
-		}, {
-			"sub channel": "",
-			"media channel": "DISPLAY",
-			"spend": 7982108,
-			"revenue": 216243465,
-			"bookings": 728903,
-			"cpu": 10.950850799077518,
-			"roi": 27.091022196141672
-		}, {
-			"sub channel": "DR Display",
-			"media channel": "Total",
-			"spend": 7982108,
-			"revenue": 216243465,
-			"bookings": 728903,
-			"cpu": 10.950850799077518,
-			"roi": 27.091022196141672
-		}, {
-			"sub channel": "DR Display",
-			"media channel": "Total",
-			"spend": 7982108,
-			"revenue": 216243465,
-			"bookings": 728903,
-			"cpu": 10.950850799077518,
-			"roi": 27.091022196141672
-		}, {
-			"sub channel": "DR Display",
-			"media channel": "Total",
-			"spend": 7982108,
-			"revenue": 216243465,
-			"bookings": 728903,
-			"cpu": 10.950850799077518,
-			"roi": 27.091022196141672
-		}]
+			}
 	};
 }).filter('objToArr', function() {
 	return function(obj) {

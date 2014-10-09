@@ -55,16 +55,17 @@
 		<div id="dragDropArea">
 			<div class="pbSec">
 				<div class="pbSecTitle"><span class="glyphicon glyphicon-th-list rotate90"></span> Columns</div>
-				<div class="pbItemsHolder" sortable="dragOptions" ng-model="pbData.viewData.columns">
+				<div class="pbItemsHolder" sortable="dragOptions" ng-model="pbData.viewData.columns" ng-blur="addPopUp['columns'] = false" tabindex="-1">
 					<div class="pbItem" ng-repeat="item in pbData.viewData.columns" sortable-item>
-						<span class="pbItemInfo" sortable-item-handle>
+						<span class="pbItemInfo">
+							<span sortable-item-handle><i class="fa fa-arrows"></i></span>
 							<!-- <span class="pbItemCat">{{item.category}}</span> -->
-							<span class="pbItemName">{{item.name}}</span>
+							<span class="pbItemName clickable" ng-click="add.replaceItem = $index; cancelAddItem(); add.selected = 'columns'; addPopUp['columns'] = !addPopUp['columns']; addPopUp['rows'] = false; popUpLocSet($event);">{{item.name}}</span>
 						</span>
-						<span class="glyphicon glyphicon-remove" ng-click="delItem(item.name, 'columns')"></span>
+						<span class="glyphicon glyphicon-remove clickable" ng-click="delItem(item.name, 'columns')"></span>
 					</div>
 					<div class="pbAddBox">
-						<div class="pbItemAdd clickable" no-drag data-toggleq="modal" data-targetq="#addModal" ng-click="cancelAddItem(); add.selected = 'columns'; addPopUp['columns'] = !addPopUp['columns']; addPopUp['rows'] = false; popUpLocSet($event);">+ Add</div>
+						<div class="pbItemAdd clickable" no-drag data-toggleq="modal" data-targetq="#addModal" ng-click="add.replaceItem = -1; cancelAddItem(); add.selected = 'columns'; addPopUp['columns'] = !addPopUp['columns']; addPopUp['rows'] = false; popUpLocSet($event);">+ Add</div>
 						<div ng-show="addPopUp['columns']" class="pbAddPopUp modal-content" ng-style="{top: (popUpLoc.top + 30) + 'px', left: (popUpLoc.left - 150) + 'px'}">
 							<table>
 								<tr ng-repeat="category in pbData.itemsList">
@@ -83,16 +84,17 @@
 			</div>
 			<div class="pbSec">
 				<div class="pbSecTitle"><span class="glyphicon glyphicon-th-list"></span> Rows</div>
-				<div class="pbItemsHolder" sortable="dragOptions" ng-model="pbData.viewData.rows">
+				<div class="pbItemsHolder" sortable="dragOptions" ng-model="pbData.viewData.rows" ng-blur="addPopUp['rows'] = false" tabindex="-1">
 					<div class="pbItem" ng-repeat="item in pbData.viewData.rows" sortable-item>
-						<span class="pbItemInfo" sortable-item-handle>
+						<span class="pbItemInfo">
+							<span sortable-item-handle><i class="fa fa-arrows"></i></span>
 							<!-- <span class="pbItemCat">{{item.category}}</span> -->
-							<span class="pbItemName">{{item.name}}</span>
+							<span class="pbItemName clickable" ng-click="add.replaceItem = $index; cancelAddItem(); add.selected = 'rows'; addPopUp['rows'] = !addPopUp['rows']; addPopUp['columns'] = false; popUpLocSet($event);">{{item.name}}</span>
 						</span>
-						<span class="glyphicon glyphicon-remove" ng-click="delItem(item.name, 'rows')"></span>
+						<span class="glyphicon glyphicon-remove clickable" ng-click="delItem(item.name, 'rows')"></span>
 					</div>
 					<div class="pbAddBox">
-						<div class="pbItemAdd clickable" data-toggle1="modal" data-target1="#addModal" ng-click="cancelAddItem(); add.selected = 'rows'; addPopUp['rows'] = !addPopUp['rows']; addPopUp['columns'] = false; popUpLocSet($event);">+ Add</div>
+						<div class="pbItemAdd clickable" data-toggle1="modal" data-target1="#addModal" ng-click="add.replaceItem = -1; cancelAddItem(); add.selected = 'rows'; addPopUp['rows'] = !addPopUp['rows']; addPopUp['columns'] = false; popUpLocSet($event);">+ Add</div>
 						<div ng-show="addPopUp['rows']" class="pbAddPopUp modal-content" ng-style="{top: (popUpLoc.top + 30) + 'px', left: (popUpLoc.left - 150) + 'px'}">
 							<table>
 								<tr ng-repeat="category in pbData.itemsList">
@@ -233,8 +235,13 @@
 
 						<div class="pbModalHeight" ng-style="{height: (windowHeight - 290) + 'px'}">
 							<div class="pbItemAddOuter pbItemAddCat pbFilterAll" ng-show="selectedFilter.selFil">
-								<label><input type="checkbox" ng-click="allFilters(filterSearch.values)" indeterminate ng-indeterminate="filterCount(addedFilter[selectedFilter.cat.name], false, filterSearch.values)/totalFilterCount(selectedFilter.cat.subitems[selectedFilter.cat.subitems.length - 1].subsubitems[0].values, filterSearch.values)"> Select All<span ng-if="filterSearch.values != ''"> Search Results</span></label>
-								({{filterCount(addedFilter[selectedFilter.cat.name], false, filterSearch.values)}}/{{totalFilterCount(selectedFilter.cat.subitems[selectedFilter.cat.subitems.length - 1].subsubitems[0].values, filterSearch.values)}})
+								<div class="pbFilterValCol1">
+									<label><input type="checkbox" ng-click="allFilters(filterSearch.values)" indeterminate ng-indeterminate="filterCount(addedFilter[selectedFilter.cat.name], false, filterSearch.values)/totalFilterCount(selectedFilter.cat.subitems[selectedFilter.cat.subitems.length - 1].subsubitems[0].values, filterSearch.values)"> Select All<span ng-if="filterSearch.values != ''"> Search Results</span></label>
+									({{filterCount(addedFilter[selectedFilter.cat.name], false, filterSearch.values)}}/{{totalFilterCount(selectedFilter.cat.subitems[selectedFilter.cat.subitems.length - 1].subsubitems[0].values, filterSearch.values)}})
+									<i class="fa fa-caret-down" ng-hide="sortReverse" ng-click="sortReverse = !sortReverse"></i>
+									<i class="fa fa-caret-up" ng-show="sortReverse" ng-click="sortReverse = !sortReverse"></i>
+								</div>
+								<!-- <div class="pbFilterValCol2">Spend</div> -->
 							</div>
 							<div class="pbItemAddOuter" ng-repeat="item in selectedFilter.selFil.subsubitems | filter:filterSearch:strict">
 								<div class="pbItemAddCat" ng-show="item.name && item.values">
@@ -242,12 +249,12 @@
 										<span class="glyphicon glyphicon-chevron-down clickable" ng-class="{rotate270: !filterCollapse[item.name]}" ng-click="filterCollapse[item.name] = !filterCollapse[item.name]"></span>
 										<label><input type="checkbox" indeterminate ng-indeterminate="filterCount(addedFilter[selectedFilter.cat.name], item.values, filterSearch.values)/totalFilterCount(item.values, filterSearch.values)" ng-click="allCategoryFilters(item.values, filterSearch.values)"> {{item.name}} <span>({{filterCount(addedFilter[selectedFilter.cat.name], item.values, filterSearch.values)}}/{{totalFilterCount(item.values, filterSearch.values)}})</span></label> 
 									</div>
-									<div class="pbFilterValCol2">$98,765</div>
+									<!-- <div class="pbFilterValCol2">$98,765</div> -->
 								</div>
 								<div class="filterChildItem" ng-class="{zeroHeight: !filterCollapse[item.name] && item.name != ''}">
-									<div ng-repeat="value in item.values | filter:filterSearch.values" class="pbItemAddItem">
+									<div ng-repeat="value in item.values | filter:filterSearch.values | orderBy:'toString()':sortReverse" class="pbItemAddItem">
 										<div class="pbFilterValCol1"><label><input type="checkbox" ng-model="addedFilter[selectedFilter.cat.name][value]"> {{value}}</label></div>
-										<div class="pbFilterValCol2">$12,345</div>
+										<!-- <div class="pbFilterValCol2">$12,345</div> -->
 									</div>
 								</div>
 							</div>

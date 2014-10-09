@@ -141,7 +141,7 @@ angular.module("ThreeSixtyOneView")
                 });
             }
         });
-    }]).controller("ScenarioEditCtrl", ["$scope", "$stateParams", "Urlmaker", function($scope, $stateParams, Urlmaker) {
+    }]).controller("ScenarioEditCtrl", ["$scope", "$stateParams", "Urlmaker", "$http", function($scope, $stateParams, Urlmaker, $http) {
         $scope.projectName = $stateParams.project;
         $scope.entity = $stateParams.entity;
         $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
@@ -151,6 +151,11 @@ angular.module("ThreeSixtyOneView")
             Urlmaker.gotoView ("dashboard", project);
         };
 
+        $http.get('data/spreadjs.json').success(function(response) {
+        $scope.pivotTableData = response.data;
+        $scope.pivotTableHeaders = response.headers;
+
+    });
     }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "Urlmaker", "ScenarioService", function($scope, $stateParams, Urlmaker, ScenarioService){
         $scope.scenario = {
             name: $stateParams.scenarioName,
