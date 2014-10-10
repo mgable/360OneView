@@ -5,14 +5,12 @@
 
 // View controllers
 angular.module("ThreeSixtyOneView")
-    .controller("MainCtrl", ["$scope", "SortAndFilterService", "ActiveSelection", "InfoTrayService", "DiaglogService", "FavoritesService", "ViewService", function($scope, SortAndFilterService,  ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService) {
-        // make all services available to app
-        $scope.SortAndFilterService = SortAndFilterService;
-        $scope.ActiveSelection = ActiveSelection;
-        $scope.InfoTrayService = InfoTrayService;
-        $scope.DiaglogService = DiaglogService;
-        $scope.FavoritesService = FavoritesService;
+    .controller("MainCtrl", ["$scope", "ViewService", "InfoTrayService", "ActiveSelection", "ScenarioService", function($scope, ViewService, InfoTrayService, ActiveSelection, ScenarioService) {
         $scope.ViewService = ViewService;
+
+        // These are going away
+        $scope.InfoTrayService = InfoTrayService;
+        $scope.ActiveSelection = ActiveSelection;
 
         // convenience methods
         $scope.console = function(msg) {
@@ -26,7 +24,7 @@ angular.module("ThreeSixtyOneView")
             }
         };
 
-    }]).controller("ManagerCtrl", ["$scope", "$injector", "$location", "$stateParams", "$state", "CONFIG", "Urlmaker", "FavoritesModel", "FavoritesService", "ViewService", "InfoTrayService", "ProjectsService", "Projects", "ActiveSelection", function($scope, $injector, $location, $stateParams, $state, CONFIG, Urlmaker, FavoritesModel, FavoritesService, ViewService, InfoTrayService, ProjectsService, Projects, ActiveSelection) {
+    }]).controller("ManagerCtrl", ["$scope", "$injector",  "$stateParams", "$state", "CONFIG", "FavoritesModel", "FavoritesService", "ViewService", "InfoTrayService", "ProjectsService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", function($scope, $injector, $stateParams, $state, CONFIG, FavoritesModel, FavoritesService, ViewService, InfoTrayService, ProjectsService, Projects, ActiveSelection, SortAndFilterService, GotoService) {
         var currentView = CONFIG.view[$state.current.name],
             currentModel = currentView.model, filter = "",
             viewModel,
@@ -38,15 +36,6 @@ angular.module("ThreeSixtyOneView")
             getProjectName = function(){
                 return ActiveSelection.activeItem() ? ActiveSelection.getActiveItem().title : $scope.CONFIG.projectName;
             },
-            gotoDashboard = function(item){
-                Urlmaker.gotoView("dashboard", item);
-            },
-            gotoScenarioEdit = function(project, scenario){
-                Urlmaker.gotoView("scenarioEdit", project, scenario);
-            },
-            gotoProjects = function(){
-                Urlmaker.gotoView("projects");
-            },
             init = function(){
                 // bootstrap view with data
                 $scope.data = {};
@@ -54,18 +43,18 @@ angular.module("ThreeSixtyOneView")
                 _.extend($scope.CONFIG, $stateParams);
 
                 // add projects to the projects service
-                ProjectsService.setProjects(Projects);
+                ProjectsService.setProjects(Projects.data);
 
                 // detemine which view model to get
                 if (currentModel){
                     viewModel = $injector.get(currentModel);
                 }
 
-                // if there is a view model get the associated data and set it to the filter service
+                // if there is a view model get the associated data and send it to the filter service
                 if (viewModel) {
                     viewModel.get($scope.CONFIG.projectName).then(function(response) {
                         $scope.data = response;
-                        $scope.SortAndFilterService.init({
+                        SortAndFilterService.init({
                             data: response,
                             orderBy: orderBy,
                             filter: filter,
@@ -83,11 +72,11 @@ angular.module("ThreeSixtyOneView")
                             // get all favorites
                             FavoritesModel.get().then(function(response){
                                 FavoritesService.setFavorites(_.pluck(response, 'uuid'));
-                                FavoritesService.addFavorite(master.id);
+                                if (master) { FavoritesService.addFavorite(master.id); }
                             });
                         }
                     });
-
+                    //ViewService.setCurrentView($state.current.name);
                     ViewService.setModel(viewModel);
                 } else {
                     console.info ("no view model");
@@ -98,30 +87,69 @@ angular.module("ThreeSixtyOneView")
 
         // Controller API
         $scope.goto = function(evt, where, item){
-            evt.stopPropagation();
+            //evt.stopPropagation();
             switch(where){
-                case "gotoScenarioEdit": gotoScenarioEdit(getProjectName(), item); break;
-                case "gotoDashboard": gotoDashboard(item); break;
-                case "gotoProjects": gotoProjects(); break;
+                case "gotoScenarioEdit": GotoService.scenarioEdit(getProjectName(), item); break;
+                case "gotoDashboard": GotoService.dashboard(item); break;
+                case "gotoProjects": GotoService.projects(); break;
+                case "gotoScenarioCreate": GotoService.scenarioCreate(item); break;
             }
             InfoTrayService.closeInfoTray();
         };
 
+        $scope.showDetails = function(item){
+            ActiveSelection.setActiveItem(item);
+            InfoTrayService.toggleInfoTray();
+        };
+
+        $scope.toggleFavorite = function($event, itemID){
+            $event.stopPropagation();
+            FavoritesService.toggleFavorite(itemID);
+        };
+
+        $scope.isFavorite = function(itemID){
+            return FavoritesService.isFavorite(itemID);
+        };
+
+        $scope.isActiveItem = function (item){
+            return ActiveSelection.isActiveItem(item);
+        };
+
+        $scope.getData = function () {
+            return SortAndFilterService.getData();
+        };
+
+        $scope.getSorter = function(column) {
+            return SortAndFilterService.getSorter(column);
+        };
+
+        $scope.getSelectedLabel = function() {
+            return SortAndFilterService.getSelectedLabel();
+        };
+
+        $scope.getCount = function() {
+            return SortAndFilterService.getCount();
+        };
+
+        $scope.setFilter = function(type, item, forceFilter) {
+            SortAndFilterService.setFilter(type, item, forceFilter);
+        };
+
         // Event Listeners
         $scope.$on("scenario:create", function (event){
-            Urlmaker.gotoView("scenarioCreate", $scope.CONFIG.projectName);
+            $scope.goto(event, "gotoScenarioCreate",  $scope.CONFIG.projectName);
         });
 
         $scope.$on("ProjectsModel:create", function (event, data){
-            Urlmaker.gotoView("dashboard", data.title);
+            $scope.goto(event, "gotoDashboard",  data.title);
         });
 
-    }]).controller('InfoTrayCtrl', ["$scope", "ViewService", "ScenarioService", function($scope, ViewService, ScenarioService) {
+    }]).controller('InfoTrayCtrl', ["$scope", "ViewService", "ScenarioService", "ActiveSelection", function($scope, ViewService, ScenarioService, ActiveSelection) {
         var getScenarios = function(title){
             return ScenarioService.get(title);
         };
 
-        $scope.selectedItem = $scope.ActiveSelection.getActiveItem();
+        $scope.selectedItem = ActiveSelection.getActiveItem();
 
         $scope.update = function(item) {
             var service = ViewService.getModel();
@@ -140,23 +168,25 @@ angular.module("ThreeSixtyOneView")
                 });
             }
         });
-    }]).controller("ScenarioEditCtrl", ["$scope", "$stateParams", "Urlmaker", function($scope, $stateParams, Urlmaker) {
+    }]).controller("ScenarioEditCtrl", ["$scope", "$state",  "$stateParams", "GotoService", function($scope, $state, $stateParams, GotoService) {
+        $scope.GotoService = GotoService;
         $scope.projectName = $stateParams.project;
         $scope.entity = $stateParams.entity;
         $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
         $scope.scenarioElementType = $scope.types[0];
 
-        $scope.backToProject = function(project){
-            Urlmaker.gotoView ("dashboard", project);
-        };
+    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DiaglogService", "GotoService", function($scope, $stateParams, ScenarioService, DiaglogService, GotoService){
+            $scope.GotoService = GotoService;
+            $scope.scenario = {
+                project: $stateParams.projectName
+            };
 
-    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "Urlmaker", function($scope, $stateParams, Urlmaker){
-        $scope.scenario = {
-            name: $stateParams.scenarioName,
-            project: $stateParams.projectName
-        };
+            $scope.createScenario = function(scenario){
+                ScenarioService.create(scenario);
+                GotoService.scenarioEdit(scenario.project, scenario.title);
+            };
 
-        $scope.editScenario = function (project, scenario){
-            Urlmaker.gotoView ("scenarioEdit", project, scenario);
-        };
+            $scope.currentScenario = function (scenario){
+                DiaglogService.currentScenario(scenario);
+            };
     }]);

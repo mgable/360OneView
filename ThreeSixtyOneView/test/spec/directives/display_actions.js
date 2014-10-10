@@ -9,12 +9,22 @@ describe('Directives:', function() {
 
     beforeEach(module('my.templates'));
 
-    var element, scope, button;
+    var element, scope, button, state,  $provide;
+
+    beforeEach(angular.mock.module(function (_$provide_) {
+        $provide = _$provide_;
+    }));
 
     describe("Display Actions:", function() {
 
         beforeEach(inject(function($rootScope, $compile) {
             scope = $rootScope.$new();
+            state = {
+                current : {
+                    name: "ProjectManager"
+                }
+            };
+            $provide.value("$state", state);
             scope.CONFIG = {};
             scope.CONFIG.displayActionsCreate = 'project';
             element = angular.element('<display-actions show=["create"]></display-actions>');

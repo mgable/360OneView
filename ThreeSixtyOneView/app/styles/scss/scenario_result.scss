@@ -1,0 +1,193 @@
+@import "variables";
+
+.scenario_results{
+
+	a.dropdown-toggle{
+		padding: 0 8px;
+		color: $black;
+	}
+
+	.caret {
+		color: $lightblue;
+	}
+
+	a.dropdown-toggle:hover,
+	a.dropdown-toggle:focus {
+		background-color:  $white;
+	}
+
+	li {
+		margin: 11px 0 0;
+	}
+
+	.nav-pills {
+		li {
+			font-size: 15px;	
+			font-weight: 600;
+			color: $mediumgray;
+		}
+	}
+
+	.nav-tabs {
+		border-bottom: none;
+	}
+
+	.nav-tabs li  {
+		margin: 2px 0;
+	}
+
+	.nav-tabs li > a {
+		color: $mediumgray;
+		text-transform: uppercase;
+		font-size: 10px;
+	}
+
+	.nav-tabs li.active > a {
+		border-color: transparent transparent $panel-selected; 
+		border-width: 3px;
+		padding: 0 ;
+		margin: 10px 15px 10px 0;
+		font-weight: 600;
+		color: $black;
+	}
+
+	.panel-body {
+		padding-top: 0;
+		padding-bottom: 5px;
+	}
+
+	.panel {
+		width: 41%;
+		float: left;
+		margin-right: 15px;
+		margin-bottom: 30px;
+		background-color: $panel-result;
+	}
+
+	.panel-heading {
+	    border-bottom: none;
+	    color: $mouseover;
+	    background-color: transparent;
+	    padding: 10px 25px 0;
+	}
+
+	.panel-right {
+		width: 53%;
+	}
+
+	.panel-title {
+		font-size: 15px;
+	}
+
+	.button {
+		height: 110px;
+		width: 110px;
+		background-color: $white;
+		border-radius: 4px;
+    	margin: 10px 15px 5px 10px;
+	}
+
+	.panel-summary{
+		width: 99%;
+		margin: auto;
+		border-radius: 4px;
+		padding-bottom: 15px;
+	}
+
+	.row-summary {
+		height: 40px;
+		margin: 15px 10px;
+		background-color: $white;
+		text-align: center;
+		font-size: 14px;
+		color: $gray;
+
+		.fa {
+			font-size: 9px;
+		}
+	}
+
+	.row-summary > div:first-child {
+		color: $mouseover;
+		font-weight: 600;
+	}
+
+	.row-summary > div {
+		margin: 10px 0;
+	}
+
+	.fa {
+		font-weight: normal;
+		margin: 0 4px;
+		font-size: 15px;
+	}
+
+	.fa-arrow-up {
+		color: $arrow-up; 
+	    transform: rotate(35deg);
+	}
+
+	.fa-arrow-down {
+		color: $arrow-down;
+	    transform: rotate(-35deg);
+	}
+
+	.arrow-up {
+		color: $green;
+	}
+
+	.arrow-down {
+		color: $red;
+	}
+
+	.button-summary {
+
+		.glyphicon {
+			font-size: 14px;
+		}
+
+		.arrow-up {
+			color: $green;
+		}
+
+		.arrow-down {
+			color: $red;
+		}
+
+		.second{
+			line-height: 10px;
+		}
+
+		.third{
+		  	color: $darkgray;
+		    font-size: 14px;
+		    font-weight: bold;
+		    padding-top: 12px;
+		}
+	}
+
+	.button-summary > span {
+		display: block;
+    	width: 100%;
+    	text-align: center;
+    	font-size: 13px;
+    	color: $gray;
+
+    	.arrow-up {
+		color: $green;
+		}
+	}
+
+	.button-summary > span:first-child {
+		font-size: 22px;
+		padding-top: 10px;
+	}
+
+	.button-summary > span:last-child {
+		line-height: 11px;
+	}
+
+	.tableHolder {
+		margin-top: 10px;
+	}
+}

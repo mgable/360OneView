@@ -5,7 +5,7 @@
 	<form name="nameDialog" novalidate role="form">
 		<div class="form-group input-group-lg" ng-class="{true: 'has-error'}[nameDialog.username.$dirty && nameDialog.username.$invalid]">
 			<label class="control-label" for="inputField">Enter a new name for Project &quot;{{data.title}}&quot;</label>
-			<input type="text" class="form-control" id="inputField" ng-model="name" required focus ng-maxlength="256" ng-minlength="2" ng-pattern='/^[^\\\/\?\:\*"><|]+$/' tabindex="1"/>
+			<input type="text" class="form-control" id="inputField" ng-model="name" required focus ng-maxlength="{{inputRestrictions.maximumCharacterLimit}}" ng-minlength="{{inputRestrictions.minimumCharacterLimit}}" ng-pattern='inputRestrictions.characterRestrictions' tabindex="1"/>
 		</div>
 	</form>
 </div>

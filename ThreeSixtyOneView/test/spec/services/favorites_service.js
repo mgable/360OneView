@@ -37,9 +37,9 @@ describe('Services: Favorites Service: ', function() {
     it("should toggle a projects favorite status", function(){
         var item = {"id": "111"};
         FavoritesService.addFavorite(item.id);
-        FavoritesService.toggleFavorite(item);
+        FavoritesService.toggleFavorite(item.id);
         expect(FavoritesService.isFavorite("111")).toBe(false);
-        FavoritesService.toggleFavorite(item);
+        FavoritesService.toggleFavorite(item.id);
         expect(FavoritesService.isFavorite("111")).toBe(true);
     });
 });

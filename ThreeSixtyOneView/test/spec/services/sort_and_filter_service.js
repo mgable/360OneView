@@ -7,7 +7,7 @@ describe('Services:', function() {
     beforeEach(module('ThreeSixtyOneView.filters'));
     beforeEach(module('ThreeSixtyOneView.config'));
 
-    var SortAndFilterService, FavoritesService, FavoritesModel,
+    var $rootScope, SortAndFilterService, FavoritesService, FavoritesModel, eventSpy,
         config = {
             data: {
                 data: [{
@@ -32,15 +32,17 @@ describe('Services:', function() {
             }
         };
 
-    beforeEach(inject(function(_SortAndFilterService_, _FavoritesService_, _FavoritesModel_) {
+    beforeEach(inject(function(_$rootScope_, _SortAndFilterService_, _FavoritesService_, _FavoritesModel_) {
         SortAndFilterService = _SortAndFilterService_;
         FavoritesService = _FavoritesService_;
         FavoritesModel =_FavoritesModel_;
+        $rootScope = _$rootScope_;
     }));
 
     describe("Sort and Filter Service:", function() {
 
         beforeEach(function() {
+            eventSpy = spyOn($rootScope, "$on").and.callThrough();
             SortAndFilterService.init(config);
         });
 
@@ -53,6 +55,10 @@ describe('Services:', function() {
             expect(SortAndFilterService.getOrderBy()).toEqual(config.orderBy);
             expect(SortAndFilterService.getActiveFilters()).toEqual(config.filter.filter);
             expect(SortAndFilterService.getReverse()).toBe(config.reverse);
+        });
+
+        it('should set the event listeners', function(){
+            expect(eventSpy).toHaveBeenCalled();
         });
 
         it("should sort correctly", function() {

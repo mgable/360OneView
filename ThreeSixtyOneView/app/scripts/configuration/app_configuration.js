@@ -10,15 +10,23 @@ angular.module('ThreeSixtyOneView.config')
                 "scenarios": "/rubix/v1/project/:id/scenario"
             },
             "models": {
-                "ProjectsModel": { // want: get
+                "ProjectsModel": {
+                    // want: get
                     "responseTranslator": {"isMaster": "isMaster", "id" : "uuid", "title": "name", "description": "description", "createdBy":{"selector":"['auditInfo']['createdBy']['name']"}, "createdOn":{"selector":"['auditInfo']['createdOn']"}, "modifiedBy":{"selector":"['auditInfo']['lastUpdatedBy']['name']"}, "modifiedOn":{"selector":"['auditInfo']['lastUpdatedOn']"}},
+                    // want: get
                     "requestTranslator": {"uuid" : "id", "name": "title", "description": "description", "isMaster": "isMaster"},
                     "newProject": {"title": "","description" : "", "isMaster": false}
                 },
                 "ScenarioModel": {
+                    // want: get
                     "responseTranslator": {"title": "name", "id": "id", "description": "description", "type":{"selector":"['prediction']['type']"}, "createdBy":{"selector":"['auditInfo']['createdBy']['name']"}, "createdOn":{"selector":"['auditInfo']['createdOn']"}, "modifiedBy":{"selector":"['auditInfo']['lastUpdatedBy']['name']"}, "modifiedOn":{"selector":"['auditInfo']['lastUpdatedOn']"}},
                     "newScenario": {"name" : "", "description": "","referenceScenario": {"id": 1, "name": "Master Scenario"}, "prediction" : {"type" : "Simulation"}}
                 }
+            },
+            "inputRestrictions": {
+                "characterRestrictions": /^[^\\\/\?\:\*"><|]+$/,
+                "minimumCharacterLimit": 2,
+                "maximumCharacterLimit": 256
             }
         },
         "session": {

@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.directives')
-    .directive("displayActions", [function() {
+    .directive("displayActions", ["CONFIG", "$state", "DiaglogService", function(CONFIG, $state, DiaglogService) {
         return {
             restrict: "AE",
             replace: true,
@@ -14,6 +14,8 @@ angular.module('ThreeSixtyOneView.directives')
                 scope.view.create = false;
                 scope.view.filter = false;
                 scope.view.search = false;
+                scope.DiaglogService = DiaglogService;
+                scope.CONFIG = CONFIG.view[$state.current.name];
 
                 var show = scope.$eval(attrs.show);
 

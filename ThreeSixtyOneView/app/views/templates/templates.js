@@ -169,7 +169,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/display_actions.tpl.html',
     "<div class=\"display-actions\">\r" +
     "\n" +
-    "\t<h4 class=\"pull-left title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;<span>({{SortAndFilterService.getCount()}})</span></h4>\r" +
+    "\t<h4 class=\"pull-left title\">{{getSelectedLabel()}}&nbsp;<span>({{getCount()}})</span></h4>\r" +
     "\n" +
     "\t\r" +
     "\n" +
@@ -213,7 +213,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/inline_rename.tpl.html',
-    "<form class=\"inlineRename\" name=\"inlineRename\">\r" +
+    "<form class=\"inlineRename\" name=\"rename\" novalidate role=\"form\">\r" +
     "\n" +
     "\t<span ng-transclude></span>\r" +
     "\n" +
@@ -223,10 +223,15 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "    <h4 ng-show=\"isActive\">\r" +
     "\n" +
-    "    \t<input ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='/^[^\\\\\\/\\?\\:\\*\"><|]+$/' class=\"inputTarget\" ng-model=\"item.title\" type=\"text\"></input>&nbsp;<button ng-click=\"submit(item)\" ng-disabled=\"(inlineRename.$dirty && inlineRename.$invalid) || inlineRename.$pristine\"><icon type=\"check\"></icon></button>&nbsp;<button ng-click=\"cancel()\"><icon type=\"times\"></icon></button></h4>\r" +
+    "    \t<input type=\"text\" class=\"inputTarget\" ng-model=\"item.title\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\" />&nbsp;\r" +
     "\n" +
-    "</form>\r" +
-    "\n"
+    "    \t<button ng-click=\"submit(item)\" ng-disabled=\"(rename.$dirty && rename.$invalid) || rename.$pristine\"><icon type=\"check\"></icon></button>&nbsp;\r" +
+    "\n" +
+    "    \t<button ng-click=\"cancel()\"><icon type=\"times\"></icon></button>\r" +
+    "\n" +
+    "    </h4>\r" +
+    "\n" +
+    "</form>"
   );
 
 
@@ -276,15 +281,15 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/sortable_columns.tpl.html',
     "<div ng-switch on=\"displayBy\" class=\"text-holder\"> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Last Modified\">{{item.modifiedOn | timeago }}</span> \r" +
+    "\t<span ng-switch-when=\"Last Modified\" bind-once>{{item.modifiedOn | timeago }}</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Modified By\">{{item.modifiedBy}}</span> \r" +
+    "\t<span ng-switch-when=\"Modified By\" bind-once>{{item.modifiedBy}}</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Type\">{{item.type}}</span> \r" +
+    "\t<span ng-switch-when=\"Type\" bind-once>{{item.type}}</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Creator\">{{item.createdBy}}</span> \r" +
+    "\t<span ng-switch-when=\"Creator\" bind-once>{{item.createdBy}}</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Created Date\">{{item.createdOn | date: 'longDate' }}</span> \r" +
+    "\t<span ng-switch-when=\"Created Date\" bind-once>{{item.createdOn | date: 'longDate' }}</span> \r" +
     "\n" +
     "\t<span ng-switch-default>FAIL</span> \r" +
     "\n" +

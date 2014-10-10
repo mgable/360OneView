@@ -18,8 +18,7 @@ describe('Service: Resource', function() {
         postSpy = spyOn($http, "post").and.callThrough();
         SERVER = _SERVER_;
         CONFIG = _CONFIG_;
-        url = SERVER.remote + CONFIG.application.api.projects;
-
+        url = SERVER.server + CONFIG.application.api.projects;
         resource = new Resource(url);
 
         $httpBackend.expectGET(url).respond({
@@ -51,6 +50,21 @@ describe('Service: Resource', function() {
 
         resource.create(obj);
         expect(postSpy).toHaveBeenCalledWith(url,obj, {method:'post', url:url, data:obj});
+    });
+
+    it('should "POST" with an id', function(){
+        var scenarioUrl = SERVER.server + CONFIG.application.api.scenarios,
+        resource = new Resource(scenarioUrl),
+        obj = {
+            name: 'title',
+            description: "description",
+            isMaster: false,
+            parentId: ''
+        },
+        id = "12345";
+        var url = scenarioUrl.replace(/:id/, id);
+        resource.create(obj, {}, id);
+        expect(postSpy).toHaveBeenCalledWith(url, obj, {method:'post', url:url, data:obj});
     });
 
     it('should properly "PUT"', function(){

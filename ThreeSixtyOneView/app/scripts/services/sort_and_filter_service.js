@@ -185,6 +185,10 @@ angular.module('ThreeSixtyOneView.services')
                     self.filter();
                 });
             });
+
+            $rootScope.$on("FavoritesService:toggleFavorites", function(){
+                self.filter();
+            });
         };
 
         this.filter = function() {

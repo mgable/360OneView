@@ -11,6 +11,10 @@ $highlight: orange;
 $completed: #0096FF;
 $error: #FF817C;
 
+$panel-result: #f4f7f7;
+$arrow-up: #67d878;
+$arrow-down: #ff7e79;
+$panel-selected: #bde4ff;
 
 // color variables
 $black: #222;
@@ -20,6 +24,11 @@ $gray: gray;
 $lightgray: #E9E9E9;
 $lightestgray: #f5f5f5;
 $white: white;
+$mustard: #f89b26;
+$lightblue: #007fe8;
+$green: green;
+$red: red;
+
 
 // sizes
 $cap_height: 50px;
@@ -40,4 +49,11 @@ $body_font_size: 13px;
 	-webkit-transition: #{$d} #{$s} #{$c};
 	transition: #{$d} #{$s} #{$c};
 	display: block !important;
+}
+
+@mixin placeholder {
+  &::-webkit-input-placeholder {@content}
+  &:-moz-placeholder           {@content}
+  &::-moz-placeholder          {@content}
+  &:-ms-input-placeholder      {@content}  
 }

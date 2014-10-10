@@ -1,14 +1,19 @@
-/* jshint unused: false */
+/* jshint unused:false */
 
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
     .service('ViewService', ["$rootScope", function($rootScope) {
         var model, currentView, self = this;
+        this.init = function() {
+                $rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams) {
+                self.setCurrentView(toState.name);
+            });
+        };
 
         this.setModel = function(which) {
             model = which;
-            $rootScope.$broadcast('ViewService:modelChange', which);
+            $rootScope.$broadcast('ViewService:modelChange', model);
         };
 
         this.getModel = function() {
@@ -23,7 +28,6 @@ angular.module('ThreeSixtyOneView.services')
             return currentView;
         };
 
-        $rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams) {
-            self.setCurrentView(toState.name);
-        });
+        this.init();
+        
     }]);
