@@ -28,7 +28,6 @@ angular.module('ThreeSixtyOneView')
 		});
 
 		$rootScope.$on("project:create", function($event, data){
-			console.info("creating");
 			ProjectsModel.create(data);
 		});
   }]);
