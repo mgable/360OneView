@@ -26,7 +26,9 @@ angular.module("ThreeSixtyOneView")
 
     }]).controller("ManagerCtrl", ["$scope", "$injector",  "$stateParams", "$state", "CONFIG", "FavoritesModel", "FavoritesService", "ViewService", "InfoTrayService", "ProjectsService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", function($scope, $injector, $stateParams, $state, CONFIG, FavoritesModel, FavoritesService, ViewService, InfoTrayService, ProjectsService, Projects, ActiveSelection, SortAndFilterService, GotoService) {
         var currentView = CONFIG.view[$state.current.name],
-            currentModel = currentView.model, filter = "",
+            currentModel = currentView.model,
+            filter = "",
+            master,
             viewModel,
             /* jshint ignore:start */
             filter = eval(currentView.filter),
@@ -64,13 +66,12 @@ angular.module("ThreeSixtyOneView")
                         // if view has favorites get favorite data
                         if ($scope.CONFIG.hasFavorites) {
                             // the master project is always a favorite and not in the favorite REST call (yet)
-                            var master;
                             _.each($scope.data, function(element){
                                master = _.find(element, function(elem){return elem.isMaster;});
                             });
 
                             // get all favorites
-                            FavoritesModel.get().then(function(response){
+                            FavoritesService.get().then(function(response){
                                 FavoritesService.setFavorites(_.pluck(response, 'uuid'));
                                 if (master) { FavoritesService.addFavorite(master.id); }
                             });
@@ -82,8 +83,6 @@ angular.module("ThreeSixtyOneView")
                     console.info ("no view model");
                 }
             };
-
-            console.info(FavoritesService);
 
         init();
 

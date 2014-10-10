@@ -4,14 +4,19 @@
 
 angular.module('ThreeSixtyOneView.services')
     .service('FavoritesService', ["$rootScope", "FavoritesModel", "Model", function($rootScope, FavoritesModel, Model) {
-        var favoritesList = [];
+        var favoritesList = [], FavsModel, favs;
 
-        angular.extend(this, new Model(FavoritesModel));
+        FavsModel = new Model();
+        angular.extend(this, FavsModel.prototype);
+        favs = new FavsModel(FavoritesModel);
+        angular.extend(this, favs);
+
+        console.info(this);
 
         this.removeFavorite = function(itemID) {
             if (_.indexOf(favoritesList, itemID) > -1) {
                 favoritesList.splice(_.indexOf(favoritesList, itemID), 1);
-                this.model.unFavorite(itemID);
+                this.unFavorite(itemID);
             }
         };
     
@@ -21,7 +26,7 @@ angular.module('ThreeSixtyOneView.services')
 
         this.addFavorite = function(itemID) {
             favoritesList.push(itemID);
-            this.model.setAsFavorite(itemID);
+            this.setAsFavorite(itemID);
         };
 
         this.isFavorite = function(itemID) {

@@ -5,14 +5,8 @@
 angular.module('ThreeSixtyOneView.services').factory('FavoritesModel', ["$timeout", "$location", "Resource", "CONFIG", "SERVER", function($timeout, $location, Resource, CONFIG, SERVER){
         var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.favorites);
         return {
-            resource: resource, 
+            resource: resource,
             config: {},
-            find: function(id) {
-                this.unwrap(this.resource.get(id, this.config));
-            },
-            get: function() {
-                return this.$futureData;
-            },
             setAsFavorite: function(id) {
                 this.resource.post({'uuid': id}, this.config).then(function(response){
                     // TODO: see error responses
@@ -24,15 +18,6 @@ angular.module('ThreeSixtyOneView.services').factory('FavoritesModel', ["$timeou
                 this.resource.delete(params, this.config).then(function(response){
                     console.info(response);
                 });
-            },
-            unwrap: function(futureData) {
-                var self = this;
-                this.$futureData = futureData;
-                this.$futureData.then(function(data) {
-                    $timeout(function() {
-                        _.extend(self, data);
-                    });
-                });
             }
-        }
+        };
 }]);

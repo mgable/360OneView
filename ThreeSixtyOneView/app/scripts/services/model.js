@@ -5,19 +5,30 @@
 angular.module("ThreeSixtyOneView.services")
 	.service("Model", ["$timeout", "dialogs", function($timeout, dialogs) {
 		var Model = function(model) {
-			this.model = model;
+			angular.extend(this, model);
 		};
 
 		Model.prototype = {
-			get: function (data){
-				return this.model.get(data);
-			},
-			find: function (){
-				return this.model.find();
-			},
+			$futureData: null,
+			get: function() {
+                return this.$futureData;
+            },
+			find: function(id) {
+                this.unwrap(this.resource.get(id, this.config));
+            },
 			create: function (data){
-				return this.model.create(data);
+				console.info ("The create method has not been overwritten");
 			},
+			unwrap: function(futureData) {
+                var self = this;
+                self.data = {};
+                this.$futureData = futureData;
+                this.$futureData.then(function(data) {
+                    $timeout(function() {
+                        _.extend(self.data, data);
+                    });
+                });
+            },
 			translateObj: function(data, translator){
 				var result = {}, t;
 				_.each(translator, function(k,v,o){
@@ -73,7 +84,7 @@ angular.module("ThreeSixtyOneView.services")
 			}
 		};
 
-		return function(type){
-			return new Model(type)
+		return function(){
+			return Model;
 		};
 	}]);
