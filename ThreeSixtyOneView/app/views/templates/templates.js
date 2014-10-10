@@ -64,7 +64,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<li ng-if=\"favorites.show\" class='favorites no-after'>\r" +
     "\n" +
-    "\t\t\t<a ng-click=\"FavoritesService.toggleFavorite(item)\">\r" +
+    "\t\t\t<a ng-click=\"FavoritesService.toggleFavorite(item.id)\">\r" +
     "\n" +
     "\t\t\t\t<span ng-if=\"!FavoritesService.isFavorite(item.id)\">\r" +
     "\n" +

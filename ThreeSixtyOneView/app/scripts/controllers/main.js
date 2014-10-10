@@ -144,11 +144,14 @@ angular.module("ThreeSixtyOneView")
             $scope.goto(event, "gotoDashboard",  data.title);
         });
 
-    }]).controller('InfoTrayCtrl', ["$scope", "ViewService", "ScenarioService", "ActiveSelection", function($scope, ViewService, ScenarioService, ActiveSelection) {
+    }]).controller('InfoTrayCtrl', ["$scope", "$state", "CONFIG", "ViewService", "ScenarioService", "ActiveSelection", "FavoritesService",function($scope, $state, CONFIG, ViewService, ScenarioService, ActiveSelection, FavoritesService) {
         var getScenarios = function(title){
             return ScenarioService.get(title);
         };
 
+        $scope.hasFavorites = CONFIG.view[$state.current.name].hasFavorites;
+
+        $scope.FavoritesService = FavoritesService;
         $scope.selectedItem = ActiveSelection.getActiveItem();
 
         $scope.update = function(item) {

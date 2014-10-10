@@ -11,6 +11,7 @@ angular.module('ThreeSixtyOneView.directives')
             link: function($scope, $element, $attrs) {
                 var inputField = $element.find("input");
                 $scope.searchVisible = false;
+                $scope.SortAndFilterService = SortAndFilterService;
 
                 $scope.toggleSearchField = function() {
                     if ($scope.searchVisible) {
