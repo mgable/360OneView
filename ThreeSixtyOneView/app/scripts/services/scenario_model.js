@@ -20,7 +20,7 @@ angular.module('ThreeSixtyOneView.services').service('ScenarioModel', ["$locatio
     };
 
     this.create = function(scenario, id){
-        resource.create(scenario, config, id).then(function(response){
+        return resource.create(scenario, config, id).then(function(response){
             console.info (response);
         });
     };

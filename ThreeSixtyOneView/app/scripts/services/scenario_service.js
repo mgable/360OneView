@@ -20,7 +20,7 @@ angular.module('ThreeSixtyOneView')
 			var id = ProjectsService.getProjectIDByTitle(scenarioObj.project);
 			scenario.name = scenarioObj.title;
 			scenario.description = scenarioObj.description || "";
-			ScenarioModel.create(scenario, id);
+			return ScenarioModel.create(scenario, id);
 		};
 
 		this.getAll = function(){

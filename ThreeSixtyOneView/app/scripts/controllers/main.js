@@ -185,8 +185,9 @@ angular.module("ThreeSixtyOneView")
             };
 
             $scope.createScenario = function(scenario){
-                ScenarioService.create(scenario);
-                GotoService.scenarioEdit(scenario.project, scenario.title);
+                ScenarioService.create(scenario).then(function(data){
+                    GotoService.scenarioEdit(scenario.project, scenario.title);
+                });
             };
 
             $scope.currentScenario = function (scenario){
