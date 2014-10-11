@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.directives')
-    .directive("contextualMenu", ["$rootScope", "CONFIG", "ActiveSelection", "DiaglogService", "FavoritesService", "ViewService", "InfoTrayService", function($rootScope,  CONFIG, ActiveSelection, DiaglogService, FavoritesService, ViewService, InfoTrayService) {
+    .directive("contextualMenu", ["$rootScope", "CONFIG", "ActiveSelection", "DiaglogService", "FavoritesService", "ViewService", "InfoTrayService", "EVENTS", function($rootScope,  CONFIG, ActiveSelection, DiaglogService, FavoritesService, ViewService, InfoTrayService, EVENTS) {
         return {
             restrict: "AE",
             templateUrl: "views/directives/contextual_menu.tpl.html",
@@ -22,7 +22,7 @@ angular.module('ThreeSixtyOneView.directives')
                 scope.service = ViewService.getModel();
                 scope.actions = actions;
 
-                $rootScope.$on('ViewService:modelChange', function(event, data) {
+                $rootScope.$on(EVENTS.changeViewModel, function(event, data) {
                     scope.service = data;
                 });
 

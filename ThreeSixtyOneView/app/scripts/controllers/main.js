@@ -24,7 +24,7 @@ angular.module("ThreeSixtyOneView")
             }
         };
 
-    }]).controller("ManagerCtrl", ["$scope", "$injector",  "$stateParams", "$state", "CONFIG", "FavoritesModel", "FavoritesService", "ViewService", "InfoTrayService", "ProjectsService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", function($scope, $injector, $stateParams, $state, CONFIG, FavoritesModel, FavoritesService, ViewService, InfoTrayService, ProjectsService, Projects, ActiveSelection, SortAndFilterService, GotoService) {
+    }]).controller("ManagerCtrl", ["$scope", "$injector",  "$stateParams", "$state", "CONFIG", "FavoritesModel", "FavoritesService", "ViewService", "InfoTrayService", "ProjectsService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", "EVENTS", function($scope, $injector, $stateParams, $state, CONFIG, FavoritesModel, FavoritesService, ViewService, InfoTrayService, ProjectsService, Projects, ActiveSelection, SortAndFilterService, GotoService, EVENTS) {
         var currentView = CONFIG.view[$state.current.name],
             currentModel = currentView.model, filter = "",
             viewModel,
@@ -136,15 +136,15 @@ angular.module("ThreeSixtyOneView")
         };
 
         // Event Listeners
-        $scope.$on("scenario:create", function (event){
+        $scope.$on(EVENTS.gotoScenarioCreate, function (event){
             $scope.goto(event, "gotoScenarioCreate",  $scope.CONFIG.projectName);
         });
 
-        $scope.$on("ProjectsModel:create", function (event, data){
+        $scope.$on(EVENTS.createProject, function (event, data){
             $scope.goto(event, "gotoDashboard",  data.title);
         });
 
-    }]).controller('InfoTrayCtrl', ["$scope", "$state", "CONFIG", "ViewService", "ScenarioService", "ActiveSelection", "FavoritesService",function($scope, $state, CONFIG, ViewService, ScenarioService, ActiveSelection, FavoritesService) {
+    }]).controller('InfoTrayCtrl', ["$scope", "$state", "CONFIG", "ViewService", "ScenarioService", "ActiveSelection", "FavoritesService", "EVENTS", function($scope, $state, CONFIG, ViewService, ScenarioService, ActiveSelection, FavoritesService, EVENTS) {
         var getScenarios = function(title){
             return ScenarioService.get(title);
         };
@@ -159,7 +159,7 @@ angular.module("ThreeSixtyOneView")
             service.rename(item);
         };
 
-        $scope.$on('ActiveSelection:activeItemChange', function(event, response) {
+        $scope.$on(EVENTS.changeActiveItem, function(event, response) {
             if (response.data !== "") {
                 $scope.selectedItem = response.data;
             }

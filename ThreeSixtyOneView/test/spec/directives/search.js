@@ -5,7 +5,7 @@
 describe('Directives:', function() {
 
     // load the directive's module
-    beforeEach(module('ThreeSixtyOneView.directives'));
+    beforeEach(module('ThreeSixtyOneView.directives', 'ThreeSixtyOneView.config'));
 
 
     var $timeout, link, element, scope, customMatchers = {

@@ -2,19 +2,21 @@
 'use strict';
 
 describe('Service: ProjectModel', function() {
-	var $q, $timeout, $httpBackend, ProjectsModel, rootScope, projectsUrl, projectData, newProject, deferred, resourceSpy;
+	var $q, $timeout, $httpBackend, ProjectsModel, rootScope, projectsUrl, projectData, data, newProject, deferred, resourceSpy, EVENTS;
 
 	// load the service's module
 	beforeEach(module('ThreeSixtyOneView.services'));
 	beforeEach(module('ThreeSixtyOneView.config'));
 
-	beforeEach(inject(function(_$q_, $rootScope, _$httpBackend_, $location, _$timeout_, _ProjectsModel_, SERVER, CONFIG) {
+	beforeEach(inject(function(_$q_, $rootScope, _$httpBackend_, $location, _$timeout_, _ProjectsModel_, SERVER, CONFIG, _EVENTS_) {
 		$q = _$q_;
+		EVENTS = _EVENTS_;
 		$timeout = _$timeout_;
 		projectsUrl = SERVER.server + CONFIG.application.api.projects;
 		ProjectsModel = _ProjectsModel_;
 		rootScope = $rootScope;
-		projectData = {data: [{title: "title", isMaster: false, id: 1234, description: "this is a test"}]};
+		data = {data:{title: "new title", description: "new description", id: 12345}};
+		projectData = {data: [data.data], item:data.data};
 		newProject = CONFIG.application.models.ProjectsModel.newProject;
 		deferred = $q.defer();
 		deferred.resolve(projectData);
@@ -56,7 +58,6 @@ describe('Service: ProjectModel', function() {
 
 	it ("should rename a project", function(){
 		var rootSpy = spyOn(rootScope, "$broadcast").and.callThrough(),
-		data = {data: {title: "new title", description: "new description", id: 12345, "foo": "bar", "bar": "foo"}},
 		deferred = $q.defer(),
 		putSpy = spyOn(ProjectsModel.resource, "put").and.returnValue(deferred.promise);
 		deferred.resolve(data);
@@ -68,9 +69,8 @@ describe('Service: ProjectModel', function() {
 		rootSpy.calls.reset();
 		ProjectsModel.rename(data.data);
 		$timeout.flush();
-		expect(putSpy).toHaveBeenCalledWith({title: "new title", description: "new description", id: 12345}, ProjectsModel.config);
-		expect(rootSpy.calls.argsFor(0)).toEqual(["ProjectsModel:dataChange", projectData]);
-		expect(rootSpy.calls.argsFor(1)).toEqual(["ProjectsModel:rename", data]);
-		expect(rootSpy.calls.count()).toEqual(2);
+		expect(putSpy).toHaveBeenCalledWith(data.data, ProjectsModel.config);
+		expect(rootSpy.calls.argsFor(0)).toEqual([EVENTS.updateProjects, projectData]);
+		expect(rootSpy.calls.count()).toEqual(1);
 	});
 });
