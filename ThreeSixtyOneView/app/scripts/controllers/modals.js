@@ -24,16 +24,17 @@ angular.module('ThreeSixtyOneView')
             $modalInstance.dismiss('create');
         };
 
-    }]).controller('ProjectCreateCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "EVENTS", function($scope, $controller, $modalInstance, CONFIG, EVENTS) {
+    }]).controller('ProjectCreateCtrl', ["$scope", "$rootScope", "$controller", "$modalInstance", "CONFIG", "EVENTS", function($scope, $rootScope, $controller, $modalInstance, CONFIG, EVENTS) {
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+        var newProject = CONFIG.application.models.ProjectsModel.newProject;
+
+        $scope.callback = function(){$rootScope.$broadcast(EVENTS.gotoDashboard, newProject);};
 
         $scope.create = function(title, evt) {
             if (evt) { evt.preventDefault(); }
-            var newProject = CONFIG.application.models.ProjectsModel.newProject;
             newProject.title = title;
 
-            $scope.$emit(EVENTS.createProject, newProject);
-            $scope.$emit(EVENTS.gotoDashboard, newProject);
+            $rootScope.$broadcast(EVENTS.createProject, newProject, $scope.callback);
             $modalInstance.dismiss('create');
         };
     }]).controller('CreateScenarioCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG) {
@@ -47,8 +48,6 @@ angular.module('ThreeSixtyOneView')
         };
 
         ScenarioService.getAll().then(function(response){
-            console.info("reponse frm modal");
-            console.info(response);
             $scope.scenarioList = response;
         });
 

@@ -34,7 +34,6 @@ angular.module('ThreeSixtyOneView')
 			});
 
 			angular.forEach(ids, function(v,k,o){
-				console.info(v,k,o);
 				promises.push({title: v.title, promise: this.get(v.id)});
 			}, this);
 

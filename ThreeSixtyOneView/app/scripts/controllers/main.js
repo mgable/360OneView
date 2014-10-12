@@ -145,10 +145,6 @@ angular.module("ThreeSixtyOneView")
             $scope.goto(event, "gotoDashboard",  data.title);
         });
 
-        // $scope.$on(EVENTS.updateProjects, function (event, data){
-        //     $scope.goto(event, "gotoDashboard",  data.item.title);
-        // });
-
     }]).controller('InfoTrayCtrl', ["$scope", "$state", "CONFIG", "ViewService", "ScenarioService", "ActiveSelection", "FavoritesService", "SortAndFilterService", "EVENTS", function($scope, $state, CONFIG, ViewService, ScenarioService, ActiveSelection, FavoritesService, SortAndFilterService, EVENTS) {
         var getScenarios = function(title){
             return ScenarioService.get(title);

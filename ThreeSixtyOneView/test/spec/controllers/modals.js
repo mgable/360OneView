@@ -10,7 +10,7 @@ describe('Controllers: Modals: ', function() {
         modalInstance = {
             dismiss: jasmine.createSpy('modalInstance.dismiss'),
         };
-        eventSpy = spyOn(scope, "$emit");
+        eventSpy = spyOn($rootScope, "$broadcast");
         EVENTS = _EVENTS_;
     }));
 
@@ -39,7 +39,7 @@ describe('Controllers: Modals: ', function() {
                 title: 'xyz',
                 description: "",
                 isMaster: false
-            });
+            }, scope.callback);
         });
     });
 });
