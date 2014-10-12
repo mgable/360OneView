@@ -8,7 +8,7 @@
 				<h4 ng-switch-when="true" class="title clear"><icon type="marketshare"></icon>&nbsp;{{selectedItem.title}}</h4>
 				<span ng-switch-default>
 					<inline-edit template="inline_rename" item="selectedItem">
-						<span ng-if="hasFavorites"><span class="favorites"><a ng-class="{favorite:FavoritesService.isFavorite(selectedItem.id)}" ng-click="FavoritesService.toggleFavorite(selectedItem.id)"></a></span></span>
+						<span ng-if="hasFavorites"><span class="favorites"><a ng-class="{favorite:isFavorite(selectedItem.id)}" ng-click="toggleFavorite(selectedItem.id)"></a></span></span>
 					</inline-edit>
 				</span>
 			</span>

@@ -105,6 +105,7 @@ angular.module("ThreeSixtyOneView")
         $scope.toggleFavorite = function($event, itemID){
             $event.stopPropagation();
             FavoritesService.toggleFavorite(itemID);
+            SortAndFilterService.filter();
         };
 
         $scope.isFavorite = function(itemID){
@@ -144,15 +145,22 @@ angular.module("ThreeSixtyOneView")
             $scope.goto(event, "gotoDashboard",  data.title);
         });
 
-    }]).controller('InfoTrayCtrl', ["$scope", "$state", "CONFIG", "ViewService", "ScenarioService", "ActiveSelection", "FavoritesService", "EVENTS", function($scope, $state, CONFIG, ViewService, ScenarioService, ActiveSelection, FavoritesService, EVENTS) {
+    }]).controller('InfoTrayCtrl', ["$scope", "$state", "CONFIG", "ViewService", "ScenarioService", "ActiveSelection", "FavoritesService", "SortAndFilterService", "EVENTS", function($scope, $state, CONFIG, ViewService, ScenarioService, ActiveSelection, FavoritesService, SortAndFilterService, EVENTS) {
         var getScenarios = function(title){
             return ScenarioService.get(title);
         };
 
         $scope.hasFavorites = CONFIG.view[$state.current.name].hasFavorites;
-
-        $scope.FavoritesService = FavoritesService;
         $scope.selectedItem = ActiveSelection.getActiveItem();
+
+        $scope.toggleFavorite = function(itemID){
+            FavoritesService.toggleFavorite(itemID);
+            SortAndFilterService.filter();
+        };
+
+        $scope.isFavorite = function(itemID){
+            return FavoritesService.isFavorite(itemID);
+        };
 
         $scope.update = function(item) {
             var service = ViewService.getModel();
