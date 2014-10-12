@@ -24,7 +24,7 @@ angular.module('ThreeSixtyOneView')
             $modalInstance.dismiss('create');
         };
 
-    }]).controller('ProjectCreateCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", function($scope, $controller, $modalInstance, CONFIG) {
+    }]).controller('ProjectCreateCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "EVENTS", function($scope, $controller, $modalInstance, CONFIG, EVENTS) {
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
         $scope.create = function(title, evt) {
@@ -32,7 +32,7 @@ angular.module('ThreeSixtyOneView')
             var newProject = CONFIG.application.models.ProjectsModel.newProject;
             newProject.title = title;
 
-            $scope.$emit("project:create", newProject);
+            $scope.$emit(EVENTS.createProject, newProject);
             $modalInstance.dismiss('create');
         };
     }]).controller('CreateScenarioCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG) {

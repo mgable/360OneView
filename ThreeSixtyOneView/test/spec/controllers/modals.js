@@ -1,16 +1,17 @@
 "use strict";
 
 describe('Controllers: Modals: ', function() {
-    var scope, ctrl, modalInstance, eventSpy;
+    var scope, ctrl, modalInstance, eventSpy, EVENTS;
 
     beforeEach(module('ThreeSixtyOneView'));
 
-    beforeEach(inject(function($rootScope) {
+    beforeEach(inject(function($rootScope, _EVENTS_) {
         scope = $rootScope.$new();
         modalInstance = {
             dismiss: jasmine.createSpy('modalInstance.dismiss'),
         };
         eventSpy = spyOn(scope, "$emit");
+        EVENTS = _EVENTS_;
     }));
 
     describe('ProjectCreateCtrl: ', function() {
@@ -34,7 +35,7 @@ describe('Controllers: Modals: ', function() {
 
         it("should call the Projects Model with the name of the new project", function() {
             scope.create("xyz");
-            expect(eventSpy).toHaveBeenCalledWith("project:create", {
+            expect(eventSpy).toHaveBeenCalledWith(EVENTS.createProject, {
                 title: 'xyz',
                 description: "",
                 isMaster: false

@@ -141,8 +141,9 @@ angular.module("ThreeSixtyOneView")
             $scope.goto(event, "gotoScenarioCreate",  $scope.CONFIG.projectName);
         });
 
-        $scope.$on(EVENTS.createProject, function (event, data){
-            $scope.goto(event, "gotoDashboard",  data.title);
+        $scope.$on(EVENTS.updateProjects, function (event, data){
+            console.info(data)
+            $scope.goto(event, "gotoDashboard",  data.item.title);
         });
 
     }]).controller('InfoTrayCtrl', ["$scope", "$state", "CONFIG", "ViewService", "ScenarioService", "ActiveSelection", "FavoritesService", "SortAndFilterService", "EVENTS", function($scope, $state, CONFIG, ViewService, ScenarioService, ActiveSelection, FavoritesService, SortAndFilterService, EVENTS) {

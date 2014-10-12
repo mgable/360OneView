@@ -41,9 +41,10 @@ angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout
             $timeout(function() {
                 self.data.push(response.data);
                 $rootScope.$broadcast(EVENTS.updateProjects, {
-                    data: self.data
+                    data: self.data,
+                    item: response.data,
+                    original: _data_
                 });
-                $rootScope.$broadcast(EVENTS.createProject, _data_);
             });
         });
     };
