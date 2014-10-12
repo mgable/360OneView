@@ -10,14 +10,15 @@ angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout
     config = ModelModel.makeConfig(ModelModel, responseTranslator, requestTranslator),
 
     // used for the rename functions
-    put = function(data){
-        resource.put(data, config).then(function(response){
+    put = function(_data_){
+        resource.put(_data_, config).then(function(response){
             var index = _.indexOf(self.data, _.findWhere(self.data, {id: response.data.id}));
             self.data.splice(index, 1, response.data);
             $timeout(function(){
                 $rootScope.$broadcast(EVENTS.updateProjects, {
                     data: self.data,
-                    item: response.data
+                    item: response.data,
+                    original: _data_
                 });
             });
         });

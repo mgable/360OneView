@@ -11,7 +11,7 @@ angular.module('ThreeSixtyOneView')
             $modalInstance.dismiss('canceled');
         };
     }])
-    .controller('ProjectRenameCtrl', ["$scope", "$controller", "$modalInstance", "data", "CONFIG", function($scope, $controller, $modalInstance, data, CONFIG) {
+    .controller('ProjectRenameCtrl', ["$scope", "$controller", "$modalInstance", "data", "CONFIG", "EVENTS", function($scope, $controller, $modalInstance, data, CONFIG, EVENTS) {
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
         $scope.data = data.item;
@@ -20,7 +20,7 @@ angular.module('ThreeSixtyOneView')
         $scope.rename = function(title, evt) {
             if (evt) { evt.preventDefault(); }
             $scope.data.title = title;
-            $scope.$emit("project:rename", $scope.data);
+            $scope.$emit(EVENTS.renameProject, $scope.data);
             $modalInstance.dismiss('create');
         };
 
@@ -33,6 +33,7 @@ angular.module('ThreeSixtyOneView')
             newProject.title = title;
 
             $scope.$emit(EVENTS.createProject, newProject);
+            $scope.$emit(EVENTS.gotoDashboard, newProject);
             $modalInstance.dismiss('create');
         };
     }]).controller('CreateScenarioCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG) {

@@ -7,6 +7,7 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     updateProjects: 'ProjectsService:updateProjects',
     changeActiveItem: 'ActiveSelection:activeItemChange',
     gotoScenarioCreate: 'GotoService:scenarioCreate',
+    gotoDashboard: 'GotoService:dashboard',
     changeViewModel: 'ViewService:modelChange',
     resetFilterBy: 'SortAndFilterService:resetFilterBy'
 });
