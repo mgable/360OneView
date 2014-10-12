@@ -3,11 +3,13 @@
 		<p class="sub-header">DETAILS</p>
 		<button type="button"  class="close" ng-click="InfoTrayService.closeInfoTray()"><span aria-hidden="true">&times;</span></button>
 
-		<div class="clearfix title-holder">
+		<div class="clearfix title-holder" ng-class="{'hasFavorites': hasFavorites}">
 			<span ng-switch="selectedItem.isMaster">
 				<h4 ng-switch-when="true" class="title clear"><icon type="marketshare"></icon>&nbsp;{{selectedItem.title}}</h4>
 				<span ng-switch-default>
-					<inline-edit template="inline_rename" item="selectedItem"><span class="favorites"><a ng-class="{favorite:FavoritesService.isFavorite(selectedItem.id)}" ng-click="FavoritesService.toggleFavorite(selectedItem)"></a></span></inline-edit>
+					<inline-edit template="inline_rename" item="selectedItem">
+						<span ng-if="hasFavorites"><span class="favorites"><a ng-class="{favorite:FavoritesService.isFavorite(selectedItem.id)}" ng-click="FavoritesService.toggleFavorite(selectedItem.id)"></a></span></span>
+					</inline-edit>
 				</span>
 			</span>
 		</div>

@@ -1,4 +1,5 @@
 /* jshint unused:false */
+/* global xit */
 
 'use strict';
 

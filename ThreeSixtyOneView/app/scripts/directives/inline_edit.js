@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.directives')
-    .directive('inlineEdit', ["$timeout", "$rootScope", "ViewService", "CONFIG", function($timeout, $rootScope, ViewService, CONFIG) {
+    .directive('inlineEdit', ["$timeout", "$rootScope", "ViewService", "CONFIG", "EVENTS", function($timeout, $rootScope, ViewService, CONFIG, EVENTS) {
         return {
             replace: true,
             templateUrl: function(elem, attrs){
@@ -44,7 +44,7 @@ angular.module('ThreeSixtyOneView.directives')
                     $scope.isActive = false;
                 };
 
-                $rootScope.$on("ActiveSelection:activeItemChange", function(data){
+                $rootScope.$on(EVENTS.changeActiveItem, function(data){
                     if ($scope.isActive){
                         $scope.cancel();
                     }

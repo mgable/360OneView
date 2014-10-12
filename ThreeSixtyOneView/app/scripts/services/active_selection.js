@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-    .service('ActiveSelection', ["$rootScope", function($rootScope) {
+    .service('ActiveSelection', ["$rootScope", "EVENTS", function($rootScope, EVENTS) {
 
         var activeItem = "", self = this;
 
@@ -11,7 +11,7 @@ angular.module('ThreeSixtyOneView.services')
 
         this.setActiveItem = function(item) {
             activeItem = this.isActiveItem(item) ? "" : item;
-            $rootScope.$broadcast('ActiveSelection:activeItemChange', {
+            $rootScope.$broadcast(EVENTS.changeActiveItem, {
                 data: activeItem
             });
         };
@@ -28,7 +28,7 @@ angular.module('ThreeSixtyOneView.services')
             activeItem = "";
         };
 
-        $rootScope.$on("ProjectsModel:rename", function(event, data){
-            self.setActiveItem(data.data);
+        $rootScope.$on(EVENTS.updateProjects, function(event, data){
+            self.setActiveItem(data.item);
         });
     }]);

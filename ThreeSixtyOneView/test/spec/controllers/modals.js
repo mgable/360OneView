@@ -5,7 +5,7 @@ describe('Controllers: Modals: ', function() {
 
     beforeEach(module('ThreeSixtyOneView'));
 
-    beforeEach(inject(function($rootScope, $controller) {
+    beforeEach(inject(function($rootScope) {
         scope = $rootScope.$new();
         modalInstance = {
             dismiss: jasmine.createSpy('modalInstance.dismiss'),
