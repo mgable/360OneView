@@ -24,12 +24,12 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
       }
     })
     .state('ScenarioCreate', {
-      url: "/scenarioCreate/:projectName",
+      url: "/scenarioCreate/:projectId",
       templateUrl: "views/scenario_create.tpl.html",
       controller: "ScenarioCreateCtrl"
     })
     .state('ScenarioEdit', {
-      url: "/scenarioEdit/:project/:scenario",
+      url: "/scenarioEdit/:projectId/:scenarioId",
       templateUrl: "views/scenario_edit.tpl.html",
       controller: "ScenarioEditCtrl"
     });

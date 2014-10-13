@@ -31,16 +31,16 @@ angular.module("ThreeSixtyOneView")
             /* jshint ignore:end */
             reverse = currentView.reverse,
             orderBy = currentView.orderBy,
-            getProjectName = function(){
-                return ActiveSelection.activeItem() ? ActiveSelection.getActiveItem().title : $scope.CONFIG.projectName;
+            getProject = function(){
+                return $scope.project;
             },
             init = function(whichView){
                 console.info(whichView);
                 // bootstrap view with data
                 $scope.data = {};
                 $scope.CONFIG = currentView;
-                $scope.CONFIG.projectName = ProjectsService.getProjectTitleById($stateParams.projectId)
-                
+                $scope.project = ProjectsService.getProjectItemById($stateParams.projectId);
+                $scope.hasAlerts = Scenarios.data.length < 1 ? $scope.CONFIG.alertSrc : false;
 
                 _.extend($scope.CONFIG, $stateParams);
 
@@ -54,6 +54,8 @@ angular.module("ThreeSixtyOneView")
                     filter: filter,
                     reverse: reverse
                 });
+
+                console.info($scope.CONFIG);
             };
 
         init($state.current.name);
@@ -61,11 +63,13 @@ angular.module("ThreeSixtyOneView")
         // Controller API
         $scope.goto = function(evt, where, item){
             //evt.stopPropagation();
+            console.info("goto")
+            console.info(evt, where, item);
             switch(where){
-                case "gotoScenarioEdit": GotoService.scenarioEdit(getProjectName(), item); break;
-                case "gotoDashboard": GotoService.dashboard(item); break;
+                case "gotoScenarioEdit": GotoService.scenarioEdit(getProject().id, item.id); break;
+                case "gotoDashboard": GotoService.dashboard(item.id); break;
                 case "gotoProjects": GotoService.projects(); break;
-                case "gotoScenarioCreate": GotoService.scenarioCreate(item); break;
+                case "gotoScenarioCreate": GotoService.scenarioCreate(item.id); break;
             }
             InfoTrayService.closeInfoTray();
         };
@@ -107,7 +111,6 @@ angular.module("ThreeSixtyOneView")
         $scope.$on(EVENTS.gotoDashboard, function (event, data){
             $scope.goto(event, "gotoDashboard",  data.title);
         });
-
     }]).controller("ProjectListingCtrl", ["$scope",  "$stateParams", "$state", "CONFIG", "Favorites", "FavoritesService", "InfoTrayService", "ProjectsService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", "EVENTS", function($scope, $stateParams, $state, CONFIG, Favorites, FavoritesService, InfoTrayService, ProjectsService, Projects, ActiveSelection, SortAndFilterService, GotoService, EVENTS) {
         var currentView = CONFIG.view[$state.current.name],
             filter = "",
@@ -147,18 +150,20 @@ angular.module("ThreeSixtyOneView")
                 // get all favorites
                 FavoritesService.setFavorites(_.pluck(Favorites, 'uuid'));
                 if (master) { FavoritesService.addFavorite(master.id); }
-            }
+            };
 
         init($state.current.name);
 
         // Controller API
         $scope.goto = function(evt, where, item){
-            //evt.stopPropagation();
+            console.info("the item is ");
+            console.info(item);
+            evt.stopPropagation();
             switch(where){
-                case "gotoScenarioEdit": GotoService.scenarioEdit(getProjectName(), item); break;
-                case "gotoDashboard": GotoService.dashboard(item); break;
+                case "gotoScenarioEdit": GotoService.scenarioEdit(getProjectName(), item.id); break;
+                case "gotoDashboard": GotoService.dashboard(item.id); break;
                 case "gotoProjects": GotoService.projects(); break;
-                case "gotoScenarioCreate": GotoService.scenarioCreate(item); break;
+                case "gotoScenarioCreate": GotoService.scenarioCreate(item.id); break;
             }
             InfoTrayService.closeInfoTray();
         };
@@ -210,7 +215,6 @@ angular.module("ThreeSixtyOneView")
         $scope.$on(EVENTS.gotoDashboard, function (event, data){
             $scope.goto(event, "gotoDashboard",  data.title);
         });
-
     }]).controller('InfoTrayCtrl', ["$scope", "$state", "CONFIG", "ScenarioService", "ActiveSelection", "FavoritesService", "SortAndFilterService", "EVENTS", function($scope, $state, CONFIG, ScenarioService, ActiveSelection, FavoritesService, SortAndFilterService, EVENTS) {
         var getScenarios = function(title){
             return ScenarioService.get(title);
@@ -244,23 +248,24 @@ angular.module("ThreeSixtyOneView")
                 });
             }
         });
-    }]).controller("ScenarioEditCtrl", ["$scope",  "$stateParams", "GotoService", "ProjectsService", function($scope, $stateParams, GotoService, ProjectsService) {
+    }]).controller("ScenarioEditCtrl", ["$scope",  "$stateParams", "GotoService", "ProjectsService", "ScenarioService", function($scope, $stateParams, GotoService, ProjectsService, ScenarioService) {
         $scope.GotoService = GotoService;
-        $scope.projectName = $stateParams.project;
-        $scope.projectId = ProjectsService.getProjectIDByTitle($stateParams.project);
+        $scope.project = ProjectsService.getProjectItemById($stateParams.projectId);
+        // No REST service available for this - yet
+        //$scope.scenario = ScenarioService.get($stateParams.scenarioId);
         $scope.entity = $stateParams.entity;
         $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
         $scope.scenarioElementType = $scope.types[0];
-
-    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DiaglogService", "GotoService", function($scope, $stateParams, ScenarioService, DiaglogService, GotoService){
+    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DiaglogService", "GotoService", "ProjectsService", function($scope, $stateParams, ScenarioService, DiaglogService, GotoService, ProjectsService){
             $scope.GotoService = GotoService;
             $scope.scenario = {
-                project: $stateParams.projectName
+                projectName: $stateParams.projectName,
+                projectId: ProjectsService.getProjectIDByTitle($stateParams.projectName)
             };
 
             $scope.createScenario = function(scenario){
                 ScenarioService.create(scenario).then(function(data){
-                    GotoService.scenarioEdit(scenario.project, scenario.title);
+                    GotoService.scenarioEdit(scenario.projectName, scenario.title);
                 });
             };
 

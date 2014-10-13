@@ -14,9 +14,6 @@ describe('Routes tests: ', function() {
         $httpBackend = _$httpBackend_;
         urlProjects = SERVER.server + CONFIG.application.api.projects;
         urlFavorites = SERVER.server + CONFIG.application.api.favorites;
-        // $httpBackend.whenGET(urlProjects).respond('');
-        // $httpBackend.whenGET(urlFavorites).respond('');
-        // $httpBackend.whenGET('views/display_manager.tpl.html').respond('');
     }));
 
     describe('Routes', function() {
@@ -26,7 +23,7 @@ describe('Routes tests: ', function() {
             config = $state.get(state);
             expect(config.name).toBe(state);
             expect(config.url).toBe("/projects");
-            expect(config.controller).toBe("ManagerCtrl");
+            expect(config.controller).toBe("ProjectListingCtrl");
             //$state.go(state);
             //$rootScope.$digest();
             //expect($state.current.name).toBe(state);
@@ -53,8 +50,8 @@ describe('Routes tests: ', function() {
             var state = "Dashboard",
             config = $state.get(state);
             expect(config.name).toBe(state);
-            expect(config.url).toBe("/dashboard/:projectName");
-            expect(config.controller).toBe("ManagerCtrl");
+            expect(config.url).toBe("/dashboard/:projectId");
+            expect(config.controller).toBe("ProjectDashboardCtrl");
         });
     });
 });
