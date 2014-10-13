@@ -27,7 +27,7 @@ angular.module('ThreeSixtyOneView')
 			ProjectsModel.rename(data);
 		});
 
-		$rootScope.$on(EVENTS.createProject, function($event, data){
-			ProjectsModel.create(data);
+		$rootScope.$on(EVENTS.createProject, function($event, data, cb){
+			ProjectsModel.create(data, cb);
 		});
   }]);

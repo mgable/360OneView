@@ -29,12 +29,12 @@
 		</li>
 
 		<li ng-if="favorites.show" class='favorites no-after'>
-			<a ng-click="FavoritesService.toggleFavorite(item.id)">
-				<span ng-if="!FavoritesService.isFavorite(item.id)">
+			<a ng-click="toggleFavorite(item.id)">
+				<span ng-if="!isFavorite(item.id)">
 					<icon type="star"></icon>
 					{{favorites.label}}
 				</span>
-				<span ng-if="FavoritesService.isFavorite(item.id)">
+				<span ng-if="isFavorite(item.id)">
 					<icon type="star-o"></icon>
 					un-{{favorites.label}}
 				</span>

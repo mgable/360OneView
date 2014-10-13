@@ -64,9 +64,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<li ng-if=\"favorites.show\" class='favorites no-after'>\r" +
     "\n" +
-    "\t\t\t<a ng-click=\"FavoritesService.toggleFavorite(item.id)\">\r" +
+    "\t\t\t<a ng-click=\"toggleFavorite(item.id)\">\r" +
     "\n" +
-    "\t\t\t\t<span ng-if=\"!FavoritesService.isFavorite(item.id)\">\r" +
+    "\t\t\t\t<span ng-if=\"!isFavorite(item.id)\">\r" +
     "\n" +
     "\t\t\t\t\t<icon type=\"star\"></icon>\r" +
     "\n" +
@@ -74,7 +74,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t</span>\r" +
     "\n" +
-    "\t\t\t\t<span ng-if=\"FavoritesService.isFavorite(item.id)\">\r" +
+    "\t\t\t\t<span ng-if=\"isFavorite(item.id)\">\r" +
     "\n" +
     "\t\t\t\t\t<icon type=\"star-o\"></icon>\r" +
     "\n" +

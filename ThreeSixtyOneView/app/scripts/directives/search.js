@@ -23,6 +23,8 @@ angular.module('ThreeSixtyOneView.directives')
                     }
                     $scope.searchVisible = !$scope.searchVisible;
                 };
+
+                $scope.$on("$stateChangeSuccess", SortAndFilterService.resetSearchText());
             }
         };
     }]);
