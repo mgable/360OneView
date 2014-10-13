@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.directives')
-    .directive("contextualMenu", ["$rootScope", "CONFIG", "ActiveSelection", "DiaglogService", "FavoritesService", "ViewService", "InfoTrayService", "SortAndFilterService", "EVENTS", function($rootScope,  CONFIG, ActiveSelection, DiaglogService, FavoritesService, ViewService, InfoTrayService, SortAndFilterService, EVENTS) {
+    .directive("contextualMenu", ["$rootScope", "$state", "CONFIG", "ActiveSelection", "DiaglogService", "FavoritesService", "InfoTrayService", "SortAndFilterService", "EVENTS", function($rootScope, $state, CONFIG, ActiveSelection, DiaglogService, FavoritesService,  InfoTrayService, SortAndFilterService, EVENTS) {
         return {
             restrict: "AE",
             templateUrl: "views/directives/contextual_menu.tpl.html",
@@ -13,17 +13,12 @@ angular.module('ThreeSixtyOneView.directives')
             },
             replace: true,
             link: function(scope, element, attrs) {
-                var actions = CONFIG.view[ViewService.getCurrentView()].contextualMenu.actions,
-                    menuViews = CONFIG.view[ViewService.getCurrentView()].contextualMenu.views;
+                var actions = CONFIG.view[$state.current.name].contextualMenu.actions,
+                    menuViews = CONFIG.view[$state.current.name].contextualMenu.views;
                 scope.DiaglogService = DiaglogService;
                 scope.InfoTrayService = InfoTrayService;
                 scope.ActiveSelection = ActiveSelection;
-                scope.service = ViewService.getModel();
                 scope.actions = actions;
-
-                $rootScope.$on(EVENTS.changeViewModel, function(event, data) {
-                    scope.service = data;
-                });
 
                 scope.alert = function(msg) {
                     window.alert(msg);

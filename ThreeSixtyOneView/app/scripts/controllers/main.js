@@ -5,8 +5,7 @@
 
 // View controllers
 angular.module("ThreeSixtyOneView")
-    .controller("MainCtrl", ["$scope", "ViewService", "InfoTrayService", "ActiveSelection", "ScenarioService", function($scope, ViewService, InfoTrayService, ActiveSelection, ScenarioService) {
-        $scope.ViewService = ViewService;
+    .controller("MainCtrl", ["$scope", "InfoTrayService", "ActiveSelection", "ScenarioService", function($scope,  InfoTrayService, ActiveSelection, ScenarioService) {
 
         // These are going away
         $scope.InfoTrayService = InfoTrayService;
