@@ -154,6 +154,7 @@ angular.module("ThreeSixtyOneView")
         $http.get('data/spreadjs.json').success(function(response) {
         $scope.pivotTableData = response.data;
         $scope.pivotTableHeaders = response.headers;
+        $scope.spread = {};
 
     });
     }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "Urlmaker", "ScenarioService", function($scope, $stateParams, Urlmaker, ScenarioService){

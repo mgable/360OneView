@@ -25,6 +25,7 @@ angular.module("ThreeSixtyOneView").controller("spreadjsCtrl", function($scope, 
 		// hide row and column headers.
 		sheet.setColumnHeaderVisible(true);
 		sheet.setRowHeaderVisible(false);
+		sheet.autoGenerateColumns = true;
 
 		// selection background color and border color
 		sheet.selectionBackColor("rgba(229,243,252,0.3)");
@@ -41,7 +42,7 @@ angular.module("ThreeSixtyOneView").controller("spreadjsCtrl", function($scope, 
 
 			if (h > colLevel - 1) {
 				// column.formatter("$#,###.00[<1000];$#,.0K[>=1000]");
-				column.formatter("$#,###.00");
+				// column.formatter("$#,###.00");
 			}
 
 			sheet.getColumns(0, colLevel-1).hAlign($.wijmo.wijspread.HorizontalAlign.left);
@@ -53,12 +54,12 @@ angular.module("ThreeSixtyOneView").controller("spreadjsCtrl", function($scope, 
 		// add styling
 		spread.grayAreaBackColor("Transparent");
 
-		sheet.defaults.colWidth = 249;
+		sheet.defaults.colWidth = 149;
 		sheet.defaults.rowHeight = 30;
 
 		sheet.getColumn(colLevel - 1).borderRight(new $.wijmo.wijspread.LineBorder("#D0D7E5", $.wijmo.wijspread.LineStyle.thin));
 		sheet.getRow(rowLevel - 1).borderBottom(new $.wijmo.wijspread.LineBorder("#D0D7E5", $.wijmo.wijspread.LineStyle.thin));
-		sheet.setFrozenRowCount(rowLevel-1);
+		sheet.setFrozenRowCount(rowLevel - 1);
 		sheet.setFrozenColumnCount(colLevel);
 		sheet.frozenlineColor("#D0D7E5");
 		// sheet.getRows(0, rowLevel - 1).backColor("#E5F3FC").foreColor("#8796B4").font("bold 12px/14px Arial");
@@ -68,7 +69,7 @@ angular.module("ThreeSixtyOneView").controller("spreadjsCtrl", function($scope, 
 
 		// add spanning, temporaraly fake the behavior
 		for (var i = 0; i < rowCnt / 2; i++) {
-			sheet.addSpan(i * 2, 0, 2, 1);
+			// sheet.addSpan(i * 2, 0, 2, 1);
 		}
 		sheet.bind($.wijmo.wijspread.Events.RangeSorting, function (e) {
 			var spans = sheet.getSpans();
@@ -87,6 +88,8 @@ angular.module("ThreeSixtyOneView").controller("spreadjsCtrl", function($scope, 
 		// lock cells
 		$scope.toggleText = "Lock Cells";
 		$scope.lockFlag = false;
+
+		$scope.spread.sheet = sheet;
 	}
 
 	$scope.lockCell = function() {

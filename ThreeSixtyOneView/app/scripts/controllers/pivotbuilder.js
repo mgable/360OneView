@@ -77,6 +77,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 		$scope.pbData.viewData[dim].splice(itemInd, 1);
 		$scope.added[itemName] = false;
+
+		$scope.applyView();
 	};
 
 	$scope.changeMade = function() {
@@ -111,6 +113,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 		$scope.toAdd = [];
 		$scope.addChecked = {};
+
+		$scope.applyView();
 	};
 
 	$scope.popUpLocSet = function($event) {
@@ -304,11 +308,38 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		var numCols = $scope.pbData.viewData.columns.length;
 		var numRows = $scope.pbData.viewData.rows.length;
 		
+		var totalColCount = 1;
+		var pivotCols = [];
+		var colCounter = [];
+
+		for(var i = 0; i < numCols; i++) {
+			var category = $scope.pbData.itemsList.filter(function(obj) {
+					return obj.name === $scope.pbData.viewData.columns[i].category;
+				});
+
+			var item = category[0].subitems.filter(function(obj) {
+				return obj.name === $scope.pbData.viewData.columns[i].name;
+			});
+
+			if(item[0].subsubitems.length === 1) {
+				pivotCols[i] = item[0].subsubitems[0].values;
+				totalColCount *= item[0].subsubitems[0].values.length;
+			} else {
+				totalColCount *= item[0].subsubitems.length;
+				for(var j = 0; j < item[0].subsubitems.length; j++) {
+					if(!angular.isArray(pivotCols[i])) pivotCols[i] = [];
+					pivotCols[i][j] = item[0].subsubitems[j].name;
+				}
+			}
+
+			colCounter[i] = 0;
+		}
+
 		var totalRowCount = 1;
 		var pivotRows = [];
 		var rowCounter = [];
 
-		for(var i = 0; i < numRows; i++) {
+		for(i = 0; i < numRows; i++) {
 			var category = $scope.pbData.itemsList.filter(function(obj) {
 					return obj.name === $scope.pbData.viewData.rows[i].category;
 				});
@@ -331,19 +362,56 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			rowCounter[i] = 0;
 		}
 
-		$scope.viewApplied = true;
-		$scope.pivotTableData[0]['2015_February'] = '123';
-		$scope.pivotTableData[8] = {};
-		$scope.pivotTableData[8]['nameplate_category'] = '123';
-		$scope.pivotTableData[8]['leaf_touchpoint'] = '123';
-		$scope.pivotTableData[8]['2015_January'] = '123';
-		$scope.pivotTableData[8]['2015_February'] = '123';
-		$scope.pivotTableData[8]['2015_March'] = '123';
-		console.log($scope.pivotTableData);
+		$scope.pivotTableData = [];
+
+		for(i = 0; i < numCols; i++) {
+			$scope.pivotTableData[i] = {};
+			for (j = 0; j < numRows; j++) {
+				$scope.pivotTableData[i][j] = '';
+			};
+		}
+
+		for(i = 0; i < totalColCount; i++) {
+			
+			for(var j = 0; j < numCols; j++) {
+				$scope.pivotTableData[j][i + numRows] = pivotCols[j][colCounter[j]];
+			}
+
+			colCounter[numCols - 1]++;
+			for(j = numCols - 1; j >= 0; j--) {
+				if(colCounter[j] == pivotCols[j].length) {
+					colCounter[j] = 0;
+					colCounter[j - 1]++;
+				}
+			}
+		}
 
 		for(i = 0; i < totalRowCount; i++) {
-			// $scope.pivotTableData
+			$scope.pivotTableData[i + numCols] = {};
+
+			for(var j = 0; j < numRows; j++) {
+				$scope.pivotTableData[i + numCols][j] = pivotRows[j][rowCounter[j]];
+			}
+
+			rowCounter[numRows - 1]++;
+			for(j = numRows - 1; j >= 0; j--) {
+				if(rowCounter[j] == pivotRows[j].length) {
+					rowCounter[j] = 0;
+					rowCounter[j - 1]++;
+				}
+			}
 		}
+
+		$scope.spread.sheet.addSpan(0,0,numCols,numRows);
+		$scope.spread.sheet.setFrozenRowCount(numCols);
+		$scope.spread.sheet.setFrozenColumnCount(numRows);
+		
+		// var newData = angular.copy($scope.pivotTableData);
+		// $scope.pivotTableData = newData;
+		$scope.spread.sheet.setDataSource($scope.pivotTableData);
+
+		$scope.viewApplied = true;
+		console.log('Done!');
 	};
 
 	$scope.undoViewChange = function() {
