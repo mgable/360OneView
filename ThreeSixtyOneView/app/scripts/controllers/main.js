@@ -39,8 +39,8 @@ angular.module("ThreeSixtyOneView")
                 // bootstrap view with data
                 $scope.data = {};
                 $scope.CONFIG = currentView;
-                $scope.CONFIG.projectName = ProjectsService.getProjectTitleById($stateParams.projectId)
-                
+                $scope.CONFIG.projectName = ProjectsService.getProjectTitleById($stateParams.projectId);
+                $scope.hasAlerts = Scenarios.data.length < 1 ? $scope.CONFIG.alertSrc : false;
 
                 _.extend($scope.CONFIG, $stateParams);
 
@@ -54,6 +54,8 @@ angular.module("ThreeSixtyOneView")
                     filter: filter,
                     reverse: reverse
                 });
+
+                console.info($scope.CONFIG);
             };
 
         init($state.current.name);
@@ -61,6 +63,8 @@ angular.module("ThreeSixtyOneView")
         // Controller API
         $scope.goto = function(evt, where, item){
             //evt.stopPropagation();
+            console.info("goto")
+            console.info(evt, where, item);
             switch(where){
                 case "gotoScenarioEdit": GotoService.scenarioEdit(getProjectName(), item); break;
                 case "gotoDashboard": GotoService.dashboard(item); break;
@@ -147,13 +151,13 @@ angular.module("ThreeSixtyOneView")
                 // get all favorites
                 FavoritesService.setFavorites(_.pluck(Favorites, 'uuid'));
                 if (master) { FavoritesService.addFavorite(master.id); }
-            }
+            };
 
         init($state.current.name);
 
         // Controller API
         $scope.goto = function(evt, where, item){
-            //evt.stopPropagation();
+            evt.stopPropagation();
             switch(where){
                 case "gotoScenarioEdit": GotoService.scenarioEdit(getProjectName(), item); break;
                 case "gotoDashboard": GotoService.dashboard(item); break;
@@ -247,20 +251,22 @@ angular.module("ThreeSixtyOneView")
     }]).controller("ScenarioEditCtrl", ["$scope",  "$stateParams", "GotoService", "ProjectsService", function($scope, $stateParams, GotoService, ProjectsService) {
         $scope.GotoService = GotoService;
         $scope.projectName = $stateParams.project;
+        $scope.ScenarioName = $stateParams.scenario;
         $scope.projectId = ProjectsService.getProjectIDByTitle($stateParams.project);
         $scope.entity = $stateParams.entity;
         $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
         $scope.scenarioElementType = $scope.types[0];
 
-    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DiaglogService", "GotoService", function($scope, $stateParams, ScenarioService, DiaglogService, GotoService){
+    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DiaglogService", "GotoService", "ProjectsService", function($scope, $stateParams, ScenarioService, DiaglogService, GotoService, ProjectsService){
             $scope.GotoService = GotoService;
             $scope.scenario = {
-                project: $stateParams.projectName
+                projectName: $stateParams.projectName,
+                projectId: ProjectsService.getProjectIDByTitle($stateParams.projectName)
             };
 
             $scope.createScenario = function(scenario){
                 ScenarioService.create(scenario).then(function(data){
-                    GotoService.scenarioEdit(scenario.project, scenario.title);
+                    GotoService.scenarioEdit(scenario.projectName, scenario.title);
                 });
             };
 

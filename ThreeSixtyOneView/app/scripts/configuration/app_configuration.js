@@ -41,6 +41,7 @@ angular.module('ThreeSixtyOneView.config')
                 "topInclude": "views/includes/dashboard_top.tpl.html",
                 "status": true,
                 "where": "gotoScenarioEdit",
+                "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
                 "displayActionsCreate": "scope.$emit('GotoService:scenarioCreate')",
                 "filterMenu": {
                     "firstSelected": 0,
