@@ -11,8 +11,6 @@ angular.module('ThreeSixtyOneView.services')
         favs = new FavsModel(FavoritesModel);
         angular.extend(this, favs);
 
-        console.info(this);
-
         this.removeFavorite = function(itemID) {
             if (_.indexOf(favoritesList, itemID) > -1) {
                 favoritesList.splice(_.indexOf(favoritesList, itemID), 1);

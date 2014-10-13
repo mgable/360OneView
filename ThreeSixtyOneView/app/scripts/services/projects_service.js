@@ -3,8 +3,13 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-	.service('ProjectsService',  ["$rootScope", "ProjectsModel", "EVENTS", function ($rootScope, ProjectsModel, EVENTS) {
-		var projects = [];
+	.service('ProjectsService',  ["$rootScope", "ProjectsModel", "Model", "EVENTS", function ($rootScope, ProjectsModel, Model, EVENTS) {
+		var projects = [], ProjectModel, MyProjectModel, myprojects;
+
+		MyProjectModel = new Model();
+        angular.extend(this, MyProjectModel.prototype);
+        myprojects = new MyProjectModel(ProjectsModel);
+        angular.extend(this, myprojects);
 
 		this.getProjectIDByTitle = function(_title_){
 			var item = _.findWhere(projects, {title:_title_});
