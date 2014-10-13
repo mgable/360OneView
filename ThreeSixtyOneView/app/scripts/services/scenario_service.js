@@ -20,25 +20,30 @@ angular.module('ThreeSixtyOneView')
 			var id = ProjectsService.getProjectIDByTitle(scenarioObj.project);
 			scenario.name = scenarioObj.title;
 			scenario.description = scenarioObj.description || "";
-			ScenarioModel.create(scenario, id);
+			return ScenarioModel.create(scenario, id);
 		};
 
 		this.getAll = function(){
 			var projects = ProjectsService.getProjects(),
 			promises = [],
-			ids = _.pluck(projects,'id');
+			ids = [], // _.pluck(projects,'id'),
+			results = [];
+
+			angular.forEach(projects, function(v,k,o){
+				ids.push(_.pick(v, 'id', 'title'));
+			});
+
 			angular.forEach(ids, function(v,k,o){
-				console.info("the project is ");
-				console.info(o[k]);
-				promises.push(this.get(v));
+				promises.push({title: v.title, promise: this.get(v.id)});
 			}, this);
-			$q.all(promises).then(function(response){
-				console.info("get all");
-				console.info(response);
+
+			return $q.all(_.pluck(promises, "promise")).then(function(response){
 				angular.forEach(response, function(v,k,o){
-					console.info("getting projects with scenarios");
-					console.info(v);
+					if (v.data.length){
+						results.push({title:promises[k].title, data: v.data});
+					}
 				});
+				return results;
 			});
 		};
 	}]);

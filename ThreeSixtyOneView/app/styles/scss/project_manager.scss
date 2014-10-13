@@ -221,7 +221,7 @@
 							weight:bold;
 							size:16px;
 						}
-						> i {
+						 i {
 							visibility: visible;
 							display:inline-block;
 						}
@@ -298,6 +298,7 @@
 						}
 					}
 				}
+				&.hasFavorites .title {clear:none;}
 				.favorites {
 					clear: both;
 					float:left;
@@ -319,6 +320,7 @@
 					}
 				}
 				.title {
+					clear:both;
 					overflow: hidden;
 					text-overflow: ellipsis;
 					white-space: nowrap;

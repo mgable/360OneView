@@ -41,8 +41,7 @@ angular.module('ThreeSixtyOneView.services')
             } else {
                 this.addFavorite(itemID);
             }
-        
-            $rootScope.$broadcast("FavoritesService:toggleFavorites");
+
         };
 
         this.getFavorites = function() {

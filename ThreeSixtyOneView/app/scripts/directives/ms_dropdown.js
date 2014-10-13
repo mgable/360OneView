@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.directives')
-    .directive('msDropdown', ["$document", "$timeout", "$rootScope", "$filter", "CONFIG", "DropdownService", "SortAndFilterService", "ViewService", function($document, $timeout, $rootScope, $filter, CONFIG, DropdownService, SortAndFilterService, ViewService) {
+    .directive('msDropdown', ["$document", "$timeout", "$rootScope", "$filter", "CONFIG", "DropdownService", "SortAndFilterService", "ViewService", "EVENTS", function($document, $timeout, $rootScope, $filter, CONFIG, DropdownService, SortAndFilterService, ViewService, EVENTS) {
         return {
             restrict: "AE",
             templateUrl: "views/directives/ms_dropdown.tpl.html",
@@ -68,7 +68,7 @@ angular.module('ThreeSixtyOneView.directives')
                     }
                 });
 
-                $rootScope.$on("SortAndFilterService:resetFilterBy", function() {
+                $rootScope.$on(EVENTS.resetFilterBy, function() {
                     $scope.selectedFilter = null;
                 });
 

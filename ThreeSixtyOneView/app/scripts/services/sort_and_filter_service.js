@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-    .service('SortAndFilterService', ["$filter", "$rootScope", "filterFilter", function($filter, $rootScope, filterFilter) {
+    .service('SortAndFilterService', ["$filter", "$rootScope", "filterFilter", "EVENTS", function($filter, $rootScope, filterFilter, EVENTS) {
         var sorters = {}, // <ms-dropdown> instances
             filterBy = {}, // <ms-dropdown> instances filter selection
             orderBy = "", // <ms-dropdown> instances orderby selection
@@ -80,7 +80,7 @@ angular.module('ThreeSixtyOneView.services')
                 }
 
                 resetFilterBy();
-                $rootScope.$broadcast("SortAndFilterService:resetFilterBy");
+                $rootScope.$broadcast(EVENTS.resetFilterBy);
             },
             self = this;
             display.data = {};
@@ -179,15 +179,11 @@ angular.module('ThreeSixtyOneView.services')
             this.setFilter("reverse", config.reverse, false);
             this.setFilter("activeFilter", config.filter, true);
 
-            $rootScope.$on("ProjectsModel:dataChange", function(event, response) {
+            $rootScope.$on(EVENTS.updateProjects, function(event, response) {
                 $rootScope.$apply(function(){
                     data.data = response.data;
                     self.filter();
                 });
-            });
-
-            $rootScope.$on("FavoritesService:toggleFavorites", function(){
-                self.filter();
             });
         };
 
