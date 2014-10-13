@@ -21,7 +21,7 @@
 				</td>
 				<td ng-click="showDetails(item)">
 					<div class="text-holder" ng-class="{master: item.isMaster}">
-                    	<span class="title" ng-click="goto($event, CONFIG.where, item.title)">
+                    	<span class="title" ng-click="goto($event, CONFIG.where, item.id)">
 	                        <span class="default"><icon type="marketshare"></icon>&nbsp;{{item.title}}</span>
                     	</span>
                     	<span class="favorites" ng-if="CONFIG.hasFavorites"><a ng-class="{favorite:isFavorite(item.id)}" ng-click="!item.isMaster && toggleFavorite($event, item.id)"></a></span>

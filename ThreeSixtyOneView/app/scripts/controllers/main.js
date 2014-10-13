@@ -24,10 +24,9 @@ angular.module("ThreeSixtyOneView")
             }
         };
 
-    }]).controller("ManagerCtrl", ["$scope", "$injector",  "$stateParams", "$state", "CONFIG", "FavoritesModel", "FavoritesService", "ViewService", "InfoTrayService", "ProjectsService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", "EVENTS", function($scope, $injector, $stateParams, $state, CONFIG, FavoritesModel, FavoritesService, ViewService, InfoTrayService, ProjectsService, Projects, ActiveSelection, SortAndFilterService, GotoService, EVENTS) {
+    }]).controller("ProjectDashboardCtrl", ["$scope",  "$stateParams", "$state", "CONFIG", "InfoTrayService", "ProjectsService", "Projects", "Scenarios", "ActiveSelection", "SortAndFilterService", "GotoService", "EVENTS", function($scope,  $stateParams, $state, CONFIG, InfoTrayService, ProjectsService, Projects, Scenarios, ActiveSelection, SortAndFilterService, GotoService, EVENTS) {
         var currentView = CONFIG.view[$state.current.name],
-            currentModel = currentView.model, filter = "",
-            viewModel,
+            filter = "",
             /* jshint ignore:start */
             filter = eval(currentView.filter),
             /* jshint ignore:end */
@@ -36,54 +35,122 @@ angular.module("ThreeSixtyOneView")
             getProjectName = function(){
                 return ActiveSelection.activeItem() ? ActiveSelection.getActiveItem().title : $scope.CONFIG.projectName;
             },
-            init = function(){
+            init = function(whichView){
+                console.info(whichView);
                 // bootstrap view with data
                 $scope.data = {};
                 $scope.CONFIG = currentView;
+                $scope.CONFIG.projectName = ProjectsService.getProjectTitleById($stateParams.projectId)
+                
+
                 _.extend($scope.CONFIG, $stateParams);
 
                 // add projects to the projects service
                 ProjectsService.setProjects(Projects.data);
 
-                // detemine which view model to get
-                if (currentModel){
-                    viewModel = $injector.get(currentModel);
-                }
-
-                // if there is a view model get the associated data and send it to the filter service
-                if (viewModel) {
-                    viewModel.get($scope.CONFIG.projectName).then(function(response) {
-                        $scope.data = response;
-                        SortAndFilterService.init({
-                            data: response,
-                            orderBy: orderBy,
-                            filter: filter,
-                            reverse: reverse
-                        });
-
-                        // if view has favorites get favorite data
-                        if ($scope.CONFIG.hasFavorites) {
-                            // the master project is always a favorite and not in the favorite REST call (yet)
-                            var master;
-                            _.each($scope.data, function(element){
-                               master = _.find(element, function(elem){return elem.isMaster;});
-                            });
-
-                            // get all favorites
-                            FavoritesModel.get().then(function(response){
-                                FavoritesService.setFavorites(_.pluck(response, 'uuid'));
-                                if (master) { FavoritesService.addFavorite(master.id); }
-                            });
-                        }
-                    });
-                    //ViewService.setCurrentView($state.current.name);
-                    ViewService.setModel(viewModel);
-                } else {
-                    console.info ("no view model");
-                }
+                $scope.data = Scenarios.data;
+                SortAndFilterService.init({
+                    data: Scenarios,
+                    orderBy: orderBy,
+                    filter: filter,
+                    reverse: reverse
+                });
             };
 
-        init();
+        init($state.current.name);
+
+        // Controller API
+        $scope.goto = function(evt, where, item){
+            //evt.stopPropagation();
+            switch(where){
+                case "gotoScenarioEdit": GotoService.scenarioEdit(getProjectName(), item); break;
+                case "gotoDashboard": GotoService.dashboard(item); break;
+                case "gotoProjects": GotoService.projects(); break;
+                case "gotoScenarioCreate": GotoService.scenarioCreate(item); break;
+            }
+            InfoTrayService.closeInfoTray();
+        };
+
+        $scope.showDetails = function(item){
+            ActiveSelection.setActiveItem(item);
+            InfoTrayService.toggleInfoTray();
+        };
+
+        $scope.isActiveItem = function (item){
+            return ActiveSelection.isActiveItem(item);
+        };
+
+        $scope.getData = function () {
+            return SortAndFilterService.getData();
+        };
+
+        $scope.getSorter = function(column) {
+            return SortAndFilterService.getSorter(column);
+        };
+
+        $scope.getSelectedLabel = function() {
+            return SortAndFilterService.getSelectedLabel();
+        };
+
+        $scope.getCount = function() {
+            return SortAndFilterService.getCount();
+        };
+
+        $scope.setFilter = function(type, item, forceFilter) {
+            SortAndFilterService.setFilter(type, item, forceFilter);
+        };
+
+        // Event Listeners
+        $scope.$on(EVENTS.gotoScenarioCreate, function (event){
+            $scope.goto(event, "gotoScenarioCreate",  $scope.CONFIG.projectName);
+        });
+
+        $scope.$on(EVENTS.gotoDashboard, function (event, data){
+            $scope.goto(event, "gotoDashboard",  data.title);
+        });
+
+    }]).controller("ProjectListingCtrl", ["$scope",  "$stateParams", "$state", "CONFIG", "Favorites", "FavoritesService", "InfoTrayService", "ProjectsService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", "EVENTS", function($scope, $stateParams, $state, CONFIG, Favorites, FavoritesService, InfoTrayService, ProjectsService, Projects, ActiveSelection, SortAndFilterService, GotoService, EVENTS) {
+        var currentView = CONFIG.view[$state.current.name],
+            filter = "",
+            master,
+            /* jshint ignore:start */
+            filter = eval(currentView.filter),
+            /* jshint ignore:end */
+            reverse = currentView.reverse,
+            orderBy = currentView.orderBy,
+            getProjectName = function(){
+                return ActiveSelection.getActiveItem().title;
+            },
+            init = function(whichView){
+                console.info("initing " + whichView);
+                // bootstrap view with data
+                $scope.data = {};
+                $scope.CONFIG = currentView;
+                
+                _.extend($scope.CONFIG, $stateParams);
+
+                // add projects to the projects service
+                ProjectsService.setProjects(Projects.data);
+
+                $scope.data = Projects.data;
+                SortAndFilterService.init({
+                    data: Projects,
+                    orderBy: orderBy,
+                    filter: filter,
+                    reverse: reverse
+                });
+
+                // the master project is always a favorite and not in the favorite REST call (yet)
+                _.each($scope.data, function(element){
+                   master = _.find(element, function(elem){return elem.isMaster;});
+                });
+
+                // get all favorites
+                FavoritesService.setFavorites(_.pluck(Favorites, 'uuid'));
+                if (master) { FavoritesService.addFavorite(master.id); }
+            }
+
+        init($state.current.name);
 
         // Controller API
         $scope.goto = function(evt, where, item){
@@ -145,7 +212,7 @@ angular.module("ThreeSixtyOneView")
             $scope.goto(event, "gotoDashboard",  data.title);
         });
 
-    }]).controller('InfoTrayCtrl', ["$scope", "$state", "CONFIG", "ViewService", "ScenarioService", "ActiveSelection", "FavoritesService", "SortAndFilterService", "EVENTS", function($scope, $state, CONFIG, ViewService, ScenarioService, ActiveSelection, FavoritesService, SortAndFilterService, EVENTS) {
+    }]).controller('InfoTrayCtrl', ["$scope", "$state", "CONFIG", "ScenarioService", "ActiveSelection", "FavoritesService", "SortAndFilterService", "EVENTS", function($scope, $state, CONFIG, ScenarioService, ActiveSelection, FavoritesService, SortAndFilterService, EVENTS) {
         var getScenarios = function(title){
             return ScenarioService.get(title);
         };
@@ -163,8 +230,7 @@ angular.module("ThreeSixtyOneView")
         };
 
         $scope.update = function(item) {
-            var service = ViewService.getModel();
-            service.rename(item);
+            $scope.$broadcast(EVENTS.renameProject, item);
         };
 
         $scope.$on(EVENTS.changeActiveItem, function(event, response) {
@@ -173,15 +239,16 @@ angular.module("ThreeSixtyOneView")
             }
 
             // TODO: refactor this out once entities are finished
-            if(ViewService.getCurrentView () === "ProjectManager") {
+            if($state.current.name === "ProjectManager") {
                 getScenarios($scope.selectedItem.title).then(function(response){
                     $scope.selectedItem.scenarios = response.data;
                 });
             }
         });
-    }]).controller("ScenarioEditCtrl", ["$scope", "$state",  "$stateParams", "GotoService", function($scope, $state, $stateParams, GotoService) {
+    }]).controller("ScenarioEditCtrl", ["$scope",  "$stateParams", "GotoService", "ProjectsService", function($scope, $stateParams, GotoService, ProjectsService) {
         $scope.GotoService = GotoService;
         $scope.projectName = $stateParams.project;
+        $scope.projectId = ProjectsService.getProjectIDByTitle($stateParams.project);
         $scope.entity = $stateParams.entity;
         $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
         $scope.scenarioElementType = $scope.types[0];
