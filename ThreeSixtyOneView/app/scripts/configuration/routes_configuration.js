@@ -26,7 +26,11 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
     .state('ScenarioCreate', {
       url: "/scenarioCreate/:projectId",
       templateUrl: "views/scenario_create.tpl.html",
-      controller: "ScenarioCreateCtrl"
+      controller: "ScenarioCreateCtrl",
+      resolve: {
+        'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
+        'Scenarios': function(ScenarioModel, $stateParams){return ScenarioModel.get($stateParams.projectId);}
+      }
     })
     .state('ScenarioEdit', {
       url: "/scenarioEdit/:projectId/:scenarioId",
