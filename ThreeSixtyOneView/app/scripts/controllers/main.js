@@ -100,7 +100,7 @@ angular.module("ThreeSixtyOneView")
 
         // Event Listeners
         $scope.$on(EVENTS.gotoScenarioCreate, function (event){
-            $scope.goto(event, "gotoScenarioCreate",  $scope.CONFIG.projectName);
+            $scope.goto(event, "gotoScenarioCreate",  $scope.project);
         });
 
         $scope.$on(EVENTS.gotoDashboard, function (event, data){
@@ -247,17 +247,19 @@ angular.module("ThreeSixtyOneView")
         $scope.scenario = ScenarioModel.getScenarioById($stateParams.scenarioId);
         $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
         $scope.scenarioElementType = $scope.types[0];
-    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DiaglogService", "GotoService", "ProjectsService", function($scope, $stateParams, ScenarioService, DiaglogService, GotoService, ProjectsService){
+    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DiaglogService", "GotoService", "Project", "Scenarios", function($scope, $stateParams, ScenarioService, DiaglogService, GotoService, Project, Scenarios){
             $scope.GotoService = GotoService;
-            $scope.scenario = {
-                projectName: $stateParams.projectName,
-                projectId: ProjectsService.getProjectIDByTitle($stateParams.projectName)
-            };
+            $scope.project = Project;
+            $scope.scenarios = Scenarios.data;
 
             $scope.createScenario = function(scenario){
                 ScenarioService.create(scenario).then(function(data){
                     GotoService.scenarioEdit(scenario.projectName, scenario.title);
                 });
+            };
+
+            $scope.isScenarioTitleUnique = function(scenarioTitle) {
+                return ! _.findWhere($scope.scenarios, {title:scenarioTitle})
             };
 
             $scope.currentScenario = function (scenario){

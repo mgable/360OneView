@@ -20,7 +20,6 @@ angular.module('ThreeSixtyOneView.services').service('ScenarioModel', ["$locatio
     };
 
     this.getScenarioById = function(scenarioId){
-        console.info(this.data);
         return _.findWhere(this.data, {id:scenarioId})
     };
 
