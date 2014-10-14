@@ -7,8 +7,8 @@ angular.module('ThreeSixtyOneView')
 		$state.go("ScenarioEdit", {"project": project, "scenario": scenario});
 	};
 
-	this.dashboard = function(project){
-		$state.go("Dashboard", {"projectName": project});
+	this.dashboard = function(projectId){
+		$state.go("Dashboard", {"projectId": projectId});
 	};
 
 	this.projects = function(){

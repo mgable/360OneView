@@ -17,7 +17,7 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		this.create = function(scenarioObj){
-			var id = ProjectsService.getProjectIDByTitle(scenarioObj.project);
+			var id = scenarioObj.projectId ? scenarioObj.projectId : ProjectsService.getProjectIDByTitle(scenarioObj.projectName);
 			scenario.name = scenarioObj.title;
 			scenario.description = scenarioObj.description || "";
 			return ScenarioModel.create(scenario, id);

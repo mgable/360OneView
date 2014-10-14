@@ -4,45 +4,40 @@
 'use strict';
 
 describe('Controllers: ', function() {
-    var scope, ctrl, spy, $state, SortAndFilterService, ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, ViewService, CONFIG, $rootScope, onSpy;
+    var scope, ctrl, spy, $state, SortAndFilterService, ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, CONFIG, $rootScope, onSpy;
 
     beforeEach(module('ThreeSixtyOneView', 'ThreeSixtyOneView.services'));
 
     describe("MainCtrl: ", function(){
-        beforeEach(inject(function($rootScope, $controller, _ViewService_) {
+        beforeEach(inject(function($rootScope, $controller) {
             scope = $rootScope.$new();
             ctrl = $controller('MainCtrl', {
                 $scope: scope,
-                ViewService: _ViewService_
             });
         }));
 
-        it("should define all services", function(){
-            expect(scope.ViewService).toBeDefined();
-        });
     });
 
-    describe("ManagerCtrl", function(){
-        beforeEach(inject(function(_$rootScope_, _$state_, $controller, _InfoTrayService_, _CONFIG_, _ViewService_,  _ActiveSelection_) {
+    describe("ProjectListingCtrl", function(){
+        beforeEach(inject(function(_$rootScope_, _$state_, $controller, _InfoTrayService_, _CONFIG_,  _ActiveSelection_) {
             $rootScope = _$rootScope_;
             scope = $rootScope.$new();
             CONFIG = _CONFIG_;
-            ViewService = _ViewService_;
             InfoTrayService = _InfoTrayService_;
             $state = _$state_;
             $state.current.name = "ProjectManager";
             onSpy = spyOn(scope, "$on").and.callThrough();
-            ctrl = $controller('ManagerCtrl', {
+            ctrl = $controller('ProjectListingCtrl', {
                 $scope: scope,
-                ViewService: _ViewService_,
                 ActiveSelection: _ActiveSelection_,
                 '$stateParams': {projectName:"foo"},
-                Projects:{}
+                Projects: {},
+                Favorites: {}
             });
         }));
 
         it("should bootstrap all data", function(){
-            expect(scope.data).toEqual({});
+            //expect(scope.data).toEqual({});
             expect(scope.CONFIG).toBeDefined();
             expect(scope.CONFIG.hasFavorites).toEqual(CONFIG.view.ProjectManager.hasFavorites);
             expect(scope.CONFIG.topInclude).toBeFalsy();
