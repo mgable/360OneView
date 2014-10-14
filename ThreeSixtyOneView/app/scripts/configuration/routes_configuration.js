@@ -8,17 +8,19 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
     .state('ProjectManager', {
       url: "/projects",
       templateUrl: "views/display_manager.tpl.html",
-      controller: "ManagerCtrl",
+      controller: "ProjectListingCtrl",
       resolve: {
-        'Projects': function(ProjectsModel){return ProjectsModel.get();}
+        'Projects': function(ProjectsService){return ProjectsService.get();},
+        'Favorites': function(FavoritesService) {return FavoritesService.get();}
       }
     })
     .state('Dashboard', {
-      url: "/dashboard/:projectName",
+      url: "/dashboard/:projectId",
       templateUrl: "views/display_manager.tpl.html",
-      controller: "ManagerCtrl",
+      controller: "ProjectDashboardCtrl",
       resolve: {
-        'Projects': function(ProjectsModel){return ProjectsModel.get();}
+        'Projects': function(ProjectsService){return ProjectsService.get();},
+        'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);}
       }
     })
     .state('ScenarioCreate', {

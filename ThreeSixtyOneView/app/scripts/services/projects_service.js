@@ -4,7 +4,7 @@
 
 angular.module('ThreeSixtyOneView')
 	.service('ProjectsService',  ["$rootScope", "ProjectsModel", "Model", "EVENTS", function ($rootScope, ProjectsModel, Model, EVENTS) {
-		var projects = [], ProjectModel, MyProjectModel, myprojects;
+		var projects = [], MyProjectModel, myprojects;
 
 		MyProjectModel = new Model();
         angular.extend(this, MyProjectModel.prototype);

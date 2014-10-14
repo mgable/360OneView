@@ -9,6 +9,9 @@ angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout
     requestTranslator = CONFIG.application.models.ProjectsModel.requestTranslator,
     config = ModelModel.makeConfig(ModelModel, responseTranslator, requestTranslator),
     self = this;
+     // surface data for unit tests
+    this.resource = resource;
+    this.config = config;
     return {
         resource: resource,
         config: config,
@@ -44,28 +47,10 @@ angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout
             if (typeof obj.description === "undefined"){
                 obj.description = "";
             }
-            put.call(this, obj);
+            this.put(obj);
         }
     };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // surface data for unit tests
-    this.resource = resource;
-    this.config = config;
+   
 
 }]);
