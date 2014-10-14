@@ -22,7 +22,6 @@ angular.module("ThreeSixtyOneView")
                 evt.stopPropagation();
             }
         };
-
     }]).controller("ProjectDashboardCtrl", ["$scope",  "$stateParams", "$state", "CONFIG", "InfoTrayService", "ProjectsService", "Projects", "Scenarios", "ActiveSelection", "SortAndFilterService", "GotoService", "EVENTS", function($scope,  $stateParams, $state, CONFIG, InfoTrayService, ProjectsService, Projects, Scenarios, ActiveSelection, SortAndFilterService, GotoService, EVENTS) {
         var currentView = CONFIG.view[$state.current.name],
             filter = "",
@@ -242,12 +241,10 @@ angular.module("ThreeSixtyOneView")
                 });
             }
         });
-    }]).controller("ScenarioEditCtrl", ["$scope",  "$stateParams", "GotoService", "ProjectsService", "ScenarioService", function($scope, $stateParams, GotoService, ProjectsService, ScenarioService) {
+    }]).controller("ScenarioEditCtrl", ["$scope",  "$stateParams", "GotoService", "ProjectsService", "ScenarioModel", function($scope, $stateParams, GotoService, ProjectsService, ScenarioModel) {
         $scope.GotoService = GotoService;
         $scope.project = ProjectsService.getProjectItemById($stateParams.projectId);
-        // No REST service available for this - yet
-        //$scope.scenario = ScenarioService.get($stateParams.scenarioId);
-        $scope.entity = $stateParams.entity;
+        $scope.scenario = ScenarioModel.getScenarioById($stateParams.scenarioId);
         $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
         $scope.scenarioElementType = $scope.types[0];
     }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DiaglogService", "GotoService", "ProjectsService", function($scope, $stateParams, ScenarioService, DiaglogService, GotoService, ProjectsService){

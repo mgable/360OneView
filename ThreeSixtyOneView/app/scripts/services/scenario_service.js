@@ -5,15 +5,23 @@
 
 angular.module('ThreeSixtyOneView')
 	.service('ScenarioService', ["$q", "ScenarioModel", "ProjectsService", "CONFIG", function ($q, ScenarioModel, ProjectsService, CONFIG) {
-		var scenario = CONFIG.application.models.ScenarioModel.newScenario;
+		var scenario = CONFIG.application.models.ScenarioModel.newScenario,
+		cache = {};
 
 		this.get = function (identifier){
+			var results;
 			if(/[a-z\d]{32}/.test(identifier)) {
 				// is UUID (probably)
-				return ScenarioModel.get(identifier);
+				results = ScenarioModel.get(identifier);
 			} else {
-				return ScenarioModel.get(ProjectsService.getProjectIDByTitle(identifier));
+				results = ScenarioModel.get(ProjectsService.getProjectIDByTitle(identifier));
 			}
+			console.info("results are");
+			console.info(results);
+			cache[identifier] = results;
+			console.info("setting cache");
+			console.info(cache);
+			return results;
 		};
 
 		this.create = function(scenarioObj){
