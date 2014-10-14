@@ -10,7 +10,7 @@
 	</parent>
 
 	<groupId>com.marketshare.oneview</groupId>
-	<artifactId>360-ov-app</artifactId>
+	<artifactId>360-ov-ui</artifactId>
 	<packaging>pom</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>360 oneview app</name>
