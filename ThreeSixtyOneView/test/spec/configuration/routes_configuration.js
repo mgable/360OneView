@@ -34,7 +34,7 @@ describe('Routes tests: ', function() {
             var state = "ScenarioEdit",
             config = $state.get(state);
             expect(config.name).toBe(state);
-            expect(config.url).toBe("/scenarioEdit/:project/:scenario");
+            expect(config.url).toBe("/scenarioEdit/:projectId/:scenarioId");
             expect(config.controller).toBe("ScenarioEditCtrl");
         });
 
@@ -42,7 +42,7 @@ describe('Routes tests: ', function() {
             var state = "ScenarioCreate",
             config = $state.get(state);
             expect(config.name).toBe(state);
-            expect(config.url).toBe("/scenarioCreate/:projectName");
+            expect(config.url).toBe("/scenarioCreate/:projectId");
             expect(config.controller).toBe("ScenarioCreateCtrl");
         });
 

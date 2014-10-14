@@ -54,17 +54,13 @@ angular.module("ThreeSixtyOneView")
                     filter: filter,
                     reverse: reverse
                 });
-
-                console.info($scope.CONFIG);
             };
 
         init($state.current.name);
 
         // Controller API
         $scope.goto = function(evt, where, item){
-            //evt.stopPropagation();
-            console.info("goto")
-            console.info(evt, where, item);
+            evt.stopPropagation();
             switch(where){
                 case "gotoScenarioEdit": GotoService.scenarioEdit(getProject().id, item.id); break;
                 case "gotoDashboard": GotoService.dashboard(item.id); break;
@@ -156,8 +152,6 @@ angular.module("ThreeSixtyOneView")
 
         // Controller API
         $scope.goto = function(evt, where, item){
-            console.info("the item is ");
-            console.info(item);
             evt.stopPropagation();
             switch(where){
                 case "gotoScenarioEdit": GotoService.scenarioEdit(getProjectName(), item.id); break;

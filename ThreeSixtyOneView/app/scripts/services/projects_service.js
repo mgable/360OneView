@@ -31,7 +31,7 @@ angular.module('ThreeSixtyOneView')
 			} else {
 				console.error("The project id " + _id_ + " was NOT found!");
 			}
-		}
+		};
 
 		this.setProjects = function(_projects_){
 			projects = _projects_;
