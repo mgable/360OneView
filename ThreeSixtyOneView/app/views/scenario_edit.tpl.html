@@ -1,15 +1,8 @@
- <pre>      
-projectName is {{projectName}}
-ScenarioName is {{ScenarioName}}
-projectId is {{projectId}}
-
-</pre>
-
 <div class="scenario-edit">
-	<div class="ms-breadcrumb"><a ng-click="GotoService.dashboard(projectId)">
+	<div class="ms-breadcrumb"><a ng-click="GotoService.dashboard(project.id)">
 		<icon type="chevron-left"></icon>
 		<icon type="chevron-left"></icon>
-		&nbsp;{{projectName}}</a></div>
+		&nbsp;{{project.title}}</a></div>
 
 	<div class="details">
 		<div class="media">
@@ -17,8 +10,8 @@ projectId is {{projectId}}
 				<img class="media-object" src="http://dummyimage.com/50x50/65d642/fff.gif&text=Ca" alt="">
 			</a>
 			<div class="media-body">
-				<h4 class="media-heading pull-left">{{entity}}</h4>&nbsp;<icon type="cog"></icon><p class='pull-right no-margin'>Base Scenario:&nbsp;<a>Current Master Plan 2015</a></p>
-				<div style="clear:both;">Decription: Bacon ipsum dolor sit amet pastrami chuck andouille, shankle jerky drumstick chicken frankfurter fatback. Ham hock tri-tip andouille turducken.</div>
+				<h4 class="media-heading pull-left">{{scenario.title}}</h4>&nbsp;<icon type="cog"></icon><p class='pull-right no-margin'>Base Scenario:&nbsp;<a>Current Master Plan 2015</a></p>
+				<div style="clear:both;">{{scenario.description}}</div>
 			</div>
 		</div>
 		<div>

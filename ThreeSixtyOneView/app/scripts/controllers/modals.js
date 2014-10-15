@@ -65,7 +65,6 @@ angular.module('ThreeSixtyOneView')
         // ];
 
         $scope.setRow = function(id){
-            console.info(getStatus(id));
             if (getStatus(id)) {
                 selectedRow = id;
             }

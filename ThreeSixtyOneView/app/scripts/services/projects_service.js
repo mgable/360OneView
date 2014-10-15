@@ -29,6 +29,15 @@ angular.module('ThreeSixtyOneView')
 			}
 		};
 
+		this.getProjectItemById = function(_id_){
+			var item = _.findWhere(projects, {id:_id_});
+			if (item) {
+				return item;
+			} else {
+				console.error("The project id " + _id_ + " was NOT found!");
+			}
+		};
+
 		this.setProjects = function(_projects_){
 			projects = _projects_;
 		};
