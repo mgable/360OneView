@@ -5,8 +5,8 @@
 			<span class="pbTitleText" ng-clicks="pbShow = !pbShow; undoList = [];" ng-click="pbShow ? closeSlider() : (pbShow = true)" ng-hide="saveAs">{{viewName}}</span> 
 			<span class="pbSaveAsBox" ng-show="saveAs">
 				<input type="text" ng-model="saveAsName" ng-keyup="renameAction($event)"> 
-				<span class="glyphicon glyphicon-ok clickable" ng-click="finishSaveAs()"></span> 
-				<span class="glyphicon glyphicon-remove clickable" ng-click="cancelSaveAs()"></span>
+				<span class="glyphicon glyphicon-ok clickable" ng-click="finishSaveAs(true)"></span> 
+				<span class="glyphicon glyphicon-remove clickable" ng-click="finishSaveAs(false)"></span>
 			</span>
 			<span ng-show="pbShow && changeMade() && !saveAs" class="pbTitleEdited">- Edited</span>
 			<div class="pbRename"><span class="pbRenameButt glyphicon glyphicon-pencil clickable" ng-show="rename && pbShow && !saveAs" ng-click="startSaveAs()"></span></div>
@@ -60,12 +60,12 @@
 						<span class="pbItemInfo">
 							<span sortable-item-handle><i class="fa fa-arrows"></i></span>
 							<!-- <span class="pbItemCat">{{item.category}}</span> -->
-							<span class="pbItemName clickable" ng-click="add.replaceItem = $index; cancelAddItem(); add.selected = 'columns'; addPopUp['columns'] = !addPopUp['columns']; addPopUp['rows'] = false; popUpLocSet($event);">{{item.name}}</span>
+							<span class="pbItemName clickable" ng-click="add.replaceItem = $index; add.selected = 'columns'; addPopUp['columns'] = !addPopUp['columns']; addPopUp['rows'] = false; popUpLocSet($event);">{{item.name}}</span>
 						</span>
 						<span class="glyphicon glyphicon-remove clickable" ng-click="delItem(item.name, 'columns')"></span>
 					</div>
 					<div class="pbAddBox">
-						<div class="pbItemAdd clickable" no-drag data-toggleq="modal" data-targetq="#addModal" ng-click="add.replaceItem = -1; cancelAddItem(); add.selected = 'columns'; addPopUp['columns'] = !addPopUp['columns']; addPopUp['rows'] = false; popUpLocSet($event);">+ Add</div>
+						<div class="pbItemAdd clickable" no-drag data-toggleq="modal" data-targetq="#addModal" ng-click="add.replaceItem = -1; add.selected = 'columns'; addPopUp['columns'] = !addPopUp['columns']; addPopUp['rows'] = false; popUpLocSet($event);">+ Add</div>
 						<div ng-show="addPopUp['columns']" class="pbAddPopUp modal-content" ng-style="{top: (popUpLoc.top + 30) + 'px', left: (popUpLoc.left - 150) + 'px'}">
 							<table>
 								<tr ng-repeat="category in pbData.itemsList">
@@ -89,12 +89,12 @@
 						<span class="pbItemInfo">
 							<span sortable-item-handle><i class="fa fa-arrows"></i></span>
 							<!-- <span class="pbItemCat">{{item.category}}</span> -->
-							<span class="pbItemName clickable" ng-click="add.replaceItem = $index; cancelAddItem(); add.selected = 'rows'; addPopUp['rows'] = !addPopUp['rows']; addPopUp['columns'] = false; popUpLocSet($event);">{{item.name}}</span>
+							<span class="pbItemName clickable" ng-click="add.replaceItem = $index; add.selected = 'rows'; addPopUp['rows'] = !addPopUp['rows']; addPopUp['columns'] = false; popUpLocSet($event);">{{item.name}}</span>
 						</span>
 						<span class="glyphicon glyphicon-remove clickable" ng-click="delItem(item.name, 'rows')"></span>
 					</div>
 					<div class="pbAddBox">
-						<div class="pbItemAdd clickable" data-toggle1="modal" data-target1="#addModal" ng-click="add.replaceItem = -1; cancelAddItem(); add.selected = 'rows'; addPopUp['rows'] = !addPopUp['rows']; addPopUp['columns'] = false; popUpLocSet($event);">+ Add</div>
+						<div class="pbItemAdd clickable" data-toggle1="modal" data-target1="#addModal" ng-click="add.replaceItem = -1; add.selected = 'rows'; addPopUp['rows'] = !addPopUp['rows']; addPopUp['columns'] = false; popUpLocSet($event);">+ Add</div>
 						<div ng-show="addPopUp['rows']" class="pbAddPopUp modal-content" ng-style="{top: (popUpLoc.top + 30) + 'px', left: (popUpLoc.left - 150) + 'px'}">
 							<table>
 								<tr ng-repeat="category in pbData.itemsList">
@@ -114,7 +114,7 @@
 		</div>
 		<div class="pbSec">
 			<div class="pbSecTitle"><span class="glyphicon glyphicon-filter"></span> Filters</div>
-			<div ng-repeat="cat in pbData.itemsList" class="pbFilterBox clickable" ng-click="selectedFilter.cat = cat; cancelChangeFilter()" data-toggle="modal" data-target="#filterModal">
+			<div ng-repeat="cat in pbData.itemsList" class="pbFilterBox clickable" ng-click="selectedFilter.cat = cat; cancelChangeFilter(); selectedFilter.selFil = chooseViewBy(cat.subitems);" data-toggle="modal" data-target="#filterModal">
 				<div>
 					<div class="pbFilterCat">{{cat.name}} <span class="pbFilterSize">({{pbData.viewData.filters[$index].items.length}}/{{cat.subitems[cat.subitems.length - 1].subsubitems[0].values.length}})</span></div>
 					<div class="pbFilterVal" data-toggle="tooltip" data-placement="bottom" title="{{pbData.viewData.filters[$index].items.join(', ')}}"><span ng-repeat="fltr in pbData.viewData.filters[$index].items">{{fltr}}<span ng-hide="$last">, </span></span></div>
@@ -212,7 +212,7 @@
 				</div>
 				<div class="modal-body">
 					<div class="pbFilterModalLinks" ng-style="{height: (windowHeight - 128) + 'px'}">
-						<div class="pbFilterModalLink clickable" ng-repeat="cat in pbData.itemsList" ng-click="selectedFilter.cat = cat; selectedFilter.selFil = cat.subitems[cat.subitems.length - 1]; console.log('y');" ng-class="{active: cat.name == selectedFilter.cat.name}">
+						<div class="pbFilterModalLink clickable" ng-repeat="cat in pbData.itemsList" ng-click="selectedFilter.cat = cat; selectedFilter.selFil = chooseViewBy(cat.subitems);" ng-class="{active: cat.name == selectedFilter.cat.name}">
 							<div>{{cat.name}} 
 								<span class="pbFilterSize">({{filterCount(addedFilter[cat.name], false, '')}}/{{cat.subitems[cat.subitems.length - 1].subsubitems[0].values.length}})</span>
 							</div>
