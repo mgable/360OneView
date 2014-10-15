@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-  .directive('isUnique', function () {
-    return {
-    	require: 'ngModel',
-    	restrict: 'A',
-    	scope: {
-    		comparisonModel: "&isUnique"
-    	},
-    	link: function postLink(scope, element, attrs, ctrl) {
-    		var validate = function(viewValue) {
+	.directive('isUnique', function () {
+	return {
+		require: 'ngModel',
+		restrict: 'A',
+		scope: {
+			comparisonModel: "&isUnique"
+		},
+		link: function postLink(scope, element, attrs, ctrl) {
+			var validate = function(viewValue) {
 				if(!viewValue || !scope.comparisonModel){
 					// It's valid because we have nothing to compare against
 					ctrl.$setValidity('isUnique', true);
@@ -28,5 +28,5 @@ angular.module('ThreeSixtyOneView')
 			});
 
 		}
-    };
+	};
   });
