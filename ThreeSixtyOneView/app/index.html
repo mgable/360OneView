@@ -29,8 +29,7 @@
 		<div class="cap" ng-include src="'views/includes/navigation.tpl.html'"></div>
 		
 		<div class="app">
-			<!-- <div ng-view ng-class="ViewService.getCurrentView()"></div> -->
-			<div ui-view ng-class="ViewService.getCurrentView()"></div>
+			<div ui-view></div>
 		</div> <!-- end app -->
 
 		<!--[if lt IE 9]>
@@ -66,6 +65,7 @@
         <script src="scripts/configuration/app_configuration.js"></script>
         <script src="scripts/configuration/routes_configuration.js"></script>
         <script src="scripts/configuration/misc_configuration.js"></script>
+        <script src="scripts/configuration/event_configuration.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/modals.js"></script>
         <script src="scripts/controllers/pivotbuilder.js"></script>
@@ -82,7 +82,6 @@
         <script src="scripts/directives/sorter.js"></script>
         <script src="scripts/directives/display_actions.js"></script>
         <script src="scripts/directives/contextual_menu.js"></script>
-        <script src="scripts/directives/prototype.js"></script>
         <script src="scripts/directives/bindonce.js"></script>
         <script src="scripts/directives/indeterminate.js"></script>
 		<script src="scripts/directives/resize.js"></script>
@@ -97,13 +96,13 @@
         <script src="scripts/services/scenario_model.js"></script>
         <script src="scripts/services/favorites_model.js"></script>
         <script src="scripts/services/favorites_service.js"></script>
-        <script src="scripts/services/view_service.js"></script>
-        <script src="scripts/services/urlmaker.js"></script>
         <script src="scripts/services/projects_service.js"></script>
         <script src="scripts/services/scenario_service.js"></script>
         <script src="scripts/services/model_model.js"></script>
         <script src="scripts/services/pivot_table_service.js"></script>
+        <script src="scripts/services/goto_service.js"></script>
         <script src="views/templates/templates.js"></script>
+        <script src="scripts/directives/isunique.js"></script>
         <!-- endbuild -->
     </body>
 </html>

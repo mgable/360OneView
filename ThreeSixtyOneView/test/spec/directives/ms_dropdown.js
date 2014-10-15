@@ -12,18 +12,25 @@ describe('Directives:', function() {
     var element, scope, button;
 
     describe("MS Dropdown:", function(){
-        var scope, element, CONFIG, $httpBackend, ViewService, ViewServiceSpy, currentView, dropdownSpy, sortAndFilterSpy, DropdownService, SortAndFilterService, $document, $timeout;
-        beforeEach(inject(function($rootScope, $controller, $compile, _$document_, _$timeout_, _CONFIG_, ViewService, _DropdownService_, _SortAndFilterService_){
+        var $provide, state, scope, element, CONFIG, $httpBackend,  currentView, dropdownSpy, sortAndFilterSpy, DropdownService, SortAndFilterService, $document, $timeout;
+       
+        beforeEach(angular.mock.module(function (_$provide_) {
+            $provide = _$provide_;
+        }));
+
+        beforeEach(inject(function($rootScope,  $controller, $compile, _$document_, _$timeout_, _CONFIG_, _DropdownService_, _SortAndFilterService_){
             SortAndFilterService = _SortAndFilterService_;
             DropdownService = _DropdownService_;
             $document = _$document_;
             $timeout = _$timeout_;
             scope = $rootScope.$new();
             CONFIG = _CONFIG_;
+            currentView = "ProjectManager";
+            state = {};
+            state.current = {"name": currentView};
+            $provide.value("$state", state);
             element = angular.element('<ms-dropdown selected-sort-index="1" reverse=false msid="column_2"></ms-dropdown>');
             element = $compile(element)(scope);
-            currentView = "ProjectManager";
-            ViewServiceSpy = spyOn(ViewService, "getCurrentView").and.returnValue(currentView);
             scope.$digest();
             sortAndFilterSpy = spyOn(SortAndFilterService, "setFilter");
         }));

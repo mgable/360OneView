@@ -37,18 +37,18 @@
 		</tbody>
 	</table>
 	<table class="table table-hover table-bordered no-margin single-line">
-		<thead>
-			<th class="col-lg-6" data-align="left">{{scenario.project}} Project</th>
+		<thead ng-repeat-start="scenarios in scenarioList | filter: {'title': searchText}">
+			<th class="col-lg-6" data-align="left">{{scenarios.title}} Project</th>
 		</thead>
-		<tbody>
-			<tr ng-repeat="scenario in scenarioList | filter: {'name': searchText}">
+		<tbody ng-repeat-end>
+			<tr ng-repeat="scenario in scenarios.data">
 				<td ng-click="setRow(scenario.id)">
 					<div class="row" >
 						<div class="col-md-1">
-							<span><img alt="" src="http://dummyimage.com/20x20/{{scenario.color}}/fff.gif&amp;text={{scenario.label}}" class="media-object"></span>
+							<span><img alt="" src="http://dummyimage.com/20x20/ff2f92/fff.gif&amp;text=s" class="media-object"></span>
 						</div>
 						<div class="col-md-10">
-							<span class="{{scenario.type}}">{{scenario.name}}</span>
+							<span class="{{scenario.type}}">{{scenario.title}}</span>
 						</div>
 						<div class="col-md-1">
 							<span ng-show="showRow(scenario.id)"><icon type="check-circle" cname="ok-sign"></icon></span>
@@ -65,7 +65,7 @@
 			<a class="pull-left" ng-click="close()" >Cancel</a>
 		</div>
 		<div class="col-md-6">
-			<button type="button" class="btn btn-primary pull-right" ng-click="close()">Confirm Base Scenario</button>
+			<button type="button" class="btn btn-primary pull-right" ng-click="confirm()">Confirm Base Scenario</button>
 		</div>
 	</div>
 </div>

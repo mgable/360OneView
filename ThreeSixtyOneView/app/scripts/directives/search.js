@@ -11,10 +11,11 @@ angular.module('ThreeSixtyOneView.directives')
             link: function($scope, $element, $attrs) {
                 var inputField = $element.find("input");
                 $scope.searchVisible = false;
+                $scope.SortAndFilterService = SortAndFilterService;
 
                 $scope.toggleSearchField = function() {
                     if ($scope.searchVisible) {
-                        $scope.SortAndFilterService.resetSearchText();
+                        SortAndFilterService.resetSearchText();
                     } else {
                         $timeout(function() {
                             inputField[0].focus();
@@ -22,6 +23,8 @@ angular.module('ThreeSixtyOneView.directives')
                     }
                     $scope.searchVisible = !$scope.searchVisible;
                 };
+
+                $scope.$on("$stateChangeSuccess", SortAndFilterService.resetSearchText());
             }
         };
     }]);

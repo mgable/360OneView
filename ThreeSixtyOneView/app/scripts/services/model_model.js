@@ -4,8 +4,6 @@
 
 angular.module("ThreeSixtyOneView.services")
 	.service("ModelModel", ["$timeout", "dialogs", function($timeout, dialogs) {
-		var self = this;
-
 		this.translateObj = function(data, translator){
 			var result = {}, t;
 			_.each(translator, function(k,v,o){
@@ -13,7 +11,6 @@ angular.module("ThreeSixtyOneView.services")
 				if (typeof t !== "undefined") {
 					result[v] = t;
 				} else if (_.isObject(k)){
-					// k.replace(/([^\]]+\])/g, function(d, s){console.info ("hey " + s)});
 					try{
 						/* jshint ignore:start */
 						result[v] = eval("data" + k.selector);
@@ -30,7 +27,7 @@ angular.module("ThreeSixtyOneView.services")
 			if (request && requestTranslator) {
 				return JSON.stringify(this.translateObj(request, requestTranslator));
 			}
-			return request;
+			return JSON.stringify(request);
 		};
 
 		this.translateResponse = function (response, responseTranslator){

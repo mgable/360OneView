@@ -3,11 +3,13 @@
 		<p class="sub-header">DETAILS</p>
 		<button type="button"  class="close" ng-click="InfoTrayService.closeInfoTray()"><span aria-hidden="true">&times;</span></button>
 
-		<div class="clearfix title-holder">
+		<div class="clearfix title-holder" ng-class="{'hasFavorites': hasFavorites}">
 			<span ng-switch="selectedItem.isMaster">
 				<h4 ng-switch-when="true" class="title clear"><icon type="marketshare"></icon>&nbsp;{{selectedItem.title}}</h4>
 				<span ng-switch-default>
-					<inline-edit template="inline_rename" item="selectedItem"><span class="favorites"><a ng-class="{favorite:FavoritesService.isFavorite(selectedItem.id)}" ng-click="FavoritesService.toggleFavorite(selectedItem)"></a></span></inline-edit>
+					<inline-edit template="inline_rename" item="selectedItem">
+						<span ng-if="hasFavorites"><span class="favorites"><a ng-class="{favorite:isFavorite(selectedItem.id)}" ng-click="toggleFavorite(selectedItem.id)"></a></span></span>
+					</inline-edit>
 				</span>
 			</span>
 		</div>
@@ -65,7 +67,7 @@
 		<div class="see-all-toggle" ng-click="seeAll = !seeAll">See <span ng-hide="seeAll">all&nbsp;<icon type="chevron-down"></icon></span><span ng-show="seeAll">less&nbsp;<icon type="chevron-up"></icon></span></div>
 		<div class="entity-holder" ng-class="{'see-all': seeAll}">
 			<div class="scenario" ng-repeat="scenario in selectedItem.scenarios">
-				<a ng-click="goto($event, 'gotoScenarioEdit', scenario.title )">
+				<a ng-click="goto($event, 'gotoScenarioEdit', scenario)">
 					{{scenario.title}}
 				</a>
 			</div>

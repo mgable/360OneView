@@ -19,8 +19,12 @@ angular.module('ThreeSixtyOneView.services').service('ScenarioModel', ["$locatio
         return this.$futureData;
     };
 
+    this.getScenarioById = function(scenarioId){
+        return _.findWhere(this.data, {id:scenarioId});
+    };
+
     this.create = function(scenario, id){
-        resource.create(scenario, config, id).then(function(response){
+        return resource.create(scenario, config, id).then(function(response){
             console.info (response);
         });
     };

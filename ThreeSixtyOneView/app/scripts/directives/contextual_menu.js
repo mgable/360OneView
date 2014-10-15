@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.directives')
-    .directive("contextualMenu", ["$rootScope", "CONFIG", "ActiveSelection", "DiaglogService", "FavoritesService", "ViewService", "InfoTrayService", function($rootScope,  CONFIG, ActiveSelection, DiaglogService, FavoritesService, ViewService, InfoTrayService) {
+    .directive("contextualMenu", ["$rootScope", "$state", "CONFIG", "ActiveSelection", "DiaglogService", "FavoritesService", "InfoTrayService", "SortAndFilterService", "EVENTS", function($rootScope, $state, CONFIG, ActiveSelection, DiaglogService, FavoritesService,  InfoTrayService, SortAndFilterService, EVENTS) {
         return {
             restrict: "AE",
             templateUrl: "views/directives/contextual_menu.tpl.html",
@@ -13,18 +13,12 @@ angular.module('ThreeSixtyOneView.directives')
             },
             replace: true,
             link: function(scope, element, attrs) {
-                var actions = CONFIG.view[ViewService.getCurrentView()].contextualMenu.actions,
-                    menuViews = CONFIG.view[ViewService.getCurrentView()].contextualMenu.views;
+                var actions = CONFIG.view[$state.current.name].contextualMenu.actions,
+                    menuViews = CONFIG.view[$state.current.name].contextualMenu.views;
                 scope.DiaglogService = DiaglogService;
-                scope.FavoritesService = FavoritesService;
                 scope.InfoTrayService = InfoTrayService;
                 scope.ActiveSelection = ActiveSelection;
-                scope.service = ViewService.getModel();
                 scope.actions = actions;
-
-                $rootScope.$on('ViewService:modelChange', function(event, data) {
-                    scope.service = data;
-                });
 
                 scope.alert = function(msg) {
                     window.alert(msg);
@@ -54,6 +48,16 @@ angular.module('ThreeSixtyOneView.directives')
                         scope[e.name].config = e.config;
                     });
                 }
+
+
+                scope.toggleFavorite = function(itemID){
+                    FavoritesService.toggleFavorite(itemID);
+                    SortAndFilterService.filter();
+                };
+
+                scope.isFavorite = function(itemID){
+                    return FavoritesService.isFavorite(itemID);
+                };
 
                 setView(scope.item);
             }

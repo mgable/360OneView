@@ -3,7 +3,7 @@ node_modules
 .sass-cache
 dist
 bower_components
-*.css
+/app/styles/*.css
 *.zip
 *.7z
 *.map

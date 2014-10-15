@@ -3,25 +3,22 @@
 
 'use strict';
 
-angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout", "$rootScope", "$location", "Resource", "CONFIG", "SERVER", "ModelModel", function($timeout, $rootScope, $location, Resource, CONFIG, SERVER, ModelModel){
+angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout", "$rootScope", "$location", "Resource", "CONFIG", "SERVER", "EVENTS", "ModelModel", function($timeout, $rootScope, $location, Resource, CONFIG, SERVER, EVENTS, ModelModel){
     var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.projects),
     responseTranslator = CONFIG.application.models.ProjectsModel.responseTranslator,
     requestTranslator = CONFIG.application.models.ProjectsModel.requestTranslator,
     config = ModelModel.makeConfig(ModelModel, responseTranslator, requestTranslator),
 
     // used for the rename functions
-    put = function(data){
-        resource.put(data, config).then(function(response){
+    put = function(_data_){
+        resource.put(_data_, config).then(function(response){
             var index = _.indexOf(self.data, _.findWhere(self.data, {id: response.data.id}));
             self.data.splice(index, 1, response.data);
             $timeout(function(){
-                $rootScope.$broadcast("ProjectsModel:dataChange", {
-                    data: self.data
-                });
-
-                // update active selection for data bind in tray
-                $rootScope.$broadcast("ProjectsModel:rename", {
-                    data: response.data
+                $rootScope.$broadcast(EVENTS.updateProjects, {
+                    data: self.data,
+                    item: response.data,
+                    original: _data_
                 });
             });
         });
@@ -40,14 +37,16 @@ angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout
         return this.$futureData;
     };
 
-    this.create = function(_data_) {
+    this.create = function(_data_, cb) {
         resource.create(_data_, config).then(function(response) {
             $timeout(function() {
                 self.data.push(response.data);
-                $rootScope.$broadcast("ProjectsModel:dataChange", {
-                    data: self.data
+                $rootScope.$broadcast(EVENTS.updateProjects, {
+                    data: self.data,
+                    item: response.data,
+                    original: _data_
                 });
-                $rootScope.$broadcast("ProjectsModel:create", _data_);
+                if (cb) { cb(); }
             });
         });
     };

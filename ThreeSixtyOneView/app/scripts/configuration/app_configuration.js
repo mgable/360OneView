@@ -19,12 +19,14 @@ angular.module('ThreeSixtyOneView.config')
                 },
                 "ScenarioModel": {
                     // want: get
-                    "responseTranslator": {"title": "name", "id": "id", "description": "description", "type":{"selector":"['prediction']['type']"}, "createdBy":{"selector":"['auditInfo']['createdBy']['name']"}, "createdOn":{"selector":"['auditInfo']['createdOn']"}, "modifiedBy":{"selector":"['auditInfo']['lastUpdatedBy']['name']"}, "modifiedOn":{"selector":"['auditInfo']['lastUpdatedOn']"}},
+                    "responseTranslator": {"referenceScenario": "referenceScenario", "title": "name", "id": "id", "description": "description", "type":{"selector":"['prediction']['type']"}, "createdBy":{"selector":"['auditInfo']['createdBy']['name']"}, "createdOn":{"selector":"['auditInfo']['createdOn']"}, "modifiedBy":{"selector":"['auditInfo']['lastUpdatedBy']['name']"}, "modifiedOn":{"selector":"['auditInfo']['lastUpdatedOn']"}},
                     "newScenario": {"name" : "", "description": "","referenceScenario": {"id": 1, "name": "Master Scenario"}, "prediction" : {"type" : "Simulation"}}
                 }
             },
-            "input": {
-                "characterRestrictions": '/^[^\\\/\?\:\*"><|]+$/'
+            "inputRestrictions": {
+                "characterRestrictions": /^[^\\\/\?\:\*"><|]+$/,
+                "minimumCharacterLimit": 2,
+                "maximumCharacterLimit": 256
             }
         },
         "session": {
@@ -39,7 +41,8 @@ angular.module('ThreeSixtyOneView.config')
                 "topInclude": "views/includes/dashboard_top.tpl.html",
                 "status": true,
                 "where": "gotoScenarioEdit",
-                "displayActionsCreate": "scope.$emit('scenario:create')",
+                "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
+                "displayActionsCreate": "scope.$emit('GotoService:scenarioCreate')",
                 "filterMenu": {
                     "firstSelected": 0,
                     "title": "Scenarios",
