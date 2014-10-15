@@ -4,24 +4,24 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-	.service('ScenarioService', ["$q", "ScenarioModel", "ProjectsService", "CONFIG", function ($q, ScenarioModel, ProjectsService, CONFIG) {
+	.service('ScenarioService', ["$q", "ScenarioModel", "ProjectsService", "CONFIG", "Model", function ($q, ScenarioModel, ProjectsService, CONFIG, Model) {
 		var scenario = CONFIG.application.models.ScenarioModel.newScenario,
-		cache = {};
+		MyScenarioModel, myScenarios;
+
+		MyScenarioModel = new Model();
+        angular.extend(this, MyScenarioModel.prototype);
+        myScenarios = new MyScenarioModel(ScenarioModel);
+        angular.extend(this, myScenarios);
+
+        this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
 		this.get = function (identifier){
-			var results;
 			if(/[a-z\d]{32}/.test(identifier)) {
 				// is UUID (probably)
-				results = ScenarioModel.get(identifier);
+				return myScenarios.get(identifier);
 			} else {
-				results = ScenarioModel.get(ProjectsService.getProjectIDByTitle(identifier));
+				return myScenarios.get(ProjectsService.getProjectIDByTitle(identifier));
 			}
-			console.info("results are");
-			console.info(results);
-			cache[identifier] = results;
-			console.info("setting cache");
-			console.info(cache);
-			return results;
 		};
 
 		this.create = function(scenarioObj){

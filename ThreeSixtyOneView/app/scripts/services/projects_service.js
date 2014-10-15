@@ -11,6 +11,8 @@ angular.module('ThreeSixtyOneView')
         myprojects = new MyProjectModel(ProjectsModel);
         angular.extend(this, myprojects);
 
+        this.config = this.makeConfig(this, this.responseTranslator, this.requestTranslator);
+
 		this.getProjectIDByTitle = function(_title_){
 			var item = _.findWhere(projects, {title:_title_});
 			if (item) {

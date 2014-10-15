@@ -259,7 +259,7 @@ angular.module("ThreeSixtyOneView")
             };
 
             $scope.isScenarioTitleUnique = function(scenarioTitle) {
-                return ! _.findWhere($scope.scenarios, {title:scenarioTitle})
+                return ! _.findWhere($scope.scenarios, {title:scenarioTitle});
             };
 
             $scope.currentScenario = function (scenario){

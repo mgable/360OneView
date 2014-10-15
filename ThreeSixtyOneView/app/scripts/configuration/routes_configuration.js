@@ -29,7 +29,7 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
       controller: "ScenarioCreateCtrl",
       resolve: {
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
-        'Scenarios': function(ScenarioModel, $stateParams){return ScenarioModel.get($stateParams.projectId);}
+        'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);}
       }
     })
     .state('ScenarioEdit', {
