@@ -16,10 +16,10 @@ angular.module('ThreeSixtyOneView')
 			}
 		};
 
-		this.create = function(scenarioObj){
-			var id = scenarioObj.projectId ? scenarioObj.projectId : ProjectsService.getProjectIDByTitle(scenarioObj.projectName);
-			scenario.name = scenarioObj.title;
-			scenario.description = scenarioObj.description || "";
+		this.create = function(_project_, _scenario_){
+			var id = _project_.id;
+			scenario.name = _scenario_.title;
+			scenario.description = _scenario_.description || "";
 			return ScenarioModel.create(scenario, id);
 		};
 

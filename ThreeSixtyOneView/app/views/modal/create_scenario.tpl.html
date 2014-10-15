@@ -42,7 +42,7 @@
 		</thead>
 		<tbody ng-repeat-end>
 			<tr ng-repeat="scenario in scenarios.data">
-				<td ng-click="setRow(scenario.id)">
+				<td ng-click="setRow(scenario)">
 					<div class="row" >
 						<div class="col-md-1">
 							<span><img alt="" src="http://dummyimage.com/20x20/ff2f92/fff.gif&amp;text=s" class="media-object"></span>
@@ -51,7 +51,7 @@
 							<span class="{{scenario.type}}">{{scenario.title}}</span>
 						</div>
 						<div class="col-md-1">
-							<span ng-show="showRow(scenario.id)"><icon type="check-circle" cname="ok-sign"></icon></span>
+							<span ng-show="showRow(scenario)"><icon type="check-circle" cname="ok-sign"></icon></span>
 						</div>
 					</div>
 				</td>

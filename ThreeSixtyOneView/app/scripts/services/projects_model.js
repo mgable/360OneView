@@ -37,8 +37,8 @@ angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout
         return this.$futureData;
     };
 
-    this.create = function(_data_, cb) {
-        resource.create(_data_, config).then(function(response) {
+    this.create = function(_data_) {
+        return resource.create(_data_, config).then(function(response) {
             $timeout(function() {
                 self.data.push(response.data);
                 $rootScope.$broadcast(EVENTS.updateProjects, {
@@ -46,8 +46,8 @@ angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout
                     item: response.data,
                     original: _data_
                 });
-                if (cb) { cb(); }
             });
+            return response.data;
         });
     };
 

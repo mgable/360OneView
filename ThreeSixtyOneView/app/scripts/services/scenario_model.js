@@ -25,7 +25,8 @@ angular.module('ThreeSixtyOneView.services').service('ScenarioModel', ["$locatio
 
     this.create = function(scenario, id){
         return resource.create(scenario, config, id).then(function(response){
-            console.info (response);
+            self.data.push(response.data);
+            return response.data;
         });
     };
 }]);

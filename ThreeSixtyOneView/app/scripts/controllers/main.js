@@ -151,7 +151,7 @@ angular.module("ThreeSixtyOneView")
 
         // Controller API
         $scope.goto = function(evt, where, item){
-            evt.stopPropagation();
+            if (evt && evt.stopPropagation){ evt.stopPropagation(); }
             switch(where){
                 case "gotoScenarioEdit": GotoService.scenarioEdit(getProject().id, item.id); break;
                 case "gotoDashboard": GotoService.dashboard(item.id); break;
@@ -201,12 +201,8 @@ angular.module("ThreeSixtyOneView")
         };
 
         // Event Listeners
-        $scope.$on(EVENTS.gotoScenarioCreate, function (event){
-            $scope.goto(event, "gotoScenarioCreate",  $scope.CONFIG.projectName);
-        });
-
         $scope.$on(EVENTS.gotoDashboard, function (event, data){
-            $scope.goto(event, "gotoDashboard",  data.title);
+            $scope.goto(event, "gotoDashboard",  data);
         });
     }]).controller('InfoTrayCtrl', ["$scope", "$state", "CONFIG", "ScenarioService", "ActiveSelection", "FavoritesService", "SortAndFilterService", "EVENTS", function($scope, $state, CONFIG, ScenarioService, ActiveSelection, FavoritesService, SortAndFilterService, EVENTS) {
         var getScenarios = function(title){
@@ -245,17 +241,19 @@ angular.module("ThreeSixtyOneView")
         $scope.GotoService = GotoService;
         $scope.project = ProjectsService.getProjectItemById($stateParams.projectId);
         $scope.scenario = ScenarioModel.getScenarioById($stateParams.scenarioId);
-        console.info($scope.scenario);
+
+        //TODO: temp data
         $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
         $scope.scenarioElementType = $scope.types[0];
-    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DiaglogService", "GotoService", "Project", "Scenarios", function($scope, $stateParams, ScenarioService, DiaglogService, GotoService, Project, Scenarios){
+    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DiaglogService", "GotoService", "Project", "Scenarios", "EVENTS", "CONFIG", function($scope, $stateParams, ScenarioService, DiaglogService, GotoService, Project, Scenarios, EVENTS, CONFIG){
             $scope.GotoService = GotoService;
             $scope.project = Project;
+            $scope.scenario = CONFIG.application.models.ScenarioModel.newScenario;
             $scope.scenarios = Scenarios.data;
 
             $scope.createScenario = function(scenario){
-                ScenarioService.create(scenario).then(function(data){
-                    GotoService.scenarioEdit(scenario.projectName, scenario.title);
+                ScenarioService.create($scope.project, scenario).then(function(response){
+                    GotoService.scenarioEdit($scope.project.id, response.id);
                 });
             };
 
@@ -266,4 +264,9 @@ angular.module("ThreeSixtyOneView")
             $scope.currentScenario = function (scenario){
                 DiaglogService.currentScenario(scenario);
             };
+
+            $scope.$on(EVENTS.updateBaseScenario, function(event, data){
+                $scope.scenario.referenceScenario.id = data.id;
+                $scope.scenario.referenceScenario.name = data.title;
+            });
     }]);

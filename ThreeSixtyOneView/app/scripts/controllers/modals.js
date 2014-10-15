@@ -1,5 +1,3 @@
-/* global _ */
-
 'use strict';
 
 angular.module('ThreeSixtyOneView')
@@ -24,42 +22,44 @@ angular.module('ThreeSixtyOneView')
             $modalInstance.dismiss('create');
         };
 
-    }]).controller('ProjectCreateCtrl', ["$scope", "$rootScope", "$controller", "$modalInstance", "CONFIG", "EVENTS", function($scope, $rootScope, $controller, $modalInstance, CONFIG, EVENTS) {
+    }]).controller('ProjectCreateCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "ProjectsModel", "GotoService", function($scope, $controller, $modalInstance, CONFIG, ProjectsModel, GotoService) {
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
         var newProject = CONFIG.application.models.ProjectsModel.newProject;
-
-        $scope.callback = function(){$rootScope.$broadcast(EVENTS.gotoDashboard, newProject);};
 
         $scope.create = function(title, evt) {
             if (evt) { evt.preventDefault(); }
             newProject.title = title;
 
-            $rootScope.$broadcast(EVENTS.createProject, newProject, $scope.callback);
+            ProjectsModel.create(newProject).then(function(response){
+                GotoService.dashboard(response.id);
+            });
+
             $modalInstance.dismiss('create');
         };
-    }]).controller('CreateScenarioCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG) {
+    }]).controller('CreateScenarioCtrl', ["$scope", "$rootScope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", function($scope, $rootScope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS) {
 
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
         $scope.scenario = data.scenario;
-        var selectedRow = 0, getStatus = function (_id_){
-            var element = _.findWhere($scope.scenarioList, {id: _id_});
-            return element ? element.type !== 'not-calculated' : true ;
+        var selectedRow = 0,
+        getSelected = function(){
+            return selectedRow;
         };
 
         ScenarioService.getAll().then(function(response){
             $scope.scenarioList = response;
         });
 
-        $scope.setRow = function(id){
-            if (getStatus(id)) {
-                selectedRow = id;
-            }
+        $scope.setRow = function(item){
+            //if (getStatus(id)) {
+                selectedRow = item;
+           // }
         };
 
         $scope.confirm = function(){
+            $rootScope.$broadcast(EVENTS.updateBaseScenario, getSelected());
             $scope.close();
-        }
+        };
 
         $scope.showRow = function(row){
             return row === selectedRow;
