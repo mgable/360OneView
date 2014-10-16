@@ -5,10 +5,9 @@
 
 // View controllers
 angular.module("ThreeSixtyOneView")
-    .controller("MainCtrl", ["$scope", "InfoTrayService", "ActiveSelection", "ScenarioService", function($scope,  InfoTrayService, ActiveSelection, ScenarioService) {
+    .controller("MainCtrl", ["$scope", "ActiveSelection", "ScenarioService", function($scope,  ActiveSelection, ScenarioService) {
 
         // These are going away
-        $scope.InfoTrayService = InfoTrayService;
         $scope.ActiveSelection = ActiveSelection;
 
         // convenience methods
@@ -31,7 +30,7 @@ angular.module("ThreeSixtyOneView")
         });
         
 
-    }]).controller("ProjectDashboardCtrl", ["$scope",  "$stateParams", "$state", "CONFIG", "InfoTrayService", "ProjectsService", "Projects", "Scenarios", "ActiveSelection", "SortAndFilterService", "GotoService", "EVENTS", function($scope,  $stateParams, $state, CONFIG, InfoTrayService, ProjectsService, Projects, Scenarios, ActiveSelection, SortAndFilterService, GotoService, EVENTS) {
+    }]).controller("ProjectDashboardCtrl", ["$scope",  "$stateParams", "$state", "CONFIG", "ProjectsService", "Projects", "Scenarios", "ActiveSelection", "SortAndFilterService", "GotoService", "EVENTS", function($scope,  $stateParams, $state, CONFIG, ProjectsService, Projects, Scenarios, ActiveSelection, SortAndFilterService, GotoService, EVENTS) {
         var currentView = CONFIG.view[$state.current.name],
             filter = "",
             /* jshint ignore:start */
@@ -75,12 +74,10 @@ angular.module("ThreeSixtyOneView")
                 case "gotoProjects": GotoService.projects(); break;
                 case "gotoScenarioCreate": GotoService.scenarioCreate(item.id); break;
             }
-            InfoTrayService.closeInfoTray();
         };
 
         $scope.showDetails = function(item){
             ActiveSelection.setActiveItem(item);
-            InfoTrayService.toggleInfoTray();
         };
 
         $scope.isActiveItem = function (item){
@@ -115,7 +112,7 @@ angular.module("ThreeSixtyOneView")
         $scope.$on(EVENTS.gotoDashboard, function (event, data){
             $scope.goto(event, "gotoDashboard",  data.title);
         });
-    }]).controller("ProjectListingCtrl", ["$scope",  "$stateParams", "$state", "CONFIG", "Favorites", "FavoritesService", "InfoTrayService", "ProjectsService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", "EVENTS", function($scope, $stateParams, $state, CONFIG, Favorites, FavoritesService, InfoTrayService, ProjectsService, Projects, ActiveSelection, SortAndFilterService, GotoService, EVENTS) {
+    }]).controller("ProjectListingCtrl", ["$scope",  "$stateParams", "$state", "CONFIG", "Favorites", "FavoritesService", "ProjectsService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", "EVENTS", function($scope, $stateParams, $state, CONFIG, Favorites, FavoritesService, ProjectsService, Projects, ActiveSelection, SortAndFilterService, GotoService, EVENTS) {
         var currentView = CONFIG.view[$state.current.name],
             filter = "",
             master,
@@ -167,12 +164,10 @@ angular.module("ThreeSixtyOneView")
                 case "gotoProjects": GotoService.projects(); break;
                 case "gotoScenarioCreate": GotoService.scenarioCreate(item.id); break;
             }
-            InfoTrayService.closeInfoTray();
         };
 
         $scope.showDetails = function(item){
             ActiveSelection.setActiveItem(item);
-            InfoTrayService.toggleInfoTray();
         };
 
         $scope.toggleFavorite = function($event, itemID){
