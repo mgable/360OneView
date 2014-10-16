@@ -21,7 +21,7 @@
 					<span class="favorites" ng-if="CONFIG.hasFavorites"><a ng-class="{favorite:isFavorite(item.id)}" ng-click="toggleFavorite($event, item.id)"></a></span>
 					</div>
 					<div class="text-holder">
-                    	<span class="title" ng-click="goto($event, CONFIG.where, item.title)">
+                    	<span class="title" ng-click="goto($event, CONFIG.where, item)">
 	                        <span  class="default" type="{{item.isMaster}}" ng-class="{master: item.isMaster}">{{item.title}}&nbsp;<icon type="marketshare"></icon></span>
                     	</span>
                 	</div>
