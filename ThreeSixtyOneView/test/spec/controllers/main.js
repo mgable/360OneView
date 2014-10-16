@@ -71,11 +71,9 @@ describe('Controllers: ', function() {
         }));
 
         it("should bootstrap all data", function(){
-            //expect(scope.data).toEqual({});
             expect(scope.CONFIG).toBeDefined();
             expect(scope.CONFIG.hasFavorites).toEqual(CONFIG.view.ProjectManager.hasFavorites);
             expect(scope.CONFIG.topInclude).toBeFalsy();
-            expect(scope.CONFIG.status).toBeFalsy();
             expect(scope.CONFIG.projectName).toBe("foo");
             expect(scope.CONFIG.filterMenu).toBe(CONFIG.view.ProjectManager.filterMenu);
             expect(scope.CONFIG.displayActionsCreate).toBe(CONFIG.view.ProjectManager.displayActionsCreate);

@@ -40,7 +40,6 @@ angular.module('ThreeSixtyOneView.config')
                 "filter": 'CONFIG.view.Dashboard.filterMenu.items[0]',
                 "reverse": true,
                 "topInclude": "views/includes/dashboard_top.tpl.html",
-                "status": true,
                 "where": "gotoScenarioEdit",
                 "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
                 "displayActionsCreate": "scope.$emit('GotoService:scenarioCreate')",
@@ -67,23 +66,6 @@ angular.module('ThreeSixtyOneView.config')
                         "filter": "createdOn"
                     }]
                 },
-                "contextualMenu": {
-                    'actions': [
-                        {'name':'base', 'label': "use as base for a new scenario"},
-                        {'name':'copy', 'label': "copy as a new scenario", config: {title: 'Copy Scenario', description: '', submit: {'label':"copy as new scenario"}, cancel: {'label':'cancel'}}},
-                        {'name':'set', 'label': "set as current plan"},
-                        {'name': 'rename'},
-                        {'name': 'archive'},
-                        {'name': 'details'}
-                    ],
-                    'views': {
-                        "defaults": {
-                            "type": "master",
-                            "value": "010001"
-                        },
-                        "otherwise": "111111"
-                    }
-                }
             },
             "ProjectManager": {
                 "model": "ProjectsModel",
@@ -91,7 +73,6 @@ angular.module('ThreeSixtyOneView.config')
                 "filter": 'CONFIG.view.ProjectManager.filterMenu.items[0]',
                 "reverse": true,
                 "hasFavorites": true,
-                "status": false,
                 "where": 'gotoDashboard',
                 "displayActionsCreate": "scope.DiaglogService.create('project')",
                 "filterMenu": {
@@ -115,24 +96,6 @@ angular.module('ThreeSixtyOneView.config')
                     //     }
                     // }
                     ]
-                },
-                "contextualMenu": {
-                    "actions": [
-                        {'name':'copy', config: {title: 'Copy Project', description: 'xxxxxxxxxxxxx', submit: {label:"copy"}, cancel: {label:'cancel'}}},
-                        {'name':'favorites', label: "favorite"},
-                        {'name':'sharing'},
-                        {'name':'rename'},
-                        {'name':'archive'},
-                        {'name':'add'},
-                        {'name':'details'}
-                    ],
-                    "views": {
-                        "isMaster": {
-                            "type": true,
-                            "value": "0000001"
-                        },
-                        "otherwise": "0101001"
-                    }
                 },
                 "sortMenu": {
                     "displayColumns": [{

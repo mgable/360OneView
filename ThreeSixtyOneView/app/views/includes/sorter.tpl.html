@@ -1,21 +1,16 @@
 <div class="display-table" sorter>
 	<table class="table table-hover">
 		<colgroup>
-			<col width="30" ng-if="CONFIG.status"> <!-- only include column if we have status indicators -->
 		    <col width="490">
 		    <col width="315">
 		</colgroup>
 		<thead>
-			<th ng-if="CONFIG.status"><!-- holds a column for the status indicator icon, if applicable --></th>
 			<th><sorting-options label="title" display="Name" msid="name-field"></sorting-options></th>
 			<th><ms-dropdown selected-sort-index="0" reverse=true is-active=true msid="column_1"></ms-dropdown></th>
 			<!-- <th><ms-dropdown selected-sort-index="1" reverse=false msid="column_2"></ms-dropdown></th> -->
 		</thead>
 		<tbody>
 			<tr ng-repeat="item in getData()" ng-class="{active: isActiveItem(item)}" class="{{CONFIG.status && item.status.className || ''}}"> 
-				<td ng-if="CONFIG.status">
-					<span ng-if="item.status"><icon type="{{item.status.icon}}" cname="{{item.status.spin}}"></icon></span>
-				</td>
 				<td ng-click="showDetails(item)">
 					<div class="text-holder">
 					<span class="favorites" ng-if="CONFIG.hasFavorites"><a ng-class="{favorite:isFavorite(item.id)}" ng-click="toggleFavorite($event, item.id)"></a></span>
