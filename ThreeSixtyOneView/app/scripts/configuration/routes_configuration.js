@@ -12,7 +12,8 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
       resolve: {
         'Projects': function(ProjectsModel){return ProjectsModel.get();},
         'Favorites': function(FavoritesModel) {return FavoritesModel.get();}
-      }
+      },
+      breadcrumb: "All Projects"
     })
     .state('Dashboard', {
       url: "/dashboard/:projectId",
@@ -21,7 +22,8 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
       resolve: {
         'Projects': function(ProjectsModel){return ProjectsModel.get();},
         'Scenarios': function(ScenarioModel, $stateParams){return ScenarioModel.get($stateParams.projectId);}
-      }
+      },
+      breadcrumb: "All Projects > {{title}}"
     })
     .state('ScenarioCreate', {
       url: "/scenarioCreate/:projectId",

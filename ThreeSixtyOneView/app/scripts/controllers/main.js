@@ -22,6 +22,15 @@ angular.module("ThreeSixtyOneView")
                 evt.stopPropagation();
             }
         };
+    }]).controller("NavigationCtrl", ["$scope", "$state", "$interpolate", "ProjectsService", "$stateParams", function($scope, $state, $interpolate, ProjectsService, $stateParams){
+
+
+        $scope.$on("$stateChangeSuccess", function(){
+            $scope.project = ProjectsService.getProjectItemById($stateParams.projectId);
+            $scope.breadcrumbs = $interpolate($state.current.breadcrumb)($scope.project);
+        });
+        
+
     }]).controller("ProjectDashboardCtrl", ["$scope",  "$stateParams", "$state", "CONFIG", "InfoTrayService", "ProjectsService", "Projects", "Scenarios", "ActiveSelection", "SortAndFilterService", "GotoService", "EVENTS", function($scope,  $stateParams, $state, CONFIG, InfoTrayService, ProjectsService, Projects, Scenarios, ActiveSelection, SortAndFilterService, GotoService, EVENTS) {
         var currentView = CONFIG.view[$state.current.name],
             filter = "",

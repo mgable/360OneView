@@ -11,7 +11,8 @@ angular.module('ThreeSixtyOneView')
 			if (item) {
 				return item.id;
 			} else {
-				console.error("The project named " + _title_ + " was NOT found!");
+				console.info("The project named " + _title_ + " was NOT found!");
+				return false;
 			}
 		};
 
@@ -20,7 +21,8 @@ angular.module('ThreeSixtyOneView')
 			if (item) {
 				return item.title;
 			} else {
-				console.error("The project id " + _id_ + " was NOT found!");
+				console.info("The project id " + _id_ + " was NOT found!");
+				return false;
 			}
 		};
 
@@ -29,7 +31,8 @@ angular.module('ThreeSixtyOneView')
 			if (item) {
 				return item;
 			} else {
-				console.error("The project id " + _id_ + " was NOT found!");
+				console.info("The project id " + _id_ + " was NOT found!");
+				return false;
 			}
 		};
 

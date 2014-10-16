@@ -165,6 +165,9 @@ body {
 			padding-top: 8px;
 			color: $white;
 			font-size: 1.0em;
+			.breadcrumbs {
+				text-transform: uppercase;
+			}
 		}
 	}
 }
