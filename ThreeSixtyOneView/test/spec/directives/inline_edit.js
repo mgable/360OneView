@@ -16,14 +16,12 @@ describe('Directives:', function() {
         ViewService,
         scope;
 
-        beforeEach(inject(function($rootScope, $compile, _ViewService_) {
+        beforeEach(inject(function($rootScope, $compile) {
             scope = $rootScope.$new();
-            ViewService = _ViewService_;
             scope.item = {};
             scope.item.title = "the title";
             element = angular.element('<inline-edit template="inline_rename" item=item></inline-edit>');
             element = $compile(element)(scope);
-            ViewService.setModel("ProjectsModel");
             scope.$digest();
         }));
 

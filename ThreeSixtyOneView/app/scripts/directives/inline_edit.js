@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.directives')
-    .directive('inlineEdit', ["$timeout", "$rootScope", "ViewService", "CONFIG", "EVENTS", function($timeout, $rootScope, ViewService, CONFIG, EVENTS) {
+    .directive('inlineEdit', ["$timeout", "$rootScope", "CONFIG", "EVENTS", function($timeout, $rootScope, CONFIG, EVENTS) {
         return {
             replace: true,
             templateUrl: function(elem, attrs){
@@ -16,7 +16,6 @@ angular.module('ThreeSixtyOneView.directives')
             },
             link: function($scope, $element, $attrs) {
                 var tempItem = angular.copy($scope.item),
-                    service = ViewService.getModel(),
                     inputTarget = $element.find(".inputTarget");
 
                 $scope.isActive = false;
@@ -34,7 +33,7 @@ angular.module('ThreeSixtyOneView.directives')
 
                 $scope.submit = function(item) {
                     $scope.item = item;
-                    service.rename($scope.item);
+                    $rootScope.$broadcast(EVENTS.renameProject, $scope.item);
                     $scope.isActive = false;
                 };
 

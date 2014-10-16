@@ -33,8 +33,9 @@ describe('Service: ScenarioService', function () {
     var spy = spyOn(ScenarioModel, "create"),
     scenarioObj = {
       title: "foo",
-      project: "a",
-      description: "foobarfuzz"
+      projectName: "a",
+      description: "foobarfuzz",
+      projectId: "1"
     };
     ScenarioService.create(scenarioObj);
     _.extend(scenario, scenarioObj);

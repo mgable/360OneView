@@ -1,10 +1,10 @@
 <form class="app" name="ScenarioCreate">
 	<div class="scenario-create">
 		<div class="ms-breadcrumb">
-			<a ng-click="GotoService.dashboard(scenario.project)">
+			<a ng-click="GotoService.dashboard(project.id)">
 				<icon type="chevron-left"></icon>
 				<icon type="chevron-left"></icon>
-				{{scenario.project}} Project
+				{{project.title}} Project
 			</a>
 		</div>
 		<div class="details scenario-form">
@@ -12,8 +12,9 @@
 				<h3>Create a Scenario</h3>
 				<label>
 					<img alt="" src="http://dummyimage.com/50x50/f2ca58/fff.gif&amp;text=S" class="media-object">
-					<input type="text" focus placeholder="Enter Scenario Name" required ng-maxlength="256" ng-minlength="2" ng-pattern='/^[^\\\/\?\:\*"><|]+$/' ng-model="scenario.title">
-				</label>
+					<input type="text" focus placeholder="Enter Scenario Name" required ng-maxlength="256" ng-minlength="2" ng-pattern='/^[^\\\/\?\:\*"><|]+$/' is-unique="isScenarioTitleUnique" ng-model="scenario.title" />
+				</label> 
+				<span class="alert alert-danger" ng-show="ScenarioCreate.$error.isUnique" role="alert">The scenario name &quot;{{scenario.title}}&quot; has been taken. Please choose another name.</span>
 				<label class="description-holder">
 					<input class="description" type="text" placeholder="Enter Scenario description (optional)" ng-model="scenario.description" ng-maxlength="1024">
 				</label>
@@ -34,7 +35,7 @@
 		</div>
 		<div class="footer">
 			<button class="btn btn-primary" ng-disabled="(ScenarioCreate.$dirty && ScenarioCreate.$invalid) || ScenarioCreate.$pristine" ng-click="createScenario(scenario)">CREATE SCENARIO</button>
-			<span class="right-side"><a ng-click="GotoService.dashboard(scenario.project)">Cancel</a></span>
+			<span class="right-side"><a ng-click="GotoService.dashboard(project.id)">Cancel</a></span>
 		</div>
 	</div>
 </form>

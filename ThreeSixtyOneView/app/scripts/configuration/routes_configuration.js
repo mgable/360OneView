@@ -8,26 +8,32 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
     .state('ProjectManager', {
       url: "/projects",
       templateUrl: "views/display_manager.tpl.html",
-      controller: "ManagerCtrl",
+      controller: "ProjectListingCtrl",
       resolve: {
-        'Projects': function(ProjectsModel){return ProjectsModel.get();}
+        'Projects': function(ProjectsModel){return ProjectsModel.get();},
+        'Favorites': function(FavoritesModel) {return FavoritesModel.get();}
       }
     })
     .state('Dashboard', {
-      url: "/dashboard/:projectName",
+      url: "/dashboard/:projectId",
       templateUrl: "views/display_manager.tpl.html",
-      controller: "ManagerCtrl",
+      controller: "ProjectDashboardCtrl",
       resolve: {
-        'Projects': function(ProjectsModel){return ProjectsModel.get();}
+        'Projects': function(ProjectsModel){return ProjectsModel.get();},
+        'Scenarios': function(ScenarioModel, $stateParams){return ScenarioModel.get($stateParams.projectId);}
       }
     })
     .state('ScenarioCreate', {
-      url: "/scenarioCreate/:projectName",
+      url: "/scenarioCreate/:projectId",
       templateUrl: "views/scenario_create.tpl.html",
-      controller: "ScenarioCreateCtrl"
+      controller: "ScenarioCreateCtrl",
+      resolve: {
+        'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
+        'Scenarios': function(ScenarioModel, $stateParams){return ScenarioModel.get($stateParams.projectId);}
+      }
     })
     .state('ScenarioEdit', {
-      url: "/scenarioEdit/:project/:scenario",
+      url: "/scenarioEdit/:projectId/:scenarioId",
       templateUrl: "views/scenario_edit.tpl.html",
       controller: "ScenarioEditCtrl"
     });
