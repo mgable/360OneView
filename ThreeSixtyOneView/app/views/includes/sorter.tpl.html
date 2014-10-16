@@ -2,17 +2,14 @@
 	<table class="table table-hover">
 		<colgroup>
 			<col width="30" ng-if="CONFIG.status"> <!-- only include column if we have status indicators -->
-		    <col width="690">
-		    <col width="230">
-		    <col width="230">
-		    <col width="30">
+		    <col width="490">
+		    <col width="315">
 		</colgroup>
 		<thead>
 			<th ng-if="CONFIG.status"><!-- holds a column for the status indicator icon, if applicable --></th>
 			<th><sorting-options label="title" display="Name" msid="name-field"></sorting-options></th>
 			<th><ms-dropdown selected-sort-index="0" reverse=true is-active=true msid="column_1"></ms-dropdown></th>
-			<th><ms-dropdown selected-sort-index="1" reverse=false msid="column_2"></ms-dropdown></th>
-			<th><!-- holds a column for the contextual menu --></th>
+			<!-- <th><ms-dropdown selected-sort-index="1" reverse=false msid="column_2"></ms-dropdown></th> -->
 		</thead>
 		<tbody>
 			<tr ng-repeat="item in getData()" ng-class="{active: isActiveItem(item)}" class="{{CONFIG.status && item.status.className || ''}}"> 
@@ -20,21 +17,18 @@
 					<span ng-if="item.status"><icon type="{{item.status.icon}}" cname="{{item.status.spin}}"></icon></span>
 				</td>
 				<td ng-click="showDetails(item)">
-					<div class="text-holder" ng-class="{master: item.isMaster}">
+					<div class="text-holder">
+					<span class="favorites" ng-if="CONFIG.hasFavorites"><a ng-class="{favorite:isFavorite(item.id)}" ng-click="toggleFavorite($event, item.id)"></a></span>
+					</div>
+					<div class="text-holder">
                     	<span class="title" ng-click="goto($event, CONFIG.where, item)">
-	                        <span class="default"><icon type="marketshare"></icon>&nbsp;{{item.title}}</span>
+	                        <span  class="default" type="{{item.isMaster}}" ng-class="{master: item.isMaster}">{{item.title}}&nbsp;<icon type="marketshare"></icon></span>
                     	</span>
-                    	<span class="favorites" ng-if="CONFIG.hasFavorites"><a ng-class="{favorite:isFavorite(item.id)}" ng-click="!item.isMaster && toggleFavorite($event, item.id)"></a></span>
                 	</div>
 				</td>
 				<td ng-click="showDetails(item)">
 					<sortable-columns item=item display-by="getSorter('column_1')"></sortable-columns>
-				</td>
-				<td ng-click="showDetails(item)">
-					<sortable-columns item=item display-by="getSorter('column_2')"></sortable-columns>
-				</td>
-				<td>
-					<contextual-menu item=item></contextual-menu>				
+					<span class="name">{{item.modifiedBy}}</span>
 				</td>
 			</tr>
 		</tbody>

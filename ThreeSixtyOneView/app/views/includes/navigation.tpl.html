@@ -1,14 +1,34 @@
  <!-- start navigation -->
 <div class="container-fluid no-padding">
-    <div class="col-xs-12 navigation">
-        <div class="bar">
-            <div class="navbar-header">
-                <a class="logo">MarketShare Logo</a>
-            </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a ng-click="alert('Information workflow TDB')" class="information"><icon type="question-circle"></icon></a></li>
+    <div class="row">
+        <div class="col-xs-3 navigation">
+                <div class="navbar-header">
+                    <a class="logo">MarketShare Logo</a>
+                </div>
+        </div>
+        <div class="col-xs-6 navigation headerCenter" >
+            <ul class="nav navbar-nav">
+                <li><a ng-click="alert('Information workflow TDB')" class="information"><icon type="tachometer"></icon><span class="midHead">DASHBOARD</span></a></li>
+                <li><a ng-click="alert('Information workflow TDB')" class="information"><icon type="book"></icon><span class="highHead">DECISION<br>BOOKS</span></a></li>
+                <li class="active"><a ng-click="alert('Information workflow TDB')" class="information"><icon type="briefcase"></icon><span class="midHead">PROJECTS</span></a></li>
+                <li><a ng-click="alert('Information workflow TDB')" class="information"><icon type="area-chart"></icon><span class="midHead">REPORTS</span></a></li>
             </ul>
         </div>
+        <div class="col-xs-3 navigation headerRight">
+            <ul class="nav navbar-nav">
+                <li><a ng-click="alert('Information workflow TDB')" class="information"><icon type="user"></icon>
+                    <div class="userStatus">6</div>
+                </a></li>
+                <li><a ng-click="alert('Information workflow TDB')" class="piechart"></a></li>
+                <li><a ng-click="alert('Information workflow TDB')" class="information"><icon type="question"></icon></a></li>
+                <li><a ng-click="alert('Information workflow TDB')" class="information"><icon type="search"></icon></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="smallRow">
+    <div class="col-xs-3 smallLeft">
+        ALL PROJECTS
     </div>
 </div>
 <!-- end navigation -->
