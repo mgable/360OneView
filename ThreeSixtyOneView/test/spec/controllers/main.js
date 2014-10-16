@@ -4,7 +4,7 @@
 'use strict';
 
 describe('Controllers: ', function() {
-    var scope, ctrl, spy, $state, SortAndFilterService, ActiveSelection, DiaglogService, FavoritesService, CONFIG, $rootScope, onSpy;
+    var rootScope, data, scope, ctrl, spy, $state, SortAndFilterService, ActiveSelection, DiaglogService, FavoritesService, CONFIG, $rootScope, onSpy, $provide;
 
     beforeEach(module('ThreeSixtyOneView', 'ThreeSixtyOneView.services'));
 
@@ -16,6 +16,41 @@ describe('Controllers: ', function() {
             });
         }));
 
+    });
+
+     beforeEach(angular.mock.module(function (_$provide_) {
+        $provide = _$provide_;
+    }));
+
+    describe("Navigation CTRL:", function(){
+        beforeEach(inject(function($rootScope, $controller, $httpBackend, ProjectsService) {
+            scope = $rootScope.$new();
+            rootScope = $rootScope;
+            $state = {current: {breadcrumb: "All {{title}}"}};
+            data = {title: "Projects"};
+            spy = spyOn(scope, "$on").and.callThrough();
+            spyOn(ProjectsService, "getProjectItemById").and.returnValue(data);
+            $provide.value("$state", $state);
+            $provide.value("$stateParams", {projectId: '1'})
+            ctrl = $controller('NavigationCtrl', {
+                $scope: scope,
+            });
+        }));
+
+        it("should exist", function(){
+            expect(ctrl).toBeDefined();
+        });
+
+        it("should be watching $stateChangeSuccess", function(){
+            expect(spy).toHaveBeenCalledWith('$stateChangeSuccess', jasmine.any(Function));
+        });
+
+        it("should set the breadcrumbs when the view is changed", function(){
+            expect(scope.project).not.toBeDefined();
+            rootScope.$broadcast("$stateChangeSuccess");
+            expect(scope.project).toEqual(data);
+            expect(scope.breadcrumbs).toEqual("All Projects");
+        });
     });
 
     describe("ProjectListingCtrl", function(){

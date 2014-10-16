@@ -5,7 +5,7 @@
 
 // View controllers
 angular.module("ThreeSixtyOneView")
-    .controller("MainCtrl", ["$scope", "ActiveSelection", "ScenarioService", function($scope,  ActiveSelection, ScenarioService) {
+    .controller("MainCtrl", ["$scope", "ActiveSelection", function($scope,  ActiveSelection) {
 
         // These are going away
         $scope.ActiveSelection = ActiveSelection;
@@ -23,9 +23,8 @@ angular.module("ThreeSixtyOneView")
         };
     }]).controller("NavigationCtrl", ["$scope", "$state", "$interpolate", "ProjectsService", "$stateParams", function($scope, $state, $interpolate, ProjectsService, $stateParams){
 
-
         $scope.$on("$stateChangeSuccess", function(){
-            $scope.project = ProjectsService.getProjectItemById($stateParams.projectId);
+            $scope.project = $stateParams.projectId ? ProjectsService.getProjectItemById($stateParams.projectId) : "";
             $scope.breadcrumbs = $interpolate($state.current.breadcrumb)($scope.project);
         });
         
@@ -251,8 +250,6 @@ angular.module("ThreeSixtyOneView")
         $scope.scenarioElementType = $scope.types[0];
     }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DiaglogService", "GotoService", "Project", "Scenarios", "EVENTS", "CONFIG", function($scope, $stateParams, ScenarioService, DiaglogService, GotoService, Project, Scenarios, EVENTS, CONFIG){
             var getBaseScenario = function(){
-                console.info("getting scenario");
-                console.info(CONFIG.application.models.ScenarioModel.newScenario);
                 return angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
             };
 
@@ -262,8 +259,6 @@ angular.module("ThreeSixtyOneView")
             $scope.scenarios = Scenarios.data;
 
             $scope.createScenario = function(_scenario_){
-                console.info("creeating scenrio");
-                    console.info(_scenario_);
                 ScenarioService.create($scope.project, _scenario_).then(function(response){
                     GotoService.scenarioEdit($scope.project.id, response.id);
                 });
@@ -280,6 +275,6 @@ angular.module("ThreeSixtyOneView")
 
             $scope.$on(EVENTS.updateBaseScenario, function(event, data){
                 $scope.scenario.referenceScenario.id = data.id;
-                $scope.scenario.referenceScenario.name = data.title;
+                $scope.scenario.referenceScenario.title = data.title;
             });
     }]);
