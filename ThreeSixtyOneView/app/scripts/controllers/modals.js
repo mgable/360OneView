@@ -59,7 +59,7 @@ angular.module('ThreeSixtyOneView')
 
         $scope.confirm = function(){
             $scope.close();
-        }
+        };
 
         $scope.showRow = function(row){
             return row === selectedRow;

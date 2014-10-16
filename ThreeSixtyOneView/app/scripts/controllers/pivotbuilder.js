@@ -90,7 +90,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 	};
 
 	// add item to row/column
-	$scope.addItem = function(item, category, outerIndex) {
+	$scope.addItem = function(item, category) {
 		var val = {category: category, name: item};
 
 		if($scope.add.replaceItem > -1) {
@@ -109,8 +109,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 	// set up the add row/column pop-up location
 	$scope.popUpLocSet = function($event) {
-		var top = $event.target.offsetTop;
-		var left = $event.target.offsetLeft;
+		var top = $event.target.offsetTop,
+			left = $event.target.offsetLeft;
 		$scope.popUpLoc = {top: top, left: left};
 	};
 
@@ -145,17 +145,18 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 	// calculate the count of items in each filter based on the category or all
 	$scope.filterCount = function(obj, cat, fltr) {
-		var count = 0;
-
-		var fltr = angular.lowercase(fltr);
+		var count = 0,
+			filterLowerCase = angular.lowercase(fltr);
 
 		if(!cat) {
 			angular.forEach(obj, function(val, key) {
-				(val && (key.toLowerCase().indexOf(fltr) > -1)) ? count++ : null;
+				if(val && (key.toLowerCase().indexOf(filterLowerCase) > -1)) {
+					count++;
+				}
 			});
 		} else {
 			angular.forEach(obj, function(val, key) {
-				if (cat.indexOf(key) > -1 && (key.toLowerCase().indexOf(fltr) > -1) && val) {
+				if (cat.indexOf(key) > -1 && (key.toLowerCase().indexOf(filterLowerCase) > -1) && val) {
 					count++;
 				}
 			});
@@ -192,9 +193,9 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 	// select all filter values in a category
 	$scope.allCategoryFilters = function(values, fltr) {
-		var containsAll = true;
+		var containsAll = true,
+			current = [];
 
-		var current = [];
 		for(var key in $scope.addedFilter[$scope.selectedFilter.cat.name]) {
 			if($scope.addedFilter[$scope.selectedFilter.cat.name][key] && (angular.lowercase(key).indexOf(angular.lowercase(fltr)) > -1)) {
 				current.push(key);
@@ -327,19 +328,32 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		var numRows = $scope.pbData.viewData.rows.length;
 		var i = 0,
 			j = 0;
+
+		var category = [],
+			item = [];
 		
 		var totalColCount = 1;
 		var pivotCols = [];
 		var colCounter = [];
 
 		for(i = 0; i < numCols; i++) {
-			var category = $scope.pbData.itemsList.filter(function(obj) {
-					return obj.name === $scope.pbData.viewData.columns[i].category;
-				});
 
-			var item = category[0].subitems.filter(function(obj) {
-				return obj.name === $scope.pbData.viewData.columns[i].name;
-			});
+
+			category = [];
+			for(j = 0; j < $scope.pbData.itemsList.length; j++) {
+				if($scope.pbData.itemsList[j].name === $scope.pbData.viewData.columns[i].category) {
+					category.push($scope.pbData.itemsList[j]);
+					break;
+				}
+			}
+
+			item = [];
+			for(j = 0; j < category[0].subitems.length; j++) {
+				if(category[0].subitems[j].name === $scope.pbData.viewData.columns[i].name) {
+					item.push(category[0].subitems[j]);
+					break;
+				}
+			}
 
 			if(item[0].subsubitems.length === 1) {
 				pivotCols[i] = item[0].subsubitems[0].values;
@@ -347,7 +361,9 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			} else {
 				totalColCount *= item[0].subsubitems.length;
 				for(j = 0; j < item[0].subsubitems.length; j++) {
-					if(!angular.isArray(pivotCols[i])) pivotCols[i] = [];
+					if(!angular.isArray(pivotCols[i])) {
+						pivotCols[i] = [];
+					}
 					pivotCols[i][j] = item[0].subsubitems[j].name;
 				}
 			}
@@ -360,13 +376,21 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		var rowCounter = [];
 
 		for(i = 0; i < numRows; i++) {
-			var category = $scope.pbData.itemsList.filter(function(obj) {
-					return obj.name === $scope.pbData.viewData.rows[i].category;
-				});
+			category = [];
+			for(j = 0; j < $scope.pbData.itemsList.length; j++) {
+				if($scope.pbData.itemsList[j].name === $scope.pbData.viewData.rows[i].category) {
+					category.push($scope.pbData.itemsList[j]);
+					break;
+				}
+			}
 
-			var item = category[0].subitems.filter(function(obj) {
-				return obj.name === $scope.pbData.viewData.rows[i].name;
-			});
+			item = [];
+			for(j = 0; j < category[0].subitems.length; j++) {
+				if(category[0].subitems[j].name === $scope.pbData.viewData.rows[i].name) {
+					item.push(category[0].subitems[j]);
+					break;
+				}
+			}
 
 			if(item[0].subsubitems.length === 1) {
 				pivotRows[i] = item[0].subsubitems[0].values;
@@ -390,7 +414,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			$scope.pivotTableData[i] = {};
 			for (j = 0; j < numRows; j++) {
 				$scope.pivotTableData[i][j] = '';
-			};
+			}
 		}
 
 		for(i = 0; i < totalColCount; i++) {
@@ -425,8 +449,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		}
 
 		$scope.spread.sheet.setDataSource($scope.pivotTableData);
-
-		$scope.test = JSON.stringift($scope.pivotTableData);
 
 		$scope.spread.sheet.addSpan(0,0,numCols,numRows);
 		$scope.spread.sheet.setFrozenRowCount(numCols);
