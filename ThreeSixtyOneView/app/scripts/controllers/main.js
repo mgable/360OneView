@@ -115,8 +115,8 @@ angular.module("ThreeSixtyOneView")
             /* jshint ignore:end */
             reverse = currentView.reverse,
             orderBy = currentView.orderBy,
-            getProjectName = function(){
-                return ActiveSelection.getActiveItem().title;
+            getProject = function(){
+                return ActiveSelection.getActiveItem();
             },
             init = function(whichView){
                 console.info("initing " + whichView);
@@ -153,7 +153,7 @@ angular.module("ThreeSixtyOneView")
         $scope.goto = function(evt, where, item){
             evt.stopPropagation();
             switch(where){
-                case "gotoScenarioEdit": GotoService.scenarioEdit(getProjectName(), item.id); break;
+                case "gotoScenarioEdit": GotoService.scenarioEdit(getProject().id, item.id); break;
                 case "gotoDashboard": GotoService.dashboard(item.id); break;
                 case "gotoProjects": GotoService.projects(); break;
                 case "gotoScenarioCreate": GotoService.scenarioCreate(item.id); break;
@@ -245,6 +245,7 @@ angular.module("ThreeSixtyOneView")
         $scope.GotoService = GotoService;
         $scope.project = ProjectsService.getProjectItemById($stateParams.projectId);
         $scope.scenario = ScenarioModel.getScenarioById($stateParams.scenarioId);
+        console.info($scope.scenario);
         $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
         $scope.scenarioElementType = $scope.types[0];
     }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DiaglogService", "GotoService", "Project", "Scenarios", function($scope, $stateParams, ScenarioService, DiaglogService, GotoService, Project, Scenarios){

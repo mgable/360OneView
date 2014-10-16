@@ -67,7 +67,7 @@
 		<div class="see-all-toggle" ng-click="seeAll = !seeAll">See <span ng-hide="seeAll">all&nbsp;<icon type="chevron-down"></icon></span><span ng-show="seeAll">less&nbsp;<icon type="chevron-up"></icon></span></div>
 		<div class="entity-holder" ng-class="{'see-all': seeAll}">
 			<div class="scenario" ng-repeat="scenario in selectedItem.scenarios">
-				<a ng-click="goto($event, 'gotoScenarioEdit', scenario.title )">
+				<a ng-click="goto($event, 'gotoScenarioEdit', scenario)">
 					{{scenario.title}}
 				</a>
 			</div>

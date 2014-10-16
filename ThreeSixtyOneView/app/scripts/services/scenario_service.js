@@ -15,6 +15,7 @@ angular.module('ThreeSixtyOneView')
 
         this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
+
 		this.get = function (identifier){
 			if(/[a-z\d]{32}/.test(identifier)) {
 				// is UUID (probably)
