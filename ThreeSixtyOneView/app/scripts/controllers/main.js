@@ -262,7 +262,7 @@ angular.module("ThreeSixtyOneView")
             };
 
             $scope.currentScenario = function (scenario){
-                DiaglogService.currentScenario(scenario);
+                DiaglogService.currentScenario($scope.project, scenario);
             };
 
             $scope.$on(EVENTS.updateBaseScenario, function(event, data){

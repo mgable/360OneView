@@ -1,3 +1,5 @@
+/* global _ */
+
 'use strict';
 
 angular.module('ThreeSixtyOneView')
@@ -40,14 +42,28 @@ angular.module('ThreeSixtyOneView')
 
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
+        var selectedRow,
+            getSelected = function(){
+                return selectedRow;
+            },
+            sortScenarios = function(scenarios){
+                $scope.scenarioList = scenarios;
+                $scope.masterProject = (_.findWhere($scope.scenarioList, {"title": "MASTER PROJECT"}));
+                $scope.scenarioList.splice(_.indexOf($scope.scenarioList, $scope.masterProject),1);
+                selectedRow = $scope.masterProject;
+
+                angular.forEach($scope.scenarioList, function(k,v,o){
+                    if (k.title === $scope.project.title){
+                        $scope.scenarioList.unshift($scope.scenarioList.splice(v,1)[0]);
+                    }
+                });
+            };
+
         $scope.scenario = data.scenario;
-        var selectedRow = 0,
-        getSelected = function(){
-            return selectedRow;
-        };
+        $scope.project = data.project;
 
         ScenarioService.getAll().then(function(response){
-            $scope.scenarioList = response;
+            sortScenarios(response);
         });
 
         $scope.setRow = function(item){
