@@ -21,7 +21,7 @@ angular.module('ThreeSixtyOneView.config')
                     // want: get
                     "responseTranslator": {"referenceScenario": "referenceScenario", "title": "name", "id": "id", "description": "description", "type":{"selector":"['prediction']['type']"}, "createdBy":{"selector":"['auditInfo']['createdBy']['name']"}, "createdOn":{"selector":"['auditInfo']['createdOn']"}, "modifiedBy":{"selector":"['auditInfo']['lastUpdatedBy']['name']"}, "modifiedOn":{"selector":"['auditInfo']['lastUpdatedOn']"}},
                     "requestTranslator": {"name":"title", "referenceScenario": "referenceScenario", "description": "description", "prediction": "prediction"},
-                    "newScenario": {"name" : "", "description": "","referenceScenario": {"id": 1, "name": "PRE LOADED SIMULATION NEW"}, "prediction" : {"type" : "Simulation"}}
+                    "newScenario": {"title" : "", "description": "","referenceScenario": {"id": 1, "name": "PRE LOADED SIMULATION NEW"}, "prediction" : {"type" : "Simulation"}}
                 }
             },
             "inputRestrictions": {

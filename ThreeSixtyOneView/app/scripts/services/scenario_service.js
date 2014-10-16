@@ -5,7 +5,6 @@
 
 angular.module('ThreeSixtyOneView')
 	.service('ScenarioService', ["$q", "ScenarioModel", "ProjectsService", "CONFIG", function ($q, ScenarioModel, ProjectsService, CONFIG) {
-		var scenario = CONFIG.application.models.ScenarioModel.newScenario;
 
 		this.get = function (identifier){
 			if(/[a-z\d]{32}/.test(identifier)) {
@@ -18,9 +17,7 @@ angular.module('ThreeSixtyOneView')
 
 		this.create = function(_project_, _scenario_){
 			var id = _project_.id;
-			scenario.name = _scenario_.title;
-			scenario.description = _scenario_.description || "";
-			return ScenarioModel.create(scenario, id);
+			return ScenarioModel.create(_scenario_, id);
 		};
 
 		this.getAll = function(){

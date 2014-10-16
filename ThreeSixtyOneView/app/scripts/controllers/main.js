@@ -246,13 +246,21 @@ angular.module("ThreeSixtyOneView")
         $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
         $scope.scenarioElementType = $scope.types[0];
     }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DiaglogService", "GotoService", "Project", "Scenarios", "EVENTS", "CONFIG", function($scope, $stateParams, ScenarioService, DiaglogService, GotoService, Project, Scenarios, EVENTS, CONFIG){
+            var getBaseScenario = function(){
+                console.info("getting scenario");
+                console.info(CONFIG.application.models.ScenarioModel.newScenario);
+                return angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
+            };
+
             $scope.GotoService = GotoService;
             $scope.project = Project;
-            $scope.scenario = CONFIG.application.models.ScenarioModel.newScenario;
+            $scope.scenario = getBaseScenario();
             $scope.scenarios = Scenarios.data;
 
-            $scope.createScenario = function(scenario){
-                ScenarioService.create($scope.project, scenario).then(function(response){
+            $scope.createScenario = function(_scenario_){
+                console.info("creeating scenrio");
+                    console.info(_scenario_);
+                ScenarioService.create($scope.project, _scenario_).then(function(response){
                     GotoService.scenarioEdit($scope.project.id, response.id);
                 });
             };
@@ -260,6 +268,7 @@ angular.module("ThreeSixtyOneView")
             $scope.isScenarioTitleUnique = function(scenarioTitle) {
                 return ! _.findWhere($scope.scenarios, {title:scenarioTitle});
             };
+
 
             $scope.currentScenario = function (scenario){
                 DiaglogService.currentScenario($scope.project, scenario);
