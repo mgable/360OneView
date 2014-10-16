@@ -9,7 +9,7 @@
 */
 angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($scope, $timeout, $filter, pbData) {
 	var init = function() {
-		$scope.pbShow = true;
+		$scope.pbShow = false;
 		$scope.pbData = angular.copy(pbData);
 		$scope.viewName = pbData.viewData.name;
 
