@@ -241,7 +241,7 @@ angular.module("ThreeSixtyOneView")
                 });
             }
         });
-    }]).controller("ScenarioEditCtrl", ["$scope",  "$stateParams", "GotoService", "ProjectsService", "ScenarioModel", "$http", function($scope, $stateParams, GotoService, ProjectsService, ScenarioModel, $http) {
+    }]).controller("ScenarioEditCtrl", ["$scope",  "$stateParams", "GotoService", "ProjectsService", "ScenarioModel", "$http", 'ptData', function($scope, $stateParams, GotoService, ProjectsService, ScenarioModel, $http, ptData) {
         $scope.GotoService = GotoService;
         $scope.project = ProjectsService.getProjectItemById($stateParams.projectId);
         $scope.scenario = ScenarioModel.getScenarioById($stateParams.scenarioId);
@@ -249,10 +249,12 @@ angular.module("ThreeSixtyOneView")
         $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
         $scope.scenarioElementType = $scope.types[0];
 
-        $http.get('../data/spreadjs.json').success(function(response) {
-            $scope.pivotTableData = response.data;
-            $scope.pivotTableHeaders = response.headers;
-        });
+        // $http.get('../data/spreadjs.json').success(function(response) {
+        //     $scope.pivotTableData = response.data;
+        //     $scope.pivotTableHeaders = response.headers;
+        // });
+        $scope.pivotTableData = ptData.data;
+        $scope.pivotTableHeaders = ptData.headers;
         $scope.spread = {sheet: {}};
     }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DiaglogService", "GotoService", "Project", "Scenarios", function($scope, $stateParams, ScenarioService, DiaglogService, GotoService, Project, Scenarios){
             $scope.GotoService = GotoService;

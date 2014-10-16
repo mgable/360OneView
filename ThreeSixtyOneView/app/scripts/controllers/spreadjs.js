@@ -1,8 +1,8 @@
 'use strict';
 
 // spreadjs controller
-angular.module("ThreeSixtyOneView").controller("spreadjsCtrl", function($scope, $http, $timeout) {
-	$timeout(function() { init(); }, 60);
+angular.module("ThreeSixtyOneView").controller("spreadjsCtrl", ['$scope', '$timeout', function($scope, $timeout) {
+	$timeout(function() { init(); }, 400);
 	
 	var init = function() {
 		// Behrooz: getting data from outer controller
@@ -130,4 +130,4 @@ angular.module("ThreeSixtyOneView").controller("spreadjsCtrl", function($scope, 
 		}
 	};
 
-});
+}]);

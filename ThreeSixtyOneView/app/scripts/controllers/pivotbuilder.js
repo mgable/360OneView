@@ -574,6 +574,74 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 				]
 			}
 	};
+}).factory('ptData', function() {
+	return {
+		"data": [
+			{
+				"nameplate_category": "Cars",
+				"leaf_touchpoint": "National TV Nameplate",
+				"2015_January": "1600",
+				"2015_February": "1600",
+				"2015_March": "1600"
+			}, 
+			{
+				"nameplate_category": "Cars",
+				"leaf_touchpoint": "Local TV Nameplate",
+				"2015_January": "2.35",
+				"2015_February": "2.35",
+				"2015_March": "2.35"
+			}, 
+			{
+				"nameplate_category": "Trucks",
+				"leaf_touchpoint": "National TV Nameplate",
+				"2015_January": "0.04",
+				"2015_February": "0.04",
+				"2015_March": "0.04"
+			}, 
+			{
+				"nameplate_category": "Trucks",
+				"leaf_touchpoint": "Local TV Nameplate",
+				"2015_January": "1.50",
+				"2015_February": "1.50",
+				"2015_March": "1.50"
+			}, 
+			{
+				"nameplate_category": "SUVs",
+				"leaf_touchpoint": "National TV Nameplate",
+				"2015_January": "1.50",
+				"2015_February": "1.50",
+				"2015_March": "1.50"
+			}, 
+			{
+				"nameplate_category": "SUVs",
+				"leaf_touchpoint": "Local TV Nameplate",
+				"2015_January": "1.50",
+				"2015_February": "1.50",
+				"2015_March": "1.50"
+			}, 
+			{
+				"nameplate_category": "N/A",
+				"leaf_touchpoint": "National TV Nameplate",
+				"2015_January": "1.50",
+				"2015_February": "1.50",
+				"2015_March": "1.50"
+			}, 
+			{
+				"nameplate_category": "N/A",
+				"leaf_touchpoint": "Local TV Nameplate",
+				"2015_January": "1.50",
+				"2015_February": "1.50",
+				"2015_March": "1.50"
+			}
+		],
+		"headers": [
+			"nameplate_category",
+			"leaf_touchpoint",
+			"2015_January",
+			"2015_February",
+			"2015_March"
+		]
+	};
 }).filter('objToArr', function() {
 	return function(obj) {
 		var results = [];
