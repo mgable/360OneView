@@ -4,20 +4,32 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-	.service('ScenarioService', ["$q", "ScenarioModel", "ProjectsService", "CONFIG", function ($q, ScenarioModel, ProjectsService, CONFIG) {
+	.service('ScenarioService', ["$q", "ScenarioModel", "ProjectsService", "CONFIG", "Model", function ($q, ScenarioModel, ProjectsService, CONFIG, Model) {
+		var scenario = CONFIG.application.models.ScenarioModel.newScenario,
+		MyScenarioModel, myScenarios;
+
+		MyScenarioModel = new Model();
+        angular.extend(this, MyScenarioModel.prototype);
+        myScenarios = new MyScenarioModel(ScenarioModel);
+        angular.extend(this, myScenarios);
+
+        this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
+
 
 		this.get = function (identifier){
 			if(/[a-z\d]{32}/.test(identifier)) {
 				// is UUID (probably)
-				return ScenarioModel.get(identifier);
+				return myScenarios.get(identifier);
 			} else {
-				return ScenarioModel.get(ProjectsService.getProjectIDByTitle(identifier));
+				return myScenarios.get(ProjectsService.getProjectIDByTitle(identifier));
 			}
 		};
 
-		this.create = function(_project_, _scenario_){
-			var id = _project_.id;
-			return ScenarioModel.create(_scenario_, id);
+		this.create = function(scenarioObj){
+			var id = scenarioObj.projectId ? scenarioObj.projectId : ProjectsService.getProjectIDByTitle(scenarioObj.projectName);
+			scenario.name = scenarioObj.title;
+			scenario.description = scenarioObj.description || "";
+			return ScenarioModel.create(scenario, id);
 		};
 
 		this.getAll = function(){

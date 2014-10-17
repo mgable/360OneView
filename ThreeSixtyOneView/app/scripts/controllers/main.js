@@ -194,10 +194,10 @@ angular.module("ThreeSixtyOneView")
                 });
             }
         });
-    }]).controller("ScenarioEditCtrl", ["$scope",  "$stateParams", "GotoService", "ProjectsService", "ScenarioModel", function($scope, $stateParams, GotoService, ProjectsService, ScenarioModel) {
+    }]).controller("ScenarioEditCtrl", ["$scope",  "$stateParams", "GotoService", "ProjectsService", "ScenarioService", function($scope, $stateParams, GotoService, ProjectsService, ScenarioService) {
         $scope.GotoService = GotoService;
         $scope.project = ProjectsService.getProjectItemById($stateParams.projectId);
-        $scope.scenario = ScenarioModel.getScenarioById($stateParams.scenarioId);
+        $scope.scenario = ScenarioService.getScenarioById($stateParams.scenarioId);
 
         //TODO: temp data
         $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
