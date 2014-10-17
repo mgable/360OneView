@@ -7,28 +7,26 @@ angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout
 
     var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.projects),
     responseTranslator = CONFIG.application.models.ProjectsModel.responseTranslator,
-    requestTranslator = CONFIG.application.models.ProjectsModel.requestTranslator,
-    config = {},
-    self = this;
+    requestTranslator = CONFIG.application.models.ProjectsModel.requestTranslator;
 
      // surface data for unit tests
-    this.resource = resource;
-    this.config = config;
+    // this.resource = resource;
+    // this.config = config;
 
     return {
         responseTranslator: responseTranslator,
         requestTranslator: requestTranslator,
         resource: resource,
-        config: config,
         // used for the rename functions
         put : function(_data_){
+            var self = this;
             return resource.put(_data_, this.config).then(function(response){
-                var index = _.indexOf(self.data, _.findWhere(self.data, {id: response.data.id}));
-                self.data.splice(index, 1, response.data);
+                var index = _.indexOf(self.data, _.findWhere(self.data, {id: response.id}));
+                self.data.splice(index, 1, response);
                 $timeout(function(){
                     $rootScope.$broadcast(EVENTS.updateProjects, {
                         data: self.data,
-                        item: response.data,
+                        item: response,
                         original: _data_
                     });
                 });
@@ -36,17 +34,17 @@ angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout
             });
         },
         create: function(_data_) {
+            var self = this;
             return resource.create(_data_, this.config).then(function(response) {
+                self.data.push(response);
                 $timeout(function() {
-                    self.data.push(response.data);
                     $rootScope.$broadcast(EVENTS.updateProjects, {
                         data: self.data,
-                        item: response.data,
+                        item: response,
                         original: _data_
                     });
-
-                    return response.data;
                 });
+                return response;
             });
         },
         rename: function(data){
@@ -55,6 +53,9 @@ angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout
                 obj.description = "";
             }
             this.put(obj);
+        },
+        setConfig: function(_config_){
+            this.config = _config_;
         }
     };
 

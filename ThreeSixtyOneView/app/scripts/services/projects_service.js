@@ -4,17 +4,18 @@
 
 angular.module('ThreeSixtyOneView')
 	.service('ProjectsService',  ["$rootScope", "ProjectsModel", "Model", "EVENTS", function ($rootScope, ProjectsModel, Model, EVENTS) {
-		var projects = [], MyProjectModel, myprojects;
+		var projects = [], MyProjectModel, myprojects, self = this;
 
 		MyProjectModel = new Model();
         angular.extend(this, MyProjectModel.prototype);
         myprojects = new MyProjectModel(ProjectsModel);
         angular.extend(this, myprojects);
 
-        this.config = this.makeConfig(this, this.responseTranslator, this.requestTranslator);
+        //this.config = this.makeConfig(this, this.responseTranslator, this.requestTranslator);
+        this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
 		this.getProjectIDByTitle = function(_title_){
-			var item = _.findWhere(projects, {title:_title_});
+			var item = _.findWhere(this.data, {title:_title_});
 			if (item) {
 				return item.id;
 			} else {
@@ -23,7 +24,7 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		this.getProjectTitleById = function(_id_){
-			var item = _.findWhere(projects, {id:_id_});
+			var item = _.findWhere(this.data, {id:_id_});
 			if (item) {
 				return item.title;
 			} else {
@@ -32,7 +33,7 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		this.getProjectItemById = function(_id_){
-			var item = _.findWhere(projects, {id:_id_});
+			var item = _.findWhere(this.data, {id:_id_});
 			if (item) {
 				return item;
 			} else {
@@ -40,19 +41,20 @@ angular.module('ThreeSixtyOneView')
 			}
 		};
 
-		this.setProjects = function(_projects_){
-			projects = _projects_;
-		};
+		// this.setProjects = function(_projects_){
+		// 	projects = _projects_;
+		// };
 
 		this.getProjects = function(){
-			return projects;
+			//return projects;
+			return this.data;
 		};
 
 		$rootScope.$on(EVENTS.renameProject, function($event, data){
-			ProjectsModel.rename(data);
+			self.rename(data);
 		});
 
-		$rootScope.$on(EVENTS.createProject, function($event, data, cb){
-			ProjectsModel.create(data, cb);
+		$rootScope.$on(EVENTS.createProject, function($event, data){
+			self.create(data);
 		});
   }]);

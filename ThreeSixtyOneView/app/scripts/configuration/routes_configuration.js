@@ -20,7 +20,7 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
       templateUrl: "views/display_manager.tpl.html",
       controller: "ProjectDashboardCtrl",
       resolve: {
-        'Projects': function(ProjectsService){return ProjectsService.get();},
+        'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
         'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);}
       },
       breadcrumb: "All Projects > {{title}}"

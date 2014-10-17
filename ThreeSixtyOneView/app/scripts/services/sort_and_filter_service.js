@@ -181,7 +181,7 @@ angular.module('ThreeSixtyOneView.services')
 
             $rootScope.$on(EVENTS.updateProjects, function(event, response) {
                 $rootScope.$apply(function(){
-                    data.data = response.data;
+                    data = response.data;
                     self.filter();
                 });
             });

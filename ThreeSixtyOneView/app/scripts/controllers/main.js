@@ -27,7 +27,7 @@ angular.module("ThreeSixtyOneView")
             $scope.project = $stateParams.projectId ? ProjectsService.getProjectItemById($stateParams.projectId) : "";
             $scope.breadcrumbs = $interpolate($state.current.breadcrumb)($scope.project);
         });
-    }]).controller("ProjectDashboardCtrl", ["$scope", "$controller", "$stateParams", "$state", "CONFIG", "ProjectsService", "Projects", "Scenarios", "ActiveSelection", "SortAndFilterService", "GotoService", "EVENTS", function($scope,  $controller, $stateParams, $state, CONFIG, ProjectsService, Projects, Scenarios, ActiveSelection, SortAndFilterService, GotoService, EVENTS) {
+    }]).controller("ProjectDashboardCtrl", ["$scope", "$controller", "$stateParams", "$state", "CONFIG", "ProjectsService", "Project", "Scenarios", "ActiveSelection", "SortAndFilterService", "GotoService", "EVENTS", function($scope,  $controller, $stateParams, $state, CONFIG, ProjectsService, Project, Scenarios, ActiveSelection, SortAndFilterService, GotoService, EVENTS) {
 
         angular.extend(this, $controller('ProjectsViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService}));
 
@@ -43,13 +43,14 @@ angular.module("ThreeSixtyOneView")
                 // bootstrap view with data
                 $scope.data = {};
                 $scope.CONFIG = currentView;
-                $scope.project = ProjectsService.getProjectItemById($stateParams.projectId);
+                $scope.project = Project;
+
                 $scope.hasAlerts = Scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
 
                 _.extend($scope.CONFIG, $stateParams);
 
-                // add projects to the projects service
-                ProjectsService.setProjects(Projects);
+                // // add projects to the projects service
+                // ProjectsService.setProjects(Projects);
 
                 $scope.data = Scenarios;
                 SortAndFilterService.init({
@@ -58,6 +59,8 @@ angular.module("ThreeSixtyOneView")
                     filter: filter,
                     reverse: reverse
                 });
+
+                $scope.showDetails(SortAndFilterService.getData()[0]);
             };
 
         init($state.current.name);
@@ -87,9 +90,10 @@ angular.module("ThreeSixtyOneView")
                 _.extend($scope.CONFIG, $stateParams);
 
                 // add projects to the projects service
-                ProjectsService.setProjects(Projects);
+                // ProjectsService.setProjects(Projects);
 
                 $scope.data = Projects;
+
                 SortAndFilterService.init({
                     data: Projects,
                     orderBy: orderBy,
@@ -98,13 +102,13 @@ angular.module("ThreeSixtyOneView")
                 });
 
                 // the master project is always a favorite and not in the favorite REST call (yet)
-                _.each($scope.data, function(element){
-                   master = _.find(element, function(elem){return elem.isMaster;});
-                });
-
+                master = _.find($scope.data, function(elem){return elem.isMaster;});
+                
                 // get all favorites
                 FavoritesService.setFavorites(_.pluck(Favorites, 'uuid'));
                 if (master) { FavoritesService.addFavorite(master.id); }
+
+                $scope.showDetails(SortAndFilterService.getData()[0]);
             };
 
         init($state.current.name);
@@ -183,14 +187,14 @@ angular.module("ThreeSixtyOneView")
         };
 
         $scope.$on(EVENTS.changeActiveItem, function(event, response) {
-            if (response.data !== "") {
-                $scope.selectedItem = response.data;
+            if (response) {
+                $scope.selectedItem = response;
             }
 
             // TODO: refactor this out once entities are finished
             if($state.current.name === "ProjectManager") {
                 getScenarios($scope.selectedItem.title).then(function(response){
-                    $scope.selectedItem.scenarios = response.data;
+                    $scope.selectedItem.scenarios = response;
                 });
             }
         });

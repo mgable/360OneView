@@ -337,7 +337,7 @@
 							visibility: hidden;
 						}
 					}
-					.master {
+					&.master {
 						font: {
 							weight:bold;
 							size:16px;
@@ -345,6 +345,14 @@
 						 i {
 							visibility: visible;
 							display:inline-block;
+						}
+						.favorites {
+							.favorite {
+								cursor: default;
+								&:hover {
+									color:#428bca;
+								}
+							}
 						}
 					}
 					.text-holder {
