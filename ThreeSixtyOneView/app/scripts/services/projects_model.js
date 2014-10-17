@@ -3,59 +3,59 @@
 
 'use strict';
 
-angular.module('ThreeSixtyOneView.services').service('ProjectsModel', ["$timeout", "$rootScope", "$location", "Resource", "CONFIG", "SERVER", "EVENTS", "ModelModel", function($timeout, $rootScope, $location, Resource, CONFIG, SERVER, EVENTS, ModelModel){
+angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout", "$rootScope", "$location", "Resource", "CONFIG", "SERVER", "EVENTS", "Model", function($timeout, $rootScope, $location, Resource, CONFIG, SERVER, EVENTS, Model){
+
     var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.projects),
     responseTranslator = CONFIG.application.models.ProjectsModel.responseTranslator,
     requestTranslator = CONFIG.application.models.ProjectsModel.requestTranslator,
-    config = ModelModel.makeConfig(ModelModel, responseTranslator, requestTranslator),
-
-    // used for the rename functions
-    put = function(_data_){
-        resource.put(_data_, config).then(function(response){
-            var index = _.indexOf(self.data, _.findWhere(self.data, {id: response.data.id}));
-            self.data.splice(index, 1, response.data);
-            $timeout(function(){
-                $rootScope.$broadcast(EVENTS.updateProjects, {
-                    data: self.data,
-                    item: response.data,
-                    original: _data_
-                });
-            });
-        });
-    },
+    config = {},
     self = this;
 
-    // surface data for unit tests
+     // surface data for unit tests
     this.resource = resource;
     this.config = config;
 
-    this.find = function(uid){
-        ModelModel.unwrap.call(this, resource.get(uid, config));
-    };
-
-    this.get = function(){
-        return this.$futureData;
-    };
-
-    this.create = function(_data_) {
-        return resource.create(_data_, config).then(function(response) {
-            $timeout(function() {
-                self.data.push(response.data);
-                $rootScope.$broadcast(EVENTS.updateProjects, {
-                    data: self.data,
-                    item: response.data,
-                    original: _data_
+    return {
+        responseTranslator: responseTranslator,
+        requestTranslator: requestTranslator,
+        resource: resource,
+        config: config,
+        // used for the rename functions
+        put : function(_data_){
+            resource.put(_data_, this.config).then(function(response){
+                var index = _.indexOf(self.data, _.findWhere(self.data, {id: response.data.id}));
+                self.data.splice(index, 1, response.data);
+                $timeout(function(){
+                    $rootScope.$broadcast(EVENTS.updateProjects, {
+                        data: self.data,
+                        item: response.data,
+                        original: _data_
+                    });
                 });
             });
-            return response.data;
-        });
+        },
+        create: function(_data_, cb) {
+            resource.create(_data_, this.config).then(function(response) {
+                $timeout(function() {
+                    self.data.push(response.data);
+                    $rootScope.$broadcast(EVENTS.updateProjects, {
+                        data: self.data,
+                        item: response.data,
+                        original: _data_
+                    });
+                    if (cb) { cb(); }
+                });
+            });
+        },
+        rename: function(data){
+            var obj = (_.pick(data, 'title', 'description', 'id'));
+            if (typeof obj.description === "undefined"){
+                obj.description = "";
+            }
+            this.put(obj);
+        }
     };
 
-    this.rename = function(data){
-        var obj = (_.pick(data, 'title', 'description', 'id'));
-        if (typeof obj.description === "undefined"){
-            obj.description = "";
-        }
-        put.call(this, obj);
-    };
+   
+
 }]);

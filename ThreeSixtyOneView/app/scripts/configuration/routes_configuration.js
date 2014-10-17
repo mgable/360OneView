@@ -10,8 +10,8 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
       templateUrl: "views/display_manager.tpl.html",
       controller: "ProjectListingCtrl",
       resolve: {
-        'Projects': function(ProjectsModel){return ProjectsModel.get();},
-        'Favorites': function(FavoritesModel) {return FavoritesModel.get();}
+        'Projects': function(ProjectsService){return ProjectsService.get();},
+        'Favorites': function(FavoritesService) {return FavoritesService.get();}
       },
       breadcrumb: "All Projects"
     })
@@ -20,8 +20,8 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
       templateUrl: "views/display_manager.tpl.html",
       controller: "ProjectDashboardCtrl",
       resolve: {
-        'Projects': function(ProjectsModel){return ProjectsModel.get();},
-        'Scenarios': function(ScenarioModel, $stateParams){return ScenarioModel.get($stateParams.projectId);}
+        'Projects': function(ProjectsService){return ProjectsService.get();},
+        'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);}
       },
       breadcrumb: "All Projects > {{title}}"
     })
@@ -31,7 +31,7 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
       controller: "ScenarioCreateCtrl",
       resolve: {
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
-        'Scenarios': function(ScenarioModel, $stateParams){return ScenarioModel.get($stateParams.projectId);}
+        'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);}
       },
       breadcrumb: "All Projects > {{title}}"
     })

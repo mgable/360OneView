@@ -24,7 +24,7 @@ angular.module('ThreeSixtyOneView')
             $modalInstance.dismiss('create');
         };
 
-    }]).controller('ProjectCreateCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "ProjectsModel", "GotoService", function($scope, $controller, $modalInstance, CONFIG, ProjectsModel, GotoService) {
+    }]).controller('ProjectCreateCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "ProjectsService", "GotoService", function($scope, $controller, $modalInstance, CONFIG, ProjectsService, GotoService) {
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
         var newProject = CONFIG.application.models.ProjectsModel.newProject;
 
@@ -32,7 +32,7 @@ angular.module('ThreeSixtyOneView')
             if (evt) { evt.preventDefault(); }
             newProject.title = title;
 
-            ProjectsModel.create(newProject).then(function(response){
+            ProjectsService.create(newProject).then(function(response){
                 GotoService.dashboard(response.id);
             });
 

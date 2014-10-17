@@ -3,22 +3,16 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-	.service('ProjectsService',  ["$rootScope", "ProjectsModel", "Model", "EVENTS", function ($rootScope, ProjectsModel, Model, EVENTS) {
-		var projects = [], MyProjectModel, myprojects;
-
-		MyProjectModel = new Model();
-        angular.extend(this, MyProjectModel.prototype);
-        myprojects = new MyProjectModel(ProjectsModel);
-        angular.extend(this, myprojects);
-
-        this.config = this.makeConfig(this, this.responseTranslator, this.requestTranslator);
+	.service('ProjectsService',  ["$rootScope", "ProjectsModel", "EVENTS", function ($rootScope, ProjectsModel, EVENTS) {
+		var projects = [];
 
 		this.getProjectIDByTitle = function(_title_){
 			var item = _.findWhere(projects, {title:_title_});
 			if (item) {
 				return item.id;
 			} else {
-				console.error("The project named " + _title_ + " was NOT found!");
+				console.info("The project named " + _title_ + " was NOT found!");
+				return false;
 			}
 		};
 
@@ -27,7 +21,8 @@ angular.module('ThreeSixtyOneView')
 			if (item) {
 				return item.title;
 			} else {
-				console.error("The project id " + _id_ + " was NOT found!");
+				console.info("The project id " + _id_ + " was NOT found!");
+				return false;
 			}
 		};
 
@@ -36,7 +31,8 @@ angular.module('ThreeSixtyOneView')
 			if (item) {
 				return item;
 			} else {
-				console.error("The project id " + _id_ + " was NOT found!");
+				console.info("The project id " + _id_ + " was NOT found!");
+				return false;
 			}
 		};
 

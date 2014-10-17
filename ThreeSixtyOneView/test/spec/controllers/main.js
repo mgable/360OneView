@@ -3,7 +3,7 @@
 
 'use strict';
 
-describe('Controllers: ', function() {
+xdescribe('Controllers: ', function() {
     var rootScope, data, scope, ctrl, spy, $state, SortAndFilterService, ActiveSelection, DiaglogService, FavoritesService, CONFIG, $rootScope, onSpy, $provide, event;
 
     beforeEach(module('ThreeSixtyOneView', 'ThreeSixtyOneView.services'));
