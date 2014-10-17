@@ -44,14 +44,14 @@ angular.module("ThreeSixtyOneView")
                 $scope.data = {};
                 $scope.CONFIG = currentView;
                 $scope.project = ProjectsService.getProjectItemById($stateParams.projectId);
-                $scope.hasAlerts = Scenarios.data.length < 1 ? $scope.CONFIG.alertSrc : false;
+                $scope.hasAlerts = Scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
 
                 _.extend($scope.CONFIG, $stateParams);
 
                 // add projects to the projects service
-                ProjectsService.setProjects(Projects.data);
+                ProjectsService.setProjects(Projects);
 
-                $scope.data = Scenarios.data;
+                $scope.data = Scenarios;
                 SortAndFilterService.init({
                     data: Scenarios,
                     orderBy: orderBy,
@@ -87,9 +87,9 @@ angular.module("ThreeSixtyOneView")
                 _.extend($scope.CONFIG, $stateParams);
 
                 // add projects to the projects service
-                ProjectsService.setProjects(Projects.data);
+                ProjectsService.setProjects(Projects);
 
-                $scope.data = Projects.data;
+                $scope.data = Projects;
                 SortAndFilterService.init({
                     data: Projects,
                     orderBy: orderBy,
@@ -194,10 +194,10 @@ angular.module("ThreeSixtyOneView")
                 });
             }
         });
-    }]).controller("ScenarioEditCtrl", ["$scope",  "$stateParams", "GotoService", "ProjectsService", "ScenarioModel", function($scope, $stateParams, GotoService, ProjectsService, ScenarioModel) {
+    }]).controller("ScenarioEditCtrl", ["$scope",  "$stateParams", "GotoService", "ProjectsService", "ScenarioService", function($scope, $stateParams, GotoService, ProjectsService, ScenarioService) {
         $scope.GotoService = GotoService;
         $scope.project = ProjectsService.getProjectItemById($stateParams.projectId);
-        $scope.scenario = ScenarioModel.getScenarioById($stateParams.scenarioId);
+        $scope.scenario = ScenarioService.getScenarioById($stateParams.scenarioId);
 
         //TODO: temp data
         $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];

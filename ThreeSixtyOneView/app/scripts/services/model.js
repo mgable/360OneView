@@ -55,7 +55,6 @@ angular.module("ThreeSixtyOneView.services")
 			},
 			translateResponse: function (response, responseTranslator){
 				var results, data;
-				
 				try {
 					data = JSON.parse(response);
 				}
@@ -78,7 +77,7 @@ angular.module("ThreeSixtyOneView.services")
 			},
 			makeConfig: function(which, responseTranslator, requestTranslator){
 				return {
-					transformResponse: function(data){ return {data: which.translateResponse(data, responseTranslator)}; },
+					transformResponse: function(data){ return which.translateResponse(data, responseTranslator); },
 					transformRequest: function(data){ return which.translateRequest(data, requestTranslator);}
 				};
 			}

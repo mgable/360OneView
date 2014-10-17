@@ -22,7 +22,7 @@ angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout
         config: config,
         // used for the rename functions
         put : function(_data_){
-            resource.put(_data_, this.config).then(function(response){
+            return resource.put(_data_, this.config).then(function(response){
                 var index = _.indexOf(self.data, _.findWhere(self.data, {id: response.data.id}));
                 self.data.splice(index, 1, response.data);
                 $timeout(function(){
@@ -32,10 +32,11 @@ angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout
                         original: _data_
                     });
                 });
+                return response.data;
             });
         },
-        create: function(_data_, cb) {
-            resource.create(_data_, this.config).then(function(response) {
+        create: function(_data_) {
+            return resource.create(_data_, this.config).then(function(response) {
                 $timeout(function() {
                     self.data.push(response.data);
                     $rootScope.$broadcast(EVENTS.updateProjects, {
@@ -43,7 +44,8 @@ angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout
                         item: response.data,
                         original: _data_
                     });
-                    if (cb) { cb(); }
+
+                    return response.data;
                 });
             });
         },
