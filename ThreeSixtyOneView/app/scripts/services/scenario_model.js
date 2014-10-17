@@ -25,11 +25,8 @@ angular.module('ThreeSixtyOneView.services').factory('ScenarioModel', ["$locatio
             return _.findWhere(this.data, {id:scenarioId});
         },
         create: function(_project_, _scenario_){
-            console.info("from create");
-            console.info(this.config);
             return resource.create(_scenario_, this.config, _project_.id).then(function(response){
                 return response;
-                console.info (response);
             });
         },
         setConfig: function(_config_){
