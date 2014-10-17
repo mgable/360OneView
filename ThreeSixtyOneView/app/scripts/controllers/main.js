@@ -27,9 +27,10 @@ angular.module("ThreeSixtyOneView")
             $scope.project = $stateParams.projectId ? ProjectsService.getProjectItemById($stateParams.projectId) : "";
             $scope.breadcrumbs = $interpolate($state.current.breadcrumb)($scope.project);
         });
-        
+    }]).controller("ProjectDashboardCtrl", ["$scope", "$controller", "$stateParams", "$state", "CONFIG", "ProjectsService", "Projects", "Scenarios", "ActiveSelection", "SortAndFilterService", "GotoService", "EVENTS", function($scope,  $controller, $stateParams, $state, CONFIG, ProjectsService, Projects, Scenarios, ActiveSelection, SortAndFilterService, GotoService, EVENTS) {
 
-    }]).controller("ProjectDashboardCtrl", ["$scope",  "$stateParams", "$state", "CONFIG", "ProjectsService", "Projects", "Scenarios", "ActiveSelection", "SortAndFilterService", "GotoService", "EVENTS", function($scope,  $stateParams, $state, CONFIG, ProjectsService, Projects, Scenarios, ActiveSelection, SortAndFilterService, GotoService, EVENTS) {
+        angular.extend(this, $controller('ProjectsViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService}));
+
         var currentView = CONFIG.view[$state.current.name],
             filter = "",
             /* jshint ignore:start */
@@ -37,9 +38,6 @@ angular.module("ThreeSixtyOneView")
             /* jshint ignore:end */
             reverse = currentView.reverse,
             orderBy = currentView.orderBy,
-            getProject = function(){
-                return $scope.project;
-            },
             init = function(whichView){
                 console.info(whichView);
                 // bootstrap view with data
@@ -64,54 +62,14 @@ angular.module("ThreeSixtyOneView")
 
         init($state.current.name);
 
-        // Controller API
-        $scope.goto = function(evt, where, item){
-            evt.stopPropagation();
-            switch(where){
-                case "gotoScenarioEdit": GotoService.scenarioEdit(getProject().id, item.id); break;
-                case "gotoDashboard": GotoService.dashboard(item.id); break;
-                case "gotoProjects": GotoService.projects(); break;
-                case "gotoScenarioCreate": GotoService.scenarioCreate(item.id); break;
-            }
+        $scope.getProject = function(){
+            return $scope.project;
         };
 
-        $scope.showDetails = function(item){
-            ActiveSelection.setActiveItem(item);
-        };
+    }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "$stateParams", "$state", "CONFIG", "Favorites", "FavoritesService", "ProjectsService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", "EVENTS", function($scope, $controller, $stateParams, $state, CONFIG, Favorites, FavoritesService, ProjectsService, Projects, ActiveSelection, SortAndFilterService, GotoService, EVENTS) {
 
-        $scope.isActiveItem = function (item){
-            return ActiveSelection.isActiveItem(item);
-        };
+         angular.extend(this, $controller('ProjectsViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService }));
 
-        $scope.getData = function () {
-            return SortAndFilterService.getData();
-        };
-
-        $scope.getSorter = function(column) {
-            return SortAndFilterService.getSorter(column);
-        };
-
-        $scope.getSelectedLabel = function() {
-            return SortAndFilterService.getSelectedLabel();
-        };
-
-        $scope.getCount = function() {
-            return SortAndFilterService.getCount();
-        };
-
-        $scope.setFilter = function(type, item, forceFilter) {
-            SortAndFilterService.setFilter(type, item, forceFilter);
-        };
-
-        // Event Listeners
-        $scope.$on(EVENTS.gotoScenarioCreate, function (event){
-            $scope.goto(event, "gotoScenarioCreate",  $scope.project);
-        });
-
-        $scope.$on(EVENTS.gotoDashboard, function (event, data){
-            $scope.goto(event, "gotoDashboard",  data.title);
-        });
-    }]).controller("ProjectListingCtrl", ["$scope",  "$stateParams", "$state", "CONFIG", "Favorites", "FavoritesService", "ProjectsService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", "EVENTS", function($scope, $stateParams, $state, CONFIG, Favorites, FavoritesService, ProjectsService, Projects, ActiveSelection, SortAndFilterService, GotoService, EVENTS) {
         var currentView = CONFIG.view[$state.current.name],
             filter = "",
             master,
@@ -120,9 +78,6 @@ angular.module("ThreeSixtyOneView")
             /* jshint ignore:end */
             reverse = currentView.reverse,
             orderBy = currentView.orderBy,
-            getProject = function(){
-                return ActiveSelection.getActiveItem();
-            },
             init = function(whichView){
                 console.info("initing " + whichView);
                 // bootstrap view with data
@@ -155,20 +110,6 @@ angular.module("ThreeSixtyOneView")
         init($state.current.name);
 
         // Controller API
-        $scope.goto = function(evt, where, item){
-            if (evt && evt.stopPropagation){ evt.stopPropagation(); }
-            switch(where){
-                case "gotoScenarioEdit": GotoService.scenarioEdit(getProject().id, item.id); break;
-                case "gotoDashboard": GotoService.dashboard(item.id); break;
-                case "gotoProjects": GotoService.projects(); break;
-                case "gotoScenarioCreate": GotoService.scenarioCreate(item.id); break;
-            }
-        };
-
-        $scope.showDetails = function(item){
-            ActiveSelection.setActiveItem(item);
-        };
-
         $scope.toggleFavorite = function($event, itemID){
             $event.stopPropagation();
             FavoritesService.toggleFavorite(itemID);
@@ -177,6 +118,24 @@ angular.module("ThreeSixtyOneView")
 
         $scope.isFavorite = function(itemID){
             return FavoritesService.isFavorite(itemID);
+        };
+
+        $scope.getProject = function(){
+            return ActiveSelection.getActiveItem();
+        };
+    }]).controller("ProjectsViewCtrl", ["$scope", "ActiveSelection", "SortAndFilterService", "GotoService",function($scope, ActiveSelection, SortAndFilterService, GotoService){
+        $scope.goto = function(evt, where, item){
+            if (evt && evt.stopPropagation){ evt.stopPropagation(); }
+            switch(where){
+                case "gotoScenarioEdit": GotoService.scenarioEdit($scope.getProject().id, item.id); break;
+                case "gotoDashboard": GotoService.dashboard(item.id); break;
+                case "gotoProjects": GotoService.projects(); break;
+                case "gotoScenarioCreate": GotoService.scenarioCreate(item.id); break;
+            }
+        };
+
+        $scope.showDetails = function(item){
+            ActiveSelection.setActiveItem(item);
         };
 
         $scope.isActiveItem = function (item){
@@ -202,11 +161,6 @@ angular.module("ThreeSixtyOneView")
         $scope.setFilter = function(type, item, forceFilter) {
             SortAndFilterService.setFilter(type, item, forceFilter);
         };
-
-        // Event Listeners
-        $scope.$on(EVENTS.gotoDashboard, function (event, data){
-            $scope.goto(event, "gotoDashboard",  data);
-        });
     }]).controller('InfoTrayCtrl', ["$scope", "$state", "CONFIG", "ScenarioService", "ActiveSelection", "FavoritesService", "SortAndFilterService", "EVENTS", function($scope, $state, CONFIG, ScenarioService, ActiveSelection, FavoritesService, SortAndFilterService, EVENTS) {
         var getScenarios = function(title){
             return ScenarioService.get(title);

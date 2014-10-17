@@ -32,11 +32,13 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
       resolve: {
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
         'Scenarios': function(ScenarioModel, $stateParams){return ScenarioModel.get($stateParams.projectId);}
-      }
+      },
+      breadcrumb: "All Projects > {{title}}"
     })
     .state('ScenarioEdit', {
       url: "/scenarioEdit/:projectId/:scenarioId",
       templateUrl: "views/scenario_edit.tpl.html",
-      controller: "ScenarioEditCtrl"
+      controller: "ScenarioEditCtrl",
+      breadcrumb: "All Projects > {{title}}"
     });
 }]);

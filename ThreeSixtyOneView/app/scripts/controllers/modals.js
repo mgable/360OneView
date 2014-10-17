@@ -52,7 +52,7 @@ angular.module('ThreeSixtyOneView')
                 $scope.scenarioList.splice(_.indexOf($scope.scenarioList, $scope.masterProject),1);
                 selectedRow = $scope.masterProject;
 
-                angular.forEach($scope.scenarioList, function(k,v,o){
+                angular.forEach($scope.scenarioList, function(k,v){
                     if (k.title === $scope.project.title){
                         $scope.scenarioList.unshift($scope.scenarioList.splice(v,1)[0]);
                     }

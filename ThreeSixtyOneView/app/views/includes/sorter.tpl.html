@@ -10,18 +10,18 @@
 			<!-- <th><ms-dropdown selected-sort-index="1" reverse=false msid="column_2"></ms-dropdown></th> -->
 		</thead>
 		<tbody>
-			<tr ng-repeat="item in getData()" ng-class="{active: isActiveItem(item)}" class="{{CONFIG.status && item.status.className || ''}}"> 
-				<td ng-click="showDetails(item)">
+			<tr ng-repeat="item in getData()" ng-class="{active: isActiveItem(item)}" class="{{CONFIG.status && item.status.className || ''}}" ng-click="showDetails(item)" ng-dblclick="goto($event, CONFIG.where, item)"> 
+				<td>
 					<div class="text-holder">
 					<span class="favorites" ng-if="CONFIG.hasFavorites"><a ng-class="{favorite:isFavorite(item.id)}" ng-click="toggleFavorite($event, item.id)"></a></span>
 					</div>
 					<div class="text-holder">
-                    	<span class="title" ng-click="goto($event, CONFIG.where, item)">
+                    	<span class="title">
 	                        <span  class="default" type="{{item.isMaster}}" ng-class="{master: item.isMaster}">{{item.title}}&nbsp;<icon type="marketshare"></icon></span>
                     	</span>
                 	</div>
 				</td>
-				<td ng-click="showDetails(item)">
+				<td>
 					<sortable-columns item=item display-by="getSorter('column_1')"></sortable-columns>
 					<span class="name">{{item.modifiedBy}}</span>
 				</td>
