@@ -11,7 +11,7 @@ angular.module("ThreeSixtyOneView.services")
 		Model.prototype = {
 			$futureData: null,
 			get: function() {
-                return this.$futureData;
+                return this.data.length ?  this.data : this.$futureData;
             },
 			find: function(id) {
                 this.unwrap(this.resource.get(id, this.config));
@@ -21,11 +21,14 @@ angular.module("ThreeSixtyOneView.services")
 			},
 			unwrap: function(futureData) {
                 var self = this;
-                self.data = {};
+                self.data = [];
                 this.$futureData = futureData;
-                this.$futureData.then(function(data) {
+                this.$futureData.then(function(_data_) {
+                	var data = Array.prototype.slice.call(_data_);
                     $timeout(function() {
                         _.extend(self.data, data);
+                        // console.info("unwrap");
+                        // console.info(self);
                     });
                 });
             },
