@@ -53,7 +53,7 @@ describe('Controllers: ', function() {
         });
     });
 
-    describe("ProjectListingCtrl", function(){
+    describe("ProjectListing Ctrl", function(){
         beforeEach(inject(function(_$rootScope_, _$state_, $controller,  _CONFIG_, _FavoritesService_, _SortAndFilterService_, _ActiveSelection_ ) {
             $rootScope = _$rootScope_;
             FavoritesService = _FavoritesService_;
@@ -63,7 +63,6 @@ describe('Controllers: ', function() {
             CONFIG = _CONFIG_;
             $state = _$state_;
             $state.current.name = "ProjectManager";
-            // onSpy = spyOn(scope, "$on").and.callThrough();
             event = {
               stopPropagation: jasmine.createSpy('event.stopPropagation'),
              };
@@ -120,5 +119,43 @@ describe('Controllers: ', function() {
             expect(scope.getProject()).toBe(data)
         });
 
+    });
+
+    describe("Projectdashboard CTRL", function(){
+        beforeEach(inject(function(_$rootScope_, _$state_, $controller,  _CONFIG_ ) {
+            $rootScope = _$rootScope_;
+            scope = $rootScope.$new();
+            CONFIG = _CONFIG_;
+            $state = _$state_;
+            $state.current.name = "Dashboard";
+            event = {
+              stopPropagation: jasmine.createSpy('event.stopPropagation'),
+             };
+
+            spyOn(FavoritesService, "toggleFavorite");
+            spyOn(FavoritesService, "isFavorite").and.callThrough();
+            spyOn(SortAndFilterService, "filter");
+            spyOn(ActiveSelection, "getActiveItem").and.callThrough()
+            ctrl = $controller('ProjectDashboardCtrl', {
+                $scope: scope,
+                '$stateParams': {projectName:"foo"},
+                Projects: {},
+                Favorites: {},
+                Scenarios: {data:[]}
+            });
+        }));
+
+        it("should exist", function(){
+            expect(ctrl).toBeDefined();
+        });
+
+        it("should bootstrap all data", function(){
+            expect(scope.CONFIG).toBeDefined();
+            expect(scope.CONFIG.hasFavorites).not.toBeDefined();
+            expect(scope.CONFIG.topInclude).toBeDefined();
+            expect(scope.CONFIG.projectName).toBe("foo");
+            expect(scope.CONFIG.filterMenu).toBe(CONFIG.view.Dashboard.filterMenu);
+            expect(scope.CONFIG.displayActionsCreate).toBe(CONFIG.view.Dashboard.displayActionsCreate);
+        });
     });
 });

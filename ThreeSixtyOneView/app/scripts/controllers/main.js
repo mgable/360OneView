@@ -68,7 +68,7 @@ angular.module("ThreeSixtyOneView")
 
     }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "$stateParams", "$state", "CONFIG", "Favorites", "FavoritesService", "ProjectsService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", "EVENTS", function($scope, $controller, $stateParams, $state, CONFIG, Favorites, FavoritesService, ProjectsService, Projects, ActiveSelection, SortAndFilterService, GotoService, EVENTS) {
 
-         angular.extend(this, $controller('ProjectsViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService }));
+        angular.extend(this, $controller('ProjectsViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService }));
 
         var currentView = CONFIG.view[$state.current.name],
             filter = "",
