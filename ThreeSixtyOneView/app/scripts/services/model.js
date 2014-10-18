@@ -10,6 +10,7 @@ angular.module("ThreeSixtyOneView.services")
 
 		Model.prototype = {
 			$futureData: null,
+			data: [],
 			get: function() {
 				return this.data.length ?  this.data : this.$futureData;
 			},

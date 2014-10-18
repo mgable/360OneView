@@ -49,14 +49,6 @@ angular.module("ThreeSixtyOneView")
             if (response) {
                 $scope.selectedItem = response;
             }
-
-            // console.info("getting scenarios");
-            // // TODO: refactor this out once entities are finished
-            // if($state.current.name === "ProjectManager") {
-            //     getScenarios($scope.selectedItem.title).then(function(response){
-            //         $scope.selectedItem.scenarios = response;
-            //     });
-            // }
         });
     }]).controller("ProjectDashboardCtrl", ["$scope", "$controller", "$stateParams", "$state", "CONFIG", "ProjectsService", "Project", "Scenarios", "ActiveSelection", "SortAndFilterService", "GotoService", "ScenarioService", "EVENTS", function($scope,  $controller, $stateParams, $state, CONFIG, ProjectsService, Project, Scenarios, ActiveSelection, SortAndFilterService, GotoService, ScenarioService,EVENTS) {
 

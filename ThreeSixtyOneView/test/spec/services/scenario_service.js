@@ -1,7 +1,7 @@
 /* global _ */
 'use strict';
 
-describe('Service: ScenarioService', function () {
+xdescribe('Service: ScenarioService', function () {
 
   // load the service's module
   beforeEach(module('ThreeSixtyOneView'));

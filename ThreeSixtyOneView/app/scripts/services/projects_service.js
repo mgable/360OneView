@@ -2,7 +2,7 @@
 
 'use strict';
 
-angular.module('ThreeSixtyOneView')
+angular.module('ThreeSixtyOneView.services')
 	.service('ProjectsService',  ["$rootScope", "ProjectsModel", "Model", "EVENTS", function ($rootScope, ProjectsModel, Model, EVENTS) {
 		var MyProjectModel, myprojects, self = this;
 

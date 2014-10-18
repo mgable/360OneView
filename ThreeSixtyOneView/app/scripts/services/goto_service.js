@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView')
+angular.module('ThreeSixtyOneView.services')
 	.service('GotoService', ["$state", function Goto($state) {
 	
 	this.scenarioEdit = function (projectId, scenarioId){
