@@ -7,18 +7,14 @@ angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout
 
     var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.projects),
     responseTranslator = CONFIG.application.models.ProjectsModel.responseTranslator,
-    requestTranslator = CONFIG.application.models.ProjectsModel.requestTranslator,
-    config = {},
-    self = this;
+    requestTranslator = CONFIG.application.models.ProjectsModel.requestTranslator;
 
-     // surface data for unit tests
-    this.resource = resource;
-    this.config = config;
 
     return {
         responseTranslator: responseTranslator,
         requestTranslator: requestTranslator,
         resource: resource,
+        data: [],
         // used for the rename functions
         put : function(_data_){
             var self = this;
