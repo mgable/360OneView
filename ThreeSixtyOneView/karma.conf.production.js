@@ -64,7 +64,7 @@ module.exports = function(config) {
             "app/views/**/*.html": ["ng-html2js"],
             'app/scripts/**/*.js': 'coverage'
         },
-        reporters:  ['dots', 'junit', 'coverage'],
+        reporters:  ['dots', 'junit'],
         junitReporter:  {
              outputFile: 'test-results.xml'
         },
