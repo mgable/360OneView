@@ -3,6 +3,7 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
 	<head>
 		<meta charset="utf-8">
 		<title>360 One View</title>
@@ -20,6 +21,18 @@
 <!-- 		<link rel="stylesheet" href="styles/vendor/jquery.wijmo.wijspread.3.20142.11.css" />
 		<link rel="stylesheet" href="styles/vendor/theme.css" /> -->
 
+
+        <!-- Web fonts key for http://*.markeshare.com -->
+        <!-- //use.typekit.net/zyk1snl.js -->
+        <!-- Web fonts key for http://localhost -->
+        <!-- //use.typekit.net/zyk1snl.js -->
+        <!-- Web fonts key for http://127.0.0.1 -->
+        <script src="//use.typekit.net/zer1wrp.js"></script>
+        <script>try{Typekit.load();}catch(e){}</script>
+        <link rel="stylesheet" href="styles/ms_main.css">
+        <!-- endbuild -->
+        <link rel="stylesheet" href="styles/vendor/jquery.wijmo.wijspread.3.20142.11.css" />
+        <link rel="stylesheet" href="styles/vendor/theme.css" />
 	</head>
 	<body ng-app="ThreeSixtyOneView" ng-controller="MainCtrl">
 		<!--[if lt IE 9]>
@@ -31,10 +44,11 @@
 			<div ui-view></div>
 		</div> <!-- end app -->
 
-		<!--[if lt IE 9]>
-			<script src="bower_components/es5-shim/es5-shim.js"></script>
-			<script src="bower_components/json3/lib/json3.min.js"></script>
-		<![endif]-->
+        <div class="cap footer" ng-include src="'views/includes/footer.tpl.html'"></div>
+        <!--[if lt IE 9]>
+            <script src="bower_components/es5-shim/es5-shim.js"></script>
+            <script src="bower_components/json3/lib/json3.min.js"></script>
+        <![endif]-->
 
 		<!-- build:js scripts/vendor.js -->
 		<!-- bower:js -->
@@ -74,14 +88,12 @@
         <script src="scripts/directives/icon.js"></script>
         <script src="scripts/directives/sorter.js"></script>
         <script src="scripts/directives/display_actions.js"></script>
-        <script src="scripts/directives/contextual_menu.js"></script>
         <script src="scripts/directives/bindonce.js"></script>
         <script src="scripts/filters/filters.js"></script>
         <script src="scripts/services/sort_and_filter_service.js"></script>
         <script src="scripts/services/resource.js"></script>
         <script src="scripts/services/active_selection.js"></script>
         <script src="scripts/services/drop_down_service.js"></script>
-        <script src="scripts/services/info_tray_service.js"></script>
         <script src="scripts/services/diaglog_service.js"></script>
         <script src="scripts/services/projects_model.js"></script>
         <script src="scripts/services/scenario_model.js"></script>

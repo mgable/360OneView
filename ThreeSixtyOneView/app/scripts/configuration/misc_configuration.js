@@ -11,7 +11,6 @@ angular.module('ThreeSixtyOneView').config(function() {
 // })
 .run(["FavoritesService", "ProjectsService", function(FavoritesService, ProjectsService) {
 	// For now, pre-fetch all data
-
 	ProjectsService.find();
     FavoritesService.find();
 }]);

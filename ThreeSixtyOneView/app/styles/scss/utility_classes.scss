@@ -112,3 +112,72 @@ ul {
 		font-size: 16px;
 	}
 }
+
+/* Bootstrap grid override - 10 columns*/
+
+.col-xs-70,
+.col-sm-70,
+.col-md-70,
+.col-lg-70 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.col-xs-70 {
+    width: 69.4%;
+    float: left;
+}
+@media (min-width: 768px) {
+.col-sm-70 {
+        width: 69.4%;
+        float: left;
+    }
+}
+@media (min-width: 992px) {
+    .col-md-70 {
+        width: 69.4%;
+        float: left;
+    }
+}
+@media (min-width: 1200px) {
+    .col-lg-70 {
+        width: 69.4%;
+        float: left;
+    }
+}
+
+.col-xs-30,
+.col-sm-30,
+.col-md-30,
+.col-lg-30 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.col-xs-30 {
+    width: 30.6%;
+    float: left;
+}
+
+@media (min-width: 768px) {
+.col-sm-30 {
+        width: 30.6%;
+        float: left;
+    }
+}
+@media (min-width: 992px) {
+    .col-md-30 {
+        width: 30.6%;
+        float: left;
+    }
+}
+@media (min-width: 1200px) {
+    .col-lg-30 {
+        width: 30.6%;
+        float: left;
+    }
+}

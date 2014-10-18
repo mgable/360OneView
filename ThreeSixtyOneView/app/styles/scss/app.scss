@@ -1,16 +1,32 @@
 /* Application Styles */
 @import "variables";
 
+html {
+  background: url($background_img) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  overflow: scroll;
+}
+
 body {
   overflow-y:hidden;
+  background-color: transparent;
+  font-family: $sansFontFamily;
 }
 
 .cap {
 	width:100%;
-	background-color:$black;
+	background-color: $header-background;
 	height: $cap_height;
 	position: relative;
 	z-index: 1000;
+
+	.row {
+		margin: 0;
+	}
+
 	.navigation {
 		.bar {
 			max-width:$app_max_width;
@@ -21,28 +37,203 @@ body {
 			margin:auto;
 		}
 		a.logo {
-			background: transparent url($spirte) -214px -3px no-repeat;
+			background: transparent url($logo) 0px 0px no-repeat;
 			display:inline-block;
 			height: 50px;
-			width: 200px;
+			width: 100px;
 			text-indent: -1000px;
 		}
-		.navbar-nav {
+		a.piechart {
+			background: transparent url($logo) -239px 4px no-repeat;
+			background-size: auto 76px;
+			display:inline-block;
+			height: 50px;
+			width: 50px;
+			text-indent: -1000px;
+		}
+		ul.navbar-nav {
+			float: none;
+			display: block;
+			width: 444px;
+			margin: 0 auto;
+			font-size: 0.8em;
+
 			li a.information {
-				color: $white;
+				width: 111px;
+				padding: 0;
+				color: $gray;
+				line-height: 11px;
+				text-align: center;
 				cursor: pointer;
+				position: relative;
+
 				&:hover {
 					background-color: inherit;
-					color: $mouseover;
+					color: $white;
 				}
+			}
+
+			li.active a.information{
+				color: $white;
+			}
+		}
+	}
+	div.headerCenter {
+		color: $gray;
+
+		i {
+			display: inline-block;
+			margin-right: 6px;
+			font-size: 2.2em;
+		}
+		span.midHead {
+			/*margin-top: 8px;*/
+			display: inline-block;
+			position: relative;
+			top: -4px;
+		}
+		span.highHead {
+			margin-top: 3px;
+			display: inline-block;	
+			text-align: left;
+		}
+		.navbar-nav > li {
+			padding-top: 12px;
+			height: 100%;
+		}
+		/*.navbar-nav > li:hover,*/
+		.navbar-nav > li.active {
+			background-color: $navbar-active;
+			border-top: 3px solid $navbar-border;
+			color: $white;
+		}
+	}
+	div.headerRight {
+		ul.navbar-nav {
+			float: right;
+			min-width: 200px;
+			font-size: 1.0em;
+
+			li {
+				float: right;
+				width: 50px;
+
+				a.information {
+					width: auto;
+					padding: 12px;
+					text-align: center;
+					font-size: 1.6em;
+				}
+				a.piechart {
+					display: block;
+					width: auto;
+					padding: 12px;
+					text-align: center;
+				}
+				div.userStatus {
+					display: block;
+					float: right;
+					position: relative;
+					top: -9;
+					right: -3;
+					padding-top: 1px;
+					padding-right: 1px;
+
+					height: 14px;
+					width: 14px;
+					text-align: center;
+					border-radius: 50%;
+					background-color: $orange;
+
+					font-size: 0.5em;
+					color: $white;
+				}
+			}
+		}
+	}
+	div.smallRow {
+		width: 100%;
+		height: 35px;
+		display: block;
+		background-color: $header-smallrow;
+
+		div.smallLeft {
+			float: left;
+			padding-top: 8px;
+			color: $white;
+			font-size: 1.0em;
+			.breadcrumbs {
+				text-transform: uppercase;
+			}
+		}
+	}
+}
+div.footer {
+	background-color: $footer-background;
+
+	div.footerLeft {
+		height: 100%;
+		background-image: url($sprite);
+		background-repeat: no-repeat;
+		background-position: -188px 0;
+
+		div.colorRow {
+			height: 2px;
+			margin-left: 9px;
+			width: 50%;
+			position: absolute;
+			bottom: 0;
+
+			@include linear-gradient-logo($colorcell1,$colorcell2,$colorcell3,$colorcell4,$colorcell5,$colorcell6 );
+
+		}
+	}
+	div.footerCenter {
+		padding-top: 20px;
+
+		ul.navbar-nav {
+			width: 275px;
+
+			li {
+				border-right: 1px solid $gray;
+
+				&:last-child {
+					border-right: none;
+				}
+			}
+
+			a.information {
+				width: auto;
+				padding: 0 15px;
+				font-size: 1.2em;
+
+				&:hover {
+					text-decoration: underline;
+					color: $gray;
+				}	
+			}
+		}
+	}
+	div.footerRight {
+		padding: 10px 20px 0 0;
+		text-align: right;
+
+		a {
+			color: $gray;
+			i {
+				font-size: 25px;
+				margin-right: 5px;
+				line-height: 17px;
 			}
 		}
 	}
 }
 
+
 .app {
 	max-width: $app_max_width;
-	min-width: $app_min_width;
+	/*min-width: $app_min_width;*/
 	font-size: $body_font_size;
-	margin: auto;
+	margin: $app_top_margin auto;  
+	background-color: $white;
 }

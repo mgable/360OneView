@@ -1,7 +1,7 @@
 /* global _ */
 'use strict';
 
-describe('Services:', function() {
+xdescribe('Services:', function() {
 
     beforeEach(module('ThreeSixtyOneView.services'));
     beforeEach(module('ThreeSixtyOneView.filters'));

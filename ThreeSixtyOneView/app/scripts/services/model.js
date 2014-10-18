@@ -11,7 +11,7 @@ angular.module("ThreeSixtyOneView.services")
 		Model.prototype = {
 			$futureData: null,
 			get: function() {
-                return this.$futureData;
+                return this.data.length ?  this.data : this.$futureData;
             },
 			find: function(id) {
                 this.unwrap(this.resource.get(id, this.config));
@@ -23,9 +23,9 @@ angular.module("ThreeSixtyOneView.services")
                 var self = this;
                 self.data = {};
                 this.$futureData = futureData;
-                this.$futureData.then(function(data) {
+                this.$futureData.then(function(_data_) {
                     $timeout(function() {
-                        _.extend(self.data, data);
+                        _.extend(self.data, _data_);
                     });
                 });
             },
@@ -55,7 +55,7 @@ angular.module("ThreeSixtyOneView.services")
 			},
 			translateResponse: function (response, responseTranslator){
 				var results, data;
-				
+
 				try {
 					data = JSON.parse(response);
 				}
@@ -78,7 +78,7 @@ angular.module("ThreeSixtyOneView.services")
 			},
 			makeConfig: function(which, responseTranslator, requestTranslator){
 				return {
-					transformResponse: function(data){ return {data: which.translateResponse(data, responseTranslator)}; },
+					transformResponse: function(data){ return which.translateResponse(data, responseTranslator); },
 					transformRequest: function(data){ return which.translateRequest(data, requestTranslator);}
 				};
 			}

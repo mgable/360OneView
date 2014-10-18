@@ -10,10 +10,9 @@ angular.module('ThreeSixtyOneView.services')
         };
 
         this.setActiveItem = function(item) {
-            activeItem = this.isActiveItem(item) ? "" : item;
-            $rootScope.$broadcast(EVENTS.changeActiveItem, {
-                data: activeItem
-            });
+            //activeItem = this.isActiveItem(item) ? "" : item;
+            activeItem = item;
+            $rootScope.$broadcast(EVENTS.changeActiveItem, activeItem);
         };
 
         this.getActiveItem = function() {

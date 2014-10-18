@@ -1,7 +1,7 @@
 /*jshint newcap: false */
 'use strict';
 
-describe('Service: FavoritesModel', function() {
+xdescribe('Service: FavoritesModel', function() {
 	var FavoritesModel, rootScope, $httpBackend, url, projectUrl, data;
 
 	// load the service's module

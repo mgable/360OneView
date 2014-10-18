@@ -3,8 +3,8 @@
 
 'use strict';
 
-describe('Controllers: ', function() {
-    var scope, ctrl, spy, $state, SortAndFilterService, ActiveSelection, InfoTrayService, DiaglogService, FavoritesService, CONFIG, $rootScope, onSpy;
+xdescribe('Controllers: ', function() {
+    var rootScope, data, scope, ctrl, spy, $state, SortAndFilterService, ActiveSelection, DiaglogService, FavoritesService, CONFIG, $rootScope, onSpy, $provide, event;
 
     beforeEach(module('ThreeSixtyOneView', 'ThreeSixtyOneView.services'));
 
@@ -18,58 +18,144 @@ describe('Controllers: ', function() {
 
     });
 
-    describe("ProjectListingCtrl", function(){
-        beforeEach(inject(function(_$rootScope_, _$state_, $controller, _InfoTrayService_, _CONFIG_,  _ActiveSelection_) {
-            $rootScope = _$rootScope_;
+     beforeEach(angular.mock.module(function (_$provide_) {
+        $provide = _$provide_;
+    }));
+
+    describe("Navigation CTRL:", function(){
+        beforeEach(inject(function($rootScope, $controller, $httpBackend, ProjectsService) {
             scope = $rootScope.$new();
-            CONFIG = _CONFIG_;
-            InfoTrayService = _InfoTrayService_;
-            $state = _$state_;
-            $state.current.name = "ProjectManager";
-            onSpy = spyOn(scope, "$on").and.callThrough();
-            ctrl = $controller('ProjectListingCtrl', {
+            rootScope = $rootScope;
+            $state = {current: {breadcrumb: "All {{title}}"}};
+            data = {title: "Projects"};
+            spy = spyOn(scope, "$on").and.callThrough();
+            spyOn(ProjectsService, "getProjectItemById").and.returnValue(data);
+            $provide.value("$state", $state);
+            $provide.value("$stateParams", {projectId: '1'});
+            ctrl = $controller('NavigationCtrl', {
                 $scope: scope,
-                ActiveSelection: _ActiveSelection_,
-                '$stateParams': {projectName:"foo"},
-                Projects: {},
-                Favorites: {}
             });
         }));
 
+        it("should exist", function(){
+            expect(ctrl).toBeDefined();
+        });
+
+        it("should be watching $stateChangeSuccess", function(){
+            expect(spy).toHaveBeenCalledWith('$stateChangeSuccess', jasmine.any(Function));
+        });
+
+        it("should set the breadcrumbs when the view is changed", function(){
+            expect(scope.project).not.toBeDefined();
+            rootScope.$broadcast("$stateChangeSuccess");
+            expect(scope.project).toEqual(data);
+            expect(scope.breadcrumbs).toEqual("All Projects");
+        });
+    });
+
+    describe("ProjectListing Ctrl", function(){
+        beforeEach(inject(function(_$rootScope_, _$state_, $controller,  _CONFIG_, _FavoritesService_, _SortAndFilterService_, _ActiveSelection_ ) {
+            $rootScope = _$rootScope_;
+            FavoritesService = _FavoritesService_;
+            SortAndFilterService = _SortAndFilterService_;
+            ActiveSelection = _ActiveSelection_;
+            scope = $rootScope.$new();
+            CONFIG = _CONFIG_;
+            $state = _$state_;
+            $state.current.name = "ProjectManager";
+            event = {
+              stopPropagation: jasmine.createSpy('event.stopPropagation'),
+             };
+
+            spyOn(FavoritesService, "toggleFavorite");
+            spyOn(FavoritesService, "isFavorite").and.callThrough();
+            spyOn(SortAndFilterService, "filter");
+            spyOn(ActiveSelection, "getActiveItem").and.callThrough()
+            ctrl = $controller('ProjectListingCtrl', {
+                $scope: scope,
+                '$stateParams': {projectName:"foo"},
+                Projects: {},
+                Favorites: {},
+
+            });
+        }));
+
+        it("should exist", function(){
+            expect(ctrl).toBeDefined();
+        });
+
         it("should bootstrap all data", function(){
-            //expect(scope.data).toEqual({});
             expect(scope.CONFIG).toBeDefined();
             expect(scope.CONFIG.hasFavorites).toEqual(CONFIG.view.ProjectManager.hasFavorites);
             expect(scope.CONFIG.topInclude).toBeFalsy();
-            expect(scope.CONFIG.status).toBeFalsy();
             expect(scope.CONFIG.projectName).toBe("foo");
             expect(scope.CONFIG.filterMenu).toBe(CONFIG.view.ProjectManager.filterMenu);
             expect(scope.CONFIG.displayActionsCreate).toBe(CONFIG.view.ProjectManager.displayActionsCreate);
         });
 
-        xit("should define an api", function(){
-            var spy = spyOn($state, "go"),  $event = {};
-            expect(scope.goto).toBeDefined();
-            scope.goto($event, "gotoScenarioEdit", "bar");
-            expect(spy).toHaveBeenCalledWith('ScenarioEdit',  {project:'foo', scenario:'bar' });
-            spy.calls.reset();
-            scope.goto($event, "gotoDashboard", {title: "bar"});
-            expect(spy).toHaveBeenCalledWith('Dashboard', {projectName: {title: "bar"}});
-            spy.calls.reset();
-            scope.goto($event, "gotoProjects");
-            expect(spy).toHaveBeenCalled();
+        it("should define an api", function(){
+            expect(scope.toggleFavorite).toBeDefined();
+            expect(scope.isFavorite).toBeDefined();
+            expect(scope.getProject).toBeDefined();
         });
 
-        xit("should attach event listeners", function(){
-            var spy = spyOn($state, "go"),  $event = {};
-            expect(onSpy.calls.argsFor(0)).toContain("scenario:create");
-            expect(onSpy.calls.argsFor(1)).toContain("ProjectsModel:create");
-            
-            $rootScope.$broadcast("scenario:create");
-            expect(spy).toHaveBeenCalledWith("ScenarioCreate", {"projectName": "foo"});
-            spy.calls.reset();
-            $rootScope.$broadcast("ProjectsModel:create", {"title": "bar"});
-            expect(spy).toHaveBeenCalledWith("Dashboard",  {"projectName": "bar"});
+        it("should toggle favorites", function(){
+            var data = "123";
+            scope.toggleFavorite(event, data);
+            expect(event.stopPropagation).toHaveBeenCalled();
+            expect(FavoritesService.toggleFavorite).toHaveBeenCalledWith(data);
+            expect(SortAndFilterService.filter).toHaveBeenCalled();
+        });
+
+        it("should determine if an item is favorited", function(){
+            FavoritesService.setFavorites(["1", "3", "5"]);
+            expect(scope.isFavorite("1")).toBe(true);
+            expect(scope.isFavorite("2")).toBe(false);
+        });
+
+        it("should get selected project", function(){
+            var data = "1";
+            ActiveSelection.setActiveItem(data)
+            expect(scope.getProject()).toBe(data)
+        });
+
+    });
+
+    describe("Projectdashboard CTRL", function(){
+        beforeEach(inject(function(_$rootScope_, _$state_, $controller,  _CONFIG_ ) {
+            $rootScope = _$rootScope_;
+            scope = $rootScope.$new();
+            CONFIG = _CONFIG_;
+            $state = _$state_;
+            $state.current.name = "Dashboard";
+            event = {
+              stopPropagation: jasmine.createSpy('event.stopPropagation'),
+             };
+
+            spyOn(FavoritesService, "toggleFavorite");
+            spyOn(FavoritesService, "isFavorite").and.callThrough();
+            spyOn(SortAndFilterService, "filter");
+            spyOn(ActiveSelection, "getActiveItem").and.callThrough()
+            ctrl = $controller('ProjectDashboardCtrl', {
+                $scope: scope,
+                '$stateParams': {projectName:"foo"},
+                Projects: {},
+                Favorites: {},
+                Scenarios: {data:[]}
+            });
+        }));
+
+        it("should exist", function(){
+            expect(ctrl).toBeDefined();
+        });
+
+        it("should bootstrap all data", function(){
+            expect(scope.CONFIG).toBeDefined();
+            expect(scope.CONFIG.hasFavorites).not.toBeDefined();
+            expect(scope.CONFIG.topInclude).toBeDefined();
+            expect(scope.CONFIG.projectName).toBe("foo");
+            expect(scope.CONFIG.filterMenu).toBe(CONFIG.view.Dashboard.filterMenu);
+            expect(scope.CONFIG.displayActionsCreate).toBe(CONFIG.view.Dashboard.displayActionsCreate);
         });
     });
 });
