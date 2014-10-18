@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.directives')
-    .directive("displayActions", ["CONFIG", "$state", "DiaglogService", function(CONFIG, $state, DiaglogService) {
+    .directive("displayActions", ["$rootScope", "CONFIG", "$state", "EVENTS", function($rootScope, CONFIG, $state, EVENTS) {
         return {
             restrict: "AE",
             replace: true,
@@ -14,7 +14,6 @@ angular.module('ThreeSixtyOneView.directives')
                 scope.view.create = false;
                 scope.view.filter = false;
                 scope.view.search = false;
-                scope.DiaglogService = DiaglogService;
                 scope.CONFIG = CONFIG.view[$state.current.name];
 
                 var show = scope.$eval(attrs.show);
@@ -27,10 +26,12 @@ angular.module('ThreeSixtyOneView.directives')
 
                 toggleActions(show);
                 
-                scope.create = function(action) {
+                scope.create = function(action, data) {
+                    //action is and EVENTS.type
                     /* jshint ignore:start */
-                    eval(action);
+                    //eval(action);
                     /* jshint ignore:end */
+                    $rootScope.$broadcast(EVENTS[action], data);
                 };
             }
 

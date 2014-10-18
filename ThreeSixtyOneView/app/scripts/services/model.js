@@ -11,24 +11,25 @@ angular.module("ThreeSixtyOneView.services")
 		Model.prototype = {
 			$futureData: null,
 			get: function() {
-                return this.data.length ?  this.data : this.$futureData;
-            },
+				return this.data.length ?  this.data : this.$futureData;
+			},
 			find: function(id) {
-                this.unwrap(this.resource.get(id, this.config));
-            },
+				this.unwrap(this.resource.get(id, this.config));
+			},
 			create: function (data){
 				console.info ("The create method has not been overwritten");
 			},
 			unwrap: function(futureData) {
-                var self = this;
-                self.data = {};
-                this.$futureData = futureData;
-                this.$futureData.then(function(_data_) {
-                    $timeout(function() {
-                        _.extend(self.data, _data_);
-                    });
-                });
-            },
+				var self = this, data;
+				self.data = [];
+				this.$futureData = futureData;
+				this.$futureData.then(function(_data_) {
+					data = Array.prototype.slice.call(_data_);
+					$timeout(function() {
+						_.extend(self.data, data);
+					});
+				});
+			},
 			translateObj: function(data, translator){
 				var result = {}, t;
 				_.each(translator, function(k,v,o){

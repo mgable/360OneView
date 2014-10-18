@@ -10,6 +10,7 @@ angular.module('ThreeSixtyOneView.services')
         };
 
         this.setActiveItem = function(item) {
+            // enable this is you want to turn off radio behavior
             //activeItem = this.isActiveItem(item) ? "" : item;
             activeItem = item;
             $rootScope.$broadcast(EVENTS.changeActiveItem, activeItem);

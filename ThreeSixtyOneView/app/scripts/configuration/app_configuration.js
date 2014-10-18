@@ -42,7 +42,7 @@ angular.module('ThreeSixtyOneView.config')
                 "topInclude": "views/includes/dashboard_top.tpl.html",
                 "where": "gotoScenarioEdit",
                 "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
-                "displayActionsCreate": "scope.$emit('GotoService:scenarioCreate')",
+                "displayActionsCreate": "gotoScenarioCreate",
                 "filterMenu": {
                     "firstSelected": 0,
                     "title": "Scenarios",
@@ -74,7 +74,7 @@ angular.module('ThreeSixtyOneView.config')
                 "reverse": true,
                 "hasFavorites": true,
                 "where": 'gotoDashboard',
-                "displayActionsCreate": "scope.DiaglogService.create('project')",
+                "displayActionsCreate": "createProject",
                 "filterMenu": {
                     "firstSelected": 0,
                     "icon": "suitcase",
