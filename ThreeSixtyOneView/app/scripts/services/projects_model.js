@@ -21,13 +21,14 @@ angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout
         resource: resource,
         // used for the rename functions
         put : function(_data_){
+            var self = this;
             resource.put(_data_, this.config).then(function(response){
-                var index = _.indexOf(self.data, _.findWhere(self.data, {id: response.data.id}));
-                self.data.splice(index, 1, response.data);
+                var index = _.indexOf(self.data, _.findWhere(self.data, {id: response.id}));
+                self.data.splice(index, 1, response);
                 $timeout(function(){
                     $rootScope.$broadcast(EVENTS.updateProjects, {
                         data: self.data,
-                        item: response.data,
+                        item: response,
                         original: _data_
                     });
                 });

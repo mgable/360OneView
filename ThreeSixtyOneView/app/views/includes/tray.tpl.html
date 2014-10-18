@@ -72,7 +72,7 @@
 		<span class="create"><icon type="plus-circle"></icon>Create</span>
 		<div class="entity-holder" >
 			<div class="scenario" ng-repeat="scenario in selectedItem.scenarios">
-				<a ng-click="goto($event, 'gotoScenarioEdit', scenario.title )">
+				<a ng-click="goto($event, 'gotoScenarioEdit', scenario)">
 					<icon type="cubes"></icon> {{scenario.title}}
 				</a>
 			</div>
