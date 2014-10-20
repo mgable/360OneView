@@ -6,8 +6,18 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
             this._http = http;
             this._path = path;
             this._q = q;
-            var getPath = function (id){
-                return id ? this._path.replace(/:id/, id) : this._path;
+            var getPath = function (map){
+                return map ? replaceParams(map, this._path) : this._path;
+            }, replaceParams = function(map, string){
+                var url = string;
+                _.each(map, function(e,i,l){
+                    // i is regex
+                    // e is replacement value
+                    var regExp = new RegExp(":" + i);
+                    url = url.replace(regExp, e);
+                });
+
+                return url; 
             };
 
             this.get = function(uid, _config_){

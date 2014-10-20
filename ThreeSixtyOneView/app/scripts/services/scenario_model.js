@@ -18,7 +18,7 @@ angular.module('ThreeSixtyOneView.services').factory('ScenarioModel', ["$locatio
         requestTranslator: requestTranslator,
         resource: resource,
         get: function(uid) {
-            this.unwrap(this.resource.get(uid, this.config));
+            this.unwrap(this.resource.get({"id": uid}, this.config));
             return this.$futureData;
         },
         getScenarioById: function(scenarioId){

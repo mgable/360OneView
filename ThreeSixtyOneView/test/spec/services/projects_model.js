@@ -51,8 +51,6 @@ describe('Service: ProjectModel', function() {
 		$httpBackend.expectPUT(projectsUrl).respond({
             "doesnot": "matter"
         });
-
-		ProjectsModel.rename(data);
 		rootSpy.calls.reset();
 		
 		ProjectsModel.rename(data);
