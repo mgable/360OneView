@@ -32,6 +32,7 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
       resolve: {
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
         'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);}
+
       },
       breadcrumb: "All Projects > {{title}}"
     })
@@ -39,6 +40,10 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
       url: "/scenarioEdit/:projectId/:scenarioId",
       templateUrl: "views/scenario_edit.tpl.html",
       controller: "ScenarioEditCtrl",
+      resolve: {
+        'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
+        'Scenario': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId, $stateParams.scenarioId);}
+      },
       breadcrumb: "All Projects > {{title}}"
     });
 }]);

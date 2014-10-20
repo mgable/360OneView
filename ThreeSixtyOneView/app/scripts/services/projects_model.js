@@ -9,18 +9,16 @@ angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout
     responseTranslator = CONFIG.application.models.ProjectsModel.responseTranslator,
     requestTranslator = CONFIG.application.models.ProjectsModel.requestTranslator;
 
-     // surface data for unit tests
-    // this.resource = resource;
-    // this.config = config;
 
     return {
         responseTranslator: responseTranslator,
         requestTranslator: requestTranslator,
         resource: resource,
+        data: [],
         // used for the rename functions
         put : function(_data_){
             var self = this;
-            return resource.put(_data_, this.config).then(function(response){
+            resource.put(_data_, this.config).then(function(response){
                 var index = _.indexOf(self.data, _.findWhere(self.data, {id: response.id}));
                 self.data.splice(index, 1, response);
                 $timeout(function(){
@@ -30,7 +28,6 @@ angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout
                         original: _data_
                     });
                 });
-                return response.data;
             });
         },
         create: function(_data_) {
@@ -53,6 +50,7 @@ angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout
                 obj.description = "";
             }
             this.put(obj);
+
         },
         setConfig: function(_config_){
             this.config = _config_;

@@ -4,14 +4,14 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services').factory('ScenarioModel', ["$location", "Resource", "CONFIG", "SERVER", "Model", function($location, Resource, CONFIG, SERVER, Model){
-    
     var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.scenarios),
     responseTranslator = CONFIG.application.models.ScenarioModel.responseTranslator,
-    requestTranslator = CONFIG.application.models.ScenarioModel.requestTranslator;
+    requestTranslator = CONFIG.application.models.ScenarioModel.requestTranslator,
+    config = {};
 
     // surface data for unit tests
-    // this.resource = resource;
-    // this.config = config;
+    this.resource = resource;
+    this.config = config;
 
     return {
         responseTranslator: responseTranslator,
@@ -34,3 +34,4 @@ angular.module('ThreeSixtyOneView.services').factory('ScenarioModel', ["$locatio
         }
     };
 }]);
+

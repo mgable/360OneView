@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Service: ProjectsService', function () {
+xdescribe('Service: ProjectsService', function () {
 
   // load the service's module
   beforeEach(module('ThreeSixtyOneView'));

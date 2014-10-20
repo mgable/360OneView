@@ -3,9 +3,10 @@
 
 'use strict';
 
-angular.module('ThreeSixtyOneView')
+angular.module('ThreeSixtyOneView.services')
 	.service('ScenarioService', ["$q", "ScenarioModel", "ProjectsService", "CONFIG", "Model", function ($q, ScenarioModel, ProjectsService, CONFIG, Model) {
 		var MyScenarioModel, myScenarios, self = this;
+
 
 		MyScenarioModel = new Model();
         angular.extend(this, MyScenarioModel.prototype);
@@ -14,19 +15,21 @@ angular.module('ThreeSixtyOneView')
 
         this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
-		this.get = function (identifier){
-			if(/[a-z\d]{32}/.test(identifier)) {
-				// is UUID (probably)
-				return myScenarios.get(identifier);
-			} else {
-				return myScenarios.get(ProjectsService.getProjectIDByTitle(identifier));
-			}
+		this.get = function (projectId, scenarioId){
+			return myScenarios.get.call(this, projectId).then(function(response){
+				if(scenarioId) {
+					return _.findWhere(response, {id: scenarioId});
+				} else {
+					console.info(response);
+					return response;
+				}
+			});
 		};
 
 		this.getAll = function(){
 			var projects = ProjectsService.getProjects(),
 			promises = [],
-			ids = [], // _.pluck(projects,'id'),
+			ids = [],
 			results = [];
 
 			angular.forEach(projects, function(v,k,o){
