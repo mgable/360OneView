@@ -28,7 +28,6 @@ describe('Service: ProjectModel', function() {
 	it("should exist and define an API", function(){
 		expect(ProjectsModel).toBeDefined();
 		expect(ProjectsModel.put).toBeDefined();
-		expect(ProjectsModel.rename).toBeDefined();
 		expect(ProjectsModel.create).toBeDefined();
 	});
 
@@ -43,21 +42,5 @@ describe('Service: ProjectModel', function() {
 		$timeout.flush();
 		expect(resourceSpy).toHaveBeenCalledWith(newProject, ProjectsModel.config);
 		expect(rootSpy.calls.count()).toEqual(3);
-	});
-
-	it ("should rename a project", function(){
-		var resourceSpy = spyOn(ProjectsModel.resource, "put").and.callThrough(),
-		rootSpy = spyOn(rootScope, "$broadcast").and.returnValue(deferred.promise);
-		$httpBackend.expectPUT(projectsUrl).respond({
-            "doesnot": "matter"
-        });
-		rootSpy.calls.reset();
-		
-		ProjectsModel.rename(data);
-
-		$timeout.flush();
-		expect(resourceSpy).toHaveBeenCalledWith(data, ProjectsModel.config);
-		//expect(rootSpy.calls.argsFor(2)).toEqual([EVENTS.updateProjects, projectData]);
-		//expect(rootSpy.calls.count()).toEqual(1);
 	});
 });

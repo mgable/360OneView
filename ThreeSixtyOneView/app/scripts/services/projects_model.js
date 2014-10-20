@@ -44,14 +44,6 @@ angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout
                 return response;
             });
         },
-        rename: function(data){
-            var obj = (_.pick(data, 'title', 'description', 'id'));
-            if (typeof obj.description === "undefined"){
-                obj.description = "";
-            }
-            this.put(obj);
-
-        },
         setConfig: function(_config_){
             this.config = _config_;
         }

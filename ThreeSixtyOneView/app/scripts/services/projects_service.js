@@ -50,6 +50,15 @@ angular.module('ThreeSixtyOneView.services')
 			return this.data;
 		};
 
+		this.rename = function(data){
+            var obj = (_.pick(data, 'title', 'description', 'id'));
+            if (typeof obj.description === "undefined"){
+                obj.description = "";
+            }
+            this.put(obj);
+
+        };
+
 		$rootScope.$on(EVENTS.renameProject, function($event, data){
 			self.rename(data);
 		});

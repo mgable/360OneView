@@ -9,14 +9,13 @@ angular.module('ThreeSixtyOneView.services').factory('FavoritesModel', ["$timeou
             config: {},
             setAsFavorite: function(id) {
                 this.resource.post({'uuid': id}, this.config).then(function(response){
-                    // TODO: see error responses
-                    //console.info(response);
+                    return response;
                 });
             },
             unFavorite: function(id){
                 var params = {params:{"uuid": id}};
                 this.resource.delete(params, this.config).then(function(response){
-                    console.info(response);
+                    return response;
                 });
             }
         };
