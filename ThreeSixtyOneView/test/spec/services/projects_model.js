@@ -54,6 +54,9 @@ describe('Service: ProjectModel', function() {
 
 		ProjectsModel.rename(data);
 		rootSpy.calls.reset();
+		
+		ProjectsModel.rename(data);
+
 		$timeout.flush();
 		expect(resourceSpy).toHaveBeenCalledWith(data, ProjectsModel.config);
 		//expect(rootSpy.calls.argsFor(2)).toEqual([EVENTS.updateProjects, projectData]);
