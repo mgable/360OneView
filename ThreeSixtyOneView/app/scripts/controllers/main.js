@@ -5,10 +5,25 @@
 
 // View controllers
 angular.module("ThreeSixtyOneView")
-    .controller("MainCtrl", ["$scope", "ActiveSelection", function($scope,  ActiveSelection) {
+    .controller("MainCtrl", ["$scope", "ActiveSelection", "CubeService", function($scope,  ActiveSelection, CubeService) {
 
         // These are going away
         $scope.ActiveSelection = ActiveSelection;
+        CubeService.getMeta(1).then(function(response){
+            console.info("from main");
+            console.info(response);
+        });
+
+        CubeService.getMembers(1).then(function(response){
+            console.info("from main");
+            console.info(response);
+        });
+
+        CubeService.getViewByMembers(1,1,1).then(function(response){
+            console.info("from main");
+            console.info(response);
+        });
+
 
         // convenience methods
         $scope.console = function(msg) {

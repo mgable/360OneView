@@ -7,7 +7,8 @@ angular.module('ThreeSixtyOneView.config')
             "api": {
                 "projects": "/rubix/v1/project",
                 "favorites": "/rubix/v1/favorite/project/",
-                "scenarios": "/rubix/v1/project/:id/scenario"
+                "scenarios": "/rubix/v1/project/:id/scenario",
+                "cube": "/rubix/v1/model/cube/:id"
             },
             "models": {
                 "ProjectsModel": {
@@ -22,6 +23,10 @@ angular.module('ThreeSixtyOneView.config')
                     "responseTranslator": {"referenceScenario": "referenceScenario", "title": "name", "id": "id", "description": "description", "type":{"selector":"['prediction']['type']"}, "createdBy":{"selector":"['auditInfo']['createdBy']['name']"}, "createdOn":{"selector":"['auditInfo']['createdOn']"}, "modifiedBy":{"selector":"['auditInfo']['lastUpdatedBy']['name']"}, "modifiedOn":{"selector":"['auditInfo']['lastUpdatedOn']"}},
                     "requestTranslator": {"name":"title", "referenceScenario": "referenceScenario", "description": "description", "prediction": "prediction"},
                     "newScenario": {"title" : "", "description": "","referenceScenario": {"id": 1, "name": "PRE LOADED SIMULATION NEW"}, "prediction" : {"type" : "Simulation"}}
+                },
+                "CubeModel" : {
+                    "responseTranslator": "",
+                    "requestTranslator": ""
                 }
             },
             "inputRestrictions": {

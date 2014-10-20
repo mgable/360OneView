@@ -20,7 +20,7 @@ angular.module('ThreeSixtyOneView.services')
 				if(scenarioId) {
 					return _.findWhere(response, {id: scenarioId});
 				} else {
-					console.info(response);
+					//console.info(response);
 					return response;
 				}
 			});

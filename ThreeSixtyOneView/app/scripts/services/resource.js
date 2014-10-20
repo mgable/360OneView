@@ -1,23 +1,31 @@
-/* global angular */
+/* global angular, _ */
 'use strict';
 
 angular.module('ThreeSixtyOneView.services').factory("Resource", function($http, $q){
         function Resource(http, q, path){
             this._http = http;
-            this._path = path;
+            this._path = this._basePath = path;
             this._q = q;
             var getPath = function (map){
                 return map ? replaceParams(map, this._path) : this._path;
             }, replaceParams = function(map, string){
                 var url = string;
-                _.each(map, function(e,i,l){
+                _.each(map, function(e,i){
                     // i is regex
                     // e is replacement value
                     var regExp = new RegExp(":" + i);
                     url = url.replace(regExp, e);
                 });
 
-                return url; 
+                return url;
+            };
+
+            this.setPath = function (_path_){
+                this._path = this._basePath + "/" +  _path_;
+            };
+
+            this.getPath = function(){
+                return this._basePath;
             };
 
             this.get = function(uid, _config_){
