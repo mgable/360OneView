@@ -1,3 +1,4 @@
+/* global xit, xdescribe */
 'use strict';
 
 xdescribe('Service: CubeService', function () {

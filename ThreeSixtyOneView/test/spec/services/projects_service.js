@@ -1,3 +1,4 @@
+/* global xit, xdescribe */
 'use strict';
 
 xdescribe('Service: ProjectsService', function () {
@@ -6,9 +7,10 @@ xdescribe('Service: ProjectsService', function () {
   beforeEach(module('ThreeSixtyOneView'));
 
   // instantiate service
-  var ProjectsService, data;
-  beforeEach(inject(function (_ProjectsService_) {
+  var ProjectsService, data, ProjectsModel
+  beforeEach(inject(function (_ProjectsService_, _ProjectsModel_) {
     ProjectsService = _ProjectsService_;
+    ProjectsModel = _ProjectsModel_;
     data = [{title: "a", id: "1"},{title: "b", id: "2"},{title: "c", id: "3"}];
   }));
 
@@ -32,17 +34,17 @@ xdescribe('Service: ProjectsService', function () {
   });
 
   xit ("should rename a project", function(){
-    var resourceSpy = spyOn(ProjectsModel.resource, "put").and.callThrough(),
-    rootSpy = spyOn(rootScope, "$broadcast").and.returnValue(deferred.promise);
-    $httpBackend.expectPUT(projectsUrl).respond({
-            "doesnot": "matter"
-        });
-    rootSpy.calls.reset();
+    // var resourceSpy = spyOn(ProjectsModel.resource, "put").and.callThrough(),
+    // rootSpy = spyOn(rootScope, "$broadcast").and.returnValue(deferred.promise);
+    // $httpBackend.expectPUT(projectsUrl).respond({
+    //         "doesnot": "matter"
+    //     });
+    // rootSpy.calls.reset();
     
-    ProjectsModel.rename(data);
+    // ProjectsModel.rename(data);
 
-    $timeout.flush();
-    expect(resourceSpy).toHaveBeenCalledWith(data, ProjectsModel.config);
+    // $timeout.flush();
+    // expect(resourceSpy).toHaveBeenCalledWith(data, ProjectsModel.config);
     //expect(rootSpy.calls.argsFor(2)).toEqual([EVENTS.updateProjects, projectData]);
     //expect(rootSpy.calls.count()).toEqual(1);
   });

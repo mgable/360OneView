@@ -1,3 +1,4 @@
+/* global xit, xdescribe */
 /*jshint newcap: false */
 'use strict';
 

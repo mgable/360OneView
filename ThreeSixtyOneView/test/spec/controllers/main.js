@@ -1,5 +1,5 @@
 /* jshint unused:false */
-/* global xit */
+/* global xit, xdescribe */
 
 'use strict';
 
@@ -70,7 +70,7 @@ xdescribe('Controllers: ', function() {
             spyOn(FavoritesService, "toggleFavorite");
             spyOn(FavoritesService, "isFavorite").and.callThrough();
             spyOn(SortAndFilterService, "filter");
-            spyOn(ActiveSelection, "getActiveItem").and.callThrough()
+            spyOn(ActiveSelection, "getActiveItem").and.callThrough();
             ctrl = $controller('ProjectListingCtrl', {
                 $scope: scope,
                 '$stateParams': {projectName:"foo"},
@@ -115,8 +115,8 @@ xdescribe('Controllers: ', function() {
 
         it("should get selected project", function(){
             var data = "1";
-            ActiveSelection.setActiveItem(data)
-            expect(scope.getProject()).toBe(data)
+            ActiveSelection.setActiveItem(data);
+            expect(scope.getProject()).toBe(data);
         });
 
     });
@@ -135,7 +135,7 @@ xdescribe('Controllers: ', function() {
             spyOn(FavoritesService, "toggleFavorite");
             spyOn(FavoritesService, "isFavorite").and.callThrough();
             spyOn(SortAndFilterService, "filter");
-            spyOn(ActiveSelection, "getActiveItem").and.callThrough()
+            spyOn(ActiveSelection, "getActiveItem").and.callThrough();
             ctrl = $controller('ProjectDashboardCtrl', {
                 $scope: scope,
                 '$stateParams': {projectName:"foo"},

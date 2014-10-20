@@ -10,18 +10,18 @@ angular.module("ThreeSixtyOneView")
         // These are going away
         $scope.ActiveSelection = ActiveSelection;
         CubeService.getMeta(1).then(function(response){
-            console.info("from main");
-            console.info(response);
+            // console.info("from main");
+            // console.info(response);
         });
 
         CubeService.getMembers(1).then(function(response){
-            console.info("from main");
-            console.info(response);
+            // console.info("from main");
+            // console.info(response);
         });
 
         CubeService.getViewByMembers(1,1,1).then(function(response){
-            console.info("from main");
-            console.info(response);
+            // console.info("from main");
+            // console.info(response);
         });
 
 

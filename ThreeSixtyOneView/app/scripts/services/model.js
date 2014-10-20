@@ -83,7 +83,10 @@ angular.module("ThreeSixtyOneView.services")
 					transformResponse: function(data){ return which.translateResponse(data, responseTranslator); },
 					transformRequest: function(data){ return which.translateRequest(data, requestTranslator);}
 				};
-			}
+			},
+			setConfig: function(_config_){
+            	this.config = _config_;
+        	}
 		};
 
 		return function(){

@@ -21,17 +21,12 @@ angular.module('ThreeSixtyOneView.services').factory('ScenarioModel', ["$locatio
             this.unwrap(this.resource.get({"id": uid}, this.config));
             return this.$futureData;
         },
-        getScenarioById: function(scenarioId){
-            return _.findWhere(this.data, {id:scenarioId});
-        },
         create: function(_project_, _scenario_){
             return resource.create(_scenario_, this.config, _project_.id).then(function(response){
                 return response;
             });
-        },
-        setConfig: function(_config_){
-            this.config = _config_;
         }
+
     };
 }]);
 
