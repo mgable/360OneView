@@ -810,11 +810,11 @@ angular.module("ThreeSixtyOneView").controller("spreadjsCtrlz", ['$scope', '$tim
                 }
 
                 // set header style
-                for (var i = 0; i < $scope.rowHeaderCnt; i++) {
-                    for (var j = 0; j < $scope.colHeaderCnt; j++) {
-                        sheet.getCell(i, j).backColor("#FFFFFF");
-                    }
-                }
+                // for (var i = 0; i < $scope.rowHeaderCnt; i++) {
+                //     for (var j = 0; j < $scope.colHeaderCnt; j++) {
+                //         sheet.getCell(i, j).backColor("#FFFFFF");
+                //     }
+                // }
 
                 // add span
                 addSpan();
@@ -899,9 +899,7 @@ angular.module("ThreeSixtyOneView").controller("spreadjsCtrlz", ['$scope', '$tim
             function addSpan() {
 
                 // header span
-                for (var i = $scope.colHeaderCnt - 1; i >= 0; i--) {
-                    sheet.addSpan(0, i, $scope.rowHeaderCnt, 1);
-                };
+                sheet.addSpan(0, 0, $scope.rowHeaderCnt, $scope.colHeaderCnt);
 
                 // row span
                 var l = 0;

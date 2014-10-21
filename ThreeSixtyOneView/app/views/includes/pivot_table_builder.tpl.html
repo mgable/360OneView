@@ -117,7 +117,8 @@
 			<div ng-repeat="cat in pbData.itemsList" class="pbFilterBox clickable" ng-click="selectedFilter.cat = cat; cancelChangeFilter(); selectedFilter.selFil = chooseViewBy(cat.subitems);" data-toggle="modal" data-target="#filterModal">
 				<div>
 					<div class="pbFilterCat">{{cat.name}} <span class="pbFilterSize">({{pbData.viewData.filters[$index].items.length}}/{{cat.subitems[cat.subitems.length - 1].subsubitems[0].values.length}})</span></div>
-					<div class="pbFilterVal" data-toggle="tooltip" data-placement="bottom" title="{{pbData.viewData.filters[$index].items.join(', ')}}"><span ng-repeat="fltr in pbData.viewData.filters[$index].items">{{fltr}}<span ng-hide="$last">, </span></span></div>
+					<div class="pbFilterVal" ng-show="pbData.viewData.filters[$index].items.length < cat.subitems[cat.subitems.length - 1].subsubitems[0].values.length" data-toggle="tooltip" data-placement="bottom" title="{{pbData.viewData.filters[$index].items.join(', ')}}"><span ng-repeat="fltr in pbData.viewData.filters[$index].items">{{fltr}}<span ng-hide="$last">, </span></span></div>
+					<div class="pbFilterVal" ng-show="pbData.viewData.filters[$index].items.length == cat.subitems[cat.subitems.length - 1].subsubitems[0].values.length">ALL</div>
 				</div>
 			</div>
 		</div>
