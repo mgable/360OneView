@@ -436,7 +436,7 @@ angular.module("ThreeSixtyOneView").controller("spreadjsCtrlz", ['$scope', '$tim
 		}
 
 	}
-]).controller("spreadjsCtrl", ["$scope", "pivotableService", "$timeout", function($scope, pivotableService, $timeout) {
+]).controller("spreadjsCtrlzzz", ["$scope", "pivotableService", "$timeout", function($scope, pivotableService, $timeout) {
 
 	var sheet,
 		spread,
@@ -715,5 +715,271 @@ angular.module("ThreeSixtyOneView").controller("spreadjsCtrlz", ['$scope', '$tim
 	function randomNumber(min, max) {
 		return Math.floor(Math.random() * (max - min + 1) + min);
 	}
+}]).controller("spreadjsCtrl", ["$scope", "$timeout",
+        function($scope, $timeout) {
 
-}]);
+            var sheet,
+                spread;
+
+            $scope.data = $scope.pivotTableData;
+
+            $timeout(function() {
+                init();
+            }, 200);
+
+
+            function init() {
+                $scope.rowCnt = $scope.data.length;
+                $scope.rowHeaderCnt = 2;
+                $scope.rowDataCnt = $scope.rowCnt - $scope.rowHeaderCnt;
+                $scope.colCnt = _.keys($scope.data[0]).length;
+                $scope.colHeaderCnt = 2;
+                $scope.colDataCnt = $scope.colCnt - $scope.colHeaderCnt;
+
+                spread = $("#spreadjs").wijspread("spread").grayAreaBackColor("Transparent");
+                sheet = spread.getActiveSheet();
+
+                sheet.defaults.colWidth = 150;
+                sheet.setColumnHeaderVisible(false);
+                sheet.setRowHeaderVisible(false);
+                sheet.setColumnHeaderVisible(false);
+                sheet.setIsProtected(true);
+                sheet.autoGenerateColumns = true;
+
+                formatSheet();
+            }
+
+            function formatSheet() {
+                sheet.isPaintSuspended(true);
+
+                // fakeData();
+                // validateSheet();
+
+                // set default column width and height
+                sheet.defaults.colWidth = 150;
+                sheet.defaults.rowHeight = 47;
+
+                // set selection background and border color
+                sheet.selectionBackColor("rgba(204, 204, 204, 0.2)");
+                sheet.selectionBorderColor("#e6e6e6");
+
+                // set forzenline position and color
+                sheet.setFrozenRowCount($scope.rowHeaderCnt);
+                sheet.setFrozenColumnCount($scope.colHeaderCnt);
+                sheet.frozenlineColor("transparent");
+
+                // set col style
+                for (var j = 0; j < $scope.colCnt; j++) {
+                    var column = sheet.getColumn(j);
+                    column.vAlign($.wijmo.wijspread.VerticalAlign.center);
+                    column.textIndent(2);
+                    if (j < $scope.colHeaderCnt) {
+                        column.hAlign($.wijmo.wijspread.HorizontalAlign.left);
+                        column.formatter("0").foreColor("#888888");
+                        if (j == $scope.colHeaderCnt - 1) {
+                            column.borderRight(new $.wijmo.wijspread.LineBorder("#888888", $.wijmo.wijspread.LineStyle.mediumDashed));
+                        }
+                    } else {
+                        column.hAlign($.wijmo.wijspread.HorizontalAlign.right);
+                        column.formatter("$#,###");
+                        column.borderRight(new $.wijmo.wijspread.LineBorder("#E6E6E6", $.wijmo.wijspread.LineStyle.thin));
+                        if (j == $scope.colCnt - 1) {
+                            column.borderRight(new $.wijmo.wijspread.LineBorder("#FFFFFF", $.wijmo.wijspread.LineStyle.thin));
+                        }
+                    }
+                }
+
+                // set row style
+                for (var i = 0; i < $scope.rowCnt; i++) {
+                    var row = sheet.getRow(i);
+                    row.borderBottom(new $.wijmo.wijspread.LineBorder("#E6E6E6", $.wijmo.wijspread.LineStyle.thin));
+                    if (i < $scope.rowHeaderCnt) {
+                        if (i == $scope.rowHeaderCnt - 1) {
+                            row.borderBottom(new $.wijmo.wijspread.LineBorder("#888888", $.wijmo.wijspread.LineStyle.mediumDashed));
+                        }
+                        sheet.setRowHeight(i, 25.0, $.wijmo.wijspread.SheetArea.viewport);
+                        row.formatter("0").foreColor("#888888");
+                        row.hAlign($.wijmo.wijspread.HorizontalAlign.center);
+                    } else {
+                        for (var j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
+                            sheet.getCell(i, j).locked(false);
+                            sheet.getCell(i, j).value(randomNumber(0, 2000));
+                        }
+
+                    }
+                }
+
+                // set header style
+                for (var i = 0; i < $scope.rowHeaderCnt; i++) {
+                    for (var j = 0; j < $scope.colHeaderCnt; j++) {
+                        sheet.getCell(i, j).backColor("#FFFFFF");
+                    }
+                }
+
+                // add span
+                addSpan();
+                sheet.isPaintSuspended(false);
+            }
+
+            function fakeData() {
+
+                // set fake value
+                for (var i = $scope.rowHeaderCnt; i < $scope.rowCnt; i++) {
+                    for (var j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
+                        sheet.getCell(i, j).value(randomNumber(0, 2000));
+                    }
+                }
+            }
+
+            function createRowSpan(level, min, max) {
+
+                if (level > $scope.rowHeaderCnt) {
+                    return;
+                }
+                var rowSpan = {};
+                var rowOrder = [];
+                _.each($scope.data[level], function(v, k) {
+                    if (min <= k && max >= k) {
+                        if (!rowSpan[v]) {
+                            rowSpan[v] = 1;
+                            rowOrder.push(v);
+                        } else {
+                            rowSpan[v] += 1;
+                        }
+                    }
+                });
+                _.each(rowOrder, function(v, k) {
+                    var span = rowSpan[v];
+                    if (span == 1) {
+                        return;
+                    }
+                    sheet.addSpan(level, min, 1, span);
+                    var rMin = min,
+                        rMax = min + span;
+                    createRowSpan(level + 1, rMin, rMax - 1);
+                    min += span;
+                });
+            }
+
+            function createColSpan(level, min, max) {
+
+                if (level > $scope.colHeaderCnt) {
+                    return;
+                }
+                var colSpan = {};
+                var colOrder = [];
+                _.each($scope.data, function(v, k) {
+                    if (min <= k && max >= k) {
+                        var key = v[level];
+                        if (!colSpan[key]) {
+                            colSpan[key] = 1;
+                            colOrder.push(key);
+                        } else {
+                            colSpan[key] += 1;
+                        }
+                    }
+                });
+                _.each(colOrder, function(v, k) {
+                    var span = colSpan[v];
+                    if (span == 1 && level != 0) {
+                        return;
+                    }
+                    sheet.addSpan(min, level, span, 1);
+                    // for (var l = $scope.colHeaderCnt; l < $scope.colCnt; l++) {
+                    //     sheet.getCell(min, l).formula("=SUM(" + colName(l) + (min + 2) + ":" + colName(l) + (min + span) + ")");
+                    // }
+                    var cMin = min,
+                        cMax = min + span;
+                    // createColSpan(level + 1, cMin + 1, cMax - 1);
+                    createColSpan(level + 1, cMin, cMax - 1);
+                    min += span;
+                });
+            }
+
+            function addSpan() {
+
+                // header span
+                for (var i = $scope.colHeaderCnt - 1; i >= 0; i--) {
+                    sheet.addSpan(0, i, $scope.rowHeaderCnt, 1);
+                };
+
+                // row span
+                var l = 0;
+                createRowSpan(l, $scope.colHeaderCnt, $scope.colCnt);
+                createColSpan(l, $scope.rowHeaderCnt, $scope.rowCnt);
+            }
+
+            $scope.spread.updateSheet = function(_data, numRows, numCols, totalCols, totalRows) {
+
+                sheet.reset();
+                $scope.data = _data;
+
+                $timeout(function() {
+	                $scope.rowCnt = $scope.data.length;
+	                $scope.rowHeaderCnt = numRows;
+	                $scope.rowDataCnt = $scope.rowCnt - $scope.rowHeaderCnt;
+	                // $scope.colCnt = _.keys($scope.data[0]).length;
+	                $scope.colCnt = totalCols + numRows;
+	                $scope.colHeaderCnt = numCols;
+	                $scope.colDataCnt = $scope.colCnt - $scope.colHeaderCnt;
+	                console.log($scope);
+	                formatSheet();
+                }, 100);
+            }
+
+            function colName(n) {
+                var s = "";
+                while (n >= 0) {
+                    s = String.fromCharCode(n % 26 + 97) + s;
+                    n = Math.floor(n / 26) - 1;
+                }
+                return s;
+            }
+
+            function validateSheet() {
+
+                var dv = $.wijmo.wijspread.DefaultDataValidator.createNumberValidator($.wijmo.wijspread.ComparisonOperator.GreaterThanOrEqualsTo, 0, true);
+                dv.errorMessage = "value should be a positive number";
+                for (var i = $scope.colHeaderCnt; i < $scope.colCnt; i++) {
+                    for (var j = $scope.rowHeaderCnt; j < $scope.rowCnt; j++) {
+                        sheet.getCell(i, j).dataValidator(dv);
+                    }
+                }
+                spread.bind($.wijmo.wijspread.Events.ValidationError, function(event, data) {
+                    var dv = data.validator;
+                    if (dv) {
+                        alert(dv.errorMessage);
+                        data.validationResult = $.wijmo.wijspread.DataValidationResult.Discard;
+                    }
+                });
+            }
+
+            function randomNumber(min, max) {
+                return Math.floor(Math.random() * (max - min + 1) + min);
+            }
+
+            $scope.addDataBarText = "Show Bar Chart";
+            $scope.addDataBar = function() {
+
+                var dataBarRule = new $.wijmo.wijspread.DataBarRule();
+                dataBarRule.ranges = [new $.wijmo.wijspread.Range($scope.rowHeaderCnt, $scope.colHeaderCnt, $scope.rowDataCnt, $scope.colDataCnt)];
+                dataBarRule.color("#E6E6E6");
+                dataBarRule.showBorder(true);
+                dataBarRule.borderColor("#E6E6E6");
+                dataBarRule.axisPosition($.wijmo.wijspread.DataBarAxisPosition.Automatic);
+                dataBarRule.axisColor("#E6E6E6");
+                dataBarRule.showBarOnly(false);
+                if ($scope.addDataBarText === "Show Bar Chart") {
+                    sheet.getConditionalFormats().addRule(dataBarRule);
+                    $scope.addDataBarText = "Hide Bar Chart";
+                } else {
+                    $scope.addDataBarText = "Show Bar Chart";
+                    sheet.getConditionalFormats().clearRule(dataBarRule);
+                }
+            }
+
+            $scope.sendToBackend = function() {
+                console.log(sheet.toJSON().dataBinding.source);
+            }
+        }
+    ]);

@@ -50,18 +50,20 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			}
 		}, true);
 
-		// $scope.dragOptions = {
-		// 	itemMoved: function(event) {
-		// 		// console.log(event);
-		// 	},
-		// 	orderChanged: function(event) {
-		// 		//console.log(event);
-		// 	},
-		// 	dragStart: function(event) {
-		// 		// console.log(event);
-		// 	}
-		// 	// containment: '#dragDropArea'
-		// };
+		$scope.dragOptions = {
+			itemMoved: function(event) {
+				// console.log(event);
+				$scope.applyView();
+			},
+			orderChanged: function(event) {
+				// console.log(event);
+				$scope.applyView();
+			},
+			dragStart: function(event) {
+				// console.log(event);
+			}
+			// containment: '#dragDropArea'
+		};
 
 		$scope.identity = angular.identity();
 	};
@@ -109,7 +111,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 	// set up the add row/column pop-up location
 	$scope.popUpLocSet = function($event) {
-		var top = $event.target.offsetTop,
+		var top = $event.target.offsetTop - document.body.scrollTop,
 			left = $event.target.offsetLeft;
 		$scope.popUpLoc = {top: top, left: left};
 	};
@@ -450,7 +452,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 		// $scope.spread.sheet.setDataSource($scope.pivotTableData);
 
-		// $scope.spread.updateSheet($scope.pivotTableData, numCols, numRows, totalColCount, totalRowCount);
+		$scope.spread.updateSheet($scope.pivotTableData, numCols, numRows, totalColCount, totalRowCount);
 
 		// $scope.spread.sheet.addSpan(0,0,numCols,numRows);
 		// $scope.spread.sheet.setFrozenRowCount(numCols);

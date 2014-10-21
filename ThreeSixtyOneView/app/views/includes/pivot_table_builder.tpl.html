@@ -222,7 +222,10 @@
 						</div>
 					</div>
 					<div class="pbFilterModalMain">
-						<div class="pbFilterTitle">{{selectedFilter.cat.name}}</div>
+						<div class="pbFilterTitle">
+							{{selectedFilter.cat.name}}
+							<span class="pbFilterSize">({{filterCount(addedFilter[selectedFilter.cat.name], false, '')}}/{{totalFilterCount(selectedFilter.cat.subitems[selectedFilter.cat.subitems.length - 1].subsubitems[0].values, '')}})</span>
+						</div>
 						<div class="pbFilterSelect control-label">
 							View by: <select ng-model="selectedFilter.selFil" ng-options="item.name for item in selectedFilter.cat.subitems" class="form-control">
 								<!-- <option value=""> --- Choose a group --- </option> -->
@@ -238,10 +241,11 @@
 								<div class="pbFilterValCol1">
 									<label><input type="checkbox" ng-click="allFilters(filterSearch.values)" indeterminate ng-indeterminate="filterCount(addedFilter[selectedFilter.cat.name], false, filterSearch.values)/totalFilterCount(selectedFilter.cat.subitems[selectedFilter.cat.subitems.length - 1].subsubitems[0].values, filterSearch.values)"> Select All<span ng-if="filterSearch.values != ''"> Search Results</span></label>
 									({{filterCount(addedFilter[selectedFilter.cat.name], false, filterSearch.values)}}/{{totalFilterCount(selectedFilter.cat.subitems[selectedFilter.cat.subitems.length - 1].subsubitems[0].values, filterSearch.values)}})
-									<i class="fa fa-caret-down" ng-hide="sortReverse" ng-click="sortReverse = !sortReverse"></i>
-									<i class="fa fa-caret-up" ng-show="sortReverse" ng-click="sortReverse = !sortReverse"></i>
 								</div>
-								<!-- <div class="pbFilterValCol2">Spend</div> -->
+								<div class="pbFilterValCol2">
+									<i class="fa fa-sort-alpha-asc pull-right" ng-hide="sortReverse" ng-click="sortReverse = !sortReverse"></i>
+									<i class="fa fa-sort-alpha-desc pull-right" ng-show="sortReverse" ng-click="sortReverse = !sortReverse"></i>
+								</div>
 							</div>
 							<div class="pbItemAddOuter" ng-repeat="item in selectedFilter.selFil.subsubitems | filter:filterSearch:strict">
 								<div class="pbItemAddCat" ng-show="item.name && item.values">
