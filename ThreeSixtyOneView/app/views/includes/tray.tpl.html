@@ -1,8 +1,5 @@
 <div class="info-tray" ng-controller="InfoTrayCtrl">
 	<div class="details">
-		<p class="sub-header">DETAILS</p>
-		<button type="button"  class="close" ng-click="InfoTrayService.closeInfoTray()"><span aria-hidden="true">&times;</span></button>
-
 		<div class="clearfix title-holder" ng-class="{'hasFavorites': hasFavorites}">
 			<span ng-switch="selectedItem.isMaster">
 				<h4 ng-switch-when="true" class="title clear"><icon type="marketshare"></icon>&nbsp;{{selectedItem.title}}</h4>
@@ -13,16 +10,39 @@
 				</span>
 			</span>
 		</div>
+		<ul class="detail-list no-margin">
+		  <li class="detail">
+		  <a class="pull-left"><icon type="files-o"></icon>Copy</a>
+		  </li>
+		  <li class="detail">
+		    <a class="pull-left share">
+		      <icon type="users"></icon>Share
+		    </a>
+		  </li>
+		  <li class="detail">
+		    <a class="pull-left">
+		      <icon type="inbox"></icon>Archive
+		    </a>
+		  </li>
+		  <li class="detail">
+		    <a class="pull-left">
+		      <icon type="ellipsis-h" cname="dropdown-trigger"></icon>
+		    </a>
+		  </li>
+		</ul>
 	</div>
-
 	<div class="well profile description-holder">
 		<span ng-switch="selectedItem.isMaster">
-			<span ng-switch-when="true">
-				<span class='field-label'>Description</span>
-				<textarea ng-disabled="true" ng-model="selectedItem.description" class="description"></textarea>
-			</span>
 			<span ng-switch-default>
 				<inline-edit template="inline_description" item="selectedItem"></inline-edit>
+			</span>
+			<span ng-if="selectedItem.createdBy">
+				<h5>Created By</h5>
+				 <p class="name">{{selectedItem.createdBy}} , {{selectedItem.createdOn | date}}</p>
+			</span>
+			<span ng-if="selectedItem.modifiedBy">
+				 <h5>Modified by</h5>
+				 <p class="name">{{selectedItem.modifiedBy}} , {{selectedItem.modifiedOn | date}}</p>
 			</span>
 		</span>
 	</div>
@@ -30,29 +50,12 @@
 	<div class="well profile">
 		<ul class="media-list no-margin">
 		  <li class="media">
+		    <div class="media-body">
+		      <h5 class="media-heading bold">Access</h5>
+		    </div>
 		    <a class="pull-left">
-		      <img class="media-object" src="images/user_pic_pete_small.png" width="35" height="34">
+		      <img class="media-object" src="images/users_pic_sprite.png">
 		    </a>
-		    <div class="media-body">
-		      <h5 class="media-heading bold">Created by:</h5>
-		      <p class="name">{{selectedItem.createdBy}}</p>
-		      <p class="date">{{selectedItem.createdOn | date}}</p>
-		    </div>
-		  </li>
-		</ul>
-	</div>
-
-	<div class="well profile" ng-if="selectedItem.modifiedOn">
-		<ul class="media-list no-margin">
-		  <li class="media">
-		    <a class="pull-left" href="#">
-		      <img class="media-object" src="images/user_pic_johnwayne_small.png" width="35" height="34">
-		    </a>
-		    <div class="media-body">
-		      <h5 class="media-heading bold">Last Modified by:</h5>
-		      <p class="name">{{selectedItem.modifiedBy}}</p>
-		      <p class="date">{{selectedItem.modifiedOn | date}}</p>
-		    </div>
 		  </li>
 		</ul>
 	</div>
@@ -63,14 +66,17 @@
 	</div>
 
 	<div class="well profile scenario-listing" ng-if="selectedItem.scenarios.length">
-		<h5 class="used-in">Contains&nbsp;<span>{{selectedItem.scenarios.length}}</span>&nbsp;Scenarios</h5>
-		<div class="see-all-toggle" ng-click="seeAll = !seeAll">See <span ng-hide="seeAll">all&nbsp;<icon type="chevron-down"></icon></span><span ng-show="seeAll">less&nbsp;<icon type="chevron-up"></icon></span></div>
-		<div class="entity-holder" ng-class="{'see-all': seeAll}">
+	<!-- <div class="well profile scenario-listing" ng-if="true"> -->
+		<h5 class="media-heading bold">Contains</h5>
+		<span class='field-label bold'>Total&nbsp;<span>{{selectedItem.scenarios.length}}</span>&nbsp;scenarios</span>
+		<span class="create"><icon type="plus-circle"></icon>Create</span>
+		<div class="entity-holder" >
 			<div class="scenario" ng-repeat="scenario in selectedItem.scenarios">
 				<a ng-click="goto($event, 'gotoScenarioEdit', scenario)">
-					{{scenario.title}}
+					<icon type="cubes"></icon> {{scenario.title}}
 				</a>
 			</div>
 		</div>
 	</div>
+	<div class="profile-footer" ng-if="selectedItem.scenarios.length">View All</div>
 </div>

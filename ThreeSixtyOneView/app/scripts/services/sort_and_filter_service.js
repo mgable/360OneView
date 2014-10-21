@@ -83,7 +83,7 @@ angular.module('ThreeSixtyOneView.services')
                 $rootScope.$broadcast(EVENTS.resetFilterBy);
             },
             self = this;
-            display.data = {};
+            display = {};
 
         this.setSorter = function(id, sorter) {
             sorters[id] = sorter;
@@ -152,14 +152,14 @@ angular.module('ThreeSixtyOneView.services')
 
         this.getCount = function() {
             try{
-                return display.data.length;
+                return display.length;
             }catch(e){
                 console.info("No data");
             }
         };
 
         this.getData = function() {
-            return display.data;
+            return display;
         };
 
         this.searchText = searchText;
@@ -181,7 +181,7 @@ angular.module('ThreeSixtyOneView.services')
 
             $rootScope.$on(EVENTS.updateProjects, function(event, response) {
                 $rootScope.$apply(function(){
-                    data.data = response.data;
+                    data = response.data;
                     self.filter();
                 });
             });
@@ -191,7 +191,7 @@ angular.module('ThreeSixtyOneView.services')
             var activeFilters = this.getActiveFilters(),
                 filterBy = this.getFilterBy(),
                 searchText = this.getSearchText(),
-                temp = data.data;
+                temp = data;
             temp = filterFilter(temp, activeFilters);
             temp = filterFilter(temp, filterBy);
             temp = filterFilter(temp, {
@@ -200,6 +200,6 @@ angular.module('ThreeSixtyOneView.services')
             temp = $filter('orderBy')(temp, this.getOrderBy(), this.getReverse());
             temp = filterPipline(temp);
 
-            display.data = temp;
+            display = temp;
         };
     }]);

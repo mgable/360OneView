@@ -1,7 +1,8 @@
+/* global xit, xdescribe */
 /*jshint newcap: false */
 'use strict';
 
-describe('Service: ScenarioModel', function () {
+xdescribe('Service: ScenarioModel', function () {
 
     // load the service's module
   beforeEach(module('ThreeSixtyOneView.services'));

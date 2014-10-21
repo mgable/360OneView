@@ -29,9 +29,8 @@ describe('Service: FavoritesModel', function() {
 
 	it("should exist and define an API", function(){
 		expect(FavoritesModel).toBeDefined();
-		expect(FavoritesModel.find).toBeDefined();
-		expect(FavoritesModel.get).toBeDefined();
 		expect(FavoritesModel.setAsFavorite).toBeDefined();
+		expect(FavoritesModel.unFavorite).toBeDefined();
 	});
 
 	it ("should find all data", function(){
@@ -46,13 +45,10 @@ describe('Service: FavoritesModel', function() {
 		$httpBackend.verifyNoOutstandingExpectation();
 	});
 
-	it("should get all data", function(){
-		var result;
-		rootScope.$apply( FavoritesModel.get().then(function(response){
-			result = response;
-		}));
-
+	it ("should unset a favorite", function(){
+		$httpBackend.expectDELETE(url+ "?uuid=123").respond({"status": "204"});
+		FavoritesModel.unFavorite("123");
 		$httpBackend.flush();
-		expect(result).toEqual(data);
+		$httpBackend.verifyNoOutstandingExpectation();
 	});
 });

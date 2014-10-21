@@ -2,12 +2,20 @@
 
 'use strict';
 
-angular.module('ThreeSixtyOneView')
-	.service('ProjectsService',  ["$rootScope", "ProjectsModel", "EVENTS", function ($rootScope, ProjectsModel, EVENTS) {
-		var projects = [];
+angular.module('ThreeSixtyOneView.services')
+	.service('ProjectsService',  ["$rootScope", "ProjectsModel", "Model", "EVENTS", function ($rootScope, ProjectsModel, Model, EVENTS) {
+		var MyProjectModel, myprojects, self = this;
+
+		MyProjectModel = new Model();
+        angular.extend(this, MyProjectModel.prototype);
+        myprojects = new MyProjectModel(ProjectsModel);
+        angular.extend(this, myprojects);
+
+        this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
+
 
 		this.getProjectIDByTitle = function(_title_){
-			var item = _.findWhere(projects, {title:_title_});
+			var item = _.findWhere(this.data, {title:_title_});
 			if (item) {
 				return item.id;
 			} else {
@@ -16,7 +24,7 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		this.getProjectTitleById = function(_id_){
-			var item = _.findWhere(projects, {id:_id_});
+			var item = _.findWhere(this.data, {id:_id_});
 			if (item) {
 				return item.title;
 			} else {
@@ -25,7 +33,7 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		this.getProjectItemById = function(_id_){
-			var item = _.findWhere(projects, {id:_id_});
+			var item = _.findWhere(this.data, {id:_id_});
 			if (item) {
 				return item;
 			} else {
@@ -33,19 +41,29 @@ angular.module('ThreeSixtyOneView')
 			}
 		};
 
-		this.setProjects = function(_projects_){
-			projects = _projects_;
-		};
+		// this.setProjects = function(_projects_){
+		// 	projects = _projects_;
+		// };
 
 		this.getProjects = function(){
-			return projects;
+			//return projects;
+			return this.data;
 		};
 
+		this.rename = function(data){
+            var obj = (_.pick(data, 'title', 'description', 'id'));
+            if (typeof obj.description === "undefined"){
+                obj.description = "";
+            }
+            this.put(obj);
+
+        };
+
 		$rootScope.$on(EVENTS.renameProject, function($event, data){
-			ProjectsModel.rename(data);
+			self.rename(data);
 		});
 
-		$rootScope.$on(EVENTS.createProject, function($event, data, cb){
-			ProjectsModel.create(data, cb);
+		$rootScope.$on(EVENTS.createProject, function($event, data){
+			self.create(data);
 		});
   }]);
