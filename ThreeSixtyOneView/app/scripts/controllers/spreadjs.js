@@ -913,6 +913,11 @@ angular.module("ThreeSixtyOneView").controller("spreadjsCtrlz", ['$scope', '$tim
 
                 sheet.reset();
                 $scope.data = _data;
+                $scope.spread.sheet.loading = true;
+
+                $timeout(function() {
+	                $scope.spread.sheet.loading = false;
+                }, (numCols + numRows) * 1000);
 
                 $timeout(function() {
 	                $scope.rowCnt = $scope.data.length;
