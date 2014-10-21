@@ -1,7 +1,7 @@
 /* global _, xit, xdescribe */
 'use strict';
 
-xdescribe('Services:', function() {
+describe('Services:', function() {
 
     beforeEach(module('ThreeSixtyOneView.services'));
     beforeEach(module('ThreeSixtyOneView.filters'));
@@ -9,21 +9,19 @@ xdescribe('Services:', function() {
 
     var $rootScope, SortAndFilterService, FavoritesService, FavoritesModel, eventSpy,
         config = {
-            data: {
-                data: [{
-                    title: "m",
-                    type: "A",
-                    id: 1
-                }, {
-                    title: "a",
-                    type: "A",
-                    id: 2
-                }, {
-                    title: "z",
-                    type: "B",
-                    id: 3
-                }]
-            },
+            data: [{
+                title: "m",
+                type: "A",
+                id: 1
+            }, {
+                title: "a",
+                type: "A",
+                id: 2
+            }, {
+                title: "z",
+                type: "B",
+                id: 3
+            }],
             orderBy: "",
             reverse: false,
             filter: {
@@ -51,7 +49,7 @@ xdescribe('Services:', function() {
         });
 
         it("should initalized correctly", function() {
-            expect(SortAndFilterService.getData()).toEqual(config.data.data);
+            expect(SortAndFilterService.getData()).toEqual(config.data);
             expect(SortAndFilterService.getOrderBy()).toEqual(config.orderBy);
             expect(SortAndFilterService.getActiveFilters()).toEqual(config.filter.filter);
             expect(SortAndFilterService.getReverse()).toBe(config.reverse);
@@ -63,8 +61,8 @@ xdescribe('Services:', function() {
 
         it("should sort correctly", function() {
             SortAndFilterService.setFilter("orderBy", "title", true);
-            var sorted = _.sortBy(config.data.data, "title");
-            expect(SortAndFilterService.getData()).toEqual(sorted);
+            var sorted = _.sortBy(config.data, "title");
+            expect(SortAndFilterService.getData()).toMatch({data:sorted});
             SortAndFilterService.setFilter("reverse", true, true);
             expect(SortAndFilterService.getData()).toEqual(sorted.reverse());
         });
@@ -73,14 +71,14 @@ xdescribe('Services:', function() {
             SortAndFilterService.setFilter("filterBy", {
                 "type": "B"
             }, true);
-            var filtered = _.filter(config.data.data, function(item) {
+            var filtered = _.filter(config.data, function(item) {
                 return item.type === "B";
             });
             expect(SortAndFilterService.getData()).toEqual(filtered);
             SortAndFilterService.setFilter("filterBy", {
                 "type": "A"
             }, true);
-            filtered = _.filter(config.data.data, function(item) {
+            filtered = _.filter(config.data, function(item) {
                 return item.type === "A";
             });
             expect(SortAndFilterService.getData()).toEqual(filtered);
@@ -92,7 +90,7 @@ xdescribe('Services:', function() {
                     "type": "B"
                 }
             }, true);
-            var filtered = _.filter(config.data.data, function(item) {
+            var filtered = _.filter(config.data, function(item) {
                 return item.type === "B";
             });
             expect(SortAndFilterService.getData()).toEqual(filtered);
@@ -101,7 +99,7 @@ xdescribe('Services:', function() {
                     "type": "A"
                 }
             }, true);
-            filtered = _.filter(config.data.data, function(item) {
+            filtered = _.filter(config.data, function(item) {
                 return item.type === "A";
             });
             expect(SortAndFilterService.getData()).toEqual(filtered);
@@ -112,14 +110,14 @@ xdescribe('Services:', function() {
             SortAndFilterService.setFilter("filterPipeline", {
                 filter: "isFavorite"
             }, true);
-            var filtered = _.filter(config.data.data, function(item) {
+            var filtered = _.filter(config.data, function(item) {
                 return item.id === 2;
             });
             expect(SortAndFilterService.getData()).toEqual(filtered);
         });
 
         it("should return the count of items", function() {
-            expect(SortAndFilterService.getCount()).toEqual(config.data.data.length);
+            expect(SortAndFilterService.getCount()).toEqual(config.data.length);
         });
 
         it("should get and set sorter ID's", function() {
@@ -165,7 +163,7 @@ xdescribe('Services:', function() {
         });
 
         it("should get the filtered data", function() {
-            expect(SortAndFilterService.getData()).toEqual(config.data.data);
+            expect(SortAndFilterService.getData()).toEqual(config.data);
         });
     });
 });

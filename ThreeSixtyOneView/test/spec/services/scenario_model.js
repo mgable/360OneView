@@ -2,7 +2,7 @@
 /*jshint newcap: false */
 'use strict';
 
-xdescribe('Service: ScenarioModel', function () {
+describe('Service: ScenarioModel', function () {
 
     // load the service's module
   beforeEach(module('ThreeSixtyOneView.services'));
@@ -25,7 +25,7 @@ xdescribe('Service: ScenarioModel', function () {
     expect(ScenarioModel.create).toBeDefined();
   });
 
-  it ("should get a scenario", function(){
+  xit ("should get a scenario", function(){
     spyOn(ScenarioModel.resource, "get").and.returnValue(deferred.promise);
     rootScope.$apply(ScenarioModel.get().then(function(response){
       expect(response).toEqual(data);
@@ -34,7 +34,7 @@ xdescribe('Service: ScenarioModel', function () {
 
   it("should create a scenario", function(){
     var resourceSpy = spyOn(ScenarioModel.resource, "create").and.callThrough();
-    ScenarioModel.create(newScenario, "123");
+    ScenarioModel.create({id:"123"}, newScenario);
     expect(resourceSpy).toHaveBeenCalledWith(newScenario, ScenarioModel.config, "123");
   });
 

@@ -13,25 +13,6 @@ angular.module('ThreeSixtyOneView.services')
 
         this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
-
-		this.getProjectIDByTitle = function(_title_){
-			var item = _.findWhere(this.data, {title:_title_});
-			if (item) {
-				return item.id;
-			} else {
-				console.error("The project named " + _title_ + " was NOT found!");
-			}
-		};
-
-		this.getProjectTitleById = function(_id_){
-			var item = _.findWhere(this.data, {id:_id_});
-			if (item) {
-				return item.title;
-			} else {
-				console.error("The project id " + _id_ + " was NOT found!");
-			}
-		};
-
 		this.getProjectItemById = function(_id_){
 			var item = _.findWhere(this.data, {id:_id_});
 			if (item) {
@@ -41,12 +22,7 @@ angular.module('ThreeSixtyOneView.services')
 			}
 		};
 
-		// this.setProjects = function(_projects_){
-		// 	projects = _projects_;
-		// };
-
 		this.getProjects = function(){
-			//return projects;
 			return this.data;
 		};
 
