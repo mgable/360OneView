@@ -3,7 +3,7 @@
 
 'use strict';
 
-xdescribe('Controllers: ', function() {
+describe('Controllers: ', function() {
     var rootScope, data, scope, ctrl, spy, $state, SortAndFilterService, ActiveSelection, DiaglogService, FavoritesService, CONFIG, $rootScope, onSpy, $provide, event;
 
     beforeEach(module('ThreeSixtyOneView', 'ThreeSixtyOneView.services'));
@@ -80,11 +80,11 @@ xdescribe('Controllers: ', function() {
             });
         }));
 
-        it("should exist", function(){
+        xit("should exist", function(){
             expect(ctrl).toBeDefined();
         });
 
-        it("should bootstrap all data", function(){
+        xit("should bootstrap all data", function(){
             expect(scope.CONFIG).toBeDefined();
             expect(scope.CONFIG.hasFavorites).toEqual(CONFIG.view.ProjectManager.hasFavorites);
             expect(scope.CONFIG.topInclude).toBeFalsy();
@@ -93,13 +93,13 @@ xdescribe('Controllers: ', function() {
             expect(scope.CONFIG.displayActionsCreate).toBe(CONFIG.view.ProjectManager.displayActionsCreate);
         });
 
-        it("should define an api", function(){
+        xit("should define an api", function(){
             expect(scope.toggleFavorite).toBeDefined();
             expect(scope.isFavorite).toBeDefined();
             expect(scope.getProject).toBeDefined();
         });
 
-        it("should toggle favorites", function(){
+        xit("should toggle favorites", function(){
             var data = "123";
             scope.toggleFavorite(event, data);
             expect(event.stopPropagation).toHaveBeenCalled();
@@ -107,13 +107,13 @@ xdescribe('Controllers: ', function() {
             expect(SortAndFilterService.filter).toHaveBeenCalled();
         });
 
-        it("should determine if an item is favorited", function(){
+        xit("should determine if an item is favorited", function(){
             FavoritesService.setFavorites(["1", "3", "5"]);
             expect(scope.isFavorite("1")).toBe(true);
             expect(scope.isFavorite("2")).toBe(false);
         });
 
-        it("should get selected project", function(){
+        xit("should get selected project", function(){
             var data = "1";
             ActiveSelection.setActiveItem(data);
             expect(scope.getProject()).toBe(data);
@@ -145,11 +145,11 @@ xdescribe('Controllers: ', function() {
             });
         }));
 
-        it("should exist", function(){
+        xit("should exist", function(){
             expect(ctrl).toBeDefined();
         });
 
-        it("should bootstrap all data", function(){
+        xit("should bootstrap all data", function(){
             expect(scope.CONFIG).toBeDefined();
             expect(scope.CONFIG.hasFavorites).not.toBeDefined();
             expect(scope.CONFIG.topInclude).toBeDefined();

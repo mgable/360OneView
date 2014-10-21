@@ -36,11 +36,9 @@ angular.module("ThreeSixtyOneView")
                 evt.stopPropagation();
             }
         };
-    }]).controller("NavigationCtrl", ["$scope", "$state", "$interpolate", "ProjectsService", "$stateParams", function($scope, $state, $interpolate, ProjectsService, $stateParams){
-        $scope.$on("$stateChangeSuccess", function(){
-            $scope.project = $stateParams.projectId ? ProjectsService.getProjectItemById($stateParams.projectId) : "";
-            $scope.breadcrumbs = $interpolate($state.current.breadcrumb)($scope.project);
-        });
+    }]).controller("NavigationCtrl", ["$scope", "$state", "$compile", "ScenarioService", "ProjectsService", "GotoService", "$stateParams", function($scope, $state, $compile, ScenarioService, ProjectsService, GotoService, $stateParams){
+
+       
     }]).controller('InfoTrayCtrl', ["$scope", "$state", "CONFIG", "ActiveSelection", "FavoritesService", "SortAndFilterService", "EVENTS", function($scope, $state, CONFIG, ActiveSelection, FavoritesService, SortAndFilterService, EVENTS) {
 
 
@@ -240,11 +238,6 @@ angular.module("ThreeSixtyOneView")
         $scope.GotoService = GotoService;
         $scope.project = Project;
         $scope.scenario = Scenario;
-
-        console.info("the project is");
-        console.info(Project);
-        console.info("the scenario is");
-        console.info(Scenario);
 
         $scope.pivotTableData = ptData.data;
         $scope.pivotTableHeaders = ptData.headers;

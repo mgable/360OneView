@@ -85,8 +85,8 @@ angular.module("ThreeSixtyOneView.services")
 				};
 			},
 			setConfig: function(_config_){
-            	this.config = _config_;
-        	}
+				this.config = _config_;
+			}
 		};
 
 		return function(){

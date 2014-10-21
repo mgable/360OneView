@@ -23,7 +23,7 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
         'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);}
       },
-      breadcrumb: "All Projects > {{title}}"
+      breadcrumb: "<a href='http://www.google.com'>All Projects</a> &gt; {{project.title}}"
     })
     .state('ScenarioCreate', {
       url: "/scenarioCreate/:projectId",
@@ -32,9 +32,8 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
       resolve: {
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
         'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);}
-
       },
-      breadcrumb: "All Projects > {{title}}"
+      breadcrumb: "All Projects &gt; {{project.title}}"
     })
     .state('ScenarioEdit', {
       url: "/scenarioEdit/:projectId/:scenarioId",
@@ -44,6 +43,6 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
         'Scenario': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId, $stateParams.scenarioId);}
       },
-      breadcrumb: "All Projects > {{title}}"
+      breadcrumb: "All Projects > {{project.title}} &gt; {{scenario.title}}"
     });
 }]);
