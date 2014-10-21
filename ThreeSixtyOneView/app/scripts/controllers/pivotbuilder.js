@@ -448,11 +448,14 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			}
 		}
 
-		$scope.spread.sheet.setDataSource($scope.pivotTableData);
+		// $scope.spread.sheet.setDataSource($scope.pivotTableData);
 
-		$scope.spread.sheet.addSpan(0,0,numCols,numRows);
-		$scope.spread.sheet.setFrozenRowCount(numCols);
-		$scope.spread.sheet.setFrozenColumnCount(numRows);
+		// $scope.spread.updateSheet($scope.pivotTableData, numCols, numRows, totalColCount, totalRowCount);
+
+		// $scope.spread.sheet.addSpan(0,0,numCols,numRows);
+		// $scope.spread.sheet.setFrozenRowCount(numCols);
+		// $scope.spread.sheet.setFrozenColumnCount(numRows);
+
 
 		$scope.viewApplied = true;
 	};
@@ -576,71 +579,221 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 	};
 }).factory('ptData', function() {
 	return {
-		"data": [
-			{
-				"nameplate_category": "Cars",
-				"leaf_touchpoint": "National TV Nameplate",
-				"2015_January": "1600",
-				"2015_February": "1600",
-				"2015_March": "1600"
-			}, 
-			{
-				"nameplate_category": "Cars",
-				"leaf_touchpoint": "Local TV Nameplate",
-				"2015_January": "2.35",
-				"2015_February": "2.35",
-				"2015_March": "2.35"
-			}, 
-			{
-				"nameplate_category": "Trucks",
-				"leaf_touchpoint": "National TV Nameplate",
-				"2015_January": "0.04",
-				"2015_February": "0.04",
-				"2015_March": "0.04"
-			}, 
-			{
-				"nameplate_category": "Trucks",
-				"leaf_touchpoint": "Local TV Nameplate",
-				"2015_January": "1.50",
-				"2015_February": "1.50",
-				"2015_March": "1.50"
-			}, 
-			{
-				"nameplate_category": "SUVs",
-				"leaf_touchpoint": "National TV Nameplate",
-				"2015_January": "1.50",
-				"2015_February": "1.50",
-				"2015_March": "1.50"
-			}, 
-			{
-				"nameplate_category": "SUVs",
-				"leaf_touchpoint": "Local TV Nameplate",
-				"2015_January": "1.50",
-				"2015_February": "1.50",
-				"2015_March": "1.50"
-			}, 
-			{
-				"nameplate_category": "N/A",
-				"leaf_touchpoint": "National TV Nameplate",
-				"2015_January": "1.50",
-				"2015_February": "1.50",
-				"2015_March": "1.50"
-			}, 
-			{
-				"nameplate_category": "N/A",
-				"leaf_touchpoint": "Local TV Nameplate",
-				"2015_January": "1.50",
-				"2015_February": "1.50",
-				"2015_March": "1.50"
-			}
-		],
-		"headers": [
-			"nameplate_category",
-			"leaf_touchpoint",
-			"2015_January",
-			"2015_February",
-			"2015_March"
-		]
+		"data": [{
+			"0": "",
+			"1": "",
+			"2": "Car",
+			"3": "Car",
+			"4": "Car",
+			"5": "Car",
+			"6": "Car",
+			"7": "Car",
+			"8": "Car",
+			"9": "Car",
+			"10": "Truck",
+			"11": "Truck",
+			"12": "Truck",
+			"13": "Truck",
+			"14": "Truck",
+			"15": "Truck",
+			"16": "Truck",
+			"17": "Truck",
+			"18": "Utility",
+			"19": "Utility",
+			"20": "Utility",
+			"21": "Utility",
+			"22": "Utility",
+			"23": "Utility",
+			"24": "Utility",
+			"25": "Utility",
+			"26": "Brand",
+			"27": "Brand",
+			"28": "Brand",
+			"29": "Brand",
+			"30": "Brand",
+			"31": "Brand",
+			"32": "Brand",
+			"33": "Brand"
+		}, {
+			"0": "",
+			"1": "",
+			"2": "Magazine",
+			"3": "Newspaper",
+			"4": "Online",
+			"5": "OOH",
+			"6": "Paid",
+			"7": "Radio",
+			"8": "Sponsorship",
+			"9": "TV",
+			"10": "Magazine",
+			"11": "Newspaper",
+			"12": "Online",
+			"13": "OOH",
+			"14": "Paid",
+			"15": "Radio",
+			"16": "Sponsorship",
+			"17": "TV",
+			"18": "Magazine",
+			"19": "Newspaper",
+			"20": "Online",
+			"21": "OOH",
+			"22": "Paid",
+			"23": "Radio",
+			"24": "Sponsorship",
+			"25": "TV",
+			"26": "Magazine",
+			"27": "Newspaper",
+			"28": "Online",
+			"29": "OOH",
+			"30": "Paid",
+			"31": "Radio",
+			"32": "Sponsorship",
+			"33": "TV"
+		}, {
+			"0": "2013",
+			"1": "Total"
+		}, {
+			"0": "2013",
+			"1": "Atlanta"
+		}, {
+			"0": "2013",
+			"1": "Miami"
+		}, {
+			"0": "2013",
+			"1": "Charlotte"
+		}, {
+			"0": "2013",
+			"1": "Orlando"
+		}, {
+			"0": "2013",
+			"1": "Denver"
+		}, {
+			"0": "2013",
+			"1": "Los Angeles"
+		}, {
+			"0": "2013",
+			"1": "Seattle"
+		}, {
+			"0": "2013",
+			"1": "Phoenix"
+		}, {
+			"0": "2013",
+			"1": "San Francisco"
+		}, {
+			"0": "2013",
+			"1": "Kansas City"
+		}, {
+			"0": "2013",
+			"1": "Memphis"
+		}, {
+			"0": "2013",
+			"1": "Houston"
+		}, {
+			"0": "2013",
+			"1": "Dallas"
+		}, {
+			"0": "2013",
+			"1": "Chicago"
+		}, {
+			"0": "2013",
+			"1": "Pittsburgh"
+		}, {
+			"0": "2013",
+			"1": "Cincinnati"
+		}, {
+			"0": "2013",
+			"1": "Detroit"
+		}, {
+			"0": "2013",
+			"1": "Twin Cities"
+		}, {
+			"0": "2013",
+			"1": "Washington"
+		}, {
+			"0": "2013",
+			"1": "New York"
+		}, {
+			"0": "2013",
+			"1": "Boston"
+		}, {
+			"0": "2013",
+			"1": "Philadelphia"
+		}, {
+			"0": "2013",
+			"1": "National"
+		}, {
+			"0": "2014",
+			"1": "Total"
+		}, {
+			"0": "2014",
+			"1": "Atlanta"
+		}, {
+			"0": "2014",
+			"1": "Miami"
+		}, {
+			"0": "2014",
+			"1": "Charlotte"
+		}, {
+			"0": "2014",
+			"1": "Orlando"
+		}, {
+			"0": "2014",
+			"1": "Denver"
+		}, {
+			"0": "2014",
+			"1": "Los Angeles"
+		}, {
+			"0": "2014",
+			"1": "Seattle"
+		}, {
+			"0": "2014",
+			"1": "Phoenix"
+		}, {
+			"0": "2014",
+			"1": "San Francisco"
+		}, {
+			"0": "2014",
+			"1": "Kansas City"
+		}, {
+			"0": "2014",
+			"1": "Memphis"
+		}, {
+			"0": "2014",
+			"1": "Houston"
+		}, {
+			"0": "2014",
+			"1": "Dallas"
+		}, {
+			"0": "2014",
+			"1": "Chicago"
+		}, {
+			"0": "2014",
+			"1": "Pittsburgh"
+		}, {
+			"0": "2014",
+			"1": "Cincinnati"
+		}, {
+			"0": "2014",
+			"1": "Detroit"
+		}, {
+			"0": "2014",
+			"1": "Twin Cities"
+		}, {
+			"0": "2014",
+			"1": "Washington"
+		}, {
+			"0": "2014",
+			"1": "New York"
+		}, {
+			"0": "2014",
+			"1": "Boston"
+		}, {
+			"0": "2014",
+			"1": "Philadelphia"
+		}, {
+			"0": "2014",
+			"1": "National"
+		}]
 	};
 }).filter('objToArr', function() {
 	return function(obj) {
