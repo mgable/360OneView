@@ -15,6 +15,8 @@ angular.module('ThreeSixtyOneView.services')
 
         this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
+		this.myScenarios = myScenarios;
+
 		this.get = function (projectId, scenarioId){
 			return myScenarios.get.call(this, projectId).then(function(response){
 				if(scenarioId) {
