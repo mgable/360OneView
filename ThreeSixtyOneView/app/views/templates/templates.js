@@ -173,15 +173,15 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\r" +
     "\n" +
+    "\t\t\t<span><icon type=\"filter\"></icon>\r" +
+    "\n" +
+    "\t\t\t<input type=\"text\" class=\"search-input\" ng-model=\"SortAndFilterService.searchText\" ng-change=\"SortAndFilterService.filter()\"/>&nbsp;</span>\r" +
+    "\n" +
     "\t<div class=\"button-holder\">\r" +
     "\n" +
     "\t\t<div class=\"actions\">\r" +
     "\n" +
-    "\t\t\t<span ng-if=\"view.create\" ng-click=\"create(CONFIG.displayActionsCreate)\"><icon type=\"plus\"></icon></span>\r" +
-    "\n" +
-    "\t\t\t<span ng-if=\"view.filter\"><icon type=\"filter\"></icon></span>\r" +
-    "\n" +
-    "\t\t\t<span ng-if=\"view.search\"><search></search></span>\r" +
+    "\t\t\t<span ng-if=\"view.create\" ng-click=\"create(CONFIG.displayActionsCreate)\"><icon type=\"plus\"></icon>CREATE</span>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
