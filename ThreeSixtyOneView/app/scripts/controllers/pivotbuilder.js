@@ -50,18 +50,20 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			}
 		}, true);
 
-		// $scope.dragOptions = {
-		// 	itemMoved: function(event) {
-		// 		// console.log(event);
-		// 	},
-		// 	orderChanged: function(event) {
-		// 		//console.log(event);
-		// 	},
-		// 	dragStart: function(event) {
-		// 		// console.log(event);
-		// 	}
-		// 	// containment: '#dragDropArea'
-		// };
+		$scope.dragOptions = {
+			itemMoved: function(event) {
+				// console.log(event);
+				// $scope.applyView();
+			},
+			orderChanged: function(event) {
+				// console.log(event);
+				// $scope.applyView();
+			},
+			dragStart: function(event) {
+				// console.log(event);
+			}
+			// containment: '#dragDropArea'
+		};
 
 		$scope.identity = angular.identity();
 	};
@@ -80,7 +82,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			$scope.pbData.viewData[dim].splice(itemInd, 1);
 			$scope.added[itemName] = false;
 
-			$scope.applyView();
+			// $scope.applyView();
 		}
 	};
 
@@ -104,12 +106,12 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 		$scope.addPopUp[$scope.add.selected] = !$scope.addPopUp[$scope.add.selected];
 
-		$scope.applyView();
+		// $scope.applyView();
 	};
 
 	// set up the add row/column pop-up location
 	$scope.popUpLocSet = function($event) {
-		var top = $event.target.offsetTop,
+		var top = $event.target.offsetTop - document.body.scrollTop,
 			left = $event.target.offsetLeft;
 		$scope.popUpLoc = {top: top, left: left};
 	};
@@ -450,7 +452,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 		// $scope.spread.sheet.setDataSource($scope.pivotTableData);
 
-		// $scope.spread.updateSheet($scope.pivotTableData, numCols, numRows, totalColCount, totalRowCount);
+		$scope.spread.updateSheet($scope.pivotTableData, numCols, numRows, totalColCount, totalRowCount);
 
 		// $scope.spread.sheet.addSpan(0,0,numCols,numRows);
 		// $scope.spread.sheet.setFrozenRowCount(numCols);
@@ -566,13 +568,13 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		viewData: {
 			id: '4',
 			name: 'Behrooz\'s View',
-			columns: [{category: 'Time', name: 'Months'}],
-			rows: [{category: 'Touchpoint', name: 'Leaf Touchpoints'}, {category: 'Touchpoint', name: 'Brand/Nameplate Spend'}],
+			columns: [{category: 'Nameplate', name: 'Nameplate Groups'}, {category: 'Touchpoint', name: 'Channel'}],
+			rows: [{category: 'Time', name: 'Years'}, {category: 'Region', name: 'City'}],
 			filters: [
-				{name: 'Touchpoint', items: ['National Magazine Brand','National Magazine Nameplate','Local Newspaper Brand','National Newspaper Brand','National Newspaper Nameplate','Local Newspaper Nameplate']},
-				{name: 'Nameplate', items: ['Mustang','Transit','Edge']},
-				{name: 'Region', items: ['Denver','Los Angeles','Seattle','Phoenix','San Francisco']},
-				{name: 'Time', items: ['March 2014']},
+				{name: 'Touchpoint', items: ['National Magazine Brand','National Magazine Nameplate','Local Newspaper Brand','National Newspaper Brand','National Newspaper Nameplate','Local Online Display Brand','Local OOH Brand','Local Paid Search Brand','Local Radio Brand','Local Sponsorship Brand','National TV Cable Brand','National TV Cable Nameplate','Local TV Brand','National TV Network Brand','National TV Network Nameplate','Local Newspaper Nameplate','Local Online Display Nameplate','Local OOH Nameplate','Local Radio Nameplate','Local TV Nameplate']},
+				{name: 'Nameplate', items: ['Focus','Taurus','Mustang','Fiesta','Fusion','F-Series','E-Series','Transit','Escape','Expedition','Explorer','Edge','Flex','Brand']},
+				{name: 'Region', items: ['Atlanta','Miami','Charlotte','Orlando','Denver','Los Angeles','Seattle','Phoenix','San Francisco','Kansas City','Memphis','Houston','Dallas','Chicago','Pittsburgh','Cincinnati','Detroit','Twin Cities','Washington','New York','Boston','Philadelphia','National']},
+				{name: 'Time', items: ['January 2013', 'February 2013', 'March 2013', 'April 2013', 'May 2013', 'June 2013', 'July 2013', 'August 2013', 'September 2013', 'October 2013', 'November 2013', 'December 2013','January 2014', 'February 2014', 'March 2014', 'April 2014', 'May 2014', 'June 2014', 'July 2014', 'August 2014', 'September 2014', 'October 2014', 'November 2014', 'December 2014']},
 				{name: 'KPI', items: []}
 				]
 			}

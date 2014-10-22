@@ -240,7 +240,7 @@ angular.module("ThreeSixtyOneView")
         $scope.scenario = Scenario;
 
         $scope.pivotTableData = ptData.data;
-        $scope.pivotTableHeaders = ptData.headers;
+        // $scope.pivotTableHeaders = ptData.headers;
         $scope.spread = {sheet: {}};
 
         //TODO: temp data

@@ -11,14 +11,13 @@ angular.module('ThreeSixtyOneView').directive('resize', function ($window) {
 		var w = angular.element($window);
 		scope.getWindowDimensions = function () {
 			return {
-				'h': w.height(),
-				'w': w.width()
+				'h': w[0].innerHeight,
+				'w': w[0].innerWidth
 			};
 		};
 		scope.$watch(scope.getWindowDimensions, function (newValue) {
-			scope.windowHeight = newValue.h;
+			scope.windowHeight = newValue.h - 20;
 			scope.windowWidth = newValue.w;
-			// console.log(scope.windowHeight);
 
 			scope.style = function () {
 				return {
