@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.directives')
-    .directive("displayActions", ["$rootScope", "CONFIG", "$state", "EVENTS", function($rootScope, CONFIG, $state, EVENTS) {
+    .directive("displayActions", ["$rootScope", "CONFIG", "$state", "EVENTS", "SortAndFilterService", function($rootScope, CONFIG, $state, EVENTS, SortAndFilterService) {
         return {
             restrict: "AE",
             replace: true,
@@ -15,6 +15,7 @@ angular.module('ThreeSixtyOneView.directives')
                 scope.view.filter = false;
                 scope.view.search = false;
                 scope.CONFIG = CONFIG.view[$state.current.name];
+                scope.SortAndFilterService = SortAndFilterService;
 
                 var show = scope.$eval(attrs.show);
 
