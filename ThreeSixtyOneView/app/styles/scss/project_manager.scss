@@ -70,6 +70,11 @@
 					margin: 0px;
 				}
 			}
+			.col-xs-70 {
+				height: 100%;
+				overflow-y: scroll;
+				padding-right: 0;
+			}
 		}
 		.alert {
 			a {
@@ -379,10 +384,16 @@
 
 								&:after {
 								  content: '\f006';
+								  color: $gray;
 								}
+							  }
+							  &:after {
+								content: '\f006';
+								color: $lightgray;
 							  }
 							  &.favorite:after {
 								content: '\f005';
+								color: gold;
 							  }
 							}
 						}
@@ -421,6 +432,7 @@
 		}
 	}
 	div#slide-in {
+		height: 100%;
 		position: relative;
 		top: -5px;
 		z-index: 10;
@@ -533,7 +545,7 @@
 				font-weight: 400; 
 				float: left;
 				color: $gray;
-				width: 100%;
+				width: auto;
 			}
 			.controls {
 				float: right;
@@ -550,7 +562,11 @@
 				clear:both;
 				width:100%;
 				display:block;
-				border: 0 none;
+				border: 1px solid $gray;
+				background-color: $white;
+			}
+			text-area {
+				background-color: $white;
 			}
 			&:hover .edit {
 				visibility: visible;

@@ -7,10 +7,31 @@
 	.ms-select-list {
 		display:inline-block;
 		border:1px solid #7D7D7D;
+		margin-top: 5px;
 		padding:5px 0;
 		min-width:195px;
 		position:absolute;
 		background-color:white;
+	}
+	.ms-select-list:before {
+		border-bottom: 7px solid black;
+	    border-left: 7px solid transparent;
+	    border-right: 7px solid transparent;
+	    content: "";
+	    display: inline-block;
+	    left: 65px;
+	    position: absolute;
+	    top: -7px;
+	}
+	.ms-select-list:after {
+		border-bottom: 6px solid white;
+	    border-left: 6px solid transparent;
+	    border-right: 6px solid transparent;
+	    content: "";
+	    display: inline-block;
+	    left: 66px;
+	    position: absolute;
+	    top: -6px;
 	}
 	ul {
 		list-style-type: none;
@@ -35,6 +56,9 @@
 
 	.ms-label.active  .status{
 		color:$highlight;
+		font-weight: 400;
+		font-size: 0.9em;
+		text-transform: uppercase;
 	}
 
 	.sort-order {
