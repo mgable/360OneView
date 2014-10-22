@@ -1,187 +1,40 @@
 angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCache) {
   'use strict';
 
-  $templateCache.put('views/directives/contextual_menu.tpl.html',
-    "<div class=\"contextual-menu\">\r" +
-    "\n" +
-    "\t<div class='dropdown-toggle' data-toggle=\"dropdown\">\r" +
-    "\n" +
-    "\t\t<icon type=\"ellipsis-v\" cname=\"dropdown-trigger\"></icon>\r" +
-    "\n" +
-    "\t</div>\r" +
-    "\n" +
-    "\t<ul class=\"dropdown-menu contextual-menu-body\" role=\"menu\">\r" +
-    "\n" +
-    "\t\t<li ng-if=\"base.show\" class='base'>\r" +
-    "\n" +
-    "\t\t\t<a ng-click=\"alert('this behavior has not been defined')\">\r" +
-    "\n" +
-    "\t\t\t\t<icon type=\"download\"></icon>\r" +
-    "\n" +
-    "\t\t\t\t<!-- Use as a base for a new scenario -->\r" +
-    "\n" +
-    "\t\t\t\t{{base.label}}\r" +
-    "\n" +
-    "\t\t\t</a>\r" +
-    "\n" +
-    "\t\t</li>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "\t\t<li ng-if=\"copy.show\" class='copy'>\r" +
-    "\n" +
-    "\t\t\t<!-- <a ng-click=\"DiaglogService.copy(item, {header: 'Copy Project'}, service)\"> -->\r" +
-    "\n" +
-    "\t\t\t<a ng-click=\"copyFn(item)\">\r" +
-    "\n" +
-    "\t\t\t\t<icon type=\"files-o\"></icon>\r" +
-    "\n" +
-    "\t\t\t\t<!-- copy -->\r" +
-    "\n" +
-    "\t\t\t\t{{copy.label}}\r" +
-    "\n" +
-    "\t\t\t</a>\r" +
-    "\n" +
-    "\t\t</li>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "\t\t<li ng-if=\"set.show\" class='set'>\r" +
-    "\n" +
-    "\t\t\t<a ng-click=\"\">\r" +
-    "\n" +
-    "\t\t\t\t<icon type=\"marketshare\"></icon>\r" +
-    "\n" +
-    "\t\t\t\t<!-- Set as current plan -->\r" +
-    "\n" +
-    "\t\t\t\t{{set.label}}\r" +
-    "\n" +
-    "\t\t\t</a>\r" +
-    "\n" +
-    "\t\t</li>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "\t\t<li ng-if=\"favorites.show\" class='favorites no-after'>\r" +
-    "\n" +
-    "\t\t\t<a ng-click=\"toggleFavorite(item.id)\">\r" +
-    "\n" +
-    "\t\t\t\t<span ng-if=\"!isFavorite(item.id)\">\r" +
-    "\n" +
-    "\t\t\t\t\t<icon type=\"star\"></icon>\r" +
-    "\n" +
-    "\t\t\t\t\t{{favorites.label}}\r" +
-    "\n" +
-    "\t\t\t\t</span>\r" +
-    "\n" +
-    "\t\t\t\t<span ng-if=\"isFavorite(item.id)\">\r" +
-    "\n" +
-    "\t\t\t\t\t<icon type=\"star-o\"></icon>\r" +
-    "\n" +
-    "\t\t\t\t\tun-{{favorites.label}}\r" +
-    "\n" +
-    "\t\t\t\t</span>\r" +
-    "\n" +
-    "\t\t\t</a>\r" +
-    "\n" +
-    "\t\t</li>\r" +
-    "\n" +
-    "\t\t<li ng-if=\"default.show\" class='default'>\r" +
-    "\n" +
-    "\t\t\t<a ng-click=\"alert('this behavior has not been defined')\" ng-class=\"{disabled: item.defaults}\">\t\r" +
-    "\n" +
-    "\t\t\t\t<img src=\"images/ms-confirm_gray.png\" width=\"18\" height=\"16\">\r" +
-    "\n" +
-    "\t\t\t\t<span>&nbsp;{{default.label}}</span>\r" +
-    "\n" +
-    "\t\t\t</a>\r" +
-    "\n" +
-    "\t\t</li>\r" +
-    "\n" +
-    "\t\t<li ng-if=\"add.show\" class=\"add\">\r" +
-    "\n" +
-    "\t\t\t<a ng-click=\"alert('this behavior has not been defined')\">\r" +
-    "\n" +
-    "\t\t\t\t<icon type=\"download\"></icon>\r" +
-    "\n" +
-    "\t\t\t\t{{add.label}}\r" +
-    "\n" +
-    "\t\t\t</a>\r" +
-    "\n" +
-    "\t\t</li>\r" +
-    "\n" +
-    "\t\t<li ng-if=\"sharing.show\" class='sharing\"'>\r" +
-    "\n" +
-    "\t\t\t<a ng-click=\"alert('this behavior has not been defined')\">\r" +
-    "\n" +
-    "\t\t\t\t<icon type=\"users\"></icon>\r" +
-    "\n" +
-    "\t\t\t\t{{sharing.label}}\r" +
-    "\n" +
-    "\t\t\t</a>\r" +
-    "\n" +
-    "\t\t</li>\r" +
-    "\n" +
-    "\t\t<li ng-if=\"archive.show\" class=\"delete\">\r" +
-    "\n" +
-    "\t\t\t<a ng-click=\"DiaglogService.trash(item, service)\">\r" +
-    "\n" +
-    "\t\t\t\t<icon type=\"trash-o\"></icon>\r" +
-    "\n" +
-    "\t\t\t\t{{archive.label}}\r" +
-    "\n" +
-    "\t\t\t</a>\r" +
-    "\n" +
-    "\t\t</li>\r" +
-    "\n" +
-    "\t\t<li ng-if=\"rename.show\" class=\"rename\">\r" +
-    "\n" +
-    "\t\t\t<a ng-click=\"DiaglogService.rename(item, service)\">\r" +
-    "\n" +
-    "\t\t\t\t<icon type=\"pencil\"></icon>\r" +
-    "\n" +
-    "\t\t\t\t{{rename.label}}\r" +
-    "\n" +
-    "\t\t\t</a>\r" +
-    "\n" +
-    "\t\t</li>\r" +
-    "\n" +
-    "\t\t<li ng-if=\"details.show\" class=\"divider\"></li>\r" +
-    "\n" +
-    "\t\t<li ng-if=\"details.show\" class=\"details\">\r" +
-    "\n" +
-    "\t\t\t<a ng-click=\"ActiveSelection.setActiveItem(item);InfoTrayService.toggleInfoTray()\">\r" +
-    "\n" +
-    "\t\t\t\t<icon type=\"info-circle\"></icon>\r" +
-    "\n" +
-    "\t\t\t\t{{details.label}}\r" +
-    "\n" +
-    "\t\t\t</a>\r" +
-    "\n" +
-    "\t\t</li>\r" +
-    "\n" +
-    "\t</ul>\r" +
-    "\n" +
-    "</div>"
-  );
-
-
   $templateCache.put('views/directives/display_actions.tpl.html',
     "<div class=\"display-actions\">\r" +
     "\n" +
-    "\t<h4 class=\"pull-left title\">{{getSelectedLabel()}}&nbsp;<span>({{getCount()}})</span></h4>\r" +
+    "\t<h4 class=\"pull-left title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;<span>({{SortAndFilterService.getCount()}})</span><icon type=\"sort-desc\"></icon></h4>\r" +
     "\n" +
-    "\t\r" +
+    "\t<div class=\"filterDropdown\">\r" +
     "\n" +
-    "\t\t\t<span><icon type=\"filter\"></icon>\r" +
+    "\t\t<span class=\"selected\">All Projects</span>\r" +
     "\n" +
-    "\t\t\t<input type=\"text\" class=\"search-input\" ng-model=\"SortAndFilterService.searchText\" ng-change=\"SortAndFilterService.filter()\"/>&nbsp;</span>\r" +
+    "\t\t<span>Favorites</span>\r" +
+    "\n" +
+    "\t\t<span>Created by Me</span>\r" +
+    "\n" +
+    "\t\t<span>I Can Edit</span>\r" +
+    "\n" +
+    "\t</div>\r" +
+    "\n" +
+    "\t<span>\r" +
+    "\n" +
+    "\t\t<icon type=\"filter\"></icon>\r" +
+    "\n" +
+    "\t\t<input type=\"text\" class=\"search-input\" ng-model=\"SortAndFilterService.searchText\" ng-change=\"SortAndFilterService.filter()\" placeholder=\"Filter Search\"/>&nbsp;\r" +
+    "\n" +
+    "\t</span>\r" +
     "\n" +
     "\t<div class=\"button-holder\">\r" +
     "\n" +
     "\t\t<div class=\"actions\">\r" +
     "\n" +
     "\t\t\t<span ng-if=\"view.create\" ng-click=\"create(CONFIG.displayActionsCreate)\"><icon type=\"plus\"></icon>CREATE</span>\r" +
+    "\n" +
+    "\t\t\t<!-- <span ng-if=\"view.filter\"><icon type=\"filter\"></icon></span>\r" +
+    "\n" +
+    "\t\t\t<span ng-if=\"view.search\"><search></search></span> -->\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
