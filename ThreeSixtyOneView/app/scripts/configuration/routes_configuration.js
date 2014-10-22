@@ -13,7 +13,7 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
         'Projects': function(ProjectsService){return ProjectsService.get();},
         'Favorites': function(FavoritesService) {return FavoritesService.get();}
       },
-      breadcrumb: "All Projects"
+      breadcrumb: "<span>All Projects</span>"
     })
     .state('Dashboard', {
       url: "/dashboard/:projectId",
@@ -23,7 +23,7 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
         'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);}
       },
-      breadcrumb: "<a href='http://www.google.com'>All Projects</a> &gt; {{project.title}}"
+      breadcrumb: "<a goto='projects'>All Projects</a> &gt; {{project.title}}"
     })
     .state('ScenarioCreate', {
       url: "/scenarioCreate/:projectId",
@@ -33,7 +33,7 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
         'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);}
       },
-      breadcrumb: "All Projects &gt; {{project.title}}"
+      breadcrumb: "<a goto='projects'>All Projects</a> &gt; {{project.title}} &gt; Create Scenario"
     })
     .state('ScenarioEdit', {
       url: "/scenarioEdit/:projectId/:scenarioId",
@@ -43,6 +43,6 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
         'Scenario': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId, $stateParams.scenarioId);}
       },
-      breadcrumb: "All Projects > {{project.title}} &gt; {{scenario.title}}"
+      breadcrumb: "<a goto='projects'>All Projects</a> &gt; <a goto='dashboard' params='{{project.id}}'>{{project.title}}</a> &gt; {{scenario.title}}"
     });
 }]);

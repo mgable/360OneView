@@ -40,17 +40,6 @@ describe('Controllers: ', function() {
         it("should exist", function(){
             expect(ctrl).toBeDefined();
         });
-
-        it("should be watching $stateChangeSuccess", function(){
-            expect(spy).toHaveBeenCalledWith('$stateChangeSuccess', jasmine.any(Function));
-        });
-
-        it("should set the breadcrumbs when the view is changed", function(){
-            expect(scope.project).not.toBeDefined();
-            rootScope.$broadcast("$stateChangeSuccess");
-            expect(scope.project).toEqual(data);
-            expect(scope.breadcrumbs).toEqual("All Projects");
-        });
     });
 
     describe("ProjectListing Ctrl", function(){

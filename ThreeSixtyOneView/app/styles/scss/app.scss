@@ -164,6 +164,12 @@ body {
 			font-size: 1.0em;
 			.breadcrumbs {
 				text-transform: uppercase;
+				a {
+					cursor: pointer;
+					&:hover {
+						text-decoration: none;
+					}
+				}
 			}
 		}
 	}
