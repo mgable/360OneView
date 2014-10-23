@@ -39,7 +39,4 @@ angular.module('ThreeSixtyOneView.services')
 			self.rename(data);
 		});
 
-		$rootScope.$on(EVENTS.createProject, function($event, data){
-			self.create(data);
-		});
   }]);
