@@ -3,10 +3,7 @@
 describe('Routes tests: ', function() {
     var $rootScope, $state, $httpBackend, urlProjects, urlFavorites, projects;
 
-    beforeEach(module('ThreeSixtyOneView'), function($provide){
-        $provide.value("ProjectsModel", projects = {}); //This does not work
-        projects.get = jasmine.createSpy('get').and.returnValue('settings-all');
-    });
+    beforeEach(module('ThreeSixtyOneView'));
 
     beforeEach(inject(function(_$state_, _$rootScope_, _$httpBackend_, SERVER, CONFIG) {
         $state = _$state_;

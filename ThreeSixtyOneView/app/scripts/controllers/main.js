@@ -36,9 +36,7 @@ angular.module("ThreeSixtyOneView")
                 evt.stopPropagation();
             }
         };
-    }]).controller("NavigationCtrl", ["$scope", "$state", "$compile", "ScenarioService", "ProjectsService", "GotoService", "$stateParams", function($scope, $state, $compile, ScenarioService, ProjectsService, GotoService, $stateParams){
-
-       
+    }]).controller("NavigationCtrl", ["$scope", function($scope){
     }]).controller('InfoTrayCtrl', ["$scope", "$state", "CONFIG", "ActiveSelection", "FavoritesService", "SortAndFilterService", "EVENTS", function($scope, $state, CONFIG, ActiveSelection, FavoritesService, SortAndFilterService, EVENTS) {
 
 
@@ -88,9 +86,6 @@ angular.module("ThreeSixtyOneView")
 
                 _.extend($scope.CONFIG, $stateParams);
 
-                // // add projects to the projects service
-                // ProjectsService.setProjects(Projects);
-
                 $scope.data = Scenarios;
                 SortAndFilterService.init({
                     data: Scenarios,
@@ -99,13 +94,10 @@ angular.module("ThreeSixtyOneView")
                     reverse: reverse
                 });
 
-                $scope.selectItem(SortAndFilterService.getData()[0], getScenarios);
+                // currently this get scenarios - but it will eventually get elements
+                $scope.showDetails(SortAndFilterService.getData()[0], getScenarios, "scenarios");
             };
-        
-        $scope.selectItem = function(item){
-            // change this to getDetails when entities are finished
-            $scope.showDetails(item, getScenarios, "scenarios");
-        };
+
 
         $scope.getProject = function(){
             return $scope.project;
@@ -132,15 +124,10 @@ angular.module("ThreeSixtyOneView")
                 return ScenarioService.get(id);
             },
             init = function(whichView){
-                console.info("initing " + whichView);
                 // bootstrap view with data
-                $scope.data = {};
                 $scope.CONFIG = currentView;
                 
                 _.extend($scope.CONFIG, $stateParams);
-
-                // add projects to the projects service
-                // ProjectsService.setProjects(Projects);
 
                 $scope.data = Projects;
 
@@ -159,7 +146,7 @@ angular.module("ThreeSixtyOneView")
                 if (master) { FavoritesService.addFavorite(master.id); }
 
                 // select first time in list
-                $scope.selectItem(SortAndFilterService.getData()[0], getScenarios);
+                $scope.selectItem(SortAndFilterService.getData()[0]);
             };
 
         // Controller API
@@ -181,7 +168,7 @@ angular.module("ThreeSixtyOneView")
             return ActiveSelection.getActiveItem();
         };
 
-        $scope.$on(EVENTS.createProject, function(evt, data){
+        $scope.$on(EVENTS.openCreateProject, function(evt, data){
             DiaglogService.create('project');
         });
 
@@ -197,12 +184,9 @@ angular.module("ThreeSixtyOneView")
             }
         };
 
-        $scope.getDetails = function(item, from, what){
-            // $scope.selectedItem = item;
-            from(item.id).then(function(response){
-                // $scope.selectedItem.scenarios = response;
+        $scope.getDetails = function(item, model, what){
+            model(item.id).then(function(response){
                 item[what] = response;
-                //$scope.showDetails($scope.selectedItem);
                 $scope.showDetails(item);
             });
         };
