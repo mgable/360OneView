@@ -79,7 +79,7 @@ angular.module('ThreeSixtyOneView.config')
                 "reverse": true,
                 "hasFavorites": true,
                 "where": 'gotoDashboard',
-                "displayActionsCreate": "createProject",
+                "displayActionsCreate": "openCreateProject",
                 "filterMenu": {
                     "firstSelected": 0,
                     "icon": "suitcase",
