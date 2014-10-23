@@ -4,6 +4,10 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/display_actions.tpl.html',
     "<div class=\"display-actions\">\r" +
     "\n" +
+    "\t<h4 class=\"pull-left title\">{{getSelectedLabel()}}&nbsp;<span>({{getCount()}})</span></h4>\r" +
+    "\n" +
+    "\r" +
+    "\n" +
     "\t<h4 class=\"pull-left title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;<span>({{SortAndFilterService.getCount()}})</span><icon type=\"sort-desc\"></icon></h4>\r" +
     "\n" +
     "\t<div class=\"filterDropdown\">\r" +
@@ -17,6 +21,8 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t<span>I Can Edit</span>\r" +
     "\n" +
     "\t</div>\r" +
+    "\n" +
+    "\r" +
     "\n" +
     "\t<span>\r" +
     "\n" +
@@ -42,7 +48,8 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t</div>\r" +
     "\n" +
-    "</div>"
+    "</div>\r" +
+    "\n"
   );
 
 
@@ -74,7 +81,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<a class=\"edit\" ng-click=\"action()\"><icon ng-hide=\"isActive\" type=\"pencil\" cname=\"pencil clearfix\"></icon></a>\r" +
     "\n" +
-    "    <h4 ng-show=\"isActive\">\r" +
+    "    <h4 ng-show=\"isActive\" class=\"title\">\r" +
     "\n" +
     "    \t<input type=\"text\" class=\"inputTarget\" ng-model=\"item.title\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\" />&nbsp;\r" +
     "\n" +

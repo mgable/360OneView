@@ -4,7 +4,7 @@
 'use strict';
 
 // View controllers
-angular.module("ThreeSixtyOneView")
+angular.module('ThreeSixtyOneView')
     .controller("MainCtrl", ["$scope", "ActiveSelection", "CubeService", function($scope,  ActiveSelection, CubeService) {
 
         // These are going away
@@ -95,6 +95,7 @@ angular.module("ThreeSixtyOneView")
 
                 // currently this get scenarios - but it will eventually get elements
                 $scope.showDetails(SortAndFilterService.getData()[0]);
+
             };
 
 

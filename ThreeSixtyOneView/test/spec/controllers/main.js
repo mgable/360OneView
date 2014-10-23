@@ -112,6 +112,13 @@ describe('Controllers: ', function() {
                 );
         });
 
+        it("should define an api", function(){
+            expect(scope.toggleFavorite).toBeDefined();
+            expect(scope.isFavorite).toBeDefined();
+            expect(scope.getProject).toBeDefined();
+            expect(scope.selectItem).toBeDefined();
+        });
+
         it("should toggle favorites", function(){
             var data = "123";
             scope.toggleFavorite(event, data);
