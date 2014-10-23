@@ -1,7 +1,8 @@
+@import "ford_client";
+
 // images and sprites 
 $sprite: "../images/360sprite.png";
 $logo: "../images/logo_pic_sprite.png";
-$background_img: "../images/ford_background.png";
 $users_img: "../images/users_pic_sprite.png";
 
 // Fonts 
@@ -21,9 +22,6 @@ $panel-result: #f4f7f7;
 $arrow-up: #67d878;
 $arrow-down: #ff7e79;
 $panel-selected: #bde4ff;
-$header-background: rgba(34,61,98, 0.7);
-$header-smallrow: rgba(0,27,62, 0.8);
-$footer-background: rgba(0,0,0, 0.6);
 $navbar-active: #001b3e;
 $navbar-border: #22508f;
 
