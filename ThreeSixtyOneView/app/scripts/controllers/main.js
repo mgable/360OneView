@@ -78,7 +78,6 @@ angular.module("ThreeSixtyOneView")
             init = function(whichView){
                 console.info(whichView);
                 // bootstrap view with data
-                $scope.data = {};
                 $scope.CONFIG = currentView;
                 $scope.project = Project;
 
@@ -95,7 +94,7 @@ angular.module("ThreeSixtyOneView")
                 });
 
                 // currently this get scenarios - but it will eventually get elements
-                $scope.showDetails(SortAndFilterService.getData()[0], getScenarios, "scenarios");
+                $scope.showDetails(SortAndFilterService.getData()[0]);
             };
 
 
