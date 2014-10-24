@@ -1,3 +1,5 @@
+/* global xit, xdescribe */
+
 'use strict';
 
 xdescribe('Directive: isUnique', function () {
@@ -12,7 +14,7 @@ xdescribe('Directive: isUnique', function () {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
+  xit('should make hidden element visible', inject(function ($compile) {
     element = angular.element('<is-unique></is-unique>');
     element = $compile(element)(scope);
     expect(element.text()).toBe('this is the isUnique directive');

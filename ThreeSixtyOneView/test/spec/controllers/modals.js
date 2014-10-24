@@ -1,3 +1,4 @@
+/* global xit */
 "use strict";
 
 describe('Controllers: Modals: ', function() {

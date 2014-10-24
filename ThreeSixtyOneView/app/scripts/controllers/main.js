@@ -186,6 +186,8 @@ angular.module('ThreeSixtyOneView')
 
         $scope.getDetails = function(item, model, what){
             model(item.id).then(function(response){
+                console.info("getDetails");
+                console.info(response);
                 item[what] = response;
                 $scope.showDetails(item);
             });

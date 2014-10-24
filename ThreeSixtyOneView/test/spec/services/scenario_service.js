@@ -1,4 +1,3 @@
-/* global _ */
 'use strict';
 
 describe('Service: ScenarioService', function () {
@@ -35,12 +34,12 @@ describe('Service: ScenarioService', function () {
   it('should get all scenarios', function(){
      var deferred = $q.defer();
     deferred.resolve(data);
-    var spy = spyOn(ScenarioService, "get").and.returnValue(deferred.promise),
-    projectsSpy = spyOn(ProjectsService, "getProjects").and.returnValue([{id:"123", title:"title"}]);
+    spyOn(ScenarioService, "get").and.returnValue(deferred.promise);
+    spyOn(ProjectsService, "getProjects").and.returnValue([{id:"123", title:"title"}]);
 
     $rootScope.$apply(function(){
       ScenarioService.getAll().then(function(response){
-        expect(projectsSpy).toHaveBeenCalled();
+        expect(ProjectsService.getProjects).toHaveBeenCalled();
         expect(response).toEqual([{title:'title', data:data}]);
       });
     });

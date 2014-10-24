@@ -7,12 +7,12 @@ xdescribe('Service: Model', function () {
   beforeEach(module('ThreeSixtyOneView'));
 
   // instantiate service
-  var CubeService;
+  var Model;
   beforeEach(inject(function (_Model_) {
     Model = _Model_;
   }));
 
-  it('should do something', function () {
+  xit('should do something', function () {
     expect(!!Model).toBe(true);
   });
 

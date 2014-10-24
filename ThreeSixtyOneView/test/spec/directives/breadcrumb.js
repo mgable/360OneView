@@ -1,3 +1,4 @@
+/* global xit */
 'use strict';
 
 describe('Directive: breadcrumb', function () {

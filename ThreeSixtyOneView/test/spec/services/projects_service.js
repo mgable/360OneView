@@ -1,4 +1,4 @@
-/* global xit, xdescribe */
+/* global xit */
 'use strict';
 
 describe('Service: ProjectsService', function () {
@@ -7,7 +7,7 @@ describe('Service: ProjectsService', function () {
   beforeEach(module('ThreeSixtyOneView'));
 
   // instantiate service
-  var ProjectsService, data, ProjectsModel
+  var ProjectsService, data, ProjectsModel;
   beforeEach(inject(function (_ProjectsService_, _ProjectsModel_) {
     ProjectsService = _ProjectsService_;
     ProjectsModel = _ProjectsModel_;
@@ -22,7 +22,7 @@ describe('Service: ProjectsService', function () {
   });
 
   it("should get all data", function(){
-    ProjectsService.data = data
+    ProjectsService.data = data;
     expect(ProjectsService.getProjects()).toBe(data);
   });
 

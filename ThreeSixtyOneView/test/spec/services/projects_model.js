@@ -2,7 +2,7 @@
 'use strict';
 
 describe('Service: ProjectModel', function() {
-	var $q, $timeout, $httpBackend, ProjectsService, ProjectsModel, rootScope, projectsUrl, projectData, data, newProject, deferred, resourceSpy, EVENTS;
+	var $q, $timeout, $httpBackend, ProjectsService, ProjectsModel, rootScope, projectsUrl, projectData, data, newProject, deferred, EVENTS;
 
 	// load the service's module
 	beforeEach(module('ThreeSixtyOneView.services'));

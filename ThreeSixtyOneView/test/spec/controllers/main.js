@@ -4,7 +4,7 @@
 'use strict';
 
 describe('Controllers: ', function() {
-    var Projects, EVENTS, rootScope, data, scope, ctrl, spy, $state, SortAndFilterService, ActiveSelection, DiaglogService, FavoritesService, CONFIG, $rootScope, onSpy, $provide, event, GotoService;
+    var Projects, EVENTS, rootScope, data, scope, ctrl, spy, $state, SortAndFilterService, ActiveSelection, DiaglogService, FavoritesService, CONFIG, $rootScope, onSpy, $provide, event, GotoService, deferred, $httpBackend;
 
     beforeEach(module('ThreeSixtyOneView', 'ThreeSixtyOneView.services'));
 
@@ -48,7 +48,7 @@ describe('Controllers: ', function() {
             event = {
               stopPropagation: jasmine.createSpy('event.stopPropagation'),
              };
-            spyOn(scope, "$on")
+            spyOn(scope, "$on");
             spyOn(FavoritesService, "toggleFavorite");
             spyOn(FavoritesService, "isFavorite").and.callThrough();
             spyOn(SortAndFilterService, "filter");
@@ -208,10 +208,13 @@ describe('Controllers: ', function() {
     });
 
     describe("Project View CTRL", function(){
-         beforeEach(inject(function(_$rootScope_, _$state_, $controller,  _SortAndFilterService_, _ActiveSelection_, _GotoService_ ) {
+         beforeEach(inject(function(_$rootScope_, _$state_, $controller,  _SortAndFilterService_, _ActiveSelection_, _GotoService_, $q, _$httpBackend_ ) {
             $rootScope = _$rootScope_;
+            $httpBackend = _$httpBackend_;
+            // $httpBackend.expectGET('http://ec2-54-205-7-240.compute-1.amazonaws.com:8080/rubix/v1/project').respond("foo");
+            // $httpBackend.expectGET('http://ec2-54-205-7-240.compute-1.amazonaws.com:8080/rubix/v1/favorite/project/').respond("foo");
             scope = $rootScope.$new();
-            scope.getProject = function(){return {id: '123'}};
+            scope.getProject = function(){return {id: '123'};};
             SortAndFilterService = _SortAndFilterService_;
             ActiveSelection = _ActiveSelection_;
             GotoService = _GotoService_;
@@ -221,11 +224,17 @@ describe('Controllers: ', function() {
             spyOn(GotoService, "scenarioCreate");
             spyOn(ActiveSelection, "setActiveItem").and.callThrough();
             spyOn(SortAndFilterService, "getData").and.returnValue(data);
+            spyOn(SortAndFilterService, "getSelectedLabel").and.returnValue("foo");
+            spyOn(SortAndFilterService, "getCount").and.returnValue(1);
+            spyOn(SortAndFilterService, "setFilter");
             scope.getProjects = jasmine.createSpy("scope.getProjects");
             event = {
                 stopPropagation: jasmine.createSpy('event.stopPropagation'),
             };
             data = {id:"123", title:"title", description: "description", isMaster:false};
+            deferred = $q.defer();
+            deferred.resolve(data);
+
             ctrl = $controller('ProjectsViewCtrl', {
                 $scope: scope,
             });
@@ -276,34 +285,29 @@ describe('Controllers: ', function() {
         it("should get the sorter", function(){
             var data = "foo";
             SortAndFilterService.setSorter(123, data);
-            expect(scope.getSorter(123)).toEqual(data)
+            expect(scope.getSorter(123)).toEqual(data);
 
+        });
+
+        it("should get the selected label", function(){
+            expect(scope.getSelectedLabel()).toEqual("foo");
+        });
+
+        it("should get the count of data items", function(){
+            expect(scope.getCount()).toEqual(1);
+        });
+
+        it("should set the filters", function(){
+            scope.setFilter("foo", data, true);
+            expect(SortAndFilterService.setFilter).toHaveBeenCalledWith("foo", data, true);
+        });
+
+        xit("should get details", function(){
+            scope.$apply(function(){
+                scope.getDetails(data, function(id){return deferred.promise;}, 'foo');
+            });
+            
+            expect(ActiveSelection.setActiveItem).toHaveBeenCalledWith("foo");
         });
     });
 });
-
-
-
-// $scope.getDetails = function(item, model, what){
-//     model(item.id).then(function(response){
-//         item[what] = response;
-//         $scope.showDetails(item);
-//     });
-// };
-
-
-// $scope.getSorter = function(column) {
-//     return SortAndFilterService.getSorter(column);
-// };
-
-// $scope.getSelectedLabel = function() {
-//     return SortAndFilterService.getSelectedLabel();
-// };
-
-// $scope.getCount = function() {
-//     return SortAndFilterService.getCount();
-// };
-
-// $scope.setFilter = function(type, item, forceFilter) {
-//     SortAndFilterService.setFilter(type, item, forceFilter);
-// };
