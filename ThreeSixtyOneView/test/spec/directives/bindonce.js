@@ -3,18 +3,25 @@
 describe('Directive: bindOnce', function () {
 
   // load the directive's module
-  beforeEach(module('ThreeSixtyOneView'));
+  beforeEach(module('ThreeSixtyOneView.directives'));
 
   var element,
-    scope;
+    scope,
+    myScope;
 
-  beforeEach(inject(function ($rootScope) {
+  beforeEach(inject(function ($compile, $rootScope, $timeout) {
     scope = $rootScope.$new();
+    element = angular.element('<span bind-once></span>');
+    element = $compile(element)(scope);
+    scope.$digest();
+    myScope = element.scope();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<bind-once></bind-once>');
-    element = $compile(element)(scope);
-    expect(element.text()).toBe('');
+  it('should destroy the scope', inject(function ($timeout) {
+    expect(myScope.$parent).not.toBe(null);
+    expect($(element).hasClass('ng-scope')).toBe(true);
+    $timeout.flush();
+    expect(myScope.$parent).toBe(null);
+    expect($(element).hasClass('ng-scope')).toBe(false);
   }));
 });
