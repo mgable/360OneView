@@ -310,6 +310,19 @@
 			}
 		}
 
+		.as-sortable-placeholder {
+			display: inline-block;
+			border: 2px dashed rgba(245,245,245,1.0);
+			width: 200px;
+			float: left;
+			background-color: rgba(215,215,215,1.0);
+			color: rgba(66,66,66,1.0);
+			padding: 0.3em;
+			font-size: 0.9em;
+			margin-bottom: 1em;
+			margin-right: 1em;
+		}
+
 		.pbSec:first-of-type {
 			margin-top: 0.7em;
 		}
