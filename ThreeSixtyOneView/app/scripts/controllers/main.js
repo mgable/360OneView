@@ -4,7 +4,7 @@
 'use strict';
 
 // View controllers
-angular.module("ThreeSixtyOneView")
+angular.module('ThreeSixtyOneView')
     .controller("MainCtrl", ["$scope", "ActiveSelection", "CubeService", function($scope,  ActiveSelection, CubeService) {
 
         // These are going away
@@ -78,16 +78,12 @@ angular.module("ThreeSixtyOneView")
             init = function(whichView){
                 console.info(whichView);
                 // bootstrap view with data
-                $scope.data = {};
                 $scope.CONFIG = currentView;
                 $scope.project = Project;
 
                 $scope.hasAlerts = Scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
 
                 _.extend($scope.CONFIG, $stateParams);
-
-                // // add projects to the projects service
-                // ProjectsService.setProjects(Projects);
 
                 $scope.data = Scenarios;
                 SortAndFilterService.init({
@@ -97,7 +93,9 @@ angular.module("ThreeSixtyOneView")
                     reverse: reverse
                 });
 
-                $scope.showDetails(SortAndFilterService.getData()[0], getScenarios, "scenarios");
+                // currently this get scenarios - but it will eventually get elements
+                $scope.showDetails(SortAndFilterService.getData()[0]);
+
             };
 
 
@@ -186,8 +184,10 @@ angular.module("ThreeSixtyOneView")
             }
         };
 
-        $scope.getDetails = function(item, from, what){
-            from(item.id).then(function(response){
+        $scope.getDetails = function(item, model, what){
+            model(item.id).then(function(response){
+                console.info("getDetails");
+                console.info(response);
                 item[what] = response;
                 $scope.showDetails(item);
             });

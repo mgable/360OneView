@@ -1,7 +1,7 @@
 "use strict";
 
 describe('Routes tests: ', function() {
-    var $rootScope, $state, $httpBackend, urlProjects, urlFavorites, projects;
+    var $rootScope, $state, $httpBackend, urlProjects, urlFavorites;
 
     beforeEach(module('ThreeSixtyOneView'));
 
