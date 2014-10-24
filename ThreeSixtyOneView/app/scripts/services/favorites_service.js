@@ -4,11 +4,11 @@
 
 angular.module('ThreeSixtyOneView.services')
     .service('FavoritesService', ["$rootScope", "FavoritesModel", "Model", function($rootScope, FavoritesModel, Model) {
-        var favoritesList = [], FavsModel, favs;
+        var favoritesList = [], model, favs;
 
-        FavsModel = new Model();
-        angular.extend(this, FavsModel.prototype);
-        favs = new FavsModel(FavoritesModel);
+        model = new Model();
+        angular.extend(this, model.prototype);
+        favs = new model(FavoritesModel);
         angular.extend(this, favs);
 
         this.removeFavorite = function(itemID) {
