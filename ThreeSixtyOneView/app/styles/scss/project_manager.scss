@@ -213,6 +213,10 @@
 				.selected {
 					font-weight: 700;
 				}
+
+				a {
+					color: $black;
+				}
 			}
 			.button-holder {
 				float:right;
@@ -280,6 +284,10 @@
 						}
 					}
 				}
+			}
+			.filtertoggle {
+			    font-size: 12px;
+    			padding: 0 5px;
 			}
 		}
 		.display-table {
