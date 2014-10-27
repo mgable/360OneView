@@ -5,7 +5,6 @@
 		<li ng-repeat="item in CONFIG.filterMenu.items" class="header" ng-class="{selected: item.label === selectedItem}">
 			 <a ms-link="{{item.label}}" ng-click="setFilter(item.filterType, item, true)">{{item.label}}</a>
 		</li>
-		<li>I Can Edit</li>
     </ul>
 	<span>
 		<icon type="filter"></icon>
@@ -14,8 +13,6 @@
 	<div class="button-holder">
 		<div class="actions">
 			<span ng-if="view.create" ng-click="create(CONFIG.displayActionsCreate)"><icon type="plus"></icon>CREATE</span>
-			<!-- <span ng-if="view.filter"><icon type="filter"></icon></span>
-			<span ng-if="view.search"><search></search></span> -->
 		</div>
 		
 	</div>

@@ -240,7 +240,7 @@ angular.module('ThreeSixtyOneView')
             $scope.GotoService = GotoService;
             $scope.project = Project;
             $scope.scenario = getBaseScenario();
-            $scope.scenarios = Scenarios.data;
+            $scope.scenarios = Scenarios;
 
             $scope.createScenario = function(_scenario_){
                 ScenarioService.create($scope.project, _scenario_).then(function(response){
@@ -249,6 +249,7 @@ angular.module('ThreeSixtyOneView')
             };
 
             $scope.isScenarioTitleUnique = function(scenarioTitle) {
+                console.info($scope.scenarios)
                 return ! _.findWhere($scope.scenarios, {title:scenarioTitle});
             };
 
