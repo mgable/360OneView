@@ -93,13 +93,13 @@ angular.module('ThreeSixtyOneView.config')
                         "filterType": "filterPipeline",
                         "filter": "isFavorite"
                     }
-                    // ,{
-                    //     "label": "Created by me",
-                    //     "filterType": "activeFilter",
-                    //     "filter": {
-                    //         "createdBy": "me"
-                    //     }
-                    // }
+                    ,{
+                        "label": "Created by Me",
+                        "filterType": "activeFilter",
+                        "filter": {
+                            "createdBy": "me"
+                        }
+                    }
                     ]
                 },
                 "sortMenu": {

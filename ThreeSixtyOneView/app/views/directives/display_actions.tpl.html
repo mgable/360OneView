@@ -1,14 +1,12 @@
 <div class="display-actions">
-	<h4 class="pull-left title">{{getSelectedLabel()}}&nbsp;<span>({{getCount()}})</span></h4>
+	<h4 class="pull-left title">{{SortAndFilterService.getSelectedLabel()}}&nbsp;<span>({{SortAndFilterService.getCount()}})</span><span ng-click="toggle()" class="filtertoggle"><icon type="caret-down"></icon></span></h4>
 
-	<h4 class="pull-left title">{{SortAndFilterService.getSelectedLabel()}}&nbsp;<span>({{SortAndFilterService.getCount()}})</span><icon type="sort-desc"></icon></h4>
-	<div class="filterDropdown">
-		<span class="selected">All Projects</span>
-		<span>Favorites</span>
-		<span>Created by Me</span>
-		<span>I Can Edit</span>
-	</div>
-
+	<ul ms-link-group firstSelected="{{CONFIG.filterMenu.items[CONFIG.filterMenu.firstSelected].label}}" radio="true" class='filterDropdown title hide menu'>
+		<li ng-repeat="item in CONFIG.filterMenu.items" class="header" ng-class="{selected: item.label === selectedItem}">
+			 <a ms-link="{{item.label}}" ng-click="setFilter(item.filterType, item, true)">{{item.label}}</a>
+		</li>
+		<li>I Can Edit</li>
+    </ul>
 	<span>
 		<icon type="filter"></icon>
 		<input type="text" class="search-input" ng-model="SortAndFilterService.searchText" ng-change="SortAndFilterService.filter()" placeholder="Filter Search"/>&nbsp;
