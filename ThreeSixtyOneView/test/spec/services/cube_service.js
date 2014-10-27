@@ -12,7 +12,7 @@ xdescribe('Service: CubeService', function () {
     CubeService = _CubeService_;
   }));
 
-  it('should do something', function () {
+  xit('should do something', function () {
     expect(!!CubeService).toBe(true);
   });
 

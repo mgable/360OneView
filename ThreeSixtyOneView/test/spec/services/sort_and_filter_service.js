@@ -1,4 +1,5 @@
-/* global _, xit, xdescribe */
+/* global _ */
+
 'use strict';
 
 describe('Services:', function() {

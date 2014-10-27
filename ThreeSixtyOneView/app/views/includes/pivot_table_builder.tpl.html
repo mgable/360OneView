@@ -57,8 +57,8 @@
 				<div class="pbSecTitle"><span class="glyphicon glyphicon-th-list rotate90"></span> Columns</div>
 				<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="pbData.viewData.columns" ng-blur="addPopUp['columns'] = false" tabindex="-1">
 					<div class="pbItem" ng-repeat="item in pbData.viewData.columns" data-as-sortable-item>
-						<span class="pbItemInfo">
-							<span data-as-sortable-item-handle><i class="fa fa-arrows"></i></span>
+						<span class="pbItemInfo" data-as-sortable-item-handle>
+							<!-- <span ><i class="fa fa-arrows"></i></span> -->
 							<!-- <span class="pbItemCat">{{item.category}}</span> -->
 							<span class="pbItemName clickable" ng-click="add.replaceItem = $index; add.selected = 'columns'; addPopUp['columns'] = !addPopUp['columns']; addPopUp['rows'] = false; popUpLocSet($event);">{{item.name}}</span>
 						</span>
@@ -86,8 +86,8 @@
 				<div class="pbSecTitle"><span class="glyphicon glyphicon-th-list"></span> Rows</div>
 				<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="pbData.viewData.rows" ng-blur="addPopUp['rows'] = false" tabindex="-1">
 					<div class="pbItem" ng-repeat="item in pbData.viewData.rows" data-as-sortable-item>
-						<span class="pbItemInfo">
-							<span data-as-sortable-item-handle><i class="fa fa-arrows"></i></span>
+						<span class="pbItemInfo" data-as-sortable-item-handle>
+							<!-- <span ><i class="fa fa-arrows"></i></span> -->
 							<!-- <span class="pbItemCat">{{item.category}}</span> -->
 							<span class="pbItemName clickable" ng-click="add.replaceItem = $index; add.selected = 'rows'; addPopUp['rows'] = !addPopUp['rows']; addPopUp['columns'] = false; popUpLocSet($event);">{{item.name}}</span>
 						</span>

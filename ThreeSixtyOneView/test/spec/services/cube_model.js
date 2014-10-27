@@ -13,7 +13,7 @@ xdescribe('Service: CubeModel', function () {
     CubeModel = _CubeModel_;
   }));
 
-  it('should do something', function () {
+  xit('should do something', function () {
     expect(!!CubeModel).toBe(true);
   });
 

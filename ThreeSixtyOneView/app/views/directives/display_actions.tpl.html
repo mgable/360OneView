@@ -1,4 +1,6 @@
 <div class="display-actions">
+	<h4 class="pull-left title">{{getSelectedLabel()}}&nbsp;<span>({{getCount()}})</span></h4>
+
 	<h4 class="pull-left title">{{SortAndFilterService.getSelectedLabel()}}&nbsp;<span>({{SortAndFilterService.getCount()}})</span><icon type="sort-desc"></icon></h4>
 	<div class="filterDropdown">
 		<span class="selected">All Projects</span>
@@ -6,6 +8,7 @@
 		<span>Created by Me</span>
 		<span>I Can Edit</span>
 	</div>
+
 	<span>
 		<icon type="filter"></icon>
 		<input type="text" class="search-input" ng-model="SortAndFilterService.searchText" ng-change="SortAndFilterService.filter()" placeholder="Filter Search"/>&nbsp;
