@@ -1,0 +1,535 @@
+@import "variables";
+
+#pivotBuilder {
+	font-size: 1.1em;
+	transition: all 0.2s linear;
+
+	.clickable {
+		cursor: pointer;
+	}
+
+	.pbRenameArea {
+		display: inline-block;
+
+		.glyphicon-eye-open {
+			padding-top: -1em;
+		}
+	}
+
+	.pbTitle {
+		transition: all 0.5s linear;
+		width: 500px;
+		border: 1px solid $mediumgray;
+		color: rgba(110,110,110,1.0);
+		font-weight: bold;
+		padding: 0.2em 1em;
+		font-size: 1em;
+		display: inline-block;
+
+		.pbSaveAsBox {
+			color: rgba(60,60,60,1.0);
+
+			.glyphicon {
+				background-color: white;
+				border-radius: 50%;
+				padding: 0.2em 0.2em;
+			}
+		}
+
+		.pbViewSaved {
+			font-weight: normal;
+			font-size: 0.95em;
+			padding-left: 0.4em;
+			display: inline-block;
+			min-width: 100px;
+			float: right;
+		}
+
+		.pbViewSave {
+			font-weight: normal;
+			font-size: 0.95em;
+			padding-left: 0.4em;
+			border-left: 1px solid rgba(200,200,200,1.0);
+			position: relative;
+			display: inline-block;
+			min-width: 100px;
+			float: right;
+
+			.pbViewSaveMenu {
+				position: absolute;
+				background-color: rgba(200,200,200,1.0);
+				padding: 0.5em 0.7em;
+				width: 110%;
+				z-index: 100;
+				border: 1px solid rgba(100,100,100,1.0);
+			}
+
+			.pbViewSaveMenuItem {
+				display: block;
+				color: rgba(60,60,60,1.0);
+				font-weight: bold;
+			}
+
+			.pbViewSaveDisabled {
+				color: rgba(120,120,120,1.0);
+			}
+
+			hr {
+				margin: 0.5em 0;
+			}
+		}
+
+		.pbTitleText {
+			cursor: pointer;
+			max-width: 250px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			display: inline-block;
+			height: 20px;
+			padding-top: 0.2em;
+		}
+
+		.pbTitleEdited {
+			font-weight: normal;
+		}
+	}
+
+	.glyphicon {
+		font-weight: normal;
+		padding: 0 0.2em;
+	}
+
+	.btn {
+		border-radius: 0;
+	}
+
+	.btn-default {
+		background-color: rgba(200,200,200,1.0);
+	}
+
+	.modal-dialog {
+		width: 80%;
+	}
+
+	.modal-content {
+		border-radius: 0;
+
+		.modal-header{
+			background-color: rgba(66,66,66,1.0);
+			color: #FFF;
+		}
+
+		.pbFilterAll {
+			border-bottom: 1px solid rgba(150,150,150,1.0);
+			padding: 0.5em 1em 0 2.2em;
+			/*border: none;*/
+			font-weight: bold;
+		}
+
+		.pbItemAddOuter {
+			/*border: 1px solid rgba(200,200,200,1.0);*/
+			margin: 0 auto;
+
+			div span {
+				transition: all 0.2s linear;
+			}
+
+			.filterChildItem {
+				transition: all 0.2s linear;
+				max-height: 1000px;
+				overflow: scoll;
+			}
+
+			.zeroHeight {
+				height: 0;
+				overflow: hidden;
+				padding: 0;
+			}
+
+			.pbItemAddCat {
+				font-weight: bold;
+				padding: 0.5em;
+				margin-bottom: 0.5em;
+				border-bottom: 1px solid rgba(220,220,220,1.0);
+			}
+
+			.pbItemAddItem label {
+				font-weight: normal;
+				margin-left: 2.2em;
+			}
+		}
+
+		.alert {
+			margin-bottom: -1em;
+		}
+	}
+
+	.pbRename {
+		display: inline-block;
+		width: 20px;
+	}
+
+	.pbViewConf {
+		display: inline-block;
+		min-width: 100px;
+		position: absolute;
+
+		.pbViewConfButt {
+			padding: 0.2em 0.4em;
+			font-size: 0.9em;
+			color: rgba(0,150,255,1.0);
+		}
+
+		.pbViewConfMenuBack {
+			background-color: rgba(200,200,200,1.0);
+			padding-bottom: 0.35em;
+		}
+
+		.pbViewConfMenu {
+			position: relative;
+			background-color: rgba(200,200,200,1.0);
+			z-index: 100;
+			padding: 0.5em;
+
+			ul {
+				list-style-type: none;
+				padding: 0;
+			}
+
+			.pbViewConfMenuTitl {
+				color: rgba(150,150,150,1.0);
+				display: block;
+			}
+
+			.pbViewConfMenuSel {
+				color: rgba(0,150,255,1.0);
+				display: block;
+				margin: 0;
+				padding: 0.3em;
+				font-weight: normal;
+			}
+
+			.bold {
+				font-weight: bold;
+			}
+		}
+	}
+
+	.pbTitle.pbTitleSel {
+		background-color: rgba(66,66,66,1.0);
+		color: rgba(235,235,235,1.0);
+		border-color: rgba(66,66,66,1.0);
+	}
+
+	.pbSlider {
+		transition: all 0.5s linear;
+		max-height: 0;
+		background-color: rgba(66,66,66,1.0);
+		color: rgba(235,235,235,1.0);
+		overflow-y: hidden;
+		padding: 0;
+		/*position: absolute;*/
+		width: 99.7%;
+
+		.pbSliderClose {
+			float: right;
+			margin-top: 1em;
+			position: relative;
+
+			.pbCloseText {
+				padding-right: 1em;
+			}
+
+			.pbCloseAlert {
+				position: absolute;
+				width: 700px;
+				left:-720px;
+				top:-5px;
+				z-index: 1000;
+				transition: all 0.5s linear;
+			}
+		}
+
+		.dragDropArea {
+			width: 90%;
+		}
+
+		.pbSec {
+			clear: both;
+			margin-left: 1em;
+
+			.glyphicon {
+				font-size: 15px;
+			}
+
+			.pbItemsHolder {
+				display: inline-block;
+				max-width: 85%;
+				outline: 0;
+
+				.pbTempDrop {
+					background-color: rgba(96,96,96,1.0);
+					border: 1px dashed rgba(195,195,195,1.0);
+					color: rgba(235,235,235,0.5);
+				}
+			}
+		}
+
+		.pbSecTitle {
+			float: left;
+			width: 120px;
+			clear: left;
+			padding-left: 1em;
+			height: 45px;
+		}
+
+		.pbItem {
+			background-color: rgba(235,235,235,1.0);
+			float: left;
+
+			color: rgba(66,66,66,1.0);
+			padding: 0.3em;
+			font-size: 0.9em;
+			margin-bottom: 1em;
+			margin-right: 1em;
+
+			.pbItemInfo {
+				display: inline;
+			}
+
+			.pbItemCat {
+				padding: 0.3em 0.4em;
+			}
+
+			.pbItemName {
+				padding: 0.3em 0.4em;
+				padding-left: 1em;
+				font-weight: bold;
+				color: rgba(0,150,255,1.0);
+			}
+		}
+
+		.pbSec:first-of-type {
+			margin-top: 0.7em;
+		}
+
+		.pbAddBox {
+			float: left;
+
+			.pbItemAdd {
+				padding: 0.2em 0.5em;
+				float: left;
+				border: 1px dashed rgba(195,195,195,1.0);
+				margin-right: 1em;
+				margin-bottom: 1em;
+			}
+
+			.pbAddPopUp {
+				position: fixed;
+				background-color: #FFF;
+				padding: 1em;
+				z-index: 1000;
+
+				table {
+					min-width: 200px;
+				}
+
+				table td {
+					vertical-align: top;
+					border-bottom: 1px solid #999;
+					padding: 0.5em 1em;
+
+					div {
+						padding-top: 0.3em;
+					}
+
+					.pbItemAddEnabled {
+						cursor: pointer;
+						color: rgba(0,150,255,1.0);
+					}
+
+					.pbItemAddDisabled {
+						color: rgba(200,200,200,1.0);
+					}
+
+				}
+
+				table tr:last-child td {
+					border-bottom: 0;
+				}
+			}
+		}
+
+		.pbFilterBox {
+			float: left;
+			min-width: 100px;
+			margin-left: 0.4em;
+			margin-right: 0.5em;
+			padding: 0.3em;
+			font-size: 0.9em;
+
+			.pbFilterCat {
+				float: left;
+
+				.pbFilterSize {
+					font-size: 0.8em;
+					vertical-align: 15%;
+					color: #999999;
+				}
+			}
+
+			.pbFilterVal {
+				float: left;
+				font-weight: bold;
+				color: rgba(0,150,255,1.0);
+				padding-left: 0.4em;
+				max-width: 110px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				/*padding-top: 0.2em;*/
+			}
+		}
+
+		.pbViewButt {
+			clear: both;
+			margin-bottom: 1em;
+
+			button {
+				padding: 0.2em 4em;
+				margin-right: 2em;
+			}
+
+			.btn-undo {
+				background-color: rgba(120,184,255,1.0);
+				border-color: rgba(100,164,255,1.0);
+			}
+
+			.btn-undo[disabled] {
+				background-color: #c8c8c8;
+				border-color: #b8b8b8;
+			}
+
+			.btn-primary[disabled] {
+				background-color: #c8c8c8;
+				border-color: #b8b8b8;
+			}
+		}
+	}
+
+	.pbSlider.pbOpened {
+		max-height: 300px;
+	}
+
+	.rotate90 {
+		-webkit-transform: rotate(90deg);
+		-moz-transform: rotate(90deg);
+		-ms-transform: rotate(90deg);
+		-o-transform: rotate(90deg);
+		transform: rotate(90deg);
+	}
+
+	.rotate270 {
+		-webkit-transform: rotate(-90deg);
+		-moz-transform: rotate(-90deg);
+		-ms-transform: rotate(-90deg);
+		-o-transform: rotate(-90deg);
+		transform: rotate(-90deg);
+	}
+
+	#filterModal {
+		.modal-body {
+			padding: 0;
+
+			.pbFilterModalLinks {
+				background-color: rgba(200,200,200,1.0);
+				width: 25%;
+				display: block;
+				margin: 0;
+				float: left;
+				padding-top: 1em;
+
+				.pbFilterModalLink {
+					position: static;
+					margin-bottom: 1em;
+					background-color: rgba(255,255,255,0);
+					padding: 0.5em 2em;
+
+					.pbFilterModalValues {
+						max-width: 90%;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
+					}
+				}
+
+				.active {
+					background-color: rgba(255,255,255,1.0);
+				}
+			}
+
+			.pbFilterModalMain {
+				display: inline-block;
+				margin: 0;
+				width: 65%;
+				margin-left: 2em;
+				padding: 1em 0;
+
+				.pbFilterTitle {
+					font-size: 1.2em;
+					display: inline;
+				}
+
+				.pbFilterSelect {
+					float: right;
+					margin: -0.3em;
+					width: 350px;
+
+					select {
+						display: inline;
+						width: 82%;
+					}
+				}
+
+				.pbFilterSearch {
+
+					input {
+						width: 100%;
+						padding: 1em;
+						margin: 1em 0;
+					}
+				}
+
+				.pbModalHeight {
+					margin: 0;
+					min-height: 200px;
+					overflow-y: auto;
+					border: 1px solid rgba(120,120,120,1.0);
+
+					.pbFilterValCol1 {
+						display:inline-block;
+						width:70%;
+					}
+
+					.pbFilterValCol2 {
+						display:inline-block;
+						width:25%;
+					}
+				}
+
+				.pbFilterModalButtons {
+					padding: 1em 0;
+
+					.pbFilterModalAlert {
+						display: inline-block;
+						width: 250px;
+						padding:0.39em;
+						margin-right: 1em;
+						float: right;
+					}
+				}
+		}
+		}
+	}
+}

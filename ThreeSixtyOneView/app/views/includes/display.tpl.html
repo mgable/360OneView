@@ -1,8 +1,8 @@
 <!-- alerts -->
-<div class="alerts" ng-show="hasAlerts"><ng-include src="alertSrc"></ng-include></div>
+<div class="alerts" ng-show="hasAlerts"><ng-include src="hasAlerts"></ng-include></div>
 
 <!-- display actions -->
-<display-actions show="['create', 'search']"></display-actions>
+<display-actions show="['create']"></display-actions>
 
 <!-- <pre>
 SortAndFilterService.getActiveFilters is {{SortAndFilterService.getActiveFilters()}}
@@ -12,4 +12,4 @@ SortAndFilterService.getOrderBy is {{SortAndFilterService.getOrderBy()}}
 
 
 <!-- sorter -->
-<ng-include src="'views/includes/sorter.tpl.html'"></ng-include>
+<!-- <ng-include src="'views/includes/sorter.tpl.html'"></ng-include> -->

@@ -7,7 +7,8 @@ angular.module('ThreeSixtyOneView.config')
             "api": {
                 "projects": "/rubix/v1/project",
                 "favorites": "/rubix/v1/favorite/project/",
-                "scenarios": "/rubix/v1/project/:id/scenario"
+                "scenarios": "/rubix/v1/project/:id/scenario",
+                "cube": "/rubix/v1/model/cube/:id"
             },
             "models": {
                 "ProjectsModel": {
@@ -19,8 +20,13 @@ angular.module('ThreeSixtyOneView.config')
                 },
                 "ScenarioModel": {
                     // want: get
-                    "responseTranslator": {"title": "name", "id": "id", "description": "description", "type":{"selector":"['prediction']['type']"}, "createdBy":{"selector":"['auditInfo']['createdBy']['name']"}, "createdOn":{"selector":"['auditInfo']['createdOn']"}, "modifiedBy":{"selector":"['auditInfo']['lastUpdatedBy']['name']"}, "modifiedOn":{"selector":"['auditInfo']['lastUpdatedOn']"}},
-                    "newScenario": {"name" : "", "description": "","referenceScenario": {"id": 1, "name": "Master Scenario"}, "prediction" : {"type" : "Simulation"}}
+                    "responseTranslator": {"referenceScenario": "referenceScenario", "title": "name", "id": "id", "description": "description", "type":{"selector":"['prediction']['type']"}, "createdBy":{"selector":"['auditInfo']['createdBy']['name']"}, "createdOn":{"selector":"['auditInfo']['createdOn']"}, "modifiedBy":{"selector":"['auditInfo']['lastUpdatedBy']['name']"}, "modifiedOn":{"selector":"['auditInfo']['lastUpdatedOn']"}},
+                    "requestTranslator": {"name":"title", "referenceScenario": "referenceScenario", "description": "description", "prediction": "prediction"},
+                    "newScenario": {"title" : "", "description": "","referenceScenario": {"id": 1, "name": "PRE LOADED SIMULATION NEW"}, "prediction" : {"type" : "Simulation"}}
+                },
+                "CubeModel" : {
+                    "responseTranslator": "",
+                    "requestTranslator": ""
                 }
             },
             "inputRestrictions": {
@@ -39,9 +45,9 @@ angular.module('ThreeSixtyOneView.config')
                 "filter": 'CONFIG.view.Dashboard.filterMenu.items[0]',
                 "reverse": true,
                 "topInclude": "views/includes/dashboard_top.tpl.html",
-                "status": true,
                 "where": "gotoScenarioEdit",
-                "displayActionsCreate": "scope.$emit('GotoService:scenarioCreate')",
+                "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
+                "displayActionsCreate": "gotoScenarioCreate",
                 "filterMenu": {
                     "firstSelected": 0,
                     "title": "Scenarios",
@@ -65,23 +71,6 @@ angular.module('ThreeSixtyOneView.config')
                         "filter": "createdOn"
                     }]
                 },
-                "contextualMenu": {
-                    'actions': [
-                        {'name':'base', 'label': "use as base for a new scenario"},
-                        {'name':'copy', 'label': "copy as a new scenario", config: {title: 'Copy Scenario', description: '', submit: {'label':"copy as new scenario"}, cancel: {'label':'cancel'}}},
-                        {'name':'set', 'label': "set as current plan"},
-                        {'name': 'rename'},
-                        {'name': 'archive'},
-                        {'name': 'details'}
-                    ],
-                    'views': {
-                        "defaults": {
-                            "type": "master",
-                            "value": "010001"
-                        },
-                        "otherwise": "111111"
-                    }
-                }
             },
             "ProjectManager": {
                 "model": "ProjectsModel",
@@ -89,9 +78,8 @@ angular.module('ThreeSixtyOneView.config')
                 "filter": 'CONFIG.view.ProjectManager.filterMenu.items[0]',
                 "reverse": true,
                 "hasFavorites": true,
-                "status": false,
                 "where": 'gotoDashboard',
-                "displayActionsCreate": "scope.DiaglogService.create('project')",
+                "displayActionsCreate": "openCreateProject",
                 "filterMenu": {
                     "firstSelected": 0,
                     "icon": "suitcase",
@@ -105,32 +93,14 @@ angular.module('ThreeSixtyOneView.config')
                         "filterType": "filterPipeline",
                         "filter": "isFavorite"
                     }
-                    // ,{
-                    //     "label": "Created by me",
-                    //     "filterType": "activeFilter",
-                    //     "filter": {
-                    //         "createdBy": "me"
-                    //     }
-                    // }
-                    ]
-                },
-                "contextualMenu": {
-                    "actions": [
-                        {'name':'copy', config: {title: 'Copy Project', description: 'xxxxxxxxxxxxx', submit: {label:"copy"}, cancel: {label:'cancel'}}},
-                        {'name':'favorites', label: "favorite"},
-                        {'name':'sharing'},
-                        {'name':'rename'},
-                        {'name':'archive'},
-                        {'name':'add'},
-                        {'name':'details'}
-                    ],
-                    "views": {
-                        "isMaster": {
-                            "type": true,
-                            "value": "0000001"
-                        },
-                        "otherwise": "0101001"
+                    ,{
+                        "label": "Created by Me",
+                        "filterType": "activeFilter",
+                        "filter": {
+                            "createdBy": "me"
+                        }
                     }
+                    ]
                 },
                 "sortMenu": {
                     "displayColumns": [{

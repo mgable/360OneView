@@ -1,11 +1,18 @@
+@import "ford_client";
+
 // images and sprites 
-$spirte: "../images/360sprite.png";
+$sprite: "../images/360sprite.png";
+$logo: "../images/logo_pic_sprite.png";
+$users_img: "../images/users_pic_sprite.png";
+
+// Fonts 
+$sansFontFamily: "proxima-nova", arial, sans-serif;
 
 // action colors
 $mouseover: #8796B4;
 $disabled: gray;
 $enabled: cornflowerblue;
-$active: #F2F5A9;
+$active: #295DA8;
 $selected: red;
 $highlight: orange;
 $completed: #0096FF;
@@ -15,6 +22,8 @@ $panel-result: #f4f7f7;
 $arrow-up: #67d878;
 $arrow-down: #ff7e79;
 $panel-selected: #bde4ff;
+$navbar-active: #001b3e;
+$navbar-border: #22508f;
 
 // color variables
 $black: #222;
@@ -28,14 +37,24 @@ $mustard: #f89b26;
 $lightblue: #007fe8;
 $green: green;
 $red: red;
+$orange: #f35528;
+$blue: #295da7;
 
+// Marketshare color bar logo
+$colorcell1: #ffde00;
+$colorcell2: #e22778;
+$colorcell3: #18a3a4;
+$colorcell4: #ec2224;
+$colorcell5: #049146;
+$colorcell6: #211f5e;
 
 // sizes
 $cap_height: 50px;
 $app_left: 200px;
 $app_right: 300px;
-$app_max_width: 1300px;
+$app_max_width: 1160px;
 $app_min_width: 1024px;
+$app_top_margin: 50px;
 $body_font_size: 13px;
 
 // mixins
@@ -56,4 +75,21 @@ $body_font_size: 13px;
   &:-moz-placeholder           {@content}
   &::-moz-placeholder          {@content}
   &:-ms-input-placeholder      {@content}  
+}
+
+@mixin vertical-align {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+@mixin linear-gradient-logo ($c1,$c2,$c3,$c4,$c5,$c6){
+  background: $c1; /* Old browsers */
+  background: -moz-linear-gradient(left, $c1 0%, $c1 16%, $c2 16%, $c2 17%, $c2 33%, $c3 33%, $c3 44%, $c3 50%, $c4 50%, $c4 50%, $c4 66%, $c5 66%, $c5 84%, $c5 84%, $c6 84%, $c6 84%, $c6 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,$c1), color-stop(16%,$c1), color-stop(16%,$c2), color-stop(17%,$c2), color-stop(33%,$c2), color-stop(33%,$c3), color-stop(44%,$c3), color-stop(50%,$c3), color-stop(50%,$c4), color-stop(50%,$c4), color-stop(66%,$c4), color-stop(66%,$c5), color-stop(84%,$c5), color-stop(84%,$c5), color-stop(84%,$c6), color-stop(84%,$c6), color-stop(100%,$c6)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left, $c1 0%,$c1 16%,$c2 16%,$c2 17%,$c2 33%,$c3 33%,$c3 44%,$c3 50%,$c4 50%,$c4 50%,$c4 66%,$c5 66%,$c5 84%,$c5 84%,$c6 84%,$c6 84%,$c6 100%); /* Chrome10+,Safari5.1+ */
+  background: -ms-linear-gradient(left, $c1 0%,$c1 16%,$c2 16%,$c2 17%,$c2 33%,$c3 33%,$c3 44%,$c3 50%,$c4 50%,$c4 50%,$c4 66%,$c5 66%,$c5 84%,$c5 84%,$c6 84%,$c6 84%,$c6 100%); /* IE10+ */
+  background: linear-gradient(to right, $c1 0%,$c1 16%,$c2 16%,$c2 17%,$c2 33%,$c3 33%,$c3 44%,$c3 50%,$c4 50%,$c4 50%,$c4 66%,$c5 66%,$c5 84%,$c5 84%,$c6 84%,$c6 84%,$c6 100%); /* W3C */
 }

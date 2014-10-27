@@ -2,32 +2,41 @@
 
 'use strict';
 
-angular.module('ThreeSixtyOneView')
-	.service('ProjectsService',  ["$rootScope", "ProjectsModel", "EVENTS", function ($rootScope, ProjectsModel, EVENTS) {
-		var projects = [];
+angular.module('ThreeSixtyOneView.services')
+	.service('ProjectsService',  ["$rootScope", "ProjectsModel", "Model", "EVENTS", function ($rootScope, ProjectsModel, Model, EVENTS) {
+		var MyProjectModel, myprojects, self = this;
 
-		this.getProjectIDByTitle = function(_title_){
-			var item = _.findWhere(projects, {title:_title_});
+		MyProjectModel = new Model();
+        angular.extend(this, MyProjectModel.prototype);
+        myprojects = new MyProjectModel(ProjectsModel);
+        angular.extend(this, myprojects);
+
+        this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
+
+		this.getProjectItemById = function(_id_){
+			var item = _.findWhere(this.data, {id:_id_});
 			if (item) {
-				return item.id;
+				return item;
 			} else {
-				console.error("The project named " + _title_ + " was NOT found!");
+				console.error("The project id " + _id_ + " was NOT found!");
 			}
 		};
 
-		this.setProjects = function(_projects_){
-			projects = _projects_;
+		this.getProjects = function(){
+			return this.data;
 		};
 
-		this.getProjects = function(){
-			return projects;
-		};
+		this.rename = function(data){
+            var obj = (_.pick(data, 'title', 'description', 'id'));
+            if (typeof obj.description === "undefined"){
+                obj.description = "";
+            }
+            this.put(obj);
+
+        };
 
 		$rootScope.$on(EVENTS.renameProject, function($event, data){
-			ProjectsModel.rename(data);
+			self.rename(data);
 		});
 
-		$rootScope.$on(EVENTS.createProject, function($event, data, cb){
-			ProjectsModel.create(data, cb);
-		});
   }]);

@@ -1,16 +1,68 @@
 @import "variables";
 
+.display-actions { 
+	cursor: pointer;
+	.filterDropdown {
+		display:inline-block;
+		border:1px solid $blue;
+		margin-top: 5px;
+		padding:5px 0;
+		min-width:160px;
+		position:absolute;
+		background-color:$white;
+		left: 5px;
+    	top: 40px;
+	}
+	.filterDropdown:before {
+		content: "";
+		width: 20px;
+		height: 20px;
+		border-top: 1px solid $blue;
+		border-left: 1px solid $blue;
+		background-color: #FFF;
+		border-radius: 3px 0;
+
+		position: absolute;
+		top: -11px;
+		left: 42%;
+		z-index: 2;
+
+		-ms-transform: rotate(45deg);
+	    -webkit-transform: rotate(45deg);
+	    transform: rotate(45deg);
+	}
+}
+
 .ms-dropdown {
 	position:relative;
 	font-size: 13px;
 	display: block;
 	.ms-select-list {
 		display:inline-block;
-		border:1px solid #7D7D7D;
+		border:1px solid $blue;
+		margin-top: 10px;
 		padding:5px 0;
 		min-width:195px;
 		position:absolute;
 		background-color:white;
+	}
+	.ms-select-list:before {
+		content: "";
+		width: 20px;
+		height: 20px;
+		border-top: 1px solid $blue;
+		border-left: 1px solid $blue;
+		background-color: #FFF;
+		border-radius: 3px 0;
+
+		position: absolute;
+		top: -11px;
+		left: 50%;
+		z-index: 2;
+
+		-ms-transform: rotate(45deg);
+	    -webkit-transform: rotate(45deg);
+	    transform: rotate(45deg);
 	}
 	ul {
 		list-style-type: none;
@@ -28,6 +80,9 @@
 		min-width: 100px;
 		white-space: nowrap;
 		color:#8695B4;
+		.toggle {
+			color: $orange;
+		}
 		.filter-icon {
 			margin: 0 4px 0 -13px;
 		}
@@ -35,6 +90,9 @@
 
 	.ms-label.active  .status{
 		color:$highlight;
+		font-weight: 400;
+		font-size: 0.9em;
+		text-transform: uppercase;
 	}
 
 	.sort-order {

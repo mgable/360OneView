@@ -16,19 +16,17 @@ describe('Directives:', function() {
         ViewService,
         scope;
 
-        beforeEach(inject(function($rootScope, $compile, _ViewService_) {
+        beforeEach(inject(function($rootScope, $compile) {
             scope = $rootScope.$new();
-            ViewService = _ViewService_;
             scope.item = {};
             scope.item.title = "the title";
             element = angular.element('<inline-edit template="inline_rename" item=item></inline-edit>');
             element = $compile(element)(scope);
-            ViewService.setModel("ProjectsModel");
             scope.$digest();
         }));
 
         it('should correctly set the title', function() {
-            var holder = element.find("h4.title");
+            var holder = element.find("h4.title:eq(0)");
             expect(holder.text()).toBe(scope.item.title);
             holder = element.find("input");
             expect(holder.val()).toEqual(scope.item.title);

@@ -22,17 +22,22 @@
 	.display {
 		width: 100%;
 		.actions {
-			border: 1px solid $mediumgray;
+			/*border: 1px solid $mediumgray;
 			border-bottom: 0 none;
-			height: 30px;
+			height: 30px;*/
 			> span:hover {
 				background-color:$mouseover;
-				cursor: pointer;
+				/*cursor: pointer;*/
 			}
 			.holder {
-				border-right: 1px solid $mediumgray;
+				/*border-right: 1px solid $mediumgray;
 				height:29px;
-				padding:4px 0 0 9px;
+				padding:4px 0 0 9px;*/
+				border: 1px solid $mediumgray;
+				/*height: 25px;*/
+				display: inline-block;
+				margin: 0 -1px 0 -4px;
+				padding: 0.2em 1em;
 				&:last-child {
 					border-right: 0 none;
 				}

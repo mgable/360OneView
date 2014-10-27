@@ -3,30 +3,35 @@
 
 'use strict';
 
-angular.module('ThreeSixtyOneView')
-	.service('ScenarioService', ["$q", "ScenarioModel", "ProjectsService", "CONFIG", function ($q, ScenarioModel, ProjectsService, CONFIG) {
-		var scenario = CONFIG.application.models.ScenarioModel.newScenario;
+angular.module('ThreeSixtyOneView.services')
+	.service('ScenarioService', ["$q", "ScenarioModel", "ProjectsService", "CONFIG", "Model", function ($q, ScenarioModel, ProjectsService, CONFIG, Model) {
+		var MyScenarioModel, myScenarios, self = this;
 
-		this.get = function (identifier){
-			if(/[a-z\d]{32}/.test(identifier)) {
-				// is UUID (probably)
-				return ScenarioModel.get(identifier);
-			} else {
-				return ScenarioModel.get(ProjectsService.getProjectIDByTitle(identifier));
-			}
-		};
 
-		this.create = function(scenarioObj){
-			var id = ProjectsService.getProjectIDByTitle(scenarioObj.project);
-			scenario.name = scenarioObj.title;
-			scenario.description = scenarioObj.description || "";
-			return ScenarioModel.create(scenario, id);
+		MyScenarioModel = new Model();
+        angular.extend(this, MyScenarioModel.prototype);
+        myScenarios = new MyScenarioModel(ScenarioModel);
+        angular.extend(this, myScenarios);
+
+        this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
+
+		this.myScenarios = myScenarios;
+
+		this.get = function (projectId, scenarioId){
+			return myScenarios.get.call(this, projectId).then(function(response){
+				if(scenarioId) {
+					return _.findWhere(response, {id: scenarioId});
+				} else {
+					//console.info(response);
+					return response;
+				}
+			});
 		};
 
 		this.getAll = function(){
 			var projects = ProjectsService.getProjects(),
 			promises = [],
-			ids = [], // _.pluck(projects,'id'),
+			ids = [],
 			results = [];
 
 			angular.forEach(projects, function(v,k,o){
@@ -39,8 +44,8 @@ angular.module('ThreeSixtyOneView')
 
 			return $q.all(_.pluck(promises, "promise")).then(function(response){
 				angular.forEach(response, function(v,k,o){
-					if (v.data.length){
-						results.push({title:promises[k].title, data: v.data});
+					if (v.length){
+						results.push({title:promises[k].title, data: v});
 					}
 				});
 				return results;

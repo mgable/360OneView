@@ -8,27 +8,41 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
     .state('ProjectManager', {
       url: "/projects",
       templateUrl: "views/display_manager.tpl.html",
-      controller: "ManagerCtrl",
+      controller: "ProjectListingCtrl",
       resolve: {
-        'Projects': function(ProjectsModel){return ProjectsModel.get();}
-      }
+        'Projects': function(ProjectsService){return ProjectsService.get();},
+        'Favorites': function(FavoritesService) {return FavoritesService.get();}
+      },
+      breadcrumb: "<span>All Projects</span>"
     })
     .state('Dashboard', {
-      url: "/dashboard/:projectName",
+      url: "/dashboard/:projectId",
       templateUrl: "views/display_manager.tpl.html",
-      controller: "ManagerCtrl",
+      controller: "ProjectDashboardCtrl",
       resolve: {
-        'Projects': function(ProjectsModel){return ProjectsModel.get();}
-      }
+        'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
+        'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);}
+      },
+      breadcrumb: "<a goto='projects'>All Projects</a> &gt; {{project.title}}"
     })
     .state('ScenarioCreate', {
-      url: "/scenarioCreate/:projectName",
+      url: "/scenarioCreate/:projectId",
       templateUrl: "views/scenario_create.tpl.html",
-      controller: "ScenarioCreateCtrl"
+      controller: "ScenarioCreateCtrl",
+      resolve: {
+        'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
+        'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);}
+      },
+      breadcrumb: "<a goto='projects'>All Projects</a> &gt; {{project.title}} &gt; Create Scenario"
     })
     .state('ScenarioEdit', {
-      url: "/scenarioEdit/:project/:scenario",
+      url: "/scenarioEdit/:projectId/:scenarioId",
       templateUrl: "views/scenario_edit.tpl.html",
-      controller: "ScenarioEditCtrl"
+      controller: "ScenarioEditCtrl",
+      resolve: {
+        'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
+        'Scenario': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId, $stateParams.scenarioId);}
+      },
+      breadcrumb: "<a goto='projects'>All Projects</a> &gt; <a goto='dashboard' params='{{project.id}}'>{{project.title}}</a> &gt; {{scenario.title}}"
     });
 }]);

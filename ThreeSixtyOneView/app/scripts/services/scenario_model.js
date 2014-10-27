@@ -3,25 +3,30 @@
 
 'use strict';
 
-angular.module('ThreeSixtyOneView.services').service('ScenarioModel', ["$location", "Resource", "CONFIG", "SERVER", "ModelModel", function($location, Resource, CONFIG, SERVER, ModelModel){
+angular.module('ThreeSixtyOneView.services').factory('ScenarioModel', ["$location", "Resource", "CONFIG", "SERVER", function($location, Resource, CONFIG, SERVER){
     var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.scenarios),
     responseTranslator = CONFIG.application.models.ScenarioModel.responseTranslator,
     requestTranslator = CONFIG.application.models.ScenarioModel.requestTranslator,
-    config = ModelModel.makeConfig(ModelModel, responseTranslator, requestTranslator),
-    self = this;
+    config = {};
 
     // surface data for unit tests
     this.resource = resource;
     this.config = config;
 
-    this.get = function(uid) {
-        ModelModel.unwrap.call(this, resource.get(uid, config));
-        return this.$futureData;
-    };
+    return {
+        responseTranslator: responseTranslator,
+        requestTranslator: requestTranslator,
+        resource: resource,
+        get: function(uid) {
+            this.unwrap(this.resource.get({"id": uid}, this.config));
+            return this.$futureData;
+        },
+        create: function(_project_, _scenario_){
+            return resource.create(_scenario_, this.config, _project_.id).then(function(response){
+                return response;
+            });
+        }
 
-    this.create = function(scenario, id){
-        return resource.create(scenario, config, id).then(function(response){
-            console.info (response);
-        });
     };
 }]);
+

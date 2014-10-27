@@ -15,21 +15,21 @@
 <div class="modal-body current-scenario-body" >
 	<table class="table table-hover table-bordered no-margin" >
 		<thead>
-			<th class="col-lg-6">Master Project</th>
+			<th class="col-lg-6">{{masterProject.title}}</th>
 		</thead>
 		<tbody>
 			<tr>
-				<td ng-click="setRow(0)">
+				<td ng-click="setRow(masterProject)">
 					<div class="row" >
 						<div class="col-md-1">
 							<span><img alt="" src="http://dummyimage.com/20x20/075895/fff.gif&amp;text=S" class="media-object"> </span>
 						</div>
 						<div class="col-md-10">
-							<span>Current Plan of Record Scenario</span>
-							<span class="second-line">This is the scenario description lorem ipsum dolor sit</span> 
+							<span>{{masterProject.data[0].title}}</span>
+							<span class="second-line"></span> 
 						</div>
 						<div class="col-md-1">
-							<icon type="check-circle" cname="ok-sign" ng-show="showRow(0)"></icon>
+							<icon type="check-circle" cname="ok-sign" ng-show="showRow(masterProject)"></icon>
 						</div>
 					</div>
 				</td>
@@ -42,7 +42,7 @@
 		</thead>
 		<tbody ng-repeat-end>
 			<tr ng-repeat="scenario in scenarios.data">
-				<td ng-click="setRow(scenario.id)">
+				<td ng-click="setRow(scenario)">
 					<div class="row" >
 						<div class="col-md-1">
 							<span><img alt="" src="http://dummyimage.com/20x20/ff2f92/fff.gif&amp;text=s" class="media-object"></span>
@@ -51,7 +51,7 @@
 							<span class="{{scenario.type}}">{{scenario.title}}</span>
 						</div>
 						<div class="col-md-1">
-							<span ng-show="showRow(scenario.id)"><icon type="check-circle" cname="ok-sign"></icon></span>
+							<span ng-show="showRow(scenario)"><icon type="check-circle" cname="ok-sign"></icon></span>
 						</div>
 					</div>
 				</td>
@@ -65,7 +65,7 @@
 			<a class="pull-left" ng-click="close()" >Cancel</a>
 		</div>
 		<div class="col-md-6">
-			<button type="button" class="btn btn-primary pull-right" ng-click="close()">Confirm Base Scenario</button>
+			<button type="button" class="btn btn-primary pull-right" ng-click="confirm()">Confirm Base Scenario</button>
 		</div>
 	</div>
 </div>

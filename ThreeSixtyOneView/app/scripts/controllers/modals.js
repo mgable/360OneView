@@ -24,51 +24,57 @@ angular.module('ThreeSixtyOneView')
             $modalInstance.dismiss('create');
         };
 
-    }]).controller('ProjectCreateCtrl', ["$scope", "$rootScope", "$controller", "$modalInstance", "CONFIG", "EVENTS", function($scope, $rootScope, $controller, $modalInstance, CONFIG, EVENTS) {
+    }]).controller('ProjectCreateCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "ProjectsService", "GotoService", function($scope, $controller, $modalInstance, CONFIG, ProjectsService, GotoService) {
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
         var newProject = CONFIG.application.models.ProjectsModel.newProject;
-
-        $scope.callback = function(){$rootScope.$broadcast(EVENTS.gotoDashboard, newProject);};
 
         $scope.create = function(title, evt) {
             if (evt) { evt.preventDefault(); }
             newProject.title = title;
 
-            $rootScope.$broadcast(EVENTS.createProject, newProject, $scope.callback);
+            ProjectsService.create(newProject).then(function(response){
+                GotoService.dashboard(response.id);
+            });
+
             $modalInstance.dismiss('create');
         };
-    }]).controller('CreateScenarioCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG) {
+    }]).controller('CreateScenarioCtrl', ["$scope", "$rootScope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", function($scope, $rootScope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS) {
 
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
+        var selectedRow,
+            getSelected = function(){
+                return selectedRow;
+            },
+            sortScenarios = function(scenarios){
+                $scope.scenarioList = scenarios;
+                $scope.masterProject = (_.findWhere($scope.scenarioList, {"title": "MASTER PROJECT"}));
+                $scope.scenarioList.splice(_.indexOf($scope.scenarioList, $scope.masterProject),1);
+                selectedRow = $scope.masterProject;
+
+                angular.forEach($scope.scenarioList, function(k,v){
+                    if (k.title === $scope.project.title){
+                        $scope.scenarioList.unshift($scope.scenarioList.splice(v,1)[0]);
+                    }
+                });
+            };
+
         $scope.scenario = data.scenario;
-        var selectedRow = 0, getStatus = function (_id_){
-            var element = _.findWhere($scope.scenarioList, {id: _id_});
-            return element ? element.type !== 'not-calculated' : true ;
-        };
+        $scope.project = data.project;
 
         ScenarioService.getAll().then(function(response){
-            $scope.scenarioList = response;
+            sortScenarios(response);
         });
 
-        // $scope.scenarioList = [
-        //     { id: 1, name: 'Scenario Title 1', color: 'ff2f92', label: 'Al', type: '' },
-        //     { id: 2, name: 'Scenario Title (RESULTS NOT CALCULATED)', color: 'ff2f92', label: 'Al', type: 'not-calculated' },
-        //     { id: 3, name: 'Scenario Title 2', color: 'ff2f92', label: 'Al', type: '' },
-        //     { id: 4, name: 'Scenario Title (OUT OF SYNC)', color: 'ff9300', label: 'A', type: '' },
-        //     { id: 5, name: 'Scenario Title 3', color: '075895', label: 'S', type: ''},
-        //     { id: 6, name: 'Scenario Title 4', color: 'ff9300', label: 'A', type: '' },
-        //     { id: 7, name: 'Scenario Title 5', color: '075895', label: 'S', type: ''},
-        //     { id: 8, name: 'Scenario Title 6', color: 'ff2f92', label: 'Al', type: '' },
-        //     { id: 9, name: 'Scenario Title 7', color: '075895', label: 'S', type: ''},
-        //     { id: 10, name: 'Scenario Title 8', color: '075895', label: 'S', type: ''}
-        // ];
+        $scope.setRow = function(item){
+            //if (getStatus(id)) {
+                selectedRow = item;
+           // }
+        };
 
-        $scope.setRow = function(id){
-            console.info(getStatus(id));
-            if (getStatus(id)) {
-                selectedRow = id;
-            }
+        $scope.confirm = function(){
+            $rootScope.$broadcast(EVENTS.updateBaseScenario, getSelected());
+            $scope.close();
         };
 
         $scope.showRow = function(row){

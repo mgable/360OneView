@@ -1,12 +1,9 @@
 "use strict";
 
 describe('Routes tests: ', function() {
-    var $rootScope, $state, $httpBackend, urlProjects, urlFavorites, projects;
+    var $rootScope, $state, $httpBackend, urlProjects, urlFavorites;
 
-    beforeEach(module('ThreeSixtyOneView'), function($provide){
-        $provide.value("ProjectsModel", projects = {}); //This does not work
-        projects.get = jasmine.createSpy('get').and.returnValue('settings-all');
-    });
+    beforeEach(module('ThreeSixtyOneView'));
 
     beforeEach(inject(function(_$state_, _$rootScope_, _$httpBackend_, SERVER, CONFIG) {
         $state = _$state_;
@@ -14,9 +11,6 @@ describe('Routes tests: ', function() {
         $httpBackend = _$httpBackend_;
         urlProjects = SERVER.server + CONFIG.application.api.projects;
         urlFavorites = SERVER.server + CONFIG.application.api.favorites;
-        // $httpBackend.whenGET(urlProjects).respond('');
-        // $httpBackend.whenGET(urlFavorites).respond('');
-        // $httpBackend.whenGET('views/display_manager.tpl.html').respond('');
     }));
 
     describe('Routes', function() {
@@ -26,7 +20,7 @@ describe('Routes tests: ', function() {
             config = $state.get(state);
             expect(config.name).toBe(state);
             expect(config.url).toBe("/projects");
-            expect(config.controller).toBe("ManagerCtrl");
+            expect(config.controller).toBe("ProjectListingCtrl");
             //$state.go(state);
             //$rootScope.$digest();
             //expect($state.current.name).toBe(state);
@@ -37,7 +31,7 @@ describe('Routes tests: ', function() {
             var state = "ScenarioEdit",
             config = $state.get(state);
             expect(config.name).toBe(state);
-            expect(config.url).toBe("/scenarioEdit/:project/:scenario");
+            expect(config.url).toBe("/scenarioEdit/:projectId/:scenarioId");
             expect(config.controller).toBe("ScenarioEditCtrl");
         });
 
@@ -45,7 +39,7 @@ describe('Routes tests: ', function() {
             var state = "ScenarioCreate",
             config = $state.get(state);
             expect(config.name).toBe(state);
-            expect(config.url).toBe("/scenarioCreate/:projectName");
+            expect(config.url).toBe("/scenarioCreate/:projectId");
             expect(config.controller).toBe("ScenarioCreateCtrl");
         });
 
@@ -53,8 +47,8 @@ describe('Routes tests: ', function() {
             var state = "Dashboard",
             config = $state.get(state);
             expect(config.name).toBe(state);
-            expect(config.url).toBe("/dashboard/:projectName");
-            expect(config.controller).toBe("ManagerCtrl");
+            expect(config.url).toBe("/dashboard/:projectId");
+            expect(config.controller).toBe("ProjectDashboardCtrl");
         });
     });
 });
