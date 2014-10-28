@@ -16,8 +16,8 @@ describe('Services: Favorites Service: ', function() {
         expect(FavoritesService).toBeDefined();
     });
 
-    it('should set and get favorites', function(){
-        FavoritesService.setFavorites(["foo"]);
+    it('should get favorites', function(){
+        FavoritesService.data = ["foo"];
         expect(FavoritesService.getFavorites()).toEqual(["foo"]);
     });
 

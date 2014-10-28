@@ -23,7 +23,7 @@ describe('Service: FavoritesModel', function() {
 			"uuid" : "d62bf05b50946c86364e78aa46595313"
 		} ];
 
-		$httpBackend.whenGET(url).respond(data);
+		$httpBackend.whenGET(url).respond(JSON.stringify(data));
 		$httpBackend.whenGET(projectUrl).respond({"doesnot":"matter"});
 	}));
 
@@ -39,14 +39,14 @@ describe('Service: FavoritesModel', function() {
 	});
 
 	it ("should set as favorite", function(){
-		$httpBackend.expectPOST(url).respond({"status": "204"});
+		$httpBackend.expectPOST(url).respond(JSON.stringify({"status": "204"}));
 		FavoritesModel.setAsFavorite("123");
 		$httpBackend.flush();
 		$httpBackend.verifyNoOutstandingExpectation();
 	});
 
 	it ("should unset a favorite", function(){
-		$httpBackend.expectDELETE(url+ "?uuid=123").respond({"status": "204"});
+		$httpBackend.expectDELETE(url+ "?uuid=123").respond(JSON.stringify({"status": "204"}));
 		FavoritesModel.unFavorite("123");
 		$httpBackend.flush();
 		$httpBackend.verifyNoOutstandingExpectation();

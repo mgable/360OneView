@@ -27,6 +27,10 @@ angular.module('ThreeSixtyOneView.config')
                 "CubeModel" : {
                     "responseTranslator": "",
                     "requestTranslator": ""
+                },
+                "FavoritesModel" : {
+                    "responseTranslator": "",
+                    "requestTranslator": ""
                 }
             },
             "inputRestrictions": {
