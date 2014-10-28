@@ -60,10 +60,20 @@ module.exports = function(config) {
         // Continuous Integration mode
         // if true, it capture browsers, run tests and exit
         singleRun: true,
-
         preprocessors: {
-            "app/views/**/*.html": ["ng-html2js"]
+            "app/views/**/*.html": ["ng-html2js"],
+            'app/scripts/**/*.js': 'coverage'
         },
+        reporters:  ['dots', 'junit'],
+        junitReporter:  {
+             outputFile: 'test-results.xml'
+        },
+        coverageReporter: {
+             type: 'cobertura',
+             dir: 'coverage/',
+             file: 'coverage.xml'
+        },
+
 
         ngHtml2JsPreprocessor: {
             // If your build process changes the path to your templates,

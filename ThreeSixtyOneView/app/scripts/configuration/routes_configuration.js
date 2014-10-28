@@ -10,8 +10,7 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
       templateUrl: "views/display_manager.tpl.html",
       controller: "ProjectListingCtrl",
       resolve: {
-        'Projects': function(ProjectsService){return ProjectsService.get();},
-        'Favorites': function(FavoritesService) {return FavoritesService.get();}
+        'Projects': function(ProjectsService){return ProjectsService.get();}
       },
       breadcrumb: "<span>All Projects</span>"
     })

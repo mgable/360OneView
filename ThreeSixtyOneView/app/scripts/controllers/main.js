@@ -108,7 +108,7 @@ angular.module('ThreeSixtyOneView')
         });
 
         init($state.current.name);
-    }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "$stateParams", "$state", "CONFIG", "Favorites", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", "DiaglogService", "EVENTS", function($scope, $controller, $stateParams, $state, CONFIG, Favorites, FavoritesService, ProjectsService, ScenarioService, Projects, ActiveSelection, SortAndFilterService, GotoService, DiaglogService, EVENTS) {
+    }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "$stateParams", "$state", "CONFIG", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", "DiaglogService", "EVENTS", function($scope, $controller, $stateParams, $state, CONFIG, FavoritesService, ProjectsService, ScenarioService, Projects, ActiveSelection, SortAndFilterService, GotoService, DiaglogService, EVENTS) {
 
         angular.extend(this, $controller('ProjectsViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService, ScenarioService:ScenarioService }));
 
@@ -142,7 +142,7 @@ angular.module('ThreeSixtyOneView')
                 master = _.find($scope.data, function(elem){return elem.isMaster;});
                 
                 // get all favorites
-                FavoritesService.setFavorites(_.pluck(Favorites, 'uuid'));
+                //FavoritesService.setFavorites(_.pluck(Favorites, 'uuid'));
                 if (master) { FavoritesService.addFavorite(master.id); }
 
                 // select first time in list
@@ -186,8 +186,6 @@ angular.module('ThreeSixtyOneView')
 
         $scope.getDetails = function(item, model, what){
             model(item.id).then(function(response){
-                console.info("getDetails");
-                console.info(response);
                 item[what] = response;
                 $scope.showDetails(item);
             });
@@ -240,7 +238,7 @@ angular.module('ThreeSixtyOneView')
             $scope.GotoService = GotoService;
             $scope.project = Project;
             $scope.scenario = getBaseScenario();
-            $scope.scenarios = Scenarios.data;
+            $scope.scenarios = Scenarios;
 
             $scope.createScenario = function(_scenario_){
                 ScenarioService.create($scope.project, _scenario_).then(function(response){

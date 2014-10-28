@@ -27,6 +27,10 @@ angular.module('ThreeSixtyOneView.config')
                 "CubeModel" : {
                     "responseTranslator": "",
                     "requestTranslator": ""
+                },
+                "FavoritesModel" : {
+                    "responseTranslator": "",
+                    "requestTranslator": ""
                 }
             },
             "inputRestrictions": {
@@ -94,7 +98,7 @@ angular.module('ThreeSixtyOneView.config')
                         "filter": "isFavorite"
                     }
                     // ,{
-                    //     "label": "Created by me",
+                    //     "label": "Created by Me",
                     //     "filterType": "activeFilter",
                     //     "filter": {
                     //         "createdBy": "me"

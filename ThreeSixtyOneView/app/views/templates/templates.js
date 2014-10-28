@@ -4,25 +4,19 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/display_actions.tpl.html',
     "<div class=\"display-actions\">\r" +
     "\n" +
-    "\t<h4 class=\"pull-left title\">{{getSelectedLabel()}}&nbsp;<span>({{getCount()}})</span></h4>\r" +
+    "\t<h4 class=\"pull-left title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;<span>({{SortAndFilterService.getCount()}})</span><span ng-click=\"toggle()\" class=\"filtertoggle\"><icon type=\"caret-down\"></icon></span></h4>\r" +
     "\n" +
     "\r" +
     "\n" +
-    "\t<h4 class=\"pull-left title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;<span>({{SortAndFilterService.getCount()}})</span><icon type=\"sort-desc\"></icon></h4>\r" +
+    "\t<ul ms-link-group firstSelected=\"{{CONFIG.filterMenu.items[CONFIG.filterMenu.firstSelected].label}}\" radio=\"true\" class='filterDropdown title hide menu'>\r" +
     "\n" +
-    "\t<div class=\"filterDropdown\">\r" +
+    "\t\t<li ng-repeat=\"item in CONFIG.filterMenu.items\" class=\"header\" ng-class=\"{selected: item.label === selectedItem}\">\r" +
     "\n" +
-    "\t\t<span class=\"selected\">All Projects</span>\r" +
+    "\t\t\t <a ms-link=\"{{item.label}}\" ng-click=\"setFilter(item.filterType, item, true)\">{{item.label}}</a>\r" +
     "\n" +
-    "\t\t<span>Favorites</span>\r" +
+    "\t\t</li>\r" +
     "\n" +
-    "\t\t<span>Created by Me</span>\r" +
-    "\n" +
-    "\t\t<span>I Can Edit</span>\r" +
-    "\n" +
-    "\t</div>\r" +
-    "\n" +
-    "\r" +
+    "    </ul>\r" +
     "\n" +
     "\t<span>\r" +
     "\n" +
@@ -37,10 +31,6 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t<div class=\"actions\">\r" +
     "\n" +
     "\t\t\t<span ng-if=\"view.create\" ng-click=\"create(CONFIG.displayActionsCreate)\"><icon type=\"plus\"></icon>CREATE</span>\r" +
-    "\n" +
-    "\t\t\t<!-- <span ng-if=\"view.filter\"><icon type=\"filter\"></icon></span>\r" +
-    "\n" +
-    "\t\t\t<span ng-if=\"view.search\"><search></search></span> -->\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
@@ -98,7 +88,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/ms_dropdown.tpl.html',
     "<div class=\"ms-dropdown\" id=\"{{id}}\"> \r" +
     "\n" +
-    "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.isActive(id)}\"><span ng-show=\"filterBy\"><icon type=\"filter\" cname=\"filter-icon\"></icon></span><span ng-click=\"select(selectedItem)\" class=\"status select\">{{selectedItem.label}}</span>&nbsp<span ng-click=\"toggle()\" class=\"toggle\"><icon type=\"caret-square-o-down\"></icon></span></h6> \r" +
+    "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.isActive(id)}\"><span ng-show=\"filterBy\"><icon type=\"filter\" cname=\"filter-icon\"></icon></span><span ng-click=\"select(selectedItem)\" class=\"status select\">{{selectedItem.label}}</span>&nbsp<span ng-click=\"toggle()\" class=\"toggle\"><icon type=\"caret-down\"></icon></span></h6> \r" +
     "\n" +
     "\t<ul class=\"ms-select-list dropshadow hide\"> \r" +
     "\n" +

@@ -203,7 +203,6 @@
 				text-transform: capitalize;
 			}
 			.filterDropdown {
-				display: none;
 				position: absolute;
 				padding: 22px;
 
@@ -213,6 +212,10 @@
 				}
 				.selected {
 					font-weight: 700;
+				}
+
+				a {
+					color: $black;
 				}
 			}
 			.button-holder {
@@ -282,9 +285,14 @@
 					}
 				}
 			}
+			.filtertoggle {
+			    font-size: 12px;
+    			padding: 0 5px;
+			}
 		}
 		.display-table {
 			table {
+				margin-bottom: 60px;
 				padding: 20px 8px 5px 8px;
 
 				th {
@@ -436,6 +444,8 @@
 		position: relative;
 		top: -5px;
 		z-index: 10;
+		padding-bottom: 60px;
+		overflow-y: scroll;
 		background-color: #e6e6e6;
 		box-shadow: -2px 0 6px rgba(0,0,0, 0.3);
 	}

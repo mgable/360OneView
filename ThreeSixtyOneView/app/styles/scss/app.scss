@@ -7,7 +7,8 @@ html {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 body {
@@ -105,7 +106,7 @@ body {
 			}
 			.navbar-nav > li {
 				padding-top: 12px;
-				// height: 100%;
+				height: 50px;
 			}
 			/*.navbar-nav > li:hover,*/
 			.navbar-nav > li.active {
@@ -182,81 +183,80 @@ body {
 			}
 		}
 	}
+	&.footer {
+		background-color: $footer-background;
+		width:100%;
+		z-index:1000;
+		height:50px;
+		position:fixed;
+		bottom:0;
+		div {
+			&.footerLeft {
+					height: 50px;
+					background-image: url($sprite);
+					background-repeat: no-repeat;
+					background-position: -188px 0;
 
-}
-.footer {
-	background-color: $footer-background;
-	width:100%;
-	z-index:1000;
-	height:50px;
-	position:absolute;
-	bottom:0;
-	div {
-		&.footerLeft {
-				height: 100%;
-				background-image: url($sprite);
-				background-repeat: no-repeat;
-				background-position: -188px 0;
+					div.colorRow {
+						height: 2px;
+						margin-left: 9px;
+						width: 50%;
+						position: absolute;
+						bottom: 0;
 
-				div.colorRow {
-					height: 2px;
-					margin-left: 9px;
-					width: 50%;
-					position: absolute;
-					bottom: 0;
+						@include linear-gradient-logo($colorcell1,$colorcell2,$colorcell3,$colorcell4,$colorcell5,$colorcell6 );
 
-					@include linear-gradient-logo($colorcell1,$colorcell2,$colorcell3,$colorcell4,$colorcell5,$colorcell6 );
-
-				}
-			}
-		&.footerCenter {
-			padding-top: 20px;
-
-			ul.navbar-nav {
-				width: 275px;
-
-				li {
-					border-right: 1px solid $gray;
-
-					&:last-child {
-						border-right: none;
 					}
 				}
+			&.footerCenter {
+				padding-top: 20px;
 
-				a.information {
-					width: auto;
-					padding: 0 15px;
-					font-size: 1.2em;
+				ul.navbar-nav {
+					width: 275px;
 
-					&:hover {
-						text-decoration: underline;
-						color: $gray;
-					}	
+					li {
+						border-right: 1px solid $gray;
+
+						&:last-child {
+							border-right: none;
+						}
+					}
+
+					a.information {
+						width: auto;
+						padding: 0 15px;
+						font-size: 1.2em;
+
+						&:hover {
+							text-decoration: underline;
+							color: $gray;
+						}	
+					}
 				}
 			}
-		}
-		&.footerRight {
-			padding: 10px 20px 0 0;
-			text-align: right;
+			&.footerRight {
+				padding: 10px 20px 0 0;
+				text-align: right;
 
-			a {
-				color: $gray;
-				i {
-					font-size: 25px;
-					margin-right: 5px;
-					line-height: 17px;
+				a {
+					color: $gray;
+					i {
+						font-size: 25px;
+						margin-right: 5px;
+						line-height: 17px;
+					}
 				}
 			}
 		}
 	}
 }
 
-
-
 .app {
 	max-width: $app_max_width;
 	/*min-width: $app_min_width;*/
 	font-size: $body_font_size;
-	margin: $app_top_margin auto;  
+	margin: $app_top_margin auto 80px;  
 	background-color: $white;
+	overflow-y: hidden;
+	height: 80%;
 }

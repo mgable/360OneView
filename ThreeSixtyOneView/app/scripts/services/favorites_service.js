@@ -4,31 +4,36 @@
 
 angular.module('ThreeSixtyOneView.services')
     .service('FavoritesService', ["$rootScope", "FavoritesModel", "Model", function($rootScope, FavoritesModel, Model) {
-        var favoritesList = [], FavsModel, favs;
+        var model, favs;
 
-        FavsModel = new Model();
-        angular.extend(this, FavsModel.prototype);
-        favs = new FavsModel(FavoritesModel);
+        model = new Model();
+        angular.extend(this, model.prototype);
+        favs = new model(FavoritesModel);
         angular.extend(this, favs);
 
+        this.data = [];
+
         this.removeFavorite = function(itemID) {
-            if (_.indexOf(favoritesList, itemID) > -1) {
-                favoritesList.splice(_.indexOf(favoritesList, itemID), 1);
+            if (_.indexOf(this.data, itemID) > -1) {
+                this.data.splice(_.indexOf(this.data, itemID), 1);
                 this.unFavorite(itemID);
             }
         };
     
-        this.setFavorites = function(f){
-            favoritesList = f;
-        };
+        // this.setFavorites = function(f){
+        //     console.info("setting favorites");
+        //     console.info(this);
+        //     this.data = f;
+        // };
 
         this.addFavorite = function(itemID) {
-            favoritesList.push(itemID);
+            this.data.push(itemID);
             this.setAsFavorite(itemID);
         };
 
         this.isFavorite = function(itemID) {
-            var index = _.indexOf(favoritesList, itemID);
+            //console.info(this.data)
+            var index = _.indexOf(this.data, itemID);
             return index > -1 ? true : false;
         };
 
@@ -43,7 +48,7 @@ angular.module('ThreeSixtyOneView.services')
         };
 
         this.getFavorites = function() {
-            return favoritesList;
+            return this.data;
         };
 
     }]);
