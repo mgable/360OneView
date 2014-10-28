@@ -18,7 +18,7 @@ angular.module('ThreeSixtyOneView.services')
 			if (item) {
 				return item;
 			} else {
-				console.error("The project id " + _id_ + " was NOT found!");
+				//console.error("The project id " + _id_ + " was NOT found!");
 			}
 		};
 

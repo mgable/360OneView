@@ -407,9 +407,6 @@ var m = angular.module("wijspread", []);
                 }
         };
 
-        console.info("from wijmo");
-        console.info($);
-        console.info($.wijmo.wijspread.SheetArea.viewport);
     var sheetPropertyMap = {
             name: {
                 type: "string", name: "name", setFunction: "setName", getFunction: "getName"

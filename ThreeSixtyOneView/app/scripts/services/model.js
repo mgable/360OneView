@@ -62,7 +62,7 @@ angular.module("ThreeSixtyOneView.services")
 					data = JSON.parse(response);
 				}
 				catch(e){
-					console.error ("no data received or data will not parse to json");
+					//console.error ("no data received or data will not parse to json");
 					dialogs.error("No data received!!!", "Either the server is down or the response is not JSON.");
 					return;
 				}
