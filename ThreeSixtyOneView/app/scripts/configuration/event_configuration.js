@@ -12,5 +12,6 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     resetFilterBy: 'SortAndFilterService:resetFilterBy',
     openCreateProject: "DialogService:openCreateProject",
     // ERRORS
-    noDataReceived: "ErrorService:noDataReceived"
+    noDataReceived: "ErrorService:noDataReceived",
+    serverError: "ErrorService:serverError"
 });

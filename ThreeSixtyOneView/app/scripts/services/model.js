@@ -55,27 +55,46 @@ angular.module("ThreeSixtyOneView.services")
 				}
 				return JSON.stringify(request);
 			},
+			isValid: function(_data_){
+				var data = $rootScope.$eval(_data_);
+				// is zero length string
+				if (angular.isString(data) && data.length === 0){
+					return false;
+				// is zero length array
+				} else if (angular.isArray(data) && data.length  === 0){
+					return false;
+				// is empty object
+				} else if(angular.isObject(data) && Object.keys(data).length  === 0) {
+					return false;
+				} else {
+					return true;
+				}
+			},
 			translateResponse: function (response, responseTranslator){
 				var results, data;
+				if (!this.isValid(response)){
+					$rootScope.$broadcast(EVENTS.noDataReceived, {msg:"no data received"});
+					return false;
+				} else {
+					try {
+						data = JSON.parse(response);
+					}
+					catch(e){
+						$rootScope.$broadcast(EVENTS.noDataReceived, {msg:"data will not parse to json"});
+						return;
+					}
 
-				try {
-					data = JSON.parse(response);
-				}
-				catch(e){
-					$rootScope.$broadcast(EVENTS.noDataReceived, {msg:"no data received or data will not parse to json"});
-					return;
-				}
+					if (_.isArray(data)){
+						results = [];
+						_.each(data, function(e,i,a){
+							results.push(this.translateObj(e, responseTranslator));
+						}, this);
+					} else if (_.isObject(data)){
+						return this.translateObj(data, responseTranslator);
+					}
 
-				if (_.isArray(data)){
-					results = [];
-					_.each(data, function(e,i,a){
-						results.push(this.translateObj(e, responseTranslator));
-					}, this);
-				} else if (_.isObject(data)){
-					return this.translateObj(data, responseTranslator);
+					return results;
 				}
-
-				return results;
 			},
 			makeConfig: function(which, responseTranslator, requestTranslator){
 				return {

@@ -5,7 +5,7 @@
 
 // View controllers
 angular.module('ThreeSixtyOneView')
-    .controller("MainCtrl", ["$scope", "ActiveSelection", "CubeService", function($scope,  ActiveSelection, CubeService) {
+    .controller("MainCtrl", ["$scope", "ActiveSelection", "CubeService", "ErrorService", function($scope,  ActiveSelection, CubeService, ErrorService) {
 
         // These are going away
         $scope.ActiveSelection = ActiveSelection;
