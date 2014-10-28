@@ -406,6 +406,10 @@ var m = angular.module("wijspread", []);
                     type: "enum, DataValidationResult", name: "DataValidationResult", setFunction: setDataValidationResult
                 }
         };
+
+        console.info("from wijmo");
+        console.info($);
+        console.info($.wijmo.wijspread.SheetArea.viewport);
     var sheetPropertyMap = {
             name: {
                 type: "string", name: "name", setFunction: "setName", getFunction: "getName"
