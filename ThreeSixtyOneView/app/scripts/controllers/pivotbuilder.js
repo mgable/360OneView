@@ -50,20 +50,20 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			}
 		}, true);
 
-		$scope.dragOptions = {
-			itemMoved: function(event) {
-				// console.log(event);
-				// $scope.applyView();
-			},
-			orderChanged: function(event) {
-				// console.log(event);
-				// $scope.applyView();
-			},
-			dragStart: function(event) {
-				// console.log(event);
-			}
-			// containment: '#dragDropArea'
-		};
+		// $scope.dragOptions = {
+		// 	itemMoved: function(event) {
+		// 		// console.log(event);
+		// 		// $scope.applyView();
+		// 	},
+		// 	orderChanged: function(event) {
+		// 		// console.log(event);
+		// 		// $scope.applyView();
+		// 	},
+		// 	dragStart: function(event) {
+		// 		// console.log(event);
+		// 	}
+		// 	// containment: '#dragDropArea'
+		// };
 
 		$scope.identity = angular.identity();
 	};
@@ -111,7 +111,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 	// set up the add row/column pop-up location
 	$scope.popUpLocSet = function($event) {
-		var top = $event.target.offsetTop - document.body.scrollTop,
+		var top = $event.target.offsetTop - (document.body.scrollTop || window.pageYOffset || 0),
 			left = $event.target.offsetLeft;
 		$scope.popUpLoc = {top: top, left: left};
 	};
