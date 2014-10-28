@@ -27,10 +27,8 @@ module.exports = function(config) {
             'app/scripts/vendor/dialogs.js',
             'app/scripts/vendor/jquery.wijmo.wijspread.all.3.20142.11.js',
             'app/scripts/vendor/angular.wijmo.wijspread.3.20142.11.js',
-            'app/scripts/vendor/',
             'app/scripts/*.js',
             'app/scripts/**/*.js',
-            'test/mock/**/*.js',
             'test/spec/**/*.js',
             'app/views/**/*.html'
         ],

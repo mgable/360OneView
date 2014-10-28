@@ -406,6 +406,7 @@ var m = angular.module("wijspread", []);
                     type: "enum, DataValidationResult", name: "DataValidationResult", setFunction: setDataValidationResult
                 }
         };
+
     var sheetPropertyMap = {
             name: {
                 type: "string", name: "name", setFunction: "setName", getFunction: "getName"

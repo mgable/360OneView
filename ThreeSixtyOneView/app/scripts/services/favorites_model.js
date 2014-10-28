@@ -5,9 +5,6 @@
 angular.module('ThreeSixtyOneView.services').factory('FavoritesModel', ["$timeout", "$location", "Resource", "CONFIG", "SERVER", function($timeout, $location, Resource, CONFIG, SERVER){
         var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.favorites),
         transformResponse = function(data){
-            console.info("trandform");
-            console.info(typeof data);
-            console.info(data)
             if (data){
                 return data ? _.pluck(JSON.parse(data), 'uuid') : "";
             }
