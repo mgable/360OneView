@@ -32,7 +32,6 @@ angular.module('ThreeSixtyOneView.services')
         };
 
         this.isFavorite = function(itemID) {
-            //console.info(this.data)
             var index = _.indexOf(this.data, itemID);
             return index > -1 ? true : false;
         };

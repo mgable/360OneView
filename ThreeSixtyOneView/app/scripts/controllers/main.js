@@ -94,9 +94,13 @@ angular.module('ThreeSixtyOneView')
                 });
 
                 // currently this get scenarios - but it will eventually get elements
-                $scope.showDetails(SortAndFilterService.getData()[0]);
+                $scope.selectItem(SortAndFilterService.getData()[0]);
 
             };
+
+        $scope.selectItem = function(item){
+            $scope.showDetails(item);
+        };
 
 
         $scope.getProject = function(){
