@@ -1,3 +1,4 @@
+ /*jshint -W069 */
 'use strict';
 
 angular.module('ThreeSixtyOneView.directives')
@@ -13,7 +14,7 @@ angular.module('ThreeSixtyOneView.directives')
               timer = setTimeout(function() {
                 scope.$apply(function () {
                     fn(scope, { $event: event });
-                }); 
+                });
                 clicks = 0;             //after action performed, reset counter
               }, delay);
               } else {

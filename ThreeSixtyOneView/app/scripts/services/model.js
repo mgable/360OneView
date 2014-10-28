@@ -3,7 +3,7 @@
 "use strict";
 
 angular.module("ThreeSixtyOneView.services")
-	.service("Model", ["$timeout", "dialogs", function($timeout, dialogs) {
+	.service("Model", ["$timeout", "$rootScope", "EVENTS", function($timeout, $rootScope, EVENTS) {
 		var Model = function(model) {
 			angular.extend(this, model);
 		};
@@ -62,8 +62,7 @@ angular.module("ThreeSixtyOneView.services")
 					data = JSON.parse(response);
 				}
 				catch(e){
-					//console.error ("no data received or data will not parse to json");
-					dialogs.error("No data received!!!", "Either the server is down or the response is not JSON.");
+					$rootScope.$broadcast(EVENTS.noDataReceived, {msg:"no data received or data will not parse to json"});
 					return;
 				}
 
