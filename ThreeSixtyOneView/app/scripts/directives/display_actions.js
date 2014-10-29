@@ -34,10 +34,6 @@ angular.module('ThreeSixtyOneView.directives')
                 toggleActions(show);
                 
                 $scope.create = function(action, data) {
-                    //action is and EVENTS.type
-                    /* jshint ignore:start */
-                    //eval(action);
-                    /* jshint ignore:end */
                     $rootScope.$broadcast(EVENTS[action], data);
                 };
 

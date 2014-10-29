@@ -72,10 +72,10 @@ angular.module("ThreeSixtyOneView.services")
 			},
 			translateResponse: function (response, responseTranslator){
 				var results, data;
-				if (!this.isValid(response)){
-					$rootScope.$broadcast(EVENTS.noDataReceived, {msg:"no data received"});
-					return false;
-				} else {
+				// if (!this.isValid(response)){
+				// 	$rootScope.$broadcast(EVENTS.noDataReceived, {msg:"no data received"});
+				// 	return false;
+				// } else {
 					try {
 						data = JSON.parse(response);
 					}
@@ -94,7 +94,7 @@ angular.module("ThreeSixtyOneView.services")
 					}
 
 					return results;
-				}
+				//}
 			},
 			makeConfig: function(which, responseTranslator, requestTranslator){
 				return {
