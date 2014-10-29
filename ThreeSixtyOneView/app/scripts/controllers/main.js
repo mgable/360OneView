@@ -5,25 +5,16 @@
 
 // View controllers
 angular.module('ThreeSixtyOneView')
-    .controller("MainCtrl", ["$scope", "ActiveSelection", "CubeService", "ErrorService", function($scope,  ActiveSelection, CubeService, ErrorService) {
+    .controller("MainCtrl", ["$scope", "ActiveSelection", "PivotViewService", "ErrorService", function($scope,  ActiveSelection, PivotViewService, ErrorService) {
 
         // These are going away
         $scope.ActiveSelection = ActiveSelection;
-        CubeService.getMeta(1).then(function(response){
-            // console.info("from main");
-            // console.info(response);
-        });
 
-        CubeService.getMembers(1).then(function(response){
-            // console.info("from main");
-            // console.info(response);
+        // this is a test
+        PivotViewService.get({cubeId:"1"}).then(function(response){
+            console.info("from main");
+            console.info(response);
         });
-
-        CubeService.getViewByMembers(1,1,1).then(function(response){
-            // console.info("from main");
-            // console.info(response);
-        });
-
 
         // convenience methods
         $scope.console = function(msg) {

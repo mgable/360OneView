@@ -16,7 +16,8 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", ["$http", "$q",
                     var regExp = new RegExp(":" + i);
                     url = url.replace(regExp, e);
                 });
-
+                // remove unreplaced tokens
+                url = url.replace(/\/:[^\/]*/gi,"");
                 return url;
             };
 
