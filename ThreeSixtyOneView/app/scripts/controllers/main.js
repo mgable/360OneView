@@ -214,6 +214,7 @@ angular.module('ThreeSixtyOneView')
             SortAndFilterService.setFilter(type, item, forceFilter);
         };
     }]).controller("ScenarioEditCtrl", ["$scope",  "$stateParams", "GotoService", "ProjectsService", "ScenarioService", "Project", "Scenario", 'ptData', function($scope, $stateParams, GotoService, ProjectsService, ScenarioService, Project, Scenario, ptData) {
+
         $scope.GotoService = GotoService;
         $scope.project = Project;
         $scope.scenario = Scenario;
