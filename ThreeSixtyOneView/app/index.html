@@ -21,15 +21,6 @@
 		<link rel="stylesheet" href="styles/ms_main.css" />
 		<!-- endbuild -->
 
-        <!-- Web fonts key for http://*.markeshare.com -->
-        <!-- //use.typekit.net/zyk1snl.js -->
-        <!-- Web fonts key for http://localhost -->
-        <!-- //use.typekit.net/zyk1snl.js -->
-        <!-- Web fonts key for http://127.0.0.1 -->
-        <script src="//use.typekit.net/zer1wrp.js"></script>
-        <script>try{Typekit.load();}catch(e){}</script>
-
-
         <link rel="stylesheet" href="styles/vendor/jquery.wijmo.wijspread.3.20142.11.css" />
         <link rel="stylesheet" href="styles/vendor/theme.css" />
 	</head>
@@ -120,5 +111,18 @@
         <script src="scripts/directives/single_click.js"></script>
         <script src="scripts/services/error_service.js"></script>
         <!-- endbuild -->
+
+        <script>
+            // Web fonts key for http://*.markeshare.com
+            // //use.typekit.net/zyk1snl.js
+            // Web fonts key for http://localhost
+            // //use.typekit.net/zyk1snl.js
+            // Web fonts key for http://127.0.0.1
+            // //use.typekit.net/zyk1snl.js
+            var src = document.location.host.indexOf("marketshare") > -1 ? "//use.typekit.net/zyk1snl.js" : "//use.typekit.net/zer1wrp.js"
+            $.getScript(src, function(){
+                try{Typekit.load();}catch(e){}
+            });
+        </script>
     </body>
 </html>
