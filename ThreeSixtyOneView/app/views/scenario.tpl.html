@@ -12,13 +12,13 @@
 		<div>
 			<form class="form-inline">
 				<div class='form-group'>
-					<label><span ng-click="view = 'edit'">Edit:</span>&nbsp;
+					<label><span ui-sref="ScenarioEdit.edit">Edit:</span>&nbsp;
 						<select ng-model="scenarioElementType" ng-options="value for value in types"></select>
 					</label>
 				</div>
 			</form>
 
-			<span ng-click="view = 'results'" class="results" Xng-class="{disabled: !resultsCalculated}">Results: (Not Calculated)</span>
+			<span  ui-sref="ScenarioEdit.results" class="results" Xng-class="{disabled: !resultsCalculated}">Results: (Not Calculated)</span>
 			<span class="pull-right">
 				<button class="btn btn-primary" ng-click="resultsCalculated=true">simulate</button>
 			</span>
@@ -27,10 +27,8 @@
 	</div>
 
 	<div class="display">
-		<div ng-switch on="view">
-			<div ng-switch-when="edit"><ng-include src="'views/includes/scenario_edit_edit.tpl.html'"></ng-include></div>
-			<div ng-switch-when="results"><ng-include src="'views/includes/scenario_edit_results.tpl.html'"></ng-include></div>
-			<div ng-switch-default><ng-include src="'views/includes/scenario_edit_edit.tpl.html'"></ng-include></div>
-		</div>
+		<div ui-view="builder"></div>
+		<div ui-view="table"></div>
+		<div ui-view="results"></div>
 	</div>
 </div>

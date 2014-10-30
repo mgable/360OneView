@@ -5,25 +5,16 @@
 
 // View controllers
 angular.module('ThreeSixtyOneView')
-    .controller("MainCtrl", ["$scope", "ActiveSelection", "CubeService", function($scope,  ActiveSelection, CubeService) {
+    .controller("MainCtrl", ["$scope", "ActiveSelection", "PivotViewService", "ErrorService", function($scope,  ActiveSelection, PivotViewService, ErrorService) {
 
         // These are going away
         $scope.ActiveSelection = ActiveSelection;
-        CubeService.getMeta(1).then(function(response){
-            // console.info("from main");
-            // console.info(response);
-        });
 
-        CubeService.getMembers(1).then(function(response){
-            // console.info("from main");
-            // console.info(response);
+        // this is a test
+        PivotViewService.get({cubeId:"1"}).then(function(response){
+            console.info("from main");
+            console.info(response);
         });
-
-        CubeService.getViewByMembers(1,1,1).then(function(response){
-            // console.info("from main");
-            // console.info(response);
-        });
-
 
         // convenience methods
         $scope.console = function(msg) {
@@ -70,7 +61,7 @@ angular.module('ThreeSixtyOneView')
         });
     }]).controller("ProjectDashboardCtrl", ["$scope", "$controller", "$stateParams", "$state", "CONFIG", "ProjectsService", "Project", "Scenarios", "ActiveSelection", "SortAndFilterService", "GotoService", "ScenarioService", "EVENTS", function($scope,  $controller, $stateParams, $state, CONFIG, ProjectsService, Project, Scenarios, ActiveSelection, SortAndFilterService, GotoService, ScenarioService,EVENTS) {
 
-        angular.extend(this, $controller('ProjectsViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService}));
+        angular.extend(this, $controller('ProjectViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService}));
 
         var currentView = CONFIG.view[$state.current.name],
             filter = "",
@@ -101,9 +92,13 @@ angular.module('ThreeSixtyOneView')
                 });
 
                 // currently this get scenarios - but it will eventually get elements
-                $scope.showDetails(SortAndFilterService.getData()[0]);
+                $scope.selectItem(SortAndFilterService.getData()[0]);
 
             };
+
+        $scope.selectItem = function(item){
+            $scope.showDetails(item);
+        };
 
 
         $scope.getProject = function(){
@@ -115,9 +110,9 @@ angular.module('ThreeSixtyOneView')
         });
 
         init($state.current.name);
-    }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "$stateParams", "$state", "CONFIG", "Favorites", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", "DiaglogService", "EVENTS", function($scope, $controller, $stateParams, $state, CONFIG, Favorites, FavoritesService, ProjectsService, ScenarioService, Projects, ActiveSelection, SortAndFilterService, GotoService, DiaglogService, EVENTS) {
+    }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "$stateParams", "$state", "CONFIG", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", "DiaglogService", "EVENTS", function($scope, $controller, $stateParams, $state, CONFIG, FavoritesService, ProjectsService, ScenarioService, Projects, ActiveSelection, SortAndFilterService, GotoService, DiaglogService, EVENTS) {
 
-        angular.extend(this, $controller('ProjectsViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService, ScenarioService:ScenarioService }));
+        angular.extend(this, $controller('ProjectViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService, ScenarioService:ScenarioService }));
 
         var currentView = CONFIG.view[$state.current.name],
             filter = "",
@@ -149,7 +144,7 @@ angular.module('ThreeSixtyOneView')
                 master = _.find($scope.data, function(elem){return elem.isMaster;});
                 
                 // get all favorites
-                FavoritesService.setFavorites(_.pluck(Favorites, 'uuid'));
+                //FavoritesService.setFavorites(_.pluck(Favorites, 'uuid'));
                 if (master) { FavoritesService.addFavorite(master.id); }
 
                 // select first time in list
@@ -180,7 +175,7 @@ angular.module('ThreeSixtyOneView')
         });
 
         init($state.current.name);
-    }]).controller("ProjectsViewCtrl", ["$scope", "ActiveSelection", "SortAndFilterService", "GotoService",function($scope, ActiveSelection, SortAndFilterService, GotoService){
+    }]).controller("ProjectViewCtrl", ["$scope", "ActiveSelection", "SortAndFilterService", "GotoService",function($scope, ActiveSelection, SortAndFilterService, GotoService){
         $scope.goto = function(evt, where, item){
             if (evt && evt.stopPropagation){ evt.stopPropagation(); }
             switch(where){
@@ -193,8 +188,6 @@ angular.module('ThreeSixtyOneView')
 
         $scope.getDetails = function(item, model, what){
             model(item.id).then(function(response){
-                console.info("getDetails");
-                console.info(response);
                 item[what] = response;
                 $scope.showDetails(item);
             });
@@ -227,7 +220,8 @@ angular.module('ThreeSixtyOneView')
         $scope.setFilter = function(type, item, forceFilter) {
             SortAndFilterService.setFilter(type, item, forceFilter);
         };
-    }]).controller("ScenarioEditCtrl", ["$scope",  "$stateParams", "GotoService", "ProjectsService", "ScenarioService", "Project", "Scenario", 'ptData', function($scope, $stateParams, GotoService, ProjectsService, ScenarioService, Project, Scenario, ptData) {
+    }]).controller("ScenarioCtrl", ["$scope",  "$stateParams", "GotoService", "ProjectsService", "ScenarioService", "Project", "Scenario", 'ptData', function($scope, $stateParams, GotoService, ProjectsService, ScenarioService, Project, Scenario, ptData) {
+
         $scope.GotoService = GotoService;
         $scope.project = Project;
         $scope.scenario = Scenario;
@@ -256,7 +250,6 @@ angular.module('ThreeSixtyOneView')
             };
 
             $scope.isScenarioTitleUnique = function(scenarioTitle) {
-                console.info($scope.scenarios)
                 return ! _.findWhere($scope.scenarios, {title:scenarioTitle});
             };
 

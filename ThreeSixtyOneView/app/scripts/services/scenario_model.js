@@ -22,7 +22,7 @@ angular.module('ThreeSixtyOneView.services').factory('ScenarioModel', ["$locatio
             return this.$futureData;
         },
         create: function(_project_, _scenario_){
-            return resource.create(_scenario_, this.config, _project_.id).then(function(response){
+            return resource.create(_scenario_, this.config, {id:_project_.id}).then(function(response){
                 return response;
             });
         }

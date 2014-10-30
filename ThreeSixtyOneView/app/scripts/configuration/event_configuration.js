@@ -10,5 +10,8 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     gotoScenarioCreate: 'GotoService:scenarioCreate',
     gotoDashboard: 'GotoService:dashboard',
     resetFilterBy: 'SortAndFilterService:resetFilterBy',
-    openCreateProject: "DialogService:openCreateProject"
+    openCreateProject: "DialogService:openCreateProject",
+    // ERRORS
+    noDataReceived: "ErrorService:noDataReceived",
+    serverError: "ErrorService:serverError"
 });

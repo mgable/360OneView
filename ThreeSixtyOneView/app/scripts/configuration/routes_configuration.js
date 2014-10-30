@@ -7,17 +7,16 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
     $stateProvider
     .state('ProjectManager', {
       url: "/projects",
-      templateUrl: "views/display_manager.tpl.html",
+      templateUrl: "views/projects.tpl.html",
       controller: "ProjectListingCtrl",
       resolve: {
-        'Projects': function(ProjectsService){return ProjectsService.get();},
-        'Favorites': function(FavoritesService) {return FavoritesService.get();}
+        'Projects': function(ProjectsService){return ProjectsService.get();}
       },
       breadcrumb: "<span>All Projects</span>"
     })
     .state('Dashboard', {
       url: "/dashboard/:projectId",
-      templateUrl: "views/display_manager.tpl.html",
+      templateUrl: "views/projects.tpl.html",
       controller: "ProjectDashboardCtrl",
       resolve: {
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
@@ -35,14 +34,38 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
       },
       breadcrumb: "<a goto='projects'>All Projects</a> &gt; {{project.title}} &gt; Create Scenario"
     })
-    .state('ScenarioEdit', {
-      url: "/scenarioEdit/:projectId/:scenarioId",
-      templateUrl: "views/scenario_edit.tpl.html",
-      controller: "ScenarioEditCtrl",
+    .state('Scenario', {
+      url: "/scenario/:projectId/:scenarioId",
+      templateUrl: "views/scenario.tpl.html",
+      controller: "ScenarioCtrl",
       resolve: {
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
-        'Scenario': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId, $stateParams.scenarioId);}
+        'Scenario': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId, $stateParams.scenarioId);},
+        'Views': function(PivotViewService){return PivotViewService.get({cubeId:1});}
       },
       breadcrumb: "<a goto='projects'>All Projects</a> &gt; <a goto='dashboard' params='{{project.id}}'>{{project.title}}</a> &gt; {{scenario.title}}"
+    })
+    .state("Scenario.edit", {
+        views: {
+          'builder': {
+            controller: "PivotBuilderCtrl",
+            templateUrl: "views/includes/pivot_table_builder.tpl.html",
+          },
+          'table': {
+            controller: "spreadjsCtrl",
+            templateUrl: "views/includes/spreadjs.tpl.html",
+          }
+        },
+        breadcrumb: "<a goto='projects'>All Projects</a> &gt; <a goto='dashboard' params='{{project.id}}'>{{project.title}}</a> &gt; {{scenario.title}}"
+
+    })
+    .state("Scenario.results", {
+      views: {
+        results: {
+          templateUrl: "views/includes/scenario_results.tpl.html"
+        }
+      },
+      breadcrumb: "<a goto='projects'>All Projects</a> &gt; <a goto='dashboard' params='{{project.id}}'>{{project.title}}</a> &gt; {{scenario.title}}"
+
     });
 }]);
