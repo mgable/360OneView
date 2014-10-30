@@ -229,59 +229,23 @@
 					cursor: pointer;
 					display:inline-block;
 				}
-				.actions {
+				> span {
+					/* Orange Button */
 					display:inline-block;
+					padding: 5px 18px;
+					background-color: $orange;
+					border-radius: 5px;
+					font-size: 1.1em;
+					color: $white;
+					cursor: pointer;
+					box-shadow: 0px 3px 5px #AAA;
 
-					> span {
-						/* Orange Button */
-						display:inline-block;
-						padding: 5px 18px;
-						background-color: $orange;
-						border-radius: 5px;
-						font-size: 1.1em;
-						color: $white;
-						cursor: pointer;
-						box-shadow: 0px 3px 5px #AAA;
-
-						&:hover {
-							color:$mouseover;
-						}
-						i {
-							font-size: 14px;
-							padding-right: 5px;
-						}
+					&:hover {
+						color:$mouseover;
 					}
-					.search-holder {
-						border: 1px solid $gray;
-						display: inline-block;
-						padding: 2px 5px;
-						.search-input {
-							border: 0 none;
-							font-size: 14px;
-							width: 250px;
-
-							&:hover {
-								border: 1px solid $blue;
-							}
-						}
-						.close-button i {
-							font-size: 18px;
-						}
-					}
-					.toggle-info-tray {
-						cursor: default;
-						color:$lightgray;
-						&:hover {
-							cursor:default;
-							color: $lightgray;
-						}
-						&.enabled {
-							color:$gray;
-							&:hover {
-								cursor: pointer;
-								color:$mouseover;
-							}
-						}
+					i {
+						font-size: 14px;
+						padding-right: 5px;
 					}
 				}
 			}

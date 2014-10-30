@@ -6,14 +6,13 @@
 			 <a ms-link="{{item.label}}" ng-click="setFilter(item.filterType, item, true)">{{item.label}}</a>
 		</li>
     </ul>
+
 	<span>
 		<icon type="filter"></icon>
 		<input type="text" class="search-input" ng-model="SortAndFilterService.searchText" ng-change="SortAndFilterService.filter()" placeholder="Filter Search"/>&nbsp;
 	</span>
+
 	<div class="button-holder">
-		<div class="actions">
-			<span ng-if="view.create" ng-click="create(CONFIG.displayActionsCreate)"><icon type="plus"></icon>CREATE</span>
-		</div>
-		
+		<span ng-click="create(CONFIG.displayActionsCreate)"><icon type="plus"></icon>CREATE</span>
 	</div>
 </div>

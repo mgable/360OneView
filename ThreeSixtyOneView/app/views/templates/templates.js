@@ -18,6 +18,8 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "    </ul>\r" +
     "\n" +
+    "\r" +
+    "\n" +
     "\t<span>\r" +
     "\n" +
     "\t\t<icon type=\"filter\"></icon>\r" +
@@ -26,15 +28,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t</span>\r" +
     "\n" +
+    "\r" +
+    "\n" +
     "\t<div class=\"button-holder\">\r" +
     "\n" +
-    "\t\t<div class=\"actions\">\r" +
-    "\n" +
-    "\t\t\t<span ng-if=\"view.create\" ng-click=\"create(CONFIG.displayActionsCreate)\"><icon type=\"plus\"></icon>CREATE</span>\r" +
-    "\n" +
-    "\t\t</div>\r" +
-    "\n" +
-    "\t\t\r" +
+    "\t\t<span ng-click=\"create(CONFIG.displayActionsCreate)\"><icon type=\"plus\"></icon>CREATE</span>\r" +
     "\n" +
     "\t</div>\r" +
     "\n" +
