@@ -43,6 +43,7 @@ angular.module('ThreeSixtyOneView')
         $scope.hasFavorites = CONFIG.view[$state.current.name].hasFavorites;
         $scope.selectedItem = ActiveSelection.getActiveItem();
         $scope.showScenario = false;
+        $scope.viewAll = 'View All';
 
         $scope.toggleFavorite = function(itemID){
             FavoritesService.toggleFavorite(itemID);
@@ -57,8 +58,9 @@ angular.module('ThreeSixtyOneView')
             $scope.$broadcast(EVENTS.renameProject, item);
         };
 
-        $scope.showScenarios = function() {
-            $scope.showScenario = true;
+        $scope.toggleShowScenarios = function() {
+            $scope.showScenario = !$scope.showScenario;
+            $scope.viewAll = ($scope.showScenario) ? 'View Less' : 'View All';
         };
 
         $scope.$on(EVENTS.changeActiveItem, function(event, response) {
