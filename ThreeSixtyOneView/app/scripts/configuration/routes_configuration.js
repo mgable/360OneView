@@ -34,10 +34,10 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
       },
       breadcrumb: "<a goto='projects'>All Projects</a> &gt; {{project.title}} &gt; Create Scenario"
     })
-    .state('ScenarioEdit', {
-      url: "/scenarioEdit/:projectId/:scenarioId",
+    .state('Scenario', {
+      url: "/scenario/:projectId/:scenarioId",
       templateUrl: "views/scenario.tpl.html",
-      controller: "ScenarioEditCtrl",
+      controller: "ScenarioCtrl",
       resolve: {
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
         'Scenario': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId, $stateParams.scenarioId);},
@@ -45,7 +45,7 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
       },
       breadcrumb: "<a goto='projects'>All Projects</a> &gt; <a goto='dashboard' params='{{project.id}}'>{{project.title}}</a> &gt; {{scenario.title}}"
     })
-    .state("ScenarioEdit.edit", {
+    .state("Scenario.edit", {
         views: {
           'builder': {
             controller: "PivotBuilderCtrl",
@@ -59,7 +59,7 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
         breadcrumb: "<a goto='projects'>All Projects</a> &gt; <a goto='dashboard' params='{{project.id}}'>{{project.title}}</a> &gt; {{scenario.title}}"
 
     })
-    .state("ScenarioEdit.results", {
+    .state("Scenario.results", {
       views: {
         results: {
           templateUrl: "views/includes/scenario_results.tpl.html"

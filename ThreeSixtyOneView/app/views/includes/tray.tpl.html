@@ -71,12 +71,12 @@
 		<span class='field-label bold'>Total&nbsp;<span>{{selectedItem.scenarios.length}}</span>&nbsp;scenarios</span>
 		<span class="create"><icon type="plus-circle"></icon>Create</span>
 		<div class="entity-holder" >
-			<div class="scenario" ng-repeat="scenario in selectedItem.scenarios |limitTo:3">
+			<div class="scenario" ng-show="{{$index < 3}} || showScenario" ng-repeat="scenario in selectedItem.scenarios">
 				<a ng-click="goto($event, 'gotoScenarioEdit', scenario)">
 					<icon type="cubes"></icon> {{scenario.title}}
 				</a>
 			</div>
 		</div>
 	</div>
-	<div class="profile-footer" ng-if="selectedItem.scenarios.length > 3">View All</div>
+	<div class="profile-footer" ng-click="showScenarios()" ng-if="selectedItem.scenarios.length > 3"><a ng-click="showScenarios()">View All</a></div>
 </div>

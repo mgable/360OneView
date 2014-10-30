@@ -28,7 +28,7 @@ describe('Service: GotoService', function () {
 
   it('should go to Scenario Edit', function(){
     GotoService.scenarioEdit(projectId, scenarioId);
-    expect($state.go).toHaveBeenCalledWith("ScenarioEdit", {projectId:projectId, scenarioId:scenarioId});
+    expect($state.go).toHaveBeenCalledWith("Scenario.edit", {projectId:projectId, scenarioId:scenarioId});
   });
 
   it('should go to Scenario Create', function(){
