@@ -8,7 +8,6 @@ describe('Controllers: ', function() {
 
     beforeEach(module('ThreeSixtyOneView', 'ThreeSixtyOneView.services'));
 
-
     describe("Main CTRL: ", function(){
         beforeEach(inject(function($rootScope, $controller) {
             scope = $rootScope.$new();
@@ -35,7 +34,7 @@ describe('Controllers: ', function() {
         });
     });
 
-    describe("ProjectListing Ctrl", function(){
+    describe("ProjectListing CTRL", function(){
         beforeEach(inject(function(_$rootScope_, _$state_, $controller,  _CONFIG_, _FavoritesService_, _SortAndFilterService_, _ActiveSelection_ ) {
             $rootScope = _$rootScope_;
             FavoritesService = _FavoritesService_;
@@ -142,8 +141,31 @@ describe('Controllers: ', function() {
             //$scope.selectItem(SortAndFilterService.getData()[0]);
             //expect(scope.selectItem).toHaveBeenCalledWith("foo");
         });
-
     });
+
+    describe("InfoTray CTRL", function(){
+        beforeEach(inject(function($rootScope, $controller, ActiveSelection) {
+            scope = $rootScope.$new();
+            data = {"foo": "bar"};
+            spyOn(ActiveSelection, "getActiveItem").and.returnValue(data)
+            ctrl = $controller('InfoTrayCtrl', {
+                $scope: scope,
+                $state: {current: {name: "ProjectManager"}}
+            });
+        }));
+
+        it("should exist", function(){
+            expect(ctrl).toBeDefined();
+        });
+
+        it("should bootstrap all data", function(){
+            expect(scope.selectedItem).toBe(data);
+            expect(scope.showScenario).toBe(false);
+            expect(scope.viewAll).toBe('View All');
+            expect(scope.hasFavorites).toBe(CONFIG.view[$state.current.name].hasFavorites);
+        });
+    });
+
     describe("Projectdashboard CTRL", function(){
         beforeEach(inject(function(_$rootScope_, _$state_, $controller,  _CONFIG_, _EVENTS_, _SortAndFilterService_ ) {
             $rootScope = _$rootScope_;
@@ -201,15 +223,13 @@ describe('Controllers: ', function() {
                 {data:data, orderBy:CONFIG.view[$state.current.name].orderBy, filter:{label : 'all scenarios', filterType : 'activeFilter', filter : {  } }, reverse:CONFIG.view[$state.current.name].reverse}
                 );
         });
-
     });
 
     describe("Project View CTRL", function(){
+
          beforeEach(inject(function(_$rootScope_, _$state_, $controller,  _SortAndFilterService_, _ActiveSelection_, _GotoService_, $q, _$httpBackend_ ) {
             $rootScope = _$rootScope_;
             $httpBackend = _$httpBackend_;
-            // $httpBackend.expectGET('http://ec2-54-205-7-240.compute-1.amazonaws.com:8080/rubix/v1/project').respond("foo");
-            // $httpBackend.expectGET('http://ec2-54-205-7-240.compute-1.amazonaws.com:8080/rubix/v1/favorite/project/').respond("foo");
             scope = $rootScope.$new();
             scope.getProject = function(){return {id: '123'};};
             SortAndFilterService = _SortAndFilterService_;
@@ -233,7 +253,7 @@ describe('Controllers: ', function() {
             deferred.resolve(data);
 
             ctrl = $controller('ProjectViewCtrl', {
-                $scope: scope,
+                $scope: scope
             });
         }));
 

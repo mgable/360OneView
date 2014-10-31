@@ -57,7 +57,6 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
           }
         },
         breadcrumb: "<a goto='projects'>All Projects</a> &gt; <a goto='dashboard' params='{{project.id}}'>{{project.title}}</a> &gt; {{scenario.title}}"
-
     })
     .state("Scenario.results", {
       views: {
@@ -66,6 +65,5 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
         }
       },
       breadcrumb: "<a goto='projects'>All Projects</a> &gt; <a goto='dashboard' params='{{project.id}}'>{{project.title}}</a> &gt; {{scenario.title}}"
-
     });
 }]);
