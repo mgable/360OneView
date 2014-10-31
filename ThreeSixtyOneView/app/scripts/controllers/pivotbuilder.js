@@ -7,7 +7,11 @@
 * # PivotbuilderctrlCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($scope, $timeout, $filter, pbData) {
+angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($scope, $timeout, $filter, pbData, Views) {
+	
+	console.info("Views");
+	console.info(Views);
+
 	var init = function() {
 		$scope.pbShow = false;
 		$scope.pbData = angular.copy(pbData);

@@ -28,11 +28,11 @@ describe('Routes tests: ', function() {
         });
 
         it("should have a scenario edit state", function() {
-            var state = "ScenarioEdit",
+            var state = "Scenario",
             config = $state.get(state);
             expect(config.name).toBe(state);
-            expect(config.url).toBe("/scenarioEdit/:projectId/:scenarioId");
-            expect(config.controller).toBe("ScenarioEditCtrl");
+            expect(config.url).toBe("/scenario/:projectId/:scenarioId");
+            expect(config.controller).toBe("ScenarioCtrl");
         });
 
         it ("should have a scenario create state", function(){

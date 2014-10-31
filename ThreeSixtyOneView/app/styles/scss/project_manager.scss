@@ -439,13 +439,12 @@
 			}
 		}
 	}
-	div#slide-in {
+	div#tray {
 		height: 100%;
 		position: relative;
 		top: -5px;
 		z-index: 10;
 		padding-bottom: 60px;
-		overflow-y: scroll;
 		background-color: #e6e6e6;
 		box-shadow: -2px 0 6px rgba(0,0,0, 0.3);
 	}
@@ -505,10 +504,13 @@
 					text-overflow: ellipsis;
 					white-space: nowrap;
 					float: left;
-					display: inline-block;
+					display: block;
 					width: auto;
 					padding: 0;
 					margin: 0 0 10px;
+					button {
+						text-align: right;
+					}
 				}
 				.title.clear {
 					clear: both;
@@ -523,9 +525,9 @@
 			.inlineRename {
 				input {
 					height:24px;
-					width: 172px;
+					width: 185px;
 					float:left;
-					margin: 0 0 8px;
+					margin: 0 10px 8px 0;
 				}
 				a {
 					float:left;

@@ -8,7 +8,8 @@ angular.module('ThreeSixtyOneView.config')
                 "projects": "/rubix/v1/project",
                 "favorites": "/rubix/v1/favorite/project/",
                 "scenarios": "/rubix/v1/project/:id/scenario",
-                "cube": "/rubix/v1/model/cube/:id"
+                "cube": "/rubix/v1/model/cube/:id",
+                "pivotview": "/rubix/v1/cube/:cubeId/analysis-view/:viewId"
             },
             "models": {
                 "ProjectsModel": {

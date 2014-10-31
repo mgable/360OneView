@@ -11,10 +11,6 @@ angular.module("ThreeSixtyOneView")
 
             $scope.data = $scope.pivotTableData;
 
-            $timeout(function() {
-                init();
-            }, 200);
-
             function init() {
 
                 $scope.rowCnt = $scope.data.length;
@@ -38,6 +34,10 @@ angular.module("ThreeSixtyOneView")
                 formatSheet();
 
             }
+
+            $timeout(function() {
+                init();
+            }, 400);
 
             function formatSheet() {
 
@@ -98,6 +98,8 @@ angular.module("ThreeSixtyOneView")
                         }
                     }
                 }
+
+                // calcSize();
 
                 sheet.isPaintSuspended(false);
 
@@ -182,6 +184,23 @@ angular.module("ThreeSixtyOneView")
 
                 return Math.floor(Math.random() * (max - min + 1) + min);
 
+            }
+
+            function calcSize() {
+                var totalHeight = $scope.rowCnt * sheet.defaults.rowHeight;
+                var totalWidth = $scope.colCnt * sheet.defaults.colWidth;
+                $('#spreadjs').css({
+                    'height': totalHeight,
+                    'width': totalWidth
+                });
+                $('#spreadjs').wijspread('refresh');
+                $('#spreadjsvp').css({
+                    'height': totalHeight,
+                    'width': totalWidth
+                });
+                $('spreadjsvp_vp').height(totalHeight);
+                $('spreadjsvp_vp').width(totalWidth);
+                // sheet.setFrozenRowCount($scope.rowCnt);
             }
 
             $scope.spread.updateSheet = function(_data, numRows, numCols) {

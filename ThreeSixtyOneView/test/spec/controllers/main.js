@@ -232,7 +232,7 @@ describe('Controllers: ', function() {
             deferred = $q.defer();
             deferred.resolve(data);
 
-            ctrl = $controller('ProjectsViewCtrl', {
+            ctrl = $controller('ProjectViewCtrl', {
                 $scope: scope,
             });
         }));

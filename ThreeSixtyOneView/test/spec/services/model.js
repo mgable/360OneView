@@ -4,7 +4,7 @@
 describe('Service: Model', function () {
 
   // load the service's module
-  beforeEach(module('ThreeSixtyOneView.services'));
+  beforeEach(module('ThreeSixtyOneView.services', 'ThreeSixtyOneView.config'));
 
   // instantiate service
   var Model, myModel, data, model;
