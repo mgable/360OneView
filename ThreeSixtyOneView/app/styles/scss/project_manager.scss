@@ -74,6 +74,7 @@
 				height: 100%;
 				overflow-y: scroll;
 				padding-right: 0;
+				padding-left: 15px;
 			}
 		}
 		.alert {
@@ -86,7 +87,7 @@
 
 			li.detail {
 	    		display: inline-block;
-				margin: 10px 8px 10px 0;
+				margin: 10px 7px 10px 0;
 	    		background-color: #FFF;
 
 	    		&:last-child {
@@ -114,11 +115,12 @@
 				    padding: 6px 13px;
 				    color: #999;
 				    text-align: center;
-	    			border: 1px solid #999;
+	    			border: 1px solid #AAA;
 
 				    &:hover {
 				    	border: 1px solid $blue;
 				    	text-decoration: none;
+				    	color: $black;
 				    }
 
 				    i {
@@ -171,10 +173,10 @@
 			}
 		}
 		.display-actions {
-			padding: 7px 13px;
+			padding: 7px 15px;
 			height: 50px;
 			background-color: #fafafa;
-			box-shadow: 0px 0px 8px #AAA;
+			box-shadow: 0px 0px 8px $dropshadow;
 			z-index: 20;
 
 			> span { 
@@ -190,7 +192,7 @@
 					margin-top: 2px;
 
 					&:hover {
-						border: 1px solid $blue;
+						/*border: 1px solid $blue;*/
 					}
 				}
 			}
@@ -204,8 +206,15 @@
 			}
 			.filterDropdown {
 				position: absolute;
-				padding: 22px;
+				padding: 15px;
 
+				li {
+					margin-bottom: 5px;
+
+					&:last-child {
+						margin: 0;
+					}
+				}
 				span {
 					display: inline-block;
 					font-size: 1.1em;
@@ -216,6 +225,7 @@
 
 				a {
 					color: $black;
+					display: block;
 				}
 			}
 			.button-holder {
@@ -223,9 +233,9 @@
 				height: 50px;
 				width: auto;
 				.trash {
-					margin:11px 30px 0 0;
-					font-size:14px;
-					color:$enabled;
+					margin: 11px 30px 0 0;
+					font-size: 14px;
+					color: $enabled;
 					cursor: pointer;
 					display:inline-block;
 				}
@@ -235,16 +245,17 @@
 					> span {
 						/* Orange Button */
 						display:inline-block;
-						padding: 5px 18px;
+						padding: 7px 18px 6px;
 						background-color: $orange;
 						border-radius: 5px;
-						font-size: 1.1em;
+						font-size: 1.2em;
+						line-height: 20px;
 						color: $white;
 						cursor: pointer;
-						box-shadow: 0px 3px 5px #AAA;
+						box-shadow: 0px 3px 5px $dropshadow;
 
 						&:hover {
-							color:$mouseover;
+							background-color: darken($orange, 5%);
 						}
 						i {
 							font-size: 14px;
@@ -409,7 +420,7 @@
 					span.name {
 						display: inline-block;
 						float: left;
-						color: $gray;
+						color: #AAA;
 						text-transform: capitalize;
 					}
 				}
@@ -479,6 +490,8 @@
 				}
 				&.hasFavorites .title {clear:none;}
 				.favorites {
+					display: none;
+
 					clear: both;
 					float:left;
 					padding: 2px 8px 0 0;
@@ -573,8 +586,9 @@
 			.description {
 				clear:both;
 				width:100%;
+				padding: 5px 10px;
 				display:block;
-				border: 1px solid $gray;
+				border: 1px solid #AAA;
 				background-color: $white;
 			}
 			text-area {
