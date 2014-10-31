@@ -111,6 +111,12 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/name.tpl.html',
+    "<!-- used for filtering order by drop down -->\r" +
+    "\n" +
+    "<!-- currently not used -->\r" +
+    "\n" +
+    "\r" +
+    "\n" +
     "<li class=\"ms-holder\">\r" +
     "\n" +
     "\t<input type=\"text\" class=\"ms-name-input\" ng-model=\"name\" placeholder=\"Enter Name\" ng-disabled=\"enabledOn(selectedFilter)\" ng-click=\"dontPassEvent($event)\"/>\r" +

@@ -29,8 +29,6 @@ angular.module('ThreeSixtyOneView')
         };
     }]).controller("NavigationCtrl", ["$scope", function($scope){
     }]).controller('InfoTrayCtrl', ["$scope", "$state", "CONFIG", "ActiveSelection", "FavoritesService", "SortAndFilterService", "EVENTS", function($scope, $state, CONFIG, ActiveSelection, FavoritesService, SortAndFilterService, EVENTS) {
-
-
         $scope.hasFavorites = CONFIG.view[$state.current.name].hasFavorites;
         $scope.selectedItem = ActiveSelection.getActiveItem();
         $scope.showScenario = false;
