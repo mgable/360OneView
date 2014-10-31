@@ -27,10 +27,7 @@ describe('Dialog Services:', function() {
         });
 
         it("should create a 'rename' dialog box", function() {
-            var data = {
-                item: "item",
-                service: "service"
-            };
+            var data = "item";
             DiaglogService.rename("item", "service");
             expect(spy).toHaveBeenCalledWith('views/modal/rename_project.tpl.html', 'ProjectRenameCtrl', data, {size: 'sm'});
         });

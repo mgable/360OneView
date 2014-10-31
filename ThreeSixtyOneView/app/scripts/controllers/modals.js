@@ -14,7 +14,7 @@ angular.module('ThreeSixtyOneView')
     .controller('ProjectRenameCtrl', ["$scope", "$controller", "$modalInstance", "data", "CONFIG", "EVENTS", function($scope, $controller, $modalInstance, data, CONFIG, EVENTS) {
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
-        $scope.data = data.item;
+        $scope.data = data;
         $scope.name = $scope.data.title;
 
         $scope.rename = function(title, evt) {
