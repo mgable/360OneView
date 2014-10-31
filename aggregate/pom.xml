@@ -17,10 +17,10 @@
 	<url>http://marketshare.360oneview.com</url>
 	<description>Marketshare 360 oneview application</description>
 
-    <properties>
-        <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ssZ</maven.build.timestamp.format>
-        <build.timestamp>${maven.build.timestamp}</build.timestamp>
-    </properties>
+	<properties>
+		<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ssZ</maven.build.timestamp.format>
+		<build.timestamp>${maven.build.timestamp}</build.timestamp>
+	</properties>
 
 	<scm>
 		<url>https://git.marketshare.com:8443/projects/DES/repos/ms360uiux</url>
@@ -66,5 +66,36 @@
 			</plugin>
 		</plugins>
 	</build>
-
+	<profiles>
+		<profile>
+			<id>add-classifier</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>build-helper-maven-plugin</artifactId>
+						<version>1.9.1</version>
+						<executions>
+							<execution>
+								<id>add-jenkins-buildno-classifier</id>
+								<phase>package</phase>
+								<goals>
+									<goal>attach-artifact</goal>
+								</goals>
+								<configuration>
+									<artifacts>
+										<artifact>
+											<file>${project.build.directory}/${project.artifactId}.tar.gz</file>
+											<type>tar</type>
+											<classifier>${env.BUILD_NUMBER}</classifier>
+										</artifact>
+									</artifacts>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
