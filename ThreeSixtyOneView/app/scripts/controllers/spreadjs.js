@@ -44,8 +44,18 @@ angular.module("ThreeSixtyOneView")
                 sheet.isPaintSuspended(true);
 
                 // set default column width and height
-                sheet.defaults.colWidth = 150;
-                sheet.defaults.rowHeight = 47;
+                var maxW = 150, minW = 100;
+                var canvasW = $('#spreadjsvp').width();
+                var calcW = (canvasW / $scope.colCnt);
+
+                if(calcW > minW && calcW < maxW) {
+                    sheet.defaults.colWidth = calcW;
+                } else if (calcW <= minW) {
+                    sheet.defaults.colWidth = minW;
+                } else {
+                    sheet.defaults.colWidth = maxW;
+                }
+                sheet.defaults.rowHeight = 30;
 
                 // set selection background and border color
                 sheet.selectionBackColor("rgba(204, 204, 204, 0.2)");
@@ -99,7 +109,7 @@ angular.module("ThreeSixtyOneView")
                     }
                 }
 
-                // calcSize();
+                adjustHeight();
 
                 sheet.isPaintSuspended(false);
 
@@ -186,20 +196,12 @@ angular.module("ThreeSixtyOneView")
 
             }
 
-            function calcSize() {
-                var totalHeight = $scope.rowCnt * sheet.defaults.rowHeight;
-                var totalWidth = $scope.colCnt * sheet.defaults.colWidth;
-                $('#spreadjs').css({
-                    'height': totalHeight,
-                    'width': totalWidth
-                });
+            function adjustHeight() {
+                var totalHeight = 500;
+                $('#spreadjs').css('height', totalHeight);
                 $('#spreadjs').wijspread('refresh');
-                $('#spreadjsvp').css({
-                    'height': totalHeight,
-                    'width': totalWidth
-                });
+                $('#spreadjsvp').css('height', totalHeight);
                 $('spreadjsvp_vp').height(totalHeight);
-                $('spreadjsvp_vp').width(totalWidth);
                 // sheet.setFrozenRowCount($scope.rowCnt);
             }
 
