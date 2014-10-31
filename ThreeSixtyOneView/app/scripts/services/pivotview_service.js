@@ -2,8 +2,7 @@
 
 angular.module('ThreeSixtyOneView')
   .service('PivotViewService', ["$q", "Model", "PivotViewModel",  function PivotViewService($q, Model, PivotViewModel) {
-		var MyPivotviewModel, mypivotview, 
-
+		var MyPivotviewModel, mypivotview, self = this;
 
 		MyPivotviewModel = new Model();
 		angular.extend(this, MyPivotviewModel.prototype);
@@ -12,14 +11,18 @@ angular.module('ThreeSixtyOneView')
 
 		//this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
-		this.getDefaultView = function(){
-			return this.get({cubeId:1, viewId: 1});
+		this.getDefaultView = function(views, cubeId){
+			// this logic will change
+			var viewId = views[0].id;
+			return this.get({cubeId:cubeId, viewId: viewId});
 		};
 
-		this.getViewsAndDefault = function(){
-			return $q.all([this.get(), this.getDefaultView()]).then(function(response){
-				console.info(response);
-			});
+		this.getViewsAndDefault = function(cubeId){
+  			return this.get({cubeId:cubeId}).then(function(views){
+  				return self.getDefaultView(views, cubeId).then(function(defaultView){
+  					return {"views": views, "defaultView": defaultView};
+  				});
+  			});
 		};
 
 }]);

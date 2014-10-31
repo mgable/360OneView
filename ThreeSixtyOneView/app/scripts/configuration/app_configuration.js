@@ -149,6 +149,9 @@ angular.module('ThreeSixtyOneView.config')
                     // }
                     ]
                 }
+            },
+            "Scenario": {
+                "cubeId": 1
             }
         },
         "user": {

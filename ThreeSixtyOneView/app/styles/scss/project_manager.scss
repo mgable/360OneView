@@ -537,6 +537,7 @@
 			.description {
 				clear:both;
 				width:100%;
+				max-width: 293px;
 				display:block;
 				border: 1px solid $gray;
 				background-color: $white;
@@ -590,5 +591,8 @@
 	}
 	.profile-footer{
 		text-align: center;
+		a {
+			cursor: pointer;
+		}
 	}
 }
