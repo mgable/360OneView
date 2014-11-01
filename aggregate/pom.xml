@@ -87,7 +87,7 @@
 										<artifact>
 											<file>${project.build.directory}/${project.artifactId}.tar.gz</file>
 											<type>tar</type>
-											<classifier>${env.BUILD_NUMBER}</classifier>
+											<classifier>BLD${env.BUILD_NUMBER}</classifier>
 										</artifact>
 									</artifacts>
 								</configuration>
