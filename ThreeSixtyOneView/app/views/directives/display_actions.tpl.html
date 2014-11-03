@@ -1,7 +1,7 @@
 <div class="display-actions">
 	<h4 class="pull-left title">{{SortAndFilterService.getSelectedLabel()}}&nbsp;<span>({{SortAndFilterService.getCount()}})</span><span ng-click="toggle()" class="filtertoggle"><icon type="caret-down"></icon></span></h4>
 
-	<ul ms-link-group firstSelected="{{CONFIG.filterMenu.items[CONFIG.filterMenu.firstSelected].label}}" radio="true" class='filterDropdown title hide menu'>
+	<ul ms-link-group firstSelected="{{CONFIG.filterMenu.items[CONFIG.filterMenu.firstSelected].label}}" radio="true" class='filterDropdown dropdownshadow title hide menu'>
 		<li ng-repeat="item in CONFIG.filterMenu.items" class="header" ng-class="{selected: item.label === selectedItem}">
 			 <a ms-link="{{item.label}}" ng-click="setFilter(item.filterType, item, true)">{{item.label}}</a>
 		</li>

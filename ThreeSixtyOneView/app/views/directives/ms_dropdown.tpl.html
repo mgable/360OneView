@@ -1,12 +1,19 @@
 <div class="ms-dropdown" id="{{id}}"> 
 	<h6 class="ms-label" ng-class="{active: DropdownService.isActive(id)}"><span ng-show="filterBy"><icon type="filter" cname="filter-icon"></icon></span><span ng-click="select(selectedItem)" class="status select">{{selectedItem.label}}</span>&nbsp<span ng-click="toggle()" class="toggle"><icon type="caret-down"></icon></span></h6> 
-	<ul class="ms-select-list dropshadow hide"> 
-		<li class="ms-item selectSort" ng-repeat="item in items" ng-class="{disabled:item.label === selectedItem.label}" ng-click="selectSort(item)"><icon type="check" cname="ms-ok"></icon>{{item.label}}</li> 
-		<ul ng-if="selectedItem.filters"> 
-			<li class="divider"></li> 
-			<li class="ms-sublabel">FILTER</li> 
-			<li ng-repeat="filter in selectedItem.filters" class="ms-item selectFilter" ng-click="selectFilter(filter)" ng-class="{selected:selectedFilter === filter}"><icon type="check" cname="ms-ok"></icon>{{filter.label}}</li> 
-			<li ng-if="selectedItem.template"><ng-include src="selectedItem.template"></ng-include></li> 
-		</ul> 
+	<ul class="ms-select-list dropdownshadow hide"> 
+		<li class="list-label">Sort Order</li>
+		<ul>
+			<li class="ms-item selectSort" ng-class="{disabled:sortOrderItem.label === selectedSortOrderItem.label}" ng-repeat="sortOrderItem in sortOrderItems" ng-click="selectSortOrder(sortOrderItem)"><icon type="check" cname="ms-ok"></icon>{{sortOrderItem.label}}</li>
+		</ul>
+		<li class="list-label">Switch  Column</li>
+		<ul>
+			<li class="ms-item selectSort" ng-repeat="item in items" ng-class="{disabled:item.label === selectedItem.label}" ng-click="selectSort(item)"><icon type="check" cname="ms-ok"></icon>{{item.label}}</li> 
+			<ul ng-if="selectedItem.filters"> 
+				<li class="divider"></li> 
+				<li class="ms-sublabel">FILTER</li> 
+				<li ng-repeat="filter in selectedItem.filters" class="ms-item selectFilter" ng-click="selectFilter(filter)" ng-class="{selected:selectedFilter === filter}"><icon type="check" cname="ms-ok"></icon>{{filter.label}}</li> 
+				<li ng-if="selectedItem.template"><ng-include src="selectedItem.template"></ng-include></li>
+			</ul> 
+		</ul>
 	</ul> 
 </div>
