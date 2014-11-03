@@ -59,45 +59,16 @@ angular.module('ThreeSixtyOneView')
         });
     }]).controller("ProjectDashboardCtrl", ["$scope", "$controller", "$stateParams", "$state", "CONFIG", "ProjectsService", "Project", "Scenarios", "ActiveSelection", "SortAndFilterService", "GotoService", "ScenarioService", "EVENTS", function($scope,  $controller, $stateParams, $state, CONFIG, ProjectsService, Project, Scenarios, ActiveSelection, SortAndFilterService, GotoService, ScenarioService,EVENTS) {
 
-        angular.extend(this, $controller('ProjectViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService}));
+        angular.extend(this, $controller('ProjectViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService, CONFIG:CONFIG}));
 
-        var currentView = CONFIG.view[$state.current.name],
-            filter = "",
-            /* jshint ignore:start */
-            filter = eval(currentView.filter),
-            /* jshint ignore:end */
-            reverse = currentView.reverse,
-            orderBy = currentView.orderBy,
-            getScenarios = function(id){
-                return ScenarioService.get(id);
-            },
-            init = function(whichView){
-                console.info(whichView);
-                // bootstrap view with data
-                $scope.CONFIG = currentView;
-                $scope.project = Project;
-
-                $scope.hasAlerts = Scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
-
-                _.extend($scope.CONFIG, $stateParams);
-
-                $scope.data = Scenarios;
-                SortAndFilterService.init({
-                    data: Scenarios,
-                    orderBy: orderBy,
-                    filter: filter,
-                    reverse: reverse
-                });
-
-                // currently this get scenarios - but it will eventually get elements
-                $scope.selectItem(SortAndFilterService.getData()[0]);
-
-            };
+        var localInit = function(){
+            $scope.project = Project;
+            $scope.hasAlerts = Scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
+        }
 
         $scope.selectItem = function(item){
             $scope.showDetails(item);
         };
-
 
         $scope.getProject = function(){
             return $scope.project;
@@ -107,51 +78,26 @@ angular.module('ThreeSixtyOneView')
             $scope.goto(evt, 'gotoScenarioCreate', $scope.getProject());
         });
 
-        init($state.current.name);
+        $scope.init($state.current.name, Scenarios, $stateParams);
+        localInit();
+
     }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "$stateParams", "$state", "CONFIG", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", "DiaglogService", "EVENTS", function($scope, $controller, $stateParams, $state, CONFIG, FavoritesService, ProjectsService, ScenarioService, Projects, ActiveSelection, SortAndFilterService, GotoService, DiaglogService, EVENTS) {
 
-        angular.extend(this, $controller('ProjectViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService, ScenarioService:ScenarioService }));
+        angular.extend(this, $controller('ProjectViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService, ScenarioService:ScenarioService, CONFIG:CONFIG }));
 
-        var currentView = CONFIG.view[$state.current.name],
-            filter = "",
-            master,
-            /* jshint ignore:start */
-            filter = eval(currentView.filter),
-            /* jshint ignore:end */
-            reverse = currentView.reverse,
-            orderBy = currentView.orderBy,
-            getScenarios = function(id){
-                return ScenarioService.get(id);
-            },
-            init = function(whichView){
-                // bootstrap view with data
-                $scope.CONFIG = currentView;
-                
-                _.extend($scope.CONFIG, $stateParams);
-
-                $scope.data = Projects;
-
-                SortAndFilterService.init({
-                    data: Projects,
-                    orderBy: orderBy,
-                    filter: filter,
-                    reverse: reverse
-                });
-
-                // the master project is always a favorite and not in the favorite REST call (yet)
-                master = _.find($scope.data, function(elem){return elem.isMaster;});
-                
-                // get all favorites
-                //FavoritesService.setFavorites(_.pluck(Favorites, 'uuid'));
-                if (master) { FavoritesService.addFavorite(master.id); }
-
-                // select first time in list
-                $scope.selectItem(SortAndFilterService.getData()[0]);
-            };
+        var localInit = function(){
+            // the master project is always a favorite and not in the favorite REST call (yet)
+            var master = _.find(Projects, function(elem){return elem.isMaster;});
+            if (master) { FavoritesService.addFavorite(master.id); }
+        }
 
         // Controller API
         $scope.selectItem = function(item){
-            $scope.getDetails(item, getScenarios, "scenarios");
+            $scope.getDetails(item, $scope.getScenarios, "scenarios");
+        };
+
+        $scope.getScenarios = function(id){
+            return ScenarioService.get(id);
         };
 
         $scope.toggleFavorite = function($event, itemID){
@@ -172,8 +118,36 @@ angular.module('ThreeSixtyOneView')
             DiaglogService.create('project');
         });
 
-        init($state.current.name);
-    }]).controller("ProjectViewCtrl", ["$scope", "ActiveSelection", "SortAndFilterService", "GotoService",function($scope, ActiveSelection, SortAndFilterService, GotoService){
+        $scope.init($state.current.name, Projects, $stateParams);
+        localInit();
+
+    }]).controller("ProjectViewCtrl", ["$scope", "ActiveSelection", "SortAndFilterService", "GotoService", "CONFIG", function($scope, ActiveSelection, SortAndFilterService, GotoService, CONFIG){
+        
+        $scope.init = function(whichView, _data_, stateParams){
+            var currentView = CONFIG.view[whichView],
+            master,
+            /* jshint ignore:start */
+            filter = eval(currentView.filter),
+            /* jshint ignore:end */
+            reverse = currentView.reverse,
+            orderBy = currentView.orderBy;
+
+            $scope.CONFIG = currentView;
+            $scope.data = _data_; 
+
+            _.extend($scope.CONFIG, stateParams);
+
+            SortAndFilterService.init({
+                data: _data_, 
+                orderBy: orderBy,
+                filter: filter,
+                reverse: reverse
+            });
+
+            // select first time in list
+            $scope.selectItem(SortAndFilterService.getData()[0]);
+        };
+
         $scope.goto = function(evt, where, item){
             if (evt && evt.stopPropagation){ evt.stopPropagation(); }
             switch(where){
