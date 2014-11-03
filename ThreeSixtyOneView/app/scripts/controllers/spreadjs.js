@@ -31,6 +31,8 @@ angular.module("ThreeSixtyOneView")
                 sheet.setIsProtected(true);
                 sheet.autoGenerateColumns = true;
 
+                adjustHeight();
+
                 formatSheet();
 
             }
@@ -55,7 +57,6 @@ angular.module("ThreeSixtyOneView")
                 } else {
                     sheet.defaults.colWidth = maxW;
                 }
-                sheet.defaults.rowHeight = 30;
 
                 // set selection background and border color
                 sheet.selectionBackColor("rgba(204, 204, 204, 0.2)");
@@ -80,9 +81,9 @@ angular.module("ThreeSixtyOneView")
                 // set col style
                 for (var j = 0; j < $scope.colCnt; j++) {
                     var column = sheet.getColumn(j);
-                    column.vAlign($.wijmo.wijspread.VerticalAlign.center).textIndent(2);
+                    column.vAlign($.wijmo.wijspread.VerticalAlign.center).textIndent(1);
                     if (j < $scope.colHeaderCnt) {
-                        column.formatter("0").foreColor("#888888");
+                        column.formatter("0").font("13px proxima-nova").foreColor("#888888");
                         column.wordWrap(true);
                         if (j === $scope.colHeaderCnt - 1) {
                             column.borderRight(new $.wijmo.wijspread.LineBorder("#E6E6E6", $.wijmo.wijspread.LineStyle.thin));
@@ -99,17 +100,16 @@ angular.module("ThreeSixtyOneView")
                         if (i === $scope.rowHeaderCnt - 1) {
                             row.borderBottom(new $.wijmo.wijspread.LineBorder("#E6E6E6", $.wijmo.wijspread.LineStyle.thin));
                         }
-                        row.formatter("0").foreColor("#888888");
+                        row.formatter("0").font("13px proxima-nova").foreColor("#888888");
                         row.hAlign($.wijmo.wijspread.HorizontalAlign.center);
                         row.wordWrap(true);
                     } else {
+                        sheet.defaults.rowHeight = 30;
                         for (j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
-                            sheet.getCell(i, j).value(randomNumber(0, 2000)).locked(false);
+                            sheet.getCell(i, j).font("14px proxima-nova").foreColor("#000000").value(randomNumber(0, 2000)).locked(false);
                         }
                     }
                 }
-
-                adjustHeight();
 
                 sheet.isPaintSuspended(false);
 
@@ -196,23 +196,20 @@ angular.module("ThreeSixtyOneView")
 
             }
 
+            //calling adjustHeight on resize event
+            window.onresize = adjustHeight;
+
             function adjustHeight() {
-                var totalHeight = 500;
-                $('#spreadjs').css('height', totalHeight);
+
+                var height = $('.app').innerHeight() - $('.details').outerHeight(true) - $('#pivotBuilder').outerHeight(true) - 65;
+                $('#spreadjs').height(height);
                 $('#spreadjs').wijspread('refresh');
-                $('#spreadjsvp').css('height', totalHeight);
-                $('spreadjsvp_vp').height(totalHeight);
-                // sheet.setFrozenRowCount($scope.rowCnt);
+
             }
 
             $scope.spread.updateSheet = function(_data, numRows, numCols) {
 
                 $scope.data = _data;
-
-                // $scope.spread.sheet.loading = true;
-                // $timeout(function() {
-                //     $scope.spread.sheet.loading = false;
-                // }, (numCols + numRows) * 1000);
 
                 $scope.rowCnt = $scope.data.length;
                 $scope.rowHeaderCnt = numRows;

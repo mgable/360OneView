@@ -8,7 +8,7 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($scope, $timeout, $filter, pbData, Views) {
-	
+
 	console.info("Views");
 	console.info(Views);
 
@@ -105,7 +105,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		} else {
 			$scope.pbData.viewData[$scope.add.selected].push(val);
 		}
-		
+
 		$scope.added[item] = true;
 
 		$scope.addPopUp[$scope.add.selected] = !$scope.addPopUp[$scope.add.selected];
@@ -286,7 +286,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 	$scope.saveView = function() {
 		if($scope.changeMade()) {
 			pbData = angular.copy($scope.pbData);
-		
+
 			$scope.notify('Saved!');
 		}
 	};
@@ -311,7 +311,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		if(save) {
 			$scope.viewName = $scope.saveAsName;
 			$scope.saveView();
-			
+
 			$scope.notify('Saved!');
 		}
 
@@ -337,7 +337,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 		var category = [],
 			item = [];
-		
+
 		var totalColCount = 1;
 		var pivotCols = [];
 		var colCounter = [];
@@ -424,7 +424,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		}
 
 		for(i = 0; i < totalColCount; i++) {
-			
+
 			for(j = 0; j < numCols; j++) {
 				$scope.pivotTableData[j][i + numRows] = pivotCols[j][colCounter[j]];
 			}
@@ -486,6 +486,15 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		$scope.undoPerformed = true;
 		$scope.viewApplied = false;
 	};
+
+    $scope.adjustHeight = function() {
+
+    	var pivotBuilderHeight = $('#pivotBuilder').outerHeight(true) === 33 ? 244 : 33;
+        var height = $('.app').innerHeight() - $('.details').outerHeight(true) - pivotBuilderHeight - 65;
+        $('#spreadjs').css('height', height);
+        $('#spreadjs').wijspread('refresh');
+
+    }
 
 	init();
 
