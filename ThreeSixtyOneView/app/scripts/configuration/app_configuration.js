@@ -97,26 +97,7 @@ angular.module('ThreeSixtyOneView.config')
                         "label": "Favorites",
                         "filterType": "filterPipeline",
                         "filter": "isFavorite"
-                    }
-                    // ,{
-                    //     "label": "Created by Me",
-                    //     "filterType": "activeFilter",
-                    //     "filter": {
-                    //         "createdBy": "me"
-                    //     }
-                    // }
-                    ]
-                },
-                "sortOrderMenu": {
-                    "displayColumns": [{
-                        "label": "Descending",
-                        "filter": "descending"
-                    },
-                    {
-                        "label": "Ascending",
-                        "filter": "ascending"
-                    }
-                    ]
+                    }]
                 },
                 "sortMenu": {
                     "displayColumns": [{
@@ -126,39 +107,7 @@ angular.module('ThreeSixtyOneView.config')
                     {
                         "label": "Created Date",
                         "filter": "createdOn"
-                    }
-                    // {
-                    //     "label": "Modified By",
-                    //     "filter": "modifiedBy",
-                    //     "filters": [{
-                    //         "label": "Modified by me",
-                    //         "filter": "modifiedBy",
-                    //         "who": "me"
-                    //     }, 
-                    //     {
-                    //         "label": "Modified by:",
-                    //         "filter": "modifiedBy",
-                    //         "who": "name"
-                    //     }],
-                    //     "template": "views/directives/name.tpl.html",
-                    //     "enabledOn": "Modified by:"
-                    // }, 
-                    // {
-                    //     "label": "Creator",
-                    //     "filter": "createdBy",
-                    //     "filters": [{
-                    //         "label": "Created by me",
-                    //         "filter": "createdBy",
-                    //         "who": "me"
-                    //     }, {
-                    //         "label": "Created by:",
-                    //         "filter": "createdBy",
-                    //         "who": "name"
-                    //     }],
-                    //     "template": "views/directives/name.tpl.html",
-                    //     "enabledOn": "Created by:"
-                    // }
-                    ]
+                    }]
                 }
             },
             "Scenario": {

@@ -86,7 +86,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/ms_dropdown.tpl.html',
     "<div class=\"ms-dropdown\" id=\"{{id}}\"> \r" +
     "\n" +
-    "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.isActive(id)}\"><span ng-show=\"filterBy\"><icon type=\"filter\" cname=\"filter-icon\"></icon></span><span ng-click=\"select(selectedItem)\" class=\"status select\">{{selectedItem.label}}</span>&nbsp<span ng-click=\"toggle()\" class=\"toggle\"><icon type=\"caret-down\"></icon></span></h6> \r" +
+    "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.isActive(id)}\">\r" +
+    "\n" +
+    "\t\t<span ng-click=\"select(selectedItem)\" class=\"status select\">{{selectedItem.label}}</span>&nbsp<span ng-click=\"toggle()\" class=\"toggle\"><icon type=\"caret-down\"></icon></span></h6> \r" +
     "\n" +
     "\t<ul class=\"ms-select-list dropdownshadow hide\"> \r" +
     "\n" +
@@ -94,7 +96,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<ul>\r" +
     "\n" +
-    "\t\t\t<li class=\"ms-item selectSort\" ng-class=\"{disabled:sortOrderItem.label === selectedSortOrderItem.label}\" ng-repeat=\"sortOrderItem in sortOrderItems\" ng-click=\"selectSortOrder(sortOrderItem)\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{sortOrderItem.label}}</li>\r" +
+    "\t\t\t<li class=\"ms-item selectSort\" ng-class=\"{disabled:reverse}\" ng-click=\"select(selectedItem)\"><icon type=\"check\" cname=\"ms-ok\"></icon>Descending</li>\r" +
+    "\n" +
+    "\t\t\t<li class=\"ms-item selectSort\" ng-class=\"{disabled:!reverse}\" ng-click=\"select(selectedItem)\"><icon type=\"check\" cname=\"ms-ok\"></icon>Ascending</li>\r" +
     "\n" +
     "\t\t</ul>\r" +
     "\n" +
@@ -102,19 +106,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<ul>\r" +
     "\n" +
-    "\t\t\t<li class=\"ms-item selectSort\" ng-repeat=\"item in items\" ng-class=\"{disabled:item.label === selectedItem.label}\" ng-click=\"selectSort(item)\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{item.label}}</li> \r" +
-    "\n" +
-    "\t\t\t<ul ng-if=\"selectedItem.filters\"> \r" +
-    "\n" +
-    "\t\t\t\t<li class=\"divider\"></li> \r" +
-    "\n" +
-    "\t\t\t\t<li class=\"ms-sublabel\">FILTER</li> \r" +
-    "\n" +
-    "\t\t\t\t<li ng-repeat=\"filter in selectedItem.filters\" class=\"ms-item selectFilter\" ng-click=\"selectFilter(filter)\" ng-class=\"{selected:selectedFilter === filter}\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{filter.label}}</li> \r" +
-    "\n" +
-    "\t\t\t\t<li ng-if=\"selectedItem.template\"><ng-include src=\"selectedItem.template\"></ng-include></li>\r" +
-    "\n" +
-    "\t\t\t</ul> \r" +
+    "\t\t\t<li class=\"ms-item selectSort\" ng-repeat=\"item in items\" ng-class=\"{disabled:item.label === selectedItem.label}\" ng-click=\"selectSort(item)\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{item.label}}</li>  \r" +
     "\n" +
     "\t\t</ul>\r" +
     "\n" +

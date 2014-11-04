@@ -64,7 +64,7 @@ angular.module('ThreeSixtyOneView')
         var localInit = function(){
             $scope.project = Project;
             $scope.hasAlerts = Scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
-        }
+        };
 
         $scope.selectItem = function(item){
             $scope.showDetails(item);
@@ -89,7 +89,7 @@ angular.module('ThreeSixtyOneView')
             // the master project is always a favorite and not in the favorite REST call (yet)
             var master = _.find(Projects, function(elem){return elem.isMaster;});
             if (master) { FavoritesService.addFavorite(master.id); }
-        }
+        };
 
         // Controller API
         $scope.selectItem = function(item){
@@ -125,7 +125,6 @@ angular.module('ThreeSixtyOneView')
         
         $scope.init = function(whichView, _data_, stateParams){
             var currentView = CONFIG.view[whichView],
-            master,
             /* jshint ignore:start */
             filter = eval(currentView.filter),
             /* jshint ignore:end */
@@ -133,12 +132,12 @@ angular.module('ThreeSixtyOneView')
             orderBy = currentView.orderBy;
 
             $scope.CONFIG = currentView;
-            $scope.data = _data_; 
+            $scope.data = _data_;
 
             _.extend($scope.CONFIG, stateParams);
 
             SortAndFilterService.init({
-                data: _data_, 
+                data: _data_,
                 orderBy: orderBy,
                 filter: filter,
                 reverse: reverse
