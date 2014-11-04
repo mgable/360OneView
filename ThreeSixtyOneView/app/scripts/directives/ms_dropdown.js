@@ -80,8 +80,9 @@ angular.module('ThreeSixtyOneView.directives')
                 $scope.name = "";
                 $scope.reverse = $scope.reverse.bool();
                 $scope.items = CONFIG.view[currentView].sortMenu.displayColumns;
+                $scope.sortOrderItems = CONFIG.view[currentView].sortOrderMenu.displayColumns;
                 $scope.selectedItem = CONFIG.view[currentView].sortMenu.displayColumns[$scope.selectedSortIndex];
-
+                $scope.selectedSortOrderItem = CONFIG.view[currentView].sortOrderMenu.displayColumns[$scope.selectedSortIndex];
                 SortAndFilterService.setSorter($scope.id, $scope.selectedItem.label);
 
                 if ($scope.isActive) {
@@ -90,7 +91,6 @@ angular.module('ThreeSixtyOneView.directives')
                     DropdownService.setActive($scope.id);
                     SortAndFilterService.setFilter("orderBy", $scope.selectedItem.filter, false);
                 }
-
                 // determines if a menu selection has a related template
                 $scope.enabledOn = function(which) {
                     return which ? ((which.label === $scope.selectedItem.enabledOn) ? false : true) : true;
@@ -146,6 +146,11 @@ angular.module('ThreeSixtyOneView.directives')
                         // ***
                         SortAndFilterService.setFilter("reverse", $scope.reverse, true);
                     }
+                };
+
+                $scope.selectSortOrder = function(item) {
+                    $scope.selectedSortOrderItem = item;
+                    $scope.select($scope.selectedItem);
                 };
 
                 $scope.selectFilter = function(which) {

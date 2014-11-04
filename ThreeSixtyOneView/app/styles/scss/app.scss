@@ -26,7 +26,7 @@ body {
 	z-index: 1000;
 
 	.headerrow {
-		width: $app_max_width;
+		min-width: $app_max_width;
 		margin: auto;
 	}
 	.row {
@@ -65,7 +65,7 @@ body {
 			font-size: 0.8em;
 
 			li a.information {
-				width: 111px;
+				width: 110px;
 				padding: 0;
 				color: $gray;
 				line-height: 11px;
@@ -81,6 +81,11 @@ body {
 
 			li.active a.information{
 				color: $white;
+			}
+		}
+		&.col-xs-3 {
+			ul.navbar-nav {
+				width: auto;
 			}
 		}
 	}
@@ -116,6 +121,8 @@ body {
 			}
 		}
 		&.headerRight {
+			padding: 0;
+
 			ul.navbar-nav {
 				float: right;
 				min-width: 200px;
@@ -255,8 +262,8 @@ body {
 	max-width: $app_max_width;
 	/*min-width: $app_min_width;*/
 	font-size: $body_font_size;
-	margin: $app_top_margin auto 80px;  
+	margin: $app_top_margin auto 60px;  
 	background-color: $white;
 	overflow-y: hidden;
-	height: 80%;
+	height: 77%;
 }

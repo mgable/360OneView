@@ -107,6 +107,17 @@ angular.module('ThreeSixtyOneView.config')
                     // }
                     ]
                 },
+                "sortOrderMenu": {
+                    "displayColumns": [{
+                        "label": "Descending",
+                        "filter": "descending"
+                    },
+                    {
+                        "label": "Ascending",
+                        "filter": "ascending"
+                    }
+                    ]
+                },
                 "sortMenu": {
                     "displayColumns": [{
                         "label": "Last Modified",

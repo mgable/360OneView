@@ -8,7 +8,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\r" +
     "\n" +
-    "\t<ul ms-link-group firstSelected=\"{{CONFIG.filterMenu.items[CONFIG.filterMenu.firstSelected].label}}\" radio=\"true\" class='filterDropdown title hide menu'>\r" +
+    "\t<ul ms-link-group firstSelected=\"{{CONFIG.filterMenu.items[CONFIG.filterMenu.firstSelected].label}}\" radio=\"true\" class='filterDropdown dropdownshadow title hide menu'>\r" +
     "\n" +
     "\t\t<li ng-repeat=\"item in CONFIG.filterMenu.items\" class=\"header\" ng-class=\"{selected: item.label === selectedItem}\">\r" +
     "\n" +
@@ -46,7 +46,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<span class='field-label'>Description</span>\r" +
     "\n" +
-    "\t<a ng-hide=\"isActive\" class='edit'ng-click=\"action()\"><icon  type=\"pencil\"></icon></a>\r" +
+    "\t<a ng-hide=\"isActive\" class='edit' ng-click=\"action()\"><icon  type=\"pencil\"></icon></a>\r" +
     "\n" +
     "\r" +
     "\n" +
@@ -54,7 +54,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\r" +
     "\n" +
-    "\t<textarea ng-disabled=\"!isActive\" ng-maxlength=\"256\" ng-pattern='/^[^\\\\\\/\\?\\:\\*\"><|]+$/' ng-model=\"item.description\" class=\"description inputTarget\"></textarea>\r" +
+    "\t<textarea ng-disabled=\"!isActive\" ng-maxlength=\"256\" ng-pattern='/^[^\\\\\\/\\?\\:\\*\"><|]+$/' ng-model=\"item.description\" ng-class=\"{'active': isActive}\" class=\"description inputTarget\"></textarea>\r" +
     "\n" +
     "</form>"
   );
@@ -88,21 +88,35 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.isActive(id)}\"><span ng-show=\"filterBy\"><icon type=\"filter\" cname=\"filter-icon\"></icon></span><span ng-click=\"select(selectedItem)\" class=\"status select\">{{selectedItem.label}}</span>&nbsp<span ng-click=\"toggle()\" class=\"toggle\"><icon type=\"caret-down\"></icon></span></h6> \r" +
     "\n" +
-    "\t<ul class=\"ms-select-list dropshadow hide\"> \r" +
+    "\t<ul class=\"ms-select-list dropdownshadow hide\"> \r" +
     "\n" +
-    "\t\t<li class=\"ms-item selectSort\" ng-repeat=\"item in items\" ng-class=\"{disabled:item.label === selectedItem.label}\" ng-click=\"selectSort(item)\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{item.label}}</li> \r" +
+    "\t\t<li class=\"list-label\">Sort Order</li>\r" +
     "\n" +
-    "\t\t<ul ng-if=\"selectedItem.filters\"> \r" +
+    "\t\t<ul>\r" +
     "\n" +
-    "\t\t\t<li class=\"divider\"></li> \r" +
+    "\t\t\t<li class=\"ms-item selectSort\" ng-class=\"{disabled:sortOrderItem.label === selectedSortOrderItem.label}\" ng-repeat=\"sortOrderItem in sortOrderItems\" ng-click=\"selectSortOrder(sortOrderItem)\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{sortOrderItem.label}}</li>\r" +
     "\n" +
-    "\t\t\t<li class=\"ms-sublabel\">FILTER</li> \r" +
+    "\t\t</ul>\r" +
     "\n" +
-    "\t\t\t<li ng-repeat=\"filter in selectedItem.filters\" class=\"ms-item selectFilter\" ng-click=\"selectFilter(filter)\" ng-class=\"{selected:selectedFilter === filter}\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{filter.label}}</li> \r" +
+    "\t\t<li class=\"list-label\">Switch  Column</li>\r" +
     "\n" +
-    "\t\t\t<li ng-if=\"selectedItem.template\"><ng-include src=\"selectedItem.template\"></ng-include></li> \r" +
+    "\t\t<ul>\r" +
     "\n" +
-    "\t\t</ul> \r" +
+    "\t\t\t<li class=\"ms-item selectSort\" ng-repeat=\"item in items\" ng-class=\"{disabled:item.label === selectedItem.label}\" ng-click=\"selectSort(item)\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{item.label}}</li> \r" +
+    "\n" +
+    "\t\t\t<ul ng-if=\"selectedItem.filters\"> \r" +
+    "\n" +
+    "\t\t\t\t<li class=\"divider\"></li> \r" +
+    "\n" +
+    "\t\t\t\t<li class=\"ms-sublabel\">FILTER</li> \r" +
+    "\n" +
+    "\t\t\t\t<li ng-repeat=\"filter in selectedItem.filters\" class=\"ms-item selectFilter\" ng-click=\"selectFilter(filter)\" ng-class=\"{selected:selectedFilter === filter}\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{filter.label}}</li> \r" +
+    "\n" +
+    "\t\t\t\t<li ng-if=\"selectedItem.template\"><ng-include src=\"selectedItem.template\"></ng-include></li>\r" +
+    "\n" +
+    "\t\t\t</ul> \r" +
+    "\n" +
+    "\t\t</ul>\r" +
     "\n" +
     "\t</ul> \r" +
     "\n" +
