@@ -45,7 +45,7 @@ angular.module("ThreeSixtyOneView")
                 sheet.isPaintSuspended(true);
 
                 // set default column width and height
-                var maxW = 200, minW = 100;
+                var maxW = 250, minW = 120;
                 var canvasW = $('#spreadjsvp').width();
                 var calcW = (canvasW / $scope.colCnt);
 
@@ -197,7 +197,7 @@ angular.module("ThreeSixtyOneView")
 
             }
 
-            //calling adjustHeight on resize event
+            // adjust pivot table height when resize the window
             window.onresize = adjustHeight;
 
             function adjustHeight() {
@@ -211,6 +211,11 @@ angular.module("ThreeSixtyOneView")
             $scope.spread.updateSheet = function(_data, numRows, numCols) {
 
                 $scope.data = _data;
+
+                // $scope.spread.sheet.loading = true;
+                // $timeout(function() {
+                //     $scope.spread.sheet.loading = false;
+                // }, (numCols + numRows) * 1000);
 
                 $scope.rowCnt = $scope.data.length;
                 $scope.rowHeaderCnt = numRows;

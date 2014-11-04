@@ -1,13 +1,20 @@
 <div>
     <div ng-hide="spread.sheet.loading" class="row" style="margin-top: 20px; margin-bottom: 20px;">
-        <wij-spread id="spreadjs" backcolor="white" newtabvisible="false" tabstripvisible="false" canUserDragDrop="false" showVerticalScrollbar="true" showHorizontalScrollbar="true" useWijmoTheme="true">
+        <wij-spread id="spreadjs"
+            backcolor               = "white"
+            newtabvisible           = "false"
+            tabstripvisible         = "false"
+            canUserDragDrop         = "false"
+            showVerticalScrollbar   = "true"
+            showHorizontalScrollbar = "true"
+            useWijmoTheme           = "true">
             <sheets>
                 <sheet datasource="data" name="data"></sheet>
             </sheets>
         </wij-spread>
     </div>
 
-    <!-- <div ng-show="spread.sheet.loading" class="row" style="margin-top: 20px; margin-bottom: 20px; width:1100px; height: 500px; z-order: 99999; background-color: white; text-align: center; font-size: 3em;">
+<!--     <div ng-show="spread.sheet.loading" class="row" style="margin-top: 20px; margin-bottom: 20px; width:1100px; height: 500px; z-order: 99999; background-color: white; text-align: center; font-size: 3em;">
         <span class="fa fa-refresh fa-spin" style="margin-top: 200px;"></span>
     </div> -->
 </div>
