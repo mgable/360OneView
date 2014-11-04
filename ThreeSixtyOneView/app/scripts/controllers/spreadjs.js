@@ -24,7 +24,6 @@ angular.module("ThreeSixtyOneView")
                 sheet = spread.getActiveSheet();
 
                 spread.grayAreaBackColor("Transparent");
-                sheet.defaults.colWidth = 150;
                 sheet.setColumnHeaderVisible(false);
                 sheet.setRowHeaderVisible(false);
                 sheet.setColumnHeaderVisible(false);
@@ -46,7 +45,7 @@ angular.module("ThreeSixtyOneView")
                 sheet.isPaintSuspended(true);
 
                 // set default column width and height
-                var maxW = 150, minW = 100;
+                var maxW = 200, minW = 100;
                 var canvasW = $('#spreadjsvp').width();
                 var calcW = (canvasW / $scope.colCnt);
 
@@ -103,8 +102,9 @@ angular.module("ThreeSixtyOneView")
                         row.formatter("0").font("13px proxima-nova").foreColor("#888888");
                         row.hAlign($.wijmo.wijspread.HorizontalAlign.center);
                         row.wordWrap(true);
+                        sheet.autoFitRow(i);
                     } else {
-                        sheet.defaults.rowHeight = 30;
+                        sheet.setRowHeight(i, 30 ,$.wijmo.wijspread.SheetArea.viewport);
                         for (j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
                             sheet.getCell(i, j).font("14px proxima-nova").foreColor("#000000").value(randomNumber(0, 2000)).locked(false);
                         }
@@ -170,6 +170,7 @@ angular.module("ThreeSixtyOneView")
                         return;
                     }
                     sheet.addSpan(min, level, span, 1);
+                    sheet.getCell(min, level).vAlign($.wijmo.wijspread.VerticalAlign.top);
                     var cMin = min,
                         cMax = min + span;
                     createColSpan(level + 1, cMin, cMax - 1);
