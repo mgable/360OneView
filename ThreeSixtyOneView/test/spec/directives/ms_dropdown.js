@@ -2,7 +2,7 @@
 /* jshint unused:false */
 'use strict';
 
-describe('Directives:', function() {
+xdescribe('Directives:', function() {
 
     // load the directive's module
     beforeEach(module('ThreeSixtyOneView.directives','ThreeSixtyOneView.services', 'ThreeSixtyOneView.config'));

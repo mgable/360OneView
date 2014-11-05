@@ -28,23 +28,15 @@ angular.module('ThreeSixtyOneView')
             }
         };
     }]).controller("NavigationCtrl", ["$scope", function($scope){
-    }]).controller('InfoTrayCtrl', ["$scope", "$state", "CONFIG", "ActiveSelection", "FavoritesService", "SortAndFilterService", "EVENTS", function($scope, $state, CONFIG, ActiveSelection, FavoritesService, SortAndFilterService, EVENTS) {
-        $scope.hasFavorites = CONFIG.view[$state.current.name].hasFavorites;
+    }]).controller('InfoTrayCtrl', ["$scope", "$rootScope", "$state", "CONFIG", "ActiveSelection", "EVENTS", "DialogService", function($scope, $rootScope, $state, CONFIG, ActiveSelection, EVENTS, DialogService) {
         $scope.selectedItem = ActiveSelection.getActiveItem();
         $scope.showScenario = false;
         $scope.viewAll = 'View All';
+        $scope.trayActions = CONFIG.view[$state.current.name].trayActions
 
-        $scope.toggleFavorite = function(itemID){
-            FavoritesService.toggleFavorite(itemID);
-            SortAndFilterService.filter();
-        };
-
-        $scope.isFavorite = function(itemID){
-            return FavoritesService.isFavorite(itemID);
-        };
-
-        $scope.update = function(item) {
-            $scope.$broadcast(EVENTS.renameProject, item);
+        $scope.action = function(action, data){
+            //$rootScope.$broadcast(EVENTS[action], data);
+            if (action)DialogService[action](data);
         };
 
         $scope.toggleShowScenarios = function() {
@@ -78,10 +70,16 @@ angular.module('ThreeSixtyOneView')
             $scope.goto(evt, 'gotoScenarioCreate', $scope.getProject());
         });
 
+        $scope.$on(EVENTS.copyScenario, function(evt, scenario){
+            ScenarioService.create($scope.getProject(), scenario).then(function(response){
+                $scope.goto(evt, 'gotoScenarioEdit', response);
+            });
+        });
+
         $scope.init($state.current.name, Scenarios, $stateParams);
         localInit();
 
-    }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "$stateParams", "$state", "CONFIG", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", "DiaglogService", "EVENTS", function($scope, $controller, $stateParams, $state, CONFIG, FavoritesService, ProjectsService, ScenarioService, Projects, ActiveSelection, SortAndFilterService, GotoService, DiaglogService, EVENTS) {
+    }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "$stateParams", "$state", "CONFIG", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", "DialogService", "EVENTS", function($scope, $controller, $stateParams, $state, CONFIG, FavoritesService, ProjectsService, ScenarioService, Projects, ActiveSelection, SortAndFilterService, GotoService, DialogService, EVENTS) {
 
         angular.extend(this, $controller('ProjectViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService, ScenarioService:ScenarioService, CONFIG:CONFIG }));
 
@@ -115,7 +113,7 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.$on(EVENTS.openCreateProject, function(evt, data){
-            DiaglogService.create('project');
+            DialogService.create();
         });
 
         $scope.init($state.current.name, Projects, $stateParams);
@@ -204,7 +202,7 @@ angular.module('ThreeSixtyOneView')
         //TODO: temp data
         $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
         $scope.scenarioElementType = $scope.types[0];
-    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DiaglogService", "GotoService", "Project", "Scenarios", "EVENTS", "CONFIG", function($scope, $stateParams, ScenarioService, DiaglogService, GotoService, Project, Scenarios, EVENTS, CONFIG){
+    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DialogService", "GotoService", "Project", "Scenarios", "EVENTS", "CONFIG", function($scope, $stateParams, ScenarioService, DialogService, GotoService, Project, Scenarios, EVENTS, CONFIG){
             var getBaseScenario = function(){
                 return angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
             };
@@ -226,7 +224,7 @@ angular.module('ThreeSixtyOneView')
 
 
             $scope.currentScenario = function (scenario){
-                DiaglogService.currentScenario($scope.project, scenario);
+                DialogService.currentScenario($scope.project, scenario);
             };
 
             $scope.$on(EVENTS.updateBaseScenario, function(event, data){

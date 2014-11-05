@@ -32,22 +32,49 @@ angular.module("ThreeSixtyOneView.services")
 				});
 			},
 			translateObj: function(data, translator){
-				var result = {}, t;
+				var result = {}, self = this,
+					t; // attribute value
 				_.each(translator, function(k,v,o){
-					t = data[k];
-					if (typeof t !== "undefined") {
-						result[v] = t;
-					} else if (_.isObject(k)){
-						try{
-							/* jshint ignore:start */
-							result[v] = eval("data" + k.selector);
-							/* jshint ignore:end */
-						} catch(e){
-							console.info (k.selector + " does not exist");
+					// k is what you get
+					// v is what you want
+					if(v.indexOf(".") > -1 && data[k]){
+						_.extend(result, self.makeObjs(v, data[k]));
+					}else{
+						t = data[k];
+						if (typeof t !== "undefined") {
+							result[v] = t;
+						} else if (_.isObject(k)){
+							try{
+								/* jshint ignore:start */
+								result[v] = eval("data." + k.selector);
+								/* jshint ignore:end */
+							} catch(e){
+								console.info (k.selector + " does not exist");
+							}
 						}
 					}
 				});
 				return result;
+			},
+			makeObjs: function(stingObj, _value_){
+				var k = stingObj,
+					value = _value_,
+					newObj,
+					list = [];
+
+				k.replace(/(\w+)/g, function (d) {
+				  list.push(d);
+				});
+
+				list.reverse();
+
+				newObj = _.reduce(list, function (memo, v, i, l) {
+				  var obj = {};
+				  obj[v] = memo;
+				  return obj;
+				}, value);
+
+				return newObj;
 			},
 			translateRequest: function(request, requestTranslator){
 				if (request && requestTranslator) {

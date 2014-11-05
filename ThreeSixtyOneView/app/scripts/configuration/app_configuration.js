@@ -14,16 +14,16 @@ angular.module('ThreeSixtyOneView.config')
             "models": {
                 "ProjectsModel": {
                     // want: get
-                    "responseTranslator": {"isMaster": "isMaster", "id" : "uuid", "title": "name", "description": "description", "createdBy":{"selector":"['auditInfo']['createdBy']['name']"}, "createdOn":{"selector":"['auditInfo']['createdOn']"}, "modifiedBy":{"selector":"['auditInfo']['lastUpdatedBy']['name']"}, "modifiedOn":{"selector":"['auditInfo']['lastUpdatedOn']"}},
+                    "responseTranslator": {"isMaster": "isMaster", "id" : "uuid", "title": "name", "description": "description", "createdBy":{"selector":"auditInfo.createdBy.name"}, "createdOn":{"selector":"auditInfo.createdOn"}, "modifiedBy":{"selector":"auditInfo.lastUpdatedBy.name"}, "modifiedOn":{"selector":"auditInfo.lastUpdatedOn"}},
                     // want: get
                     "requestTranslator": {"uuid" : "id", "name": "title", "description": "description", "isMaster": "isMaster"},
                     "newProject": {"title": "","description" : "", "isMaster": false}
                 },
                 "ScenarioModel": {
                     // want: get
-                    "responseTranslator": {"referenceScenario": "referenceScenario", "title": "name", "id": "id", "description": "description", "type":{"selector":"['prediction']['type']"}, "createdBy":{"selector":"['auditInfo']['createdBy']['name']"}, "createdOn":{"selector":"['auditInfo']['createdOn']"}, "modifiedBy":{"selector":"['auditInfo']['lastUpdatedBy']['name']"}, "modifiedOn":{"selector":"['auditInfo']['lastUpdatedOn']"}},
-                    "requestTranslator": {"name":"title", "referenceScenario": "referenceScenario", "description": "description", "prediction": "prediction"},
-                    "newScenario": {"title" : "", "description": "","referenceScenario": {"id": 1, "name": "PRE LOADED SIMULATION NEW"}, "prediction" : {"type" : "Simulation"}}
+                    "responseTranslator": {"referenceScenario": "referenceScenario", "title": "name", "id": "id", "description": "description", "type":{"selector":"prediction.type"}, "createdBy":{"selector":"auditInfo.createdBy.name"}, "createdOn":{"selector":"auditInfo.createdOn"}, "modifiedBy":{"selector":"auditInfo.lastUpdatedBy.name"}, "modifiedOn":{"selector":"auditInfo.lastUpdatedOn"}},
+                    "requestTranslator": {"name":"title", "referenceScenario": "referenceScenario", "description": "description", "prediction.type": "type"},
+                    "newScenario": {"title" : "", "description": "","referenceScenario": {"id": 1, "name": "PRE LOADED SIMULATION NEW"}, "type": "Simulation"}
                 },
                 "CubeModel" : {
                     "responseTranslator": "",
@@ -53,6 +53,12 @@ angular.module('ThreeSixtyOneView.config')
                 "where": "gotoScenarioEdit",
                 "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
                 "displayActionsCreate": "gotoScenarioCreate",
+                "trayActions": {
+                    "copy": "copyScenario",
+                    "share": "",
+                    "archive": "",
+                    "dropdown": ""
+                },
                 "filterMenu": {
                     "firstSelected": 0,
                     "title": "Scenarios",
@@ -85,6 +91,12 @@ angular.module('ThreeSixtyOneView.config')
                 "hasFavorites": true,
                 "where": 'gotoDashboard',
                 "displayActionsCreate": "openCreateProject",
+                "trayActions": {
+                    "copy": "",
+                    "share": "",
+                    "archive": "",
+                    "dropdown": ""
+                },
                 "filterMenu": {
                     "firstSelected": 0,
                     "icon": "suitcase",

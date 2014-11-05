@@ -1,34 +1,34 @@
 <div class="info-tray" ng-controller="InfoTrayCtrl">
 	<div class="details">
-		<div class="clearfix title-holder" ng-class="{'hasFavorites': hasFavorites}">
+		<div class="clearfix title-holder">
 			<span ng-switch="selectedItem.isMaster">
 				<h4 ng-switch-when="true" class="title clear"><icon type="marketshare"></icon>&nbsp;{{selectedItem.title}}</h4>
 				<span ng-switch-default>
-					<inline-edit template="inline_rename" item="selectedItem">
-						<span ng-if="hasFavorites"><span class="favorites"><a ng-class="{favorite:isFavorite(selectedItem.id)}" ng-click="toggleFavorite(selectedItem.id)"></a></span></span>
-					</inline-edit>
+					<inline-edit template="inline_rename" item="selectedItem"></inline-edit>
 				</span>
 			</span>
 		</div>
 		<ul class="detail-list no-margin">
-		  <li class="detail">
-		  <a class="pull-left"><icon type="files-o"></icon>Copy</a>
-		  </li>
-		  <li class="detail">
-		    <a class="pull-left share">
-		      <icon type="users"></icon>Share
-		    </a>
-		  </li>
-		  <li class="detail">
-		    <a class="pull-left">
-		      <icon type="inbox"></icon>Archive
-		    </a>
-		  </li>
-		  <li class="detail">
-		    <a class="pull-left">
-		      <icon type="ellipsis-h" cname="dropdown-trigger"></icon>
-		    </a>
-		  </li>
+			<li class="detail">
+				<a class="pull-left" ng-click="action(trayActions.copy, selectedItem)">
+					<icon type="files-o"></icon>Copy
+				</a>
+			</li>
+			<li class="detail">
+				<a class="pull-left share" ng-click="action(trayActions.share, selectedItem)">
+					<icon type="users"></icon>Share
+				</a>
+			</li>
+			<li class="detail">
+				<a class="pull-left" ng-click="action(trayActions.archive, selectedItem)">
+					<icon type="inbox"></icon>Archive
+				</a>
+			</li>
+			<li class="detail">
+				<a class="pull-left" ng-click="action(trayActions.dropdown, selectedItem)">
+					<icon type="ellipsis-h" cname="dropdown-trigger"></icon>
+				</a>
+			</li>
 		</ul>
 	</div>
 	<div class="well profile description-holder">
@@ -49,14 +49,14 @@
 
 	<div class="well profile">
 		<ul class="media-list no-margin">
-		  <li class="media">
-		    <div class="media-body">
-		      <h5 class="media-heading bold">Access</h5>
-		    </div>
-		    <a class="pull-left">
-		      <img class="media-object" src="images/users_pic_sprite.png">
-		    </a>
-		  </li>
+			<li class="media">
+			<div class="media-body">
+				<h5 class="media-heading bold">Access</h5>
+			</div>
+			<a class="pull-left">
+				<img class="media-object" src="images/users_pic_sprite.png">
+			</a>
+			</li>
 		</ul>
 	</div>
 
@@ -78,5 +78,5 @@
 			</div>
 		</div>
 	</div>
-	<div class="profile-footer" ng-click="toggleShowScenarios()" ng-if="selectedItem.scenarios.length > 3"><a ng-click="showScenarios()">{{viewAll}}</a></div>
+	<div class="profile-footer"	ng-if="selectedItem.scenarios.length > 3"><a ng-click="toggleShowScenarios()">{{viewAll}}</a></div>
 </div>
