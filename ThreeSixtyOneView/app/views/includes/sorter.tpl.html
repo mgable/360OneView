@@ -10,14 +10,14 @@
 			<!-- <th><ms-dropdown selected-sort-index="1" reverse=false msid="column_2"></ms-dropdown></th> -->
 		</thead>
 		<tbody>
-			<tr ng-repeat="item in getData()" ng-class="{active: isActiveItem(item)}" class="{{CONFIG.status && item.status.className || ''}}" single-click="selectItem(item)" ng-dblclick="goto($event, CONFIG.nameClickAction, item)"> 
+			<tr ng-repeat="item in getData()" ng-class="{active: isActiveItem(item)}" class="{{CONFIG.status && item.status.className || ''}}" ng-click="selectItem(item)"> 
 				<td ng-class="{master: item.isMaster}">
 					<div class="text-holder">
 						<span class="favorites" ng-if="CONFIG.hasFavorites"><a ng-class="{favorite:isFavorite(item.id)}" ng-click="!item.isMaster && toggleFavorite($event, item.id)"></a></span>
 					</div>
 					<div class="text-holder">
                     	<span class="title">
-	                        <span  class="default">{{item.title}}&nbsp;<icon type="marketshare"></icon></span>
+	                        <a class="default" ng-click="goto($event, CONFIG.nameClickAction, item)">{{item.title}}&nbsp;<icon type="marketshare"></icon></a>
                     	</span>
                 	</div>
 				</td>

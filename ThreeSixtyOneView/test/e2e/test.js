@@ -1,5 +1,5 @@
 // spec.js
-describe('angularjs homepage', function() {
+describe('Project Listing', function() {
 	var hasClass = function (element, cls) {
 	    return element.getAttribute('class').then(function (classes) {
 	        return classes.split(' ').indexOf(cls) !== -1;
@@ -57,7 +57,7 @@ describe('angularjs homepage', function() {
 		expect(itemCount.getText()).toContain(element.all(by.repeater('item in getData()')).count());
 	});
 
-	it("should filter by favorite", function(){
+	xit("should filter by favorite", function(){
 		var filteredCount, unFilteredCount,
 			itemCount = element(by.css('.display-actions h4.title span:first-child'));
 		element.all(by.repeater('item in getData()')).count().then(function(count){
@@ -72,6 +72,12 @@ describe('angularjs homepage', function() {
 			expect(filteredCount).toBeLessThan(unFilteredCount);
 			expect(itemCount.getText()).toContain(element.all(by.repeater('item in getData()')).count());
 			expect(element.all(by.repeater('item in getData()')).count()).toEqual(favorites);
+		});
+	});
+
+	describe("Favorite behaviors", function(){
+		it("should favorite the master project", function(){
+			expect(element.all(by.css(".master .favorite")).count()).toBe(1);
 		});
 	});
 });
