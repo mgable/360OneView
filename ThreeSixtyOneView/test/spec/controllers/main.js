@@ -143,7 +143,7 @@ describe('Controllers: ', function() {
         });
     });
 
-    describe("InfoTray CTRL", function(){
+    xdescribe("InfoTray CTRL", function(){
         beforeEach(inject(function($rootScope, $controller, ActiveSelection, _EVENTS_, FavoritesService, SortAndFilterService) {
             scope = $rootScope.$new();
             data = {"foo": "bar"};

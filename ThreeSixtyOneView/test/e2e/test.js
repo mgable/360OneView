@@ -10,27 +10,27 @@ describe('angularjs homepage', function() {
 		function(){browser.get('http://127.0.0.1:9001/#/projects');}
 	)
 
-	it('should have a title', function() {
+	xit('should have a title', function() {
 		expect(browser.getTitle()).toEqual('360 One View');
 	});
 
-	it ('should list projects', function(){
+	xit ('should list projects', function(){
 		expect(element.all(by.repeater('item in getData()')).count()).toBeGreaterThan(0);
 	});
 
-	it("should search", function(){
+	xit("should search", function(){
 		element(by.model('SortAndFilterService.searchText')).sendKeys('master project');
 		expect(element.all(by.repeater('item in getData()')).count()).toBe(1);
 	});
 
-	it ("should toggle the filter menu dropdown", function(){
+	xit ("should toggle the filter menu dropdown", function(){
 		var elem = element(by.css('.filterDropdown'));
 		expect(hasClass(elem, 'hide')).toBe(true);
 		element(by.css(".filtertoggle")).click();
 		expect(hasClass(elem, 'hide')).toBe(false);
 	});
 
-	it("should order by name", function(){
+	xit("should order by name", function(){
 		var elem = element(by.css('[ng-bind="display"]')),
 			titles = element.all(by.repeater('item in getData()').column('title'));
 		
@@ -50,5 +50,28 @@ describe('angularjs homepage', function() {
 			});
 		});
 
+	});
+
+	xit('should present the total viewable items', function(){
+		var itemCount = element(by.css('.display-actions h4.title span:first-child'));
+		expect(itemCount.getText()).toContain(element.all(by.repeater('item in getData()')).count());
+	});
+
+	it("should filter by favorite", function(){
+		var filteredCount, unFilteredCount,
+			itemCount = element(by.css('.display-actions h4.title span:first-child'));
+		element.all(by.repeater('item in getData()')).count().then(function(count){
+			unFilteredCount = count;
+		});
+		element(by.css(".filtertoggle")).click();
+		element(by.css('.filterDropdown li:last-child')).click();
+
+		element.all(by.repeater('item in getData()')).count().then(function(count){
+			var filteredCount = count,
+			favorites = element.all(by.css('.favorite')).count();
+			expect(filteredCount).toBeLessThan(unFilteredCount);
+			expect(itemCount.getText()).toContain(element.all(by.repeater('item in getData()')).count());
+			expect(element.all(by.repeater('item in getData()')).count()).toEqual(favorites);
+		});
 	});
 });

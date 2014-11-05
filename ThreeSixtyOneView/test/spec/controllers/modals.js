@@ -1,7 +1,7 @@
 /* global xit */
 "use strict";
 
-describe('Controllers: Modals: ', function() {
+xdescribe('Controllers: Modals: ', function() {
     var scope, ctrl, modalInstance, eventSpy, EVENTS, ProjectsService, CONFIG, projectSpy, data, event;
 
     beforeEach(module('ThreeSixtyOneView'));

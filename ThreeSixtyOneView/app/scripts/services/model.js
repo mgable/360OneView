@@ -32,22 +32,49 @@ angular.module("ThreeSixtyOneView.services")
 				});
 			},
 			translateObj: function(data, translator){
-				var result = {}, t;
+				var result = {}, self = this,
+					t; // attribute value
 				_.each(translator, function(k,v,o){
-					t = data[k];
-					if (typeof t !== "undefined") {
-						result[v] = t;
-					} else if (_.isObject(k)){
-						try{
-							/* jshint ignore:start */
-							result[v] = eval("data" + k.selector);
-							/* jshint ignore:end */
-						} catch(e){
-							console.info (k.selector + " does not exist");
+					// k is what you get
+					// v is what you want
+					if(v.indexOf(".") > -1 && data[k]){
+						_.extend(result, self.makeObjs(v, data[k]));
+					}else{
+						t = data[k];
+						if (typeof t !== "undefined") {
+							result[v] = t;
+						} else if (_.isObject(k)){
+							try{
+								/* jshint ignore:start */
+								result[v] = eval("data." + k.selector);
+								/* jshint ignore:end */
+							} catch(e){
+								console.info (k.selector + " does not exist");
+							}
 						}
 					}
 				});
 				return result;
+			},
+			makeObjs: function(stingObj, _value_){
+				var k = stingObj,
+					value = _value_,
+					newObj,
+					list = [];
+
+				k.replace(/(\w+)/g, function (d) {
+				  list.push(d);
+				});
+
+				list.reverse();
+
+				newObj = _.reduce(list, function (memo, v, i, l) {
+				  var obj = {};
+				  obj[v] = memo;
+				  return obj;
+				}, value);
+
+				return newObj;
 			},
 			translateRequest: function(request, requestTranslator){
 				if (request && requestTranslator) {
@@ -55,46 +82,26 @@ angular.module("ThreeSixtyOneView.services")
 				}
 				return JSON.stringify(request);
 			},
-			isValid: function(_data_){
-				var data = $rootScope.$eval(_data_);
-				// is zero length string
-				if (angular.isString(data) && data.length === 0){
-					return false;
-				// is zero length array
-				} else if (angular.isArray(data) && data.length  === 0){
-					return false;
-				// is empty object
-				} else if(angular.isObject(data) && Object.keys(data).length  === 0) {
-					return false;
-				} else {
-					return true;
-				}
-			},
 			translateResponse: function (response, responseTranslator){
 				var results, data;
-				// if (!this.isValid(response)){
-				// 	$rootScope.$broadcast(EVENTS.noDataReceived, {msg:"no data received"});
-				// 	return false;
-				// } else {
-					try {
-						data = JSON.parse(response);
-					}
-					catch(e){
-						$rootScope.$broadcast(EVENTS.noDataReceived, {msg:"data will not parse to json"});
-						return;
-					}
+				try {
+					data = JSON.parse(response);
+				}
+				catch(e){
+					$rootScope.$broadcast(EVENTS.noDataReceived, {msg:"data will not parse to json"});
+					return;
+				}
 
-					if (_.isArray(data)){
-						results = [];
-						_.each(data, function(e,i,a){
-							results.push(this.translateObj(e, responseTranslator));
-						}, this);
-					} else if (_.isObject(data)){
-						return this.translateObj(data, responseTranslator);
-					}
+				if (_.isArray(data)){
+					results = [];
+					_.each(data, function(e,i,a){
+						results.push(this.translateObj(e, responseTranslator));
+					}, this);
+				} else if (_.isObject(data)){
+					return this.translateObj(data, responseTranslator);
+				}
 
-					return results;
-				//}
+				return results;
 			},
 			makeConfig: function(which, responseTranslator, requestTranslator){
 				return {
