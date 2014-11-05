@@ -8,11 +8,11 @@ angular.module('ThreeSixtyOneView.services')
             });
         };
 
-        this.copyScenario = function(item){
+        this.trayCopy = function(item){
             dialogs.create('views/modal/simple_input.tpl.html', 'ScenarioCopyCtrl', item, {
                 size: 'sm'
             });
-        }
+        };
 
         //Prototype
         this.currentScenario = function(_project_, _scenario_) {
@@ -21,4 +21,9 @@ angular.module('ThreeSixtyOneView.services')
                 scenario: _scenario_
             },{size:'md'});
         };
+
+        this.noop = function(header, msg){
+            dialogs.notify(header,msg);
+        };
+        
     }]);

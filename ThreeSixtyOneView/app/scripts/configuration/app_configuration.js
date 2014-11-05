@@ -45,19 +45,18 @@ angular.module('ThreeSixtyOneView.config')
         },
         "view": {
             "Dashboard": {
-                "model": "ScenarioService",
                 "orderBy": 'modifiedOn',
                 "filter": 'CONFIG.view.Dashboard.filterMenu.items[0]',
                 "reverse": true,
                 "topInclude": "views/includes/dashboard_top.tpl.html",
-                "where": "gotoScenarioEdit",
+                "nameClickAction": "gotoScenarioEdit",
                 "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
                 "displayActionsCreate": "gotoScenarioCreate",
                 "trayActions": {
-                    "copy": "copyScenario",
-                    "share": "",
-                    "archive": "",
-                    "dropdown": ""
+                    "copy": "trayCopy",
+                    "share": "noop",
+                    "archive": "noop",
+                    "dropdown": "noop"
                 },
                 "filterMenu": {
                     "firstSelected": 0,
@@ -84,12 +83,11 @@ angular.module('ThreeSixtyOneView.config')
                 },
             },
             "ProjectManager": {
-                "model": "ProjectsModel",
                 "orderBy": 'modifiedOn',
                 "filter": 'CONFIG.view.ProjectManager.filterMenu.items[0]',
                 "reverse": true,
                 "hasFavorites": true,
-                "where": 'gotoDashboard',
+                "nameClickAction": 'gotoDashboard',
                 "displayActionsCreate": "openCreateProject",
                 "trayActions": {
                     "copy": "",

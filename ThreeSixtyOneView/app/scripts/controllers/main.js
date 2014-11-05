@@ -11,10 +11,10 @@ angular.module('ThreeSixtyOneView')
         $scope.ActiveSelection = ActiveSelection;
 
         // this is a test
-        PivotViewService.get({cubeId:"1"}).then(function(response){
-            console.info("from main");
-            console.info(response);
-        });
+        // PivotViewService.get({cubeId:"1"}).then(function(response){
+        //     console.info("from main");
+        //     console.info(response);
+        // });
 
         // convenience methods
         $scope.console = function(msg) {
@@ -32,11 +32,12 @@ angular.module('ThreeSixtyOneView')
         $scope.selectedItem = ActiveSelection.getActiveItem();
         $scope.showScenario = false;
         $scope.viewAll = 'View All';
-        $scope.trayActions = CONFIG.view[$state.current.name].trayActions
+        $scope.trayActions = CONFIG.view[$state.current.name].trayActions;
 
         $scope.action = function(action, data){
-            //$rootScope.$broadcast(EVENTS[action], data);
-            if (action)DialogService[action](data);
+            if(action){
+                $rootScope.$broadcast(EVENTS[action], action, data)
+            }
         };
 
         $scope.toggleShowScenarios = function() {
@@ -44,11 +45,20 @@ angular.module('ThreeSixtyOneView')
             $scope.viewAll = ($scope.showScenario) ? 'View Less' : 'View All';
         };
 
+        $scope.$on(EVENTS.trayCopy, function(evt, action, data){
+            DialogService[action](data);
+        });
+
         $scope.$on(EVENTS.changeActiveItem, function(event, response) {
             if (response) {
                 $scope.selectedItem = response;
             }
         });
+
+        $scope.$on(EVENTS.noop, function(event, action){
+            DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
+        });
+
     }]).controller("ProjectDashboardCtrl", ["$scope", "$controller", "$stateParams", "$state", "CONFIG", "ProjectsService", "Project", "Scenarios", "ActiveSelection", "SortAndFilterService", "GotoService", "ScenarioService", "EVENTS", function($scope,  $controller, $stateParams, $state, CONFIG, ProjectsService, Project, Scenarios, ActiveSelection, SortAndFilterService, GotoService, ScenarioService,EVENTS) {
 
         angular.extend(this, $controller('ProjectViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService, CONFIG:CONFIG}));
@@ -78,7 +88,6 @@ angular.module('ThreeSixtyOneView')
 
         $scope.init($state.current.name, Scenarios, $stateParams);
         localInit();
-
     }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "$stateParams", "$state", "CONFIG", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", "DialogService", "EVENTS", function($scope, $controller, $stateParams, $state, CONFIG, FavoritesService, ProjectsService, ScenarioService, Projects, ActiveSelection, SortAndFilterService, GotoService, DialogService, EVENTS) {
 
         angular.extend(this, $controller('ProjectViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService, ScenarioService:ScenarioService, CONFIG:CONFIG }));
@@ -118,7 +127,6 @@ angular.module('ThreeSixtyOneView')
 
         $scope.init($state.current.name, Projects, $stateParams);
         localInit();
-
     }]).controller("ProjectViewCtrl", ["$scope", "ActiveSelection", "SortAndFilterService", "GotoService", "CONFIG", function($scope, ActiveSelection, SortAndFilterService, GotoService, CONFIG){
         
         $scope.init = function(whichView, _data_, stateParams){
