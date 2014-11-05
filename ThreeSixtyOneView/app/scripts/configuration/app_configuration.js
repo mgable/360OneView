@@ -48,7 +48,6 @@ angular.module('ThreeSixtyOneView.config')
                 "orderBy": 'modifiedOn',
                 "filter": 'CONFIG.view.Dashboard.filterMenu.items[0]',
                 "reverse": true,
-                "topInclude": "views/includes/dashboard_top.tpl.html",
                 "nameClickAction": "gotoScenarioEdit",
                 "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
                 "displayActionsCreate": "gotoScenarioCreate",
