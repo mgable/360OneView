@@ -1,4 +1,8 @@
 // spec.js
+"use strict";
+
+var projectUrl = 'http://127.0.0.1:9001/#/projects';
+
 describe('Project Listing', function() {
 	var hasClass = function (element, cls) {
 	    return element.getAttribute('class').then(function (classes) {
@@ -7,7 +11,7 @@ describe('Project Listing', function() {
 	};
 
 	beforeEach(
-		function(){browser.get('http://127.0.0.1:9001/#/projects');}
+		function(){browser.get(projectUrl);}
 	)
 
 	xit('should have a title', function() {
@@ -57,27 +61,54 @@ describe('Project Listing', function() {
 		expect(itemCount.getText()).toContain(element.all(by.repeater('item in getData()')).count());
 	});
 
-	xit("should filter by favorite", function(){
-		var filteredCount, unFilteredCount,
-			itemCount = element(by.css('.display-actions h4.title span:first-child'));
-		element.all(by.repeater('item in getData()')).count().then(function(count){
-			unFilteredCount = count;
-		});
-		element(by.css(".filtertoggle")).click();
-		element(by.css('.filterDropdown li:last-child')).click();
-
-		element.all(by.repeater('item in getData()')).count().then(function(count){
-			var filteredCount = count,
-			favorites = element.all(by.css('.favorite')).count();
-			expect(filteredCount).toBeLessThan(unFilteredCount);
-			expect(itemCount.getText()).toContain(element.all(by.repeater('item in getData()')).count());
-			expect(element.all(by.repeater('item in getData()')).count()).toEqual(favorites);
-		});
-	});
 
 	describe("Favorite behaviors", function(){
 		it("should favorite the master project", function(){
 			expect(element.all(by.css(".master .favorite")).count()).toBe(1);
+		});
+
+		it("should toggle favorite", function(){
+			var firstElement = element.all(by.css(".favorites a")).first(),
+				isFavorite;
+				
+			hasClass(firstElement, 'favorite').then(function(data){
+				isFavorite = data;
+				firstElement.click();
+				expect(hasClass(firstElement, 'favorite')).not.toBe(isFavorite);
+			});
+		});
+
+		it("should save the favorite", function(){
+			var firstElement = element.all(by.css(".favorites a")).first(),
+				isFavorite;
+				
+			hasClass(firstElement, 'favorite').then(function(data){
+				isFavorite = data;
+				firstElement.click();
+				expect(hasClass(firstElement, 'favorite')).not.toBe(isFavorite);
+				browser.get(projectUrl);
+				firstElement = element.all(by.css(".favorites a")).first();
+				expect(hasClass(firstElement, 'favorite')).not.toBe(isFavorite);
+			});
+		});
+
+
+		it("should filter by favorite", function(){
+			var filteredCount, unFilteredCount,
+				itemCount = element(by.css('.display-actions h4.title span:first-child'));
+			element.all(by.repeater('item in getData()')).count().then(function(count){
+				unFilteredCount = count;
+			});
+			element(by.css(".filtertoggle")).click();
+			element(by.css('.filterDropdown li:last-child')).click();
+
+			element.all(by.repeater('item in getData()')).count().then(function(count){
+				var filteredCount = count,
+				favorites = element.all(by.css('.favorite')).count();
+				expect(filteredCount).toBeLessThan(unFilteredCount);
+				expect(itemCount.getText()).toContain(element.all(by.repeater('item in getData()')).count());
+				expect(element.all(by.repeater('item in getData()')).count()).toEqual(favorites);
+			});
 		});
 	});
 });
