@@ -243,7 +243,6 @@ describe('Controllers: ', function() {
         it("should bootstrap all data", function(){
             expect(scope.CONFIG).toBeDefined();
             expect(scope.CONFIG.hasFavorites).not.toBeDefined();
-            expect(scope.CONFIG.topInclude).toBeDefined();
             expect(scope.CONFIG.projectId).toBe("foo");
             expect(scope.CONFIG.filterMenu).toBe(CONFIG.view.Dashboard.filterMenu);
             expect(scope.CONFIG.displayActionsCreate).toBe(CONFIG.view.Dashboard.displayActionsCreate);

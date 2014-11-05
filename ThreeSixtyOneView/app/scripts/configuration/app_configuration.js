@@ -88,11 +88,11 @@ angular.module('ThreeSixtyOneView.config')
                 "hasFavorites": true,
                 "nameClickAction": 'gotoDashboard',
                 "displayActionsCreate": "openCreateProject",
-                "trayActions": {
-                    "copy": "",
-                    "share": "",
-                    "archive": "",
-                    "dropdown": ""
+                 "trayActions": {
+                    "copy": "noop",
+                    "share": "noop",
+                    "archive": "noop",
+                    "dropdown": "noop"
                 },
                 "filterMenu": {
                     "firstSelected": 0,

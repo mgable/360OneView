@@ -125,6 +125,12 @@ angular.module('ThreeSixtyOneView')
             DialogService.create();
         });
 
+        $scope.$on(EVENTS.createProject, function(evt, project){
+            ProjectsService.create(project).then(function(response){
+                GotoService.dashboard(response.id);
+            });
+        });
+
         $scope.init($state.current.name, Projects, $stateParams);
         localInit();
     }]).controller("ProjectViewCtrl", ["$scope", "ActiveSelection", "SortAndFilterService", "GotoService", "CONFIG", function($scope, ActiveSelection, SortAndFilterService, GotoService, CONFIG){
