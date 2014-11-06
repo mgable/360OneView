@@ -9,7 +9,7 @@
 */
 angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($scope, $timeout, $filter, pbData) {
 	var init = function() {
-		$scope.pbShow = false;
+		$scope.pbShow = true;
 		$scope.pbData = angular.copy(pbData);
 		$scope.viewName = pbData.viewData.name;
 
@@ -35,7 +35,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		$scope.toAddFilter = {};
 		$scope.addedFilter = {};
 		$scope.filterCollapse = {};
-		$scope.filterSearch = {values: ''};
+		$scope.filterSearch = {label: ''};
 
 		copyFilter();
 
@@ -140,7 +140,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 	// cancel the made changes to the filter
 	$scope.cancelChangeFilter = function() {
-		$scope.filterSearch = {values: ''};
+		$scope.filterSearch = {label: ''};
 		$scope.filterCollapse = {};
 		copyFilter();
 	};
@@ -158,8 +158,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			});
 		} else {
 			angular.forEach(obj, function(val, key) {
-				if (cat.indexOf(key) > -1 && (key.toLowerCase().indexOf(filterLowerCase) > -1) && val) {
-					count++;
+				for(var i = 0; i < cat.length; i++) {
+					if (cat[i].label.indexOf(key) > -1 && (key.toLowerCase().indexOf(filterLowerCase) > -1) && val) {
+						count++;
+					}
 				}
 			});
 		}
@@ -170,7 +172,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 	$scope.allFilters = function(fltr) {
 		var value = false;
 
-		if($scope.filterCount($scope.addedFilter[$scope.selectedFilter.cat.name], false, fltr) < $scope.totalFilterCount($scope.selectedFilter.cat.subitems[$scope.selectedFilter.cat.subitems.length - 1].subsubitems[0].values, fltr)) {
+		if($scope.filterCount($scope.addedFilter[$scope.selectedFilter.cat.label], false, fltr) < $scope.totalFilterCount($scope.selectedFilter.cat.members[$scope.selectedFilter.cat.members.length - 1].members, fltr)) {
 			value = true;
 		} else {
 			value = false;
@@ -178,7 +180,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 		angular.forEach($scope.selectedFilter.cat.subitems[$scope.selectedFilter.cat.subitems.length - 1].subsubitems[0].values, function(val) {
 			if(val.toLowerCase().indexOf(angular.lowercase(fltr)) > -1) {
-				$scope.addedFilter[$scope.selectedFilter.cat.name][val] = value;
+				$scope.addedFilter[$scope.selectedFilter.cat.label][val] = value;
 			}
 		});
 	};
@@ -198,8 +200,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		var containsAll = true,
 			current = [];
 
-		for(var key in $scope.addedFilter[$scope.selectedFilter.cat.name]) {
-			if($scope.addedFilter[$scope.selectedFilter.cat.name][key] && (angular.lowercase(key).indexOf(angular.lowercase(fltr)) > -1)) {
+		for(var key in $scope.addedFilter[$scope.selectedFilter.cat.label]) {
+			if($scope.addedFilter[$scope.selectedFilter.cat.label][key] && (angular.lowercase(key).indexOf(angular.lowercase(fltr)) > -1)) {
 				current.push(key);
 			}
 		}
@@ -207,7 +209,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		var filterValues = $filter('filter')(values, fltr);
 
 		for(var i = 0, n = filterValues.length; i < n; i++) {
-			if(current.indexOf(filterValues[i]) < 0) {
+			if(current.indexOf(filterValues[i].label) < 0) {
 				containsAll = false;
 				break;
 			}
@@ -215,11 +217,11 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 		if(containsAll) {
 			for(i = 0, n = filterValues.length; i < n; i++) {
-				$scope.addedFilter[$scope.selectedFilter.cat.name][filterValues[i]] = false;
+				$scope.addedFilter[$scope.selectedFilter.cat.label][filterValues[i].label] = false;
 			}
 		} else {
 			for(i = 0, n = filterValues.length; i < n; i++) {
-				$scope.addedFilter[$scope.selectedFilter.cat.name][filterValues[i]] = true;
+				$scope.addedFilter[$scope.selectedFilter.cat.label][filterValues[i].label] = true;
 			}
 		}
 	};
@@ -232,7 +234,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 		var results = $filter('filter')(cat, search, false);
 		for(var i = 0, n = results.length; i < n; i++) {
-			$scope.filterCollapse[results[i].name] = true;
+			$scope.filterCollapse[results[i].label] = true;
 		}
 	};
 
@@ -240,24 +242,79 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 	$scope.chooseViewBy = function(items) {
 		for(var i = 0; i < items.length; i++) {
 			for(var j = 0; j < $scope.pbData.viewData.columns.length; j++) {
-				if(items[i].name === $scope.pbData.viewData.columns[j].name) {
+				if(items[i].label === $scope.pbData.viewData.columns[j].name) {
+					$scope.searchFilters(items[i], $scope.filterSearch);
 					return items[i];
 				}
 			}
 
 			for(j = 0; j < $scope.pbData.viewData.rows.length; j++) {
-				if(items[i].name === $scope.pbData.viewData.rows[j].name) {
+				if(items[i].label === $scope.pbData.viewData.rows[j].name) {
+					$scope.searchFilters(items[i], $scope.filterSearch);
 					return items[i];
 				}
 			}
 		}
 
-		return items[items.length - 1];
+		$scope.searchFilters(items[0], $scope.filterSearch);
+		return items[0];
+	};
+
+	// aggregate filter values based on categories
+	$scope.categorizeValues = function(index, items) {
+		var i, result;
+
+		var countValues = function(category) {
+			var output = {
+				label: [],
+				selected: 0,
+				total: 0
+			};
+			var j, k, tempResult;
+
+			if(category.members.length > 0) {
+				for(j = 0; j < category.members.length; j++) {
+					tempResult = countValues(category.members[j]);
+
+					if(!tempResult) {
+						return false;
+					}
+
+					if(tempResult.selected > 0 && tempResult.selected != tempResult.total) {
+						return false;
+					} else if(tempResult.selected == tempResult.total) {
+						output.label.push(category.members[j].label);
+						output.selected++;
+					}
+					output.total++;
+				}
+
+			} else {
+				if(items[category.label]) {
+					output.selected = 1;
+					output.label.push(category.label);
+				}
+				output.total = 1;
+			}
+
+			return output;
+		};
+
+		for(i = 0; i < pbData.itemsList[index].members.length; i++) {
+			result = countValues(pbData.itemsList[index].members[i]);
+			if(!!result) {
+				if(result.selected != result.total) {
+					return result;
+				}
+			}
+		}
+		return result;
 	};
 
 	// reset the view to the last saved state
 	$scope.resetView = function() {
 		$scope.pbData = angular.copy(pbData);
+		$scope.notify('Changes discarded!');
 	};
 
 	// close the slider (pivot table view builder)
@@ -483,6 +540,45 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		$scope.viewApplied = false;
 	};
 
+	// search filter values
+	$scope.searchFilters = function(obj, search) {
+		if(!obj) {
+			return null;
+		}
+
+		var output;
+
+		var treeSearch = function(tree, searchLabel) {
+			var output = {
+				label: tree.label
+			};
+
+			if(tree.members.length > 0) {
+				for(var i = 0; i < tree.members.length; i++) {
+					var results = treeSearch(tree.members[i], searchLabel);
+					if(results && results.members) {
+						if(!output.members) {
+							output.members = [];
+						}
+						output.members.push(results);
+					}
+				}
+			} else {
+				if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1) {
+					return tree;
+				} else {
+					return null;
+				}
+			}
+			return output;
+		};
+
+		output = treeSearch(obj, search.label);
+
+
+		$scope.searchResults = output;
+	};
+
 	init();
 
 }).controller('pivotTableCtrl', ['$scope', 'pbData',
@@ -498,73 +594,960 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			{name: 'Behrooz\'s View',id: '4'}
 		],
 		itemsList: [
-			{name: 'Touchpoint', subitems: [
-				{name: 'National/Local Spend', subsubitems: [
-					{name: 'National', values: ['National Magazine Brand','National Magazine Nameplate','National Newspaper Brand','National Newspaper Nameplate','National TV Cable Brand','National TV Cable Nameplate','National TV Network Brand','National TV Network Nameplate']},
-					{name: 'Local', values: ['Local Newspaper Brand','Local Online Display Brand','Local OOH Brand','Local Paid Search Brand','Local Radio Brand','Local Sponsorship Brand','Local TV Brand','Local Newspaper Nameplate','Local Online Display Nameplate','Local OOH Nameplate','Local Radio Nameplate','Local TV Nameplate']}
-					]},
-				{name: 'Brand/Nameplate Spend', subsubitems: [
-					{name: 'Brand', values: ['National Magazine Brand','Local Newspaper Brand','National Newspaper Brand','Local Online Display Brand','Local OOH Brand','Local Paid Search Brand','Local Radio Brand','Local Sponsorship Brand','National TV Cable Brand','Local TV Brand','National TV Network Brand']},
-					{name: 'Nameplate', values: ['National Magazine Nameplate','National Newspaper Nameplate','National TV Cable Nameplate','National TV Network Nameplate','Local Newspaper Nameplate','Local Online Display Nameplate','Local OOH Nameplate','Local Radio Nameplate','Local TV Nameplate']}
-					]},
-				{name: 'Channel', subsubitems: [
-					{name: 'Magazine', values: ['National Magazine Brand','National Magazine Nameplate']},
-					{name: 'Newspaper', values: ['Local Newspaper Brand','National Newspaper Brand','National Newspaper Nameplate','Local Newspaper Nameplate']},
-					{name: 'Online', values: ['Local Online Display Brand','Local Online Display Nameplate']},
-					{name: 'OOH', values: ['Local OOH Brand','Local OOH Nameplate']},
-					{name: 'Paid', values: ['Local Paid Search Brand']},
-					{name: 'Radio', values: ['Local Radio Brand','Local Radio Nameplate']},
-					{name: 'Sponsorship', values: ['Local Sponsorship Brand']},
-					{name: 'TV', values: ['National TV Cable Brand','National TV Cable Nameplate','Local TV Brand','National TV Network Brand','National TV Network Nameplate','Local TV Nameplate']}
-					]},
-				{name: 'Leaf Touchpoints', subsubitems: [
-					{name: '', values: ['National Magazine Brand','National Magazine Nameplate','Local Newspaper Brand','National Newspaper Brand','National Newspaper Nameplate','Local Online Display Brand','Local OOH Brand','Local Paid Search Brand','Local Radio Brand','Local Sponsorship Brand','National TV Cable Brand','National TV Cable Nameplate','Local TV Brand','National TV Network Brand','National TV Network Nameplate','Local Newspaper Nameplate','Local Online Display Nameplate','Local OOH Nameplate','Local Radio Nameplate','Local TV Nameplate']}
-					]}
-				]},
-			{name: 'Nameplate', subitems: [
-				{name: 'Nameplate Groups', subsubitems: [
-					{name: 'Car', values: ['Focus','Taurus','Mustang','Fiesta','Fusion']},
-					{name: 'Truck', values: ['F-Series','E-Series','Transit']},
-					{name: 'Utility', values: ['Escape','Expedition','Explorer','Edge','Flex']},
-					{name: 'Brand', values: ['Brand']}
-					]},
-				{name: 'Nameplates', subsubitems: [
-					{name: '', values: ['Focus','Taurus','Mustang','Fiesta','Fusion','F-Series','E-Series','Transit','Escape','Expedition','Explorer','Edge','Flex','Brand']}
-					]}
-				]},
-			{name: 'Region', subitems: [
-				{name: 'Region', subsubitems: [
-					{name: 'Southeast', values: ['Atlanta','Miami','Charlotte','Orlando']},
-					{name: 'West', values: ['Denver','Los Angeles','Seattle','Phoenix','San Francisco']},
-					{name: 'Central', values: ['Kansas City','Memphis','Houston','Dallas']},
-					{name: 'Great Lakes', values: ['Chicago','Pittsburgh','Cincinnati','Detroit', 'Twin Cities']},
-					{name: 'Northeast', values: ['Washington','New York','Boston','Philadelphia']},
-					{name: 'National', values: ['National']}
-					]},
-				{name: 'City', subsubitems: [
-					{name: '', values: ['Atlanta','Miami','Charlotte','Orlando','Denver','Los Angeles','Seattle','Phoenix','San Francisco','Kansas City','Memphis','Houston','Dallas','Chicago','Pittsburgh','Cincinnati','Detroit','Twin Cities','Washington','New York','Boston','Philadelphia','National']}
-					]}
-				]},
-			{name: 'Time', subitems: [
-				{name: 'Years', subsubitems: [
-					{name: '2013', values: ['January 2013', 'February 2013', 'March 2013', 'April 2013', 'May 2013', 'June 2013', 'July 2013', 'August 2013', 'September 2013', 'October 2013', 'November 2013', 'December 2013']},
-					{name: '2014', values: ['January 2014', 'February 2014', 'March 2014', 'April 2014', 'May 2014', 'June 2014', 'July 2014', 'August 2014', 'September 2014', 'October 2014', 'November 2014', 'December 2014']}
-					]},
-				{name: 'Quarters', subsubitems: [
-					{name: 'Q1 2013', values: ['January 2013', 'February 2013', 'March 2013']},
-					{name: 'Q2 2013', values: ['April 2013', 'May 2013', 'June 2013']},
-					{name: 'Q3 2013', values: ['July 2013', 'August 2013', 'September 2013']},
-					{name: 'Q4 2013', values: ['October 2013', 'November 2013', 'December 2013']},
-					{name: 'Q1 2014', values: ['January 2014', 'February 2014', 'March 2014']},
-					{name: 'Q2 2014', values: ['April 2014', 'May 2014', 'June 2014']},
-					{name: 'Q3 2014', values: ['July 2014', 'August 2014', 'September 2014']},
-					{name: 'Q4 2014', values: ['October 2014', 'November 2014', 'December 2014']}
-					]},
-				{name: 'Months', subsubitems: [
-					{name: '', values: ['January 2013', 'February 2013', 'March 2013', 'April 2013', 'May 2013', 'June 2013', 'July 2013', 'August 2013', 'September 2013', 'October 2013', 'November 2013', 'December 2013','January 2014', 'February 2014', 'March 2014', 'April 2014', 'May 2014', 'June 2014', 'July 2014', 'August 2014', 'September 2014', 'October 2014', 'November 2014', 'December 2014']}
-					]}
-				]}
-			],
+			{
+				label: 'Touchpoint',
+				members: [
+					{
+						label: 'National/Local Spend',
+						members: [
+							{
+								label: 'National',
+								members: [
+									{
+										label: 'National Magazine Brand',
+										members: []
+									},{
+										label: 'National Magazine Nameplate',
+										members: []
+									},{
+										label: 'National Newspaper Brand',
+										members: []
+									},{
+										label: 'National Newspaper Nameplate',
+										members: []
+									},{
+										label: 'National TV Cable Brand',
+										members: []
+									},{
+										label: 'National TV Cable Nameplate',
+										members: []
+									},{
+										label: 'National TV Network Brand',
+										members: []
+									},{
+										label: 'National TV Network Nameplate',
+										members: []
+									}
+								]
+							},{
+								label: 'Local',
+								members: [
+									{
+										label: 'Local Newspaper Brand',
+										members: []
+									},{
+										label: 'Local Online Display Brand',
+										members: []
+									},{
+										label: 'Local OOH Brand',
+										members: []
+									},{
+										label: 'Local Paid Search Brand',
+										members: []
+									},{
+										label: 'Local Radio Brand',
+										members: []
+									},{
+										label: 'Local Sponsorship Brand',
+										members: []
+									},{
+										label: 'Local TV Brand',
+										members: []
+									},{
+										label: 'Local Newspaper Nameplate',
+										members: []
+									},{
+										label: 'Local Online Display Nameplate',
+										members: []
+									},{
+										label: 'Local OOH Nameplate',
+										members: []
+									},{
+										label: 'Local Radio Nameplate',
+										members: []
+									},{
+										label: 'Local TV Nameplate',
+										members: []
+									}
+								]
+							}
+						]
+					},{
+						label: 'Brand/Nameplate Spend',
+						members: [
+							{
+								label: 'Brand',
+								members: [
+									{
+										label: 'National Magazine Brand',
+										members: []
+									},{
+										label: 'Local Newspaper Brand',
+										members: []
+									},{
+										label: 'National Newspaper Brand',
+										members: []
+									},{
+										label: 'Local Online Display Brand',
+										members: []
+									},{
+										label: 'Local OOH Brand',
+										members: []
+									},{
+										label: 'Local Paid Search Brand',
+										members: []
+									},{
+										label: 'Local Radio Brand',
+										members: []
+									},{
+										label: 'Local Sponsorship Brand',
+										members: []
+									},{
+										label: 'National TV Cable Brand',
+										members: []
+									},{
+										label: 'Local TV Brand',
+										members: []
+									},{
+										label: 'National TV Network Brand',
+										members: []
+									}
+								]
+							},{
+								label: 'Nameplate',
+								members: [
+									{
+										label: 'National Magazine Nameplate',
+										members: []
+									},{
+										label: 'National Newspaper Nameplate',
+										members: []
+									},{
+										label: 'National TV Cable Nameplate',
+										members: []
+									},{
+										label: 'National TV Network Nameplate',
+										members: []
+									},{
+										label: 'Local Newspaper Nameplate',
+										members: []
+									},{
+										label: 'Local Online Display Nameplate',
+										members: []
+									},{
+										label: 'Local OOH Nameplate',
+										members: []
+									},{
+										label: 'Local Radio Nameplate',
+										members: []
+									},{
+										label: 'Local TV Nameplate',
+										members: []
+									}
+								]
+							}
+						]
+					},{
+						label: 'Channel',
+						members: [
+							{
+								label: 'Magazine', members: [
+									{
+										label: 'National Magazine Brand',
+										members: []
+									},{
+										label: 'National Magazine Nameplate',
+										members: []
+									}
+								]
+							},{
+								label: 'Newspaper',
+								members: [
+									{
+										label: 'Local Newspaper Brand',
+										members: []
+									},{
+										label: 'National Newspaper Brand',
+										members: []
+									},{
+										label: 'National Newspaper Nameplate',
+										members: []
+									},{
+										label: 'Local Newspaper Nameplate',
+										members: []
+									}
+								]
+							},{
+								label: 'Online',
+								members: [
+									{
+										label: 'Local Online Display Brand',
+										members: []
+									},{
+										label: 'Local Online Display Nameplate',
+										members: []
+									}
+								]
+							},{
+								label: 'OOH',
+								members: [
+									{
+										label: 'Local OOH Brand',
+										members: []
+									},{
+										label: 'Local OOH Nameplate',
+										members: []
+									}
+								]
+							},{
+								label: 'Paid',
+								members: [
+									{
+										label: 'Local Paid Search Brand',
+										members: []
+									}
+								]
+							},{
+								label: 'Radio',
+								members: [
+									{
+										label: 'Local Radio Brand',
+										members: []
+									},{
+										label: 'Local Radio Nameplate',
+										members: []
+									}
+								]
+							},{
+								label: 'Sponsorship',
+								members: [
+									{
+										label: 'Local Sponsorship Brand',
+										members: []
+									}
+								]
+							},{
+								label: 'TV',
+								members: [
+									{
+										label: 'National TV Cable Brand',
+										members: []
+									},{
+										label: 'National TV Cable Nameplate',
+										members: []
+									},{
+										label: 'Local TV Brand',
+										members: []
+									},{
+										label: 'National TV Network Brand',
+										members: []
+									},{
+										label: 'National TV Network Nameplate',
+										members: []
+									},{
+										label: 'Local TV Nameplate',
+										members: []
+									}
+								]
+							}
+						]
+					},{
+						label: 'Leaf Touchpoints',
+						members: [
+							{
+								label: 'National Magazine Brand',
+								members: []
+							},{
+								label: 'National Magazine Nameplate',
+								members: []
+							},{
+								label: 'Local Newspaper Brand',
+								members: []
+							},{
+								label: 'National Newspaper Brand',
+								members: []
+							},{
+								label: 'National Newspaper Nameplate',
+								members: []
+							},{
+								label: 'Local Online Display Brand',
+								members: []
+							},{
+								label: 'Local OOH Brand',
+								members: []
+							},{
+								label: 'Local Paid Search Brand',
+								members: []
+							},{
+								label: 'Local Radio Brand',
+								members: []
+							},{
+								label: 'Local Sponsorship Brand',
+								members: []
+							},{
+								label: 'National TV Cable Brand',
+								members: []
+							},{
+								label: 'National TV Cable Nameplate',
+								members: []
+							},{
+								label: 'Local TV Brand',
+								members: []
+							},{
+								label: 'National TV Network Brand',
+								members: []
+							},{
+								label: 'National TV Network Nameplate',
+								members: []
+							},{
+								label: 'Local Newspaper Nameplate',
+								members: []
+							},{
+								label: 'Local Online Display Nameplate',
+								members: []
+							},{
+								label: 'Local OOH Nameplate',
+								members: []
+							},{
+								label: 'Local Radio Nameplate',
+								members: []
+							},{
+								label: 'Local TV Nameplate',
+								members: []
+							}
+						]
+					}
+				]
+			},{
+				label: 'Nameplate',
+				members: [
+					{
+						label: 'Nameplate Groups',
+						members: [
+							{
+								label: 'Car',
+								members: [
+									{
+										label: 'Focus',
+										members: []
+									},{
+										label: 'Taurus',
+										members: []
+									},{
+										label: 'Mustang',
+										members: []
+									},{
+										label: 'Fiesta',
+										members: []
+									},{
+										label: 'Fusion',
+										members: []
+									}
+								]
+							},{
+								label: 'Truck',
+								members: [
+									{
+										label: 'F-Series',
+										members: []
+									},{
+										label: 'E-Series',
+										members: []
+									},{
+										label: 'Transit',
+										members: []
+									}
+								]
+							},{
+								label: 'Utility',
+								members: [
+									{
+										label:'Escape',
+										members: []
+									},{
+										label:'Expedition',
+										members: []
+									},{
+										label:'Explorer',
+										members: []
+									},{
+										label:'Edge',
+										members: []
+									},{
+										label:'Flex',
+										members: []
+									}
+								]
+							},{
+								label: 'Brand',
+								members: [
+									{
+										label: 'Brand',
+										members: []
+									}
+								]
+							}
+						]
+					},{
+						label: 'Nameplates',
+						members: [
+							{
+								label: 'Focus',
+								members: []
+							},{
+								label: 'Taurus',
+								members: []
+							},{
+								label: 'Mustang',
+								members: []
+							},{
+								label: 'Fiesta',
+								members: []
+							},{
+								label: 'Fusion',
+								members: []
+							},{
+								label: 'F-Series',
+								members: []
+							},{
+								label: 'E-Series',
+								members: []
+							},{
+								label: 'Transit',
+								members: []
+							},{
+								label: 'Escape',
+								members: []
+							},{
+								label: 'Expedition',
+								members: []
+							},{
+								label: 'Explorer',
+								members: []
+							},{
+								label: 'Edge',
+								members: []
+							},{
+								label: 'Flex',
+								members: []
+							},{
+								label: 'Brand',
+								members: []
+							}
+						]
+					}
+				]
+			},{
+				label: 'Region',
+				members: [
+					{
+						label: 'Region',
+						members: [
+							{
+								label: 'Southeast',
+								members: [
+									{
+										label: 'Atlanta',
+										members: []
+									},{
+										label: 'Miami',
+										members: []
+									},{
+										label: 'Charlotte',
+										members: []
+									},{
+										label: 'Orlando',
+										members: []
+									}
+								]
+							},{
+								label: 'West',
+								members: [
+									{
+										label: 'Denver',
+										members: []
+									},{
+										label: 'Los Angeles',
+										members: []
+									},{
+										label: 'Seattle',
+										members: []
+									},{
+										label: 'Phoenix',
+										members: []
+									},{
+										label: 'San Francisco',
+										members: []
+									}
+								]
+							},{
+								label: 'Central',
+								members: [
+									{
+										label: 'Kansas City',
+										members: []
+									},{
+										label: 'Memphis',
+										members: []
+									},{
+										label: 'Houston',
+										members: []
+									},{
+										label: 'Dallas',
+										members: []
+									}
+								]
+							},{
+								label: 'Great Lakes',
+								members: [
+									{
+										label: 'Chicago',
+										members: []
+									},{
+										label: 'Pittsburgh',
+										members: []
+									},{
+										label: 'Cincinnati',
+										members: []
+									},{
+										label: 'Detroit',
+										members: []
+									},{
+										label: 'Twin Cities',
+										members: []
+									}
+								]
+							},{
+								label: 'Northeast',
+								members: [
+									{
+										label: 'Washington',
+										members: []
+									},{
+										label: 'New York',
+										members: []
+									},{
+										label: 'Boston',
+										members: []
+									},{
+										label: 'Philadelphia',
+										members: []
+									}
+								]
+							},{
+								label: 'National',
+								members: [
+									{
+										label: 'National',
+										members: []
+									}
+								]
+							}
+						]
+					},{
+						label: 'City',
+						members: [
+							{
+								label: 'Atlanta',
+								members: []
+							},{
+								label: 'Miami',
+								members: []
+							},{
+								label: 'Charlotte',
+								members: []
+							},{
+								label: 'Orlando',
+								members: []
+							},{
+								label: 'Denver',
+								members: []
+							},{
+								label: 'Los Angeles',
+								members: []
+							},{
+								label: 'Seattle',
+								members: []
+							},{
+								label: 'Phoenix',
+								members: []
+							},{
+								label: 'San Francisco',
+								members: []
+							},{
+								label: 'Kansas City',
+								members: []
+							},{
+								label: 'Memphis',
+								members: []
+							},{
+								label: 'Houston',
+								members: []
+							},{
+								label: 'Dallas',
+								members: []
+							},{
+								label: 'Chicago',
+								members: []
+							},{
+								label: 'Pittsburgh',
+								members: []
+							},{
+								label: 'Cincinnati',
+								members: []
+							},{
+								label: 'Detroit',
+								members: []
+							},{
+								label: 'Twin Cities',
+								members: []
+							},{
+								label: 'Washington',
+								members: []
+							},{
+								label: 'New York',
+								members: []
+							},{
+								label: 'Boston',
+								members: []
+							},{
+								label: 'Philadelphia',
+								members: []
+							},{
+								label: 'National',
+								members: []
+							}
+						]
+					}
+				]
+			},{
+				label: 'Time',
+				members: [
+					{
+						label: 'Years',
+						members: [
+							{
+								label: '2013',
+								members: [
+									{
+										label: 'Q1 2013',
+										members: [
+											{
+												label: 'January 2013',
+												members: []
+											},{
+												label: 'February 2013',
+												members: []
+											},{
+												label: 'March 2013',
+												members: []
+											}
+										]
+									},{
+										label: 'Q2 2013',
+										members: [
+											{
+												label: 'April 2013',
+												members: []
+											},{
+												label: 'May 2013',
+												members: []
+											},{
+												label: 'June 2013',
+												members: []
+											}
+										]
+									},{
+										label: 'Q3 2013',
+										members: [
+											{
+												label: 'July 2013',
+												members: []
+											},{
+												label: 'August 2013',
+												members: []
+											},{
+												label: 'September 2013',
+												members: []
+											}
+										]
+									},{
+										label: 'Q4 2013',
+										members: [
+											{
+												label: 'October 2013',
+												members: []
+											},{
+												label: 'November 2013',
+												members: []
+											},{
+												label: 'December 2013',
+												members: []
+											}
+										]
+									}
+								]
+							},{
+								label: '2014',
+								members: [
+									{
+										label: 'Q1 2014',
+										members: [
+											{
+												label: 'January 2014',
+												members: []
+											},{
+												label: 'February 2014',
+												members: []
+											},{
+												label: 'March 2014',
+												members: []
+											}
+										]
+									},{
+										label: 'Q2 2014',
+										members: [
+											{
+												label: 'April 2014',
+												members: []
+											},{
+												label: 'May 2014',
+												members: []
+											},{
+												label: 'June 2014',
+												members: []
+											}
+										]
+									},{
+										label: 'Q3 2014',
+										members: [
+											{
+												label: 'July 2014',
+												members: []
+											},{
+												label: 'August 2014',
+												members: []
+											},{
+												label: 'September 2014',
+												members: []
+											}
+										]
+									},{
+										label: 'Q4 2014',
+										members: [
+											{
+												label: 'October 2014',
+												members: []
+											},{
+												label: 'November 2014',
+												members: []
+											},{
+												label: 'December 2014',
+												members: []
+											}
+										]
+									}
+								]
+							}
+						]
+					},{
+						label: 'Quarters',
+						members: [
+							{
+								label: 'Q1 2013',
+								members: [
+									{
+										label: 'January 2013',
+										members: []
+									},{
+										label: 'February 2013',
+										members: []
+									},{
+										label: 'March 2013',
+										members: []
+									}
+								]
+							},{
+								label: 'Q2 2013',
+								members: [
+									{
+										label: 'April 2013',
+										members: []
+									},{
+										label: 'May 2013',
+										members: []
+									},{
+										label: 'June 2013',
+										members: []
+									}
+								]
+							},{
+								label: 'Q3 2013',
+								members: [
+									{
+										label: 'July 2013',
+										members: []
+									},{
+										label: 'August 2013',
+										members: []
+									},{
+										label: 'September 2013',
+										members: []
+									}
+								]
+							},{
+								label: 'Q4 2013',
+								members: [
+									{
+										label: 'October 2013',
+										members: []
+									},{
+										label: 'November 2013',
+										members: []
+									},{
+										label: 'December 2013',
+										members: []
+									}
+								]
+							},{
+								label: 'Q1 2014',
+								members: [
+									{
+										label: 'January 2014',
+										members: []
+									},{
+										label: 'February 2014',
+										members: []
+									},{
+										label: 'March 2014',
+										members: []
+									}
+								]
+							},{
+								label: 'Q2 2014',
+								members: [
+									{
+										label: 'April 2014',
+										members: []
+									},{
+										label: 'May 2014',
+										members: []
+									},{
+										label: 'June 2014',
+										members: []
+									}
+								]
+							},{
+								label: 'Q3 2014',
+								members: [
+									{
+										label: 'July 2014',
+										members: []
+									},{
+										label: 'August 2014',
+										members: []
+									},{
+										label: 'September 2014',
+										members: []
+									}
+								]
+							},{
+								label: 'Q4 2014',
+								members: [
+									{
+										label: 'October 2014',
+										members: []
+									},{
+										label: 'November 2014',
+										members: []
+									},{
+										label: 'December 2014',
+										members: []
+									}
+								]
+							}
+						]
+					},{
+						label: 'Months',
+						members: [
+							{
+								label: 'January 2013',
+								members: []
+							},{
+								label: 'February 2013',
+								members: []
+							},{
+								label: 'March 2013',
+								members: []
+							},{
+								label: 'April 2013',
+								members: []
+							},{
+								label: 'May 2013',
+								members: []
+							},{
+								label: 'June 2013',
+								members: []
+							},{
+								label: 'July 2013',
+								members: []
+							},{
+								label: 'August 2013',
+								members: []
+							},{
+								label: 'September 2013',
+								members: []
+							},{
+								label: 'October 2013',
+								members: []
+							},{
+								label: 'November 2013',
+								members: []
+							},{
+								label: 'December 2013',
+								members: []
+							},{
+								label: 'January 2014',
+								members: []
+							},{
+								label: 'February 2014',
+								members: []
+							},{
+								label: 'March 2014',
+								members: []
+							},{
+								label: 'April 2014',
+								members: []
+							},{
+								label: 'May 2014',
+								members: []
+							},{
+								label: 'June 2014',
+								members: []
+							},{
+								label: 'July 2014',
+								members: []
+							},{
+								label: 'August 2014',
+								members: []
+							},{
+								label: 'September 2014',
+								members: []
+							},{
+								label: 'October 2014',
+								members: []
+							},{
+								label: 'November 2014',
+								members: []
+							},{
+								label: 'December 2014',
+								members: []
+							}
+						]
+					}
+				]
+			}
+		],
 		viewData: {
 			id: '4',
 			name: 'Behrooz\'s View',
@@ -574,7 +1557,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 				{name: 'Touchpoint', items: ['National Magazine Brand','National Magazine Nameplate','Local Newspaper Brand','National Newspaper Brand','National Newspaper Nameplate','Local Online Display Brand','Local OOH Brand','Local Paid Search Brand','Local Radio Brand','Local Sponsorship Brand','National TV Cable Brand','National TV Cable Nameplate','Local TV Brand','National TV Network Brand','National TV Network Nameplate','Local Newspaper Nameplate','Local Online Display Nameplate','Local OOH Nameplate','Local Radio Nameplate','Local TV Nameplate']},
 				{name: 'Nameplate', items: ['Focus','Taurus','Mustang','Fiesta','Fusion','F-Series','E-Series','Transit','Escape','Expedition','Explorer','Edge','Flex','Brand']},
 				{name: 'Region', items: ['Atlanta','Miami','Charlotte','Orlando','Denver','Los Angeles','Seattle','Phoenix','San Francisco','Kansas City','Memphis','Houston','Dallas','Chicago','Pittsburgh','Cincinnati','Detroit','Twin Cities','Washington','New York','Boston','Philadelphia','National']},
-				{name: 'Time', items: ['January 2013', 'February 2013', 'March 2013', 'April 2013', 'May 2013', 'June 2013', 'July 2013', 'August 2013', 'September 2013', 'October 2013', 'November 2013', 'December 2013','January 2014', 'February 2014', 'March 2014', 'April 2014', 'May 2014', 'June 2014', 'July 2014', 'August 2014', 'September 2014', 'October 2014', 'November 2014', 'December 2014']},
+				{name: 'Time', items: ['February 2013', 'March 2013', 'April 2013', 'May 2013', 'June 2013', 'July 2013', 'August 2013', 'September 2013', 'October 2013', 'November 2013', 'December 2013','January 2014', 'February 2014', 'March 2014', 'April 2014', 'May 2014', 'June 2014', 'July 2014', 'August 2014', 'September 2014', 'October 2014', 'November 2014', 'December 2014']},
 				{name: 'KPI', items: []}
 				]
 			}
@@ -807,4 +1790,191 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		});
 		return results;
 	};
+}).filter('treeLeafFilter', function() {
+	var treeSearch = function(tree, searchLabel) {
+		var output = {label: tree.label};
+		if(tree.members.length > 0) {
+			for(var i = 0; i < tree.members.length; i++) {
+				var results = treeSearch(tree.members[i], searchLabel);
+				if(results && results.members) {
+					if(!output.members) {
+						output.members = [];
+					}
+					output.members.push(results);
+				}
+			}
+		} else {
+			if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1) {
+				return tree;
+			} else {
+				return null;
+			}
+		}
+		return output;
+	};
+
+	return function(obj, search) {
+		var output = [];
+
+		if(!obj) {
+			return output;
+		}
+
+		for(var i = 0; i < obj.length; i++) {
+			var node = obj[i].members.length == 0;
+			var found = treeSearch(obj[i], search.label);
+			// if(node) {
+			// 	if(!found) {
+			// 		output.push(found);
+			// 	}
+			// } else {
+			// 	if(found.members) {
+			// 		output.push(found);
+			// 	}
+			// }
+			console.log(i);
+			if(found && found.members) {
+				output.push(found);
+			}
+		}
+		return output;
+	};
+}).directive('filters', function($compile) {
+	return {
+		restrict: 'E',
+		replace: true,
+		scope: {
+			collection: '=',
+			filters: '=',
+			category: '='
+		},
+		template: '<div><div><label><input type="checkbox" ng-click="toggleItems(collection)" indeterminate="checkedItems(collection).checked/checkedItems(collection).total"> Select All <span>({{checkedItems(collection).checked}}/{{checkedItems(collection).total}})</span></label><div class="pbFilterValCol2"><i class="fa fa-sort-alpha-asc pull-right" ng-hide="sortReverse" ng-click="sortReverse = !sortReverse"></i><i class="fa fa-sort-alpha-desc pull-right" ng-show="sortReverse" ng-click="sortReverse = !sortReverse"></i></div></div><member ng-repeat="member in collection.members | orderBy:\'label\':sortReverse" member="member" filters="filters" category="category" searchFilter="searchFilter" sortOrder="sortReverse"></member></div>',
+		// template: '<div><div>{{searchFilter}}<input type="text" class="form-control" ng-model="searchFilter.label"></div><div><label><input type="checkbox" ng-click="toggleItems(collection)" indeterminate="checkedItems(collection).checked/checkedItems(collection).total"> Select All <span>({{checkedItems(collection).checked}}/{{checkedItems(collection).total}})</span></label></div><collection collection="collection.members" filters="filters" category="category" searchFilter="searchFilter"></collection></div>',
+		link: function(scope, element, attrs) {
+			scope.toggleItems = function(member) {
+				var checkedItems = scope.checkedItems(member);
+
+				if(checkedItems.checked < checkedItems.total) {
+					modifyItems(member, true);
+				} else {
+					modifyItems(member, false);
+				}
+			};
+
+			scope.checkedItems = function(member) {
+				var output = {checked: 0, total: 0};
+
+				if(!member) {
+					return output;
+				}
+
+				if(member.members.length > 0) {
+					for(var i = 0; i < member.members.length; i++) {
+						var tempOutput = scope.checkedItems(member.members[i]);
+						output.checked += tempOutput.checked;
+						output.total += tempOutput.total;
+					}
+				} else {
+					var searchText = scope.searchFilter.label ? scope.searchFilter.label : '';
+					if(angular.lowercase(member.label).indexOf(searchText) > -1) {
+						output.total++;
+						if(!!scope.filters[scope.category.label][member.label]) {
+							output.checked++;
+						}
+					}
+				}
+
+				return output;
+			};
+
+			var modifyItems = function(member, add) {
+				if(member.members.length > 0) {
+					for(var i = 0; i < member.members.length; i++) {
+						modifyItems(member.members[i], add);
+					}
+				} else {
+					var searchText = scope.searchFilter.label ? scope.searchFilter.label : '';
+					if(angular.lowercase(member.label).indexOf(searchText) > -1) {
+						scope.filters[scope.category.label][member.label] = add;
+					}
+				}
+			};
+
+			scope.searchFilter = {label: ''};
+		}
+	}
+}).directive('collection', function() {
+	return {
+		restrict: 'E',
+		replace: true,
+		scope: {
+			collection: '=',
+			filters: '=',
+			category: '=',
+			searchFilter: '=',
+			sortOrder: '='
+		},
+		template: '<div style="margin-left: 1em;"><member ng-repeat="member in collection | orderBy:\'label\':false" member="member" filters="filters" category="category" searchFilter="searchFilter" sortOrder="sortOrder"></member></div>'
+	}
+}).directive('member', function($compile) {
+	return {
+		restrict: 'E',
+		replace: true,
+		scope: {
+			member: '=',
+			filters: '=',
+			category: '=',
+			searchFilter: '=',
+			sortOrder: '='
+		},
+		template: '<div><span class="glyphicon glyphicon-chevron-down clickable" ng-if="member.members.length > 0"></span><label><input type="checkbox" ng-click="toggleItems(member)" indeterminate="checkedItems(member).checked/checkedItems(member).total"> <span>{{member.label}}</span> <span ng-if="member.members.length > 0">({{checkedItems(member).checked}}/{{checkedItems(member).total}})</span></label></div>',
+		link: function(scope, element, attrs) {
+			scope.toggleItems = function(member) {
+				var checkedItems = scope.checkedItems(member);
+
+				if(checkedItems.checked < checkedItems.total) {
+					modifyItems(member, true);
+				} else {
+					modifyItems(member, false);
+				}
+			};
+
+			scope.checkedItems = function(member) {
+				var output = {checked: 0, total: 0};
+
+				if(member.members.length > 0) {
+					for(var i = 0; i < member.members.length; i++) {
+						var tempOutput = scope.checkedItems(member.members[i]);
+						output.checked += tempOutput.checked;
+						output.total += tempOutput.total;
+					}
+				} else {
+					output.total++;
+					if(!!scope.filters[scope.category.label][member.label]) {
+						output.checked++;
+					}
+				}
+
+				return output;
+			};
+
+			var modifyItems = function(member, add) {
+				if(member.members.length > 0) {
+					for(var i = 0; i < member.members.length; i++) {
+						modifyItems(member.members[i], add);
+					}
+				} else {
+					scope.filters[scope.category.label][member.label] = add;
+				}
+			}
+
+			scope.numCheckedItems = scope.checkedItems(scope.member);
+
+			if(scope.member.members.length > 0) {
+				$compile('<collection collection="member.members" filters="filters" category="category" searchFilter="searchFilter" sortOrder="sortOrder"></collection>')(scope, function(cloned, scope) {
+					element.after(cloned);
+				});
+			}
+		}
+	}
 });

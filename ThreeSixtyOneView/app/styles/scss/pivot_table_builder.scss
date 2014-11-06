@@ -52,8 +52,13 @@
 			border-left: 1px solid rgba(200,200,200,1.0);
 			position: relative;
 			display: inline-block;
-			min-width: 100px;
+			min-width: 130px;
 			float: right;
+
+			.pbSaveHolder {
+				border: 1px solid #BBB;
+				padding: 0.1em 0.3em;
+			}
 
 			.pbViewSaveMenu {
 				position: absolute;
@@ -342,7 +347,7 @@
 				position: fixed;
 				background-color: #FFF;
 				padding: 1em;
-				z-index: 1000;
+				z-index: 10000;
 
 				table {
 					min-width: 200px;
