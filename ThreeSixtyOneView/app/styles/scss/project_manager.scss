@@ -602,12 +602,17 @@
 				display:block;
 				border: 1px solid $white;
 				background-color: $white;
+				height: 0px;
 				&:hover {
 					border: 1px solid $subtitle;
 				}
 				&.active {
 					border: 1px solid $subtitle;
 					padding: 5px 10px;
+					height: 54px;
+				}
+				&.hasDescription{
+					height: 54px;
 				}
 			}
 			text-area {
