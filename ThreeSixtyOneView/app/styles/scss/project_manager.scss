@@ -7,6 +7,10 @@
 
 	.ProjectManager, 
 	.Dashboard {
+		background-color: white;
+    	margin-left: 20px;
+    	margin-right: 20px;
+
 		.left { 
 			width: $app_left;
 			border: 1px solid $mediumgray;
@@ -158,7 +162,7 @@
 			}
 		}
 		.display-actions {
-			padding: 7px 15px;
+			padding: 7px 20px;
 			height: 50px;
 			background-color: #fafafa;
 			box-shadow: 0px 0px 8px $shadow;
@@ -289,6 +293,7 @@
 			table {
 				margin-bottom: 60px;
 				padding: 20px 8px 5px 8px;
+				width: 100%;
 
 				th {
 					.title {
@@ -421,7 +426,6 @@
 				tr.active  td{
 					background-color:$active;
 				}
-			
 				thead {
 					.title.active a{
 						color: $highlight;
@@ -533,9 +537,9 @@
 			.inlineRename {
 				input {
 					height:24px;
-					width: 185px;
+					width: 223px;
 					float:left;
-					margin: 0 10px 8px 0;
+					margin: 0;
 				}
 				a {
 					float:left;
@@ -561,6 +565,8 @@
 		border-radius: 0;
 
 		&.description-holder {
+			font-size: 14px;
+
 			.field-label {
 				font-weight: 400; 
 				float: left;
@@ -581,15 +587,22 @@
 			.description {
 				clear:both;
 				width:100%;
+				padding: 0;
 				max-width: 293px;
-				padding: 5px 10px;
 				display:block;
 				border: 1px solid $white;
 				background-color: $white;
-				&:hover,
+				height: 0px;
+				&:hover {
+					border: 1px solid $subtitle;
+				}
 				&.active {
 					border: 1px solid $subtitle;
 					padding: 5px 10px;
+					height: 54px;
+				}
+				&.hasDescription{
+					height: 54px;
 				}
 			}
 			text-area {
@@ -598,12 +611,22 @@
 			&:hover .edit {
 				visibility: visible;
 			}
-			h5{
-				margin-bottom: 0px;
-				color: $gray;
+			h5 {
+				margin-bottom: 1px;
+				color: #999;
+				font-weight: 400;
 			}
 		}
 		&.scenario-listing {
+			padding: 0;
+
+			.scenarioWrapper {
+				padding: 10px;
+			}
+			.field-label {
+				display: inline-block;
+				margin-bottom: 15px;
+			}
 			.used-in {
 				font-weight: bold;
 				margin: 0 0 10px;
@@ -615,11 +638,16 @@
 			}
 			.entity-holder {
 				clear: both;
-				a {
-					cursor: pointer;
-					text-transform: capitalize;
-					&:hover {
-						text-decoration: none;
+
+				.scenario {
+					margin:0 0 10px;
+					padding: 0;
+					a {
+						cursor: pointer;
+						text-transform: capitalize;
+						&:hover {
+							text-decoration: none;
+						}
 					}
 				}
 			}
@@ -633,16 +661,31 @@
 			}
 		}
 		.media-heading {
-			color: $gray;
+			margin-bottom: 5px;
+			font-weight: 400;
+			color: #999;
 		}
 		.name {
 			text-transform: capitalize;
 		}
 	}
 	.profile-footer{
-		text-align: center;
+		width: 100%;
+
 		a {
+			display: block;
+			width: 100%;
+			padding: 5px;
+			background-color: $lightgray;
+			color: $subtitle;
+			text-align: center;
 			cursor: pointer;
+
+			&:hover {
+				color: $white;
+				text-decoration: none;
+				background-color: $blue;
+			}
 		}
 	}
 }

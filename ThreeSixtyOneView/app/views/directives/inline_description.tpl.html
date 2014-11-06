@@ -4,5 +4,5 @@
 
 	<span ng-show="isActive" class="controls"><button ng-click="submit(item)" ng-disabled="(inlineDescription.$dirty && inlineDescription.$invalid) || inlineDescription.$pristine"><icon type="check"></icon></button>&nbsp;<button ng-click="cancel()"><icon type="times"></icon></button></span>
 
-	<textarea ng-disabled="!isActive" ng-maxlength="256" ng-pattern='/^[^\\\/\?\:\*"><|]+$/' ng-model="item.description" ng-class="{'active': isActive}" class="description inputTarget"></textarea>
+	<textarea ng-disabled="!isActive" ng-maxlength="256" ng-pattern='/^[^\\\/\?\:\*"><|]+$/' ng-model="item.description" ng-class="{'active': isActive, 'hasDescription': item.description}" class="description inputTarget"></textarea>
 </form>

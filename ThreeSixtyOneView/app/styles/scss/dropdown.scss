@@ -19,7 +19,7 @@
 		height: 20px;
 		border-top: 1px solid $blue;
 		border-left: 1px solid $blue;
-		background-color: #FFF;
+		background-color: $select-list;
 		border-radius: 3px 0;
 
 		position: absolute;
@@ -46,7 +46,7 @@
 		position:absolute;
 		background-color:white;
 		& > ul:first-of-type{
-			 border-bottom: 1px solid #aaa;
+			border-bottom: 1px solid $shadow;
     		margin-bottom: 10px;
     		padding-bottom: 3px;
 		}
@@ -57,7 +57,7 @@
 		height: 15px;
 		border-top: 1px solid $blue;
 		border-left: 1px solid $blue;
-		background-color: #FFF;
+		background-color: $select-list;
 		border-radius: 3px 0;
 		position: absolute;
 		top: -8px;
@@ -87,9 +87,9 @@
 		font-weight:bold;
 		min-width: 100px;
 		white-space: nowrap;
-		color:#8695B4;
+		color:$label;
 		.toggle {
-			color: $orange;
+			color: $label;
 		}
 		.filter-icon {
 			margin: 0 4px 0 -13px;
@@ -97,7 +97,7 @@
 	}
 
 	.ms-label.active  .status{
-		color:$highlight;
+		color: $label;
 		font-weight: 400;
 		font-size: 0.9em;
 		text-transform: uppercase;
@@ -145,7 +145,7 @@
 
 	.ms-item:hover {
 		cursor: pointer;
-		background-color: #BBBBBB;
+		background-color: $item-hover;
 	}
 
 	.ms-item.selected .ms-ok {
