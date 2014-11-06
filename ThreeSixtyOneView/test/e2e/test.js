@@ -30,7 +30,7 @@ describe('Project Listing', function() {
 	it ("should toggle the filter menu dropdown", function(){
 		var elem = element(by.css('.filterDropdown'));
 		expect(hasClass(elem, 'hide')).toBe(true);
-		element(by.css(".filtertoggle")).click();
+		element(by.css(".app .ProjectManager .display-actions h4.title")).click();
 		expect(hasClass(elem, 'hide')).toBe(false);
 	});
 
@@ -100,7 +100,7 @@ describe('Project Listing', function() {
 		});
 	});
 
-	xdescribe("Favorite behaviors", function(){
+	describe("Favorite behaviors", function(){
 		it("should favorite the master project", function(){
 			expect(element.all(by.css(".master .favorite")).count()).toBe(1);
 		});
@@ -136,7 +136,7 @@ describe('Project Listing', function() {
 			element.all(by.repeater('item in getData()')).count().then(function(count){
 				unFilteredCount = count;
 			});
-			element(by.css(".filtertoggle")).click();
+			element(by.css(".app .ProjectManager .display-actions h4.title")).click();
 			element(by.css('.filterDropdown li:last-child')).click();
 
 			element.all(by.repeater('item in getData()')).count().then(function(count){
