@@ -31,7 +31,6 @@ angular.module("ThreeSixtyOneView")
                 sheet.autoGenerateColumns = true;
 
                 adjustHeight();
-
                 formatSheet();
 
             }
@@ -45,11 +44,12 @@ angular.module("ThreeSixtyOneView")
                 sheet.isPaintSuspended(true);
 
                 // set default column width and height
-                var maxW = 250, minW = 120;
+                var maxW = 250,
+                    minW = 120;
                 var canvasW = $('#spreadjsvp').width();
                 var calcW = (canvasW / $scope.colCnt);
 
-                if(calcW > minW && calcW < maxW) {
+                if (calcW > minW && calcW < maxW) {
                     sheet.defaults.colWidth = calcW;
                 } else if (calcW <= minW) {
                     sheet.defaults.colWidth = minW;
@@ -104,7 +104,7 @@ angular.module("ThreeSixtyOneView")
                         row.wordWrap(true);
                         sheet.autoFitRow(i);
                     } else {
-                        sheet.setRowHeight(i, 30 ,$.wijmo.wijspread.SheetArea.viewport);
+                        sheet.setRowHeight(i, 30, $.wijmo.wijspread.SheetArea.viewport);
                         for (j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
                             sheet.getCell(i, j).font("14px proxima-nova").foreColor("#000000").value(randomNumber(0, 2000)).locked(false);
                         }
@@ -202,8 +202,11 @@ angular.module("ThreeSixtyOneView")
 
             function adjustHeight() {
 
-                var height = $('.app').innerHeight() - $('.details').outerHeight(true) - $('#pivotBuilder').outerHeight(true) - 65;
-                $('#spreadjs').height(height);
+                var pivotBuilderHeight = $('#pivotBuilder').height();
+                var pivotTableHeight = window.innerHeight - pivotBuilderHeight - 20;
+                var containerHeight = window.innerHeight + 153 + 80;
+                $('.app').height(containerHeight);
+                $('#spreadjs').height(pivotTableHeight);
                 $('#spreadjs').wijspread('refresh');
 
             }
@@ -212,10 +215,10 @@ angular.module("ThreeSixtyOneView")
 
                 $scope.data = _data;
 
-                // $scope.spread.sheet.loading = true;
-                // $timeout(function() {
-                //     $scope.spread.sheet.loading = false;
-                // }, (numCols + numRows) * 1000);
+                $scope.spread.sheet.loading = true;
+                $timeout(function() {
+                    $scope.spread.sheet.loading = false;
+                }, (numCols + numRows) * 400);
 
                 $scope.rowCnt = $scope.data.length;
                 $scope.rowHeaderCnt = numRows;
@@ -230,6 +233,28 @@ angular.module("ThreeSixtyOneView")
                 }, 200);
 
             };
+
+            function fixScroll() {
+                var window_top = $(window).scrollTop();
+                console.log(window_top);
+                if (window_top > 230  && window_top < 330) {
+                    $('.display').css({
+                        position: 'fixed',
+                        top: 0,
+                        width: '1100px'
+                    });
+                } else {
+                    $('.display').css({
+                        position: 'relative',
+                        top: 'auto'
+                    });
+                }
+            }
+
+            $(function() {
+                $(window).scroll(fixScroll);
+                fixScroll();
+            });
 
         }
     ]);
