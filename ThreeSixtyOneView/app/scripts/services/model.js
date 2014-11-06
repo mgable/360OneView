@@ -51,6 +51,8 @@ angular.module("ThreeSixtyOneView.services")
 							} catch(e){
 								console.info (k.selector + " does not exist");
 							}
+						} else {
+							result[v] = "";
 						}
 					}
 				});
