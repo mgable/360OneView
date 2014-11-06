@@ -100,7 +100,7 @@ angular.module('ThreeSixtyOneView.config')
                     "icon": "suitcase",
                     "title": "Projects",
                     "items": [{
-                        "label": "All",
+                        "label": "All Projects",
                         "filterType": "activeFilter",
                         "filter": {}
                     }, {
