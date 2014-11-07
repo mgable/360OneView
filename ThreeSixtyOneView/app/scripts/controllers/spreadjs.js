@@ -11,31 +11,6 @@ angular.module("ThreeSixtyOneView")
 
             $scope.data = $scope.pivotTableData;
 
-            function init() {
-
-                $scope.rowCnt = $scope.data.length;
-                $scope.rowHeaderCnt = 2;
-                $scope.rowDataCnt = $scope.rowCnt - $scope.rowHeaderCnt;
-                $scope.colCnt = _.keys($scope.data[0]).length;
-                $scope.colHeaderCnt = 2;
-                $scope.colDataCnt = $scope.colCnt - $scope.colHeaderCnt;
-
-                spread = $("#spreadjs").wijspread("spread");
-                sheet = spread.getActiveSheet();
-
-                spread.grayAreaBackColor("Transparent");
-                sheet.setColumnHeaderVisible(false);
-                sheet.setRowHeaderVisible(false);
-                sheet.setColumnHeaderVisible(false);
-                sheet.setIsProtected(true);
-                sheet.autoGenerateColumns = true;
-
-                adjustHeight();
-
-                formatSheet();
-
-            }
-
             $timeout(function() {
                 init();
             }, 400);
@@ -45,11 +20,12 @@ angular.module("ThreeSixtyOneView")
                 sheet.isPaintSuspended(true);
 
                 // set default column width and height
-                var maxW = 250, minW = 120;
+                var maxW = 250,
+                    minW = 120;
                 var canvasW = $('#spreadjsvp').width();
                 var calcW = (canvasW / $scope.colCnt);
 
-                if(calcW > minW && calcW < maxW) {
+                if (calcW > minW && calcW < maxW) {
                     sheet.defaults.colWidth = calcW;
                 } else if (calcW <= minW) {
                     sheet.defaults.colWidth = minW;
@@ -104,7 +80,7 @@ angular.module("ThreeSixtyOneView")
                         row.wordWrap(true);
                         sheet.autoFitRow(i);
                     } else {
-                        sheet.setRowHeight(i, 30 ,$.wijmo.wijspread.SheetArea.viewport);
+                        sheet.setRowHeight(i, 30, $.wijmo.wijspread.SheetArea.viewport);
                         for (j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
                             sheet.getCell(i, j).font("14px proxima-nova").foreColor("#000000").value(randomNumber(0, 2000)).locked(false);
                         }
@@ -197,14 +173,26 @@ angular.module("ThreeSixtyOneView")
 
             }
 
-            // adjust pivot table height when resize the window
-            window.onresize = adjustHeight;
+            function init() {
 
-            function adjustHeight() {
+                $scope.rowCnt = $scope.data.length;
+                $scope.rowHeaderCnt = 2;
+                $scope.rowDataCnt = $scope.rowCnt - $scope.rowHeaderCnt;
+                $scope.colCnt = _.keys($scope.data[0]).length;
+                $scope.colHeaderCnt = 2;
+                $scope.colDataCnt = $scope.colCnt - $scope.colHeaderCnt;
 
-                var height = $('.app').innerHeight() - $('.details').outerHeight(true) - $('#pivotBuilder').outerHeight(true) - 65;
-                $('#spreadjs').height(height);
-                $('#spreadjs').wijspread('refresh');
+                spread = $("#spreadjs").wijspread("spread");
+                sheet = spread.getActiveSheet();
+
+                spread.grayAreaBackColor("Transparent");
+                sheet.setColumnHeaderVisible(false);
+                sheet.setRowHeaderVisible(false);
+                sheet.setColumnHeaderVisible(false);
+                sheet.setIsProtected(true);
+                sheet.autoGenerateColumns = true;
+
+                formatSheet();
 
             }
 
@@ -212,10 +200,10 @@ angular.module("ThreeSixtyOneView")
 
                 $scope.data = _data;
 
-                // $scope.spread.sheet.loading = true;
-                // $timeout(function() {
-                //     $scope.spread.sheet.loading = false;
-                // }, (numCols + numRows) * 1000);
+                $scope.spread.sheet.loading = true;
+                $timeout(function() {
+                    $scope.spread.sheet.loading = false;
+                }, (numCols + numRows) * 400);
 
                 $scope.rowCnt = $scope.data.length;
                 $scope.rowHeaderCnt = numRows;

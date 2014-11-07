@@ -1,20 +1,39 @@
-<div>
-    <div ng-hide="spread.sheet.loading" class="row" style="margin-top: 20px; margin-bottom: 20px;">
-        <wij-spread id="spreadjs"
+<div resize-pivot-table scroll-pivot-table>
+    <div class="pivotableContainer">
+        <wij-spread id="spreadjs" class="pivotable"
             backcolor               = "white"
             newtabvisible           = "false"
             tabstripvisible         = "false"
             canUserDragDrop         = "false"
             showVerticalScrollbar   = "true"
             showHorizontalScrollbar = "true"
-            useWijmoTheme           = "true">
+            useWijmoTheme           = "false">
             <sheets>
                 <sheet datasource="data" name="data"></sheet>
             </sheets>
         </wij-spread>
+        <div ng-show="spread.sheet.loading" class="spinnerContainer">
+            <!-- <span class="fa fa-refresh fa-spin spinner"></span> -->
+            <div class="spinner">
+              <div class="spinner-container container1">
+                <div class="circle1"></div>
+                <div class="circle2"></div>
+                <div class="circle3"></div>
+                <div class="circle4"></div>
+              </div>
+              <div class="spinner-container container2">
+                <div class="circle1"></div>
+                <div class="circle2"></div>
+                <div class="circle3"></div>
+                <div class="circle4"></div>
+              </div>
+              <div class="spinner-container container3">
+                <div class="circle1"></div>
+                <div class="circle2"></div>
+                <div class="circle3"></div>
+                <div class="circle4"></div>
+              </div>
+            </div>
+        </div>
     </div>
-
-<!--     <div ng-show="spread.sheet.loading" class="row" style="margin-top: 20px; margin-bottom: 20px; width:1100px; height: 500px; z-order: 99999; background-color: white; text-align: center; font-size: 3em;">
-        <span class="fa fa-refresh fa-spin" style="margin-top: 200px;"></span>
-    </div> -->
 </div>

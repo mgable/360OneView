@@ -45,7 +45,7 @@
 			</div>
 		</div>
 		<div class="pbSliderClose">
-			<span class="clickable" ng-click="adjustHeight(); closeSlider()"><span class="glyphicon glyphicon-remove"></span><span class="pbCloseText"> Close</span></span>
+			<span class="clickable" ng-click="adjustHeightOnClick(); closeSlider()"><span class="glyphicon glyphicon-remove"></span><span class="pbCloseText"> Close</span></span>
 			<div class="alert alert-warning alert-dismissible pbCloseAlert" ng-style="{opacity: alertOpacity, 'z-index': (alertOpacity - 0.2)*1000}" role="alert"> <!-- add a class to 0 z-index -->
 				<button type="button" class="close" ng-click="alertOpacity = 0;">&times;</span><span class="sr-only">Close</span></button>
 				<strong>Warning!</strong> You made changes that you haven't saved. Click '<span class="clickable" ng-click="saveView(); applyView(); pbShow = false; alertOpacity = 0;">Apply</span>' to commit these changes.
