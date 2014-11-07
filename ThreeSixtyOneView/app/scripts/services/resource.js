@@ -1,7 +1,7 @@
 /* global angular, _ */
 'use strict';
 
-angular.module('ThreeSixtyOneView.services').factory("Resource", function($http, $q){
+angular.module('ThreeSixtyOneView.services').factory("Resource", ["$http", "$q", "$rootScope", "EVENTS", function($http, $q, $rootScope, EVENTS){
         function Resource(http, q, path){
             this._http = http;
             this._path = this._basePath = path;
@@ -16,7 +16,8 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
                     var regExp = new RegExp(":" + i);
                     url = url.replace(regExp, e);
                 });
-
+                // remove unreplaced tokens
+                url = url.replace(/\/:[^\/]*/gi,"");
                 return url;
             };
 
@@ -34,7 +35,9 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
                 this._http
                     .get(getPath.call(this, uid), config)
                     .success(deferred.resolve)
-                    .error(deferred.reject);
+                    .error(function(data, status, headers, config){
+                        $rootScope.$broadcast(EVENTS.serverError, {data:data, status:status, headers:headers, config: config});
+                    });
 
                 return deferred.promise;
             };
@@ -52,7 +55,9 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
                 this._http
                     .post(path, data, config)
                     .success(deferred.resolve)
-                    .error(deferred.reject);
+                    .error(function(data, status, headers, config){
+                        $rootScope.$broadcast(EVENTS.serverError, {data:data, status:status, headers:headers, config: config});
+                    });
 
                 return deferred.promise;
             };
@@ -71,7 +76,9 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
                 this._http
                     .put(this._path, params, config)
                     .success(deferred.resolve)
-                    .error(deferred.reject);
+                    .error(function(data, status, headers, config){
+                        $rootScope.$broadcast(EVENTS.serverError, {data:data, status:status, headers:headers, config: config});
+                    });
 
                 return deferred.promise;
             };
@@ -87,7 +94,9 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
                 this._http
                     .delete(this._path, item, config)
                     .success(deferred.resolve)
-                    .error(deferred.reject);
+                    .error(function(data, status, headers, config){
+                        $rootScope.$broadcast(EVENTS.serverError, {data:data, status:status, headers:headers, config: config});
+                    });
 
                 return deferred.promise;
             };
@@ -96,4 +105,4 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
         return function (path){
             return new Resource ($http, $q, path);
         };
-    });
+    }]);

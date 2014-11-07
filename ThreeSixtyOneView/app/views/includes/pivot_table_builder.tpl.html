@@ -1,16 +1,26 @@
-<div id="pivotBuilder" ng-controller="PivotBuilderCtrl" >
+<div id="pivotBuilder">
 	<div class="pbTitle" ng-class="{pbTitleSel: pbShow}">
 		<div class="pbRenameArea" ng-mouseOver="rename = true" ng-mouseOut="rename = false">
-			<span class="glyphicon glyphicon-eye-open" ng-show="pbShow"></span> 
-			<span class="pbTitleText" ng-clicks="pbShow = !pbShow; undoList = [];" ng-click="pbShow ? closeSlider() : (pbShow = true)" ng-hide="saveAs">{{viewName}}</span> 
+			<span class="fa fa-eye" ng-show="pbShow"></span>
+			<span class="pbTitleText" ng-clicks="pbShow = !pbShow; undoList = [];" ng-click="adjustHeight(); pbShow ? closeSlider() : (pbShow = true)" ng-hide="saveAs">{{viewName}}</span>
 			<span class="pbSaveAsBox" ng-show="saveAs">
-				<input type="text" ng-model="saveAsName" ng-keyup="renameAction($event)"> 
-				<span class="glyphicon glyphicon-ok clickable" ng-click="finishSaveAs(true)"></span> 
+				<input type="text" ng-model="saveAsName" ng-keyup="renameAction($event)">
+				<span class="glyphicon glyphicon-ok clickable" ng-click="finishSaveAs(true)"></span>
 				<span class="glyphicon glyphicon-remove clickable" ng-click="finishSaveAs(false)"></span>
 			</span>
 			<span ng-show="pbShow && changeMade() && !saveAs" class="pbTitleEdited">- Draft</span>
 			<div class="pbRename"><span class="pbRenameButt glyphicon glyphicon-pencil clickable" ng-show="rename && pbShow && !saveAs" ng-click="startSaveAs()"></span></div>
 		</div>
+	</div>
+
+	<!-- <span class="holder col-2" ng-click="globalInfo.showTray=!globalInfo.showTray"><i class="fa fa-book"></i>&nbsp;Contentual Info</span>
+	<span class="holder col-2"><i class="fa fa-building"></i>&nbsp;Adjust Amounts</span>
+	<span class="holder col-1"><i class="fa fa-expand"></i>&nbsp;Import/Export</span>
+	<span class="holder col-1" style="width: 200px">&nbsp;</span>
+	<span class="holder col-1"><i class="fa fa-undo"></i>&nbsp;Undo</span>
+	<span class="holder col-1"><i class="fa fa-cog"></i>&nbsp;</span> -->
+
+	<div ng-class="{pbOpened: pbShow}" class="pbSlider">
 		<div class="pbViewConf" ng-mouseleave="viewMenu = false" ng-show="!saveAs">
 			<span ng-show="pbShow" class="glyphicon glyphicon-cog pbViewConfButt clickable" ng-class="{pbViewConfMenuBack: viewMenu}" ng-click="viewMenu = !viewMenu"></span>
 			<div class="pbViewConfMenu" ng-show="viewMenu">
@@ -34,18 +44,8 @@
 				<span class="pbViewSaveMenuItem clickable" ng-click="resetView()">Reset</span>
 			</div>
 		</div>
-	</div>
-
-	<!-- <span class="holder col-2" ng-click="globalInfo.showTray=!globalInfo.showTray"><i class="fa fa-book"></i>&nbsp;Contentual Info</span>
-	<span class="holder col-2"><i class="fa fa-building"></i>&nbsp;Adjust Amounts</span>
-	<span class="holder col-1"><i class="fa fa-expand"></i>&nbsp;Import/Export</span>
-	<span class="holder col-1" style="width: 200px">&nbsp;</span>
-	<span class="holder col-1"><i class="fa fa-undo"></i>&nbsp;Undo</span>
-	<span class="holder col-1"><i class="fa fa-cog"></i>&nbsp;</span> -->
-
-	<div ng-class="{pbOpened: pbShow}" class="pbSlider">
 		<div class="pbSliderClose">
-			<span class="clickable" ng-click="closeSlider()"><span class="glyphicon glyphicon-remove"></span><span class="pbCloseText"> Close</span></span>
+			<span class="clickable" ng-click="adjustHeight(); closeSlider()"><span class="glyphicon glyphicon-remove"></span><span class="pbCloseText"> Close</span></span>
 			<div class="alert alert-warning alert-dismissible pbCloseAlert" ng-style="{opacity: alertOpacity, 'z-index': (alertOpacity - 0.2)*1000}" role="alert"> <!-- add a class to 0 z-index -->
 				<button type="button" class="close" ng-click="alertOpacity = 0;">&times;</span><span class="sr-only">Close</span></button>
 				<strong>Warning!</strong> You made changes that you haven't saved. Click '<span class="clickable" ng-click="saveView(); applyView(); pbShow = false; alertOpacity = 0;">Apply</span>' to commit these changes.
@@ -179,14 +179,14 @@
 					</div>
 				</div>
 				<!-- <div class="modal-footer">
-					
+
 				</div> -->
 			</div>
 		</div>
 	</div>
 </div>
 
-<!-- 
+<!--
 <pre>
 {{appliedView}}
 </pre> -->

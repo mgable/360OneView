@@ -1,0 +1,34 @@
+<div class="scenario-edit">
+	<div class="details">
+		<div class="media">
+			<a class="pull-left">
+				<img class="media-object" src="http://dummyimage.com/50x50/65d642/fff.gif&text=Ca" alt="">
+			</a>
+			<div class="media-body">
+				<h4 class="media-heading pull-left">{{scenario.title}}</h4>&nbsp;<icon type="cog"></icon><p class='pull-right no-margin'>Base Scenario:&nbsp;<a>{{scenario.referenceScenario.name}}</a></p>
+				<div style="clear:both;">{{scenario.description}}</div>
+			</div>
+		</div>
+		<div>
+			<form class="form-inline">
+				<div class='form-group'>
+					<label><span ui-sref="ScenarioEdit.edit">Edit:</span>&nbsp;
+						<select ng-model="scenarioElementType" ng-options="value for value in types"></select>
+					</label>
+				</div>
+			</form>
+
+			<span  ui-sref="ScenarioEdit.results" class="results" Xng-class="{disabled: !resultsCalculated}">Results: (Not Calculated)</span>
+			<span class="pull-right">
+				<button class="btn btn-primary" ng-click="resultsCalculated=true">simulate</button>
+			</span>
+		</div>
+
+	</div>
+
+	<div class="display">
+		<div ui-view="builder"></div>
+		<div ui-view="table"></div>
+		<div ui-view="results"></div>
+	</div>
+</div>

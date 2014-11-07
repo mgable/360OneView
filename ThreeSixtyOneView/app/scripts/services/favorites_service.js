@@ -1,5 +1,6 @@
 /* global angular, _ */
-
+ /*jshint -W055 */
+ 
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')

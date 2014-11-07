@@ -1,5 +1,28 @@
 @import "variables";
 
+#pivotBuilder2 {
+	font-family: $sansFontFamily;
+	font-size: 14px;
+	transition: all 0.2s linear;
+
+	.pbTitle {
+		font-size: 17px;
+		height: 30px;
+		width: 180px;
+		padding: 5px;
+
+		&.pbTitleSel {
+			background-color: rgba(242,242,242,1.0);
+			width: 240px;
+		}
+	}
+
+	.pbSlider {
+		background-color: rgba(242,242,242,1.0);
+	}
+
+}
+
 #pivotBuilder {
 	font-size: 1.1em;
 	transition: all 0.2s linear;

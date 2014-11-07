@@ -11,10 +11,6 @@ angular.module("ThreeSixtyOneView")
 
             $scope.data = $scope.pivotTableData;
 
-            $timeout(function() {
-                init();
-            }, 200);
-
             function init() {
 
                 $scope.rowCnt = $scope.data.length;
@@ -28,24 +24,38 @@ angular.module("ThreeSixtyOneView")
                 sheet = spread.getActiveSheet();
 
                 spread.grayAreaBackColor("Transparent");
-                sheet.defaults.colWidth = 150;
                 sheet.setColumnHeaderVisible(false);
                 sheet.setRowHeaderVisible(false);
                 sheet.setColumnHeaderVisible(false);
                 sheet.setIsProtected(true);
                 sheet.autoGenerateColumns = true;
 
+                adjustHeight();
+
                 formatSheet();
 
             }
+
+            $timeout(function() {
+                init();
+            }, 400);
 
             function formatSheet() {
 
                 sheet.isPaintSuspended(true);
 
                 // set default column width and height
-                sheet.defaults.colWidth = 150;
-                sheet.defaults.rowHeight = 47;
+                var maxW = 250, minW = 120;
+                var canvasW = $('#spreadjsvp').width();
+                var calcW = (canvasW / $scope.colCnt);
+
+                if(calcW > minW && calcW < maxW) {
+                    sheet.defaults.colWidth = calcW;
+                } else if (calcW <= minW) {
+                    sheet.defaults.colWidth = minW;
+                } else {
+                    sheet.defaults.colWidth = maxW;
+                }
 
                 // set selection background and border color
                 sheet.selectionBackColor("rgba(204, 204, 204, 0.2)");
@@ -70,9 +80,9 @@ angular.module("ThreeSixtyOneView")
                 // set col style
                 for (var j = 0; j < $scope.colCnt; j++) {
                     var column = sheet.getColumn(j);
-                    column.vAlign($.wijmo.wijspread.VerticalAlign.center).textIndent(2);
+                    column.vAlign($.wijmo.wijspread.VerticalAlign.center).textIndent(1);
                     if (j < $scope.colHeaderCnt) {
-                        column.formatter("0").foreColor("#888888");
+                        column.formatter("0").font("13px proxima-nova").foreColor("#888888");
                         column.wordWrap(true);
                         if (j === $scope.colHeaderCnt - 1) {
                             column.borderRight(new $.wijmo.wijspread.LineBorder("#E6E6E6", $.wijmo.wijspread.LineStyle.thin));
@@ -89,12 +99,14 @@ angular.module("ThreeSixtyOneView")
                         if (i === $scope.rowHeaderCnt - 1) {
                             row.borderBottom(new $.wijmo.wijspread.LineBorder("#E6E6E6", $.wijmo.wijspread.LineStyle.thin));
                         }
-                        row.formatter("0").foreColor("#888888");
+                        row.formatter("0").font("13px proxima-nova").foreColor("#888888");
                         row.hAlign($.wijmo.wijspread.HorizontalAlign.center);
                         row.wordWrap(true);
+                        sheet.autoFitRow(i);
                     } else {
+                        sheet.setRowHeight(i, 30 ,$.wijmo.wijspread.SheetArea.viewport);
                         for (j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
-                            sheet.getCell(i, j).value(randomNumber(0, 2000)).locked(false);
+                            sheet.getCell(i, j).font("14px proxima-nova").foreColor("#000000").value(randomNumber(0, 2000)).locked(false);
                         }
                     }
                 }
@@ -158,6 +170,7 @@ angular.module("ThreeSixtyOneView")
                         return;
                     }
                     sheet.addSpan(min, level, span, 1);
+                    sheet.getCell(min, level).vAlign($.wijmo.wijspread.VerticalAlign.top);
                     var cMin = min,
                         cMax = min + span;
                     createColSpan(level + 1, cMin, cMax - 1);
@@ -181,6 +194,17 @@ angular.module("ThreeSixtyOneView")
             function randomNumber(min, max) {
 
                 return Math.floor(Math.random() * (max - min + 1) + min);
+
+            }
+
+            // adjust pivot table height when resize the window
+            window.onresize = adjustHeight;
+
+            function adjustHeight() {
+
+                var height = $('.app').innerHeight() - $('.details').outerHeight(true) - $('#pivotBuilder').outerHeight(true) - 65;
+                $('#spreadjs').height(height);
+                $('#spreadjs').wijspread('refresh');
 
             }
 
