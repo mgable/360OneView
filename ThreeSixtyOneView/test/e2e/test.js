@@ -11,13 +11,22 @@ describe('Project Listing', function() {
 	};
 
 	beforeEach(
-		function(){browser.get(projectUrl);}
+		function(){
+			browser.driver.manage().window().setSize(1280, 1024);
+			browser.get(projectUrl);
+		}
 	)
 
-	describe("Sort functions: ", function(){
-		xit("should order by name", function(){
-			var nameField = "//a[@data-ms-id='name-field']",
-				elem = element(by.xpath(nameField)),
+	xdescribe("Sort functions: ", function(){
+		var menuId = "//span[@data-ms-id='column_1']",
+			nameField = "//a[@data-ms-id='name-field']";
+
+		xit("should switch between name, modifiedOn and Created Date", function(){
+			//TODO: after hector fixes https://jira.marketshare.com/browse/MAR-5809
+		});
+
+		it("should order by name", function(){
+			var elem = element(by.xpath(nameField)),
 				titles = element.all(by.repeater('item in getData()').column('title'));
 			
 			elem.click();
@@ -35,16 +44,15 @@ describe('Project Listing', function() {
 					expect(lastText.toLowerCase()).toBeLessThan(firstText.toLowerCase());
 				});
 			});
-
 		});
 
 		it("should sort by last modified", function(){
-			var lastModified = "//span[@data-ms-id='column_1']",
+			var menuId = "//span[@data-ms-id='column_1']",
 				ascending = "//li[@data-ms-id='ascending']",
 				descending = "//li[@data-ms-id='descending']",
 				ascendingButton = element(by.xpath(ascending)),
 				descendingButton = element(by.xpath(descending)),
-				dropdown = element(by.xpath(lastModified)),
+				dropdown = element(by.xpath(menuId)),
 				dates = element.all(by.repeater('item in getData()').column('modifiedOn'));
 
 			dates.first().getText().then(function(firstDate){
@@ -61,7 +69,37 @@ describe('Project Listing', function() {
 					expect(firstDate).toBeLessThan(lastDate);
 				});
 			});
+		});
 
+		it("should order by created date", function(){
+			var menuId = "//span[@data-ms-id='column_1']",
+				ascending = "//li[@data-ms-id='ascending']",
+				descending = "//li[@data-ms-id='descending']",
+				createdBy = "//li[@data-ms-id='Created Date']",
+				modifiedOn = "//li[@data-ms-id='Last modified']",
+				ascendingButton = element(by.xpath(ascending)),
+				descendingButton = element(by.xpath(descending)),
+				dropdown = element(by.xpath(menuId)),
+				createdByButton = element(by.xpath(createdBy)),
+				dates = element.all(by.repeater('item in getData()').column('createdOn'));
+
+			dropdown.click();
+			createdByButton.click();
+
+			dates.first().getText().then(function(firstDate){
+				dates.last().getText().then(function(lastDate){
+					expect(firstDate).toBeGreaterThan(lastDate);
+				});
+			});
+
+			dropdown.click();
+			ascendingButton.click();
+
+			dates.first().getText().then(function(firstDate){
+				dates.last().getText().then(function(lastDate){
+					expect(firstDate).toBeLessThan(lastDate);
+				});
+			});
 		});
 	});
 
@@ -167,12 +205,41 @@ describe('Project Listing', function() {
 		});
 	});
 
-	xdescribe("Page actions: ", function(){
-		it ("should toggle the filter menu dropdown", function(){
+	describe("Page actions: ", function(){
+		xit ("should toggle the filter menu dropdown", function(){
 			var elem = element(by.css('.filterDropdown'));
 			expect(hasClass(elem, 'hide')).toBe(true);
 			element(by.css(".app .ProjectManager .display-actions h4.title")).click();
 			expect(hasClass(elem, 'hide')).toBe(false);
+		});
+
+		it("should create a project", function(){
+			var create = "//span[@data-ms-id='createButton']",
+				input = "//input[@data-ms-id='modalInput']",
+				submit = "//button[@data-ms-id='submit']",
+				cancel = "//button[@data-ms-id='cancel']",
+				createButton = element(by.xpath(create)),
+				inputField,
+				submitButton,
+				cancelButton, 
+				firstItemTitle,
+				testFileName = "My New Test Project- " + Date.now();
+
+			createButton.click();
+			browser.waitForAngular();
+			inputField = element(by.xpath(input));
+			submitButton = element(by.xpath(submit));
+			cancelButton = element(by.xpath(cancel));
+			inputField.sendKeys(testFileName);
+			//cancelButton.click();
+			submitButton.click();
+			browser.waitForAngular();
+			firstItemTitle = element.all(by.xpath("//div[@data-ms-id='projectTitle']"));
+
+			firstItemTitle.getText(function(text){
+				expect(text).toBe(testFileName);
+				expect(browser.getLocationAbsUrl()).toContain("/#/dashboard/");
+			});
 		});
 	});
 
