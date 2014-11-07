@@ -6,11 +6,16 @@ angular.module('ThreeSixtyOneView')
     .directive("scrollPivotTable", function($window) {
         return function(scope) {
 
+                var pivotBuilderMaxHeight = 222;
+                var pivotBuilderMinHeight = 33;
+                var pivotBuilderHeight    = pivotBuilderMaxHeight;
+                var pivotTableHeight, containerHeight;
+
                 function adjustHeightOnResize() {
 
-                    var pivotBuilderHeight = scope.pbShow ? 244 : 33;
-                    var pivotTableHeight = window.innerHeight - pivotBuilderHeight - 20;
-                    var containerHeight = window.innerHeight + 153 + 40;
+                    pivotBuilderHeight = $('#pivotBuilder').height() === pivotBuilderMinHeight ? pivotBuilderMinHeight : pivotBuilderMaxHeight;
+                    pivotTableHeight = window.innerHeight - pivotBuilderHeight - 20;
+                    containerHeight = window.innerHeight + 153 + 40;
                     $('.scenario-edit').height(containerHeight);
                     $('#spreadjs').height(pivotTableHeight);
                     $('#spreadjs').wijspread('refresh');
@@ -19,9 +24,9 @@ angular.module('ThreeSixtyOneView')
 
                 scope.adjustHeightOnClick = function() {
 
-                    var pivotBuilderHeight = $('#pivotBuilder').height() === 33 ? 244 : 33;
-                    var height = window.innerHeight - pivotBuilderHeight - 20;
-                    $('#spreadjs').height(height);
+                    var pivotBuilderHeight = $('#pivotBuilder').height() === pivotBuilderMinHeight ? pivotBuilderMaxHeight : pivotBuilderMinHeight;
+                    var pivotTableHeight = window.innerHeight - pivotBuilderHeight - 20;
+                    $('#spreadjs').height(pivotTableHeight);
                     $('#spreadjs').wijspread('refresh');
 
                 };
