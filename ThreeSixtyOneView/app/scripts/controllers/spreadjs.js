@@ -11,30 +11,6 @@ angular.module("ThreeSixtyOneView")
 
             $scope.data = $scope.pivotTableData;
 
-            function init() {
-
-                $scope.rowCnt = $scope.data.length;
-                $scope.rowHeaderCnt = 2;
-                $scope.rowDataCnt = $scope.rowCnt - $scope.rowHeaderCnt;
-                $scope.colCnt = _.keys($scope.data[0]).length;
-                $scope.colHeaderCnt = 2;
-                $scope.colDataCnt = $scope.colCnt - $scope.colHeaderCnt;
-
-                spread = $("#spreadjs").wijspread("spread");
-                sheet = spread.getActiveSheet();
-
-                spread.grayAreaBackColor("Transparent");
-                sheet.setColumnHeaderVisible(false);
-                sheet.setRowHeaderVisible(false);
-                sheet.setColumnHeaderVisible(false);
-                sheet.setIsProtected(true);
-                sheet.autoGenerateColumns = true;
-
-                adjustHeight();
-                formatSheet();
-
-            }
-
             $timeout(function() {
                 init();
             }, 400);
@@ -197,17 +173,26 @@ angular.module("ThreeSixtyOneView")
 
             }
 
-            // adjust pivot table height when resize the window
-            window.onresize = adjustHeight;
+            function init() {
 
-            function adjustHeight() {
+                $scope.rowCnt = $scope.data.length;
+                $scope.rowHeaderCnt = 2;
+                $scope.rowDataCnt = $scope.rowCnt - $scope.rowHeaderCnt;
+                $scope.colCnt = _.keys($scope.data[0]).length;
+                $scope.colHeaderCnt = 2;
+                $scope.colDataCnt = $scope.colCnt - $scope.colHeaderCnt;
 
-                var pivotBuilderHeight = $('#pivotBuilder').height();
-                var pivotTableHeight = window.innerHeight - pivotBuilderHeight - 20;
-                var containerHeight = window.innerHeight + 153 + 80;
-                $('.app').height(containerHeight);
-                $('#spreadjs').height(pivotTableHeight);
-                $('#spreadjs').wijspread('refresh');
+                spread = $("#spreadjs").wijspread("spread");
+                sheet = spread.getActiveSheet();
+
+                spread.grayAreaBackColor("Transparent");
+                sheet.setColumnHeaderVisible(false);
+                sheet.setRowHeaderVisible(false);
+                sheet.setColumnHeaderVisible(false);
+                sheet.setIsProtected(true);
+                sheet.autoGenerateColumns = true;
+
+                formatSheet();
 
             }
 
@@ -233,28 +218,6 @@ angular.module("ThreeSixtyOneView")
                 }, 200);
 
             };
-
-            function fixScroll() {
-                var window_top = $(window).scrollTop();
-                console.log(window_top);
-                if (window_top > 230  && window_top < 330) {
-                    $('.display').css({
-                        position: 'fixed',
-                        top: 0,
-                        width: '1100px'
-                    });
-                } else {
-                    $('.display').css({
-                        position: 'relative',
-                        top: 'auto'
-                    });
-                }
-            }
-
-            $(function() {
-                $(window).scroll(fixScroll);
-                fixScroll();
-            });
 
         }
     ]);

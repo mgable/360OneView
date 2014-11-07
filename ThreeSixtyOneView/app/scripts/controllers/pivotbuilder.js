@@ -487,15 +487,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
         $scope.viewApplied = false;
     };
 
-    $scope.adjustHeight = function() {
-
-        var pivotBuilderHeight = $scope.pbShow ? 33 : 244;
-        var height = window.innerHeight - pivotBuilderHeight - 20;
-        $('#spreadjs').height(height);
-        $('#spreadjs').wijspread('refresh');
-
-    }
-
     init();
 
 }).controller('pivotTableCtrl', ['$scope', 'pbData',
