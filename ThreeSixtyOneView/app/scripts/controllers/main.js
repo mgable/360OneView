@@ -80,8 +80,7 @@ angular.module('ThreeSixtyOneView')
         });
 
         $scope.$on(EVENTS.copyScenario, function(evt, scenario){
-            console.info("the scernario is ");
-            console.info(scenario);
+            scenario.description = scenario.description || "";
             ScenarioService.create($scope.getProject(), scenario).then(function(response){
                 $scope.goto(evt, 'gotoScenarioEdit', response);
             });
