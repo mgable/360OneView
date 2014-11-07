@@ -2,6 +2,8 @@
 
 angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     createScenario: 'ScenarioService:create',
+    copyScenario: 'ScenarioService:copy',
+    scenarioCopied: 'ScenarioService:copyCompleted',
     updateBaseScenario: 'ScenarioService:updateBaseScenario',
     createProject: 'ProjectsService:create',
     renameProject: 'ProjectsService:rename',
@@ -11,6 +13,8 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     gotoDashboard: 'GotoService:dashboard',
     resetFilterBy: 'SortAndFilterService:resetFilterBy',
     openCreateProject: "DialogService:openCreateProject",
+    trayCopy: "Tray:copy",
+    noop: "noop",
     // ERRORS
     noDataReceived: "ErrorService:noDataReceived",
     serverError: "ErrorService:serverError"

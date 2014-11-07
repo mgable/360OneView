@@ -17,6 +17,11 @@ $selected: red;
 $highlight: orange;
 $completed: #0096FF;
 $error: #FF817C;
+$shadow: #AAA;
+$subtitle: #AAA;
+$label: #888;
+$select-list: #fff;
+$item-hover: #bbb;
 
 $panel-result: #f4f7f7;
 $arrow-up: #67d878;
@@ -37,7 +42,7 @@ $mustard: #f89b26;
 $lightblue: #007fe8;
 $green: green;
 $red: red;
-$orange: #f35528;
+$orange: #f45724;
 $blue: #295da7;
 
 // Marketshare color bar logo
@@ -53,8 +58,10 @@ $cap_height: 50px;
 $app_left: 200px;
 $app_right: 300px;
 $app_max_width: 1160px;
-$app_min_width: 1024px;
+$app_min_width: 1160px;
 $app_top_margin: 50px;
+$navigation_min_width: 1024px;
+$content_min_width: 1080px;
 $body_font_size: 13px;
 
 // mixins

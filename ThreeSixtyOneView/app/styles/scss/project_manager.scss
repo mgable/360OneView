@@ -7,6 +7,10 @@
 
 	.ProjectManager, 
 	.Dashboard {
+		background-color: white;
+    	margin-left: 20px;
+    	margin-right: 20px;
+
 		.left { 
 			width: $app_left;
 			border: 1px solid $mediumgray;
@@ -34,21 +38,6 @@
 			padding: $cap_height 0 0 0;
 			@include drop-shadow(-5px, 1px, 5px, 0px, 0.3);
 		}
-		.top {
-			padding: 15px 10px 0 20px;
-			height: 100px;
-			.project-title {
-				float:left;
-				margin: 0;
-			}
-			.star {
-				font-size: 18px;
-				margin: 9px 0 0 4px;
-			}
-			p {
-				clear:both;
-			}
-		}
 		.middle {
 			position:relative;
 
@@ -74,6 +63,7 @@
 				height: 100%;
 				overflow-y: scroll;
 				padding-right: 0;
+				padding-left: 15px;
 			}
 		}
 		.alert {
@@ -86,8 +76,9 @@
 
 			li.detail {
 	    		display: inline-block;
-				margin: 10px 8px 10px 0;
+				margin: 10px 7px 10px 0;
 	    		background-color: #FFF;
+	    		cursor: pointer;
 
 	    		&:last-child {
 	    			margin: 10px 0;
@@ -107,18 +98,18 @@
 	    				padding-left: 12px;
 	    				padding-right: 12px;
 	    			}
-
+	    			cursor: pointer;
 	    			display: block;
 	    			float: none;
 	    			width: 100%;
 				    padding: 6px 13px;
 				    color: #999;
 				    text-align: center;
-	    			border: 1px solid #999;
-
+	    			border: 1px solid $subtitle;
 				    &:hover {
 				    	border: 1px solid $blue;
 				    	text-decoration: none;
+				    	color: $black;
 				    }
 
 				    i {
@@ -171,10 +162,10 @@
 			}
 		}
 		.display-actions {
-			padding: 7px 13px;
+			padding: 7px 20px;
 			height: 50px;
 			background-color: #fafafa;
-			box-shadow: 0px 0px 8px #AAA;
+			box-shadow: 0px 0px 8px $shadow;
 			z-index: 20;
 
 			> span { 
@@ -190,7 +181,7 @@
 					margin-top: 2px;
 
 					&:hover {
-						border: 1px solid $blue;
+						/*border: 1px solid $blue;*/
 					}
 				}
 			}
@@ -204,8 +195,17 @@
 			}
 			.filterDropdown {
 				position: absolute;
-				padding: 22px;
+				top: 45px;
+				padding: 15px;
 
+				li {
+					padding: 6px 0;
+					margin-bottom: 5px;
+
+					&:last-child {
+						margin: 0;
+					}
+				}
 				span {
 					display: inline-block;
 					font-size: 1.1em;
@@ -215,7 +215,9 @@
 				}
 
 				a {
+					font-size: 1.2em;
 					color: $black;
+					display: block;
 				}
 			}
 			.button-holder {
@@ -223,52 +225,50 @@
 				height: 50px;
 				width: auto;
 				.trash {
-					margin:11px 30px 0 0;
-					font-size:14px;
-					color:$enabled;
+					margin: 11px 30px 0 0;
+					font-size: 14px;
+					color: $enabled;
 					cursor: pointer;
 					display:inline-block;
 				}
-				.actions {
+				> span {
+					/* Orange Button */
 					display:inline-block;
-
-					> span {
-						/* Orange Button */
-						display:inline-block;
-						padding: 5px 18px;
-						background-color: $orange;
-						border-radius: 5px;
-						font-size: 1.1em;
-						color: $white;
-						cursor: pointer;
-						box-shadow: 0px 3px 5px #AAA;
+					padding: 7px 18px 6px;
+					background-color: $orange;
+					border-radius: 5px;
+					font-size: 1.2em;
+					line-height: 20px;
+					color: $white;
+					cursor: pointer;
+					box-shadow: 0px 3px 5px $shadow;
+					&:hover {
+						background-color: darken($orange, 5%);
+					}
+					i {
+						font-size: 14px;
+						padding-right: 5px;
+					}
+				}
+				.search-holder {
+					border: 1px solid $gray;
+					display: inline-block;
+					padding: 2px 5px;
+					.search-input {
+						border: 0 none;
+						font-size: 14px;
+						width: 250px;
 
 						&:hover {
-							color:$mouseover;
-						}
-						i {
-							font-size: 14px;
-							padding-right: 5px;
+							border: 1px solid $blue;
 						}
 					}
-					.search-holder {
-						border: 1px solid $gray;
-						display: inline-block;
-						padding: 2px 5px;
-						.search-input {
-							border: 0 none;
-							font-size: 14px;
-							width: 250px;
+					.close-button i {
+						font-size: 18px;
+					}
 
-							&:hover {
-								border: 1px solid $blue;
-							}
-						}
-						.close-button i {
-							font-size: 18px;
-						}
-					}
-					.toggle-info-tray {
+				}
+				.toggle-info-tray {
 						cursor: default;
 						color:$lightgray;
 						&:hover {
@@ -282,7 +282,6 @@
 								color:$mouseover;
 							}
 						}
-					}
 				}
 			}
 			.filtertoggle {
@@ -294,6 +293,7 @@
 			table {
 				margin-bottom: 60px;
 				padding: 20px 8px 5px 8px;
+				width: 100%;
 
 				th {
 					.title {
@@ -319,28 +319,30 @@
 						background-color:$lightestgray;
 					}
 					&.active span{
-						color: $white;
+						color: #EEE;
 					}
 				}
 				td {
 					white-space: nowrap;
 					cursor: pointer;
-					font-size: 1.2em;
+					font-size: 1.1em;
 					font-weight: normal;
-					padding:15px 8px;
+					line-height: normal;
+					padding: 13px 8px;
+					border-top: 1px solid #e5e5e5;
 
 					&:first-child {
-						padding: 15px 0 15px 0;
+						padding: 13px 0;
 					}
 					.status {
 						font: {
-							size:10px;
-							weight:bold;
+							size: 10px;
+							weight: bold;
 						}
 						text-transform: uppercase;
-						color:$darkgray;
+						color: $darkgray;
 
-						padding:0 0 0 5px;
+						padding: 0 0 0 5px;
 					}
 					.title {
 						/*font-size: 1.2em;*/
@@ -368,13 +370,21 @@
 							}
 						}
 					}
+					.text-holder.favorites-holder {
+						width:25px;
+					}
 					.text-holder {
 						display: inline-block;
 						float: left;
+						overflow: visible; 
 						max-width:350px;
 						margin-right: 10px;
-
+						a {
+							color: inherit;
+						}
 						.favorites {
+							display: inline-block;
+							margin-top: 2px;
 							padding: 0px 5px;
 
 							&.disabled {
@@ -409,37 +419,37 @@
 					span.name {
 						display: inline-block;
 						float: left;
-						color: $gray;
+						color: #BBB; /*$subtitle;*/
 						text-transform: capitalize;
 					}
 				}
 				tr.active  td{
 					background-color:$active;
 				}
-			}
-			thead {
-				.title.active a{
-					color: $highlight;
-				}
-				th {
-					border: 0 none;
-					border-bottom:1px solid $mediumgray;
-					a {
-						color:$mouseover;
-						text-decoration: none;
-						cursor: pointer;
-						font-weight: 400;
-						text-transform: uppercase;
-						font-size: 0.9em;
+				thead {
+					.title.active a{
+						color: $highlight;
+					}
+					th {
+						border: 0 none;
+						border-bottom:1px solid $mediumgray;
+						a {
+							color: #333;
+							text-decoration: none;
+							cursor: pointer;
+							font-weight: 400;
+							text-transform: uppercase;
+							font-size: 0.9em;
+						}
 					}
 				}
-			}
-			tbody tr:hover .dropdown-trigger {
-				display: block;
+				tbody tr:hover .dropdown-trigger {
+					display: block;
+				}
 			}
 		}
 	}
-	div#tray {
+	div.tray {
 		height: 100%;
 		position: relative;
 		top: -5px;
@@ -479,6 +489,8 @@
 				}
 				&.hasFavorites .title {clear:none;}
 				.favorites {
+					display: none;
+
 					clear: both;
 					float:left;
 					padding: 2px 8px 0 0;
@@ -500,7 +512,7 @@
 				}
 				.title {
 					clear:both;
-					overflow: hidden;
+					/*overflow: hidden;*/
 					text-overflow: ellipsis;
 					white-space: nowrap;
 					float: left;
@@ -525,9 +537,9 @@
 			.inlineRename {
 				input {
 					height:24px;
-					width: 185px;
+					width: 223px;
 					float:left;
-					margin: 0 10px 8px 0;
+					margin: 0;
 				}
 				a {
 					float:left;
@@ -553,6 +565,8 @@
 		border-radius: 0;
 
 		&.description-holder {
+			font-size: 14px;
+
 			.field-label {
 				font-weight: 400; 
 				float: left;
@@ -573,9 +587,23 @@
 			.description {
 				clear:both;
 				width:100%;
+				padding: 0;
+				max-width: 293px;
 				display:block;
-				border: 1px solid $gray;
+				border: 1px solid $white;
 				background-color: $white;
+				height: 0px;
+				&:hover {
+					border: 1px solid $subtitle;
+				}
+				&.active {
+					border: 1px solid $subtitle;
+					padding: 5px 10px;
+					height: 54px;
+				}
+				&.hasDescription{
+					height: 54px;
+				}
 			}
 			text-area {
 				background-color: $white;
@@ -583,12 +611,22 @@
 			&:hover .edit {
 				visibility: visible;
 			}
-			h5{
-				margin-bottom: 0px;
-				color: $gray;
+			h5 {
+				margin-bottom: 1px;
+				color: #999;
+				font-weight: 400;
 			}
 		}
 		&.scenario-listing {
+			padding: 0;
+
+			.scenarioWrapper {
+				padding: 10px;
+			}
+			.field-label {
+				display: inline-block;
+				margin-bottom: 15px;
+			}
 			.used-in {
 				font-weight: bold;
 				margin: 0 0 10px;
@@ -600,11 +638,16 @@
 			}
 			.entity-holder {
 				clear: both;
-				a {
-					cursor: pointer;
-					text-transform: capitalize;
-					&:hover {
-						text-decoration: none;
+
+				.scenario {
+					margin:0 0 10px;
+					padding: 0;
+					a {
+						cursor: pointer;
+						text-transform: capitalize;
+						&:hover {
+							text-decoration: none;
+						}
 					}
 				}
 			}
@@ -618,13 +661,31 @@
 			}
 		}
 		.media-heading {
-			color: $gray;
+			margin-bottom: 5px;
+			font-weight: 400;
+			color: #999;
 		}
 		.name {
 			text-transform: capitalize;
 		}
 	}
 	.profile-footer{
-		text-align: center;
+		width: 100%;
+
+		a {
+			display: block;
+			width: 100%;
+			padding: 5px;
+			background-color: $lightgray;
+			color: $subtitle;
+			text-align: center;
+			cursor: pointer;
+
+			&:hover {
+				color: $white;
+				text-decoration: none;
+				background-color: $blue;
+			}
+		}
 	}
 }

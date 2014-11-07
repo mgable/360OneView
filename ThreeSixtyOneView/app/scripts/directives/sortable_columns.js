@@ -10,7 +10,8 @@ angular.module('ThreeSixtyOneView.directives')
             replace: true,
             scope: {
                 item: '=',
-                displayBy: '='
+                displayBy: '=',
+                test: '='
             }
         };
     }]);

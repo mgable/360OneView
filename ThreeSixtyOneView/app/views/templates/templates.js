@@ -4,11 +4,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/display_actions.tpl.html',
     "<div class=\"display-actions\">\r" +
     "\n" +
-    "\t<h4 class=\"pull-left title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;<span>({{SortAndFilterService.getCount()}})</span><span ng-click=\"toggle()\" class=\"filtertoggle\"><icon type=\"caret-down\"></icon></span></h4>\r" +
+    "\t<h4 ng-click=\"toggle()\" class=\"pull-left title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;<span>({{SortAndFilterService.getCount()}})</span><span ng-click=\"toggle()\" class=\"filtertoggle\"><icon type=\"caret-down\"></icon></span></h4>\r" +
     "\n" +
     "\r" +
     "\n" +
-    "\t<ul ms-link-group firstSelected=\"{{CONFIG.filterMenu.items[CONFIG.filterMenu.firstSelected].label}}\" radio=\"true\" class='filterDropdown title hide menu'>\r" +
+    "\t<ul ms-link-group firstSelected=\"{{CONFIG.filterMenu.items[CONFIG.filterMenu.firstSelected].label}}\" radio=\"true\" class='filterDropdown dropdownshadow title hide menu'>\r" +
     "\n" +
     "\t\t<li ng-repeat=\"item in CONFIG.filterMenu.items\" class=\"header\" ng-class=\"{selected: item.label === selectedItem}\">\r" +
     "\n" +
@@ -18,23 +18,21 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "    </ul>\r" +
     "\n" +
+    "\r" +
+    "\n" +
     "\t<span>\r" +
     "\n" +
     "\t\t<icon type=\"filter\"></icon>\r" +
     "\n" +
-    "\t\t<input type=\"text\" class=\"search-input\" ng-model=\"SortAndFilterService.searchText\" ng-change=\"SortAndFilterService.filter()\" placeholder=\"Filter Search\"/>&nbsp;\r" +
+    "\t\t<input type=\"text\" class=\"search-input\" ng-model=\"SortAndFilterService.searchText\" ng-change=\"SortAndFilterService.filter()\" placeholder=\"Filter List\"/>&nbsp;\r" +
     "\n" +
     "\t</span>\r" +
     "\n" +
+    "\r" +
+    "\n" +
     "\t<div class=\"button-holder\">\r" +
     "\n" +
-    "\t\t<div class=\"actions\">\r" +
-    "\n" +
-    "\t\t\t<span ng-if=\"view.create\" ng-click=\"create(CONFIG.displayActionsCreate)\"><icon type=\"plus\"></icon>CREATE</span>\r" +
-    "\n" +
-    "\t\t</div>\r" +
-    "\n" +
-    "\t\t\r" +
+    "\t\t<span ng-click=\"create(CONFIG.displayActionsCreate)\"><icon type=\"plus\"></icon>CREATE</span>\r" +
     "\n" +
     "\t</div>\r" +
     "\n" +
@@ -48,7 +46,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<span class='field-label'>Description</span>\r" +
     "\n" +
-    "\t<a ng-hide=\"isActive\" class='edit'ng-click=\"action()\"><icon  type=\"pencil\"></icon></a>\r" +
+    "\t<a ng-hide=\"isActive\" class='edit' ng-click=\"action()\"><icon  type=\"pencil\"></icon></a>\r" +
     "\n" +
     "\r" +
     "\n" +
@@ -56,7 +54,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\r" +
     "\n" +
-    "\t<textarea ng-disabled=\"!isActive\" ng-maxlength=\"256\" ng-pattern='/^[^\\\\\\/\\?\\:\\*\"><|]+$/' ng-model=\"item.description\" class=\"description inputTarget\"></textarea>\r" +
+    "\t<textarea ng-disabled=\"!isActive\" ng-maxlength=\"256\" ng-pattern='/^[^\\\\\\/\\?\\:\\*\"><|]+$/' ng-model=\"item.description\" ng-class=\"{'active': isActive, 'hasDescription': item.description}\" class=\"description inputTarget\"></textarea>\r" +
     "\n" +
     "</form>"
   );
@@ -88,23 +86,29 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/ms_dropdown.tpl.html',
     "<div class=\"ms-dropdown\" id=\"{{id}}\"> \r" +
     "\n" +
-    "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.isActive(id)}\"><span ng-show=\"filterBy\"><icon type=\"filter\" cname=\"filter-icon\"></icon></span><span ng-click=\"select(selectedItem)\" class=\"status select\">{{selectedItem.label}}</span>&nbsp<span ng-click=\"toggle()\" class=\"toggle\"><icon type=\"caret-down\"></icon></span></h6> \r" +
+    "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.isActive(id)}\">\r" +
     "\n" +
-    "\t<ul class=\"ms-select-list dropshadow hide\"> \r" +
+    "\t\t<span ng-click=\"toggle()\" data-ms-id=\"{{id}}\" class=\"status select\">{{selectedItem.label}}</span>&nbsp<span class=\"toggle\"><icon type=\"caret-down\"></icon></span></h6> \r" +
     "\n" +
-    "\t\t<li class=\"ms-item selectSort\" ng-repeat=\"item in items\" ng-class=\"{disabled:item.label === selectedItem.label}\" ng-click=\"selectSort(item)\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{item.label}}</li> \r" +
+    "\t<ul class=\"ms-select-list dropdownshadow hide\"> \r" +
     "\n" +
-    "\t\t<ul ng-if=\"selectedItem.filters\"> \r" +
+    "\t\t<li class=\"list-label\">Sort Orderxxx</li>\r" +
     "\n" +
-    "\t\t\t<li class=\"divider\"></li> \r" +
+    "\t\t<ul>\r" +
     "\n" +
-    "\t\t\t<li class=\"ms-sublabel\">FILTER</li> \r" +
+    "\t\t\t<li class=\"ms-item selectSort\" ng-class=\"{disabled:reverse}\" ng-click=\"select(selectedItem)\" data-ms-id=\"descending\"><icon type=\"check\" cname=\"ms-ok\"></icon>Descending</li>\r" +
     "\n" +
-    "\t\t\t<li ng-repeat=\"filter in selectedItem.filters\" class=\"ms-item selectFilter\" ng-click=\"selectFilter(filter)\" ng-class=\"{selected:selectedFilter === filter}\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{filter.label}}</li> \r" +
+    "\t\t\t<li class=\"ms-item selectSort\" ng-class=\"{disabled:!reverse}\" ng-click=\"select(selectedItem)\" data-ms-id=\"ascending\"><icon type=\"check\" cname=\"ms-ok\"></icon>Ascending</li>\r" +
     "\n" +
-    "\t\t\t<li ng-if=\"selectedItem.template\"><ng-include src=\"selectedItem.template\"></ng-include></li> \r" +
+    "\t\t</ul>\r" +
     "\n" +
-    "\t\t</ul> \r" +
+    "\t\t<li class=\"list-label\">Switch  Column</li>\r" +
+    "\n" +
+    "\t\t<ul>\r" +
+    "\n" +
+    "\t\t\t<li class=\"ms-item selectSort\" ng-repeat=\"item in items\" ng-class=\"{disabled:item.label === selectedItem.label}\" ng-click=\"selectSort(item)\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{item.label}}</li>  \r" +
+    "\n" +
+    "\t\t</ul>\r" +
     "\n" +
     "\t</ul> \r" +
     "\n" +
@@ -113,6 +117,12 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/name.tpl.html',
+    "<!-- used for filtering order by drop down -->\r" +
+    "\n" +
+    "<!-- currently not used -->\r" +
+    "\n" +
+    "\r" +
+    "\n" +
     "<li class=\"ms-holder\">\r" +
     "\n" +
     "\t<input type=\"text\" class=\"ms-name-input\" ng-model=\"name\" placeholder=\"Enter Name\" ng-disabled=\"enabledOn(selectedFilter)\" ng-click=\"dontPassEvent($event)\"/>\r" +
@@ -131,7 +141,13 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/sortable_columns.tpl.html',
     "<div ng-switch on=\"displayBy\" class=\"text-holder\"> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Last Modified\" bind-once>{{item.modifiedOn | timeago }}</span> \r" +
+    "\t<span ng-switch-when=\"Last Modified\">\r" +
+    "\n" +
+    "\t\t<span ng-if=\"!test\" bind-once>{{item.modifiedOn | timeago }}</span>\r" +
+    "\n" +
+    "\t\t<span ng-if=\"test\">{{item.modifiedOn}}</span>\r" +
+    "\n" +
+    "\t</span> \r" +
     "\n" +
     "\t<span ng-switch-when=\"Modified By\" bind-once>{{item.modifiedBy}}</span> \r" +
     "\n" +
@@ -139,7 +155,13 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<span ng-switch-when=\"Creator\" bind-once>{{item.createdBy}}</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Created Date\" bind-once>{{item.createdOn | date: 'longDate' }}</span> \r" +
+    "\t<span ng-switch-when=\"Created Date\" bind-once>\r" +
+    "\n" +
+    "\t\t<span ng-if=\"!test\" bind-once>{{item.createdOn | date: 'longDate' }}</span>\r" +
+    "\n" +
+    "\t\t<span ng-if=\"test\">{{item.createdOn}}</span>\r" +
+    "\n" +
+    "\t</span> \r" +
     "\n" +
     "\t<span ng-switch-default>FAIL</span> \r" +
     "\n" +
@@ -150,7 +172,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/sorting_options.tpl.html',
     "<div class=\"{{label}} heading\" ng-class=\"{'active': SortAndFilterService.isActive(label)}\">\r" +
     "\n" +
-    "\t<a ng-click=\"sort($event, label)\" ng-bind=\"display\"></a>&nbsp;\r" +
+    "\t<a ng-click=\"sort($event, label)\" ng-bind=\"display\" data-ms-id=\"{{id}}\"></a>&nbsp;\r" +
     "\n" +
     "</div> "
   );

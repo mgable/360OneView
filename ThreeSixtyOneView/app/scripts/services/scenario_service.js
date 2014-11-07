@@ -7,7 +7,6 @@ angular.module('ThreeSixtyOneView.services')
 	.service('ScenarioService', ["$q", "ScenarioModel", "ProjectsService", "CONFIG", "Model", function ($q, ScenarioModel, ProjectsService, CONFIG, Model) {
 		var MyScenarioModel, myScenarios, self = this;
 
-
 		MyScenarioModel = new Model();
         angular.extend(this, MyScenarioModel.prototype);
         myScenarios = new MyScenarioModel(ScenarioModel);

@@ -16,7 +16,7 @@ angular.module('ThreeSixtyOneView.directives')
             },
             link: function($scope, $element, $attrs) {
                 var tempItem = angular.copy($scope.item),
-                    inputTarget = $element.find(".inputTarget");
+                inputTarget = $element.find(".inputTarget");
 
                 $scope.isActive = false;
                 $scope.inputRestrictions = CONFIG.application.inputRestrictions;
@@ -40,6 +40,7 @@ angular.module('ThreeSixtyOneView.directives')
                 $scope.cancel = function() {
                     $scope.item.title = tempItem.title;
                     $scope.item.description = tempItem.description;
+                    console.log($scope.item.description);
                     $scope.isActive = false;
                 };
 

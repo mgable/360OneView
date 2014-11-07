@@ -245,7 +245,6 @@ module.exports = function(grunt) {
         //     }
         // },
 
-
         imagemin: {
             dist: {
                 files: [{
@@ -405,6 +404,30 @@ module.exports = function(grunt) {
             unit: {
                 configFile: 'karma.conf.js',
                 singleRun: true
+            }
+        },
+
+        protractor: {
+            options: {
+                keepAlive: true, // If false, the grunt process stops when the test fails.
+                noColor: false, // If true, protractor will not use colors in its output.
+                args: {}
+            },
+            proto: {   // Grunt requires at least one target to run so you can simply put 'all: {}' here too.
+                options: {
+                    configFile: "protractor.conf.js", // Target-specific config file
+                    args: {
+                        baseUrl: "http://360-ui-prototype.marketshare.com"
+                    } // Target-specific arguments
+                }
+            },
+            local: {   // Grunt requires at least one target to run so you can simply put 'all: {}' here too.
+                options: {
+                    configFile: "protractor.conf.js", // Target-specific config file
+                    args: {
+                        baseUrl: "http://127.0.0.1:9001"
+                    } // Target-specific arguments
+                }
             }
         }
     });
