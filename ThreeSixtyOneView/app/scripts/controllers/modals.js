@@ -18,7 +18,8 @@ angular.module('ThreeSixtyOneView')
         $scope.modalProperties = {
             title: "Copy a Scenario",
             field: "Name",
-            button: "Copy Scenario"
+            button: "Copy Scenario",
+            icon: "files-o"
         };
 
          $scope.submit = function(title, evt){
@@ -37,7 +38,8 @@ angular.module('ThreeSixtyOneView')
         $scope.modalProperties = {
             title: "Create a New Project",
             field: "Name",
-            button: "Create New Project"
+            button: "Create New Project",
+            icon: "star"
         };
 
         $scope.submit = function(title, evt) {

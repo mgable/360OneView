@@ -3,7 +3,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
   $templateCache.put('views/directives/display_actions.tpl.html',
     "<div class=\"display-actions\">\n" +
-    "\t<h4 ng-click=\"toggle()\" class=\"pull-left title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;<span>({{SortAndFilterService.getCount()}})</span><span ng-click=\"toggle()\" class=\"filtertoggle\"><icon type=\"caret-down\"></icon></span></h4>\n" +
+    "\t<h4 ng-click=\"toggle()\" class=\"pull-left title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;<span>({{SortAndFilterService.getCount()}})</span><span ng-click=\"toggle()\" class=\"filtertoggle\"><icon ng-click=\"toggle()\" type=\"caret-down\"></icon></span></h4>\n" +
     "\n" +
     "\t<ul ms-link-group firstSelected=\"{{CONFIG.filterMenu.items[CONFIG.filterMenu.firstSelected].label}}\" radio=\"true\" class='filterDropdown dropdownshadow title hide menu'>\n" +
     "\t\t<li ng-repeat=\"item in CONFIG.filterMenu.items\" class=\"header\" ng-class=\"{selected: item.label === selectedItem}\">\n" +
@@ -52,7 +52,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/ms_dropdown.tpl.html',
     "<div class=\"ms-dropdown\" id=\"{{id}}\"> \n" +
     "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.isActive(id)}\">\n" +
-    "\t\t<span ng-click=\"toggle()\" class=\"status select\">{{selectedItem.label}}</span>&nbsp<span class=\"toggle\"><icon type=\"caret-down\"></icon></span></h6> \n" +
+    "\t\t<span ng-click=\"toggle()\" class=\"status select\">{{selectedItem.label}}</span>&nbsp<span class=\"toggle\"><icon ng-click=\"toggle()\" type=\"caret-down\"></icon></span></h6> \n" +
     "\t<ul class=\"ms-select-list dropdownshadow hide\"> \n" +
     "\t\t<li class=\"list-label\">Sort Order</li>\n" +
     "\t\t<ul>\n" +
