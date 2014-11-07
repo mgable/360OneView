@@ -5,16 +5,15 @@
 
 // View controllers
 angular.module('ThreeSixtyOneView')
-    .controller("MainCtrl", ["$scope", "ActiveSelection", "PivotViewService", "ErrorService", function($scope,  ActiveSelection, PivotViewService, ErrorService) {
+    .controller("MainCtrl", ["$scope", "$location", "ActiveSelection", "PivotViewService", "ErrorService", function($scope, $location, ActiveSelection, PivotViewService, ErrorService) {
 
         // These are going away
         $scope.ActiveSelection = ActiveSelection;
 
         // this is a test
-        // PivotViewService.get({cubeId:"1"}).then(function(response){
-        //     console.info("from main");
-        //     console.info(response);
-        // });
+        if ($location.search().e2e === "true"){
+            $scope.e2e = true;
+        }
 
         // convenience methods
         $scope.console = function(msg) {

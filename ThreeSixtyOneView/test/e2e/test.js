@@ -1,7 +1,7 @@
 // spec.js
 "use strict";
 
-var projectUrl = '/#/projects';
+var projectUrl = '/#/projects?e2e=true';
 
 describe('Project Listing', function() {
 	var hasClass = function (element, cls) {
@@ -14,54 +14,58 @@ describe('Project Listing', function() {
 		function(){browser.get(projectUrl);}
 	)
 
-	it('should have a title', function() {
-		expect(browser.getTitle()).toEqual('360 One View');
-	});
-
-	it ('should list projects', function(){
-		expect(element.all(by.repeater('item in getData()')).count()).toBeGreaterThan(0);
-	});
-
-	it("should search", function(){
-		element(by.model('SortAndFilterService.searchText')).sendKeys('master project');
-		expect(element.all(by.repeater('item in getData()')).count()).toBe(1);
-	});
-
-	it ("should toggle the filter menu dropdown", function(){
-		var elem = element(by.css('.filterDropdown'));
-		expect(hasClass(elem, 'hide')).toBe(true);
-		element(by.css(".app .ProjectManager .display-actions h4.title")).click();
-		expect(hasClass(elem, 'hide')).toBe(false);
-	});
-
-	it("should order by name", function(){
-		var elem = element(by.css('[ng-bind="display"]')),
-			titles = element.all(by.repeater('item in getData()').column('title'));
-		
-		elem.click();
-		
-		titles.first().getText().then(function(firstText){
-			titles.last().getText().then(function(lastText){
-				expect(firstText.toLowerCase()).toBeLessThan(lastText.toLowerCase());
+	describe("Sort functions: ", function(){
+		xit("should order by name", function(){
+			var nameField = "//a[@data-ms-id='name-field']",
+				elem = element(by.xpath(nameField)),
+				titles = element.all(by.repeater('item in getData()').column('title'));
+			
+			elem.click();
+			
+			titles.first().getText().then(function(firstText){
+				titles.last().getText().then(function(lastText){
+					expect(firstText.toLowerCase()).toBeLessThan(lastText.toLowerCase());
+				});
 			});
+
+			elem.click();
+
+			titles.first().getText().then(function(firstText){
+				titles.last().getText().then(function(lastText){
+					expect(lastText.toLowerCase()).toBeLessThan(firstText.toLowerCase());
+				});
+			});
+
 		});
 
-		elem.click();
+		it("should sort by last modified", function(){
+			var lastModified = "//span[@data-ms-id='column_1']",
+				ascending = "//li[@data-ms-id='ascending']",
+				descending = "//li[@data-ms-id='descending']",
+				ascendingButton = element(by.xpath(ascending)),
+				descendingButton = element(by.xpath(descending)),
+				dropdown = element(by.xpath(lastModified)),
+				dates = element.all(by.repeater('item in getData()').column('modifiedOn'));
 
-		titles.first().getText().then(function(firstText){
-			titles.last().getText().then(function(lastText){
-				expect(lastText.toLowerCase()).toBeLessThan(firstText.toLowerCase());
+			dates.first().getText().then(function(firstDate){
+				dates.last().getText().then(function(lastDate){
+					expect(firstDate).toBeGreaterThan(lastDate);
+				});
 			});
+
+			dropdown.click();
+			ascendingButton.click();
+
+			dates.first().getText().then(function(firstDate){
+				dates.last().getText().then(function(lastDate){
+					expect(firstDate).toBeLessThan(lastDate);
+				});
+			});
+
 		});
-
 	});
 
-	it('should present the total viewable items', function(){
-		var itemCount = element(by.css('.display-actions h4.title span:first-child'));
-		expect(itemCount.getText()).toContain(element.all(by.repeater('item in getData()')).count());
-	});
-
-	describe("Sorter", function(){
+	xdescribe("Sorter", function(){
 		it("should have at least one project", function(){
 			expect(element.all(by.repeater('item in getData()')).count()).toBeGreaterThan(0);
 		});
@@ -100,7 +104,7 @@ describe('Project Listing', function() {
 		});
 	});
 
-	describe("Favorite behaviors", function(){
+	xdescribe("Favorite behaviors", function(){
 		it("should favorite the master project", function(){
 			expect(element.all(by.css(".master .favorite")).count()).toBe(1);
 		});
@@ -129,15 +133,22 @@ describe('Project Listing', function() {
 				expect(hasClass(firstElement, 'favorite')).not.toBe(isFavorite);
 			});
 		});
+	});
+
+	xdescribe("Filters: ", function(){
+		var filterMenu = ".app .ProjectManager .display-actions h4.title",
+			filterFavorites = '.filterDropdown li:last-child',
+			filterAll = '.filterDropdown li:first-child',
+			countHolder = '.display-actions h4.title span:first-child';
 
 		it("should filter by favorite", function(){
 			var filteredCount, unFilteredCount,
-				itemCount = element(by.css('.display-actions h4.title span:first-child'));
+				itemCount = element(by.css(countHolder));
 			element.all(by.repeater('item in getData()')).count().then(function(count){
 				unFilteredCount = count;
 			});
-			element(by.css(".app .ProjectManager .display-actions h4.title")).click();
-			element(by.css('.filterDropdown li:last-child')).click();
+			element(by.css(filterMenu)).click();
+			element(by.css(filterFavorites)).click();
 
 			element.all(by.repeater('item in getData()')).count().then(function(count){
 				var filteredCount = count,
@@ -148,4 +159,27 @@ describe('Project Listing', function() {
 			});
 		});
 	});
+
+	xdescribe("Search: ", function(){
+		it("should search", function(){
+			element(by.model('SortAndFilterService.searchText')).sendKeys('master project');
+			expect(element.all(by.repeater('item in getData()')).count()).toBe(1);
+		});
+	});
+
+	xdescribe("Page actions: ", function(){
+		it ("should toggle the filter menu dropdown", function(){
+			var elem = element(by.css('.filterDropdown'));
+			expect(hasClass(elem, 'hide')).toBe(true);
+			element(by.css(".app .ProjectManager .display-actions h4.title")).click();
+			expect(hasClass(elem, 'hide')).toBe(false);
+		});
+	});
+
+	xdescribe("Page attributes: ", function(){
+		it('should have a title', function() {
+			expect(browser.getTitle()).toEqual('360 One View');
+		});
+	});
+
 });
