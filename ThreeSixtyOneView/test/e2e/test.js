@@ -11,13 +11,22 @@ describe('Project Listing', function() {
 	};
 
 	beforeEach(
-		function(){browser.get(projectUrl);}
+		function(){
+			browser.driver.manage().window().setSize(1280, 1024);
+			browser.get(projectUrl);
+		}
 	)
 
-	describe("Sort functions: ", function(){
-		xit("should order by name", function(){
-			var nameField = "//a[@data-ms-id='name-field']",
-				elem = element(by.xpath(nameField)),
+	xdescribe("Sort functions: ", function(){
+		var menuId = "//span[@data-ms-id='column_1']",
+			nameField = "//a[@data-ms-id='name-field']";
+
+		xit("should switch between name, modifiedOn and Created Date", function(){
+			//TODO: after hector fixes https://jira.marketshare.com/browse/MAR-5809
+		});
+
+		it("should order by name", function(){
+			var elem = element(by.xpath(nameField)),
 				titles = element.all(by.repeater('item in getData()').column('title'));
 			
 			elem.click();
@@ -35,16 +44,15 @@ describe('Project Listing', function() {
 					expect(lastText.toLowerCase()).toBeLessThan(firstText.toLowerCase());
 				});
 			});
-
 		});
 
 		it("should sort by last modified", function(){
-			var lastModified = "//span[@data-ms-id='column_1']",
+			var menuId = "//span[@data-ms-id='column_1']",
 				ascending = "//li[@data-ms-id='ascending']",
 				descending = "//li[@data-ms-id='descending']",
 				ascendingButton = element(by.xpath(ascending)),
 				descendingButton = element(by.xpath(descending)),
-				dropdown = element(by.xpath(lastModified)),
+				dropdown = element(by.xpath(menuId)),
 				dates = element.all(by.repeater('item in getData()').column('modifiedOn'));
 
 			dates.first().getText().then(function(firstDate){
@@ -61,7 +69,37 @@ describe('Project Listing', function() {
 					expect(firstDate).toBeLessThan(lastDate);
 				});
 			});
+		});
 
+		it("should order by created date", function(){
+			var menuId = "//span[@data-ms-id='column_1']",
+				ascending = "//li[@data-ms-id='ascending']",
+				descending = "//li[@data-ms-id='descending']",
+				createdBy = "//li[@data-ms-id='Created Date']",
+				modifiedOn = "//li[@data-ms-id='Last modified']",
+				ascendingButton = element(by.xpath(ascending)),
+				descendingButton = element(by.xpath(descending)),
+				dropdown = element(by.xpath(menuId)),
+				createdByButton = element(by.xpath(createdBy)),
+				dates = element.all(by.repeater('item in getData()').column('createdOn'));
+
+			dropdown.click();
+			createdByButton.click();
+
+			dates.first().getText().then(function(firstDate){
+				dates.last().getText().then(function(lastDate){
+					expect(firstDate).toBeGreaterThan(lastDate);
+				});
+			});
+
+			dropdown.click();
+			ascendingButton.click();
+
+			dates.first().getText().then(function(firstDate){
+				dates.last().getText().then(function(lastDate){
+					expect(firstDate).toBeLessThan(lastDate);
+				});
+			});
 		});
 	});
 
@@ -167,13 +205,90 @@ describe('Project Listing', function() {
 		});
 	});
 
-	xdescribe("Page actions: ", function(){
-		it ("should toggle the filter menu dropdown", function(){
+	describe("Page actions: ", function(){
+		xit ("should toggle the filter menu dropdown", function(){
 			var elem = element(by.css('.filterDropdown'));
 			expect(hasClass(elem, 'hide')).toBe(true);
 			element(by.css(".app .ProjectManager .display-actions h4.title")).click();
 			expect(hasClass(elem, 'hide')).toBe(false);
 		});
+
+		xit("should create a project", function(){
+			var create = "//span[@data-ms-id='createButton']",
+				input = "//input[@data-ms-id='modalInput']",
+				submit = "//button[@data-ms-id='submit']",
+				cancel = "//button[@data-ms-id='cancel']",
+				itemTitle = "//div[@data-ms-id='projectTitle']",
+				createButton = element(by.xpath(create)),
+				inputField,
+				submitButton,
+				cancelButton, 
+				firstItemTitle,
+				testFileName = "My New Test Project- " + Date.now();
+
+			createButton.click();
+			browser.waitForAngular();
+			inputField = element(by.xpath(input));
+			submitButton = element(by.xpath(submit));
+			cancelButton = element(by.xpath(cancel));
+			inputField.sendKeys(testFileName);
+			//cancelButton.click();
+			submitButton.click();
+			browser.waitForAngular();
+			firstItemTitle = element.all(by.xpath(itemTitle));
+
+			firstItemTitle.getText(function(text){
+				expect(text).toBe(testFileName);
+				expect(browser.getLocationAbsUrl()).toContain("/#/dashboard/");
+			});
+		});
+
+		xit("should rename a project", function(){
+			var first,
+			newName = "My Renamed Project - " + Date.now(),
+			rename = "//a[@data-ms-id='inlineRename']",
+			renameButton = element(by.xpath(rename)), 
+			input = "input.inputTarget",
+			inputField = element(by.css(input)),
+			inlineSubmit = "//button[@data-ms-id='inlineSubmit']",
+			inlineCancel = "//button[@data-ms-id='inlineCancel']";
+
+			browser.actions().mouseMove(renameButton).perform();
+			renameButton.click();
+			browser.waitForAngular();
+			var inlineSubmitButton = element(by.xpath(inlineSubmit)),
+				inlineCancelButton = element(by.xpath(inlineCancel)),
+				currentName = inputField.getAttribute('value');
+			inputField.clear();
+			inputField.sendKeys(newName);
+			inlineSubmitButton.click();
+			browser.waitForAngular();
+			first = element(by.repeater('item in getData()').row(0).column("title"));
+			first.getText().then(function(name){
+				expect(name).toEqual(newName);
+			});
+		});
+
+		it("should edit a description", function(){
+			var newDescription = "This is my new description - " + Date.now(),
+				editDescription = "//a[@data-ms-id='inlineEdit']",
+				textArea = "textarea.inputTarget",
+				inlineEditCancel = "//button[@data-ms-id='inlineEditCancel']",
+				inlineEditSubmit = "//button[@data-ms-id='inlineEditSubmit']",
+				textAreaField = element(by.css(textArea)),
+				editDescriptionButton = element(by.xpath(editDescription));
+
+			browser.actions().mouseMove(editDescriptionButton).perform();
+			editDescriptionButton.click();
+			browser.waitForAngular();
+			textAreaField.clear();
+			textAreaField.sendKeys(newDescription);
+			var inlineEditCancelButton = element(by.xpath(inlineEditCancel));
+
+			inlineEditCancelButton.click();
+			//expect(something).toBe(something);
+		});
+
 	});
 
 	xdescribe("Page attributes: ", function(){

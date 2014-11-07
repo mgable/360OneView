@@ -25,7 +25,6 @@ angular.module('ThreeSixtyOneView')
             if (evt) { evt.preventDefault(); }
 
             $scope.item.title = title;
-            console.info("I am braodcasting " + EVENTS.copyScenario);
             $rootScope.$broadcast(EVENTS.copyScenario, $scope.item);
             $modalInstance.dismiss('create');
          };

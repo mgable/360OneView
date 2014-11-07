@@ -52,7 +52,8 @@ angular.module("ThreeSixtyOneView.services")
 								console.info (k.selector + " does not exist");
 							}
 						} else {
-							result[v] = "";
+							// value is undefined
+							//result[v] = "";
 						}
 					}
 				});
