@@ -30,9 +30,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<span ng-show=\"isActive\" class=\"controls\"><button ng-click=\"submit(item)\" ng-disabled=\"(inlineDescription.$dirty && inlineDescription.$invalid) || inlineDescription.$pristine\"><icon type=\"check\"></icon></button>&nbsp;<button ng-click=\"cancel()\"><icon type=\"times\"></icon></button></span>\n" +
     "\n" +
-    "\t<span class=\"descriptiocd\" ng-show=\"!isActive\">{{item.description}}</span>\n" +
+    "\t<div ng-class=\"{'description':item.description, 'noDescription': !item.description}\" ng-show=\"!isActive\">{{item.description}}</div>\n" +
     "\n" +
-    "\t<textarea ng-show=\"isActive\" ng-maxlength=\"256\" ng-pattern='/^[^\\\\\\/\\?\\:\\*\"><|]+$/' ng-model=\"item.description\" ng-class=\"{'active': isActive, 'hasDescription': item.description}\" class=\"description inputTarget\"></textarea>\n" +
+    "\t<textarea ng-show=\"isActive\" ng-maxlength=\"256\" ng-pattern='/^[^\\\\\\/\\?\\:\\*\"><|]+$/' ng-model=\"item.description\" ng-class=\"{'active': isActive}\" class=\"description inputTarget\"></textarea>\n" +
     "</form>"
   );
 
@@ -40,7 +40,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/inline_rename.tpl.html',
     "<form class=\"inlineRename\" name=\"rename\" novalidate role=\"form\">\n" +
     "\t<span ng-transclude></span>\n" +
-    "\t<h4 class=\"title\" ng-hide=\"isActive\">{{item.title}}</h4>&nbsp;\n" +
+    "\t<h4 class=\"title\" ng-hide=\"isActive\">{{item.title | limitTo: 30}}{{item.title.length > 30 ? ' ...':''}}</h4>&nbsp;\n" +
     "\t<a class=\"edit\" ng-click=\"action()\"><icon ng-hide=\"isActive\" type=\"pencil\" cname=\"pencil clearfix\"></icon></a>\n" +
     "    <h4 ng-show=\"isActive\" class=\"title\">\n" +
     "    \t<input type=\"text\" class=\"inputTarget\" ng-model=\"item.title\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\" />&nbsp;\n" +
@@ -54,7 +54,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/ms_dropdown.tpl.html',
     "<div class=\"ms-dropdown\" id=\"{{id}}\"> \n" +
     "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.isActive(id)}\">\n" +
-    "\t\t<span ng-click=\"toggle()\" class=\"status select\">{{selectedItem.label}}</span>&nbsp<span class=\"toggle\"><icon ng-click=\"toggle()\" type=\"caret-down\"></icon></span></h6> \n" +
+    "\t\t<span ng-click=\"select(selectedItem)\" class=\"status select\">{{selectedItem.label}}</span>&nbsp<span class=\"toggle\"><icon ng-click=\"toggle()\" type=\"caret-down\"></icon></span></h6> \n" +
     "\t<ul class=\"ms-select-list dropdownshadow hide\"> \n" +
     "\t\t<li class=\"list-label\">Sort Order</li>\n" +
     "\t\t<ul>\n" +

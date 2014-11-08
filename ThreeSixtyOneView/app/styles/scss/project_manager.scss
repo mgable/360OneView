@@ -41,6 +41,7 @@
 		.top {
 			padding: 15px 10px 0 20px;
 			height: 100px;
+
 			.project-title {
 				float:left;
 				margin: 0;
@@ -56,9 +57,23 @@
 		.middle {
 			position:relative;
 
-			div.row:first-child {
-				position: relative;
-				z-index: 20;
+			.row {
+				&:first-child {
+					position: relative;
+					z-index: 20;
+				}
+				&:nth-child(2) {
+					/*display: -webkit-box;
+					display: -moz-box;
+					display: -ms-flexbox;
+					display: -webkit-flex;
+					display: flex;*/
+					position: relative;
+					top: -4px;
+				}
+				.display-actions {
+					cursor: auto;
+				}
 			}
 			.center {
 				margin: 0 0 0 200px;
@@ -75,7 +90,14 @@
 				}
 			}
 			.col-xs-70 {
-				height: 100%;
+				/*-webkit-box-flex: 1 1 auto;
+				-moz-box-flex: 1 1 auto;
+				-webkit-flex:  1 1 auto;
+				-ms-flex:  1 1 auto;
+				flex: 1 1 auto;*/
+
+				height: calc(100% - 50px);
+				width: calc(100% - 360px);
 				overflow-y: scroll;
 				padding-right: 0;
 				padding-left: 15px;
@@ -194,6 +216,7 @@
 				input {
 					padding: 6px 8px 6px 30px;
 					margin-top: 2px;
+					width: 200px;
 
 					&:hover {
 						/*border: 1px solid $blue;*/
@@ -460,9 +483,19 @@
 		}
 	}
 	div.tray {
+		/*-webkit-box-flex: 0 0 auto;
+		-moz-box-flex: 0 0 auto;
+		-webkit-flex:  0 0 auto;
+		-ms-flex:  0 0 auto;
+		flex: 0 0 auto;*/
+		width: 360px;
+
 		height: 100%;
-		position: relative;
-		top: -5px;
+		overflow-y: auto;
+		overflow-x: hidden;
+		position: absolute;
+		right: 0;
+		top: 0;
 		z-index: 10;
 		padding-bottom: 60px;
 		background-color: #e6e6e6;
@@ -602,7 +635,7 @@
 				display:block;
 				border: 1px solid $white;
 				background-color: $white;
-				height: 0px;
+				height: 54px;
 				&:hover {
 					border: 1px solid $subtitle;
 				}
@@ -611,9 +644,9 @@
 					padding: 5px 10px;
 					height: 54px;
 				}
-				&.hasDescription{
-					height: 54px;
-				}
+			}
+			.noDescription{
+				height: 1em;
 			}
 			text-area {
 				background-color: $white;
