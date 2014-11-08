@@ -1,29 +1,53 @@
 @import "variables";
 
-#pivotBuilder2 {
+#pivotBuilder {
 	font-family: $sansFontFamily;
 	font-size: 14px;
-	transition: all 0.2s linear;
 
 	.pbTitle {
+		border: 1px solid $mediumgray;
+		float: left;
 		font-size: 17px;
 		height: 30px;
-		width: 180px;
 		padding: 5px;
+		transition: border 0 linear 0.3s;
+		transition: width 0.3s linear;
+		width: 180px;
 
 		&.pbTitleSel {
-			background-color: rgba(242,242,242,1.0);
+			background-color: $lightestgray;
+			border-bottom: 0;
 			width: 240px;
 		}
 	}
 
+	.pbToolbar {
+		height: 30px;
+		border-bottom: 1px solid $mediumgray;
+		min-width: 100px;
+
+		&.pbTitleSel {
+			border-bottom: 0;
+		}
+	}
+
 	.pbSlider {
-		background-color: rgba(242,242,242,1.0);
+		background-color: $lightestgray;
+		border: 0;
+		max-height: 0;
+		overflow: hidden;
+		transition: all 0.3s ease-out;
+
+		&.pbOpened {
+			max-height: 300px;
+			border: 1px solid $mediumgray;
+			border-top: 0;
+		}
 	}
 
 }
 
-#pivotBuilder {
+#pivotBuilder2 {
 	font-size: 1.1em;
 	transition: all 0.2s linear;
 

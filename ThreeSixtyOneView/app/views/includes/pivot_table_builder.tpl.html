@@ -1,15 +1,20 @@
 <div id="pivotBuilder">
-	<div class="pbTitle" ng-class="{pbTitleSel: pbShow}">
-		<div class="pbRenameArea" ng-mouseOver="rename = true" ng-mouseOut="rename = false">
-			<span class="fa fa-eye" ng-show="pbShow"></span>
-			<span class="pbTitleText" ng-clicks="pbShow = !pbShow; undoList = [];" ng-click="adjustHeight(); pbShow ? closeSlider() : (pbShow = true)" ng-hide="saveAs">{{viewName}}</span>
-			<span class="pbSaveAsBox" ng-show="saveAs">
-				<input type="text" ng-model="saveAsName" ng-keyup="renameAction($event)">
-				<span class="glyphicon glyphicon-ok clickable" ng-click="finishSaveAs(true)"></span>
-				<span class="glyphicon glyphicon-remove clickable" ng-click="finishSaveAs(false)"></span>
-			</span>
-			<span ng-show="pbShow && changeMade() && !saveAs" class="pbTitleEdited">- Draft</span>
-			<div class="pbRename"><span class="pbRenameButt glyphicon glyphicon-pencil clickable" ng-show="rename && pbShow && !saveAs" ng-click="startSaveAs()"></span></div>
+	<div>
+		<div class="pbTitle" ng-class="{pbTitleSel: pbShow}">
+			<div class="pbRenameArea" ng-mouseOver="rename = true" ng-mouseOut="rename = false">
+				<span class="fa fa-eye" ng-show="pbShow"></span>
+				<span class="pbTitleText" ng-clicks="pbShow = !pbShow; undoList = [];" ng-click="adjustHeight(); pbShow ? closeSlider() : (pbShow = true)" ng-hide="saveAs">{{viewName}}</span>
+				<span class="pbSaveAsBox" ng-show="saveAs">
+					<input type="text" ng-model="saveAsName" ng-keyup="renameAction($event)">
+					<span class="glyphicon glyphicon-ok clickable" ng-click="finishSaveAs(true)"></span>
+					<span class="glyphicon glyphicon-remove clickable" ng-click="finishSaveAs(false)"></span>
+				</span>
+				<span ng-show="pbShow && changeMade() && !saveAs" class="pbTitleEdited">- Draft</span>
+				<div class="pbRename"><span class="pbRenameButt glyphicon glyphicon-pencil clickable" ng-show="rename && pbShow && !saveAs" ng-click="startSaveAs()"></span></div>
+			</div>
+		</div>
+
+		<div class="pbToolbar" ng-class="{pbTitleSel: !pbShow}">
 		</div>
 	</div>
 
@@ -21,6 +26,12 @@
 	<span class="holder col-1"><i class="fa fa-cog"></i>&nbsp;</span> -->
 
 	<div ng-class="{pbOpened: pbShow}" class="pbSlider">
+		<div class="pbControlBar">
+			<div class="pbFunctionFlip"></div>
+			<div class="pbSaveMenu"></div>
+			<div class="pbViewsList"></div>
+		</div>
+
 		<div class="pbViewConf" ng-mouseleave="viewMenu = false" ng-show="!saveAs">
 			<span ng-show="pbShow" class="glyphicon glyphicon-cog pbViewConfButt clickable" ng-class="{pbViewConfMenuBack: viewMenu}" ng-click="viewMenu = !viewMenu"></span>
 			<div class="pbViewConfMenu" ng-show="viewMenu">

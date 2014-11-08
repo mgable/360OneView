@@ -261,7 +261,7 @@ body {
 }
 
 .app {
-	/*max-width: $app_max_width;*/
+	max-width: $app_max_width;
 	min-width: $app_min_width;
 	font-size: $body_font_size;
 	margin: $app_top_margin auto 60px;  
