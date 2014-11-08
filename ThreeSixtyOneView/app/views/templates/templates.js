@@ -30,7 +30,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<span ng-show=\"isActive\" class=\"controls\"><button ng-click=\"submit(item)\" ng-disabled=\"(inlineDescription.$dirty && inlineDescription.$invalid) || inlineDescription.$pristine\"><icon type=\"check\"></icon></button>&nbsp;<button ng-click=\"cancel()\"><icon type=\"times\"></icon></button></span>\n" +
     "\n" +
-    "\t<textarea ng-disabled=\"!isActive\" ng-maxlength=\"256\" ng-pattern='/^[^\\\\\\/\\?\\:\\*\"><|]+$/' ng-model=\"item.description\" ng-class=\"{'active': isActive, 'hasDescription': item.description}\" class=\"description inputTarget\"></textarea>\n" +
+    "\t<span class=\"descriptiocd\" ng-show=\"!isActive\">{{item.description}}</span>\n" +
+    "\n" +
+    "\t<textarea ng-show=\"isActive\" ng-maxlength=\"256\" ng-pattern='/^[^\\\\\\/\\?\\:\\*\"><|]+$/' ng-model=\"item.description\" ng-class=\"{'active': isActive, 'hasDescription': item.description}\" class=\"description inputTarget\"></textarea>\n" +
     "</form>"
   );
 
