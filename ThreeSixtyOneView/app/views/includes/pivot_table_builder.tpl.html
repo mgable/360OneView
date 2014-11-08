@@ -150,7 +150,7 @@
 				<div class="modal-body">
 					<div class="pbFilterModalLinks" ng-style="{height: (windowHeight - 128) + 'px'}">
 						<div class="pbFilterModalLink clickable" ng-repeat="cat in pbData.itemsList" ng-click="selectedFilter.cat = cat; selectedFilter.selFil = chooseViewBy(cat.members);" ng-class="{active: cat.label == selectedFilter.cat.label}">
-							<div>{{cat.label}} 
+							<div>{{cat.label}}
 								<span class="pbFilterSize">({{categorizeValues($index, addedFilter[cat.label]).selected}}/{{categorizeValues($index, addedFilter[cat.label]).total}})</span>
 							</div>
 							<div ng-show="categorizeValues($index, addedFilter[cat.label]).selected<categorizeValues($index, addedFilter[cat.label]).total" class="pbFilterModalValues" data-toggle="tooltip" data-placement="bottom" title="{{categorizeValues($index, addedFilter[cat.label]).label.join(', ')}}">{{categorizeValues($index, addedFilter[cat.label]).label.join(', ')}}</div>
