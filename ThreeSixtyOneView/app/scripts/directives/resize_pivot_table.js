@@ -24,7 +24,7 @@ angular.module('ThreeSixtyOneView')
 
                 scope.adjustHeightOnClick = function() {
 
-                    var pivotBuilderHeight = $('#pivotBuilder').height() === pivotBuilderMinHeight ? pivotBuilderMaxHeight : pivotBuilderMinHeight;
+                    var pivotBuilderHeight = $('.pbTitle').hasClass('pbTitleSel') ? pivotBuilderMinHeight : pivotBuilderMaxHeight;
                     var pivotTableHeight = window.innerHeight - pivotBuilderHeight - 20;
                     $('#spreadjs').height(pivotTableHeight);
                     $('#spreadjs').wijspread('refresh');

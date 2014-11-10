@@ -8,19 +8,13 @@ angular.module('ThreeSixtyOneView')
 
             angular.element($window).bind("scroll", function() {
 
-                var windowTop = $(window).scrollTop();
+                scope.isFixed = false;
+                var windowTop = this.pageYOffset;
 
                 if (windowTop > 230  && windowTop < 340) {
-                    $('.display').css({
-                        position: 'fixed',
-                        top: 0,
-                        width: '1100px'
-                    });
+                    scope.isFixed = true;
                 } else {
-                    $('.display').css({
-                        position: 'relative',
-                        top: 'auto'
-                    });
+                    scope.isFixed = false;
                 }
 
                 scope.$apply();
