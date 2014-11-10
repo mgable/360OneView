@@ -3,7 +3,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
   $templateCache.put('views/directives/display_actions.tpl.html',
     "<div class=\"display-actions\">\n" +
-    "\t<h4 ng-click=\"toggle()\" class=\"pull-left title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;<span>({{SortAndFilterService.getCount()}})</span><span ng-click=\"toggle()\" class=\"filtertoggle\"><icon ng-click=\"toggle()\" type=\"caret-down\"></icon></span></h4>\n" +
+    "\t<h4 ng-click=\"toggle()\" class=\"pull-left title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;<span>({{SortAndFilterService.getCount()}})</span><span  class=\"filtertoggle\"><icon type=\"caret-down\"></icon></span></h4>\n" +
     "\n" +
     "\t<ul ms-link-group firstSelected=\"{{CONFIG.filterMenu.items[CONFIG.filterMenu.firstSelected].label}}\" radio=\"true\" class='filterDropdown dropdownshadow title hide menu'>\n" +
     "\t\t<li ng-repeat=\"item in CONFIG.filterMenu.items\" class=\"header\" ng-class=\"{selected: item.label === selectedItem}\">\n" +
@@ -40,7 +40,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/inline_rename.tpl.html',
     "<form class=\"inlineRename\" name=\"rename\" novalidate role=\"form\">\n" +
     "\t<span ng-transclude></span>\n" +
-    "\t<h4 class=\"title\" ng-hide=\"isActive\">{{item.title | limitTo: 30}}{{item.title.length > 30 ? ' ...':''}}</h4>&nbsp;\n" +
+    "\t<h4 class=\"title\" ng-hide=\"isActive\">{{item.title | limitTo: 29}}{{item.title.length > 29 ? ' ...':''}}</h4>&nbsp;\n" +
     "\t<a class=\"edit\" ng-click=\"action()\"><icon ng-hide=\"isActive\" type=\"pencil\" cname=\"pencil clearfix\"></icon></a>\n" +
     "    <h4 ng-show=\"isActive\" class=\"title\">\n" +
     "    \t<input type=\"text\" class=\"inputTarget\" ng-model=\"item.title\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\" />&nbsp;\n" +
