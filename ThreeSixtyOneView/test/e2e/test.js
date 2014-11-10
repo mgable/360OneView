@@ -17,11 +17,11 @@ describe('Project Listing', function() {
 		}
 	)
 
-	xdescribe("Sort functions: ", function(){
+	describe("Sort functions: ", function(){
 		var menuId = "//span[@data-ms-id='column_1']",
 			nameField = "//a[@data-ms-id='name-field']";
 
-		xit("should switch between name, modifiedOn and Created Date", function(){
+		it("should switch between name, modifiedOn and Created Date", function(){
 			//TODO: after hector fixes https://jira.marketshare.com/browse/MAR-5809
 		});
 
@@ -103,7 +103,7 @@ describe('Project Listing', function() {
 		});
 	});
 
-	xdescribe("Sorter", function(){
+	describe("Sorter", function(){
 		it("should have at least one project", function(){
 			expect(element.all(by.repeater('item in getData()')).count()).toBeGreaterThan(0);
 		});
@@ -142,7 +142,7 @@ describe('Project Listing', function() {
 		});
 	});
 
-	xdescribe("Favorite behaviors", function(){
+	describe("Favorite behaviors", function(){
 		it("should favorite the master project", function(){
 			expect(element.all(by.css(".master .favorite")).count()).toBe(1);
 		});
@@ -173,7 +173,7 @@ describe('Project Listing', function() {
 		});
 	});
 
-	xdescribe("Filters: ", function(){
+	describe("Filters: ", function(){
 		var filterMenu = ".app .ProjectManager .display-actions h4.title",
 			filterFavorites = '.filterDropdown li:last-child',
 			filterAll = '.filterDropdown li:first-child',
@@ -198,7 +198,7 @@ describe('Project Listing', function() {
 		});
 	});
 
-	xdescribe("Search: ", function(){
+	describe("Search: ", function(){
 		it("should search", function(){
 			element(by.model('SortAndFilterService.searchText')).sendKeys('master project');
 			expect(element.all(by.repeater('item in getData()')).count()).toBe(1);
@@ -206,26 +206,22 @@ describe('Project Listing', function() {
 	});
 
 	describe("Page actions: ", function(){
-		xit ("should toggle the filter menu dropdown", function(){
+		it ("should toggle the filter menu dropdown", function(){
 			var elem = element(by.css('.filterDropdown'));
 			expect(hasClass(elem, 'hide')).toBe(true);
 			element(by.css(".app .ProjectManager .display-actions h4.title")).click();
 			expect(hasClass(elem, 'hide')).toBe(false);
 		});
 
-<<<<<<< HEAD
-		xit("should create a project", function(){
-=======
+
 		it("should create a project", function(){
->>>>>>> 1faaea8d08998b1f84d7716cdf3449b9d8b59311
+
 			var create = "//span[@data-ms-id='createButton']",
 				input = "//input[@data-ms-id='modalInput']",
 				submit = "//button[@data-ms-id='submit']",
 				cancel = "//button[@data-ms-id='cancel']",
-<<<<<<< HEAD
 				itemTitle = "//div[@data-ms-id='projectTitle']",
-=======
->>>>>>> 1faaea8d08998b1f84d7716cdf3449b9d8b59311
+
 				createButton = element(by.xpath(create)),
 				inputField,
 				submitButton,
@@ -242,20 +238,17 @@ describe('Project Listing', function() {
 			//cancelButton.click();
 			submitButton.click();
 			browser.waitForAngular();
-<<<<<<< HEAD
 			firstItemTitle = element.all(by.xpath(itemTitle));
-=======
-			firstItemTitle = element.all(by.xpath("//div[@data-ms-id='projectTitle']"));
->>>>>>> 1faaea8d08998b1f84d7716cdf3449b9d8b59311
+
 
 			firstItemTitle.getText(function(text){
 				expect(text).toBe(testFileName);
 				expect(browser.getLocationAbsUrl()).toContain("/#/dashboard/");
 			});
 		});
-<<<<<<< HEAD
 
-		xit("should rename a project", function(){
+
+		it("should rename a project", function(){
 			var first,
 			newName = "My Renamed Project - " + Date.now(),
 			rename = "//a[@data-ms-id='inlineRename']",
@@ -301,11 +294,9 @@ describe('Project Listing', function() {
 			//expect(something).toBe(something);
 		});
 
-=======
->>>>>>> 1faaea8d08998b1f84d7716cdf3449b9d8b59311
 	});
 
-	xdescribe("Page attributes: ", function(){
+	describe("Page attributes: ", function(){
 		it('should have a title', function() {
 			expect(browser.getTitle()).toEqual('360 One View');
 		});

@@ -71,7 +71,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<h4 class=\"title\" ng-hide=\"isActive\">{{item.title | limitTo: 29}}{{item.title.length > 29 ? ' ...':''}}</h4>&nbsp;\r" +
     "\n" +
-    "\t<a class=\"edit\" ng-click=\"action()\"><icon ng-hide=\"isActive\" type=\"pencil\" cname=\"pencil clearfix\"></icon></a>\r" +
+    "\t<a class=\"edit\" ng-click=\"action()\" data-ms-id='inlineRename'><icon ng-hide=\"isActive\" type=\"pencil\" cname=\"pencil clearfix\"></icon></a>\r" +
     "\n" +
     "    <h4 ng-show=\"isActive\" class=\"title\">\r" +
     "\n" +
@@ -92,7 +92,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.isActive(id)}\">\r" +
     "\n" +
-    "\t\t<span ng-click=\"select(selectedItem)\" data-ms-id=\"{{id}}\" class=\"status select\">{{selectedItem.label}}</span>&nbsp<span class=\"toggle\"><icon type=\"caret-down\"></icon></span></h6> \r" +
+    "\t\t<span ng-click=\"select(selectedItem)\" class=\"status select\">{{selectedItem.label}}</span>&nbsp;<span class=\"toggle\" ng-click=\"toggle()\" data-ms-id=\"{{id}}\"><icon type=\"caret-down\"></icon></span></h6> \r" +
     "\n" +
     "\t<ul class=\"ms-select-list dropdownshadow hide\"> \r" +
     "\n" +
