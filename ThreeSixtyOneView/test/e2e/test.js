@@ -213,12 +213,19 @@ describe('Project Listing', function() {
 			expect(hasClass(elem, 'hide')).toBe(false);
 		});
 
+<<<<<<< HEAD
 		xit("should create a project", function(){
+=======
+		it("should create a project", function(){
+>>>>>>> 1faaea8d08998b1f84d7716cdf3449b9d8b59311
 			var create = "//span[@data-ms-id='createButton']",
 				input = "//input[@data-ms-id='modalInput']",
 				submit = "//button[@data-ms-id='submit']",
 				cancel = "//button[@data-ms-id='cancel']",
+<<<<<<< HEAD
 				itemTitle = "//div[@data-ms-id='projectTitle']",
+=======
+>>>>>>> 1faaea8d08998b1f84d7716cdf3449b9d8b59311
 				createButton = element(by.xpath(create)),
 				inputField,
 				submitButton,
@@ -235,13 +242,18 @@ describe('Project Listing', function() {
 			//cancelButton.click();
 			submitButton.click();
 			browser.waitForAngular();
+<<<<<<< HEAD
 			firstItemTitle = element.all(by.xpath(itemTitle));
+=======
+			firstItemTitle = element.all(by.xpath("//div[@data-ms-id='projectTitle']"));
+>>>>>>> 1faaea8d08998b1f84d7716cdf3449b9d8b59311
 
 			firstItemTitle.getText(function(text){
 				expect(text).toBe(testFileName);
 				expect(browser.getLocationAbsUrl()).toContain("/#/dashboard/");
 			});
 		});
+<<<<<<< HEAD
 
 		xit("should rename a project", function(){
 			var first,
@@ -289,6 +301,8 @@ describe('Project Listing', function() {
 			//expect(something).toBe(something);
 		});
 
+=======
+>>>>>>> 1faaea8d08998b1f84d7716cdf3449b9d8b59311
 	});
 
 	xdescribe("Page attributes: ", function(){
