@@ -10,32 +10,42 @@ angular.module('ThreeSixtyOneView')
             if (evt) { evt.preventDefault(); }
             $modalInstance.dismiss('canceled');
         };
-    }])
-    .controller('ProjectRenameCtrl', ["$scope", "$controller", "$modalInstance", "data", "CONFIG", "EVENTS", function($scope, $controller, $modalInstance, data, CONFIG, EVENTS) {
+    }]).controller("ScenarioCopyCtrl", ["$scope", "$rootScope", "$controller", "$modalInstance", "data", "CONFIG", "EVENTS", function($scope, $rootScope, $controller, $modalInstance, data, CONFIG, EVENTS) {
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
-        $scope.data = data.item;
-        $scope.name = $scope.data.title;
-
-        $scope.rename = function(title, evt) {
-            if (evt) { evt.preventDefault(); }
-            $scope.data.title = title;
-            $scope.$emit(EVENTS.renameProject, $scope.data);
-            $modalInstance.dismiss('create');
+        $scope.item = data;
+        $scope.item.title = "COPY -- " + $scope.item.title;
+        $scope.modalProperties = {
+            title: "Copy a Scenario",
+            field: "Name",
+            button: "Copy Scenario",
+            icon: "files-o"
         };
 
-    }]).controller('ProjectCreateCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "ProjectsService", "GotoService", function($scope, $controller, $modalInstance, CONFIG, ProjectsService, GotoService) {
+         $scope.submit = function(title, evt){
+            if (evt) { evt.preventDefault(); }
+
+            $scope.item.title = title;
+            $rootScope.$broadcast(EVENTS.copyScenario, $scope.item);
+            $modalInstance.dismiss('create');
+         };
+
+    }]).controller('ProjectCreateCtrl', ["$scope", "$rootScope", "$controller", "$modalInstance", "CONFIG", "EVENTS", function($scope, $rootScope, $controller, $modalInstance, CONFIG, EVENTS) {
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
         var newProject = CONFIG.application.models.ProjectsModel.newProject;
 
-        $scope.create = function(title, evt) {
+        $scope.modalProperties = {
+            title: "Create a New Project",
+            field: "Name",
+            button: "Create New Project",
+            icon: "star"
+        };
+
+        $scope.submit = function(title, evt) {
             if (evt) { evt.preventDefault(); }
             newProject.title = title;
 
-            ProjectsService.create(newProject).then(function(response){
-                GotoService.dashboard(response.id);
-            });
-
+            $rootScope.$broadcast(EVENTS.createProject, newProject);
             $modalInstance.dismiss('create');
         };
     }]).controller('CreateScenarioCtrl', ["$scope", "$rootScope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", function($scope, $rootScope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS) {

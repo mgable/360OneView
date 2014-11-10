@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
+angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvider", "CONFIG", function($stateProvider, $urlRouterProvider, CONFIG) {
 
     $urlRouterProvider.otherwise("/projects");
 
@@ -41,7 +41,7 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
       resolve: {
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
         'Scenario': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId, $stateParams.scenarioId);},
-        'Views': function(PivotViewService){return PivotViewService.get({cubeId:1});}
+        'Views': function(PivotViewService){return PivotViewService.getViewsAndDefault(CONFIG.view.Scenario.cubeId);}
       },
       breadcrumb: "<a goto='projects'>All Projects</a> &gt; <a goto='dashboard' params='{{project.id}}'>{{project.title}}</a> &gt; {{scenario.title}}"
     })
@@ -57,7 +57,6 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
           }
         },
         breadcrumb: "<a goto='projects'>All Projects</a> &gt; <a goto='dashboard' params='{{project.id}}'>{{project.title}}</a> &gt; {{scenario.title}}"
-
     })
     .state("Scenario.results", {
       views: {
@@ -66,6 +65,5 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
         }
       },
       breadcrumb: "<a goto='projects'>All Projects</a> &gt; <a goto='dashboard' params='{{project.id}}'>{{project.title}}</a> &gt; {{scenario.title}}"
-
     });
 }]);

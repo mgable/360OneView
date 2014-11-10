@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .directive("scrollPivotTable", function($window) {
+    .directive("resizePivotTable", function($window) {
         return function(scope) {
 
                 var pivotBuilderMaxHeight = 222;
@@ -16,7 +16,7 @@ angular.module('ThreeSixtyOneView')
                     pivotBuilderHeight = $('#pivotBuilder').height() === pivotBuilderMinHeight ? pivotBuilderMinHeight : pivotBuilderMaxHeight;
                     pivotTableHeight = window.innerHeight - pivotBuilderHeight - 20;
                     containerHeight = window.innerHeight + 153 + 40;
-                    $('.scenario-edit').height(containerHeight);
+                    $('.Scenario').height(containerHeight);
                     $('#spreadjs').height(pivotTableHeight);
                     $('#spreadjs').wijspread('refresh');
 

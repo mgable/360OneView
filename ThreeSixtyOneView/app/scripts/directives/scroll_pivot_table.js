@@ -11,7 +11,7 @@ angular.module('ThreeSixtyOneView')
                 scope.isFixed = false;
                 var windowTop = this.pageYOffset;
 
-                if (windowTop > 230  && windowTop < 340) {
+                if (windowTop > 230  && windowTop < 342) {
                     scope.isFixed = true;
                 } else {
                     scope.isFixed = false;

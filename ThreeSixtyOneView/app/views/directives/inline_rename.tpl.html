@@ -1,10 +1,10 @@
 <form class="inlineRename" name="rename" novalidate role="form">
 	<span ng-transclude></span>
-	<h4 class="title" ng-hide="isActive">{{item.title}}</h4>&nbsp;
-	<a class="edit" ng-click="action()"><icon ng-hide="isActive" type="pencil" cname="pencil clearfix"></icon></a>
+	<h4 class="title" ng-hide="isActive">{{item.title | limitTo: 29}}{{item.title.length > 29 ? ' ...':''}}</h4>&nbsp;
+	<a class="edit" ng-click="action()" data-ms-id='inlineRename'><icon ng-hide="isActive" type="pencil" cname="pencil clearfix"></icon></a>
     <h4 ng-show="isActive" class="title">
     	<input type="text" class="inputTarget" ng-model="item.title" required ng-maxlength="256" ng-minlength="2" ng-pattern='inputRestrictions.characterRestrictions' tabindex="1" />&nbsp;
-    	<button ng-click="submit(item)" ng-disabled="(rename.$dirty && rename.$invalid) || rename.$pristine"><icon type="check"></icon></button>&nbsp;
-    	<button ng-click="cancel()"><icon type="times"></icon></button>
+    	<button ng-click="submit(item)" data-ms-id="inlineSubmit" ng-disabled="(rename.$dirty && rename.$invalid) || rename.$pristine"><icon type="check"></icon></button>&nbsp;
+    	<button ng-click="cancel()" data-ms-id="inlineCancel"><icon type="times"></icon></button>
     </h4>
 </form>
