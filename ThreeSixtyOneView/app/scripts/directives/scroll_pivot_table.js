@@ -4,22 +4,24 @@
 
 angular.module('ThreeSixtyOneView')
     .directive("scrollPivotTable", function($window) {
-        return function(scope) {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attributes) {
 
-            angular.element($window).bind("scroll", function() {
+                angular.element($window).bind("scroll", function() {
 
-                scope.isFixed = false;
-                var windowTop = this.pageYOffset;
-
-                if (windowTop > 230  && windowTop < 342) {
-                    scope.isFixed = true;
-                } else {
                     scope.isFixed = false;
-                }
+                    var windowTop = this.pageYOffset;
+                    scope.displayWidth = element[0].clientWidth;
 
-                scope.$apply();
+                    if (windowTop > 230 && windowTop < 330) {
+                        scope.isFixed = true;
+                    } else {
+                        scope.isFixed = false;
+                    }
 
-            });
-
-        };
+                    scope.$apply();
+                });
+            }
+        }
     });
