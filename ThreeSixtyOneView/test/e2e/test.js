@@ -103,7 +103,7 @@ describe('Project Listing', function() {
 		});
 	});
 
-	xdescribe("Sorter", function(){
+	describe("Sorter", function(){
 		it("should have at least one project", function(){
 			expect(element.all(by.repeater('item in getData()')).count()).toBeGreaterThan(0);
 		});
@@ -142,7 +142,7 @@ describe('Project Listing', function() {
 		});
 	});
 
-	xdescribe("Favorite behaviors", function(){
+	describe("Favorite behaviors", function(){
 		it("should favorite the master project", function(){
 			expect(element.all(by.css(".master .favorite")).count()).toBe(1);
 		});
@@ -173,7 +173,7 @@ describe('Project Listing', function() {
 		});
 	});
 
-	xdescribe("Filters: ", function(){
+	describe("Filters: ", function(){
 		var filterMenu = ".app .ProjectManager .display-actions h4.title",
 			filterFavorites = '.filterDropdown li:last-child',
 			filterAll = '.filterDropdown li:first-child',
@@ -198,14 +198,14 @@ describe('Project Listing', function() {
 		});
 	});
 
-	xdescribe("Search: ", function(){
+	describe("Search: ", function(){
 		it("should search", function(){
 			element(by.model('SortAndFilterService.searchText')).sendKeys('master project');
 			expect(element.all(by.repeater('item in getData()')).count()).toBe(1);
 		});
 	});
 
-	xdescribe("Page actions: ", function(){
+	describe("Page actions: ", function(){
 		it ("should toggle the filter menu dropdown", function(){
 			var elem = element(by.css('.filterDropdown'));
 			expect(hasClass(elem, 'hide')).toBe(true);
@@ -296,7 +296,7 @@ describe('Project Listing', function() {
 
 	});
 
-	xdescribe("Page attributes: ", function(){
+	describe("Page attributes: ", function(){
 		it('should have a title', function() {
 			expect(browser.getTitle()).toEqual('360 One View');
 		});
