@@ -26,7 +26,7 @@
 
 	</div>
 
-	<div class="display" resize-pivot-table scroll-pivot-table>
+	<div class="display" ng-class="{'pivotTablefixed': isFixed}" ng-style="{'width' : displayWidth}" resize-pivot-table scroll-pivot-table>
 		<div ui-view="builder"></div>
 		<div ui-view="table"></div>
 		<div ui-view="results"></div>

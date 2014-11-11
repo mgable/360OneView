@@ -106,7 +106,7 @@ body {
 			}
 			span.highHead {
 				margin-top: 3px;
-				display: inline-block;	
+				display: inline-block;
 				text-align: left;
 			}
 			.navbar-nav > li {
@@ -197,7 +197,7 @@ body {
 		width:100%;
 		z-index:1000;
 		height:50px;
-		position:fixed;
+		// position:fixed;
 		bottom:0;
 		div {
 			&.footerLeft {
@@ -261,11 +261,11 @@ body {
 }
 
 .app {
-	max-width: $app_max_width;
+	// max-width: $app_max_width;
 	min-width: $app_min_width;
 	font-size: $body_font_size;
-	margin: $app_top_margin auto 60px;  
-	//background-color: $white;
+	margin: $app_top_margin auto 60px;
+	// background-color: $white;
 	overflow-y: hidden;
-	height: 77%;
+	// height: 77%;
 }

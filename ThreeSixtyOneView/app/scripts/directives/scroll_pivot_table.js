@@ -1,31 +1,27 @@
-/* global $:false */
-
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .directive("scrollPivotTable", function($window) {
-        return function(scope) {
+    .directive('scrollPivotTable', ["$window", function($window) {
+        return {
+            restrict: 'AE',
+            link: function(scope, element, attributes) {
 
-            angular.element($window).bind("scroll", function() {
+                angular.element($window).bind("scroll", function() {
 
-                var windowTop = $(window).scrollTop();
+                    var windowTop      = this.pageYOffset;  /* Position to the top */
+                    var scrollTop      = 230;               /* Position when start to fix */
+                    var scrollBottom   = 330;               /* Position when stop to fix */
+                    scope.isFixed      = false;
+                    scope.displayWidth = element[0].clientWidth;
 
-                if (windowTop > 230  && windowTop < 340) {
-                    $('.display').css({
-                        position: 'fixed',
-                        top: 0,
-                        width: '1100px'
-                    });
-                } else {
-                    $('.display').css({
-                        position: 'relative',
-                        top: 'auto'
-                    });
-                }
+                    if (windowTop > scrollTop && windowTop < scrollBottom) {
+                        scope.isFixed = true;
+                    } else {
+                        scope.isFixed = false;
+                    }
 
-                scope.$apply();
-
-            });
-
+                    scope.$apply();
+                });
+            }
         };
-    });
+    }]);

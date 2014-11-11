@@ -1,8 +1,10 @@
 <form class="inlineDescription" name="inlineDescription">
 	<span class='field-label'>Description</span>
-	<a ng-hide="isActive" class='edit' ng-click="action()"><icon  type="pencil"></icon></a>
+	<a ng-hide="isActive" class='edit' ng-click="action()" data-ms-id="inlineEdit"><icon  type="pencil"></icon></a>
 
-	<span ng-show="isActive" class="controls"><button ng-click="submit(item)" ng-disabled="(inlineDescription.$dirty && inlineDescription.$invalid) || inlineDescription.$pristine"><icon type="check"></icon></button>&nbsp;<button ng-click="cancel()"><icon type="times"></icon></button></span>
+	<span ng-show="isActive" class="controls"><button ng-click="submit(item)" data-ms-id="inlineEditSubmit" ng-disabled="(inlineDescription.$dirty && inlineDescription.$invalid) || inlineDescription.$pristine"><icon type="check"></icon></button>&nbsp;<button ng-click="cancel()" data-ms-id="inlineEditCancel"><icon type="times"></icon></button></span>
 
-	<textarea ng-disabled="!isActive" ng-maxlength="256" ng-pattern='/^[^\\\/\?\:\*"><|]+$/' ng-model="item.description" ng-class="{'active': isActive, 'hasDescription': item.description}" class="description inputTarget"></textarea>
+	<div ng-class="{'description':item.description, 'noDescription': !item.description}" ng-show="!isActive">{{item.description}}</div>
+
+	<textarea ng-show="isActive" ng-maxlength="256" ng-pattern='/^[^\\\/\?\:\*"><|]+$/' ng-model="item.description" ng-class="{'active': isActive}" class="description inputTarget"></textarea>
 </form>
