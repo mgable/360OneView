@@ -3,20 +3,25 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .directive("resizePivotTable", function($window) {
-        return function(scope) {
+    .directive('resizePivotTable', ["$window", function($window) {
+        return {
+            restrict: 'AE',
+            link: function(scope, element, attributes) {
 
-                var pivotBuilderMaxHeight = 222;
                 var pivotBuilderMinHeight = 33;
-                var pivotBuilderHeight    = pivotBuilderMaxHeight;
-                var pivotTableHeight, containerHeight, containerWidth;
+                var pivotBuilderMaxHeight = 222;
+                var pivotBuilderHeight    = pivotBuilderMaxHeight; /* initally pivot builder drawer is open */
+                var pivotTableHeight;
+                var containerHeight;
+                var containerWidth;
 
                 function adjustHeightOnResize() {
 
+                    console.log(scope);
                     pivotBuilderHeight = $('#pivotBuilder').height() === pivotBuilderMinHeight ? pivotBuilderMinHeight : pivotBuilderMaxHeight;
-                    pivotTableHeight = window.innerHeight - pivotBuilderHeight - 20;
-                    containerHeight = window.innerHeight + 153 + 40;
-                    containerWidth = $('.details').width();
+                    pivotTableHeight   = $window.innerHeight - pivotBuilderHeight - 20;
+                    containerHeight    = $window.innerHeight + 153 + 40;
+                    containerWidth     = $('.details').width();
                     $('.display').width(containerWidth);
                     $('.Scenario').height(containerHeight);
                     $('#spreadjs').height(pivotTableHeight);
@@ -26,8 +31,8 @@ angular.module('ThreeSixtyOneView')
 
                 scope.adjustHeightOnClick = function() {
 
-                    pivotBuilderHeight = $('.pbTitle').hasClass('pbTitleSel') ? pivotBuilderMinHeight : pivotBuilderMaxHeight;
-                    pivotTableHeight = window.innerHeight - pivotBuilderHeight - 20;
+                    pivotBuilderHeight = $('#pivotBuilder').height() === pivotBuilderMinHeight ? pivotBuilderMaxHeight : pivotBuilderMinHeight;
+                    pivotTableHeight   = $window.innerHeight - pivotBuilderHeight - 20;
                     $('#spreadjs').height(pivotTableHeight);
                     $('#spreadjs').wijspread('refresh');
 
@@ -42,6 +47,7 @@ angular.module('ThreeSixtyOneView')
                     scope.$apply();
 
                 });
+            }
 
         };
-    });
+    }]);
