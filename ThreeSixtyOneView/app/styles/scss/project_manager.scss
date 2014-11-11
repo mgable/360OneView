@@ -388,7 +388,25 @@
 							visibility: hidden;
 						}
 					}
-		
+					
+					&.master {
+						font: {
+							weight:bold;
+							size:16px;
+						}
+						 i {
+							visibility: visible;
+							display:inline-block;
+						}
+						.favorites {
+							.favorite {
+								cursor: default;
+								&:hover {
+									color:#428bca;
+								}
+							}
+						}
+					}
 					.text-holder.favorites-holder {
 						width:25px;
 					}

@@ -17,7 +17,7 @@ describe('Project Listing', function() {
 		}
 	)
 
-	describe("Sort functions: ", function(){
+	xdescribe("Sort functions: ", function(){
 		var menuId = "//span[@data-ms-id='column_1']",
 			nameField = "//a[@data-ms-id='name-field']";
 
@@ -103,7 +103,7 @@ describe('Project Listing', function() {
 		});
 	});
 
-	describe("Sorter", function(){
+	xdescribe("Sorter", function(){
 		it("should have at least one project", function(){
 			expect(element.all(by.repeater('item in getData()')).count()).toBeGreaterThan(0);
 		});
@@ -142,7 +142,7 @@ describe('Project Listing', function() {
 		});
 	});
 
-	describe("Favorite behaviors", function(){
+	xdescribe("Favorite behaviors", function(){
 		it("should favorite the master project", function(){
 			expect(element.all(by.css(".master .favorite")).count()).toBe(1);
 		});
@@ -173,7 +173,7 @@ describe('Project Listing', function() {
 		});
 	});
 
-	describe("Filters: ", function(){
+	xdescribe("Filters: ", function(){
 		var filterMenu = ".app .ProjectManager .display-actions h4.title",
 			filterFavorites = '.filterDropdown li:last-child',
 			filterAll = '.filterDropdown li:first-child',
@@ -198,7 +198,7 @@ describe('Project Listing', function() {
 		});
 	});
 
-	describe("Search: ", function(){
+	xdescribe("Search: ", function(){
 		it("should search", function(){
 			element(by.model('SortAndFilterService.searchText')).sendKeys('master project');
 			expect(element.all(by.repeater('item in getData()')).count()).toBe(1);
@@ -206,7 +206,7 @@ describe('Project Listing', function() {
 	});
 
 	describe("Page actions: ", function(){
-		it ("should toggle the filter menu dropdown", function(){
+		xit ("should toggle the filter menu dropdown", function(){
 			var elem = element(by.css('.filterDropdown'));
 			expect(hasClass(elem, 'hide')).toBe(true);
 			element(by.css(".app .ProjectManager .display-actions h4.title")).click();
@@ -214,7 +214,7 @@ describe('Project Listing', function() {
 		});
 
 
-		it("should create a project", function(){
+		xit("should create a project", function(){
 
 			var create = "//span[@data-ms-id='createButton']",
 				input = "//input[@data-ms-id='modalInput']",
@@ -248,7 +248,7 @@ describe('Project Listing', function() {
 		});
 
 
-		it("should rename a project", function(){
+		xit("should rename a project", function(){
 			var first,
 			newName = "My Renamed Project - " + Date.now(),
 			rename = "//a[@data-ms-id='inlineRename']",
@@ -278,9 +278,11 @@ describe('Project Listing', function() {
 			var newDescription = "This is my new description - " + Date.now(),
 				editDescription = "//a[@data-ms-id='inlineEdit']",
 				textArea = "textarea.inputTarget",
+				inlineEdit = "//div[@data-ms-id='inlineEditField']",
 				inlineEditCancel = "//button[@data-ms-id='inlineEditCancel']",
 				inlineEditSubmit = "//button[@data-ms-id='inlineEditSubmit']",
 				textAreaField = element(by.css(textArea)),
+				inlineEditField = element(by.xpath(inlineEdit)),
 				editDescriptionButton = element(by.xpath(editDescription));
 
 			browser.actions().mouseMove(editDescriptionButton).perform();
@@ -289,14 +291,19 @@ describe('Project Listing', function() {
 			textAreaField.clear();
 			textAreaField.sendKeys(newDescription);
 			var inlineEditCancelButton = element(by.xpath(inlineEditCancel));
+			var inlineEditSubmitButton = element(by.xpath(inlineEditSubmit));
+			inlineEditSubmitButton.click();
+			browser.waitForAngular();
+			browser.get(projectUrl);
 
-			inlineEditCancelButton.click();
-			//expect(something).toBe(something);
+			inlineEditField.getText().then(function(currentDescription){
+				expect(newDescription).toBe(currentDescription);
+			});
 		});
 
 	});
 
-	describe("Page attributes: ", function(){
+	xdescribe("Page attributes: ", function(){
 		it('should have a title', function() {
 			expect(browser.getTitle()).toEqual('360 One View');
 		});
