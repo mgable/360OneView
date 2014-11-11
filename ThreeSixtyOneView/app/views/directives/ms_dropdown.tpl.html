@@ -1,6 +1,6 @@
 <div class="ms-dropdown" id="{{id}}"> 
 	<h6 class="ms-label" ng-class="{active: DropdownService.isActive(id)}">
-		<span ng-click="select(selectedItem)" class="status select">{{selectedItem.label}}</span>&nbsp;<span class="toggle" ng-click="toggle()" data-ms-id="{{id}}"><icon type="caret-down"></icon></span></h6> 
+		<span ng-click="select(selectedItem)" data-ms-id="label_{{id}}" class="status select">{{selectedItem.label}}</span>&nbsp;<span class="toggle" ng-click="toggle()" data-ms-id="{{id}}"><icon type="caret-down"></icon></span></h6> 
 	<ul class="ms-select-list dropdownshadow hide"> 
 		<li class="list-label">Sort Order</li>
 		<ul>

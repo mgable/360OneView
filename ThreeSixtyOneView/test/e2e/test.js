@@ -274,7 +274,7 @@ describe('Project Listing', function() {
 			});
 		});
 
-		it("should edit a description", function(){
+		xit("should edit a description", function(){
 			var newDescription = "This is my new description - " + Date.now(),
 				editDescription = "//a[@data-ms-id='inlineEdit']",
 				textArea = "textarea.inputTarget",
@@ -299,6 +299,19 @@ describe('Project Listing', function() {
 			inlineEditField.getText().then(function(currentDescription){
 				expect(newDescription).toBe(currentDescription);
 			});
+		});
+
+		it("should swtich between ordering by name, modified last and created on", function(){
+			var name = "//a[@data-ms-id='name-field']",
+				column_1 = "//span[@data-ms-id='label_column_1']",
+				nameButton = element(by.xpath(name)),
+				column_1Button = element(by.xpath(column_1)),
+				data;
+
+			nameButton.click();
+			data = element.all(by.repeater('item in getData()').column('title'));
+
+			expect(data.first().getText()).toBeLessThan(data.last().getText());
 		});
 
 	});
