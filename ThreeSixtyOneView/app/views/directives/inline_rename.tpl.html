@@ -1,6 +1,5 @@
 <form class="inlineRename" name="rename" novalidate role="form">
 	<span ng-transclude></span>
-
 	<h4 class="title" ng-if="!test" data-ms-id='inlineRenameField' ng-hide="isActive">{{item.title | limitTo: 29}}{{item.title.length > 29 ? ' ...':''}}</h4>
 
 	<h4 class="title" ng-if="test" data-ms-id='inlineRenameField' ng-hide="isActive">{{item.title}}</h4>

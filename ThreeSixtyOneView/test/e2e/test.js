@@ -81,7 +81,6 @@ describe('Project Listing', function() {
 
 		it("should sort by last modified", function(){
 			var dates = element.all(by.repeater('item in getData()').column('modifiedOn'));
-
 			dates.first().getText().then(function(firstDate){
 				dates.last().getText().then(function(lastDate){
 					expect(firstDate).toBeGreaterThan(lastDate);
@@ -262,13 +261,11 @@ describe('Project Listing', function() {
 
 
 		xit("should create a project", function(){
-
 			var create = "//span[@data-ms-id='createButton']",
 				input = "//input[@data-ms-id='modalInput']",
 				submit = "//button[@data-ms-id='submit']",
 				cancel = "//button[@data-ms-id='cancel']",
 				itemTitle = "//div[@data-ms-id='projectTitle']",
-
 				createButton = element(by.xpath(create)),
 				inputField,
 				submitButton,
@@ -286,8 +283,6 @@ describe('Project Listing', function() {
 			submitButton.click();
 			browser.waitForAngular();
 			firstItemTitle = element.all(by.xpath(itemTitle));
-
-
 			firstItemTitle.getText(function(text){
 				expect(text).toBe(testFileName);
 				expect(browser.getLocationAbsUrl()).toContain("/#/dashboard/");
@@ -295,6 +290,7 @@ describe('Project Listing', function() {
 		});
 
 		xit("should rename a project", function(){
+
 			var first,
 			newName = "My Renamed Project - " + Date.now(),
 			rename = "//a[@data-ms-id='inlineRename']",
@@ -319,6 +315,7 @@ describe('Project Listing', function() {
 				expect(name).toEqual(newName);
 			});
 		});
+
 
 		xit("should edit a description", function(){
 			var newDescription = "This is my new description - " + Date.now(),
@@ -362,6 +359,7 @@ describe('Project Listing', function() {
 
 			expect(scenarios.count()).toBe(1);
 		});
+
 	});
 
 	xdescribe("Page attributes: ", function(){

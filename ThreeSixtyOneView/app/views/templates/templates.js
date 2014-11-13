@@ -69,8 +69,6 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<span ng-transclude></span>\r" +
     "\n" +
-    "\r" +
-    "\n" +
     "\t<h4 class=\"title\" ng-if=\"!test\" data-ms-id='inlineRenameField' ng-hide=\"isActive\">{{item.title | limitTo: 29}}{{item.title.length > 29 ? ' ...':''}}</h4>\r" +
     "\n" +
     "\r" +
