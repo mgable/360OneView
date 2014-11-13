@@ -33,7 +33,7 @@ describe('Project Listing', function() {
 		}
 	)
 
-	xdescribe("Sort functions: ", function(){
+	describe("Sort functions: ", function(){
 		it("should swtich between ordering by name, modified last and created on", function(){
 			var data;
 
@@ -120,26 +120,26 @@ describe('Project Listing', function() {
 		});
 	});
 
-	xdescribe("Sorter", function(){
-		xit("should have at least one project", function(){
+	describe("Sorter", function(){
+		it("should have at least one project", function(){
 			expect(element.all(by.repeater('item in getData()')).count()).toBeGreaterThan(0);
 		});
 
-		xit("should have a master project", function(){
+		it("should have a master project", function(){
 			expect(element.all(by.css(".master")).count()).toBe(1);
 		});
 
-		xit("should have an active selection", function(){
+		it("should have an active selection", function(){
 			var first = element.all(by.repeater('item in getData()')).first();
 			expect(hasClass(first, "active")).toBe(true);
 		});
 
-		xit("should show the number of projects", function(){
+		it("should show the number of projects", function(){
 			var itemCount = element(by.css('.display-actions h4.title span:first-child'));
 			expect(itemCount.getText()).toContain(element.all(by.repeater('item in getData()')).count());
 		});
 
-		xit("should change the active selection on click", function(){
+		it("should change the active selection on click", function(){
 			var first = element.all(by.repeater('item in getData()')).first(),
 			last = element.all(by.repeater('item in getData()')).last();
 			expect(hasClass(first, "active")).toBe(true);
@@ -152,13 +152,13 @@ describe('Project Listing', function() {
 			expect(hasClass(last, "active")).toBe(false);
 		});
 
-		xit("should redirect to Project Dashboard when a project is clicked", function(){
+		it("should redirect to Project Dashboard when a project is clicked", function(){
 			var projectName = element.all(by.repeater('item in getData()')).first().element(by.css('.default.ng-binding'));
 			projectName.click();
 			expect(browser.getLocationAbsUrl()).toContain("/#/dashboard/");
 		});
 
-		xit("should have the active item in the tray", function(){
+		it("should have the active item in the tray", function(){
 			var firstTitle = element.all(by.repeater('item in getData()').column('title')).first(),
 				titleInTray = element(by.xpath("//h4[@data-ms-id='inlineRenameField']"));
 
@@ -181,7 +181,7 @@ describe('Project Listing', function() {
 		});
 	});
 
-	xdescribe("Favorite behaviors", function(){
+	describe("Favorite behaviors", function(){
 		it("should favorite the master project", function(){
 			expect(element.all(by.css(".master a.favorite")).count()).toBe(1);
 		});
@@ -219,7 +219,7 @@ describe('Project Listing', function() {
 		});
 	});
 
-	xdescribe("Filters: ", function(){
+	describe("Filters: ", function(){
 		var filterMenu = ".app .ProjectManager .display-actions h4.title",
 			filterFavorites = '.filterDropdown li:last-child',
 			filterAll = '.filterDropdown li:first-child',
@@ -244,7 +244,7 @@ describe('Project Listing', function() {
 		});
 	});
 
-	xdescribe("Search: ", function(){
+	describe("Search: ", function(){
 		it("should search", function(){
 			element(by.model('SortAndFilterService.searchText')).sendKeys('master project');
 			expect(element.all(by.repeater('item in getData()')).count()).toBe(1);
@@ -252,7 +252,7 @@ describe('Project Listing', function() {
 	});
 
 	describe("Page actions: ", function(){
-		xit ("should toggle the filter menu dropdown", function(){
+		it ("should toggle the filter menu dropdown", function(){
 			var elem = element(by.css('.filterDropdown'));
 			expect(hasClass(elem, 'hide')).toBe(true);
 			element(by.css(".app .ProjectManager .display-actions h4.title")).click();
@@ -260,7 +260,7 @@ describe('Project Listing', function() {
 		});
 
 
-		xit("should create a project", function(){
+		it("should create a project", function(){
 			var create = "//span[@data-ms-id='createButton']",
 				input = "//input[@data-ms-id='modalInput']",
 				submit = "//button[@data-ms-id='submit']",
@@ -289,7 +289,7 @@ describe('Project Listing', function() {
 			});
 		});
 
-		xit("should rename a project", function(){
+		it("should rename a project", function(){
 
 			var first,
 			newName = "My Renamed Project - " + Date.now(),
@@ -317,7 +317,7 @@ describe('Project Listing', function() {
 		});
 
 
-		xit("should edit a description", function(){
+		it("should edit a description", function(){
 			var newDescription = "This is my new description - " + Date.now(),
 				editDescription = "//a[@data-ms-id='inlineEdit']",
 				textArea = "textarea.inputTarget",
@@ -344,7 +344,7 @@ describe('Project Listing', function() {
 			});
 		});
 
-		xit("should prevent the master project from being edited", function(){
+		it("should prevent the master project from being edited", function(){
 			element(by.model('SortAndFilterService.searchText')).sendKeys('master project');
 			var masterProject = element(by.repeater('item in getData()').row(0));
 			masterProject.click();
@@ -355,14 +355,14 @@ describe('Project Listing', function() {
 			element(by.model('SortAndFilterService.searchText')).sendKeys('master project');
 			var masterProject = element(by.repeater('item in getData()').row(0));
 			masterProject.click();
-			var scenarios = element(by.repeater("scenario in selectedItem.scenarios"));
+			var scenarios = element.all(by.repeater("scenario in selectedItem.scenarios"));
 
 			expect(scenarios.count()).toBe(1);
 		});
 
 	});
 
-	xdescribe("Page attributes: ", function(){
+	describe("Page attributes: ", function(){
 		it('should have a title', function() {
 			expect(browser.getTitle()).toEqual('360 One View');
 		});
