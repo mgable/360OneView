@@ -4,7 +4,7 @@
 			<span ng-switch="selectedItem.isMaster">
 				<h4 ng-switch-when="true" class="title clear"><icon type="marketshare"></icon>&nbsp;{{selectedItem.title}}</h4>
 				<span ng-switch-default>
-					<inline-edit template="inline_rename" item="selectedItem"></inline-edit>
+					<inline-edit template="inline_rename" test="e2e" item="selectedItem"></inline-edit>
 				</span>
 			</span>
 		</div>
