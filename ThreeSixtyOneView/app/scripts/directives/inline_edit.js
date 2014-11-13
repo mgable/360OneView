@@ -13,6 +13,7 @@ angular.module('ThreeSixtyOneView.directives')
             transclude: true,
             scope: {
                 item: "=",
+                test: "="
             },
             link: function($scope, $element, $attrs) {
                 var tempItem = angular.copy($scope.item),

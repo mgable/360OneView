@@ -69,7 +69,17 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<span ng-transclude></span>\r" +
     "\n" +
-    "\t<h4 class=\"title\" ng-hide=\"isActive\">{{item.title | limitTo: 29}}{{item.title.length > 29 ? ' ...':''}}</h4>&nbsp;\r" +
+    "\r" +
+    "\n" +
+    "\t<h4 class=\"title\" ng-if=\"!test\" data-ms-id='inlineRenameField' ng-hide=\"isActive\">{{item.title | limitTo: 29}}{{item.title.length > 29 ? ' ...':''}}</h4>\r" +
+    "\n" +
+    "\r" +
+    "\n" +
+    "\t<h4 class=\"title\" ng-if=\"test\" data-ms-id='inlineRenameField' ng-hide=\"isActive\">{{item.title}}</h4>\r" +
+    "\n" +
+    "\r" +
+    "\n" +
+    "\t&nbsp;\r" +
     "\n" +
     "\t<a class=\"edit\" ng-click=\"action()\" data-ms-id='inlineRename'><icon ng-hide=\"isActive\" type=\"pencil\" cname=\"pencil clearfix\"></icon></a>\r" +
     "\n" +
@@ -90,9 +100,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/ms_dropdown.tpl.html',
     "<div class=\"ms-dropdown\" id=\"{{id}}\"> \r" +
     "\n" +
-    "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.isActive(id)}\">\r" +
+    "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.isActive(id)}\" data-ms-id=\"label_{{id}}\">\r" +
     "\n" +
-    "\t\t<span ng-click=\"select(selectedItem)\" data-ms-id=\"label_{{id}}\" class=\"status select\">{{selectedItem.label}}</span>&nbsp;<span class=\"toggle\" ng-click=\"toggle()\" data-ms-id=\"{{id}}\"><icon type=\"caret-down\"></icon></span></h6> \r" +
+    "\t\t<span ng-click=\"select(selectedItem)\" data-ms-id=\"select_{{id}}\" class=\"status select\">{{selectedItem.label}}</span>&nbsp;<span class=\"toggle\" ng-click=\"toggle()\" data-ms-id=\"toggle_{{id}}\"><icon type=\"caret-down\"></icon></span></h6> \r" +
     "\n" +
     "\t<ul class=\"ms-select-list dropdownshadow hide\"> \r" +
     "\n" +
@@ -117,28 +127,6 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t</ul> \r" +
     "\n" +
     "</div>"
-  );
-
-
-  $templateCache.put('views/directives/name.tpl.html',
-    "<!-- used for filtering order by drop down -->\r" +
-    "\n" +
-    "<!-- currently not used -->\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "<li class=\"ms-holder\">\r" +
-    "\n" +
-    "\t<input type=\"text\" class=\"ms-name-input\" ng-model=\"name\" placeholder=\"Enter Name\" ng-disabled=\"enabledOn(selectedFilter)\" ng-click=\"dontPassEvent($event)\"/>\r" +
-    "\n" +
-    "</li>\r" +
-    "\n" +
-    "<li class=\"ms-holder\">\r" +
-    "\n" +
-    "\t<button class=\"btn btn-primary ms-apply submit-button\" ng-disabled=\"!name || enabledOn(selectedFilter)\" ng-click=\"submit(name)\">apply</button>\r" +
-    "\n" +
-    "</li>\r" +
-    "\n"
   );
 
 
@@ -174,7 +162,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/sorting_options.tpl.html',
-    "<div class=\"{{label}} heading\" ng-class=\"{'active': SortAndFilterService.isActive(label)}\">\r" +
+    "<div data-ms-id=\"name-label\" class=\"{{label}} heading\" ng-class=\"{'active': SortAndFilterService.isActive(label)}\">\r" +
     "\n" +
     "\t<a ng-click=\"sort($event, label)\" ng-bind=\"display\" data-ms-id=\"{{id}}\"></a>&nbsp;\r" +
     "\n" +
