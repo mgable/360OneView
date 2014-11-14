@@ -12,7 +12,7 @@ angular.module('ThreeSixtyOneView')
                     var scrollTop      = 230;               /* Position when start to fix */
                     var scrollBottom   = 330;               /* Position when stop to fix */
                     var details = element.parents().find('.details');
-                    scope.containerWidth = details.width();
+                    scope.containerWidth = details[0].offsetWidth;
 
                     if (windowTop > scrollTop && windowTop < scrollBottom) {
                         $('.display').css({

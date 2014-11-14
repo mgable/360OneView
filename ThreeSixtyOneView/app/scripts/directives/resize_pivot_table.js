@@ -17,14 +17,14 @@ angular.module('ThreeSixtyOneView')
 
                     pivotBuilderHeight = $('#pivotBuilder').height() === pivotBuilderMinHeight ? pivotBuilderMinHeight : pivotBuilderMaxHeight;
                     pivotTableHeight = $window.innerHeight - pivotBuilderHeight - 20;
-                    scope.containerHeight = $window.innerHeight + 153 + 40;
 
                     var details = element.parents().find('.details');
-                    scope.containerWidth = details.width();
+                    scope.containerWidth = details[0].offsetWidth;
 
                     var display = element.parents().find('.display');
                     display.width(scope.containerWidth);
 
+                    scope.containerHeight = $window.innerHeight + 153 + 40;
                     var scenario = element.parents().find('.Scenario');
                     scenario.height(scope.containerHeight);
 
