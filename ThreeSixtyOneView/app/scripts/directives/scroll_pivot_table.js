@@ -11,13 +11,14 @@ angular.module('ThreeSixtyOneView')
                     var windowTop      = this.pageYOffset;  /* Position to the top */
                     var scrollTop      = 230;               /* Position when start to fix */
                     var scrollBottom   = 330;               /* Position when stop to fix */
-                    scope.displayWidth = element[0].clientWidth;
+                    var details = element.parents().find('.details');
+                    scope.containerWidth = details.width();
 
                     if (windowTop > scrollTop && windowTop < scrollBottom) {
                         $('.display').css({
                             'position': 'fixed',
                             'top': 0,
-                            'width': scope.displayWidth
+                            'width': scope.containerWidth
                         });
                     } else {
                         $('.display').css({
