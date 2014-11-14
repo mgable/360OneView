@@ -4,7 +4,7 @@
 
 	<span ng-show="isActive" class="controls"><button ng-click="submit(item)" data-ms-id="inlineEditSubmit" ng-disabled="(inlineDescription.$dirty && inlineDescription.$invalid) || inlineDescription.$pristine"><icon type="check"></icon></button>&nbsp;<button ng-click="cancel()" data-ms-id="inlineEditCancel"><icon type="times"></icon></button></span>
 
-	<div ng-class="{'description':item.description, 'noDescription': !item.description}" ng-show="!isActive">{{item.description}}</div>
+	<div ng-class="{'description':item.description, 'noDescription': !item.description}" ng-show="!isActive" data-ms-id="inlineEditField">{{item.description}}</div>
 
 	<textarea ng-show="isActive" ng-maxlength="256" ng-pattern='/^[^\\\/\?\:\*"><|]+$/' ng-model="item.description" ng-class="{'active': isActive}" class="description inputTarget"></textarea>
 </form>

@@ -388,7 +388,25 @@
 							visibility: hidden;
 						}
 					}
-		
+					
+					&.master {
+						font: {
+							weight:bold;
+							size:16px;
+						}
+						 i {
+							visibility: visible;
+							display:inline-block;
+						}
+						.favorites {
+							.favorite {
+								cursor: default;
+								&:hover {
+									color:#428bca;
+								}
+							}
+						}
+					}
 					.text-holder.favorites-holder {
 						width:25px;
 					}
@@ -440,7 +458,7 @@
 					span.name {
 						display: inline-block;
 						float: left;
-						color: #BBB; /*$subtitle;*/
+						color: $item-hover; /*$subtitle;*/
 						text-transform: capitalize;
 					}
 				}
@@ -450,6 +468,7 @@
 				thead {
 					.title.active a{
 						color: $highlight;
+						font-weight: bold;
 					}
 					th {
 						border: 0 none;
@@ -458,9 +477,9 @@
 							color: #333;
 							text-decoration: none;
 							cursor: pointer;
-							font-weight: 400;
+							font-weight: bold;
 							text-transform: uppercase;
-							font-size: 0.9em;
+							font-size: 13px;
 						}
 					}
 				}

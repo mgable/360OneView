@@ -17,5 +17,6 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     noop: "noop",
     // ERRORS
     noDataReceived: "ErrorService:noDataReceived",
-    serverError: "ErrorService:serverError"
+    serverError: "ErrorService:serverError",
+    error: "ErrorService:error"
 });

@@ -13,4 +13,8 @@ angular.module('ThreeSixtyOneView.services')
 		error("ERROR: server error " + data.status.toString(), "The request to " + data.config.url + " responsed with an error " + data.status.toString());
 	});
 
+	$rootScope.$on(EVENTS.error, function(event, data){
+		error(data.title, data.msg)
+	});
+
   }]);

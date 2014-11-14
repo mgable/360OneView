@@ -8,21 +8,54 @@ describe('Project Listing', function() {
 	    return element.getAttribute('class').then(function (classes) {
 	        return classes.split(' ').indexOf(cls) !== -1;
 	    });
-	};
+	}, menuId, nameField, column_1, createdBy, ascending, descending, ascendingButton, descendingButton, dropdown, nameButton, column_1Button, createdByButton, nameLabel, nameLabelField, dropdownButton, column_1Label, column_1LabelField;
 
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
 			browser.get(projectUrl);
+			dropdown = "//span[@data-ms-id='toggle_column_1']",
+			nameField = "//a[@data-ms-id='name-field']",
+			nameLabel = "//div[@data-ms-id='name-label']",
+			column_1 = "//span[@data-ms-id='select_column_1']",
+			column_1Label = "//h6[@data-ms-id='label_column_1']",
+			createdBy = "//li[@data-ms-id='Created Date']",
+			ascending = "//li[@data-ms-id='ascending']",
+			descending = "//li[@data-ms-id='descending']",
+			ascendingButton = element(by.xpath(ascending)),
+			descendingButton = element(by.xpath(descending)),
+			dropdownButton = element(by.xpath(dropdown)),
+			nameButton = element(by.xpath(nameField)),
+			nameLabelField = element(by.xpath(nameLabel)),
+			column_1Button = element(by.xpath(column_1)),
+			createdByButton = element(by.xpath(createdBy)),
+			column_1LabelField = element(by.xpath(column_1Label));
 		}
 	)
 
 	describe("Sort functions: ", function(){
-		var menuId = "//span[@data-ms-id='column_1']",
-			nameField = "//a[@data-ms-id='name-field']";
+		it("should swtich between ordering by name, modified last and created on", function(){
+			var data;
 
-		it("should switch between name, modifiedOn and Created Date", function(){
-			//TODO: after hector fixes https://jira.marketshare.com/browse/MAR-5809
+			nameButton.click();
+			data = element.all(by.repeater('item in getData()').column('title'));
+			expect(data.first().getText()).toBeLessThan(data.last().getText());
+			expect(hasClass(nameLabelField, 'active')).toBe(true);
+			expect(hasClass(column_1LabelField, 'active')).toBe(false);
+
+			column_1Button.click();
+			data = element.all(by.repeater('item in getData()').column('modifiedOn'));
+			expect(data.first().getText()).toBeGreaterThan(data.last().getText());
+			expect(hasClass(nameLabelField, 'active')).toBe(false);
+			expect(hasClass(column_1LabelField, 'active')).toBe(true);
+
+			dropdownButton.click()
+			createdByButton.click();
+
+			data = element.all(by.repeater('item in getData()').column('createdOn'));
+			expect(data.first().getText()).toBeGreaterThan(data.last().getText());
+			expect(hasClass(nameLabelField, 'active')).toBe(false);
+			expect(hasClass(column_1LabelField, 'active')).toBe(true);
 		});
 
 		it("should order by name", function(){
@@ -47,21 +80,14 @@ describe('Project Listing', function() {
 		});
 
 		it("should sort by last modified", function(){
-			var menuId = "//span[@data-ms-id='column_1']",
-				ascending = "//li[@data-ms-id='ascending']",
-				descending = "//li[@data-ms-id='descending']",
-				ascendingButton = element(by.xpath(ascending)),
-				descendingButton = element(by.xpath(descending)),
-				dropdown = element(by.xpath(menuId)),
-				dates = element.all(by.repeater('item in getData()').column('modifiedOn'));
-
+			var dates = element.all(by.repeater('item in getData()').column('modifiedOn'));
 			dates.first().getText().then(function(firstDate){
 				dates.last().getText().then(function(lastDate){
 					expect(firstDate).toBeGreaterThan(lastDate);
 				});
 			});
 
-			dropdown.click();
+			dropdownButton.click();
 			ascendingButton.click();
 
 			dates.first().getText().then(function(firstDate){
@@ -72,18 +98,9 @@ describe('Project Listing', function() {
 		});
 
 		it("should order by created date", function(){
-			var menuId = "//span[@data-ms-id='column_1']",
-				ascending = "//li[@data-ms-id='ascending']",
-				descending = "//li[@data-ms-id='descending']",
-				createdBy = "//li[@data-ms-id='Created Date']",
-				modifiedOn = "//li[@data-ms-id='Last modified']",
-				ascendingButton = element(by.xpath(ascending)),
-				descendingButton = element(by.xpath(descending)),
-				dropdown = element(by.xpath(menuId)),
-				createdByButton = element(by.xpath(createdBy)),
-				dates = element.all(by.repeater('item in getData()').column('createdOn'));
+			var dates = element.all(by.repeater('item in getData()').column('createdOn'));
 
-			dropdown.click();
+			dropdownButton.click();
 			createdByButton.click();
 
 			dates.first().getText().then(function(firstDate){
@@ -92,7 +109,7 @@ describe('Project Listing', function() {
 				});
 			});
 
-			dropdown.click();
+			dropdownButton.click();
 			ascendingButton.click();
 
 			dates.first().getText().then(function(firstDate){
@@ -140,11 +157,40 @@ describe('Project Listing', function() {
 			projectName.click();
 			expect(browser.getLocationAbsUrl()).toContain("/#/dashboard/");
 		});
+
+		it("should have the active item in the tray", function(){
+			var firstTitle = element.all(by.repeater('item in getData()').column('title')).first(),
+				titleInTray = element(by.xpath("//h4[@data-ms-id='inlineRenameField']"));
+
+				expect(firstTitle.getText()).toBe(titleInTray.getText());
+		});
+
+		it("should put the active item in the tray when clicked", function(){
+			element.all(by.repeater('item in getData()')).each(function(el) {
+				el.click();
+				var item = el.element(by.binding('title')),
+					itemInTray = element(by.xpath("//h4[@data-ms-id='inlineRenameField']"));
+				item.getText().then(function(title){
+					if (title.toLowerCase() !== "master project") {
+						itemInTray.getText().then(function(trayTitle){
+							expect(title).toBe(trayTitle);
+						});
+					};
+				});
+			});
+		});
 	});
 
 	describe("Favorite behaviors", function(){
 		it("should favorite the master project", function(){
-			expect(element.all(by.css(".master .favorite")).count()).toBe(1);
+			expect(element.all(by.css(".master a.favorite")).count()).toBe(1);
+		});
+
+		it("should not allow the Master project to be unfavorited", function(){
+			var masterProject = element(by.css(".master a.favorite"));
+			expect(hasClass(masterProject, 'favorite')).toBe(true);
+			masterProject.click();
+			expect(hasClass(masterProject, 'favorite')).toBe(true);
 		});
 
 		it("should toggle favorite", function(){
@@ -215,13 +261,11 @@ describe('Project Listing', function() {
 
 
 		it("should create a project", function(){
-
 			var create = "//span[@data-ms-id='createButton']",
 				input = "//input[@data-ms-id='modalInput']",
 				submit = "//button[@data-ms-id='submit']",
 				cancel = "//button[@data-ms-id='cancel']",
 				itemTitle = "//div[@data-ms-id='projectTitle']",
-
 				createButton = element(by.xpath(create)),
 				inputField,
 				submitButton,
@@ -239,16 +283,14 @@ describe('Project Listing', function() {
 			submitButton.click();
 			browser.waitForAngular();
 			firstItemTitle = element.all(by.xpath(itemTitle));
-
-
 			firstItemTitle.getText(function(text){
 				expect(text).toBe(testFileName);
 				expect(browser.getLocationAbsUrl()).toContain("/#/dashboard/");
 			});
 		});
 
-
 		it("should rename a project", function(){
+
 			var first,
 			newName = "My Renamed Project - " + Date.now(),
 			rename = "//a[@data-ms-id='inlineRename']",
@@ -274,13 +316,16 @@ describe('Project Listing', function() {
 			});
 		});
 
+
 		it("should edit a description", function(){
 			var newDescription = "This is my new description - " + Date.now(),
 				editDescription = "//a[@data-ms-id='inlineEdit']",
 				textArea = "textarea.inputTarget",
+				inlineEdit = "//div[@data-ms-id='inlineEditField']",
 				inlineEditCancel = "//button[@data-ms-id='inlineEditCancel']",
 				inlineEditSubmit = "//button[@data-ms-id='inlineEditSubmit']",
 				textAreaField = element(by.css(textArea)),
+				inlineEditField = element(by.xpath(inlineEdit)),
 				editDescriptionButton = element(by.xpath(editDescription));
 
 			browser.actions().mouseMove(editDescriptionButton).perform();
@@ -289,9 +334,30 @@ describe('Project Listing', function() {
 			textAreaField.clear();
 			textAreaField.sendKeys(newDescription);
 			var inlineEditCancelButton = element(by.xpath(inlineEditCancel));
+			var inlineEditSubmitButton = element(by.xpath(inlineEditSubmit));
+			inlineEditSubmitButton.click();
+			browser.waitForAngular();
+			browser.get(projectUrl);
 
-			inlineEditCancelButton.click();
-			//expect(something).toBe(something);
+			inlineEditField.getText().then(function(currentDescription){
+				expect(newDescription).toBe(currentDescription);
+			});
+		});
+
+		it("should prevent the master project from being edited", function(){
+			element(by.model('SortAndFilterService.searchText')).sendKeys('master project');
+			var masterProject = element(by.repeater('item in getData()').row(0));
+			masterProject.click();
+			expect(element(by.xpath("//h4[@data-ms-id='inlineRenameField']")).isPresent()).toBe(false);
+		});
+
+		it("should have one scenario for the master project", function(){
+			element(by.model('SortAndFilterService.searchText')).sendKeys('master project');
+			var masterProject = element(by.repeater('item in getData()').row(0));
+			masterProject.click();
+			var scenarios = element.all(by.repeater("scenario in selectedItem.scenarios"));
+
+			expect(scenarios.count()).toBe(1);
 		});
 
 	});
