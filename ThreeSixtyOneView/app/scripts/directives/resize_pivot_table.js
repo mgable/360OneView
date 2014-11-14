@@ -12,15 +12,22 @@ angular.module('ThreeSixtyOneView')
                 var pivotBuilderMaxHeight = 330;
                 var pivotBuilderHeight = pivotBuilderMaxHeight;
                 var pivotTableHeight;
-                var containerHeight;
-                var containerWidth;
 
                 function adjustHeightOnResize() {
 
                     pivotBuilderHeight = $('#pivotBuilder').height() === pivotBuilderMinHeight ? pivotBuilderMinHeight : pivotBuilderMaxHeight;
-                    pivotTableHeight   = $window.innerHeight - pivotBuilderHeight - 20;
-                    containerHeight    = $window.innerHeight + 153 + 40;
-                    $('.Scenario').height(containerHeight);
+                    pivotTableHeight = $window.innerHeight - pivotBuilderHeight - 20;
+                    scope.containerHeight = $window.innerHeight + 153 + 40;
+
+                    var details = element.parents().find('.details');
+                    scope.containerWidth = details.width();
+
+                    var display = element.parents().find('.display');
+                    display.width(scope.containerWidth);
+
+                    var scenario = element.parents().find('.Scenario');
+                    scenario.height(scope.containerHeight);
+
                     $('#spreadjs').height(pivotTableHeight);
                     $('#spreadjs').wijspread('refresh');
 
