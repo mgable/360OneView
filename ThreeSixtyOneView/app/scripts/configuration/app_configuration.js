@@ -22,7 +22,7 @@ angular.module('ThreeSixtyOneView.config')
                 "ScenarioModel": {
                     // want: get
                     "responseTranslator": {"referenceScenario": "referenceScenario", "title": "name", "id": "id", "description": "description", "type":{"selector":"prediction.type"}, "createdBy":{"selector":"auditInfo.createdBy.name"}, "createdOn":{"selector":"auditInfo.createdOn"}, "modifiedBy":{"selector":"auditInfo.lastUpdatedBy.name"}, "modifiedOn":{"selector":"auditInfo.lastUpdatedOn"}},
-                    "requestTranslator": {"name":"title", "referenceScenario": "referenceScenario", "description": "description", "prediction.type": "type"},
+                    "requestTranslator": {"id": "id", "name":"title", "referenceScenario": "referenceScenario", "description": "description", "prediction.type": "type"},
                     "newScenario": {"title" : "", "description": "","referenceScenario": {"id": 2, "name": "PRE LOADED SIMULATION NEW"}, "type": "Simulation"}
                 },
                 "CubeModel" : {
@@ -52,6 +52,7 @@ angular.module('ThreeSixtyOneView.config')
                 "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
                 "displayActionsCreate": "gotoScenarioCreate",
                 "trayActions": {
+                    "rename": "renameScenario",
                     "copy": "trayCopy",
                     "share": "noop",
                     "archive": "noop",
@@ -89,6 +90,7 @@ angular.module('ThreeSixtyOneView.config')
                 "nameClickAction": 'gotoDashboard',
                 "displayActionsCreate": "openCreateProject",
                  "trayActions": {
+                    "rename": "renameProject",
                     "copy": "noop",
                     "share": "noop",
                     "archive": "noop",

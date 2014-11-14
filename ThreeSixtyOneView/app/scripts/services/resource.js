@@ -65,16 +65,20 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", ["$http", "$q",
             //Alias for now
             this.create = this.post;
 
-            this.put = function(params, _config_) {
-                var deferred = this._q.defer(), config = _config_ || {};
+            this.put = function(data, _config_, params, additionalPath) {
+                var deferred = this._q.defer(), config = _config_ || {}, path;
 
-                if (typeof params === 'undefined') {
-                    deferred.reject('I need an params with an id');
+                if (typeof data === 'undefined') {
+                    deferred.reject('I need an data with an id');
                     return deferred.promise;
                 }
 
+                console.info(data, _config_, params, additionalPath);
+                path = params ? getPath.call(this, params) : this._path;
+                path = additionalPath ? path + "/" +  additionalPath : path;
+
                 this._http
-                    .put(this._path, params, config)
+                    .put(path, data, config)
                     .success(deferred.resolve)
                     .error(function(data, status, headers, config){
                         $rootScope.$broadcast(EVENTS.serverError, {data:data, status:status, headers:headers, config: config});

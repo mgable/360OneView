@@ -86,6 +86,10 @@ angular.module('ThreeSixtyOneView')
             });
         });
 
+        $scope.$on(EVENTS.renameScenario, function(evt, data){
+            ScenarioService.rename(data, $scope.getProject().id);
+        });
+
         $scope.init($state.current.name, Scenarios, $stateParams);
         localInit();
     }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "$stateParams", "$state", "CONFIG", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", "DialogService", "EVENTS", function($scope, $controller, $stateParams, $state, CONFIG, FavoritesService, ProjectsService, ScenarioService, Projects, ActiveSelection, SortAndFilterService, GotoService, DialogService, EVENTS) {

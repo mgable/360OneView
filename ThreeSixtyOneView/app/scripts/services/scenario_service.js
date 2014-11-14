@@ -4,7 +4,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-	.service('ScenarioService', ["$q", "ScenarioModel", "ProjectsService", "CONFIG", "Model", function ($q, ScenarioModel, ProjectsService, CONFIG, Model) {
+	.service('ScenarioService', ["$q", "$rootScope", "ScenarioModel", "ProjectsService", "CONFIG", "EVENTS", "Model", function ($q, $rootScope, ScenarioModel, ProjectsService, CONFIG, EVENTS, Model) {
 		var MyScenarioModel, myScenarios, self = this;
 
 		MyScenarioModel = new Model();
@@ -21,9 +21,16 @@ angular.module('ThreeSixtyOneView.services')
 				if(scenarioId) {
 					return _.findWhere(response, {id: scenarioId});
 				} else {
-					//console.info(response);
 					return response;
 				}
+			});
+		};
+
+		this.rename = function(scenario, projectId){
+			return this.resource.put(scenario,this.config, {id:projectId}, "name").then(function(response){
+				console.info("rename scenario");
+				console.info(response);
+				return response;
 			});
 		};
 
@@ -50,4 +57,8 @@ angular.module('ThreeSixtyOneView.services')
 				return results;
 			});
 		};
+
+		// $rootScope.$on(EVENTS.renameScenario, function($event, scenario, projectId){
+		// 	self.rename(scenario, projectId);
+		// });
 	}]);
