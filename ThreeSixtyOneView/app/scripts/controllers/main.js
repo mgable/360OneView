@@ -207,7 +207,7 @@ angular.module('ThreeSixtyOneView')
         $scope.setFilter = function(type, item, forceFilter) {
             SortAndFilterService.setFilter(type, item, forceFilter);
         };
-    }]).controller("ScenarioCtrl", ["$scope",  "$stateParams", "GotoService", "ProjectsService", "ScenarioService", "Project", "Scenario", 'ptData', function($scope, $stateParams, GotoService, ProjectsService, ScenarioService, Project, Scenario, ptData) {
+    }]).controller("ScenarioCtrl", ["$scope",  "$stateParams", "GotoService", "ProjectsService", "ScenarioService", "Project", "Scenario", "ScenarioElements", 'ptData', function($scope, $stateParams, GotoService, ProjectsService, ScenarioService, Project, Scenario, ScenarioElements, ptData) {
 
         $scope.GotoService = GotoService;
         $scope.project = Project;
@@ -218,7 +218,7 @@ angular.module('ThreeSixtyOneView')
         $scope.spread = {sheet: {}};
 
         //TODO: temp data
-        $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
+        $scope.types =  ScenarioElements;
         $scope.scenarioElementType = $scope.types[0];
     }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DialogService", "GotoService", "Project", "Scenarios", "EVENTS", "CONFIG", function($scope, $stateParams, ScenarioService, DialogService, GotoService, Project, Scenarios, EVENTS, CONFIG){
             var getBaseScenario = function(){

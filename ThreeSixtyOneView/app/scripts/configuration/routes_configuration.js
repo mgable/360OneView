@@ -41,7 +41,9 @@ angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvide
       resolve: {
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
         'Scenario': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId, $stateParams.scenarioId);},
-        'Views': function(PivotViewService){return PivotViewService.getViewsAndDefault(CONFIG.view.Scenario.cubeId);}
+        'Views': function(PivotViewService){return PivotViewService.getViewsAndDefault(CONFIG.view.Scenario.cubeId);},
+        'ScenarioElements': function(ScenarioElementService, $stateParams){return ScenarioElementService.get($stateParams.scenarioId)}
+        
       },
       breadcrumb: "<a goto='projects'>All Projects</a> &gt; <a goto='dashboard' params='{{project.id}}'>{{project.title}}</a> &gt; {{scenario.title}}"
     })

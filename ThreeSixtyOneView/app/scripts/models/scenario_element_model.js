@@ -1,16 +1,23 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView')
-  .factory('ScenarioElementModel', function () {
-    // Service logic
-    // ...
+angular.module('ThreeSixtyOneView.services')
+  .factory('ScenarioElementModel', ["$location", "Resource", "CONFIG", "SERVER", function ($location, Resource, CONFIG, SERVER) {
+     var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.scenarioElement),
+    responseTranslator = CONFIG.application.models.ScenarioElement.responseTranslator,
+    requestTranslator = CONFIG.application.models.ScenarioElement.requestTranslator,
+    config = {};
 
-    var meaningOfLife = 42;
+    // surface data for unit tests
+    this.resource = resource;
+    this.config = config;
 
-    // Public API here
     return {
-      someMethod: function () {
-        return meaningOfLife;
-      }
+        responseTranslator: responseTranslator,
+        requestTranslator: requestTranslator,
+        resource: resource,
+        get: function(uid) {
+          this.unwrap(this.resource.get({"id": uid}, this.config));
+          return this.$futureData;
+        }
     };
-  });
+  }]);

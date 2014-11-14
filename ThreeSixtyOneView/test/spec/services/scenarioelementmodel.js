@@ -11,7 +11,7 @@ describe('Service: scenarioElementModel', function () {
     scenarioElementModel = _ScenarioElementModel_;
   }));
 
-  it('should do something', function () {
+  xit('should do something', function () {
     expect(!!scenarioElementModel).toBe(true);
   });
 

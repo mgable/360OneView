@@ -33,6 +33,10 @@ angular.module('ThreeSixtyOneView.config')
                 "FavoritesModel" : {
                     "responseTranslator": "",
                     "requestTranslator": ""
+                },
+                "ScenarioElement": {
+                    "responseTranslator": {"id":"id", "title": {"selector": "cubeMeta.name"}},
+                    "requestTranslator": {"id":"id", "name": "title"}
                 }
             },
             "inputRestrictions": {
