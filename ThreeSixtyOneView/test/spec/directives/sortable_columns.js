@@ -28,7 +28,7 @@ describe('Directives:', function() {
             scope.displayBy = 'Last Modified';
             element = $compile(element)(scope);
             scope.$digest();
-            expect(element.find("span").text()).toBe(' less than a minute ago');
+            expect(element.find("span:eq(0)").text().trim()).toBe('less than a minute ago');
         }));
 
         it("should display Creator correctly", inject(function($compile){
