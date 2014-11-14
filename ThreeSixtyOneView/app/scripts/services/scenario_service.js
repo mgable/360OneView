@@ -28,8 +28,6 @@ angular.module('ThreeSixtyOneView.services')
 
 		this.rename = function(scenario, projectId){
 			return this.resource.put(scenario,this.config, {id:projectId}, "name").then(function(response){
-				console.info("rename scenario");
-				console.info(response);
 				return response;
 			});
 		};

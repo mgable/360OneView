@@ -104,7 +104,7 @@ describe('Controllers: ', function() {
 
         it("should pass all data to SortAndFilterService", function(){
             expect(SortAndFilterService.init).toHaveBeenCalledWith(
-                {data:data, orderBy:CONFIG.view[$state.current.name].orderBy, filter:{label : 'All', filterType : 'activeFilter', filter : {  } }, reverse:CONFIG.view[$state.current.name].reverse}
+                {data:data, orderBy:CONFIG.view[$state.current.name].orderBy, filter:{label : 'All Projects', filterType : 'activeFilter', filter : {  } }, reverse:CONFIG.view[$state.current.name].reverse}
                 );
         });
 
