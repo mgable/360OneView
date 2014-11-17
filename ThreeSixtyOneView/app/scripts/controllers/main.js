@@ -45,7 +45,11 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.$on(EVENTS.trayCopy, function(evt, action, data){
-            DialogService[action](data);
+            if (data){
+                DialogService[action](data);
+            } else {
+                DialogService.notify("ERROR: no scenarios", "There are no scenarios to copy.")
+            }
         });
 
         $scope.$on(EVENTS.changeActiveItem, function(event, response) {
