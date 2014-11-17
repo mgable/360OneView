@@ -34,7 +34,7 @@ describe('Controllers: ', function() {
         });
     });
 
-    describe("ProjectListing CTRL", function(){
+    describe("Project Listing CTRL", function(){
         beforeEach(inject(function(_$rootScope_, _$state_, $controller,  _CONFIG_, _FavoritesService_, _SortAndFilterService_, _ActiveSelection_ ) {
             $rootScope = _$rootScope_;
             FavoritesService = _FavoritesService_;
@@ -119,12 +119,14 @@ describe('Controllers: ', function() {
             var data = "123";
             scope.toggleFavorite(event, data);
             expect(event.stopPropagation).toHaveBeenCalled();
-            expect(FavoritesService.toggleFavorite).toHaveBeenCalledWith(data);
+            expect(FavoritesService.toggleFavorite).toHaveBeenCalledWith(data, "project");
             expect(SortAndFilterService.filter).toHaveBeenCalled();
         });
 
         xit("should determine if an item is favorited", function(){
+            // can not do this anymore
             FavoritesService.setFavorites(["1", "3", "5"]);
+            
             expect(scope.isFavorite("1")).toBe(true);
             expect(scope.isFavorite("2")).toBe(false);
         });
@@ -135,12 +137,6 @@ describe('Controllers: ', function() {
             expect(scope.getProject()).toBe(data);
         });
 
-        it("should select the first item", function(){
-
-            //console.info(scope.selectItem)
-            //$scope.selectItem(SortAndFilterService.getData()[0]);
-            //expect(scope.selectItem).toHaveBeenCalledWith("foo");
-        });
     });
 
     xdescribe("InfoTray CTRL", function(){
@@ -207,7 +203,7 @@ describe('Controllers: ', function() {
         });
     });
 
-    describe("Projectdashboard CTRL", function(){
+    describe("Project Dashboard CTRL", function(){
         beforeEach(inject(function(_$rootScope_, _$state_, $controller,  _CONFIG_, _EVENTS_, _SortAndFilterService_ ) {
             $rootScope = _$rootScope_;
             scope = $rootScope.$new();
@@ -242,7 +238,6 @@ describe('Controllers: ', function() {
 
         it("should bootstrap all data", function(){
             expect(scope.CONFIG).toBeDefined();
-            expect(scope.CONFIG.hasFavorites).not.toBeDefined();
             expect(scope.CONFIG.projectId).toBe("foo");
             expect(scope.CONFIG.filterMenu).toBe(CONFIG.view.Dashboard.filterMenu);
             expect(scope.CONFIG.displayActionsCreate).toBe(CONFIG.view.Dashboard.displayActionsCreate);

@@ -22,8 +22,11 @@ angular.module('ThreeSixtyOneView.services')
             },{size:'md'});
         };
 
-        this.noop = function(header, msg){
+        this.notify = function(header, msg){
             dialogs.notify(header,msg);
         };
+
+        // useful aliases
+        this.noop = this.notify;
         
     }]);

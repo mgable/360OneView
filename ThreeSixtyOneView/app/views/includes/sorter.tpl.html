@@ -13,8 +13,7 @@
 			<tr ng-repeat="item in getData()" ng-class="{active: isActiveItem(item)}" class="{{CONFIG.status && item.status.className || ''}}" ng-click="selectItem(item)"> 
 				<td ng-class="{master: item.isMaster}">
 					<div class="text-holder favorites-holder">
-						<span class="favorites" ng-if="CONFIG.hasFavorites"><a ng-class="{favorite:isFavorite(item.id)}" ng-click="!item.isMaster && toggleFavorite($event, item.id)">&nbsp;</a></span>
-						<span ng-if="!CONFIG.hasFavorites">&nbsp;</span>
+						<span class="favorites"><a ng-class="{favorite:isFavorite(item.id)}" ng-click="!item.isMaster && toggleFavorite($event, item.id)">&nbsp;</a></span>
 					</div>
 					<div class="text-holder">
                     	<span class="title">

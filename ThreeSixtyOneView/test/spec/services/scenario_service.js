@@ -28,7 +28,7 @@ describe('Service: ScenarioService', function () {
     deferred.resolve(data);
     var spy = spyOn(ScenarioService.myScenarios, "get").and.returnValue(deferred.promise);
     ScenarioService.get("123", "345");
-    expect(spy).toHaveBeenCalledWith("123");
+    expect(spy).toHaveBeenCalledWith({id: "123"});
   });
 
   it('should get all scenarios', function(){

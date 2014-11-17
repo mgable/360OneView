@@ -107,12 +107,12 @@ describe('Services:', function() {
         });
 
         it("should be able to filter favorites", function() {
-            FavoritesService.addFavorite(2);
+            FavoritesService.addFavorite("2");
             SortAndFilterService.setFilter("filterPipeline", {
                 filter: "isFavorite"
             }, true);
             var filtered = _.filter(config.data, function(item) {
-                return item.id === 2;
+                return item.id == "2";
             });
             expect(SortAndFilterService.getData()).toEqual(filtered);
         });

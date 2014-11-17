@@ -15,8 +15,8 @@ angular.module('ThreeSixtyOneView.services')
         responseTranslator: responseTranslator,
         requestTranslator: requestTranslator,
         resource: resource,
-        get: function(uid) {
-          this.unwrap(this.resource.get({"id": uid}, this.config));
+        get: function(params) {
+          this.unwrap(this.resource.get(params, this.config));
           return this.$futureData;
         }
     };
