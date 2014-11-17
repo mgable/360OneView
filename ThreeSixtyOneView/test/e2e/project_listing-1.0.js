@@ -3,7 +3,7 @@
 
 var projectUrl = '/#/projects?e2e=true';
 
-describe('Project Listing', function() {
+xdescribe('Project Listing', function() {
 	var hasClass = function (element, cls) {
 	    return element.getAttribute('class').then(function (classes) {
 	        return classes.split(' ').indexOf(cls) !== -1;
@@ -252,7 +252,7 @@ describe('Project Listing', function() {
 	});
 
 	describe("Page actions: ", function(){
-		xit ("should toggle the filter menu dropdown", function(){
+		it ("should toggle the filter menu dropdown", function(){
 			var elem = element(by.css('.filterDropdown'));
 			expect(hasClass(elem, 'hide')).toBe(true);
 			element(by.css(".app .ProjectManager .display-actions h4.title")).click();
@@ -260,7 +260,7 @@ describe('Project Listing', function() {
 		});
 
 
-		xit("should create a project", function(){
+		it("should create a project", function(){
 			var create = "//span[@data-ms-id='createButton']",
 				input = "//input[@data-ms-id='modalInput']",
 				submit = "//button[@data-ms-id='submit']",
@@ -289,7 +289,7 @@ describe('Project Listing', function() {
 			});
 		});
 
-		xit("should rename a project", function(){
+		it("should rename a project", function(){
 
 			var first,
 			newName = "My Renamed Project - " + Date.now(),
@@ -344,14 +344,14 @@ describe('Project Listing', function() {
 			});
 		});
 
-		xit("should prevent the master project from being edited", function(){
+		it("should prevent the master project from being edited", function(){
 			element(by.model('SortAndFilterService.searchText')).sendKeys('master project');
 			var masterProject = element(by.repeater('item in getData()').row(0));
 			masterProject.click();
 			expect(element(by.xpath("//h4[@data-ms-id='inlineRenameField']")).isPresent()).toBe(false);
 		});
 
-		xit("should have one scenario for the master project", function(){
+		it("should have one scenario for the master project", function(){
 			element(by.model('SortAndFilterService.searchText')).sendKeys('master project');
 			var masterProject = element(by.repeater('item in getData()').row(0));
 			masterProject.click();
