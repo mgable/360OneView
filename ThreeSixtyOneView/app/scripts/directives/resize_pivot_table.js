@@ -28,7 +28,7 @@ angular.module('ThreeSixtyOneView')
                     $('#spreadjs').wijspread('refresh');
 
                     scope.row = 50 - (parseInt(pivotTableHeight / 40) - 2);
-                    scope.containerHeight = 150 + $window.innerHeight + (scope.row) * 10;
+                    scope.containerHeight = 150 + $window.innerHeight + (scope.row) * 100 + 100;
                     $('.Scenario').height(scope.containerHeight);
 
                 }
@@ -38,7 +38,7 @@ angular.module('ThreeSixtyOneView')
                     pivotBuilderHeight = data === "open" ? pivotBuilderMaxHeight : pivotBuilderMinHeight;
                     pivotTableHeight = $window.innerHeight - pivotBuilderHeight - 20;
                     scope.row = 50 - (parseInt(pivotTableHeight / 40) - 2);
-                    scope.containerHeight = 150 + $window.innerHeight + (scope.row) * 10;
+                    scope.containerHeight = 150 + $window.innerHeight + (scope.row) * 100 + 100;
                     $('.Scenario').height(scope.containerHeight);
                     $('#spreadjs').height(pivotTableHeight);
                     $('#spreadjs').wijspread('refresh');

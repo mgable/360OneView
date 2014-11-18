@@ -13,12 +13,12 @@ angular.module('ThreeSixtyOneView')
                     var spread = $("#spreadjs").wijspread("spread");
                     var windowTop      = this.pageYOffset;  /* Position to the top */
                     var scrollTop      = 250;               /* Position when start to fix */
-                    var scrollBottom = scrollTop + 10 * (scope.row+1);
+                    var scrollBottom = scrollTop + 100 * (scope.row+1);
                     var details = element.parents().find('.details');
                     scope.containerWidth = details[0].offsetWidth;
 
                     if (windowTop >= scrollTop && windowTop <= scrollBottom) {
-                        var rowTop = parseInt((windowTop-scrollTop)/10);
+                        var rowTop = Math.floor((windowTop-scrollTop)/100);
                         spread.showRow(rowTop, $.wijmo.wijspread.VerticalPosition.top);
                         $('.display').css({
                             'position': 'fixed',
@@ -26,17 +26,18 @@ angular.module('ThreeSixtyOneView')
                             'width': scope.containerWidth
                         });
                     } else if (windowTop < scrollTop) {
-                        scope.top = $('.display').offset().top;
                         $('.display').css({
                             'position': 'relative',
                             'top': 'auto',
+                            'bottom': 'auto',
                             'width': '100%'
                         });
-                    } else {
+                    } else if (windowTop > scrollBottom) {
                         $('.display').css({
-                            'position': 'relative',
-                            'top': scope.top + 'px',
-                            'width': '100%'
+                            'width': scope.containerWidth,
+                            'position': 'absolute',
+                            'bottom': '200px',
+                            'top': 'auto'
                         });
                     }
 

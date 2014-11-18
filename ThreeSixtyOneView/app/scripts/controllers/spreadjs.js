@@ -34,8 +34,8 @@ angular.module("ThreeSixtyOneView")
                 }
 
                 // set selection background and border color
-                sheet.selectionBackColor("rgba(204, 204, 204, 0.2)");
-                sheet.selectionBorderColor("#e6e6e6");
+                sheet.selectionBackColor("rgba(229, 229, 229, 0.3)");
+                sheet.selectionBorderColor("#CCCCCC");
 
                 // set forzenline position and color
                 sheet.setFrozenRowCount($scope.rowHeaderCnt);
@@ -51,9 +51,9 @@ angular.module("ThreeSixtyOneView")
                 // add default style
                 var ns = $.wijmo.wijspread;
                 var style = sheet.getDefaultStyle();
-                style.borderLeft = new ns.LineBorder("#ffffff", $.wijmo.wijspread.LineStyle.dotted);
+                style.borderLeft = new ns.LineBorder("#ffffff", $.wijmo.wijspread.LineStyle.empty);
                 style.borderTop = new ns.LineBorder("#e5e5e5", $.wijmo.wijspread.LineStyle.thin);
-                style.borderRight = new ns.LineBorder("#ffffff", $.wijmo.wijspread.LineStyle.dotted);
+                style.borderRight = new ns.LineBorder("#ffffff", $.wijmo.wijspread.LineStyle.empty);
                 style.borderBottom = new ns.LineBorder("#e5e5e5", $.wijmo.wijspread.LineStyle.thin);
 
                 // set col style
@@ -64,9 +64,9 @@ angular.module("ThreeSixtyOneView")
                         column.formatter("0").font("14px proxima-nova").foreColor("#000000");
                         column.wordWrap(true);
                         // column.borderRight(new $.wijmo.wijspread.LineBorder("#CCCCCC", $.wijmo.wijspread.LineStyle.thin));
-                        if (j === $scope.colHeaderCnt - 1) {
-                            column.borderRight(new $.wijmo.wijspread.LineBorder("#CCCCCC", $.wijmo.wijspread.LineStyle.thin));
-                        }
+                        // if (j === $scope.colHeaderCnt - 1) {
+                        //     column.borderRight(new $.wijmo.wijspread.LineBorder("#CCCCCC", $.wijmo.wijspread.LineStyle.thin));
+                        // }
                     } else {
                         column.formatter("$#,###");
                     }
@@ -78,7 +78,7 @@ angular.module("ThreeSixtyOneView")
                         sheet.setRowHeight(i, 40, $.wijmo.wijspread.SheetArea.viewport);
                     if (i < $scope.rowHeaderCnt) {
                         if (i === $scope.rowHeaderCnt - 1) {
-                            row.borderBottom(new $.wijmo.wijspread.LineBorder("#CCCCCC", $.wijmo.wijspread.LineStyle.thin));
+                            row.borderBottom(new $.wijmo.wijspread.LineBorder("#CCCCCC", $.wijmo.wijspread.LineStyle.thick));
                         }
                         row.formatter("0").font("11px proxima-nova").foreColor("#888888");
                         row.hAlign($.wijmo.wijspread.HorizontalAlign.center);
@@ -198,6 +198,7 @@ angular.module("ThreeSixtyOneView")
                 sheet = spread.getActiveSheet();
 
                 spread.grayAreaBackColor("Transparent");
+                spread.scrollbarMaxAlign(true);
                 sheet.setColumnHeaderVisible(false);
                 sheet.setRowHeaderVisible(false);
                 sheet.setColumnHeaderVisible(false);
