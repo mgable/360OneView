@@ -1,6 +1,302 @@
 @import "variables";
 
+/* Added for development */
+.app {
+	overflow-y: auto;
+}
+
+/*** KEYFRAMES ***/
+/******************/
+
+@-webkit-keyframes fadeIn {
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+@keyframes fadeIn {
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+
+
+@-webkit-keyframes fadeOut {
+	0% {opacity: 1;}
+	100% {opacity: 0;}
+}
+@keyframes fadeOut {
+	0% {opacity: 1;}
+	100% {opacity: 0;}
+}
+
+
+@-webkit-keyframes slideDown {
+	0% { 
+		max-height: 0; 
+		opacity: 0; }
+	100% { 
+		max-height: 100px; 
+		opacity: 1; }
+}
+@keyframes slideDown {
+	0% {
+		max-height: 0; 
+		opacity: 0; }
+	100% {
+		max-height: 100px; 
+		opacity: 1; }
+}
+
+@-webkit-keyframes buttonSlideDown {
+	0% {
+		max-height: 0; 
+		opacity: 0; }
+	20% {
+		max-height: 100px;
+		opacity: 0; }
+	100% {
+		max-height: 100px; 
+		opacity: 1; }
+}
+@keyframes buttonSlideDown {
+	0% {
+		max-height: 0; 
+		opacity: 0; }
+	20% {
+		max-height: 100px;
+		opacity: 0; }
+	100% {
+		max-height: 100px; 
+		opacity: 1; }
+}
+
+
+@-webkit-keyframes slideUp {
+	0% {
+		max-height: 100px; 
+		opacity: 1; }
+	100% {
+		max-height: 0;
+		opacity: 0; }
+}
+@keyframes slideUp {
+	0% {
+		max-height: 100px;
+		opacity: 1; }
+	100% {
+		max-height: 0;
+		opacity: 0; }
+}
+
+
+@-webkit-keyframes hideInputs {
+	0% {
+		opacity: 1;
+		max-height: 450px;
+		overflow: hidden; }
+	100% {
+		opacity: 0;
+		max-height: 0px;
+		overflow: hidden; }
+}
+@keyframes hideInputs {
+	0% {
+		opacity: 1;
+		max-height: 450px; }
+	100% {
+		opacity: 0;
+		max-height: 0px; }
+}
+
+
+@-webkit-keyframes showInputs {
+	0% {
+		opacity: 0;
+		max-height: 0px; }
+	100% {
+		opacity: 1;
+		max-height: 450px; }
+}
+@keyframes showInputs {
+	0% {
+		opacity: 0;
+		max-height: 0px; }
+	100% {
+		opacity: 1;
+		max-height: 450px; }
+}
+
+
+@-webkit-keyframes showScenarios {
+	0% {
+		opacity: 0;
+		max-height: 0px; }
+	50% {
+		opacity: 0.7; }
+	100% {
+		opacity: 1.0;
+		max-height: 1500px; }
+}
+@keyframes showScenarios {
+	0% {
+		opacity: 0;
+		max-height: 0px; }
+	50% {
+		opacity: 0.7; }
+	100% {
+		opacity: 1.0;
+		max-height: 1500px; }
+}
+
+
+@-webkit-keyframes hideScenarios {
+	0% {
+		opacity: 1.0;
+		width: 100%;
+		max-height: 1000px;	}
+	100% {
+		opacity: 0;
+		width: 100%;
+		max-height: 0px; }
+}
+@keyframes hideScenarios {
+	0% {
+		opacity: 1.0;
+		width: 100%;
+		max-height: 1000px;	}
+	100% {
+		opacity: 0;
+		width: 100%;
+		max-height: 0px; }
+}
+
+
+/*** NG-ANIMATION-STYLES ***/
+/***************************/
+
+/*** Hiding and showing the full popup ***/
+/*	.fullPopUp.ng-hide-add {
+	-webkit-animation-name: fadeOut;
+	-webkit-animation-duration: 0.7s;
+	-webkkit-animation-timing-function: linear;
+	animation-name: fadeOut;
+	animation-duration: 0.7s;
+	animation-timing-function: linear;
+}
+.fullPopUp.ng-hide-remove {
+	-webkit-animation-name: fadeIn;
+	-webkit-animation-duration: 0.7s;
+	-webkkit-animation-timing-function: linear;
+	animation-name: fadeIn;
+	animation-duration: 0.7s;
+	animation-timing-function: linear;
+}*/
+
+/*** Hiding and showing the SUBMIT BUTTONS ***/
+.buttons.ng-hide-add {
+	display: block !important;  /* Required for animation */
+
+	-webkit-animation-name: fadeOut;
+	-webkit-animation-duration: 2s;
+	-webkit-animation-timing-function: linear;
+	animation-name: fadeOut;
+	animation-duration: 2s;
+	animation-timing-function: linear;
+}
+.buttons.ng-hide-remove {
+	overflow: hidden;
+	max-height: 0px;
+	opacity: 0;
+
+	-webkit-animation-name: buttonSlideDown;
+	-webkit-animation-duration: 1.0s;
+	-webkit-animation-delay: 2s;
+	animation-name: buttonSlideDown;
+	animation-duration: 1.0s;
+	animation-delay: 2s;
+}
+/*** INITIAL INPUT FIELDS sliding up and down ***/
+/* Delay on remove should be length of .radios add (below) */
+.inputGroup.ng-hide-add {
+	display: block !important;  /* Required for animation */
+
+	-webkit-animation-name: hideInputs;
+	-webkit-animation-duration: 2.0s;
+	-webkit-animation-timing-function: ease;
+	animation-name: hideInputs;
+	animation-duration: 2.0s;
+	animation-timing-function: ease;
+}
+.inputGroup.ng-hide-remove {
+	opacity: 0;
+	max-height: 0px;
+
+	-webkit-animation-name: showInputs;
+	-webkit-animation-duration: 2s;
+	-webkit-animation-delay: 1.5s;
+	-webkit-animation-timing-function: ease;
+	animation-name: showInputs;
+	animation-duration: 2s;
+	animation-delay: 1.5s;
+	animation-timing-function: ease;
+}
+/*** Showing the BASE SCENARIO OPTIONS ***/
+/* Delay on remove should be the length of the inputGroup hide-add (above) */
+.radios.ng-hide-remove {
+	opacity: 0;
+	max-height: 0px;
+	overflow: hidden;
+
+	-webkit-animation-name: showScenarios;
+	-webkit-animation-duration: 2s;
+	-webkit-animation-delay: 2s;
+	-webkit-animation-timing-function: ease;
+	animation-name: showScenarios;
+	animation-duration: 2s;
+	animation-delay: 2s;
+	animation-timing-function: ease;
+}
+.radios.ng-hide-add {
+	overflow: hidden;
+	display: block !important; /* Required for animation */
+
+	-webkit-animation-name: hideScenarios;
+	-webkit-animation-duration: 1.5s;
+	-webkit-animation-timing-function: ease;
+	animation-name: hideScenarios;
+	animation-duration: 1.5s;
+	animation-timing-function: ease;
+}
+/*** Base Scenario filter animations ***/
+.scenarioRepeatGroup.ng-enter {
+	opacity: 0;
+	max-height: 0;
+
+	-webkit-animation: slideDown 0.5s;
+	animation: slideDown 0.5s;
+}
+.scenarioRepeatGroup.ng-move {
+	overflow: hidden;
+	-webkit-animation: slideUp 0.5s;
+	animation: slideUp 0.5s;
+}
+.scenarioRepeatGroup.ng-leave {
+	overflow: hidden;
+	-webkit-animation: slideUp 0.5s;
+	animation: slideUp 0.5s;
+}
+
+
+/*** STYLES ***/
+/**************/
+
 .scenario-create {
+<<<<<<< HEAD
+	width: 100%;
+	min-height: 100%;
+	/*position: absolute;  // Re-enable this when a modal
+	top: 0;
+	left: 0;*/
+	overflow-y: auto;
+=======
 	margin: 25px;
 	padding:10px 25px;
 	background-color: $white;
@@ -8,24 +304,41 @@
 		color: $darkgray;
 		font-weight:900;
 	}
+>>>>>>> 1a6959e09b94717efd843743dec7b1668fb514d2
 
-	h4 {
-		color: $darkgray;
-		font-weight:900;
-		margin-bottom:0;
-	}
+	padding: 30px;
+	background-color: rgba(255,255,255, 0.95);
 	
 	.details {
-    	margin: 0 20px 20px;
-    	padding-bottom: 20px;
+		display: block;
+		width: 500px;
+    	margin: 0 auto 50px;
+
     	a {
     		cursor: pointer;
+
     		&:hover {
     			text-decoration: none;
     		}
     	}
 	}
 
+	h3 {
+		display: block;
+		width: 500px;
+		margin: 0 auto 20px;
+
+		text-align: left;
+		font-size: 32px;
+		font-weight: 700;
+		color: $darkgray;
+	}
+
+	h4 {
+		color: $darkgray;
+		font-weight:900;
+		margin-bottom:0;
+	}/*
 	.footer {
     	margin: 40px 20px 20px;
     	padding-bottom: 20px;
@@ -35,66 +348,80 @@
     	a:hover {
     		text-decoration:none
     	}
-	}
+	}*/
 
-	.scenario-form {
-    	margin: 0 0 44px 0;
-	}
-
-	label {
+	/*label {
 		display: inline-flex;
+
 		&.description-holder {
 			margin: 0 0 0 50px;
 		}
+	} */
+	/*p {
+		color: $gray;
+	}*/
+	label {
+		display: block;
+		font-size: 12px;
+		margin-bottom: 8px;
 	}
 
-	input {
-		margin-left: 20px;
-		width: 534px;
-		background: $white;
-		border: 1px solid black;
-		padding-left: 30px;
+	/*input {
+
 		@include placeholder {
 		    color: $black;
 		    font-weight:400;
 		    font-size: 18px;
 		}
-	}
+	}*/
+	input,
+	select {
+		width: 100%;
+		margin-bottom: 15px;
+		padding: 8px 12px;
+		font-size: 16px;
+		border: 1px solid #DDD;
+		border-radius: 0;
+		background-color: #FFF;
 
-	.description {
-		height: 100px;
-		padding-bottom: 64px;
-		@include placeholder {
-		    font-style:normal;
-		    color: $gray;
-		    font-weight:100;
-		    font-size: 12px;
+		&:focus,
+		&:active {
+			background-color: #EEF;
+			border: 1px solid darkblue;
 		}
+	}
+	.fa.fa-folder-open-o {
+		position: absolute;
+		top: 37px;
+		right: 14px;
+		font-size: 17px;
+		color: #CCC;
+	}
+	input#baseScenario {
+		padding-right: 40px;
 	}
 
 	.dotted_line {
 		border-bottom: 1px dotted $gray;
 	}
 
-	span {
+	/*span {
 		font-size: 16px;
 		display: block;
+
 		&.emphasize {
 			font-weight:900;
 			color: $darkgray;
 		}
-	}
-	p {
-		color: $gray;
-	}
+	}*/
 
-	.footer {
+	/*.footer {
 		.btn {
 			height: 50px;
 		}
-	}
+	}*/
 
-	.home{
+	/*.home {
 		font-size: 45px;
 	}
 
@@ -114,5 +441,108 @@
 	.push-right {
 		margin-left:80px;
 	}
-	
+*/
+	button {
+		display: inline-block;
+		float: right;
+		padding: 12px 15px;
+		font-size: 16px;
+		font-weight: 400;
+		color: #FFF;
+		background-color: #BBB;
+		border-radius: 3px;
+		border: none;
+	}
+	input.button,
+	div.radios button.confirmRadio {
+		display: inline-block;
+		float: right;
+		width: auto;
+		margin-left: 10px;
+		padding: 12px 15px;
+
+		font-size: 16px;
+		font-weight: 400;
+		color: #FFF;
+		background-color: #F53;
+		border-radius: 3px;
+		border: none;
+		cursor: pointer;
+	}
+	div.radios button.confirmRadio {
+		margin-top: 10px;
+		text-transform: uppercase;
+	}
+
+	div.scenarioRepeatGroup {
+		position: relative;
+		z-index: 9;
+		border-left: 1px solid #DDD;
+		border-right: 1px solid #DDD;
+	}
+	/* Base Scenario Options */
+	/*************************/
+	div.radios div.radioHeader {
+		position: relative;
+		z-index: 10;
+		display: block;
+		padding: 10px 20px;
+		font-size: 16px;
+		border-left: 1px solid #DDD;
+		border-right: 1px solid #DDD;
+		background-color: #FAFAFA;
+		box-shadow: 0 1px 5px -1px #CCC;
+	}
+	/* The label of each radio button is displayed and styled as a row */
+	div.radios label {
+		display: block;
+		width: 100%;
+		margin: 0;
+		background-color: #FFF;
+		padding: 10px 20px 10px 20px;
+		border-bottom: 1px solid #DDD;
+		font-size: 12px;
+		cursor: pointer;
+	}
+
+	div.radios label:before {
+		font-family: FontAwesome;
+		content: '\f10c'; /* fa-circle-o */
+		margin-right: 10px;
+	}
+	div.radios input[type='radio'] {
+		display: none;
+	}
+	/* When the radio button is checked, highlight the box and change icon */
+	div.radios input[type='radio']:checked + label {
+		background-color: darkblue;
+		color: #FFF;
+	}
+	div.radios input[type='radio']:checked + label:before {
+		font-family: FontAwesome;
+		content: '\f05d'; /* fa-check-circle-o */
+	}
+	input#search {
+		margin-bottom: 0;
+		padding-left: 35px;
+		border: 1px solid #CCC;
+	}
+	div.searchBack {
+		position: relative;
+		display: block;
+		width: 100%;
+		padding: 10px;
+		background-color: #DDD;
+	}
+	.fa.fa-search {
+		position: absolute;
+		left: 20px;
+		top: 21px;
+		font-size: 17px;
+		color: #777;
+	}
+	div.baseGroup {
+		position: relative;
+	}
+
 }

@@ -141,7 +141,7 @@ angular.module('ThreeSixtyOneView')
 
         $scope.init($state.current.name, Projects, $stateParams);
         localInit();
-    }]).controller("ProjectViewCtrl", ["$scope", "ActiveSelection", "SortAndFilterService", "GotoService", "CONFIG", function($scope, ActiveSelection, SortAndFilterService, GotoService, CONFIG){
+    }]).controller("ProjectViewCtrl", ["$scope", "ActiveSelection", "SortAndFilterService","DialogService", "GotoService", "CONFIG", function($scope, ActiveSelection, SortAndFilterService, DialogService, GotoService, CONFIG){
         
         $scope.init = function(whichView, _data_, stateParams){
             var currentView = CONFIG.view[whichView],
@@ -173,7 +173,7 @@ angular.module('ThreeSixtyOneView')
                 case "gotoScenarioEdit": GotoService.scenarioEdit($scope.getProject().id, item.id); break;
                 case "gotoDashboard": GotoService.dashboard(item.id); break;
                 case "gotoProjects": GotoService.projects(); break;
-                case "gotoScenarioCreate": GotoService.scenarioCreate(item.id); break;
+                case "gotoScenarioCreate": DialogService.openCreateScenario($scope.getProject(), item); break;
             }
         };
 

@@ -22,7 +22,18 @@ angular.module('ThreeSixtyOneView.services')
             },{size:'md'});
         };
 
+<<<<<<< HEAD
+        this.openCreateScenario = function(_project_, _scenario_) {
+            dialogs.create('views/modal/scenario_create.tpl.html','OpenCreateScenarioCtrl',{
+                project: _project_,
+                scenario: _scenario_
+            },{size:'md'});
+        };
+
+        this.noop = function(header, msg){
+=======
         this.notify = function(header, msg){
+>>>>>>> 1a6959e09b94717efd843743dec7b1668fb514d2
             dialogs.notify(header,msg);
         };
 

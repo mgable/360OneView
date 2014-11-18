@@ -90,4 +90,81 @@ angular.module('ThreeSixtyOneView')
         $scope.showRow = function(row){
             return row === selectedRow;
         };
+}]).controller('OpenCreateScenarioCtrl', ["$scope", "$rootScope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", function($scope, $rootScope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS) {
+
+        angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+
+        $scope.show = false;
+        $scope.showBases = false;
+        $scope.showFields = true;
+
+        $scope.mainShow = function() {
+            $scope.show = true;
+        }
+        $scope.mainHide = function() {
+            $scope.show = false;
+        }
+        $scope.showScenario = function() {
+            $scope.showBases = true;
+            $scope.showFields = false;
+        }
+        $scope.hideScenario = function() {
+            $scope.showBases = false;
+            $scope.showFields = true;
+        }
+        
+        $scope.q2_2015_scenarios = [
+            {title: 'Title Number 1', id: 'title1'},
+            {title: 'Title Number 2', id: 'title2'},
+            {title: 'Title Number 3', id: 'title3'},
+            {title: 'Title Number 4', id: 'title4'},
+            {title: 'Title Number 5', id: 'title5'},
+            {title: 'Title Number 6', id: 'title6'},
+            {title: 'Title Number 7', id: 'title7'},
+            {title: 'Title Number 8', id: 'title8'}
+        ];
+        $scope.master_scenarios = [
+            {title: 'Master Scenario 1', id: 'master1'},
+            {title: 'Master Scenario 2', id: 'master2'}
+        ];
+        $scope.chosen = { scenario: "Choose a scenario" };
+
+        var selectedRow,
+            getSelected = function(){
+                return selectedRow;
+            },
+            sortScenarios = function(scenarios){
+                $scope.scenarioList = scenarios;
+                $scope.masterProject = (_.findWhere($scope.scenarioList, {"title": "MASTER PROJECT"}));
+                $scope.scenarioList.splice(_.indexOf($scope.scenarioList, $scope.masterProject),1);
+                selectedRow = $scope.masterProject;
+
+                angular.forEach($scope.scenarioList, function(k,v){
+                    if (k.title === $scope.project.title){
+                        $scope.scenarioList.unshift($scope.scenarioList.splice(v,1)[0]);
+                    }
+                });
+            };
+
+        $scope.scenario = data.scenario;
+        $scope.project = data.project;
+
+        ScenarioService.getAll().then(function(response){
+            sortScenarios(response);
+        });
+
+        $scope.setRow = function(item){
+            //if (getStatus(id)) {
+                selectedRow = item;
+           // }
+        };
+
+        $scope.confirm = function(){
+            $rootScope.$broadcast(EVENTS.updateBaseScenario, getSelected());
+            $scope.close();
+        };
+
+        $scope.showRow = function(row){
+            return row === selectedRow;
+        };
 }]);
