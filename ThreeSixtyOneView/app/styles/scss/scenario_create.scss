@@ -289,26 +289,15 @@
 /**************/
 
 .scenario-create {
-<<<<<<< HEAD
 	width: 100%;
 	min-height: 100%;
 	/*position: absolute;  // Re-enable this when a modal
 	top: 0;
 	left: 0;*/
 	overflow-y: auto;
-=======
-	margin: 25px;
-	padding:10px 25px;
-	background-color: $white;
-	h3 {
-		color: $darkgray;
-		font-weight:900;
-	}
->>>>>>> 1a6959e09b94717efd843743dec7b1668fb514d2
 
 	padding: 30px;
 	background-color: rgba(255,255,255, 0.95);
-	
 	.details {
 		display: block;
 		width: 500px;
