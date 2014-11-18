@@ -1,0 +1,54 @@
+<form name="ScenarioCreate">
+	<div class="scenario-create">
+		<div class="details scenario-form">
+			<div>
+				<h3>Create a Scenario</h3>
+				<div class="inputGroup" ng-show="showFields">
+					<label for="name">Enter Scenario Name</label>
+					<input type="text" focus placeholder="Enter Scenario Name" required ng-maxlength="256" ng-minlength="2" ng-pattern='/^[^\\\/\?\:\*"><|]+$/' is-unique="isScenarioTitleUnique" ng-model="scenario.title" />
+					<span class="alert alert-danger" ng-show="ScenarioCreate.$error.isUnique" role="alert">The scenario name &quot;{{scenario.title}}&quot; has been taken. Please choose another name.</span>
+					<label for="description">Enter Description (Optional)</label>
+					<input class="description" type="text" placeholder="Enter Scenario description (optional)" ng-model="scenario.description" ng-maxlength="1024">
+					<label for="share">Share With</label>
+					<select>
+						<option value="everyone">Everyone in this project</option>
+						<option value="onlyMe">Only me</option>
+					</select>
+				</div>
+				<div class="baseGroup">
+					<label for="baseScenario" ng-click="showScenario()">Base Scenario</label>
+					<input type="text" id="baseScenario" ng-click="showScenario()" value="{{chosen.scenario}}"><i class="fa fa-folder-open-o"></i>
+
+					<div class="buttons" ng-show="showFields">
+						<input type="submit" value="CONTINUE" class="button" ng-click="mainHide()">
+						<button id="cancel" class="button" ng-click="mainHide()">Cancel</button>
+					</div>
+
+					<!-- Begin hidden group -->
+					<div class="radios" ng-show="showBases">
+						<div class='searchBack'>
+							<i class="fa fa-search"></i>
+							<input ng-model="s" type='text' id="search" placeholder="Search">
+						</div>
+
+						<div class="radioHeader">Master Project</div>
+
+						<div class="scenarioRepeatGroup" ng-repeat="scenario in master_scenarios | filter: s as results">
+							<input type="radio" ng-model="chosen.scenario" name="baseScenario" id="{{scenario.id}}" value="{{scenario.title}}">
+							<label for="{{scenario.id}}">{{scenario.title}}</label>
+						</div>
+
+						<div class="radioHeader">Q2 2015 Project</div>
+
+						<div class="scenarioRepeatGroup" ng-repeat="scenario in q2_2015_scenarios | filter: s as results">
+							<input type="radio" ng-model="chosen.scenario" name="baseScenario" id="{{scenario.id}}" value="{{scenario.title}}">
+							<label for="{{scenario.id}}">{{scenario.title}}</label>
+						</div>
+						<button class="confirmRadio" ng-click="hideScenario()">Confirm Base Scenario</button>
+					</div>
+				<!-- End hidden group -->
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
