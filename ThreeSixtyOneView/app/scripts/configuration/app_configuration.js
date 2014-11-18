@@ -38,6 +38,9 @@ angular.module('ThreeSixtyOneView.config')
                 "ScenarioElement": {
                     "responseTranslator": {"id":"id", "title": {"selector": "cubeMeta.name"}},
                     "requestTranslator": {"id":"id", "name": "title"}
+                },
+                "PivotView": {
+                    "newView": {"name":"New View","isDefault":false,"rows":[],"columns":[],"filters":[]}
                 }
             },
             "inputRestrictions": {
