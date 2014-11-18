@@ -139,20 +139,25 @@ describe('Controllers: ', function() {
 
     });
 
-    xdescribe("InfoTray CTRL", function(){
-        beforeEach(inject(function($rootScope, $controller, ActiveSelection, _EVENTS_, FavoritesService, SortAndFilterService) {
+    describe("InfoTray CTRL", function(){
+        beforeEach(inject(function(_$rootScope_, $controller, ActiveSelection, _EVENTS_, FavoritesService, SortAndFilterService, _CONFIG_, _$state_) {
+            $rootScope = _$rootScope_;
             scope = $rootScope.$new();
             data = {"foo": "bar"};
             EVENTS = _EVENTS_;
+            CONFIG = _CONFIG_;
             filterSpy = spyOn(SortAndFilterService, "filter");
             isFavoriteSpy = spyOn(FavoritesService, "isFavorite");
             spyOn(ActiveSelection, "getActiveItem").and.returnValue(data);
             spyOn(scope, "$on");
             spyOn(scope, "$broadcast");
+            spyOn($rootScope, "$broadcast");
+            $state = _$state_;
+            $state.current.name = "Dashboard";
             spy = spyOn(FavoritesService, "toggleFavorite");
             ctrl = $controller('InfoTrayCtrl', {
                 $scope: scope,
-                $state: {current: {name: "ProjectManager"}}
+                $state: {current: {name: "Dashboard"}}
             });
         }));
 
@@ -164,42 +169,40 @@ describe('Controllers: ', function() {
             expect(scope.selectedItem).toBe(data);
             expect(scope.showScenario).toBe(false);
             expect(scope.viewAll).toBe('View All');
-            expect(scope.hasFavorites).toBe(CONFIG.view[$state.current.name].hasFavorites);
+            expect(scope.trayActions).toEqual(CONFIG.view[$state.current.name].trayActions);
         });
 
         it("should define an API", function(){
-            expect(scope.toggleFavorite).toBeDefined();
-            expect(scope.isFavorite).toBeDefined();
-            expect(scope.update).toBeDefined();
+            expect(scope.action).toBeDefined();
             expect(scope.toggleShowScenarios).toBeDefined();
         });
 
-        it("should set event listeners", function(){
-            expect(scope.$on).toHaveBeenCalledWith(EVENTS.changeActiveItem, jasmine.any(Function));
+        it("should broadcast when an action is recevied", function(){
+            scope.action("test", data);
+            expect($rootScope.$broadcast).toHaveBeenCalledWith(EVENTS['test'], 'test', data);
         });
 
-        it("should toggle favorites", function(){
-            scope.toggleFavorite(1);
-            expect(spy).toHaveBeenCalledWith(1);
-            expect(filterSpy).toHaveBeenCalled();
-        });
-
-        it("should check if an item is a favorite", function(){
-            scope.isFavorite(1);
-            expect(isFavoriteSpy).toHaveBeenCalledWith(1);
-        });
-
-        it ("should update", function(){
-            scope.update(1);
-            expect(scope.$broadcast).toHaveBeenCalledWith(EVENTS.renameProject, 1);
-        });
-
-        it("should toggle scenario view", function(){
+        it("should toggle the seem more view of scenarios", function(){
             expect(scope.showScenario).toBe(false);
             expect(scope.viewAll).toBe('View All');
+
             scope.toggleShowScenarios();
+
             expect(scope.showScenario).toBe(true);
             expect(scope.viewAll).toBe('View Less');
+
+            scope.toggleShowScenarios();
+
+            expect(scope.showScenario).toBe(false);
+            expect(scope.viewAll).toBe('View All');
+        });
+
+
+
+        it("should set event listeners", function(){
+            expect(scope.$on).toHaveBeenCalledWith(EVENTS.changeActiveItem, jasmine.any(Function));
+            expect(scope.$on).toHaveBeenCalledWith(EVENTS.trayCopy, jasmine.any(Function));
+            expect(scope.$on).toHaveBeenCalledWith(EVENTS.noop, jasmine.any(Function));
         });
     });
 
