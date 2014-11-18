@@ -24,19 +24,22 @@ angular.module('ThreeSixtyOneView')
                     var display = element.parents().find('.display');
                     display.width(scope.containerWidth);
 
-                    scope.containerHeight = $window.innerHeight + 153 + 40;
-                    var scenario = element.parents().find('.Scenario');
-                    scenario.height(scope.containerHeight);
-
                     $('#spreadjs').height(pivotTableHeight);
                     $('#spreadjs').wijspread('refresh');
+
+                    scope.row = 50 - (parseInt(pivotTableHeight / 40) - 2);
+                    scope.containerHeight = 150 + $window.innerHeight + (scope.row) * 10;
+                    $('.Scenario').height(scope.containerHeight);
 
                 }
 
                 $rootScope.$on(EVENTS.toggleBuilder, function(event, data){
 
-                    var pivotBuilderHeight = data === "open" ? pivotBuilderMaxHeight : pivotBuilderMinHeight;
-                    var pivotTableHeight = $window.innerHeight - pivotBuilderHeight - 20;
+                    pivotBuilderHeight = data === "open" ? pivotBuilderMaxHeight : pivotBuilderMinHeight;
+                    pivotTableHeight = $window.innerHeight - pivotBuilderHeight - 20;
+                    scope.row = 50 - (parseInt(pivotTableHeight / 40) - 2);
+                    scope.containerHeight = 150 + $window.innerHeight + (scope.row) * 10;
+                    $('.Scenario').height(scope.containerHeight);
                     $('#spreadjs').height(pivotTableHeight);
                     $('#spreadjs').wijspread('refresh');
 
