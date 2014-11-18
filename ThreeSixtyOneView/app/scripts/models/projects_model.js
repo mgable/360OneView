@@ -43,13 +43,6 @@ angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout
                 });
                 return response;
             });
-        },
-        get: function(){
-            this.unwrap(this.resource.get("", this.config));
-            return this.$futureData;
         }
     };
-
-   
-
 }]);

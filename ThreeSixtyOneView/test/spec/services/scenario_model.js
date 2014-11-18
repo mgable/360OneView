@@ -21,7 +21,6 @@ describe('Service: ScenarioModel', function () {
 
   it('should exist and define an API', function () {
     expect(ScenarioModel).toBeDefined();
-    expect(ScenarioModel.get).toBeDefined();
     expect(ScenarioModel.create).toBeDefined();
   });
 
