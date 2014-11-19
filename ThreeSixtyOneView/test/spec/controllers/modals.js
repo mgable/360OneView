@@ -56,4 +56,41 @@ describe('Controllers: Modals: ', function() {
             expect(eventSpy).toHaveBeenCalledWith(EVENTS.createProject, {title: 'xyz', description: "", isMaster: false});
         });
     });
+
+
+    describe('ScenarioCopyCtrl: ', function(){
+         beforeEach(inject(function($rootScope, $controller, _CONFIG_) {
+            CONFIG = _CONFIG_;
+            ctrl = $controller('ScenarioCopyCtrl', {
+                $scope: scope,
+                $modalInstance: modalInstance,
+                data: {"foo": "bar"}
+            });
+
+        }));
+
+        it ("should exist", function(){
+            expect(ctrl).toBeDefined();
+        });
+
+        it("should define an API", function(){
+            expect(scope.submit).toBeDefined();
+        });
+
+        it("should extend ModalBaseCtrl", function(){
+            expect(scope.close).toBeDefined();
+            expect(scope.inputRestrictions).toBe(CONFIG.application.inputRestrictions);
+        });
+
+        it("should close the dialog box when close is clicked", function() {
+            scope.close();
+            expect(modalInstance.dismiss).toHaveBeenCalled();
+        });
+
+        it("should call the Scenario Model with the name of the new scenario", function() {
+            scope.submit("xyz");
+            expect(modalInstance.dismiss).toHaveBeenCalledWith('create');
+            expect(eventSpy).toHaveBeenCalledWith(EVENTS.copyScenario, {foo: "bar", title: "xyz"});
+        });
+    });
 });
