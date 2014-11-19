@@ -189,7 +189,6 @@ describe('Controllers: ', function() {
             expect(scope.viewAll).toBe('View All');
         });
 
-
         it("should set event listeners", function(){
             expect(scope.$on).toHaveBeenCalledWith(EVENTS.changeActiveItem, jasmine.any(Function));
             expect(scope.$on).toHaveBeenCalledWith(EVENTS.trayCopy, jasmine.any(Function));
