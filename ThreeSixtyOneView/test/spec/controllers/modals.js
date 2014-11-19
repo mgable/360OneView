@@ -66,7 +66,6 @@ describe('Controllers: Modals: ', function() {
                 $modalInstance: modalInstance,
                 data: {"foo": "bar"}
             });
-
         }));
 
         it ("should exist", function(){

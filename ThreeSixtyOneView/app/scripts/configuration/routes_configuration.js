@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module('ThreeSixtyOneView').config(["$stateProvider", "$urlRouterProvider", "CONFIG", function($stateProvider, $urlRouterProvider, CONFIG) {
+angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouterProvider", "CONFIG", function($stateProvider, $urlRouterProvider, CONFIG) {
 
     $urlRouterProvider.otherwise("/projects");
 
