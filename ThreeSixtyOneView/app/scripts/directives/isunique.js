@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView')
+angular.module('ThreeSixtyOneView.directives')
 	.directive('isUnique', function () {
 	return {
 		require: 'ngModel',

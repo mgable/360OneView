@@ -3,7 +3,7 @@
 describe('Routes tests: ', function() {
     var $rootScope, $state, $httpBackend, urlProjects, urlFavorites;
 
-    beforeEach(module('ThreeSixtyOneView'));
+    beforeEach(module('ThreeSixtyOneView.config'));
 
     beforeEach(inject(function(_$state_, _$rootScope_, _$httpBackend_, SERVER, CONFIG) {
         $state = _$state_;

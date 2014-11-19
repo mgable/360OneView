@@ -6,7 +6,7 @@
  * @description
  * # indeterminate
  */
-angular.module('ThreeSixtyOneView').directive('indeterminate', function () {
+angular.module('ThreeSixtyOneView.directives').directive('indeterminate', function () {
 	return {
 		restrict: 'A',
 		link: function (scope, element, attrs) {
