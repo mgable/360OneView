@@ -1646,9 +1646,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
             "33": "TV"
         }, {
             "0": "2013",
-            "1": "Total"
-        }, {
-            "0": "2013",
             "1": "Atlanta"
         }, {
             "0": "2013",
@@ -1716,9 +1713,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
         }, {
             "0": "2013",
             "1": "National"
-        }, {
-            "0": "2014",
-            "1": "Total"
         }, {
             "0": "2014",
             "1": "Atlanta"

@@ -86,6 +86,9 @@ angular.module("ThreeSixtyOneView")
                         // sheet.autoFitRow(i);
                     } else {
                         for (j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
+                            // if(i%2 == 0) {
+                            //     sheet.getCell(i,j).backColor("#f5f5f5");
+                            // }
                             sheet.getCell(i, j).font("14px proxima-nova").foreColor("#000000").value(randomNumber(0, 2000)).locked(false);
                         }
                     }
@@ -156,9 +159,9 @@ angular.module("ThreeSixtyOneView")
                     sheet.getCell(min, level).vAlign($.wijmo.wijspread.VerticalAlign.top);
                     var cMin = min,
                         cMax = min + span;
-                    // for(var j = 0; j < $scope.colHeaderCnt; j++) {
-                    //     sheet.getCell(cMax - 1, j).borderBottom(new $.wijmo.wijspread.LineBorder("#ccc", $.wijmo.wijspread.LineStyle.thin));
-                    // }
+                    for(var j = 0; j < $scope.colHeaderCnt; j++) {
+                        sheet.getCell(min, j).borderTop(new $.wijmo.wijspread.LineBorder("#e5e5e5", $.wijmo.wijspread.LineStyle.thin));
+                    }
                     createColSpan(level + 1, cMin, cMax - 1);
                     min += span;
                 });
