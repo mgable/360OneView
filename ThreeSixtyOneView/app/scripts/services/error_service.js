@@ -14,7 +14,7 @@ angular.module('ThreeSixtyOneView.services')
 	});
 
 	$rootScope.$on(EVENTS.error, function(event, data){
-		error(data.title, data.msg)
+		error(data.title, data.msg);
 	});
 
   }]);

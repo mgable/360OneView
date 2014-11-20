@@ -11,11 +11,9 @@ angular.module("ThreeSixtyOneView.services")
 		Model.prototype = {
 			$futureData: null,
 			data: [],
-			get: function() {
-				return this.data.length ?  this.data : this.$futureData;
-			},
-			find: function(id) {
-				this.unwrap(this.resource.get(id, this.config));
+			get: function(params) {
+				this.unwrap(this.resource.get(params, this.config));
+				return this.$futureData;
 			},
 			create: function (data){
 				console.info ("The create method has not been overwritten");

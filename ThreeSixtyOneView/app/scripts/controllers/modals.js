@@ -24,7 +24,6 @@ angular.module('ThreeSixtyOneView')
 
          $scope.submit = function(title, evt){
             if (evt) { evt.preventDefault(); }
-
             $scope.item.title = title;
             $rootScope.$broadcast(EVENTS.copyScenario, $scope.item);
             $modalInstance.dismiss('create');

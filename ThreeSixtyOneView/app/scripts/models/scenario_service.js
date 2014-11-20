@@ -17,7 +17,7 @@ angular.module('ThreeSixtyOneView.services')
 		this.myScenarios = myScenarios;
 
 		this.get = function (projectId, scenarioId){
-			return myScenarios.get.call(this, projectId).then(function(response){
+			return myScenarios.get.call(this, {"id": projectId}).then(function(response){
 				if(scenarioId) {
 					return _.findWhere(response, {id: scenarioId});
 				} else {

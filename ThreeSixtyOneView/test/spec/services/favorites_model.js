@@ -25,6 +25,7 @@ describe('Service: FavoritesModel', function() {
 
 		$httpBackend.whenGET(url).respond(JSON.stringify(data));
 		$httpBackend.whenGET(projectUrl).respond({"doesnot":"matter"});
+
 	}));
 
 	it("should exist and define an API", function(){
@@ -33,20 +34,21 @@ describe('Service: FavoritesModel', function() {
 		expect(FavoritesModel.unFavorite).toBeDefined();
 	});
 
-	it ("should find all data", function(){
+	xit ("should find all data", function(){
+		FavoritesModel.get("projects");
 		$httpBackend.expectGET(url).respond(data);
 		$httpBackend.verifyNoOutstandingExpectation();
 	});
 
 	it ("should set as favorite", function(){
-		$httpBackend.expectPOST(url).respond(JSON.stringify({"status": "204"}));
+		$httpBackend.expectPOST(url).respond(JSON.stringify(data));
 		FavoritesModel.setAsFavorite("123");
 		$httpBackend.flush();
 		$httpBackend.verifyNoOutstandingExpectation();
 	});
 
 	it ("should unset a favorite", function(){
-		$httpBackend.expectDELETE(url+ "?uuid=123").respond(JSON.stringify({"status": "204"}));
+		$httpBackend.expectDELETE(url+ "?id=123").respond(JSON.stringify({"status": "204"}));
 		FavoritesModel.unFavorite("123");
 		$httpBackend.flush();
 		$httpBackend.verifyNoOutstandingExpectation();

@@ -6,8 +6,10 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", ["$http", "$q",
             this._http = http;
             this._path = this._basePath = path;
             this._q = q;
-            var getPath = function (map){
-                return map ? replaceParams(map, this._path) : this._path;
+            var getPath = function (params, additionalPath){
+                var path = additionalPath ? this._basePath + "/" +  additionalPath : this._basePath;
+                path = replaceParams(params, path);
+                return path;
             }, replaceParams = function(map, string){
                 var url = string;
                 _.each(map, function(e,i){
@@ -29,11 +31,12 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", ["$http", "$q",
                 return this._basePath;
             };
 
-            this.get = function(uid, _config_){
-                var deferred = this._q.defer(), config = _config_ || {};
+            this.get = function(params, _config_, additionalPath){
+                var deferred = this._q.defer(), config = _config_ || {},
+                    path = getPath.call(this, params, additionalPath);
 
                 this._http
-                    .get(getPath.call(this, uid), config)
+                    .get(path, config)
                     .success(deferred.resolve)
                     .error(function(data, status, headers, config){
                         $rootScope.$broadcast(EVENTS.serverError, {data:data, status:status, headers:headers, config: config});
@@ -42,15 +45,14 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", ["$http", "$q",
                 return deferred.promise;
             };
 
-            this.post = function(data, _config_, params) {
-                var deferred = this._q.defer(), path, config = _config_ || {};
+            this.post = function(data, _config_, params, additionalPath) {
+                var deferred = this._q.defer(), config = _config_ || {},
+                    path = getPath.call(this, params, additionalPath);
 
                 if (typeof data === 'undefined') {
                     deferred.reject('I need an item template');
                     return deferred.promise;
                 }
-
-                path = params ? getPath.call(this, params) : this._path;
 
                 this._http
                     .post(path, data, config)
@@ -66,16 +68,13 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", ["$http", "$q",
             this.create = this.post;
 
             this.put = function(data, _config_, params, additionalPath) {
-                var deferred = this._q.defer(), config = _config_ || {}, path;
+                var deferred = this._q.defer(), config = _config_ || {},
+                    path = getPath.call(this, params, additionalPath);
 
                 if (typeof data === 'undefined') {
                     deferred.reject('I need an data with an id');
                     return deferred.promise;
                 }
-
-                console.info(data, _config_, params, additionalPath);
-                path = params ? getPath.call(this, params) : this._path;
-                path = additionalPath ? path + "/" +  additionalPath : path;
 
                 this._http
                     .put(path, data, config)
@@ -87,8 +86,9 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", ["$http", "$q",
                 return deferred.promise;
             };
 
-            this.delete = function(item, _config_){
-                var deferred = this._q.defer(), config = _config_ || {};
+            this.delete = function(item, _config_, params, additionalPath){
+                var deferred = this._q.defer(), config = _config_ || {},
+                    path = getPath.call(this, params, additionalPath);
 
                 if (typeof item === 'undefined') {
                     deferred.reject('I need an item with an id');
@@ -96,7 +96,7 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", ["$http", "$q",
                 }
 
                 this._http
-                    .delete(this._path, item, config)
+                    .delete(path, item, config)
                     .success(deferred.resolve)
                     .error(function(data, status, headers, config){
                         $rootScope.$broadcast(EVENTS.serverError, {data:data, status:status, headers:headers, config: config});

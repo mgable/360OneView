@@ -6,7 +6,8 @@ angular.module('ThreeSixtyOneView.config')
             // application level data here
             "api": {
                 "projects": "/rubix/v1/project",
-                "favorites": "/rubix/v1/favorite/project/",
+                "favorites": "/rubix/v1/favorite",
+                //"scenarioFavorites": "/rubix/v1/favorite/scenario",
                 "scenarios": "/rubix/v1/project/:id/scenario",
                 "cube": "/rubix/v1/model/cube/:id",
                 "pivotview": "/rubix/v1/cube/:cubeId/analysis-view/:viewId",
@@ -37,6 +38,9 @@ angular.module('ThreeSixtyOneView.config')
                 "ScenarioElement": {
                     "responseTranslator": {"id":"id", "title": {"selector": "cubeMeta.name"}},
                     "requestTranslator": {"id":"id", "name": "title"}
+                },
+                "PivotView": {
+                    "newView": {"name":"New View","isDefault":false,"rows":[],"columns":[],"filters":[]}
                 }
             },
             "inputRestrictions": {
@@ -53,6 +57,7 @@ angular.module('ThreeSixtyOneView.config')
                 "orderBy": 'modifiedOn',
                 "filter": 'CONFIG.view.Dashboard.filterMenu.items[0]',
                 "reverse": true,
+                "favoriteType": "scenario",
                 "nameClickAction": "gotoScenarioEdit",
                 "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
                 "displayActionsCreate": "gotoScenarioCreate",
@@ -91,7 +96,7 @@ angular.module('ThreeSixtyOneView.config')
                 "orderBy": 'modifiedOn',
                 "filter": 'CONFIG.view.ProjectManager.filterMenu.items[0]',
                 "reverse": true,
-                "hasFavorites": true,
+                "favoriteType": "project",
                 "nameClickAction": 'gotoDashboard',
                 "displayActionsCreate": "openCreateProject",
                  "trayActions": {
