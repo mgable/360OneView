@@ -11,7 +11,7 @@ describe('Service: ProjectsService', function () {
   beforeEach(inject(function (_ProjectsService_, _ProjectsModel_) {
     ProjectsService = _ProjectsService_;
     ProjectsModel = _ProjectsModel_;
-    data = [{title: "a", id: "1", description:"this is a"},{title: "b", id: "2", description:"this is b"},{title: "c", id: "3", description:"this is c"}];
+    data = [{title: "a", id: "1", description:"this is a"},{title: "b", id: "2"},{title: "c", id: "3", description:"this is c"}];
   }));
 
   it('should exist and define an API', function () {
@@ -33,20 +33,12 @@ describe('Service: ProjectsService', function () {
     expect(ProjectsService.getProjectItemById("3")).toEqual(data[2]);
   });
 
-  xit ("should rename a project", function(){
-    var resourceSpy = jasmine.createSpy(ProjectsModel, "put");
-    console.info(ProjectsService.put);
-    ProjectsService.rename(data);
-    expect(resourceSpy).toHaveBeenCalledWith("foo");
+  it ("should rename a project", function(){
+    var resourceSpy = spyOn(ProjectsService, "put");
+    ProjectsService.rename(data[0]);
+    expect(resourceSpy).toHaveBeenCalledWith(data[0]);
+    ProjectsService.rename(data[1]);
+    expect(resourceSpy).toHaveBeenCalledWith({title: "b", id: "2", description: ""});
   });
-
-   //   this.rename = function(data){
-  //           var obj = (_.pick(data, 'title', 'description', 'id'));
-  //           if (typeof obj.description === "undefined"){
-  //               obj.description = "";
-  //           }
-  //           this.put(obj);
-
-  //       };
 
 });
