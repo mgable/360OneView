@@ -112,21 +112,6 @@ angular.module('ThreeSixtyOneView')
             $scope.showBases = false;
             $scope.showFields = true;
         }
-        
-        $scope.q2_2015_scenarios = [
-            {title: 'Title Number 1', id: 'title1'},
-            {title: 'Title Number 2', id: 'title2'},
-            {title: 'Title Number 3', id: 'title3'},
-            {title: 'Title Number 4', id: 'title4'},
-            {title: 'Title Number 5', id: 'title5'},
-            {title: 'Title Number 6', id: 'title6'},
-            {title: 'Title Number 7', id: 'title7'},
-            {title: 'Title Number 8', id: 'title8'}
-        ];
-        $scope.master_scenarios = [
-            {title: 'Master Scenario 1', id: 'master1'},
-            {title: 'Master Scenario 2', id: 'master2'}
-        ];
         $scope.chosen = { scenario: "Choose a scenario" };
 
         var selectedRow,
@@ -161,6 +146,8 @@ angular.module('ThreeSixtyOneView')
 
         $scope.confirm = function(){
             $rootScope.$broadcast(EVENTS.updateBaseScenario, getSelected());
+            $scope.showBases = false;
+            $scope.showFields = true;
             $scope.close();
         };
 
