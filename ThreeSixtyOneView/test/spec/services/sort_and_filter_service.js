@@ -112,7 +112,7 @@ describe('Services:', function() {
                 filter: "isFavorite"
             }, true);
             var filtered = _.filter(config.data, function(item) {
-                return item.id == "2";
+                return item.id.toString() === "2";
             });
             expect(SortAndFilterService.getData()).toEqual(filtered);
         });

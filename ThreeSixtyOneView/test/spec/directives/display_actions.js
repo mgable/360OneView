@@ -41,7 +41,7 @@ describe('Directives:', function() {
         it("should open the dialog box when the create button is clicked", function() {
             var spy = spyOn(scope, "create");
             button.click();
-            expect(spy).toHaveBeenCalledWith(scope.CONFIG.displayActionsCreate);
+            expect(spy).toHaveBeenCalledWith(scope.CONFIG.pageActions.createClickAction);
         });
     });
 
