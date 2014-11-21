@@ -6,7 +6,7 @@
  * @description
  * # resize
  */
-angular.module('ThreeSixtyOneView').directive('resize', function ($window) {
+angular.module('ThreeSixtyOneView.directives').directive('resize', function ($window) {
 	return function (scope) {
 		var w = angular.element($window);
 		scope.getWindowDimensions = function () {

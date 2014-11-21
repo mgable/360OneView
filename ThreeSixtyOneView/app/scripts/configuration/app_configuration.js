@@ -6,10 +6,12 @@ angular.module('ThreeSixtyOneView.config')
             // application level data here
             "api": {
                 "projects": "/rubix/v1/project",
-                "favorites": "/rubix/v1/favorite/project/",
+                "favorites": "/rubix/v1/favorite",
+                //"scenarioFavorites": "/rubix/v1/favorite/scenario",
                 "scenarios": "/rubix/v1/project/:id/scenario",
                 "cube": "/rubix/v1/model/cube/:id",
-                "pivotview": "/rubix/v1/cube/:cubeId/analysis-view/:viewId"
+                "pivotview": "/rubix/v1/cube/:cubeId/analysis-view/:viewId",
+                "scenarioElement": "/rubix/v1/scenario/:id/analysis-element"
             },
             "models": {
                 "ProjectsModel": {
@@ -22,8 +24,8 @@ angular.module('ThreeSixtyOneView.config')
                 "ScenarioModel": {
                     // want: get
                     "responseTranslator": {"referenceScenario": "referenceScenario", "title": "name", "id": "id", "description": "description", "type":{"selector":"prediction.type"}, "createdBy":{"selector":"auditInfo.createdBy.name"}, "createdOn":{"selector":"auditInfo.createdOn"}, "modifiedBy":{"selector":"auditInfo.lastUpdatedBy.name"}, "modifiedOn":{"selector":"auditInfo.lastUpdatedOn"}},
-                    "requestTranslator": {"name":"title", "referenceScenario": "referenceScenario", "description": "description", "prediction.type": "type"},
-                    "newScenario": {"title" : "", "description": "","referenceScenario": {"id": 1, "name": "PRE LOADED SIMULATION NEW"}, "type": "Simulation"}
+                    "requestTranslator": {"id": "id", "name":"title", "referenceScenario": "referenceScenario", "description": "description", "prediction.type": "type"},
+                    "newScenario": {"title" : "", "description": "","referenceScenario": {"id": 2, "name": "PRE LOADED SIMULATION NEW"}, "type": "Simulation"}
                 },
                 "CubeModel" : {
                     "responseTranslator": "",
@@ -32,6 +34,13 @@ angular.module('ThreeSixtyOneView.config')
                 "FavoritesModel" : {
                     "responseTranslator": "",
                     "requestTranslator": ""
+                },
+                "ScenarioElement": {
+                    "responseTranslator": {"id":"id", "title": {"selector": "cubeMeta.name"}},
+                    "requestTranslator": {"id":"id", "name": "title"}
+                },
+                "PivotView": {
+                    "newView": {"name":"New View","isDefault":false,"rows":[],"columns":[],"filters":[]}
                 }
             },
             "inputRestrictions": {
@@ -48,10 +57,14 @@ angular.module('ThreeSixtyOneView.config')
                 "orderBy": 'modifiedOn',
                 "filter": 'CONFIG.view.Dashboard.filterMenu.items[0]',
                 "reverse": true,
-                "nameClickAction": "gotoScenarioEdit",
+                "favoriteType": "scenario",
                 "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
-                "displayActionsCreate": "gotoScenarioCreate",
+                "pageActions": {
+                    "nameClickAction": "gotoScenarioEdit",
+                    "createClickAction": "gotoScenarioCreate"
+                }, 
                 "trayActions": {
+                    "rename": "renameScenario",
                     "copy": "trayCopy",
                     "share": "noop",
                     "archive": "noop",
@@ -85,10 +98,13 @@ angular.module('ThreeSixtyOneView.config')
                 "orderBy": 'modifiedOn',
                 "filter": 'CONFIG.view.ProjectManager.filterMenu.items[0]',
                 "reverse": true,
-                "hasFavorites": true,
-                "nameClickAction": 'gotoDashboard',
-                "displayActionsCreate": "openCreateProject",
-                 "trayActions": {
+                "favoriteType": "project",
+                "pageActions": {
+                    "nameClickAction": 'gotoDashboard',
+                    "createClickAction": "openCreateProject"
+                }, 
+                "trayActions": {
+                    "rename": "renameProject",
                     "copy": "noop",
                     "share": "noop",
                     "archive": "noop",

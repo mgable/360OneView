@@ -18,15 +18,15 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		this.getViewsAndDefault = function(cubeId){
-  			return this.get({cubeId:cubeId}).then(function(views){
-  				if (views.length && views.length > 0){
+			return this.get({cubeId:cubeId}).then(function(views){
+				if (views.length && views.length > 0){
 					return self.getDefaultView(views, cubeId).then(function(defaultView){
-  						return {"views": views, "defaultView": defaultView};
-  					});
-  				};
+						return {"views": views, "defaultView": defaultView};
+					});
+				}
 				$rootScope.$broadcast(EVENTS.error, {title: "ERROR: No Views", msg: "There are no views available"});
 				return {"views": [], "defaultView": {}};
-  			});
+			});
 		};
 
 }]);

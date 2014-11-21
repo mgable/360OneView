@@ -19,5 +19,6 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     noDataReceived: "ErrorService:noDataReceived",
     serverError: "ErrorService:serverError",
     error: "ErrorService:error",
-    toggleBuilder: "toggleBuilder"
+    //TEST
+    test: "test"
 });

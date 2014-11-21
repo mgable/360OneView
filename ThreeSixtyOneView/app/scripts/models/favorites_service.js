@@ -14,37 +14,31 @@ angular.module('ThreeSixtyOneView.services')
 
         this.data = [];
 
-        this.removeFavorite = function(itemID) {
+        this.removeFavorite = function(itemID, type) {
             if (_.indexOf(this.data, itemID) > -1) {
                 this.data.splice(_.indexOf(this.data, itemID), 1);
-                this.unFavorite(itemID);
+                this.unFavorite(itemID, type);
             }
         };
-    
-        // this.setFavorites = function(f){
-        //     console.info("setting favorites");
-        //     console.info(this);
-        //     this.data = f;
-        // };
 
-        this.addFavorite = function(itemID) {
+        this.addFavorite = function(itemID, type) {
             this.data.push(itemID);
-            this.setAsFavorite(itemID);
+            this.setAsFavorite(itemID, type);
         };
 
-        this.isFavorite = function(itemID) {
-            var index = _.indexOf(this.data, itemID);
+        this.isFavorite = function(_itemID_) {
+            var itemID = _itemID_.toString(),
+                index = _.indexOf(this.data, itemID);
             return index > -1 ? true : false;
         };
 
-        this.toggleFavorite = function(itemID) {
-
+        this.toggleFavorite = function(_itemID_, type) {
+            var itemID = _itemID_.toString();
             if (this.isFavorite(itemID)) {
-                this.removeFavorite(itemID);
+                this.removeFavorite(itemID, type);
             } else {
-                this.addFavorite(itemID);
+                this.addFavorite(itemID, type);
             }
-
         };
 
         this.getFavorites = function() {

@@ -45,7 +45,4 @@ angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout
             });
         }
     };
-
-   
-
 }]);

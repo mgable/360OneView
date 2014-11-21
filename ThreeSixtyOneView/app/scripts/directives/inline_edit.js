@@ -13,7 +13,8 @@ angular.module('ThreeSixtyOneView.directives')
             transclude: true,
             scope: {
                 item: "=",
-                test: "="
+                test: "=",
+                submitaction: "="
             },
             link: function($scope, $element, $attrs) {
                 var tempItem = angular.copy($scope.item),
@@ -34,7 +35,7 @@ angular.module('ThreeSixtyOneView.directives')
 
                 $scope.submit = function(item) {
                     $scope.item = item;
-                    $rootScope.$broadcast(EVENTS.renameProject, $scope.item);
+                    $rootScope.$broadcast(EVENTS[$scope.submitaction], $scope.item);
                     $scope.isActive = false;
                 };
 

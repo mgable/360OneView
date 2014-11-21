@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView')
+angular.module('ThreeSixtyOneView.directives')
   .directive('breadcrumb', function ($compile, $state, $stateParams, $sce, $interpolate, GotoService, ProjectsService, ScenarioService) {
 	return {
 		template: "<span ng-bind-html='breadcrumbs' ng-click='goto($event)'></span>",
@@ -32,6 +32,7 @@ angular.module('ThreeSixtyOneView')
 					scope.breadcrumbs = breadcrumbs;
 				}
 			});
-		}
+		},
+		replace: true
 	};
   });

@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.directives')
-  .directive('singleClick', function ($parse) {
+  .directive('singleClick', function ($parse, $timeout) {
     return {
         restrict: 'A',
         link: function(scope, element, attr) {
@@ -14,7 +14,7 @@ angular.module('ThreeSixtyOneView.directives')
           element.on('click', function (event) {
             clicks++;  //count clicks
             if(clicks === 1) {
-              timer = setTimeout(function() {
+              timer = $timeout(function() {
                 scope.$apply(function () {
                     fn(scope, { $event: event });
                 });
