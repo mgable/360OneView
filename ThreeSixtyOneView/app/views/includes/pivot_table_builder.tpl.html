@@ -1,16 +1,14 @@
 <div id="pivotBuilder">
 	<div>
-		<div class="pbTitle" ng-class="{pbTitleSel: pbShow}">
-			<div class="pbRenameArea" ng-mouseOver="rename = true" ng-mouseOut="rename = false">
-				<span class="fa fa-eye" ng-show="pbShow"></span>
-				<span class="pbTitleText" ng-clicks="pbShow = !pbShow; undoList = [];" ng-click="adjustHeight(); pbShow ? closeSlider() : (pbShow = true)" ng-hide="saveAs">{{viewName}}</span>
-				<span class="pbSaveAsBox" ng-show="saveAs">
+		<div class="pbTitle" ng-class="{pbTitleSel: pbShow, pbGray: !pbShow}">
+			<div class="pbRenameArea">
+				<i class="fa fa-eye" ng-class="{pbGray: !pbShow}"></i>
+				<div class="pbTitleText clickable" ng-click="adjustHeight(); pbShow ? startSaveAs() : (pbShow = true)" ng-hide="saveAs">{{viewName}}</div>
+				<div class="pbSaveAsBox" ng-show="saveAs">
 					<input type="text" ng-model="saveAsName" ng-keyup="renameAction($event)">
-					<span class="glyphicon glyphicon-ok clickable" ng-click="finishSaveAs(true)"></span>
-					<span class="glyphicon glyphicon-remove clickable" ng-click="finishSaveAs(false)"></span>
-				</span>
-				<span ng-show="pbShow && changeMade() && !saveAs" class="pbTitleEdited">- Draft</span>
-				<div class="pbRename"><span class="pbRenameButt glyphicon glyphicon-pencil clickable" ng-show="rename && pbShow && !saveAs" ng-click="startSaveAs()"></span></div>
+					<i class="fa fa-check clickable" ng-click="finishSaveAs(true)"></i>
+					<i class="fa fa-remove clickable" ng-click="finishSaveAs(false)"></i>
+				</div>
 			</div>
 		</div>
 
@@ -27,162 +25,185 @@
 
 	<div ng-class="{pbOpened: pbShow}" class="pbSlider">
 		<div class="pbControlBar">
-			<div class="pbFunctionFlip"></div>
-			<div class="pbSaveMenu"></div>
-			<div class="pbViewsList"></div>
+			<div class="pbFunctionFlip">
+				<div class="pbFunctionFlipButton clickable" ng-class="{pbFunctionFlipButtonActive: !filterSection}" ng-click="filterSection = false;"><i class="fa fa-table"></i></div>
+				<div class="pbFunctionFlipButton clickable" ng-class="{pbFunctionFlipButtonActive: filterSection}" ng-click="filterSection = true;"><i class="fa fa-filter"></i></div>
+			</div>
+
+			<div class="pbSaveMenu" ng-mouseleave="viewSaveMenu = false">
+				<div class="pbViewSave">
+					<div class="pbSaveHolder">
+						<div class="pbSaveButton clickable" ng-click="saveView()" ng-class="{pbViewSaveDisabled: !changeMade()}">
+							<i class="fa fa-save"></i> Save View
+						</div>
+						<div class="pbSaveDropButton clickable" ng-class="{pbSaveDropSelected: viewSaveMenu}" ng-click="viewSaveMenu = !viewSaveMenu">
+							<i class="fa fa-caret-down"></i>
+						</div>
+					</div>
+					<div class="pbViewSaveMenu" ng-show="viewSaveMenu">
+						<div class="pbViewSaveMenuVisible">
+							<div class="pbViewSaveMenuItem clickable" ng-click="startSaveAs(); viewSaveMenu = false;"><i class="fa fa-save"></i> Save As</div>
+							<div class="pbViewSaveMenuItem clickable" ng-click="resetView(); viewSaveMenu = false;"><i class="fa fa-undo"></i> Revert</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="pbViewsList" ng-mouseleave="viewRecentViews = false">
+				<div class="pbRecentViewsButton clickable" ng-click="viewRecentViews = !viewRecentViews">
+					<i class="fa fa-eye"></i> Recent Views <i class="fa fa-caret-down"></i>
+				</div>
+				<div class="pbRecentViewsMenu" ng-show="viewRecentViews">
+					<div class="pbRecentViewsMenuVisible">
+						<div class="clickable"><i class="fa fa-eye"></i> Q1 2014 Upfronts</div>
+						<div class="clickable"><i class="fa fa-eye"></i> Newfronts 2015</div>
+						<div class="clickable"><i class="fa fa-eye"></i> Behrooz 10% Southwest Regional</div>
+						<div class="clickable"><i class="fa fa-eye"></i> Joe's Lowest Performance Quarter</div>
+						<div class="clickable"><i class="fa fa-eye"></i> Andy 2015 Holidays</div>
+						<hr>
+						<div class="clickable"><i class="fa fa-folder-open-o"></i> All Views</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
-		<div class="pbViewConf" ng-mouseleave="viewMenu = false" ng-show="!saveAs">
-			<span ng-show="pbShow" class="glyphicon glyphicon-cog pbViewConfButt clickable" ng-class="{pbViewConfMenuBack: viewMenu}" ng-click="viewMenu = !viewMenu"></span>
-			<div class="pbViewConfMenu" ng-show="viewMenu">
-				<span class="pbViewConfMenuTitl">RECENT VIEWS</span>
-				<ul>
-					<li class="pbViewConfMenuSel clickable" ng-repeat="view in pbData.viewsList">
-						<span class="glyphicon glyphicon-eye-open"></span> {{view.name}}
-					</li>
-				</ul>
-				<span class="pbViewConfMenuSel bold clickable">View all saved views</span>
-				<hr>
-				<span class="pbViewConfMenuSel bold clickable">Share</span>
-			</div>
-		</div>
-		<div class="pbViewSaved" ng-show="notifMsg">{{titleMsg}}</div>
-		<div class="pbViewSave" ng-show="pbShow && !saveAs && !notifMsg" ng-mouseleave="viewSaveMenu = false">
-			<span class="clickable"><span class="pbSaveHolder" ng-click="saveView()" ng-class="{pbViewSaveDisabled: !changeMade()}"><span class="glyphicon glyphicon-floppy-disk"></span> Save View</span><span class="pbSaveHolder" ng-click="viewSaveMenu = !viewSaveMenu"><span class="caret"></span></span></span>
-			<div class="pbViewSaveMenu" ng-show="viewSaveMenu">
-				<span class="pbViewSaveMenuItem clickable" ng-click="startSaveAs()">Save As New</span>
-				<hr>
-				<span class="pbViewSaveMenuItem clickable" ng-click="resetView()">Reset</span>
-			</div>
-		</div>
-		<div class="pbSliderClose">
-			<span class="clickable" ng-click="adjustHeightOnClick(); closeSlider()"><span class="glyphicon glyphicon-remove"></span><span class="pbCloseText"> Close</span></span>
-			<div class="alert alert-warning alert-dismissible pbCloseAlert" ng-style="{opacity: alertOpacity, 'z-index': (alertOpacity - 0.2)*1000}" role="alert"> <!-- add a class to 0 z-index -->
-				<button type="button" class="close" ng-click="alertOpacity = 0;">&times;</span><span class="sr-only">Close</span></button>
-				<strong>Warning!</strong> You made changes that you haven't saved. Click '<span class="clickable" ng-click="saveView(); applyView(); pbShow = false; alertOpacity = 0;">Apply</span>' to commit these changes.
-			</div>
-		</div>
-		<div id="dragDropArea">
+		<div id="dragDropArea" ng-hide="filterSection">
 			<div class="pbSec">
-				<div class="pbSecTitle"><span class="glyphicon glyphicon-th-list rotate90"></span> Columns</div>
+				<div class="pbSecTitle">Columns</div>
 				<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="pbData.viewData.columns" ng-blur="addPopUp['columns'] = false" tabindex="-1">
-					<div class="pbItem" ng-repeat="item in pbData.viewData.columns" data-as-sortable-item>
-						<span class="pbItemInfo" data-as-sortable-item-handle>
-							<!-- <span ><i class="fa fa-arrows"></i></span> -->
-							<!-- <span class="pbItemCat">{{item.category}}</span> -->
+					<div class="pbItem" ng-repeat="item in pbData.viewData.columns" data-as-sortable-item data-as-sortable-item-handle>
+						<span><i class="fa fa-reorder"></i></span>
+						<span class="pbItemInfo">
 							<span class="pbItemName clickable" ng-click="add.replaceItem = $index; add.selected = 'columns'; addPopUp['columns'] = !addPopUp['columns']; addPopUp['rows'] = false; popUpLocSet($event);">{{item.name}}</span>
 						</span>
-						<span class="glyphicon glyphicon-remove clickable" ng-click="delItem(item.name, 'columns')"></span>
+						<span class="fa fa-remove clickable" ng-click="delItem(item.name, 'columns')"></span>
 					</div>
-					<div class="pbAddBox">
-						<div class="pbItemAdd clickable" no-drag ng-click="add.replaceItem = -1; add.selected = 'columns'; addPopUp['columns'] = !addPopUp['columns']; addPopUp['rows'] = false; popUpLocSet($event);">+ Add</div>
-						<div ng-show="addPopUp['columns']" class="pbAddPopUp modal-content" ng-style="{top: (popUpLoc.top + 30) + 'px', left: (popUpLoc.left - 150) + 'px'}">
-							<table>
-								<tr ng-repeat="category in pbData.itemsList">
-									<td>{{category.label}}</td>
-									<td>
-										<div ng-repeat="item in category.members">
-											<span class="pbItemAddEnabled" ng-if="!added[item.label]" ng-click="addItem(item.label, category.label)">{{item.label}}</span>
-											<span class="pbItemAddDisabled" ng-if="added[item.label]">{{item.label}}</span>
-										</div>
-									</td>
-								</tr>
-							</table>
+					<div class="pbAddBox" ng-mouseleave="addPopUp['columns'] = false">
+						<div class="pbItemAdd clickable" no-drag ng-click="add.replaceItem = -1; add.selected = 'columns'; addPopUp['columns'] = !addPopUp['columns']; addPopUp['rows'] = false; popUpLocSet($event);"><i class="fa fa-plus-square"></i> Add</div>
+						<div ng-show="addPopUp['columns']" class="pbAddPopUp" ng-style="{left: (popUpLoc.left - 150) + 'px'}">
+							<div class="pbAddPopUpVisible">
+								<table>
+									<tr ng-repeat="category in pbData.itemsList">
+										<td>{{category.label}}</td>
+										<td>
+											<div ng-repeat="item in category.members">
+												<span class="pbItemAddEnabled clickable" ng-if="!added[item.label]" ng-click="addItem(item.label, category.label)"><i class="fa fa-circle-o"></i> {{item.label}}</span>
+												<span class="pbItemAddDisabled" ng-if="added[item.label]"><i class="fa fa-circle"></i> {{item.label}}</span>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="pbSec">
-				<div class="pbSecTitle"><span class="glyphicon glyphicon-th-list"></span> Rows</div>
+				<div class="pbSecTitle">Rows</div>
 				<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="pbData.viewData.rows" ng-blur="addPopUp['rows'] = false" tabindex="-1">
 					<div class="pbItem" ng-repeat="item in pbData.viewData.rows" data-as-sortable-item>
+						<span><i class="fa fa-reorder"></i></span>
 						<span class="pbItemInfo" data-as-sortable-item-handle>
-							<!-- <span ><i class="fa fa-arrows"></i></span> -->
-							<!-- <span class="pbItemCat">{{item.category}}</span> -->
 							<span class="pbItemName clickable" ng-click="add.replaceItem = $index; add.selected = 'rows'; addPopUp['rows'] = !addPopUp['rows']; addPopUp['columns'] = false; popUpLocSet($event);">{{item.name}}</span>
 						</span>
-						<span class="glyphicon glyphicon-remove clickable" ng-click="delItem(item.name, 'rows')"></span>
+						<span class="fa fa-remove clickable" ng-click="delItem(item.name, 'rows')"></span>
 					</div>
-					<div class="pbAddBox">
-						<div class="pbItemAdd clickable" ng-click="add.replaceItem = -1; add.selected = 'rows'; addPopUp['rows'] = !addPopUp['rows']; addPopUp['columns'] = false; popUpLocSet($event);">+ Add</div>
-						<div ng-show="addPopUp['rows']" class="pbAddPopUp modal-content" ng-style="{top: (popUpLoc.top + 30) + 'px', left: (popUpLoc.left - 150) + 'px'}">
-							<table>
-								<tr ng-repeat="category in pbData.itemsList">
-									<td>{{category.label}}</td>
-									<td>
-										<div ng-repeat="item in category.members">
-											<span class="pbItemAddEnabled" ng-if="!added[item.label]" ng-click="addItem(item.label, category.label)">{{item.label}}</span>
-											<span class="pbItemAddDisabled" ng-if="added[item.label]">{{item.label}}</span>
-										</div>
-									</td>
-								</tr>
-							</table>
+					<div class="pbAddBox" ng-mouseleave="addPopUp['rows'] = false">
+						<div class="pbItemAdd clickable" ng-click="add.replaceItem = -1; add.selected = 'rows'; addPopUp['rows'] = !addPopUp['rows']; addPopUp['columns'] = false; popUpLocSet($event);"><i class="fa fa-plus-square"></i> Add</div>
+						<div ng-show="addPopUp['rows']" class="pbAddPopUp" ng-style="{left: (popUpLoc.left - 150) + 'px'}">
+							<div class="pbAddPopUpVisible">
+								<table>
+									<tr ng-repeat="category in pbData.itemsList">
+										<td>{{category.label}}</td>
+										<td>
+											<div ng-repeat="item in category.members">
+												<span class="pbItemAddEnabled clickable" ng-if="!added[item.label]" ng-click="addItem(item.label, category.label)"><i class="fa fa-circle-o"></i> {{item.label}}</span>
+													<span class="pbItemAddDisabled" ng-if="added[item.label]"><i class="fa fa-circle"></i> {{item.label}}</span>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="pbSec">
-			<div class="pbSecTitle"><span class="glyphicon glyphicon-filter"></span> Filters</div>
-			<div ng-repeat="cat in pbData.itemsList" class="pbFilterBox clickable" ng-click="selectedFilter.cat = cat; selectedFilter.selFil = chooseViewBy(cat.members); cancelChangeFilter();" data-toggle="modal" data-target="#filterModal">
-				<div>
-					<div class="pbFilterCat">{{cat.label}} <span class="pbFilterSize">({{pbData.viewData.filters[$index].items.length}}/{{cat.members[cat.members.length - 1].members.length}})</span></div>
-					<div class="pbFilterVal" ng-show="pbData.viewData.filters[$index].items.length < cat.members[cat.members.length - 1].members.length" data-toggle="tooltip" data-placement="bottom" title="{{pbData.viewData.filters[$index].items.join(', ')}}"><span ng-repeat="fltr in pbData.viewData.filters[$index].items">{{fltr}}<span ng-hide="$last">, </span></span></div>
-					<div class="pbFilterVal" ng-show="pbData.viewData.filters[$index].items.length == cat.members[cat.members.length - 1].members.length">ALL</div>
+		<div class="pbSec" ng-show="filterSection">
+			<div class="pbSecTitle">Filters</div>
+			<div class="pbFilterValues">
+				<div ng-repeat="cat in pbData.itemsList" class="pbFilterBox clickable" ng-click="selectedFilter.cat = cat; selectedFilter.selFil = chooseViewBy(cat.members); cancelChangeFilter();" data-toggle="modal" data-target="#filterModal">
+					<div class="pbFilterCat">{{cat.label}} <span class="pbFilterSize">({{categorizeValues($index, addedFilter[cat.label]).selected}}/{{categorizeValues($index, addedFilter[cat.label]).total}})</span></div>
+					<div class="pbFilterVal" ng-show="pbData.viewData.filters[$index].items.length < cat.members[cat.members.length - 1].members.length" data-toggle="tooltip" data-placement="bottom" title="{{pbData.viewData.filters[$index].items.join(', ')}}">{{categorizeValues($index, addedFilter[cat.label]).label.join(', ')}}</div>
+					<div class="pbFilterVal" ng-show="pbData.viewData.filters[$index].items.length == cat.members[cat.members.length - 1].members.length">All</div>
 				</div>
 			</div>
 		</div>
-		<!-- <div class="pull-right pbViewButt">
-			<button class="btn btn-default btn-undo" ng-click="undoViewChange()" ng-disabled="undoList.length === 0">Undo</button>
-			<button class="btn btn-primary" ng-click="applyView()" ng-disabled="viewApplied">APPLY</button>
-		</div> -->
+		<div class="pbSliderCollapse">
+			<span class="clickable" ng-click="pbShow = false;">
+				<i class="fa fa-chevron-up"></i> Collapse
+			</span>
+		</div>
 	</div>
-
 
 	<!-- more revised filter modal -->
 	<div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" resize>
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-					<h4 class="modal-title" id="myModalLabel">Filters</h4>
+		<div class="filter-modal-dialog">
+			<div class="filter-modal-content">
+				<div class="filter-modal-header">
+					<h4 class="filter-modal-title" id="myModalLabel">Filters</h4>
 				</div>
-				<div class="modal-body">
-					<div class="pbFilterModalLinks" ng-style="{height: (windowHeight - 128) + 'px'}">
+				<div class="filter-modal-body">
+					<div class="pbFilterModalLinks">
 						<div class="pbFilterModalLink clickable" ng-repeat="cat in pbData.itemsList" ng-click="selectedFilter.cat = cat; selectedFilter.selFil = chooseViewBy(cat.members);" ng-class="{active: cat.label == selectedFilter.cat.label}">
 							<div>{{cat.label}}
 								<span class="pbFilterSize">({{categorizeValues($index, addedFilter[cat.label]).selected}}/{{categorizeValues($index, addedFilter[cat.label]).total}})</span>
 							</div>
 							<div ng-show="categorizeValues($index, addedFilter[cat.label]).selected<categorizeValues($index, addedFilter[cat.label]).total" class="pbFilterModalValues" data-toggle="tooltip" data-placement="bottom" title="{{categorizeValues($index, addedFilter[cat.label]).label.join(', ')}}">{{categorizeValues($index, addedFilter[cat.label]).label.join(', ')}}</div>
-							<div ng-hide="categorizeValues($index, addedFilter[cat.label]).selected<categorizeValues($index, addedFilter[cat.label]).total" class="pbFilterModalValues" data-toggle="tooltip" data-placement="bottom" title="{{categorizeValues($index, addedFilter[cat.label]).label.join(', ')}}">ALL</div>
-							<!-- <div class="pbFilterModalValues" data-toggle="tooltip" data-placement="bottom" title="{{pbData.viewData.filters[$index].items.join(', ')}}">
-								<span ng-repeat="ind in addedFilter[cat.label] | objToArr">{{ind}}<span ng-hide="$last">, </span></span>
-							</div> -->
+							<div ng-hide="categorizeValues($index, addedFilter[cat.label]).selected<categorizeValues($index, addedFilter[cat.label]).total" class="pbFilterModalValues" data-toggle="tooltip" data-placement="bottom" title="{{categorizeValues($index, addedFilter[cat.label]).label.join(', ')}}">All</div>
 						</div>
 					</div>
 					<div class="pbFilterModalMain">
-						<div class="pbFilterTitle">
-							{{selectedFilter.cat.label}}
-							<span class="pbFilterSize">
-								({{filterCount(addedFilter[selectedFilter.cat.label],false,'')}}/{{totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,'')}})
-							</span>
-						</div>
-						<div class="pbFilterSelect control-label">
-							View by: <select ng-model="selectedFilter.selFil" ng-change="searchFilters(selectedFilter.selFil, filterSearch);" ng-options="item.label for item in selectedFilter.cat.members" class="form-control">
-								<!-- <option value=""> --- Choose a group --- </option> -->
-							</select>
-						</div>
-
-						<div class="pbFilterSearch" ng-show="selectedFilter.selFil">
-							<input class="form-control" type="text" placeholder="Search" ng-model="filterSearch.label"  ng-keyup="searchFilters(selectedFilter.selFil, filterSearch)">
-						</div>
-
-						<div class="pbModalHeight" ng-style="{height: (windowHeight - 290) + 'px'}">
-							<filters ng-if="searchResults.members" collection="searchResults" filters="addedFilter" category="{label: selectedFilter.cat.label}"></filters>
+						<div class="pbFilterModalContent">
+							<div class="pbFilterModalHeader">
+								<div class="pbFilterTitle" ng-mouseleave="filterViewDrop = false;">
+									<div class="pbFilterViewTitle clickable" ng-click="filterViewDrop = !filterViewDrop">{{selectedFilter.selFil.label}} <i class="fa fa-caret-down"></i></div>
+									<div class="pbFilterViewDrop" ng-show="filterViewDrop">
+										<div class="pbFilterViewDropVisible">
+											<div ng-repeat="item in selectedFilter.cat.members" class="clickable" ng-click="filterViewDrop = false; selectedFilter.selFil = item; searchFilters(selectedFilter.selFil, filterSearch);">{{item.label}}</div>
+										</div>
+									</div>
+								</div>
+								<div class="pbFilterSearch" ng-show="selectedFilter.selFil">
+									<i class="fa fa-filter"></i>
+									<input class="pbFilterSearchInput" type="text" placeholder="Filter List" ng-model="filterSearch.label"  ng-keyup="searchFilters(selectedFilter.selFil, filterSearch)">
+								</div>
+							</div>
+							<div class="pbFilterCustomSelection" ng-mouseleave="filterPopup = false;">
+								<div class="pbFilterSelectionButton" ng-class="{active: filterPopup}">
+									<div class="pbFilterSelectAll clickable" ng-show="filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label) === 0" ng-click="selectFilters(selectedFilter.cat.label, true, true);"><i class="fa fa-circle-o"></i></div>
+									<div class="pbFilterSelectAll clickable" ng-show="filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label) === totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,filterSearch.label)" ng-click="selectFilters(selectedFilter.cat.label, true, false);"><i class="fa fa-check-circle"></i></div>
+									<div class="pbFilterSelectAll clickable" ng-show="filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label) % totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,filterSearch.label) > 0.01" ng-click="selectFilters(selectedFilter.cat.label, true, true);"><i class="fa fa-minus-circle"></i></div>
+									<div class="pbFilterSelectDrop clickable" ng-click="filterPopup = !filterPopup"><i class="fa fa-caret-down"></i></div>
+								</div>
+								<div class="pFilterDrop" ng-show="filterPopup">
+									<div class="pbFilterDropVisible">
+										<div class="clickable" ng-click="filterPopup = false; selectFilters(selectedFilter.cat.label, true, true);">Select All Visible</div>
+										<div class="clickable" ng-click="filterPopup = false; selectFilters(selectedFilter.cat.label, true, false);">Deselect All Visible</div>
+										<div class="clickable" ng-click="filterPopup = false; selectFilters(selectedFilter.cat.label, false, false);">Deselect All Not Visible</div>
+									</div>
+								</div>
+							</div>
+							<div class="pbFilterNumberSelected">
+								({{filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label)}}/{{totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,filterSearch.label)}})
+							</div>
+							<div class="pbModalHeight" ng-style="{height: (windowHeight - 250) + 'px'}">
+								<filters ng-if="searchResults.members" collection="searchResults" filters="addedFilter" category="{label: selectedFilter.cat.label}"></filters>
+							</div>
 						</div>
 						<div class="pbFilterModalButtons">
-							<button type="button" class="btn btn-default pull-left" data-dismiss="modal" ng-click="cancelChangeFilter()">CANCEL</button>
-							<button type="button" class="btn btn-primary pull-right" data-dismiss="modal" ng-click="changeFilter()" ng-disabled="filterCount(addedFilter[selectedFilter.cat.label], false,'') == 0">UPDATE</button>
+							<button type="button" class="btn filterCancelButton" data-dismiss="modal" ng-click="cancelChangeFilter();">Cancel</button>
+							<button type="button" class="btn filterApplyButton" data-dismiss="modal" ng-click="changeFilter()" ng-disabled="filterCount(addedFilter[selectedFilter.cat.label], false,'') == 0">APPLY</button>
 							<div class="alert alert-danger pbFilterModalAlert" role="alert" ng-show="filterCount(addedFilter[selectedFilter.cat.label], false, '') == 0">
 								You should select at least one item.
 							</div>
@@ -196,8 +217,3 @@
 		</div>
 	</div>
 </div>
-
-<!--
-<pre>
-{{appliedView}}
-</pre> -->

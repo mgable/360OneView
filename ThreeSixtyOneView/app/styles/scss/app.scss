@@ -7,12 +7,12 @@ html {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  overflow-y: scroll;
-  overflow-x: hidden;
 }
 
 body {
-  overflow-y:hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  /* overflow-y:hidden; */
   background-color: transparent;
   font-family: $sansFontFamily;
   position: relative;
