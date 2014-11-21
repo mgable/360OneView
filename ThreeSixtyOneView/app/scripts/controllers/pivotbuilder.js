@@ -614,12 +614,14 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		}
 	};
 
-	$scope.adjustTableHeight = function(toggleStatus) {
+    $scope.heightChanged = function() {
 
-	    toggleStatus = $scope.pbShow ? "close" : "open";
-	    $rootScope.$broadcast(EVENTS.toggleBuilder, toggleStatus);
+        $timeout(function() {
+			$scope.pivotBuilderHeight = angular.element('#pivotBuilder')[0].offsetHeight;
+			$rootScope.$broadcast(EVENTS.heightChanged, $scope.pivotBuilderHeight);
+        }, 500);
 
-	};
+    };
 
 	init();
 }).controller('pivotTableCtrl', ['$scope', 'pbData',

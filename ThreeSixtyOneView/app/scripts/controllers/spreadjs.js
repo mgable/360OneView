@@ -63,10 +63,6 @@ angular.module("ThreeSixtyOneView")
                     if (j < $scope.colHeaderCnt) {
                         column.formatter("0").font("14px proxima-nova").foreColor("#000000");
                         column.wordWrap(true);
-                        // column.borderRight(new $.wijmo.wijspread.LineBorder("#CCCCCC", $.wijmo.wijspread.LineStyle.thin));
-                        // if (j === $scope.colHeaderCnt - 1) {
-                        //     column.borderRight(new $.wijmo.wijspread.LineBorder("#CCCCCC", $.wijmo.wijspread.LineStyle.thin));
-                        // }
                     } else {
                         column.formatter("$#,###");
                     }
@@ -86,9 +82,6 @@ angular.module("ThreeSixtyOneView")
                         // sheet.autoFitRow(i);
                     } else {
                         for (j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
-                            // if(i%2 == 0) {
-                            //     sheet.getCell(i,j).backColor("#f5f5f5");
-                            // }
                             sheet.getCell(i, j).font("14px proxima-nova").foreColor("#000000").value(randomNumber(0, 2000)).locked(false);
                         }
                     }
@@ -169,11 +162,6 @@ angular.module("ThreeSixtyOneView")
             }
 
             function addSpan() {
-
-                // header span
-                // for (var j = 0; j < $scope.colHeaderCnt; j++) {
-                //     sheet.addSpan(0, j, $scope.rowHeaderCnt, 1);
-                // }
 
                 // row span
                 var l = 0;
