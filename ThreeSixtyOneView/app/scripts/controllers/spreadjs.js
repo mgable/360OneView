@@ -34,13 +34,16 @@ angular.module("ThreeSixtyOneView")
                 }
 
                 // set selection background and border color
-                sheet.selectionBackColor("rgba(204, 204, 204, 0.2)");
-                sheet.selectionBorderColor("#e6e6e6");
+                sheet.selectionBackColor("rgba(229, 229, 229, 0.3)");
+                sheet.selectionBorderColor("#CCCCCC");
 
                 // set forzenline position and color
                 sheet.setFrozenRowCount($scope.rowHeaderCnt);
                 sheet.setFrozenColumnCount($scope.colHeaderCnt);
                 sheet.frozenlineColor("transparent");
+
+                // hide gridline
+                sheet.setGridlineOptions({showVerticalGridline: false, showHorizontalGridline: false});
 
                 // add span
                 addSpan();
@@ -48,21 +51,22 @@ angular.module("ThreeSixtyOneView")
                 // add default style
                 var ns = $.wijmo.wijspread;
                 var style = sheet.getDefaultStyle();
-                style.borderLeft = new ns.LineBorder("#E6E6E6", $.wijmo.wijspread.LineStyle.dotted);
-                style.borderTop = new ns.LineBorder("#E6E6E6", $.wijmo.wijspread.LineStyle.dotted);
-                style.borderRight = new ns.LineBorder("#E6E6E6", $.wijmo.wijspread.LineStyle.dotted);
-                style.borderBottom = new ns.LineBorder("#E6E6E6", $.wijmo.wijspread.LineStyle.dotted);
+                style.borderLeft = new ns.LineBorder("#ffffff", $.wijmo.wijspread.LineStyle.empty);
+                style.borderTop = new ns.LineBorder("#e5e5e5", $.wijmo.wijspread.LineStyle.thin);
+                style.borderRight = new ns.LineBorder("#ffffff", $.wijmo.wijspread.LineStyle.empty);
+                style.borderBottom = new ns.LineBorder("#e5e5e5", $.wijmo.wijspread.LineStyle.thin);
 
                 // set col style
                 for (var j = 0; j < $scope.colCnt; j++) {
                     var column = sheet.getColumn(j);
                     column.vAlign($.wijmo.wijspread.VerticalAlign.center).textIndent(1);
                     if (j < $scope.colHeaderCnt) {
-                        column.formatter("0").font("13px proxima-nova").foreColor("#888888");
+                        column.formatter("0").font("14px proxima-nova").foreColor("#000000");
                         column.wordWrap(true);
-                        if (j === $scope.colHeaderCnt - 1) {
-                            column.borderRight(new $.wijmo.wijspread.LineBorder("#E6E6E6", $.wijmo.wijspread.LineStyle.thin));
-                        }
+                        // column.borderRight(new $.wijmo.wijspread.LineBorder("#CCCCCC", $.wijmo.wijspread.LineStyle.thin));
+                        // if (j === $scope.colHeaderCnt - 1) {
+                        //     column.borderRight(new $.wijmo.wijspread.LineBorder("#CCCCCC", $.wijmo.wijspread.LineStyle.thin));
+                        // }
                     } else {
                         column.formatter("$#,###");
                     }
@@ -71,17 +75,20 @@ angular.module("ThreeSixtyOneView")
                 // set row style
                 for (var i = 0; i < $scope.rowCnt; i++) {
                     var row = sheet.getRow(i);
+                        sheet.setRowHeight(i, 40, $.wijmo.wijspread.SheetArea.viewport);
                     if (i < $scope.rowHeaderCnt) {
                         if (i === $scope.rowHeaderCnt - 1) {
-                            row.borderBottom(new $.wijmo.wijspread.LineBorder("#E6E6E6", $.wijmo.wijspread.LineStyle.thin));
+                            row.borderBottom(new $.wijmo.wijspread.LineBorder("#CCCCCC", $.wijmo.wijspread.LineStyle.thick));
                         }
-                        row.formatter("0").font("13px proxima-nova").foreColor("#888888");
+                        row.formatter("0").font("11px proxima-nova").foreColor("#888888");
                         row.hAlign($.wijmo.wijspread.HorizontalAlign.center);
                         row.wordWrap(true);
-                        sheet.autoFitRow(i);
+                        // sheet.autoFitRow(i);
                     } else {
-                        sheet.setRowHeight(i, 30, $.wijmo.wijspread.SheetArea.viewport);
                         for (j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
+                            // if(i%2 == 0) {
+                            //     sheet.getCell(i,j).backColor("#f5f5f5");
+                            // }
                             sheet.getCell(i, j).font("14px proxima-nova").foreColor("#000000").value(randomNumber(0, 2000)).locked(false);
                         }
                     }
@@ -116,6 +123,9 @@ angular.module("ThreeSixtyOneView")
                     sheet.addSpan(level, min, 1, span);
                     var rMin = min,
                         rMax = min + span;
+                    for(var i = 0; i < $scope.rowHeaderCnt; i++) {
+                        sheet.getCell(i, min).borderLeft(new $.wijmo.wijspread.LineBorder("#e5e5e5", $.wijmo.wijspread.LineStyle.thin));
+                    }
                     createRowSpan(level + 1, rMin, rMax - 1);
                     min += span;
                 });
@@ -149,6 +159,9 @@ angular.module("ThreeSixtyOneView")
                     sheet.getCell(min, level).vAlign($.wijmo.wijspread.VerticalAlign.top);
                     var cMin = min,
                         cMax = min + span;
+                    for(var j = 0; j < $scope.colHeaderCnt; j++) {
+                        sheet.getCell(min, j).borderTop(new $.wijmo.wijspread.LineBorder("#e5e5e5", $.wijmo.wijspread.LineStyle.thin));
+                    }
                     createColSpan(level + 1, cMin, cMax - 1);
                     min += span;
                 });
@@ -158,7 +171,9 @@ angular.module("ThreeSixtyOneView")
             function addSpan() {
 
                 // header span
-                sheet.addSpan(0, 0, $scope.rowHeaderCnt, $scope.colHeaderCnt);
+                // for (var j = 0; j < $scope.colHeaderCnt; j++) {
+                //     sheet.addSpan(0, j, $scope.rowHeaderCnt, 1);
+                // }
 
                 // row span
                 var l = 0;
@@ -186,6 +201,7 @@ angular.module("ThreeSixtyOneView")
                 sheet = spread.getActiveSheet();
 
                 spread.grayAreaBackColor("Transparent");
+                spread.scrollbarMaxAlign(true);
                 sheet.setColumnHeaderVisible(false);
                 sheet.setRowHeaderVisible(false);
                 sheet.setColumnHeaderVisible(false);

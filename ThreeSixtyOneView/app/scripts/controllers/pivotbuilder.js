@@ -7,7 +7,7 @@
 * # PivotbuilderctrlCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($scope, $timeout, $filter, pbData, ptData, Views) {
+angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($scope, $rootScope, $timeout, $filter, EVENTS, pbData, ptData, Views) {
 
 	console.info("Views");
 	console.info(Views);
@@ -612,6 +612,13 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 				}
 			}
 		}
+	};
+
+	$scope.adjustTableHeight = function(toggleStatus) {
+
+	    toggleStatus = $scope.pbShow ? "close" : "open";
+	    $rootScope.$broadcast(EVENTS.toggleBuilder, toggleStatus);
+
 	};
 
 	init();
@@ -1670,9 +1677,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
             "33": "TV"
         }, {
             "0": "2013",
-            "1": "Total"
-        }, {
-            "0": "2013",
             "1": "Atlanta"
         }, {
             "0": "2013",
@@ -1740,9 +1744,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
         }, {
             "0": "2013",
             "1": "National"
-        }, {
-            "0": "2014",
-            "1": "Total"
         }, {
             "0": "2014",
             "1": "Atlanta"
