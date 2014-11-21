@@ -477,6 +477,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			}
 		}
 
+		for(i = 0; i < numRows; i++) {
+			$scope.pivotTableData[numCols - 1][i] = $scope.pbData.viewData.rows[i].name;
+		}
+
 		for(i = 0; i < totalColCount; i++) {
 
 			for(j = 0; j < numCols; j++) {
