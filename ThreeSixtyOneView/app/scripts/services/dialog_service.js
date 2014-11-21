@@ -15,17 +15,17 @@ angular.module('ThreeSixtyOneView.services')
         };
 
         //Prototype
-        this.currentScenario = function(_project_, _scenario_) {
-            dialogs.create('views/modal/create_scenario.tpl.html','CreateScenarioCtrl',{
-                project: _project_,
-                scenario: _scenario_
-            },{size:'md'});
-        };
+        // this.currentScenario = function(_project_, _scenario_) {
+        //     dialogs.create('views/modal/create_scenario.tpl.html','CreateScenarioCtrl',{
+        //         project: _project_,
+        //         scenario: _scenario_
+        //     },{size:'md'});
+        // };
 
-        this.openCreateScenario = function(_project_, _scenario_) {
-            dialogs.create('views/modal/scenario_create.tpl.html','OpenCreateScenarioCtrl',{
+        this.openCreateScenario = function(_project_, _scenarios_) {
+            dialogs.create('views/modal/scenario_create.tpl.html','CreateScenarioCtrl',{
                 project: _project_,
-                scenario: _scenario_
+                scenarios: _scenarios_
             },{size:'md'});
         };
 

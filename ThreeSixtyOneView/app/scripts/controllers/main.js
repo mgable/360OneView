@@ -79,7 +79,7 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.$on(EVENTS.gotoScenarioCreate, function(evt, data){
-            $scope.goto(evt, 'gotoScenarioCreate', $scope.getProject());
+            $scope.goto(evt, 'gotoScenarioCreate', $scope.getProject(), Scenarios);
         });
 
         $scope.$on(EVENTS.copyScenario, function(evt, scenario){
@@ -135,8 +135,10 @@ angular.module('ThreeSixtyOneView')
         $scope.FavoritesService = FavoritesService;
         
         $scope.init = function(whichView, _data_, stateParams){
-            var currentView = CONFIG.view[whichView],
-            filter = currentView.filterMenu.items[0],
+            var currentView = CONFIG.view[whichView], filter,
+            /* jshint ignore:start */
+            filter = eval(currentView.filter),
+            /* jshint ignore:end */
             reverse = currentView.reverse,
             orderBy = currentView.orderBy;
 
@@ -162,7 +164,7 @@ angular.module('ThreeSixtyOneView')
                 case "gotoScenarioEdit": GotoService.scenarioEdit($scope.getProject().id, item.id); break;
                 case "gotoDashboard": GotoService.dashboard(item.id); break;
                 case "gotoProjects": GotoService.projects(); break;
-                case "gotoScenarioCreate": DialogService.openCreateScenario($scope.getProject(), item); break;
+                case "gotoScenarioCreate": DialogService.openCreateScenario($scope.getProject()); break;
             }
         };
 
@@ -239,11 +241,6 @@ angular.module('ThreeSixtyOneView')
                     GotoService.scenarioEdit($scope.project.id, response.id);
                 });
             };
-
-            $scope.isScenarioTitleUnique = function(scenarioTitle) {
-                return ! _.findWhere($scope.scenarios, {title:scenarioTitle});
-            };
-
 
             $scope.currentScenario = function (scenario){
                 DialogService.currentScenario($scope.project, scenario);

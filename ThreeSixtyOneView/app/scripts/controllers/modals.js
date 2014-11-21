@@ -47,7 +47,7 @@ angular.module('ThreeSixtyOneView')
             $modalInstance.dismiss('create');
         };
         
-    }]).controller('CreateScenarioCtrl', ["$scope", "$rootScope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", function($scope, $rootScope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS) {
+    }]).controller('XXXXXCreateScenarioCtrl', ["$scope", "$rootScope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", function($scope, $rootScope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS) {
 
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
@@ -75,6 +75,10 @@ angular.module('ThreeSixtyOneView')
             sortScenarios(response);
         });
 
+        $scope.isScenarioTitleUnique = function(scenarioTitle) {
+            return ! _.findWhere($scope.scenarios, {title:scenarioTitle});
+        };
+
         $scope.setRow = function(item){
             //if (getStatus(id)) {
                 selectedRow = item;
@@ -89,68 +93,91 @@ angular.module('ThreeSixtyOneView')
         $scope.showRow = function(row){
             return row === selectedRow;
         };
-}]).controller('OpenCreateScenarioCtrl', ["$scope", "$rootScope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", function($scope, $rootScope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS) {
+}]).controller('CreateScenarioCtrl', ["$scope", "$rootScope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", "GotoService", function($scope, $rootScope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS, GotoService) {
 
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+
+        var getBaseScenario = function(){
+                return angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
+            }, 
+            getSelected = function(){
+                return selectedRow;
+            },
+            sortScenarios = function(scenarios){
+                $scope.scenarioList = scenarios;
+                $scope.masterProject = (_.findWhere($scope.scenarioList, {"title": "MASTER PROJECT"}));
+                $scope.scenarioList.splice(_.indexOf($scope.scenarioList, $scope.masterProject),1);
+                selectedRow = $scope.masterProject;
+
+                angular.forEach($scope.scenarioList, function(k,v){
+                    if (k.title === $scope.project.title){
+                        $scope.scenarioList.unshift($scope.scenarioList.splice(v,1)[0]);
+                    }
+                });
+            },
+            selectedRow;
 
         $scope.show = false;
         $scope.showBases = false;
         $scope.showFields = true;
-
-        $scope.mainShow = function() {
-            $scope.show = true;
-        }
-        $scope.mainHide = function() {
-            $scope.show = false;
-        }
-        $scope.showScenario = function() {
-            $scope.showBases = true;
-            $scope.showFields = false;
-        }
-        $scope.hideScenario = function() {
-            $scope.showBases = false;
-            $scope.showFields = true;
-        }
-        $scope.chosen = { scenario: "Choose a scenario" };
-
-        var selectedRow,
-            getSelected = function(){
-                return selectedRow;
-            },
-            sortScenarios = function(scenarios){
-                $scope.scenarioList = scenarios;
-                $scope.masterProject = (_.findWhere($scope.scenarioList, {"title": "MASTER PROJECT"}));
-                $scope.scenarioList.splice(_.indexOf($scope.scenarioList, $scope.masterProject),1);
-                selectedRow = $scope.masterProject;
-
-                angular.forEach($scope.scenarioList, function(k,v){
-                    if (k.title === $scope.project.title){
-                        $scope.scenarioList.unshift($scope.scenarioList.splice(v,1)[0]);
-                    }
-                });
-            };
-
-        $scope.scenario = data.scenario;
+        $scope.GotoService = GotoService;
         $scope.project = data.project;
+        $scope.scenarios = data.scenaios;
+        $scope.scenario = getBaseScenario();
+        $scope.chosen = { scenario: "Choose a scenario" };
 
         ScenarioService.getAll().then(function(response){
             sortScenarios(response);
         });
 
+        $scope.mainShow = function() {
+            $scope.show = true;
+        };
+        $scope.mainHide = function() {
+            $scope.show = false;
+        };
+        $scope.showScenario = function() {
+            $scope.showBases = true;
+            $scope.showFields = false;
+        };
+        $scope.hideScenario = function() {
+            $scope.showBases = false;
+            $scope.showFields = true;
+        };
         $scope.setRow = function(item){
-            //if (getStatus(id)) {
-                selectedRow = item;
-           // }
+            selectedRow = item;
+        };
+        $scope.showRow = function(row){
+            return row === selectedRow;
+        };
+       
+        $scope.isScenarioTitleUnique = function(scenarioTitle) {
+            console.info("scenario title was");
+            console.info(scenarioTitle);
+            console.info($scope.scenarios);
+            return ! _.findWhere($scope.scenarios, {title:scenarioTitle});
         };
 
         $scope.confirm = function(){
             $rootScope.$broadcast(EVENTS.updateBaseScenario, getSelected());
             $scope.showBases = false;
             $scope.showFields = true;
+            //$scope.close();
+        };
+
+        $scope.submit = function(_scenario_){
+            ScenarioService.create($scope.project, _scenario_).then(function(response){
+                GotoService.scenarioEdit($scope.project.id, response.id);
+            });
             $scope.close();
         };
 
-        $scope.showRow = function(row){
-            return row === selectedRow;
+        $scope.currentScenario = function (scenario){
+            DialogService.currentScenario($scope.project, scenario);
         };
+
+        $scope.$on(EVENTS.updateBaseScenario, function(event, data){
+            $scope.scenario.referenceScenario.id = data.id;
+            $scope.scenario.referenceScenario.name = data.title;
+        });
 }]);

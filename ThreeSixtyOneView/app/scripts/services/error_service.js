@@ -3,6 +3,8 @@
 angular.module('ThreeSixtyOneView.services')
   .service('ErrorService', ["$rootScope", "dialogs", "EVENTS", function ErrorService($rootScope, dialogs, EVENTS) {
 
+	$rootScope.$on(EVENTS.noDataReceived, function(event, data){error("ERROR: Data issues", data.msg);});
+
 	function error(title, msg){
 		dialogs.error(title, msg);
 	}
@@ -13,10 +15,6 @@ angular.module('ThreeSixtyOneView.services')
 
 	$rootScope.$on(EVENTS.error, function(event, data){
 		error(data.title, data.msg);
-	});
-
-	$rootScope.$on(EVENTS.noDataReceived, function(event, data){
-		error("ERROR: Data issues", data.msg);
 	});
 
   }]);
