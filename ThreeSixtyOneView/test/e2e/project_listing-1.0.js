@@ -8,7 +8,7 @@ describe('Project Listing', function() {
 	    return element.getAttribute('class').then(function (classes) {
 	        return classes.split(' ').indexOf(cls) !== -1;
 	    });
-	}, menuId, nameField, column_1, createdBy, ascending, descending, ascendingButton, descendingButton, dropdown, nameButton, column_1Button, createdByButton, nameLabel, nameLabelField, dropdownButton, column_1Label, column_1LabelField;
+	}, menuId, nameField, column_1, createdBy, ascending, descending, ascendingButton, descendingButton, dropdown, nameButton, column_1Button, createdByButton, nameLabel, nameLabelField, dropdownButton, column_1Label, column_1LabelField, breadcrumb, breadcrumbField;
 
 	beforeEach(
 		function(){
@@ -22,6 +22,7 @@ describe('Project Listing', function() {
 			createdBy = "//li[@data-ms-id='Created Date']",
 			ascending = "//li[@data-ms-id='ascending']",
 			descending = "//li[@data-ms-id='descending']",
+			breadcrumb = ".breadcrumbs span span",
 			ascendingButton = element(by.xpath(ascending)),
 			descendingButton = element(by.xpath(descending)),
 			dropdownButton = element(by.xpath(dropdown)),
@@ -29,7 +30,8 @@ describe('Project Listing', function() {
 			nameLabelField = element(by.xpath(nameLabel)),
 			column_1Button = element(by.xpath(column_1)),
 			createdByButton = element(by.xpath(createdBy)),
-			column_1LabelField = element(by.xpath(column_1Label));
+			column_1LabelField = element(by.xpath(column_1Label)),
+			breadcrumbField = element(by.css(breadcrumb));
 		}
 	)
 
@@ -359,12 +361,15 @@ describe('Project Listing', function() {
 
 			expect(scenarios.count()).toBe(1);
 		});
-
 	});
 
 	describe("Page attributes: ", function(){
 		it('should have a title', function() {
 			expect(browser.getTitle()).toEqual('360 One View');
+		});
+
+		it("should have a breadcrumb", function(){
+			expect(breadcrumbField.getText()).toBe("ALL PROJECTS");
 		});
 	});
 

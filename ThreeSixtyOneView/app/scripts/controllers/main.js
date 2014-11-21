@@ -135,10 +135,8 @@ angular.module('ThreeSixtyOneView')
         $scope.FavoritesService = FavoritesService;
         
         $scope.init = function(whichView, _data_, stateParams){
-            var currentView = CONFIG.view[whichView], filter,
-            /* jshint ignore:start */
-            filter = eval(currentView.filter),
-            /* jshint ignore:end */
+            var currentView = CONFIG.view[whichView],
+            filter = currentView.filterMenu.items[0],
             reverse = currentView.reverse,
             orderBy = currentView.orderBy;
 
