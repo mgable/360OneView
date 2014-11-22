@@ -14,6 +14,7 @@ angular.module('ThreeSixtyOneView')
 
                     function adjustHeightOnResize() {
 
+                        pivotBuilderHeight = angular.element('#pivotBuilder')[0].offsetHeight;
                         pivotTableHeight = $window.innerHeight - pivotBuilderHeight - 20;
 
                         var details = element.parents().find('.details');
@@ -22,23 +23,23 @@ angular.module('ThreeSixtyOneView')
                         var display = element.parents().find('.display');
                         display.width(scope.containerWidth);
 
+                        var rowViewCnt = parseInt(pivotTableHeight / 40);
+                        scope.row = scope.rowCnt < rowViewCnt ? 0 : scope.rowCnt - (rowViewCnt - scope.rowHeaderCnt);
+                        scope.containerHeight = 150 + $window.innerHeight + (scope.row) * 100 + 100;
+
+                        $('.Scenario').height(scope.containerHeight);
                         $('#spreadjs').height(pivotTableHeight);
                         $('#spreadjs').wijspread('refresh');
-
-                        scope.row = scope.rowCnt - (parseInt(pivotTableHeight / 40) - scope.rowHeaderCnt);
-                        scope.containerHeight = 150 + $window.innerHeight + (scope.row) * 100 + 100;
-                        $('.Scenario').height(scope.containerHeight);
 
                     }
 
                     $rootScope.$on(EVENTS.heightChanged, function(event, data){
 
                         pivotTableHeight = $window.innerHeight - data - 20;
-
-                        scope.row = scope.rowCnt - (parseInt(pivotTableHeight / 40) - scope.rowHeaderCnt);
+                        var rowViewCnt = parseInt(pivotTableHeight / 40);
+                        scope.row = scope.rowCnt < rowViewCnt ? 0 : scope.rowCnt - (rowViewCnt - scope.rowHeaderCnt);
                         scope.containerHeight = 150 + $window.innerHeight + (scope.row) * 100 + 100;
                         $('.Scenario').height(scope.containerHeight);
-
                         $('#spreadjs').height(pivotTableHeight);
                         $('#spreadjs').wijspread('refresh');
 

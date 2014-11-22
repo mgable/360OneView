@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .directive('scrollPivotTable', ["$window", "$anchorScroll", function($window, $anchorScroll) {
+    .directive('scrollPivotTable', ["$window", function($window) {
         return {
             restrict: 'AE',
             link: function(scope, element, attributes) {
@@ -15,7 +15,7 @@ angular.module('ThreeSixtyOneView')
                 // outer scrollbar link to the inner scrollbar
                 angular.element($window).bind("scroll", function() {
 
-                    var windowTop      = this.pageYOffset;  /* Position to the top */
+                    var windowTop = this.pageYOffset;  /* Position to the top */
                     var scrollBottom = scrollTop + 100 * (scope.row+1);
                     var details = element.parents().find('.details');
                     scope.containerWidth = details[0].offsetWidth;

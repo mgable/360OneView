@@ -7,7 +7,7 @@
 * # PivotbuilderctrlCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($scope, $rootScope, $timeout, $filter, EVENTS, pbData, ptData, Views) {
+angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($scope, $rootScope, EVENTS, $timeout, $filter, pbData, ptData, Views) {
 
 	console.info("Views");
 	console.info(Views);
@@ -477,6 +477,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			}
 		}
 
+		for(i = 0; i < numRows; i++) {
+			$scope.pivotTableData[numCols - 1][i] = $scope.pbData.viewData.rows[i].name;
+		}
+
 		for(i = 0; i < totalColCount; i++) {
 
 			for(j = 0; j < numCols; j++) {
@@ -511,6 +515,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		// $scope.spread.sheet.setDataSource($scope.pivotTableData);
 
 		$scope.spread.updateSheet($scope.pivotTableData, numCols, numRows, totalColCount, totalRowCount);
+		$scope.heightChanged();
+
 
 		// $scope.spread.sheet.addSpan(0,0,numCols,numRows);
 		// $scope.spread.sheet.setFrozenRowCount(numCols);
@@ -614,14 +620,14 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		}
 	};
 
-    $scope.heightChanged = function() {
+	$scope.heightChanged = function() {
 
-        $timeout(function() {
-			$scope.pivotBuilderHeight = angular.element('#pivotBuilder')[0].offsetHeight;
+		$timeout(function() {
+			$scope.pivotBuilderHeight = angular.element.find('#pivotBuilder')[0].offsetHeight;
 			$rootScope.$broadcast(EVENTS.heightChanged, $scope.pivotBuilderHeight);
-        }, 500);
+        }, 400);
 
-    };
+	};
 
 	init();
 }).controller('pivotTableCtrl', ['$scope', 'pbData',
