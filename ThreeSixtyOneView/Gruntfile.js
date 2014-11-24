@@ -472,6 +472,8 @@ module.exports = function(grunt) {
 
 
     grunt.registerTask('serve', function(target) {
+        var taskRunners = ['watch'];
+
         if (target === 'dist') {
             return grunt.task.run(['build', 'connect:dist:keepalive']);
         }
@@ -482,11 +484,14 @@ module.exports = function(grunt) {
             'sass',
             'concurrent:server',
             'autoprefixer',
-            'connect:livereload',
-            'ngdocs',
-            'connect:docs',
-            'watch'
+            'connect:livereload'
         ]);
+
+        if (target === 'docs') { // Documentation server.
+            taskRunners.unshift('ngdocs', 'connect:docs');
+        }
+
+        grunt.task.run(taskRunners);
     });
 
     grunt.registerTask('msserve', function(target) {
