@@ -28,20 +28,22 @@ angular.module('ThreeSixtyOneView')
                         scope.containerHeight = 150 + $window.innerHeight + (scope.row) * 100 + 100;
 
                         $('.Scenario').height(scope.containerHeight);
-                        $('#spreadjs').height(pivotTableHeight);
-                        $('#spreadjs').wijspread('refresh');
+                        $('#pivotTable').height(pivotTableHeight);
+                        $('#pivotTable').wijspread('refresh');
 
                     }
 
                     $rootScope.$on(EVENTS.heightChanged, function(event, data){
 
                         pivotTableHeight = $window.innerHeight - data - 20;
+
                         var rowViewCnt = parseInt(pivotTableHeight / 40);
                         scope.row = scope.rowCnt < rowViewCnt ? 0 : scope.rowCnt - (rowViewCnt - scope.rowHeaderCnt);
                         scope.containerHeight = 150 + $window.innerHeight + (scope.row) * 100 + 100;
+
                         $('.Scenario').height(scope.containerHeight);
-                        $('#spreadjs').height(pivotTableHeight);
-                        $('#spreadjs').wijspread('refresh');
+                        $('#pivotTable').height(pivotTableHeight);
+                        $('#pivotTable').wijspread('refresh');
 
                     });
 

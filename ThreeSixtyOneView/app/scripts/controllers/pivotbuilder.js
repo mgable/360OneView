@@ -1649,8 +1649,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
             "32": "Brand",
             "33": "Brand"
         }, {
-            "0": "",
-            "1": "",
+            "0": "Years",
+            "1": "City",
             "2": "Magazine",
             "3": "Newspaper",
             "4": "Online",

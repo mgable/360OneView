@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module("ThreeSixtyOneView")
-    .controller("spreadjsCtrl", ["$scope", "$timeout",
+    .controller("pivotTableCtrl", ["$scope", "$timeout",
         function($scope, $timeout) {
 
             var sheet,
@@ -22,7 +22,7 @@ angular.module("ThreeSixtyOneView")
                 // set default column width and height
                 var maxW = 250,
                     minW = 120;
-                var canvasW = $('#spreadjsvp').width();
+                var canvasW = $('#pivotTablevp').width();
                 var calcW = (canvasW / $scope.colCnt);
 
                 if (calcW > minW && calcW < maxW) {
@@ -80,6 +80,7 @@ angular.module("ThreeSixtyOneView")
                         row.hAlign($.wijmo.wijspread.HorizontalAlign.center);
                         row.wordWrap(true);
                         // sheet.autoFitRow(i);
+						sheet.getCell(i, $scope.colHeaderCnt-1).borderRight(new $.wijmo.wijspread.LineBorder("#CCCCCC", $.wijmo.wijspread.LineStyle.thick));
                     } else {
                         for (j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
                             sheet.getCell(i, j).font("14px proxima-nova").foreColor("#000000").value(randomNumber(0, 2000)).locked(false);
@@ -185,7 +186,7 @@ angular.module("ThreeSixtyOneView")
                 $scope.colHeaderCnt = 2;
                 $scope.colDataCnt = $scope.colCnt - $scope.colHeaderCnt;
 
-                spread = $("#spreadjs").wijspread("spread");
+                spread = $("#pivotTable").wijspread("spread");
                 sheet = spread.getActiveSheet();
 
                 spread.grayAreaBackColor("Transparent");

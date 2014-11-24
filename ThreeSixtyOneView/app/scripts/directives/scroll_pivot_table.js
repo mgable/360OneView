@@ -8,7 +8,7 @@ angular.module('ThreeSixtyOneView')
             restrict: 'AE',
             link: function(scope, element, attributes) {
 
-                var spread = $("#spreadjs").wijspread("spread");
+                var spread = $("#pivotTable").wijspread("spread");
                 var sheet = spread.getActiveSheet();
                 var scrollTop = 250; /* Position when start to fix */
 
