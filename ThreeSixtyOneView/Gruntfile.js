@@ -23,7 +23,10 @@ module.exports = function(grunt) {
             // configurable paths
             app: require('./bower.json').appPath || 'app',
             dist: 'dist',
-            docs: 'docs'
+            docs: {
+                base: 'docs',
+                port: 9010
+            }
         },
 
         // Watches files for changes and runs tasks based on the changed files
@@ -92,10 +95,11 @@ module.exports = function(grunt) {
                 },
                 title: '360 One View FED Docs',
                 //image: "path/to/my/image.png",
-                dest: '<%= yeoman.docs %>',
+                dest: '<%= yeoman.docs.base %>',
                 //titleLink: "/api",
                 //bestMatch: true,
                 discussions: {
+                    url: 'http://localhost:<%= yeoman.docs.port %>',
                     shortName: 'ms-fed',
                     dev: false
                 }
@@ -107,7 +111,6 @@ module.exports = function(grunt) {
                 ],
                 title: 'App Documentation'
             }
-
         },
 
         ngtemplates: {
@@ -165,8 +168,8 @@ module.exports = function(grunt) {
             docs: {
                 options: {
                     open: true,
-                    port: 9010,
-                    base: '<%= yeoman.docs %>'
+                    port: '<%= yeoman.docs.port %>',
+                    base: '<%= yeoman.docs.base %>'
                 }
             },
             dist: {
