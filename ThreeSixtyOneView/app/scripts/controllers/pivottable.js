@@ -80,7 +80,7 @@ angular.module("ThreeSixtyOneView")
                         row.hAlign($.wijmo.wijspread.HorizontalAlign.center);
                         row.wordWrap(true);
                         // sheet.autoFitRow(i);
-						sheet.getCell(i, $scope.colHeaderCnt-1).borderRight(new $.wijmo.wijspread.LineBorder("#CCCCCC", $.wijmo.wijspread.LineStyle.thick));
+						// sheet.getCell(i, $scope.colHeaderCnt-1).borderRight(new $.wijmo.wijspread.LineBorder("#CCCCCC", $.wijmo.wijspread.LineStyle.thick));
                     } else {
                         for (j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
                             sheet.getCell(i, j).font("14px proxima-nova").foreColor("#000000").value(randomNumber(0, 2000)).locked(false);
