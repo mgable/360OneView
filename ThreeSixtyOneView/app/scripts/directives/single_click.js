@@ -6,10 +6,7 @@ angular.module('ThreeSixtyOneView.directives')
     return {
         restrict: 'A',
         link: function(scope, element, attr) {
-          var 
-          /* jshint ignore:start */
-          fn = $parse(attr['singleClick']),
-          /* jshint ignore:end */
+          var fn = $parse(attr['singleClick']),
           delay = 200, clicks = 0, timer = null;
           element.on('click', function (event) {
             clicks++;  //count clicks

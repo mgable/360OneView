@@ -55,14 +55,13 @@ angular.module('ThreeSixtyOneView.config')
         "view": {
             "Dashboard": {
                 "orderBy": 'modifiedOn',
-                "filter": 'CONFIG.view.Dashboard.filterMenu.items[0]',
                 "reverse": true,
                 "favoriteType": "scenario",
                 "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
                 "pageActions": {
                     "nameClickAction": "gotoScenarioEdit",
                     "createClickAction": "gotoScenarioCreate"
-                }, 
+                },
                 "trayActions": {
                     "rename": "renameScenario",
                     "copy": "trayCopy",
@@ -96,13 +95,12 @@ angular.module('ThreeSixtyOneView.config')
             },
             "ProjectManager": {
                 "orderBy": 'modifiedOn',
-                "filter": 'CONFIG.view.ProjectManager.filterMenu.items[0]',
                 "reverse": true,
                 "favoriteType": "project",
                 "pageActions": {
                     "nameClickAction": 'gotoDashboard',
                     "createClickAction": "openCreateProject"
-                }, 
+                },
                 "trayActions": {
                     "rename": "renameProject",
                     "copy": "noop",
