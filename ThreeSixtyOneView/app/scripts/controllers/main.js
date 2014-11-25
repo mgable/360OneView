@@ -5,12 +5,10 @@
 
 // View controllers
 angular.module('ThreeSixtyOneView')
-    .controller("MainCtrl", ["$scope", "$location", "ActiveSelection", "PivotViewService", "ErrorService", function($scope, $location, ActiveSelection, PivotViewService, ErrorService) {
+    .controller("MainCtrl", ["$scope", "$location", "ErrorService", function($scope, $location, ErrorService) {
+        // Error service surfaced here
 
-        // These are going away
-        $scope.ActiveSelection = ActiveSelection;
-
-        // this is a test
+        // querystring 'e2e' formats data for protractor tests
         if ($location.search().e2e === "true"){
             $scope.e2e = true;
         }
@@ -32,6 +30,7 @@ angular.module('ThreeSixtyOneView')
         $scope.showScenario = false;
         $scope.viewAll = 'View All';
         $scope.trayActions = CONFIG.view[$state.current.name].trayActions;
+        $scope.ActiveSelection = ActiveSelection;
 
         $scope.action = function(action, data){
             if(action){
@@ -135,10 +134,8 @@ angular.module('ThreeSixtyOneView')
         $scope.FavoritesService = FavoritesService;
         
         $scope.init = function(whichView, _data_, stateParams){
-            var currentView = CONFIG.view[whichView], filter,
-            /* jshint ignore:start */
-            filter = eval(currentView.filter),
-            /* jshint ignore:end */
+            var currentView = CONFIG.view[whichView],
+            filter = currentView.filterMenu.items[0],
             reverse = currentView.reverse,
             orderBy = currentView.orderBy;
 

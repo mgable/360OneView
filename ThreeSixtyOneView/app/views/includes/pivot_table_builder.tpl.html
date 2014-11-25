@@ -3,7 +3,7 @@
 		<div class="pbTitle" ng-class="{pbTitleSel: pbShow, pbGray: !pbShow}">
 			<div class="pbRenameArea">
 				<i class="fa fa-eye" ng-class="{pbGray: !pbShow}"></i>
-				<div class="pbTitleText clickable" ng-click="adjustHeight(); pbShow ? startSaveAs() : (pbShow = true)" ng-hide="saveAs">{{viewName}}</div>
+				<div class="pbTitleText clickable" ng-click="heightChanged(); pbShow ? startSaveAs() : (pbShow = true)" ng-hide="saveAs">{{viewName}}</div>
 				<div class="pbSaveAsBox" ng-show="saveAs">
 					<input type="text" ng-model="saveAsName" ng-keyup="renameAction($event)">
 					<i class="fa fa-check clickable" ng-click="finishSaveAs(true)"></i>
@@ -26,8 +26,8 @@
 	<div ng-class="{pbOpened: pbShow}" class="pbSlider">
 		<div class="pbControlBar">
 			<div class="pbFunctionFlip">
-				<div class="pbFunctionFlipButton clickable" ng-class="{pbFunctionFlipButtonActive: !filterSection}" ng-click="filterSection = false;"><i class="fa fa-table"></i></div>
-				<div class="pbFunctionFlipButton clickable" ng-class="{pbFunctionFlipButtonActive: filterSection}" ng-click="filterSection = true;"><i class="fa fa-filter"></i></div>
+				<div class="pbFunctionFlipButton clickable" ng-class="{pbFunctionFlipButtonActive: !filterSection}" ng-click="heightChanged(); filterSection = false;"><i class="fa fa-table"></i></div>
+				<div class="pbFunctionFlipButton clickable" ng-class="{pbFunctionFlipButtonActive: filterSection}" ng-click="heightChanged(); filterSection = true;"><i class="fa fa-filter"></i></div>
 			</div>
 
 			<div class="pbSaveMenu" ng-mouseleave="viewSaveMenu = false">
@@ -144,7 +144,7 @@
 			</div>
 		</div>
 		<div class="pbSliderCollapse">
-			<span class="clickable" ng-click="pbShow = false; finishSaveAs(false);">
+			<span class="clickable" ng-click="heightChanged(); pbShow = false; finishSaveAs(false);">
 				<i class="fa fa-chevron-up"></i> Collapse
 			</span>
 		</div>

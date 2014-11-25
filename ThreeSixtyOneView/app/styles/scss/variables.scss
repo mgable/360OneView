@@ -101,3 +101,41 @@ $body_font_size: 13px;
   background: -ms-linear-gradient(left, $c1 0%,$c1 16%,$c2 16%,$c2 17%,$c2 33%,$c3 33%,$c3 44%,$c3 50%,$c4 50%,$c4 50%,$c4 66%,$c5 66%,$c5 84%,$c5 84%,$c6 84%,$c6 84%,$c6 100%); /* IE10+ */
   background: linear-gradient(to right, $c1 0%,$c1 16%,$c2 16%,$c2 17%,$c2 33%,$c3 33%,$c3 44%,$c3 50%,$c4 50%,$c4 50%,$c4 66%,$c5 66%,$c5 84%,$c5 84%,$c6 84%,$c6 84%,$c6 100%); /* W3C */
 }
+
+@mixin vendor($name, $argument) {
+  -webkit-#{$name}: #{$argument};
+  -ms-#{$name}: #{$argument};
+  -moz-#{$name}: #{$argument};
+  -o-#{$name}: #{$argument};
+  #{$name}: #{$argument};
+}
+
+@mixin animation($animate...) {
+  $max: length($animate);
+  $animations: '';
+  @for $i from 1 through $max {
+    $animations: #{$animations + nth($animate, $i)};
+    @if $i < $max {
+      $animations: #{$animations + ", "};
+    }
+  }
+  -webkit-animation: $animations;
+  -moz-animation:    $animations;
+  -o-animation:      $animations;
+  animation:         $animations;
+}
+
+@mixin keyframes($animationName) {
+  @-webkit-keyframes #{$animationName} {
+    @content;
+  }
+  @-moz-keyframes #{$animationName} {
+    @content;
+  }
+  @-o-keyframes #{$animationName} {
+    @content;
+  }
+  @keyframes #{$animationName} {
+    @content;
+  }
+}

@@ -27,10 +27,6 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", ["$http", "$q",
                 this._path = this._basePath + "/" +  _path_;
             };
 
-            this.getPath = function(){
-                return this._basePath;
-            };
-
             this.get = function(params, _config_, additionalPath){
                 var deferred = this._q.defer(), config = _config_ || {},
                     path = getPath.call(this, params, additionalPath);
