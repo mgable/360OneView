@@ -71,14 +71,16 @@
 			<div class="pbSec">
 				<div class="pbSecTitle">Columns</div>
 				<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="pbData.viewData.columns" ng-blur="addPopUp['columns'] = false" tabindex="-1">
-					<div class="pbItem" ng-repeat="item in pbData.viewData.columns" data-as-sortable-item data-as-sortable-item-handle>
-						<span><i class="fa fa-reorder"></i></span>
-						<span class="pbItemInfo">
-							<span class="pbItemName clickable" ng-click="add.replaceItem = $index; add.selected = 'columns'; addPopUp['columns'] = !addPopUp['columns']; addPopUp['rows'] = false; popUpLocSet($event);">{{item.name}}</span>
-						</span>
-						<span class="fa fa-remove clickable" ng-click="delItem(item.name, 'columns')"></span>
+					<div class="pbItem" ng-repeat="item in pbData.viewData.columns" data-as-sortable-item>
+						<div data-as-sortable-item-handle>
+							<span><i class="fa fa-reorder"></i></span>
+							<span class="pbItemInfo">
+								<span class="pbItemName clickable" ng-click="add.replaceItem = $index; add.selected = 'columns'; addPopUp['columns'] = !addPopUp['columns']; addPopUp['rows'] = false; popUpLocSet($event);">{{item.name}}</span>
+							</span>
+							<span class="fa fa-remove clickable" ng-click="delItem(item.name, 'columns')"></span>
+						</div>
 					</div>
-					<div class="pbAddBox" ng-mouseleave="addPopUp['columns'] = false">
+					<div class="pbAddBox" ng-mouseleave="addPopUp['columns'] = false" no-drag>
 						<div class="pbItemAdd clickable" no-drag ng-click="add.replaceItem = -1; add.selected = 'columns'; addPopUp['columns'] = !addPopUp['columns']; addPopUp['rows'] = false; popUpLocSet($event);"><i class="fa fa-plus-square"></i> Add</div>
 						<div ng-show="addPopUp['columns']" class="pbAddPopUp" ng-style="{left: (popUpLoc.left - 150) + 'px'}">
 							<div class="pbAddPopUpVisible">
@@ -102,11 +104,13 @@
 				<div class="pbSecTitle">Rows</div>
 				<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="pbData.viewData.rows" ng-blur="addPopUp['rows'] = false" tabindex="-1">
 					<div class="pbItem" ng-repeat="item in pbData.viewData.rows" data-as-sortable-item>
-						<span><i class="fa fa-reorder"></i></span>
-						<span class="pbItemInfo" data-as-sortable-item-handle>
-							<span class="pbItemName clickable" ng-click="add.replaceItem = $index; add.selected = 'rows'; addPopUp['rows'] = !addPopUp['rows']; addPopUp['columns'] = false; popUpLocSet($event);">{{item.name}}</span>
-						</span>
-						<span class="fa fa-remove clickable" ng-click="delItem(item.name, 'rows')"></span>
+						<div data-as-sortable-item-handle>
+							<span><i class="fa fa-reorder"></i></span>
+							<span class="pbItemInfo">
+								<span class="pbItemName clickable" ng-click="add.replaceItem = $index; add.selected = 'rows'; addPopUp['rows'] = !addPopUp['rows']; addPopUp['columns'] = false; popUpLocSet($event);">{{item.name}}</span>
+							</span>
+							<span class="fa fa-remove clickable" ng-click="delItem(item.name, 'rows')"></span>
+						</div>
 					</div>
 					<div class="pbAddBox" ng-mouseleave="addPopUp['rows'] = false">
 						<div class="pbItemAdd clickable" ng-click="add.replaceItem = -1; add.selected = 'rows'; addPopUp['rows'] = !addPopUp['rows']; addPopUp['columns'] = false; popUpLocSet($event);"><i class="fa fa-plus-square"></i> Add</div>
@@ -166,11 +170,18 @@
 					<div class="pbFilterModalMain">
 						<div class="pbFilterModalContent">
 							<div class="pbFilterModalHeader">
-								<div class="pbFilterTitle" ng-mouseleave="filterViewDrop = false;">
-									<div class="pbFilterViewTitle clickable" ng-click="filterViewDrop = !filterViewDrop">{{selectedFilter.selFil.label}} <i class="fa fa-caret-down"></i></div>
-									<div class="pbFilterViewDrop" ng-show="filterViewDrop">
-										<div class="pbFilterViewDropVisible">
-											<div ng-repeat="item in selectedFilter.cat.members" class="clickable" ng-click="filterViewDrop = false; selectedFilter.selFil = item; searchFilters(selectedFilter.selFil, filterSearch);">{{item.label}}</div>
+								<div class="pbFilterTitleArea">
+									<div class="pbFilterTitle" ng-mouseleave="filterViewDrop = false;">
+										<div class="pbFilterDropDownContainer">
+											<div class="pbFilterViewTitle clickable" ng-click="filterViewDrop = !filterViewDrop">
+												{{selectedFilter.selFil.label}} 
+												<i class="fa fa-caret-down"></i>
+												<div class="pbFilterViewDrop" ng-show="filterViewDrop">
+													<div class="pbFilterViewDropVisible">
+														<div ng-repeat="item in selectedFilter.cat.members" class="clickable" ng-click="filterViewDrop = false; selectedFilter.selFil = item; searchFilters(selectedFilter.selFil, filterSearch);">{{item.label}}</div>
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -182,7 +193,7 @@
 							<div class="pbFilterCustomSelection" ng-mouseleave="filterPopup = false;">
 								<div class="pbFilterSelectionButton" ng-class="{active: filterPopup}">
 									<div class="pbFilterSelectAll clickable" ng-show="filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label) === 0" ng-click="selectFilters(selectedFilter.cat.label, true, true);"><i class="fa fa-circle-o"></i></div>
-									<div class="pbFilterSelectAll clickable" ng-show="filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label) === totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,filterSearch.label)" ng-click="selectFilters(selectedFilter.cat.label, true, false);"><i class="fa fa-check-circle"></i></div>
+									<div class="pbFilterSelectAll clickable blue" ng-show="filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label) === totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,filterSearch.label)" ng-click="selectFilters(selectedFilter.cat.label, true, false);"><i class="fa fa-check-circle"></i></div>
 									<div class="pbFilterSelectAll clickable" ng-show="filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label) % totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,filterSearch.label) > 0.01" ng-click="selectFilters(selectedFilter.cat.label, true, true);"><i class="fa fa-minus-circle"></i></div>
 									<div class="pbFilterSelectDrop clickable" ng-click="filterPopup = !filterPopup"><i class="fa fa-caret-down"></i></div>
 								</div>

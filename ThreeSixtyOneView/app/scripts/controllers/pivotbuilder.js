@@ -71,8 +71,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			},
 			dragStart: function(event) {
 				// console.log(event);
-			}
-			// containment: '#dragDropArea'
+			},
+			containment: '#dragDropArea'
 		};
 
 		$scope.identity = angular.identity();
@@ -332,6 +332,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 	$scope.resetView = function() {
 		$scope.pbData = angular.copy(pbData);
 		$scope.notify('Changes discarded!');
+		$scope.applyView();
 	};
 
 	// close the slider (pivot table view builder)
