@@ -107,7 +107,7 @@ module.exports = function(grunt) {
             app: {
                 src: [
                     '<%= yeoman.app %>/scripts/**/*.js',
-                    'test/**/*.spec.js'
+                    'test/**/*.js'
                 ],
                 title: 'App Documentation'
             }
