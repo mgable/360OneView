@@ -497,6 +497,10 @@ module.exports = function(grunt) {
         grunt.task.run(taskRunners);
     });
 
+    grunt.registerTask('docs', [
+        'ngdocs'
+    ]);
+
     grunt.registerTask('msserve', function(target) {
         grunt.log.info('Running:', target);
         grunt.task.run([
@@ -535,8 +539,7 @@ module.exports = function(grunt) {
         'rev',
         'usemin',
         'htmlmin',
-        'usebanner',
-        'ngdocs'
+        'usebanner'
     ]);
 
     grunt.registerTask('default', [
