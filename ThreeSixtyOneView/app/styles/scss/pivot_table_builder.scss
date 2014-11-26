@@ -15,6 +15,22 @@
 		transition: color 0.3s linear;
 		width: 240px;
 
+		&:hover {
+			color: $blue;
+			border: 1px solid $blue;
+
+			.pbRenameArea {
+				.fa-eye {
+					color: $blue;
+				}
+			}
+
+			&.pbTitleSel {
+				border: 1px solid $mediumgray;
+				border-bottom: 0;
+			}
+		}
+
 		&.pbTitleSel {
 			background-color: $lightestgray;
 			border-bottom: 0;
@@ -287,14 +303,13 @@
 				margin: 5px 15px;
 				display: inline-block;
 				width: 60px;
-				vertical-align: top;
+				float: left;
 			}
 
 			.pbItemsHolder {
-				display: inline-block;
-				max-width: 85%;
-				vertical-align: middle;
 				outline: 0;
+				overflow: hidden;
+				margin-right: 20px;
 
 				.pbItem {
 					min-width: 50px;
@@ -329,6 +344,10 @@
 					.fa-remove {
 						color: $mediumgray;
 						padding: 5px;
+
+						&:hover {
+							color: $blue;
+						}
 					}
 				}
 
@@ -339,7 +358,7 @@
 					background-color: rgba(215,215,215,1.0);
 					color: rgba(66,66,66,1.0);
 					padding: 0.3em;
-					vertical-align: top;
+					margin-right: 5px;
 				}
 
 				.pbAddBox {
@@ -347,7 +366,6 @@
 					border: 1px dashed $gray;
 					height: 28px;
 					vertical-align: top;
-					/*position: relative;*/
 
 					.pbItemAdd {
 						padding: 3px 10px;
@@ -443,15 +461,16 @@
 			}
 
 			.pbFilterValues {
-				display: inline-block;
 				vertical-align: top;
 				outline: 0;
-				max-width: 85%;
+				margin-right: 20px;
+				overflow: hidden;
 
 				.pbFilterBox {
 					display: inline-block;
-					width: 250px;
-					margin-right: 30px;
+					width: 22.39%;
+					min-width: 215px;
+					margin-right: 25px;
 					margin-top: 5px;
 
 					.pbFilterCat {
@@ -472,6 +491,10 @@
 			text-align: center;
 			color: $gray;
 			font-size: 12px;
+
+			&:hover {
+				color: $blue;
+			}
 		}
 	}
 
@@ -817,7 +840,7 @@
 
 	.as-sortable-drag {
 		cursor: url(https://ssl.gstatic.com/ui/v1/icons/mail/images/2/closedhand.cur) 7 5, default !important;
-		pointer-events: auto;
+		/*pointer-events: auto;*/
 
 		.pbItem {
 					min-width: 50px;

@@ -16,6 +16,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		$scope.pbShow = false;
 		$scope.pbData = angular.copy(pbData);
 		$scope.viewName = pbData.viewData.name;
+		$scope.draftView = false;
 
 		$scope.viewApplied = true;
 
@@ -57,16 +58,19 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		$scope.dragOptions = {
 			itemMoved: function(event) {
 				// console.log(event);
-				if(!$scope.changeMade()) {
+				if(!$scope.draftView) {
+					$scope.draftView = true;
 					$scope.viewName += " - Draft";
 				}
 				$scope.applyView();
 			},
 			orderChanged: function(event) {
 				// console.log(event);
-				if(!$scope.changeMade()) {
+				if(!$scope.draftView) {
+					$scope.draftView = true;
 					$scope.viewName += " - Draft";
 				}
+				$scop
 				$scope.applyView();
 			},
 			dragStart: function(event) {
@@ -92,7 +96,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			$scope.pbData.viewData[dim].splice(itemInd, 1);
 			$scope.added[itemName] = false;
 
-			if(!$scope.changeMade()) {
+			if($scope.changeMade()) {
 				$scope.viewName += " - Draft";
 			}
 			$scope.applyView();
@@ -1971,7 +1975,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			searchFilter: '=',
 			sortOrder: '='
 		},
-		template: '<div ng-class="{pbFilterListCategory: member.members.length > 0, pbFilterListValue: member.members.length === 0}"><i class="fa fa-chevron-down clickable" ng-click="" ng-if="member.members.length > 0"></i> <label ng-class="{blue: checkedItems(member).checked/checkedItems(member).total === 1, bold: checkedItems(member).checked/checkedItems(member).total === 1}"><input type="checkbox" class="ng-hide" ng-click="toggleItems(member)" indeterminate="checkedItems(member).checked/checkedItems(member).total"><i class="fa fa-check-circle" ng-show="checkedItems(member).checked/checkedItems(member).total === 1"></i><i class="fa fa-circle-o" ng-show="checkedItems(member).checked/checkedItems(member).total === 0"></i><i class="fa fa-minus-circle" ng-show="checkedItems(member).checked/checkedItems(member).total % 1 > 0"></i> <span>{{member.label}}</span> <span ng-if="member.members.length > 0">({{checkedItems(member).checked}}/{{checkedItems(member).total}})</span></label></div>',
+		template: '<div ng-class="{pbFilterListCategory: member.members.length > 0, pbFilterListValue: member.members.length === 0}"><i class="fa fa-chevron-down clickable ng-hide" ng-click="" ng-if="member.members.length > 0"></i> <label ng-class="{blue: checkedItems(member).checked/checkedItems(member).total === 1, bold: checkedItems(member).checked/checkedItems(member).total === 1}"><input type="checkbox" class="ng-hide" ng-click="toggleItems(member)" indeterminate="checkedItems(member).checked/checkedItems(member).total"><i class="fa fa-check-circle" ng-show="checkedItems(member).checked/checkedItems(member).total === 1"></i><i class="fa fa-circle-o" ng-show="checkedItems(member).checked/checkedItems(member).total === 0"></i><i class="fa fa-minus-circle" ng-show="checkedItems(member).checked/checkedItems(member).total % 1 > 0"></i> <span>{{member.label}}</span> <span ng-if="member.members.length > 0">({{checkedItems(member).checked}}/{{checkedItems(member).total}})</span></label></div>',
 		link: function(scope, element, attrs) {
 			scope.toggleItems = function(member) {
 				var checkedItems = scope.checkedItems(member);

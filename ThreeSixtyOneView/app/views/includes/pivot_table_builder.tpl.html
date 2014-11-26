@@ -73,11 +73,11 @@
 				<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="pbData.viewData.columns" ng-blur="addPopUp['columns'] = false" tabindex="-1">
 					<div class="pbItem" ng-repeat="item in pbData.viewData.columns" data-as-sortable-item>
 						<div data-as-sortable-item-handle>
-							<span><i class="fa fa-reorder"></i></span>
+							<span><i class="fa fa-reorder" title="Reorder"></i></span>
 							<span class="pbItemInfo">
 								<span class="pbItemName clickable" ng-click="add.replaceItem = $index; add.selected = 'columns'; addPopUp['columns'] = !addPopUp['columns']; addPopUp['rows'] = false; popUpLocSet($event);">{{item.name}}</span>
 							</span>
-							<span class="fa fa-remove clickable" ng-click="delItem(item.name, 'columns')"></span>
+							<span class="fa fa-remove clickable" ng-click="delItem(item.name, 'columns')" title="Remove"></span>
 						</div>
 					</div>
 					<div class="pbAddBox" ng-mouseleave="addPopUp['columns'] = false" no-drag>
@@ -105,11 +105,11 @@
 				<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="pbData.viewData.rows" ng-blur="addPopUp['rows'] = false" tabindex="-1">
 					<div class="pbItem" ng-repeat="item in pbData.viewData.rows" data-as-sortable-item>
 						<div data-as-sortable-item-handle>
-							<span><i class="fa fa-reorder"></i></span>
+							<span><i class="fa fa-reorder" title="Reorder"></i></span>
 							<span class="pbItemInfo">
 								<span class="pbItemName clickable" ng-click="add.replaceItem = $index; add.selected = 'rows'; addPopUp['rows'] = !addPopUp['rows']; addPopUp['columns'] = false; popUpLocSet($event);">{{item.name}}</span>
 							</span>
-							<span class="fa fa-remove clickable" ng-click="delItem(item.name, 'rows')"></span>
+							<span class="fa fa-remove clickable" ng-click="delItem(item.name, 'rows')" title="Remove"></span>
 						</div>
 					</div>
 					<div class="pbAddBox" ng-mouseleave="addPopUp['rows'] = false">
