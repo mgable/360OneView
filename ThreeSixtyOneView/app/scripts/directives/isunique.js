@@ -12,11 +12,6 @@ angular.module('ThreeSixtyOneView.directives')
 			var validate = function(viewValue) {
 				if(!viewValue || !scope.comparisonModel){
 
-
-					console.info("this");
-					console.info(viewValue);
-					console.info(scope.comparisonModel);
-
 					// It's valid because we have nothing to compare against
 					ctrl.$setValidity('isUnique', true);
 				}
