@@ -16,6 +16,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		$scope.pbShow = false;
 		$scope.pbData = angular.copy(pbData);
 		$scope.viewName = pbData.viewData.name;
+		$scope.draftView = false;
 
 		$scope.viewApplied = true;
 
@@ -57,22 +58,24 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		$scope.dragOptions = {
 			itemMoved: function(event) {
 				// console.log(event);
-				if(!$scope.changeMade()) {
-					$scope.viewName += " - Draft";
+				if(!$scope.draftView) {
+					$scope.draftView = true;
+					$scope.viewName += ' - Draft';
 				}
 				$scope.applyView();
 			},
 			orderChanged: function(event) {
 				// console.log(event);
-				if(!$scope.changeMade()) {
-					$scope.viewName += " - Draft";
+				if(!$scope.draftView) {
+					$scope.draftView = true;
+					$scope.viewName += ' - Draft';
 				}
 				$scope.applyView();
 			},
 			dragStart: function(event) {
 				// console.log(event);
-			}
-			// containment: '#dragDropArea'
+			},
+			containment: '#dragDropArea'
 		};
 
 		$scope.identity = angular.identity();
@@ -92,8 +95,9 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			$scope.pbData.viewData[dim].splice(itemInd, 1);
 			$scope.added[itemName] = false;
 
-			if(!$scope.changeMade()) {
-				$scope.viewName += " - Draft";
+			if(!$scope.draftView) {
+				$scope.draftView = true;
+				$scope.viewName += ' - Draft';
 			}
 			$scope.applyView();
 		}
@@ -119,8 +123,9 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 		$scope.addPopUp[$scope.add.selected] = !$scope.addPopUp[$scope.add.selected];
 
-		if(!$scope.changeMade()) {
-			$scope.viewName += " - Draft";
+		if(!$scope.draftView) {
+			$scope.draftView = true;
+			$scope.viewName += ' - Draft';
 		}
 		$scope.applyView();
 	};
@@ -332,6 +337,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 	$scope.resetView = function() {
 		$scope.pbData = angular.copy(pbData);
 		$scope.notify('Changes discarded!');
+		$scope.applyView();
 	};
 
 	// close the slider (pivot table view builder)
@@ -356,8 +362,12 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 	$scope.saveView = function() {
 		if($scope.changeMade()) {
 			pbData = angular.copy($scope.pbData);
-			$scope.viewName = pbData.viewData.name;
+
+			if($scope.draftView) {
+				$scope.viewName = pbData.viewData.name;
+			}
 			$scope.notify('Saved!');
+			$scope.draftView = false;
 		}
 	};
 
@@ -372,7 +382,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		if(event.keyCode === 13) {
 			$scope.finishSaveAs(true);
 		} else if(event.keyCode === 27) {
-			$scope.cancelSaveAs();
+			$scope.finishSaveAs(false);
 		}
 	};
 
@@ -380,7 +390,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 	$scope.finishSaveAs = function(save) {
 		if(save) {
 			$scope.viewName = $scope.saveAsName;
-			$scope.saveView();
+			$scope.draftView = false;
+			// $scope.saveView();
 
 			$scope.notify('Saved!');
 		}
@@ -626,7 +637,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			$scope.pivotBuilderHeight = angular.element.find('#pivotBuilder')[0].offsetHeight;
 			$rootScope.$broadcast(EVENTS.heightChanged, $scope.pivotBuilderHeight);
         }, 400);
-
 	};
 
 	init();
@@ -1970,7 +1980,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			searchFilter: '=',
 			sortOrder: '='
 		},
-		template: '<div ng-class="{pbFilterListCategory: member.members.length > 0, pbFilterListValue: member.members.length === 0}"><i class="fa fa-chevron-down clickable" ng-click="" ng-if="member.members.length > 0"></i> <label ng-class="{blue: checkedItems(member).checked/checkedItems(member).total === 1, bold: checkedItems(member).checked/checkedItems(member).total === 1}"><input type="checkbox" class="ng-hide" ng-click="toggleItems(member)" indeterminate="checkedItems(member).checked/checkedItems(member).total"><i class="fa fa-check-circle" ng-show="checkedItems(member).checked/checkedItems(member).total === 1"></i><i class="fa fa-circle-o" ng-show="checkedItems(member).checked/checkedItems(member).total === 0"></i><i class="fa fa-minus-circle" ng-show="checkedItems(member).checked/checkedItems(member).total % 1 > 0"></i> <span>{{member.label}}</span> <span ng-if="member.members.length > 0">({{checkedItems(member).checked}}/{{checkedItems(member).total}})</span></label></div>',
+		template: '<div ng-class="{pbFilterListCategory: member.members.length > 0, pbFilterListValue: member.members.length === 0}"><i class="fa fa-chevron-down clickable ng-hide" ng-click="" ng-if="member.members.length > 0"></i> <label ng-class="{blue: checkedItems(member).checked/checkedItems(member).total === 1, bold: checkedItems(member).checked/checkedItems(member).total === 1}"><input type="checkbox" class="ng-hide" ng-click="toggleItems(member)" indeterminate="checkedItems(member).checked/checkedItems(member).total"><i class="fa fa-check-circle" ng-show="checkedItems(member).checked/checkedItems(member).total === 1"></i><i class="fa fa-circle-o" ng-show="checkedItems(member).checked/checkedItems(member).total === 0"></i><i class="fa fa-minus-circle" ng-show="checkedItems(member).checked/checkedItems(member).total % 1 > 0"></i> <span>{{member.label}}</span> <span ng-if="member.members.length > 0">({{checkedItems(member).checked}}/{{checkedItems(member).total}})</span></label></div>',
 		link: function(scope, element, attrs) {
 			scope.toggleItems = function(member) {
 				var checkedItems = scope.checkedItems(member);

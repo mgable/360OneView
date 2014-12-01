@@ -3,6 +3,7 @@
 #pivotBuilder {
 	font-family: $sansFontFamily;
 	font-size: 14px;
+	color: $black;
 
 	.pbTitle {
 		border: 1px solid $mediumgray;
@@ -13,6 +14,22 @@
 		transition: width 0.3s linear;
 		transition: color 0.3s linear;
 		width: 240px;
+
+		&:hover {
+			color: $blue;
+			border: 1px solid $blue;
+
+			.pbRenameArea {
+				.fa-eye {
+					color: $blue;
+				}
+			}
+
+			&.pbTitleSel {
+				border: 1px solid $mediumgray;
+				border-bottom: 0;
+			}
+		}
 
 		&.pbTitleSel {
 			background-color: $lightestgray;
@@ -286,14 +303,13 @@
 				margin: 5px 15px;
 				display: inline-block;
 				width: 60px;
-				vertical-align: top;
+				float: left;
 			}
 
 			.pbItemsHolder {
-				display: inline-block;
-				max-width: 85%;
-				vertical-align: middle;
 				outline: 0;
+				overflow: hidden;
+				margin-right: 20px;
 
 				.pbItem {
 					min-width: 50px;
@@ -328,6 +344,10 @@
 					.fa-remove {
 						color: $mediumgray;
 						padding: 5px;
+
+						&:hover {
+							color: $blue;
+						}
 					}
 				}
 
@@ -338,7 +358,7 @@
 					background-color: rgba(215,215,215,1.0);
 					color: rgba(66,66,66,1.0);
 					padding: 0.3em;
-					vertical-align: top;
+					margin-right: 5px;
 				}
 
 				.pbAddBox {
@@ -346,7 +366,6 @@
 					border: 1px dashed $gray;
 					height: 28px;
 					vertical-align: top;
-					/*position: relative;*/
 
 					.pbItemAdd {
 						padding: 3px 10px;
@@ -354,6 +373,14 @@
 
 						.fa-plus-square {
 							font-size: 10px;
+						}
+					}
+
+					&:hover {
+						border-color: $blue;
+
+						.pbItemAdd {
+							color: $blue;
 						}
 					}
 
@@ -434,15 +461,16 @@
 			}
 
 			.pbFilterValues {
-				display: inline-block;
 				vertical-align: top;
 				outline: 0;
-				max-width: 85%;
+				margin-right: 20px;
+				overflow: hidden;
 
 				.pbFilterBox {
 					display: inline-block;
-					width: 250px;
-					margin-right: 30px;
+					width: 22.39%;
+					min-width: 215px;
+					margin-right: 25px;
 					margin-top: 5px;
 
 					.pbFilterCat {
@@ -463,6 +491,10 @@
 			text-align: center;
 			color: $gray;
 			font-size: 12px;
+
+			&:hover {
+				color: $blue;
+			}
 		}
 	}
 
@@ -538,63 +570,77 @@
 							.pbFilterModalHeader {
 								background-color: $lightestgray;
 
-								.pbFilterTitle {
-									position: relative;
+								.pbFilterTitleArea {
 									display: inline-block;
+									width: 270px;
+									
+									.pbFilterTitle {
+										display: inline-block;
 
-									&:hover {
-										.pbFilterViewTitle {
-											color: $blue;
-										}
-									}
-
-									.pbFilterViewTitle {
-										font-size: 20px;
-										margin: 5px 10px 5px 20px;
-										width: 230px;
-
-										.fa {
-											font-size: 14px;
-										}
-									}
-
-									.pbFilterViewDrop {
-										position: absolute;
-										padding: 0 10px 10px;
-										left: -10px;
-										z-index: 20;
-										width: 250px;
-
-										.pbFilterViewDropVisible {
-											border: 1px solid $blue;
-											background-color: white;
-											padding: 7px 0;
-											box-shadow: 0 3px 10px rgba(100,100,100,0.5);
-
-											&::before {
-												position: absolute;
-												height: 11px;
-												width: 11px;
-												content: "";
-												border-left: 1px solid $blue;
-												border-top: 1px solid $blue;
-												-webkit-transform: rotate(45deg);
-												-moz-transform: rotate(45deg);
-												-ms-transform: rotate(45deg);
-												-o-transform: rotate(45deg);
-												transform: rotate(45deg);
-												top: -5px;
-												left: 44%;
-												z-index: 13;
-												background-color: white;
+										&:hover {
+											.pbFilterViewTitle {
+												color: $blue;
 											}
+										}
 
-											div {
-												padding: 5px 20px;
+										.pbFilterDropDownContainer {
+												display: inline-block;
+												position: relative;
 
-												&:hover {
-													background-color: $blue;
-													color: white;
+										.pbFilterViewTitle {
+												font-size: 20px;
+												margin: 5px 10px 5px 20px;
+
+												.fa {
+													font-size: 14px;
+												}
+
+												.pbFilterViewDrop {
+													position: absolute;
+													padding: 5px 10px 10px;
+													z-index: 20;
+													width: 230px;
+													top: 35px;
+													font-size: 14px;
+													margin-left: auto;
+													margin-right: auto;
+													left: -60%;
+													right: -70%;
+
+													.pbFilterViewDropVisible {
+														border: 1px solid $blue;
+														background-color: white;
+														padding: 7px 0;
+														box-shadow: 0 3px 10px rgba(100,100,100,0.5);
+
+														&::before {
+															position: absolute;
+															height: 11px;
+															width: 11px;
+															content: "";
+															border-left: 1px solid $blue;
+															border-top: 1px solid $blue;
+															-webkit-transform: rotate(45deg);
+															-moz-transform: rotate(45deg);
+															-ms-transform: rotate(45deg);
+															-o-transform: rotate(45deg);
+															transform: rotate(45deg);
+															top: 0;
+															left: 44%;
+															z-index: 13;
+															background-color: white;
+														}
+
+														div {
+															padding: 5px 20px;
+															color: $black;
+
+															&:hover {
+																background-color: $blue;
+																color: white;
+															}
+														}
+													}
 												}
 											}
 										}
@@ -649,10 +695,10 @@
 										padding: 4px 6px;
 										border: 1px solid $mediumgray;
 										height: 25px;
-										color: $blue;
 
 										&:hover {
 											border: 1px solid $blue;
+											color: $blue;
 										}
 									}
 
@@ -738,6 +784,8 @@
 
 										label {
 											font-weight: normal;
+											margin-top: 5px;
+											margin-bottom: 4px;
 										}
 									}
 
@@ -747,6 +795,8 @@
 
 										label {
 											font-weight: normal;
+											margin-top: 5px;
+											margin-bottom: 4px;
 										}
 									}
 									
@@ -785,11 +835,44 @@
 	}
 
 	.as-sortable-item-handle {
-		/*cursor: url(https://ssl.gstatic.com/ui/v1/icons/mail/images/2/openhand.cur) 7 5, default !important;*/
+		cursor: url(https://ssl.gstatic.com/ui/v1/icons/mail/images/2/openhand.cur) 7 5, default !important;
 	}
 
 	.as-sortable-drag {
-		/*cursor: url(https://ssl.gstatic.com/ui/v1/icons/mail/images/2/closedhand.cur) 7 5, default !important;*/
+		cursor: url(https://ssl.gstatic.com/ui/v1/icons/mail/images/2/closedhand.cur) 7 5, default !important;
+		/*pointer-events: auto;*/
+
+		.pbItem {
+					min-width: 50px;
+					border: 1px solid $blue;
+					background-color: white;
+					height: 28px;
+					display: inline-block;
+					margin-right: 0px;
+					vertical-align: top;
+
+					.fa-reorder {
+						background-color: $blue;
+						height: 26px;
+						padding: 5px;
+						width: 23px;
+						color: white;
+					}
+
+					.pbItemInfo {
+						color: $blue;
+						padding: auto 10px;
+					}
+
+					.fa-remove {
+						color: $mediumgray;
+						padding: 4px;
+					}
+				}
+	}
+
+	.as-sortable-item, .as-sortable-placeholder {
+		border-radius: 0;
 	}
 
 	.pbGray {
@@ -806,557 +889,5 @@
 
 	.clickable {
 		cursor: pointer;
-	}
-}
-
-#pivotBuilder2 {
-	font-size: 1.1em;
-	transition: all 0.2s linear;
-
-	.clickable {
-		cursor: pointer;
-	}
-
-	.pbRenameArea {
-		display: inline-block;
-
-		.glyphicon-eye-open {
-			padding-top: -1em;
-		}
-	}
-
-	.pbTitle {
-		transition: all 0.5s linear;
-		width: 500px;
-		border: 1px solid $mediumgray;
-		color: rgba(110,110,110,1.0);
-		font-weight: bold;
-		padding: 0.2em 1em;
-		font-size: 1em;
-		display: inline-block;
-
-		.pbSaveAsBox {
-			color: rgba(60,60,60,1.0);
-
-			.glyphicon {
-				background-color: white;
-				border-radius: 50%;
-				padding: 0.2em 0.2em;
-			}
-		}
-
-		.pbViewSaved {
-			font-weight: normal;
-			font-size: 0.95em;
-			padding-left: 0.4em;
-			display: inline-block;
-			min-width: 100px;
-			float: right;
-		}
-
-		.pbViewSave {
-			font-weight: normal;
-			font-size: 0.95em;
-			padding-left: 0.4em;
-			border-left: 1px solid rgba(200,200,200,1.0);
-			position: relative;
-			display: inline-block;
-			min-width: 130px;
-			float: right;
-
-			.pbSaveHolder {
-				border: 1px solid #BBB;
-				padding: 0.1em 0.3em;
-			}
-
-			.pbViewSaveMenu {
-				position: absolute;
-				background-color: rgba(200,200,200,1.0);
-				padding: 0.5em 0.7em;
-				width: 110%;
-				z-index: 100;
-				border: 1px solid rgba(100,100,100,1.0);
-			}
-
-			.pbViewSaveMenuItem {
-				display: block;
-				color: rgba(60,60,60,1.0);
-				font-weight: bold;
-			}
-
-			.pbViewSaveDisabled {
-				color: rgba(120,120,120,1.0);
-			}
-
-			hr {
-				margin: 0.5em 0;
-			}
-		}
-
-		.pbTitleText {
-			cursor: pointer;
-			max-width: 250px;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			display: inline-block;
-			height: 20px;
-			padding-top: 0.2em;
-		}
-
-		.pbTitleEdited {
-			font-weight: normal;
-		}
-	}
-
-	.glyphicon {
-		font-weight: normal;
-		padding: 0 0.2em;
-	}
-
-	.btn {
-		border-radius: 0;
-	}
-
-	.btn-default {
-		background-color: rgba(200,200,200,1.0);
-	}
-
-	.modal-dialog {
-		width: 80%;
-	}
-
-	.modal-content {
-		border-radius: 0;
-
-		.modal-header{
-			background-color: rgba(66,66,66,1.0);
-			color: #FFF;
-		}
-
-		.pbFilterAll {
-			border-bottom: 1px solid rgba(150,150,150,1.0);
-			padding: 0.5em 1em 0 2.2em;
-			/*border: none;*/
-			font-weight: bold;
-		}
-
-		.pbItemAddOuter {
-			/*border: 1px solid rgba(200,200,200,1.0);*/
-			margin: 0 auto;
-
-			div span {
-				transition: all 0.2s linear;
-			}
-
-			.filterChildItem {
-				transition: all 0.2s linear;
-				max-height: 1000px;
-				overflow: scoll;
-			}
-
-			.zeroHeight {
-				height: 0;
-				overflow: hidden;
-				padding: 0;
-			}
-
-			.pbItemAddCat {
-				font-weight: bold;
-				padding: 0.5em;
-				margin-bottom: 0.5em;
-				border-bottom: 1px solid rgba(220,220,220,1.0);
-			}
-
-			.pbItemAddItem label {
-				font-weight: normal;
-				margin-left: 2.2em;
-			}
-		}
-
-		.alert {
-			margin-bottom: -1em;
-		}
-	}
-
-	.pbRename {
-		display: inline-block;
-		width: 20px;
-	}
-
-	.pbViewConf {
-		display: inline-block;
-		min-width: 100px;
-		position: absolute;
-
-		.pbViewConfButt {
-			padding: 0.2em 0.4em;
-			font-size: 0.9em;
-			color: rgba(0,150,255,1.0);
-		}
-
-		.pbViewConfMenuBack {
-			background-color: rgba(200,200,200,1.0);
-			padding-bottom: 0.35em;
-		}
-
-		.pbViewConfMenu {
-			position: relative;
-			background-color: rgba(200,200,200,1.0);
-			z-index: 100;
-			padding: 0.5em;
-
-			ul {
-				list-style-type: none;
-				padding: 0;
-			}
-
-			.pbViewConfMenuTitl {
-				color: rgba(150,150,150,1.0);
-				display: block;
-			}
-
-			.pbViewConfMenuSel {
-				color: rgba(0,150,255,1.0);
-				display: block;
-				margin: 0;
-				padding: 0.3em;
-				font-weight: normal;
-			}
-
-			.bold {
-				font-weight: bold;
-			}
-		}
-	}
-
-	.pbTitle.pbTitleSel {
-		background-color: rgba(66,66,66,1.0);
-		color: rgba(235,235,235,1.0);
-		border-color: rgba(66,66,66,1.0);
-	}
-
-	.pbSlider {
-		transition: all 0.5s linear;
-		max-height: 0;
-		background-color: rgba(66,66,66,1.0);
-		color: rgba(235,235,235,1.0);
-		overflow-y: hidden;
-		padding: 0;
-		/*position: absolute;*/
-		width: 99.7%;
-
-		.pbSliderClose {
-			float: right;
-			margin-top: 1em;
-			position: relative;
-
-			.pbCloseText {
-				padding-right: 1em;
-			}
-
-			.pbCloseAlert {
-				position: absolute;
-				width: 700px;
-				left:-720px;
-				top:-5px;
-				z-index: 1000;
-				transition: all 0.5s linear;
-			}
-		}
-
-		.dragDropArea {
-			width: 90%;
-		}
-
-		.pbSec {
-			clear: both;
-			margin-left: 1em;
-
-			.glyphicon {
-				font-size: 15px;
-			}
-
-			.pbItemsHolder {
-				display: inline-block;
-				max-width: 85%;
-				outline: 0;
-
-				.pbTempDrop {
-					background-color: rgba(96,96,96,1.0);
-					border: 1px dashed rgba(195,195,195,1.0);
-					color: rgba(235,235,235,0.5);
-				}
-			}
-		}
-
-		.pbSecTitle {
-			float: left;
-			width: 120px;
-			clear: left;
-			padding-left: 1em;
-			height: 45px;
-		}
-
-		.pbItem {
-			background-color: rgba(235,235,235,1.0);
-			float: left;
-
-			color: rgba(66,66,66,1.0);
-			padding: 0.3em;
-			font-size: 0.9em;
-			margin-bottom: 1em;
-			margin-right: 1em;
-
-			.pbItemInfo {
-				display: inline;
-			}
-
-			.pbItemCat {
-				padding: 0.3em 0.4em;
-			}
-
-			.pbItemName {
-				padding: 0.3em 0.4em;
-				padding-left: 1em;
-				font-weight: bold;
-				color: rgba(0,150,255,1.0);
-			}
-		}
-
-		.as-sortable-placeholder {
-			display: inline-block;
-			border: 2px dashed rgba(245,245,245,1.0);
-			width: 200px;
-			float: left;
-			background-color: rgba(215,215,215,1.0);
-			color: rgba(66,66,66,1.0);
-			padding: 0.3em;
-			font-size: 0.9em;
-			margin-bottom: 1em;
-			margin-right: 1em;
-		}
-
-		.pbSec:first-of-type {
-			margin-top: 0.7em;
-		}
-
-		.pbAddBox {
-			float: left;
-
-			.pbItemAdd {
-				padding: 0.2em 0.5em;
-				float: left;
-				border: 1px dashed rgba(195,195,195,1.0);
-				margin-right: 1em;
-				margin-bottom: 1em;
-			}
-
-			.pbAddPopUp {
-				position: fixed;
-				background-color: #FFF;
-				padding: 1em;
-				z-index: 10000;
-
-				table {
-					min-width: 200px;
-				}
-
-				table td {
-					vertical-align: top;
-					border-bottom: 1px solid #999;
-					padding: 0.5em 1em;
-
-					div {
-						padding-top: 0.3em;
-					}
-
-					.pbItemAddEnabled {
-						cursor: pointer;
-						color: rgba(0,150,255,1.0);
-					}
-
-					.pbItemAddDisabled {
-						color: rgba(200,200,200,1.0);
-					}
-
-				}
-
-				table tr:last-child td {
-					border-bottom: 0;
-				}
-			}
-		}
-
-		.pbFilterBox {
-			float: left;
-			min-width: 100px;
-			margin-left: 0.4em;
-			margin-right: 0.5em;
-			padding: 0.3em;
-			font-size: 0.9em;
-
-			.pbFilterCat {
-				float: left;
-
-				.pbFilterSize {
-					font-size: 0.8em;
-					vertical-align: 15%;
-					color: #999999;
-				}
-			}
-
-			.pbFilterVal {
-				float: left;
-				font-weight: bold;
-				color: rgba(0,150,255,1.0);
-				padding-left: 0.4em;
-				max-width: 110px;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-				/*padding-top: 0.2em;*/
-			}
-		}
-
-		.pbViewButt {
-			clear: both;
-			margin-bottom: 1em;
-
-			button {
-				padding: 0.2em 4em;
-				margin-right: 2em;
-			}
-
-			.btn-undo {
-				background-color: rgba(120,184,255,1.0);
-				border-color: rgba(100,164,255,1.0);
-			}
-
-			.btn-undo[disabled] {
-				background-color: #c8c8c8;
-				border-color: #b8b8b8;
-			}
-
-			.btn-primary[disabled] {
-				background-color: #c8c8c8;
-				border-color: #b8b8b8;
-			}
-		}
-	}
-
-	.pbSlider.pbOpened {
-		max-height: 300px;
-	}
-
-	.rotate90 {
-		-webkit-transform: rotate(90deg);
-		-moz-transform: rotate(90deg);
-		-ms-transform: rotate(90deg);
-		-o-transform: rotate(90deg);
-		transform: rotate(90deg);
-	}
-
-	.rotate270 {
-		-webkit-transform: rotate(-90deg);
-		-moz-transform: rotate(-90deg);
-		-ms-transform: rotate(-90deg);
-		-o-transform: rotate(-90deg);
-		transform: rotate(-90deg);
-	}
-
-	#filterModal {
-		.modal-body {
-			padding: 0;
-
-			.pbFilterModalLinks {
-				background-color: rgba(200,200,200,1.0);
-				width: 25%;
-				display: block;
-				margin: 0;
-				float: left;
-				padding-top: 1em;
-
-				.pbFilterModalLink {
-					position: static;
-					margin-bottom: 1em;
-					background-color: rgba(255,255,255,0);
-					padding: 0.5em 2em;
-
-					.pbFilterModalValues {
-						max-width: 90%;
-						overflow: hidden;
-						text-overflow: ellipsis;
-						white-space: nowrap;
-					}
-				}
-
-				.active {
-					background-color: rgba(255,255,255,1.0);
-				}
-			}
-
-			.pbFilterModalMain {
-				display: inline-block;
-				margin: 0;
-				width: 65%;
-				margin-left: 2em;
-				padding: 1em 0;
-
-				.pbFilterTitle {
-					font-size: 1.2em;
-					display: inline;
-				}
-
-				.pbFilterSelect {
-					float: right;
-					margin: -0.3em;
-					width: 350px;
-
-					select {
-						display: inline;
-						width: 82%;
-					}
-				}
-
-				.pbFilterSearch {
-
-					input {
-						width: 100%;
-						padding: 1em;
-						margin: 1em 0;
-					}
-				}
-
-				.pbModalHeight {
-					margin: 0;
-					min-height: 200px;
-					overflow-y: auto;
-					border: 1px solid rgba(120,120,120,1.0);
-
-					.pbFilterValCol1 {
-						display:inline-block;
-						width:70%;
-					}
-
-					.pbFilterValCol2 {
-						display:inline-block;
-						width:25%;
-					}
-				}
-
-				.pbFilterModalButtons {
-					padding: 1em 0;
-
-					.pbFilterModalAlert {
-						display: inline-block;
-						width: 250px;
-						padding:0.39em;
-						margin-right: 1em;
-						float: right;
-					}
-				}
-		}
-		}
 	}
 }
