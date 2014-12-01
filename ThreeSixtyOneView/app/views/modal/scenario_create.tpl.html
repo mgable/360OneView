@@ -1,0 +1,89 @@
+<form name="ScenarioCreate">
+
+<pre>
+	ScenarioCreate.$error.isUnique {{ScenarioCreate.$error.isUnique}}
+</pre> 
+
+
+
+	<div class="scenario-create">
+		<div class="details scenario-form">
+			<div>
+				<h3>Create a Scenario</h3>
+				<div class="inputGroup" ng-show="showFields">
+					<label for="name">Enter Scenario Name</label>
+					<input type="text" focus placeholder="Enter Scenario Name" required ng-maxlength="256" ng-minlength="2" ng-pattern='/^[^\\\/\?\:\*"><|]+$/' is-unique="isScenarioTitleUnique" ng-model="scenario.title" />
+					<span class="alert alert-danger" ng-show="ScenarioCreate.$error.isUnique" role="alert">The scenario name &quot;{{scenario.title}}&quot; has been taken. Please choose another name.</span>
+					<label for="description">Enter Description (Optional)</label>
+					<input class="description" type="text" placeholder="Enter Scenario description (optional)" ng-model="scenario.description" ng-maxlength="1024">
+					<label for="share">Share With</label>
+					<select>
+						<option value="everyone">Everyone in this project</option>
+						<option value="onlyMe">Only me</option>
+					</select>
+				</div>
+				<div class="baseGroup">
+					<label for="baseScenario" ng-click="showScenario()">Base Scenario</label>
+					<input type="text" id="baseScenario" ng-click="showScenario()" value="{{chosen.scenario}}"><i class="fa fa-folder-open-o"></i>
+
+					<div class="buttons" ng-show="showFields">
+						<input type="submit" value="CONTINUE" class="button" ng-click="submit(scenario)">
+						<button id="cancel" class="button" ng-click="close()">Cancel</button>
+					</div>
+
+					<!-- Begin hidden group -->
+					<div class="radios" ng-show="showBases">
+						<div class='searchBack'>
+							<i class="fa fa-search"></i>
+							<input type="text" class="form-control" id="search" placeholder="Search by Name" ng-model="searchText"/>
+						</div>
+
+						<table class="table table-hover table-bordered no-margin" >
+							<thead>
+								<th class="col-lg-6">{{masterProject.title}}</th>
+							</thead>
+							<tbody>
+								<tr>
+									<td ng-click="setRow(masterProject)">
+										<div class="row" >
+											<div class="col-md-1">
+												<span><icon type="check-circle" cname="ok-sign" ng-show="showRow(masterProject)"></icon></span>
+											</div>
+											<div class="col-md-11">
+												<span>{{masterProject.data[0].title}}</span>
+												<span class="second-line"></span> 
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+
+							<thead ng-repeat-start="scenarios in scenarioList | filter: {'title': searchText}">
+								<th class="col-lg-6" data-align="left">{{scenarios.title}} Project</th>
+							</thead>
+							<tbody ng-repeat-end>
+								<tr ng-repeat="scenario in scenarios.data">
+									<td ng-click="setRow(scenario)">
+										<div class="row" >
+											<div class="col-md-1">
+												<span ng-show="showRow(scenario)"><icon type="check-circle" cname="ok-sign"></icon></span>
+											</div>
+											<div class="col-md-11">
+												<span class="{{scenario.type}}">{{scenario.title}}</span>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="base-scenario" >
+							<button class="confirmRadio" ng-click="confirm()">Confirm Base Scenario</button>
+							<button class="button" ng-click="close()">Cancel</button>
+						</div>
+					</div>
+				<!-- End hidden group -->
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

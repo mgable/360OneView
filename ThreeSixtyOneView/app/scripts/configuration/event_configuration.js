@@ -13,6 +13,7 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     gotoDashboard: 'GotoService:dashboard',
     resetFilterBy: 'SortAndFilterService:resetFilterBy',
     openCreateProject: "DialogService:openCreateProject",
+    openScenarioCreate: "DialogService:openCreateScenario",
     trayCopy: "Tray:copy",
     noop: "noop",
     // ERRORS
