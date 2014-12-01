@@ -2,7 +2,7 @@
 
 angular.module('ThreeSixtyOneView.services')
   .service('ScenarioElementService', ["Model", "ScenarioElementModel", function (Model, ScenarioElementModel) {
-	var MyScenarioElement, myElements;
+	var MyScenarioElement, myElements, self = this;
 
 		MyScenarioElement = new Model();
 		angular.extend(this, MyScenarioElement.prototype);

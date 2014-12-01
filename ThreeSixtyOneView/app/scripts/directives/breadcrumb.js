@@ -32,7 +32,6 @@ angular.module('ThreeSixtyOneView.directives')
 					scope.breadcrumbs = breadcrumbs;
 				}
 			});
-		},
-		replace: true
+		}
 	};
   });

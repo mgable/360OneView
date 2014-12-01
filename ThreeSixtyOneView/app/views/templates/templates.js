@@ -17,7 +17,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t</span>\n" +
     "\n" +
     "\t<div class=\"button-holder\">\n" +
-    "\t\t<span ng-click=\"create(CONFIG.pageActions.createClickAction)\" data-ms-id='createButton'><icon type=\"plus\"></icon>CREATE</span>\n" +
+    "\t\t<span ng-click=\"create(CONFIG.displayActionsCreate)\" data-ms-id='createButton'><icon type=\"plus\"></icon>CREATE</span>\n" +
     "\t</div>\n" +
     "</div>\n"
   );
