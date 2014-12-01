@@ -12,13 +12,13 @@
 		<div>
 			<form class="form-inline">
 				<div class='form-group'>
-					<label><span ui-sref="ScenarioEdit.edit">Edit:</span>&nbsp;
+					<label><span ui-sref="Scenario.edit">Edit:</span>&nbsp;
 						<select ng-model="scenarioElementType" ng-options="value.title for value in types"></select>
 					</label>
 				</div>
 			</form>
 
-			<span  ui-sref="ScenarioEdit.results" class="results">Results: (Not Calculated)</span>
+			<span  ui-sref="Scenario.results" class="results">Results: (Not Calculated)</span>
 			<span class="pull-right">
 				<button class="btn btn-primary" ng-click="resultsCalculated=true">simulate</button>
 			</span>
