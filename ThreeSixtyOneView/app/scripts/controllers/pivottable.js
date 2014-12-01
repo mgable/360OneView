@@ -51,9 +51,9 @@ angular.module("ThreeSixtyOneView")
                 // add default style
                 var ns = $.wijmo.wijspread;
                 var style = sheet.getDefaultStyle();
-                style.borderLeft = new ns.LineBorder("#ffffff", $.wijmo.wijspread.LineStyle.empty);
+                style.borderLeft = new ns.LineBorder("#fff", $.wijmo.wijspread.LineStyle.empty);
                 style.borderTop = new ns.LineBorder("#e5e5e5", $.wijmo.wijspread.LineStyle.thin);
-                style.borderRight = new ns.LineBorder("#ffffff", $.wijmo.wijspread.LineStyle.empty);
+                style.borderRight = new ns.LineBorder("#fff", $.wijmo.wijspread.LineStyle.empty);
                 style.borderBottom = new ns.LineBorder("#e5e5e5", $.wijmo.wijspread.LineStyle.thin);
 
                 // set col style
@@ -61,7 +61,7 @@ angular.module("ThreeSixtyOneView")
                     var column = sheet.getColumn(j);
                     column.vAlign($.wijmo.wijspread.VerticalAlign.center).textIndent(1);
                     if (j < $scope.colHeaderCnt) {
-                        column.formatter("0").font("14px proxima-nova").foreColor("#000000");
+                        column.formatter("0").font("14px proxima-nova").foreColor("#333");
                         column.wordWrap(true);
                     } else {
                         column.formatter("$#,###");
@@ -74,16 +74,16 @@ angular.module("ThreeSixtyOneView")
                         sheet.setRowHeight(i, 40, $.wijmo.wijspread.SheetArea.viewport);
                     if (i < $scope.rowHeaderCnt) {
                         if (i === $scope.rowHeaderCnt - 1) {
-                            row.borderBottom(new $.wijmo.wijspread.LineBorder("#CCCCCC", $.wijmo.wijspread.LineStyle.thick));
+                            row.borderBottom(new $.wijmo.wijspread.LineBorder("#CCC", $.wijmo.wijspread.LineStyle.thick));
                         }
-                        row.formatter("0").font("11px proxima-nova").foreColor("#888888");
+                        row.formatter("0").font("11px proxima-nova").foreColor("#888");
                         row.hAlign($.wijmo.wijspread.HorizontalAlign.center);
                         row.wordWrap(true);
                         // sheet.autoFitRow(i);
-						// sheet.getCell(i, $scope.colHeaderCnt-1).borderRight(new $.wijmo.wijspread.LineBorder("#CCCCCC", $.wijmo.wijspread.LineStyle.thick));
+						// sheet.getCell(i, $scope.colHeaderCnt-1).borderRight(new $.wijmo.wijspread.LineBorder("#CCC", $.wijmo.wijspread.LineStyle.thick));
                     } else {
                         for (j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
-                            sheet.getCell(i, j).font("14px proxima-nova").foreColor("#000000").value(randomNumber(0, 2000)).locked(false);
+                            sheet.getCell(i, j).font("14px proxima-nova").foreColor("#333").value(randomNumber(0, 2000)).locked(false);
                         }
                     }
                 }
