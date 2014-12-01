@@ -60,12 +60,13 @@ angular.module('ThreeSixtyOneView')
         $scope.$on(EVENTS.noop, function(event, action){
             DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
         });
-    }]).controller("ProjectDashboardCtrl", ["$scope", "$controller", "$stateParams", "$state", "CONFIG", "ProjectsService", "Project", "Scenarios", "ActiveSelection", "SortAndFilterService", "GotoService", "ScenarioService", "EVENTS", "FavoritesService", "Favorites", function($scope,  $controller, $stateParams, $state, CONFIG, ProjectsService, Project, Scenarios, ActiveSelection, SortAndFilterService, GotoService, ScenarioService, EVENTS, FavoritesService, Favorites) {
+    }]).controller("ProjectDashboardCtrl", ["$scope", "$controller", "$stateParams", "$state", "CONFIG", "ProjectsService", "Project", "Scenarios", "ActiveSelection", "SortAndFilterService", "GotoService", "ScenarioService", "EVENTS", "FavoritesService", "Favorites", "DialogService", function($scope,  $controller, $stateParams, $state, CONFIG, ProjectsService, Project, Scenarios, ActiveSelection, SortAndFilterService, GotoService, ScenarioService, EVENTS, FavoritesService, Favorites, DialogService) {
 
         angular.extend(this, $controller('ProjectViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService, CONFIG:CONFIG, FavoritesService:FavoritesService}));
 
         var localInit = function(){
             $scope.project = Project;
+            $scope.scenarios = Scenarios;
             $scope.hasAlerts = Scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
         };
 
@@ -77,8 +78,8 @@ angular.module('ThreeSixtyOneView')
             return $scope.project;
         };
 
-        $scope.$on(EVENTS.gotoScenarioCreate, function(evt, data){
-            $scope.goto(evt, 'gotoScenarioCreate', $scope.getProject(), Scenarios);
+        $scope.$on(EVENTS.gotoScenarioCreate, function(){
+            DialogService.openCreateScenario(Project, Scenarios);
         });
 
         $scope.$on(EVENTS.copyScenario, function(evt, scenario){
@@ -163,7 +164,6 @@ angular.module('ThreeSixtyOneView')
                 case "gotoScenarioEdit": GotoService.scenarioEdit($scope.getProject().id, item.id); break;
                 case "gotoDashboard": GotoService.dashboard(item.id); break;
                 case "gotoProjects": GotoService.projects(); break;
-                case "gotoScenarioCreate": DialogService.openCreateScenario($scope.getProject()); break;
             }
         };
 
