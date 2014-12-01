@@ -60,7 +60,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 				// console.log(event);
 				if(!$scope.draftView) {
 					$scope.draftView = true;
-					$scope.viewName += " - Draft";
+					$scope.viewName += ' - Draft';
 				}
 				$scope.applyView();
 			},
@@ -68,9 +68,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 				// console.log(event);
 				if(!$scope.draftView) {
 					$scope.draftView = true;
-					$scope.viewName += " - Draft";
+					$scope.viewName += ' - Draft';
 				}
-				$scop
 				$scope.applyView();
 			},
 			dragStart: function(event) {
@@ -96,8 +95,9 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			$scope.pbData.viewData[dim].splice(itemInd, 1);
 			$scope.added[itemName] = false;
 
-			if($scope.changeMade()) {
-				$scope.viewName += " - Draft";
+			if(!$scope.draftView) {
+				$scope.draftView = true;
+				$scope.viewName += ' - Draft';
 			}
 			$scope.applyView();
 		}
@@ -123,8 +123,9 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 		$scope.addPopUp[$scope.add.selected] = !$scope.addPopUp[$scope.add.selected];
 
-		if(!$scope.changeMade()) {
-			$scope.viewName += " - Draft";
+		if(!$scope.draftView) {
+			$scope.draftView = true;
+			$scope.viewName += ' - Draft';
 		}
 		$scope.applyView();
 	};
@@ -361,8 +362,12 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 	$scope.saveView = function() {
 		if($scope.changeMade()) {
 			pbData = angular.copy($scope.pbData);
-			$scope.viewName = pbData.viewData.name;
+
+			if($scope.draftView) {
+				$scope.viewName = pbData.viewData.name;
+			}
 			$scope.notify('Saved!');
+			$scope.draftView = false;
 		}
 	};
 
@@ -377,7 +382,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		if(event.keyCode === 13) {
 			$scope.finishSaveAs(true);
 		} else if(event.keyCode === 27) {
-			$scope.cancelSaveAs();
+			$scope.finishSaveAs(false);
 		}
 	};
 
@@ -385,7 +390,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 	$scope.finishSaveAs = function(save) {
 		if(save) {
 			$scope.viewName = $scope.saveAsName;
-			$scope.saveView();
+			$scope.draftView = false;
+			// $scope.saveView();
 
 			$scope.notify('Saved!');
 		}
@@ -631,7 +637,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			$scope.pivotBuilderHeight = angular.element.find('#pivotBuilder')[0].offsetHeight;
 			$rootScope.$broadcast(EVENTS.heightChanged, $scope.pivotBuilderHeight);
         }, 400);
-
 	};
 
 	init();
