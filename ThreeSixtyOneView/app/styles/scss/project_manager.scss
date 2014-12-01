@@ -223,6 +223,9 @@
 				font-size: 1.3em;
 				text-transform: capitalize;
 				cursor: pointer;
+				&:hover {
+					color: $blue;
+				}
 			}
 			.filterDropdown {
 				position: absolute;
@@ -249,6 +252,11 @@
 					font-size: 1.2em;
 					color: $black;
 					display: block;
+
+					&:hover {
+						color: $blue;
+						text-decoration: none;
+					}
 				}
 			}
 			.button-holder {
@@ -410,7 +418,6 @@
 					.text-holder.favorites-holder {
 						width:25px;
 					}
-
 
 					.text-holder {
 						display: inline-block;

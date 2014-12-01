@@ -1,6 +1,6 @@
 "use strict";
 
-angular.module('ThreeSixtyOneView.config').config(function() {
+angular.module('ThreeSixtyOneView').config(function() {
     String.prototype.bool = function() {
         return (/^true$/i).test(this);
     };

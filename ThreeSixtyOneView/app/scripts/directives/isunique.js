@@ -11,6 +11,12 @@ angular.module('ThreeSixtyOneView.directives')
 		link: function postLink(scope, element, attrs, ctrl) {
 			var validate = function(viewValue) {
 				if(!viewValue || !scope.comparisonModel){
+
+
+					console.info("this");
+					console.info(viewValue);
+					console.info(scope.comparisonModel);
+
 					// It's valid because we have nothing to compare against
 					ctrl.$setValidity('isUnique', true);
 				}
