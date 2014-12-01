@@ -502,7 +502,7 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('msserve', function(target) {
-        grunt.log.info('Running:', target);
+        grunt.log.warn('Running:', target);
         grunt.task.run([
             'connect:dist:keepalive'
         ]);
