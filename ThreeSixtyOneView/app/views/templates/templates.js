@@ -2,24 +2,42 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   'use strict';
 
   $templateCache.put('views/directives/display_actions.tpl.html',
-    "<div class=\"display-actions\">\n" +
-    "\t<h4 ng-click=\"toggle()\" class=\"pull-left title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;<span>({{SortAndFilterService.getCount()}})</span><span  class=\"filtertoggle\"><icon type=\"caret-down\"></icon></span></h4>\n" +
+    "<div class=\"display-actions\">\r" +
     "\n" +
-    "\t<ul ms-link-group firstSelected=\"{{CONFIG.filterMenu.items[CONFIG.filterMenu.firstSelected].label}}\" radio=\"true\" class='filterDropdown dropdownshadow title hide menu'>\n" +
-    "\t\t<li ng-repeat=\"item in CONFIG.filterMenu.items\" class=\"header\" ng-class=\"{selected: item.label === selectedItem}\">\n" +
-    "\t\t\t <a ms-link=\"{{item.label}}\" ng-click=\"setFilter(item.filterType, item, true)\">{{item.label}}</a>\n" +
-    "\t\t</li>\n" +
-    "    </ul>\n" +
+    "\t<h4 ng-click=\"toggle()\" class=\"pull-left title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;<span>({{SortAndFilterService.getCount()}})</span><span  class=\"filtertoggle\"><icon type=\"caret-down\"></icon></span></h4>\r" +
     "\n" +
-    "\t<span>\n" +
-    "\t\t<icon type=\"filter\"></icon>\n" +
-    "\t\t<input type=\"text\" class=\"search-input\" ng-model=\"SortAndFilterService.searchText\" ng-change=\"SortAndFilterService.filter()\" placeholder=\"Filter List\"/>&nbsp;\n" +
-    "\t</span>\n" +
+    "\r" +
     "\n" +
-    "\t<div class=\"button-holder\">\n" +
-    "\t\t<span ng-click=\"create(CONFIG.displayActionsCreate)\" data-ms-id='createButton'><icon type=\"plus\"></icon>CREATE</span>\n" +
-    "\t</div>\n" +
-    "</div>\n"
+    "\t<ul ms-link-group firstSelected=\"{{CONFIG.filterMenu.items[CONFIG.filterMenu.firstSelected].label}}\" radio=\"true\" class='filterDropdown dropdownshadow title hide menu'>\r" +
+    "\n" +
+    "\t\t<li ng-repeat=\"item in CONFIG.filterMenu.items\" class=\"header\" ng-class=\"{selected: item.label === selectedItem}\">\r" +
+    "\n" +
+    "\t\t\t <a ms-link=\"{{item.label}}\" ng-click=\"setFilter(item.filterType, item, true)\">{{item.label}}</a>\r" +
+    "\n" +
+    "\t\t</li>\r" +
+    "\n" +
+    "    </ul>\r" +
+    "\n" +
+    "\r" +
+    "\n" +
+    "\t<span>\r" +
+    "\n" +
+    "\t\t<icon type=\"filter\"></icon>\r" +
+    "\n" +
+    "\t\t<input type=\"text\" class=\"search-input\" ng-model=\"SortAndFilterService.searchText\" ng-change=\"SortAndFilterService.filter()\" placeholder=\"Filter List\"/>&nbsp;\r" +
+    "\n" +
+    "\t</span>\r" +
+    "\n" +
+    "\r" +
+    "\n" +
+    "\t<div class=\"button-holder\">\r" +
+    "\n" +
+    "\t\t<span ng-click=\"create(CONFIG.displayActionsCreate)\" data-ms-id='createButton'><icon type=\"plus\"></icon>CREATE</span>\r" +
+    "\n" +
+    "\t</div>\r" +
+    "\n" +
+    "</div>\r" +
+    "\n"
   );
 
 
