@@ -53,9 +53,6 @@ angular.module('ThreeSixtyOneView')
 
         var getBaseScenario = function(){
                 return angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
-            }, 
-            getSelected = function(){
-                return selectedBaseScenario;
             },
             sortScenarios = function(scenarios){
                 $scope.scenarioList = scenarios;

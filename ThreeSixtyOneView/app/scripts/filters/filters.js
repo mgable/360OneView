@@ -5,7 +5,7 @@
 angular.module('ThreeSixtyOneView.filters')
     .filter("filterBaseScenarios", [function(){
         return function(input, term){
-            var results = [], 
+            var results = [],
                 regExp;
 
             if (term){
@@ -29,7 +29,7 @@ angular.module('ThreeSixtyOneView.filters')
                 }
             });
             return results;
-        }
+        };
     }])
     .filter('isFavorite', ["FavoritesService", function(FavoritesService) {
         return function(input) {
