@@ -64,7 +64,6 @@ angular.module('ThreeSixtyOneView')
         $scope.$on(EVENTS.renameScenario, function(evt, data){
             ScenarioService.rename(data, $getProject().id);
         });
-
         
         init();
     }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "$state", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "GotoService", "DialogService", "EVENTS", function($scope, $controller, $state,  FavoritesService, ProjectsService, ScenarioService, Projects,  GotoService, DialogService, EVENTS) {
