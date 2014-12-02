@@ -5,34 +5,45 @@ describe('Dialog Services:', function() {
     // load the directive's module
     beforeEach(module('ThreeSixtyOneView.services'));
 
-    var DiaglogService, dialogs, spy;
+    var DialogService, dialogs;
 
-    beforeEach(inject(function(_DiaglogService_, _dialogs_) {
-        DiaglogService = _DiaglogService_;
+    beforeEach(inject(function(_DialogService_, _dialogs_) {
+        DialogService = _DialogService_;
         dialogs = _dialogs_;
-        spy = spyOn(dialogs, "create");
+        spyOn(dialogs, "create");
+        spyOn(dialogs, "notify");
     }));
 
     describe("Dialog Service:", function() {
         it("should define an api", function() {
-            expect(angular.isFunction(DiaglogService.create)).toBe(true);
-            expect(angular.isFunction(DiaglogService.rename)).toBe(true);
+            expect(angular.isFunction(DialogService.create)).toBeDefined();
+            expect(angular.isFunction(DialogService.trayCopy)).toBeDefined();
+            expect(angular.isFunction(DialogService.notify)).toBeDefined();
+            expect(angular.isFunction(DialogService.noop)).toBeDefined();
         });
 
         it("should create a 'create project' dialog box", function() {
-            DiaglogService.create('project');
-            expect(spy).toHaveBeenCalledWith('views/modal/create_project.tpl.html', 'ProjectCreateCtrl', {}, {
+            DialogService.create('project');
+            expect(dialogs.create).toHaveBeenCalledWith('views/modal/simple_input.tpl.html', 'ProjectCreateCtrl', {}, {
                 size: 'sm'
             });
         });
 
-        it("should create a 'rename' dialog box", function() {
-            var data = {
-                item: "item",
-                service: "service"
-            };
-            DiaglogService.rename("item", "service");
-            expect(spy).toHaveBeenCalledWith('views/modal/rename_project.tpl.html', 'ProjectRenameCtrl', data, {size: 'sm'});
+        it("should create a 'copy project' dialog box", function() {
+            DialogService.trayCopy("foo");
+            expect(dialogs.create).toHaveBeenCalledWith('views/modal/simple_input.tpl.html', 'ScenarioCopyCtrl', "foo", {
+                size: 'sm'
+            });
+        });
+
+        it("should create a 'notification' dialog box", function() {
+            DialogService.notify("foo", "bar");
+            expect(dialogs.notify).toHaveBeenCalledWith("foo", "bar");
+        });
+
+        it("should create a 'noop' dialog box", function() {
+            DialogService.noop("foo", "bar");
+            expect(dialogs.notify).toHaveBeenCalledWith("foo", "bar");
         });
 
     });

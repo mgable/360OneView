@@ -1,20 +1,31 @@
+/* global xit, xdescribe */
 'use strict';
 
-xdescribe('Directive: isUnique', function () {
+describe('Directive: isUnique', function () {
 
   // load the directive's module
-  beforeEach(module('ThreeSixtyOneView'));
+  beforeEach(module('ThreeSixtyOneView.directives'));
 
   var element,
-    scope;
+    scope,
+    ctrl;
 
-  beforeEach(inject(function ($rootScope) {
+  beforeEach(inject(function ($rootScope, $compile) {
     scope = $rootScope.$new();
+    scope.name = "abc";
+    scope.isScenarioTitleUnique = function(scenarioTitle) {
+      return ! _.findWhere([{title:"xyz"}, {title:"123"}, {title:"abc"}], {title:scenarioTitle});
+    };
+    element = angular.element('<form name="theForm"><input type="text" name="theName" ng-model="name" is-unique="isScenarioTitleUnique"></input></form>');
+    element = $compile(element)(scope);
+    scope.$digest();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<is-unique></is-unique>');
-    element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the isUnique directive');
+  it('should test for unique input', inject(function () {
+    expect(scope.theForm.theName.$error.isUnique).toBe(true);
+    scope.$apply(function(){scope.name = "abx";});
+    expect(scope.theForm.theName.$error.isUnique).toBe(false);
   }));
+
+
 });

@@ -8,7 +8,6 @@
     "jquery": "~1.11.0",
     "bootstrap": "~3.1.1",
     "angular-sanitize": "1.2.16",
-    "angular-route": "1.2.16",
     "angular-bootstrap": "0.11",
     "angular-resource": "1.2.16",
     "underscore": "1.6.0",
@@ -16,10 +15,14 @@
     "angular-translate": "~2.2.0",
     "angular-ui-utils": "~0.1.1",
     "components-font-awesome": "~4.2.0",
-    "angular-ui-router": "~0.2.11"
+    "angular-ui-router": "~0.2.11",
+    "ng-sortable": "~1.1.1"
   },
   "devDependencies": {
     "angular-mocks": "1.2.16",
     "angular-scenario": "1.2.16"
+  },
+  "resolutions": {
+    "angular": "1.2.16"
   }
 }

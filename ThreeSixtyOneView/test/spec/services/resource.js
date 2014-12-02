@@ -61,8 +61,8 @@ describe('Service: Resource', function() {
             isMaster: false,
             parentId: ''
         },
-        id = "12345";
-        var url = scenarioUrl.replace(/:id/, id);
+        id = {"id": "12345"};
+        var url = scenarioUrl.replace(/:id/, id.id);
         resource.create(obj, {}, id);
         expect(postSpy).toHaveBeenCalledWith(url, obj, {method:'post', url:url, data:obj});
     });

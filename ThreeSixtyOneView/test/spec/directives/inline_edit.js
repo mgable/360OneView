@@ -26,7 +26,7 @@ describe('Directives:', function() {
         }));
 
         it('should correctly set the title', function() {
-            var holder = element.find("h4.title");
+            var holder = element.find("h4.title:eq(0)");
             expect(holder.text()).toBe(scope.item.title);
             holder = element.find("input");
             expect(holder.val()).toEqual(scope.item.title);

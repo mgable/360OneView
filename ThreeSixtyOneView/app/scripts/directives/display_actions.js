@@ -3,36 +3,39 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.directives')
-    .directive("displayActions", ["$rootScope", "CONFIG", "$state", "EVENTS", function($rootScope, CONFIG, $state, EVENTS) {
+    .directive("displayActions", ["$document","$timeout","$rootScope", "CONFIG", "$state", "EVENTS", "SortAndFilterService", function($document,$timeout,$rootScope, CONFIG, $state, EVENTS, SortAndFilterService) {
         return {
             restrict: "AE",
             replace: true,
             templateUrl: "views/directives/display_actions.tpl.html",
-            link: function(scope, element, attrs) {
+            controller: function($scope, $element, $attrs) {
                 // Bootstrap
-                scope.view = {};
-                scope.view.create = false;
-                scope.view.filter = false;
-                scope.view.search = false;
-                scope.CONFIG = CONFIG.view[$state.current.name];
+                $scope.CONFIG = CONFIG.view[$state.current.name];
+                $scope.SortAndFilterService = SortAndFilterService;
+                var filterDropdown = $($element).find('.filterDropdown');
 
-                var show = scope.$eval(attrs.show);
 
-                function toggleActions(which) {
-                    _.each(show, function(e, i, a) {
-                        scope.view[e] = true;
-                    });
+                function close () {
+                    filterDropdown.addClass('hide');
+                    $document.off('click', close);
                 }
-
-                toggleActions(show);
                 
-                scope.create = function(action, data) {
-                    //action is and EVENTS.type
-                    /* jshint ignore:start */
-                    //eval(action);
-                    /* jshint ignore:end */
+                $scope.create = function(action, data) {
                     $rootScope.$broadcast(EVENTS[action], data);
                 };
+
+                $scope.toggle = function() {
+                   if (filterDropdown.hasClass('hide')) {
+                        filterDropdown.removeClass('hide');
+                        $timeout(function() {
+                            $document.on('click', close);
+                        });
+                    } else {
+                        filterDropdown.addClass('hide');
+                        $document.off('click', close);
+                    }
+                };
+
             }
 
         };

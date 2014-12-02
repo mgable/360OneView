@@ -1,7 +1,8 @@
+@import "ford_client";
+
 // images and sprites 
 $sprite: "../images/360sprite.png";
 $logo: "../images/logo_pic_sprite.png";
-$background_img: "../images/ford_background.png";
 $users_img: "../images/users_pic_sprite.png";
 
 // Fonts 
@@ -16,14 +17,16 @@ $selected: red;
 $highlight: orange;
 $completed: #0096FF;
 $error: #FF817C;
+$shadow: #AAA;
+$subtitle: #AAA;
+$label: #888;
+$select-list: #fff;
+$item-hover: #bbb;
 
 $panel-result: #f4f7f7;
 $arrow-up: #67d878;
 $arrow-down: #ff7e79;
 $panel-selected: #bde4ff;
-$header-background: rgba(34,61,98, 0.7);
-$header-smallrow: rgba(0,27,62, 0.8);
-$footer-background: rgba(0,0,0, 0.6);
 $navbar-active: #001b3e;
 $navbar-border: #22508f;
 
@@ -31,7 +34,7 @@ $navbar-border: #22508f;
 $black: #222;
 $darkgray: #666666;
 $mediumgray: #dddddd;
-$gray: gray;
+$gray: gray; /* #808080 */
 $lightgray: #E9E9E9;
 $lightestgray: #f5f5f5;
 $white: white;
@@ -39,7 +42,7 @@ $mustard: #f89b26;
 $lightblue: #007fe8;
 $green: green;
 $red: red;
-$orange: #f35528;
+$orange: #f45724;
 $blue: #295da7;
 
 // Marketshare color bar logo
@@ -55,8 +58,10 @@ $cap_height: 50px;
 $app_left: 200px;
 $app_right: 300px;
 $app_max_width: 1160px;
-$app_min_width: 1024px;
+$app_min_width: 1160px;
 $app_top_margin: 50px;
+$navigation_min_width: 1024px;
+$content_min_width: 1080px;
 $body_font_size: 13px;
 
 // mixins

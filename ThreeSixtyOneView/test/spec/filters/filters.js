@@ -2,7 +2,7 @@
 /* jshint unused:false */
 'use strict';
 
-xdescribe('Filters:', function() {
+describe('Filters:', function() {
     // load the directive's module
     beforeEach(module('ThreeSixtyOneView.filters', 'ThreeSixtyOneView.services', 'ThreeSixtyOneView.config'));
 
@@ -19,9 +19,9 @@ xdescribe('Filters:', function() {
         }));
 
         it('should filter out all non-favorites', function(){
-            FavoritesService.addFavorite(2);
-            FavoritesService.addFavorite(234);
-            expect(filter('isFavorite')([{id:1},{id:2}, {id:123}, {id:234}])).toEqual([{id:2},{id:234}]);
+            FavoritesService.addFavorite("2");
+            FavoritesService.addFavorite("234");
+            expect(filter('isFavorite')([{id:"1"},{id:"2"}, {id:"123"}, {id:"234"}])).toEqual([{id:"2"},{id:"234"}]);
         });
 
     });

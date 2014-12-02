@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView')
+angular.module('ThreeSixtyOneView.directives')
 	.directive('isUnique', function () {
 	return {
 		require: 'ngModel',
@@ -11,6 +11,7 @@ angular.module('ThreeSixtyOneView')
 		link: function postLink(scope, element, attrs, ctrl) {
 			var validate = function(viewValue) {
 				if(!viewValue || !scope.comparisonModel){
+
 					// It's valid because we have nothing to compare against
 					ctrl.$setValidity('isUnique', true);
 				}

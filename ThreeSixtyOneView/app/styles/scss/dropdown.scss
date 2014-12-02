@@ -1,23 +1,83 @@
 @import "variables";
 
+.display-actions { 
+	cursor: pointer;
+	.filterDropdown {
+		display:inline-block;
+		border:1px solid $blue;
+		margin-top: 5px;
+		padding:5px 0;
+		min-width:160px;
+		position:absolute;
+		background-color:$white;
+		left: 5px;
+    	top: 40px;
+	}
+	.filterDropdown:before {
+		content: "";
+		width: 20px;
+		height: 20px;
+		border-top: 1px solid $blue;
+		border-left: 1px solid $blue;
+		background-color: $select-list;
+		border-radius: 3px 0;
+
+		position: absolute;
+		top: -11px;
+		left: 42%;
+		z-index: 2;
+
+		-ms-transform: rotate(45deg);
+	    -webkit-transform: rotate(45deg);
+	    transform: rotate(45deg);
+	}
+}
+
 .ms-dropdown {
 	position:relative;
-	font-size: 13px;
+	font-size: 14px;
 	display: block;
 	.ms-select-list {
 		display:inline-block;
-		border:1px solid #7D7D7D;
-		padding:5px 0;
+		border:1px solid $blue;
+		margin-top: 10px;
+		padding: 20px;
 		min-width:195px;
 		position:absolute;
 		background-color:white;
+		& > ul:first-of-type{
+			border-bottom: 1px solid $shadow;
+    		margin-bottom: 10px;
+    		padding-bottom: 3px;
+		}
+	}
+	.ms-select-list:before {
+		content: "";
+		width: 15px;
+		height: 15px;
+		border-top: 1px solid $blue;
+		border-left: 1px solid $blue;
+		background-color: $select-list;
+		border-radius: 3px 0;
+		position: absolute;
+		top: -8px;
+		left: 50%;
+		z-index: 2;
+
+		-ms-transform: rotate(45deg);
+	    -webkit-transform: rotate(45deg);
+	    transform: rotate(45deg);
 	}
 	ul {
 		list-style-type: none;
 		margin:0;
 		padding: 0;
 		li {
-			margin: 0 0 5px;
+			margin: 0 0 10px;
+			&.list-label {
+				color: $subtitle;
+				font-weight: 500;
+			}
 		}
 	}
 	.ms-label {
@@ -27,14 +87,20 @@
 		font-weight:bold;
 		min-width: 100px;
 		white-space: nowrap;
-		color:#8695B4;
+		text-transform: uppercase;
+		color:$label;
+		.toggle {
+			color: $label;
+		}
 		.filter-icon {
 			margin: 0 4px 0 -13px;
 		}
 	}
 
 	.ms-label.active  .status{
-		color:$highlight;
+		color: $highlight;
+		font-weight: bold;
+		font-size: 13px;
 	}
 
 	.sort-order {
@@ -54,12 +120,13 @@
 	}
 
 	.ms-item {
-		text-indent:20px;
 		font-weight: normal;
 	}
 
 	.ms-item.disabled {
 		cursor: default;
+		color: $black;
+		font-weight: 700;
 	}
 
 	.ms-item.disabled:hover {
@@ -78,7 +145,7 @@
 
 	.ms-item:hover {
 		cursor: pointer;
-		background-color: #BBBBBB;
+		background-color: $item-hover;
 	}
 
 	.ms-item.selected .ms-ok {

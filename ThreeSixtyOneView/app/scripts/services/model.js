@@ -3,18 +3,17 @@
 "use strict";
 
 angular.module("ThreeSixtyOneView.services")
-	.service("Model", ["$timeout", "dialogs", function($timeout, dialogs) {
+	.service("Model", ["$timeout", "$rootScope", "EVENTS", function($timeout, $rootScope, EVENTS) {
 		var Model = function(model) {
 			angular.extend(this, model);
 		};
 
 		Model.prototype = {
 			$futureData: null,
-			get: function() {
-				return this.data.length ?  this.data : this.$futureData;
-			},
-			find: function(id) {
-				this.unwrap(this.resource.get(id, this.config));
+			data: [],
+			get: function(params) {
+				this.unwrap(this.resource.get(params, this.config));
+				return this.$futureData;
 			},
 			create: function (data){
 				console.info ("The create method has not been overwritten");
@@ -31,22 +30,52 @@ angular.module("ThreeSixtyOneView.services")
 				});
 			},
 			translateObj: function(data, translator){
-				var result = {}, t;
+				var result = {}, self = this,
+					t; // attribute value
 				_.each(translator, function(k,v,o){
-					t = data[k];
-					if (typeof t !== "undefined") {
-						result[v] = t;
-					} else if (_.isObject(k)){
-						try{
-							/* jshint ignore:start */
-							result[v] = eval("data" + k.selector);
-							/* jshint ignore:end */
-						} catch(e){
-							console.info (k.selector + " does not exist");
+					// k is what you get
+					// v is what you want
+					if(v.indexOf(".") > -1 && data[k]){
+						_.extend(result, self.makeObjs(v, data[k]));
+					}else{
+						t = data[k];
+						if (typeof t !== "undefined") {
+							result[v] = t;
+						} else if (_.isObject(k)){
+							try{
+								/* jshint ignore:start */
+								result[v] = eval("data." + k.selector);
+								/* jshint ignore:end */
+							} catch(e){
+								console.info (k.selector + " does not exist");
+							}
+						} else {
+							// value is undefined
+							//result[v] = "";
 						}
 					}
 				});
 				return result;
+			},
+			makeObjs: function(stingObj, _value_){
+				var k = stingObj,
+					value = _value_,
+					newObj,
+					list = [];
+
+				k.replace(/(\w+)/g, function (d) {
+				  list.push(d);
+				});
+
+				list.reverse();
+
+				newObj = _.reduce(list, function (memo, v, i, l) {
+				  var obj = {};
+				  obj[v] = memo;
+				  return obj;
+				}, value);
+
+				return newObj;
 			},
 			translateRequest: function(request, requestTranslator){
 				if (request && requestTranslator) {
@@ -56,13 +85,11 @@ angular.module("ThreeSixtyOneView.services")
 			},
 			translateResponse: function (response, responseTranslator){
 				var results, data;
-
 				try {
 					data = JSON.parse(response);
 				}
 				catch(e){
-					console.error ("no data received or data will not parse to json");
-					dialogs.error("No data received!!!", "Either the server is down or the response is not JSON.");
+					$rootScope.$broadcast(EVENTS.noDataReceived, {msg:"data will not parse to json"});
 					return;
 				}
 
@@ -82,6 +109,9 @@ angular.module("ThreeSixtyOneView.services")
 					transformResponse: function(data){ return which.translateResponse(data, responseTranslator); },
 					transformRequest: function(data){ return which.translateRequest(data, requestTranslator);}
 				};
+			},
+			setConfig: function(_config_){
+				this.config = _config_;
 			}
 		};
 

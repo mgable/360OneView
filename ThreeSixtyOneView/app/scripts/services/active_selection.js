@@ -2,17 +2,14 @@
 
 angular.module('ThreeSixtyOneView.services')
     .service('ActiveSelection', ["$rootScope", "EVENTS", function($rootScope, EVENTS) {
-
-        var activeItem = "", self = this;
+        var activeItem = "", self = this, radio = true;
 
         this.isActiveItem = function(item) {
             return activeItem === item;
         };
 
         this.setActiveItem = function(item) {
-            // enable this is you want to turn off radio behavior
-            //activeItem = this.isActiveItem(item) ? "" : item;
-            activeItem = item;
+            activeItem = radio ? item : this.isActiveItem(item) ? "" : item;
             $rootScope.$broadcast(EVENTS.changeActiveItem, activeItem);
         };
 
@@ -28,6 +25,11 @@ angular.module('ThreeSixtyOneView.services')
             activeItem = "";
         };
 
+        this.setRadio = function(trueOrFalse){
+            radio = trueOrFalse;
+        };
+
+        // if a new item is created, update display
         $rootScope.$on(EVENTS.updateProjects, function(event, data){
             self.setActiveItem(data.item);
         });
