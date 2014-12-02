@@ -7,7 +7,7 @@
 * # PivotbuilderctrlCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($scope, $rootScope, EVENTS, $timeout, $filter, pbData, ptData, Views) {
+angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($scope, $rootScope, EVENTS, $timeout, $filter, pbData, ptData, Views, DialogService) {
 
 	console.info("Views");
 	console.info(Views);
@@ -24,6 +24,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		$scope.alertOpacity = 0;
 
 		$scope.notifMsg = false;
+
+		$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
 
 		$scope.add = {selected: ""};
 		$scope.added = {};
@@ -56,7 +58,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		}, true);
 
 		$scope.dragOptions = {
-			itemMoved: function(event) {
+			itemMoved: function() {
 				// console.log(event);
 				if(!$scope.draftView) {
 					$scope.draftView = true;
@@ -64,7 +66,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 				}
 				$scope.applyView();
 			},
-			orderChanged: function(event) {
+			orderChanged: function() {
 				// console.log(event);
 				if(!$scope.draftView) {
 					$scope.draftView = true;
@@ -72,9 +74,9 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 				}
 				$scope.applyView();
 			},
-			dragStart: function(event) {
-				// console.log(event);
-			},
+			// dragStart: function(event) {
+			// 	// console.log(event);
+			// },
 			containment: '#dragDropArea'
 		};
 
@@ -134,8 +136,16 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 	$scope.popUpLocSet = function($event) {
 		var top = $event.target.offsetTop - (document.body.scrollTop || window.pageYOffset || 0),
 			left = $event.target.offsetLeft;
-		console.log(left);
-		$scope.popUpLoc = {top: top, left: left};
+		$scope.popUpLoc = {top: top, left: left - 150};
+	};
+
+	// display/hide add/replace items pop up
+	$scope.itemModifyPopUp = function(pivotBuilderItem, replaceIndex, $event) {
+		$scope.add.replaceItem = replaceIndex;
+		$scope.addPopUp[pivotBuilderItem.other] = false;
+		$scope.addPopUp[pivotBuilderItem.name] = !$scope.addPopUp[pivotBuilderItem.name];
+		$scope.add.selected = pivotBuilderItem.name;
+		$scope.popUpLocSet($event);
 	};
 
 	// create the temporary filter object from the view data
@@ -162,7 +172,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 	// cancel the made changes to the filter
 	$scope.cancelChangeFilter = function() {
-		$scope.filterSearch = {label: ''};
+		// $scope.filterSearch = {label: ''};
 		$scope.filterCollapse = {};
 		copyFilter();
 	};
@@ -261,7 +271,12 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 	};
 
 	// choose the view based on added items in the column/row
-	$scope.chooseViewBy = function(items) {
+	$scope.chooseViewBy = function(items, index) {
+		if(angular.isNumber(index)) {
+			$scope.searchFilters(items[index], $scope.filterSearch);
+			return items[index];
+		}
+
 		for(var i = 0; i < items.length; i++) {
 			for(var j = 0; j < $scope.pbData.viewData.columns.length; j++) {
 				if(items[i].label === $scope.pbData.viewData.columns[j].name) {
@@ -282,6 +297,23 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		return items[0];
 	};
 
+	// open the filters modal for the selected filter
+	$scope.chooseFilter = function(category, newSelection, index) {
+		if(angular.isNumber(index)) {
+			$scope.selectedFilter.selFil = $scope.chooseViewBy(category.members, index);
+			return null;
+		}
+
+		$scope.selectedFilter.cat = category;
+		$scope.selectedFilter.selFil = $scope.chooseViewBy(category.members, false);
+
+		if(newSelection) {
+			$scope.cancelChangeFilter();
+		}
+		
+		// DialogService.openFilterSelection('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl', {test: 'pass!'}, {size: 'lg'});
+	};
+
 	// aggregate filter values based on categories
 	$scope.categorizeValues = function(index, items) {
 		var i, result;
@@ -292,7 +324,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 				selected: 0,
 				total: 0
 			};
-			var j, k, tempResult;
+			var j, tempResult;
 
 			if(category.members.length > 0) {
 				for(j = 0; j < category.members.length; j++) {
@@ -337,6 +369,12 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 	$scope.resetView = function() {
 		$scope.pbData = angular.copy(pbData);
 		$scope.notify('Changes discarded!');
+
+		if($scope.draftView) {
+			$scope.viewName = pbData.viewData.name;
+			$scope.draftView = false;
+		}
+
 		$scope.applyView();
 	};
 
@@ -1874,7 +1912,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		}
 
 		for(var i = 0; i < obj.length; i++) {
-			var node = obj[i].members.length === 0;
+			// var node = obj[i].members.length === 0;
 			var found = treeSearch(obj[i], search.label);
 			// if(node) {
 			// 	if(!found) {
@@ -1892,7 +1930,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		}
 		return output;
 	};
-}).directive('filters', function($compile) {
+}).directive('filters', function() {
 	return {
 		restrict: 'E',
 		replace: true,
@@ -1902,7 +1940,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			category: '='
 		},
 		template: '<div class="pbFilterList"><member ng-repeat="member in collection.members | orderBy:\'label\':sortReverse" member="member" filters="filters" category="category" searchFilter="searchFilter" sortOrder="sortReverse"></member></div>',
-		link: function(scope, element, attrs) {
+		link: function(scope) {
 			scope.toggleItems = function(member) {
 				var checkedItems = scope.checkedItems(member);
 
@@ -1980,7 +2018,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			sortOrder: '='
 		},
 		template: '<div ng-class="{pbFilterListCategory: member.members.length > 0, pbFilterListValue: member.members.length === 0}"><i class="fa fa-chevron-down clickable ng-hide" ng-click="" ng-if="member.members.length > 0"></i> <label class="clickable" ng-class="{blue: checkedItems(member).checked/checkedItems(member).total === 1, bold: checkedItems(member).checked/checkedItems(member).total === 1}" ng-click="toggleItems(member)"><i class="fa fa-check-circle" ng-show="checkedItems(member).checked/checkedItems(member).total === 1"></i><i class="fa fa-circle-o" ng-show="checkedItems(member).checked/checkedItems(member).total === 0"></i><i class="fa fa-minus-circle" ng-show="checkedItems(member).checked/checkedItems(member).total % 1 > 0"></i> <span>{{member.label}}</span> <span ng-if="member.members.length > 0">({{checkedItems(member).checked}}/{{checkedItems(member).total}})</span></label></div>',
-		link: function(scope, element, attrs) {
+		link: function(scope, element) {
 			scope.toggleItems = function(member) {
 				var checkedItems = scope.checkedItems(member);
 
@@ -2023,7 +2061,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			scope.numCheckedItems = scope.checkedItems(scope.member);
 
 			if(scope.member.members.length > 0) {
-				$compile('<collection collection="member.members" filters="filters" category="category" searchFilter="searchFilter" sortOrder="sortOrder"></collection>')(scope, function(cloned, scope) {
+				$compile('<collection collection="member.members" filters="filters" category="category" searchFilter="searchFilter" sortOrder="sortOrder"></collection>')(scope, function(cloned) {
 					element.after(cloned);
 				});
 			}

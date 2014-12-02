@@ -99,7 +99,7 @@ angular.module('ThreeSixtyOneView')
 
         var getBaseScenario = function(){
                 return angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
-            }, 
+            },
             getSelected = function(){
                 return selectedRow;
             },
@@ -180,4 +180,13 @@ angular.module('ThreeSixtyOneView')
             $scope.scenario.referenceScenario.id = data.id;
             $scope.scenario.referenceScenario.name = data.title;
         });
+}]).controller('FilterSelectionCtrl', ["$scope", "$rootScope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", function($scope, $rootScope, $modalInstance, $controller, data, ScenarioService, CONFIG) {
+    angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+
+    var init = function() {
+        $scope.data = data;
+        console.log($scope.data);
+    };
+
+    init();
 }]);
