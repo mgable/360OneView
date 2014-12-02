@@ -14,26 +14,19 @@ angular.module('ThreeSixtyOneView.services')
             });
         };
 
-        //Prototype
-        // this.currentScenario = function(_project_, _scenario_) {
-        //     dialogs.create('views/modal/create_scenario.tpl.html','CreateScenarioCtrl',{
-        //         project: _project_,
-        //         scenario: _scenario_
-        //     },{size:'md'});
-        // };
-
         this.openCreateScenario = function(_project_, _scenarios_) {
-            dialogs.create('views/modal/scenario_create.tpl.html','CreateScenarioCtrl',{
+            dialogs.create('views/modal/scenario_create.tpl.html','ScenarioCreateCtrl',{
                 project: _project_,
                 scenarios: _scenarios_
             },{size:'md'});
         };
 
-        this.noop = function(header, msg){
-            dialogs.notify(header,msg);
+        this.noop = function(){
+            dialogs.notify("Functionality TBD", "The functionality of this control is TDB");
         };
 
-        // useful aliases
-        this.noop = this.notify;
+        this.notify = function(header, msg){
+            dialogs.notify(header, msg);
+        }
         
     }]);

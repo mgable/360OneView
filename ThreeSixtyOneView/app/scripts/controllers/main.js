@@ -58,7 +58,7 @@ angular.module('ThreeSixtyOneView')
         });
 
         $scope.$on(EVENTS.noop, function(event, action){
-            DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
+            DialogService.noop();
         });
     }]).controller("ProjectDashboardCtrl", ["$scope", "$controller", "$stateParams", "$state", "CONFIG", "ProjectsService", "Project", "Scenarios", "ActiveSelection", "SortAndFilterService", "GotoService", "ScenarioService", "EVENTS", "FavoritesService", "Favorites", "DialogService", function($scope,  $controller, $stateParams, $state, CONFIG, ProjectsService, Project, Scenarios, ActiveSelection, SortAndFilterService, GotoService, ScenarioService, EVENTS, FavoritesService, Favorites, DialogService) {
 

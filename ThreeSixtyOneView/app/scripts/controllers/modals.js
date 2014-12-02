@@ -47,7 +47,7 @@ angular.module('ThreeSixtyOneView')
             $modalInstance.dismiss('create');
         };
         
-    }]).controller('CreateScenarioCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", "GotoService", function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS, GotoService) {
+    }]).controller('ScenarioCreateCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", "GotoService", function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS, GotoService) {
 
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
@@ -77,6 +77,7 @@ angular.module('ThreeSixtyOneView')
             selectedBaseScenario;
 
         init();
+
 
         $scope.showFields = true;
         $scope.project = data.project;

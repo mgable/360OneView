@@ -323,8 +323,6 @@ describe('Controllers: ', function() {
             expect(GotoService.dashboard).toHaveBeenCalledWith(id);
             scope.goto(event, "gotoProjects");
             expect(GotoService.projects).toHaveBeenCalled();
-            scope.goto(event, "gotoScenarioCreate", data);
-            expect(GotoService.scenarioCreate).toHaveBeenCalledWith(id);
         });
 
         it("should show details", function(){
