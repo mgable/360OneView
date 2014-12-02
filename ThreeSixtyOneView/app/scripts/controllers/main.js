@@ -26,44 +26,9 @@ angular.module('ThreeSixtyOneView')
         };
 
     }]).controller("NavigationCtrl", ["$scope", function($scope){
-    }]).controller('InfoTrayCtrlXXXX', ["$scope", "$rootScope", "$state", "CONFIG", "ActiveSelection", "EVENTS", "DialogService", function($scope, $rootScope, $state, CONFIG, ActiveSelection, EVENTS, DialogService) {
-        $scope.selectedItem = ActiveSelection.getActiveItem();
-        $scope.showScenario = false;
-        $scope.viewAll = 'View All';
-        $scope.trayActions = CONFIG.view[$state.current.name].trayActions;
-        $scope.ActiveSelection = ActiveSelection;
+    }]).controller("ScenarioListingCtrl", ["$scope", "$controller", "$state", "CONFIG", "ProjectsService", "Project", "Scenarios", "SortAndFilterService", "GotoService", "ScenarioService", "EVENTS", "FavoritesService", "Favorites", "DialogService", function($scope,  $controller, $state, CONFIG, ProjectsService, Project, Scenarios, SortAndFilterService, GotoService, ScenarioService, EVENTS, FavoritesService, Favorites, DialogService) {
 
-        $scope.action = function(action, data){
-            if(action){
-                $rootScope.$broadcast(EVENTS[action], action, data);
-            }
-        };
-
-        $scope.toggleShowScenarios = function() {
-            $scope.showScenario = !$scope.showScenario;
-            $scope.viewAll = ($scope.showScenario) ? 'View Less' : 'View All';
-        };
-
-        $scope.$on(EVENTS.trayCopy, function(evt, action, data){
-            if (data){
-                DialogService[action](data);
-            } else {
-                DialogService.notify("ERROR: no scenarios", "There are no scenarios to copy.");
-            }
-        });
-
-        $scope.$on(EVENTS.changeActiveItem, function(event, response) {
-            if (response) {
-                $scope.selectedItem = response;
-            }
-        });
-
-        $scope.$on(EVENTS.noop, function(event, action){
-            DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
-        });
-    }]).controller("ProjectDashboardCtrl", ["$scope", "$controller", "$stateParams", "$state", "CONFIG", "ProjectsService", "Project", "Scenarios", "SortAndFilterService", "GotoService", "ScenarioService", "EVENTS", "FavoritesService", "Favorites", "DialogService", function($scope,  $controller, $stateParams, $state, CONFIG, ProjectsService, Project, Scenarios, SortAndFilterService, GotoService, ScenarioService, EVENTS, FavoritesService, Favorites, DialogService) {
-
-        angular.extend(this, $controller('ProjectViewCtrl', {$scope: $scope}));
+        angular.extend(this, $controller('ListingViewCtrl', {$scope: $scope}));
 
         var localInit = function(){
             $scope.project = Project;
@@ -94,11 +59,11 @@ angular.module('ThreeSixtyOneView')
             ScenarioService.rename(data, $scope.getProject().id);
         });
 
-        $scope.init($state.current.name, Scenarios, $stateParams);
+        $scope.init($state.current.name, Scenarios);
         localInit();
-    }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "$stateParams", "$state", "CONFIG", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "SortAndFilterService", "GotoService", "DialogService", "EVENTS", function($scope, $controller, $stateParams, $state, CONFIG, FavoritesService, ProjectsService, ScenarioService, Projects, SortAndFilterService, GotoService, DialogService, EVENTS) {
+    }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "$state", "CONFIG", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "SortAndFilterService", "GotoService", "DialogService", "EVENTS", function($scope, $controller, $state, CONFIG, FavoritesService, ProjectsService, ScenarioService, Projects, SortAndFilterService, GotoService, DialogService, EVENTS) {
 
-        angular.extend(this, $controller('ProjectViewCtrl', {$scope: $scope}));
+        angular.extend(this, $controller('ListingViewCtrl', {$scope: $scope}));
 
         var localInit = function(){
             // the master project is always a favorite and not in the favorite REST call (yet)
@@ -130,13 +95,13 @@ angular.module('ThreeSixtyOneView')
             });
         });
 
-        $scope.init($state.current.name, Projects, $stateParams);
+        $scope.init($state.current.name, Projects);
         localInit();
-    }]).controller("ProjectViewCtrl", ["$scope", "$rootScope", "$state", "SortAndFilterService", "DialogService", "GotoService", "CONFIG", "EVENTS", "FavoritesService", function($scope, $rootScope, $state, SortAndFilterService, DialogService, GotoService, CONFIG, EVENTS, FavoritesService){
+    }]).controller("ListingViewCtrl", ["$scope", "$rootScope", "$state", "SortAndFilterService", "DialogService", "GotoService", "CONFIG", "EVENTS", "FavoritesService", "$stateParams", function($scope, $rootScope, $state, SortAndFilterService, DialogService, GotoService, CONFIG, EVENTS, FavoritesService, $stateParams){
 
         $scope.FavoritesService = FavoritesService;
         
-        $scope.init = function(whichView, _data_, stateParams){
+        $scope.init = function(whichView, _data_){
             var currentView = CONFIG.view[whichView], filter,
             /* jshint ignore:start */
             filter = eval(currentView.filter),
@@ -153,7 +118,7 @@ angular.module('ThreeSixtyOneView')
             $scope.viewAll = 'View All';
             $scope.trayActions = CONFIG.view[$state.current.name].trayActions;
 
-            _.extend($scope.CONFIG, stateParams);
+            _.extend($scope.CONFIG, $stateParams);
 
             SortAndFilterService.init({
                 data: _data_,
@@ -184,12 +149,10 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.showDetails = function(item){
-            //ActiveSelection.setActiveItem(item);
             $scope.selectedItem = item;
         };
 
         $scope.isActiveItem = function (item){
-            //return ActiveSelection.isActiveItem(item);
             return $scope.selectedItem === item;
         };
 
