@@ -78,6 +78,7 @@ angular.module('ThreeSixtyOneView')
 
         init();
 
+
         $scope.showFields = true;
         $scope.project = data.project;
         $scope.scenarios = data.scenarios;
