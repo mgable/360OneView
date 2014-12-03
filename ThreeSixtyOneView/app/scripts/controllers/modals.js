@@ -191,6 +191,8 @@ angular.module('ThreeSixtyOneView')
         $scope.addedFilter = data.addedFilter;
 
         $scope.filterSearch = {label: ''};
+        $scope.emptyFiltersList = [];
+        $scope.noFilterSelected = false;
 
         copyFilter();
         $scope.chooseFilter($scope.selectedFilter.cat, false, false);
@@ -210,6 +212,18 @@ angular.module('ThreeSixtyOneView')
             $scope.cancelChangeFilter();
         }
     };
+
+    // choose a filter based on the passed name
+    $scope.chooseFilterByName = function(name) {
+        var i;
+
+        for(i = 0; i < $scope.pbData.itemsList.length; i++) {
+            if($scope.pbData.itemsList[i].label === name) {
+                $scope.chooseFilter($scope.pbData.itemsList[i], false, false);
+                return null;
+            }
+        }
+    }
 
     // choose the view based on added items in the column/row
     $scope.chooseViewBy = function(items, index) {
@@ -421,6 +435,30 @@ angular.module('ThreeSixtyOneView')
                 }
             });
         }
+
+        var ind = $scope.emptyFiltersList.indexOf($scope.selectedFilter.cat.label);
+        var empty = true,
+            filtersCount = 0;
+        for(var value in $scope.addedFilter[$scope.selectedFilter.cat.label]) {
+            filtersCount++;
+            if($scope.addedFilter[$scope.selectedFilter.cat.label][value]) {
+                empty = false;
+                break;
+            }
+        }
+
+        if(filtersCount === 0 || empty) {
+            if(ind < 0) {
+                $scope.emptyFiltersList.push($scope.selectedFilter.cat.label);
+                $scope.noFilterSelected = true;
+            }
+        } else if(ind > -1) {
+            $scope.emptyFiltersList.splice(ind, 1);
+            if($scope.emptyFiltersList.length === 0) {
+                $scope.noFilterSelected = false;
+            }
+        }
+
         return count;
     };
 
