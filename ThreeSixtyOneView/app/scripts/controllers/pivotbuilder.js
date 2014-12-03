@@ -310,8 +310,22 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		if(newSelection) {
 			$scope.cancelChangeFilter();
 		}
+	};
+
+	// open/dismiss filters selection modal
+	$scope.filtersModal = function() {
+		var dialog = DialogService.openFilterSelection('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl', {selFil: $scope.selectedFilter.selFil, cat: $scope.selectedFilter.cat, addedFilter: $scope.addedFilter, pbData: $scope.pbData}, {windowSize: 'lg', windowClass: 'filtersSelectionModal'});
 		
-		// DialogService.openFilterSelection('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl', {test: 'pass!'}, {size: 'lg'});
+		dialog.result.then(function(data) {
+			$scope.pbData.viewData.filters = data;
+			copyFilter();
+
+			if(!$scope.draftView) {
+				$scope.draftView = true;
+				$scope.viewName += ' - Draft';
+			}
+			$scope.applyView();
+		});
 	};
 
 	// aggregate filter values based on categories

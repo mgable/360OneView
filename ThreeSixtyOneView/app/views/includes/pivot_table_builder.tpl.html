@@ -68,71 +68,6 @@
 		</div>
 
 		<div id="dragDropArea" ng-hide="filterSection">
-			<!-- <div class="pbSec">
-				<div class="pbSecTitle">Columns</div>
-				<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="pbData.viewData.columns" ng-blur="addPopUp['columns'] = false" tabindex="-1">
-					<div class="pbItem" ng-repeat="item in pbData.viewData.columns" data-as-sortable-item>
-						<div data-as-sortable-item-handle>
-							<span><i class="fa fa-reorder" title="Reorder"></i></span>
-							<span class="pbItemInfo">
-								<span class="pbItemName clickable" ng-click="add.replaceItem = $index; add.selected = 'columns'; addPopUp['columns'] = !addPopUp['columns']; addPopUp['rows'] = false; popUpLocSet($event);">{{item.name}}</span>
-							</span>
-							<span class="fa fa-remove clickable" ng-click="delItem(item.name, 'columns')" title="Remove"></span>
-						</div>
-					</div>
-					<div class="pbAddBox" ng-mouseleave="addPopUp['columns'] = false" no-drag>
-						<div class="pbItemAdd clickable" no-drag ng-click="add.replaceItem = -1; add.selected = 'columns'; addPopUp['columns'] = !addPopUp['columns']; addPopUp['rows'] = false; popUpLocSet($event);"><i class="fa fa-plus-square"></i> Add</div>
-						<div ng-show="addPopUp['columns']" class="pbAddPopUp" ng-style="{left: popUpLoc.left + 'px'}">
-							<div class="pbAddPopUpVisible">
-								<table>
-									<tr ng-repeat="category in pbData.itemsList">
-										<td>{{category.label}}</td>
-										<td>
-											<div ng-repeat="item in category.members">
-												<span class="pbItemAddEnabled clickable" ng-if="!added[item.label]" ng-click="addItem(item.label, category.label)"><i class="fa fa-circle-o"></i> {{item.label}}</span>
-												<span class="pbItemAddDisabled" ng-if="added[item.label]"><i class="fa fa-circle"></i> {{item.label}}</span>
-											</div>
-										</td>
-									</tr>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="pbSec">
-				<div class="pbSecTitle">Rows</div>
-				<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="pbData.viewData.rows" ng-blur="addPopUp['rows'] = false" tabindex="-1">
-					<div class="pbItem" ng-repeat="item in pbData.viewData.rows" data-as-sortable-item>
-						<div data-as-sortable-item-handle>
-							<span><i class="fa fa-reorder" title="Reorder"></i></span>
-							<span class="pbItemInfo">
-								<span class="pbItemName clickable" ng-click="add.replaceItem = $index; add.selected = 'rows'; addPopUp['rows'] = !addPopUp['rows']; addPopUp['columns'] = false; popUpLocSet($event);">{{item.name}}</span>
-							</span>
-							<span class="fa fa-remove clickable" ng-click="delItem(item.name, 'rows')" title="Remove"></span>
-						</div>
-					</div>
-					<div class="pbAddBox" ng-mouseleave="addPopUp['rows'] = false">
-						<div class="pbItemAdd clickable" ng-click="add.replaceItem = -1; add.selected = 'rows'; addPopUp['rows'] = !addPopUp['rows']; addPopUp['columns'] = false; popUpLocSet($event);"><i class="fa fa-plus-square"></i> Add</div>
-						<div ng-show="addPopUp['rows']" class="pbAddPopUp" ng-style="{left: popUpLoc.left + 'px'}">
-							<div class="pbAddPopUpVisible">
-								<table>
-									<tr ng-repeat="category in pbData.itemsList">
-										<td>{{category.label}}</td>
-										<td>
-											<div ng-repeat="item in category.members">
-												<span class="pbItemAddEnabled clickable" ng-if="!added[item.label]" ng-click="addItem(item.label, category.label)"><i class="fa fa-circle-o"></i> {{item.label}}</span>
-													<span class="pbItemAddDisabled" ng-if="added[item.label]"><i class="fa fa-circle"></i> {{item.label}}</span>
-											</div>
-										</td>
-									</tr>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div> -->
-
 			<div ng-repeat="pivotBuilderItem in pivotBuilderItems" class="pbSec">
 				<div class="pbSecTitle">{{pivotBuilderItem.label}}</div>
 				<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="pbData.viewData[pivotBuilderItem.name]" ng-blur="addPopUp[pivotBuilderItem.name] = false" tabindex="-1">
@@ -165,12 +100,12 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
+
 		<div class="pbSec" ng-show="filterSection">
 			<div class="pbSecTitle">Filters</div>
 			<div class="pbFilterValues">
-				<div ng-repeat="cat in pbData.itemsList" class="pbFilterBox clickable" ng-click="chooseFilter(cat, true, false)" data-toggle="modal" data-target="#filterModal">
+				<div ng-repeat="cat in pbData.itemsList" class="pbFilterBox clickable" ng-click="chooseFilter(cat, true, false); filtersModal()" data-toggle="modal" data-target="#filterModal">
 					<div class="pbFilterCat">{{cat.label}} <span class="pbFilterSize">({{categorizeValues($index, addedFilter[cat.label]).selected}}/{{categorizeValues($index, addedFilter[cat.label]).total}})</span></div>
 					<div class="pbFilterVal" ng-show="pbData.viewData.filters[$index].items.length < cat.members[cat.members.length - 1].members.length" data-toggle="tooltip" data-placement="bottom" title="{{pbData.viewData.filters[$index].items.join(', ')}}">{{categorizeValues($index, addedFilter[cat.label]).label.join(', ')}}</div>
 					<div class="pbFilterVal" ng-show="pbData.viewData.filters[$index].items.length == cat.members[cat.members.length - 1].members.length">All</div>
@@ -185,7 +120,7 @@
 	</div>
 
 	<!-- more revised filter modal -->
-	<div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" resize>
+	<!-- <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" resize>
 		<div class="filter-modal-dialog">
 			<div class="filter-modal-content">
 				<div class="filter-modal-header">
@@ -255,10 +190,10 @@
 						</div>
 					</div>
 				</div>
-				<!-- <div class="modal-footer">
+				<div class="modal-footer">
 
-				</div> -->
+				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 </div>

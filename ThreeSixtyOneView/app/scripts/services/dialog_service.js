@@ -30,7 +30,7 @@ angular.module('ThreeSixtyOneView.services')
         };
 
         this.openFilterSelection = function(templateAddress, controllerName, sharedObjects, options) {
-            dialogs.create(templateAddress, controllerName, sharedObjects, {size: options.size});
+            return dialogs.create(templateAddress, controllerName, sharedObjects, {size: options.windowSize, windowClass: options.windowClass});
         };
 
         this.noop = function(header, msg){
