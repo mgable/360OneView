@@ -45,7 +45,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
         'Scenario': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId, $stateParams.scenarioId);},
         'Views': function(PivotViewService){return PivotViewService.getViewsAndDefault(CONFIG.view.Scenario.cubeId);},
         'ScenarioElements': function(ScenarioElementService, $stateParams){return ScenarioElementService.get($stateParams.scenarioId);}
-        
+
       },
       breadcrumb: "<a goto='projects'>All Projects</a> &gt; <a goto='dashboard' params='{{project.id}}'>{{project.title}}</a> &gt; {{scenario.title}}"
     })
@@ -56,8 +56,8 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
             templateUrl: "views/includes/pivot_table_builder.tpl.html",
           },
           'table': {
-            controller: "spreadjsCtrl",
-            templateUrl: "views/includes/spreadjs.tpl.html",
+            controller: "pivotTableCtrl",
+            templateUrl: "views/includes/pivot_table.tpl.html",
           }
         },
         breadcrumb: "<a goto='projects'>All Projects</a> &gt; <a goto='dashboard' params='{{project.id}}'>{{project.title}}</a> &gt; {{scenario.title}}"

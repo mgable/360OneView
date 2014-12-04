@@ -2,28 +2,28 @@
 @import "variables";
 
 html {
-  background: url($background_img) no-repeat center center fixed; 
+  background: url($background_img) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  overflow-y: scroll;
-  overflow-x: hidden;
 }
 
 body {
-  overflow-y:hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  /* overflow-y:hidden; */
   background-color: transparent;
   font-family: $sansFontFamily;
   position: relative;
 }
 
 .cap {
-	width:100%;
-	background-color: $header-background;
-	height: $cap_height;
-	position: relative;
-	z-index: 1000;
+    width:100%;
+    background-color: $header-background;
+    height: $cap_height;
+    position: relative;
+    z-index: 1000;
 
 	.headerrow {
 		min-width: $content_min_width;
@@ -73,11 +73,11 @@ body {
 				cursor: pointer;
 				position: relative;
 
-				&:hover {
-					background-color: inherit;
-					color: $white;
-				}
-			}
+                &:hover {
+                    background-color: inherit;
+                    color: $white;
+                }
+            }
 
 			li.active a.information{
 				color: $white;
@@ -106,7 +106,7 @@ body {
 			}
 			span.highHead {
 				margin-top: 3px;
-				display: inline-block;	
+				display: inline-block;
 				text-align: left;
 			}
 			.navbar-nav > li {
@@ -128,49 +128,49 @@ body {
 				min-width: 200px;
 				font-size: 1.0em;
 
-				li {
-					float: right;
-					width: 50px;
+                li {
+                    float: right;
+                    width: 50px;
 
-					a.information {
-						width: auto;
-						padding: 12px;
-						text-align: center;
-						font-size: 1.6em;
-					}
-					a.piechart {
-						display: block;
-						width: auto;
-						padding: 12px;
-						text-align: center;
-					}
-					div.userStatus {
-						display: block;
-						float: right;
-						position: relative;
-						top: -9;
-						right: -3;
-						padding-top: 1px;
-						padding-right: 1px;
+                    a.information {
+                        width: auto;
+                        padding: 12px;
+                        text-align: center;
+                        font-size: 1.6em;
+                    }
+                    a.piechart {
+                        display: block;
+                        width: auto;
+                        padding: 12px;
+                        text-align: center;
+                    }
+                    div.userStatus {
+                        display: block;
+                        float: right;
+                        position: relative;
+                        top: -9;
+                        right: -3;
+                        padding-top: 1px;
+                        padding-right: 1px;
 
-						height: 14px;
-						width: 14px;
-						text-align: center;
-						border-radius: 50%;
-						background-color: $orange;
+                        height: 14px;
+                        width: 14px;
+                        text-align: center;
+                        border-radius: 50%;
+                        background-color: $orange;
 
-						font-size: 0.5em;
-						color: $white;
-					}
-				}
-			}
-		}
-	}
-	div.smallrow {
-		height: 35px;
-		display: block;
-		background-color: $header-smallrow;
-		width: 100%;
+                        font-size: 0.5em;
+                        color: $white;
+                    }
+                }
+            }
+        }
+    }
+    div.smallrow {
+        height: 35px;
+        display: block;
+        background-color: $header-smallrow;
+        width: 100%;
 
 		div.smallLeft {
 			margin: auto;
@@ -197,7 +197,7 @@ body {
 		width:100%;
 		z-index:1000;
 		height:50px;
-		position:fixed;
+		// position:fixed;
 		bottom:0;
 		div {
 			&.footerLeft {
@@ -206,66 +206,66 @@ body {
 					background-repeat: no-repeat;
 					background-position: -188px 0;
 
-					div.colorRow {
-						height: 2px;
-						margin-left: 9px;
-						width: 50%;
-						position: absolute;
-						bottom: 0;
+                    div.colorRow {
+                        height: 2px;
+                        margin-left: 9px;
+                        width: 50%;
+                        position: absolute;
+                        bottom: 0;
 
-						@include linear-gradient-logo($colorcell1,$colorcell2,$colorcell3,$colorcell4,$colorcell5,$colorcell6 );
+                        @include linear-gradient-logo($colorcell1,$colorcell2,$colorcell3,$colorcell4,$colorcell5,$colorcell6 );
 
-					}
-				}
-			&.footerCenter {
-				padding-top: 20px;
+                    }
+                }
+            &.footerCenter {
+                padding-top: 20px;
 
-				ul.navbar-nav {
-					width: 275px;
+                ul.navbar-nav {
+                    width: 275px;
 
-					li {
-						border-right: 1px solid $gray;
+                    li {
+                        border-right: 1px solid $gray;
 
-						&:last-child {
-							border-right: none;
-						}
-					}
+                        &:last-child {
+                            border-right: none;
+                        }
+                    }
 
-					a.information {
-						width: auto;
-						padding: 0 15px;
-						font-size: 1.2em;
+                    a.information {
+                        width: auto;
+                        padding: 0 15px;
+                        font-size: 1.2em;
 
-						&:hover {
-							text-decoration: underline;
-							color: $gray;
-						}	
-					}
-				}
-			}
-			&.footerRight {
-				padding: 10px 20px 0 0;
-				text-align: right;
+                        &:hover {
+                            text-decoration: underline;
+                            color: $gray;
+                        }
+                    }
+                }
+            }
+            &.footerRight {
+                padding: 10px 20px 0 0;
+                text-align: right;
 
-				a {
-					color: $gray;
-					i {
-						font-size: 25px;
-						margin-right: 5px;
-						line-height: 17px;
-					}
-				}
-			}
-		}
-	}
+                a {
+                    color: $gray;
+                    i {
+                        font-size: 25px;
+                        margin-right: 5px;
+                        line-height: 17px;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .app {
-	/*max-width: $app_max_width;*/
+	max-width: $app_max_width;
 	min-width: $app_min_width;
 	font-size: $body_font_size;
-	margin: $app_top_margin auto 60px;  
-	//background-color: $white;
+	margin: $app_top_margin auto 60px;
+	// background-color: $white;
 	overflow-y: hidden;
-	height: 77%;
+	// height: 77%;
 }

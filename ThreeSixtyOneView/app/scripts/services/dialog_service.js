@@ -21,12 +21,16 @@ angular.module('ThreeSixtyOneView.services')
             },{size:'md'});
         };
 
-        this.noop = function(){
-            dialogs.notify("Functionality TBD", "The functionality of this control is TDB");
+        this.openFilterSelection = function(templateAddress, controllerName, sharedObjects, options) {
+            return dialogs.create(templateAddress, controllerName, sharedObjects, {size: options.windowSize, windowClass: options.windowClass});
+        };
+
+        this.noop = function(header, msg){
+            dialogs.notify(header,msg);
         };
 
         this.notify = function(header, msg){
             dialogs.notify(header,msg);
         };
-        
+
     }]);

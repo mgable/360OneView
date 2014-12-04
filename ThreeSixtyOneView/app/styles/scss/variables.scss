@@ -1,11 +1,11 @@
 @import "ford_client";
 
-// images and sprites 
+// images and sprites
 $sprite: "../images/360sprite.png";
 $logo: "../images/logo_pic_sprite.png";
 $users_img: "../images/users_pic_sprite.png";
 
-// Fonts 
+// Fonts
 $sansFontFamily: "proxima-nova", arial, sans-serif;
 
 // action colors
@@ -31,17 +31,18 @@ $navbar-active: #001b3e;
 $navbar-border: #22508f;
 
 // color variables
-$black: #222;
+$black: #333;
 $darkgray: #666666;
-$mediumgray: #dddddd;
-$gray: gray; /* #808080 */
-$lightgray: #E9E9E9;
-$lightestgray: #f5f5f5;
+$mediumgray: #cdcdcd;
+$gray: #808080;
+$lightgray: #e9e9e9;
+$lightestgray: #f2f2f2;
 $white: white;
 $mustard: #f89b26;
 $lightblue: #007fe8;
 $green: green;
 $red: red;
+$errorRed: #CD1F28;
 $orange: #f45724;
 $blue: #295da7;
 
@@ -57,7 +58,8 @@ $colorcell6: #211f5e;
 $cap_height: 50px;
 $app_left: 200px;
 $app_right: 300px;
-$app_max_width: 1160px;
+// $app_max_width: 1160px;
+$app_max_width: 1400px;
 $app_min_width: 1160px;
 $app_top_margin: 50px;
 $navigation_min_width: 1024px;
@@ -66,22 +68,22 @@ $body_font_size: 13px;
 
 // mixins
 @mixin drop-shadow($t,$r,$b,$l,$o) {
-	-webkit-box-shadow: $t $r $b $l rgba(0,0,0,$o);
-	-moz-box-shadow: $t $r $b $l rgba(0,0,0,$o);
-	box-shadow: $t $r $b $l rgba(0,0,0,$o);
+  -webkit-box-shadow: $t $r $b $l rgba(0,0,0,$o);
+  -moz-box-shadow: $t $r $b $l rgba(0,0,0,$o);
+  box-shadow: $t $r $b $l rgba(0,0,0,$o);
 }
 
 @mixin transition($d:"0.3s", $s:"linear", $c:"all") {
-	-webkit-transition: #{$d} #{$s} #{$c};
-	transition: #{$d} #{$s} #{$c};
-	display: block !important;
+  -webkit-transition: #{$d} #{$s} #{$c};
+  transition: #{$d} #{$s} #{$c};
+  display: block !important;
 }
 
 @mixin placeholder {
   &::-webkit-input-placeholder {@content}
   &:-moz-placeholder           {@content}
   &::-moz-placeholder          {@content}
-  &:-ms-input-placeholder      {@content}  
+  &:-ms-input-placeholder      {@content}
 }
 
 @mixin vertical-align {
@@ -99,4 +101,42 @@ $body_font_size: 13px;
   background: -webkit-linear-gradient(left, $c1 0%,$c1 16%,$c2 16%,$c2 17%,$c2 33%,$c3 33%,$c3 44%,$c3 50%,$c4 50%,$c4 50%,$c4 66%,$c5 66%,$c5 84%,$c5 84%,$c6 84%,$c6 84%,$c6 100%); /* Chrome10+,Safari5.1+ */
   background: -ms-linear-gradient(left, $c1 0%,$c1 16%,$c2 16%,$c2 17%,$c2 33%,$c3 33%,$c3 44%,$c3 50%,$c4 50%,$c4 50%,$c4 66%,$c5 66%,$c5 84%,$c5 84%,$c6 84%,$c6 84%,$c6 100%); /* IE10+ */
   background: linear-gradient(to right, $c1 0%,$c1 16%,$c2 16%,$c2 17%,$c2 33%,$c3 33%,$c3 44%,$c3 50%,$c4 50%,$c4 50%,$c4 66%,$c5 66%,$c5 84%,$c5 84%,$c6 84%,$c6 84%,$c6 100%); /* W3C */
+}
+
+@mixin vendor($name, $argument) {
+  -webkit-#{$name}: #{$argument};
+  -ms-#{$name}: #{$argument};
+  -moz-#{$name}: #{$argument};
+  -o-#{$name}: #{$argument};
+  #{$name}: #{$argument};
+}
+
+@mixin animation($animate...) {
+  $max: length($animate);
+  $animations: '';
+  @for $i from 1 through $max {
+    $animations: #{$animations + nth($animate, $i)};
+    @if $i < $max {
+      $animations: #{$animations + ", "};
+    }
+  }
+  -webkit-animation: $animations;
+  -moz-animation:    $animations;
+  -o-animation:      $animations;
+  animation:         $animations;
+}
+
+@mixin keyframes($animationName) {
+  @-webkit-keyframes #{$animationName} {
+    @content;
+  }
+  @-moz-keyframes #{$animationName} {
+    @content;
+  }
+  @-o-keyframes #{$animationName} {
+    @content;
+  }
+  @keyframes #{$animationName} {
+    @content;
+  }
 }

@@ -18,6 +18,8 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     noDataReceived: "ErrorService:noDataReceived",
     serverError: "ErrorService:serverError",
     error: "ErrorService:error",
-    //TEST
-    test: "test"
+    // TEST
+    test: "test",
+    // PIVOT TABLE
+    heightChanged: "heightChanged"
 });

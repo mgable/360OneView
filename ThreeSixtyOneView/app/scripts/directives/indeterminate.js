@@ -10,7 +10,7 @@ angular.module('ThreeSixtyOneView.directives').directive('indeterminate', functi
 	return {
 		restrict: 'A',
 		link: function (scope, element, attrs) {
-			scope.$watch(attrs.ngIndeterminate, function (value) {
+			scope.$watch(attrs.indeterminate, function (value) {
 				if(value === 1) {
 					element.prop('indeterminate', false);
 					element.prop('checked', true);
