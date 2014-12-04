@@ -11,29 +11,17 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
 
     $scope.kpiData = resultsData.kpiData;
 
-    $scope.data1 = [{
-        'results': 47,
-        'compared': 42,
-        'category': 'Local Spend',
-        'color': 1
-    }, {
-        'results': 53,
-        'compared': 58,
-        'category': 'National Spend',
-        'color': 2
-    }];
+    $scope.data1 = resultsData.spendData1;
+    $scope.data2 = resultsData.spendData2;
+    $scope.data3 = resultsData.spendData3;
+    $scope.data4 = resultsData.spendData4;
 
-    $scope.data2 = [{
-        'results': 55,
-        'compared': 57,
-        'category': 'Product Spend',
-        'color': 3
-    }, {
-        'results': 45,
-        'compared': 43,
-        'category': 'Brand Spand',
-        'color': 4
-    }];
+    $scope.idSelectedRow = 1;
+    $scope.salesData = resultsData.kpiData[0].monthly;
+    $scope.setSelected = function (idSelectedRow) {
+        $scope.idSelectedRow = idSelectedRow;
+        $scope.salesData = resultsData.kpiData[$scope.idSelectedRow-1].monthly;
+    };
 
     $window.addEventListener('resize', function () {
         $scope.$broadcast('windowResize');
@@ -43,6 +31,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
     return {
         "kpiData": [
             {
+                "id": 1,
                 "title": "awareness",
                 "incremental": {
                     "number": 432,
@@ -50,8 +39,22 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                 },
                 "total": "3.6M",
                 "percent": "+12%",
-                "direction": "increase"
+                "direction": "increase",
+                "monthly": [{
+                    "This Year": 50,
+                    "Last Year": 20,
+                    "quarter": "Sept 2014"
+                }, {
+                    "This Year": 54,
+                    "Last Year": 24,
+                    "quarter": "Oct 2014"
+                }, {
+                    "This Year": 62,
+                    "Last Year": 57,
+                    "quarter": "Nov 2014"
+                }]
             }, {
+                "id": 2,
                 "title": "web visit",
                 "incremental": {
                     "number": 77,
@@ -59,8 +62,22 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                 },
                 "total": "10.3M",
                 "percent": "+7.5%",
-                "direction": "increase"
+                "direction": "increase",
+                "monthly": [{
+                    "This Year": 24,
+                    "Last Year": 30,
+                    "quarter": "Sept 2014"
+                }, {
+                    "This Year": 65,
+                    "Last Year": 54,
+                    "quarter": "Oct 2014"
+                }, {
+                    "This Year": 32,
+                    "Last Year": 43,
+                    "quarter": "Nov 2014"
+                }]
             }, {
+                "id": 3,
                 "title": "sales",
                 "incremental": {
                     "current": "$",
@@ -69,8 +86,22 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                 },
                 "total": "$90M",
                 "percent": "+3.9%",
-                "direction": "increase"
+                "direction": "increase",
+                "monthly": [{
+                    "This Year": 30,
+                    "Last Year": 35,
+                    "quarter": "Sept 2014"
+                }, {
+                    "This Year": 14,
+                    "Last Year": 34,
+                    "quarter": "Oct 2014"
+                }, {
+                    "This Year": 52,
+                    "Last Year": 57,
+                    "quarter": "Nov 2014"
+                }]
             }, {
+                "id": 4,
                 "title": "Revenue",
                 "incremental": {
                     "current": "$",
@@ -79,8 +110,22 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                 },
                 "total": "$19M",
                 "percent": "+0.4%",
-                "direction": "increase"
+                "direction": "increase",
+                "monthly": [{
+                    "This Year": 13,
+                    "Last Year": 22,
+                    "quarter": "Sept 2014"
+                }, {
+                    "This Year": 32,
+                    "Last Year": 34,
+                    "quarter": "Oct 2014"
+                }, {
+                    "This Year": 56,
+                    "Last Year": 43,
+                    "quarter": "Nov 2014"
+                }]
             }, {
+                "id": 5,
                 "title": "Profit",
                 "incremental": {
                     "current": "$",
@@ -89,8 +134,65 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                 },
                 "total": "$60M",
                 "percent": "-3.5%",
-                "direction": "decrease"
+                "direction": "decrease",
+                "monthly": [{
+                    "This Year": 12,
+                    "Last Year": 32,
+                    "quarter": "Sept 2014"
+                }, {
+                    "This Year": 43,
+                    "Last Year": 24,
+                    "quarter": "Oct 2014"
+                }, {
+                    "This Year": 43,
+                    "Last Year": 34,
+                    "quarter": "Nov 2014"
+                }]
             },
-        ]
+        ],
+        "spendData1": [{
+            'results': 47,
+            'compared': 42,
+            'category': 'Local Spend',
+            'color': 1
+        }, {
+            'results': 53,
+            'compared': 58,
+            'category': 'National Spend',
+            'color': 2
+        }],
+        "spendData2": [{
+            'results': 55,
+            'compared': 57,
+            'category': 'Product Spend',
+            'color': 3
+        }, {
+            'results': 45,
+            'compared': 43,
+            'category': 'Brand Spand',
+            'color': 4
+        }],
+        "spendData3": [{
+            'results': 47,
+            'compared': 42,
+            'category': 'Local Spend',
+            'color': 1
+        }, {
+            'results': 53,
+            'compared': 58,
+            'category': 'National Spend',
+            'color': 2
+        }],
+        "spendData4": [{
+            'results': 55,
+            'compared': 57,
+            'category': 'Product Spend',
+            'color': 3
+        }, {
+            'results': 45,
+            'compared': 43,
+            'category': 'Brand Spand',
+            'color': 4
+        }],
     };
 })

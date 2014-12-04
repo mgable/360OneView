@@ -63,6 +63,10 @@
         }
         .result-panel-body {
             margin-bottom: 25px;
+            &.compact {
+                padding: 0;
+                height: 180
+            }
             .kpi-container {
                 text-align: center;
                 .kpi-title {
@@ -101,6 +105,57 @@
                 }
                 .kpi-decrease {
                     color: #c71f04;
+                }
+            }
+            .kpi-chart-container {
+                padding: 0;
+                height: 180px;
+                background-color: #fff;
+                box-shadow: -2px 0px 5px 0px rgba(0, 0, 0, 0.3);
+            }
+            .kpi-table-container {
+                padding: 0;
+                table.kpi-table {
+                    width: 100%;
+                    tbody {
+                        tr {
+                            -webkit-transition:0.15s linear all;
+                            -moz-transition:0.15s linear all;
+                            -o-transition:0.15s linear all;
+                            transition:0.15s linear all;
+                            td {
+                                color: #333;
+                                text-transform: capitalize;
+                                font-size: 16px;
+                                line-height: 22px;
+                                font-weight: 400;
+                                padding: 7px 15px;
+                                &.kpi-increase {
+                                    color: #068700;
+                                }
+                                &.kpi-decrease {
+                                    color: #c71f04;
+                                }
+                            }
+                            &:hover {
+                                background-color: #eee;
+                                -webkit-transition:0.15s linear all;
+                                -moz-transition:0.15s linear all;
+                                -o-transition:0.15s linear all;
+                                transition:0.15s linear all;
+                            }
+                            &.selected {
+                                background-color: #295da7;
+                                -webkit-transition:0.15s linear all;
+                                -moz-transition:0.15s linear all;
+                                -o-transition:0.15s linear all;
+                                transition:0.15s linear all;
+                                td {
+                                    color: #fff;
+                                }
+                            }
+                        }
+                    }
                 }
             }
             .spend-container{
@@ -148,6 +203,7 @@
 					}
 				}
                 .legend {
+                    margin-left: 33px;
                     img {
                         width: 15px;
                         height: 15px;

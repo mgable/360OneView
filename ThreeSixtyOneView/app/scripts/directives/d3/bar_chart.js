@@ -8,17 +8,12 @@ angular.module('ThreeSixtyOneView')
             link: function(scope, element, attrs) {
                 d3Service.d3().then(function(d3) {
 
-                    var margin = {
-                            top: 20,
-                            right: 20,
-                            bottom: 20,
-                            left: 40
-                        },
-                    width = 300 - margin.left - margin.right,
-                    height = 190 - margin.top - margin.bottom;
+                    var margin = { top: 20, right: 20, bottom: 20, left: 20 },
+                    width = 280 - margin.left - margin.right,
+                    height = 150 - margin.top - margin.bottom;
 
                     var x0 = d3.scale.ordinal()
-                        .rangeRoundBands([0, width], .1);
+                        .rangeRoundBands([0, width], .3);
 
                     var x1 = d3.scale.ordinal();
 
@@ -37,11 +32,6 @@ angular.module('ThreeSixtyOneView')
                         .attr("height", height + margin.top + margin.bottom)
                         .append("g")
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-                    function resize() {
-                        svg.attr("width", element[0].clientWidth - margin.left - margin.right);
-                        svg.attr("height", element[0].clientHidth - margin.top - margin.bottom);
-                    }
 
                     var typeNames = d3.keys(scope.data[0]).filter(function(key) {
                         return key !== "category" && key !== "color";
@@ -130,7 +120,7 @@ angular.module('ThreeSixtyOneView')
                         .text(function(d) { return d.value + '%'; })
                         .style("opacity", 0)
                         .transition().ease("quad")
-                            .delay(function(d, i) { return (d.index * 2 + i) * 100 })
+                            .delay(function(d, i) { return (d.index * 2 + i) * 200 })
                             .style("opacity", 1);
 
                     function resize() {

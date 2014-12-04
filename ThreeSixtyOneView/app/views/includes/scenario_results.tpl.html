@@ -1,100 +1,212 @@
 <div class="scenario_results">
 
-    <section class="results-dropdown">
-        <span>Results compared to</span>
-        <span class="dropdown">
-            <ul class="dropdown-menu">
-                <li><a href>Goals 1</a>
-                </li>
-                <li><a href>Goals 2</a>
-                </li>
-                <li><a href>Goals 3</a>
-                </li>
-            </ul>
-            <a href class="dropdown-toggle" data-toggle="dropdown">
-              Goals <i class="fa fa-caret-down"></i>
-            </a>
-        </span>
-    </section>
+    <tabset>
 
-    <section class="results-view">
-      <div class="view-title">
-        <i class="fa fa-eye view-icon"></i>
-        <span class="view-text">Q1 2015 Upfronts</span>
-      </div>
-      <div class="view-time">
-        <span>Calculated 3:57pm</span>
-      </div>
-    </section>
+        <tab heading="Design 2">
+            <section class="results-dropdown">
+                <span>Results compared to</span>
+                <span class="dropdown">
+                    <ul class="dropdown-menu">
+                        <li><a href>Goals 1</a>
+                        </li>
+                        <li><a href>Goals 2</a>
+                        </li>
+                        <li><a href>Goals 3</a>
+                        </li>
+                    </ul>
+                    <a href class="dropdown-toggle" data-toggle="dropdown">
+                      Goals <i class="fa fa-caret-down"></i>
+                    </a>
+                </span>
+            </section>
 
-    <section class="results-panel">
-        <h3 class="results-panel-title">KPI Summary</h3>
-        <div class="result-panel-body well">
-            <div class="row">
-                <div class="kpi-container col-md-5ths col-xs-12" ng-repeat="kpiDatum in kpiData">
-                    <h4 class="kpi-title">{{kpiDatum.title}}</h4>
-                    <h2 class="kpi-incremental kpi-{{kpiDatum.direction}}">
-                    <i class="kpi-arrow fa" ng-class="(kpiDatum.direction=='increase') ? 'fa-arrow-up' : 'fa-arrow-down'"></i>{{kpiDatum.incremental.current}}{{kpiDatum.incremental.number}}<span class="kpi-unit">{{kpiDatum.incremental.unit}}</span>
-                  </h2>
-                    <span class="kpi-total">{{kpiDatum.total}}</span>
-                    <span class="kpi-percent kpi-{{kpiDatum.direction}}">{{kpiDatum.percent}}</span>
-                </div>
-            </div>
-        </div>
-    </section>
+            <section class="results-view">
+              <div class="view-title">
+                <i class="fa fa-eye view-icon"></i>
+                <span class="view-text">Q1 2015 Upfronts</span>
+              </div>
+              <div class="view-time">
+                <span>Calculated 3:57pm</span>
+              </div>
+            </section>
 
-    <section class="results-panel">
-        <h3 class="results-panel-title">Spend Summary</h3>
-        <div class="result-panel-body well">
-            <div class="row">
-                <div class="spend-container col-md-6 col-xs-12">
-                    <table class="spend-table">
-                        <thead>
-                            <tr>
-                                <th>Total Spend</th>
-                                <th>10M</th>
-                                <th class="spend-increase">+$5M</th>
-                                <th class="spend-increase">+100%</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="tr-margin">
-                                <td>Local Spend</td>
-                                <td>12M</td>
-                                <td class="spend-increase">+$2.5M</td>
-                                <td class="spend-increase">12%</td>
-                            </tr>
-                            <tr>
-                                <td>National Spend</td>
-                                <td>17M</td>
-                                <td class="spend-increase">+$3.7M</td>
-                                <td class="spend-increase">7.5%</td>
-                            </tr>
-                            <tr class="tr-margin">
-                                <td>Product Spend</td>
-                                <td>6M</td>
-                                <td class="spend-increase">+$1.3M</td>
-                                <td class="spend-increase">22.4%</td>
-                            </tr>
-                            <tr>
-                                <td>Brand Spend</td>
-                                <td>9.3M</td>
-                                <td class="spend-increase">+$300K</td>
-                                <td class="spend-increase">13.1%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="spend-container col-md-6 col-xs-12">
-                    <div class="legend">
-                        <img src="images/legend.png" alt="legend">
-                        <span>Current Master Plan 2015</span>
+            <section class="results-panel">
+                <h3 class="results-panel-title">KPI Summary</h3>
+                <div class="result-panel-body well">
+                    <div class="row">
+                        <div class="kpi-container col-md-5ths col-xs-12" ng-repeat="kpiDatum in kpiData">
+                            <h4 class="kpi-title">{{kpiDatum.title}}</h4>
+                            <h2 class="kpi-incremental kpi-{{kpiDatum.direction}}">
+                            <i class="kpi-arrow fa" ng-class="(kpiDatum.direction=='increase') ? 'fa-arrow-up' : 'fa-arrow-down'"></i>{{kpiDatum.incremental.current}}{{kpiDatum.incremental.number}}<span class="kpi-unit">{{kpiDatum.incremental.unit}}</span>
+                          </h2>
+                            <span class="kpi-total">{{kpiDatum.total}}</span>
+                            <span class="kpi-percent kpi-{{kpiDatum.direction}}">{{kpiDatum.percent}}</span>
+                        </div>
                     </div>
-                    <ms-bar-chart chart-data="data1"></ms-bar-chart>
-                    <ms-bar-chart chart-data="data2"></ms-bar-chart>
                 </div>
-            </div>
-        </div>
-    </section>
+            </section>
+
+            <section class="results-panel">
+                <h3 class="results-panel-title">Spend Summary</h3>
+                <div class="result-panel-body well">
+                    <div class="row">
+                        <div class="spend-container col-md-6 col-xs-6">
+                            <table class="spend-table">
+                                <thead>
+                                    <tr>
+                                        <th>Total Spend</th>
+                                        <th>10M</th>
+                                        <th class="spend-increase">+$5M</th>
+                                        <th class="spend-increase">+100%</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="tr-margin">
+                                        <td>Local Spend</td>
+                                        <td>12M</td>
+                                        <td class="spend-increase">+$2.5M</td>
+                                        <td class="spend-increase">12%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>National Spend</td>
+                                        <td>17M</td>
+                                        <td class="spend-increase">+$3.7M</td>
+                                        <td class="spend-increase">7.5%</td>
+                                    </tr>
+                                    <tr class="tr-margin">
+                                        <td>Product Spend</td>
+                                        <td>6M</td>
+                                        <td class="spend-increase">+$1.3M</td>
+                                        <td class="spend-increase">22.4%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Brand Spend</td>
+                                        <td>9.3M</td>
+                                        <td class="spend-increase">+$300K</td>
+                                        <td class="spend-increase">13.1%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="spend-container col-md-6 col-xs-6">
+                            <div class="legend">
+                                <img src="images/legend.png" alt="legend">
+                                <span>Current Master Plan 2015</span>
+                            </div>
+                            <ms-bar-chart chart-data="data1"></ms-bar-chart>
+                            <ms-bar-chart chart-data="data2"></ms-bar-chart>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </tab>
+
+        <tab heading="Design 5">
+            <section class="results-dropdown">
+                <span>Results compared to</span>
+                <span class="dropdown">
+                    <ul class="dropdown-menu">
+                        <li><a href>Goals 1</a>
+                        </li>
+                        <li><a href>Goals 2</a>
+                        </li>
+                        <li><a href>Goals 3</a>
+                        </li>
+                    </ul>
+                    <a href class="dropdown-toggle" data-toggle="dropdown">
+                      Goals <i class="fa fa-caret-down"></i>
+                    </a>
+                </span>
+            </section>
+
+            <section class="results-view">
+              <div class="view-title">
+                <i class="fa fa-eye view-icon"></i>
+                <span class="view-text">Q1 2015 Upfronts</span>
+              </div>
+              <div class="view-time">
+                <span>Calculated 3:57pm</span>
+              </div>
+            </section>
+
+            <section class="results-panel">
+                <h3 class="results-panel-title">KPI Summary</h3>
+                <div class="result-panel-body well compact">
+                    <div class="row">
+                        <div class="kpi-table-container col-md-6 col-xs-6">
+                            <table class="kpi-table">
+                                <tbody>
+                                    <tr ng-repeat="kpiDatum in kpiData" ng-click="setSelected(kpiDatum.id)" ng-class="{selected: kpiDatum.id === idSelectedRow}">
+                                        <td>{{kpiDatum.title}}</td>
+                                        <td>{{kpiDatum.total}}</td>
+                                        <td class="kpi-{{kpiDatum.direction}}">{{kpiDatum.incremental.number}}{{kpiDatum.incremental.unit}}</td>
+                                        <td class="kpi-{{kpiDatum.direction}}">{{kpiDatum.percent}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="kpi-chart-container col-md-6 col-xs-6">
+                            <ms-line-chart chart-data="salesData"></ms-line-chart>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="results-panel">
+                <h3 class="results-panel-title">Spend Summary</h3>
+                <div class="result-panel-body well">
+                    <div class="row">
+                        <div class="spend-container col-md-6 col-xs-6">
+                            <table class="spend-table">
+                                <thead>
+                                    <tr>
+                                        <th>Total Spend</th>
+                                        <th>10M</th>
+                                        <th class="spend-increase">+$5M</th>
+                                        <th class="spend-increase">+100%</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="tr-margin">
+                                        <td>Local Spend</td>
+                                        <td>12M</td>
+                                        <td class="spend-increase">+$2.5M</td>
+                                        <td class="spend-increase">12%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>National Spend</td>
+                                        <td>17M</td>
+                                        <td class="spend-increase">+$3.7M</td>
+                                        <td class="spend-increase">7.5%</td>
+                                    </tr>
+                                    <tr class="tr-margin">
+                                        <td>Product Spend</td>
+                                        <td>6M</td>
+                                        <td class="spend-increase">+$1.3M</td>
+                                        <td class="spend-increase">22.4%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Brand Spend</td>
+                                        <td>9.3M</td>
+                                        <td class="spend-increase">+$300K</td>
+                                        <td class="spend-increase">13.1%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="spend-container col-md-6 col-xs-6">
+                            <div class="legend">
+                                <img src="images/legend.png" alt="legend">
+                                <span>Current Master Plan 2015</span>
+                            </div>
+                            <ms-bar-chart chart-data="data3"></ms-bar-chart>
+                            <ms-bar-chart chart-data="data4"></ms-bar-chart>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </tab>
+
+    </tabset>
 
 </div>

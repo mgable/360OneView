@@ -1,78 +1,164 @@
 angular.module('ThreeSixtyOneView')
-  .directive('msLineChart', ['d3Service', function(d3Service) {
-    return {
-      restrict: 'EA',
-      scope: {},
-      link: function(scope, element, attrs) {
-        d3Service.d3().then(function(d3) {
+    .directive('msLineChart', ['d3Service', function(d3Service) {
+        return {
+            restrict: 'EA',
+            scope: {
+                data: "=chartData"
+            },
+            link: function(scope, element, attrs) {
+                d3Service.d3().then(function(d3) {
 
-          var margin = {top: 20, right: 20, bottom: 30, left: 50},
-            width = 610 - margin.left - margin.right,
-            height = 161 - margin.top - margin.bottom;
+                    // setup variables
+                    var margin = { top: 50, right: 50, bottom: 50, left: 50 },
+                        width = 659 - margin.left - margin.right,
+                        height = 180 - margin.top - margin.bottom;
 
-          var parseDate = d3.time.format('%d-%b-%y').parse;
+                    var svg = d3.select(element[0]).append("svg")
+                        .attr("width", width + margin.left + margin.right)
+                        .attr("height", height + margin.top + margin.bottom)
+                        .append("g")
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-          var x = d3.time.scale()
-            .range([0, width]);
+                    // on window resize, re-render d3 canvas
+                    window.onresize = function() {
+                        return scope.$apply();
+                    };
+                    scope.$watch(function() {
+                        return angular.element(window)[0].innerWidth;
+                    }, function(){
+                        return scope.render(scope.data);
+                    });
 
-          var y = d3.scale.linear()
-            .range([height, 0]);
+                    // watch for data changes and re-render
+                    scope.$watch('data', function(newVals, oldVals) {
+                        return scope.render(newVals);
+                    }, true);
 
-          var xAxis = d3.svg.axis()
-            .scale(x)
-            .orient('bottom');
+                    // define render function
+                    scope.render = function(data){
 
-          var yAxis = d3.svg.axis()
-            .scale(y)
-            .orient('left');
+                        // remove all previous items before render
+                        svg.selectAll("*").remove();
 
-          var line = d3.svg.line()
-            .x(function(d) { return x(d.date); })
-            .y(function(d) { return y(d.close); });
+                        // setup x scale
+                        var x = d3.scale.ordinal()
+                            .rangeRoundBands([0, width], .1);
 
-          var svg = d3.select(element[0]).append('svg')
-           .attr('width', width + margin.left + margin.right)
-           .attr('height', height + margin.top + margin.bottom)
-           .append('g')
-           .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+                        // setup y scale
+                        var y = d3.scale.linear()
+                            .rangeRound([height, 0]);
 
-          // Hard coded data
-          scope.data = [
-            {date: '4-Apr-12', close: 34},
-            {date: '5-Apr-12', close: 45},
-            {date: '6-Apr-12', close: 37},
-            {date: '7-Apr-12', close: 56},
-            {date: '8-Apr-12', close: 50},
-            {date: '9-Apr-12', close: 77}
-          ];
+                        // setup color scale
+                        var color = d3.scale.ordinal()
+                            .range(["#125db6", "#068700", "#26c6da", "#26a69a"]);
 
-          scope.data.forEach(function(d) {
-            d.date = parseDate(d.date);
-            d.close = +d.close;
-          });
+                        // setup xAxis
+                        var xAxis = d3.svg.axis()
+                            .scale(x)
+                            .orient("bottom");
 
-          x.domain(d3.extent(scope.data, function(d) { return d.date; }));
-          y.domain(d3.extent(scope.data, function(d) { return d.close; }));
+                        // setup line generator
+                        var line = d3.svg.line()
+                            .interpolate("cardinal")
+                            .x(function(d) { return x(d.label) + x.rangeBand() / 2; })
+                            .y(function(d) { return y(d.value); });
 
-          svg.append('g')
-            .attr('class', 'x axis')
-            .attr('transform', 'translate(0,' + height + ')')
-            .call(xAxis);
+                        var labelVar = 'quarter';
+                        var varNames = d3.keys(data[0]).filter(function(key) { return key !== labelVar; });
+                        color.domain(varNames);
 
-          svg.append('g')
-            .attr('class', 'y axis')
-            .call(yAxis)
-            .append('text')
-            .attr('transform', 'rotate(-90)')
-            .attr('y', 6)
-            .attr('dy', '.71em')
-            .style('text-anchor', 'end')
-            .text('Price ($)');
+                        var seriesData = varNames.map(function(name) {
+                            return {
+                                name: name,
+                                values: data.map(function(d) {
+                                    return {
+                                        name: name,
+                                        label: d[labelVar],
+                                        value: +d[name]
+                                    };
+                                })
+                            };
+                        });
 
-          svg.append('path')
-            .datum(scope.data)
-            .attr('class', 'line')
-            .attr('d', line);
-        });
-      }};
+                        x.domain(data.map(function(d) { return d.quarter; }));
+                        y.domain([0, d3.max(seriesData, function(c) {
+                                return d3.max(c.values, function(d) {
+                                    return d.value;
+                                });
+                            })
+                        ]);
+
+                        svg.append("g")
+                            .attr("class", "x axis")
+                            .attr("transform", "translate(0," + height + ")")
+                            .call(xAxis);
+
+                        var series = svg.selectAll(".series")
+                            .data(seriesData)
+                            .enter().append("g")
+                            .attr("class", "series");
+
+                        series.append("path")
+                            .attr("class", "line")
+                            .attr("d", function(d) { return line(d.values); })
+                            .style("stroke", function(d) { return color(d.name); })
+                            .style("stroke-width", "3px")
+                            .style("fill", "none");
+
+                        // series.selectAll("path")
+                        //     .transition()
+                        //     .attr("d", function(d) { return line(d.values); })
+
+                        series.selectAll(".point")
+                            .data(function(d) { return d.values; })
+                            .enter().append("circle")
+                            .attr("class", "point")
+                            .attr("cx", function(d) { return x(d.label) + x.rangeBand() / 2; })
+                            .attr("cy", function(d) { return y(d.value); })
+                            .attr("r", "9px")
+                            .style("fill", function(d) { return color(d.name); })
+                            .on("mouseover", function() {
+                                d3.select(this)
+                                    .style("stroke", function(d) { return d3.rgb(color(d.name)).brighter(1); })
+                                    .style("stroke-width", "3px");
+                            })
+                            .on("mouseout", function() {
+                                d3.select(this)
+                                    .style("stroke-width", 0);
+                            });
+
+                        // series.selectAll(".point")
+                        //     .data(function(d){ return d.values; })
+                        //     .transition()
+                        //     .attr("cx", function(d) { return x(d.label) + x.rangeBand() / 2; })
+                        //     .attr("cy", function(d) { return y(d.value); })
+                        //     .attr("r", "9px");
+
+                        // series.selectAll(".point").exit().remove();
+
+                        var legend = svg.selectAll(".legend")
+                                .data(varNames.slice().reverse())
+                            .enter().append("g")
+                                .attr("class", "legend")
+                                .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
+
+                        legend.append("rect")
+                            .attr("x", width - 10)
+                            .attr("width", 10)
+                            .attr("height", 10)
+                            .style("fill", color)
+                            .style("stroke", "#333");
+
+                        legend.append("text")
+                            .attr("x", width - 15)
+                            .attr("y", 6)
+                            .attr("dy", ".25em")
+                            .style("text-anchor", "end")
+                            .text(function (d) { return d; });
+
+                    };
+
+                });
+            }
+        };
     }]);
