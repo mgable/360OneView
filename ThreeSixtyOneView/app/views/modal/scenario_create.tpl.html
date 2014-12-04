@@ -1,21 +1,21 @@
-<form name="ScenarioCreate">
+<form name="ScenarioCreate" id="ScenarioCreate">
 	<div class="scenario-create">
 		<div class="details scenario-form">
 				<h3>Create a Scenario</h3>
 				<div class="inputGroup" ng-show="showFields">
 					<label>Enter Scenario Name
-					<input type="text" focus placeholder="Enter Scenario Name" required ng-maxlength="{{inputRestrictions.maximumCharacterLimit}}" ng-minlength="{{inputRestrictions.minimumCharacterLimit}}" ng-pattern='inputRestrictions.characterRestrictions' is-unique="isScenarioTitleUnique" ng-model="scenario.title" />
+					<input type="text" focus placeholder="Enter Scenario Name" required ng-maxlength="{{inputRestrictions.maximumCharacterLimit}}" ng-minlength="{{inputRestrictions.minimumCharacterLimit}}" ng-pattern='inputRestrictions.characterRestrictions' is-unique="isScenarioTitleUnique" ng-model="scenario.title" data-ms-id="ScenarioCreate.inputName"/>
 					<div class="alert alert-danger" ng-show="ScenarioCreate.$error.isUnique" role="alert">The scenario name &quot;{{scenario.title}}&quot; has been taken. Please choose another name.</div></label>
 					<label>Enter Description (Optional)
-					<input class="description" type="text" placeholder="Enter Scenario description (optional)" ng-model="scenario.description" ng-maxlength="1024"></label>
+					<input class="description" type="text" placeholder="Enter Scenario description (optional)" ng-model="scenario.description" ng-maxlength="1024" data-ms-id="ScenarioCreate.inputDescription"></label>
 				</div>
 				<div class="baseGroup">
-					<label for="baseScenario" ng-click="showBaseScenario()">Base Scenario
-						<input type="text" id="baseScenario" ng-model="scenario.referenceScenario.name"><icon type="folder-open-o" cname="open"></icon>
+					<label for="baseScenario" ng-click="showBaseScenario()" data-ms-id="ScenarioCreate.inputBaseScenario">Base Scenario
+						<input type="text" id="baseScenario" ng-model="scenario.referenceScenario.name"><icon type="folder-open-o"></icon>
 					</label>
 					<div class="buttons" ng-show="showFields">
-						<input type="submit" value="CONTINUE" class="button" ng-click="submit(scenario)" ng-disabled="ScenarioCreate.$invalid || ScenarioCreate.$pristine">
-						<button id="cancel" class="button" ng-click="close()">Cancel</button>
+						<input type="submit" value="CONTINUE" class="button" ng-click="submit(scenario)" ng-disabled="ScenarioCreate.$invalid || ScenarioCreate.$pristine" data-ms-id="ScenarioCreate.submit">
+						<button id="cancel" class="button" ng-click="close()" data-ms-id="ScenarioCreate.cancel">Cancel</button>
 					</div>
 
 					<!-- Begin hidden group -->

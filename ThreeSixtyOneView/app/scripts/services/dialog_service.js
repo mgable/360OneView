@@ -26,7 +26,7 @@ angular.module('ThreeSixtyOneView.services')
         };
 
         this.notify = function(header, msg){
-            dialogs.notify(header, msg);
+            dialogs.notify(header,msg);
         };
         
     }]);
