@@ -58,7 +58,7 @@ describe('Routes tests: ', function() {
             config = $state.get(state);
             expect(config.name).toBe(state);
             expect(config.url).toBe("/dashboard/:projectId");
-            expect(config.controller).toBe("ProjectDashboardCtrl");
+            expect(config.controller).toBe("ScenarioListingCtrl");
         });
     });
 });

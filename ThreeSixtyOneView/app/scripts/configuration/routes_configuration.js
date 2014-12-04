@@ -18,7 +18,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
     .state('Dashboard', {
       url: "/dashboard/:projectId",
       templateUrl: "views/projects.tpl.html",
-      controller: "ProjectDashboardCtrl",
+      controller: "ScenarioListingCtrl",
       resolve: {
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
         'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);},
