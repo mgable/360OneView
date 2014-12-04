@@ -204,6 +204,7 @@
 
 						.pbViewSaveMenuItem {
 							padding: 5px 20px;
+							cursor: pointer;
 
 							&:hover {
 								color: white;
@@ -277,6 +278,7 @@
 							overflow: hidden;
 							text-overflow: ellipsis;
 							padding: 5px 20px;
+							cursor: pointer;
 
 							&:hover {
 								background-color: $blue;
@@ -639,6 +641,11 @@
 						padding: 10px 15px;
 						border-radius: 3px;
 						font-size: 16px;
+						transition: all 0.3s linear;
+
+						&.pbHideAlert {
+							opacity: 0;
+						}
 					}
 
 					.pbFilterModalContent {
