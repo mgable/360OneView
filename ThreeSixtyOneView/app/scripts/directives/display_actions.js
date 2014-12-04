@@ -10,7 +10,6 @@ angular.module('ThreeSixtyOneView.directives')
             templateUrl: "views/directives/display_actions.tpl.html",
             controller: function($scope, $element, $attrs) {
                 // Bootstrap
-
                 $scope.CONFIG = CONFIG.view[$state.current.name];
                 $scope.SortAndFilterService = SortAndFilterService;
                 var filterDropdown = $($element).find('.filterDropdown');

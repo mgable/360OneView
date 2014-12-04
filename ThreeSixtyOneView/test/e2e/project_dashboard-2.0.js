@@ -3,7 +3,7 @@
 var projectUrl = '/#/projects?e2e=true',
 	dashboardUrl = '/#/dashboard/:id?e2e=true';
 
-xdescribe('Project Dashboard', function() {
+describe('Project Dashboard', function() {
 	var hasClass = function (element, cls) {
 	    return element.getAttribute('class').then(function (classes) {
 	        return classes.split(' ').indexOf(cls) !== -1;
@@ -43,6 +43,7 @@ xdescribe('Project Dashboard', function() {
 			submitButton,
 			cancelButton, 
 			firstItemTitle,
+			noScenariosAlert,
 			testFileName = "My New Test Project- " + Date.now();
 
 		browser.get(projectUrl);
@@ -56,6 +57,7 @@ xdescribe('Project Dashboard', function() {
 		submitButton.click();
 		browser.waitForAngular();
 		firstItemTitle = element.all(by.xpath(itemTitle));
+		
 		firstItemTitle.getText(function(text){
 			expect(text).toBe(testFileName);
 			expect(browser.getLocationAbsUrl()).toContain("/#/dashboard/");
@@ -69,15 +71,58 @@ xdescribe('Project Dashboard', function() {
 	});
 
 	describe("Project Scenario List", function(){
+		var testScenarionName = "My new test scenario title - " + Date.now(),
+			testScenarionDescription = "My new test scenario description.",
+			noScenarios = "//a[@data-ms-id='noScenariosAlert']", 
+			noScenariosAlert = element(by.xpath(noScenarios)),
+			name = "//input[@data-ms-id='ScenarioCreate.inputName']",
+			description = "//input[@data-ms-id='ScenarioCreate.inputDescription']",
+			baseScenario = "//input[@data-ms-id='ScenarioCreate.inputbaseScenario']",
+			submit = "//input[@data-ms-id='ScenarioCreate.submit']",
+			cancel = "//button[@data-ms-id='ScenarioCreate.cancel']",
+			inputName = element(by.xpath(name)),
+			inputDescription = element(by.xpath(description)),
+			inputbaseScenario = element(by.xpath(baseScenario )),
+			submitButton = element(by.xpath(submit)),
+			cancelButton = element(by.xpath(cancel));
+
 		beforeEach(function(){
 			browser.get(dashboardUrl);
 		});
 
-		it("should have no scenarios at time of creation", function(){
+		xit("should have no scenarios at time of creation", function(){
 			var data = element.all(by.repeater('item in getData()')),
-				itemCount = element(by.css('.display-actions h4.title span:first-child'));
+				itemCount = element(by.xpath("//span[@data-ms-id='dataCount']"));
 			expect(data.count()).toBe(0);
 			expect(itemCount.getText()).toContain(data.count());
+		});
+
+		xit ("should display the create scenario alert", function(){
+			expect(noScenariosAlert.isPresent()).toBe(true)
+		});
+
+		it("should open the create new scenario dialog box and create a new scenario", function(){
+			noScenariosAlert.click();
+			browser.waitForAngular();
+			inputName.sendKeys(testScenarionName);
+			inputDescription.sendKeys(testScenarionDescription);
+			//cancelButton.click();
+			submitButton.click();
+			browser.waitForAngular();
+			// goes to scenario edit page
+			expect(browser.getLocationAbsUrl()).toContain("/#/scenario/");
+			browser.get(dashboardUrl);
+			browser.waitForAngular();
+
+			var data = element.all(by.repeater('item in getData()')),
+				itemCount = element(by.xpath("//span[@data-ms-id='dataCount']")),
+				title = element.all(by.repeater('item in getData()').column('title'));
+			expect(data.count()).toBe(1);
+			expect(itemCount.getText()).toContain(data.count());
+			expect(noScenariosAlert.isPresent()).toBe(false);
+			title.first().getText().then(function(text){
+				expect(text).toBe(testScenarionName);
+			})
 		});
 
 		xit("should create a new scenario", function(){

@@ -3,6 +3,34 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.filters')
+    .filter("filterBaseScenarios", [function(){
+        return function(input, term){
+            var results = [],
+                regExp;
+
+            if (term){
+                regExp = new RegExp(term.toLowerCase(), "g");
+            } else {
+                return input;
+            }
+
+            _.each(input, function(e){
+                if (e.title && regExp){
+                    if (regExp.test(e.title.toLowerCase())){
+                        results.push(e);
+                    } else {
+                        var inScenario = _.find(e.data, function(f){
+                            return regExp.test(f.title.toLowerCase());
+                        });
+                        if (inScenario){
+                            results.push(e);
+                        }
+                    }
+                }
+            });
+            return results;
+        };
+    }])
     .filter('isFavorite', ["FavoritesService", function(FavoritesService) {
         return function(input) {
             var results = [];

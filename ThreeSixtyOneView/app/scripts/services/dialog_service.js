@@ -14,26 +14,23 @@ angular.module('ThreeSixtyOneView.services')
             });
         };
 
-        //Prototype
-        // this.currentScenario = function(_project_, _scenario_) {
-        //     dialogs.create('views/modal/create_scenario.tpl.html','CreateScenarioCtrl',{
-        //         project: _project_,
-        //         scenario: _scenario_
-        //     },{size:'md'});
-        // };
-
         this.openCreateScenario = function(_project_, _scenarios_) {
-            dialogs.create('views/modal/scenario_create.tpl.html','CreateScenarioCtrl',{
+            dialogs.create('views/modal/scenario_create.tpl.html','ScenarioCreateCtrl',{
                 project: _project_,
                 scenarios: _scenarios_
             },{size:'md'});
+        };
+
+        this.openFilterSelection = function(templateAddress, controllerName, sharedObjects, options) {
+            return dialogs.create(templateAddress, controllerName, sharedObjects, {size: options.windowSize, windowClass: options.windowClass});
         };
 
         this.noop = function(header, msg){
             dialogs.notify(header,msg);
         };
 
-        // useful aliases
-        this.noop = this.notify;
-        
+        this.notify = function(header, msg){
+            dialogs.notify(header,msg);
+        };
+
     }]);

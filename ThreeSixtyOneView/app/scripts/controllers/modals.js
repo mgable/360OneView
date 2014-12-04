@@ -31,7 +31,7 @@ angular.module('ThreeSixtyOneView')
 
     }]).controller('ProjectCreateCtrl', ["$scope", "$rootScope", "$controller", "$modalInstance", "CONFIG", "EVENTS", function($scope, $rootScope, $controller, $modalInstance, CONFIG, EVENTS) {
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
-        var newProject = CONFIG.application.models.ProjectsModel.newProject;
+        // var newProject = CONFIG.application.models.ProjectsModel.newProject;
 
         $scope.modalProperties = {
             title: "Create a New Project",
@@ -42,64 +42,17 @@ angular.module('ThreeSixtyOneView')
 
         $scope.submit = function(title, evt) {
             if (evt) { evt.preventDefault(); }
-            newProject.title = title.trim(title);
-            $rootScope.$broadcast(EVENTS.createProject, newProject);
+            $rootScope.$broadcast(EVENTS.createProject, title.trim());
             $modalInstance.dismiss('create');
         };
-        
-    }]).controller('XXXXXCreateScenarioCtrl', ["$scope", "$rootScope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", function($scope, $rootScope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS) {
 
-        angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
-
-        var selectedRow,
-            getSelected = function(){
-                return selectedRow;
-            },
-            sortScenarios = function(scenarios){
-                $scope.scenarioList = scenarios;
-                $scope.masterProject = (_.findWhere($scope.scenarioList, {"title": "MASTER PROJECT"}));
-                $scope.scenarioList.splice(_.indexOf($scope.scenarioList, $scope.masterProject),1);
-                selectedRow = $scope.masterProject;
-
-                angular.forEach($scope.scenarioList, function(k,v){
-                    if (k.title === $scope.project.title){
-                        $scope.scenarioList.unshift($scope.scenarioList.splice(v,1)[0]);
-                    }
-                });
-            };
-
-        $scope.scenario = data.scenario;
-        $scope.project = data.project;
-
-        ScenarioService.getAll().then(function(response){
-            sortScenarios(response);
-        });
-
-        $scope.isScenarioTitleUnique = function(scenarioTitle) {
-            return ! _.findWhere($scope.scenarios, {title:scenarioTitle});
-        };
-
-        $scope.setRow = function(item){
-            //if (getStatus(id)) {
-                selectedRow = item;
-           // }
-        };
-
-        $scope.confirm = function(){
-            $rootScope.$broadcast(EVENTS.updateBaseScenario, getSelected());
-            $scope.close();
-        };
-
-        $scope.showRow = function(row){
-            return row === selectedRow;
-        };
-}]).controller('CreateScenarioCtrl', ["$scope", "$rootScope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", "GotoService", function($scope, $rootScope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS, GotoService) {
+    }]).controller('ScenarioCreateCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", "GotoService", function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS, GotoService) {
 
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
         var getBaseScenario = function(){
                 return angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
-            }, 
+            },
             getSelected = function(){
                 return selectedRow;
             },
@@ -107,7 +60,7 @@ angular.module('ThreeSixtyOneView')
                 $scope.scenarioList = scenarios;
                 $scope.masterProject = (_.findWhere($scope.scenarioList, {"title": "MASTER PROJECT"}));
                 $scope.scenarioList.splice(_.indexOf($scope.scenarioList, $scope.masterProject),1);
-                selectedRow = $scope.masterProject;
+                selectedBaseScenario = $scope.masterProject;
 
                 angular.forEach($scope.scenarioList, function(k,v){
                     if (k.title === $scope.project.title){
@@ -115,54 +68,44 @@ angular.module('ThreeSixtyOneView')
                     }
                 });
             },
-            selectedRow;
+            init = function(){
+                ScenarioService.getAll().then(function(response){
+                    sortScenarios(response);
+                });
+            },
+            selectedBaseScenario;
 
-        $scope.show = false;
-        $scope.showBases = false;
+        init();
+
+
         $scope.showFields = true;
-        $scope.GotoService = GotoService;
         $scope.project = data.project;
-        $scope.scenarios = data.scenaios;
+        $scope.scenarios = data.scenarios;
         $scope.scenario = getBaseScenario();
-        $scope.chosen = { scenario: "Choose a scenario" };
 
-        ScenarioService.getAll().then(function(response){
-            sortScenarios(response);
-        });
-
-        $scope.mainShow = function() {
-            $scope.show = true;
-        };
-        $scope.mainHide = function() {
-            $scope.show = false;
-        };
-        $scope.showScenario = function() {
-            $scope.showBases = true;
+        $scope.showBaseScenario = function() {
             $scope.showFields = false;
         };
-        $scope.hideScenario = function() {
-            $scope.showBases = false;
-            $scope.showFields = true;
-        };
-        $scope.setRow = function(item){
-            selectedRow = item;
+
+        $scope.setScenario= function(item){
+            selectedBaseScenario = item;
         };
         $scope.showRow = function(row){
-            return row === selectedRow;
+            return row === selectedBaseScenario;
         };
-       
+
         $scope.isScenarioTitleUnique = function(scenarioTitle) {
-            console.info("scenario title was");
-            console.info(scenarioTitle);
-            console.info($scope.scenarios);
             return ! _.findWhere($scope.scenarios, {title:scenarioTitle});
         };
 
         $scope.confirm = function(){
-            $rootScope.$broadcast(EVENTS.updateBaseScenario, getSelected());
-            $scope.showBases = false;
+            $scope.scenario.referenceScenario.id = selectedBaseScenario.id;
+            $scope.scenario.referenceScenario.name = selectedBaseScenario.title;
             $scope.showFields = true;
-            //$scope.close();
+        };
+
+        $scope.cancel = function(){
+            $scope.showFields = true;
         };
 
         $scope.submit = function(_scenario_){
@@ -180,4 +123,298 @@ angular.module('ThreeSixtyOneView')
             $scope.scenario.referenceScenario.id = data.id;
             $scope.scenario.referenceScenario.name = data.title;
         });
+}]).controller('FilterSelectionCtrl', ["$scope", "$rootScope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "pbData", "$filter", function($scope, $rootScope, $modalInstance, $controller, data, ScenarioService, CONFIG, pbData, $filter) {
+    angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+
+    var init = function() {
+        $scope.pbData = data.pbData;
+        $scope.selectedFilter = {};
+        $scope.selectedFilter.selFil = data.selFil;
+        $scope.selectedFilter.cat = data.cat;
+        $scope.addedFilter = data.addedFilter;
+
+        $scope.filterSearch = {label: ''};
+        $scope.emptyFiltersList = [];
+        $scope.noFilterSelected = false;
+
+        copyFilter();
+        $scope.chooseFilter($scope.selectedFilter.cat, false, false);
+    };
+
+    // open the filters modal for the selected filter
+    $scope.chooseFilter = function(category, newSelection, index) {
+        if(angular.isNumber(index)) {
+            $scope.selectedFilter.selFil = $scope.chooseViewBy(category.members, index);
+            return null;
+        }
+
+        $scope.selectedFilter.cat = category;
+        $scope.selectedFilter.selFil = $scope.chooseViewBy(category.members, false);
+
+        if(newSelection) {
+            $scope.cancelChangeFilter();
+        }
+    };
+
+    // choose a filter based on the passed name
+    $scope.chooseFilterByName = function(name) {
+        var i;
+
+        for(i = 0; i < $scope.pbData.itemsList.length; i++) {
+            if($scope.pbData.itemsList[i].label === name) {
+                $scope.chooseFilter($scope.pbData.itemsList[i], false, false);
+                return null;
+            }
+        }
+    };
+
+    // choose the view based on added items in the column/row
+    $scope.chooseViewBy = function(items, index) {
+        if(angular.isNumber(index)) {
+            $scope.searchFilters(items[index], $scope.filterSearch);
+            return items[index];
+        }
+
+        for(var i = 0; i < items.length; i++) {
+            for(var j = 0; j < $scope.pbData.viewData.columns.length; j++) {
+                if(items[i].label === $scope.pbData.viewData.columns[j].name) {
+                    $scope.searchFilters(items[i], $scope.filterSearch);
+                    return items[i];
+                }
+            }
+
+            for(j = 0; j < $scope.pbData.viewData.rows.length; j++) {
+                if(items[i].label === $scope.pbData.viewData.rows[j].name) {
+                    $scope.searchFilters(items[i], $scope.filterSearch);
+                    return items[i];
+                }
+            }
+        }
+
+        $scope.searchFilters(items[0], $scope.filterSearch);
+        return items[0];
+    };
+
+    // cancel the made changes to the filter
+    $scope.cancelChangeFilter = function() {
+        // $scope.filterSearch = {label: ''};
+        $scope.filterCollapse = {};
+        copyFilter();
+    };
+
+    // create the temporary filter object from the view data
+    var copyFilter = function() {
+        angular.forEach($scope.pbData.viewData.filters, function(val) {
+            $scope.addedFilter[val.name] = {};
+            angular.forEach(val.items, function(subval) {
+                $scope.addedFilter[val.name][subval] = true;
+            });
+        });
+    };
+
+    // aggregate filter values based on categories
+    $scope.categorizeValues = function(index, items) {
+        var i, result;
+
+        var countValues = function(category) {
+            var output = {
+                label: [],
+                selected: 0,
+                total: 0
+            };
+            var j, tempResult;
+
+            if(category.members.length > 0) {
+                for(j = 0; j < category.members.length; j++) {
+                    tempResult = countValues(category.members[j]);
+
+                    if(!tempResult) {
+                        return false;
+                    }
+
+                    if(tempResult.selected > 0 && tempResult.selected !== tempResult.total) {
+                        return false;
+                    } else if(tempResult.selected === tempResult.total) {
+                        output.label.push(category.members[j].label);
+                        output.selected++;
+                    }
+                    output.total++;
+                }
+
+            } else {
+                if(items[category.label]) {
+                    output.selected = 1;
+                    output.label.push(category.label);
+                }
+                output.total = 1;
+            }
+
+            return output;
+        };
+
+        for(i = 0; i < $scope.pbData.itemsList[index].members.length; i++) {
+            result = countValues($scope.pbData.itemsList[index].members[i]);
+            if(!!result) {
+                if(result.selected !== result.total) {
+                    return result;
+                }
+            }
+        }
+        return result;
+    };
+
+    // search filter values
+    $scope.searchFilters = function(obj, search) {
+        if(!obj) {
+            return null;
+        }
+
+        var output;
+
+        var treeSearch = function(tree, searchLabel) {
+            var output = {
+                label: tree.label
+            };
+
+            if(tree.members.length > 0) {
+                for(var i = 0; i < tree.members.length; i++) {
+                    var results = treeSearch(tree.members[i], searchLabel);
+                    if(results && results.members) {
+                        if(!output.members) {
+                            output.members = [];
+                        }
+                        output.members.push(results);
+                    }
+                }
+            } else {
+                if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1) {
+                    return tree;
+                } else {
+                    return null;
+                }
+            }
+            return output;
+        };
+
+        output = treeSearch(obj, search.label);
+
+        $scope.searchResults = output;
+    };
+
+    // handle select/deselect of visible/invisible filter search values
+    $scope.selectFilters = function(category, visible, add) {
+        var i = 0,
+            val;
+
+        var getFilters = function(list) {
+            var output = [],
+                i = 0;
+
+            if(list.members.length > 0) {
+                for(i = 0; i < list.members.length; i++) {
+                    output = output.concat(getFilters(list.members[i]));
+                }
+            } else {
+                return [list.label];
+            }
+
+            return output;
+        };
+
+        var list = getFilters($scope.searchResults);
+
+        if(visible) {
+            for(i = 0; i < list.length; i++) {
+                $scope.addedFilter[category][list[i]] = add;
+            }
+        } else {
+            for(val in $scope.addedFilter[category]) {
+                if($scope.addedFilter[category][val] && list.indexOf(val) === -1) {
+                    $scope.addedFilter[category][val] = add;
+                }
+            }
+        }
+    };
+
+    // make the temporary changes in the filters
+    $scope.changeFilter = function() {
+        angular.forEach($scope.pbData.viewData.filters, function(val) {
+            val.items = [];
+            angular.forEach($scope.addedFilter[val.name], function(subval, subkey) {
+                if(subval) {
+                    val.items.push(subkey);
+                }
+            });
+        });
+
+        $modalInstance.close($scope.pbData.viewData.filters);
+    };
+
+    // cancel the made changes to the filter
+    $scope.cancelChangeFilter = function() {
+        // $scope.filterSearch = {label: ''};
+        $scope.filterCollapse = {};
+        copyFilter();
+        $modalInstance.dismiss('canceled');
+    };
+
+    // calculate the count of items in each filter based on the category or all
+    $scope.filterCount = function(obj, cat, fltr) {
+        var count = 0,
+            filterLowerCase = angular.lowercase(fltr);
+
+        if(!cat) {
+            angular.forEach(obj, function(val, key) {
+                if(val && (key.toLowerCase().indexOf(filterLowerCase) > -1)) {
+                    count++;
+                }
+            });
+        } else {
+            angular.forEach(obj, function(val, key) {
+                for(var i = 0; i < cat.length; i++) {
+                    if (cat[i].label.indexOf(key) > -1 && (key.toLowerCase().indexOf(filterLowerCase) > -1) && val) {
+                        count++;
+                    }
+                }
+            });
+        }
+
+        var ind = $scope.emptyFiltersList.indexOf($scope.selectedFilter.cat.label);
+        var empty = true,
+            filtersCount = 0;
+        for(var value in $scope.addedFilter[$scope.selectedFilter.cat.label]) {
+            filtersCount++;
+            if($scope.addedFilter[$scope.selectedFilter.cat.label][value]) {
+                empty = false;
+                break;
+            }
+        }
+
+        if(filtersCount === 0 || empty) {
+            if(ind < 0) {
+                $scope.emptyFiltersList.push($scope.selectedFilter.cat.label);
+                $scope.noFilterSelected = true;
+            }
+        } else if(ind > -1) {
+            $scope.emptyFiltersList.splice(ind, 1);
+            if($scope.emptyFiltersList.length === 0) {
+                $scope.noFilterSelected = false;
+            }
+        }
+
+        return count;
+    };
+
+    // calculate total items in a view considering the search value
+    $scope.totalFilterCount = function(items, fltr) {
+        var filteredItems = $filter('filter')(items, fltr);
+
+        if(!!filteredItems) {
+            return filteredItems.length;
+        }
+        return 0;
+    };
+
+    init();
+
 }]);

@@ -1,4 +1,4 @@
-<div class="info-tray" ng-controller="InfoTrayCtrl">
+<div class="info-tray">
 	<div class="details">
 		<div class="clearfix title-holder">
 			<span ng-switch="selectedItem.isMaster">
@@ -77,10 +77,11 @@
 						<icon type="cubes"></icon> {{scenario.title}}
 					</a>
 				</div>
+
 			</div>
 		</div>
 		<div class="profile-footer" ng-click="toggleShowScenarios()" ng-if="selectedItem.scenarios.length > 3">
-			<a ng-click="showScenarios()">{{viewAll}}</a>
+			<a>{{viewAll}}</a>
 		</div>
 	</div>
 </div>
