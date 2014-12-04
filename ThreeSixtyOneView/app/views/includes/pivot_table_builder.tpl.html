@@ -105,7 +105,7 @@
 		<div class="pbSec" ng-show="filterSection">
 			<div class="pbSecTitle">Filters</div>
 			<div class="pbFilterValues">
-				<div ng-repeat="cat in pbData.itemsList" class="pbFilterBox clickable" ng-click="chooseFilter(cat, true, false); filtersModal()" data-toggle="modal" data-target="#filterModal">
+				<div ng-repeat="cat in pbData.itemsList" class="pbFilterBox clickable" ng-click="filtersModal(cat)" data-toggle="modal" data-target="#filterModal">
 					<div class="pbFilterCat">{{cat.label}} <span class="pbFilterSize">({{categorizeValues($index, addedFilter[cat.label]).selected}}/{{categorizeValues($index, addedFilter[cat.label]).total}})</span></div>
 					<div class="pbFilterVal" ng-show="pbData.viewData.filters[$index].items.length < cat.members[cat.members.length - 1].members.length" data-toggle="tooltip" data-placement="bottom" title="{{pbData.viewData.filters[$index].items.join(', ')}}">{{categorizeValues($index, addedFilter[cat.label]).label.join(', ')}}</div>
 					<div class="pbFilterVal" ng-show="pbData.viewData.filters[$index].items.length == cat.members[cat.members.length - 1].members.length">All</div>
@@ -118,82 +118,4 @@
 			</span>
 		</div>
 	</div>
-
-	<!-- more revised filter modal -->
-	<!-- <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" resize>
-		<div class="filter-modal-dialog">
-			<div class="filter-modal-content">
-				<div class="filter-modal-header">
-					<h4 class="filter-modal-title" id="myModalLabel">Filters</h4>
-				</div>
-				<div class="filter-modal-body">
-					<div class="pbFilterModalLinks">
-						<div class="pbFilterModalLink clickable" ng-repeat="cat in pbData.itemsList" ng-click="chooseFilter(cat, false, false)" ng-class="{active: cat.label == selectedFilter.cat.label}">
-							<div>{{cat.label}}
-								<span class="pbFilterSize">({{categorizeValues($index, addedFilter[cat.label]).selected}}/{{categorizeValues($index, addedFilter[cat.label]).total}})</span>
-							</div>
-							<div ng-show="categorizeValues($index, addedFilter[cat.label]).selected<categorizeValues($index, addedFilter[cat.label]).total" class="pbFilterModalValues" data-toggle="tooltip" data-placement="bottom" title="{{categorizeValues($index, addedFilter[cat.label]).label.join(', ')}}">{{categorizeValues($index, addedFilter[cat.label]).label.join(', ')}}</div>
-							<div ng-hide="categorizeValues($index, addedFilter[cat.label]).selected<categorizeValues($index, addedFilter[cat.label]).total" class="pbFilterModalValues" data-toggle="tooltip" data-placement="bottom" title="{{categorizeValues($index, addedFilter[cat.label]).label.join(', ')}}">All</div>
-						</div>
-					</div>
-					<div class="pbFilterModalMain">
-						<div class="pbFilterModalContent">
-							<div class="pbFilterModalHeader">
-								<div class="pbFilterTitleArea">
-									<div class="pbFilterTitle" ng-mouseleave="filterViewDrop = false;">
-										<div class="pbFilterDropDownContainer">
-											<div class="pbFilterViewTitle clickable" ng-click="filterViewDrop = !filterViewDrop">
-												{{selectedFilter.selFil.label}} 
-												<i class="fa fa-caret-down"></i>
-												<div class="pbFilterViewDrop" ng-show="filterViewDrop">
-													<div class="pbFilterViewDropVisible">
-														<div ng-repeat="item in selectedFilter.cat.members" class="clickable" ng-click="filterViewDrop = false; chooseFilter(selectedFilter.cat, false, $index)">{{item.label}}</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="pbFilterSearch" ng-show="selectedFilter.selFil">
-									<i class="fa fa-filter"></i>
-									<input class="pbFilterSearchInput" type="text" placeholder="Filter List" ng-model="filterSearch.label"  ng-keyup="searchFilters(selectedFilter.selFil, filterSearch)">
-								</div>
-							</div>
-							<div class="pbFilterCustomSelection" ng-mouseleave="filterPopup = false" ng-hide="totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,filterSearch.label) === 0">
-								<div class="pbFilterSelectionButton" ng-class="{active: filterPopup}">
-									<div class="pbFilterSelectAll clickable" ng-show="filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label) === 0" ng-click="selectFilters(selectedFilter.cat.label, true, true);"><i class="fa fa-circle-o"></i></div>
-									<div class="pbFilterSelectAll clickable blue" ng-show="filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label) === totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,filterSearch.label)" ng-click="selectFilters(selectedFilter.cat.label, true, false);"><i class="fa fa-check-circle"></i></div>
-									<div class="pbFilterSelectAll clickable" ng-show="filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label) % totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,filterSearch.label) > 0.01" ng-click="selectFilters(selectedFilter.cat.label, true, true);"><i class="fa fa-minus-circle"></i></div>
-									<div class="pbFilterSelectDrop clickable" ng-click="filterPopup = !filterPopup"><i class="fa fa-caret-down"></i></div>
-								</div>
-								<div class="pFilterDrop" ng-show="filterPopup">
-									<div class="pbFilterDropVisible">
-										<div class="clickable" ng-click="filterPopup = false; selectFilters(selectedFilter.cat.label, true, true);">Select All Visible</div>
-										<div class="clickable" ng-click="filterPopup = false; selectFilters(selectedFilter.cat.label, true, false);">Deselect All Visible</div>
-										<div class="clickable" ng-click="filterPopup = false; selectFilters(selectedFilter.cat.label, false, false);">Deselect All Not Visible</div>
-									</div>
-								</div>
-							</div>
-							<div class="pbFilterNumberSelected">
-								({{filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label)}}/{{totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,filterSearch.label)}})
-							</div>
-							<div class="pbModalHeight" ng-style="{height: (windowHeight - 250) + 'px'}">
-								<filters ng-if="searchResults.members" collection="searchResults" filters="addedFilter" category="{label: selectedFilter.cat.label}"></filters>
-							</div>
-						</div>
-						<div class="pbFilterModalButtons">
-							<button type="button" class="btn filterCancelButton" data-dismiss="modal" ng-click="cancelChangeFilter();">Cancel</button>
-							<button type="button" class="btn filterApplyButton" data-dismiss="modal" ng-click="changeFilter()" ng-disabled="filterCount(addedFilter[selectedFilter.cat.label], false,'') == 0">APPLY</button>
-							<div class="alert alert-danger pbFilterModalAlert" role="alert" ng-show="filterCount(addedFilter[selectedFilter.cat.label], false, '') == 0">
-								You should select at least one item.
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-
-				</div>
-			</div>
-		</div>
-	</div> -->
 </div>

@@ -223,7 +223,7 @@ angular.module('ThreeSixtyOneView')
                 return null;
             }
         }
-    }
+    };
 
     // choose the view based on added items in the column/row
     $scope.chooseViewBy = function(items, index) {
