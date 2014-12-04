@@ -3,7 +3,7 @@
 
 var projectUrl = '/#/projects?e2e=true';
 
-describe('Project Listing', function() {
+xdescribe('Project Listing', function() {
 	var hasClass = function (element, cls) {
 	    return element.getAttribute('class').then(function (classes) {
 	        return classes.split(' ').indexOf(cls) !== -1;
@@ -36,7 +36,7 @@ describe('Project Listing', function() {
 	)
 
 	describe("Sort functions: ", function(){
-		it("should swtich between ordering by name, modified last and created on", function(){
+		it("should switch between ordering by name, modified last and created on", function(){
 			var data;
 
 			nameButton.click();

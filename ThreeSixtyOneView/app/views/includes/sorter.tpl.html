@@ -10,6 +10,7 @@
 			<!-- <th><ms-dropdown selected-sort-index="1" reverse=false msid="column_2"></ms-dropdown></th> -->
 		</thead>
 		<tbody>
+
 			<tr ng-repeat="item in getData()" ng-class="{active: isActiveItem(item)}" class="{{CONFIG.status && item.status.className || ''}}" ng-click="selectItem(item)"> 
 				<td ng-class="{master: item.isMaster}">
 					<div class="text-holder favorites-holder">

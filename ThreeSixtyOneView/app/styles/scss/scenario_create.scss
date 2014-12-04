@@ -327,42 +327,13 @@
 		color: $darkgray;
 		font-weight:900;
 		margin-bottom:0;
-	}/*
-	.footer {
-    	margin: 40px 20px 20px;
-    	padding-bottom: 20px;
-    	button, a {
-    		cursor: pointer;
-    	}
-    	a:hover {
-    		text-decoration:none
-    	}
-	}*/
-
-	/*label {
-		display: inline-flex;
-
-		&.description-holder {
-			margin: 0 0 0 50px;
-		}
-	} */
-	/*p {
-		color: $gray;
-	}*/
+	}
 	label {
 		display: block;
 		font-size: 12px;
 		margin-bottom: 8px;
 	}
 
-	/*input {
-
-		@include placeholder {
-		    color: $black;
-		    font-weight:400;
-		    font-size: 18px;
-		}
-	}*/
 	input,
 	select {
 		width: 100%;
@@ -372,6 +343,7 @@
 		border: 1px solid #DDD;
 		border-radius: 0;
 		background-color: #FFF;
+		font-weight: normal;
 
 		&:focus,
 		&:active {
@@ -379,9 +351,9 @@
 			border: 1px solid darkblue;
 		}
 	}
-	.fa.fa-folder-open-o {
+	.open {
 		position: absolute;
-		top: 37px;
+		top: 29px;
 		right: 14px;
 		font-size: 17px;
 		color: #CCC;
@@ -394,43 +366,7 @@
 		border-bottom: 1px dotted $gray;
 	}
 
-	/*span {
-		font-size: 16px;
-		display: block;
-
-		&.emphasize {
-			font-weight:900;
-			color: $darkgray;
-		}
-	}*/
-
-	/*.footer {
-		.btn {
-			height: 50px;
-		}
-	}*/
-
-	/*.home {
-		font-size: 45px;
-	}
-
-	.right-side{
-		text-align: right;
-		float: right;
-		a {
-			font-size: 20px;
-		}
-	}
-
-	.left-side{
-		text-align: left;
-		float: left;
-	}
-
-	.push-right {
-		margin-left:80px;
-	}
-*/
+	
 	.base-scenario button{
 		margin-top: 10px;
 	}
@@ -459,7 +395,6 @@
 		background-color: #F53;
 		border-radius: 3px;
 		border: none;
-		cursor: pointer;
 	}
 	div.radios button.confirmRadio {
 		margin-top: 10px;

@@ -42,8 +42,8 @@ describe('Dialog Services:', function() {
         });
 
         it("should create a 'noop' dialog box", function() {
-            DialogService.noop("foo", "bar");
-            expect(dialogs.notify).toHaveBeenCalledWith("foo", "bar");
+            DialogService.noop();
+            expect(dialogs.notify).toHaveBeenCalled();
         });
 
     });

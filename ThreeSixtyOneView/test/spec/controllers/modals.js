@@ -53,7 +53,7 @@ describe('Controllers: Modals: ', function() {
         it("should call the Projects Model with the name of the new project", function() {
             scope.submit("xyz");
             expect(modalInstance.dismiss).toHaveBeenCalledWith('create');
-            expect(eventSpy).toHaveBeenCalledWith(EVENTS.createProject, {title: 'xyz', description: "", isMaster: false});
+            expect(eventSpy).toHaveBeenCalledWith(EVENTS.createProject, 'xyz');
         });
     });
 
