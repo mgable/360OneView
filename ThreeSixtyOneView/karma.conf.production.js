@@ -11,7 +11,7 @@ module.exports = function(config) {
 
         // list of files / patterns to load in the browser
         files: [
-              'app/bower_components/jquery/dist/jquery.js',
+            'app/bower_components/jquery/dist/jquery.js',
             'app/bower_components/angular/angular.js',
             'app/bower_components/angular-mocks/angular-mocks.js',
             'app/bower_components/angular-resource/angular-resource.js',
@@ -24,8 +24,8 @@ module.exports = function(config) {
             'app/bower_components/angular-ui-utils/ui-utils.js',
             'app/bower_components/ng-sortable/dist/ng-sortable.js',
             'app/scripts/vendor/dialogs.js',
-            'app/scripts/vendor/jquery.wijmo.wijspread.all.3.20142.11.js',
-            'app/scripts/vendor/angular.wijmo.wijspread.3.20142.11.js',
+            'app/scripts/vendor/jquery.wijmo.wijspread.all.min.js',
+            'app/scripts/vendor/angular.wijmo.wijspread.min.js',
             'app/scripts/*.js',
             'app/scripts/**/*.js',
             'test/spec/**/*.js',

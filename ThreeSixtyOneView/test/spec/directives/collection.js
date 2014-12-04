@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: collection', function () {
+xdescribe('Directive: collection', function () {
 
   // load the directive's module
   beforeEach(module('threeSixtOneViewApp'));
