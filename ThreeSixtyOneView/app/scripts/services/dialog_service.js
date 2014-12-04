@@ -33,7 +33,8 @@ angular.module('ThreeSixtyOneView.services')
             dialogs.notify(header,msg);
         };
 
-        // useful aliases
-        this.noop = this.notify;
+        this.notify = function(header, msg){
+            dialogs.notify(header,msg);
+        };
         
     }]);

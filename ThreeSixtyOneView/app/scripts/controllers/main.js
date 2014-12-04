@@ -7,6 +7,8 @@
 angular.module('ThreeSixtyOneView')
     .controller("MainCtrl", ["$scope", "$location", "ErrorService", function($scope, $location, ErrorService) {
         // Error service surfaced here
+        // For unit testing only;
+        $scope.ErrorService = ErrorService;
 
         // querystring 'e2e' formats data for protractor tests
         if ($location.search().e2e === "true"){
@@ -50,9 +52,13 @@ angular.module('ThreeSixtyOneView')
             $scope.showDetails(item);
         };
 
+        $scope.gotoScenarioCreate = function(){
+            DialogService.openCreateScenario(Project, Scenarios);
+        };
+
         // Event Listeners
         $scope.$on(EVENTS.gotoScenarioCreate, function(){
-            DialogService.openCreateScenario(Project, Scenarios);
+            $scope.gotoScenarioCreate();
         });
 
         $scope.$on(EVENTS.copyScenario, function(evt, scenario){
@@ -77,6 +83,9 @@ angular.module('ThreeSixtyOneView')
             // the master project is always a favorite and not in the favorite REST call (yet?)
             var master = _.find(Projects, function(elem){return elem.isMaster;});
             if (master) { FavoritesService.addFavorite(master.id, $scope.CONFIG.favoriteType); }
+
+            // Highlight first item
+            $scope.selectItem($scope.selectedItem);
         },
         getScenarios = function(id){
             return ScenarioService.get(id);
@@ -93,7 +102,8 @@ angular.module('ThreeSixtyOneView')
         // API
         // click handler interface
         $scope.selectItem = function(item){
-            getDetails(item, getScenarios).then(function(data){
+            // the return is for unit tests, it does nothing in the UI
+            return getDetails(item, getScenarios).then(function(data){
                 item.scenarios = data;
                 $scope.showDetails(item);
             });
@@ -231,28 +241,4 @@ angular.module('ThreeSixtyOneView')
         //TODO: temp data
         $scope.types =  ScenarioElements;
         $scope.scenarioElementType = $scope.types[0];
-    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DialogService", "GotoService", "Project", "Scenarios", "EVENTS", "CONFIG", function($scope, $stateParams, ScenarioService, DialogService, GotoService, Project, Scenarios, EVENTS, CONFIG){
-            var getBaseScenario = function(){
-                return angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
-            };
-
-            $scope.GotoService = GotoService;
-            $scope.project = Project;
-            $scope.scenario = getBaseScenario();
-            $scope.scenarios = Scenarios;
-
-            $scope.createScenario = function(_scenario_){
-                ScenarioService.create($scope.project, _scenario_).then(function(response){
-                    GotoService.scenarioEdit($scope.project.id, response.id);
-                });
-            };
-
-            $scope.currentScenario = function (scenario){
-                DialogService.currentScenario($scope.project, scenario);
-            };
-
-            $scope.$on(EVENTS.updateBaseScenario, function(event, data){
-                $scope.scenario.referenceScenario.id = data.id;
-                $scope.scenario.referenceScenario.name = data.title;
-            });
     }]);

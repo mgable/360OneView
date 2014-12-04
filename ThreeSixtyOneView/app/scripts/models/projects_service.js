@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-	.service('ProjectsService',  ["$rootScope", "ProjectsModel", "Model", "EVENTS", function ($rootScope, ProjectsModel, Model, EVENTS) {
+	.service('ProjectsService',  ["$rootScope", "ProjectsModel", "Model", "EVENTS", "$q",function ($rootScope, ProjectsModel, Model, EVENTS, $q) {
 		var MyProjectModel, myprojects, self = this;
 
 		MyProjectModel = new Model();
@@ -14,11 +14,20 @@ angular.module('ThreeSixtyOneView.services')
         this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
 		this.getProjectItemById = function(_id_){
+			if (this.data.length === 0){
+				return this.get().then(function(data){
+					self.data = data;
+					return self.getProjectItemById(_id_);
+				});
+				
+			}
 			var item = _.findWhere(this.data, {id:_id_});
 			if (item) {
-				return item;
+				var deferred = $q.defer();
+				deferred.resolve(item);
+				return deferred.promise;
 			} else {
-				//console.error("The project id " + _id_ + " was NOT found!");
+				console.info("The project id " + _id_ + " was NOT found!");
 			}
 		};
 
