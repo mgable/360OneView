@@ -13,12 +13,12 @@ angular.module('ThreeSixtyOneView').directive('filters', function() {
 		scope: {
 			collection: '=',
 			filters: '=',
-			category: '='
+			category: '=',
+			expandall: '='
 		},
-		template: '<div class="pbFilterList"><member ng-repeat="member in collection.members | orderBy:\'label\':sortReverse" member="member" filters="filters" category="category" searchFilter="searchFilter" sortOrder="sortReverse" expanded="expanded"></member></div>',
+		template: '<div class="pbFilterList"><member ng-repeat="member in collection.members | orderBy:\'label\':sortReverse" member="member" filters="filters" category="category" sortOrder="sortReverse" expanded="expanded" expandall="expandall"></member></div>',
 		link: function(scope) {
 			scope.expanded = {};
-			scope.searchFilter = {label: ''};
 		}
 	};
 });

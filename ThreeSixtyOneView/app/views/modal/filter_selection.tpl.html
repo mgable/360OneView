@@ -56,7 +56,7 @@
 				({{filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label)}}/{{totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,filterSearch.label)}})
 			</div>
 			<div class="pbModalHeight" ng-style="{height: (windowHeight - 250) + 'px'}">
-				<filters ng-if="searchResults.members" collection="searchResults" filters="addedFilter" category="{label: selectedFilter.cat.label}"></filters>
+				<filters ng-if="searchResults.members" collection="searchResults" filters="addedFilter" category="{label: selectedFilter.cat.label}" expandall="filterSearch"></filters>
 			</div>
 		</div>
 		<div class="pbFilterModalButtons">
