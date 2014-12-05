@@ -3,6 +3,10 @@
 var projectUrl = '/#/projects?e2e=true',
 	dashboardUrl = '/#/dashboard/:id?e2e=true';
 
+	//TEMP data - remove in production
+	var projectId = "11cb16491d5031989322c37003b971d8";
+	dashboardUrl = dashboardUrl.replace(/:id/, projectId);
+
 describe('Project Dashboard', function() {
 	var hasClass = function (element, cls) {
 	    return element.getAttribute('class').then(function (classes) {
@@ -32,7 +36,7 @@ describe('Project Dashboard', function() {
 		}
 	);
 
-	it("should create a new project and go to the dashboard", function(){
+	xit("should create a new project and go to the dashboard", function(){
 		var create = "//span[@data-ms-id='createButton']",
 			input = "//input[@data-ms-id='modalInput']",
 			submit = "//button[@data-ms-id='submit']",
@@ -70,7 +74,7 @@ describe('Project Dashboard', function() {
 		});
 	});
 
-	describe("Project Scenario List", function(){
+	describe("Scenario List", function(){
 		var testScenarionName = "My new test scenario title - " + Date.now(),
 			testScenarionDescription = "My new test scenario description.",
 			noScenarios = "//a[@data-ms-id='noScenariosAlert']", 
@@ -80,6 +84,12 @@ describe('Project Dashboard', function() {
 			baseScenario = "//input[@data-ms-id='ScenarioCreate.inputbaseScenario']",
 			submit = "//input[@data-ms-id='ScenarioCreate.submit']",
 			cancel = "//button[@data-ms-id='ScenarioCreate.cancel']",
+			create = "//span[@data-ms-id='createButton']",
+			trayCopy = "//a[@data-ms-id='trayActions.copy']",
+			modal = "//input[@data-ms-id='modalInput']",
+			modalInput = element(by.xpath(modal)),
+			trayCopyButton = element(by.xpath(trayCopy)),
+			createButton = element(by.xpath(create)),
 			inputName = element(by.xpath(name)),
 			inputDescription = element(by.xpath(description)),
 			inputbaseScenario = element(by.xpath(baseScenario )),
@@ -101,15 +111,13 @@ describe('Project Dashboard', function() {
 			expect(noScenariosAlert.isPresent()).toBe(true)
 		});
 
-		it("should open the create new scenario dialog box and create a new scenario", function(){
+		xit("should open the create new scenario dialog box and create a new scenario", function(){
 			noScenariosAlert.click();
 			browser.waitForAngular();
 			inputName.sendKeys(testScenarionName);
 			inputDescription.sendKeys(testScenarionDescription);
-			//cancelButton.click();
 			submitButton.click();
 			browser.waitForAngular();
-			// goes to scenario edit page
 			expect(browser.getLocationAbsUrl()).toContain("/#/scenario/");
 			browser.get(dashboardUrl);
 			browser.waitForAngular();
@@ -125,8 +133,101 @@ describe('Project Dashboard', function() {
 			})
 		});
 
-		xit("should create a new scenario", function(){
-			expect(something).toBe(something);
+		xit("should not allow a new scenario to be created without a name", function(){
+			createButton.click();
+			browser.waitForAngular();
+			expect(submitButton.isEnabled()).toBe(false);
+		});
+
+		xit("should allow a new scenario to be created with a name but no description", function(){
+			createButton.click();
+			browser.waitForAngular();
+			expect(submitButton.isEnabled()).toBe(false);
+			inputName.sendKeys("New " + testScenarionName);
+			expect(submitButton.isEnabled()).toBe(true);
+		});
+
+		xit("should not allow a duplicate scenario name", function(){
+			createButton.click();
+			browser.waitForAngular();
+			expect(submitButton.isEnabled()).toBe(false);
+			inputName.sendKeys(testScenarionName);
+			expect(submitButton.isEnabled()).toBe(false);
+		});
+
+		xit("should restrict which characters can be used in a name", function(){
+			createButton.click();
+			browser.waitForAngular();
+			expect(submitButton.isEnabled()).toBe(false);
+			inputName.sendKeys("<cat");
+			expect(submitButton.isEnabled()).toBe(false);
+			inputName.clear();
+			inputName.sendKeys("dog*");
+			expect(submitButton.isEnabled()).toBe(false);
+			inputName.clear();
+			inputName.sendKeys("fo?o");
+			expect(submitButton.isEnabled()).toBe(false);
+			inputName.clear();
+			inputName.sendKeys("fo/ddddo");
+			expect(submitButton.isEnabled()).toBe(false);
+			inputName.clear();
+			inputName.sendKeys("f:cccccc");
+			expect(submitButton.isEnabled()).toBe(false);
+			inputName.clear();
+			inputName.sendKeys("fo:\/ddd*do");
+			expect(submitButton.isEnabled()).toBe(false);
+			inputName.clear();
+			inputName.sendKeys("foodoo");
+			expect(submitButton.isEnabled()).toBe(true);
+		});
+
+		xit("should not allow names less than two characters or more than 256 characters", function(){
+			createButton.click();
+			inputName.sendKeys("f");
+			expect(submitButton.isEnabled()).toBe(false);
+			inputName.clear();
+			inputName.sendKeys("Bacon ipsum dolor amet spare ribs drumstick short loin capicola boudin kielbasa. Ham hock chuck jowl swine, pork beef ribs turducken shoulder short ribs landjaeger. Beef turkey jowl tongue filet mignon cow spare ribs kielbasa drumstick ham hock jerky capxx");
+			expect(submitButton.isEnabled()).toBe(true);
+			inputName.sendKeys("z");
+			expect(submitButton.isEnabled()).toBe(false);
+			inputName.clear();
+			inputName.sendKeys("this is just right");
+			expect(submitButton.isEnabled()).toBe(true);
+		});
+
+		it("should copy a scenario", function(){
+			var scenarioElement = element(by.repeater('item in getData()').row(0).column('title')),
+				scenario = element.all(by.repeater('item in getData()').row(0)),
+				data = element.all(by.repeater('item in getData()')),
+				itemCount = element(by.xpath("//span[@data-ms-id='dataCount']")),
+				submitButton = element(by.xpath("//button[@data-ms-id='submit']")),
+				numberOfScenarios;
+
+			data.count().then(function(count){
+				numberOfScenarios = count;
+				//scenario.click();
+				trayCopyButton.click();
+				browser.waitForAngular();
+				scenarioElement.getText().then(function(scenarioTitle){
+					modalInput.getAttribute("value").then(function(inputText){
+						expect("COPY -- " + scenarioTitle).toEqual(inputText);
+					});
+				});
+				submitButton.click();
+				browser.waitForAngular();
+				expect(browser.getLocationAbsUrl()).toContain("/#/scenario/");
+				browser.get(dashboardUrl);
+				browser.waitForAngular();
+				expect(data.count()).toEqual(numberOfScenarios + 1);
+				//expect(itemCount.getText()).toEqual(data.count());
+				itemCount.getText().then(function(firstCount){
+					data.count().then(function(secondCount){
+						expect(parseInt(firstCount,10)).toEqual(parseInt(secondCount,10));
+					});
+				});
+			});
+
+			
 		});
 	});
 });
