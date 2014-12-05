@@ -9,6 +9,8 @@
 */
 angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function ($scope, $window, resultsData) {
 
+    $('.Scenario').css('height', 'auto');
+
     $scope.kpiData = resultsData.kpiData;
 
     $scope.data1 = resultsData.spendData1;
@@ -151,48 +153,48 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
             },
         ],
         "spendData1": [{
+            'id': 1,
             'results': 47,
             'compared': 42,
             'category': 'Local Spend',
-            'color': 1
         }, {
+            'id': 2,
             'results': 53,
             'compared': 58,
-            'category': 'National Spend',
-            'color': 2
+            'category': 'National Spend'
         }],
         "spendData2": [{
+            'id': 3,
             'results': 55,
             'compared': 57,
-            'category': 'Product Spend',
-            'color': 3
+            'category': 'Product Spend'
         }, {
+            'id': 4,
             'results': 45,
             'compared': 43,
-            'category': 'Brand Spand',
-            'color': 4
+            'category': 'Brand Spand'
         }],
         "spendData3": [{
+            'id': 1,
             'results': 47,
             'compared': 42,
-            'category': 'Local Spend',
-            'color': 1
+            'category': 'Local Spend'
         }, {
+            'id': 2,
             'results': 53,
             'compared': 58,
-            'category': 'National Spend',
-            'color': 2
+            'category': 'National Spend'
         }],
         "spendData4": [{
+            'id': 3,
             'results': 55,
             'compared': 57,
-            'category': 'Product Spend',
-            'color': 3
+            'category': 'Product Spend'
         }, {
+            'id': 4,
             'results': 45,
             'compared': 43,
-            'category': 'Brand Spand',
-            'color': 4
+            'category': 'Brand Spand'
         }],
     };
 })

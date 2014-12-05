@@ -250,9 +250,6 @@
 .axis path,
 .axis line {
   fill: none;
-  stroke: #333;
+  stroke: #ccc;
   shape-rendering: crispEdges;
-}
-.x.axis path {
-  display: none;
 }

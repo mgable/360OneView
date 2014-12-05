@@ -17,8 +17,8 @@ angular.module('ThreeSixtyOneView')
                         pivotBuilderHeight = angular.element('#pivotBuilder')[0].offsetHeight;
                         pivotTableHeight = $window.innerHeight - pivotBuilderHeight - 20;
 
-                        var details = element.parents().find('.details');
-                        scope.containerWidth = details[0].offsetWidth;
+                        var scenario = angular.element('.Scenario');
+                        scope.containerWidth = scenario[0].clientWidth - 40;
 
                         var display = element.parents().find('.display');
                         display.width(scope.containerWidth);

@@ -17,8 +17,8 @@ angular.module('ThreeSixtyOneView')
 
                     var windowTop = this.pageYOffset;  /* Position to the top */
                     var scrollBottom = scrollTop + 100 * (scope.row+1);
-                    var details = angular.element(document.querySelector('.details'));
-                    scope.containerWidth = details[0].offsetWidth;
+                    var scenario = angular.element('.Scenario');
+                    scope.containerWidth = scenario[0].clientWidth - 40;
 
                     if (windowTop >= scrollTop && windowTop <= scrollBottom) {
                         var rowTop = Math.floor((windowTop-scrollTop)/100);

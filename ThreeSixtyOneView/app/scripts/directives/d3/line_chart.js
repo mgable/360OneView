@@ -55,6 +55,7 @@ angular.module('ThreeSixtyOneView')
                         // setup xAxis
                         var xAxis = d3.svg.axis()
                             .scale(x)
+                            .tickSize(0, 0)
                             .orient("bottom");
 
                         // setup line generator
@@ -105,10 +106,6 @@ angular.module('ThreeSixtyOneView')
                             .style("stroke-width", "3px")
                             .style("fill", "none");
 
-                        // series.selectAll("path")
-                        //     .transition()
-                        //     .attr("d", function(d) { return line(d.values); })
-
                         series.selectAll(".point")
                             .data(function(d) { return d.values; })
                             .enter().append("circle")
@@ -127,15 +124,6 @@ angular.module('ThreeSixtyOneView')
                                     .style("stroke-width", 0);
                             });
 
-                        // series.selectAll(".point")
-                        //     .data(function(d){ return d.values; })
-                        //     .transition()
-                        //     .attr("cx", function(d) { return x(d.label) + x.rangeBand() / 2; })
-                        //     .attr("cy", function(d) { return y(d.value); })
-                        //     .attr("r", "9px");
-
-                        // series.selectAll(".point").exit().remove();
-
                         var legend = svg.selectAll(".legend")
                                 .data(varNames.slice().reverse())
                             .enter().append("g")
@@ -146,8 +134,7 @@ angular.module('ThreeSixtyOneView')
                             .attr("x", width - 10)
                             .attr("width", 10)
                             .attr("height", 10)
-                            .style("fill", color)
-                            .style("stroke", "#333");
+                            .style("fill", color);
 
                         legend.append("text")
                             .attr("x", width - 15)
