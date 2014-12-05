@@ -4,8 +4,8 @@ var projectUrl = '/#/projects?e2e=true',
 	dashboardUrl = '/#/dashboard/:id?e2e=true';
 
 	//TEMP data - remove in production
-	var projectId = "3626699b10323fa0a7fa9aa35876bd82";
-	dashboardUrl = dashboardUrl.replace(/:id/, projectId);
+	// var projectId = "3626699b10323fa0a7fa9aa35876bd82";
+	// dashboardUrl = dashboardUrl.replace(/:id/, projectId);
 
 describe('Project Dashboard', function() {
 	var hasClass = function (element, cls) {
@@ -36,7 +36,7 @@ describe('Project Dashboard', function() {
 		}
 	);
 
-	xit("should create a new project and go to the dashboard", function(){
+	it("should create a new project and go to the dashboard", function(){
 		var create = "//span[@data-ms-id='createButton']",
 			input = "//input[@data-ms-id='modalInput']",
 			submit = "//button[@data-ms-id='submit']",
@@ -81,12 +81,18 @@ describe('Project Dashboard', function() {
 			noScenariosAlert = element(by.xpath(noScenarios)),
 			name = "//input[@data-ms-id='ScenarioCreate.inputName']",
 			description = "//input[@data-ms-id='ScenarioCreate.inputDescription']",
-			baseScenario = "//input[@data-ms-id='ScenarioCreate.inputbaseScenario']",
+			baseScenario = "//label[@data-ms-id='ScenarioCreate.inputBaseScenario']",
 			submit = "//input[@data-ms-id='ScenarioCreate.submit']",
 			cancel = "//button[@data-ms-id='ScenarioCreate.cancel']",
 			create = "//span[@data-ms-id='createButton']",
 			trayCopy = "//a[@data-ms-id='trayActions.copy']",
 			modal = "//input[@data-ms-id='modalInput']",
+			confirmBaseScenario = "//button[@data-ms-id='ScenarioCreate.confirmBaseScenario']",
+			cancelBaseScenario = "//button[@data-ms-id='ScenarioCreate.cancelBaseScenario']",
+			baseScenarioInput = "scenario.referenceScenario.name",
+			scenarioBaseScenario = "//p[@data-ms-id='ScenarioListing:baseScenario']",
+			scenarioBaseScenarioElement = element(by.xpath(scenarioBaseScenario )),
+			baseScenarioInputField = element(by.model(baseScenarioInput)),
 			modalInput = element(by.xpath(modal)),
 			trayCopyButton = element(by.xpath(trayCopy)),
 			createButton = element(by.xpath(create)),
@@ -94,29 +100,26 @@ describe('Project Dashboard', function() {
 			inputDescription = element(by.xpath(description)),
 			inputbaseScenario = element(by.xpath(baseScenario )),
 			submitButton = element(by.xpath(submit)),
-			cancelButton = element(by.xpath(cancel));
+			cancelButton = element(by.xpath(cancel)),
+			confirmBaseScenarioButton = element(by.xpath(confirmBaseScenario)),
+			cancelBaseScenarioButton = element(by.xpath(cancelBaseScenario));
 
 		beforeEach(function(){
 			browser.get(dashboardUrl);
 		});
 
-		xit("should have an active selection", function(){
-			var first = element.all(by.repeater('item in getData()')).first();
-			expect(hasClass(first, "active")).toBe(true);
-		});
-
-		xit("should have no scenarios at time of creation", function(){
+		it("should have no scenarios at time of creation", function(){
 			var data = element.all(by.repeater('item in getData()')),
 				itemCount = element(by.xpath("//span[@data-ms-id='dataCount']"));
 			expect(data.count()).toBe(0);
 			expect(itemCount.getText()).toContain(data.count());
 		});
 		
-		xit("should display the create scenario alert", function(){
+		it("should display the create scenario alert", function(){
 			expect(noScenariosAlert.isPresent()).toBe(true);
 		});
 
-		xit("should open the create new scenario dialog box and create a new scenario", function(){
+		it("should open the create new scenario dialog box and create a new scenario", function(){
 			noScenariosAlert.click();
 			browser.waitForAngular();
 			inputName.sendKeys(testScenarionNameFirst);
@@ -138,13 +141,13 @@ describe('Project Dashboard', function() {
 			})
 		});
 
-		xit("should not allow a new scenario to be created without a name", function(){
+		it("should not allow a new scenario to be created without a name", function(){
 			createButton.click();
 			browser.waitForAngular();
 			expect(submitButton.isEnabled()).toBe(false);
 		});
 
-		xit("should allow a new scenario to be created with a name but no description", function(){
+		it("should allow a new scenario to be created with a name but no description", function(){
 			createButton.click();
 			browser.waitForAngular();
 			expect(submitButton.isEnabled()).toBe(false);
@@ -152,7 +155,7 @@ describe('Project Dashboard', function() {
 			expect(submitButton.isEnabled()).toBe(true);
 		});
 
-		xit("should not allow a duplicate scenario name", function(){
+		it("should not allow a duplicate scenario name", function(){
 			createButton.click();
 			browser.waitForAngular();
 			expect(submitButton.isEnabled()).toBe(false);
@@ -160,7 +163,7 @@ describe('Project Dashboard', function() {
 			expect(submitButton.isEnabled()).toBe(false);
 		});
 
-		xit("should restrict which characters can be used in a name", function(){
+		it("should restrict which characters can be used in a name", function(){
 			createButton.click();
 			browser.waitForAngular();
 			expect(submitButton.isEnabled()).toBe(false);
@@ -186,7 +189,7 @@ describe('Project Dashboard', function() {
 			expect(submitButton.isEnabled()).toBe(true);
 		});
 
-		xit("should not allow names less than two characters or more than 256 characters", function(){
+		it("should not allow names less than two characters or more than 256 characters", function(){
 			createButton.click();
 			inputName.sendKeys("f");
 			expect(submitButton.isEnabled()).toBe(false);
@@ -200,7 +203,7 @@ describe('Project Dashboard', function() {
 			expect(submitButton.isEnabled()).toBe(true);
 		});
 
-		xit("should copy a scenario", function(){
+		it("should copy a scenario", function(){
 			var scenarioElement = element(by.repeater('item in getData()').row(0).column('title')),
 				scenario = element.all(by.repeater('item in getData()').row(0)),
 				data = element.all(by.repeater('item in getData()')),
@@ -235,12 +238,17 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		xit("should search scenarios", function(){
+		it("should search scenarios", function(){
 			element(by.model('SortAndFilterService.searchText')).sendKeys('FIRST');
 			expect(element.all(by.repeater('item in getData()')).count()).toBe(1);
 		});
 
-		xdescribe("Sort functions: ", function(){
+		it("should have an active selection", function(){
+			var first = element.all(by.repeater('item in getData()')).first();
+			expect(hasClass(first, "active")).toBe(true);
+		});
+
+		describe("Sort functions: ", function(){
 			beforeEach(
 				function(){
 					dropdown = "//span[@data-ms-id='toggle_column_1']",
@@ -348,7 +356,7 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		xdescribe("Favorite behaviors", function(){
+		describe("Favorite behaviors", function(){
 
 			it("should toggle favorite", function(){
 				var firstElement = element.all(by.css(".favorites a")).first(),
@@ -376,13 +384,39 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		xdescribe("Breadcrumbs", function(){
+		describe("Breadcrumbs", function(){
 			var breadcrumb = ".breadcrumbs span",
 				breadcrumbField = element(by.css(breadcrumb));
 
 			it("should have the correct label", function(){
 				expect(breadcrumbField.getText()).toEqual("ALL PROJECTS > " + testFileName.toUpperCase());
 			});
+		});
+		describe("change base scenario", function(){
+			//
+
+			it("should change the base scenario", function(){
+				createButton.click();
+				browser.waitForAngular();
+				inputName.sendKeys("New " + testScenarionNameSecond);
+				inputbaseScenario.click();
+				browser.waitForAngular();
+				var scenario = element.all(by.repeater("scenario in scenarios.data")).get(1);
+				scenario.click();
+				scenario.getText().then(function(scenarioText){
+					confirmBaseScenarioButton.click();
+					baseScenarioInputField.getAttribute("value").then(function(baseScenarioText){
+						expect(scenarioText).toEqual(baseScenarioText);
+						submitButton.click();
+						browser.waitForAngular();
+						expect(browser.getLocationAbsUrl()).toContain("/#/scenario/");
+						browser.get(dashboardUrl);
+						browser.waitForAngular();
+						expect(scenarioBaseScenarioElement.getText()).toEqual(scenarioText);
+					});
+				});
+			});
+			
 		});
 	});
 });
