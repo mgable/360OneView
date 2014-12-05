@@ -7,15 +7,12 @@
                 <span>Results compared to</span>
                 <span class="dropdown">
                     <ul class="dropdown-menu">
-                        <li><a href>Goals 1</a>
-                        </li>
-                        <li><a href>Goals 2</a>
-                        </li>
-                        <li><a href>Goals 3</a>
+                        <li ng-repeat="dropdownItem in dropdownItems | orderBy:'id'">
+                            <a href="" ng-click="onDropdownSelect(dropdownItem)">{{dropdownItem.description}}</a>
                         </li>
                     </ul>
-                    <a href class="dropdown-toggle" data-toggle="dropdown">
-                      Goals <i class="fa fa-caret-down"></i>
+                    <a href class="dropdown-toggle" data-toggle="dropdown" ng-model="selectedDropdownId">
+                        {{selectInitial(selectedDropdownId)}}<i class="fa fa-caret-down"></i>
                     </a>
                 </span>
             </section>

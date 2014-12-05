@@ -25,6 +25,19 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
         $scope.salesData = resultsData.kpiData[$scope.idSelectedRow-1].monthly;
     };
 
+    $scope.dropdownItems = resultsData.dropdownItems;
+    $scope.selectedDropdownId = "1";
+    $scope.onDropdownSelect = function(selectedDropdown){
+      $scope.selectedDropdownId = selectedDropdown.id;
+    }
+    $scope.selectInitial = function(id){
+        for (var i = 0; i < $scope.dropdownItems.length; i++) {
+            if ($scope.dropdownItems[i].id == id) {
+              return $scope.dropdownItems[i].description;
+            }
+        }
+    }
+
     $window.addEventListener('resize', function () {
         $scope.$broadcast('windowResize');
     });
@@ -196,5 +209,18 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
             'compared': 43,
             'category': 'Brand Spand'
         }],
+        "dropdownItems": [{
+            "id": 1,
+            "description": "Goals"
+        }, {
+            "id": 2,
+            "description": "Goals Number 1"
+        }, {
+            "id": 3,
+            "description": "Goals Number 2"
+        }, {
+            "id": 4,
+            "description": "Goals Number 3"
+        }]
     };
 })
