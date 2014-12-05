@@ -168,17 +168,20 @@ xdescribe('Project Listing', function() {
 		});
 
 		it("should put the active item in the tray when clicked", function(){
+			var counter = 0;
 			element.all(by.repeater('item in getData()')).each(function(el) {
-				el.click();
-				var item = el.element(by.binding('title')),
-					itemInTray = element(by.xpath("//h4[@data-ms-id='inlineRenameField']"));
-				item.getText().then(function(title){
-					if (title.toLowerCase() !== "master project") {
-						itemInTray.getText().then(function(trayTitle){
-							expect(title).toBe(trayTitle);
-						});
-					};
-				});
+				if (counter++ < 5) {
+					el.click();
+					var item = el.element(by.binding('title')),
+						itemInTray = element(by.xpath("//h4[@data-ms-id='inlineRenameField']"));
+					item.getText().then(function(title){
+						if (title.toLowerCase() !== "master project") {
+							itemInTray.getText().then(function(trayTitle){
+								expect(title).toBe(trayTitle);
+							});
+						};
+					});
+				}
 			});
 		});
 	});

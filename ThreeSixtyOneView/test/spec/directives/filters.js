@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: filters', function () {
+xdescribe('Directive: filters', function () {
 
   // load the directive's module
   beforeEach(module('threeSixtOneViewApp'));
