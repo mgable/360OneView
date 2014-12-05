@@ -51,7 +51,7 @@
 		<ul class="media-list no-margin">
 			<li class="media">
 			<div class="media-body">
-				<h5 class="media-heading bold">Access</h5>
+				<h5 class="media-heading">Access</h5>
 			</div>
 			<a class="pull-left">
 				<img class="media-object" src="images/users_pic_sprite.png">
@@ -60,9 +60,9 @@
 		</ul>
 	</div>
 
-	<div class="well profile" ng-if="selectedItem.base">
-		<h4 class="used-in">Base Scenario</h4>
-		<p class="entity-holder"><a ng-click="alert('edit base scenario')">{{selectedItem.base}}</a></p>
+	<div class="well profile description-holder" ng-if="selectedItem.referenceScenario.name">
+		<h5>Base Scenario</h5>
+		<p class="entity-holder" data-ms-id="ScenarioListing:baseScenario">{{selectedItem.referenceScenario.name}}</p>
 	</div>
 
 	<div class="well profile scenario-listing" ng-if="selectedItem.scenarios.length">
