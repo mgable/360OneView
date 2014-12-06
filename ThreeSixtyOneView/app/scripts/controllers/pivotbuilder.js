@@ -78,7 +78,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 	};
 
 	// delete an item from column/row
-	$scope.deIeteltem =  function(itemName, dim) {
+	$scope.deleteItem =  function(itemName, dim) {
 		var itemInd = -1;
 		for(var i = 0, n = $scope.pbData.viewData[dim].length; i < n; i++) {
 			if($scope.pbData.viewData[dim][i].name === itemName) {
