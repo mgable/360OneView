@@ -54,6 +54,7 @@ angular.module('ThreeSixtyOneView')
 
                         // set up color scale
                         var color = d3.scale.ordinal()
+                            .domain(["1", "2", "3", "4"])
                             .range(["#125db6", "#068700", "#26c6da", "#26a69a"]);
 
                         // setup xAxis
@@ -107,13 +108,25 @@ angular.module('ThreeSixtyOneView')
                                 return d.name === "compared" ? d3.rgb(color(d.colorIndex)).darker(1) : color(d.colorIndex);
                             })
                             .style("opacity", 0)
-                            .on("mouseover", function(){
+                            .on("mouseover", function(d){
                                 d3.select(this).transition().duration(300)
                                     .style("opacity", 0.85);
+                                if(d.colorIndex == 1 || d.colorIndex == 2) {
+                                    var sel = $('.spend-table tbody tr:nth-child(' + (d.colorIndex+1)  + ')');
+                                } else {
+                                    var sel = $('.spend-table tbody tr:nth-child(' + (d.colorIndex+2) + ')');
+                                }
+                                sel.addClass('highlight');
                             })
-                            .on("mouseout", function(){
+                            .on("mouseout", function(d){
                                 d3.select(this).transition().duration(300)
                                     .style("opacity", 1);
+                                if(d.colorIndex == 1 || d.colorIndex == 2) {
+                                    var sel = $('.spend-table tbody tr:nth-child(' + (d.colorIndex+1)  + ')');
+                                } else {
+                                    var sel = $('.spend-table tbody tr:nth-child(' + (d.colorIndex+2) + ')');
+                                }
+                                sel.removeClass('highlight');
                             })
                             .transition().ease("quad")
                                 .delay(function(d, i) { return (d.index * 2 + i) * 100 })

@@ -58,7 +58,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="tr-margin">
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="spend-increase"></td>
+                                        <td class="spend-increase"></td>
+                                    </tr>
+                                    <tr>
                                         <td>Local Spend</td>
                                         <td>12M</td>
                                         <td class="spend-increase">+$2.5M</td>
@@ -70,7 +76,13 @@
                                         <td class="spend-increase">+$3.7M</td>
                                         <td class="spend-increase">7.5%</td>
                                     </tr>
-                                    <tr class="tr-margin">
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="spend-increase"></td>
+                                        <td class="spend-increase"></td>
+                                    </tr>
+                                    <tr>
                                         <td>Product Spend</td>
                                         <td>6M</td>
                                         <td class="spend-increase">+$1.3M</td>
@@ -103,15 +115,12 @@
                 <span>Results compared to</span>
                 <span class="dropdown">
                     <ul class="dropdown-menu">
-                        <li><a href>Goals 1</a>
-                        </li>
-                        <li><a href>Goals 2</a>
-                        </li>
-                        <li><a href>Goals 3</a>
+                        <li ng-repeat="dropdownItem in dropdownItems | orderBy:'id'">
+                            <a href="" ng-click="onDropdownSelect(dropdownItem)">{{dropdownItem.description}}</a>
                         </li>
                     </ul>
-                    <a href class="dropdown-toggle" data-toggle="dropdown">
-                      Goals <i class="fa fa-caret-down"></i>
+                    <a href class="dropdown-toggle" data-toggle="dropdown" ng-model="selectedDropdownId">
+                        {{selectInitial(selectedDropdownId)}}<i class="fa fa-caret-down"></i>
                     </a>
                 </span>
             </section>
@@ -164,7 +173,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="tr-margin">
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="spend-increase"></td>
+                                        <td class="spend-increase"></td>
+                                    </tr>
+                                    <tr>
                                         <td>Local Spend</td>
                                         <td>12M</td>
                                         <td class="spend-increase">+$2.5M</td>
@@ -176,7 +191,13 @@
                                         <td class="spend-increase">+$3.7M</td>
                                         <td class="spend-increase">7.5%</td>
                                     </tr>
-                                    <tr class="tr-margin">
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td class="spend-increase"></td>
+                                        <td class="spend-increase"></td>
+                                    </tr>
+                                    <tr>
                                         <td>Product Spend</td>
                                         <td>6M</td>
                                         <td class="spend-increase">+$1.3M</td>

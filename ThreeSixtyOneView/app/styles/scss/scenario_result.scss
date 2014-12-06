@@ -171,6 +171,7 @@
 							font-size: 20px;
 							line-height: 22px;
 							font-weight: 700;
+                            padding: 5px;
 							&.spend-increase {
 								color: #068700;
 							}
@@ -181,24 +182,42 @@
 					}
 					tbody {
 						tr {
+                            -webkit-transition:0.15s linear all;
+                            -moz-transition:0.15s linear all;
+                            -o-transition:0.15s linear all;
+                            transition:0.15s linear all;
 							td {
 								color: #333;
 								text-transform: capitalize;
 								font-size: 16px;
 								line-height: 22px;
 								font-weight: 400;
+                                padding: 5px;
 								&.spend-increase {
 									color: #068700;
 								}
 								&.spend-decrease {
 									color: #c71f04;
 								}
+                                -webkit-transition:0.15s linear all;
+                                -moz-transition:0.15s linear all;
+                                -o-transition:0.15s linear all;
+                                transition:0.15s linear all;
 							}
-							&.tr-margin {
-								td {
-									padding-top: 15px;
-								}
-							}
+                            &.highlight {
+                                -webkit-transition:0.15s linear all;
+                                -moz-transition:0.15s linear all;
+                                -o-transition:0.15s linear all;
+                                transition:0.15s linear all;
+                                background-color: #295da7;
+                                td {
+                                    -webkit-transition:0.15s linear all;
+                                    -moz-transition:0.15s linear all;
+                                    -o-transition:0.15s linear all;
+                                    transition:0.15s linear all;
+                                    color:#fff;
+                                }
+                            }
 						}
 					}
 				}

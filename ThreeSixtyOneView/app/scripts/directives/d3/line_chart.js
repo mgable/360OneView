@@ -35,9 +35,9 @@ angular.module('ThreeSixtyOneView')
                     }, true);
 
                     // define render function
-                    scope.render = function(data){
+                    scope.render = function(data) {
 
-                        // remove all previous items before render
+                        // remove svg element
                         svg.selectAll("*").remove();
 
                         // setup x scale
@@ -50,6 +50,7 @@ angular.module('ThreeSixtyOneView')
 
                         // setup color scale
                         var color = d3.scale.ordinal()
+                            .domain(["1", "2", "3", "4"])
                             .range(["#125db6", "#068700", "#26c6da", "#26a69a"]);
 
                         // setup xAxis
@@ -101,10 +102,10 @@ angular.module('ThreeSixtyOneView')
 
                         series.append("path")
                             .attr("class", "line")
-                            .attr("d", function(d) { return line(d.values); })
                             .style("stroke", function(d) { return color(d.name); })
                             .style("stroke-width", "3px")
-                            .style("fill", "none");
+                            .style("fill", "none")
+                            .attr("d", function(d) { return line(d.values); });
 
                         series.selectAll(".point")
                             .data(function(d) { return d.values; })
@@ -112,8 +113,9 @@ angular.module('ThreeSixtyOneView')
                             .attr("class", "point")
                             .attr("cx", function(d) { return x(d.label) + x.rangeBand() / 2; })
                             .attr("cy", function(d) { return y(d.value); })
-                            .attr("r", "9px")
+                            .attr("r", 0)
                             .style("fill", function(d) { return color(d.name); })
+                            .style("opacity", 0)
                             .on("mouseover", function() {
                                 d3.select(this)
                                     .style("stroke", function(d) { return d3.rgb(color(d.name)).brighter(1); })
@@ -122,7 +124,24 @@ angular.module('ThreeSixtyOneView')
                             .on("mouseout", function() {
                                 d3.select(this)
                                     .style("stroke-width", 0);
-                            });
+                            })
+                            .transition().ease("quad")
+                                .delay(function(d, i) { return i * 100 })
+                                .attr("r", "9px")
+                                .style("opacity", 1);
+
+                        series.selectAll(".label")
+                            .data(function(d) { return d.values; })
+                            .enter().append("text")
+                            .attr("class", "label")
+                            .attr("x", function(d) { return x(d.label) + x.rangeBand() / 2 + 10; })
+                            .attr("y", function(d) { return y(d.value) - 10; })
+                            .attr("dy", ".35em")
+                            .style("opacity", 0)
+                            .text(function(d) { return d.value + '%'; })
+                            .transition().ease("quad")
+                                .delay(function(d, i) { return i * 100 })
+                                .style("opacity", 1);
 
                         var legend = svg.selectAll(".legend")
                                 .data(varNames.slice().reverse())
@@ -131,17 +150,31 @@ angular.module('ThreeSixtyOneView')
                                 .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
 
                         legend.append("rect")
-                            .attr("x", width - 10)
+                            .attr("x", width)
                             .attr("width", 10)
                             .attr("height", 10)
                             .style("fill", color);
 
                         legend.append("text")
-                            .attr("x", width - 15)
+                            .attr("x", width - 5)
                             .attr("y", 6)
                             .attr("dy", ".25em")
                             .style("text-anchor", "end")
                             .text(function (d) { return d; });
+
+                        // // update state
+                        // d3.selectAll('.line').transition()
+                        //     .attr('d', function(d) { return line(d.values); });
+                        // d3.selectAll(".point").transition()
+                        //     .attr("cx", function(d) { return x(d.label) + x.rangeBand() / 2; })
+                        //     .attr("cy", function(d) { return y(d.value); });
+                        // d3.selectAll('.label').transition()
+                        //     .attr("x", function(d) { return x(d.label) + x.rangeBand() / 2 + 10; })
+                        //     .attr("y", function(d) { return y(d.value) - 10; })
+                        //     .text(function(d) { return d.value + '%'; });
+
+                        // // exit state
+                        // series.exit().remove();
 
                     };
 

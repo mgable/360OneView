@@ -2,8 +2,8 @@
 	<div class="toggle-header">
 		<div class="tabs-holder">
 			<ul>
-				<li ng-repeat="tab in tabs" ng-click="select($index)" ng-class="{sel: $index == selected}">
-					<a ui-sref="{{tab.url}}"><i class="fa {{tab.icon}}"></i> {{tab.name}}</a>
+				<li ng-repeat="tab in tabs" ng-click="select($index)" ng-class="{sel: $index == selected}" ui-sref="{{tab.url}}">
+					<a><i class="fa {{tab.icon}}"></i> {{tab.name}}</a>
 				</li>
 			</ul>
 		</div>
