@@ -2,12 +2,12 @@
 	<div>
 		<div class="pbTitle" ng-class="{pbTitleSel: pbShow, pbGray: !pbShow}">
 			<div class="pbRenameArea">
-				<i class="fa fa-eye" ng-class="{pbGray: !pbShow}"></i>
+				</i><icon type="eye" cname="{{pbShow ? '':'pbGray'}}"></icon>
 				<div class="pbTitleText clickable" ng-click="heightChanged(); pbShow ? startSaveAs() : (pbShow = true)" ng-hide="saveAs">{{viewName}}</div>
 				<div class="pbSaveAsBox" ng-show="saveAs">
 					<input type="text" ng-model="saveAsName" ng-keyup="renameAction($event)">
-					<i class="fa fa-check clickable" ng-click="finishSaveAs(true)"></i>
-					<i class="fa fa-remove clickable" ng-click="finishSaveAs(false)"></i>
+					<span class="clickable" ng-click="finishSaveAs(true)"><icon type="check"></icon></span>
+					<span class="clickable" ng-click="finishSaveAs(false)"><icon type="remove"></icon></span>
 				</div>
 			</div>
 		</div>
@@ -26,24 +26,24 @@
 	<div ng-class="{pbOpened: pbShow}" class="pbSlider">
 		<div class="pbControlBar">
 			<div class="pbFunctionFlip">
-				<div class="pbFunctionFlipButton clickable" ng-class="{pbFunctionFlipButtonActive: !filterSection}" ng-click="heightChanged(); filterSection = false;"><i class="fa fa-table"></i></div>
-				<div class="pbFunctionFlipButton clickable" ng-class="{pbFunctionFlipButtonActive: filterSection}" ng-click="heightChanged(); filterSection = true;"><i class="fa fa-filter"></i></div>
+				<div class="pbFunctionFlipButton clickable" ng-class="{pbFunctionFlipButtonActive: !filterSection}" ng-click="heightChanged(); filterSection = false;"><icon type="table"></icon></div>
+				<div class="pbFunctionFlipButton clickable" ng-class="{pbFunctionFlipButtonActive: filterSection}" ng-click="heightChanged(); filterSection = true;"><icon type="filter"></icon></div>
 			</div>
 
 			<div class="pbSaveMenu" ng-mouseleave="viewSaveMenu = false">
 				<div class="pbViewSave">
 					<div class="pbSaveHolder">
 						<div class="pbSaveButton clickable" ng-click="saveView()" ng-class="{pbViewSaveDisabled: !changeMade()}">
-							<i class="fa fa-save"></i> Save View
+							<icon type="save"></icon> Save View
 						</div>
 						<div class="pbSaveDropButton clickable" ng-class="{pbSaveDropSelected: viewSaveMenu}" ng-click="viewSaveMenu = !viewSaveMenu">
-							<i class="fa fa-caret-down"></i>
+							<icon type="caret-down"></icon>
 						</div>
 					</div>
 					<div class="pbViewSaveMenu" ng-show="viewSaveMenu">
-						<div class="pbViewSaveMenuVisible" ng-click="">
-							<div class="pbViewSaveMenuItem clickable" ng-click="startSaveAs(); viewSaveMenu = false;"><i class="fa fa-save"></i> Save As</div>
-							<div class="pbViewSaveMenuItem clickable" ng-click="resetView(); viewSaveMenu = false;"><i class="fa fa-undo"></i> Revert</div>
+						<div class="pbViewSaveMenuVisible">
+							<div class="pbViewSaveMenuItem" ng-click="startSaveAs(); viewSaveMenu = false;"><icon type="save"></icon> Save As</div>
+							<div class="pbViewSaveMenuItem" ng-click="resetView(); viewSaveMenu = false;"><icon type="undo"></icon> Revert</div>
 						</div>
 					</div>
 				</div>
@@ -51,17 +51,17 @@
 
 			<div class="pbViewsList" ng-mouseleave="viewRecentViews = false">
 				<div class="pbRecentViewsButton clickable" ng-click="viewRecentViews = !viewRecentViews">
-					<i class="fa fa-eye"></i> Recent Views <i class="fa fa-caret-down"></i>
+					<icon type="eye"></icon> Recent Views <icon type="caret-down"></icon>
 				</div>
 				<div class="pbRecentViewsMenu" ng-show="viewRecentViews">
 					<div class="pbRecentViewsMenuVisible">
-						<div class="clickable"><i class="fa fa-eye"></i> Q1 2014 Upfronts</div>
-						<div class="clickable"><i class="fa fa-eye"></i> Newfronts 2015</div>
-						<div class="clickable"><i class="fa fa-eye"></i> Behrooz 10% Southwest Regional</div>
-						<div class="clickable"><i class="fa fa-eye"></i> Joe's Lowest Performance Quarter</div>
-						<div class="clickable"><i class="fa fa-eye"></i> Andy 2015 Holidays</div>
+						<div><icon type="eye"></icon> Q1 2014 Upfronts</div>
+						<div><icon type="eye"></icon> Newfronts 2015</div>
+						<div><icon type="eye"></icon> Behrooz 10% Southwest Regional</div>
+						<div><icon type="eye"></icon> Joe's Lowest Performance Quarter</div>
+						<div><icon type="eye"></icon> Andy 2015 Holidays</div>
 						<hr>
-						<div class="clickable"><i class="fa fa-folder-open-o"></i> All Views</div>
+						<div><icon type="folder-open-o"></icon> All Views</div>
 					</div>
 				</div>
 			</div>
@@ -73,15 +73,15 @@
 				<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="pbData.viewData[pivotBuilderItem.name]" ng-blur="addPopUp[pivotBuilderItem.name] = false" tabindex="-1">
 					<div class="pbItem" ng-repeat="item in pbData.viewData[pivotBuilderItem.name]" data-as-sortable-item>
 						<div data-as-sortable-item-handle>
-							<span><i class="fa fa-reorder" title="Reorder"></i></span>
+							<span title="Reorder"><icon type="reorder"></icon></span>
 							<span class="pbItemInfo">
 								<span class="pbItemName clickable" ng-click="itemModifyPopUp(pivotBuilderItem, $index, $event)">{{item.name}}</span>
 							</span>
-							<span class="fa fa-remove clickable" ng-click="delItem(item.name, pivotBuilderItem.name)" title="Remove"></span>
+							<span class="clickable" ng-click="deleteItem(item.name, pivotBuilderItem.name)" title="Remove"><icon type="remove"></icon></span>
 						</div>
 					</div>
 					<div class="pbAddBox" ng-mouseleave="addPopUp[pivotBuilderItem.name] = false">
-						<div class="pbItemAdd clickable" ng-click="itemModifyPopUp(pivotBuilderItem, -1, $event)"><i class="fa fa-plus-square"></i> Add</div>
+						<div class="pbItemAdd clickable" ng-click="itemModifyPopUp(pivotBuilderItem, -1, $event)"><icon type="plus-square"></icon> Add</div>
 						<div ng-show="addPopUp[pivotBuilderItem.name]" class="pbAddPopUp" ng-style="{left: popUpLoc.left + 'px'}">
 							<div class="pbAddPopUpVisible">
 								<table>
@@ -89,8 +89,8 @@
 										<td>{{category.label}}</td>
 										<td>
 											<div ng-repeat="item in category.members">
-												<span class="pbItemAddEnabled clickable" ng-if="!added[item.label]" ng-click="addItem(item.label, category.label)"><i class="fa fa-circle-o"></i> {{item.label}}</span>
-													<span class="pbItemAddDisabled" ng-if="added[item.label]"><i class="fa fa-circle"></i> {{item.label}}</span>
+												<span class="pbItemAddEnabled clickable" ng-if="!added[item.label]" ng-click="addItem(item.label, category.label)"><icon type="circle-o"></icon> {{item.label}}</span>
+													<span class="pbItemAddDisabled" ng-if="added[item.label]"><icon type="circle"></icon> {{item.label}}</span>
 											</div>
 										</td>
 									</tr>
@@ -114,7 +114,7 @@
 		</div>
 		<div class="pbSliderCollapse">
 			<span class="clickable" ng-click="heightChanged(); pbShow = false; finishSaveAs(false);">
-				<i class="fa fa-chevron-up"></i> Collapse
+				<icon type="chevron-up"></icon> Collapse
 			</span>
 		</div>
 	</div>
