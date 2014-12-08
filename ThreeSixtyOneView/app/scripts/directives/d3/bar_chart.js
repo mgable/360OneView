@@ -110,7 +110,7 @@ angular.module('ThreeSixtyOneView')
                             .style("opacity", 0)
                             .on("mouseover", function(d){
                                 d3.select(this).transition().duration(300)
-                                    .style("opacity", 0.85);
+                                    .style("opacity", 1);
                                 if(d.colorIndex == 1 || d.colorIndex == 2) {
                                     var sel = $('.spend-table tbody tr:nth-child(' + (d.colorIndex+1)  + ')');
                                 } else {
@@ -120,7 +120,7 @@ angular.module('ThreeSixtyOneView')
                             })
                             .on("mouseout", function(d){
                                 d3.select(this).transition().duration(300)
-                                    .style("opacity", 1);
+                                    .style("opacity", 0.7);
                                 if(d.colorIndex == 1 || d.colorIndex == 2) {
                                     var sel = $('.spend-table tbody tr:nth-child(' + (d.colorIndex+1)  + ')');
                                 } else {
@@ -132,7 +132,7 @@ angular.module('ThreeSixtyOneView')
                                 .delay(function(d, i) { return (d.index * 2 + i) * 100 })
                                 .attr("height", function(d) { return height - y(d.value); })
                                 .attr("y", function(d) { return y(d.value); })
-                                .style("opacity", 1);
+                                .style("opacity", 0.7);
 
                         bars.selectAll("text")
                             .data(function(d) { return d.types; })

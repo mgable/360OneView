@@ -23,20 +23,20 @@ angular.module('ThreeSixtyOneView')
                     if (windowTop >= scrollTop && windowTop <= scrollBottom) {
                         var rowTop = Math.floor((windowTop-scrollTop)/100);
                         spread.showRow(rowTop, $.wijmo.wijspread.VerticalPosition.top);
-                        $('.display').css({
+                        $('.editor').css({
                             'position': 'fixed',
                             'top': 0,
                             'width': scope.containerWidth
                         });
                     } else if (windowTop < scrollTop) {
-                        $('.display').css({
+                        $('.editor').css({
                             'position': 'relative',
                             'top': 'auto',
                             'bottom': 'auto',
                             'width': '100%'
                         });
                     } else if (windowTop > scrollBottom) {
-                        $('.display').css({
+                        $('.editor').css({
                             'width': scope.containerWidth,
                             'position': 'absolute',
                             'bottom': '200px',

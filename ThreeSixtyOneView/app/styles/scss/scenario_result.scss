@@ -16,6 +16,7 @@
 					i {
 						float: right;
 						color: #999;
+                        font-size: 14px;
 					}
 				}
 				ul.dropdown-menu {
@@ -33,16 +34,20 @@
             vertical-align: middle;
             margin-right: 5px;
             padding: 0 5px;
+            color: #666;
+            cursor: pointer;
             .view-text {
                 font-size: 17px;
                 line-height: 28px;
-                color: #666;
             }
             .view-icon {
-                font-size: 15px;
-                color: #999;
+                font-size: 17px;
                 line-height: 28px;
                 margin-right: 5px;
+            }
+            &:hover {
+                color: #295da7;
+                border: 1px solid #295da7;
             }
         }
         .view-time {
@@ -51,6 +56,36 @@
             line-height: 22px;
             color: #888;
             text-transform: capitalize;
+        }
+        .srToolbar {
+            margin-top: -1px;
+            border-bottom: 1px solid $mediumgray;
+            min-width: 100px;
+        }
+        .srSlider {
+            background-color: $lightestgray;
+            border: 0;
+            max-height: 0;
+            transition: all 0.3s ease-out;
+            overflow: hidden;
+            &.srOpened {
+                max-height: 300px;
+                border: 1px solid $mediumgray;
+                border-top: 0;
+                overflow: inherit;
+            }
+            .srsliderContent {
+                height: 150px;
+            }
+            .srSliderCollapse {
+                cursor: pointer;
+                text-align: center;
+                color: $gray;
+                font-size: 12px;
+                &:hover {
+                    color: $blue;
+                }
+            }
         }
 	}
     .results-panel {
@@ -223,6 +258,7 @@
 				}
                 .legend {
                     margin-left: 33px;
+                    margin-bottom: 20px;
                     img {
                         width: 15px;
                         height: 15px;

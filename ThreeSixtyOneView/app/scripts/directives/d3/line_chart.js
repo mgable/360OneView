@@ -76,7 +76,7 @@ angular.module('ThreeSixtyOneView')
                                     return {
                                         name: name,
                                         label: d[labelVar],
-                                        value: +d[name]
+                                        value: +d[name],
                                     };
                                 })
                             };
@@ -98,13 +98,31 @@ angular.module('ThreeSixtyOneView')
                         var series = svg.selectAll(".series")
                             .data(seriesData)
                             .enter().append("g")
-                            .attr("class", "series");
+                            .attr("class", "series")
+                            .attr("data-series", function(d) {
+                                return d.name;
+                            })
+                            .on("mouseover", function() {
+                                d3.select(this).selectAll("path")
+                                    .style("stroke-width", "6px")
+                                    .style("opacity", 0.7);
+                                d3.select(this).selectAll(".point")
+                                    .style("opacity", 1);
+                            })
+                            .on("mouseout", function() {
+                                d3.select(this).selectAll("path")
+                                    .style("stroke-width", "2px")
+                                    .style("opacity", 0.3);
+                                d3.select(this).selectAll(".point")
+                                    .style("opacity", 0.7);
+                            });
 
                         series.append("path")
                             .attr("class", "line")
-                            .style("stroke", function(d) { return color(d.name); })
-                            .style("stroke-width", "3px")
+                            .style("stroke", function(d) { return d3.rgb(color(d.name)).brighter(1); })
+                            .style("stroke-width", "2px")
                             .style("fill", "none")
+                            .style("opacity", 0.3)
                             .attr("d", function(d) { return line(d.values); });
 
                         series.selectAll(".point")
@@ -116,44 +134,58 @@ angular.module('ThreeSixtyOneView')
                             .attr("r", 0)
                             .style("fill", function(d) { return color(d.name); })
                             .style("opacity", 0)
-                            .on("mouseover", function() {
-                                d3.select(this)
-                                    .style("stroke", function(d) { return d3.rgb(color(d.name)).brighter(1); })
-                                    .style("stroke-width", "3px");
-                            })
-                            .on("mouseout", function() {
-                                d3.select(this)
-                                    .style("stroke-width", 0);
-                            })
                             .transition().ease("quad")
                                 .delay(function(d, i) { return i * 100 })
-                                .attr("r", "9px")
+                                .attr("r", "5px")
                                 .style("opacity", 1);
 
                         series.selectAll(".label")
                             .data(function(d) { return d.values; })
                             .enter().append("text")
                             .attr("class", "label")
-                            .attr("x", function(d) { return x(d.label) + x.rangeBand() / 2 + 10; })
-                            .attr("y", function(d) { return y(d.value) - 10; })
+                            .attr("x", function(d) { return x(d.label) + x.rangeBand() / 2 + 5; })
+                            .attr("y", function(d) { return y(d.value) - 5; })
                             .attr("dy", ".35em")
                             .style("opacity", 0)
                             .text(function(d) { return d.value + '%'; })
                             .transition().ease("quad")
                                 .delay(function(d, i) { return i * 100 })
-                                .style("opacity", 1);
+                                .style("opacity", 0.7);
 
                         var legend = svg.selectAll(".legend")
                                 .data(varNames.slice().reverse())
                             .enter().append("g")
                                 .attr("class", "legend")
-                                .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
+                                .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; })
+                                .on("mouseover", function(d) {
+                                    d3.select(this)
+                                        .style("opacity", 1);
+                                    var sel_path = d3.selectAll('.series[data-series="' + d + '"]').selectAll("path");
+                                    sel_path
+                                        .style("stroke-width", "6px")
+                                        .style("opacity", 0.7);
+                                    var sel_point = d3.selectAll('.series[data-series="' + d + '"]').selectAll(".point");
+                                    sel_point
+                                        .style("opacity", 1);
+                                })
+                                .on("mouseout", function(d) {
+                                    d3.select(this)
+                                        .style("opacity", 0.7);
+                                    var sel_path = d3.selectAll('.series[data-series="' + d + '"]').selectAll("path");
+                                    sel_path
+                                        .style("stroke-width", "2px")
+                                        .style("opacity", 0.3);
+                                    var sel_point = d3.selectAll('.series[data-series="' + d + '"]').selectAll(".point");
+                                    sel_point
+                                        .style("opacity", 0.7);
+                                });
 
                         legend.append("rect")
                             .attr("x", width)
                             .attr("width", 10)
                             .attr("height", 10)
-                            .style("fill", color);
+                            .style("fill", color)
+                            .style("opacity", 0.7);
 
                         legend.append("text")
                             .attr("x", width - 5)

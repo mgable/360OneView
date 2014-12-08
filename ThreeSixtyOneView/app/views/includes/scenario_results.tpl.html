@@ -18,13 +18,24 @@
             </section>
 
             <section class="results-view">
-              <div class="view-title">
-                <i class="fa fa-eye view-icon"></i>
-                <span class="view-text">Q1 2015 Upfronts</span>
-              </div>
-              <div class="view-time">
-                <span>Calculated 3:57pm</span>
-              </div>
+                <div>
+                    <div class="view-title" ng-click="srShow = !srShow;" ng-init="srShow = false;">
+                        <i class="fa fa-eye view-icon"></i>
+                        <span class="view-text">Q1 2015 Upfronts</span>
+                    </div>
+                    <div class="view-time">
+                        <span>Calculated 3:57pm</span>
+                    </div>
+                    <div class="srToolbar" ng-show="srShow"></div>
+                </div>
+                <div ng-class="{srOpened: srShow}" class="srSlider">
+                    <div class="srSliderContent"></div>
+                    <div class="srSliderCollapse">
+                        <span class="clickable" ng-click="srShow = false;">
+                            <i class="fa fa-chevron-up"></i> Collapse
+                        </span>
+                    </div>
+                </div>
             </section>
 
             <section class="results-panel">
@@ -50,49 +61,19 @@
                         <div class="spend-container col-md-6 col-xs-6">
                             <table class="spend-table">
                                 <thead>
-                                    <tr>
-                                        <th>Total Spend</th>
-                                        <th>10M</th>
-                                        <th class="spend-increase">+$5M</th>
-                                        <th class="spend-increase">+100%</th>
+                                    <tr ng-model="spendDataHeader">
+                                        <th>{{spendDataHeader.title}}</th>
+                                        <th>{{spendDataHeader.total}}</th>
+                                        <th class="spend-increase">{{spendDataHeader.incremental}}</th>
+                                        <th class="spend-increase">{{spendDataHeader.percent}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="spend-increase"></td>
-                                        <td class="spend-increase"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Local Spend</td>
-                                        <td>12M</td>
-                                        <td class="spend-increase">+$2.5M</td>
-                                        <td class="spend-increase">12%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>National Spend</td>
-                                        <td>17M</td>
-                                        <td class="spend-increase">+$3.7M</td>
-                                        <td class="spend-increase">7.5%</td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="spend-increase"></td>
-                                        <td class="spend-increase"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Product Spend</td>
-                                        <td>6M</td>
-                                        <td class="spend-increase">+$1.3M</td>
-                                        <td class="spend-increase">22.4%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Brand Spend</td>
-                                        <td>9.3M</td>
-                                        <td class="spend-increase">+$300K</td>
-                                        <td class="spend-increase">13.1%</td>
+                                    <tr ng-repeat="spendDatum in spendDataBody">
+                                        <td>{{spendDatum.title}}</td>
+                                        <td>{{spendDatum.total}}</td>
+                                        <td class="spend-{{kpiDatum.direction}}">{{spendDatum.incremental}}</td>
+                                        <td class="spend-{{kpiDatum.direction}}">{{spendDatum.percent}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -126,13 +107,24 @@
             </section>
 
             <section class="results-view">
-              <div class="view-title">
-                <i class="fa fa-eye view-icon"></i>
-                <span class="view-text">Q1 2015 Upfronts</span>
-              </div>
-              <div class="view-time">
-                <span>Calculated 3:57pm</span>
-              </div>
+                <div>
+                    <div class="view-title" ng-click="srShow = !srShow;" ng-init="srShow = false;">
+                        <i class="fa fa-eye view-icon"></i>
+                        <span class="view-text">Q1 2015 Upfronts</span>
+                    </div>
+                    <div class="view-time">
+                        <span>Calculated 3:57pm</span>
+                    </div>
+                    <div class="srToolbar" ng-show="srShow"></div>
+                </div>
+                <div ng-class="{srOpened: srShow}" class="srSlider">
+                    <div class="srSliderContent"></div>
+                    <div class="srSliderCollapse">
+                        <span class="clickable" ng-click="srShow = false;">
+                            <i class="fa fa-chevron-up"></i> Collapse
+                        </span>
+                    </div>
+                </div>
             </section>
 
             <section class="results-panel">
@@ -145,14 +137,14 @@
                                     <tr ng-repeat="kpiDatum in kpiData" ng-click="setSelected(kpiDatum.id)" ng-class="{selected: kpiDatum.id === idSelectedRow}">
                                         <td>{{kpiDatum.title}}</td>
                                         <td>{{kpiDatum.total}}</td>
-                                        <td class="kpi-{{kpiDatum.direction}}">{{kpiDatum.incremental.number}}{{kpiDatum.incremental.unit}}</td>
+                                        <td class="kpi-{{kpiDatum.direction}}">{{addSign(kpiDatum.direction)}}{{kpiDatum.incremental.number}}{{kpiDatum.incremental.unit}}</td>
                                         <td class="kpi-{{kpiDatum.direction}}">{{kpiDatum.percent}}</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="kpi-chart-container col-md-6 col-xs-6">
-                            <ms-line-chart chart-data="salesData"></ms-line-chart>
+                            <ms-line-chart chart-data="lineChartData"></ms-line-chart>
                         </div>
                     </div>
                 </div>
@@ -165,49 +157,19 @@
                         <div class="spend-container col-md-6 col-xs-6">
                             <table class="spend-table">
                                 <thead>
-                                    <tr>
-                                        <th>Total Spend</th>
-                                        <th>10M</th>
-                                        <th class="spend-increase">+$5M</th>
-                                        <th class="spend-increase">+100%</th>
+                                    <tr ng-model="spendDataHeader">
+                                        <th>{{spendDataHeader.title}}</th>
+                                        <th>{{spendDataHeader.total}}</th>
+                                        <th class="spend-increase">{{spendDataHeader.incremental}}</th>
+                                        <th class="spend-increase">{{spendDataHeader.percent}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="spend-increase"></td>
-                                        <td class="spend-increase"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Local Spend</td>
-                                        <td>12M</td>
-                                        <td class="spend-increase">+$2.5M</td>
-                                        <td class="spend-increase">12%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>National Spend</td>
-                                        <td>17M</td>
-                                        <td class="spend-increase">+$3.7M</td>
-                                        <td class="spend-increase">7.5%</td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="spend-increase"></td>
-                                        <td class="spend-increase"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Product Spend</td>
-                                        <td>6M</td>
-                                        <td class="spend-increase">+$1.3M</td>
-                                        <td class="spend-increase">22.4%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Brand Spend</td>
-                                        <td>9.3M</td>
-                                        <td class="spend-increase">+$300K</td>
-                                        <td class="spend-increase">13.1%</td>
+                                    <tr ng-repeat="spendDatum in spendDataBody">
+                                        <td>{{spendDatum.title}}</td>
+                                        <td>{{spendDatum.total}}</td>
+                                        <td class="spend-{{kpiDatum.direction}}">{{spendDatum.incremental}}</td>
+                                        <td class="spend-{{kpiDatum.direction}}">{{spendDatum.percent}}</td>
                                     </tr>
                                 </tbody>
                             </table>
