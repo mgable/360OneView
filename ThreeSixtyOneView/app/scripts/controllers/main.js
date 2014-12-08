@@ -236,6 +236,8 @@ angular.module('ThreeSixtyOneView')
 
     }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", 'ptData', function($scope, Project, Scenario, ScenarioElements, ptData) {
 
+        console.info("scenarios");
+        console.info(Scenario);
         $scope.project = Project;
         $scope.scenario = Scenario;
         $scope.pivotTableData = ptData.data;
