@@ -1,18 +1,20 @@
 <div class="display-actions">
-	<h4 ng-click="toggle()" class="pull-left title">{{SortAndFilterService.getSelectedLabel()}}&nbsp;(<span data-ms-id='dataCount'>{{SortAndFilterService.getCount()}}</span>)<span  class="filtertoggle"><icon type="caret-down"></icon></span></h4>
 
-	<ul ms-link-group firstSelected="{{CONFIG.filterMenu.items[CONFIG.filterMenu.firstSelected].label}}" radio="true" class='filterDropdown dropdownshadow title hide menu'>
-		<li ng-repeat="item in CONFIG.filterMenu.items" class="header" ng-class="{selected: item.label === selectedItem}">
-			 <a ms-link="{{item.label}}" ng-click="setFilter(item.filterType, item, true)">{{item.label}}</a>
-		</li>
-    </ul>
+	<h4 class="filter-holder" ng-click="toggle()" ><span class="title">{{SortAndFilterService.getSelectedLabel()}}&nbsp;(<span data-ms-id='dataCount'>{{SortAndFilterService.getCount()}}</span>)<span  class="filterToggle"><icon type="caret-down"></icon></span></span>
 
-	<span>
+		<ul ms-link-group firstSelected="{{CONFIG.filterMenu.items[CONFIG.filterMenu.firstSelected].label}}" radio="true" class='filterDropdown dropdownshadow title hide menu'>
+			<li ng-repeat="item in CONFIG.filterMenu.items" class="header" ng-class="{selected: item.label === selectedItem}">
+				 <a ms-link="{{item.label}}" ng-click="setFilter(item.filterType, item, true)">{{item.label}}</a>
+			</li>
+	    </ul>
+	</h4>
+
+	<div class="input-holder">
 		<icon type="filter"></icon>
 		<input type="text" class="search-input" ng-model="SortAndFilterService.searchText" ng-change="SortAndFilterService.filter()" placeholder="Filter List"/>&nbsp;
-	</span>
+	</div>
 
 	<div class="button-holder">
-		<span ng-click="create(CONFIG.displayActionsCreate)" data-ms-id='createButton'><icon type="plus"></icon>CREATE</span>
+		<button class="btn btn-default" ng-click="create(CONFIG.displayActionsCreate)" data-ms-id='createButton'><icon type="plus"></icon>CREATE</button>
 	</div>
 </div>

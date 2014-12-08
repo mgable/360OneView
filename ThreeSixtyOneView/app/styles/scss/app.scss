@@ -12,7 +12,6 @@ html {
 body {
   overflow-y: scroll;
   overflow-x: hidden;
-  /* overflow-y:hidden; */
   background-color: transparent;
   font-family: $sansFontFamily;
   position: relative;
@@ -265,7 +264,5 @@ body {
 	min-width: $app_min_width;
 	font-size: $body_font_size;
 	margin: $app_top_margin auto 60px;
-	// background-color: $white;
 	overflow-y: hidden;
-	// height: 77%;
 }
