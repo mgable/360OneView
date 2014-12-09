@@ -14,11 +14,11 @@ angular.module('ThreeSixtyOneView')
 		this.getDefaultView = function(views, cubeId){
 			// this logic will change
 			var viewId = views[0].id;
-			return this.get({cubeId: cubeId, viewId: viewId});
+			return this.get({viewId: viewId});
 		};
 
 		this.getViewsAndDefault = function(cubeId){
-			return this.get({cubeId:cubeId}).then(function(views){
+			return this.get().then(function(views){
 				if (views.length && views.length > 0){
 					return self.getDefaultView(views, cubeId).then(function(defaultView){
 						return {"views": views, "defaultView": defaultView};
