@@ -7,16 +7,17 @@
 * # PivotbuilderctrlCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$filter', 'pbData', 'ptData', 'Views', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, $filter, pbData, ptData, Views, DialogService) {
-
-	console.info("Views");
-	console.info(Views);
+angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$filter', 'pbData', 'ptData', 'PivotViewService', 'Views', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, $filter, pbData, ptData, PivotViewService, Views, DialogService) {
 
 	var init = function() {
 		$scope.pbShow = false;
 		$scope.pbData = angular.copy(pbData);
-		$scope.viewName = pbData.viewData.name;
 		$scope.draftView = false;
+
+		// Rest APIs
+		$scope.viewName = Views.currentView.name;
+		$scope.viewsList = Views.views;
+		// console.log(PivotViewService.createView({name: "View from JS", isDefault: false, rows: [{dimension: {id: 1}, hierarchy: {id: -1}, level: {id: 2}}], columns: [{dimension: {id: 2}, hierarchy: {id: -1}, level: {id: 2}}], filters: []}));
 
 		$scope.saveAs = false;
 
@@ -217,7 +218,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		$scope.notify('Changes discarded!');
 
 		if($scope.draftView) {
-			$scope.viewName = pbData.viewData.name;
+			$scope.viewName = Views.currentView.name;
 			$scope.draftView = false;
 		}
 
@@ -230,7 +231,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 			pbData = angular.copy($scope.pbData);
 
 			if($scope.draftView) {
-				$scope.viewName = pbData.viewData.name;
+				$scope.viewName = Views.currentView.name;
 			}
 			$scope.notify('Saved!');
 			$scope.draftView = false;
