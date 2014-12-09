@@ -46,9 +46,6 @@ angular.module('ThreeSixtyOneView')
             return $scope.project;
         };
 
-        console.info("the project is");
-        console.info(Project);
-
         // API
         // Click handler interface
         $scope.selectItem = function(item){
@@ -73,7 +70,7 @@ angular.module('ThreeSixtyOneView')
         });
 
         $scope.$on(EVENTS.renameScenario, function(evt, scenario){
-            ScenarioService.rename(scenario, $getProject().id);
+            ScenarioService.rename(scenario, getProject().id);
         });
         
         init();
@@ -224,11 +221,6 @@ angular.module('ThreeSixtyOneView')
             }
         });
 
-        $scope.$on(EVENTS.changeActiveItem, function(event, response) {
-            if (response) {
-                $scope.selectedItem = response;
-            }
-        });
 
         $scope.$on(EVENTS.noop, function(event, action){
             DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
