@@ -2,7 +2,7 @@
 
 'use strict';
 
-angular.module('ThreeSixtyOneView')
+angular.module('ThreeSixtyOneView.directives')
     .directive('scrollPivotTable', ["$window", function($window) {
         return {
             restrict: 'AE',

@@ -2,7 +2,7 @@
 
 'use strict';
 
-angular.module('ThreeSixtyOneView')
+angular.module('ThreeSixtyOneView.directives')
     .directive('resizePivotTable', ["$rootScope", "$window", "EVENTS", "$timeout",
         function($rootScope, $window, EVENTS, $timeout) {
             return {

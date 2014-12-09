@@ -2,7 +2,7 @@
 
 'use strict';
 
-angular.module('ThreeSixtyOneView')
+angular.module('ThreeSixtyOneView.directives')
     .directive('elemHeightChanged', ["$rootScope", "EVENTS",
         function($rootScope, EVENTS) {
             return {
