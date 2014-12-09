@@ -4,14 +4,14 @@
 
         <tab heading="Design 2">
             <section class="results-dropdown">
-                <div class="dropdown">
+                <div class="dropdown" on-toggle="toggled(open)">
                     <span>Results compared to</span>
                     <ul class="dropdown-menu">
                         <li ng-repeat="dropdownItem in dropdownItems | orderBy:'id'">
                             <a href="" ng-click="onDropdownSelect(dropdownItem)">{{dropdownItem.description}}</a>
                         </li>
                     </ul>
-                    <span class="dropdown-toggle" data-toggle="dropdown" ng-model="selectedDropdownId">
+                    <span class="dropdown-toggle" ng-model="selectedDropdownId">
                         {{selectInitial(selectedDropdownId)}}<i class="fa fa-caret-down"></i>
                     </span>
                 </div>
@@ -93,14 +93,14 @@
 
         <tab heading="Design 5">
             <section class="results-dropdown">
-                <div class="dropdown">
+                <div class="dropdown" on-toggle="toggled(open)">
                     <span>Results compared to</span>
                     <ul class="dropdown-menu">
                         <li ng-repeat="dropdownItem in dropdownItems | orderBy:'id'">
                             <a href="" ng-click="onDropdownSelect(dropdownItem)">{{dropdownItem.description}}</a>
                         </li>
                     </ul>
-                    <span class="dropdown-toggle" data-toggle="dropdown" ng-model="selectedDropdownId">
+                    <span class="dropdown-toggle" ng-model="selectedDropdownId">
                         {{selectInitial(selectedDropdownId)}}<i class="fa fa-caret-down"></i>
                     </span>
                 </div>
