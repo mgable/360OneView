@@ -6,24 +6,26 @@
 			font-size: 17px;
 			line-height: 22px;
 			font-weight: 300;
-			&.dropdown {
-				font-weight: 700;
-				a.dropdown-toggle {
-					width: 200px;
-					display: inline-block;
-					color: #f35528;
-					text-decoration: none;
-					i {
-						float: right;
-						color: #999;
-                        font-size: 14px;
-					}
-				}
-				ul.dropdown-menu {
-					width: 200px;
-				}
-			}
 		}
+        div.dropdown {
+            display: inline-block;
+            ul.dropdown-menu {
+                left: 150px;
+            }
+            span.dropdown-toggle {
+                cursor: pointer;
+                color: #f35528;
+                text-decoration: none;
+                font-weight: 700;
+                i {
+                    line-height: 21px;
+                    float: right;
+                    color: #999;
+                    font-size: 14px;
+                    margin-left: 10px;
+                }
+            }
+        }
 	}
 	.results-view {
         margin-bottom: 25px;
@@ -154,6 +156,7 @@
                     width: 100%;
                     tbody {
                         tr {
+                            cursor: pointer;
                             -webkit-transition:0.15s linear all;
                             -moz-transition:0.15s linear all;
                             -o-transition:0.15s linear all;

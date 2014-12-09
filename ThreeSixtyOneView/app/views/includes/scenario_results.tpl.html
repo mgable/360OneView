@@ -4,17 +4,17 @@
 
         <tab heading="Design 2">
             <section class="results-dropdown">
-                <span>Results compared to</span>
-                <span class="dropdown">
+                <div class="dropdown">
+                    <span>Results compared to</span>
                     <ul class="dropdown-menu">
                         <li ng-repeat="dropdownItem in dropdownItems | orderBy:'id'">
                             <a href="" ng-click="onDropdownSelect(dropdownItem)">{{dropdownItem.description}}</a>
                         </li>
                     </ul>
-                    <a href class="dropdown-toggle" data-toggle="dropdown" ng-model="selectedDropdownId">
+                    <span class="dropdown-toggle" data-toggle="dropdown" ng-model="selectedDropdownId">
                         {{selectInitial(selectedDropdownId)}}<i class="fa fa-caret-down"></i>
-                    </a>
-                </span>
+                    </span>
+                </div>
             </section>
 
             <section class="results-view">
@@ -93,17 +93,17 @@
 
         <tab heading="Design 5">
             <section class="results-dropdown">
-                <span>Results compared to</span>
-                <span class="dropdown">
+                <div class="dropdown">
+                    <span>Results compared to</span>
                     <ul class="dropdown-menu">
                         <li ng-repeat="dropdownItem in dropdownItems | orderBy:'id'">
                             <a href="" ng-click="onDropdownSelect(dropdownItem)">{{dropdownItem.description}}</a>
                         </li>
                     </ul>
-                    <a href class="dropdown-toggle" data-toggle="dropdown" ng-model="selectedDropdownId">
+                    <span class="dropdown-toggle" data-toggle="dropdown" ng-model="selectedDropdownId">
                         {{selectInitial(selectedDropdownId)}}<i class="fa fa-caret-down"></i>
-                    </a>
-                </span>
+                    </span>
+                </div>
             </section>
 
             <section class="results-view">
