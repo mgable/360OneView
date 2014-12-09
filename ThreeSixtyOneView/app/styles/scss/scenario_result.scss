@@ -28,67 +28,369 @@
         }
 	}
 	.results-view {
+
         margin-bottom: 25px;
-        .view-title {
-            display: inline-block;
-            height: 28px;
-            border: 1px solid #ccc;
-            vertical-align: middle;
-            margin-right: 5px;
-            padding: 0 5px;
-            color: #666;
-            cursor: pointer;
-            .view-text {
-                font-size: 17px;
-                line-height: 28px;
-            }
-            .view-icon {
-                font-size: 17px;
-                line-height: 28px;
-                margin-right: 5px;
-            }
+
+        .srTitle {
+            border: 1px solid $mediumgray;
+            float: left;
+            font-size: 17px;
+            height: 30px;
+            padding: 3px 5px;
+            transition: width 0.3s linear;
+            transition: color 0.3s linear;
+            width: 240px;
+
             &:hover {
-                color: #295da7;
-                border: 1px solid #295da7;
+                color: $blue;
+                border: 1px solid $blue;
+
+                .srRenameArea {
+                    .fa-eye {
+                        color: $blue;
+                    }
+                }
+
+                &.srTitleSel {
+                    border: 1px solid $mediumgray;
+                    border-bottom: 0;
+                }
+            }
+
+            &.srTitleSel {
+                background-color: $lightestgray;
+                border-bottom: 0;
+                width: 240px;
+                transition: width 0.3s linear;
+
+                .srRenameArea {
+                    .srTitleText:hover {
+                        border: 1px solid $blue;
+                    }
+                }
+            }
+
+            .srRenameArea {
+                width: 225px;
+
+                .fa-eye {
+                    vertical-align: top;
+                    margin-top: 5px;
+                }
+
+                .srTitleText {
+                    display: inline-block;
+                    border: 1px solid rgba(255,255,255,0);
+                    width: 200px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .srSaveAsBox {
+                    display: inline-block;
+                    width: 200px;
+                    border: 1px solid $blue;
+                    background-color: white;
+
+                    input {
+                        width: 155px;
+                        height: 24px;
+                        border: 0;
+                        outline: 0;
+                    }
+
+                    .fa-check {
+                        color: $blue;
+                    }
+                }
             }
         }
-        .view-time {
-            display: inline-block;
+
+        .srTimestamp {
+            float: left;
             font-size: 14px;
             line-height: 22px;
+            padding: 6px 0px 0px 15px;
+            height: 30px;
             color: #888;
             text-transform: capitalize;
         }
+
         .srToolbar {
-            margin-top: -1px;
+            height: 30px;
             border-bottom: 1px solid $mediumgray;
             min-width: 100px;
+
+            &.srTitleSel {
+                border-bottom: 0;
+            }
         }
+
         .srSlider {
             background-color: $lightestgray;
             border: 0;
             max-height: 0;
             transition: all 0.3s ease-out;
             overflow: hidden;
+
             &.srOpened {
                 max-height: 300px;
                 border: 1px solid $mediumgray;
                 border-top: 0;
                 overflow: inherit;
             }
-            .srsliderContent {
-                height: 150px;
+
+            .srControlBar {
+                font-size: 16px;
+                padding: 10px 15px;
+
+                .srFunctionFlip {
+                    color: $darkgray;
+
+                    .srFunctionFlipButton {
+                        background-color: $mediumgray;
+                        margin: 0;
+                        padding: 4px 13px;
+                        display: inline-block;
+                        float: left;
+
+                        &.srFunctionFlipButtonActive {
+                            background-color: $blue;
+                            color: white;
+                        }
+                    }
+                }
+
+                .srSaveMenu {
+                    font-size: 14px;
+                    display: inline-block;
+                    position: relative;
+                    margin-left: 20px;
+
+                    .srSaveHolder {
+                        display: inline-block;
+                        color: $darkgray;
+
+                        .srSaveButton {
+                            display: inline-block;
+                            border: 1px solid $mediumgray;
+                            padding: 1px 5px;
+                            float: left;
+
+                            &:hover {
+                                border: 1px solid $blue;
+                                color: $blue;
+                            }
+                        }
+
+                        .srSaveDropButton {
+                            display: inline-block;
+                            border: 1px solid $mediumgray;
+                            background-color: $mediumgray;
+                            padding: 4px 4px;
+                            float: left;
+
+                            &:hover {
+                                background-color: $blue;
+                                border: 1px solid $blue;
+                                color: white;
+                            }
+
+                            &.srSaveDropSelected {
+                                background-color: $blue;
+                                border: 1px solid $blue;
+                                color: white;
+                            }
+                        }
+                    }
+
+                    .srViewSaveMenu {
+                        position: absolute;
+                        width: 145px;
+                        height: 100px;
+                        padding: 10px;
+                        left: 29%;
+                        z-index: 10;
+
+                        .srViewSaveMenuVisible {
+                            background: white;
+                            border: 1px solid $blue;
+                            padding: 7px 0;
+                            width: 125px;
+                            box-shadow: 0 3px 10px rgba(160,160,160,0.5);
+
+                            &::before {
+                                position: absolute;
+                                height: 11px;
+                                width: 11px;
+                                content: "";
+                                border-left: 1px solid $blue;
+                                border-top: 1px solid $blue;
+                                -webkit-transform: rotate(45deg);
+                                -moz-transform: rotate(45deg);
+                                -ms-transform: rotate(45deg);
+                                -o-transform: rotate(45deg);
+                                transform: rotate(45deg);
+                                top: 5px;
+                                left: 44%;
+                                z-index: 13;
+                                background-color: white;
+                            }
+
+                            .srViewSaveMenuItem {
+                                padding: 5px 20px;
+
+                                &:hover {
+                                    color: white;
+                                    background-color: $blue;
+                                }
+
+                                .fa {
+                                    padding-right: 5px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .srViewsList {
+                    color: $darkgray;
+                    display: inline-block;
+                    margin-left: 20px;
+                    position: relative;
+                    font-size: 14px;
+                    vertical-align: top;
+
+                    &:hover {
+                        .srRecentViewsButton {
+                            color: $blue;
+                        }
+                    }
+
+                    .srRecentViewsButton {
+                        padding: 1px 5px;
+                    }
+
+                    .srRecentViewsMenu {
+                        position: absolute;
+                        min-height: 250px;
+                        width: 290px;
+                        padding: 20px;
+                        padding-top: 0;
+                        left: -50%;
+                        z-index: 10;
+
+                        .srRecentViewsMenuVisible {
+                            background: white;
+                            border: 1px solid $blue;
+                            padding: 7px 0;
+                            width: 250px;
+                            position: absolute;
+                            top: 7px;
+                            box-shadow: 0 3px 10px rgba(100,100,100,0.5);
+
+                            &::before {
+                                position: absolute;
+                                height: 11px;
+                                width: 11px;
+                                content: "";
+                                border-left: 1px solid $blue;
+                                border-top: 1px solid $blue;
+                                -webkit-transform: rotate(45deg);
+                                -moz-transform: rotate(45deg);
+                                -ms-transform: rotate(45deg);
+                                -o-transform: rotate(45deg);
+                                transform: rotate(45deg);
+                                top: -6px;
+                                left: 47%;
+                                z-index: 13;
+                                background-color: white;
+                            }
+
+                            div {
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                padding: 5px 20px;
+
+                                &:hover {
+                                    background-color: $blue;
+                                    color: white;
+                                }
+
+                                i {
+                                    margin-right: 5px;
+                                }
+                            }
+
+                            hr {
+                                margin: 12px 0;
+                            }
+                        }
+                    }
+                }
             }
+
+            .srSec {
+                margin-bottom: 10px 0;
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                .srSecTitle {
+                    margin: 5px 30px 5px 15px;
+                    display: inline-block;
+                    width: 100px;
+                    float: left;
+                }
+
+                .srFilterValues {
+                    vertical-align: top;
+                    outline: 0;
+                    margin-right: 20px;
+                    overflow: hidden;
+
+                    .srFilterBox {
+                        display: inline-block;
+                        width: 22.39%;
+                        min-width: 215px;
+                        margin-right: 25px;
+                        margin-top: 5px;
+
+                        .srFilterCat {
+                            color: $darkgray;
+                        }
+
+                        .srFilterVal {
+                            color: $blue;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+                    }
+                }
+            }
+
             .srSliderCollapse {
-                cursor: pointer;
                 text-align: center;
                 color: $gray;
                 font-size: 12px;
+
                 &:hover {
                     color: $blue;
                 }
             }
         }
+
+        .srGray {
+            color: $darkgray;
+        }
+
+        .clickable {
+            cursor: pointer;
+        }
+
 	}
     .results-panel {
         margin-bottom: 5px;
