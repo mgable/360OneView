@@ -137,7 +137,7 @@ describe('Project Listing', function() {
 		});
 
 		it("should show the number of projects", function(){
-			var itemCount = element(by.css('.display-actions h4.title span:first-child'));
+			var itemCount = element(by.xpath("//span[@data-ms-id='dataCount']"));
 			expect(itemCount.getText()).toContain(element.all(by.repeater('item in getData()')).count());
 		});
 
@@ -225,14 +225,14 @@ describe('Project Listing', function() {
 	});
 
 	describe("Filters: ", function(){
-		var filterMenu = ".app .ProjectManager .display-actions h4.title",
+		var filterMenu = ".app .ProjectManager .display-actions .filter-holder .title",
 			filterFavorites = '.filterDropdown li:last-child',
 			filterAll = '.filterDropdown li:first-child',
-			countHolder = '.display-actions h4.title span:first-child';
+			countHolder = '//span[@data-ms-id="dataCount"]';
 
 		it("should filter by favorite", function(){
 			var filteredCount, unFilteredCount,
-				itemCount = element(by.css(countHolder));
+				itemCount = element(by.xpath(countHolder));
 			element.all(by.repeater('item in getData()')).count().then(function(count){
 				unFilteredCount = count;
 			});
@@ -260,13 +260,13 @@ describe('Project Listing', function() {
 		it ("should toggle the filter menu dropdown", function(){
 			var elem = element(by.css('.filterDropdown'));
 			expect(hasClass(elem, 'hide')).toBe(true);
-			element(by.css(".app .ProjectManager .display-actions h4.title")).click();
+			element(by.css(".app .ProjectManager .display-actions .filter-holder .title")).click();
 			expect(hasClass(elem, 'hide')).toBe(false);
 		});
 
 
 		it("should create a project", function(){
-			var create = "//span[@data-ms-id='createButton']",
+			var create = "//button[@data-ms-id='createButton']",
 				input = "//input[@data-ms-id='modalInput']",
 				submit = "//button[@data-ms-id='submit']",
 				cancel = "//button[@data-ms-id='cancel']",

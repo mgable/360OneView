@@ -17,27 +17,27 @@ describe('Project Dashboard', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
-			dropdown = "//span[@data-ms-id='toggle_column_1']",
-			nameField = "//a[@data-ms-id='name-field']",
-			nameLabel = "//div[@data-ms-id='name-label']",
-			column_1 = "//span[@data-ms-id='select_column_1']",
-			column_1Label = "//h6[@data-ms-id='label_column_1']",
-			createdBy = "//li[@data-ms-id='Created Date']",
-			ascending = "//li[@data-ms-id='ascending']",
-			descending = "//li[@data-ms-id='descending']",
-			ascendingButton = element(by.xpath(ascending)),
-			descendingButton = element(by.xpath(descending)),
-			dropdownButton = element(by.xpath(dropdown)),
-			nameButton = element(by.xpath(nameField)),
-			nameLabelField = element(by.xpath(nameLabel)),
-			column_1Button = element(by.xpath(column_1)),
-			createdByButton = element(by.xpath(createdBy)),
-			column_1LabelField = element(by.xpath(column_1Label));
 		}
 	);
+	var dropdown = "//span[@data-ms-id='toggle_column_1']",
+		nameField = "//a[@data-ms-id='name-field']",
+		nameLabel = "//div[@data-ms-id='name-label']",
+		column_1 = "//span[@data-ms-id='select_column_1']",
+		column_1Label = "//h6[@data-ms-id='label_column_1']",
+		createdBy = "//li[@data-ms-id='Created Date']",
+		ascending = "//li[@data-ms-id='ascending']",
+		descending = "//li[@data-ms-id='descending']",
+		ascendingButton = element(by.xpath(ascending)),
+		descendingButton = element(by.xpath(descending)),
+		dropdownButton = element(by.xpath(dropdown)),
+		nameButton = element(by.xpath(nameField)),
+		nameLabelField = element(by.xpath(nameLabel)),
+		column_1Button = element(by.xpath(column_1)),
+		createdByButton = element(by.xpath(createdBy)),
+		column_1LabelField = element(by.xpath(column_1Label));
 
 	it("should create a new project and go to the dashboard", function(){
-		var create = "//span[@data-ms-id='createButton']",
+		var create = "//button[@data-ms-id='createButton']",
 			input = "//input[@data-ms-id='modalInput']",
 			submit = "//button[@data-ms-id='submit']",
 			cancel = "//button[@data-ms-id='cancel']",
@@ -84,7 +84,7 @@ describe('Project Dashboard', function() {
 			baseScenario = "//label[@data-ms-id='ScenarioCreate.inputBaseScenario']",
 			submit = "//input[@data-ms-id='ScenarioCreate.submit']",
 			cancel = "//button[@data-ms-id='ScenarioCreate.cancel']",
-			create = "//span[@data-ms-id='createButton']",
+			create = "//button[@data-ms-id='createButton']",
 			trayCopy = "//a[@data-ms-id='trayActions.copy']",
 			modal = "//input[@data-ms-id='modalInput']",
 			confirmBaseScenario = "//button[@data-ms-id='ScenarioCreate.confirmBaseScenario']",
@@ -249,26 +249,22 @@ describe('Project Dashboard', function() {
 		});
 
 		describe("Sort functions: ", function(){
-			beforeEach(
-				function(){
-					dropdown = "//span[@data-ms-id='toggle_column_1']",
-					nameField = "//a[@data-ms-id='name-field']",
-					nameLabel = "//div[@data-ms-id='name-label']",
-					column_1 = "//span[@data-ms-id='select_column_1']",
-					column_1Label = "//h6[@data-ms-id='label_column_1']",
-					createdBy = "//li[@data-ms-id='Created Date']",
-					ascending = "//li[@data-ms-id='ascending']",
-					descending = "//li[@data-ms-id='descending']",
-					ascendingButton = element(by.xpath(ascending)),
-					descendingButton = element(by.xpath(descending)),
-					dropdownButton = element(by.xpath(dropdown)),
-					nameButton = element(by.xpath(nameField)),
-					nameLabelField = element(by.xpath(nameLabel)),
-					column_1Button = element(by.xpath(column_1)),
-					createdByButton = element(by.xpath(createdBy)),
-					column_1LabelField = element(by.xpath(column_1Label));
-				}
-			);
+			var dropdown = "//span[@data-ms-id='toggle_column_1']",
+				nameField = "//a[@data-ms-id='name-field']",
+				nameLabel = "//div[@data-ms-id='name-label']",
+				column_1 = "//span[@data-ms-id='select_column_1']",
+				column_1Label = "//h6[@data-ms-id='label_column_1']",
+				createdBy = "//li[@data-ms-id='Created Date']",
+				ascending = "//li[@data-ms-id='ascending']",
+				descending = "//li[@data-ms-id='descending']",
+				ascendingButton = element(by.xpath(ascending)),
+				descendingButton = element(by.xpath(descending)),
+				dropdownButton = element(by.xpath(dropdown)),
+				nameButton = element(by.xpath(nameField)),
+				nameLabelField = element(by.xpath(nameLabel)),
+				column_1Button = element(by.xpath(column_1)),
+				createdByButton = element(by.xpath(createdBy)),
+				column_1LabelField = element(by.xpath(column_1Label));
 
 			it("should switch between ordering by name, modified last and created on", function(){
 				var data;

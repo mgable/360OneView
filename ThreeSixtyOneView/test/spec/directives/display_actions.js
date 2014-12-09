@@ -30,7 +30,7 @@ describe('Directives:', function() {
             element = angular.element('<display-actions></display-actions>');
             element = $compile(element)(scope);
             scope.$digest();
-            button = element.find(".button-holder span");
+            button = element.find(".button-holder button");
         }));
 
         it("should have an enabled create button", function() {
