@@ -1,19 +1,20 @@
 <div class="display-actions">
-	<h4 class="pull-left title">{{SortAndFilterService.getSelectedLabel()}}&nbsp;<span>({{SortAndFilterService.getCount()}})</span><span ng-click="toggle()" class="filtertoggle"><icon type="caret-down"></icon></span></h4>
 
-	<ul ms-link-group firstSelected="{{CONFIG.filterMenu.items[CONFIG.filterMenu.firstSelected].label}}" radio="true" class='filterDropdown title hide menu'>
-		<li ng-repeat="item in CONFIG.filterMenu.items" class="header" ng-class="{selected: item.label === selectedItem}">
-			 <a ms-link="{{item.label}}" ng-click="setFilter(item.filterType, item, true)">{{item.label}}</a>
-		</li>
-    </ul>
-	<span>
+	<h4 class="filter-holder" ng-click="toggle()" ><span class="title">{{SortAndFilterService.getSelectedLabel()}}&nbsp;(<span data-ms-id='dataCount'>{{SortAndFilterService.getCount()}}</span>)<span  class="filterToggle"><icon type="caret-down"></icon></span></span>
+
+		<ul ms-link-group firstSelected="{{CONFIG.filterMenu.items[CONFIG.filterMenu.firstSelected].label}}" radio="true" class='filterDropdown dropdownshadow title hide menu'>
+			<li ng-repeat="item in CONFIG.filterMenu.items" class="header" ng-class="{selected: item.label === selectedItem}">
+				 <a ms-link="{{item.label}}" ng-click="setFilter(item.filterType, item, true)">{{item.label}}</a>
+			</li>
+	    </ul>
+	</h4>
+
+	<div class="input-holder">
 		<icon type="filter"></icon>
-		<input type="text" class="search-input" ng-model="SortAndFilterService.searchText" ng-change="SortAndFilterService.filter()" placeholder="Filter Search"/>&nbsp;
-	</span>
+		<input type="text" class="search-input" ng-model="SortAndFilterService.searchText" ng-change="SortAndFilterService.filter()" placeholder="Filter List"/>&nbsp;
+	</div>
+
 	<div class="button-holder">
-		<div class="actions">
-			<span ng-if="view.create" ng-click="create(CONFIG.displayActionsCreate)"><icon type="plus"></icon>CREATE</span>
-		</div>
-		
+		<button class="btn btn-default" ng-click="create(CONFIG.displayActionsCreate)" data-ms-id='createButton'><icon type="plus"></icon>CREATE</button>
 	</div>
 </div>

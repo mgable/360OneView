@@ -10,34 +10,17 @@ angular.module('ThreeSixtyOneView.directives')
             templateUrl: "views/directives/display_actions.tpl.html",
             controller: function($scope, $element, $attrs) {
                 // Bootstrap
-                $scope.view = {};
-                $scope.view.create = false;
-                $scope.view.filter = false;
-                $scope.view.search = false;
                 $scope.CONFIG = CONFIG.view[$state.current.name];
                 $scope.SortAndFilterService = SortAndFilterService;
                 var filterDropdown = $($element).find('.filterDropdown');
 
-                var show = $scope.$eval($attrs.show);
 
                 function close () {
                     filterDropdown.addClass('hide');
                     $document.off('click', close);
                 }
-
-                function toggleActions(which) {
-                    _.each(show, function(e, i, a) {
-                        $scope.view[e] = true;
-                    });
-                }
-
-                toggleActions(show);
                 
                 $scope.create = function(action, data) {
-                    //action is and EVENTS.type
-                    /* jshint ignore:start */
-                    //eval(action);
-                    /* jshint ignore:end */
                     $rootScope.$broadcast(EVENTS[action], data);
                 };
 

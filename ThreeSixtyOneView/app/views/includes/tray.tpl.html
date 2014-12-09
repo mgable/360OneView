@@ -1,40 +1,40 @@
-<div class="info-tray" ng-controller="InfoTrayCtrl">
+<div class="info-tray">
 	<div class="details">
-		<div class="clearfix title-holder" ng-class="{'hasFavorites': hasFavorites}">
+		<div class="clearfix title-holder">
 			<span ng-switch="selectedItem.isMaster">
 				<h4 ng-switch-when="true" class="title clear"><icon type="marketshare"></icon>&nbsp;{{selectedItem.title}}</h4>
 				<span ng-switch-default>
-					<inline-edit template="inline_rename" item="selectedItem">
-						<span ng-if="hasFavorites"><span class="favorites"><a ng-class="{favorite:isFavorite(selectedItem.id)}" ng-click="toggleFavorite(selectedItem.id)"></a></span></span>
-					</inline-edit>
+					<inline-edit template="inline_rename" test="e2e" submitAction="trayActions.rename" item="selectedItem"></inline-edit>
 				</span>
 			</span>
 		</div>
 		<ul class="detail-list no-margin">
-		  <li class="detail">
-		  <a class="pull-left"><icon type="files-o"></icon>Copy</a>
-		  </li>
-		  <li class="detail">
-		    <a class="pull-left share">
-		      <icon type="users"></icon>Share
-		    </a>
-		  </li>
-		  <li class="detail">
-		    <a class="pull-left">
-		      <icon type="inbox"></icon>Archive
-		    </a>
-		  </li>
-		  <li class="detail">
-		    <a class="pull-left">
-		      <icon type="ellipsis-h" cname="dropdown-trigger"></icon>
-		    </a>
-		  </li>
+			<li class="detail">
+				<a class="pull-left" ng-click="action(trayActions.copy, selectedItem)" data-ms-id="trayActions.copy">
+					<icon type="files-o"></icon>Copy
+				</a>
+			</li>
+			<li class="detail">
+				<a class="pull-left share" ng-click="action(trayActions.share, selectedItem)" data-ms-id="trayActions.share">
+					<icon type="users"></icon>Share
+				</a>
+			</li>
+			<li class="detail">
+				<a class="pull-left" ng-click="action(trayActions.archive, selectedItem)" data-ms-id="trayActions.archive">
+					<icon type="inbox"></icon>Archive
+				</a>
+			</li>
+			<li class="detail">
+				<a class="pull-left" ng-click="action(trayActions.dropdown, selectedItem)" data-ms-id="trayActions.dropdown">
+					<icon type="ellipsis-h" cname="dropdown-trigger"></icon>
+				</a>
+			</li>
 		</ul>
 	</div>
 	<div class="well profile description-holder">
 		<span ng-switch="selectedItem.isMaster">
 			<span ng-switch-default>
-				<inline-edit template="inline_description" item="selectedItem"></inline-edit>
+				<inline-edit template="inline_description" item="selectedItem" test="e2e" submitAction="trayActions.rename"></inline-edit>
 			</span>
 			<span ng-if="selectedItem.createdBy">
 				<h5>Created By</h5>
@@ -49,34 +49,39 @@
 
 	<div class="well profile">
 		<ul class="media-list no-margin">
-		  <li class="media">
-		    <div class="media-body">
-		      <h5 class="media-heading bold">Access</h5>
-		    </div>
-		    <a class="pull-left">
-		      <img class="media-object" src="images/users_pic_sprite.png">
-		    </a>
-		  </li>
+			<li class="media">
+			<div class="media-body">
+				<h5 class="media-heading">Access</h5>
+			</div>
+			<a class="pull-left">
+				<img class="media-object" src="images/users_pic_sprite.png">
+			</a>
+			</li>
 		</ul>
 	</div>
 
-	<div class="well profile" ng-if="selectedItem.base">
-		<h4 class="used-in">Base Scenario</h4>
-		<p class="entity-holder"><a ng-click="alert('edit base scenario')">{{selectedItem.base}}</a></p>
+	<div class="well profile description-holder" ng-if="selectedItem.referenceScenario.name">
+		<h5>Base Scenario</h5>
+		<p class="entity-holder" data-ms-id="ScenarioListing:baseScenario">{{selectedItem.referenceScenario.name}}</p>
 	</div>
 
 	<div class="well profile scenario-listing" ng-if="selectedItem.scenarios.length">
 	<!-- <div class="well profile scenario-listing" ng-if="true"> -->
-		<h5 class="media-heading bold">Contains</h5>
-		<span class='field-label bold'>Total&nbsp;<span>{{selectedItem.scenarios.length}}</span>&nbsp;scenarios</span>
-		<span class="create"><icon type="plus-circle"></icon>Create</span>
-		<div class="entity-holder" >
-			<div class="scenario" ng-repeat="scenario in selectedItem.scenarios |limitTo:3">
-				<a ng-click="goto($event, 'gotoScenarioEdit', scenario)">
-					<icon type="cubes"></icon> {{scenario.title}}
-				</a>
+		<div class="scenarioWrapper">
+			<h5 class="media-heading bold">Contains</h5>
+			<span class='field-label bold'>Total&nbsp;<span>{{selectedItem.scenarios.length}}</span>&nbsp;scenarios</span>
+			<span class="create"><icon type="plus-circle"></icon>Create</span>
+			<div class="entity-holder" >
+				<div class="scenario" ng-show="{{$index < 3}} || showScenario" ng-repeat="scenario in selectedItem.scenarios">
+					<a ng-click="goto($event, 'gotoScenarioEdit', scenario)">
+						<icon type="cubes"></icon> {{scenario.title}}
+					</a>
+				</div>
+
 			</div>
 		</div>
+		<div class="profile-footer" ng-click="toggleShowScenarios()" ng-if="selectedItem.scenarios.length > 3">
+			<a>{{viewAll}}</a>
+		</div>
 	</div>
-	<div class="profile-footer" ng-if="selectedItem.scenarios.length > 3">View All</div>
 </div>

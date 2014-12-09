@@ -22,7 +22,11 @@ module.exports = function(grunt) {
         yeoman: {
             // configurable paths
             app: require('./bower.json').appPath || 'app',
-            dist: 'dist'
+            dist: 'dist',
+            docs: {
+                base: 'docs',
+                port: 9010
+            }
         },
 
         // Watches files for changes and runs tasks based on the changed files
@@ -58,8 +62,8 @@ module.exports = function(grunt) {
                     livereload: '<%= connect.options.livereload %>'
                 },
                 files: [
-                    '<%= yeoman.app %>/{,*/}*.html',
                     '.tmp/styles/{,*/}*.css',
+                    '<%= yeoman.app %>/{,*/}*.html',
                     '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
             }
@@ -75,6 +79,37 @@ module.exports = function(grunt) {
                 files: {
                     src: [ 'dist/index.html' ]
                 }
+            }
+        },
+
+        ngdocs: {
+            options: {
+                references: {
+                    official: 'https://github.com/angular/angular.js/wiki/Writing-AngularJS-Documentation',
+                    gruntPlugin: 'https://www.npmjs.org/package/grunt-ngdocs',
+                    generator: 'https://github.com/angular/dgeni',
+                    examples: [
+                        'https://github.com/petebacondarwin/dgeni-example',
+                        'https://github.com/m7r/grunt-ngdocs-example'
+                    ]
+                },
+                title: '360 One View FED Docs',
+                //image: "path/to/my/image.png",
+                dest: '<%= yeoman.docs.base %>',
+                //titleLink: "/api",
+                //bestMatch: true,
+                discussions: {
+                    url: 'http://localhost:<%= yeoman.docs.port %>',
+                    shortName: 'ms-fed',
+                    dev: false
+                }
+            },
+            app: {
+                src: [
+                    '<%= yeoman.app %>/scripts/**/*.js',
+                    'test/**/*.js'
+                ],
+                title: 'App Documentation'
             }
         },
 
@@ -108,10 +143,8 @@ module.exports = function(grunt) {
         connect: {
             options: {
                 port: 9001,
-                // Change this to '0.0.0.0' to access the server from outside.
-                hostname: 'localhost',
-                //hostname: '0.0.0.0',
-                livereload: 35730
+                livereload: 35730,
+                hostname: 'localhost'
             },
             livereload: {
                 options: {
@@ -130,6 +163,13 @@ module.exports = function(grunt) {
                         'test',
                         '<%= yeoman.app %>'
                     ]
+                }
+            },
+            docs: {
+                options: {
+                    open: true,
+                    port: '<%= yeoman.docs.port %>',
+                    base: '<%= yeoman.docs.base %>'
                 }
             },
             dist: {
@@ -164,6 +204,7 @@ module.exports = function(grunt) {
                     dot: true,
                     src: [
                         '.tmp',
+                        '<%= yeoman.docs %>/*',
                         '<%= yeoman.dist %>/*',
                         '!<%= yeoman.dist %>/.git*'
                     ]
@@ -233,8 +274,8 @@ module.exports = function(grunt) {
             options: {
                 assetsDirs: ['<%= yeoman.dist %>']
             },
-            html: ['<%= yeoman.dist %>/{,*/}*.html']
-            , css: ['<%= yeoman.dist %>/styles/{,*/}*.css']
+            html: ['<%= yeoman.dist %>/{,*/}*.html'],
+            css: ['<%= yeoman.dist %>/styles/{,*/}*.css']
         },
 
         //The following *-min tasks produce minified files in the dist folder
@@ -244,7 +285,6 @@ module.exports = function(grunt) {
         //         noRebase: true
         //     }
         // },
-
 
         imagemin: {
             dist: {
@@ -406,11 +446,37 @@ module.exports = function(grunt) {
                 configFile: 'karma.conf.js',
                 singleRun: true
             }
+        },
+
+        protractor: {
+            options: {
+                keepAlive: true, // If false, the grunt process stops when the test fails.
+                noColor: false, // If true, protractor will not use colors in its output.
+                args: {}
+            },
+            proto: {   // Grunt requires at least one target to run so you can simply put 'all: {}' here too.
+                options: {
+                    configFile: "protractor.conf.js", // Target-specific config file
+                    args: {
+                        baseUrl: "http://360-ui-prototype.marketshare.com"
+                    } // Target-specific arguments
+                }
+            },
+            local: {   // Grunt requires at least one target to run so you can simply put 'all: {}' here too.
+                options: {
+                    configFile: "protractor.conf.js", // Target-specific config file
+                    args: {
+                        baseUrl: "http://127.0.0.1:9001"
+                    } // Target-specific arguments
+                }
+            }
         }
     });
 
 
     grunt.registerTask('serve', function(target) {
+        var taskRunners = ['watch'];
+
         if (target === 'dist') {
             return grunt.task.run(['build', 'connect:dist:keepalive']);
         }
@@ -421,18 +487,26 @@ module.exports = function(grunt) {
             'sass',
             'concurrent:server',
             'autoprefixer',
-            'connect:livereload',
-            'watch'
+            'connect:livereload'
         ]);
+
+        if (target === 'docs') { // Documentation server.
+            taskRunners.unshift('ngdocs', 'connect:docs');
+        }
+
+        grunt.task.run(taskRunners);
     });
 
+    grunt.registerTask('docs', [
+        'ngdocs'
+    ]);
+
     grunt.registerTask('msserve', function(target) {
+        grunt.log.warn('Running:', target);
         grunt.task.run([
             'connect:dist:keepalive'
         ]);
     });
-
-
 
     grunt.registerTask('server', function(target) {
         grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');

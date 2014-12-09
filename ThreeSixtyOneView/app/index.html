@@ -14,23 +14,13 @@
 		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
 		<link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.css" />
 		<link rel="stylesheet" href="bower_components/ng-sortable/dist/ng-sortable.css" />
-		<link rel="stylesheet" href="bower_components/ng-sortable/dist/ng-sortable.style.css" />
 		<!-- endbower -->
 		<!-- endbuild -->
 		<!-- build:css({.tmp,app}) styles/main.css -->
 		<link rel="stylesheet" href="styles/ms_main.css" />
 		<!-- endbuild -->
 
-        <!-- Web fonts key for http://*.markeshare.com -->
-        <!-- //use.typekit.net/zyk1snl.js -->
-        <!-- Web fonts key for http://localhost -->
-        <!-- //use.typekit.net/zyk1snl.js -->
-        <!-- Web fonts key for http://127.0.0.1 -->
-        <script src="//use.typekit.net/zer1wrp.js"></script>
-        <script>try{Typekit.load();}catch(e){}</script>
-
-
-        <link rel="stylesheet" href="styles/vendor/jquery.wijmo.wijspread.3.20142.11.css" />
+        <link rel="stylesheet" href="styles/vendor/jquery.wijmo.wijspread.3.20143.14.css" />
         <link rel="stylesheet" href="styles/vendor/theme.css" />
 	</head>
 	<body ng-app="ThreeSixtyOneView" ng-controller="MainCtrl">
@@ -38,7 +28,7 @@
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
 		<div class="cap" ng-include src="'views/includes/navigation.tpl.html'"></div>
-		
+
 		<div class="app">
 			<div ui-view></div>
 		</div> <!-- end app -->
@@ -55,7 +45,6 @@
 		<script src="bower_components/angular/angular.js"></script>
 		<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 		<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-		<script src="bower_components/angular-route/angular-route.js"></script>
 		<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 		<script src="bower_components/angular-resource/angular-resource.js"></script>
 		<script src="bower_components/underscore/underscore.js"></script>
@@ -69,7 +58,7 @@
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
-        <script src="scripts/vendor/jquery.wijmo.wijspread.all.3.20142.11.js"></script>
+        <script src="scripts/vendor/jquery.wijmo.wijspread.all.min.js"></script>
 		<script src="scripts/vendor/angular.wijmo.wijspread.3.20142.11.js"></script>
         <script src="scripts/vendor/dialogs.js"></script>
         <script src="scripts/configuration/server_configuration.js"></script>
@@ -80,14 +69,13 @@
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/modals.js"></script>
         <script src="scripts/controllers/pivotbuilder.js"></script>
-		<script src="scripts/controllers/spreadjs.js"></script>
+		<script src="scripts/controllers/pivottable.js"></script>
         <script src="scripts/directives/ms_dropdown.js"></script>
         <script src="scripts/directives/ms_link_group.js"></script>
         <script src="scripts/directives/ms_link.js"></script>
         <script src="scripts/directives/sorting_options.js"></script>
         <script src="scripts/directives/sortable_columns.js"></script>
         <script src="scripts/directives/focus.js"></script>
-        <script src="scripts/directives/search.js"></script>
         <script src="scripts/directives/inline_edit.js"></script>
         <script src="scripts/directives/icon.js"></script>
         <script src="scripts/directives/sorter.js"></script>
@@ -95,27 +83,49 @@
         <script src="scripts/directives/bindonce.js"></script>
         <script src="scripts/directives/indeterminate.js"></script>
 		<script src="scripts/directives/resize.js"></script>
+        <script src="scripts/directives/scroll_pivot_table.js"></script>
+        <script src="scripts/directives/resize_pivot_table.js"></script>
         <script src="scripts/filters/filters.js"></script>
         <script src="scripts/services/sort_and_filter_service.js"></script>
         <script src="scripts/services/resource.js"></script>
-        <script src="scripts/services/active_selection.js"></script>
         <script src="scripts/services/drop_down_service.js"></script>
-        <script src="scripts/services/diaglog_service.js"></script>
-        <script src="scripts/services/projects_model.js"></script>
-        <script src="scripts/services/scenario_model.js"></script>
-        <script src="scripts/services/favorites_model.js"></script>
-        <script src="scripts/services/favorites_service.js"></script>
-        <script src="scripts/services/projects_service.js"></script>
-        <script src="scripts/services/scenario_service.js"></script>
+        <script src="scripts/services/dialog_service.js"></script>
         <script src="scripts/services/pivot_table_service.js"></script>
         <script src="scripts/services/model.js"></script>
         <script src="scripts/services/goto_service.js"></script>
         <script src="views/templates/templates.js"></script>
         <script src="scripts/directives/isunique.js"></script>
-        <script src="scripts/services/cube_model.js"></script>
-        <script src="scripts/services/cube_service.js"></script>
         <script src="scripts/directives/breadcrumb.js"></script>
         <script src="scripts/directives/single_click.js"></script>
+        <script src="scripts/services/error_service.js"></script>
+        <script src="scripts/models/projects_model.js"></script>
+        <script src="scripts/models/projects_service.js"></script>
+        <script src="scripts/models/scenario_model.js"></script>
+        <script src="scripts/models/scenario_service.js"></script>
+        <script src="scripts/models/favorites_model.js"></script>
+        <script src="scripts/models/favorites_service.js"></script>
+        <script src="scripts/models/pivotview_service.js"></script>
+        <script src="scripts/models/pivotview_model.js"></script>
+        <script src="scripts/models/cube_model.js"></script>
+        <script src="scripts/models/cube_service.js"></script>
+        <script src="scripts/models/scenario_element_model.js"></script>
+        <script src="scripts/models/scenario_element_service.js"></script>
+        <script src="scripts/directives/filters.js"></script>
+        <script src="scripts/directives/member.js"></script>
+        <script src="scripts/temp/pivotdata.js"></script>
         <!-- endbuild -->
+
+        <script>
+            // Web fonts key for http://*.markeshare.com
+            // //use.typekit.net/zyk1snl.js
+            // Web fonts key for http://localhost
+            // //use.typekit.net/zyk1snl.js
+            // Web fonts key for http://127.0.0.1
+            // //use.typekit.net/zyk1snl.js
+            var src = document.location.host.indexOf("marketshare") > -1 ? "//use.typekit.net/zyk1snl.js" : "//use.typekit.net/zer1wrp.js"
+            $.getScript(src, function(){
+                try{Typekit.load();}catch(e){}
+            });
+        </script>
     </body>
 </html>

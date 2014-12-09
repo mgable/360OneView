@@ -1,12 +1,15 @@
 <div class="ms-dropdown" id="{{id}}"> 
-	<h6 class="ms-label" ng-class="{active: DropdownService.isActive(id)}"><span ng-show="filterBy"><icon type="filter" cname="filter-icon"></icon></span><span ng-click="select(selectedItem)" class="status select">{{selectedItem.label}}</span>&nbsp<span ng-click="toggle()" class="toggle"><icon type="caret-down"></icon></span></h6> 
-	<ul class="ms-select-list dropshadow hide"> 
-		<li class="ms-item selectSort" ng-repeat="item in items" ng-class="{disabled:item.label === selectedItem.label}" ng-click="selectSort(item)"><icon type="check" cname="ms-ok"></icon>{{item.label}}</li> 
-		<ul ng-if="selectedItem.filters"> 
-			<li class="divider"></li> 
-			<li class="ms-sublabel">FILTER</li> 
-			<li ng-repeat="filter in selectedItem.filters" class="ms-item selectFilter" ng-click="selectFilter(filter)" ng-class="{selected:selectedFilter === filter}"><icon type="check" cname="ms-ok"></icon>{{filter.label}}</li> 
-			<li ng-if="selectedItem.template"><ng-include src="selectedItem.template"></ng-include></li> 
-		</ul> 
+	<h6 class="ms-label" ng-class="{active: DropdownService.isActive(id)}" data-ms-id="label_{{id}}">
+		<span ng-click="select(selectedItem)" data-ms-id="select_{{id}}" class="status select">{{selectedItem.label}}</span>&nbsp;<span class="toggle" ng-click="toggle()" data-ms-id="toggle_{{id}}"><icon type="caret-down"></icon></span></h6> 
+	<ul class="ms-select-list dropdownshadow hide"> 
+		<li class="list-label">Sort Order</li>
+		<ul>
+			<li class="ms-item selectSort" ng-class="{disabled:reverse}" ng-click="select(selectedItem)" data-ms-id="descending"><icon type="check" cname="ms-ok"></icon>Descending</li>
+			<li class="ms-item selectSort" ng-class="{disabled:!reverse}" ng-click="select(selectedItem)" data-ms-id="ascending"><icon type="check" cname="ms-ok"></icon>Ascending</li>
+		</ul>
+		<li class="list-label">Switch  Column</li>
+		<ul>
+			<li class="ms-item selectSort" ng-repeat="item in items" ng-class="{disabled:item.label === selectedItem.label}" ng-click="selectSort(item)" data-ms-id="{{item.label}}"><icon type="check" cname="ms-ok"></icon>{{item.label}}</li>  
+		</ul>
 	</ul> 
 </div>

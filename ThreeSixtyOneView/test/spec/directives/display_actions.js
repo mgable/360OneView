@@ -27,10 +27,10 @@ describe('Directives:', function() {
             $provide.value("$state", state);
             scope.CONFIG = {};
             scope.CONFIG.displayActionsCreate = 'project';
-            element = angular.element('<display-actions show=["create"]></display-actions>');
+            element = angular.element('<display-actions></display-actions>');
             element = $compile(element)(scope);
             scope.$digest();
-            button = element.find(".actions span");
+            button = element.find(".button-holder button");
         }));
 
         it("should have an enabled create button", function() {

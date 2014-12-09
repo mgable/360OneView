@@ -5,25 +5,15 @@
 
 // View controllers
 angular.module('ThreeSixtyOneView')
-    .controller("MainCtrl", ["$scope", "ActiveSelection", "CubeService", function($scope,  ActiveSelection, CubeService) {
+    .controller("MainCtrl", ["$scope", "$location", "ErrorService", function($scope, $location, ErrorService) {
+        // Error service surfaced here
+        // For unit testing only;
+        $scope.ErrorService = ErrorService;
 
-        // These are going away
-        $scope.ActiveSelection = ActiveSelection;
-        CubeService.getMeta(1).then(function(response){
-            // console.info("from main");
-            // console.info(response);
-        });
-
-        CubeService.getMembers(1).then(function(response){
-            // console.info("from main");
-            // console.info(response);
-        });
-
-        CubeService.getViewByMembers(1,1,1).then(function(response){
-            // console.info("from main");
-            // console.info(response);
-        });
-
+        // querystring 'e2e' formats data for protractor tests
+        if ($location.search().e2e === "true"){
+            $scope.e2e = true;
+        }
 
         // convenience methods
         $scope.console = function(msg) {
@@ -36,171 +26,155 @@ angular.module('ThreeSixtyOneView')
                 evt.stopPropagation();
             }
         };
+
     }]).controller("NavigationCtrl", ["$scope", function($scope){
-    }]).controller('InfoTrayCtrl', ["$scope", "$state", "CONFIG", "ActiveSelection", "FavoritesService", "SortAndFilterService", "EVENTS", function($scope, $state, CONFIG, ActiveSelection, FavoritesService, SortAndFilterService, EVENTS) {
+        // Not sure if this is even needed
+    }]).controller("ScenarioListingCtrl", ["$scope", "$controller", "Project", "Scenarios", "ScenarioService", "EVENTS", "DialogService", function($scope,  $controller, Project, Scenarios, ScenarioService, EVENTS, DialogService) {
 
+        // Inherit from base class
+        angular.extend(this, $controller('ListingViewCtrl', {$scope: $scope}));
 
-        $scope.hasFavorites = CONFIG.view[$state.current.name].hasFavorites;
-        $scope.selectedItem = ActiveSelection.getActiveItem();
+        // bootstrap all data
+        var init = function(){
+            $scope.init(Scenarios, getProject);
 
-        $scope.toggleFavorite = function(itemID){
-            FavoritesService.toggleFavorite(itemID);
-            SortAndFilterService.filter();
+            $scope.project = Project;
+            $scope.scenarios = Scenarios;
+            $scope.hasAlerts = Scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
+        },
+        getProject = function(){
+            return $scope.project;
         };
 
-        $scope.isFavorite = function(itemID){
-            return FavoritesService.isFavorite(itemID);
-        };
+        console.info("the project is");
+        console.info(Project);
 
-        $scope.update = function(item) {
-            $scope.$broadcast(EVENTS.renameProject, item);
-        };
-
-        $scope.$on(EVENTS.changeActiveItem, function(event, response) {
-            if (response) {
-                $scope.selectedItem = response;
-            }
-        });
-    }]).controller("ProjectDashboardCtrl", ["$scope", "$controller", "$stateParams", "$state", "CONFIG", "ProjectsService", "Project", "Scenarios", "ActiveSelection", "SortAndFilterService", "GotoService", "ScenarioService", "EVENTS", function($scope,  $controller, $stateParams, $state, CONFIG, ProjectsService, Project, Scenarios, ActiveSelection, SortAndFilterService, GotoService, ScenarioService,EVENTS) {
-
-        angular.extend(this, $controller('ProjectsViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService}));
-
-        var currentView = CONFIG.view[$state.current.name],
-            filter = "",
-            /* jshint ignore:start */
-            filter = eval(currentView.filter),
-            /* jshint ignore:end */
-            reverse = currentView.reverse,
-            orderBy = currentView.orderBy,
-            getScenarios = function(id){
-                return ScenarioService.get(id);
-            },
-            init = function(whichView){
-                console.info(whichView);
-                // bootstrap view with data
-                $scope.CONFIG = currentView;
-                $scope.project = Project;
-
-                $scope.hasAlerts = Scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
-
-                _.extend($scope.CONFIG, $stateParams);
-
-                $scope.data = Scenarios;
-                SortAndFilterService.init({
-                    data: Scenarios,
-                    orderBy: orderBy,
-                    filter: filter,
-                    reverse: reverse
-                });
-
-                // currently this get scenarios - but it will eventually get elements
-                $scope.selectItem(SortAndFilterService.getData()[0]);
-
-            };
-
+        // API
+        // Click handler interface
         $scope.selectItem = function(item){
             $scope.showDetails(item);
         };
 
-
-        $scope.getProject = function(){
-            return $scope.project;
+        $scope.gotoScenarioCreate = function(){
+            DialogService.openCreateScenario(Project, Scenarios);
         };
 
-        $scope.$on(EVENTS.gotoScenarioCreate, function(evt, data){
-            $scope.goto(evt, 'gotoScenarioCreate', $scope.getProject());
+        // Event Listeners
+        $scope.$on(EVENTS.gotoScenarioCreate, function(){
+            $scope.gotoScenarioCreate();
         });
 
-        init($state.current.name);
-    }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "$stateParams", "$state", "CONFIG", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "ActiveSelection", "SortAndFilterService", "GotoService", "DiaglogService", "EVENTS", function($scope, $controller, $stateParams, $state, CONFIG, FavoritesService, ProjectsService, ScenarioService, Projects, ActiveSelection, SortAndFilterService, GotoService, DiaglogService, EVENTS) {
+        $scope.$on(EVENTS.copyScenario, function(evt, scenario){
+            scenario.description = scenario.description || "";
+            delete scenario.id;
+            ScenarioService.create(getProject(), scenario).then(function(response){
+                $scope.goto(evt, 'gotoScenarioEdit', response);
+            });
+        });
 
-        angular.extend(this, $controller('ProjectsViewCtrl', {$scope: $scope, SortAndFilterService: SortAndFilterService, ActiveSelection: ActiveSelection, GotoService:GotoService, ScenarioService:ScenarioService }));
+        $scope.$on(EVENTS.renameScenario, function(evt, scenario){
+            ScenarioService.rename(scenario, $getProject().id);
+        });
+        
+        init();
+    }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "GotoService", "DialogService", "EVENTS", function($scope, $controller, FavoritesService, ProjectsService, ScenarioService, Projects,  GotoService, DialogService, EVENTS) {
 
-        var currentView = CONFIG.view[$state.current.name],
-            filter = "",
-            master,
-            /* jshint ignore:start */
-            filter = eval(currentView.filter),
-            /* jshint ignore:end */
-            reverse = currentView.reverse,
-            orderBy = currentView.orderBy,
-            getScenarios = function(id){
-                return ScenarioService.get(id);
-            },
-            init = function(whichView){
-                // bootstrap view with data
-                $scope.CONFIG = currentView;
-                
-                _.extend($scope.CONFIG, $stateParams);
+        // Inherit from base class
+        angular.extend(this, $controller('ListingViewCtrl', {$scope: $scope}));
 
-                $scope.data = Projects;
+        var init = function(){
+            $scope.init(Projects, getProject);
+            // the master project is always a favorite and not in the favorite REST call (yet?)
+            var master = _.find(Projects, function(elem){return elem.isMaster;});
+            if (master) { FavoritesService.addFavorite(master.id, $scope.CONFIG.favoriteType); }
 
-                SortAndFilterService.init({
-                    data: Projects,
-                    orderBy: orderBy,
-                    filter: filter,
-                    reverse: reverse
-                });
+            // Highlight first item
+            $scope.selectItem($scope.selectedItem);
+        },
+        getScenarios = function(id){
+            return ScenarioService.get(id);
+        },
+        getDetails = function(item, model){
+            return model(item.id).then(function(response){
+                return response;
+            });
+        },
+        getProject = function(){
+            return $scope.selectedItem;
+        };
 
-                // the master project is always a favorite and not in the favorite REST call (yet)
-                master = _.find($scope.data, function(elem){return elem.isMaster;});
-                
-                // get all favorites
-                //FavoritesService.setFavorites(_.pluck(Favorites, 'uuid'));
-                if (master) { FavoritesService.addFavorite(master.id); }
-
-                // select first time in list
-                $scope.selectItem(SortAndFilterService.getData()[0]);
-            };
-
-        // Controller API
+        // API
+        // click handler interface
         $scope.selectItem = function(item){
-            $scope.getDetails(item, getScenarios, "scenarios");
+            // the return is for unit tests, it does nothing in the UI
+            return getDetails(item, getScenarios).then(function(data){
+                item.scenarios = data;
+                $scope.showDetails(item);
+            });
         };
 
-        $scope.toggleFavorite = function($event, itemID){
-            $event.stopPropagation();
-            FavoritesService.toggleFavorite(itemID);
-            SortAndFilterService.filter();
-        };
-
-        $scope.isFavorite = function(itemID){
-            return FavoritesService.isFavorite(itemID);
-        };
-
-        $scope.getProject = function(){
-            return ActiveSelection.getActiveItem();
-        };
-
-        $scope.$on(EVENTS.openCreateProject, function(evt, data){
-            DiaglogService.create('project');
+        // Event listeners
+        $scope.$on(EVENTS.getNewProjectTitle, function(){
+            DialogService.create();
         });
 
-        init($state.current.name);
-    }]).controller("ProjectsViewCtrl", ["$scope", "ActiveSelection", "SortAndFilterService", "GotoService",function($scope, ActiveSelection, SortAndFilterService, GotoService){
+        $scope.$on(EVENTS.createProject, function(evt, title){
+            var newProject = angular.copy($scope.CONFIG.application.models.ProjectsModel.newProject);
+            newProject.title = title;
+            ProjectsService.create(newProject).then(function(response){
+                GotoService.dashboard(response.id);
+            });
+        });
+
+        init();
+    }]).controller("ListingViewCtrl", ["$scope", "$rootScope", "$state", "SortAndFilterService", "DialogService", "GotoService", "CONFIG", "EVENTS", "FavoritesService", "$stateParams", function($scope, $rootScope, $state, SortAndFilterService, DialogService, GotoService, CONFIG, EVENTS, FavoritesService, $stateParams){
+        
+        $scope.init = function(_data_, fn){
+            var currentView = CONFIG.view[$state.current.name],
+                filter = currentView.filterMenu.items[0], 
+                reverse = currentView.reverse,
+                orderBy = currentView.orderBy;
+
+            $scope.CONFIG = currentView;
+            $scope.data = _data_;
+            $scope.selectedItem = null;
+            $scope.getProject = fn;
+
+            // tray variables
+            $scope.showScenario = false;
+            $scope.viewAll = 'View All';
+            $scope.trayActions = CONFIG.view[$state.current.name].trayActions;
+
+            _.extend($scope.CONFIG, $stateParams);
+            _.extend($scope.CONFIG, CONFIG);
+
+            SortAndFilterService.init({
+                data: _data_,
+                orderBy: orderBy,
+                filter: filter,
+                reverse: reverse
+            });
+
+            // select first time in list
+            $scope.showDetails(SortAndFilterService.getData()[0]);
+        };
+
+
         $scope.goto = function(evt, where, item){
             if (evt && evt.stopPropagation){ evt.stopPropagation(); }
             switch(where){
                 case "gotoScenarioEdit": GotoService.scenarioEdit($scope.getProject().id, item.id); break;
                 case "gotoDashboard": GotoService.dashboard(item.id); break;
                 case "gotoProjects": GotoService.projects(); break;
-                case "gotoScenarioCreate": GotoService.scenarioCreate(item.id); break;
             }
         };
 
-        $scope.getDetails = function(item, model, what){
-            model(item.id).then(function(response){
-                item[what] = response;
-                $scope.showDetails(item);
-            });
-        };
-
         $scope.showDetails = function(item){
-            ActiveSelection.setActiveItem(item);
+            $scope.selectedItem = item;
         };
 
         $scope.isActiveItem = function (item){
-            return ActiveSelection.isActiveItem(item);
+            return $scope.selectedItem === item;
         };
 
         $scope.getData = function () {
@@ -211,10 +185,6 @@ angular.module('ThreeSixtyOneView')
             return SortAndFilterService.getSorter(column);
         };
 
-        $scope.getSelectedLabel = function() {
-            return SortAndFilterService.getSelectedLabel();
-        };
-
         $scope.getCount = function() {
             return SortAndFilterService.getCount();
         };
@@ -222,45 +192,59 @@ angular.module('ThreeSixtyOneView')
         $scope.setFilter = function(type, item, forceFilter) {
             SortAndFilterService.setFilter(type, item, forceFilter);
         };
-    }]).controller("ScenarioEditCtrl", ["$scope",  "$stateParams", "GotoService", "ProjectsService", "ScenarioService", "Project", "Scenario", 'ptData', function($scope, $stateParams, GotoService, ProjectsService, ScenarioService, Project, Scenario, ptData) {
-        $scope.GotoService = GotoService;
+
+        $scope.toggleFavorite = function(evt, itemID){
+            evt.stopPropagation();
+            FavoritesService.toggleFavorite(itemID, $scope.CONFIG.favoriteType);
+            SortAndFilterService.filter();
+        };
+
+        $scope.isFavorite = function(itemID){
+            return FavoritesService.isFavorite(itemID);
+        };
+
+        // tray actions
+         $scope.action = function(action, data){
+            if(action){
+                $rootScope.$broadcast(EVENTS[action], action, data);
+            }
+        };
+
+        $scope.toggleShowScenarios = function() {
+            $scope.showScenario = !$scope.showScenario;
+            $scope.viewAll = ($scope.showScenario) ? 'View Less' : 'View All';
+        };
+
+        // tray event listners
+        $scope.$on(EVENTS.trayCopy, function(evt, action, data){
+            if (data){
+                DialogService[action](data);
+            } else {
+                DialogService.notify("ERROR: no scenarios", "There are no scenarios to copy.");
+            }
+        });
+
+        $scope.$on(EVENTS.changeActiveItem, function(event, response) {
+            if (response) {
+                $scope.selectedItem = response;
+            }
+        });
+
+        $scope.$on(EVENTS.noop, function(event, action){
+            DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
+        });
+
+    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", 'ptData', function($scope, Project, Scenario, ScenarioElements, ptData) {
+
+        console.info("scenarios");
+        console.info(Scenario);
         $scope.project = Project;
         $scope.scenario = Scenario;
-
         $scope.pivotTableData = ptData.data;
         // $scope.pivotTableHeaders = ptData.headers;
         $scope.spread = {sheet: {}};
 
         //TODO: temp data
-        $scope.types = ['Marketing Plan', 'Cost Assumptions',' Enviromental Factores', 'Economica Variables', 'Pricing Factors','Brand Factors'];
+        $scope.types =  ScenarioElements;
         $scope.scenarioElementType = $scope.types[0];
-    }]).controller("ScenarioCreateCtrl", ["$scope", "$stateParams", "ScenarioService", "DiaglogService", "GotoService", "Project", "Scenarios", "EVENTS", "CONFIG", function($scope, $stateParams, ScenarioService, DiaglogService, GotoService, Project, Scenarios, EVENTS, CONFIG){
-            var getBaseScenario = function(){
-                return angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
-            };
-
-            $scope.GotoService = GotoService;
-            $scope.project = Project;
-            $scope.scenario = getBaseScenario();
-            $scope.scenarios = Scenarios;
-
-            $scope.createScenario = function(_scenario_){
-                ScenarioService.create($scope.project, _scenario_).then(function(response){
-                    GotoService.scenarioEdit($scope.project.id, response.id);
-                });
-            };
-
-            $scope.isScenarioTitleUnique = function(scenarioTitle) {
-                return ! _.findWhere($scope.scenarios, {title:scenarioTitle});
-            };
-
-
-            $scope.currentScenario = function (scenario){
-                DiaglogService.currentScenario($scope.project, scenario);
-            };
-
-            $scope.$on(EVENTS.updateBaseScenario, function(event, data){
-                $scope.scenario.referenceScenario.id = data.id;
-                $scope.scenario.referenceScenario.name = data.title;
-            });
     }]);

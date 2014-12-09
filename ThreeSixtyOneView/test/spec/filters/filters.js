@@ -19,9 +19,9 @@ describe('Filters:', function() {
         }));
 
         it('should filter out all non-favorites', function(){
-            FavoritesService.addFavorite(2);
-            FavoritesService.addFavorite(234);
-            expect(filter('isFavorite')([{id:1},{id:2}, {id:123}, {id:234}])).toEqual([{id:2},{id:234}]);
+            FavoritesService.addFavorite("2");
+            FavoritesService.addFavorite("234");
+            expect(filter('isFavorite')([{id:"1"},{id:"2"}, {id:"123"}, {id:"234"}])).toEqual([{id:"2"},{id:"234"}]);
         });
 
     });

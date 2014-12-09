@@ -1,13 +1,15 @@
 /* global angular, _ */
 'use strict';
 
-angular.module('ThreeSixtyOneView.services').factory("Resource", function($http, $q){
+angular.module('ThreeSixtyOneView.services').factory("Resource", ["$http", "$q", "$rootScope", "EVENTS", function($http, $q, $rootScope, EVENTS){
         function Resource(http, q, path){
             this._http = http;
             this._path = this._basePath = path;
             this._q = q;
-            var getPath = function (map){
-                return map ? replaceParams(map, this._path) : this._path;
+            var getPath = function (params, additionalPath){
+                var path = additionalPath ? this._basePath + "/" +  additionalPath : this._basePath;
+                path = replaceParams(params, path);
+                return path;
             }, replaceParams = function(map, string){
                 var url = string;
                 _.each(map, function(e,i){
@@ -16,7 +18,8 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
                     var regExp = new RegExp(":" + i);
                     url = url.replace(regExp, e);
                 });
-
+                // remove unreplaced tokens
+                url = url.replace(/\/:[^\/]*/gi,"");
                 return url;
             };
 
@@ -24,35 +27,35 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
                 this._path = this._basePath + "/" +  _path_;
             };
 
-            this.getPath = function(){
-                return this._basePath;
-            };
-
-            this.get = function(uid, _config_){
-                var deferred = this._q.defer(), config = _config_ || {};
+            this.get = function(params, _config_, additionalPath){
+                var deferred = this._q.defer(), config = _config_ || {},
+                    path = getPath.call(this, params, additionalPath);
 
                 this._http
-                    .get(getPath.call(this, uid), config)
+                    .get(path, config)
                     .success(deferred.resolve)
-                    .error(deferred.reject);
+                    .error(function(data, status, headers, config){
+                        $rootScope.$broadcast(EVENTS.serverError, {data:data, status:status, headers:headers, config: config});
+                    });
 
                 return deferred.promise;
             };
 
-            this.post = function(data, _config_, params) {
-                var deferred = this._q.defer(), path, config = _config_ || {};
+            this.post = function(data, _config_, params, additionalPath) {
+                var deferred = this._q.defer(), config = _config_ || {},
+                    path = getPath.call(this, params, additionalPath);
 
                 if (typeof data === 'undefined') {
                     deferred.reject('I need an item template');
                     return deferred.promise;
                 }
 
-                path = params ? getPath.call(this, params) : this._path;
-
                 this._http
                     .post(path, data, config)
                     .success(deferred.resolve)
-                    .error(deferred.reject);
+                    .error(function(data, status, headers, config){
+                        $rootScope.$broadcast(EVENTS.serverError, {data:data, status:status, headers:headers, config: config});
+                    });
 
                 return deferred.promise;
             };
@@ -60,34 +63,42 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
             //Alias for now
             this.create = this.post;
 
-            this.put = function(params, _config_) {
-                var deferred = this._q.defer(), config = _config_ || {};
+            this.put = function(data, _config_, params, additionalPath) {
+                var deferred = this._q.defer(), config = _config_ || {},
+                    path = getPath.call(this, params, additionalPath);
 
-                if (typeof params === 'undefined') {
-                    deferred.reject('I need an params with an id');
+                if (typeof data === 'undefined') {
+                    deferred.reject('I need an data with an id');
                     return deferred.promise;
                 }
 
                 this._http
-                    .put(this._path, params, config)
+                    .put(path, data, config)
                     .success(deferred.resolve)
-                    .error(deferred.reject);
+                    .error(function(data, status, headers, config){
+                        $rootScope.$broadcast(EVENTS.serverError, {data:data, status:status, headers:headers, config: config});
+                    });
 
                 return deferred.promise;
             };
 
-            this.delete = function(item, _config_){
-                var deferred = this._q.defer(), config = _config_ || {};
+            this.delete = function(query, _config_, params, additionalPath){
+                var deferred = this._q.defer(), config = _config_ || {},
+                    path = getPath.call(this, params, additionalPath);
 
-                if (typeof item === 'undefined') {
-                    deferred.reject('I need an item with an id');
+                if (typeof query === 'undefined') {
+                    deferred.reject('I need an query with an id');
                     return deferred.promise;
                 }
 
+                _.extend(config, query);
+
                 this._http
-                    .delete(this._path, item, config)
+                    .delete(path, config)
                     .success(deferred.resolve)
-                    .error(deferred.reject);
+                    .error(function(data, status, headers, config){
+                        $rootScope.$broadcast(EVENTS.serverError, {data:data, status:status, headers:headers, config: config});
+                    });
 
                 return deferred.promise;
             };
@@ -96,4 +107,4 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", function($http,
         return function (path){
             return new Resource ($http, $q, path);
         };
-    });
+    }]);

@@ -1,7 +1,9 @@
 @import "variables";
 
-.scenario-edit {
-	margin: 25px;
+.Scenario {
+	margin: 0 20px;
+	padding: 20px;
+	background-color: $white;
 	.details {
 		margin: 0 0 20px 0;
 		.media {

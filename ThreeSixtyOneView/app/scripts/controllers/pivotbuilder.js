@@ -7,18 +7,23 @@
 * # PivotbuilderctrlCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($scope, $timeout, $filter, pbData) {
+angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$filter', 'pbData', 'ptData', 'PivotViewService', 'Views', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, $filter, pbData, ptData, PivotViewService, Views, DialogService) {
+
 	var init = function() {
 		$scope.pbShow = false;
 		$scope.pbData = angular.copy(pbData);
-		$scope.viewName = pbData.viewData.name;
+		$scope.draftView = false;
 
-		$scope.viewApplied = true;
+		// Rest APIs
+		$scope.viewName = Views.currentView.name;
+		$scope.viewsList = Views.views;
+		// console.log(PivotViewService.createView({name: "View from JS", isDefault: false, rows: [{dimension: {id: 1}, hierarchy: {id: -1}, level: {id: 2}}], columns: [{dimension: {id: 2}, hierarchy: {id: -1}, level: {id: 2}}], filters: []}));
 
 		$scope.saveAs = false;
-		$scope.alertOpacity = 0;
 
 		$scope.notifMsg = false;
+
+		$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
 
 		$scope.add = {selected: ""};
 		$scope.added = {};
@@ -32,44 +37,49 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		});
 
 		$scope.selectedFilter = {cat: ''};
-		$scope.toAddFilter = {};
 		$scope.addedFilter = {};
-		$scope.filterCollapse = {};
-		$scope.filterSearch = {values: ''};
+		$scope.filterSearch = {label: ''};
 
 		copyFilter();
 
-		$scope.undoList = [];
-		$scope.undoPerformed = true;
-		$scope.$watch('pbData.viewData', function(newVal, oldVal) {
-			if($scope.undoPerformed) {
-				$scope.undoPerformed = false;
-			} else {
-				$scope.undoList.push(oldVal);
-				$scope.viewApplied = false;
-			}
-		}, true);
-
 		$scope.dragOptions = {
-			itemMoved: function(event) {
+			itemMoved: function() {
 				// console.log(event);
-				// $scope.applyView();
+				if(!$scope.draftView) {
+					$scope.draftView = true;
+					$scope.viewName += ' - Draft';
+				}
+				$scope.applyView();
 			},
-			orderChanged: function(event) {
+			orderChanged: function() {
 				// console.log(event);
-				// $scope.applyView();
+				if(!$scope.draftView) {
+					$scope.draftView = true;
+					$scope.viewName += ' - Draft';
+				}
+				$scope.applyView();
 			},
-			dragStart: function(event) {
-				// console.log(event);
-			}
-			// containment: '#dragDropArea'
+			// dragStart: function(event) {
+			// 	// console.log(event);
+			// },
+			containment: '#dragDropArea'
 		};
 
-		$scope.identity = angular.identity();
+		// $scope.identity = angular.identity();
+	};
+
+	// create the temporary filter object from the view data
+	var copyFilter = function() {
+		angular.forEach($scope.pbData.viewData.filters, function(val) {
+			$scope.addedFilter[val.name] = {};
+			angular.forEach(val.items, function(subval) {
+				$scope.addedFilter[val.name][subval] = true;
+			});
+		});
 	};
 
 	// delete an item from column/row
-	$scope.delItem =  function(itemName, dim) {
+	$scope.deleteItem =  function(itemName, dim) {
 		var itemInd = -1;
 		for(var i = 0, n = $scope.pbData.viewData[dim].length; i < n; i++) {
 			if($scope.pbData.viewData[dim][i].name === itemName) {
@@ -82,7 +92,11 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			$scope.pbData.viewData[dim].splice(itemInd, 1);
 			$scope.added[itemName] = false;
 
-			// $scope.applyView();
+			if(!$scope.draftView) {
+				$scope.draftView = true;
+				$scope.viewName += ' - Draft';
+			}
+			$scope.applyView();
 		}
 	};
 
@@ -101,189 +115,126 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		} else {
 			$scope.pbData.viewData[$scope.add.selected].push(val);
 		}
-		
+
 		$scope.added[item] = true;
 
 		$scope.addPopUp[$scope.add.selected] = !$scope.addPopUp[$scope.add.selected];
 
-		// $scope.applyView();
+		if(!$scope.draftView) {
+			$scope.draftView = true;
+			$scope.viewName += ' - Draft';
+		}
+		$scope.applyView();
 	};
 
 	// set up the add row/column pop-up location
 	$scope.popUpLocSet = function($event) {
-		var top = $event.target.offsetTop - document.body.scrollTop,
+		var top = $event.target.offsetTop - (document.body.scrollTop || window.pageYOffset || 0),
 			left = $event.target.offsetLeft;
-		$scope.popUpLoc = {top: top, left: left};
+		$scope.popUpLoc = {top: top, left: left - 150};
 	};
 
-	// create the temporary filter object from the view data
-	var copyFilter = function() {
-		angular.forEach($scope.pbData.viewData.filters, function(val) {
-			$scope.addedFilter[val.name] = {};
-			angular.forEach(val.items, function(subval) {
-				$scope.addedFilter[val.name][subval] = true;
-			});
+	// display/hide add/replace items pop up
+	$scope.itemModifyPopUp = function(pivotBuilderItem, replaceIndex, $event) {
+		$scope.add.replaceItem = replaceIndex;
+		$scope.addPopUp[pivotBuilderItem.other] = false;
+		$scope.addPopUp[pivotBuilderItem.name] = !$scope.addPopUp[pivotBuilderItem.name];
+		$scope.add.selected = pivotBuilderItem.name;
+		$scope.popUpLocSet($event);
+	};
+
+	// open/dismiss filters selection modal
+	$scope.filtersModal = function(category) {
+		$scope.selectedFilter.cat = category;
+
+		var dialog = DialogService.openFilterSelection('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl', {selFil: $scope.selectedFilter.selFil, cat: $scope.selectedFilter.cat, addedFilter: $scope.addedFilter, pbData: $scope.pbData}, {windowSize: 'lg', windowClass: 'filtersSelectionModal'});
+		
+		dialog.result.then(function(data) {
+			$scope.pbData.viewData.filters = data;
+			copyFilter();
+
+			if(!$scope.draftView) {
+				$scope.draftView = true;
+				$scope.viewName += ' - Draft';
+			}
+			$scope.applyView();
 		});
 	};
 
-	// make the temporary changes in the filters
-	$scope.changeFilter = function() {
-		angular.forEach($scope.pbData.viewData.filters, function(val) {
-			val.items = [];
-			angular.forEach($scope.addedFilter[val.name], function(subval, subkey) {
-				if(subval) {
-					val.items.push(subkey);
+	// aggregate filter values based on categories
+	$scope.categorizeValues = function(index, items) {
+		var i, result;
+
+		var countValues = function(category) {
+			var output = {
+				label: [],
+				selected: 0,
+				total: 0
+			};
+			var j, tempResult;
+
+			if(category.members.length > 0) {
+				for(j = 0; j < category.members.length; j++) {
+					tempResult = countValues(category.members[j]);
+
+					if(!tempResult) {
+						return false;
+					}
+
+					if(tempResult.selected > 0 && tempResult.selected !== tempResult.total) {
+						return false;
+					} else if(tempResult.selected === tempResult.total) {
+						output.label.push(category.members[j].label);
+						output.selected++;
+					}
+					output.total++;
 				}
-			});
-		});
-	};
 
-	// cancel the made changes to the filter
-	$scope.cancelChangeFilter = function() {
-		$scope.filterSearch = {values: ''};
-		$scope.filterCollapse = {};
-		copyFilter();
-	};
-
-	// calculate the count of items in each filter based on the category or all
-	$scope.filterCount = function(obj, cat, fltr) {
-		var count = 0,
-			filterLowerCase = angular.lowercase(fltr);
-
-		if(!cat) {
-			angular.forEach(obj, function(val, key) {
-				if(val && (key.toLowerCase().indexOf(filterLowerCase) > -1)) {
-					count++;
+			} else {
+				if(items[category.label]) {
+					output.selected = 1;
+					output.label.push(category.label);
 				}
-			});
-		} else {
-			angular.forEach(obj, function(val, key) {
-				if (cat.indexOf(key) > -1 && (key.toLowerCase().indexOf(filterLowerCase) > -1) && val) {
-					count++;
-				}
-			});
-		}
-		return count;
-	};
-
-	// select/deselect all values in a view considering the search value
-	$scope.allFilters = function(fltr) {
-		var value = false;
-
-		if($scope.filterCount($scope.addedFilter[$scope.selectedFilter.cat.name], false, fltr) < $scope.totalFilterCount($scope.selectedFilter.cat.subitems[$scope.selectedFilter.cat.subitems.length - 1].subsubitems[0].values, fltr)) {
-			value = true;
-		} else {
-			value = false;
-		}
-
-		angular.forEach($scope.selectedFilter.cat.subitems[$scope.selectedFilter.cat.subitems.length - 1].subsubitems[0].values, function(val) {
-			if(val.toLowerCase().indexOf(angular.lowercase(fltr)) > -1) {
-				$scope.addedFilter[$scope.selectedFilter.cat.name][val] = value;
-			}
-		});
-	};
-
-	// calculate total items in a view considering the search value
-	$scope.totalFilterCount = function(items, fltr) {
-		var filteredItems = $filter('filter')(items, fltr);
-
-		if(!!filteredItems) {
-			return filteredItems.length;
-		}
-		return 0;
-	};
-
-	// select all filter values in a category
-	$scope.allCategoryFilters = function(values, fltr) {
-		var containsAll = true,
-			current = [];
-
-		for(var key in $scope.addedFilter[$scope.selectedFilter.cat.name]) {
-			if($scope.addedFilter[$scope.selectedFilter.cat.name][key] && (angular.lowercase(key).indexOf(angular.lowercase(fltr)) > -1)) {
-				current.push(key);
-			}
-		}
-
-		var filterValues = $filter('filter')(values, fltr);
-
-		for(var i = 0, n = filterValues.length; i < n; i++) {
-			if(current.indexOf(filterValues[i]) < 0) {
-				containsAll = false;
-				break;
-			}
-		}
-
-		if(containsAll) {
-			for(i = 0, n = filterValues.length; i < n; i++) {
-				$scope.addedFilter[$scope.selectedFilter.cat.name][filterValues[i]] = false;
-			}
-		} else {
-			for(i = 0, n = filterValues.length; i < n; i++) {
-				$scope.addedFilter[$scope.selectedFilter.cat.name][filterValues[i]] = true;
-			}
-		}
-	};
-
-	// expand the filter categories after typing in the search fields
-	$scope.expandCategories = function(cat, search) {
-		if(search.values === '') {
-			return false;
-		}
-
-		var results = $filter('filter')(cat, search, false);
-		for(var i = 0, n = results.length; i < n; i++) {
-			$scope.filterCollapse[results[i].name] = true;
-		}
-	};
-
-	// choose the view based on added items in the column/row
-	$scope.chooseViewBy = function(items) {
-		for(var i = 0; i < items.length; i++) {
-			for(var j = 0; j < $scope.pbData.viewData.columns.length; j++) {
-				if(items[i].name === $scope.pbData.viewData.columns[j].name) {
-					return items[i];
-				}
+				output.total = 1;
 			}
 
-			for(j = 0; j < $scope.pbData.viewData.rows.length; j++) {
-				if(items[i].name === $scope.pbData.viewData.rows[j].name) {
-					return items[i];
+			return output;
+		};
+
+		for(i = 0; i < pbData.itemsList[index].members.length; i++) {
+			result = countValues(pbData.itemsList[index].members[i]);
+			if(!!result) {
+				if(result.selected !== result.total) {
+					return result;
 				}
 			}
 		}
-
-		return items[items.length - 1];
+		return result;
 	};
 
 	// reset the view to the last saved state
 	$scope.resetView = function() {
 		$scope.pbData = angular.copy(pbData);
-	};
+		$scope.notify('Changes discarded!');
 
-	// close the slider (pivot table view builder)
-	$scope.closeSlider = function() {
-		if($scope.viewApplied) {
-			$scope.pbShow = false;
-			$scope.undoList = [];
-		} else {
-			if($scope.alertOpacity > 0) {
-				$scope.resetView();
-				$scope.viewApplied = true;
-				$scope.pbShow = false;
-				$scope.alertOpacity = 0;
-				$scope.undoList = [];
-			} else {
-				$scope.alertOpacity = 1;
-			}
+		if($scope.draftView) {
+			$scope.viewName = Views.currentView.name;
+			$scope.draftView = false;
 		}
+
+		$scope.applyView();
 	};
 
 	// save the changes in the current view
 	$scope.saveView = function() {
 		if($scope.changeMade()) {
 			pbData = angular.copy($scope.pbData);
-		
+
+			if($scope.draftView) {
+				$scope.viewName = Views.currentView.name;
+			}
 			$scope.notify('Saved!');
+			$scope.draftView = false;
 		}
 	};
 
@@ -298,7 +249,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		if(event.keyCode === 13) {
 			$scope.finishSaveAs(true);
 		} else if(event.keyCode === 27) {
-			$scope.cancelSaveAs();
+			$scope.finishSaveAs(false);
 		}
 	};
 
@@ -306,8 +257,9 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 	$scope.finishSaveAs = function(save) {
 		if(save) {
 			$scope.viewName = $scope.saveAsName;
-			$scope.saveView();
-			
+			$scope.draftView = false;
+			// $scope.saveView();
+
 			$scope.notify('Saved!');
 		}
 
@@ -333,41 +285,32 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 		var category = [],
 			item = [];
-		
+
 		var totalColCount = 1;
 		var pivotCols = [];
 		var colCounter = [];
 
 		for(i = 0; i < numCols; i++) {
-
-
 			category = [];
-			for(j = 0; j < $scope.pbData.itemsList.length; j++) {
-				if($scope.pbData.itemsList[j].name === $scope.pbData.viewData.columns[i].category) {
-					category.push($scope.pbData.itemsList[j]);
+			for(j = 0; j < pbData.itemsList.length; j++) {
+				if(pbData.itemsList[j].label === $scope.pbData.viewData.columns[i].category) {
+					category.push(pbData.itemsList[j]);
 					break;
 				}
 			}
 
 			item = [];
-			for(j = 0; j < category[0].subitems.length; j++) {
-				if(category[0].subitems[j].name === $scope.pbData.viewData.columns[i].name) {
-					item.push(category[0].subitems[j]);
+			for(j = 0; j < category[0].members.length; j++) {
+				if(category[0].members[j].label === $scope.pbData.viewData.columns[i].name) {
+					item.push(category[0].members[j]);
 					break;
 				}
 			}
 
-			if(item[0].subsubitems.length === 1) {
-				pivotCols[i] = item[0].subsubitems[0].values;
-				totalColCount *= item[0].subsubitems[0].values.length;
-			} else {
-				totalColCount *= item[0].subsubitems.length;
-				for(j = 0; j < item[0].subsubitems.length; j++) {
-					if(!angular.isArray(pivotCols[i])) {
-						pivotCols[i] = [];
-					}
-					pivotCols[i][j] = item[0].subsubitems[j].name;
-				}
+			totalColCount *= item[0].members.length;
+			pivotCols[i] = [];
+			for(j = 0; j < item[0].members.length; j++) {
+				pivotCols[i][j] = item[0].members[j].label;
 			}
 
 			colCounter[i] = 0;
@@ -379,32 +322,25 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 
 		for(i = 0; i < numRows; i++) {
 			category = [];
-			for(j = 0; j < $scope.pbData.itemsList.length; j++) {
-				if($scope.pbData.itemsList[j].name === $scope.pbData.viewData.rows[i].category) {
-					category.push($scope.pbData.itemsList[j]);
+			for(j = 0; j < pbData.itemsList.length; j++) {
+				if(pbData.itemsList[j].label === $scope.pbData.viewData.rows[i].category) {
+					category.push(pbData.itemsList[j]);
 					break;
 				}
 			}
 
 			item = [];
-			for(j = 0; j < category[0].subitems.length; j++) {
-				if(category[0].subitems[j].name === $scope.pbData.viewData.rows[i].name) {
-					item.push(category[0].subitems[j]);
+			for(j = 0; j < category[0].members.length; j++) {
+				if(category[0].members[j].label === $scope.pbData.viewData.rows[i].name) {
+					item.push(category[0].members[j]);
 					break;
 				}
 			}
 
-			if(item[0].subsubitems.length === 1) {
-				pivotRows[i] = item[0].subsubitems[0].values;
-				totalRowCount *= item[0].subsubitems[0].values.length;
-			} else {
-				totalRowCount *= item[0].subsubitems.length;
-				for(j = 0; j < item[0].subsubitems.length; j++) {
-					if(!angular.isArray(pivotRows[i])) {
-						pivotRows[i] = [];
-					}
-					pivotRows[i][j] = item[0].subsubitems[j].name;
-				}
+			totalRowCount *= item[0].members.length;
+			pivotRows[i] = [];
+			for(j = 0; j < item[0].members.length; j++) {
+				pivotRows[i][j] = item[0].members[j].label;
 			}
 
 			rowCounter[i] = 0;
@@ -419,8 +355,12 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 			}
 		}
 
+		for(i = 0; i < numRows; i++) {
+			$scope.pivotTableData[numCols - 1][i] = $scope.pbData.viewData.rows[i].name;
+		}
+
 		for(i = 0; i < totalColCount; i++) {
-			
+
 			for(j = 0; j < numCols; j++) {
 				$scope.pivotTableData[j][i + numRows] = pivotCols[j][colCounter[j]];
 			}
@@ -453,358 +393,26 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', function ($sc
 		// $scope.spread.sheet.setDataSource($scope.pivotTableData);
 
 		$scope.spread.updateSheet($scope.pivotTableData, numCols, numRows, totalColCount, totalRowCount);
+		$scope.heightChanged();
+
 
 		// $scope.spread.sheet.addSpan(0,0,numCols,numRows);
 		// $scope.spread.sheet.setFrozenRowCount(numCols);
 		// $scope.spread.sheet.setFrozenColumnCount(numRows);
 
-
-		$scope.viewApplied = true;
 	};
 
-	// undo one change at a time
-	$scope.undoViewChange = function() {
-		if($scope.undoList.length === 0) {
-			return false;
-		}
+	$scope.heightChanged = function() {
 
-		$scope.pbData.viewData = $scope.undoList.pop();
-
-		$scope.added = [];
-
-		angular.forEach($scope.pbData.viewData.columns, function(val) {
-			$scope.added[val.name] = true;
-		});
-		angular.forEach($scope.pbData.viewData.rows, function(val) {
-			$scope.added[val.name] = true;
-		});
-
-		$scope.undoPerformed = true;
-		$scope.viewApplied = false;
+		$timeout(function() {
+			$scope.pivotBuilderHeight = angular.element.find('#pivotBuilder')[0].offsetHeight;
+			$rootScope.$broadcast(EVENTS.heightChanged, $scope.pivotBuilderHeight);
+        }, 400);
 	};
 
 	init();
-
-}).controller('pivotTableCtrl', ['$scope', 'pbData',
-	function ($scope, pbData) {
-		$scope.data = pbData.tableValues;
-	}
-]).factory('pbData', function () {
-	return {
-		viewsList: [
-			{name: 'Joe\'s View',id: '1'},
-			{name: 'Fiesta 2015',id: '2'},
-			{name: 'Region by nameplate 2013',id: '3'},
-			{name: 'Behrooz\'s View',id: '4'}
-		],
-		itemsList: [
-			{name: 'Touchpoint', subitems: [
-				{name: 'National/Local Spend', subsubitems: [
-					{name: 'National', values: ['National Magazine Brand','National Magazine Nameplate','National Newspaper Brand','National Newspaper Nameplate','National TV Cable Brand','National TV Cable Nameplate','National TV Network Brand','National TV Network Nameplate']},
-					{name: 'Local', values: ['Local Newspaper Brand','Local Online Display Brand','Local OOH Brand','Local Paid Search Brand','Local Radio Brand','Local Sponsorship Brand','Local TV Brand','Local Newspaper Nameplate','Local Online Display Nameplate','Local OOH Nameplate','Local Radio Nameplate','Local TV Nameplate']}
-					]},
-				{name: 'Brand/Nameplate Spend', subsubitems: [
-					{name: 'Brand', values: ['National Magazine Brand','Local Newspaper Brand','National Newspaper Brand','Local Online Display Brand','Local OOH Brand','Local Paid Search Brand','Local Radio Brand','Local Sponsorship Brand','National TV Cable Brand','Local TV Brand','National TV Network Brand']},
-					{name: 'Nameplate', values: ['National Magazine Nameplate','National Newspaper Nameplate','National TV Cable Nameplate','National TV Network Nameplate','Local Newspaper Nameplate','Local Online Display Nameplate','Local OOH Nameplate','Local Radio Nameplate','Local TV Nameplate']}
-					]},
-				{name: 'Channel', subsubitems: [
-					{name: 'Magazine', values: ['National Magazine Brand','National Magazine Nameplate']},
-					{name: 'Newspaper', values: ['Local Newspaper Brand','National Newspaper Brand','National Newspaper Nameplate','Local Newspaper Nameplate']},
-					{name: 'Online', values: ['Local Online Display Brand','Local Online Display Nameplate']},
-					{name: 'OOH', values: ['Local OOH Brand','Local OOH Nameplate']},
-					{name: 'Paid', values: ['Local Paid Search Brand']},
-					{name: 'Radio', values: ['Local Radio Brand','Local Radio Nameplate']},
-					{name: 'Sponsorship', values: ['Local Sponsorship Brand']},
-					{name: 'TV', values: ['National TV Cable Brand','National TV Cable Nameplate','Local TV Brand','National TV Network Brand','National TV Network Nameplate','Local TV Nameplate']}
-					]},
-				{name: 'Leaf Touchpoints', subsubitems: [
-					{name: '', values: ['National Magazine Brand','National Magazine Nameplate','Local Newspaper Brand','National Newspaper Brand','National Newspaper Nameplate','Local Online Display Brand','Local OOH Brand','Local Paid Search Brand','Local Radio Brand','Local Sponsorship Brand','National TV Cable Brand','National TV Cable Nameplate','Local TV Brand','National TV Network Brand','National TV Network Nameplate','Local Newspaper Nameplate','Local Online Display Nameplate','Local OOH Nameplate','Local Radio Nameplate','Local TV Nameplate']}
-					]}
-				]},
-			{name: 'Nameplate', subitems: [
-				{name: 'Nameplate Groups', subsubitems: [
-					{name: 'Car', values: ['Focus','Taurus','Mustang','Fiesta','Fusion']},
-					{name: 'Truck', values: ['F-Series','E-Series','Transit']},
-					{name: 'Utility', values: ['Escape','Expedition','Explorer','Edge','Flex']},
-					{name: 'Brand', values: ['Brand']}
-					]},
-				{name: 'Nameplates', subsubitems: [
-					{name: '', values: ['Focus','Taurus','Mustang','Fiesta','Fusion','F-Series','E-Series','Transit','Escape','Expedition','Explorer','Edge','Flex','Brand']}
-					]}
-				]},
-			{name: 'Region', subitems: [
-				{name: 'Region', subsubitems: [
-					{name: 'Southeast', values: ['Atlanta','Miami','Charlotte','Orlando']},
-					{name: 'West', values: ['Denver','Los Angeles','Seattle','Phoenix','San Francisco']},
-					{name: 'Central', values: ['Kansas City','Memphis','Houston','Dallas']},
-					{name: 'Great Lakes', values: ['Chicago','Pittsburgh','Cincinnati','Detroit', 'Twin Cities']},
-					{name: 'Northeast', values: ['Washington','New York','Boston','Philadelphia']},
-					{name: 'National', values: ['National']}
-					]},
-				{name: 'City', subsubitems: [
-					{name: '', values: ['Atlanta','Miami','Charlotte','Orlando','Denver','Los Angeles','Seattle','Phoenix','San Francisco','Kansas City','Memphis','Houston','Dallas','Chicago','Pittsburgh','Cincinnati','Detroit','Twin Cities','Washington','New York','Boston','Philadelphia','National']}
-					]}
-				]},
-			{name: 'Time', subitems: [
-				{name: 'Years', subsubitems: [
-					{name: '2013', values: ['January 2013', 'February 2013', 'March 2013', 'April 2013', 'May 2013', 'June 2013', 'July 2013', 'August 2013', 'September 2013', 'October 2013', 'November 2013', 'December 2013']},
-					{name: '2014', values: ['January 2014', 'February 2014', 'March 2014', 'April 2014', 'May 2014', 'June 2014', 'July 2014', 'August 2014', 'September 2014', 'October 2014', 'November 2014', 'December 2014']}
-					]},
-				{name: 'Quarters', subsubitems: [
-					{name: 'Q1 2013', values: ['January 2013', 'February 2013', 'March 2013']},
-					{name: 'Q2 2013', values: ['April 2013', 'May 2013', 'June 2013']},
-					{name: 'Q3 2013', values: ['July 2013', 'August 2013', 'September 2013']},
-					{name: 'Q4 2013', values: ['October 2013', 'November 2013', 'December 2013']},
-					{name: 'Q1 2014', values: ['January 2014', 'February 2014', 'March 2014']},
-					{name: 'Q2 2014', values: ['April 2014', 'May 2014', 'June 2014']},
-					{name: 'Q3 2014', values: ['July 2014', 'August 2014', 'September 2014']},
-					{name: 'Q4 2014', values: ['October 2014', 'November 2014', 'December 2014']}
-					]},
-				{name: 'Months', subsubitems: [
-					{name: '', values: ['January 2013', 'February 2013', 'March 2013', 'April 2013', 'May 2013', 'June 2013', 'July 2013', 'August 2013', 'September 2013', 'October 2013', 'November 2013', 'December 2013','January 2014', 'February 2014', 'March 2014', 'April 2014', 'May 2014', 'June 2014', 'July 2014', 'August 2014', 'September 2014', 'October 2014', 'November 2014', 'December 2014']}
-					]}
-				]}
-			],
-		viewData: {
-			id: '4',
-			name: 'Behrooz\'s View',
-			columns: [{category: 'Nameplate', name: 'Nameplate Groups'}, {category: 'Touchpoint', name: 'Channel'}],
-			rows: [{category: 'Time', name: 'Years'}, {category: 'Region', name: 'City'}],
-			filters: [
-				{name: 'Touchpoint', items: ['National Magazine Brand','National Magazine Nameplate','Local Newspaper Brand','National Newspaper Brand','National Newspaper Nameplate','Local Online Display Brand','Local OOH Brand','Local Paid Search Brand','Local Radio Brand','Local Sponsorship Brand','National TV Cable Brand','National TV Cable Nameplate','Local TV Brand','National TV Network Brand','National TV Network Nameplate','Local Newspaper Nameplate','Local Online Display Nameplate','Local OOH Nameplate','Local Radio Nameplate','Local TV Nameplate']},
-				{name: 'Nameplate', items: ['Focus','Taurus','Mustang','Fiesta','Fusion','F-Series','E-Series','Transit','Escape','Expedition','Explorer','Edge','Flex','Brand']},
-				{name: 'Region', items: ['Atlanta','Miami','Charlotte','Orlando','Denver','Los Angeles','Seattle','Phoenix','San Francisco','Kansas City','Memphis','Houston','Dallas','Chicago','Pittsburgh','Cincinnati','Detroit','Twin Cities','Washington','New York','Boston','Philadelphia','National']},
-				{name: 'Time', items: ['January 2013', 'February 2013', 'March 2013', 'April 2013', 'May 2013', 'June 2013', 'July 2013', 'August 2013', 'September 2013', 'October 2013', 'November 2013', 'December 2013','January 2014', 'February 2014', 'March 2014', 'April 2014', 'May 2014', 'June 2014', 'July 2014', 'August 2014', 'September 2014', 'October 2014', 'November 2014', 'December 2014']},
-				{name: 'KPI', items: []}
-				]
-			}
-	};
-}).factory('ptData', function() {
-	return {
-		"data": [{
-			"0": "",
-			"1": "",
-			"2": "Car",
-			"3": "Car",
-			"4": "Car",
-			"5": "Car",
-			"6": "Car",
-			"7": "Car",
-			"8": "Car",
-			"9": "Car",
-			"10": "Truck",
-			"11": "Truck",
-			"12": "Truck",
-			"13": "Truck",
-			"14": "Truck",
-			"15": "Truck",
-			"16": "Truck",
-			"17": "Truck",
-			"18": "Utility",
-			"19": "Utility",
-			"20": "Utility",
-			"21": "Utility",
-			"22": "Utility",
-			"23": "Utility",
-			"24": "Utility",
-			"25": "Utility",
-			"26": "Brand",
-			"27": "Brand",
-			"28": "Brand",
-			"29": "Brand",
-			"30": "Brand",
-			"31": "Brand",
-			"32": "Brand",
-			"33": "Brand"
-		}, {
-			"0": "",
-			"1": "",
-			"2": "Magazine",
-			"3": "Newspaper",
-			"4": "Online",
-			"5": "OOH",
-			"6": "Paid",
-			"7": "Radio",
-			"8": "Sponsorship",
-			"9": "TV",
-			"10": "Magazine",
-			"11": "Newspaper",
-			"12": "Online",
-			"13": "OOH",
-			"14": "Paid",
-			"15": "Radio",
-			"16": "Sponsorship",
-			"17": "TV",
-			"18": "Magazine",
-			"19": "Newspaper",
-			"20": "Online",
-			"21": "OOH",
-			"22": "Paid",
-			"23": "Radio",
-			"24": "Sponsorship",
-			"25": "TV",
-			"26": "Magazine",
-			"27": "Newspaper",
-			"28": "Online",
-			"29": "OOH",
-			"30": "Paid",
-			"31": "Radio",
-			"32": "Sponsorship",
-			"33": "TV"
-		}, {
-			"0": "2013",
-			"1": "Total"
-		}, {
-			"0": "2013",
-			"1": "Atlanta"
-		}, {
-			"0": "2013",
-			"1": "Miami"
-		}, {
-			"0": "2013",
-			"1": "Charlotte"
-		}, {
-			"0": "2013",
-			"1": "Orlando"
-		}, {
-			"0": "2013",
-			"1": "Denver"
-		}, {
-			"0": "2013",
-			"1": "Los Angeles"
-		}, {
-			"0": "2013",
-			"1": "Seattle"
-		}, {
-			"0": "2013",
-			"1": "Phoenix"
-		}, {
-			"0": "2013",
-			"1": "San Francisco"
-		}, {
-			"0": "2013",
-			"1": "Kansas City"
-		}, {
-			"0": "2013",
-			"1": "Memphis"
-		}, {
-			"0": "2013",
-			"1": "Houston"
-		}, {
-			"0": "2013",
-			"1": "Dallas"
-		}, {
-			"0": "2013",
-			"1": "Chicago"
-		}, {
-			"0": "2013",
-			"1": "Pittsburgh"
-		}, {
-			"0": "2013",
-			"1": "Cincinnati"
-		}, {
-			"0": "2013",
-			"1": "Detroit"
-		}, {
-			"0": "2013",
-			"1": "Twin Cities"
-		}, {
-			"0": "2013",
-			"1": "Washington"
-		}, {
-			"0": "2013",
-			"1": "New York"
-		}, {
-			"0": "2013",
-			"1": "Boston"
-		}, {
-			"0": "2013",
-			"1": "Philadelphia"
-		}, {
-			"0": "2013",
-			"1": "National"
-		}, {
-			"0": "2014",
-			"1": "Total"
-		}, {
-			"0": "2014",
-			"1": "Atlanta"
-		}, {
-			"0": "2014",
-			"1": "Miami"
-		}, {
-			"0": "2014",
-			"1": "Charlotte"
-		}, {
-			"0": "2014",
-			"1": "Orlando"
-		}, {
-			"0": "2014",
-			"1": "Denver"
-		}, {
-			"0": "2014",
-			"1": "Los Angeles"
-		}, {
-			"0": "2014",
-			"1": "Seattle"
-		}, {
-			"0": "2014",
-			"1": "Phoenix"
-		}, {
-			"0": "2014",
-			"1": "San Francisco"
-		}, {
-			"0": "2014",
-			"1": "Kansas City"
-		}, {
-			"0": "2014",
-			"1": "Memphis"
-		}, {
-			"0": "2014",
-			"1": "Houston"
-		}, {
-			"0": "2014",
-			"1": "Dallas"
-		}, {
-			"0": "2014",
-			"1": "Chicago"
-		}, {
-			"0": "2014",
-			"1": "Pittsburgh"
-		}, {
-			"0": "2014",
-			"1": "Cincinnati"
-		}, {
-			"0": "2014",
-			"1": "Detroit"
-		}, {
-			"0": "2014",
-			"1": "Twin Cities"
-		}, {
-			"0": "2014",
-			"1": "Washington"
-		}, {
-			"0": "2014",
-			"1": "New York"
-		}, {
-			"0": "2014",
-			"1": "Boston"
-		}, {
-			"0": "2014",
-			"1": "Philadelphia"
-		}, {
-			"0": "2014",
-			"1": "National"
-		}]
-	};
-}).filter('objToArr', function() {
-	return function(obj) {
-		var results = [];
-		angular.forEach(obj, function(val, key) {
-			if(val) {
-				results.push(key);
-			}
-		});
-		return results;
-	};
-});
+}]).controller('pivotTableCtrl', ['$scope', 'pbData',
+    function ($scope, pbData) {
+        $scope.data = pbData.tableValues;
+    }
+]);

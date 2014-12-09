@@ -13,10 +13,12 @@ angular.module('ThreeSixtyOneView.directives')
             transclude: true,
             scope: {
                 item: "=",
+                test: "=",
+                submitaction: "="
             },
             link: function($scope, $element, $attrs) {
                 var tempItem = angular.copy($scope.item),
-                    inputTarget = $element.find(".inputTarget");
+                inputTarget = $element.find(".inputTarget");
 
                 $scope.isActive = false;
                 $scope.inputRestrictions = CONFIG.application.inputRestrictions;
@@ -33,13 +35,14 @@ angular.module('ThreeSixtyOneView.directives')
 
                 $scope.submit = function(item) {
                     $scope.item = item;
-                    $rootScope.$broadcast(EVENTS.renameProject, $scope.item);
+                    $rootScope.$broadcast(EVENTS[$scope.submitaction], $scope.item);
                     $scope.isActive = false;
                 };
 
                 $scope.cancel = function() {
                     $scope.item.title = tempItem.title;
                     $scope.item.description = tempItem.description;
+                    console.log($scope.item.description);
                     $scope.isActive = false;
                 };
 
