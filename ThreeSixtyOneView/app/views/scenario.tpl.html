@@ -19,12 +19,18 @@
 	</div>
 
 	<div class="display">
-		<div class="editor">
-			<div ui-view="builder"></div>
-			<div ui-view="table"></div>
-		</div>
-		<div class="results">
-			<div ui-view="results"></div>
-		</div>
+		<tabset>
+		    <tab heading="Pivot Table">
+		    	<div ui-view="builder"></div>
+		    </tab>
+		    <tab heading="Import">
+		    	<h1>Import here</h1>
+		    </tab>
+		    <tab heading="Export">
+		    	<h1>Export here</h1>
+		    </tab>
+		</tabset>
+		<div ui-view="table"></div>
+		<div ui-view="results"></div>
 	</div>
 </div>

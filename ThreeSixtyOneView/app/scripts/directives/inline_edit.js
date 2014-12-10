@@ -23,6 +23,7 @@ angular.module('ThreeSixtyOneView.directives')
                 $scope.isActive = false;
                 $scope.inputRestrictions = CONFIG.application.inputRestrictions;
 
+                // edit action
                 $scope.action = function() {
                     if (!$scope.isActive) {
                         tempItem = angular.copy($scope.item);
@@ -42,15 +43,9 @@ angular.module('ThreeSixtyOneView.directives')
                 $scope.cancel = function() {
                     $scope.item.title = tempItem.title;
                     $scope.item.description = tempItem.description;
-                    console.log($scope.item.description);
                     $scope.isActive = false;
                 };
 
-                $rootScope.$on(EVENTS.changeActiveItem, function(data){
-                    if ($scope.isActive){
-                        $scope.cancel();
-                    }
-                });
             }
         };
     }]);

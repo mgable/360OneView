@@ -141,6 +141,16 @@ angular.module('ThreeSixtyOneView')
         $scope.chooseFilter($scope.selectedFilter.cat, false, false);
     };
 
+    // create the temporary filter object from the view data
+    var copyFilter = function() {
+        angular.forEach($scope.pbData.viewData.filters, function(val) {
+            $scope.addedFilter[val.name] = {};
+            angular.forEach(val.items, function(subval) {
+                $scope.addedFilter[val.name][subval] = true;
+            });
+        });
+    };
+
     // open the filters modal for the selected filter
     $scope.chooseFilter = function(category, newSelection, index) {
         if(angular.isNumber(index)) {
@@ -200,16 +210,6 @@ angular.module('ThreeSixtyOneView')
         // $scope.filterSearch = {label: ''};
         $scope.filterCollapse = {};
         copyFilter();
-    };
-
-    // create the temporary filter object from the view data
-    var copyFilter = function() {
-        angular.forEach($scope.pbData.viewData.filters, function(val) {
-            $scope.addedFilter[val.name] = {};
-            angular.forEach(val.items, function(subval) {
-                $scope.addedFilter[val.name][subval] = true;
-            });
-        });
     };
 
     // aggregate filter values based on categories

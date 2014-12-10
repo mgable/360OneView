@@ -46,9 +46,6 @@ angular.module('ThreeSixtyOneView')
             return $scope.project;
         };
 
-        console.info("the project is");
-        console.info(Project);
-
         // API
         // Click handler interface
         $scope.selectItem = function(item){
@@ -66,13 +63,14 @@ angular.module('ThreeSixtyOneView')
 
         $scope.$on(EVENTS.copyScenario, function(evt, scenario){
             scenario.description = scenario.description || "";
+            delete scenario.id;
             ScenarioService.create(getProject(), scenario).then(function(response){
                 $scope.goto(evt, 'gotoScenarioEdit', response);
             });
         });
 
         $scope.$on(EVENTS.renameScenario, function(evt, scenario){
-            ScenarioService.rename(scenario, $getProject().id);
+            ScenarioService.rename(scenario, getProject().id);
         });
 
         init();
@@ -223,11 +221,6 @@ angular.module('ThreeSixtyOneView')
             }
         });
 
-        $scope.$on(EVENTS.changeActiveItem, function(event, response) {
-            if (response) {
-                $scope.selectedItem = response;
-            }
-        });
 
         $scope.$on(EVENTS.noop, function(event, action){
             DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
@@ -235,6 +228,8 @@ angular.module('ThreeSixtyOneView')
 
     }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", 'ptData', function($scope, Project, Scenario, ScenarioElements, ptData) {
 
+        console.info("scenarios");
+        console.info(Scenario);
         $scope.project = Project;
         $scope.scenario = Scenario;
         $scope.pivotTableData = ptData.data;

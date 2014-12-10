@@ -204,6 +204,7 @@
 
 						.pbViewSaveMenuItem {
 							padding: 5px 20px;
+							cursor: pointer;
 
 							&:hover {
 								color: white;
@@ -277,6 +278,7 @@
 							overflow: hidden;
 							text-overflow: ellipsis;
 							padding: 5px 20px;
+							cursor: pointer;
 
 							&:hover {
 								background-color: $blue;
@@ -639,6 +641,11 @@
 						padding: 10px 15px;
 						border-radius: 3px;
 						font-size: 16px;
+						transition: all 0.3s linear;
+
+						&.pbHideAlert {
+							opacity: 0;
+						}
 					}
 
 					.pbFilterModalContent {
@@ -748,7 +755,7 @@
 						}
 
 						.pbFilterCustomSelection {
-							margin: 5px 10px;
+							margin: 5px 10px 5px 28px;
 							position: relative;
 							display: inline-block;
 
@@ -847,6 +854,7 @@
 						.pbModalHeight {
 							overflow-y: auto;
 							border-top: 1px solid $mediumgray;
+							padding: 5px;
 
 							.pbFilterList {
 								margin: 5px 10px;
@@ -857,8 +865,8 @@
 								}
 
 								.pbFilterListValue {
-									padding: 5px 10px;
-									border-bottom: 1px solid $lightestgray;
+									padding: 5px 10px 5px 16px;
+									/*border-bottom: 1px solid $lightestgray;*/
 
 									label {
 										font-weight: normal;
@@ -869,18 +877,35 @@
 
 								.pbFilterListCategory {
 									padding: 5px 0;
-									border-bottom: 1px solid $lightestgray;
+									/*border-bottom: 1px solid $lightestgray;*/
 
 									label {
 										font-weight: normal;
 										margin-top: 5px;
 										margin-bottom: 4px;
 									}
+
+									.pbExpandHandle {
+										padding: 5px;
+
+										.fa-caret-right {
+											color: $mediumgray;
+
+											&.fa-rotate-90 {
+												color: $black;
+											}
+										}
+									}
 								}
 								
-
 								.pbFilterCollection {
-									padding-left: 30px;
+									padding-left: 25px;
+									height: inherit;
+
+									&.pbFilterCollapsed {
+										height: 0;
+										overflow: hidden;
+									}
 								}
 							}
 						}

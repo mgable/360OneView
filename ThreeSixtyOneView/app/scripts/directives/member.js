@@ -6,7 +6,7 @@
  * @description
  * # member
  */
-angular.module('ThreeSixtyOneView').directive('member', function($compile) {
+angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', function($compile) {
 	return {
 		restrict: 'E',
 		replace: true,
@@ -14,10 +14,11 @@ angular.module('ThreeSixtyOneView').directive('member', function($compile) {
 			member: '=',
 			filters: '=',
 			category: '=',
-			searchFilter: '=',
-			sortOrder: '='
+			expanded: '=',
+			sortOrder: '=',
+			expandall: '='
 		},
-		template: '<div ng-class="{pbFilterListCategory: member.members.length > 0, pbFilterListValue: member.members.length === 0}"><i class="fa fa-chevron-down clickable ng-hide" ng-click="" ng-if="member.members.length > 0"></i> <label class="clickable" ng-class="{blue: checkedItems(member).checked/checkedItems(member).total === 1, bold: checkedItems(member).checked/checkedItems(member).total === 1}" ng-click="toggleItems(member)"><i class="fa fa-check-circle" ng-show="checkedItems(member).checked/checkedItems(member).total === 1"></i><i class="fa fa-circle-o" ng-show="checkedItems(member).checked/checkedItems(member).total === 0"></i><i class="fa fa-minus-circle" ng-show="checkedItems(member).checked/checkedItems(member).total % 1 > 0"></i> <span>{{member.label}}</span> <span ng-if="member.members.length > 0">({{checkedItems(member).checked}}/{{checkedItems(member).total}})</span></label></div>',
+		template: '<div ng-class="{pbFilterListCategory: member.members.length > 0, pbFilterListValue: member.members.length === 0}"><span class="pbExpandHandle clickable" ng-if="member.members.length > 0" ng-click="expanded[member.label] = !expanded[member.label]"><icon type="caret-right" cname="{{(!!expanded[member.label] || expandall.label !== \'\') ? \'fa-rotate-90\':\'\'}}"></icon></span> <label class="clickable" ng-class="{blue: checkedItems(member).checked/checkedItems(member).total === 1, bold: checkedItems(member).checked/checkedItems(member).total === 1}" ng-click="toggleItems(member)"><span ng-show="checkedItems(member).checked/checkedItems(member).total === 1"><icon type="check-circle"></icon></span><span ng-show="checkedItems(member).checked/checkedItems(member).total === 0"><icon type="circle-o"></icon></span><span ng-show="checkedItems(member).checked/checkedItems(member).total % 1 > 0"><icon type="minus-circle"></icon></span> <span>{{member.label}}</span> <span ng-if="member.members.length > 0">({{checkedItems(member).checked}}/{{checkedItems(member).total}})</span></label></div>',
 		link: function(scope, element) {
 			scope.toggleItems = function(member) {
 				var checkedItems = scope.checkedItems(member);
@@ -61,10 +62,10 @@ angular.module('ThreeSixtyOneView').directive('member', function($compile) {
 			scope.numCheckedItems = scope.checkedItems(scope.member);
 
 			if(scope.member.members.length > 0) {
-				$compile('<collection collection="member.members" filters="filters" category="category" searchFilter="searchFilter" sortOrder="sortOrder"></collection>')(scope, function(cloned) {
+				$compile('<div class="pbFilterCollection" ng-class="{pbFilterCollapsed: !expanded[member.label] && expandall.label === \'\'}"><member ng-repeat="child in member.members | orderBy:\'label\':false" member="child" filters="filters" category="category" sortOrder="sortOrder" expanded="expanded" expandall="expandall"></member></div>')(scope, function(cloned) {
 					element.after(cloned);
 				});
 			}
 		}
 	};
-});
+}]);
