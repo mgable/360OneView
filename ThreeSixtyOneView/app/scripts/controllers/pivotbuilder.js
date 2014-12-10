@@ -7,16 +7,17 @@
 * # PivotbuilderctrlCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$filter', 'pbData', 'ptData', 'PivotViewService', 'Views', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, $filter, pbData, ptData, PivotViewService, Views, DialogService) {
+angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$filter', 'pbData', 'ptData', 'PivotViewService', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, $filter, pbData, ptData, PivotViewService, DialogService) {
 
 	var init = function() {
 		$scope.pbShow = false;
 		$scope.pbData = angular.copy(pbData);
 		$scope.draftView = false;
 
+		//scope views set in parent
 		// Rest APIs
-		$scope.viewName = Views.currentView.name;
-		$scope.viewsList = Views.views;
+		$scope.viewName = $scope.views.currentView.name;
+		$scope.viewsList = $scope.views.views;
 		// console.log(PivotViewService.createView({name: "View from JS", isDefault: false, rows: [{dimension: {id: 1}, hierarchy: {id: -1}, level: {id: 2}}], columns: [{dimension: {id: 2}, hierarchy: {id: -1}, level: {id: 2}}], filters: []}));
 
 		$scope.saveAs = false;
@@ -148,7 +149,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		$scope.selectedFilter.cat = category;
 
 		var dialog = DialogService.openFilterSelection('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl', {selFil: $scope.selectedFilter.selFil, cat: $scope.selectedFilter.cat, addedFilter: $scope.addedFilter, pbData: $scope.pbData}, {windowSize: 'lg', windowClass: 'filtersSelectionModal'});
-		
+
 		dialog.result.then(function(data) {
 			$scope.pbData.viewData.filters = data;
 			copyFilter();
