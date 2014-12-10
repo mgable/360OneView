@@ -72,7 +72,7 @@ angular.module('ThreeSixtyOneView')
         $scope.$on(EVENTS.renameScenario, function(evt, scenario){
             ScenarioService.rename(scenario, getProject().id);
         });
-        
+
         init();
     }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "GotoService", "DialogService", "EVENTS", function($scope, $controller, FavoritesService, ProjectsService, ScenarioService, Projects,  GotoService, DialogService, EVENTS) {
 
@@ -125,10 +125,10 @@ angular.module('ThreeSixtyOneView')
 
         init();
     }]).controller("ListingViewCtrl", ["$scope", "$rootScope", "$state", "SortAndFilterService", "DialogService", "GotoService", "CONFIG", "EVENTS", "FavoritesService", "$stateParams", function($scope, $rootScope, $state, SortAndFilterService, DialogService, GotoService, CONFIG, EVENTS, FavoritesService, $stateParams){
-        
+
         $scope.init = function(_data_, fn){
             var currentView = CONFIG.view[$state.current.name],
-                filter = currentView.filterMenu.items[0], 
+                filter = currentView.filterMenu.items[0],
                 reverse = currentView.reverse,
                 orderBy = currentView.orderBy;
 
@@ -239,4 +239,25 @@ angular.module('ThreeSixtyOneView')
         //TODO: temp data
         $scope.types =  ScenarioElements;
         $scope.scenarioElementType = $scope.types[0];
+
+        var tabs = [
+            {
+                "tabId": 1,
+                "name": "Editor",
+                "url": "Scenario.edit",
+                "icon": "fa-pencil"
+            }, {
+                "tabId": 2,
+                "name": "Results",
+                "url": "Scenario.results",
+                "icon": "fa-check-square-o"
+            }
+        ];
+        $scope.tabs = tabs;
+        $scope.selected = 0;
+
+        $scope.select = function(index) {
+           $scope.selected = index;
+        };
+
     }]);
