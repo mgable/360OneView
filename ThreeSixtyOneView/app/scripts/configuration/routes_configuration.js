@@ -57,6 +57,10 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
             controller: "PivotBuilderCtrl",
             templateUrl: "views/includes/pivot_table_builder.tpl.html",
           },
+          'export': {
+            controller: "exportCtrl",
+            templateUrl: "views/includes/pivot_table_export.tpl.html",
+          },
           'table': {
             controller: "pivotTableCtrl",
             templateUrl: "views/includes/pivot_table.tpl.html",

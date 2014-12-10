@@ -27,7 +27,7 @@
 	</div>
 
 	<div class="display">
-		<tabset>
+		<tabset ng-controller="tabCtrl">
 		    <tab heading="Pivot Table">
 		    	<div ui-view="builder"></div>
 		    </tab>
@@ -35,7 +35,7 @@
 		    	<h1>Import here</h1>
 		    </tab>
 		    <tab heading="Export">
-		    	<h1>Export here</h1>
+				<div ui-view="export"></div>
 		    </tab>
 		</tabset>
 		<div ui-view="table"></div>

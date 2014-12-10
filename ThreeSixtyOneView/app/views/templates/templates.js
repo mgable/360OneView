@@ -19,7 +19,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t</div>\n" +
     "\n" +
     "\t<div class=\"button-holder\">\n" +
-    "\t\t<button class=\"btn\" ng-click=\"create(CONFIG.displayActionsCreate)\" data-ms-id='createButton'><icon type=\"plus\"></icon>CREATE</button>\n" +
+    "\t\t<button class=\"btn btn-default\" ng-click=\"create(CONFIG.displayActionsCreate)\" data-ms-id='createButton'><icon type=\"plus\"></icon>CREATE</button>\n" +
     "\t</div>\n" +
     "</div>\n"
   );

@@ -71,15 +71,7 @@
 			<div ng-repeat="pivotBuilderItem in pivotBuilderItems" class="pbSec">
 				<div class="pbSecTitle">{{pivotBuilderItem.label}}</div>
 				<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="pbData.viewData[pivotBuilderItem.name]" ng-blur="addPopUp[pivotBuilderItem.name] = false" tabindex="-1">
-					<div class="pbItem" ng-repeat="item in pbData.viewData[pivotBuilderItem.name]" data-as-sortable-item>
-						<div data-as-sortable-item-handle>
-							<span title="Reorder"><icon type="reorder"></icon></span>
-							<span class="pbItemInfo">
-								<span class="pbItemName clickable" ng-click="itemModifyPopUp(pivotBuilderItem, $index, $event)">{{item.name}}</span>
-							</span>
-							<span class="clickable" ng-click="deleteItem(item.name, pivotBuilderItem.name)" title="Remove"><icon type="remove"></icon></span>
-						</div>
-					</div>
+					<draggable-dimension ng-repeat="item in pbData.viewData[pivotBuilderItem.name]" name="item.name" click-close="deleteItem(item.name, pivotBuilderItem.name)"></draggable-dimension>
 					<div class="pbAddBox" ng-mouseleave="addPopUp[pivotBuilderItem.name] = false">
 						<div class="pbItemAdd clickable" ng-click="itemModifyPopUp(pivotBuilderItem, -1, $event)"><icon type="plus-square"></icon> Add</div>
 						<div ng-show="addPopUp[pivotBuilderItem.name]" class="pbAddPopUp" ng-style="{left: popUpLoc.left + 'px'}">
