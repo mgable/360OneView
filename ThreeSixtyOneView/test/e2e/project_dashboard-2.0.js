@@ -7,7 +7,7 @@ var projectUrl = '/#/projects?e2e=true',
 	var projectId = "a512b7fce6113c33a3efd81cfe876d48";
 	dashboardUrl = dashboardUrl.replace(/:id/, projectId);
 
-describe('Project Dashboard', function() {
+xdescribe('Project Dashboard', function() {
 	var hasClass = function (element, cls) {
 	    return element.getAttribute('class').then(function (classes) {
 	        return classes.split(' ').indexOf(cls) !== -1;

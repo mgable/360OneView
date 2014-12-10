@@ -402,8 +402,17 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 	};
 
-	$scope.heightChanged = function() {
+	$scope.showTable = function(){
+		$scope.filterSection = false;
+		$scope.heightChanged();
+	};
 
+	$scope.showFilters = function(){
+		$scope.filterSection = true;
+		$scope.heightChanged();
+	}
+
+	$scope.heightChanged = function() {
 		$timeout(function() {
 			$scope.pivotBuilderHeight = angular.element.find('#pivotBuilder')[0].offsetHeight;
 			$rootScope.$broadcast(EVENTS.heightChanged, $scope.pivotBuilderHeight);

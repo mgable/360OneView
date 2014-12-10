@@ -14,26 +14,27 @@ xdescribe('Project Listing', function() {
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
 			browser.get(projectUrl);
-			dropdown = "//span[@data-ms-id='toggle_column_1']",
-			nameField = "//a[@data-ms-id='name-field']",
-			nameLabel = "//div[@data-ms-id='name-label']",
-			column_1 = "//span[@data-ms-id='select_column_1']",
-			column_1Label = "//h6[@data-ms-id='label_column_1']",
-			createdBy = "//li[@data-ms-id='Created Date']",
-			ascending = "//li[@data-ms-id='ascending']",
-			descending = "//li[@data-ms-id='descending']",
-			breadcrumb = ".breadcrumbs span span",
-			ascendingButton = element(by.xpath(ascending)),
-			descendingButton = element(by.xpath(descending)),
-			dropdownButton = element(by.xpath(dropdown)),
-			nameButton = element(by.xpath(nameField)),
-			nameLabelField = element(by.xpath(nameLabel)),
-			column_1Button = element(by.xpath(column_1)),
-			createdByButton = element(by.xpath(createdBy)),
-			column_1LabelField = element(by.xpath(column_1Label)),
-			breadcrumbField = element(by.css(breadcrumb));
 		}
-	)
+	);
+
+	var dropdown = "//span[@data-ms-id='toggle_column_1']",
+		nameField = "//a[@data-ms-id='name-field']",
+		nameLabel = "//div[@data-ms-id='name-label']",
+		column_1 = "//span[@data-ms-id='select_column_1']",
+		column_1Label = "//h6[@data-ms-id='label_column_1']",
+		createdBy = "//li[@data-ms-id='Created Date']",
+		ascending = "//li[@data-ms-id='ascending']",
+		descending = "//li[@data-ms-id='descending']",
+		breadcrumb = ".breadcrumbs span span",
+		ascendingButton = element(by.xpath(ascending)),
+		descendingButton = element(by.xpath(descending)),
+		dropdownButton = element(by.xpath(dropdown)),
+		nameButton = element(by.xpath(nameField)),
+		nameLabelField = element(by.xpath(nameLabel)),
+		column_1Button = element(by.xpath(column_1)),
+		createdByButton = element(by.xpath(createdBy)),
+		column_1LabelField = element(by.xpath(column_1Label)),
+		breadcrumbField = element(by.css(breadcrumb));
 
 	describe("Sort functions: ", function(){
 		it("should switch between ordering by name, modified last and created on", function(){
