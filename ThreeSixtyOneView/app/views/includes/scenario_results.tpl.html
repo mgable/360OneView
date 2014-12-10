@@ -34,6 +34,43 @@
         </div>
 
         <div ng-class="{srOpened: srShow}" class="srSlider">
+            <div class="srControlBar">
+                <div class="srSaveMenu" ng-mouseleave="viewSaveMenu = false">
+                    <div class="srViewSave">
+                        <div class="srSaveHolder">
+                            <div class="srSaveButton clickable" ng-click="saveView()" ng-class="{srViewSaveDisabled: !changeMade()}">
+                                <i class="fa fa-save"></i> Save View
+                            </div>
+                            <div class="srSaveDropButton clickable" ng-class="{srSaveDropSelected: viewSaveMenu}" ng-click="viewSaveMenu = !viewSaveMenu">
+                                <i class="fa fa-caret-down"></i>
+                            </div>
+                        </div>
+                        <div class="srViewSaveMenu" ng-show="viewSaveMenu">
+                            <div class="srViewSaveMenuVisible" ng-click="">
+                                <div class="srViewSaveMenuItem clickable" ng-click="startSaveAs(); viewSaveMenu = false;"><i class="fa fa-save"></i> Save As</div>
+                                <div class="srViewSaveMenuItem clickable" ng-click="resetView(); viewSaveMenu = false;"><i class="fa fa-undo"></i> Revert</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="srViewsList" ng-mouseleave="viewRecentViews = false">
+                    <div class="srRecentViewsButton clickable" ng-click="viewRecentViews = !viewRecentViews">
+                        <i class="fa fa-eye"></i> Recent Views <i class="fa fa-caret-down"></i>
+                    </div>
+                    <div class="srRecentViewsMenu" ng-show="viewRecentViews">
+                        <div class="srRecentViewsMenuVisible">
+                            <div class="clickable"><i class="fa fa-eye"></i> Q1 2014 Upfronts</div>
+                            <div class="clickable"><i class="fa fa-eye"></i> Newfronts 2015</div>
+                            <div class="clickable"><i class="fa fa-eye"></i> Behrooz 10% Southwest Regional</div>
+                            <div class="clickable"><i class="fa fa-eye"></i> Joe's Lowest Performance Quarter</div>
+                            <div class="clickable"><i class="fa fa-eye"></i> Andy 2015 Holidays</div>
+                            <hr>
+                            <div class="clickable"><i class="fa fa-folder-open-o"></i> All Views</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="srSec">
                 <div class="srSecTitle">Spend Filters</div>
                 <div class="srFilterValues">
@@ -75,6 +112,10 @@
                         <div class="srFilterVal">Online</div>
                     </div>
                 </div>
+            </div>
+            <div class="srSec">
+                <div class="srSwitchTitle">Sync Outcome Filters with Spend Filters</div>
+                <div ms-switch ng-model="isTest"></div>
             </div>
             <div class="srSliderCollapse">
                 <span class="clickable" ng-click="heightChanged(); srShow = false; finishSaveAs(false);">

@@ -111,7 +111,7 @@
             float: left;
             font-size: 14px;
             line-height: 22px;
-            padding: 6px 0px 0px 15px;
+            padding: 5px 0px 0px 15px;
             height: 30px;
             color: #888;
             text-transform: capitalize;
@@ -166,7 +166,6 @@
                     font-size: 14px;
                     display: inline-block;
                     position: relative;
-                    margin-left: 20px;
 
                     .srSaveHolder {
                         display: inline-block;
@@ -257,7 +256,7 @@
                 .srViewsList {
                     color: $darkgray;
                     display: inline-block;
-                    margin-left: 20px;
+                    margin-left: 10px;
                     position: relative;
                     font-size: 14px;
                     vertical-align: top;
@@ -370,6 +369,12 @@
                         }
                     }
                 }
+
+                .srSwitchTitle {
+                    margin: 10px 15px;
+                    display: inline-block;
+                }
+
             }
 
             .srSliderCollapse {
@@ -612,4 +617,42 @@
   fill: none;
   stroke: #ccc;
   shape-rendering: crispEdges;
+}
+/* switch */
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.ms-switch {
+    width: 6em;
+    height: 26px;
+    line-height: 24px;
+    padding: 0;
+    border: 1px solid #cdcdcd;
+    @extend .unselectable;
+    .ms-switch-on{
+        float:left;
+        border-radius: 3px 3px 3px 3px;
+        font-weight:700;
+        text-align:center;
+        width:3em;
+        background-color: #295da7;
+        @extend .unselectable;
+    }
+    .ms-switch-off{
+        background-color:#CCCCCC;
+        color:#666666;
+        float:right;
+        border-radius: 3px 3px 3px 3px;
+        font-weight:700;
+        text-align:center;
+        width:3em;
+        @extend .unselectable;
+    }
+    .show{ display:block; }
+    .hide{ display:none; }
 }

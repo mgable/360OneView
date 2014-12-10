@@ -10,6 +10,7 @@
 angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function ($scope, resultsData) {
 
     $scope.srShow = false;
+    $scope.isTest = null;
     $('.Scenario').css('height', 'auto');
 
     $scope.kpiData = resultsData.kpiData;

@@ -35,7 +35,7 @@ angular.module('ThreeSixtyOneView.directives')
 
                 $scope.items = CONFIG.view[currentView].sortMenu.displayColumns;
                 $scope.selectedItem = CONFIG.view[currentView].sortMenu.displayColumns[0];
-                
+
                 SortAndFilterService.setSorter($scope.id, $scope.selectedItem.label);
 
                 if ($scope.isActive) {
