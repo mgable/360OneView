@@ -19,7 +19,7 @@
             <div class="srTitle" ng-class="{srTitleSel: srShow, srGray: !srShow}">
                 <div class="srRenameArea">
                     <i class="fa fa-eye" ng-class="{srGray: !srShow}"></i>
-                    <div class="srTitleText clickable" ng-click="srShow ? startSaveAs() : (srShow = true)" ng-hide="saveAs">Behrooz's View</div>
+                    <div class="srTitleText clickable" ng-click="srShow ? startSaveAs() : (srShow = true)" ng-hide="saveAs">{{viewName}}</div>
                     <div class="srSaveAsBox" ng-show="saveAs">
                         <input type="text" ng-model="saveAsName" ng-keyup="renameAction($event)">
                         <i class="fa fa-check clickable" ng-click="finishSaveAs(true)"></i>
@@ -93,7 +93,7 @@
                 </div>
             </div>
             <div class="srSec">
-                <div class="srSecTitle">Outcome Filters</div>
+                <div class="srSecTitle">KPI Filters</div>
                 <div class="srFilterValues">
                     <div class="srFilterBox clickable">
                         <div class="srFilterCat">Product</div>
@@ -114,7 +114,7 @@
                 </div>
             </div>
             <div class="srSec">
-                <div class="srSwitchTitle">Sync Outcome Filters with Spend Filters</div>
+                <div class="srSwitchTitle">Sync KPI with Spend</div>
                 <div ms-switch ng-model="isTest"></div>
             </div>
             <div class="srSliderCollapse">
@@ -123,8 +123,6 @@
                 </span>
             </div>
         </div>
-
-
     </section>
 
     <section class="results-panel">
@@ -153,16 +151,16 @@
                             <tr ng-model="spendDataHeader">
                                 <th>{{spendDataHeader.title}}</th>
                                 <th>{{spendDataHeader.total}}</th>
-                                <th class="spend-increase">{{spendDataHeader.incremental}}</th>
-                                <th class="spend-increase">{{spendDataHeader.percent}}</th>
+                                <th class="spend-{{spendDataHeader.direction}}">{{spendDataHeader.incremental}}</th>
+                                <th class="spend-{{spendDataHeader.direction}}">{{spendDataHeader.percent}}</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr ng-repeat="spendDatum in spendDataBody">
-                                <td>{{spendDatum.title}}</td>
-                                <td>{{spendDatum.total}}</td>
-                                <td class="spend-{{kpiDatum.direction}}">{{spendDatum.incremental}}</td>
-                                <td class="spend-{{kpiDatum.direction}}">{{spendDatum.percent}}</td>
+                        <tbody ng-repeat="spendDatum in spendDataBody">
+                            <tr ng-repeat="spendRow in spendDatum.children">
+                                <td>{{spendRow.title}}</td>
+                                <td>{{spendRow.total}}</td>
+                                <td class="spend-{{spendRow.direction}}">{{spendRow.incremental}}</td>
+                                <td class="spend-{{spendRow.direction}}">{{spendRow.percent}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -172,8 +170,7 @@
                         <img src="images/legend.png" alt="legend">
                         <span ng-model="selectedDropdownId">{{selectInitial(selectedDropdownId)}}</span>
                     </div>
-                    <ms-bar-chart chart-data="data1"></ms-bar-chart>
-                    <ms-bar-chart chart-data="data2"></ms-bar-chart>
+                    <ms-bar-chart ng-repeat="chartDatum in chartData" chart-data="chartDatum.data"></ms-bar-chart>
                 </div>
             </div>
         </div>

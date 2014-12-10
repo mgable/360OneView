@@ -1,4 +1,4 @@
-angular.module('ThreeSixtyOneView')
+angular.module('ThreeSixtyOneView.directives')
     .directive('msLineChart', ['d3Service', function(d3Service) {
         return {
             restrict: 'EA',

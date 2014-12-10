@@ -28,7 +28,6 @@
         }
 	}
 	.results-view {
-
         margin-bottom: 25px;
 
         .srTitle {
@@ -144,23 +143,6 @@
             .srControlBar {
                 font-size: 16px;
                 padding: 10px 15px;
-
-                .srFunctionFlip {
-                    color: $darkgray;
-
-                    .srFunctionFlipButton {
-                        background-color: $mediumgray;
-                        margin: 0;
-                        padding: 4px 13px;
-                        display: inline-block;
-                        float: left;
-
-                        &.srFunctionFlipButtonActive {
-                            background-color: $blue;
-                            color: white;
-                        }
-                    }
-                }
 
                 .srSaveMenu {
                     font-size: 14px;
@@ -371,7 +353,7 @@
                 }
 
                 .srSwitchTitle {
-                    margin: 10px 15px;
+                    margin: 10px 10px 10px 15px;
                     display: inline-block;
                 }
 
@@ -395,7 +377,6 @@
         .clickable {
             cursor: pointer;
         }
-
 	}
     .results-panel {
         margin-bottom: 5px;
@@ -567,12 +548,13 @@
 					}
 				}
                 .legend {
-                    margin-left: 33px;
+                    margin-left: 32px;
                     margin-bottom: 20px;
                     img {
                         width: 15px;
                         height: 15px;
                         border: 1px solid #000;
+                        margin-bottom: 5px;
                     }
                     span {
                         font-size: 14px;
@@ -628,29 +610,29 @@
     user-select: none;
 }
 .ms-switch {
-    width: 6em;
-    height: 26px;
-    line-height: 24px;
+    width: 5.5em;
+    height: 24px;
+    line-height: 22px;
     padding: 0;
     border: 1px solid #cdcdcd;
     @extend .unselectable;
     .ms-switch-on{
-        float:left;
+        float: left;
         border-radius: 3px 3px 3px 3px;
-        font-weight:700;
-        text-align:center;
-        width:3em;
+        text-align: center;
+        width: 3em;
         background-color: #295da7;
+        font-size: 13px;
         @extend .unselectable;
     }
     .ms-switch-off{
-        background-color:#CCCCCC;
         color:#666666;
+        background-color:#CCCCCC;
         float:right;
         border-radius: 3px 3px 3px 3px;
-        font-weight:700;
         text-align:center;
         width:3em;
+        font-size: 13px;
         @extend .unselectable;
     }
     .show{ display:block; }

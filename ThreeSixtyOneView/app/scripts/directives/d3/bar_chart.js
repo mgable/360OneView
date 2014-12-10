@@ -1,4 +1,4 @@
-angular.module('ThreeSixtyOneView')
+angular.module('ThreeSixtyOneView.directives')
     .directive('msBarChart', ['d3Service', '$window', function(d3Service, $window) {
         return {
             restrict: 'EA',
@@ -10,7 +10,7 @@ angular.module('ThreeSixtyOneView')
 
                     // setup variables
                     var margin = { top: 20, right: 20, bottom: 20, left: 20 },
-                        width = 280 - margin.left - margin.right,
+                        width = 290 - margin.left - margin.right,
                         height = 150 - margin.top - margin.bottom;
 
                     // create svg element
@@ -63,15 +63,15 @@ angular.module('ThreeSixtyOneView')
                             .tickSize(0, 0)
                             .orient("bottom");
 
-                        var typeNames = ["results", "compared"]
-
+                        var typeNames = ["results", "compared"];
                         scope.data.forEach(function(d, i) {
                             d.types = typeNames.map(function(name) {
                                 return {
                                     name: name,
                                     value: +d[name],
-                                    index: i,
-                                    colorIndex: d.id
+                                    id: d.id,
+                                    categoryId: d.categoryId,
+                                    colorId: d.colorId
                                 };
                             });
                         });
@@ -105,31 +105,23 @@ angular.module('ThreeSixtyOneView')
                             .attr("height", 0)
                             .attr("width", x1.rangeBand())
                             .style("fill", function(d, i) {
-                                return d.name === "compared" ? d3.rgb(color(d.colorIndex)).darker(1) : color(d.colorIndex);
+                                return d.name === "compared" ? d3.rgb(color(d.colorId)).darker(1) : color(d.colorId);
                             })
                             .style("opacity", 0)
                             .on("mouseover", function(d){
                                 d3.select(this).transition().duration(300)
                                     .style("opacity", 1);
-                                if(d.colorIndex == 1 || d.colorIndex == 2) {
-                                    var sel = $('.spend-table tbody tr:nth-child(' + (d.colorIndex+1)  + ')');
-                                } else {
-                                    var sel = $('.spend-table tbody tr:nth-child(' + (d.colorIndex+2) + ')');
-                                }
+                                var sel = $('table.spend-table tbody:eq(' + d.categoryId + ') tr:eq(' + d.id  + ')');
                                 sel.addClass('highlight');
                             })
                             .on("mouseout", function(d){
                                 d3.select(this).transition().duration(300)
                                     .style("opacity", 0.7);
-                                if(d.colorIndex == 1 || d.colorIndex == 2) {
-                                    var sel = $('.spend-table tbody tr:nth-child(' + (d.colorIndex+1)  + ')');
-                                } else {
-                                    var sel = $('.spend-table tbody tr:nth-child(' + (d.colorIndex+2) + ')');
-                                }
+                                var sel = $('table.spend-table tbody:eq(' + d.categoryId + ') tr:eq(' + d.id  + ')');
                                 sel.removeClass('highlight');
                             })
                             .transition().ease("quad")
-                                .delay(function(d, i) { return (d.index * 2 + i) * 100 })
+                                .delay(function(d, i) { return (d.colorId * 2 + i) * 100 })
                                 .attr("height", function(d) { return height - y(d.value); })
                                 .attr("y", function(d) { return y(d.value); })
                                 .style("opacity", 0.7);
@@ -145,7 +137,7 @@ angular.module('ThreeSixtyOneView')
                             .text(function(d) { return d.value + '%'; })
                             .style("opacity", 0)
                             .transition().ease("quad")
-                                .delay(function(d, i) { return (d.index * 2 + i) * 200 })
+                                .delay(function(d, i) { return (d.colorId * 2 + i) * 150 })
                                 .style("opacity", 1);
 
                     };
