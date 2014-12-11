@@ -1,12 +1,11 @@
 angular.module('ThreeSixtyOneView.directives')
-    .directive('msBarChart', ['d3Service', '$window', function(d3Service, $window) {
+    .directive('msBarChart', ['$window', function($window) {
         return {
             restrict: 'EA',
             scope: {
                 data: "=chartData"
             },
             link: function(scope, element, attrs) {
-                d3Service.d3().then(function(d3) {
 
                     // setup variables
                     var margin = { top: 20, right: 20, bottom: 20, left: 20 },
@@ -142,7 +141,6 @@ angular.module('ThreeSixtyOneView.directives')
 
                     };
 
-                });
             }
         };
     }]);

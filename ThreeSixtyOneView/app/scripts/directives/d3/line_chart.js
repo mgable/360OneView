@@ -1,12 +1,11 @@
 angular.module('ThreeSixtyOneView.directives')
-    .directive('msLineChart', ['d3Service', function(d3Service) {
+    .directive('msLineChart', [function() {
         return {
             restrict: 'EA',
             scope: {
                 data: "=chartData"
             },
             link: function(scope, element, attrs) {
-                d3Service.d3().then(function(d3) {
 
                     // setup variables
                     var margin = { top: 50, right: 50, bottom: 50, left: 50 },
@@ -210,7 +209,6 @@ angular.module('ThreeSixtyOneView.directives')
 
                     };
 
-                });
             }
         };
     }]);
