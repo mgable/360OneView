@@ -19,7 +19,7 @@ angular.module('ThreeSixtyOneView.directives')
                         } else {
                             pivotBuilderHeight = 30;
                         }
-                        pivotTableHeight = $window.innerHeight - pivotBuilderHeight - 20;
+                        pivotTableHeight = $window.innerHeight - pivotBuilderHeight - 20 - 40;
 
                         var scenario = angular.element('.Scenario');
                         scope.containerWidth = scenario[0].clientWidth - 40;

@@ -10,7 +10,7 @@ angular.module('ThreeSixtyOneView.directives')
 
                 var spread = $("#pivotTable").wijspread("spread");
                 var sheet = spread.getActiveSheet();
-                var scrollTop = 250; /* Position when start to fix */
+                var scrollTop = 180; /* Position when start to fix */
 
                 // outer scrollbar link to the inner scrollbar
                 angular.element($window).bind("scroll", function() {
