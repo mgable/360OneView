@@ -341,6 +341,10 @@
 					.pbItemInfo {
 						color: $blue;
 						padding: auto 10px;
+
+						.pbItemName {
+							text-transform: capitalize;
+						}
 					}
 
 					.fa-remove {
@@ -447,6 +451,8 @@
 									}
 
 									.pbItemAddEnabled {
+										text-transform: capitalize;
+
 										&:hover {
 											color: $blue;
 										}
@@ -454,6 +460,7 @@
 
 									.pbItemAddDisabled {
 										color: $mediumgray;
+										text-transform: capitalize;
 									}
 								}
 							}

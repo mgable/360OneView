@@ -30,23 +30,33 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		this.renameView = function(viewId, newName) {
-			return this.resource.put({name: newName}, this.config, {cubeId: 1, viewId: viewId}, 'name').then(function (response) {});
+			return this.resource.put({name: newName}, this.config, {viewId: viewId}, 'name').then(function (response) {
+				return response;
+			});
 		};
 
 		this.getView = function(viewId) {
-			return this.resource.get({cubeId: 1, viewId: viewId}, this.config, '').then(function (response) {});
+			return this.resource.get({viewId: viewId}, this.config, '').then(function (response) {
+				return response;
+			});
 		};
 
 		// this one does not work for now
 		this.deleteView = function(viewId) {
-			return this.resource.delete('', this.config, {cubeId: 1, viewId: viewId}, '').then(function (response) {
-				// console.log(response);
+			return this.resource.delete('', this.config, {viewId: viewId}, '').then(function (response) {
+				return response;
 			});
 		};
 
 		this.createView = function(newView) {
-			return this.resource.post(newView, this.config, {cubeId: 1}, '').then(function (response) {
-				console.log(response);
+			return this.resource.post(newView, this.config, {}, '').then(function (response) {
+				return response;
+			});
+		};
+
+		this.updateView = function(modifiedView) {
+			return this.resource.put(modifiedView, this.config, {viewId: modifiedView.id}, '').then(function (response) {
+				return response;
 			});
 		}
 
