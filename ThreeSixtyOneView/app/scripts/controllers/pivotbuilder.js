@@ -31,7 +31,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		$scope.added = {};
 		$scope.addPopUp = {columns: false, rows: false};
 
-		$scope.setUpAddedLevels(Views.currentView);
+		$scope.setUpAddedLevels($scope.views.currentView);
 
 		$scope.selectedFilter = {cat: ''};
 		$scope.addedFilter = {};
@@ -200,7 +200,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		$scope.notify('Changes discarded!');
 
 		if($scope.draftView) {
-			$scope.viewName = Views.currentView.name;
+			$scope.viewName = $scope.views.currentView.currentView.name;
 			$scope.draftView = false;
 		}
 
@@ -213,7 +213,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 			pbData = angular.copy($scope.pbData);
 
 			if($scope.draftView) {
-				$scope.viewName = Views.currentView.name;
+				$scope.viewName = $scope.views.currentView.currentView.name;
 			}
 			$scope.notify('Saved!');
 			$scope.draftView = false;
@@ -409,7 +409,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 	$scope.showFilters = function(){
 		$scope.filterSection = true;
 		$scope.heightChanged();
-	}
+	};
 
 	$scope.heightChanged = function() {
 		$timeout(function() {
@@ -445,7 +445,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 			$scope.setUpAddedLevels(view);
 			$scope.viewsList.push(view);
 		});
-	}
+	};
 
 	// load applicable dimensions
 	$scope.loadCube = function() {
