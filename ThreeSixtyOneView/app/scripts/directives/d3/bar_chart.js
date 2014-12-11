@@ -1,12 +1,11 @@
 angular.module('ThreeSixtyOneView.directives')
-    .directive('msBarChart', ['d3Service', '$window', function(d3Service, $window) {
+    .directive('msBarChart', ['$window', function($window) {
         return {
             restrict: 'EA',
             scope: {
                 data: "=chartData"
             },
             link: function(scope, element, attrs) {
-                d3Service.d3().then(function(d3) {
 
                     // setup variables
                     var margin = { top: 20, right: 20, bottom: 20, left: 20 },
@@ -84,6 +83,43 @@ angular.module('ThreeSixtyOneView.directives')
                             });
                         })]);
 
+                        var patternData = [{
+                            x1: 10,
+                            y1: 0,
+                            x2: 30,
+                            y2: 20
+                        }, {
+                            x1: -10,
+                            y1: 0,
+                            x2: 10,
+                            y2: 20
+                        }, {
+                            x1: 30,
+                            y1: 0,
+                            x2: 50,
+                            y2: 20
+                        }];
+                        var defs = svg.append("defs");
+                            defs.append("pattern")
+                                .attr("id", "stripe")
+                                .attr("patternUnits", "userSpaceOnUse")
+                                .attr("width", 40)
+                                .attr("height", 20)
+                                .selectAll("line")
+                                    .data(patternData).enter()
+                                    .append("line")
+                                    .attr('x1', function(d){ return d.x1; })
+                                    .attr('x2', function(d){ return d.x2; })
+                                    .attr('y1', function(d){ return d.y1; })
+                                    .attr('y2', function(d){ return d.y2; });
+
+                            defs.append("mask")
+                                .attr("id", "mask")
+                                .append("rect")
+                                    .attr("height", 500)
+                                    .attr("width", 500)
+                                    .style("fill", "url(#stripe)");
+
                         svg.append("g")
                             .attr("class", "x axis")
                             .attr("transform", "translate(0," + height + ")")
@@ -92,22 +128,16 @@ angular.module('ThreeSixtyOneView.directives')
                         var bars = svg.selectAll(".bar")
                             .data(scope.data)
                             .enter().append("g")
-                            .attr("class", "g")
+                            .attr("class", "bars")
                             .attr("transform", function(d) {
                                 return "translate(" + x0(d.category) + ",0)";
                             });
 
-                        bars.selectAll("rect")
+                        var bar = bars.selectAll(".bar")
                             .data(function(d) { return d.types; })
-                            .enter().append("rect")
-                            .attr("x", function(d) { return x1(d.name); })
-                            .attr("y", height)
-                            .attr("height", 0)
-                            .attr("width", x1.rangeBand())
-                            .style("fill", function(d, i) {
-                                return d.name === "compared" ? d3.rgb(color(d.colorId)).darker(1) : color(d.colorId);
-                            })
-                            .style("opacity", 0)
+                            .enter().append("g")
+                            .attr("class", "bar")
+                            .style("opacity", 0.85)
                             .on("mouseover", function(d){
                                 d3.select(this).transition().duration(300)
                                     .style("opacity", 1);
@@ -116,19 +146,46 @@ angular.module('ThreeSixtyOneView.directives')
                             })
                             .on("mouseout", function(d){
                                 d3.select(this).transition().duration(300)
-                                    .style("opacity", 0.7);
+                                    .style("opacity", 0.85);
                                 var sel = $('table.spend-table tbody:eq(' + d.categoryId + ') tr:eq(' + d.id  + ')');
                                 sel.removeClass('highlight');
+                            });
+
+                        bar.append("rect")
+                            .attr("x", function(d) { return x1(d.name); })
+                            .attr("y", height)
+                            .attr("height", 0)
+                            .attr("width", x1.rangeBand())
+                            .style("fill", function(d, i) {
+                                return color(d.colorId);
+                                // return d.name === "compared" ? d3.rgb(color(d.colorId)).darker(1) : color(d.colorId);
                             })
+                            .style("opacity", 0)
                             .transition().ease("quad")
                                 .delay(function(d, i) { return (d.colorId * 2 + i) * 100 })
                                 .attr("height", function(d) { return height - y(d.value); })
                                 .attr("y", function(d) { return y(d.value); })
-                                .style("opacity", 0.7);
+                                .style("opacity", 1);
 
-                        bars.selectAll("text")
-                            .data(function(d) { return d.types; })
-                            .enter().append("text")
+                        bar.append("rect")
+                            .attr("x", function(d) { return x1(d.name); })
+                            .attr("y", function(d) { return y(d.value); })
+                            .attr("height", function(d) { return height - y(d.value); })
+                            .attr("width", x1.rangeBand())
+                            .style("fill", function(d, i) {
+                                return i===1 ? "rgba(0, 0, 0, 0.3)" : "none";
+                            })
+                            .attr("mask", "url(#mask)")
+                            .attr("stroke-linecap", "square")
+                            .attr("stroke-linejoin", "miter")
+                            .style("opacity", 0)
+                            .transition().ease("quad")
+                                .delay(function(d, i) { return (d.colorId * 2 + i) * 100 })
+                                .attr("height", function(d) { return height - y(d.value); })
+                                .attr("y", function(d) { return y(d.value); })
+                                .style("opacity", 1);
+
+                        bar.append("text")
                             .attr("x", function(d) { return x1(d.name) + x1.rangeBand()/2; })
                             .attr("y", function(d) { return y(d.value) - 15; })
                             .attr("dx", "-.85em")
@@ -142,7 +199,6 @@ angular.module('ThreeSixtyOneView.directives')
 
                     };
 
-                });
             }
         };
     }]);

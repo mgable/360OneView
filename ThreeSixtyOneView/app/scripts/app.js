@@ -17,6 +17,5 @@ angular.module('ThreeSixtyOneView', [
     'ThreeSixtyOneView.directives',
     'ThreeSixtyOneView.services',
     'ThreeSixtyOneView.config',
-    'wijspread',
-    'd3'
+    'wijspread'
 ]);

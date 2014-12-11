@@ -600,6 +600,15 @@
   stroke: #ccc;
   shape-rendering: crispEdges;
 }
+#stripe {
+    line {
+        fill: white;
+        stroke: white;
+        stroke-linecap: square;
+        stroke-linejoin: miter;
+        stroke-width: 10px;
+    }
+}
 /* switch */
 .unselectable {
     -webkit-touch-callout: none;
