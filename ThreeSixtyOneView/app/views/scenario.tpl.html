@@ -1,38 +1,27 @@
 <div class="Scenario">
 	<div class="toggle-header">
 		<div class="tabs-holder">
-			<ul>
-				<li ng-repeat="tab in tabs" ng-click="select($index)" ng-class="{sel: $index == selected}" ui-sref="{{tab.url}}">
-					<a><i class="fa {{tab.icon}}"></i> {{tab.name}}</a>
+			<ul ms-link-group radio="true" firstselected="edit">
+				<li ms-link="edit" ng-class="{sel: 'edit' === selectedItem}" ui-sref="Scenario.edit">
+					<a><icon type="pencil"></icon> Editor</a>
+				</li>
+				<li ms-link="results" ng-class="{sel: 'results' === selectedItem}" ui-sref="Scenario.results">
+					<a><icon type="check-square-o"></icon> Results</a>
 				</li>
 			</ul>
 		</div>
 		<div class="button-holder">
-			<span><i class="fa fa-tachometer" type="simulate" ng-click="resultsCalculated=true"></i>simulate</span>
+			<span><icon type="tachometer" ></icon>simulate</span>
 		</div>
 		<div class="icon-holder">
-			<span><i class="fa fa-cog" type="settings"></i></span>
+			<span><icon type="cog"></icon></span>
 		</div>
 		<div class="icon-holder">
-			<span><i class="fa fa-info" type="information"></i></span>
+			<span><icon type="info"></icon></span>
 		</div>
 	</div>
 
 	<div class="display">
-		<div class="editor">
-		<tabset>
-		    <tab heading="Pivot Table">
-		    	<div ui-view="builder"></div>
-		    </tab>
-		    <tab heading="Import">
-		    	<h1>Import here</h1>
-		    </tab>
-		    <tab heading="Export">
-		    	<h1>Export here</h1>
-		    </tab>
-		</tabset>
-		<div ui-view="table"></div>
-		</div>
-		<div ui-view="results"></div>
+		<div ui-view="display"></div>
 	</div>
 </div>

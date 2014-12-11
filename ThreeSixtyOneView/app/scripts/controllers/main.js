@@ -226,12 +226,13 @@ angular.module('ThreeSixtyOneView')
             DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
         });
 
-    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", 'ptData', function($scope, Project, Scenario, ScenarioElements, ptData) {
+    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", "Views", 'ptData', function($scope, Project, Scenario, ScenarioElements, Views, ptData) {
 
         console.info("scenarios");
         console.info(Scenario);
         $scope.project = Project;
         $scope.scenario = Scenario;
+        $scope.views = Views;
         $scope.pivotTableData = ptData.data;
         // $scope.pivotTableHeaders = ptData.headers;
         $scope.spread = {sheet: {}};
@@ -239,25 +240,4 @@ angular.module('ThreeSixtyOneView')
         //TODO: temp data
         $scope.types =  ScenarioElements;
         $scope.scenarioElementType = $scope.types[0];
-
-        var tabs = [
-            {
-                "tabId": 1,
-                "name": "Editor",
-                "url": "Scenario.edit",
-                "icon": "fa-pencil"
-            }, {
-                "tabId": 2,
-                "name": "Results",
-                "url": "Scenario.results",
-                "icon": "fa-check-square-o"
-            }
-        ];
-        $scope.tabs = tabs;
-        $scope.selected = 0;
-
-        $scope.select = function(index) {
-           $scope.selected = index;
-        };
-
     }]);

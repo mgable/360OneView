@@ -22,12 +22,12 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
         $scope.spendDataBody      = $scope.spendData.body;
 
         $scope.chartData = [];
-        _.each($scope.spendDataBody, function(v, k) {
+        _.each($scope.spendDataBody, function(v) {
             var chartSubData = {};
             chartSubData.id = v.id;
-            chartSubData.name = v.category
+            chartSubData.name = v.category;
             chartSubData.data = [];
-            _.each(v.children, function(v1, k1) {
+            _.each(v.children, function(v1) {
                 if (_.has(v1, 'chart')) {
                     chartSubData.data.push(v1.chart);
                 }
@@ -55,24 +55,21 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
 
     $scope.selectInitial = function(id){
         for (var i = 0; i < $scope.dropdownItems.length; i++) {
-            if ($scope.dropdownItems[i].id == id) {
+            if ($scope.dropdownItems[i].id === id) {
               return $scope.dropdownItems[i].description;
             }
         }
     };
 
     $scope.addSign =function(direction) {
-        if (direction === 'increase')
-            return '+';
-        else
-            return '-';
+        return direction === 'increase' ? '+' : '-';
     };
 
     // save the changes in the current view
     $scope.saveView = function() {
         if($scope.changeMade()) {
             if($scope.draftView) {
-                $scope.viewName = pbData.viewData.name;
+                $scope.viewName = resultsData.viewData.name;
             }
             $scope.draftView = false;
         }
@@ -285,4 +282,4 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
             name: 'Behrooz\'s View',
         }
     };
-})
+});

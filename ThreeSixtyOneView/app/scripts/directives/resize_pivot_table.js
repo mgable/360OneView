@@ -19,7 +19,7 @@ angular.module('ThreeSixtyOneView.directives')
                         } else {
                             pivotBuilderHeight = 30;
                         }
-                        pivotTableHeight = $window.innerHeight - pivotBuilderHeight - 20;
+                        pivotTableHeight = $window.innerHeight - pivotBuilderHeight - 20 - 40;
 
                         var scenario = angular.element('.Scenario');
                         scope.containerWidth = scenario[0].clientWidth - 40;
@@ -43,7 +43,7 @@ angular.module('ThreeSixtyOneView.directives')
 
                     $rootScope.$on(EVENTS.heightChanged, function(event, data){
 
-                        pivotTableHeight = $window.innerHeight - data - 20;
+                        pivotTableHeight = $window.innerHeight - data - 20 - 40;
 
                         var rowViewCnt = parseInt(pivotTableHeight / 40);
                         scope.row = scope.rowCnt < rowViewCnt ? 0 : scope.rowCnt - (rowViewCnt - scope.rowHeaderCnt);

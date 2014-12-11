@@ -53,13 +53,8 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
     .state("Scenario.edit", {
         url: "/edit",
         views: {
-          'builder': {
-            controller: "PivotBuilderCtrl",
-            templateUrl: "views/includes/pivot_table_builder.tpl.html",
-          },
-          'table': {
-            controller: "pivotTableCtrl",
-            templateUrl: "views/includes/pivot_table.tpl.html",
+          'display' : {
+            templateUrl: "views/includes/scenario_edit.tpl.html"
           }
         },
         breadcrumb: "<a goto='projects'>All Projects</a> &gt; <a goto='dashboard' params='{{project.id}}'>{{project.title}}</a> &gt; {{scenario.title}}"
@@ -67,7 +62,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
     .state("Scenario.results", {
       url: "/results",
       views: {
-        results: {
+        'display': {
           controller: "scenarioResultsCtrl",
           templateUrl: "views/includes/scenario_results.tpl.html"
         }
