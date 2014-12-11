@@ -2,7 +2,7 @@
 
 'use strict';
 
-angular.module('ThreeSixtyOneView')
+angular.module('ThreeSixtyOneView.directives')
     .directive('resizePivotTable', ["$rootScope", "$window", "EVENTS", "$timeout",
         function($rootScope, $window, EVENTS, $timeout) {
             return {
@@ -14,20 +14,28 @@ angular.module('ThreeSixtyOneView')
 
                     function adjustHeightOnResize() {
 
-                        pivotBuilderHeight = angular.element('#pivotBuilder')[0].offsetHeight;
-                        pivotTableHeight = $window.innerHeight - pivotBuilderHeight - 20;
+                        if (angular.element('#pivotBuilder')[0]) {
+                            pivotBuilderHeight = angular.element('#pivotBuilder')[0].offsetHeight;
+                        } else {
+                            pivotBuilderHeight = 30;
+                        }
+                        pivotTableHeight = $window.innerHeight - pivotBuilderHeight - 20 - 40;
 
-                        var details = element.parents().find('.details');
-                        scope.containerWidth = details[0].offsetWidth;
+                        var scenario = angular.element('.Scenario');
+                        scope.containerWidth = scenario[0].clientWidth - 40;
 
-                        var display = element.parents().find('.display');
-                        display.width(scope.containerWidth);
+                        var editor = element.parents().find('.editor');
+                        editor.width(scope.containerWidth);
 
                         var rowViewCnt = parseInt(pivotTableHeight / 40);
                         scope.row = scope.rowCnt < rowViewCnt ? 0 : scope.rowCnt - (rowViewCnt - scope.rowHeaderCnt);
                         scope.containerHeight = 150 + $window.innerHeight + (scope.row) * 100 + 100;
 
-                        $('.Scenario').height(scope.containerHeight);
+                        if (angular.element('#pivotBuilder')[0]) {
+                            $('.Scenario').height(scope.containerHeight);
+                        } else {
+                            $('.Scenario').css('height', 'auto');
+                        }
                         $('#pivotTable').height(pivotTableHeight);
                         $('#pivotTable').wijspread('refresh');
 
@@ -35,7 +43,7 @@ angular.module('ThreeSixtyOneView')
 
                     $rootScope.$on(EVENTS.heightChanged, function(event, data){
 
-                        pivotTableHeight = $window.innerHeight - data - 20;
+                        pivotTableHeight = $window.innerHeight - data - 20 - 40;
 
                         var rowViewCnt = parseInt(pivotTableHeight / 40);
                         scope.row = scope.rowCnt < rowViewCnt ? 0 : scope.rowCnt - (rowViewCnt - scope.rowHeaderCnt);

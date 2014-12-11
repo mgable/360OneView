@@ -6,7 +6,7 @@
  * @description
  * # filters
  */
-angular.module('ThreeSixtyOneView').directive('filters', function() {
+angular.module('ThreeSixtyOneView.directives').directive('filters', function() {
 	return {
 		restrict: 'E',
 		replace: true,

@@ -7,7 +7,7 @@
 * # PivotbuilderctrlCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$filter', 'pbData', 'ptData', 'PivotViewService', 'CubeService', 'Views', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, $filter, pbData, ptData, PivotViewService, CubeService, Views, DialogService) {
+angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$filter', 'pbData', 'ptData', 'PivotViewService', 'CubeService', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, $filter, pbData, ptData, PivotViewService, CubeService, DialogService) {
 
 	var init = function() {
 		$scope.pbShow = false;
@@ -15,11 +15,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		$scope.draftView = false;
 
 		// Rest APIs
-		$scope.viewName = Views.currentView.name;
-		$scope.viewsList = Views.views;
+		$scope.viewName = $scope.views.currentView.name;
+		$scope.viewsList = $scope.views.views;
 		$scope.loadView(6);
 		$scope.loadCube();
-		// console.log(PivotViewService.updateView({id: 5, name: "Updated View from JS", isDefault: false, rows: [{dimension: {id: 1}, hierarchy: {id: -1}, level: {id: 2}}], columns: [{dimension: {id: 2}, hierarchy: {id: -1}, level: {id: 2}}], filters: []}));
 
 		$scope.saveAs = false;
 		$scope.rename = false;
@@ -131,7 +130,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		$scope.selectedFilter.cat = category;
 
 		var dialog = DialogService.openFilterSelection('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl', {selFil: $scope.selectedFilter.selFil, cat: $scope.selectedFilter.cat, addedFilter: $scope.addedFilter, pbData: $scope.pbData}, {windowSize: 'lg', windowClass: 'filtersSelectionModal'});
-		
+
 		dialog.result.then(function(data) {
 			$scope.pbData.viewData.filters = data;
 			copyFilter();
@@ -402,8 +401,17 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		// $scope.spread.sheet.setFrozenColumnCount(numRows);
 	};
 
-	$scope.heightChanged = function() {
+	$scope.showTable = function(){
+		$scope.filterSection = false;
+		$scope.heightChanged();
+	};
 
+	$scope.showFilters = function(){
+		$scope.filterSection = true;
+		$scope.heightChanged();
+	}
+
+	$scope.heightChanged = function() {
 		$timeout(function() {
 			$scope.pivotBuilderHeight = angular.element.find('#pivotBuilder')[0].offsetHeight;
 			$rootScope.$broadcast(EVENTS.heightChanged, $scope.pivotBuilderHeight);

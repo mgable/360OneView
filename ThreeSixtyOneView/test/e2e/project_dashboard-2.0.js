@@ -4,10 +4,10 @@ var projectUrl = '/#/projects?e2e=true',
 	dashboardUrl = '/#/dashboard/:id?e2e=true';
 
 	//TEMP data - remove in production
-	// var projectId = "3626699b10323fa0a7fa9aa35876bd82";
-	// dashboardUrl = dashboardUrl.replace(/:id/, projectId);
+	var projectId = "a512b7fce6113c33a3efd81cfe876d48";
+	dashboardUrl = dashboardUrl.replace(/:id/, projectId);
 
-describe('Project Dashboard', function() {
+xdescribe('Project Dashboard', function() {
 	var hasClass = function (element, cls) {
 	    return element.getAttribute('class').then(function (classes) {
 	        return classes.split(' ').indexOf(cls) !== -1;
@@ -17,27 +17,27 @@ describe('Project Dashboard', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
-			dropdown = "//span[@data-ms-id='toggle_column_1']",
-			nameField = "//a[@data-ms-id='name-field']",
-			nameLabel = "//div[@data-ms-id='name-label']",
-			column_1 = "//span[@data-ms-id='select_column_1']",
-			column_1Label = "//h6[@data-ms-id='label_column_1']",
-			createdBy = "//li[@data-ms-id='Created Date']",
-			ascending = "//li[@data-ms-id='ascending']",
-			descending = "//li[@data-ms-id='descending']",
-			ascendingButton = element(by.xpath(ascending)),
-			descendingButton = element(by.xpath(descending)),
-			dropdownButton = element(by.xpath(dropdown)),
-			nameButton = element(by.xpath(nameField)),
-			nameLabelField = element(by.xpath(nameLabel)),
-			column_1Button = element(by.xpath(column_1)),
-			createdByButton = element(by.xpath(createdBy)),
-			column_1LabelField = element(by.xpath(column_1Label));
 		}
 	);
+	var dropdown = "//span[@data-ms-id='toggle_column_1']",
+		nameField = "//a[@data-ms-id='name-field']",
+		nameLabel = "//div[@data-ms-id='name-label']",
+		column_1 = "//span[@data-ms-id='select_column_1']",
+		column_1Label = "//h6[@data-ms-id='label_column_1']",
+		createdBy = "//li[@data-ms-id='Created Date']",
+		ascending = "//li[@data-ms-id='ascending']",
+		descending = "//li[@data-ms-id='descending']",
+		ascendingButton = element(by.xpath(ascending)),
+		descendingButton = element(by.xpath(descending)),
+		dropdownButton = element(by.xpath(dropdown)),
+		nameButton = element(by.xpath(nameField)),
+		nameLabelField = element(by.xpath(nameLabel)),
+		column_1Button = element(by.xpath(column_1)),
+		createdByButton = element(by.xpath(createdBy)),
+		column_1LabelField = element(by.xpath(column_1Label));
 
-	it("should create a new project and go to the dashboard", function(){
-		var create = "//span[@data-ms-id='createButton']",
+	xit("should create a new project and go to the dashboard", function(){
+		var create = "//button[@data-ms-id='createButton']",
 			input = "//input[@data-ms-id='modalInput']",
 			submit = "//button[@data-ms-id='submit']",
 			cancel = "//button[@data-ms-id='cancel']",
@@ -84,7 +84,7 @@ describe('Project Dashboard', function() {
 			baseScenario = "//label[@data-ms-id='ScenarioCreate.inputBaseScenario']",
 			submit = "//input[@data-ms-id='ScenarioCreate.submit']",
 			cancel = "//button[@data-ms-id='ScenarioCreate.cancel']",
-			create = "//span[@data-ms-id='createButton']",
+			create = "//button[@data-ms-id='createButton']",
 			trayCopy = "//a[@data-ms-id='trayActions.copy']",
 			modal = "//input[@data-ms-id='modalInput']",
 			confirmBaseScenario = "//button[@data-ms-id='ScenarioCreate.confirmBaseScenario']",
@@ -108,167 +108,194 @@ describe('Project Dashboard', function() {
 			browser.get(dashboardUrl);
 		});
 
-		it("should have no scenarios at time of creation", function(){
-			var data = element.all(by.repeater('item in getData()')),
-				itemCount = element(by.xpath("//span[@data-ms-id='dataCount']"));
-			expect(data.count()).toBe(0);
-			expect(itemCount.getText()).toContain(data.count());
-		});
+		xdescribe("Create functions: ", function(){
+
+			it("should have no scenarios at time of creation", function(){
+				var data = element.all(by.repeater('item in getData()')),
+					itemCount = element(by.xpath("//span[@data-ms-id='dataCount']"));
+				expect(data.count()).toBe(0);
+				expect(itemCount.getText()).toContain(data.count());
+			});
 		
-		it("should display the create scenario alert", function(){
-			expect(noScenariosAlert.isPresent()).toBe(true);
-		});
+			it("should display the create scenario alert", function(){
+				expect(noScenariosAlert.isPresent()).toBe(true);
+			});
 
-		it("should open the create new scenario dialog box and create a new scenario", function(){
-			noScenariosAlert.click();
-			browser.waitForAngular();
-			inputName.sendKeys(testScenarionNameFirst);
-			inputDescription.sendKeys(testScenarionDescription);
-			submitButton.click();
-			browser.waitForAngular();
-			expect(browser.getLocationAbsUrl()).toContain("/#/scenario/");
-			browser.get(dashboardUrl);
-			browser.waitForAngular();
-
-			var data = element.all(by.repeater('item in getData()')),
-				itemCount = element(by.xpath("//span[@data-ms-id='dataCount']")),
-				title = element.all(by.repeater('item in getData()').column('title'));
-			expect(data.count()).toBe(1);
-			expect(itemCount.getText()).toContain(data.count());
-			expect(noScenariosAlert.isPresent()).toBe(false);
-			title.first().getText().then(function(text){
-				expect(text).toBe(testScenarionNameFirst);
-			})
-		});
-
-		it("should not allow a new scenario to be created without a name", function(){
-			createButton.click();
-			browser.waitForAngular();
-			expect(submitButton.isEnabled()).toBe(false);
-		});
-
-		it("should allow a new scenario to be created with a name but no description", function(){
-			createButton.click();
-			browser.waitForAngular();
-			expect(submitButton.isEnabled()).toBe(false);
-			inputName.sendKeys("New " + testScenarionNameFirst);
-			expect(submitButton.isEnabled()).toBe(true);
-		});
-
-		it("should not allow a duplicate scenario name", function(){
-			createButton.click();
-			browser.waitForAngular();
-			expect(submitButton.isEnabled()).toBe(false);
-			inputName.sendKeys(testScenarionNameFirst);
-			expect(submitButton.isEnabled()).toBe(false);
-		});
-
-		it("should restrict which characters can be used in a name", function(){
-			createButton.click();
-			browser.waitForAngular();
-			expect(submitButton.isEnabled()).toBe(false);
-			inputName.sendKeys("<cat");
-			expect(submitButton.isEnabled()).toBe(false);
-			inputName.clear();
-			inputName.sendKeys("dog*");
-			expect(submitButton.isEnabled()).toBe(false);
-			inputName.clear();
-			inputName.sendKeys("fo?o");
-			expect(submitButton.isEnabled()).toBe(false);
-			inputName.clear();
-			inputName.sendKeys("fo/ddddo");
-			expect(submitButton.isEnabled()).toBe(false);
-			inputName.clear();
-			inputName.sendKeys("f:cccccc");
-			expect(submitButton.isEnabled()).toBe(false);
-			inputName.clear();
-			inputName.sendKeys("fo:\/ddd*do");
-			expect(submitButton.isEnabled()).toBe(false);
-			inputName.clear();
-			inputName.sendKeys("foodoo");
-			expect(submitButton.isEnabled()).toBe(true);
-		});
-
-		it("should not allow names less than two characters or more than 256 characters", function(){
-			createButton.click();
-			inputName.sendKeys("f");
-			expect(submitButton.isEnabled()).toBe(false);
-			inputName.clear();
-			inputName.sendKeys("Bacon ipsum dolor amet spare ribs drumstick short loin capicola boudin kielbasa. Ham hock chuck jowl swine, pork beef ribs turducken shoulder short ribs landjaeger. Beef turkey jowl tongue filet mignon cow spare ribs kielbasa drumstick ham hock jerky capxx");
-			expect(submitButton.isEnabled()).toBe(true);
-			inputName.sendKeys("z");
-			expect(submitButton.isEnabled()).toBe(false);
-			inputName.clear();
-			inputName.sendKeys("this is just right");
-			expect(submitButton.isEnabled()).toBe(true);
-		});
-
-		it("should copy a scenario", function(){
-			var scenarioElement = element(by.repeater('item in getData()').row(0).column('title')),
-				scenario = element.all(by.repeater('item in getData()').row(0)),
-				data = element.all(by.repeater('item in getData()')),
-				itemCount = element(by.xpath("//span[@data-ms-id='dataCount']")),
-				submitButton = element(by.xpath("//button[@data-ms-id='submit']")),
-				numberOfScenarios;
-
-			data.count().then(function(count){
-				numberOfScenarios = count;
-				//scenario.click();
-				trayCopyButton.click();
+			it("should open the create new scenario dialog box and create a new scenario", function(){
+				noScenariosAlert.click();
 				browser.waitForAngular();
-				scenarioElement.getText().then(function(scenarioTitle){
-					modalInput.getAttribute("value").then(function(inputText){
-						expect("COPY -- " + scenarioTitle).toEqual(inputText);
-						modalInput.clear();
-						modalInput.sendKeys(testScenarionNameSecond);
-					});
-				});
+				inputName.sendKeys(testScenarionNameFirst);
+				inputDescription.sendKeys(testScenarionDescription);
 				submitButton.click();
 				browser.waitForAngular();
 				expect(browser.getLocationAbsUrl()).toContain("/#/scenario/");
 				browser.get(dashboardUrl);
 				browser.waitForAngular();
-				expect(data.count()).toEqual(numberOfScenarios + 1);
-				//expect(itemCount.getText()).toEqual(data.count());
-				itemCount.getText().then(function(firstCount){
-					data.count().then(function(secondCount){
-						expect(parseInt(firstCount,10)).toEqual(parseInt(secondCount,10));
+
+				var data = element.all(by.repeater('item in getData()')),
+					itemCount = element(by.xpath("//span[@data-ms-id='dataCount']")),
+					title = element.all(by.repeater('item in getData()').column('title'));
+				expect(data.count()).toBe(1);
+				expect(itemCount.getText()).toContain(data.count());
+				expect(noScenariosAlert.isPresent()).toBe(false);
+				title.first().getText().then(function(text){
+					expect(text).toBe(testScenarionNameFirst);
+				})
+			});
+
+			it("should not allow a new scenario to be created without a name", function(){
+				createButton.click();
+				browser.waitForAngular();
+				expect(submitButton.isEnabled()).toBe(false);
+			});
+
+			it("should allow a new scenario to be created with a name but no description", function(){
+				createButton.click();
+				browser.waitForAngular();
+				expect(submitButton.isEnabled()).toBe(false);
+				inputName.sendKeys("New " + testScenarionNameFirst);
+				expect(submitButton.isEnabled()).toBe(true);
+			});
+
+			it("should not allow a duplicate scenario name", function(){
+				createButton.click();
+				browser.waitForAngular();
+				expect(submitButton.isEnabled()).toBe(false);
+				inputName.sendKeys(testScenarionNameFirst);
+				expect(submitButton.isEnabled()).toBe(false);
+			});
+
+			it("should restrict which characters can be used in a name", function(){
+				createButton.click();
+				browser.waitForAngular();
+				expect(submitButton.isEnabled()).toBe(false);
+				inputName.sendKeys("<cat");
+				expect(submitButton.isEnabled()).toBe(false);
+				inputName.clear();
+				inputName.sendKeys("dog*");
+				expect(submitButton.isEnabled()).toBe(false);
+				inputName.clear();
+				inputName.sendKeys("fo?o");
+				expect(submitButton.isEnabled()).toBe(false);
+				inputName.clear();
+				inputName.sendKeys("fo/ddddo");
+				expect(submitButton.isEnabled()).toBe(false);
+				inputName.clear();
+				inputName.sendKeys("f:cccccc");
+				expect(submitButton.isEnabled()).toBe(false);
+				inputName.clear();
+				inputName.sendKeys("fo:\/ddd*do");
+				expect(submitButton.isEnabled()).toBe(false);
+				inputName.clear();
+				inputName.sendKeys("foodoo");
+				expect(submitButton.isEnabled()).toBe(true);
+			});
+
+			it("should not allow names less than two characters or more than 256 characters", function(){
+				createButton.click();
+				inputName.sendKeys("f");
+				expect(submitButton.isEnabled()).toBe(false);
+				inputName.clear();
+				inputName.sendKeys("Bacon ipsum dolor amet spare ribs drumstick short loin capicola boudin kielbasa. Ham hock chuck jowl swine, pork beef ribs turducken shoulder short ribs landjaeger. Beef turkey jowl tongue filet mignon cow spare ribs kielbasa drumstick ham hock jerky capxx");
+				expect(submitButton.isEnabled()).toBe(true);
+				inputName.sendKeys("z");
+				expect(submitButton.isEnabled()).toBe(false);
+				inputName.clear();
+				inputName.sendKeys("this is just right");
+				expect(submitButton.isEnabled()).toBe(true);
+			});
+
+			it("should copy a scenario", function(){
+				var scenarioElement = element(by.repeater('item in getData()').row(0).column('title')),
+					scenario = element.all(by.repeater('item in getData()').row(0)),
+					data = element.all(by.repeater('item in getData()')),
+					itemCount = element(by.xpath("//span[@data-ms-id='dataCount']")),
+					submitButton = element(by.xpath("//button[@data-ms-id='submit']")),
+					numberOfScenarios;
+
+				data.count().then(function(count){
+					numberOfScenarios = count;
+					//scenario.click();
+					trayCopyButton.click();
+					browser.waitForAngular();
+					scenarioElement.getText().then(function(scenarioTitle){
+						modalInput.getAttribute("value").then(function(inputText){
+							expect("COPY -- " + scenarioTitle).toEqual(inputText);
+							modalInput.clear();
+							modalInput.sendKeys(testScenarionNameSecond);
+						});
+					});
+					submitButton.click();
+					browser.waitForAngular();
+					expect(browser.getLocationAbsUrl()).toContain("/#/scenario/");
+					browser.get(dashboardUrl);
+					browser.waitForAngular();
+					expect(data.count()).toEqual(numberOfScenarios + 1);
+					//expect(itemCount.getText()).toEqual(data.count());
+					itemCount.getText().then(function(firstCount){
+						data.count().then(function(secondCount){
+							expect(parseInt(firstCount,10)).toEqual(parseInt(secondCount,10));
+						});
 					});
 				});
 			});
+
+			it("should search scenarios", function(){
+				element(by.model('SortAndFilterService.searchText')).sendKeys('FIRST');
+				expect(element.all(by.repeater('item in getData()')).count()).toBe(1);
+			});
+
+			it("should have an active selection", function(){
+				var first = element.all(by.repeater('item in getData()')).first();
+				expect(hasClass(first, "active")).toBe(true);
+			});
 		});
 
-		it("should search scenarios", function(){
-			element(by.model('SortAndFilterService.searchText')).sendKeys('FIRST');
-			expect(element.all(by.repeater('item in getData()')).count()).toBe(1);
-		});
+		describe("Edit functions: ", function(){
+			it("should rename a scenario", function(){
+				var first,
+					newName = "My Renamed Scenario - " + Date.now(),
+					rename = "//a[@data-ms-id='inlineRename']",
+					renameButton = element(by.xpath(rename)), 
+					input = "input.inputTarget",
+					inputField = element(by.css(input)),
+					inlineSubmit = "//button[@data-ms-id='inlineSubmit']",
+					inlineCancel = "//button[@data-ms-id='inlineCancel']";
 
-		it("should have an active selection", function(){
-			var first = element.all(by.repeater('item in getData()')).first();
-			expect(hasClass(first, "active")).toBe(true);
-		});
+				browser.actions().mouseMove(renameButton).perform();
+				renameButton.click();
+				browser.waitForAngular();
+				var inlineSubmitButton = element(by.xpath(inlineSubmit)),
+					inlineCancelButton = element(by.xpath(inlineCancel)),
+					currentName = inputField.getAttribute('value');
+				inputField.clear();
+				inputField.sendKeys(newName);
+				inlineSubmitButton.click();
+				browser.waitForAngular();
+				first = element(by.repeater('item in getData()').row(0).column("title"));
+				first.getText().then(function(name){
+					expect(name).toEqual(newName);
+				});
+			});
+		})
 
-		describe("Sort functions: ", function(){
-			beforeEach(
-				function(){
-					dropdown = "//span[@data-ms-id='toggle_column_1']",
-					nameField = "//a[@data-ms-id='name-field']",
-					nameLabel = "//div[@data-ms-id='name-label']",
-					column_1 = "//span[@data-ms-id='select_column_1']",
-					column_1Label = "//h6[@data-ms-id='label_column_1']",
-					createdBy = "//li[@data-ms-id='Created Date']",
-					ascending = "//li[@data-ms-id='ascending']",
-					descending = "//li[@data-ms-id='descending']",
-					ascendingButton = element(by.xpath(ascending)),
-					descendingButton = element(by.xpath(descending)),
-					dropdownButton = element(by.xpath(dropdown)),
-					nameButton = element(by.xpath(nameField)),
-					nameLabelField = element(by.xpath(nameLabel)),
-					column_1Button = element(by.xpath(column_1)),
-					createdByButton = element(by.xpath(createdBy)),
-					column_1LabelField = element(by.xpath(column_1Label));
-				}
-			);
+		xdescribe("Sort functions: ", function(){
+			var dropdown = "//span[@data-ms-id='toggle_column_1']",
+				nameField = "//a[@data-ms-id='name-field']",
+				nameLabel = "//div[@data-ms-id='name-label']",
+				column_1 = "//span[@data-ms-id='select_column_1']",
+				column_1Label = "//h6[@data-ms-id='label_column_1']",
+				createdBy = "//li[@data-ms-id='Created Date']",
+				ascending = "//li[@data-ms-id='ascending']",
+				descending = "//li[@data-ms-id='descending']",
+				ascendingButton = element(by.xpath(ascending)),
+				descendingButton = element(by.xpath(descending)),
+				dropdownButton = element(by.xpath(dropdown)),
+				nameButton = element(by.xpath(nameField)),
+				nameLabelField = element(by.xpath(nameLabel)),
+				column_1Button = element(by.xpath(column_1)),
+				createdByButton = element(by.xpath(createdBy)),
+				column_1LabelField = element(by.xpath(column_1Label));
 
 			it("should switch between ordering by name, modified last and created on", function(){
 				var data;
@@ -356,7 +383,7 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Favorite behaviors", function(){
+		xdescribe("Favorite behaviors: ", function(){
 
 			it("should toggle favorite", function(){
 				var firstElement = element.all(by.css(".favorites a")).first(),
@@ -384,7 +411,7 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Breadcrumbs", function(){
+		xdescribe("Breadcrumbs: ", function(){
 			var breadcrumb = ".breadcrumbs span",
 				breadcrumbField = element(by.css(breadcrumb));
 
@@ -392,7 +419,8 @@ describe('Project Dashboard', function() {
 				expect(breadcrumbField.getText()).toEqual("ALL PROJECTS > " + testFileName.toUpperCase());
 			});
 		});
-		describe("change base scenario", function(){
+
+		xdescribe("Change base scenario: ", function(){
 			//
 
 			it("should change the base scenario", function(){

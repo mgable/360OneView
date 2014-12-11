@@ -48,7 +48,7 @@ describe('Service: FavoritesModel', function() {
 	});
 
 	it ("should unset a favorite", function(){
-		$httpBackend.expectDELETE(url+ "?id=123").respond(JSON.stringify({"status": "204"}));
+		$httpBackend.expectDELETE(url+ "?id=123").respond(JSON.stringify([]));
 		FavoritesModel.unFavorite("123");
 		$httpBackend.flush();
 		$httpBackend.verifyNoOutstandingExpectation();

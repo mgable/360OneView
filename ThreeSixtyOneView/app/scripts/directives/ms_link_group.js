@@ -11,7 +11,12 @@ angular.module('ThreeSixtyOneView.directives')
                     $scope.selectedItem = $attrs.firstselected || 'none';
                 });
 
-                $scope.radio = $attrs.radio.bool() || false;
+                if ($attrs.radio){
+                    $scope.radio = $attrs.radio === "true" ? true : false;
+                } else {
+                    $scope.radio = true;
+                }
+
                 $scope.enabled = true;
 
                 this.toggleSelected = function(event) {

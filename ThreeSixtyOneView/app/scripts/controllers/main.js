@@ -46,9 +46,6 @@ angular.module('ThreeSixtyOneView')
             return $scope.project;
         };
 
-        console.info("the project is");
-        console.info(Project);
-
         // API
         // Click handler interface
         $scope.selectItem = function(item){
@@ -73,9 +70,9 @@ angular.module('ThreeSixtyOneView')
         });
 
         $scope.$on(EVENTS.renameScenario, function(evt, scenario){
-            ScenarioService.rename(scenario, $getProject().id);
+            ScenarioService.rename(scenario, getProject().id);
         });
-        
+
         init();
     }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "GotoService", "DialogService", "EVENTS", function($scope, $controller, FavoritesService, ProjectsService, ScenarioService, Projects,  GotoService, DialogService, EVENTS) {
 
@@ -128,10 +125,10 @@ angular.module('ThreeSixtyOneView')
 
         init();
     }]).controller("ListingViewCtrl", ["$scope", "$rootScope", "$state", "SortAndFilterService", "DialogService", "GotoService", "CONFIG", "EVENTS", "FavoritesService", "$stateParams", function($scope, $rootScope, $state, SortAndFilterService, DialogService, GotoService, CONFIG, EVENTS, FavoritesService, $stateParams){
-        
+
         $scope.init = function(_data_, fn){
             var currentView = CONFIG.view[$state.current.name],
-                filter = currentView.filterMenu.items[0], 
+                filter = currentView.filterMenu.items[0],
                 reverse = currentView.reverse,
                 orderBy = currentView.orderBy;
 
@@ -224,22 +221,18 @@ angular.module('ThreeSixtyOneView')
             }
         });
 
-        $scope.$on(EVENTS.changeActiveItem, function(event, response) {
-            if (response) {
-                $scope.selectedItem = response;
-            }
-        });
 
         $scope.$on(EVENTS.noop, function(event, action){
             DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
         });
 
-    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", 'ptData', function($scope, Project, Scenario, ScenarioElements, ptData) {
+    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", "Views", 'ptData', function($scope, Project, Scenario, ScenarioElements, Views, ptData) {
 
         console.info("scenarios");
         console.info(Scenario);
         $scope.project = Project;
         $scope.scenario = Scenario;
+        $scope.views = Views;
         $scope.pivotTableData = ptData.data;
         // $scope.pivotTableHeaders = ptData.headers;
         $scope.spread = {sheet: {}};
