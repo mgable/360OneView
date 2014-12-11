@@ -1,44 +1,27 @@
 <div class="Scenario">
-	<div class="details">
-		<div class="media">
-			<a class="pull-left">
-				<img class="media-object" src="http://dummyimage.com/50x50/65d642/fff.gif&text=Ca" alt="">
-			</a>
-			<div class="media-body">
-				<h4 class="media-heading pull-left">{{scenario.title}}</h4>&nbsp;<icon type="cog"></icon><p class='pull-right no-margin'>Base Scenario:&nbsp;<a>{{scenario.referenceScenario.name}}</a></p>
-				<div style="clear:both;">{{scenario.description}}</div>
-			</div>
+	<div class="toggle-header">
+		<div class="tabs-holder">
+			<ul ms-link-group radio="true" firstselected="edit">
+				<li ms-link="edit" ng-class="{sel: 'edit' === selectedItem}" ui-sref="Scenario.edit">
+					<a><icon type="pencil"></icon> Editor</a>
+				</li>
+				<li ms-link="results" ng-class="{sel: 'results' === selectedItem}" ui-sref="Scenario.results">
+					<a><icon type="check-square-o"></icon> Results</a>
+				</li>
+			</ul>
 		</div>
-		<div>
-			<form class="form-inline">
-				<div class='form-group'>
-					<label><span ui-sref="Scenario.edit">Edit:</span>&nbsp;
-						<select ng-model="scenarioElementType" ng-options="value.title for value in types"></select>
-					</label>
-				</div>
-			</form>
-
-			<span  ui-sref="Scenario.results" class="results">Results: (Not Calculated)</span>
-			<span class="pull-right">
-				<button class="btn btn-primary" ng-click="resultsCalculated=true">simulate</button>
-			</span>
+		<div class="button-holder">
+			<span><icon type="tachometer" ></icon>simulate</span>
 		</div>
-
+		<div class="icon-holder">
+			<span><icon type="cog"></icon></span>
+		</div>
+		<div class="icon-holder">
+			<span><icon type="info"></icon></span>
+		</div>
 	</div>
 
 	<div class="display">
-		<tabset ng-controller="tabCtrl">
-		    <tab heading="Pivot Table">
-		    	<div ui-view="builder"></div>
-		    </tab>
-		    <tab heading="Import">
-		    	<h1>Import here</h1>
-		    </tab>
-		    <tab heading="Export">
-				<div ui-view="export"></div>
-		    </tab>
-		</tabset>
-		<div ui-view="table"></div>
-		<div ui-view="results"></div>
+		<div ui-view="display"></div>
 	</div>
 </div>

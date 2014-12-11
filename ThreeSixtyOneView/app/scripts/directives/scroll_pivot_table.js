@@ -2,7 +2,7 @@
 
 'use strict';
 
-angular.module('ThreeSixtyOneView')
+angular.module('ThreeSixtyOneView.directives')
     .directive('scrollPivotTable', ["$window", function($window) {
         return {
             restrict: 'AE',
@@ -10,33 +10,33 @@ angular.module('ThreeSixtyOneView')
 
                 var spread = $("#pivotTable").wijspread("spread");
                 var sheet = spread.getActiveSheet();
-                var scrollTop = 250; /* Position when start to fix */
+                var scrollTop = 180; /* Position when start to fix */
 
                 // outer scrollbar link to the inner scrollbar
                 angular.element($window).bind("scroll", function() {
 
                     var windowTop = this.pageYOffset;  /* Position to the top */
                     var scrollBottom = scrollTop + 100 * (scope.row+1);
-                    var details = angular.element(document.querySelector('.details'));
-                    scope.containerWidth = details[0].offsetWidth;
+                    var scenario = angular.element('.Scenario');
+                    scope.containerWidth = scenario[0].clientWidth - 40;
 
                     if (windowTop >= scrollTop && windowTop <= scrollBottom) {
                         var rowTop = Math.floor((windowTop-scrollTop)/100);
                         spread.showRow(rowTop, $.wijmo.wijspread.VerticalPosition.top);
-                        $('.display').css({
+                        $('.editor').css({
                             'position': 'fixed',
                             'top': 0,
                             'width': scope.containerWidth
                         });
                     } else if (windowTop < scrollTop) {
-                        $('.display').css({
+                        $('.editor').css({
                             'position': 'relative',
                             'top': 'auto',
                             'bottom': 'auto',
                             'width': '100%'
                         });
                     } else if (windowTop > scrollBottom) {
-                        $('.display').css({
+                        $('.editor').css({
                             'width': scope.containerWidth,
                             'position': 'absolute',
                             'bottom': '200px',

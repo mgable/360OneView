@@ -6,7 +6,7 @@
  * @description
  * # member
  */
-angular.module('ThreeSixtyOneView').directive('member', ['$compile', function($compile) {
+angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', function($compile) {
 	return {
 		restrict: 'E',
 		replace: true,

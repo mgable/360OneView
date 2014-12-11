@@ -1,0 +1,14 @@
+<div class="editor">
+    <tabset>
+        <tab heading="Pivot Table">
+        	<ng-include src="'views/includes/pivot_table_builder.tpl.html'" ng-controller="PivotBuilderCtrl"></ng-include>
+        </tab>
+        <tab heading="Import">
+        	<h1>Import here</h1>
+        </tab>
+        <tab heading="Export">
+        	<ng-include src="'views/includes/pivot_table_export.tpl.html'" ng-controller="exportCtrl"></ng-include>
+        </tab>
+    </tabset>
+    <ng-include src="'views/includes/pivot_table.tpl.html'" ng-controller="pivotTableCtrl"></ng-include>
+</div>

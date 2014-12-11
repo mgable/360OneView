@@ -82,17 +82,19 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", ["$http", "$q",
                 return deferred.promise;
             };
 
-            this.delete = function(item, _config_, params, additionalPath){
+            this.delete = function(query, _config_, params, additionalPath){
                 var deferred = this._q.defer(), config = _config_ || {},
                     path = getPath.call(this, params, additionalPath);
 
-                if (typeof item === 'undefined') {
-                    deferred.reject('I need an item with an id');
+                if (typeof query === 'undefined') {
+                    deferred.reject('I need an query with an id');
                     return deferred.promise;
                 }
 
+                _.extend(config, query);
+
                 this._http
-                    .delete(path, item, config)
+                    .delete(path, config)
                     .success(deferred.resolve)
                     .error(function(data, status, headers, config){
                         $rootScope.$broadcast(EVENTS.serverError, {data:data, status:status, headers:headers, config: config});
