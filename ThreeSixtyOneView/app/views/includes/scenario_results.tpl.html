@@ -4,12 +4,12 @@
         <div class="dropdown" is-open="isOpen">
             <span>Results compared to</span>
             <ul ng-click="isOpen = false" class="dropdown-menu" role="menu">
-                <li ng-repeat="dropdownItem in dropdownItems | orderBy:'id'">
-                    <a href="" ng-click="onDropdownSelect(dropdownItem)">{{dropdownItem.description}}</a>
+                <li ng-repeat="viewsListItem in viewsList | orderBy:'id'">
+                    <a href="" ng-click="onDropdownSelect(viewsListItem)">{{viewsListItem.name}}</a>
                 </li>
             </ul>
             <span class="dropdown-toggle" ng-model="selectedDropdownId">
-                {{selectInitial(selectedDropdownId)}}<i class="fa fa-caret-down"></i>
+                {{selectInitial(selectedDropdownId)}} <icon type="caret-down"></icon>
             </span>
         </div>
     </section>
@@ -18,12 +18,12 @@
         <div>
             <div class="srTitle" ng-class="{srTitleSel: srShow, srGray: !srShow}">
                 <div class="srRenameArea">
-                    <i class="fa fa-eye" ng-class="{srGray: !srShow}"></i>
+                    <icon type="eye" ng-class="{srGray: !srShow}"></icon>
                     <div class="srTitleText clickable" ng-click="srShow ? startSaveAs() : (srShow = true)" ng-hide="saveAs">{{viewName}}</div>
                     <div class="srSaveAsBox" ng-show="saveAs">
                         <input type="text" ng-model="saveAsName" ng-keyup="renameAction($event)">
-                        <i class="fa fa-check clickable" ng-click="finishSaveAs(true)"></i>
-                        <i class="fa fa-remove clickable" ng-click="finishSaveAs(false)"></i>
+                        <icon type="check" ng-click="finishSaveAs(true)"></icon>
+                        <icon type="remove" ng-click="finishSaveAs(false)"></icon>
                     </div>
                 </div>
             </div>
@@ -38,17 +38,21 @@
                 <div class="srSaveMenu" ng-mouseleave="viewSaveMenu = false">
                     <div class="srViewSave">
                         <div class="srSaveHolder">
-                            <div class="srSaveButton clickable" ng-click="saveView()" ng-class="{srViewSaveDisabled: !changeMade()}">
-                                <i class="fa fa-save"></i> Save View
+                            <div class="srSaveButton clickable" ng-click="saveView()"">
+                                <icon type="save"></icon> Save View
                             </div>
                             <div class="srSaveDropButton clickable" ng-class="{srSaveDropSelected: viewSaveMenu}" ng-click="viewSaveMenu = !viewSaveMenu">
-                                <i class="fa fa-caret-down"></i>
+                                <icon type="caret-down"></icon>
                             </div>
                         </div>
                         <div class="srViewSaveMenu" ng-show="viewSaveMenu">
                             <div class="srViewSaveMenuVisible" ng-click="">
-                                <div class="srViewSaveMenuItem clickable" ng-click="startSaveAs(); viewSaveMenu = false;"><i class="fa fa-save"></i> Save As</div>
-                                <div class="srViewSaveMenuItem clickable" ng-click="resetView(); viewSaveMenu = false;"><i class="fa fa-undo"></i> Revert</div>
+                                <div class="srViewSaveMenuItem clickable" ng-click="startSaveAs(); viewSaveMenu = false;">
+                                    <icon type="save"></icon> Save As
+                                </div>
+                                <div class="srViewSaveMenuItem clickable" ng-click="resetView(); viewSaveMenu = false;">
+                                    <icon type="undo"></icon> Revert
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -56,60 +60,23 @@
 
                 <div class="srViewsList" ng-mouseleave="viewRecentViews = false">
                     <div class="srRecentViewsButton clickable" ng-click="viewRecentViews = !viewRecentViews">
-                        <i class="fa fa-eye"></i> Recent Views <i class="fa fa-caret-down"></i>
+                        <icon type="eye"></icon> Recent Views <icon type="caret-down"></icon>
                     </div>
                     <div class="srRecentViewsMenu" ng-show="viewRecentViews">
                         <div class="srRecentViewsMenuVisible">
-                            <div class="clickable"><i class="fa fa-eye"></i> Q1 2014 Upfronts</div>
-                            <div class="clickable"><i class="fa fa-eye"></i> Newfronts 2015</div>
-                            <div class="clickable"><i class="fa fa-eye"></i> Behrooz 10% Southwest Regional</div>
-                            <div class="clickable"><i class="fa fa-eye"></i> Joe's Lowest Performance Quarter</div>
-                            <div class="clickable"><i class="fa fa-eye"></i> Andy 2015 Holidays</div>
-                            <hr>
-                            <div class="clickable"><i class="fa fa-folder-open-o"></i> All Views</div>
+                            <div class="clickable" ng-repeat="viewsListItem in viewsList">
+                                <icon type="eye"></icon> {{viewsListItem.name}}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="srSec">
-                <div class="srSecTitle">Spend Filters</div>
+            <div class="srSec" ng-repeat="filter in filters">
+                <div class="srSecTitle">{{filter.name}}</div>
                 <div class="srFilterValues">
-                    <div class="srFilterBox clickable">
-                        <div class="srFilterCat">Product</div>
-                        <div class="srFilterVal">Fiesta</div>
-                    </div>
-                    <div class="srFilterBox clickable">
-                        <div class="srFilterCat">Touchpoint</div>
-                        <div class="srFilterVal">All</div>
-                    </div>
-                    <div class="srFilterBox clickable">
-                        <div class="srFilterCat">Geography</div>
-                        <div class="srFilterVal">All</div>
-                    </div>
-                    <div class="srFilterBox clickable">
-                        <div class="srFilterCat">Time</div>
-                        <div class="srFilterVal">2015</div>
-                    </div>
-                </div>
-            </div>
-            <div class="srSec">
-                <div class="srSecTitle">KPI Filters</div>
-                <div class="srFilterValues">
-                    <div class="srFilterBox clickable">
-                        <div class="srFilterCat">Product</div>
-                        <div class="srFilterVal">Fiesta</div>
-                    </div>
-                    <div class="srFilterBox clickable">
-                        <div class="srFilterCat">Geography</div>
-                        <div class="srFilterVal">All</div>
-                    </div>
-                    <div class="srFilterBox clickable">
-                        <div class="srFilterCat">Time</div>
-                        <div class="srFilterVal">All</div>
-                    </div>
-                    <div class="srFilterBox clickable">
-                        <div class="srFilterCat">Sales Channel</div>
-                        <div class="srFilterVal">Online</div>
+                    <div class="srFilterBox clickable" ng-repeat="filterItem in filter.items">
+                        <div class="srFilterCat">{{filterItem.name}}</div>
+                        <div class="srFilterVal">{{filterItem.value}}</div>
                     </div>
                 </div>
             </div>
@@ -119,7 +86,7 @@
             </div>
             <div class="srSliderCollapse">
                 <span class="clickable" ng-click="heightChanged(); srShow = false; finishSaveAs(false);">
-                    <i class="fa fa-chevron-up"></i> Collapse
+                    <icon type="chevron-up"></icon> Collapse
                 </span>
             </div>
         </div>
@@ -132,8 +99,9 @@
                 <div class="kpi-container col-md-5ths col-xs-12" ng-repeat="kpiDatum in kpiData">
                     <h4 class="kpi-title">{{kpiDatum.title}}</h4>
                     <h2 class="kpi-incremental kpi-{{kpiDatum.direction}}">
-                    <i class="kpi-arrow fa" ng-class="(kpiDatum.direction=='increase') ? 'fa-arrow-up' : 'fa-arrow-down'"></i>{{kpiDatum.incremental.current}}{{kpiDatum.incremental.number}}<span class="kpi-unit">{{kpiDatum.incremental.unit}}</span>
-                  </h2>
+                        <icon class="kpi-arrow" type="{{addArrow(kpiDatum.direction)}}"></icon>{{kpiDatum.incremental.current}}{{kpiDatum.incremental.number}}
+                        <span class="kpi-unit">{{kpiDatum.incremental.unit}}</span>
+                    </h2>
                     <span class="kpi-total">{{kpiDatum.total}}</span>
                     <span class="kpi-percent kpi-{{kpiDatum.direction}}">{{kpiDatum.percent}}</span>
                 </div>
@@ -170,7 +138,11 @@
                         <img src="images/legend.png" alt="legend">
                         <span ng-model="selectedDropdownId">{{selectInitial(selectedDropdownId)}}</span>
                     </div>
-                    <ms-bar-chart ng-repeat="chartDatum in chartData" chart-data="chartDatum.data"></ms-bar-chart>
+                    <div class="row">
+                        <div class="col-md-6 col-xs-6" ng-repeat="chartDatum in chartData">
+                            <ms-bar-chart chart-data="chartDatum.data"></ms-bar-chart>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

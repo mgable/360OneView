@@ -10,16 +10,21 @@
 angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function ($scope, resultsData) {
 
     var init = function() {
-        $scope.srShow          = false;
-        $scope.saveAs          = false;
-        $scope.isTest          = null;
-        $scope.viewName        = resultsData.viewData.name;
-        $scope.draftView       = false;
 
-        $scope.kpiData            = resultsData.kpiData;
-        $scope.spendData          = resultsData.spendData;
-        $scope.spendDataHeader    = $scope.spendData.header;
-        $scope.spendDataBody      = $scope.spendData.body;
+        $scope.srShow    = false;
+        $scope.saveAs    = false;
+        $scope.draftView = false;
+        $scope.isTest    = null;
+
+        $scope.viewName  = resultsData.viewData.name;
+        $scope.filters   = resultsData.viewData.filters;
+        $scope.viewsList = resultsData.viewsList;
+        $scope.selectedDropdownId = 1;
+
+        $scope.kpiData         = resultsData.kpiData;
+        $scope.spendData       = resultsData.spendData;
+        $scope.spendDataHeader = $scope.spendData.header;
+        $scope.spendDataBody   = $scope.spendData.body;
 
         $scope.chartData = [];
         _.each($scope.spendDataBody, function(v) {
@@ -35,53 +40,40 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
             $scope.chartData.push(chartSubData);
         });
 
-        $scope.idSelectedRow      = 1;
-        $scope.lineChartData      = resultsData.kpiData[0].monthly;
-
-        $scope.dropdownItems      = resultsData.dropdownItems;
-        $scope.selectedDropdownId = 1;
-
         $('.Scenario').css('height', 'auto');
+
     };
 
-    $scope.setSelected = function (idSelectedRow) {
-        $scope.idSelectedRow = idSelectedRow;
-        $scope.lineChartData = resultsData.kpiData[$scope.idSelectedRow-1].monthly;
+    $scope.selectInitial = function(id) {
+        for (var i = 0; i < $scope.viewsList.length; i++) {
+            if ($scope.viewsList[i].id === id) {
+              return $scope.viewsList[i].name;
+            }
+        }
     };
-
     $scope.onDropdownSelect = function(selectedDropdown){
       $scope.selectedDropdownId = selectedDropdown.id;
     };
 
-    $scope.selectInitial = function(id){
-        for (var i = 0; i < $scope.dropdownItems.length; i++) {
-            if ($scope.dropdownItems[i].id === id) {
-              return $scope.dropdownItems[i].description;
-            }
-        }
-    };
 
-    $scope.addSign =function(direction) {
+    $scope.addSign = function(direction) {
         return direction === 'increase' ? '+' : '-';
     };
-
-    // save the changes in the current view
-    $scope.saveView = function() {
-        if($scope.changeMade()) {
-            if($scope.draftView) {
-                $scope.viewName = resultsData.viewData.name;
-            }
-            $scope.draftView = false;
-        }
+    $scope.addArrow = function(direction) {
+        return direction === 'increase' ? 'arrow-up' : 'arrow-down';
     };
 
-    // start save as process
+
+    $scope.saveView = function() {
+        if($scope.draftView) {
+            $scope.viewName = resultsData.viewData.name;
+        }
+        $scope.draftView = false;
+    };
     $scope.startSaveAs = function() {
         $scope.saveAsName = $scope.viewName;
         $scope.saveAs = true;
     };
-
-    // handle keyboard actions in the rename process
     $scope.renameAction = function (event) {
         if(event.keyCode === 13) {
             $scope.finishSaveAs(true);
@@ -89,8 +81,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
             $scope.finishSaveAs(false);
         }
     };
-
-    // finish save as process
     $scope.finishSaveAs = function(save) {
         if(save) {
             $scope.viewName = $scope.saveAsName;
@@ -256,21 +246,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                 }
             ]
         },
-        "dropdownItems": [
-            {
-                "id": 1,
-                "description": "Q1 2014 Upfronts"
-            }, {
-                "id": 2,
-                "description": "Newfronts 2015"
-            }, {
-                "id": 3,
-                "description": "Behrooz 10% Southwest Regional"
-            }, {
-                "id": 4,
-                "description": "Andy 2015 Holidays"
-            }
-        ],
         "viewsList": [
             {name: 'Joe\'s View',id: '1'},
             {name: 'Fiesta 2015',id: '2'},
@@ -280,6 +255,25 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
         "viewData": {
             id: '4',
             name: 'Behrooz\'s View',
+            filters: [
+                {
+                    name: 'Spend Filters',
+                    items: [
+                        { name: 'Product', value: 'Fiesta' },
+                        { name: 'Touchpoint', value: 'All' },
+                        { name: 'Geography', value: 'All' },
+                        { name: 'Time', value: '2015' },
+                    ]
+                }, {
+                    name: 'KPI Filters',
+                    items: [
+                        { name: 'Product', value: 'Fiesta' },
+                        { name: 'Geography', value: 'All' },
+                        { name: 'Sales Channel', value: 'Online' },
+                        { name: 'Time', value: 'All' },
+                    ]
+                }
+            ]
         }
     };
 });
