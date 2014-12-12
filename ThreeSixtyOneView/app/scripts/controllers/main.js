@@ -227,9 +227,6 @@ angular.module('ThreeSixtyOneView')
         });
 
     }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", "Views", 'ptData', function($scope, Project, Scenario, ScenarioElements, Views, ptData) {
-
-        console.info("scenarios");
-        console.info(Scenario);
         $scope.project = Project;
         $scope.scenario = Scenario;
         $scope.views = Views;

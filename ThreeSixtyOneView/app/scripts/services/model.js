@@ -11,8 +11,8 @@ angular.module("ThreeSixtyOneView.services")
 		Model.prototype = {
 			$futureData: null,
 			data: [],
-			get: function(params) {
-				this.unwrap(this.resource.get(params, this.config));
+			get: function(params, additionalPath) {
+				this.unwrap(this.resource.get(params, this.config, additionalPath));
 				return this.$futureData;
 			},
 			create: function (data){

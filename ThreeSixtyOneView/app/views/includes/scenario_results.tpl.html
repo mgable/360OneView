@@ -82,7 +82,10 @@
             </div>
             <div class="srSec">
                 <div class="srSwitchTitle">Sync KPI with Spend</div>
-                <div ms-switch ng-model="isTest"></div>
+                <span class="btn ms-switch"  ms-link-group selected-item="on" radio="true">
+                    <button class="ms-switch-on btn btn-xs" ms-link="on">ON</button>
+                    <button class="ms-switch-off btn btn-xs" ms-link="off">OFF</button>
+                </span>
             </div>
             <div class="srSliderCollapse">
                 <span class="clickable" ng-click="heightChanged(); srShow = false; finishSaveAs(false);">

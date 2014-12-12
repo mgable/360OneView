@@ -619,31 +619,30 @@
     user-select: none;
 }
 .ms-switch {
-    width: 5.5em;
+    width: 82px;
     height: 24px;
     line-height: 22px;
     padding: 0;
-    border: 1px solid #cdcdcd;
+    /*border: 1px solid #cdcdcd;*/
     @extend .unselectable;
-    .ms-switch-on{
-        float: left;
+    button {
+        outline:none;
         border-radius: 3px 3px 3px 3px;
         text-align: center;
-        width: 3em;
-        background-color: #295da7;
         font-size: 13px;
+        width: 40px;
+        background-color:#CCCCCC;
+        color:#666666;
         @extend .unselectable;
+        &.selected{ 
+            color:#FFF;
+            background-color: #295da7;
+        }
+    }
+    .ms-switch-on{
+        float: left;
     }
     .ms-switch-off{
-        color:#666666;
-        background-color:#CCCCCC;
         float:right;
-        border-radius: 3px 3px 3px 3px;
-        text-align:center;
-        width:3em;
-        font-size: 13px;
-        @extend .unselectable;
     }
-    .show{ display:block; }
-    .hide{ display:none; }
 }
