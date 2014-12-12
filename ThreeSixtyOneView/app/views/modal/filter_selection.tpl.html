@@ -37,11 +37,11 @@
 					<input class="pbFilterSearchInput" type="text" placeholder="Filter List" ng-model="filterSearch.label"  ng-keyup="searchFilters(selectedFilter.selFil, filterSearch)">
 				</div>
 			</div>
-			<div class="pbFilterCustomSelection" ng-mouseleave="filterPopup = false" ng-hide="totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,filterSearch.label) === 0">
+			<div class="pbFilterCustomSelection" ng-mouseleave="filterPopup = false" ng-hide="filterCount.total === 0">
 				<div class="pbFilterSelectionButton" ng-class="{active: filterPopup}">
-					<div class="pbFilterSelectAll clickable" ng-show="filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label) === 0" ng-click="selectFilters(selectedFilter.cat.label, true, true);"><icon type="circle-o"></icon></div>
-					<div class="pbFilterSelectAll clickable blue" ng-show="filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label) === totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,filterSearch.label)" ng-click="selectFilters(selectedFilter.cat.label, true, false);"><icon type="check-circle"></icon></div>
-					<div class="pbFilterSelectAll clickable" ng-show="filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label) % totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,filterSearch.label) > 0.01" ng-click="selectFilters(selectedFilter.cat.label, true, true);"><icon type="minus-circle"></icon></div>
+					<div class="pbFilterSelectAll clickable" ng-show="filterCount.selected === 0" ng-click="selectFilters(selectedFilter.cat.label, true, true);"><icon type="circle-o"></icon></div>
+					<div class="pbFilterSelectAll clickable blue" ng-show="filterCount.selected === filterCount.total" ng-click="selectFilters(selectedFilter.cat.label, true, false);"><icon type="check-circle"></icon></div>
+					<div class="pbFilterSelectAll clickable" ng-show="filterCount.selected % filterCount.total > 0.01" ng-click="selectFilters(selectedFilter.cat.label, true, true);"><icon type="minus-circle"></icon></div>
 					<div class="pbFilterSelectDrop clickable" ng-click="filterPopup = !filterPopup"><icon type="caret-down"></icon></div>
 				</div>
 				<div class="pFilterDrop" ng-show="filterPopup">
@@ -53,7 +53,7 @@
 				</div>
 			</div>
 			<div class="pbFilterNumberSelected">
-				({{filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label)}}/{{totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,filterSearch.label)}})
+				({{filterCount.selected}}/{{filterCount.total}})
 			</div>
 			<div class="pbModalHeight" ng-style="{height: (windowHeight - 250) + 'px'}">
 				<filters ng-if="searchResults.members" collection="searchResults" filters="addedFilter" category="{label: selectedFilter.cat.label}" expandall="filterSearch"></filters>

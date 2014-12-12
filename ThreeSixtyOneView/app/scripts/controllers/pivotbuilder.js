@@ -7,7 +7,7 @@
 * # PivotbuilderctrlCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$filter', 'pbData', 'ptData', 'PivotViewService', 'CubeService', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, $filter, pbData, ptData, PivotViewService, CubeService, DialogService) {
+angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'pbData', 'ptData', 'PivotViewService', 'CubeService', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, $q, pbData, ptData, PivotViewService, CubeService, DialogService) {
 
 	var init = function() {
 		$scope.pbShow = false;
@@ -18,7 +18,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		$scope.viewName = $scope.views.currentView.name;
 		$scope.viewsList = $scope.views.views;
 		$scope.loadView(6);
-		$scope.loadCube();
+		$scope.loadDimensions();
 
 		$scope.saveAs = false;
 		$scope.rename = false;
@@ -276,7 +276,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 	// apply the changes in the pivot table
 	$scope.applyView = function() {
-		$scope.saveView($scope.viewData);
+		$scope.updateView($scope.viewData);
 
 		var numCols = $scope.pbData.viewData.columns.length;
 		var numRows = $scope.pbData.viewData.rows.length;
@@ -401,16 +401,13 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		// $scope.spread.sheet.setFrozenColumnCount(numRows);
 	};
 
-	$scope.showTable = function(){
-		$scope.filterSection = false;
+	// show table/filters section and update height for pivot table
+	$scope.showTable = function(filters){
+		$scope.filterSection = filters;
 		$scope.heightChanged();
 	};
 
-	$scope.showFilters = function(){
-		$scope.filterSection = true;
-		$scope.heightChanged();
-	};
-
+	// get height of the pivot table builder and broadcast is as an event for adjusting pivot table height
 	$scope.heightChanged = function() {
 		$timeout(function() {
 			$scope.pivotBuilderHeight = angular.element.find('#pivotBuilder')[0].offsetHeight;
@@ -428,7 +425,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 	};
 
 	// save the view
-	$scope.saveView = function(view) {
+	$scope.updateView = function(view) {
 		PivotViewService.updateView(view).then(function(response) {});
 	};
 
@@ -448,7 +445,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 	};
 
 	// load applicable dimensions
-	$scope.loadCube = function() {
+	$scope.loadDimensions = function() {
 		CubeService.getMeta().then(function(response) {
 			var i, j, k;
 			$scope.cube = response;
@@ -462,14 +459,26 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 				$scope.dimensions[i].levels = [];
 				for(j = 0; j < response.dimensions[i].hierarchies.length; j++) {
 					for(k = 0; k < response.dimensions[i].hierarchies[j].levels.length; k++) {
-						$scope.dimensions[i].levels.push({
-							dimension: {id: response.dimensions[i].id},
-							hierarchy: {id: response.dimensions[i].hierarchies[j].id},
-							level: {id: response.dimensions[i].hierarchies[j].levels[k].id,	label: response.dimensions[i].hierarchies[j].levels[k].label}
-						});
+						if(k === response.dimensions[i].hierarchies[j].levels.length -1) {
+							if(j === response.dimensions[i].hierarchies.length - 1) {
+								$scope.dimensions[i].levels.push({
+									dimension: {id: response.dimensions[i].id},
+									hierarchy: {id: response.dimensions[i].hierarchies[j].id},
+									level: {id: response.dimensions[i].hierarchies[j].levels[k].id,	label: response.dimensions[i].hierarchies[j].levels[k].label}
+								});
+							}
+						} else {
+							$scope.dimensions[i].levels.push({
+								dimension: {id: response.dimensions[i].id},
+								hierarchy: {id: response.dimensions[i].hierarchies[j].id},
+								level: {id: response.dimensions[i].hierarchies[j].levels[k].id,	label: response.dimensions[i].hierarchies[j].levels[k].label}
+							});
+						}
+						
 					}
 				}
 			}
+			$scope.getViewByMembers();
 		});
 	};
 
@@ -484,6 +493,35 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		for(i = 0; i < view.rows.length; i++) {
 			$scope.added[view.rows[i].level.label] = true;
 		}
+	};
+
+	// get all dimensions members
+	$scope.getViewByMembers = function() {
+		var i, j, promise, promises = [];
+		$scope.membersList = [];
+
+		for(i = 0; i < $scope.dimensions.length; i++) {
+			$scope.membersList[i] = {};
+			$scope.membersList[i].label = $scope.dimensions[i].label;
+			$scope.membersList[i].id = $scope.dimensions[i].id;
+			$scope.membersList[i].members = [];
+
+			for(j = 0; j < $scope.dimensions[i].levels.length; j++) {
+				$scope.membersList[i].members[j] = {};
+				$scope.membersList[i].members[j].label = $scope.dimensions[i].levels[j].level.label;
+				$scope.membersList[i].members[j].id = $scope.dimensions[i].levels[j].hierarchy.id;
+				$scope.membersList[i].members[j].members = [];
+
+				promise = CubeService.getViewByMembers($scope.membersList[i].id, $scope.membersList[i].members[j].id);
+				promises.push(promise);
+			}
+		}
+
+		console.log($scope.dimensions);
+		console.log($scope.membersList);
+		$q.all(promises).then(function(response) {
+			console.log(response);
+		});
 	};
 
 	init();

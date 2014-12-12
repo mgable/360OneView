@@ -26,8 +26,8 @@
 	<div ng-class="{pbOpened: pbShow}" class="pbSlider">
 		<div class="pbControlBar">
 			<div class="pbFunctionFlip" ms-link-group  firstselected="table">
-				<div class="pbFunctionFlipButton clickable" ng-class="{pbFunctionFlipButtonActive: selectedItem == 'table'}" ng-click="showTable();" ms-link="table"><icon type="table"></icon></div>
-				<div class="pbFunctionFlipButton clickable" ng-class="{pbFunctionFlipButtonActive: selectedItem=='filters'}" ng-click="showFilters();" ms-link="filters"><icon type="filter"></icon></div>
+				<div class="pbFunctionFlipButton clickable" ng-class="{pbFunctionFlipButtonActive: selectedItem == 'table'}" ng-click="showTable(false);" ms-link="table"><icon type="table"></icon></div>
+				<div class="pbFunctionFlipButton clickable" ng-class="{pbFunctionFlipButtonActive: selectedItem=='filters'}" ng-click="showTable(true);" ms-link="filters"><icon type="filter"></icon></div>
 			</div>
 
 			<div class="pbSaveMenu" ng-mouseleave="viewSaveMenu = false">

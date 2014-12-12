@@ -25,9 +25,9 @@ angular.module('ThreeSixtyOneView')
 			});
 		};
 
-		this.getViewByMembers = function(cubeId, dimensionId, hierarchyId){
+		this.getViewByMembers = function(dimensionId, hierarchyId){
 			var additionalPath =  "dimension/:dimensionId/hierarchy/:hierarchyId/members";
-			return mycube.get({id:cubeId, dimensionId:dimensionId, hierarchyId:hierarchyId}, {}, additionalPath).then(function(response){
+			return mycube.get({dimensionId:dimensionId, hierarchyId:hierarchyId}, additionalPath).then(function(response){
 				return response;
 			});
 		};
