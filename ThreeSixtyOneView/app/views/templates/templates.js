@@ -58,6 +58,28 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
+  $templateCache.put('views/directives/members.tpl.html',
+    "<div ng-class=\"{pbFilterListCategory: hasMembers(), pbFilterListValue: !hasMembers()}\">\n" +
+    "\t<span class=\"pbExpandHandle clickable\" ng-if=\"hasMembers()\" ng-click=\"expanded[member.label] = !expanded[member.label]\">\n" +
+    "\t\t<icon type=\"caret-right\" cname=\"{{(!!expanded[member.label] || expandall.label !== '') ? 'fa-rotate-90':''}}\"></icon>\n" +
+    "\t</span> \n" +
+    "\t<label class=\"clickable\" ng-class=\"{allSelected: determineStyle(member) === 1}\" ng-click=\"toggleMember(member)\">\n" +
+    "\t\t<span ng-show=\"determineStyle(member) === 1\">\n" +
+    "\t\t\t<icon type=\"check-circle\"></icon>\n" +
+    "\t\t</span>\n" +
+    "\t\t<span ng-show=\"determineStyle(member) === 0\">\n" +
+    "\t\t\t<icon type=\"circle-o\"></icon>\n" +
+    "\t\t</span>\n" +
+    "\t\t<span ng-show=\"determineStyle(member) % 1 > 0\">\n" +
+    "\t\t\t<icon type=\"minus-circle\"></icon>\n" +
+    "\t\t</span> \n" +
+    "\t\t<span>{{member.label}}</span> \n" +
+    "\t\t<span ng-if=\"hasMembers()\">({{checkedItems(member).checked}}/{{checkedItems(member).total}})</span>\n" +
+    "\t</label>\n" +
+    "</div>"
+  );
+
+
   $templateCache.put('views/directives/ms_dropdown.tpl.html',
     "<div class=\"ms-dropdown\" id=\"{{id}}\"> \n" +
     "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.isActive(id)}\" data-ms-id=\"label_{{id}}\">\n" +
