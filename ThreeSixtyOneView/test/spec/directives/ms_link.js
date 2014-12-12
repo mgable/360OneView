@@ -14,7 +14,7 @@ describe('Directives:', function() {
             scope = $rootScope.$new();
             scope.item = item;
             $timeout = _$timeout_;
-            element = angular.element('<ul ms-link-group firstSelected="{{item.label}}" radio="false" class="menu"><li><a ms-link="{{item.label}}">{{item.label}}</a></li></ul>');
+            element = angular.element('<ul ms-link-group selected-item="{{item.label}}" radio="false" class="menu"><li><a ms-link="{{item.label}}">{{item.label}}</a></li></ul>');
             element = $compile(element)(scope);
             scope.$digest();
             $timeout.flush();
@@ -22,23 +22,23 @@ describe('Directives:', function() {
 
         it('should correctly make an link', function() {
             expect(element[0]).toBeDefined();
-            expect(scope.radio).toEqual(false);
-            expect(scope.selectedItem).toEqual(item.label);
+            expect(element.isolateScope().radio).toEqual(false);
+            expect(element.isolateScope().selectedItem).toEqual(item.label);
         });
 
         it('should toggle correctly', function(){
             var link = element.find("a");
             link.click();
-            expect(scope.selectedItem).toEqual("none");
+            expect(element.isolateScope().selectedItem).toEqual("none");
             link.click();
-            expect(scope.selectedItem).toEqual("foo");
+            expect(element.isolateScope().selectedItem).toEqual("foo");
             link.click();
-            expect(scope.selectedItem).toEqual("none");
-            scope.radio = true;
+            expect(element.isolateScope().selectedItem).toEqual("none");
+            element.isolateScope().radio = true;
             link.click();
-            expect(scope.selectedItem).toEqual("foo");
+            expect(element.isolateScope().selectedItem).toEqual("foo");
             link.click();
-            expect(scope.selectedItem).toEqual("foo");
+            expect(element.isolateScope().selectedItem).toEqual("foo");
         });
 
     });

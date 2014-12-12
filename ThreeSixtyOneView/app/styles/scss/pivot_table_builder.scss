@@ -119,7 +119,7 @@
 					display: inline-block;
 					float: left;
 
-					&.pbFunctionFlipButtonActive {
+					&.selected {
 						background-color: $blue;
 						color: white;
 					}

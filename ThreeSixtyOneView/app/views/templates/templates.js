@@ -6,9 +6,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<h4 class=\"filter-holder\" ng-click=\"toggle()\" ><span class=\"title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;(<span data-ms-id='dataCount'>{{SortAndFilterService.getCount()}}</span>)<span  class=\"filterToggle\"><icon type=\"caret-down\"></icon></span></span>\n" +
     "\n" +
-    "\t\t<ul ms-link-group firstSelected=\"{{CONFIG.filterMenu.items[CONFIG.filterMenu.firstSelected].label}}\" radio=\"true\" class='filterDropdown dropdownshadow title hide menu'>\n" +
-    "\t\t\t<li ng-repeat=\"item in CONFIG.filterMenu.items\" class=\"header\" ng-class=\"{selected: item.label === selectedItem}\">\n" +
-    "\t\t\t\t <a ms-link=\"{{item.label}}\" ng-click=\"setFilter(item.filterType, item, true)\">{{item.label}}</a>\n" +
+    "\t\t<ul ms-link-group selected-item=\"{{CONFIG.filterMenu.items[0].label}}\" radio=\"true\" class='filterDropdown dropdownshadow title hide menu'>\n" +
+    "\t\t\t<li ng-repeat=\"item in CONFIG.filterMenu.items\" class=\"header\" ms-link=\"{{item.label}}\">\n" +
+    "\t\t\t\t <a  ng-click=\"setFilter(item.filterType, item, true)\">{{item.label}}</a>\n" +
     "\t\t\t</li>\n" +
     "\t    </ul>\n" +
     "\t</h4>\n" +
@@ -19,7 +19,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t</div>\n" +
     "\n" +
     "\t<div class=\"button-holder\">\n" +
-    "\t\t<button class=\"btn\" ng-click=\"create(CONFIG.displayActionsCreate)\" data-ms-id='createButton'><icon type=\"plus\"></icon>CREATE</button>\n" +
+    "\t\t<button class=\"btn btn-default\" ng-click=\"create(CONFIG.displayActionsCreate)\" data-ms-id='createButton'><icon type=\"plus\"></icon>CREATE</button>\n" +
     "\t</div>\n" +
     "</div>\n"
   );
@@ -99,6 +99,174 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "<div data-ms-id=\"name-label\" class=\"{{label}} heading\" ng-class=\"{'active': SortAndFilterService.isActive(label)}\">\n" +
     "\t<a ng-click=\"sort($event, label)\" ng-bind=\"display\" data-ms-id=\"{{id}}\"></a>&nbsp;\n" +
     "</div> "
+  );
+
+
+  $templateCache.put('views/modal/filter_selection.tpl.html',
+    "<div class=\"filter-modal-header\">\n" +
+    "\t<h4 class=\"filter-modal-title\" id=\"myModalLabel\">Filters</h4>\n" +
+    "</div>\n" +
+    "<div class=\"filter-modal-body\">\n" +
+    "\t<div class=\"pbFilterModalLinks\">\n" +
+    "\t\t<div class=\"pbFilterModalLink clickable\" ng-repeat=\"cat in pbData.itemsList\" ng-click=\"chooseFilter(cat, false, false)\" ng-class=\"{active: cat.label == selectedFilter.cat.label}\">\n" +
+    "\t\t\t<div>{{cat.label}}\n" +
+    "\t\t\t\t<span class=\"pbFilterSize\">({{categorizeValues($index, addedFilter[cat.label]).selected}}/{{categorizeValues($index, addedFilter[cat.label]).total}})</span>\n" +
+    "\t\t\t</div>\n" +
+    "\t\t\t<div ng-show=\"categorizeValues($index, addedFilter[cat.label]).selected<categorizeValues($index, addedFilter[cat.label]).total\" class=\"pbFilterModalValues\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{{categorizeValues($index, addedFilter[cat.label]).label.join(', ')}}\">{{categorizeValues($index, addedFilter[cat.label]).label.join(', ')}}</div>\n" +
+    "\t\t\t<div ng-hide=\"categorizeValues($index, addedFilter[cat.label]).selected<categorizeValues($index, addedFilter[cat.label]).total\" class=\"pbFilterModalValues\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{{categorizeValues($index, addedFilter[cat.label]).label.join(', ')}}\">All</div>\n" +
+    "\t\t</div>\n" +
+    "\t</div>\n" +
+    "\t<div class=\"pbFilterModalMain\">\n" +
+    "\t\t<div class=\"pbFilterModalAlert\" role=\"alert\" ng-class=\"{pbHideAlert: !noFilterSelected}\">\n" +
+    "\t\t\t<div><icon type=\"warning\"></icon> Plaese select at least one item from the following filter<span ng-if=\"emptyFiltersList.length > 1\">s</span>: <span ng-repeat=\"missing in emptyFiltersList\"><span class=\"underline clickable\" ng-click=\"chooseFilterByName(missing)\">{{missing}}</span><span ng-if=\"!$last\">, </span></span></div>\n" +
+    "\t\t</div>\n" +
+    "\t\t<div class=\"pbFilterModalContent\">\n" +
+    "\t\t\t<div class=\"pbFilterModalHeader\">\n" +
+    "\t\t\t\t<div class=\"pbFilterTitleArea\">\n" +
+    "\t\t\t\t\t<div class=\"pbFilterTitle\" ng-mouseleave=\"filterViewDrop = false;\">\n" +
+    "\t\t\t\t\t\t<div class=\"pbFilterDropDownContainer\">\n" +
+    "\t\t\t\t\t\t\t<div class=\"pbFilterViewTitle clickable\" ng-click=\"filterViewDrop = !filterViewDrop\">\n" +
+    "\t\t\t\t\t\t\t\t{{selectedFilter.selFil.label}} \n" +
+    "\t\t\t\t\t\t\t\t<icon type=\"caret-down\"></icon>\n" +
+    "\t\t\t\t\t\t\t\t<div class=\"pbFilterViewDrop\" ng-show=\"filterViewDrop\">\n" +
+    "\t\t\t\t\t\t\t\t\t<div class=\"pbFilterViewDropVisible\">\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div ng-repeat=\"item in selectedFilter.cat.members\" class=\"clickable\" ng-click=\"filterViewDrop = false; chooseFilter(selectedFilter.cat, false, $index)\">{{item.label}}</div>\n" +
+    "\t\t\t\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t</div>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t\t<div class=\"pbFilterSearch\" ng-show=\"selectedFilter.selFil\">\n" +
+    "\t\t\t\t\t<icon type=\"filter\"></icon>\n" +
+    "\t\t\t\t\t<input class=\"pbFilterSearchInput\" type=\"text\" placeholder=\"Filter List\" ng-model=\"filterSearch.label\"  ng-keyup=\"searchFilters(selectedFilter.selFil, filterSearch)\">\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\t\t\t<div class=\"pbFilterCustomSelection\" ng-mouseleave=\"filterPopup = false\" ng-hide=\"totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,filterSearch.label) === 0\">\n" +
+    "\t\t\t\t<div class=\"pbFilterSelectionButton\" ng-class=\"{active: filterPopup}\">\n" +
+    "\t\t\t\t\t<div class=\"pbFilterSelectAll clickable\" ng-show=\"filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label) === 0\" ng-click=\"selectFilters(selectedFilter.cat.label, true, true);\"><icon type=\"circle-o\"></icon></div>\n" +
+    "\t\t\t\t\t<div class=\"pbFilterSelectAll clickable blue\" ng-show=\"filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label) === totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,filterSearch.label)\" ng-click=\"selectFilters(selectedFilter.cat.label, true, false);\"><icon type=\"check-circle\"></icon></div>\n" +
+    "\t\t\t\t\t<div class=\"pbFilterSelectAll clickable\" ng-show=\"filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label) % totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,filterSearch.label) > 0.01\" ng-click=\"selectFilters(selectedFilter.cat.label, true, true);\"><icon type=\"minus-circle\"></icon></div>\n" +
+    "\t\t\t\t\t<div class=\"pbFilterSelectDrop clickable\" ng-click=\"filterPopup = !filterPopup\"><icon type=\"caret-down\"></icon></div>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t\t<div class=\"pFilterDrop\" ng-show=\"filterPopup\">\n" +
+    "\t\t\t\t\t<div class=\"pbFilterDropVisible\">\n" +
+    "\t\t\t\t\t\t<div class=\"clickable\" ng-click=\"filterPopup = false; selectFilters(selectedFilter.cat.label, true, true);\">Select All Visible</div>\n" +
+    "\t\t\t\t\t\t<div class=\"clickable\" ng-click=\"filterPopup = false; selectFilters(selectedFilter.cat.label, true, false);\">Deselect All Visible</div>\n" +
+    "\t\t\t\t\t\t<div class=\"clickable\" ng-click=\"filterPopup = false; selectFilters(selectedFilter.cat.label, false, false);\">Deselect All Not Visible</div>\n" +
+    "\t\t\t\t\t</div>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\t\t\t<div class=\"pbFilterNumberSelected\">\n" +
+    "\t\t\t\t({{filterCount(addedFilter[selectedFilter.cat.label],false,filterSearch.label)}}/{{totalFilterCount(selectedFilter.cat.members[selectedFilter.cat.members.length - 1].members,filterSearch.label)}})\n" +
+    "\t\t\t</div>\n" +
+    "\t\t\t<div class=\"pbModalHeight\" ng-style=\"{height: (windowHeight - 250) + 'px'}\">\n" +
+    "\t\t\t\t<filters ng-if=\"searchResults.members\" collection=\"searchResults\" filters=\"addedFilter\" category=\"{label: selectedFilter.cat.label}\" expandall=\"filterSearch\"></filters>\n" +
+    "\t\t\t</div>\n" +
+    "\t\t</div>\n" +
+    "\t\t<div class=\"pbFilterModalButtons\">\n" +
+    "\t\t\t<button type=\"button\" class=\"btn filterCancelButton\" data-dismiss=\"modal\" ng-click=\"cancelChangeFilter();\">Cancel</button>\n" +
+    "\t\t\t<button type=\"button\" class=\"btn filterApplyButton\" data-dismiss=\"modal\" ng-click=\"changeFilter()\" ng-disabled=\"noFilterSelected\">APPLY</button>\n" +
+    "\t\t</div>\n" +
+    "\t</div>\n" +
+    "</div>"
+  );
+
+
+  $templateCache.put('views/modal/scenario_create.tpl.html',
+    "<form name=\"ScenarioCreate\" id=\"ScenarioCreate\">\n" +
+    "\t<div class=\"scenario-create\">\n" +
+    "\t\t<div class=\"details scenario-form\">\n" +
+    "\t\t\t\t<h3>Create a Scenario</h3>\n" +
+    "\t\t\t\t<div class=\"inputGroup\" ng-show=\"showFields\">\n" +
+    "\t\t\t\t\t<label>Enter Scenario Name\n" +
+    "\t\t\t\t\t<input type=\"text\" focus placeholder=\"Enter Scenario Name\" required ng-maxlength=\"{{inputRestrictions.maximumCharacterLimit}}\" ng-minlength=\"{{inputRestrictions.minimumCharacterLimit}}\" ng-pattern='inputRestrictions.characterRestrictions' is-unique=\"isScenarioTitleUnique\" ng-model=\"scenario.title\" data-ms-id=\"ScenarioCreate.inputName\"/>\n" +
+    "\t\t\t\t\t<div class=\"alert alert-danger\" ng-show=\"ScenarioCreate.$error.isUnique\" role=\"alert\">The scenario name &quot;{{scenario.title}}&quot; has been taken. Please choose another name.</div></label>\n" +
+    "\t\t\t\t\t<label>Enter Description (Optional)\n" +
+    "\t\t\t\t\t<input class=\"description\" type=\"text\" placeholder=\"Enter Scenario description (optional)\" ng-model=\"scenario.description\" ng-maxlength=\"1024\" data-ms-id=\"ScenarioCreate.inputDescription\"></label>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t\t<div class=\"baseGroup\">\n" +
+    "\t\t\t\t\t<label for=\"baseScenario\" ng-click=\"showBaseScenario()\" data-ms-id=\"ScenarioCreate.inputBaseScenario\">Base Scenario\n" +
+    "\t\t\t\t\t\t<input type=\"text\" id=\"baseScenario\" ng-model=\"scenario.referenceScenario.name\"><icon type=\"folder-open-o\" cname=\"open\"></icon>\n" +
+    "\t\t\t\t\t</label>\n" +
+    "\t\t\t\t\t<div class=\"buttons\" ng-show=\"showFields\">\n" +
+    "\t\t\t\t\t\t<input type=\"submit\" value=\"CONTINUE\" class=\"button\" ng-click=\"submit(scenario)\" ng-disabled=\"ScenarioCreate.$invalid || ScenarioCreate.$pristine\" data-ms-id=\"ScenarioCreate.submit\">\n" +
+    "\t\t\t\t\t\t<button id=\"cancel\" class=\"button\" ng-click=\"close()\" data-ms-id=\"ScenarioCreate.cancel\">Cancel</button>\n" +
+    "\t\t\t\t\t</div>\n" +
+    "\n" +
+    "\t\t\t\t\t<!-- Begin hidden group -->\n" +
+    "\t\t\t\t\t<div class=\"radios\" ng-show=\"!showFields\">\n" +
+    "\t\t\t\t\t\t<div class='searchBack'>\n" +
+    "\t\t\t\t\t\t\t<icon type=\"search\"></icon>\n" +
+    "\t\t\t\t\t\t\t<input type=\"text\" class=\"form-control\" id=\"search\" placeholder=\"Search by Name\" ng-model=\"searchText\"/>\n" +
+    "\t\t\t\t\t\t</div>\n" +
+    "\n" +
+    "\t\t\t\t\t\t<table class=\"table table-hover table-bordered no-margin\" >\n" +
+    "\t\t\t\t\t\t\t<thead>\n" +
+    "\t\t\t\t\t\t\t\t<th class=\"col-lg-6\">{{masterProject.title}}</th>\n" +
+    "\t\t\t\t\t\t\t</thead>\n" +
+    "\t\t\t\t\t\t\t<tbody>\n" +
+    "\t\t\t\t\t\t\t\t<tr>\n" +
+    "\t\t\t\t\t\t\t\t\t<td>\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"row\" >\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-1\">\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t\t<span><icon type=\"check-circle\" cname=\"ok-sign\" ng-show=\"showRow(masterProject)\"></icon></span>\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-11\">\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t\t<span>{{masterProject.data[0].title}}</span>\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t\t\t\t</td>\n" +
+    "\t\t\t\t\t\t\t\t</tr>\n" +
+    "\t\t\t\t\t\t\t</tbody>\n" +
+    "\n" +
+    "\t\t\t\t\t\t\t<thead ng-repeat-start=\"scenarios in scenarioList | filterBaseScenarios : searchText\">\n" +
+    "\t\t\t\t\t\t\t\t<th class=\"col-lg-6\" data-align=\"left\">{{scenarios.title}} Project</th>\n" +
+    "\t\t\t\t\t\t\t</thead>\n" +
+    "\t\t\t\t\t\t\t<tbody ng-repeat-end>\n" +
+    "\t\t\t\t\t\t\t\t<tr ng-repeat=\"scenario in scenarios.data\">\n" +
+    "\t\t\t\t\t\t\t\t\t<td ng-click=\"setScenario(scenario)\">\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"row\" >\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-1\">\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t\t<span ng-show=\"showRow(scenario)\"><icon type=\"check-circle\" cname=\"ok-sign\"></icon></span>\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-11\">\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"{{scenario.type}}\">{{scenario.title}}</span>\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t\t\t\t</td>\n" +
+    "\t\t\t\t\t\t\t\t</tr>\n" +
+    "\t\t\t\t\t\t\t</tbody>\n" +
+    "\t\t\t\t\t\t</table>\n" +
+    "\t\t\t\t\t\t<div class=\"base-scenario\" >\n" +
+    "\t\t\t\t\t\t\t<button class=\"confirmRadio\" ng-click=\"confirm()\" data-ms-id=\"ScenarioCreate.confirmBaseScenario\">Confirm Base Scenario</button>\n" +
+    "\t\t\t\t\t\t\t<button class=\"button\" ng-click=\"cancel()\" data-ms-id=\"ScenarioCreate.cancelBaseScenario\">Cancel</button>\n" +
+    "\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t</div>\n" +
+    "\t\t\t\t<!-- End hidden group -->\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t</div>\n" +
+    "\t</div>\n" +
+    "</form>"
+  );
+
+
+  $templateCache.put('views/modal/simple_input.tpl.html',
+    "<div class=\"modal-header\" ui-keypress=\"{'esc': 'close($event)'}\">\n" +
+    "\t<h4 class=\"modal-title\"><icon type=\"{{modalProperties.icon}}\"></icon>&nbsp;{{modalProperties.title}}&nbsp;</h4>\n" +
+    "</div>\n" +
+    "<div class=\"modal-body\">\n" +
+    "\t<form name=\"nameDialog\" novalidate role=\"form\">\n" +
+    "\t\t<div class=\"form-group input-group-lg\" ng-class=\"{true: 'has-error'}[nameDialog.username.$dirty && nameDialog.username.$invalid]\">\n" +
+    "\t\t\t<label class=\"control-label\" for=\"inputField\">{{modalProperties.field}}:&nbsp;</label>\n" +
+    "\t\t\t<input type=\"text\" class=\"form-control\" id=\"inputField\" ng-model=\"item.title\" focus required ng-maxlength=\"{{inputRestrictions.maximumCharacterLimit}}\" ng-minlength=\"{{inputRestrictions.minimumCharacterLimit}}\" ng-pattern='inputRestrictions.characterRestrictions' data-ms-id=\"modalInput\" />\n" +
+    "\t\t</div>\n" +
+    "\t</form>\n" +
+    "</div>\n" +
+    "<div class=\"modal-footer\">\n" +
+    "\t<button type=\"button\" ng-disabled=\"nameDialog.$invalid\" class=\"btn btn-primary\" ng-click=\"submit(item.title)\" ui-keypress=\"{13: 'submit(item.title, $event)'}\" data-ms-id=\"submit\">{{modalProperties.button}}</button>\n" +
+    "\t<button type=\"button\" class=\"btn btn-default\" ng-click=\"close($event)\" data-ms-id=\"cancel\">Cancel</button>\n" +
+    "</div>"
   );
 
 }]);
