@@ -11,48 +11,42 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
 
     var init = function() {
 
-        $scope.srShow    = false;
-        $scope.saveAs    = false;
-        $scope.draftView = false;
-        $scope.isTest    = null;
-
-        $scope.viewName  = resultsData.viewData.name;
-        $scope.filters   = resultsData.viewData.filters;
-        $scope.viewsList = resultsData.viewsList;
-        $scope.selectedDropdownId = 1;
-
-        $scope.kpiData         = resultsData.kpiData;
-        $scope.spendData       = resultsData.spendData;
-        $scope.spendDataHeader = $scope.spendData.header;
-        $scope.spendDataBody   = $scope.spendData.body;
-
-        $scope.chartData = [];
-        _.each($scope.spendDataBody, function(v) {
-            var chartSubData = {};
-            chartSubData.id = v.id;
-            chartSubData.name = v.category;
-            chartSubData.data = [];
-            _.each(v.children, function(v1) {
-                if (_.has(v1, 'chart')) {
-                    chartSubData.data.push(v1.chart);
-                }
-            });
-            $scope.chartData.push(chartSubData);
-        });
-
         $('.Scenario').css('height', 'auto');
 
     };
 
-    $scope.selectInitial = function(id) {
-        for (var i = 0; i < $scope.viewsList.length; i++) {
-            if ($scope.viewsList[i].id === id) {
-              return $scope.viewsList[i].name;
+    $scope.srShow    = false;
+    $scope.saveAs    = false;
+    $scope.draftView = false;
+    $scope.isTest    = null;
+
+    $scope.viewName  = resultsData.viewData.name;
+    $scope.filters   = resultsData.viewData.filters;
+
+    $scope.kpiData         = resultsData.kpiData;
+    $scope.spendData       = resultsData.spendData;
+    $scope.spendDataHeader = $scope.spendData.header;
+    $scope.spendDataBody   = $scope.spendData.body;
+
+    $scope.chartData = [];
+    _.each($scope.spendDataBody, function(v) {
+        var chartSubData = {};
+        chartSubData.id = v.id;
+        chartSubData.name = v.category;
+        chartSubData.data = [];
+        _.each(v.children, function(v1) {
+            if (_.has(v1, 'chart')) {
+                chartSubData.data.push(v1.chart);
             }
-        }
-    };
-    $scope.onDropdownSelect = function(selectedDropdown){
-      $scope.selectedDropdownId = selectedDropdown.id;
+        });
+        $scope.chartData.push(chartSubData);
+    });
+
+
+    $scope.viewsList = resultsData.viewsList;
+    $scope.selectedView = $scope.viewsList[0];
+    $scope.setView = function(view) {
+        $scope.selectedView = view;
     };
 
 

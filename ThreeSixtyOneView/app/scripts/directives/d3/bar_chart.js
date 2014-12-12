@@ -7,27 +7,37 @@ angular.module('ThreeSixtyOneView.directives')
             },
             link: function(scope, element, attrs) {
 
+                    angular.element($window).on('resize', function(){ scope.$apply() })
+
                     // setup variables
                     var margin = { top: 20, right: 20, bottom: 20, left: 20 },
-                        width = 290 - margin.left - margin.right,
-                        height = 150 - margin.top - margin.bottom;
+                        width = parseInt(d3.select('.chartContainer').style('width')),
+                        width = width - margin.left - margin.right,
+                        height = 140,
+                        height = height - margin.top - margin.bottom;
 
                     // create svg element
                     var svg = d3.select(element[0]).append("svg")
-                        .attr("width", width + margin.left + margin.right)
+                        .attr("width", width + margin.top + margin.bottom)
                         .attr("height", height + margin.top + margin.bottom)
                         .append("g")
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
                     // on window resize, re-render d3 canvas
-                    window.onresize = function() {
-                        return scope.$apply();
-                    };
-                    scope.$watch(function() {
-                        return angular.element(window)[0].innerWidth;
-                    }, function(){
-                        return scope.render(scope.data);
-                    });
+                    scope.$watch(function(){
+                        width = parseInt(d3.select('.chartContainer').style('width'));
+                        width = width - margin.left - margin.right;
+                        height = 140,
+                        height = height - margin.top - margin.bottom;
+                        return width + height;
+                    }, resize);
+
+                    function resize(){
+                        svg
+                            .attr("width", width + margin.top + margin.bottom)
+                            .attr("height", height + margin.top + margin.bottom);
+                        scope.render(scope.data);
+                    }
 
                     // watch for data changes and re-render
                     scope.$watch('data', function(newVals, oldVals) {

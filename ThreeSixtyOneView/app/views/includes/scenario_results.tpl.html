@@ -1,16 +1,16 @@
 <div class="scenario_results">
 
     <section class="results-dropdown">
-        <div class="dropdown" is-open="isOpen">
-            <span>Results compared to</span>
-            <ul ng-click="isOpen = false" class="dropdown-menu" role="menu">
-                <li ng-repeat="viewsListItem in viewsList | orderBy:'id'">
-                    <a href="" ng-click="onDropdownSelect(viewsListItem)">{{viewsListItem.name}}</a>
-                </li>
-            </ul>
-            <span class="dropdown-toggle" ng-model="selectedDropdownId">
-                {{selectInitial(selectedDropdownId)}} <icon type="caret-down"></icon>
+        <div class="dropdown">
+            <span>Results compared to </span>
+            <span class="dropdown-toggle">
+                {{selectedView.name}} <icon type="caret-down"></icon>
             </span>
+          <ul class="dropdown-menu" ms-link-group selected-item="1" radio="true">
+            <li ng-repeat="view in viewsList | orderBy:'id'" ms-link="{{view.id}}" >
+                <a href="" ng-click="setView(view)">{{view.name}}</a>
+            </li>
+          </ul>
         </div>
     </section>
 
@@ -82,13 +82,13 @@
             </div>
             <div class="srSec">
                 <div class="srSwitchTitle">Sync KPI with Spend</div>
-                <span class="btn ms-switch"  ms-link-group selected-item="on" radio="true">
+                <span class="ms-switch btn-group"  ms-link-group selected-item="on" radio="true">
                     <button class="ms-switch-on btn btn-xs" ms-link="on">ON</button>
                     <button class="ms-switch-off btn btn-xs" ms-link="off">OFF</button>
                 </span>
             </div>
             <div class="srSliderCollapse">
-                <span class="clickable" ng-click="heightChanged(); srShow = false; finishSaveAs(false);">
+                <span class="clickable" ng-click="srShow = false; finishSaveAs(false);">
                     <icon type="chevron-up"></icon> Collapse
                 </span>
             </div>
@@ -99,7 +99,7 @@
         <h3 class="results-panel-title">KPI Summary</h3>
         <div class="result-panel-body well">
             <div class="row">
-                <div class="kpi-container col-md-5ths col-xs-12" ng-repeat="kpiDatum in kpiData">
+                <div class="kpi-container col-md-5ths col-xs-5ths" ng-repeat="kpiDatum in kpiData">
                     <h4 class="kpi-title">{{kpiDatum.title}}</h4>
                     <h2 class="kpi-incremental kpi-{{kpiDatum.direction}}">
                         <icon class="kpi-arrow" type="{{addArrow(kpiDatum.direction)}}"></icon>{{kpiDatum.incremental.current}}{{kpiDatum.incremental.number}}
@@ -139,10 +139,10 @@
                 <div class="spend-container col-md-6 col-xs-6">
                     <div class="legend">
                         <img src="images/legend.png" alt="legend">
-                        <span ng-model="selectedDropdownId">{{selectInitial(selectedDropdownId)}}</span>
+                        <span ng-model="selectedDropdownId">{{selectedView.name}}</span>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 col-xs-6" ng-repeat="chartDatum in chartData">
+                        <div class="col-md-6 col-xs-6 chartContainer" ng-repeat="chartDatum in chartData">
                             <ms-bar-chart chart-data="chartDatum.data"></ms-bar-chart>
                         </div>
                     </div>
