@@ -317,7 +317,7 @@ angular.module('ThreeSixtyOneView')
             $scope.filterCount = output;
             return output;
         }
-        var treeSearch = function(tree) {
+        var treeCount = function(tree) {
             var output = {
                 selected: 0,
                 total: 0
@@ -325,7 +325,7 @@ angular.module('ThreeSixtyOneView')
 
             if(tree.members.length > 0) {
                 for(var i = 0; i < tree.members.length; i++) {
-                    var results = treeSearch(tree.members[i]);
+                    var results = treeCount(tree.members[i]);
                     output.selected += results.selected;
                     output.total += results.total;
                 }
@@ -338,7 +338,7 @@ angular.module('ThreeSixtyOneView')
             return output;
         };
 
-        output = treeSearch(object);
+        output = treeCount(object);
         $scope.filterCount = output;
         return output;
     };

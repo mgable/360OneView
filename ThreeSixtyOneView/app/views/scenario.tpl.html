@@ -1,11 +1,11 @@
 <div class="Scenario">
 	<div class="toggle-header">
 		<div class="tabs-holder">
-			<ul ms-link-group radio="true" firstselected="edit">
-				<li ms-link="edit" ng-class="{sel: 'edit' === selectedItem}" ui-sref="Scenario.edit">
+			<ul ms-link-group radio="true" selected-item="edit">
+				<li ms-link="edit" ui-sref="Scenario.edit">
 					<a><icon type="pencil"></icon> Editor</a>
 				</li>
-				<li ms-link="results" ng-class="{sel: 'results' === selectedItem}" ui-sref="Scenario.results">
+				<li ms-link="results" ui-sref="Scenario.results">
 					<a><icon type="check-square-o"></icon> Results</a>
 				</li>
 			</ul>
