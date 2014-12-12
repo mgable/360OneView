@@ -1,13 +1,12 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .controller("exportCtrl", ["$scope", 'Views', function($scope, Views){
-    	$scope.Views = Views;
-		console.info("Views");
-		console.info($scope.Views);
-
-		$scope.deleteItem = function(itemName, dim) {
+    .controller("exportCtrl", ["$scope", 'pbData', function($scope, pbData){
+    	$scope.viewData = pbData.viewData;
+    	$scope.menuList = pbData.itemsList;
+    	console.log($scope.menuList);
+    	console.log('$scope.menuList');
+		$scope.deleteItem = function(itemName) {
 			console.info(itemName);
-			console.info(dim);
 		}
     }]);

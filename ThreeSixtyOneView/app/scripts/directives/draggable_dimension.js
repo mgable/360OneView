@@ -8,7 +8,19 @@ angular.module('ThreeSixtyOneView.directives')
             replace: true,
             scope: {
                 name: '=',
-                close: '&clickClose'
+                close: '&clickClose',
+                menu: '='
+            },
+            link: function(scope, elem, attrs) {
+                console.info(scope.menu);
+                elem.on('click', '.fa-remove', function() {
+                    $(this).parents('.pbItem').remove();
+                    scope.close();
+                });
+
+                elem.on('click', '.pbItemInfo', function(){
+                    $(this).parents('.pbItem').find('.pbAddPopUp').toggle();
+                });
             }
         };
     });

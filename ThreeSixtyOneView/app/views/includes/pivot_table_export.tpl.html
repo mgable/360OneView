@@ -2,8 +2,11 @@
 	<h3>Exporting Data</h3><p>The data set you have selected exceeds the 1.4 million row limit on Excel.</p>
 	<div class="pbSecTitle">Dimensions:</div>
 	<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="Views.defaultView.rows" tabindex="-1">
-		<draggable-dimension ng-repeat="item in Views.defaultView.rows" name="item.level.label" click-close="deleteItem(item.level.label, 'rows')"></draggable-dimension>	
-		<draggable-dimension ng-repeat="item in Views.defaultView.columns" name="item.level.label" click-close="deleteItem(item.level.label, 'rows')"></draggable-dimension>	
+		<!-- <draggable-dimension ng-repeat="item in Views.defaultView.rows" name="item.level.label" click-close="deleteItem(item.level.label, 'rows')"></draggable-dimension>	
+		<draggable-dimension ng-repeat="item in Views.defaultView.columns" name="item.level.label" click-close="deleteItem(item.level.label, 'rows')"></draggable-dimension> -->
+		<draggable-dimension ng-repeat="item in viewData.rows" name="item.name" click-close="deleteItem(item.name, 'rows')" menu="menuList"></draggable-dimension>
+		<draggable-dimension ng-repeat="item in viewData.columns" name="item.name" click-close="deleteItem(item.name, 'columns')" menu="menuList"></draggable-dimension>
+
 		<div class="pbAddBox" ><!-- ng-mouseleave="addPopUp[pivotBuilderItem.name] = false" -->
 			<div class="pbItemAdd clickable" ><icon type="plus-square"></icon> Add</div><!-- ng-click="itemModifyPopUp(pivotBuilderItem, -1, $event)" -->
 			<div class="pbAddPopUp"><!-- ng-show="addPopUp[pivotBuilderItem.name]"  -->

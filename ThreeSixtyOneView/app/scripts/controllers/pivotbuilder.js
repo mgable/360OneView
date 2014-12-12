@@ -28,7 +28,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 		$scope.add = {selected: ""};
 		$scope.added = {};
-		$scope.addPopUp = {columns: false, rows: false};
+		//$scope.addPopUp = {columns: false, rows: false};
 
 		angular.forEach($scope.pbData.viewData.columns, function(val) {
 			$scope.added[val.name] = true;
@@ -91,13 +91,13 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 		if(itemInd > -1) {
 			$scope.pbData.viewData[dim].splice(itemInd, 1);
-			$scope.added[itemName] = false;
+		$scope.added[itemName] = false;
 
-			if(!$scope.draftView) {
-				$scope.draftView = true;
-				$scope.viewName += ' - Draft';
-			}
-			$scope.applyView();
+		if(!$scope.draftView) {
+			$scope.draftView = true;
+			$scope.viewName += ' - Draft';
+		}
+		$scope.applyView();
 		}
 	};
 
@@ -119,7 +119,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 		$scope.added[item] = true;
 
-		$scope.addPopUp[$scope.add.selected] = !$scope.addPopUp[$scope.add.selected];
+		//$scope.addPopUp[$scope.add.selected] = !$scope.addPopUp[$scope.add.selected];
 
 		if(!$scope.draftView) {
 			$scope.draftView = true;
@@ -128,20 +128,12 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		$scope.applyView();
 	};
 
-	// set up the add row/column pop-up location
-	$scope.popUpLocSet = function($event) {
-		var top = $event.target.offsetTop - (document.body.scrollTop || window.pageYOffset || 0),
-			left = $event.target.offsetLeft;
-		$scope.popUpLoc = {top: top, left: left - 150};
-	};
-
 	// display/hide add/replace items pop up
 	$scope.itemModifyPopUp = function(pivotBuilderItem, replaceIndex, $event) {
 		$scope.add.replaceItem = replaceIndex;
-		$scope.addPopUp[pivotBuilderItem.other] = false;
-		$scope.addPopUp[pivotBuilderItem.name] = !$scope.addPopUp[pivotBuilderItem.name];
+		//$scope.addPopUp[pivotBuilderItem.other] = false;
+		//$scope.addPopUp[pivotBuilderItem.name] = !$scope.addPopUp[pivotBuilderItem.name];
 		$scope.add.selected = pivotBuilderItem.name;
-		$scope.popUpLocSet($event);
 	};
 
 	// open/dismiss filters selection modal
