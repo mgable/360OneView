@@ -103,7 +103,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/modal/filter_selection.tpl.html',
-    "<div class=\"filter-modal-header\">\n" +
+    "<div class=\"filter-modal-header\" resize>\n" +
     "\t<h4 class=\"filter-modal-title\" id=\"myModalLabel\">Filters</h4>\n" +
     "</div>\n" +
     "<div class=\"filter-modal-body\">\n" +
