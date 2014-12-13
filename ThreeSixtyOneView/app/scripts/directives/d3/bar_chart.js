@@ -130,10 +130,17 @@ angular.module('ThreeSixtyOneView.directives')
                                     .attr("width", 500)
                                     .style("fill", "url(#stripe)");
 
-                        svg.append("g")
+                        var xaxisG = svg.append("g")
                             .attr("class", "x axis")
                             .attr("transform", "translate(0," + height + ")")
                             .call(xAxis);
+
+                        xaxisG.selectAll("g.tick")
+                            .data(scope.data)
+                            .style("fill", function(d){ return color(d.colorId); })
+
+                        xaxisG.selectAll("g.tick").selectAll("text")
+                            .attr("dy", "1em")
 
                         var bars = svg.selectAll(".bar")
                             .data(scope.data)
@@ -166,7 +173,7 @@ angular.module('ThreeSixtyOneView.directives')
                             .attr("y", height)
                             .attr("height", 0)
                             .attr("width", x1.rangeBand())
-                            .style("fill", function(d, i) {
+                            .style("fill", function(d) {
                                 return color(d.colorId);
                                 // return d.name === "compared" ? d3.rgb(color(d.colorId)).darker(1) : color(d.colorId);
                             })
