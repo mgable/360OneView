@@ -304,8 +304,6 @@ angular.module('ThreeSixtyOneView')
         $scope.countFilters(output);
     };
 
-    $rootScope.$on("FOO", function(evt, data){$scope.countFilters(data)});
-
     // count number of selected and total filters
     $scope.countFilters = function(object) {
         var output = {

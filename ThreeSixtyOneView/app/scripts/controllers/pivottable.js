@@ -5,14 +5,12 @@
 angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$timeout", function($scope, $timeout) {
             var sheet,
                 spread,
-                formatSheet = function () {
-                    sheet.isPaintSuspended(true);
-
+                setDefaultWidth = function(){
                     // set default column width and height
                     var maxW = 250,
-                        minW = 120;
-                    var canvasW = $('#pivotTablevp').width();
-                    var calcW = (canvasW / $scope.colCnt);
+                        minW = 120,
+                        canvasW = $('#pivotTablevp').width(),
+                        calcW = (canvasW / $scope.colCnt);
 
                     if (calcW > minW && calcW < maxW) {
                         sheet.defaults.colWidth = calcW;
@@ -21,31 +19,30 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     } else {
                         sheet.defaults.colWidth = maxW;
                     }
-
+                },
+                setBackgroundAndBorderColor = function(){
                     // set selection background and border color
                     sheet.selectionBackColor("rgba(229, 229, 229, 0.3)");
                     sheet.selectionBorderColor("#CCCCCC");
-
-                    // set forzenline position and color
+                },
+                setFrozenLinePositionAndColor = function(){
+                    // set frozenline position and color
                     sheet.setFrozenRowCount($scope.rowHeaderCnt);
                     sheet.setFrozenColumnCount($scope.colHeaderCnt);
                     sheet.frozenlineColor("transparent");
-
-                    // hide gridline
+                },
+                hideGrid = function(){
                     sheet.setGridlineOptions({showVerticalGridline: false, showHorizontalGridline: false});
-
-                    // add span
-                    addSpan();
-
-                    // add default style
-                    var ns = $.wijmo.wijspread;
-                    var style = sheet.getDefaultStyle();
-                    style.borderLeft = new ns.LineBorder("#fff", $.wijmo.wijspread.LineStyle.empty);
-                    style.borderTop = new ns.LineBorder("#e5e5e5", $.wijmo.wijspread.LineStyle.thin);
-                    style.borderRight = new ns.LineBorder("#fff", $.wijmo.wijspread.LineStyle.empty);
-                    style.borderBottom = new ns.LineBorder("#e5e5e5", $.wijmo.wijspread.LineStyle.thin);
-
-                    // set col style
+                },
+                addDefaultStyles = function(){
+                    var spreadjs = $.wijmo.wijspread,
+                        style = sheet.getDefaultStyle();
+                    style.borderLeft = new spreadjs.LineBorder("#fff", $.wijmo.wijspread.LineStyle.empty);
+                    style.borderTop = new spreadjs.LineBorder("#e5e5e5", $.wijmo.wijspread.LineStyle.thin);
+                    style.borderRight = new spreadjs.LineBorder("#fff", $.wijmo.wijspread.LineStyle.empty);
+                    style.borderBottom = new spreadjs.LineBorder("#e5e5e5", $.wijmo.wijspread.LineStyle.thin);
+                },
+                addColumnStyle = function(){
                     for (var j = 0; j < $scope.colCnt; j++) {
                         var column = sheet.getColumn(j);
                         column.vAlign($.wijmo.wijspread.VerticalAlign.center).textIndent(1);
@@ -56,8 +53,8 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                             column.formatter("$#,###");
                         }
                     }
-
-                    // set row style
+                },
+                addRowStyle = function(){
                     for (var i = 0; i < $scope.rowCnt; i++) {
                         var row = sheet.getRow(i);
                             sheet.setRowHeight(i, 40, $.wijmo.wijspread.SheetArea.viewport);
@@ -68,16 +65,12 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                             row.formatter("0").font("11px proxima-nova").foreColor("#888");
                             row.hAlign($.wijmo.wijspread.HorizontalAlign.center);
                             row.wordWrap(true);
-                            // sheet.autoFitRow(i);
-                            // sheet.getCell(i, $scope.colHeaderCnt-1).borderRight(new $.wijmo.wijspread.LineBorder("#CCC", $.wijmo.wijspread.LineStyle.thick));
                         } else {
-                            for (j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
+                            for (var j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
                                 sheet.getCell(i, j).font("14px proxima-nova").foreColor("#333").value(randomNumber(0, 2000)).locked(false);
                             }
                         }
                     }
-
-                    sheet.isPaintSuspended(false);
                 },
                 createRowSpan = function (level, min, max) {
                     if (level > $scope.rowHeaderCnt) {
@@ -114,8 +107,8 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     if (level > $scope.colHeaderCnt) {
                         return;
                     }
-                    var colSpan = {};
-                    var colOrder = [];
+                    var colSpan = {},
+                        colOrder = [];
                     _.each($scope.data, function(v, k) {
                         if (min <= k && max >= k) {
                             var key = v[level];
@@ -152,58 +145,63 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                 randomNumber = function (min, max) {
                     return Math.floor(Math.random() * (max - min + 1) + min);
                 },
-                init = function () {
-                    $scope.rowCnt = $scope.data.length;
-                    $scope.rowHeaderCnt = 2;
-                    $scope.rowDataCnt = $scope.rowCnt - $scope.rowHeaderCnt;
-                    $scope.colCnt = _.keys($scope.data[0]).length;
-                    $scope.colHeaderCnt = 2;
-                    $scope.colDataCnt = $scope.colCnt - $scope.colHeaderCnt;
+                formatSheet = function () {
+                    sheet.isPaintSuspended(true);
 
-                    spread = $("#pivotTable").wijspread("spread");
-                    sheet = spread.getActiveSheet();
+                    setDefaultWidth();
+                    setBackgroundAndBorderColor();
+                    setFrozenLinePositionAndColor();
+                    hideGrid();
+                    addSpan();
+                    addDefaultStyles();
+                    addColumnStyle();
+                    addRowStyle();
 
-                    spread.grayAreaBackColor("Transparent");
-                    spread.scrollbarMaxAlign(true);
-                    sheet.setColumnHeaderVisible(false);
-                    sheet.setRowHeaderVisible(false);
-                    sheet.setColumnHeaderVisible(false);
-                    sheet.setIsProtected(true);
-                    sheet.autoGenerateColumns = true;
-
-                    formatSheet();
+                    sheet.isPaintSuspended(false);
                 };
 
-            // where is $scope.pivotTableData coming from? This is a hard dependency and needs to be removed
-            $scope.data = $scope.pivotTableData;
+            // This is public becauswe it needs to be called from the template
+            $scope.init = function (numRows, numCols) {
+                spread = $("#pivotTable").wijspread("spread");
+                sheet = spread.getActiveSheet();
+
+                spread.grayAreaBackColor("Transparent");
+                spread.scrollbarMaxAlign(true);
+                sheet.setColumnHeaderVisible(false);
+                sheet.setRowHeaderVisible(false);
+                sheet.setColumnHeaderVisible(false);
+                sheet.setIsProtected(true);
+                sheet.autoGenerateColumns = true;
+
+                // $scope.pivotTableData is located in the parent controller
+                $scope.spread.updateSheet($scope.pivotTableData);
+            };
+        
 
             // where is $scope.spread coming from? This is a hard dependency and needs to be removed
-            $scope.spread.updateSheet = function(_data, numRows, numCols) {
+            $scope.spread.updateSheet = function(_data_, numRows, numCols) {
 
-                $scope.data = _data;
-
+                //TEMP : START
                 $scope.spread.sheet.loading = true;
                 $timeout(function() {
                     $scope.spread.sheet.loading = false;
                 }, (numCols + numRows) * 400);
+                //TEMP : END
 
+                $scope.data = _data_;
                 $scope.rowCnt = $scope.data.length;
-                $scope.rowHeaderCnt = numRows;
+                $scope.rowHeaderCnt = numRows || 2;
                 $scope.rowDataCnt = $scope.rowCnt - $scope.rowHeaderCnt;
                 $scope.colCnt = _.keys($scope.data[0]).length;
-                $scope.colHeaderCnt = numCols;
+                $scope.colHeaderCnt = numCols || 2;
                 $scope.colDataCnt = $scope.colCnt - $scope.colHeaderCnt;
 
                 sheet.reset();
                 $timeout(function() {
                     formatSheet();
-                }, 200);
+                });
             };
 
-            // Why is the init wrapped in a timeout?
-            $timeout(function() {
-                init();
-            }, 400);
-
+            //init is called in the template (scenario_edit.tpl.html) because html needs to render before controller is executed
         }
     ]);

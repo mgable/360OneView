@@ -27,7 +27,6 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 					}
 				} else {
 					scope.filters[scope.category.label][member.label] = add;
-					$rootScope.$broadcast("FOO", scope.category);
 				}
 			},
 			checkedItems = function(member) {
