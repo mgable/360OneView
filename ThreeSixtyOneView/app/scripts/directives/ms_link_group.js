@@ -17,7 +17,7 @@ angular.module('ThreeSixtyOneView.directives')
                     } else {
                         $scope.radio = true;
                     }
-                }
+                };
 
                 this.removeState = function(){
                     _.each(items, function(k,v,i){

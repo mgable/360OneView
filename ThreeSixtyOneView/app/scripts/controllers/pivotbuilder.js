@@ -447,37 +447,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 	// load applicable dimensions
 	$scope.loadDimensions = function() {
 		CubeService.getMeta().then(function(response) {
-			var i, j, k;
-			$scope.cube = response;
-			$scope.dimensions = [];
-
-			// dump all levels with their dimension and hierarchy id in $scoep.dimensions
-			for(i = 0; i < response.dimensions.length; i++) {
-				$scope.dimensions[i] = {};
-				$scope.dimensions[i].label = response.dimensions[i].label;
-				$scope.dimensions[i].id = response.dimensions[i].id;
-				$scope.dimensions[i].levels = [];
-				for(j = 0; j < response.dimensions[i].hierarchies.length; j++) {
-					for(k = 0; k < response.dimensions[i].hierarchies[j].levels.length; k++) {
-						if(k === response.dimensions[i].hierarchies[j].levels.length -1) {
-							if(j === response.dimensions[i].hierarchies.length - 1) {
-								$scope.dimensions[i].levels.push({
-									dimension: {id: response.dimensions[i].id},
-									hierarchy: {id: response.dimensions[i].hierarchies[j].id},
-									level: {id: response.dimensions[i].hierarchies[j].levels[k].id,	label: response.dimensions[i].hierarchies[j].levels[k].label}
-								});
-							}
-						} else {
-							$scope.dimensions[i].levels.push({
-								dimension: {id: response.dimensions[i].id},
-								hierarchy: {id: response.dimensions[i].hierarchies[j].id},
-								level: {id: response.dimensions[i].hierarchies[j].levels[k].id,	label: response.dimensions[i].hierarchies[j].levels[k].label}
-							});
-						}
-						
-					}
-				}
-			}
+			$scope.dimensions = response;
 			$scope.getViewByMembers();
 		});
 	};

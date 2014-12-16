@@ -51,9 +51,6 @@ angular.module('ThreeSixtyOneView')
         var getBaseScenario = function(){
                 return angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
             },
-            getSelected = function(){
-                return selectedRow;
-            },
             sortScenarios = function(scenarios){
                 $scope.scenarioList = scenarios;
                 $scope.masterProject = (_.findWhere($scope.scenarioList, {"title": "MASTER PROJECT"}));
@@ -111,10 +108,6 @@ angular.module('ThreeSixtyOneView')
                 GotoService.scenarioEdit($scope.project.id, response.id);
             });
             $scope.close();
-        };
-
-        $scope.currentScenario = function (scenario){
-            DialogService.currentScenario($scope.project, scenario);
         };
 
         $scope.$on(EVENTS.updateBaseScenario, function(event, data){

@@ -6,7 +6,7 @@
  * @description
  * # member
  */
-angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', "$rootScope", function($compile, $rootScope) {
+angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', function($compile) {
 	return {
 		restrict: 'E',
 		replace: true,
@@ -74,7 +74,7 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 			};
 
 			scope.setToggleStyle = function(member){
-				return (!!scope.expanded[member.label] || scope.expandall.label !== '') ? 'fa-rotate-90':''
+				return (!!scope.expanded[member.label] || scope.expandall.label !== '') ? 'fa-rotate-90':'';
 			};
 
 			scope.isAllSelected = function(member){

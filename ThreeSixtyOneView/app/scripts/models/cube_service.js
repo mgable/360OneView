@@ -13,7 +13,7 @@ angular.module('ThreeSixtyOneView')
 
 		this.getMeta = function(){
 			var additionalPath = "meta";
-			return mycube.get({}, additionalPath).then(function(response){
+			return this.resource.get({}, this.metaConfig, additionalPath).then(function(response){
 				return response;
 			});
 		};
