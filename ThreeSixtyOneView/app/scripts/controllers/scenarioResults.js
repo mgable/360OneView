@@ -23,31 +23,42 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
     $scope.viewName  = resultsData.viewData.name;
     $scope.filters   = resultsData.viewData.filters;
 
-    $scope.kpiData         = resultsData.kpiData;
-    $scope.spendData       = resultsData.spendData;
-    $scope.spendDataHeader = $scope.spendData.header;
-    $scope.spendDataBody   = $scope.spendData.body;
+    $scope.getKpiData = function() {
+        return resultsData.kpiData;
+    };
+    $scope.spendDatumHeader = resultsData.spendData.header;
+    $scope.getSpendDataBody = function() {
+        return resultsData.spendData.body;
+    };
+
 
     $scope.chartData = [];
-    _.each($scope.spendDataBody, function(v) {
+    var cnt = 0;
+    _.each($scope.getSpendDataBody(), function(v) {
         var chartSubData = {};
         chartSubData.id = v.id;
         chartSubData.name = v.category;
         chartSubData.data = [];
         _.each(v.children, function(v1) {
             if (_.has(v1, 'chart')) {
+                v1.chart.categoryId = v.id;
+                v1.chart.id = v1.id;
+                v1.chart.colorId = ++cnt;
+                v1.chart.category = v1.title;
                 chartSubData.data.push(v1.chart);
             }
         });
         $scope.chartData.push(chartSubData);
     });
+    console.log($scope.chartData);
 
-
-    $scope.viewsList = resultsData.viewsList;
-    $scope.selectedView = $scope.viewsList[0];
+    $scope.selectedView = resultsData.viewsList[0];
     $scope.setView = function(view) {
         $scope.selectedView = view;
     };
+    $scope.getViews = function() {
+        return resultsData.viewsList;
+    }
 
 
     $scope.addSign = function(direction) {
@@ -172,12 +183,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                             percent: '+12%',
                             direction: 'increase',
                             chart: {
-                                categoryId: 0,
-                                colorId: 1,
-                                id: 1,
                                 results: 47,
-                                compared: 42,
-                                category: 'Local Spend'
+                                compared: 42
                             }
                         }, {
                             id: 2,
@@ -187,12 +194,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                             percent: '+7.5%',
                             direction: 'increase',
                             chart: {
-                                categoryId: 0,
-                                colorId: 2,
-                                id: 2,
                                 results: 53,
-                                compared: 58,
-                                category: 'National Spend'
+                                compared: 58
                             }
                         }]
                 }, {
@@ -214,12 +217,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                             percent: '+22.4%',
                             direction: 'increase',
                             chart: {
-                                categoryId: 1,
-                                colorId: 3,
-                                id: 1,
                                 results: 55,
-                                compared: 57,
-                                category: 'Product Spend'
+                                compared: 57
                             }
                         }, {
                             id: 2,
@@ -229,12 +228,76 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                             percent: '+13.1%',
                             direction: 'increase',
                             chart: {
-                                categoryId: 1,
-                                colorId: 4,
-                                id: 2,
                                 results: 45,
-                                compared: 43,
-                                category: 'Brand Spand'
+                                compared: 43
+                            }
+                        }]
+                }, {
+                    id: 2,
+                    category: "Local-National",
+                    children: [
+                        {
+                            id: 0,
+                            title: '',
+                            total: '',
+                            incremental: '',
+                            percent: '',
+                            direction: ''
+                        }, {
+                            id: 1,
+                            title: 'Local Spend',
+                            total: '$12M',
+                            incremental: '+$2.5M',
+                            percent: '+12%',
+                            direction: 'increase',
+                            chart: {
+                                results: 47,
+                                compared: 42
+                            }
+                        }, {
+                            id: 2,
+                            title: 'National Spend',
+                            total: '$17M',
+                            incremental: '+$3.7M',
+                            percent: '+7.5%',
+                            direction: 'increase',
+                            chart: {
+                                results: 53,
+                                compared: 58
+                            }
+                        }]
+                }, {
+                    id: 3,
+                    category: "Product-Brand",
+                    children: [
+                        {
+                            id: 0,
+                            title: '',
+                            total: '',
+                            incremental: '',
+                            percent: '',
+                            direction: ''
+                        }, {
+                            id: 1,
+                            title: 'Product Spend',
+                            total: '$6M',
+                            incremental: '+$1.3M',
+                            percent: '+22.4%',
+                            direction: 'increase',
+                            chart: {
+                                results: 55,
+                                compared: 57
+                            }
+                        }, {
+                            id: 2,
+                            title: 'Brand Spend',
+                            total: '$9.3M',
+                            incremental: '+$300K',
+                            percent: '+13.1%',
+                            direction: 'increase',
+                            chart: {
+                                results: 45,
+                                compared: 43
                             }
                         }]
                 }

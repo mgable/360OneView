@@ -7,7 +7,7 @@
                 {{selectedView.name}} <icon type="caret-down"></icon>
             </span>
           <ul class="dropdown-menu" ms-link-group selected-item="1" radio="true">
-            <li ng-repeat="view in viewsList | orderBy:'id'" ms-link="{{view.id}}" >
+            <li ng-repeat="view in getViews() | orderBy:'id'" ms-link="{{view.id}}" >
                 <a href="" ng-click="setView(view)">{{view.name}}</a>
             </li>
           </ul>
@@ -64,7 +64,7 @@
                     </div>
                     <div class="srRecentViewsMenu" ng-show="viewRecentViews">
                         <div class="srRecentViewsMenuVisible">
-                            <div class="clickable" ng-repeat="viewsListItem in viewsList">
+                            <div class="clickable" ng-repeat="viewsListItem in getViews()">
                                 <icon type="eye"></icon> {{viewsListItem.name}}
                             </div>
                         </div>
@@ -99,7 +99,7 @@
         <h3 class="results-panel-title">KPI Summary</h3>
         <div class="result-panel-body well">
             <div class="row">
-                <div class="kpi-container col-md-5ths col-xs-5ths" ng-repeat="kpiDatum in kpiData">
+                <div class="kpi-container col-md-5ths col-xs-5ths" ng-repeat="kpiDatum in getKpiData()">
                     <h4 class="kpi-title">{{kpiDatum.title}}</h4>
                     <h2 class="kpi-incremental kpi-{{kpiDatum.direction}}">
                         <icon class="kpi-arrow" type="{{addArrow(kpiDatum.direction)}}"></icon>{{kpiDatum.incremental.current}}{{kpiDatum.incremental.number}}
@@ -119,19 +119,19 @@
                 <div class="spend-container col-md-6 col-xs-6">
                     <table class="spend-table">
                         <thead>
-                            <tr ng-model="spendDataHeader">
-                                <th>{{spendDataHeader.title}}</th>
-                                <th>{{spendDataHeader.total}}</th>
-                                <th class="spend-{{spendDataHeader.direction}}">{{spendDataHeader.incremental}}</th>
-                                <th class="spend-{{spendDataHeader.direction}}">{{spendDataHeader.percent}}</th>
+                            <tr ng-model="spendDatumHeader">
+                                <th>{{spendDatumHeader.title}}</th>
+                                <th>{{spendDatumHeader.total}}</th>
+                                <th class="spend-{{spendDatumHeader.direction}}">{{spendDatumHeader.incremental}}</th>
+                                <th class="spend-{{spendDatumHeader.direction}}">{{spendDatumHeader.percent}}</th>
                             </tr>
                         </thead>
-                        <tbody ng-repeat="spendDatum in spendDataBody">
-                            <tr ng-repeat="spendRow in spendDatum.children">
-                                <td>{{spendRow.title}}</td>
-                                <td>{{spendRow.total}}</td>
-                                <td class="spend-{{spendRow.direction}}">{{spendRow.incremental}}</td>
-                                <td class="spend-{{spendRow.direction}}">{{spendRow.percent}}</td>
+                        <tbody ng-repeat="spendDatumBody in getSpendDataBody()">
+                            <tr ng-repeat="spendDatumRow in spendDatumBody.children">
+                                <td>{{spendDatumRow.title}}</td>
+                                <td>{{spendDatumRow.total}}</td>
+                                <td class="spend-{{spendDatumRow.direction}}">{{spendDatumRow.incremental}}</td>
+                                <td class="spend-{{spendDatumRow.direction}}">{{spendDatumRow.percent}}</td>
                             </tr>
                         </tbody>
                     </table>

@@ -13,7 +13,7 @@ angular.module('ThreeSixtyOneView.directives')
                     var margin = { top: 20, right: 20, bottom: 20, left: 20 },
                         width = parseInt(d3.select('.chartContainer').style('width')),
                         width = width - margin.left - margin.right,
-                        height = 140,
+                        height = 150,
                         height = height - margin.top - margin.bottom;
 
                     // create svg element
@@ -63,8 +63,8 @@ angular.module('ThreeSixtyOneView.directives')
 
                         // set up color scale
                         var color = d3.scale.ordinal()
-                            .domain(["1", "2", "3", "4"])
-                            .range(["#125db6", "#068700", "#26c6da", "#26a69a"]);
+                            .domain(["0", "1", "2", "3"])
+                            .range(["#26a69a", "#125db6", "#068700", "#26c6da"]);
 
                         // setup xAxis
                         var xAxis = d3.svg.axis()
@@ -137,7 +137,7 @@ angular.module('ThreeSixtyOneView.directives')
 
                         xaxisG.selectAll("g.tick")
                             .data(scope.data)
-                            .style("fill", function(d){ return color(d.colorId); })
+                            .style("fill", function(d){ return color(d.colorId % 4); })
 
                         xaxisG.selectAll("g.tick").selectAll("text")
                             .attr("dy", "1em")
@@ -174,8 +174,7 @@ angular.module('ThreeSixtyOneView.directives')
                             .attr("height", 0)
                             .attr("width", x1.rangeBand())
                             .style("fill", function(d) {
-                                return color(d.colorId);
-                                // return d.name === "compared" ? d3.rgb(color(d.colorId)).darker(1) : color(d.colorId);
+                                return color(d.colorId % 4);
                             })
                             .style("opacity", 0)
                             .transition().ease("quad")
@@ -211,7 +210,7 @@ angular.module('ThreeSixtyOneView.directives')
                             .text(function(d) { return d.value + '%'; })
                             .style("opacity", 0)
                             .transition().ease("quad")
-                                .delay(function(d, i) { return (d.colorId * 2 + i) * 150 })
+                                .delay(function(d, i) { return (d.colorId * 2 + i) * 100 })
                                 .style("opacity", 1);
 
                     };
