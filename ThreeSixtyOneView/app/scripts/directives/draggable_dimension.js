@@ -8,19 +8,56 @@ angular.module('ThreeSixtyOneView.directives')
             replace: true,
             scope: {
                 name: '=',
-                close: '&clickClose',
-                menu: '='
+                delete: '&clickClose',
+                menu: '=',
+                rowOrCol: '='
             },
             link: function(scope, elem, attrs) {
-                console.info(scope.menu);
                 elem.on('click', '.fa-remove', function() {
                     $(this).parents('.pbItem').remove();
-                    scope.close();
+                    scope.delete();
                 });
+            },
+            controller: function($scope) {
+                $scope.show = false;
+                $scope.selected = function(label) {
+                     return $scope.$parent.added[label];
+                };
 
-                elem.on('click', '.pbItemInfo', function(){
-                    $(this).parents('.pbItem').find('.pbAddPopUp').toggle();
-                });
+                $scope.selectDimension = function(selected, newCategory) {
+                    $scope.$parent.replaceItem($scope.name, newCategory, selected, $scope.rowOrCol);
+                    $scope.show = false;
+                }
+
+                $scope.toggleMenu = function() {
+                    $scope.show = !$scope.show;
+                }
+            }
+        };
+    })
+    .directive('addDimensionBtn', function() {
+        return {
+            templateUrl: 'views/directives/add_dimension_button.tpl.html',
+            restrict: "AE",
+            replace: true,
+            scope: {
+                menu: '=',
+                rowOrCol: '='
+            },
+            controller: function($scope) {
+                $scope.show = false;
+                $scope.selected = function(label) {
+                     return $scope.$parent.added[label];
+                }
+
+                $scope.selectDimension = function(selected, newCategory) {
+                    $scope.$parent.addItem(selected, newCategory, $scope.rowOrCol);
+                    $scope.show = false;
+                }
+
+                $scope.toggleMenu = function() {
+                    $scope.show = !$scope.show;
+                }
             }
         };
     });

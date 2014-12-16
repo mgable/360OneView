@@ -2,24 +2,9 @@
 	<div data-as-sortable-item-handle>
 		<span title="Reorder"><icon type="reorder"></icon></span>
 		<span class="pbItemInfo">
-			<span class="pbItemName clickable" >{{name}}</span>
+			<span class="pbItemName clickable" ng-click="toggleMenu()">{{name}}</span>
 		</span>
 		<span class="clickable" title="Remove"><icon type="remove"></icon></span>
 	</div>
-
-	<div class="pbAddPopUp">
-		<div class="pbAddPopUpVisible">
-			<table>
-				<tr ng-repeat="category in menu">
-					<td>{{category.label}}</td>
-					<td>
-						<div ng-repeat="item in category.members">
-							<span class="pbItemAddEnabled clickable" ><icon type="circle-o"></icon> {{item.label}}</span><!-- ng-if="!added[item.label]" ng-click="addItem(item.label, category.label)" -->
-								<span class="pbItemAddDisabled" ><icon type="circle"></icon> {{item.label}}</span><!-- ng-if="added[item.label]" -->
-						</div>
-					</td>
-				</tr>
-			</table>
-		</div>
-	</div>
+	<div ng-include src="'views/includes/pop_menu.tpl.html'"></div>
 </div>

@@ -1,0 +1,15 @@
+<div class="pbAddPopUp" ng-show="show">
+	<div class="pbAddPopUpVisible">
+		<table>
+			<tr ng-repeat="category in menu">
+				<td>{{category.label}}</td>
+				<td>
+					<div ng-repeat="item in category.members">
+						<span class="pbItemAddEnabled clickable" ng-if="!selected(item.label)" ng-click="selectDimension(item.label, category.label)"><icon type="circle-o"></icon> {{item.label}}</span>
+							<span class="pbItemAddDisabled" ng-if="selected(item.label)"><icon type="circle"></icon> {{item.label}}</span>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

@@ -46,18 +46,12 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		$scope.dragOptions = {
 			itemMoved: function() {
 				// console.log(event);
-				if(!$scope.draftView) {
-					$scope.draftView = true;
-					$scope.viewName += ' - Draft';
-				}
+				setDraftViewName()
 				$scope.applyView();
 			},
 			orderChanged: function() {
 				// console.log(event);
-				if(!$scope.draftView) {
-					$scope.draftView = true;
-					$scope.viewName += ' - Draft';
-				}
+				setDraftViewName()
 				$scope.applyView();
 			},
 			// dragStart: function(event) {
@@ -81,24 +75,14 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 	// delete an item from column/row
 	$scope.deleteItem =  function(itemName, dim) {
-		var itemInd = -1;
-		for(var i = 0, n = $scope.pbData.viewData[dim].length; i < n; i++) {
-			if($scope.pbData.viewData[dim][i].name === itemName) {
-				itemInd = i;
-				break;
-			}
-		}
+		var match = _.find($scope.pbData.viewData[dim], function(item) { return item.name == itemName });
+		if (match) {
+			$scope.pbData.viewData[dim] = _.without($scope.pbData.viewData[dim], _.findWhere($scope.pbData.viewData[dim], match));
+            $scope.added[itemName] = false;
 
-		if(itemInd > -1) {
-			$scope.pbData.viewData[dim].splice(itemInd, 1);
-		$scope.added[itemName] = false;
-
-		if(!$scope.draftView) {
-			$scope.draftView = true;
-			$scope.viewName += ' - Draft';
-		}
-		$scope.applyView();
-		}
+			setDraftViewName();
+			$scope.applyView();
+        }
 	};
 
 	// check for changes in the pivot builder data
@@ -106,35 +90,34 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		return !angular.equals($scope.pbData, pbData);
 	};
 
-	// add item to row/column
-	$scope.addItem = function(item, category) {
-		var val = {category: category, name: item};
-
-		if($scope.add.replaceItem > -1) {
-			$scope.added[$scope.pbData.viewData[$scope.add.selected][$scope.add.replaceItem].name] = false;
-			$scope.pbData.viewData[$scope.add.selected].splice($scope.add.replaceItem, 1, val);
-		} else {
-			$scope.pbData.viewData[$scope.add.selected].push(val);
-		}
-
-		$scope.added[item] = true;
-
-		//$scope.addPopUp[$scope.add.selected] = !$scope.addPopUp[$scope.add.selected];
-
+	function setDraftViewName() {
 		if(!$scope.draftView) {
 			$scope.draftView = true;
 			$scope.viewName += ' - Draft';
 		}
+	}
+
+	// add item to row/column
+	$scope.addItem = function(item, category, rowOrCol) {
+		$scope.pbData.viewData[rowOrCol].push({category: category, name: item});
+		$scope.added[item] = true;
+
+		setDraftViewName();
 		$scope.applyView();
 	};
 
-	// display/hide add/replace items pop up
-	$scope.itemModifyPopUp = function(pivotBuilderItem, replaceIndex, $event) {
-		$scope.add.replaceItem = replaceIndex;
-		//$scope.addPopUp[pivotBuilderItem.other] = false;
-		//$scope.addPopUp[pivotBuilderItem.name] = !$scope.addPopUp[pivotBuilderItem.name];
-		$scope.add.selected = pivotBuilderItem.name;
-	};
+	$scope.replaceItem = function(priorLabel, newCategory, newLabel, rowOrCol) {
+		$scope.added[priorLabel] = false;
+		$scope.added[newLabel] = true;
+		var match = _.find($scope.pbData.viewData[rowOrCol], function(item) { return item.name == priorLabel });
+		if (match) {
+            match.category = newCategory;
+            match.name = newLabel
+        }
+
+		setDraftViewName();
+		$scope.applyView();
+	}
 
 	// open/dismiss filters selection modal
 	$scope.filtersModal = function(category) {
@@ -146,10 +129,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 			$scope.pbData.viewData.filters = data;
 			copyFilter();
 
-			if(!$scope.draftView) {
-				$scope.draftView = true;
-				$scope.viewName += ' - Draft';
-			}
+			setDraftViewName();
 			$scope.applyView();
 		});
 	};
