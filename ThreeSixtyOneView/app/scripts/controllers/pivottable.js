@@ -76,8 +76,8 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     if (level > $scope.rowHeaderCnt) {
                         return;
                     }
-                    var rowSpan = {};
-                    var rowOrder = [];
+                    var rowSpan = {},
+                        rowOrder = [];
                     _.each($scope.data[level], function(v, k) {
                         if (min <= k && max >= k) {
                             if (!rowSpan[v]) {
@@ -160,7 +160,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     sheet.isPaintSuspended(false);
                 };
 
-            // This is public becauswe it needs to be called from the template
+            // This is public because it needs to be called from the template
             $scope.init = function (numRows, numCols) {
                 spread = $("#pivotTable").wijspread("spread");
                 sheet = spread.getActiveSheet();
@@ -173,12 +173,12 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                 sheet.setIsProtected(true);
                 sheet.autoGenerateColumns = true;
 
-                // $scope.pivotTableData is located in the parent controller
+                // $scope.pivotTableData is located in ScenarioCtrl
                 $scope.spread.updateSheet($scope.pivotTableData);
             };
         
 
-            // where is $scope.spread coming from? This is a hard dependency and needs to be removed
+            // $scope.spread is in ScenarioCtrl and how pivottable and pivotbuilder communicate
             $scope.spread.updateSheet = function(_data_, numRows, numCols) {
 
                 //TEMP : START
