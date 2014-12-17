@@ -11,7 +11,7 @@
 				</div>
 				<div class="baseGroup">
 					<label for="baseScenario" ng-click="showBaseScenario()" data-ms-id="ScenarioCreate.inputBaseScenario">Base Scenario
-						<input type="text" id="baseScenario" ng-model="scenario.referenceScenario.name"><icon type="folder-open-o" cname="open"></icon>
+						<input type="text" id="baseScenario" ng-model="scenario.referenceScenario.name" readonly><icon type="folder-open-o" cname="open"></icon>
 					</label>
 					<div class="buttons" ng-show="showFields">
 						<input type="submit" value="CONTINUE" class="button" ng-click="submit(scenario)" ng-disabled="ScenarioCreate.$invalid || ScenarioCreate.$pristine" data-ms-id="ScenarioCreate.submit">
