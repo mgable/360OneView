@@ -1,0 +1,20 @@
+<div class="pbFilterListCategory" ng-class="{pbFilterListValue: !hasMembers()}">
+	<span class="pbExpandHandle clickable" ng-if="hasMembers()" ng-click="expanded[member.label] = !expanded[member.label]">
+		<icon type="caret-right" cname="{{setToggleStyle(member)}}"></icon>
+	</span> 
+	<label class="clickable" ng-class="{allSelected: isAllSelected(member)}" ng-click="toggleMember(member)">
+		<span ng-switch="determineStyle(member)">
+			<span ng-switch-when="1"> <!-- all selected -->
+				<icon type="check-circle"></icon>
+			</span>
+			<span ng-switch-when="0"> <!-- not selected -->
+				<icon type="circle-o"></icon>
+			</span>
+			<span ng-switch-default> <!-- indeterminent -->
+				<icon type="minus-circle"></icon>
+			</span> 
+		</span>
+		<span>{{member.label}}</span> 
+		<span ng-if="hasMembers()">({{outputSelectedOverTotal(member)}})</span>
+	</label>
+</div>

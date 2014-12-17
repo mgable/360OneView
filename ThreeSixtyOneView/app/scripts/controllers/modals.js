@@ -28,7 +28,6 @@ angular.module('ThreeSixtyOneView')
             $rootScope.$broadcast(EVENTS.copyScenario, $scope.item);
             $modalInstance.dismiss('create');
          };
-
     }]).controller('ProjectCreateCtrl', ["$scope", "$rootScope", "$controller", "$modalInstance", "CONFIG", "EVENTS", function($scope, $rootScope, $controller, $modalInstance, CONFIG, EVENTS) {
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
         // var newProject = CONFIG.application.models.ProjectsModel.newProject;
@@ -45,7 +44,6 @@ angular.module('ThreeSixtyOneView')
             $rootScope.$broadcast(EVENTS.createProject, title.trim());
             $modalInstance.dismiss('create');
         };
-
     }]).controller('ScenarioCreateCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", "GotoService", function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS, GotoService) {
 
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
@@ -123,7 +121,7 @@ angular.module('ThreeSixtyOneView')
             $scope.scenario.referenceScenario.id = data.id;
             $scope.scenario.referenceScenario.name = data.title;
         });
-}]).controller('FilterSelectionCtrl', ["$scope", "$rootScope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "$filter", function($scope, $rootScope, $modalInstance, $controller, data, ScenarioService, CONFIG, $filter) {
+    }]).controller('FilterSelectionCtrl', ["$scope", "$rootScope", "$modalInstance", "$controller", "data", "CONFIG", function($scope, $rootScope, $modalInstance, $controller, data, CONFIG) {
     angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
     var init = function() {
