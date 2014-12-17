@@ -102,23 +102,40 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/members.tpl.html',
-    "<div ng-class=\"{pbFilterListCategory: hasMembers(), pbFilterListValue: !hasMembers()}\">\n" +
-    "\t<span class=\"pbExpandHandle clickable\" ng-if=\"hasMembers()\" ng-click=\"expanded[member.label] = !expanded[member.label]\">\n" +
-    "\t\t<icon type=\"caret-right\" cname=\"{{(!!expanded[member.label] || expandall.label !== '') ? 'fa-rotate-90':''}}\"></icon>\n" +
-    "\t</span> \n" +
-    "\t<label class=\"clickable\" ng-class=\"{allSelected: determineStyle(member) === 1}\" ng-click=\"toggleMember(member)\">\n" +
-    "\t\t<span ng-show=\"determineStyle(member) === 1\">\n" +
-    "\t\t\t<icon type=\"check-circle\"></icon>\n" +
-    "\t\t</span>\n" +
-    "\t\t<span ng-show=\"determineStyle(member) === 0\">\n" +
-    "\t\t\t<icon type=\"circle-o\"></icon>\n" +
-    "\t\t</span>\n" +
-    "\t\t<span ng-show=\"determineStyle(member) % 1 > 0\">\n" +
-    "\t\t\t<icon type=\"minus-circle\"></icon>\n" +
-    "\t\t</span> \n" +
-    "\t\t<span>{{member.label}}</span> \n" +
-    "\t\t<span ng-if=\"hasMembers()\">({{checkedItems(member).checked}}/{{checkedItems(member).total}})</span>\n" +
-    "\t</label>\n" +
+    "<div ng-class=\"{pbFilterListCategory: hasMembers(), pbFilterListValue: !hasMembers()}\">\r" +
+    "\n" +
+    "\t<span class=\"pbExpandHandle clickable\" ng-if=\"hasMembers()\" ng-click=\"expanded[member.label] = !expanded[member.label]\">\r" +
+    "\n" +
+    "\t\t<icon type=\"caret-right\" cname=\"{{(!!expanded[member.label] || expandall.label !== '') ? 'fa-rotate-90':''}}\"></icon>\r" +
+    "\n" +
+    "\t</span> \r" +
+    "\n" +
+    "\t<label class=\"clickable\" ng-class=\"{allSelected: determineStyle(member) === 1}\" ng-click=\"toggleMember(member)\">\r" +
+    "\n" +
+    "\t\t<span ng-show=\"determineStyle(member) === 1\">\r" +
+    "\n" +
+    "\t\t\t<icon type=\"check-circle\"></icon>\r" +
+    "\n" +
+    "\t\t</span>\r" +
+    "\n" +
+    "\t\t<span ng-show=\"determineStyle(member) === 0\">\r" +
+    "\n" +
+    "\t\t\t<icon type=\"circle-o\"></icon>\r" +
+    "\n" +
+    "\t\t</span>\r" +
+    "\n" +
+    "\t\t<span ng-show=\"determineStyle(member) % 1 > 0\">\r" +
+    "\n" +
+    "\t\t\t<icon type=\"minus-circle\"></icon>\r" +
+    "\n" +
+    "\t\t</span> \r" +
+    "\n" +
+    "\t\t<span>{{member.label}}</span> \r" +
+    "\n" +
+    "\t\t<span ng-if=\"hasMembers()\">({{checkedItems(member).checked}}/{{checkedItems(member).total}})</span>\r" +
+    "\n" +
+    "\t</label>\r" +
+    "\n" +
     "</div>"
   );
 
@@ -207,7 +224,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<div class=\"pbFilterModalLinks\">\r" +
     "\n" +
-    "\t\t<div class=\"pbFilterModalLink clickable\" ng-repeat=\"cat in pbData.itemsList\" ng-click=\"chooseFilter(cat, false, false)\" ng-class=\"{active: cat.label == selectedFilter.cat.label}\">\r" +
+    "\t\t<div class=\"pbFilterModalLink clickable\" ng-repeat=\"cat in dimensions\" ng-click=\"chooseFilter(cat, false, false)\" ng-class=\"{active: cat.label == selectedFilter.cat.label}\">\r" +
     "\n" +
     "\t\t\t<div>{{cat.label}}\r" +
     "\n" +
