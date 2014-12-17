@@ -116,7 +116,7 @@
         <h3 class="results-panel-title">Spend Summary</h3>
         <div class="result-panel-body well">
             <div class="row">
-                <div class="spend-container col-md-6 col-xs-6">
+                <div class="spend-container col-md-6 col-sm-12 col-xs-12">
                     <table class="spend-table">
                         <thead>
                             <tr ng-model="spendDatumHeader">
@@ -136,13 +136,13 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="spend-container col-md-6 col-xs-6">
+                <div class="spend-container col-md-6 col-sm-12 col-xs-12">
                     <div class="legend">
                         <img src="images/legend.png" alt="legend">
                         <span>{{selectedView.name}} </span>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 col-xs-6 chartContainer" ng-repeat="chartDatum in chartData">
+                        <div class="col-md-6 col-sm-3 col-xs-3 chartContainer" ng-repeat="chartDatum in chartData">
                             <ms-bar-chart chart-data="chartDatum.data"></ms-bar-chart>
                         </div>
                     </div>

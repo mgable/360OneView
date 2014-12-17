@@ -10,10 +10,10 @@ angular.module('ThreeSixtyOneView.directives')
                     angular.element($window).on('resize', function(){ scope.$apply() })
 
                     // setup chart variables
-                    var margin = attrs.margin || { top: 30, right: 20, bottom: 30, left: 20 },
+                    var margin = attrs.margin || { top: 20, right: 20, bottom: 40, left: 20 },
                         width = parseInt(attrs.width) || parseInt(d3.select('.chartContainer').style('width')),
                         width = width - margin.left - margin.right,
-                        height = parseInt(attrs.height) || 150,
+                        height = parseInt(attrs.height) || 200,
                         height = height - margin.top - margin.bottom;
 
                     // setup tooltip
@@ -36,7 +36,7 @@ angular.module('ThreeSixtyOneView.directives')
                     scope.$watch(function(){
                         width = parseInt(attrs.width) || parseInt(d3.select('.chartContainer').style('width'));
                         width = width - margin.left - margin.right;
-                        height = parseInt(attrs.height) || 150,
+                        height = parseInt(attrs.height) || 200,
                         height = height - margin.top - margin.bottom;
                         return width + height;
                     }, resize);

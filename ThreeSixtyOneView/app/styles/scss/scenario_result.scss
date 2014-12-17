@@ -555,7 +555,7 @@
 				}
                 .legend {
                     margin-left: 32px;
-                    margin-bottom: 20px;
+                    margin-bottom: 12px;
                     img {
                         width: 15px;
                         height: 15px;
@@ -668,4 +668,7 @@
         top: 100%;
         left: 0;
     }
+}
+ms-bar-chart text {
+    font-size: 12px;
 }

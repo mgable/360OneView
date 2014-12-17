@@ -117,7 +117,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                 "id": 2,
                 "title": "web visit",
                 "incremental": {
-                    "number": 77,
+                    "number": 770,
                     "unit": "K"
                 },
                 "total": "10.3M",
@@ -256,7 +256,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                             direction: 'increase',
                             chart: {
                                 results: 40,
-                                compared: 60
+                                compared: 30
                             }
                         }, {
                             id: 2,
@@ -267,7 +267,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                             direction: 'increase',
                             chart: {
                                 results: 34,
-                                compared: 66
+                                compared: 43
                             }
                         }, {
                             id: 3,
@@ -277,8 +277,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                             percent: '+4.5%',
                             direction: 'increase',
                             chart: {
-                                results: 48,
-                                compared: 52
+                                results: 26,
+                                compared: 27
                             }
                         }]
                 }, {
@@ -300,8 +300,41 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                             percent: '+54.4%',
                             direction: 'increase',
                             chart: {
-                                results: 87,
+                                results: 17,
                                 compared: 13
+                            }
+                        }, {
+                            id: 2,
+                            title: 'TEST-2 Spend-2',
+                            total: '$4M',
+                            incremental: '+$7.3M',
+                            percent: '+54.4%',
+                            direction: 'increase',
+                            chart: {
+                                results: 24,
+                                compared: 10
+                            }
+                        }, {
+                            id: 3,
+                            title: 'TEST-2 Spend-3',
+                            total: '$4M',
+                            incremental: '+$7.3M',
+                            percent: '+54.4%',
+                            direction: 'increase',
+                            chart: {
+                                results: 20,
+                                compared: 40
+                            }
+                        }, {
+                            id: 3,
+                            title: 'TEST-2 Spend-4',
+                            total: '$4M',
+                            incremental: '+$7.3M',
+                            percent: '+54.4%',
+                            direction: 'increase',
+                            chart: {
+                                results: 39,
+                                compared: 37
                             }
                         }]
                 }
