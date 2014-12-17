@@ -517,10 +517,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 			}
 		}
 
-		console.log($scope.dimensions);
-		console.log($scope.membersList);
+		// console.log($scope.dimensions);
+		// console.log($scope.membersList);
 		$q.all(promises).then(function(response) {
-			console.log(response);
+			// console.log(response);
 		});
 	};
 

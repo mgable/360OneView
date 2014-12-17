@@ -230,11 +230,11 @@ angular.module('ThreeSixtyOneView')
         $scope.project = Project;
         $scope.scenario = Scenario;
         $scope.views = Views;
+        // hardcoded data
         $scope.pivotTableData = ptData.data;
-        // $scope.pivotTableHeaders = ptData.headers;
+        // this is how pivotbuilder and pivottable communicate
         $scope.spread = {sheet: {}};
 
-        //TODO: temp data
         $scope.types =  ScenarioElements;
         $scope.scenarioElementType = $scope.types[0];
     }]);
