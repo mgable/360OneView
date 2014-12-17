@@ -6,7 +6,7 @@
  * @description
  * # member
  */
-angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', "$rootScope", function($compile, $rootScope) {
+angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', function($compile) {
 	return {
 		restrict: 'E',
 		replace: true,
@@ -61,7 +61,13 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 			};
 
 			scope.determineStyle = function(member){
-				return (checkedItems(member).checked / checkedItems(member).total);
+				var result;
+				switch(checkedItems(member).checked / checkedItems(member).total){
+					case 1: result = "ALL_SELECTED"; break;
+					case 0: result = "NOT_SELECTED"; break;
+					default: result = "INDETERMINENT"; break;
+				}
+				return result;
 			};
 
 			scope.outputSelectedOverTotal = function(member){
@@ -77,7 +83,7 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 			};
 
 			scope.isAllSelected = function(member){
-				return scope.determineStyle(member) === 1;
+				return scope.determineStyle(member) === "ALL_SELECTED";
 			};
 
 			if(scope.member.members.length > 0) {

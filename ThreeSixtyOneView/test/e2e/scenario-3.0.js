@@ -7,19 +7,20 @@ var scenarioUrl = '/#/scenario/:projectId/:scenarioId/edit'
 		scenarioId = "82";
 	scenarioUrl = scenarioUrl.replace(/:projectId/, projectId).replace(/:scenarioId/, scenarioId);
 
-describe('Project Dashboard: ', function() {
+describe('Scenario Edit: ', function() {
 	var hasClass = function (element, cls) {
 	    return element.getAttribute('class').then(function (classes) {
 	        return classes.split(' ').indexOf(cls) !== -1;
 	    });
 	},
+	data = "pivotBuilderItem in pivotBuilderItems",
 	openDrawer = ".pbTitleText",
 	closeDrawer = ".pbSliderCollapse span",
 	drawer = ".pbSlider",
 	openedClass = "pbOpened",
 	columnAndRowsView = ".pbFunctionFlip div:nth-child(1)",
 	filterView = ".pbFunctionFlip div:nth-child(2)",
-	toggleViewsActiveClass = "pbFunctionFlipButtonActive",
+	toggleViewsActiveClass = "selected",
 	openDrawerButton = element(by.css(openDrawer)),
 	closeDrawerButton = element(by.css(closeDrawer)),
 	drawerWidget = element(by.css(drawer)),
@@ -34,7 +35,7 @@ describe('Project Dashboard: ', function() {
 		}
 	);
 
-	xdescribe("basic drawer functions: ", function(){
+	describe("basic drawer functions: ", function(){
 		it("should expand when the tab is clicked", function(){
 			expect(hasClass(drawerWidget, openedClass)).toBe(false);
 			openDrawerButton.click();
@@ -58,7 +59,7 @@ describe('Project Dashboard: ', function() {
 
 	describe("columns and rows", function(){
 		it("should have the correct row count", function(){
-			var columns = element.all(by.repeater("item in pbData.viewData[pivotBuilderItem.name]"));
+			var columns = element.all(by.repeater(data));
 			expect(columns.count()).toBe(2);
 		});
 	});

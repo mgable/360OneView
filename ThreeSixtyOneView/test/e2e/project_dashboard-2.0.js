@@ -4,10 +4,10 @@ var projectUrl = '/#/projects?e2e=true',
 	dashboardUrl = '/#/dashboard/:id?e2e=true';
 
 	//TEMP data - remove in production
-	var projectId = "a512b7fce6113c33a3efd81cfe876d48";
-	dashboardUrl = dashboardUrl.replace(/:id/, projectId);
+	// var projectId = "a512b7fce6113c33a3efd81cfe876d48";
+	// dashboardUrl = dashboardUrl.replace(/:id/, projectId);
 
-xdescribe('Project Dashboard', function() {
+describe('Project Dashboard', function() {
 	var hasClass = function (element, cls) {
 	    return element.getAttribute('class').then(function (classes) {
 	        return classes.split(' ').indexOf(cls) !== -1;
@@ -36,7 +36,7 @@ xdescribe('Project Dashboard', function() {
 		createdByButton = element(by.xpath(createdBy)),
 		column_1LabelField = element(by.xpath(column_1Label));
 
-	xit("should create a new project and go to the dashboard", function(){
+	it("should create a new project and go to the dashboard", function(){
 		var create = "//button[@data-ms-id='createButton']",
 			input = "//input[@data-ms-id='modalInput']",
 			submit = "//button[@data-ms-id='submit']",
@@ -108,7 +108,7 @@ xdescribe('Project Dashboard', function() {
 			browser.get(dashboardUrl);
 		});
 
-		xdescribe("Create functions: ", function(){
+		describe("Create functions: ", function(){
 
 			it("should have no scenarios at time of creation", function(){
 				var data = element.all(by.repeater('item in getData()')),
@@ -279,7 +279,7 @@ xdescribe('Project Dashboard', function() {
 			});
 		})
 
-		xdescribe("Sort functions: ", function(){
+		describe("Sort functions: ", function(){
 			var dropdown = "//span[@data-ms-id='toggle_column_1']",
 				nameField = "//a[@data-ms-id='name-field']",
 				nameLabel = "//div[@data-ms-id='name-label']",
@@ -383,7 +383,7 @@ xdescribe('Project Dashboard', function() {
 			});
 		});
 
-		xdescribe("Favorite behaviors: ", function(){
+		describe("Favorite behaviors: ", function(){
 
 			it("should toggle favorite", function(){
 				var firstElement = element.all(by.css(".favorites a")).first(),
@@ -411,7 +411,7 @@ xdescribe('Project Dashboard', function() {
 			});
 		});
 
-		xdescribe("Breadcrumbs: ", function(){
+		describe("Breadcrumbs: ", function(){
 			var breadcrumb = ".breadcrumbs span",
 				breadcrumbField = element(by.css(breadcrumb));
 
@@ -420,7 +420,7 @@ xdescribe('Project Dashboard', function() {
 			});
 		});
 
-		xdescribe("Change base scenario: ", function(){
+		describe("Change base scenario: ", function(){
 			//
 
 			it("should change the base scenario", function(){

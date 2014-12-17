@@ -87,10 +87,10 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t</span> \n" +
     "\t<label class=\"clickable\" ng-class=\"{allSelected: isAllSelected(member)}\" ng-click=\"toggleMember(member)\">\n" +
     "\t\t<span ng-switch=\"determineStyle(member)\">\n" +
-    "\t\t\t<span ng-switch-when=\"1\"> <!-- all selected -->\n" +
+    "\t\t\t<span ng-switch-when=\"ALL_SELECTED\"> <!-- all selected -->\n" +
     "\t\t\t\t<icon type=\"check-circle\"></icon>\n" +
     "\t\t\t</span>\n" +
-    "\t\t\t<span ng-switch-when=\"0\"> <!-- not selected -->\n" +
+    "\t\t\t<span ng-switch-when=\"NOT_SELECTED\"> <!-- not selected -->\n" +
     "\t\t\t\t<icon type=\"circle-o\"></icon>\n" +
     "\t\t\t</span>\n" +
     "\t\t\t<span ng-switch-default> <!-- indeterminent -->\n" +

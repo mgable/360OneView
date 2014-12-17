@@ -49,37 +49,41 @@ angular.module('ThreeSixtyOneView')
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
         var getBaseScenario = function(){
-                return angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
+            var baseScenario = angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
+                baseScenario.referenceScenario.id = findBaseScenarioId($scope.masterProject);
+                return baseScenario;
             },
-            getSelected = function(){
-                return selectedRow;
+            findBaseScenarioId = function(scenario){
+                var baseScenario = _.find(scenario.data, function(obj){return /PRE LOADED SIMULATION/.test(obj.title)} );
+                return baseScenario.id;
+            },
+            getMasterProject = function(projects){
+                return (_.findWhere(projects, {"title": "MASTER PROJECT"}));
             },
             sortScenarios = function(scenarios){
-                $scope.scenarioList = scenarios;
-                $scope.masterProject = (_.findWhere($scope.scenarioList, {"title": "MASTER PROJECT"}));
-                $scope.scenarioList.splice(_.indexOf($scope.scenarioList, $scope.masterProject),1);
+                var scenarioList = scenarios;
+                scenarioList.splice(_.indexOf(scenarioList, $scope.masterProject),1);
                 selectedBaseScenario = $scope.masterProject;
 
-                angular.forEach($scope.scenarioList, function(k,v){
+                angular.forEach(scenarioList, function(k,v){
                     if (k.title === $scope.project.title){
-                        $scope.scenarioList.unshift($scope.scenarioList.splice(v,1)[0]);
+                        scenarioList.unshift(scenarioList.splice(v,1)[0]);
                     }
                 });
+                return scenarioList;
             },
             init = function(){
+                $scope.showFields = true;
+                $scope.project = data.project;
+                $scope.scenarios = data.scenarios;
+
                 ScenarioService.getAll().then(function(response){
-                    sortScenarios(response);
+                    $scope.masterProject = getMasterProject(response);
+                    $scope.scenarioList = sortScenarios(response);
+                    $scope.scenario = getBaseScenario();
                 });
             },
             selectedBaseScenario;
-
-        init();
-
-
-        $scope.showFields = true;
-        $scope.project = data.project;
-        $scope.scenarios = data.scenarios;
-        $scope.scenario = getBaseScenario();
 
         $scope.showBaseScenario = function() {
             $scope.showFields = false;
@@ -113,14 +117,13 @@ angular.module('ThreeSixtyOneView')
             $scope.close();
         };
 
-        $scope.currentScenario = function (scenario){
-            DialogService.currentScenario($scope.project, scenario);
-        };
-
         $scope.$on(EVENTS.updateBaseScenario, function(event, data){
             $scope.scenario.referenceScenario.id = data.id;
             $scope.scenario.referenceScenario.name = data.title;
         });
+        
+        init();
+
     }]).controller('FilterSelectionCtrl', ["$scope", "$rootScope", "$modalInstance", "$controller", "data", "CONFIG", function($scope, $rootScope, $modalInstance, $controller, data, CONFIG) {
     angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 

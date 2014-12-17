@@ -3,7 +3,7 @@
 
 var projectUrl = '/#/projects?e2e=true';
 
-xdescribe('Project Listing', function() {
+describe('Project Listing', function() {
 	var hasClass = function (element, cls) {
 	    return element.getAttribute('class').then(function (classes) {
 	        return classes.split(' ').indexOf(cls) !== -1;
