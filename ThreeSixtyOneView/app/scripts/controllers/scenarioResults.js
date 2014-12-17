@@ -238,7 +238,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                         }]
                 }, {
                     id: 2,
-                    category: "Local-National",
+                    category: "TEST-1-Brand",
                     children: [
                         {
                             id: 0,
@@ -249,30 +249,41 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                             direction: ''
                         }, {
                             id: 1,
-                            title: 'Local Spend',
-                            total: '$12M',
-                            incremental: '+$2.5M',
-                            percent: '+12%',
+                            title: 'TEST-1 Spend-1',
+                            total: '$5M',
+                            incremental: '+$7.5M',
+                            percent: '+10%',
                             direction: 'increase',
                             chart: {
-                                results: 47,
-                                compared: 42
+                                results: 40,
+                                compared: 60
                             }
                         }, {
                             id: 2,
-                            title: 'National Spend',
-                            total: '$17M',
-                            incremental: '+$3.7M',
-                            percent: '+7.5%',
+                            title: 'TEST-1 Spend-2',
+                            total: '$12M',
+                            incremental: '+$2.7M',
+                            percent: '+8.5%',
                             direction: 'increase',
                             chart: {
-                                results: 53,
-                                compared: 58
+                                results: 34,
+                                compared: 66
+                            }
+                        }, {
+                            id: 3,
+                            title: 'TEST-1 Spend-3',
+                            total: '$54M',
+                            incremental: '+$0.5M',
+                            percent: '+4.5%',
+                            direction: 'increase',
+                            chart: {
+                                results: 48,
+                                compared: 52
                             }
                         }]
                 }, {
                     id: 3,
-                    category: "Product-Brand",
+                    category: "TEST-2-Brand",
                     children: [
                         {
                             id: 0,
@@ -283,25 +294,14 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                             direction: ''
                         }, {
                             id: 1,
-                            title: 'Product Spend',
-                            total: '$6M',
-                            incremental: '+$1.3M',
-                            percent: '+22.4%',
+                            title: 'TEST-2 Spend-1',
+                            total: '$4M',
+                            incremental: '+$7.3M',
+                            percent: '+54.4%',
                             direction: 'increase',
                             chart: {
-                                results: 55,
-                                compared: 57
-                            }
-                        }, {
-                            id: 2,
-                            title: 'Brand Spend',
-                            total: '$9.3M',
-                            incremental: '+$300K',
-                            percent: '+13.1%',
-                            direction: 'increase',
-                            chart: {
-                                results: 45,
-                                compared: 43
+                                results: 87,
+                                compared: 13
                             }
                         }]
                 }

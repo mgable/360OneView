@@ -106,6 +106,30 @@ angular.module('ThreeSixtyOneView.directives')
                             });
                         })]);
 
+                        function wrap(text, width) {
+                          text.each(function() {
+                            var text = d3.select(this),
+                                words = text.text().split(/\s+/).reverse(),
+                                word,
+                                line = [],
+                                lineNumber = 0,
+                                lineHeight = 1.1, // ems
+                                y = text.attr("y"),
+                                dy = parseFloat(text.attr("dy")),
+                                tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+                            while (word = words.pop()) {
+                              line.push(word);
+                              tspan.text(line.join(" "));
+                              if (tspan.node().getComputedTextLength() > width) {
+                                line.pop();
+                                tspan.text(line.join(" "));
+                                line = [word];
+                                tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                              }
+                            }
+                          });
+                        }
+
                         // create stripe pattern
                         var patternData = [
                             {
@@ -141,16 +165,13 @@ angular.module('ThreeSixtyOneView.directives')
 
                         // create x axis group element
                         var xaxisG = svg.append("g")
-                            .attr("class", "x axis")
+                            .attr("class", "xaxis")
                             .attr("transform", "translate(0," + height + ")")
-                            .call(xAxis);
-
-                        xaxisG.selectAll("g.tick")
+                            .call(xAxis)
+                        .selectAll(".tick text")
+                            .call(wrap, x0.rangeBand())
                             .data(scope.data)
-                            .style("fill", function(d){ return color(d.colorId % 4); })
-
-                        xaxisG.selectAll("g.tick").selectAll("text")
-                            .attr("dy", "1em")
+                            .style("fill", function(d){ return color(d.colorId % 4); });
 
                         // create bars series group elements
                         var bars = svg.selectAll(".bar")
