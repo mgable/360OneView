@@ -301,61 +301,9 @@
 		.pbSec {
 			margin-bottom: 10px;
 
-			.pbSecTitle {
-				margin: 5px 15px;
-				display: inline-block;
-				width: 60px;
-				float: left;
-			}
-
 			.pbItemsHolder {
 				outline: 0;
-				overflow: hidden;
 				margin-right: 20px;
-
-				.pbItem {
-					min-width: 50px;
-					border: 1px solid $mediumgray;
-					background-color: white;
-					height: 28px;
-					display: inline-block;
-					margin-right: 5px;
-					vertical-align: top;
-
-					&:hover {
-						border: 1px solid $blue;
-
-						.fa-reorder {
-							background-color: $blue;
-						}
-					}
-
-					.fa-reorder {
-						background-color: $mediumgray;
-						height: 26px;
-						padding: 5px;
-						width: 23px;
-						color: white;
-					}
-
-					.pbItemInfo {
-						color: $blue;
-						padding: auto 10px;
-
-						.pbItemName {
-							text-transform: capitalize;
-						}
-					}
-
-					.fa-remove {
-						color: $mediumgray;
-						padding: 5px;
-
-						&:hover {
-							color: $blue;
-						}
-					}
-				}
 
 				.as-sortable-placeholder {
 					display: inline-block;
@@ -365,107 +313,6 @@
 					color: rgba(66,66,66,1.0);
 					padding: 0.3em;
 					margin-right: 5px;
-				}
-
-				.pbAddBox {
-					display: inline-block;
-					border: 1px dashed $gray;
-					height: 28px;
-					vertical-align: top;
-
-					.pbItemAdd {
-						padding: 3px 10px;
-						color: $gray;
-
-						.fa-plus-square {
-							font-size: 10px;
-						}
-					}
-
-					&:hover {
-						border-color: $blue;
-
-						.pbItemAdd {
-							color: $blue;
-						}
-					}
-
-					.pbAddPopUp {
-						position: absolute;
-						z-index: 10;
-						width: 370px;
-						padding: 20px;
-						left: 20%;
-						height: 450px;
-
-						.pbAddPopUpVisible {
-							padding: 15px;
-							background: white;
-							border: 1px solid $blue;
-							width: 330px;
-							position: absolute;
-							top: 7px;
-							box-shadow: 0 3px 10px rgba(100,100,100,0.5);
-
-							&::before {
-								position: absolute;
-								height: 11px;
-								width: 11px;
-								content: "";
-								border-left: 1px solid $blue;
-								border-top: 1px solid $blue;
-								-webkit-transform: rotate(45deg);
-								-moz-transform: rotate(45deg);
-								-ms-transform: rotate(45deg);
-								-o-transform: rotate(45deg);
-								transform: rotate(45deg);
-								top: -6px;
-								left: 47%;
-								z-index: 13;
-								background-color: white;
-							}
-
-							table tr {
-								border-bottom: 1px solid $mediumgray;
-								vertical-align: top;
-
-								&:last-child {
-									border-bottom: 0;
-								}
-
-								td:first-child {
-									color: $gray;
-									padding-right: 15px;
-									padding-top: 10px;
-								}
-
-								td div {
-									padding: 5px 5px;
-
-									&:first-child {
-										padding-top: 10px;
-									}
-
-									&:last-child {
-										padding-bottom: 10px;
-									}
-
-									.pbItemAddEnabled {
-										text-transform: capitalize;
-
-										&:hover {
-											color: $blue;
-										}
-									}
-
-									.pbItemAddDisabled {
-										color: $mediumgray;
-										text-transform: capitalize;
-									}
-								}
-							}
-						}
-					}
 				}
 			}
 
@@ -507,41 +354,9 @@
 		}
 	}
 
-	.as-sortable-item-handle {
-		cursor: url(https://ssl.gstatic.com/ui/v1/icons/mail/images/2/openhand.cur) 7 5, default !important;
-	}
-
 	.as-sortable-drag {
 		cursor: url(https://ssl.gstatic.com/ui/v1/icons/mail/images/2/closedhand.cur) 7 5, default !important;
 		/*pointer-events: auto;*/
-
-		.pbItem {
-					min-width: 50px;
-					border: 1px solid $blue;
-					background-color: white;
-					height: 28px;
-					display: inline-block;
-					margin-right: 0px;
-					vertical-align: top;
-
-					.fa-reorder {
-						background-color: $blue;
-						height: 26px;
-						padding: 5px;
-						width: 23px;
-						color: white;
-					}
-
-					.pbItemInfo {
-						color: $blue;
-						padding: auto 10px;
-					}
-
-					.fa-remove {
-						color: $mediumgray;
-						padding: 4px;
-					}
-				}
 	}
 
 	.as-sortable-item, .as-sortable-placeholder {
@@ -558,10 +373,6 @@
 
 	.bold {
 		font-weight: bold;
-	}
-
-	.clickable {
-		cursor: pointer;
 	}
 }
 
@@ -951,10 +762,6 @@
 
 	.bold {
 		font-weight: bold;
-	}
-
-	.clickable {
-		cursor: pointer;
 	}
 
 	.underline {

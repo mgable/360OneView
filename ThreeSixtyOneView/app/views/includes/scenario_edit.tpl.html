@@ -7,7 +7,7 @@
         	<h1>Import here</h1>
         </tab>
         <tab heading="Export">
-        	<h1>Export here</h1>
+        	<ng-include src="'views/includes/pivot_table_export.tpl.html'" ng-controller="exportCtrl"></ng-include>
         </tab>
     </tabset>
     <ng-include src="'views/includes/pivot_table.tpl.html'" ng-controller="pivotTableCtrl" onload="init()"></ng-include>

@@ -11,7 +11,7 @@ angular.module('ThreeSixtyOneView')
 
 		//this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
-		this.getDefaultView = function(views, cubeId){
+		this.getDefaultView = function(views){
 			// this logic will change
 			var viewId = views[0].id;
 			return this.get({viewId: viewId});
@@ -58,6 +58,6 @@ angular.module('ThreeSixtyOneView')
 			return this.resource.put(modifiedView, this.config, {viewId: modifiedView.id}, '').then(function (response) {
 				return response;
 			});
-		}
+		};
 
 }]);
