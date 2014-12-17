@@ -137,7 +137,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 	$scope.addItem = function(item, element) {
 		var newItem = {dimension:{id:item.dimensionId},hierarchy:{id:-1},level:{id:item.levelId, label:item.label}};
 		$scope.viewData[element].push(newItem);
-		$scope.added[item.level.label] = true;
+		$scope.added[item.label] = true;
 
 		setDraftViewName();
 		$scope.applyView();
@@ -145,12 +145,12 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 	$scope.replaceItem = function(selected, priorLabel, element) {
 		$scope.added[priorLabel] = false;
-		$scope.added[selected.level.label] = true;
-		var match = _.find($scope.viewData[element], function(item) { return item.level.label == priorLabel });
+		$scope.added[selected.label] = true;
+		var match = _.find($scope.viewData[element], function(item) { return item.level.label.toUpperCase() == priorLabel.toUpperCase() });
 		if (match) {
-            match.dimension = angular.copy(selected.dimension);
-            match.hierarchy = angular.copy(selected.hierarchy);
-            match.level = angular.copy(selected.level);
+			var newItem = {dimension:{id:selected.dimensionId},hierarchy:{id:-1},level:{id:selected.levelId, label:selected.label}};
+            var index = _.indexOf($scope.viewData[element], match);
+            $scope.viewData[element].splice(index, 1, newItem);
         }
 
 		setDraftViewName();
