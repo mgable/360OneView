@@ -3,7 +3,7 @@
 </div>
 <div class="filter-modal-body">
 	<div class="pbFilterModalLinks">
-		<div class="pbFilterModalLink clickable" ng-repeat="cat in pbData.itemsList" ng-click="chooseFilter(cat, false, false)" ng-class="{active: cat.label == selectedFilter.cat.label}">
+		<div class="pbFilterModalLink clickable" ng-repeat="cat in dimensions" ng-click="chooseFilter(cat, false, false)" ng-class="{active: cat.label == selectedFilter.cat.label}">
 			<div>{{cat.label}}
 				<span class="pbFilterSize">({{categorizeValues($index, addedFilter[cat.label]).selected}}/{{categorizeValues($index, addedFilter[cat.label]).total}})</span>
 			</div>
@@ -53,10 +53,9 @@
 				</div>
 			</div>
 			<div class="pbFilterNumberSelected">
-				({{filterCount.selected}}/{{filterCount.total}})
+				({{countFilters(searchResults, addedFilter).selected}}/{{countFilters(searchResults, addedFilter).total}})
 			</div>
 			<div class="pbModalHeight" ng-style="{height: (windowHeight - 250) + 'px'}">
-				<!-- <filters ng-if="searchResults.members" collection="searchResults" filters="addedFilter" category="{label: selectedFilter.cat.label}" expandall="filterSearch"></filters> -->
 				<div class="pbFilterList" ng-if="searchResults.members">
 					<member ng-repeat="member in searchResults.members | orderBy:'label'" member="member" filters="addedFilter" category="{label: selectedFilter.cat.label}"  expanded="expanded" expandall="filterSearch"></member>
 				</div>

@@ -60,7 +60,6 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 				}
 			};
 
-
 			scope.determineStyle = function(member){
 				var result;
 				switch(checkedItems(member).checked / checkedItems(member).total){

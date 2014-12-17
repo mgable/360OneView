@@ -1,6 +1,14 @@
 angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCache) {
   'use strict';
 
+  $templateCache.put('views/directives/add_dimension_button.tpl.html',
+    "<div class=\"pbAddBox\">\n" +
+    "\t<div class=\"pbItemAdd clickable\" ng-click=\"toggleMenu()\"><icon type=\"plus-square\"></icon> Add</div>\n" +
+    "\t<div ng-include src=\"'views/includes/pop_menu.tpl.html'\"></div>\n" +
+    "</div>"
+  );
+
+
   $templateCache.put('views/directives/display_actions.tpl.html',
     "<div class=\"display-actions\">\n" +
     "\n" +
@@ -22,6 +30,20 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t<button class=\"btn btn-default\" ng-click=\"create(CONFIG.displayActionsCreate)\" data-ms-id='createButton'><icon type=\"plus\"></icon>CREATE</button>\n" +
     "\t</div>\n" +
     "</div>\n"
+  );
+
+
+  $templateCache.put('views/directives/draggable_dimension.tpl.html',
+    "<div class=\"pbItem\" data-as-sortable-item>\n" +
+    "\t<div data-as-sortable-item-handle>\n" +
+    "\t\t<span title=\"Reorder\"><icon type=\"reorder\"></icon></span>\n" +
+    "\t\t<span class=\"pbItemInfo\">\n" +
+    "\t\t\t<span class=\"pbItemName clickable\" ng-click=\"toggleMenu()\">{{name}}</span>\n" +
+    "\t\t</span>\n" +
+    "\t\t<span class=\"clickable\" title=\"Remove\"><icon type=\"remove\"></icon></span>\n" +
+    "\t</div>\n" +
+    "\t<div ng-include src=\"'views/includes/pop_menu.tpl.html'\"></div>\n" +
+    "</div>"
   );
 
 
@@ -132,7 +154,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "</div>\n" +
     "<div class=\"filter-modal-body\">\n" +
     "\t<div class=\"pbFilterModalLinks\">\n" +
-    "\t\t<div class=\"pbFilterModalLink clickable\" ng-repeat=\"cat in pbData.itemsList\" ng-click=\"chooseFilter(cat, false, false)\" ng-class=\"{active: cat.label == selectedFilter.cat.label}\">\n" +
+    "\t\t<div class=\"pbFilterModalLink clickable\" ng-repeat=\"cat in dimensions\" ng-click=\"chooseFilter(cat, false, false)\" ng-class=\"{active: cat.label == selectedFilter.cat.label}\">\n" +
     "\t\t\t<div>{{cat.label}}\n" +
     "\t\t\t\t<span class=\"pbFilterSize\">({{categorizeValues($index, addedFilter[cat.label]).selected}}/{{categorizeValues($index, addedFilter[cat.label]).total}})</span>\n" +
     "\t\t\t</div>\n" +
@@ -182,10 +204,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t</div>\n" +
     "\t\t\t</div>\n" +
     "\t\t\t<div class=\"pbFilterNumberSelected\">\n" +
-    "\t\t\t\t({{filterCount.selected}}/{{filterCount.total}})\n" +
+    "\t\t\t\t({{countFilters(searchResults, addedFilter).selected}}/{{countFilters(searchResults, addedFilter).total}})\n" +
     "\t\t\t</div>\n" +
     "\t\t\t<div class=\"pbModalHeight\" ng-style=\"{height: (windowHeight - 250) + 'px'}\">\n" +
-    "\t\t\t\t<!-- <filters ng-if=\"searchResults.members\" collection=\"searchResults\" filters=\"addedFilter\" category=\"{label: selectedFilter.cat.label}\" expandall=\"filterSearch\"></filters> -->\n" +
     "\t\t\t\t<div class=\"pbFilterList\" ng-if=\"searchResults.members\">\n" +
     "\t\t\t\t\t<member ng-repeat=\"member in searchResults.members | orderBy:'label'\" member=\"member\" filters=\"addedFilter\" category=\"{label: selectedFilter.cat.label}\"  expanded=\"expanded\" expandall=\"filterSearch\"></member>\n" +
     "\t\t\t\t</div>\n" +

@@ -15,6 +15,7 @@ angular.module('ThreeSixtyOneView')
 			var additionalPath = "meta";
 			return this.resource.get({}, this.metaConfig, additionalPath).then(function(response){
 				return response;
+
 			});
 		};
 
