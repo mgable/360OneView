@@ -50,7 +50,7 @@ angular.module('ThreeSixtyOneView')
 								if(!leafNode) {
 									dimensions[i].members.push(newMember);
 								} else {
-									dimensions[i].members.splice($scope.dimensions[i].members.length - 1, 0, newMember);
+									dimensions[i].members.splice(dimensions[i].members.length - 1, 0, newMember);
 								}
 							}
 						}
