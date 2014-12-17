@@ -31,13 +31,13 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td>
+									<td ng-click="setScenario(masterProjectReferenceScenario)">
 										<div class="row" >
 											<div class="col-md-1">
-												<span><icon type="check-circle" cname="ok-sign" ng-show="showRow(masterProject)"></icon></span>
+												<span><icon type="check-circle" cname="ok-sign" ng-show="showRow(masterProjectReferenceScenario)"></icon></span>
 											</div>
 											<div class="col-md-11">
-												<span>{{masterProject.data[0].title}}</span>
+												<span>{{masterProjectReferenceScenario.title}}</span>
 											</div>
 										</div>
 									</td>

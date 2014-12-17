@@ -255,13 +255,13 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t\t\t\t</thead>\n" +
     "\t\t\t\t\t\t\t<tbody>\n" +
     "\t\t\t\t\t\t\t\t<tr>\n" +
-    "\t\t\t\t\t\t\t\t\t<td>\n" +
+    "\t\t\t\t\t\t\t\t\t<td ng-click=\"setScenario(masterProjectReferenceScenario)\">\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"row\" >\n" +
     "\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-1\">\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t\t<span><icon type=\"check-circle\" cname=\"ok-sign\" ng-show=\"showRow(masterProject)\"></icon></span>\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t\t<span><icon type=\"check-circle\" cname=\"ok-sign\" ng-show=\"showRow(masterProjectReferenceScenario)\"></icon></span>\n" +
     "\t\t\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-11\">\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t\t<span>{{masterProject.data[0].title}}</span>\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t\t<span>{{masterProjectReferenceScenario.title}}</span>\n" +
     "\t\t\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t\t</td>\n" +

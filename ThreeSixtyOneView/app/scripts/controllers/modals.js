@@ -63,7 +63,6 @@ angular.module('ThreeSixtyOneView')
             sortScenarios = function(scenarios){
                 var scenarioList = scenarios;
                 scenarioList.splice(_.indexOf(scenarioList, $scope.masterProject),1);
-                selectedBaseScenario = $scope.masterProject;
 
                 angular.forEach(scenarioList, function(k,v){
                     if (k.title === $scope.project.title){
@@ -80,18 +79,20 @@ angular.module('ThreeSixtyOneView')
                 ScenarioService.getAll().then(function(response){
                     $scope.masterProject = getMasterProject(response);
                     $scope.scenarioList = sortScenarios(response);
+                    $scope.masterProjectReferenceScenario = $scope.masterProject.data[0];
                     $scope.scenario = getBaseScenario();
+                    selectedBaseScenario = $scope.masterProjectReferenceScenario ;
                 });
-            },
-            selectedBaseScenario;
+            },selectedBaseScenario;
 
         $scope.showBaseScenario = function() {
             $scope.showFields = false;
         };
 
-        $scope.setScenario= function(item){
+        $scope.setScenario = function(item){
             selectedBaseScenario = item;
         };
+
         $scope.showRow = function(row){
             return row === selectedBaseScenario;
         };
