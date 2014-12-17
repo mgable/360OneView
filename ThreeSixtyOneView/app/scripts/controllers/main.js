@@ -227,17 +227,14 @@ angular.module('ThreeSixtyOneView')
         });
 
     }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", "Views", 'ptData', function($scope, Project, Scenario, ScenarioElements, Views, ptData) {
-
-        console.info("scenarios");
-        console.info(Scenario);
         $scope.project = Project;
         $scope.scenario = Scenario;
         $scope.views = Views;
+        // hardcoded data
         $scope.pivotTableData = ptData.data;
-        // $scope.pivotTableHeaders = ptData.headers;
+        // this is how pivotbuilder and pivottable communicate
         $scope.spread = {sheet: {}};
 
-        //TODO: temp data
         $scope.types =  ScenarioElements;
         $scope.scenarioElementType = $scope.types[0];
     }]);

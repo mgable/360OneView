@@ -13,6 +13,7 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     getNewProjectTitle: "DialogService:create",
     openScenarioCreate: "DialogService:openCreateScenario",
     trayCopy: "Tray:copy",
+    changePivotTableFilter: "PivotTable:changeFilter",
     noop: "noop",
     // ERRORS
     noDataReceived: "ErrorService:noDataReceived",

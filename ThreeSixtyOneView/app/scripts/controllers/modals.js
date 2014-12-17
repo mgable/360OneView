@@ -28,7 +28,6 @@ angular.module('ThreeSixtyOneView')
             $rootScope.$broadcast(EVENTS.copyScenario, $scope.item);
             $modalInstance.dismiss('create');
          };
-
     }]).controller('ProjectCreateCtrl', ["$scope", "$rootScope", "$controller", "$modalInstance", "CONFIG", "EVENTS", function($scope, $rootScope, $controller, $modalInstance, CONFIG, EVENTS) {
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
         // var newProject = CONFIG.application.models.ProjectsModel.newProject;
@@ -45,7 +44,6 @@ angular.module('ThreeSixtyOneView')
             $rootScope.$broadcast(EVENTS.createProject, title.trim());
             $modalInstance.dismiss('create');
         };
-
     }]).controller('ScenarioCreateCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", "GotoService", function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS, GotoService) {
 
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
@@ -123,7 +121,7 @@ angular.module('ThreeSixtyOneView')
             $scope.scenario.referenceScenario.id = data.id;
             $scope.scenario.referenceScenario.name = data.title;
         });
-}]).controller('FilterSelectionCtrl', ["$scope", "$rootScope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "pbData", "$filter", function($scope, $rootScope, $modalInstance, $controller, data, ScenarioService, CONFIG, pbData, $filter) {
+    }]).controller('FilterSelectionCtrl', ["$scope", "$rootScope", "$modalInstance", "$controller", "data", "CONFIG", function($scope, $rootScope, $modalInstance, $controller, data, CONFIG) {
     angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
     var init = function() {
@@ -276,6 +274,10 @@ angular.module('ThreeSixtyOneView')
                 label: tree.label
             };
 
+            if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1) {
+                return tree;
+            }
+
             if(tree.members.length > 0) {
                 for(var i = 0; i < tree.members.length; i++) {
                     var results = treeSearch(tree.members[i], searchLabel);
@@ -299,6 +301,44 @@ angular.module('ThreeSixtyOneView')
         output = treeSearch(obj, search.label);
 
         $scope.searchResults = output;
+        $scope.countFilters(output);
+    };
+
+    // count number of selected and total filters
+    $scope.countFilters = function(object) {
+        var output = {
+            selected: 0,
+            total: 0
+        };
+
+        if(!object.members) {
+            $scope.filterCount = output;
+            return output;
+        }
+        var treeCount = function(tree) {
+            var output = {
+                selected: 0,
+                total: 0
+            };
+
+            if(tree.members.length > 0) {
+                for(var i = 0; i < tree.members.length; i++) {
+                    var results = treeCount(tree.members[i]);
+                    output.selected += results.selected;
+                    output.total += results.total;
+                }
+            } else {
+                if($scope.addedFilter[$scope.selectedFilter.cat.label][tree.label]) {
+                    output.selected++;
+                }
+                output.total++;
+            }
+            return output;
+        };
+
+        output = treeCount(object);
+        $scope.filterCount = output;
+        return output;
     };
 
     // handle select/deselect of visible/invisible filter search values
@@ -356,63 +396,6 @@ angular.module('ThreeSixtyOneView')
         $scope.filterCollapse = {};
         copyFilter();
         $modalInstance.dismiss('canceled');
-    };
-
-    // calculate the count of items in each filter based on the category or all
-    $scope.filterCount = function(obj, cat, fltr) {
-        var count = 0,
-            filterLowerCase = angular.lowercase(fltr);
-
-        if(!cat) {
-            angular.forEach(obj, function(val, key) {
-                if(val && (key.toLowerCase().indexOf(filterLowerCase) > -1)) {
-                    count++;
-                }
-            });
-        } else {
-            angular.forEach(obj, function(val, key) {
-                for(var i = 0; i < cat.length; i++) {
-                    if (cat[i].label.indexOf(key) > -1 && (key.toLowerCase().indexOf(filterLowerCase) > -1) && val) {
-                        count++;
-                    }
-                }
-            });
-        }
-
-        var ind = $scope.emptyFiltersList.indexOf($scope.selectedFilter.cat.label);
-        var empty = true,
-            filtersCount = 0;
-        for(var value in $scope.addedFilter[$scope.selectedFilter.cat.label]) {
-            filtersCount++;
-            if($scope.addedFilter[$scope.selectedFilter.cat.label][value]) {
-                empty = false;
-                break;
-            }
-        }
-
-        if(filtersCount === 0 || empty) {
-            if(ind < 0) {
-                $scope.emptyFiltersList.push($scope.selectedFilter.cat.label);
-                $scope.noFilterSelected = true;
-            }
-        } else if(ind > -1) {
-            $scope.emptyFiltersList.splice(ind, 1);
-            if($scope.emptyFiltersList.length === 0) {
-                $scope.noFilterSelected = false;
-            }
-        }
-
-        return count;
-    };
-
-    // calculate total items in a view considering the search value
-    $scope.totalFilterCount = function(items, fltr) {
-        var filteredItems = $filter('filter')(items, fltr);
-
-        if(!!filteredItems) {
-            return filteredItems.length;
-        }
-        return 0;
     };
 
     init();

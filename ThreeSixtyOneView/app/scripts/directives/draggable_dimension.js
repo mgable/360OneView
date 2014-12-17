@@ -24,8 +24,8 @@ angular.module('ThreeSixtyOneView.directives')
                      return $scope.$parent.added[label];
                 };
 
-                $scope.selectDimension = function(selected, newCategory) {
-                    $scope.$parent.replaceItem($scope.name, newCategory, selected, $scope.rowOrCol);
+                $scope.selectDimension = function(selected) {
+                    $scope.$parent.replaceItem(selected, $scope.name, $scope.rowOrCol);
                     $scope.show = false;
                 }
 
@@ -50,8 +50,8 @@ angular.module('ThreeSixtyOneView.directives')
                      return $scope.$parent.added[label];
                 }
 
-                $scope.selectDimension = function(selected, newCategory) {
-                    $scope.$parent.addItem(selected, newCategory, $scope.rowOrCol);
+                $scope.selectDimension = function(selected) {
+                    $scope.$parent.addItem(selected, $scope.rowOrCol);
                     $scope.show = false;
                 }
 

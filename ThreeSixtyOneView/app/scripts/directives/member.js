@@ -6,36 +6,35 @@
  * @description
  * # member
  */
-angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', function($compile) {
+angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', "$rootScope", function($compile, $rootScope) {
 	return {
 		restrict: 'E',
 		replace: true,
 		scope: {
-			member: '=',
-			filters: '=',
-			category: '=',
-			expanded: '=',
-			sortOrder: '=',
-			expandall: '='
+			member: '=', // <object> {label: <dimension>, members: []} individual filter dimension i.e. touchpoint (magazine, newspaper, radio), nameplate (brand, car truck), region (New York, Miami, Seattle), time (August 2014, September 2014)
+			filters: '=', // <object> {touchpoint:{}, nameplate: {}, Region: {}, Time: {}, KPI: {}} summation of all members
+			category: '=', // <object> {label: <filter dimention>} currently selected filter dimension (time, touchpoint, region, nameplate)
+			expanded: '=', // empty || <object> {<filter dimenstion>: true, <filter dimenstion>: true} all expanded filters
+			expandall: '=' // <object> {label: <search text> } object containing search text
 		},
-		template: '<div ng-class="{pbFilterListCategory: member.members.length > 0, pbFilterListValue: member.members.length === 0}"><span class="pbExpandHandle clickable" ng-if="member.members.length > 0" ng-click="expanded[member.label] = !expanded[member.label]"><icon type="caret-right" cname="{{(!!expanded[member.label] || expandall.label !== \'\') ? \'fa-rotate-90\':\'\'}}"></icon></span> <label class="clickable" ng-class="{blue: checkedItems(member).checked/checkedItems(member).total === 1, bold: checkedItems(member).checked/checkedItems(member).total === 1}" ng-click="toggleItems(member)"><span ng-show="checkedItems(member).checked/checkedItems(member).total === 1"><icon type="check-circle"></icon></span><span ng-show="checkedItems(member).checked/checkedItems(member).total === 0"><icon type="circle-o"></icon></span><span ng-show="checkedItems(member).checked/checkedItems(member).total % 1 > 0"><icon type="minus-circle"></icon></span> <span>{{member.label}}</span> <span ng-if="member.members.length > 0">({{checkedItems(member).checked}}/{{checkedItems(member).total}})</span></label></div>',
+		templateUrl: 'views/directives/member.tpl.html',
 		link: function(scope, element) {
-			scope.toggleItems = function(member) {
-				var checkedItems = scope.checkedItems(member);
 
-				if(checkedItems.checked < checkedItems.total) {
-					modifyItems(member, true);
+			var modifyItems = function(member, add) {
+				if(member.members.length > 0) {
+					for(var i = 0; i < member.members.length; i++) {
+						modifyItems(member.members[i], add);
+					}
 				} else {
-					modifyItems(member, false);
+					scope.filters[scope.category.label][member.label] = add;
 				}
-			};
-
-			scope.checkedItems = function(member) {
+			},
+			checkedItems = function(member) {
 				var output = {checked: 0, total: 0};
 
 				if(member.members.length > 0) {
 					for(var i = 0; i < member.members.length; i++) {
-						var tempOutput = scope.checkedItems(member.members[i]);
+						var tempOutput = checkedItems(member.members[i]);
 						output.checked += tempOutput.checked;
 						output.total += tempOutput.total;
 					}
@@ -49,20 +48,41 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 				return output;
 			};
 
-			var modifyItems = function(member, add) {
-				if(member.members.length > 0) {
-					for(var i = 0; i < member.members.length; i++) {
-						modifyItems(member.members[i], add);
-					}
+			scope.expanded = scope.expanded || {};
+
+			scope.toggleMember = function(member) {
+				var item = checkedItems(member);
+
+				if(item.checked < item.total) {
+					modifyItems(member, true);
 				} else {
-					scope.filters[scope.category.label][member.label] = add;
+					modifyItems(member, false);
 				}
 			};
 
-			scope.numCheckedItems = scope.checkedItems(scope.member);
+
+			scope.determineStyle = function(member){
+				return (checkedItems(member).checked / checkedItems(member).total);
+			};
+
+			scope.outputSelectedOverTotal = function(member){
+				return checkedItems(member).checked.toString() + "/" + checkedItems(member).total.toString();
+			};
+
+			scope.hasMembers = function(){
+				return scope.member.members.length > 0;
+			};
+
+			scope.setToggleStyle = function(member){
+				return (!!scope.expanded[member.label] || scope.expandall.label !== '') ? 'fa-rotate-90':''
+			};
+
+			scope.isAllSelected = function(member){
+				return scope.determineStyle(member) === 1;
+			};
 
 			if(scope.member.members.length > 0) {
-				$compile('<div class="pbFilterCollection" ng-class="{pbFilterCollapsed: !expanded[member.label] && expandall.label === \'\'}"><member ng-repeat="child in member.members | orderBy:\'label\':false" member="child" filters="filters" category="category" sortOrder="sortOrder" expanded="expanded" expandall="expandall"></member></div>')(scope, function(cloned) {
+				$compile('<div class="pbFilterCollection" ng-class="{pbFilterCollapsed: !expanded[member.label] && expandall.label === \'\'}"><member ng-repeat="child in member.members | orderBy:\'label\':false" member="child" filters="filters" category="category" expanded="expanded" expandall="expandall"></member></div>')(scope, function(cloned) {
 					element.after(cloned);
 				});
 			}

@@ -6,7 +6,7 @@
 		width: 60px;
 		float: left;
 	}
-
+				
 	.pbItem {
 		min-width: 50px;
 		border: 1px solid $mediumgray;
@@ -30,7 +30,6 @@
 			border-color: $blue;
 
 			.fa-reorder {
-				color: white;
 				background-color: $blue;
 			}
 		}
@@ -43,6 +42,10 @@
 	.pbItemInfo {
 		color: $blue;
 		padding: auto 10px;
+
+		.pbItemName {
+			text-transform: capitalize;
+		}
 	}
 
 	.clickable {
@@ -64,8 +67,7 @@
 		width: 370px;
 		padding: 20px;
 		left: -155;
-		height: 450px;
-		
+		height: 450px;		
 		position:relative;
 		width: 60px;
 
@@ -122,6 +124,8 @@
 					}
 
 					.pbItemAddEnabled {
+						text-transform: capitalize;
+
 						&:hover {
 							color: $blue;
 						}
@@ -129,6 +133,7 @@
 
 					.pbItemAddDisabled {
 						color: $mediumgray;
+						text-transform: capitalize;
 					}
 				}
 			}

@@ -121,7 +121,7 @@ module.exports = function(grunt) {
               //   module:     'project'
               // },
               cwd:'app',
-              src: 'views/directives/*.html',
+              src: ['views/directives/*.html', 'views/modal/*.html'],
               dest: 'app/views/templates/templates.js'
             }
         },

@@ -119,7 +119,7 @@
 					display: inline-block;
 					float: left;
 
-					&.pbFunctionFlipButtonActive {
+					&.selected {
 						background-color: $blue;
 						color: white;
 					}
@@ -684,18 +684,11 @@
 
 								.pbFilterListValue {
 									padding: 5px 10px 5px 16px;
-									/*border-bottom: 1px solid $lightestgray;*/
 
-									label {
-										font-weight: normal;
-										margin-top: 5px;
-										margin-bottom: 4px;
-									}
 								}
 
 								.pbFilterListCategory {
 									padding: 5px 0;
-									/*border-bottom: 1px solid $lightestgray;*/
 
 									label {
 										font-weight: normal;
@@ -756,6 +749,11 @@
 
 	.pbGray {
 		color: $darkgray;
+	}
+
+	.allSelected {
+		color: $blue;
+		font-weight: bold;
 	}
 
 	.blue {
