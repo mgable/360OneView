@@ -75,16 +75,21 @@ angular.module('ThreeSixtyOneView.config')
                         "label": "all scenarios",
                         "filterType": "activeFilter",
                         "filter" : {}
+                    },{
+                        "label": "Favorites",
+                        "filterType": "filterPipeline",
+                        "filter": "isFavorite"
                     }]
                 },
                 "sortMenu": {
                     "displayColumns": [{
                         "label": "Last Modified",
                         "filter": "modifiedOn"
-                    }, {
-                        "label": "Type",
-                        "filter": "type"
-                    },
+                    }, 
+                    // {
+                    //     "label": "Type",
+                    //     "filter": "type"
+                    // },
                     {
                         "label": "Created Date",
                         "filter": "createdOn"
