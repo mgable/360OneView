@@ -2,12 +2,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   'use strict';
 
   $templateCache.put('views/directives/add_dimension_button.tpl.html',
-    "<div class=\"pbAddBox\">\r" +
-    "\n" +
-    "\t<div class=\"pbItemAdd clickable\" ng-click=\"toggleMenu()\"><icon type=\"plus-square\"></icon> Add</div>\r" +
-    "\n" +
-    "\t<div ng-include src=\"'views/includes/pop_menu.tpl.html'\"></div>\r" +
-    "\n" +
+    "<div class=\"pbAddBox\">\n" +
+    "\t<div class=\"pbItemAdd clickable\" ng-click=\"toggleMenu()\"><icon type=\"plus-square\"></icon> Add</div>\n" +
+    "\t<div ng-include src=\"'views/includes/pop_menu.tpl.html'\"></div>\n" +
     "</div>"
   );
 
@@ -157,7 +154,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "</div>\n" +
     "<div class=\"filter-modal-body\">\n" +
     "\t<div class=\"pbFilterModalLinks\">\n" +
-    "\t\t<div class=\"pbFilterModalLink clickable\" ng-repeat=\"cat in pbData.itemsList\" ng-click=\"chooseFilter(cat, false, false)\" ng-class=\"{active: cat.label == selectedFilter.cat.label}\">\n" +
+    "\t\t<div class=\"pbFilterModalLink clickable\" ng-repeat=\"cat in dimensions\" ng-click=\"chooseFilter(cat, false, false)\" ng-class=\"{active: cat.label == selectedFilter.cat.label}\">\n" +
     "\t\t\t<div>{{cat.label}}\n" +
     "\t\t\t\t<span class=\"pbFilterSize\">({{categorizeValues($index, addedFilter[cat.label]).selected}}/{{categorizeValues($index, addedFilter[cat.label]).total}})</span>\n" +
     "\t\t\t</div>\n" +

@@ -125,28 +125,19 @@ angular.module('ThreeSixtyOneView')
     angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
     var init = function() {
-        $scope.pbData = data.pbData;
         $scope.selectedFilter = {};
         $scope.selectedFilter.selFil = data.selFil;
         $scope.selectedFilter.cat = data.cat;
-        $scope.addedFilter = data.addedFilter;
+        $scope.addedFilter = data.addedFilters;
+        $scope.dimensions = data.dimensions;
+        $scope.categorizeValues = data.categorizeValues;
+        $scope.viewData = data.viewData;
 
         $scope.filterSearch = {label: ''};
         $scope.emptyFiltersList = [];
         $scope.noFilterSelected = false;
 
-        copyFilter();
         $scope.chooseFilter($scope.selectedFilter.cat, false, false);
-    };
-
-    // create the temporary filter object from the view data
-    var copyFilter = function() {
-        angular.forEach($scope.pbData.viewData.filters, function(val) {
-            $scope.addedFilter[val.name] = {};
-            angular.forEach(val.items, function(subval) {
-                $scope.addedFilter[val.name][subval] = true;
-            });
-        });
     };
 
     // open the filters modal for the selected filter
@@ -168,9 +159,9 @@ angular.module('ThreeSixtyOneView')
     $scope.chooseFilterByName = function(name) {
         var i;
 
-        for(i = 0; i < $scope.pbData.itemsList.length; i++) {
-            if($scope.pbData.itemsList[i].label === name) {
-                $scope.chooseFilter($scope.pbData.itemsList[i], false, false);
+        for(i = 0; i < $scope.dimensions.length; i++) {
+            if($scope.dimensions[i].label === name) {
+                $scope.chooseFilter($scope.dimensions[i], false, false);
                 return null;
             }
         }
@@ -184,15 +175,15 @@ angular.module('ThreeSixtyOneView')
         }
 
         for(var i = 0; i < items.length; i++) {
-            for(var j = 0; j < $scope.pbData.viewData.columns.length; j++) {
-                if(items[i].label === $scope.pbData.viewData.columns[j].name) {
+            for(var j = 0; j < $scope.viewData.columns.length; j++) {
+                if(items[i].label === $scope.viewData.columns[j].level.label) {
                     $scope.searchFilters(items[i], $scope.filterSearch);
                     return items[i];
                 }
             }
 
-            for(j = 0; j < $scope.pbData.viewData.rows.length; j++) {
-                if(items[i].label === $scope.pbData.viewData.rows[j].name) {
+            for(j = 0; j < $scope.viewData.rows.length; j++) {
+                if(items[i].label === $scope.viewData.rows[j].level.label) {
                     $scope.searchFilters(items[i], $scope.filterSearch);
                     return items[i];
                 }
@@ -207,58 +198,7 @@ angular.module('ThreeSixtyOneView')
     $scope.cancelChangeFilter = function() {
         // $scope.filterSearch = {label: ''};
         $scope.filterCollapse = {};
-        copyFilter();
-    };
-
-    // aggregate filter values based on categories
-    $scope.categorizeValues = function(index, items) {
-        var i, result;
-
-        var countValues = function(category) {
-            var output = {
-                label: [],
-                selected: 0,
-                total: 0
-            };
-            var j, tempResult;
-
-            if(category.members.length > 0) {
-                for(j = 0; j < category.members.length; j++) {
-                    tempResult = countValues(category.members[j]);
-
-                    if(!tempResult) {
-                        return false;
-                    }
-
-                    if(tempResult.selected > 0 && tempResult.selected !== tempResult.total) {
-                        return false;
-                    } else if(tempResult.selected === tempResult.total) {
-                        output.label.push(category.members[j].label);
-                        output.selected++;
-                    }
-                    output.total++;
-                }
-
-            } else {
-                if(items[category.label]) {
-                    output.selected = 1;
-                    output.label.push(category.label);
-                }
-                output.total = 1;
-            }
-
-            return output;
-        };
-
-        for(i = 0; i < $scope.pbData.itemsList[index].members.length; i++) {
-            result = countValues($scope.pbData.itemsList[index].members[i]);
-            if(!!result) {
-                if(result.selected !== result.total) {
-                    return result;
-                }
-            }
-        }
-        return result;
+        $modalInstance.dismiss('canceled');
     };
 
     // search filter values
@@ -378,24 +318,7 @@ angular.module('ThreeSixtyOneView')
 
     // make the temporary changes in the filters
     $scope.changeFilter = function() {
-        angular.forEach($scope.pbData.viewData.filters, function(val) {
-            val.items = [];
-            angular.forEach($scope.addedFilter[val.name], function(subval, subkey) {
-                if(subval) {
-                    val.items.push(subkey);
-                }
-            });
-        });
-
-        $modalInstance.close($scope.pbData.viewData.filters);
-    };
-
-    // cancel the made changes to the filter
-    $scope.cancelChangeFilter = function() {
-        // $scope.filterSearch = {label: ''};
-        $scope.filterCollapse = {};
-        copyFilter();
-        $modalInstance.dismiss('canceled');
+        $modalInstance.close($scope.addedFilter);
     };
 
     init();

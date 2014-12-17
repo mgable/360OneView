@@ -32,9 +32,9 @@ angular.module('ThreeSixtyOneView')
 			$scope.added[selected.level.label] = true;
 			var match = _.find($scope.viewData, function(item) { return item.level.label == priorLabel });
 			if (match) {
-	            match.dimension = selected.dimension;
-	            match.hierarchy = selected.hierarchy;
-	            match.level = selected.level;
+	            match.dimension = angular.copy(selected.dimension);
+	            match.hierarchy = angular.copy(selected.hierarchy);
+	            match.level = angular.copy(selected.level);
 	        }
 		}
     }]);
