@@ -17,7 +17,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		// Rest APIs
 		$scope.viewName = $scope.views.currentView.name;
 		$scope.viewsList = $scope.views.views;
-		$scope.loadView(15);
+		$scope.loadView(18);
 		$scope.loadDimensions();
 
 		$scope.saveAs = false;
@@ -83,7 +83,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		$scope.addedFilters = {};
 
 		var findTree = function(_label, _dimension, _add) {
-			var i, j, add, output = {};
+			var i, add, output = {};
 
 			add = _add || (_dimension.label === _label);
 
@@ -101,7 +101,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 		for(i = 0; i < $scope.viewData.filters.length; i++) {
 			$scope.addedFilters[$scope.viewData.filters[i].scope.dimension.label] = {};
-			$scope.addedFilters[$scope.viewData.filters[i].scope.dimension.label]['scope'] = $scope.viewData.filters[i].scope;
+			$scope.addedFilters[$scope.viewData.filters[i].scope.dimension.label].scope = $scope.viewData.filters[i].scope;
 
 			for(j = 0; j < $scope.dimensions.length; j++) {
 				if($scope.viewData.filters[i].scope.dimension.id === $scope.dimensions[j].id) {
@@ -486,7 +486,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 		view.filters = filters;
 
-		PivotViewService.updateView(view).then(function(response) {});
+		PivotViewService.updateView(view).then(function() {});
 	};
 
 	// rename the view
@@ -496,6 +496,12 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 	// create a new view
 	$scope.createView = function(view) {
+		var i;
+
+		for(i = 0; i < view.filters.length; i++) {
+			view.filters[i].id = null;
+		}
+
 		PivotViewService.createView(view).then(function(view) {
 			$scope.viewData = view;
 			$scope.viewName = view.name;

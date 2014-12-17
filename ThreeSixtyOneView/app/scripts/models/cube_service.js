@@ -15,26 +15,19 @@ angular.module('ThreeSixtyOneView')
 			var additionalPath = "meta";
 			return mycube.get({}, additionalPath).then(function(response){
 				var i, j, k, leafNode, newMember;
-				// $scope.cube = response;
 				var dimensions = [];
-
-				// $scope.temp = [];
 
 				// dump all levels with their dimension and hierarchy id in $scoep.dimensions
 				for(i = 0; i < response.dimensions.length; i++) {
-					// $scope.dimensions[i] = {};
-					// $scope.dimensions[i].label = response.dimensions[i].label;
-					// $scope.dimensions[i].id = response.dimensions[i].id;
-					// $scope.dimensions[i].levels = [];
 
-					leafNode = false; // new
+					leafNode = false;
 					dimensions[i] = {
 						dimensionId: response.dimensions[i].id,
 						id: response.dimensions[i].id,
 						label: response.dimensions[i].label,
 						type: response.dimensions[i].type,
 						members: []
-					}; // new
+					};
 
 
 					for(j = 0; j < response.dimensions[i].hierarchies.length; j++) {
@@ -47,21 +40,6 @@ angular.module('ThreeSixtyOneView')
 								label: response.dimensions[i].hierarchies[j].levels[k].label,
 								members: []
 							};
-							// if(k === response.dimensions[i].hierarchies[j].levels.length -1) {
-							// 	if(j === response.dimensions[i].hierarchies.length - 1) {
-							// 		$scope.dimensions[i].levels.push({
-							// 			dimension: {id: response.dimensions[i].id},
-							// 			hierarchy: {id: response.dimensions[i].hierarchies[j].id},
-							// 			level: {id: response.dimensions[i].hierarchies[j].levels[k].id,	label: response.dimensions[i].hierarchies[j].levels[k].label}
-							// 		});
-							// 	}
-							// } else {
-							// 	$scope.dimensions[i].levels.push({
-							// 		dimension: {id: response.dimensions[i].id},
-							// 		hierarchy: {id: response.dimensions[i].hierarchies[j].id},
-							// 		level: {id: response.dimensions[i].hierarchies[j].levels[k].id,	label: response.dimensions[i].hierarchies[j].levels[k].label}
-							// 	});
-							// }
 							
 							if(response.dimensions[i].hierarchies[j].levels[k].id !== response.dimensions[i].hierarchies[j].id && response.dimensions[i].type !== 'TimeDimension') {
 								if(!leafNode) {
@@ -72,13 +50,12 @@ angular.module('ThreeSixtyOneView')
 								if(!leafNode) {
 									dimensions[i].members.push(newMember);
 								} else {
-									dimensions[i].members.splice(dimensions[i].members.length - 1, 0, newMember);
+									dimensions[i].members.splice($scope.dimensions[i].members.length - 1, 0, newMember);
 								}
 							}
 						}
 					}
 				}
-
 				return dimensions;
 			});
 		};

@@ -241,11 +241,11 @@ angular.module('ThreeSixtyOneView')
         output = treeSearch(obj, search.label);
 
         $scope.searchResults = output;
-        $scope.countFilters(output);
+        $scope.countFilters(output, $scope.addedFilter);
     };
 
     // count number of selected and total filters
-    $scope.countFilters = function(object) {
+    $scope.countFilters = function(object, _addedFilter) {
         var output = {
             selected: 0,
             total: 0
@@ -268,7 +268,7 @@ angular.module('ThreeSixtyOneView')
                     output.total += results.total;
                 }
             } else {
-                if($scope.addedFilter[$scope.selectedFilter.cat.label][tree.label]) {
+                if(_addedFilter[$scope.selectedFilter.cat.label][tree.label]) {
                     output.selected++;
                 }
                 output.total++;
