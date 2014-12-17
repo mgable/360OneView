@@ -130,10 +130,10 @@ describe('Controllers: ', function() {
         });
 
         it("should toggle favorites", function(){
-            var data = "123";
+            var data = {id: "123"};
             scope.toggleFavorite(event, data);
             expect(event.stopPropagation).toHaveBeenCalled();
-            expect(FavoritesService.toggleFavorite).toHaveBeenCalledWith(data, "project");
+            expect(FavoritesService.toggleFavorite).toHaveBeenCalledWith(data.id, "project");
             expect(SortAndFilterService.filter).toHaveBeenCalled();
         });
 

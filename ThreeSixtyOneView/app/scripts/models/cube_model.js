@@ -4,36 +4,51 @@ angular.module('ThreeSixtyOneView.services')
   .factory('CubeModel', ["$location", "Resource", "CONFIG", "SERVER", function CubeModel($location, Resource, CONFIG, SERVER) {
 	var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.cube.replace(/:id/, CONFIG.view.Scenario.cubeId)),
 	 transformResponse = function(data){
-		var dimensions = [], response = JSON.parse(data);
+		var i, j, k, leafNode, newMember, dimensions = [], response = JSON.parse(data);
 		if (response){
+			for(i = 0; i < response.dimensions.length; i++) {
 
-			_.each(response.dimensions, function(dimension){
-				var obj = {};
-				obj.label = dimension.label;
-				obj.id = dimension.id;
-				obj.levels = [];
+				leafNode = false;
+				dimensions[i] = {
+					dimensionId: response.dimensions[i].id,
+					id: response.dimensions[i].id,
+					label: response.dimensions[i].label,
+					type: response.dimensions[i].type,
+					members: []
+				};
 
-				_.each(dimension.hierarchies, function(hierarchy){
 
-					_.each(hierarchy.levels, function(level){
-
-						obj.levels.push({
-							dimension: {id: dimension.id},
-							hierarchy: {id: hierarchy.id},
-							level: {id: level.id,	label: level.label}
-						});
-
-					});
-				});
-
-				dimensions.push(obj);
-			});
+				for(j = 0; j < response.dimensions[i].hierarchies.length; j++) {
+					for(k = 0; k < response.dimensions[i].hierarchies[j].levels.length; k++) {
+						newMember = {
+							dimensionId: response.dimensions[i].id,
+							hierarchyId: response.dimensions[i].hierarchies[j].id,
+							levelId: response.dimensions[i].hierarchies[j].levels[k].id,
+							id: response.dimensions[i].hierarchies[j].levels[k].id,
+							label: response.dimensions[i].hierarchies[j].levels[k].label,
+							members: []
+						};
+						
+						if(response.dimensions[i].hierarchies[j].levels[k].id !== response.dimensions[i].hierarchies[j].id && response.dimensions[i].type !== 'TimeDimension') {
+							if(!leafNode) {
+								dimensions[i].members.push(newMember);
+								leafNode = true;
+							}
+						} else {
+							if(!leafNode) {
+								dimensions[i].members.push(newMember);
+							} else {
+								dimensions[i].members.splice(dimensions[i].members.length - 1, 0, newMember);
+							}
+						}
+					}
+				}
+			}
 
 			return dimensions;
 		}
 		return data;
 	};
-
 
 	return {
 		resource: resource,
