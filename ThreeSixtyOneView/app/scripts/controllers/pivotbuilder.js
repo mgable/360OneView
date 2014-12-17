@@ -17,7 +17,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		// Rest APIs
 		$scope.viewName = $scope.views.currentView.name;
 		$scope.viewsList = $scope.views.views;
-		$scope.loadView(15);
+		$scope.loadView(18);
 		$scope.loadDimensions();
 
 		$scope.saveAs = false;
@@ -82,7 +82,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		$scope.addedFilters = {};
 
 		var findTree = function(_label, _dimension, _add) {
-			var i, j, add, output = {};
+			var i, add, output = {};
 
 			add = _add || (_dimension.label === _label);
 
@@ -100,7 +100,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 		for(i = 0; i < $scope.viewData.filters.length; i++) {
 			$scope.addedFilters[$scope.viewData.filters[i].scope.dimension.label] = {};
-			$scope.addedFilters[$scope.viewData.filters[i].scope.dimension.label]['scope'] = $scope.viewData.filters[i].scope;
+			$scope.addedFilters[$scope.viewData.filters[i].scope.dimension.label].scope = $scope.viewData.filters[i].scope;
 
 			for(j = 0; j < $scope.dimensions.length; j++) {
 				if($scope.viewData.filters[i].scope.dimension.id === $scope.dimensions[j].id) {
@@ -502,7 +502,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 		view.filters = filters;
 
-		PivotViewService.updateView(view).then(function(response) {});
+		PivotViewService.updateView(view).then(function() {});
 	};
 
 	// rename the view
@@ -512,6 +512,12 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 	// create a new view
 	$scope.createView = function(view) {
+		var i;
+
+		for(i = 0; i < view.filters.length; i++) {
+			view.filters[i].id = null;
+		}
+
 		PivotViewService.createView(view).then(function(view) {
 			$scope.viewData = view;
 			$scope.viewName = view.name;
@@ -524,26 +530,19 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 	$scope.loadDimensions = function() {
 		CubeService.getMeta().then(function(response) {
 			var i, j, k, leafNode, newMember;
-			// $scope.cube = response;
 			$scope.dimensions = [];
-
-			// $scope.temp = [];
 
 			// dump all levels with their dimension and hierarchy id in $scoep.dimensions
 			for(i = 0; i < response.dimensions.length; i++) {
-				// $scope.dimensions[i] = {};
-				// $scope.dimensions[i].label = response.dimensions[i].label;
-				// $scope.dimensions[i].id = response.dimensions[i].id;
-				// $scope.dimensions[i].levels = [];
 
-				leafNode = false; // new
+				leafNode = false;
 				$scope.dimensions[i] = {
 					dimensionId: response.dimensions[i].id,
 					id: response.dimensions[i].id,
 					label: response.dimensions[i].label,
 					type: response.dimensions[i].type,
 					members: []
-				}; // new
+				};
 
 
 				for(j = 0; j < response.dimensions[i].hierarchies.length; j++) {
@@ -556,21 +555,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 							label: response.dimensions[i].hierarchies[j].levels[k].label,
 							members: []
 						};
-						// if(k === response.dimensions[i].hierarchies[j].levels.length -1) {
-						// 	if(j === response.dimensions[i].hierarchies.length - 1) {
-						// 		$scope.dimensions[i].levels.push({
-						// 			dimension: {id: response.dimensions[i].id},
-						// 			hierarchy: {id: response.dimensions[i].hierarchies[j].id},
-						// 			level: {id: response.dimensions[i].hierarchies[j].levels[k].id,	label: response.dimensions[i].hierarchies[j].levels[k].label}
-						// 		});
-						// 	}
-						// } else {
-						// 	$scope.dimensions[i].levels.push({
-						// 		dimension: {id: response.dimensions[i].id},
-						// 		hierarchy: {id: response.dimensions[i].hierarchies[j].id},
-						// 		level: {id: response.dimensions[i].hierarchies[j].levels[k].id,	label: response.dimensions[i].hierarchies[j].levels[k].label}
-						// 	});
-						// }
 						
 						if(response.dimensions[i].hierarchies[j].levels[k].id !== response.dimensions[i].hierarchies[j].id && response.dimensions[i].type !== 'TimeDimension') {
 							if(!leafNode) {

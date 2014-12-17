@@ -60,7 +60,6 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 				}
 			};
 
-
 			scope.determineStyle = function(member){
 				return (checkedItems(member).checked / checkedItems(member).total);
 			};
@@ -74,7 +73,7 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 			};
 
 			scope.setToggleStyle = function(member){
-				return (!!scope.expanded[member.label] || scope.expandall.label !== '') ? 'fa-rotate-90':''
+				return (!!scope.expanded[member.label] || scope.expandall.label !== '') ? 'fa-rotate-90':'';
 			};
 
 			scope.isAllSelected = function(member){

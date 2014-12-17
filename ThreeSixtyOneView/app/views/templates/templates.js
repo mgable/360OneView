@@ -328,13 +328,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<div class=\"pbFilterNumberSelected\">\r" +
     "\n" +
-    "\t\t\t\t({{filterCount.selected}}/{{filterCount.total}})\r" +
+    "\t\t\t\t({{countFilters(searchResults, addedFilter).selected}}/{{countFilters(searchResults, addedFilter).total}})\r" +
     "\n" +
     "\t\t\t</div>\r" +
     "\n" +
     "\t\t\t<div class=\"pbModalHeight\" ng-style=\"{height: (windowHeight - 250) + 'px'}\">\r" +
-    "\n" +
-    "\t\t\t\t<!-- <filters ng-if=\"searchResults.members\" collection=\"searchResults\" filters=\"addedFilter\" category=\"{label: selectedFilter.cat.label}\" expandall=\"filterSearch\"></filters> -->\r" +
     "\n" +
     "\t\t\t\t<div class=\"pbFilterList\" ng-if=\"searchResults.members\">\r" +
     "\n" +
