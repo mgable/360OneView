@@ -9,66 +9,68 @@
 */
 angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function ($scope, resultsData) {
 
+    // private variables
+    var cnt = 0;
+
+
+    // private functions
+    var getChartData = function() {
+        _.each($scope.getSpendDataBody(), function(v) {
+            var chartSubData = {};
+            chartSubData.id = v.id;
+            chartSubData.name = v.category;
+            chartSubData.data = [];
+            _.each(v.children, function(v1) {
+                if (_.has(v1, 'chart')) {
+                    v1.chart.categoryId = v.id;
+                    v1.chart.id = v1.id;
+                    v1.chart.colorId = ++cnt;
+                    v1.chart.category = v1.title;
+                    chartSubData.data.push(v1.chart);
+                }
+            });
+            $scope.chartData.push(chartSubData);
+        });
+    }
     var init = function() {
-
-        $('.Scenario').css('height', 'auto');
-
+        angular.element('.Scenario').css('height', 'auto');
+        getChartData();
     };
 
-    $scope.srShow    = false;
-    $scope.saveAs    = false;
-    $scope.draftView = false;
-    $scope.isTest    = null;
 
-    $scope.viewName  = resultsData.viewData.name;
-    $scope.filters   = resultsData.viewData.filters;
+    // scope variables
+    $scope.srShow           = false;
+    $scope.saveAs           = false;
+    $scope.draftView        = false;
+    $scope.isTest           = null;
+    $scope.viewName         = resultsData.viewData.name;
+    $scope.spendDatumHeader = resultsData.spendData.header;
+    $scope.chartData        = [];
+    $scope.selectedView     = resultsData.viewsList[0];
 
+
+    // scope functions
     $scope.getKpiData = function() {
         return resultsData.kpiData;
     };
-    $scope.spendDatumHeader = resultsData.spendData.header;
     $scope.getSpendDataBody = function() {
         return resultsData.spendData.body;
     };
-
-
-    $scope.chartData = [];
-    var cnt = 0;
-    _.each($scope.getSpendDataBody(), function(v) {
-        var chartSubData = {};
-        chartSubData.id = v.id;
-        chartSubData.name = v.category;
-        chartSubData.data = [];
-        _.each(v.children, function(v1) {
-            if (_.has(v1, 'chart')) {
-                v1.chart.categoryId = v.id;
-                v1.chart.id = v1.id;
-                v1.chart.colorId = ++cnt;
-                v1.chart.category = v1.title;
-                chartSubData.data.push(v1.chart);
-            }
-        });
-        $scope.chartData.push(chartSubData);
-    });
-    console.log($scope.chartData);
-
-    $scope.selectedView = resultsData.viewsList[0];
-    $scope.setView = function(view) {
-        $scope.selectedView = view;
+    $scope.getFilters = function() {
+        return resultsData.viewData.filters;
     };
     $scope.getViews = function() {
         return resultsData.viewsList;
-    }
-
-
+    };
+    $scope.setView = function(view) {
+        $scope.selectedView = view;
+    };
     $scope.addSign = function(direction) {
         return direction === 'increase' ? '+' : '-';
     };
     $scope.addArrow = function(direction) {
         return direction === 'increase' ? 'arrow-up' : 'arrow-down';
     };
-
-
     $scope.saveView = function() {
         if($scope.draftView) {
             $scope.viewName = resultsData.viewData.name;
@@ -94,6 +96,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
         $scope.saveAs = false;
     };
 
+
+    // fire off init function
     init();
 
 }).factory('resultsData', function () {

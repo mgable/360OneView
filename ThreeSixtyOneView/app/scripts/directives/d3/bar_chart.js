@@ -9,12 +9,20 @@ angular.module('ThreeSixtyOneView.directives')
 
                     angular.element($window).on('resize', function(){ scope.$apply() })
 
-                    // setup variables
-                    var margin = { top: 20, right: 20, bottom: 20, left: 20 },
-                        width = parseInt(d3.select('.chartContainer').style('width')),
+                    // setup chart variables
+                    var margin = attrs.margin || { top: 30, right: 20, bottom: 30, left: 20 },
+                        width = parseInt(attrs.width) || parseInt(d3.select('.chartContainer').style('width')),
                         width = width - margin.left - margin.right,
-                        height = 150,
+                        height = parseInt(attrs.height) || 150,
                         height = height - margin.top - margin.bottom;
+
+                    // setup tooltip
+                    var tip = d3.tip()
+                            .attr('class', 'd3-tip')
+                            .offset([-10, 0])
+                            .html(function(d) {
+                                return "<strong>" + d.name + ": </strong> <span style='color:#f35528'>" + d.value + "%</span>";
+                            });
 
                     // create svg element
                     var svg = d3.select(element[0]).append("svg")
@@ -22,16 +30,18 @@ angular.module('ThreeSixtyOneView.directives')
                         .attr("height", height + margin.top + margin.bottom)
                         .append("g")
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                    svg.call(tip);
 
-                    // on window resize, re-render d3 canvas
+                    // watch height and width changes on resize
                     scope.$watch(function(){
-                        width = parseInt(d3.select('.chartContainer').style('width'));
+                        width = parseInt(attrs.width) || parseInt(d3.select('.chartContainer').style('width'));
                         width = width - margin.left - margin.right;
-                        height = 140,
+                        height = parseInt(attrs.height) || 150,
                         height = height - margin.top - margin.bottom;
                         return width + height;
                     }, resize);
 
+                    // resize function, re-render the chart
                     function resize(){
                         svg
                             .attr("width", width + margin.top + margin.bottom)
@@ -39,16 +49,19 @@ angular.module('ThreeSixtyOneView.directives')
                         scope.render(scope.data);
                     }
 
-                    // watch for data changes and re-render
+                    // watch data changes and re-render the chart
                     scope.$watch('data', function(newVals, oldVals) {
                         return scope.render(newVals);
                     }, true);
 
-                    // define render function
+                    // render chart function
                     scope.render = function(data) {
 
                         // remove all previous items before render
                         svg.selectAll("*").remove();
+
+                        // If we don't pass any data, return out of the element
+                        if (!data) return;
 
                         // set up series bars x scale
                         var x0 = d3.scale.ordinal()
@@ -72,6 +85,7 @@ angular.module('ThreeSixtyOneView.directives')
                             .tickSize(0, 0)
                             .orient("bottom");
 
+                        // transform data
                         var typeNames = ["results", "compared"];
                         scope.data.forEach(function(d, i) {
                             d.types = typeNames.map(function(name) {
@@ -84,7 +98,6 @@ angular.module('ThreeSixtyOneView.directives')
                                 };
                             });
                         });
-
                         x0.domain(scope.data.map(function(d) { return d.category; }));
                         x1.domain(typeNames).rangeRoundBands([0, x0.rangeBand()]);
                         y.domain([0, d3.max(scope.data, function(d) {
@@ -93,43 +106,40 @@ angular.module('ThreeSixtyOneView.directives')
                             });
                         })]);
 
-                        var patternData = [{
-                            x1: 10,
-                            y1: 0,
-                            x2: 30,
-                            y2: 20
-                        }, {
-                            x1: -10,
-                            y1: 0,
-                            x2: 10,
-                            y2: 20
-                        }, {
-                            x1: 30,
-                            y1: 0,
-                            x2: 50,
-                            y2: 20
-                        }];
+                        // create stripe pattern
+                        var patternData = [
+                            {
+                                x1: 10, y1: 0, x2: 30, y2: 20
+                            }, {
+                                x1: -10, y1: 0, x2: 10, y2: 20
+                            }, {
+                                x1: 30, y1: 0, x2: 50, y2: 20
+                            }
+                        ];
+
                         var defs = svg.append("defs");
-                            defs.append("pattern")
-                                .attr("id", "stripe")
-                                .attr("patternUnits", "userSpaceOnUse")
-                                .attr("width", 40)
-                                .attr("height", 20)
-                                .selectAll("line")
-                                    .data(patternData).enter()
-                                    .append("line")
-                                    .attr('x1', function(d){ return d.x1; })
-                                    .attr('x2', function(d){ return d.x2; })
-                                    .attr('y1', function(d){ return d.y1; })
-                                    .attr('y2', function(d){ return d.y2; });
 
-                            defs.append("mask")
-                                .attr("id", "mask")
-                                .append("rect")
-                                    .attr("height", 500)
-                                    .attr("width", 500)
-                                    .style("fill", "url(#stripe)");
+                        defs.append("pattern")
+                            .attr("id", "stripe")
+                            .attr("patternUnits", "userSpaceOnUse")
+                            .attr("width", 40)
+                            .attr("height", 20)
+                            .selectAll("line")
+                                .data(patternData).enter()
+                                .append("line")
+                                .attr('x1', function(d){ return d.x1; })
+                                .attr('x2', function(d){ return d.x2; })
+                                .attr('y1', function(d){ return d.y1; })
+                                .attr('y2', function(d){ return d.y2; });
 
+                        defs.append("mask")
+                            .attr("id", "mask")
+                            .append("rect")
+                                .attr("height", 500)
+                                .attr("width", 500)
+                                .style("fill", "url(#stripe)");
+
+                        // create x axis group element
                         var xaxisG = svg.append("g")
                             .attr("class", "x axis")
                             .attr("transform", "translate(0," + height + ")")
@@ -142,6 +152,7 @@ angular.module('ThreeSixtyOneView.directives')
                         xaxisG.selectAll("g.tick").selectAll("text")
                             .attr("dy", "1em")
 
+                        // create bars series group elements
                         var bars = svg.selectAll(".bar")
                             .data(scope.data)
                             .enter().append("g")
@@ -150,6 +161,7 @@ angular.module('ThreeSixtyOneView.directives')
                                 return "translate(" + x0(d.category) + ",0)";
                             });
 
+                        // create bar group elements
                         var bar = bars.selectAll(".bar")
                             .data(function(d) { return d.types; })
                             .enter().append("g")
@@ -160,14 +172,17 @@ angular.module('ThreeSixtyOneView.directives')
                                     .style("opacity", 1);
                                 var sel = $('table.spend-table tbody:eq(' + d.categoryId + ') tr:eq(' + d.id  + ')');
                                 sel.addClass('highlight');
+                                tip.show(d);
                             })
                             .on("mouseout", function(d){
                                 d3.select(this).transition().duration(300)
                                     .style("opacity", 0.85);
                                 var sel = $('table.spend-table tbody:eq(' + d.categoryId + ') tr:eq(' + d.id  + ')');
                                 sel.removeClass('highlight');
+                                tip.hide(d);
                             });
 
+                        // create solid rectangles
                         bar.append("rect")
                             .attr("x", function(d) { return x1(d.name); })
                             .attr("y", height)
@@ -177,12 +192,14 @@ angular.module('ThreeSixtyOneView.directives')
                                 return color(d.colorId % 4);
                             })
                             .style("opacity", 0)
-                            .transition().ease("quad")
+                            .transition().ease("cubic-out")
+                                .duration("200")
                                 .delay(function(d, i) { return (d.colorId * 2 + i) * 100 })
                                 .attr("height", function(d) { return height - y(d.value); })
                                 .attr("y", function(d) { return y(d.value); })
                                 .style("opacity", 1);
 
+                        // create stripe mask rectangles
                         bar.append("rect")
                             .attr("x", function(d) { return x1(d.name); })
                             .attr("y", function(d) { return y(d.value); })
@@ -195,12 +212,14 @@ angular.module('ThreeSixtyOneView.directives')
                             .attr("stroke-linecap", "square")
                             .attr("stroke-linejoin", "miter")
                             .style("opacity", 0)
-                            .transition().ease("quad")
+                            .transition().ease("cubic-out")
+                                .duration("100")
                                 .delay(function(d, i) { return (d.colorId * 2 + i) * 100 })
                                 .attr("height", function(d) { return height - y(d.value); })
                                 .attr("y", function(d) { return y(d.value); })
                                 .style("opacity", 1);
 
+                        // create labels
                         bar.append("text")
                             .attr("x", function(d) { return x1(d.name) + x1.rangeBand()/2; })
                             .attr("y", function(d) { return y(d.value) - 15; })
@@ -209,7 +228,8 @@ angular.module('ThreeSixtyOneView.directives')
                             .style("fill", "#333")
                             .text(function(d) { return d.value + '%'; })
                             .style("opacity", 0)
-                            .transition().ease("quad")
+                            .transition().ease("cubic-out")
+                                .duration("200")
                                 .delay(function(d, i) { return (d.colorId * 2 + i) * 100 })
                                 .style("opacity", 1);
 
