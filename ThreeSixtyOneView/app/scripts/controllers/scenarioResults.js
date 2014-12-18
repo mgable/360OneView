@@ -9,79 +9,78 @@
 */
 angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function ($scope, resultsData) {
 
-    var init = function() {
-        $scope.srShow          = false;
-        $scope.saveAs          = false;
-        $scope.isTest          = null;
-        $scope.viewName        = resultsData.viewData.name;
-        $scope.draftView       = false;
+    // private variables
+    var cnt = 0;
 
-        $scope.kpiData            = resultsData.kpiData;
-        $scope.spendData          = resultsData.spendData;
-        $scope.spendDataHeader    = $scope.spendData.header;
-        $scope.spendDataBody      = $scope.spendData.body;
 
-        $scope.chartData = [];
-        _.each($scope.spendDataBody, function(v) {
+    // private functions
+    var getChartData = function() {
+        _.each($scope.getSpendDataBody(), function(v) {
             var chartSubData = {};
             chartSubData.id = v.id;
             chartSubData.name = v.category;
             chartSubData.data = [];
             _.each(v.children, function(v1) {
                 if (_.has(v1, 'chart')) {
+                    v1.chart.categoryId = v.id;
+                    v1.chart.id = v1.id;
+                    v1.chart.colorId = ++cnt;
+                    v1.chart.category = v1.title;
                     chartSubData.data.push(v1.chart);
                 }
             });
             $scope.chartData.push(chartSubData);
         });
-
-        $scope.idSelectedRow      = 1;
-        $scope.lineChartData      = resultsData.kpiData[0].monthly;
-
-        $scope.dropdownItems      = resultsData.dropdownItems;
-        $scope.selectedDropdownId = 1;
-
-        $('.Scenario').css('height', 'auto');
+    }
+    var init = function() {
+        angular.element('.Scenario').css('height', 'auto');
+        getChartData();
     };
 
-    $scope.setSelected = function (idSelectedRow) {
-        $scope.idSelectedRow = idSelectedRow;
-        $scope.lineChartData = resultsData.kpiData[$scope.idSelectedRow-1].monthly;
-    };
 
-    $scope.onDropdownSelect = function(selectedDropdown){
-      $scope.selectedDropdownId = selectedDropdown.id;
-    };
+    // scope variables
+    $scope.srShow           = false;
+    $scope.saveAs           = false;
+    $scope.draftView        = false;
+    $scope.isTest           = null;
+    $scope.viewName         = resultsData.viewData.name;
+    $scope.spendDatumHeader = resultsData.spendData.header;
+    $scope.chartData        = [];
+    $scope.selectedView     = resultsData.viewsList[0];
 
-    $scope.selectInitial = function(id){
-        for (var i = 0; i < $scope.dropdownItems.length; i++) {
-            if ($scope.dropdownItems[i].id === id) {
-              return $scope.dropdownItems[i].description;
-            }
-        }
-    };
 
-    $scope.addSign =function(direction) {
+    // scope functions
+    $scope.getKpiData = function() {
+        return resultsData.kpiData;
+    };
+    $scope.getSpendDataBody = function() {
+        return resultsData.spendData.body;
+    };
+    $scope.getFilters = function() {
+        return resultsData.viewData.filters;
+    };
+    $scope.getViews = function() {
+        return resultsData.viewsList;
+    };
+    $scope.setView = function(view) {
+        $scope.selectedView = view;
+    };
+    $scope.addSign = function(direction) {
         return direction === 'increase' ? '+' : '-';
     };
-
-    // save the changes in the current view
-    $scope.saveView = function() {
-        if($scope.changeMade()) {
-            if($scope.draftView) {
-                $scope.viewName = resultsData.viewData.name;
-            }
-            $scope.draftView = false;
-        }
+    $scope.addArrow = function(direction) {
+        return direction === 'increase' ? 'arrow-up' : 'arrow-down';
     };
-
-    // start save as process
+    $scope.saveView = function() {
+        if($scope.draftView) {
+            $scope.viewName = resultsData.viewData.name;
+        }
+        $scope.draftView = false;
+    };
     $scope.startSaveAs = function() {
         $scope.saveAsName = $scope.viewName;
         $scope.saveAs = true;
     };
-
-    // handle keyboard actions in the rename process
     $scope.renameAction = function (event) {
         if(event.keyCode === 13) {
             $scope.finishSaveAs(true);
@@ -89,8 +88,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
             $scope.finishSaveAs(false);
         }
     };
-
-    // finish save as process
     $scope.finishSaveAs = function(save) {
         if(save) {
             $scope.viewName = $scope.saveAsName;
@@ -99,6 +96,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
         $scope.saveAs = false;
     };
 
+
+    // fire off init function
     init();
 
 }).factory('resultsData', function () {
@@ -118,7 +117,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                 "id": 2,
                 "title": "web visit",
                 "incremental": {
-                    "number": 77,
+                    "number": 770,
                     "unit": "K"
                 },
                 "total": "10.3M",
@@ -188,12 +187,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                             percent: '+12%',
                             direction: 'increase',
                             chart: {
-                                categoryId: 0,
-                                colorId: 1,
-                                id: 1,
                                 results: 47,
-                                compared: 42,
-                                category: 'Local Spend'
+                                compared: 42
                             }
                         }, {
                             id: 2,
@@ -203,12 +198,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                             percent: '+7.5%',
                             direction: 'increase',
                             chart: {
-                                categoryId: 0,
-                                colorId: 2,
-                                id: 2,
                                 results: 53,
-                                compared: 58,
-                                category: 'National Spend'
+                                compared: 58
                             }
                         }]
                 }, {
@@ -230,12 +221,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                             percent: '+22.4%',
                             direction: 'increase',
                             chart: {
-                                categoryId: 1,
-                                colorId: 3,
-                                id: 1,
                                 results: 55,
-                                compared: 57,
-                                category: 'Product Spend'
+                                compared: 57
                             }
                         }, {
                             id: 2,
@@ -245,32 +232,13 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
                             percent: '+13.1%',
                             direction: 'increase',
                             chart: {
-                                categoryId: 1,
-                                colorId: 4,
-                                id: 2,
                                 results: 45,
-                                compared: 43,
-                                category: 'Brand Spand'
+                                compared: 43
                             }
                         }]
                 }
             ]
         },
-        "dropdownItems": [
-            {
-                "id": 1,
-                "description": "Q1 2014 Upfronts"
-            }, {
-                "id": 2,
-                "description": "Newfronts 2015"
-            }, {
-                "id": 3,
-                "description": "Behrooz 10% Southwest Regional"
-            }, {
-                "id": 4,
-                "description": "Andy 2015 Holidays"
-            }
-        ],
         "viewsList": [
             {name: 'Joe\'s View',id: '1'},
             {name: 'Fiesta 2015',id: '2'},
@@ -280,6 +248,25 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
         "viewData": {
             id: '4',
             name: 'Behrooz\'s View',
+            filters: [
+                {
+                    name: 'Spend Filters',
+                    items: [
+                        { name: 'Product', value: 'Fiesta' },
+                        { name: 'Touchpoint', value: 'All' },
+                        { name: 'Geography', value: 'All' },
+                        { name: 'Time', value: '2015' },
+                    ]
+                }, {
+                    name: 'KPI Filters',
+                    items: [
+                        { name: 'Product', value: 'Fiesta' },
+                        { name: 'Geography', value: 'All' },
+                        { name: 'Sales Channel', value: 'Online' },
+                        { name: 'Time', value: 'All' },
+                    ]
+                }
+            ]
         }
     };
 });

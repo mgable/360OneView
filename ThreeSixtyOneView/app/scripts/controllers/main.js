@@ -238,5 +238,12 @@ angular.module('ThreeSixtyOneView')
         $scope.spread = {sheet: {}};
 
         $scope.types =  ScenarioElements;
-        $scope.scenarioElementType = $scope.types[0];
+        // $scope.scenarioElementType = $scope.types[0];
+        $scope.selectedType = $scope.types[0];
+        $scope.getTypes = function() {
+            return $scope.types;
+        };
+        $scope.setType = function(type) {
+            $scope.selectedType = type;
+        };
     }]);

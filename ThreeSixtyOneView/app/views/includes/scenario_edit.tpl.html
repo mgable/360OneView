@@ -1,3 +1,16 @@
+<div class="scenario-type-dropdown">
+    <div class="dropdown">
+        <span class="dropdown-toggle">
+            {{selectedType.title}} <icon type="caret-down"></icon>
+        </span>
+        <ul class="dropdown-menu" ms-link-group selected-item="1" radio="true">
+            <li ng-repeat="type in getTypes() | orderBy:'id'" ms-link="{{type.id}}" >
+                <a href="" ng-click="setType(type)">{{type.title}}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
 <div class="editor">
     <tabset>
         <tab heading="Pivot Table">
