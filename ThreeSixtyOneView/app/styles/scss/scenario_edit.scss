@@ -133,6 +133,39 @@
 	}
 	.display {
 		width: 100%;
+		.scenario-type-dropdown {
+			margin: 20px 0;
+			span {
+				font-size: 17px;
+				line-height: 22px;
+				font-weight: 300;
+				text-transform: capitalize;
+			}
+	        .dropdown {
+	            display: inline-block;
+	            .dropdown-menu {
+	                li.selected {
+	                    a {
+	                        color: #f35528;
+	                        font-weight: 700;
+	                    }
+	                }
+	            }
+	            .dropdown-toggle {
+	                cursor: pointer;
+	                color: #f35528;
+	                text-decoration: none;
+	                font-weight: 700;
+	                i {
+	                    line-height: 21px;
+	                    float: right;
+	                    color: #999;
+	                    font-size: 14px;
+	                    margin-left: 10px;
+	                }
+	            }
+			}
+		}
 		.actions {
 			/*border: 1px solid $mediumgray;
 			border-bottom: 0 none;

@@ -7,9 +7,9 @@
 			line-height: 22px;
 			font-weight: 300;
 		}
-        div.dropdown {
+        .dropdown {
             display: inline-block;
-            ul.dropdown-menu {
+            .dropdown-menu {
                 left: 150px;
                 li.selected {
                     a {
@@ -18,7 +18,7 @@
                     }
                 }
             }
-            span.dropdown-toggle {
+            .dropdown-toggle {
                 cursor: pointer;
                 color: #f35528;
                 text-decoration: none;
