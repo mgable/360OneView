@@ -28,12 +28,16 @@
 			&.pbTitleSel {
 				border: 1px solid $mediumgray;
 				border-bottom: 0;
+				border-right: 0;
+				border-top: 0;
 			}
 		}
 
 		&.pbTitleSel {
 			background-color: $lightestgray;
 			border-bottom: 0;
+			border-right: 0;
+			border-top: 0;
 			width: 240px;
 			transition: width 0.3s linear;
 
@@ -88,6 +92,8 @@
 
 		&.pbTitleSel {
 			border-bottom: 0;
+			border-right: 0;
+			border-top: 0;
 		}
 	}
 

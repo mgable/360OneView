@@ -15,9 +15,16 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		$scope.draftView = false;
 
 		// Rest APIs
+		$scope.viewData = $scope.views.currentView;
 		$scope.viewName = $scope.views.currentView.name;
 		$scope.viewsList = $scope.views.views;
-		$scope.loadView(18);
+		var draftViewExists = _.find($scope.viewsList, function(view) {return view.name.substring(0, 8) === 'Draft - ';});
+		if(!!draftViewExists) {
+			$scope.loadView(draftViewExists.id);
+			$scope.draftView = true;
+		} else {
+			$scope.loadView($scope.viewsList[0].id);
+		}
 		$scope.loadDimensions();
 
 		$scope.saveAs = false;
@@ -27,28 +34,24 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 		$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
 
-		$scope.add = {selected: ""};
+		$scope.add = {selected: ''};
 		$scope.added = {};
-		//$scope.addPopUp = {columns: false, rows: false};
 
 		$scope.setUpAddedLevels($scope.views.currentView);
 
 		$scope.selectedFilter = {cat: ''};
-		$scope.addedFilter = {};
 		$scope.addedFilters = {};
 		$scope.filterSearch = {label: ''};
-
-		copyFilter();
 
 		$scope.dragOptions = {
 			itemMoved: function() {
 				// console.log(event);
-				setDraftViewName()
+				// setDraftViewName()
 				$scope.applyView();
 			},
 			orderChanged: function() {
 				// console.log(event);
-				setDraftViewName()
+				// setDraftViewName()
 				$scope.applyView();
 			},
 			// dragStart: function(event) {
@@ -60,22 +63,12 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		// $scope.identity = angular.identity();
 	};
 
-	// create the temporary filter object from the view data
-	var copyFilter = function() {
-		angular.forEach($scope.pbData.viewData.filters, function(val) {
-			$scope.addedFilter[val.name] = {};
-			angular.forEach(val.items, function(subval) {
-				$scope.addedFilter[val.name][subval] = true;
-			});
-		});
-	};
-
 	function setDraftViewName() {
 		if(!$scope.draftView) {
 			$scope.draftView = true;
 			$scope.viewName += ' - Draft';
 		}
-	}
+	};
 
 	// create the temporary filter object from the view data
 	$scope.loadFilters = function() {
@@ -130,7 +123,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 	// check for changes in the pivot builder data
 	$scope.changeMade = function() {
-		return !angular.equals($scope.pbData, pbData);
+		return $scope.viewName.substring(0,8) === 'Draft - ';
 	};
 
 	// add item to row/column
@@ -143,19 +136,20 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		$scope.applyView();
 	};
 
+	// replace the draggable item on the screen
 	$scope.replaceItem = function(selected, priorLabel, element) {
 		$scope.added[priorLabel] = false;
 		$scope.added[selected.label] = true;
-		var match = _.find($scope.viewData[element], function(item) { return item.level.label.toUpperCase() == priorLabel.toUpperCase() });
+		var match = _.find($scope.viewData[element], function(item) { return item.level.label == priorLabel; });
 		if (match) {
 			var newItem = {dimension:{id:selected.dimensionId},hierarchy:{id:-1},level:{id:selected.levelId, label:selected.label}};
             var index = _.indexOf($scope.viewData[element], match);
             $scope.viewData[element].splice(index, 1, newItem);
         }
 
-		setDraftViewName();
+		// setDraftViewName();
 		$scope.applyView();
-	}
+	};
 
 	// open/dismiss filters selection modal
 	$scope.filtersModal = function(category) {
@@ -166,10 +160,42 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		dialog.result.then(function(data) {
 			$scope.addedFilters = data;
 
-			setDraftViewName();
+			$scope.updateFilters();
+			// setDraftViewName();
 			$scope.applyView();
 		});
 	};
+
+	// update view filters based on the user selections
+	$scope.updateFilters = function() {
+		var i, j, filters = [], newFilter, values = {}, dimensionId;
+
+		for(i = 0; i < $scope.dimensions.length; i++) {
+			dimensionId = $scope.dimensions[i].id;
+
+			newFilter = {};
+			newFilter.scope = $scope.addedFilters[$scope.dimensions[i].label].scope;
+			newFilter.id = i + 1;
+			newFilter.value = {};
+			newFilter.value.specification = {};
+
+			values = $scope.categorizeValues(i, $scope.addedFilters[$scope.dimensions[i].label]);
+
+			if(values.selected === values.total) {
+				newFilter.value.specification.type = 'All';
+			} else {
+				newFilter.value.specification.type = 'Absolute';
+				newFilter.value.specification.members = [];
+				for(j = 0; j < values.label.length; j++) {
+					newFilter.value.specification.members.push({id: $scope.membersList[dimensionId][values.label[j]].id});
+				}
+			}
+
+			filters.push(newFilter);
+		}
+
+		$scope.viewData.filters = filters;
+	}
 
 	// aggregate filter values based on categories
 	$scope.categorizeValues = function(index, items) {
@@ -236,16 +262,29 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		$scope.applyView();
 	};
 
+	// save the draft view
+	$scope.saveDraftView = function() {
+		if(!$scope.draftView) {
+			var draftView = angular.copy($scope.viewData);
+			draftView.name = 'Draft - ' + draftView.name;
+			console.log(draftView);
+			$scope.createView(draftView);
+		} else {
+			$scope.updateView($scope.viewData);
+		}
+	};
+
 	// save the changes in the current view
 	$scope.saveView = function() {
 		if($scope.changeMade()) {
-			pbData = angular.copy($scope.pbData);
+			var originalViewName = $scope.viewName.substring(8);
+			var originalViewId = _.find($scope.viewsList, function(view) { return originalViewName === view.name; }).id;
+			var draftViewId = $scope.viewData.id;
 
-			if($scope.draftView) {
-				$scope.viewName = $scope.views.currentView.currentView.name;
-			}
-			$scope.notify('Saved!');
-			$scope.draftView = false;
+			$scope.viewData.name = originalViewName;
+			$scope.viewData.id = originalViewId;
+			$scope.updateView($scope.viewData);
+			$scope.deleteView(draftViewId);
 		}
 	};
 
@@ -305,7 +344,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 	// apply the changes in the pivot table
 	$scope.applyView = function() {
-		$scope.updateView($scope.viewData);
+		// $scope.updateView($scope.viewData);
+		$scope.saveDraftView();
 
 		var numCols = $scope.pbData.viewData.columns.length;
 		var numRows = $scope.pbData.viewData.rows.length;
@@ -456,37 +496,14 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		});
 	};
 
+	// delete a view
+	$scope.deleteView = function(viewId) {
+		PivotViewService.deleteView(viewId);
+	};
+
 	// save the view
 	$scope.updateView = function(view) {
-		var i, j, filters = [], newFilter, values = {}, dimensionId;
-
-		for(i = 0; i < $scope.dimensions.length; i++) {
-			dimensionId = $scope.dimensions[i].id;
-
-			newFilter = {};
-			newFilter.scope = $scope.addedFilters[$scope.dimensions[i].label].scope;
-			newFilter.id = i + 1;
-			newFilter.value = {};
-			newFilter.value.specification = {};
-
-			values = $scope.categorizeValues(i, $scope.addedFilters[$scope.dimensions[i].label]);
-
-			if(values.selected === values.total) {
-				newFilter.value.specification.type = 'All';
-			} else {
-				newFilter.value.specification.type = 'Absolute';
-				newFilter.value.specification.members = [];
-				for(j = 0; j < values.label.length; j++) {
-					newFilter.value.specification.members.push({id: $scope.membersList[dimensionId][values.label[j]].id});
-				}
-			}
-
-			filters.push(newFilter);
-		}
-
-		view.filters = filters;
-
-		PivotViewService.updateView(view).then(function() {});
+		PivotViewService.updateView(view).then(function(response) { return response});
 	};
 
 	// rename the view
@@ -498,6 +515,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 	$scope.createView = function(view) {
 		var i;
 
+		// remove conflicting elements from the view
+		view.id = null;
 		for(i = 0; i < view.filters.length; i++) {
 			view.filters[i].id = null;
 		}
@@ -506,7 +525,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 			$scope.viewData = view;
 			$scope.viewName = view.name;
 			$scope.setUpAddedLevels(view);
-			$scope.viewsList.push(view);
+			$scope.viewsList.shift(view);
 		});
 	};
 

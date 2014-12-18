@@ -16,16 +16,8 @@ angular.module('ThreeSixtyOneView.directives').directive('resize', function ($wi
 			};
 		};
 		scope.$watch(scope.getWindowDimensions, function (newValue) {
-			scope.windowHeight = newValue.h - 20;
+			scope.windowHeight = newValue.h;
 			scope.windowWidth = newValue.w;
-
-			scope.style = function () {
-				return {
-					'height': (newValue.h - 100) + 'px',
-					'width': (newValue.w - 100) + 'px'
-				};
-			};
-
 		}, true);
 
 		w.bind('resize', function () {
