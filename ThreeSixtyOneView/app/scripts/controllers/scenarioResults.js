@@ -7,7 +7,10 @@
 * # scenarioResultCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function ($scope, resultsData) {
+angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function ($scope, resultsData, Element) {
+
+    console.info("element is");
+    console.info(Element);
 
     var init = function() {
         $scope.srShow          = false;

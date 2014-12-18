@@ -20,7 +20,7 @@ angular.module('ThreeSixtyOneView')
 		this.getViewsAndDefault = function(cubeId){
 			return this.get().then(function(views){
 				if (views.length && views.length > 0){
-					return self.getDefaultView(views, cubeId).then(function(currentView){
+					return self.getDefaultView(views).then(function(currentView){
 						return {"views": views, "currentView": currentView};
 					});
 				}

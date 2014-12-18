@@ -16,4 +16,11 @@ angular.module('ThreeSixtyOneView.services')
 				return response;
 			});
 		};
+
+		this.getAnalysisElementByScenarioType = function (id) {
+			// (params, _config_, additionalPath)
+			return this.resource.get({"id": id}, {params:{'cubeName': 'Touchpoint' }}).then(function(response){
+				return response;
+			});
+		}
   }]);
