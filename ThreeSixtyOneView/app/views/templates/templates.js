@@ -149,7 +149,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/modal/filter_selection.tpl.html',
-    "<div class=\"filter-modal-header\" resize>\n" +
+    "<div class=\"filter-modal-header\">\n" +
     "\t<h4 class=\"filter-modal-title\" id=\"myModalLabel\">Filters</h4>\n" +
     "</div>\n" +
     "<div class=\"filter-modal-body\">\n" +
@@ -206,7 +206,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t<div class=\"pbFilterNumberSelected\">\n" +
     "\t\t\t\t({{countFilters(searchResults, addedFilter).selected}}/{{countFilters(searchResults, addedFilter).total}})\n" +
     "\t\t\t</div>\n" +
-    "\t\t\t<div class=\"pbModalHeight\" ng-style=\"{height: (windowHeight - 250) + 'px'}\">\n" +
+    "\t\t\t<div class=\"pbModalHeight\" ng-style=\"{height: (windowHeight - 270) + 'px'}\">\n" +
     "\t\t\t\t<div class=\"pbFilterList\" ng-if=\"searchResults.members\">\n" +
     "\t\t\t\t\t<member ng-repeat=\"member in searchResults.members | orderBy:'label'\" member=\"member\" filters=\"addedFilter\" category=\"{label: selectedFilter.cat.label}\"  expanded=\"expanded\" expandall=\"filterSearch\"></member>\n" +
     "\t\t\t\t</div>\n" +
