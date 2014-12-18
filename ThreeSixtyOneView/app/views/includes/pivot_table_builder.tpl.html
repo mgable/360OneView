@@ -67,9 +67,9 @@
 			<div ng-repeat="pivotBuilderItem in pivotBuilderItems" class="pbSec" ng-if="viewData">
 				<div class="pbSecTitle">{{pivotBuilderItem.label}}</div>
 				<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="viewData[pivotBuilderItem.name]" tabindex="-1">
-					<draggable-dimension ng-repeat="item in viewData[pivotBuilderItem.name]" row-or-col={{pivotBuilderItem.name}}></draggable-dimension>
+					<draggable-dimension ng-repeat="item in viewData[pivotBuilderItem.name]" row-or-col="{{pivotBuilderItem.name}}"></draggable-dimension>
 					<!-- name="item.level.label" menu="dimensions" -->
-					<add-dimension-btn menu="dimensions" row-or-col="pivotBuilderItem.name"></add-dimension-btn>
+					<add-dimension-btn menu="dimensions" row-or-col="{{pivotBuilderItem.name}}"></add-dimension-btn>
 				</div>
 			</div>
 		</div>

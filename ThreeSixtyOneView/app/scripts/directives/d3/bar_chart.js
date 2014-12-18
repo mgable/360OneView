@@ -7,10 +7,22 @@ angular.module('ThreeSixtyOneView.directives')
             },
             link: function(scope, element, attrs) {
 
-                    // setup variables
-                    var margin = { top: 20, right: 20, bottom: 20, left: 20 },
-                        width = 290 - margin.left - margin.right,
-                        height = 150 - margin.top - margin.bottom;
+                    angular.element($window).on('resize', function(){ scope.$apply() })
+
+                    // setup chart variables
+                    var margin = attrs.margin || { top: 20, right: 10, bottom: 40, left: 10 },
+                        width = parseInt(attrs.width) || parseInt(d3.select('.chartContainer').style('width')),
+                        width = width - margin.left - margin.right,
+                        height = parseInt(attrs.height) || 160,
+                        height = height - margin.top - margin.bottom;
+
+                    // setup tooltip
+                    var tip = d3.tip()
+                            .attr('class', 'd3-tip')
+                            .offset([-10, 0])
+                            .html(function(d) {
+                                return "<strong>" + d.name + ": </strong> <span style='color:#f35528'>" + d.value + "%</span>";
+                            });
 
                     // create svg element
                     var svg = d3.select(element[0]).append("svg")
@@ -18,27 +30,38 @@ angular.module('ThreeSixtyOneView.directives')
                         .attr("height", height + margin.top + margin.bottom)
                         .append("g")
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                    svg.call(tip);
 
-                    // on window resize, re-render d3 canvas
-                    window.onresize = function() {
-                        return scope.$apply();
-                    };
-                    scope.$watch(function() {
-                        return angular.element(window)[0].innerWidth;
-                    }, function(){
-                        return scope.render(scope.data);
-                    });
+                    // watch height and width changes on resize
+                    scope.$watch(function(){
+                        width = parseInt(attrs.width) || parseInt(d3.select('.chartContainer').style('width'));
+                        width = width - margin.left - margin.right;
+                        height = parseInt(attrs.height) || 160,
+                        height = height - margin.top - margin.bottom;
+                        return width + height;
+                    }, resize);
 
-                    // watch for data changes and re-render
+                    // resize function, re-render the chart
+                    function resize(){
+                        svg
+                            .attr("width", width + margin.left + margin.right)
+                            .attr("height", height + margin.top + margin.bottom);
+                        scope.render(scope.data);
+                    }
+
+                    // watch data changes and re-render the chart
                     scope.$watch('data', function(newVals, oldVals) {
                         return scope.render(newVals);
                     }, true);
 
-                    // define render function
+                    // render chart function
                     scope.render = function(data) {
 
                         // remove all previous items before render
                         svg.selectAll("*").remove();
+
+                        // If we don't pass any data, return out of the element
+                        if (!data) return;
 
                         // set up series bars x scale
                         var x0 = d3.scale.ordinal()
@@ -53,8 +76,8 @@ angular.module('ThreeSixtyOneView.directives')
 
                         // set up color scale
                         var color = d3.scale.ordinal()
-                            .domain(["1", "2", "3", "4"])
-                            .range(["#125db6", "#068700", "#26c6da", "#26a69a"]);
+                            .domain(["0", "1", "2", "3"])
+                            .range(["#26a69a", "#125db6", "#068700", "#26c6da"]);
 
                         // setup xAxis
                         var xAxis = d3.svg.axis()
@@ -62,6 +85,7 @@ angular.module('ThreeSixtyOneView.directives')
                             .tickSize(0, 0)
                             .orient("bottom");
 
+                        // transform data
                         var typeNames = ["results", "compared"];
                         scope.data.forEach(function(d, i) {
                             d.types = typeNames.map(function(name) {
@@ -74,7 +98,6 @@ angular.module('ThreeSixtyOneView.directives')
                                 };
                             });
                         });
-
                         x0.domain(scope.data.map(function(d) { return d.category; }));
                         x1.domain(typeNames).rangeRoundBands([0, x0.rangeBand()]);
                         y.domain([0, d3.max(scope.data, function(d) {
@@ -83,51 +106,142 @@ angular.module('ThreeSixtyOneView.directives')
                             });
                         })]);
 
-                        svg.append("g")
-                            .attr("class", "x axis")
-                            .attr("transform", "translate(0," + height + ")")
-                            .call(xAxis);
+                        function wrap(text, width) {
+                          text.each(function() {
+                            var text = d3.select(this),
+                                words = text.text().split(/\s+/).reverse(),
+                                word,
+                                line = [],
+                                lineNumber = 0,
+                                lineHeight = 1.1, // ems
+                                y = text.attr("y"),
+                                dy = parseFloat(text.attr("dy")),
+                                tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+                            while (word = words.pop()) {
+                              line.push(word);
+                              tspan.text(line.join(" "));
+                              if (tspan.node().getComputedTextLength() > width) {
+                                line.pop();
+                                tspan.text(line.join(" "));
+                                line = [word];
+                                tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                              }
+                            }
+                          });
+                        }
 
+                        // create stripe pattern
+                        var patternData = [
+                            {
+                                x1: 10, y1: 0, x2: 30, y2: 20
+                            }, {
+                                x1: -10, y1: 0, x2: 10, y2: 20
+                            }, {
+                                x1: 30, y1: 0, x2: 50, y2: 20
+                            }
+                        ];
+
+                        var defs = svg.append("defs");
+
+                        defs.append("pattern")
+                            .attr("id", "stripe")
+                            .attr("patternUnits", "userSpaceOnUse")
+                            .attr("width", 40)
+                            .attr("height", 20)
+                            .selectAll("line")
+                                .data(patternData).enter()
+                                .append("line")
+                                .attr('x1', function(d){ return d.x1; })
+                                .attr('x2', function(d){ return d.x2; })
+                                .attr('y1', function(d){ return d.y1; })
+                                .attr('y2', function(d){ return d.y2; });
+
+                        defs.append("mask")
+                            .attr("id", "mask")
+                            .append("rect")
+                                .attr("height", 500)
+                                .attr("width", 500)
+                                .style("fill", "url(#stripe)");
+
+                        // create x axis group element
+                        var xaxisG = svg.append("g")
+                            .attr("class", "xaxis")
+                            .attr("transform", "translate(0," + height + ")")
+                            .call(xAxis)
+                        .selectAll(".tick text")
+                            .call(wrap, x0.rangeBand())
+                            .data(scope.data)
+                            .style("fill", function(d){ return color(d.colorId % 4); });
+
+                        // create bars series group elements
                         var bars = svg.selectAll(".bar")
                             .data(scope.data)
                             .enter().append("g")
-                            .attr("class", "g")
+                            .attr("class", "bars")
                             .attr("transform", function(d) {
                                 return "translate(" + x0(d.category) + ",0)";
                             });
 
-                        bars.selectAll("rect")
+                        // create bar group elements
+                        var bar = bars.selectAll(".bar")
                             .data(function(d) { return d.types; })
-                            .enter().append("rect")
-                            .attr("x", function(d) { return x1(d.name); })
-                            .attr("y", height)
-                            .attr("height", 0)
-                            .attr("width", x1.rangeBand())
-                            .style("fill", function(d, i) {
-                                return d.name === "compared" ? d3.rgb(color(d.colorId)).darker(1) : color(d.colorId);
-                            })
-                            .style("opacity", 0)
+                            .enter().append("g")
+                            .attr("class", "bar")
+                            .style("opacity", 0.85)
                             .on("mouseover", function(d){
                                 d3.select(this).transition().duration(300)
                                     .style("opacity", 1);
                                 var sel = $('table.spend-table tbody:eq(' + d.categoryId + ') tr:eq(' + d.id  + ')');
                                 sel.addClass('highlight');
+                                tip.show(d);
                             })
                             .on("mouseout", function(d){
                                 d3.select(this).transition().duration(300)
-                                    .style("opacity", 0.7);
+                                    .style("opacity", 0.85);
                                 var sel = $('table.spend-table tbody:eq(' + d.categoryId + ') tr:eq(' + d.id  + ')');
                                 sel.removeClass('highlight');
+                                tip.hide(d);
+                            });
+
+                        // create solid rectangles
+                        bar.append("rect")
+                            .attr("x", function(d) { return x1(d.name); })
+                            .attr("y", height)
+                            .attr("height", 0)
+                            .attr("width", x1.rangeBand())
+                            .style("fill", function(d) {
+                                return color(d.colorId % 4);
                             })
-                            .transition().ease("quad")
+                            .style("opacity", 0)
+                            .transition().ease("cubic-out")
+                                .duration("200")
                                 .delay(function(d, i) { return (d.colorId * 2 + i) * 100 })
                                 .attr("height", function(d) { return height - y(d.value); })
                                 .attr("y", function(d) { return y(d.value); })
-                                .style("opacity", 0.7);
+                                .style("opacity", 1);
 
-                        bars.selectAll("text")
-                            .data(function(d) { return d.types; })
-                            .enter().append("text")
+                        // create stripe mask rectangles
+                        bar.append("rect")
+                            .attr("x", function(d) { return x1(d.name); })
+                            .attr("y", function(d) { return y(d.value); })
+                            .attr("height", function(d) { return height - y(d.value); })
+                            .attr("width", x1.rangeBand())
+                            .style("fill", function(d, i) {
+                                return i===1 ? "rgba(0, 0, 0, 0.3)" : "none";
+                            })
+                            .attr("mask", "url(#mask)")
+                            .attr("stroke-linecap", "square")
+                            .attr("stroke-linejoin", "miter")
+                            .style("opacity", 0)
+                            .transition().ease("cubic-out")
+                                .duration("100")
+                                .delay(function(d, i) { return (d.colorId * 2 + i) * 100 })
+                                .attr("height", function(d) { return height - y(d.value); })
+                                .attr("y", function(d) { return y(d.value); })
+                                .style("opacity", 1);
+
+                        // create labels
+                        bar.append("text")
                             .attr("x", function(d) { return x1(d.name) + x1.rangeBand()/2; })
                             .attr("y", function(d) { return y(d.value) - 15; })
                             .attr("dx", "-.85em")
@@ -135,8 +249,9 @@ angular.module('ThreeSixtyOneView.directives')
                             .style("fill", "#333")
                             .text(function(d) { return d.value + '%'; })
                             .style("opacity", 0)
-                            .transition().ease("quad")
-                                .delay(function(d, i) { return (d.colorId * 2 + i) * 150 })
+                            .transition().ease("cubic-out")
+                                .duration("200")
+                                .delay(function(d, i) { return (d.colorId * 2 + i) * 100 })
                                 .style("opacity", 1);
 
                     };
