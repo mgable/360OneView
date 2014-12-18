@@ -9,9 +9,6 @@
 */
 angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function ($scope, resultsData, Element) {
 
-    console.info("element is");
-    console.info(Element);
-
     // private variables
     var cnt = 0;
 
@@ -46,7 +43,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
     $scope.saveAs           = false;
     $scope.draftView        = false;
     $scope.isTest           = null;
-    $scope.viewName         = resultsData.viewData.name;
+    $scope.viewName         = $scope.views.currentView.name;
     $scope.spendDatumHeader = resultsData.spendData.header;
     $scope.chartData        = [];
     $scope.selectedView     = resultsData.viewsList[0];
@@ -63,7 +60,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
         return resultsData.viewData.filters;
     };
     $scope.getViews = function() {
-        return resultsData.viewsList;
+        return $scope.views.views;
     };
     $scope.setView = function(view) {
         $scope.selectedView = view;

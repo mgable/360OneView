@@ -228,7 +228,15 @@ angular.module('ThreeSixtyOneView')
             DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
         });
 
-    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", "Views", 'ptData', function($scope, Project, Scenario, ScenarioElements, Views, ptData) {
+    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", "Element", "Views", "ptData", "Element", function($scope, Project, Scenario, ScenarioElements, Element, Views, ptData) {
+
+        var findFileByType = function(type) {
+            _.each(Element, function(v) {
+                if (v.id === type.id) { $scope.selectedFile = v; }
+            });
+            return $scope.selectedFile.name.split("-")[1].trim();
+        }
+
         $scope.project = Project;
         $scope.scenario = Scenario;
         $scope.views = Views;
@@ -238,12 +246,14 @@ angular.module('ThreeSixtyOneView')
         $scope.spread = {sheet: {}};
 
         $scope.types =  ScenarioElements;
-        // $scope.scenarioElementType = $scope.types[0];
         $scope.selectedType = $scope.types[0];
+        $scope.selectedFile = findFileByType($scope.types[0]);
         $scope.getTypes = function() {
             return $scope.types;
         };
         $scope.setType = function(type) {
             $scope.selectedType = type;
+            $scope.selectedFile = findFileByType(type);
         };
+
     }]);
