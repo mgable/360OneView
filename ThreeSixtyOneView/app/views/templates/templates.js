@@ -38,9 +38,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t<div data-as-sortable-item-handle>\n" +
     "\t\t<span title=\"Reorder\"><icon type=\"reorder\"></icon></span>\n" +
     "\t\t<span class=\"pbItemInfo\">\n" +
-    "\t\t\t<span class=\"pbItemName clickable\" ng-click=\"toggleMenu()\">{{name}}</span>\n" +
+    "\t\t\t<span class=\"pbItemName clickable\" ng-click=\"toggleMenu()\">{{item.level.label.toLowerCase()}}</span>\n" +
     "\t\t</span>\n" +
-    "\t\t<span class=\"clickable\" title=\"Remove\"><icon type=\"remove\"></icon></span>\n" +
+    "\t\t<span class=\"clickable\" title=\"Remove\" ng-click=\"delete($index)\"><icon type=\"remove\"></icon></span>\n" +
     "\t</div>\n" +
     "\t<div ng-include src=\"'views/includes/pop_menu.tpl.html'\"></div>\n" +
     "</div>"
