@@ -3,7 +3,7 @@
 angular.module('ThreeSixtyOneView')
     .controller("exportCtrl", ["$scope", 'PivotViewService', 'CubeService', function($scope, PivotViewService, CubeService){
     		$scope.viewData = [];
-    		$scope.menuList = [];
+    		$scope.dimensions = [];
     		PivotViewService.getView(18).then(function(view) {
 				$scope.viewData = view.rows.concat(view.columns);
 				$scope.added = {};
@@ -13,7 +13,7 @@ angular.module('ThreeSixtyOneView')
 			});
 
 			CubeService.getMeta().then(function(response) {
-				$scope.menuList = response;
+				$scope.dimensions = response;
 			});
     	
 

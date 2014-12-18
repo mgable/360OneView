@@ -63,7 +63,6 @@ angular.module('ThreeSixtyOneView')
             sortScenarios = function(scenarios){
                 var scenarioList = scenarios;
                 scenarioList.splice(_.indexOf(scenarioList, $scope.masterProject),1);
-                selectedBaseScenario = $scope.masterProject;
 
                 angular.forEach(scenarioList, function(k,v){
                     if (k.title === $scope.project.title){
@@ -80,18 +79,20 @@ angular.module('ThreeSixtyOneView')
                 ScenarioService.getAll().then(function(response){
                     $scope.masterProject = getMasterProject(response);
                     $scope.scenarioList = sortScenarios(response);
+                    $scope.masterProjectReferenceScenario = $scope.masterProject.data[0];
                     $scope.scenario = getBaseScenario();
+                    selectedBaseScenario = $scope.masterProjectReferenceScenario ;
                 });
-            },
-            selectedBaseScenario;
+            },selectedBaseScenario;
 
         $scope.showBaseScenario = function() {
             $scope.showFields = false;
         };
 
-        $scope.setScenario= function(item){
+        $scope.setScenario = function(item){
             selectedBaseScenario = item;
         };
+
         $scope.showRow = function(row){
             return row === selectedBaseScenario;
         };
@@ -124,7 +125,7 @@ angular.module('ThreeSixtyOneView')
         
         init();
 
-    }]).controller('FilterSelectionCtrl', ["$scope", "$rootScope", "$modalInstance", "$controller", "data", "CONFIG", function($scope, $rootScope, $modalInstance, $controller, data, CONFIG) {
+    }]).controller('FilterSelectionCtrl', ["$scope", "$window", "$rootScope", "$modalInstance", "$controller", "data", "CONFIG", function($scope, $window, $rootScope, $modalInstance, $controller, data, CONFIG) {
     angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
     var init = function() {
@@ -141,6 +142,25 @@ angular.module('ThreeSixtyOneView')
         $scope.noFilterSelected = false;
 
         $scope.chooseFilter($scope.selectedFilter.cat, false, false);
+        getWindowHeight();
+    },
+    getWindowHeight = function(){
+        var w = angular.element($window);
+        $scope.getWindowDimensions = function () {
+            return {
+                'h': w[0].innerHeight,
+                'w': w[0].innerWidth
+            };
+        };
+        $scope.$watch($scope.getWindowDimensions, function (newValue) {
+            $scope.windowHeight = newValue.h;
+            $scope.windowWidth = newValue.w;
+
+        }, true);
+
+        w.bind('resize', function () {
+            scope.$apply();
+        });
     };
 
     // open the filters modal for the selected filter

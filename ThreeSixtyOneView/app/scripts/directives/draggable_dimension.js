@@ -6,31 +6,23 @@ angular.module('ThreeSixtyOneView.directives')
             templateUrl: 'views/directives/draggable_dimension.tpl.html',
             restrict: "AE",
             replace: true,
-            scope: {
-                name: '=',
-                delete: '&clickClose',
-                menu: '=',
-                rowOrCol: '='
-            },
-            link: function(scope, elem, attrs) {
-                elem.on('click', '.fa-remove', function() {
-                    $(this).parents('.pbItem').remove();
-                    scope.delete();
-                });
-            },
-            controller: function($scope) {
+            controller: function($scope, $element, $attrs) {
                 $scope.show = false;
                 $scope.selected = function(label) {
                      return $scope.$parent.added[label];
                 };
 
-                $scope.selectDimension = function(selected) {
-                    $scope.$parent.replaceItem(selected, $scope.name, $scope.rowOrCol);
+                $scope.selectDimension = function(selected, prioLabel) {
+                    $scope.$parent.replaceItem(selected, prioLabel, $attrs.rowOrCol);
                     $scope.show = false;
                 }
 
                 $scope.toggleMenu = function() {
                     $scope.show = !$scope.show;
+                }
+
+                $scope.delete = function(index) {
+                    $scope.$parent.deleteItem(index, $attrs.rowOrCol);
                 }
             }
         };
@@ -40,18 +32,14 @@ angular.module('ThreeSixtyOneView.directives')
             templateUrl: 'views/directives/add_dimension_button.tpl.html',
             restrict: "AE",
             replace: true,
-            scope: {
-                menu: '=',
-                rowOrCol: '='
-            },
-            controller: function($scope) {
+            controller: function($scope, $element, $attrs) {
                 $scope.show = false;
                 $scope.selected = function(label) {
                      return $scope.$parent.added[label];
                 }
 
                 $scope.selectDimension = function(selected) {
-                    $scope.$parent.addItem(selected, $scope.rowOrCol);
+                    $scope.$parent.addItem(selected, $attrs.rowOrCol);
                     $scope.show = false;
                 }
 

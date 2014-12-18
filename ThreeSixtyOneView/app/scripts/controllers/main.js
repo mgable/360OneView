@@ -190,10 +190,12 @@ angular.module('ThreeSixtyOneView')
             SortAndFilterService.setFilter(type, item, forceFilter);
         };
 
-        $scope.toggleFavorite = function(evt, itemID){
+        $scope.toggleFavorite = function(evt, item){
             evt.stopPropagation();
-            FavoritesService.toggleFavorite(itemID, $scope.CONFIG.favoriteType);
-            SortAndFilterService.filter();
+            if (!item.isMaster) {
+                FavoritesService.toggleFavorite(item.id, $scope.CONFIG.favoriteType);
+                SortAndFilterService.filter();
+            }
         };
 
         $scope.isFavorite = function(itemID){

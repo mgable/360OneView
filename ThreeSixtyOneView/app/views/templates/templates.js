@@ -65,11 +65,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<span class=\"pbItemInfo\">\r" +
     "\n" +
-    "\t\t\t<span class=\"pbItemName clickable\" ng-click=\"toggleMenu()\">{{name.toLowerCase()}}</span>\r" +
+    "\t\t\t<span class=\"pbItemName clickable\" ng-click=\"toggleMenu()\">{{item.level.label.toLowerCase()}}</span>\r" +
     "\n" +
     "\t\t</span>\r" +
     "\n" +
-    "\t\t<span class=\"clickable\" title=\"Remove\"><icon type=\"remove\"></icon></span>\r" +
+    "\t\t<span class=\"clickable\" title=\"Remove\" ng-click=\"delete($index)\"><icon type=\"remove\"></icon></span>\r" +
     "\n" +
     "\t</div>\r" +
     "\n" +
@@ -252,7 +252,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/modal/filter_selection.tpl.html',
-    "<div class=\"filter-modal-header\" resize>\r" +
+    "<div class=\"filter-modal-header\">\r" +
     "\n" +
     "\t<h4 class=\"filter-modal-title\" id=\"myModalLabel\">Filters</h4>\r" +
     "\n" +
@@ -366,7 +366,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t<div class=\"pbModalHeight\" ng-style=\"{height: (windowHeight - 250) + 'px'}\">\r" +
+    "\t\t\t<div class=\"pbModalHeight\" ng-style=\"{height: (windowHeight - 270) + 'px'}\">\r" +
     "\n" +
     "\t\t\t\t<div class=\"pbFilterList\" ng-if=\"searchResults.members\">\r" +
     "\n" +
@@ -419,7 +419,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t<label for=\"baseScenario\" ng-click=\"showBaseScenario()\" data-ms-id=\"ScenarioCreate.inputBaseScenario\">Base Scenario\r" +
     "\n" +
-    "\t\t\t\t\t\t<input type=\"text\" id=\"baseScenario\" ng-model=\"scenario.referenceScenario.name\"><icon type=\"folder-open-o\" cname=\"open\"></icon>\r" +
+    "\t\t\t\t\t\t<input type=\"text\" id=\"baseScenario\" ng-model=\"scenario.referenceScenario.name\" readonly><icon type=\"folder-open-o\" cname=\"open\"></icon>\r" +
     "\n" +
     "\t\t\t\t\t</label>\r" +
     "\n" +
@@ -459,19 +459,19 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\t\t<tr>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t<td>\r" +
+    "\t\t\t\t\t\t\t\t\t<td ng-click=\"setScenario(masterProjectReferenceScenario)\">\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"row\" >\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-1\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t\t<span><icon type=\"check-circle\" cname=\"ok-sign\" ng-show=\"showRow(masterProject)\"></icon></span>\r" +
+    "\t\t\t\t\t\t\t\t\t\t\t\t<span><icon type=\"check-circle\" cname=\"ok-sign\" ng-show=\"showRow(masterProjectReferenceScenario)\"></icon></span>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t\t</div>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-11\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t\t<span>{{masterProject.data[0].title}}</span>\r" +
+    "\t\t\t\t\t\t\t\t\t\t\t\t<span>{{masterProjectReferenceScenario.title}}</span>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t\t</div>\r" +
     "\n" +
