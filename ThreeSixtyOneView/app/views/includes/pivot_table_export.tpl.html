@@ -2,7 +2,7 @@
 	<h3>Exporting Data</h3><p>The data set you have selected exceeds the 1.4 million row limit on Excel.</p>
 	<div class="pbSecTitle">Dimensions:</div>
 	<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="viewData" tabindex="-1">
-		<draggable-dimension ng-repeat="item in viewData" name="item.level.label" menu="menuList" click-close="deleteItem($index)"></draggable-dimension>
+		<draggable-dimension ng-repeat="item in viewData"></draggable-dimension>
 					
 		<add-dimension-btn menu="menuList"></add-dimension-btn>
 	</div>
