@@ -235,7 +235,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t</div>\n" +
     "\t\t\t\t<div class=\"baseGroup\">\n" +
     "\t\t\t\t\t<label for=\"baseScenario\" ng-click=\"showBaseScenario()\" data-ms-id=\"ScenarioCreate.inputBaseScenario\">Base Scenario\n" +
-    "\t\t\t\t\t\t<input type=\"text\" id=\"baseScenario\" ng-model=\"scenario.referenceScenario.name\"><icon type=\"folder-open-o\" cname=\"open\"></icon>\n" +
+    "\t\t\t\t\t\t<input type=\"text\" id=\"baseScenario\" ng-model=\"scenario.referenceScenario.name\" readonly><icon type=\"folder-open-o\" cname=\"open\"></icon>\n" +
     "\t\t\t\t\t</label>\n" +
     "\t\t\t\t\t<div class=\"buttons\" ng-show=\"showFields\">\n" +
     "\t\t\t\t\t\t<input type=\"submit\" value=\"CONTINUE\" class=\"button\" ng-click=\"submit(scenario)\" ng-disabled=\"ScenarioCreate.$invalid || ScenarioCreate.$pristine\" data-ms-id=\"ScenarioCreate.submit\">\n" +
