@@ -4,7 +4,7 @@
 		<span class="pbItemInfo">
 			<span class="pbItemName clickable" ng-click="toggleMenu()">{{name}}</span>
 		</span>
-		<span class="clickable" title="Remove"><icon type="remove"></icon></span>
+		<span class="clickable" title="Remove" ng-click="deleteItem($index, pivotBuilderItem.name)"><icon type="remove"></icon></span>
 	</div>
 	<div ng-include src="'views/includes/pop_menu.tpl.html'"></div>
 </div>

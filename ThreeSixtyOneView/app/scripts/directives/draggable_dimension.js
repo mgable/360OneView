@@ -8,15 +8,8 @@ angular.module('ThreeSixtyOneView.directives')
             replace: true,
             scope: {
                 name: '=',
-                delete: '&clickClose',
                 menu: '=',
                 rowOrCol: '='
-            },
-            link: function(scope, elem, attrs) {
-                elem.on('click', '.fa-remove', function() {
-                    $(this).parents('.pbItem').remove();
-                    scope.delete();
-                });
             },
             controller: function($scope) {
                 $scope.show = false;
