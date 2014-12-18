@@ -4,10 +4,10 @@ var projectUrl = '/#/projects?e2e=true',
 	dashboardUrl = '/#/dashboard/:id?e2e=true';
 
 	//TEMP data - remove in production
-	// var projectId = "a512b7fce6113c33a3efd81cfe876d48";
-	// dashboardUrl = dashboardUrl.replace(/:id/, projectId);
+	var projectId = "a559d191fcd83788b4a62bd324fcbc83";
+	dashboardUrl = dashboardUrl.replace(/:id/, projectId);
 
-describe('Project Dashboard', function() {
+xdescribe('Project Dashboard', function() {
 	var hasClass = function (element, cls) {
 	    return element.getAttribute('class').then(function (classes) {
 	        return classes.split(' ').indexOf(cls) !== -1;
@@ -109,6 +109,8 @@ describe('Project Dashboard', function() {
 		});
 
 		describe("Create functions: ", function(){
+			var baseScenario = "scenario.referenceScenario.name",
+				baseScenarioInputField = element(by.model(baseScenario));
 
 			it("should have no scenarios at time of creation", function(){
 				var data = element.all(by.repeater('item in getData()')),
@@ -247,7 +249,55 @@ describe('Project Dashboard', function() {
 
 			it("should have an active selection", function(){
 				var first = element.all(by.repeater('item in getData()')).first();
-				expect(hasClass(first, "active")).toBe(true);
+				expect(hasClass(first, "active")).toEqual(true);
+			});
+
+			it("should not allow the base reference scenario to be edited", function(){
+
+				createButton.click();
+				browser.waitForAngular();
+
+				baseScenarioInputField.getAttribute("readonly").then(function(data){
+					expect(data).toEqual('true');
+				});
+			});
+
+			it("should keep the same base scenario on confirm if a new scenario has not been selected", function(){
+				createButton.click();
+				browser.waitForAngular();
+				baseScenarioInputField.getAttribute("value").then(function(text){
+					baseScenarioInputField.click();
+					browser.waitForAngular();
+					confirmBaseScenarioButton.click();
+					baseScenarioInputField.getAttribute("value").then(function(newText){
+						expect(text).toEqual(newText);
+					});
+				});
+			});
+		});
+
+		describe("Filter functions: ", function(){
+			var filterMenu = ".app .ProjectManager .display-actions .filter-holder .title",
+				filterFavorites = '.filterDropdown li:last-child',
+				filterAll = '.filterDropdown li:first-child',
+				countHolder = '//span[@data-ms-id="dataCount"]';
+
+			it("should filter by favorite", function(){
+				var filteredCount, unFilteredCount,
+					itemCount = element(by.xpath(countHolder));
+				element.all(by.repeater('item in getData()')).count().then(function(count){
+					unFilteredCount = count;
+				});
+				element(by.css(filterMenu)).click();
+				element(by.css(filterFavorites)).click();
+
+				element.all(by.repeater('item in getData()')).count().then(function(count){
+					var filteredCount = count,
+					favorites = element.all(by.css('.favorite')).count();
+					expect(filteredCount).toBeLessThan(unFilteredCount);
+					expect(itemCount.getText()).toContain(element.all(by.repeater('item in getData()')).count());
+					expect(element.all(by.repeater('item in getData()')).count()).toEqual(favorites);
+				});
 			});
 		});
 
