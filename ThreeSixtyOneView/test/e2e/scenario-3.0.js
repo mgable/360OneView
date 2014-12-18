@@ -7,7 +7,7 @@ var scenarioUrl = '/#/scenario/:projectId/:scenarioId/edit'
 		scenarioId = "82";
 	scenarioUrl = scenarioUrl.replace(/:projectId/, projectId).replace(/:scenarioId/, scenarioId);
 
-describe('Scenario Edit: ', function() {
+xdescribe('Scenario Edit: ', function() {
 	var hasClass = function (element, cls) {
 	    return element.getAttribute('class').then(function (classes) {
 	        return classes.split(' ').indexOf(cls) !== -1;
