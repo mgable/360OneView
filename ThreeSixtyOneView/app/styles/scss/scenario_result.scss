@@ -7,12 +7,18 @@
 			line-height: 22px;
 			font-weight: 300;
 		}
-        div.dropdown {
+        .dropdown {
             display: inline-block;
-            ul.dropdown-menu {
+            .dropdown-menu {
                 left: 150px;
+                li.selected {
+                    a {
+                        color: #f35528;
+                        font-weight: 700;
+                    }
+                }
             }
-            span.dropdown-toggle {
+            .dropdown-toggle {
                 cursor: pointer;
                 color: #f35528;
                 text-decoration: none;
@@ -549,7 +555,7 @@
 				}
                 .legend {
                     margin-left: 32px;
-                    margin-bottom: 20px;
+                    margin-bottom: 12px;
                     img {
                         width: 15px;
                         height: 15px;
@@ -600,6 +606,15 @@
   stroke: #ccc;
   shape-rendering: crispEdges;
 }
+#stripe {
+    line {
+        fill: white;
+        stroke: white;
+        stroke-linecap: square;
+        stroke-linejoin: miter;
+        stroke-width: 10px;
+    }
+}
 /* switch */
 .unselectable {
     -webkit-touch-callout: none;
@@ -610,11 +625,9 @@
     user-select: none;
 }
 .ms-switch {
-    width: 82px;
     height: 24px;
     line-height: 22px;
     padding: 0;
-    /*border: 1px solid #cdcdcd;*/
     @extend .unselectable;
     button {
         outline:none;
@@ -625,15 +638,37 @@
         background-color:#CCCCCC;
         color:#666666;
         @extend .unselectable;
-        &.selected{ 
+        &.selected{
             color:#FFF;
             background-color: #295da7;
         }
     }
-    .ms-switch-on{
-        float: left;
+}
+/* D3-Tip */
+.d3-tip {
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
+    &:after {
+        box-sizing: border-box;
+        display: inline;
+        font-size: 10px;
+        width: 100%;
+        line-height: 1;
+        color: rgba(0, 0, 0, 0.8);
+        content: "\25BC";
+        position: absolute;
+        text-align: center;
     }
-    .ms-switch-off{
-        float:right;
+    &.n:after {
+        margin: -1px 0 0 0;
+        top: 100%;
+        left: 0;
     }
+}
+ms-bar-chart text {
+    font-size: 12px;
 }
