@@ -228,10 +228,15 @@ angular.module('ThreeSixtyOneView')
             DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
         });
 
-    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", "Views", 'ptData', function($scope, Project, Scenario, ScenarioElements, Views, ptData) {
+    }]).controller("ScenarioCtrl", ["$scope", "$state", "Project", "Scenario", "ScenarioElements", "Views", 'ptData', function($scope, $state, Project, Scenario, ScenarioElements, Views, ptData) {
         $scope.project = Project;
         $scope.scenario = Scenario;
         $scope.views = Views;
+        $scope.location = $state.current.url;
+
+        $scope.$on('$locationChangeSuccess', function(){
+            $scope.location = $state.current.url;
+        })
         // hardcoded data
         $scope.pivotTableData = ptData.data;
         // this is how pivotbuilder and pivottable communicate
