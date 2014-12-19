@@ -7,7 +7,6 @@
 
 	.pbTitle {
 		border: 1px solid $mediumgray;
-		float: left;
 		font-size: 17px;
 		height: 30px;
 		padding: 3px 5px;
@@ -106,7 +105,6 @@
 
 		&.pbOpened {
 			max-height: 300px;
-			border: 1px solid $mediumgray;
 			border-top: 0;
 			overflow: inherit;
 		}
@@ -299,51 +297,6 @@
 						hr {
 							margin: 12px 0;
 						}
-					}
-				}
-			}
-		}
-
-		.pbSec {
-			margin-bottom: 10px;
-
-			.pbItemsHolder {
-				outline: 0;
-				margin-right: 20px;
-
-				.as-sortable-placeholder {
-					display: inline-block;
-					border: 1px dashed rgba(245,245,245,1.0);
-					min-width: 50px;
-					background-color: rgba(215,215,215,1.0);
-					color: rgba(66,66,66,1.0);
-					padding: 0.3em;
-					margin-right: 5px;
-				}
-			}
-
-			.pbFilterValues {
-				vertical-align: top;
-				outline: 0;
-				margin-right: 20px;
-				overflow: hidden;
-
-				.pbFilterBox {
-					display: inline-block;
-					width: 22.39%;
-					min-width: 215px;
-					margin-right: 25px;
-					margin-top: 5px;
-
-					.pbFilterCat {
-						color: $darkgray;
-					}
-
-					.pbFilterVal {
-						color: $blue;
-						white-space: nowrap;
-						overflow: hidden;
-						text-overflow: ellipsis;
 					}
 				}
 			}

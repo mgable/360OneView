@@ -1,0 +1,210 @@
+@import "variables";
+
+.pbSec {
+	margin-bottom: 10px;
+
+	.pbSecTitle {
+		vertical-align: middle;
+		display: inline-block;
+		width: 70px;
+	}
+
+	.pbItemsHolder {
+		outline: 0;
+		vertical-align: middle;
+		display: inline-block;
+
+		.as-sortable-placeholder {
+			display: inline-block;
+			border: 1px dashed rgba(245,245,245,1.0);
+			min-width: 50px;
+			background-color: rgba(215,215,215,1.0);
+			color: rgba(66,66,66,1.0);
+			padding: 0.3em;
+			margin-right: 5px;
+		}
+	}
+				
+	.pbItem {
+		min-width: 50px;
+		border: 1px solid $mediumgray;
+		background-color: white;
+		height: 28px;
+		display: inline-block;
+		margin-right: 5px;
+		vertical-align: top;
+		border-radius: 0;
+		position: relative;
+
+		.fa-reorder{
+			height: 26px;
+			padding: 5px;
+			width: 23px;
+			background-color: $mediumgray;
+			color: white;
+		}		
+
+		&:hover {
+			border-color: $blue;
+
+			.fa-reorder {
+				background-color: $blue;
+			}
+		}
+	}
+
+	.as-sortable-item-handle {
+		cursor: url(https://ssl.gstatic.com/ui/v1/icons/mail/images/2/openhand.cur) 7 5, default !important;
+	}
+
+	.pbItemInfo {
+		color: $blue;
+		padding: auto 10px;
+
+		.pbItemName {
+			text-transform: capitalize;
+		}
+	}
+
+	.clickable {
+		cursor: pointer;
+	}
+
+	.fa-remove {
+		color: $mediumgray;
+		padding: 5px;
+
+		&:hover {
+			color: $blue;
+		}
+	}
+
+	.pbAddPopUp {
+		position: absolute;
+		z-index: 10;
+		width: 370px;
+		padding: 20px;
+		left: -155;
+		height: 450px;		
+		position:relative;
+		width: 60px;
+
+		.pbAddPopUpVisible {
+			padding: 15px;
+			background: white;
+			border: 1px solid $blue;
+			width: 330px;
+			position: absolute;
+			top: 7px;
+			box-shadow: 0 3px 10px rgba(100,100,100,0.5);
+
+			&::before {
+				position: absolute;
+				height: 11px;
+				width: 11px;
+				content: "";
+				border-left: 1px solid $blue;
+				border-top: 1px solid $blue;
+				-webkit-transform: rotate(45deg);
+				-moz-transform: rotate(45deg);
+				-ms-transform: rotate(45deg);
+				-o-transform: rotate(45deg);
+				transform: rotate(45deg);
+				top: -6px;
+				left: 47%;
+				z-index: 13;
+				background-color: white;
+			}
+
+			table tr {
+				border-bottom: 1px solid $mediumgray;
+				vertical-align: top;
+
+				&:last-child {
+					border-bottom: 0;
+				}
+
+				td:first-child {
+					color: $gray;
+					padding-right: 15px;
+					padding-top: 10px;
+				}
+
+				td div {
+					padding: 5px 5px;
+
+					&:first-child {
+						padding-top: 10px;
+					}
+
+					&:last-child {
+						padding-bottom: 10px;
+					}
+
+					.pbItemAddEnabled {
+						text-transform: capitalize;
+
+						&:hover {
+							color: $blue;
+						}
+					}
+
+					.pbItemAddDisabled {
+						color: $mediumgray;
+						text-transform: capitalize;
+					}
+				}
+			}
+		}
+	}
+
+	.pbAddBox {
+		display: inline-block;
+		border: 1px dashed $gray;
+		height: 28px;
+		vertical-align: top;
+
+		.pbItemAdd {
+			padding: 3px 10px;
+			color: $gray;
+
+			.fa-plus-square {
+				font-size: 10px;
+			}
+		}
+
+		&:hover {
+			border-color: $blue;
+
+			.pbItemAdd {
+				color: $blue;
+			}
+		}
+	}
+
+	.pbFilterValues {
+		vertical-align: top;
+		display: inline-block;
+		outline: 0;
+		overflow: hidden;
+
+		.pbFilterBox {
+			display: inline-block;
+			width: 22.39%;
+			min-width: 215px;
+			margin-right: 25px;
+
+			.pbFilterCat {
+				color: $darkgray;
+			}
+
+			.pbFilterVal {
+				color: $blue;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+		}
+	}
+
+}
