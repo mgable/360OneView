@@ -11,16 +11,16 @@ angular.module('ThreeSixtyOneView')
 
 		//this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
-		this.getDefaultView = function(views){
+		this.getDefaultView = function(views, cubeId){
 			// this logic will change
 			var viewId = views[0].id;
-			return this.get({viewId: viewId});
+			return this.get({viewId: viewId, id: cubeId});
 		};
 
 		this.getViewsAndDefault = function(cubeId){
-			return this.get().then(function(views){
+			return this.get({id: cubeId}).then(function(views){
 				if (views.length && views.length > 0){
-					return self.getDefaultView(views).then(function(currentView){
+					return self.getDefaultView(views, cubeId).then(function(currentView){
 						return {"views": views, "currentView": currentView};
 					});
 				}
@@ -29,33 +29,32 @@ angular.module('ThreeSixtyOneView')
 			});
 		};
 
-		this.renameView = function(viewId, newName) {
-			return this.resource.put({name: newName}, this.config, {viewId: viewId}, 'name').then(function (response) {
+		this.renameView = function(viewId, cubeId, newName) {
+			return this.resource.put({name: newName}, this.config, {viewId: viewId, id: cubeId}, 'name').then(function (response) {
 				return response;
 			});
 		};
 
-		this.getView = function(viewId) {
-			return this.resource.get({viewId: viewId}, this.config, '').then(function (response) {
+		this.getView = function(viewId, cubeId) {
+			return this.resource.get({viewId: viewId, id: cubeId}, this.config, '').then(function (response) {
 				return response;
 			});
 		};
 
-		// this one does not work for now
-		this.deleteView = function(viewId) {
-			return this.resource.delete('', this.config, {viewId: viewId}, '').then(function (response) {
+		this.deleteView = function(viewId, cubeId) {
+			return this.resource.delete('', this.config, {viewId: viewId, id: cubeId}, '').then(function (response) {
 				return response;
 			});
 		};
 
-		this.createView = function(newView) {
-			return this.resource.post(newView, this.config, {}, '').then(function (response) {
+		this.createView = function(newView, cubeId) {
+			return this.resource.post(newView, this.config, {id: cubeId}, '').then(function (response) {
 				return response;
 			});
 		};
 
-		this.updateView = function(modifiedView) {
-			return this.resource.put(modifiedView, this.config, {viewId: modifiedView.id}, '').then(function (response) {
+		this.updateView = function(modifiedView, cubeId) {
+			return this.resource.put(modifiedView, this.config, {viewId: modifiedView.id, id: cubeId}, '').then(function (response) {
 				return response;
 			});
 		};
