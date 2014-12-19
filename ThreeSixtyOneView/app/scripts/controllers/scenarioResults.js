@@ -12,7 +12,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
     // private variables
     var cnt = 0;
 
-
     // private functions
     var getChartData = function() {
         _.each($scope.getSpendDataBody(), function(v) {
@@ -39,15 +38,14 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
 
 
     // scope variables
-    $scope.srShow           = false;
-    $scope.saveAs           = false;
-    $scope.draftView        = false;
-    $scope.isTest           = null;
-    $scope.viewName         = $scope.views.currentView.name;
-    $scope.spendDatumHeader = resultsData.spendData.header;
-    $scope.chartData        = [];
-    $scope.selectedView     = resultsData.viewsList[0];
-
+    $scope.srShow            = false;
+    $scope.saveAs            = false;
+    $scope.draftView         = false;
+    $scope.isTest            = null;
+    $scope.viewName          = $scope.views.currentView.name;
+    $scope.spendDatumHeader  = resultsData.spendData.header;
+    $scope.chartData         = [];
+    $scope.selectedView      = Scenarios[0];
 
     // scope functions
     $scope.getKpiData = function() {
@@ -59,6 +57,9 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
     $scope.getFilters = function() {
         return resultsData.viewData.filters;
     };
+    $scope.getComparedViews = function() {
+        return Scenarios;
+    }
     $scope.getViews = function() {
         return $scope.views.views;
     };
