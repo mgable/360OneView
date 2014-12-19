@@ -3,7 +3,7 @@
         <span class="dropdown-toggle">
             {{selectedType.title}} <icon type="caret-down"></icon>
         </span>
-        <span class="dropdown-filename"><icon type="file-text-o"></icon> {{selectedFile}}</span>
+        <span class="dropdown-filename" ng-show="selectedFile"><icon type="file-text-o"></icon> {{selectedFile}}</span>
         <ul class="dropdown-menu" ms-link-group selected-item="{{selectedType.id}}" radio="true">
             <li ng-repeat="type in getTypes()" ms-link="{{type.id}}" >
                 <a href="" ng-click="setType(type)">{{type.title}}</a>

@@ -232,9 +232,13 @@ angular.module('ThreeSixtyOneView')
 
         var findFileByType = function(type) {
             _.each(Element, function(v) {
-                if (v.id === type.id) { $scope.selectedFile = v; }
+                if (v.cubeMeta.id !== 1) {
+                    if ( v.id === type.id) { $scope.selectedFile = v.name.split("-")[1].trim(); }
+                } else {
+                    $scope.selectedFile = '';
+                }
             });
-            return $scope.selectedFile.name.split("-")[1].trim();
+            return $scope.selectedFile;
         }
 
         $scope.project = Project;
