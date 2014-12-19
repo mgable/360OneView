@@ -4,9 +4,10 @@ angular.module('ThreeSixtyOneView')
     .controller("exportCtrl", ["$scope", 'PivotViewService', 'CubeService', function($scope, PivotViewService, CubeService){
     		$scope.viewData = [];
     		$scope.dimensions = [];
+		$scope.added = {};
+
     		PivotViewService.getView(18).then(function(view) {
 				$scope.viewData = view.rows.concat(view.columns);
-				$scope.added = {};
 				angular.forEach($scope.viewData, function(val) {
 					$scope.added[val.level.label] = true;
 				});
@@ -16,7 +17,6 @@ angular.module('ThreeSixtyOneView')
 				$scope.dimensions = response;
 			});
     	
-
 		$scope.deleteItem = function(index) {
 			$scope.added[$scope.viewData[index].level.label] = false;
 			$scope.viewData.splice(index, 1);

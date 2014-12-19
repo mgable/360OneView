@@ -5,7 +5,7 @@
         </span>
         <span class="dropdown-filename"><icon type="file-text-o"></icon> {{selectedFile}}</span>
         <ul class="dropdown-menu" ms-link-group selected-item="1" radio="true">
-            <li ng-repeat="type in getTypes() | orderBy:'id'" ms-link="{{type.id}}" >
+            <li ng-repeat="type in getTypes() | orderBy:'type.id'" ms-link="{{type.id}}" >
                 <a href="" ng-click="setType(type)">{{type.title}}</a>
             </li>
         </ul>

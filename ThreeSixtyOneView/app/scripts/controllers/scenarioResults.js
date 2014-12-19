@@ -7,7 +7,7 @@
 * # scenarioResultCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function ($scope, resultsData, Element) {
+angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function ($scope, resultsData, Element, Scenarios) {
 
     // private variables
     var cnt = 0;
