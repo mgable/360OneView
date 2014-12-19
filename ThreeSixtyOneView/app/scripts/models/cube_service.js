@@ -11,9 +11,9 @@ angular.module('ThreeSixtyOneView')
 
 		//this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
-		this.getMeta = function(){
+		this.getMeta = function(cubeId){
 			var additionalPath = "meta";
-			return this.resource.get({}, this.metaConfig, additionalPath).then(function(response){
+			return this.resource.get({id:cubeId}, this.metaConfig, additionalPath).then(function(response){
 				return response;
 
 			});
@@ -21,14 +21,14 @@ angular.module('ThreeSixtyOneView')
 
 		this.getMembers = function(cubeId){
 			var additionalPath = "members";
-			return mycube.get({id:cubeId}, {}, additionalPath).then(function(response){
+			return mycube.get({id:cubeId}, additionalPath).then(function(response){
 				return response;
 			});
 		};
 
-		this.getViewByMembers = function(dimensionId, hierarchyId){
+		this.getViewByMembers = function(cubeId, dimensionId, hierarchyId){
 			var additionalPath =  "dimension/:dimensionId/hierarchy/:hierarchyId/members";
-			return mycube.get({dimensionId:dimensionId, hierarchyId:hierarchyId}, additionalPath).then(function(response){
+			return mycube.get({id: cubeId, dimensionId:dimensionId, hierarchyId:hierarchyId}, additionalPath).then(function(response){
 				return response;
 			});
 		};

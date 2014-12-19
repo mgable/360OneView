@@ -230,35 +230,46 @@ angular.module('ThreeSixtyOneView')
 
     }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", "Element", "Views", "ptData", "$state", function($scope, Project, Scenario, ScenarioElements, Element, Views, ptData, $state) {
 
-        var findFileByType = function(type) {
-            _.each(Element, function(v) {
-                if (v.id === type.id) { $scope.selectedFile = v; }
-            });
-            return $scope.selectedFile.name.split("-")[1].trim();
-        }
+        console.info('ScenarioElements');
+        console.info(ScenarioElements);
 
-        $scope.project = Project;
-        $scope.scenario = Scenario;
-        $scope.views = Views;
-        $scope.location = $state.current.url;
+        console.info('Element');
+        console.info(Element);
+
+        var findElementByType = function(type) {
+            var selectedFile = _.find(Element, function(fileName) {
+                return (fileName.id === type.id)
+            });
+            console.info(selectedFile);
+            return selectedFile;
+        },
+        init = function(){
+            $scope.project = Project;
+            $scope.scenario = Scenario;
+            $scope.views = Views;
+            $scope.scenarioElements =  ScenarioElements;
+            $scope.setScenarioElement($scope.scenarioElements[0]);
+            $scope.location = $state.current.url;
+            // hardcoded data
+            $scope.pivotTableData = ptData.data;
+            // this is how pivotbuilder and pivottable communicate
+            $scope.spread = {sheet: {}};
+        };
+
+        $scope.getScenarioElements = function() {
+            return $scope.scenarioElements;
+        };
+        
+        $scope.setScenarioElement = function(type) {
+            var element = findElementByType(type);
+            $scope.selectedScenarioElement = type;
+            $scope.cubeId = element.cubeMeta.id;
+            $scope.selectedScenarioElementsFile = element.name;
+        };
 
         $scope.$on('$locationChangeSuccess', function(){
             $scope.location = $state.current.url;
-        })
-        // hardcoded data
-        $scope.pivotTableData = ptData.data;
-        // this is how pivotbuilder and pivottable communicate
-        $scope.spread = {sheet: {}};
+        });
 
-        $scope.types =  ScenarioElements;
-        $scope.selectedType = $scope.types[0];
-        $scope.selectedFile = findFileByType($scope.types[0]);
-        $scope.getTypes = function() {
-            return $scope.types;
-        };
-        $scope.setType = function(type) {
-            $scope.selectedType = type;
-            $scope.selectedFile = findFileByType(type);
-        };
-
+        init();
     }]);

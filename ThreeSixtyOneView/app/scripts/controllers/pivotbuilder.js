@@ -25,7 +25,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		} else {
 			$scope.loadView($scope.viewsList[0].id);
 		}
-		$scope.loadDimensions();
+		$scope.loadDimensions($scope.cubeId);
 
 		$scope.saveAs = false;
 		$scope.rename = false;
@@ -532,8 +532,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 	};
 
 	// load applicable dimensions
-	$scope.loadDimensions = function() {
-		CubeService.getMeta().then(function(response) {
+	$scope.loadDimensions = function(cubeId) {
+		CubeService.getMeta(cubeId).then(function(response) {
 			$scope.dimensions = response;
 			$scope.getViewByMembers();
 		});
@@ -558,7 +558,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 		for(i = 0; i < $scope.dimensions.length; i++) {
 			for(j = 0; j < $scope.dimensions[i].members.length; j++) {
-				promise = CubeService.getViewByMembers($scope.dimensions[i].dimensionId, $scope.dimensions[i].members[j].levelId);
+				promise = CubeService.getViewByMembers($scope.cubeId, $scope.dimensions[i].dimensionId, $scope.dimensions[i].members[j].levelId);
 				promises.push(promise);
 				if($scope.dimensions[i].type === 'TimeDimension') {
 					timeIndex = i;
