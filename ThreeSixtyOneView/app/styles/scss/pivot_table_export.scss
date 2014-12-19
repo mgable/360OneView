@@ -1,5 +1,68 @@
 @import "variables";
 
+#pivotExport {
+	h4 {
+		display: inline-block;
+		margin-right: 10px;
+	}
+
+	p.warning {
+		padding: 6px;
+		display: inline-block;
+		background-color: #f9eabf;
+	}
+
+	.prepareContainer {
+		width: 450px;
+		background: #fff;
+		padding: 20px;
+
+		.percentage {
+			display: inline-block;
+			margin-left: 5px;
+			vertical-align: middle;
+		}
+	}
+
+	.btnGroup {
+		margin-top: 16px;
+		.activeBtn {
+			background-color: #f35528;
+			color: #fff;
+			margin-left: 12px;
+		}
+
+		.inactiveBtn {
+			background-color: #d9d9d9;
+			color: #727272;
+		}
+	}
+
+
+	.progress {
+		margin-bottom: 0;
+		height: 14px;
+		border: 1px solid #2d5eab;
+		background-color: #ddf0fe;
+		width: 90%;
+		display: inline-block;
+	}
+
+	.progress-bar {
+		background-color: #2d5eab;
+	}
+}
+.tab-content {
+	>.tab-pane {
+		background-color: #f2f2f2;
+		padding: 16px;
+		border-bottom: 1px solid #ddd;
+		border-left: 1px solid #ddd;
+		border-right: 1px solid #ddd;
+	}
+}
+ 
+
 	.pbSecTitle {
 		margin: 5px 15px;
 		display: inline-block;
