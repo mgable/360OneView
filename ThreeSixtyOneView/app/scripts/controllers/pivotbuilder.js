@@ -321,7 +321,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 			$scope.renameView($scope.viewData);
 
 			$scope.viewRecentViews = false;
-			$scope.notify('Saved!');
 		} else if (save && !$scope.rename) {
 			$scope.viewData.name = $scope.saveAsName;
 			$scope.viewData.id = null;
@@ -329,16 +328,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		}
 
 		$scope.saveAs = false;
-	};
-
-	// display save/save as notifications on screen for a short time
-	$scope.notify = function(msg) {
-		$scope.titleMsg = msg;
-
-		$scope.notifMsg = true;
-		$timeout(function() {
-			$scope.notifMsg = false;
-		}, 3000);
 	};
 
 	// apply the changes in the pivot table
@@ -533,9 +522,9 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 	// load applicable dimensions
 	$scope.loadDimensions = function() {
-		CubeService.getMeta().then(function(response) {
-			$scope.dimensions = response;
-			$scope.getViewByMembers();
+		CubeService.getMeta().then(function(dimensions) {
+			$scope.dimensions = dimensions;
+			$scope.getViewByMembers(dimensions);
 		});
 	};
 
@@ -553,14 +542,14 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 	};
 
 	// get all members of all dimensions and build the dimensions tree
-	$scope.getViewByMembers = function() {
+	$scope.getViewByMembers = function(dimensions) {
 		var i, j, k, count = 0, timeIndex, promise, promises = [];
 
-		for(i = 0; i < $scope.dimensions.length; i++) {
-			for(j = 0; j < $scope.dimensions[i].members.length; j++) {
-				promise = CubeService.getViewByMembers($scope.dimensions[i].dimensionId, $scope.dimensions[i].members[j].levelId);
+		for(i = 0; i < dimensions.length; i++) {
+			for(j = 0; j < dimensions[i].members.length; j++) {
+				promise = CubeService.getViewByMembers(dimensions[i].dimensionId, dimensions[i].members[j].levelId);
 				promises.push(promise);
-				if($scope.dimensions[i].type === 'TimeDimension') {
+				if(dimensions[i].type === 'TimeDimension') {
 					timeIndex = i;
 					break;
 				}
@@ -596,7 +585,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		$scope.membersList = [];
 
 		var flattenTree = function(branch, _dimensionId, _hierarchyId, _levelId) {
-			var j, newItem, hierarchyId, levelId;
+			var j, newItem, hierarchyId, levelId, output = {};
 
 			hierarchyId = _hierarchyId || branch.hierarchyId || null;
 			levelId = _levelId || branch.levelId || null;
@@ -608,17 +597,24 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 				levelId: levelId
 			};
 
-			$scope.membersList[_dimensionId][branch.label] = newItem;
+			output[branch.label] = newItem;
+			// $scope.membersList[_dimensionId][branch.label] = newItem;
 
 			for(j = 0; j < branch.members.length; j++) {
-				flattenTree(branch.members[j], _dimensionId, hierarchyId, levelId);
+				angular.extend(output, flattenTree(branch.members[j], _dimensionId, hierarchyId, levelId));
+				// flattenTree(branch.members[j], _dimensionId, hierarchyId, levelId);
 			}
+
+			return output;
 		};
 
 		for(i = 0; i < tree.length; i++) {
 			$scope.membersList[tree[i].dimensionId] = {};
-			flattenTree(tree[i], tree[i].dimensionId, null, null);
+			$scope.membersList[tree[i].dimensionId] = flattenTree(tree[i], tree[i].dimensionId, null, null);
+			// flattenTree(tree[i], tree[i].dimensionId, null, null);
 		}
+
+		console.log($scope.dimensions);
 
 		$scope.loadFilters();
 	};
