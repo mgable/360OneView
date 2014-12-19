@@ -228,7 +228,7 @@ angular.module('ThreeSixtyOneView')
             DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
         });
 
-    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", "Element", "Views", "ptData", "Element", function($scope, Project, Scenario, ScenarioElements, Element, Views, ptData) {
+    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", "Element", "Views", "ptData", function($scope, Project, Scenario, ScenarioElements, Element, Views, ptData) {
 
         var findFileByType = function(type) {
             _.each(Element, function(v) {
@@ -240,6 +240,11 @@ angular.module('ThreeSixtyOneView')
         $scope.project = Project;
         $scope.scenario = Scenario;
         $scope.views = Views;
+        $scope.location = $state.current.url;
+
+        $scope.$on('$locationChangeSuccess', function(){
+            $scope.location = $state.current.url;
+        })
         // hardcoded data
         $scope.pivotTableData = ptData.data;
         // this is how pivotbuilder and pivottable communicate
