@@ -2,7 +2,7 @@
 
 angular.module('ThreeSixtyOneView.services')
   .factory('CubeModel', ["$location", "Resource", "CONFIG", "SERVER", function CubeModel($location, Resource, CONFIG, SERVER) {
-	var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.cube.replace(/:id/, CONFIG.view.Scenario.cubeId)),
+	var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.cube),
 	 transformResponse = function(data){
 		var i, j, k, leafNode, newMember, dimensions = [], response = JSON.parse(data);
 		if (response){

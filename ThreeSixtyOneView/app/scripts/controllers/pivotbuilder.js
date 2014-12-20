@@ -25,12 +25,14 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		} else {
 			$scope.loadView($scope.viewsList[0].id);
 		}
-		$scope.loadDimensions();
+		$scope.loadDimensions($scope.cubeId);
+
+		$scope.$on(EVENTS.selectScenarioElement, function(evt, cubeId) {
+			console.log(evt, cubeId);
+		});
 
 		$scope.saveAs = false;
 		$scope.rename = false;
-
-		$scope.notifMsg = false;
 
 		$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
 
@@ -474,6 +476,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 	// load a view from the backend
 	$scope.loadView = function(viewId) {
 		PivotViewService.getView(viewId).then(function(view) {
+			$scope.views.currentView = view;
 			$scope.viewData = view;
 			$scope.viewName = view.name;
 			$scope.setUpAddedLevels(view);
@@ -521,10 +524,11 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 	};
 
 	// load applicable dimensions
-	$scope.loadDimensions = function() {
-		CubeService.getMeta().then(function(dimensions) {
-			$scope.dimensions = dimensions;
-			$scope.getViewByMembers(dimensions);
+	$scope.loadDimensions = function(cubeId) {
+		CubeService.getMeta(cubeId).then(function(response) {
+			$scope.dimensions = response;
+			$scope.getViewByMembers(response);
+			return response;
 		});
 	};
 
@@ -543,80 +547,78 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 	// get all members of all dimensions and build the dimensions tree
 	$scope.getViewByMembers = function(dimensions) {
-		var i, j, k, count = 0, timeIndex, promise, promises = [];
+		var i, j, k, count = 0, timeIndex, promises = [];
 
-		for(i = 0; i < dimensions.length; i++) {
-			for(j = 0; j < dimensions[i].members.length; j++) {
-				promise = CubeService.getViewByMembers(dimensions[i].dimensionId, dimensions[i].members[j].levelId);
-				promises.push(promise);
-				if(dimensions[i].type === 'TimeDimension') {
-					timeIndex = i;
-					break;
+		_.each(dimensions, function(_dimension, _index) {
+			_.each(_dimension.members, function(_member) {
+				if(!timeIndex) {
+					promises.push(CubeService.getViewByMembers($scope.cubeId, _dimension.id, _member.levelId));
+					if(_dimension.type === 'TimeDimension') {
+						timeIndex = _index;
+					}
 				}
-			}
-		}
+			});
+		});
 
 		$q.all(promises).then(function(response) {
-			for(i = 0; i < $scope.dimensions.length; i++) {
-				for(j = 0; j < $scope.dimensions[i].members.length; j++) {
-					$scope.dimensions[i].members[j].members = response[count].members;
-					if($scope.dimensions[i].type === 'TimeDimension') {
-						break;
+			var timeAdded = false;
+
+			_.each(dimensions, function(_dimension) {
+				_.each(_dimension.members, function(_member) {
+					if(!timeAdded) {
+						_member.members = response[count++].members;
+						if(_dimension.type === 'TimeDimension') {
+							timeAdded = true;
+						}
 					}
-					count++;
+				});
+			});
+
+			for(i = 1; i < dimensions[timeIndex].members.length; i++) {
+				for(j = 0; j < dimensions[timeIndex].members[i - 1].members.length; j++) {
+					for(k = 0; k < dimensions[timeIndex].members[i - 1].members[j].members.length; k++) {
+						dimensions[timeIndex].members[i].members.push(dimensions[timeIndex].members[i - 1].members[j].members[k]);
+					}
 				}
 			}
 
-			for(i = 1; i < $scope.dimensions[timeIndex].members.length; i++) {
-				for(j = 0; j < $scope.dimensions[timeIndex].members[i - 1].members.length; j++) {
-					for(k = 0; k < $scope.dimensions[timeIndex].members[i - 1].members[j].members.length; k++) {
-						$scope.dimensions[timeIndex].members[i].members.push($scope.dimensions[timeIndex].members[i - 1].members[j].members[k]);
-					}
-				}
-			}
-
-			$scope.generateMembersList($scope.dimensions);
+			$scope.dimensions = dimensions;
+			$scope.generateMembersList(dimensions);
+			return dimensions;
 		});
 	};
 
 	// generate a flat list of all the members for the purpose of generating filters list
 	$scope.generateMembersList = function(tree) {
-		var i;
-		$scope.membersList = [];
+		var membersList = [];
 
 		var flattenTree = function(branch, _dimensionId, _hierarchyId, _levelId) {
-			var j, newItem, hierarchyId, levelId, output = {};
+			var hierarchyId, levelId, output = {};
 
 			hierarchyId = _hierarchyId || branch.hierarchyId || null;
 			levelId = _levelId || branch.levelId || null;
 
-			newItem = {
+			output[branch.label] = {
 				id: branch.id,
 				dimensionId: _dimensionId,
 				hierarchyId: hierarchyId,
 				levelId: levelId
 			};
 
-			output[branch.label] = newItem;
-			// $scope.membersList[_dimensionId][branch.label] = newItem;
-
-			for(j = 0; j < branch.members.length; j++) {
-				angular.extend(output, flattenTree(branch.members[j], _dimensionId, hierarchyId, levelId));
-				// flattenTree(branch.members[j], _dimensionId, hierarchyId, levelId);
-			}
+			_.each(branch.members, function(_member) {
+				angular.extend(output, flattenTree(_member, _dimensionId, hierarchyId, levelId));
+			});
 
 			return output;
 		};
 
-		for(i = 0; i < tree.length; i++) {
-			$scope.membersList[tree[i].dimensionId] = {};
-			$scope.membersList[tree[i].dimensionId] = flattenTree(tree[i], tree[i].dimensionId, null, null);
-			// flattenTree(tree[i], tree[i].dimensionId, null, null);
-		}
+		_.each(tree, function(_branch) {
+			membersList[_branch.dimensionId] = flattenTree(_branch, _branch.dimensionId, null, null);
+		});
 
-		console.log($scope.dimensions);
-
+		$scope.membersList = membersList;
 		$scope.loadFilters();
+		return membersList;
 	};
 
 	init();
