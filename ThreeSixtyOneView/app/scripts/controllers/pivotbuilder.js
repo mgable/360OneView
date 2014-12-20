@@ -20,15 +20,16 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		$scope.viewsList = $scope.views.views;
 		var draftViewExists = _.find($scope.viewsList, function(view) {return view.name.substring(0, 8) === 'Draft - ';});
 		if(!!draftViewExists) {
-			$scope.loadView(draftViewExists.id);
+			$scope.loadView($scope.cubeId, draftViewExists.id);
 			$scope.draftView = true;
 		} else {
-			$scope.loadView($scope.viewsList[0].id);
+			$scope.loadView($scope.cubeId, $scope.viewsList[0].id);
 		}
 		$scope.loadDimensions($scope.cubeId);
 
 		$scope.$on(EVENTS.selectScenarioElement, function(evt, cubeId) {
-			console.log(evt, cubeId);
+			$scope.cubeId = cubeId;
+			console.log(cubeId);
 		});
 
 		$scope.saveAs = false;
@@ -252,8 +253,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 			var originalViewId = _.find($scope.viewsList, function(view) { return originalViewName === view.name; }).id;
 			var draftViewId = $scope.viewData.id;
 
-			$scope.loadView(originalViewId);
-			$scope.deleteView(draftViewId);
+			$scope.loadView($scope.cubeId, originalViewId);
+			$scope.deleteView($scope.cubeId, draftViewId);
 			$scope.draftView = false;
 		}
 	};
@@ -264,9 +265,9 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 			$scope.draftView = true;
 			var draftView = angular.copy($scope.viewData);
 			draftView.name = 'Draft - ' + draftView.name;
-			$scope.createView(draftView);
+			$scope.createView($scope.cubeId, draftView);
 		} else {
-			$scope.updateView($scope.viewData);
+			$scope.updateView($scope.cubeId, $scope.viewData);
 		}
 	};
 
@@ -279,12 +280,12 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 			$scope.viewData.name = originalViewName;
 			$scope.viewData.id = originalViewId;
-			$scope.updateView($scope.viewData).then(function(view) {
+			$scope.updateView($scope.cubeId, $scope.viewData).then(function(view) {
 				$scope.viewData = view;
 				$scope.viewName = view.name;
 				$scope.setUpAddedLevels(view);
 			});
-			$scope.deleteView(draftViewId);
+			$scope.deleteView($scope.cubeId, draftViewId);
 			$scope.draftView = false;
 		}
 	};
@@ -326,7 +327,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		} else if (save && !$scope.rename) {
 			$scope.viewData.name = $scope.saveAsName;
 			$scope.viewData.id = null;
-			$scope.createView($scope.viewData);
+			$scope.createView($scope.cubeId, $scope.viewData);
 		}
 
 		$scope.saveAs = false;
@@ -334,8 +335,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 	// apply the changes in the pivot table
 	$scope.applyView = function() {
-		// $scope.updateView($scope.viewData);
-
 		var numCols = $scope.pbData.viewData.columns.length;
 		var numRows = $scope.pbData.viewData.rows.length;
 		var i = 0,
@@ -474,8 +473,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 	};
 
 	// load a view from the backend
-	$scope.loadView = function(viewId) {
-		PivotViewService.getView(viewId).then(function(view) {
+	$scope.loadView = function(cubeId, viewId) {
+		PivotViewService.getView(viewId, cubeId).then(function(view) {
 			$scope.views.currentView = view;
 			$scope.viewData = view;
 			$scope.viewName = view.name;
@@ -487,26 +486,26 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 	};
 
 	// delete a view
-	$scope.deleteView = function(viewId) {
-		PivotViewService.deleteView(viewId).then(function() {
+	$scope.deleteView = function(cubeId, viewId) {
+		PivotViewService.deleteView(viewId, cubeId).then(function() {
 			$scope.viewsList = _.reject($scope.viewsList, function(view) { return view.id === viewId; });
 		});
 	};
 
 	// save the view
-	$scope.updateView = function(view) {
-		return PivotViewService.updateView(view).then(function(response) {
+	$scope.updateView = function(cubeId, view) {
+		return PivotViewService.updateView(view, cubeId).then(function(response) {
 			return response;
 		});
 	};
 
 	// rename the view
-	$scope.renameView = function(view) {
-		PivotViewService.renameView(view.id, view.name);
+	$scope.renameView = function(cubeId, view) {
+		PivotViewService.renameView(view.id, cubeId, view.name);
 	};
 
 	// create a new view
-	$scope.createView = function(view) {
+	$scope.createView = function(cubeId, view) {
 		var i;
 
 		// remove conflicting elements from the view
@@ -515,7 +514,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 			view.filters[i].id = null;
 		}
 
-		PivotViewService.createView(view).then(function(view) {
+		PivotViewService.createView(view, cubeId).then(function(view) {
 			$scope.viewData = view;
 			$scope.viewName = view.name;
 			$scope.setUpAddedLevels(view);

@@ -55,7 +55,7 @@
 				</div>
 				<div class="pbRecentViewsMenu" ng-show="viewRecentViews">
 					<div class="pbRecentViewsMenuVisible">
-						<div ng-repeat="view in viewsList" ng-click="loadView(view.id); viewRecentViews = false"><icon type="eye"></icon> {{view.name}}</div>
+						<div ng-repeat="view in viewsList" ng-click="loadView(cubeId, view.id); viewRecentViews = false"><icon type="eye"></icon> {{view.name}}</div>
 						<hr>
 						<div><icon type="folder-open-o"></icon> All Views</div>
 					</div>

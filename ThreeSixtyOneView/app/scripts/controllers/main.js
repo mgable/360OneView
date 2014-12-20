@@ -230,19 +230,12 @@ angular.module('ThreeSixtyOneView')
 
     }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", "Element", "Views", "ptData", "$state", "EVENTS", function($scope, Project, Scenario, ScenarioElements, Element, Views, ptData, $state, EVENTS) {
 
-        console.info('ScenarioElements');
-        console.info(ScenarioElements);
-
-        console.info('Element');
-        console.info(Element);
-
         var findElementByType = function(type) {
-            var selectedFile = _.find(Element, function(fileName) {
+            var selectedElement = _.find(Element, function(fileName) {
                 return (fileName.id === type.id)
             });
-            $scope.$broadcast(EVENTS.selectScenarioElement, selectedFile.cubeMeta.id);
-            console.info(selectedFile);
-            return selectedFile;
+            $scope.$broadcast(EVENTS.selectScenarioElement, selectedElement.cubeMeta.id);
+            return selectedElement;
         },
         init = function(){
             $scope.project = Project;
@@ -260,7 +253,7 @@ angular.module('ThreeSixtyOneView')
         $scope.getScenarioElements = function() {
             return $scope.scenarioElements;
         };
-        
+
         $scope.setScenarioElement = function(type) {
             var element = findElementByType(type);
             $scope.selectedScenarioElement = type;
