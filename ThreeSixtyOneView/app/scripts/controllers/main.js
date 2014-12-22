@@ -228,6 +228,10 @@ angular.module('ThreeSixtyOneView')
             DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
         });
 
+        $scope.$on(EVENTS.filter, function(){
+            $scope.showDetails(SortAndFilterService.getData()[0]);
+        });
+
     }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", "Element", "Views", "ptData", "$state", function($scope, Project, Scenario, ScenarioElements, Element, Views, ptData, $state) {
 
         var findFileByType = function(type) {
