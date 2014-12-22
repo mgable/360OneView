@@ -3,7 +3,7 @@
 angular.module('ThreeSixtyOneView.services')
   .factory('CubeModel', ["$location", "Resource", "CONFIG", "SERVER", function CubeModel($location, Resource, CONFIG, SERVER) {
 	var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.cube),
-	 transformResponse = function(data){
+	 transformResponse = function(data) {
 		var i, j, k, leafNode, newMember, dimensions = [], response = JSON.parse(data);
 		if (response){
 			for(i = 0; i < response.dimensions.length; i++) {
@@ -26,13 +26,18 @@ angular.module('ThreeSixtyOneView.services')
 							levelId: response.dimensions[i].hierarchies[j].levels[k].id,
 							id: response.dimensions[i].hierarchies[j].levels[k].id,
 							label: response.dimensions[i].hierarchies[j].levels[k].label,
+							leafLevel: false,
 							members: []
 						};
 						
-						if(response.dimensions[i].hierarchies[j].levels[k].id !== response.dimensions[i].hierarchies[j].id && response.dimensions[i].type !== 'TimeDimension') {
+						if(response.dimensions[i].hierarchies[j].levels[k].id !== response.dimensions[i].hierarchies[j].id) {
 							if(!leafNode) {
+								newMember.leafLevel = true;
 								dimensions[i].members.push(newMember);
 								leafNode = true;
+							} else if(leafNode && response.dimensions[i].type === 'TimeDimension') {
+								newMember.leafLevel = true;
+								dimensions[i].members.push(newMember);
 							}
 						} else {
 							if(!leafNode) {

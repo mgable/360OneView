@@ -525,8 +525,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 	// load applicable dimensions
 	$scope.loadDimensions = function(cubeId) {
 		CubeService.getMeta(cubeId).then(function(response) {
-			$scope.dimensions = response;
-			$scope.getViewByMembers(response);
+			// $scope.dimensions = response;
+			$scope.getViewByMembers(cubeId, response);
 			return response;
 		});
 	};
@@ -545,13 +545,13 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 	};
 
 	// get all members of all dimensions and build the dimensions tree
-	$scope.getViewByMembers = function(dimensions) {
+	$scope.getViewByMembers = function(cubeId, dimensions) {
 		var i, j, k, count = 0, timeIndex, promises = [];
 
 		_.each(dimensions, function(_dimension, _index) {
 			_.each(_dimension.members, function(_member) {
-				if(!timeIndex) {
-					promises.push(CubeService.getViewByMembers($scope.cubeId, _dimension.id, _member.levelId));
+				if(!_member.leafLevel) {
+					promises.push(CubeService.getViewByMembers(cubeId, _dimension.id, _member.levelId));
 					if(_dimension.type === 'TimeDimension') {
 						timeIndex = _index;
 					}
@@ -560,26 +560,20 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		});
 
 		$q.all(promises).then(function(response) {
-			var timeAdded = false;
+			var timeAdded = false, lastMembers;
 
 			_.each(dimensions, function(_dimension) {
 				_.each(_dimension.members, function(_member) {
-					if(!timeAdded) {
+					if(!_member.leafLevel) {
 						_member.members = response[count++].members;
-						if(_dimension.type === 'TimeDimension') {
-							timeAdded = true;
-						}
+					} else {
+						_.each(lastMembers, function(_lastMember) {
+							_member.members = _member.members.concat(_lastMember.members);
+						});
 					}
+					lastMembers = _member.members;
 				});
 			});
-
-			for(i = 1; i < dimensions[timeIndex].members.length; i++) {
-				for(j = 0; j < dimensions[timeIndex].members[i - 1].members.length; j++) {
-					for(k = 0; k < dimensions[timeIndex].members[i - 1].members[j].members.length; k++) {
-						dimensions[timeIndex].members[i].members.push(dimensions[timeIndex].members[i - 1].members[j].members[k]);
-					}
-				}
-			}
 
 			$scope.dimensions = dimensions;
 			$scope.generateMembersList(dimensions);
