@@ -48,12 +48,7 @@ angular.module('ThreeSixtyOneView')
 
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
-        var getBaseScenario = function(){
-            var baseScenario = angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
-                baseScenario.referenceScenario.id = findBaseScenarioId($scope.masterProject);
-                return baseScenario;
-            },
-            findBaseScenarioId = function(scenario){
+        var findBaseScenarioId = function(scenario){
                 var baseScenario = _.find(scenario.data, function(obj){return /PRE LOADED SIMULATION/.test(obj.title)} );
                 return baseScenario.id;
             },
@@ -75,12 +70,13 @@ angular.module('ThreeSixtyOneView')
                 $scope.showFields = true;
                 $scope.project = data.project;
                 $scope.scenarios = data.scenarios;
+                $scope.scenario = angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
 
                 ScenarioService.getAll().then(function(response){
                     $scope.masterProject = getMasterProject(response);
                     $scope.scenarioList = sortScenarios(response);
                     $scope.masterProjectReferenceScenario = $scope.masterProject.data[0];
-                    $scope.scenario = getBaseScenario();
+                    $scope.scenario.referenceScenario.id  = findBaseScenarioId($scope.masterProject);
                     selectedBaseScenario = $scope.masterProjectReferenceScenario ;
                 });
             },selectedBaseScenario;
