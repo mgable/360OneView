@@ -4,10 +4,10 @@ var projectUrl = '/#/projects?e2e=true',
 	dashboardUrl = '/#/dashboard/:id?e2e=true';
 
 	//TEMP data - remove in production
-	var projectId = "a559d191fcd83788b4a62bd324fcbc83";
-	dashboardUrl = dashboardUrl.replace(/:id/, projectId);
+	// var projectId = "a559d191fcd83788b4a62bd324fcbc83";
+	// dashboardUrl = dashboardUrl.replace(/:id/, projectId);
 
-xdescribe('Project Dashboard', function() {
+describe('Project Dashboard', function() {
 	var hasClass = function (element, cls) {
 	    return element.getAttribute('class').then(function (classes) {
 	        return classes.split(' ').indexOf(cls) !== -1;
@@ -298,6 +298,24 @@ xdescribe('Project Dashboard', function() {
 					expect(itemCount.getText()).toContain(element.all(by.repeater('item in getData()')).count());
 					expect(element.all(by.repeater('item in getData()')).count()).toEqual(favorites);
 				});
+			});
+
+			it("should update the tray when favorites are filtered", function(){
+				element(by.css(filterMenu)).click();
+				element(by.css(filterFavorites)).click();
+
+				var firstTitle = element.all(by.repeater('item in getData()').column('title')).first(),
+					titleInTray = element(by.xpath("//h4[@data-ms-id='inlineRenameField']"));
+
+				firstTitle.getText().then(function(title){
+					titleInTray.getText().then(function(secondTitle){
+						console.info("titles");
+						console.info(title);
+						console.info(secondTitle);
+						expect(title).toEqual(secondTitle);
+					});
+				});
+
 			});
 		});
 
