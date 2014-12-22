@@ -39,12 +39,20 @@ angular.module('ThreeSixtyOneView')
             $scope.init(Scenarios, getProject);
 
             $scope.project = Project;
+
             $scope.scenarios = Scenarios;
             $scope.hasAlerts = Scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
+
+            if($scope.project.isMaster){
+                setMasterScenario($scope.scenarios[0]);
+            }
         },
         getProject = function(){
             return $scope.project;
-        };
+        },
+        setMasterScenario = function(scenario){
+            scenario.isMaster = true;
+        }
 
         // API
         // Click handler interface
@@ -144,6 +152,8 @@ angular.module('ThreeSixtyOneView')
 
             _.extend($scope.CONFIG, $stateParams);
             _.extend($scope.CONFIG, CONFIG);
+
+            SortAndFilterService.resetSearchText();
 
             SortAndFilterService.init({
                 data: _data_,

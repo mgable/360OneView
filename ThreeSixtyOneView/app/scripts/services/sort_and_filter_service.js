@@ -138,7 +138,6 @@ angular.module('ThreeSixtyOneView.services')
 
         this.resetSearchText = function() {
             this.searchText = searchText = "";
-            this.filter();
         };
 
         this.getSelected = function() {
