@@ -112,10 +112,10 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.submit = function(_scenario_){
+            $scope.close();
             ScenarioService.create($scope.project, _scenario_).then(function(response){
                 GotoService.scenarioEdit($scope.project.id, response.id);
             });
-            $scope.close();
         };
 
         $scope.$on(EVENTS.updateBaseScenario, function(event, data){
