@@ -137,6 +137,7 @@ angular.module('ThreeSixtyOneView')
         $scope.categorizeValues = data.categorizeValues;
         $scope.viewData = data.viewData;
 
+        $scope.categorizedValue = [];
         $scope.filterSearch = {label: ''};
         $scope.emptyFiltersList = [];
         $scope.noFilterSelected = false;
@@ -301,25 +302,6 @@ angular.module('ThreeSixtyOneView')
 
         output = treeCount(object);
 
-        // add empty category to the empty items list and show error
-        if(output.selected === 0) {
-            var index = $scope.emptyFiltersList.indexOf($scope.selectedFilter.cat.label)
-            if(index < 0) {
-                $scope.emptyFiltersList.push($scope.selectedFilter.cat.label);
-            }
-            $scope.noFilterSelected = true;
-        }
-        // check if any item is selected from an empty list, remove it
-        if($scope.noFilterSelected && output.selected > 0) {
-            var index = $scope.emptyFiltersList.indexOf($scope.selectedFilter.cat.label);
-            if(index > -1) {
-                $scope.emptyFiltersList.splice(index, 1);
-                if($scope.emptyFiltersList.length < 1) {
-                    $scope.noFilterSelected = false;
-                }
-            }
-        }
-
         $scope.filterCount = output;
         return output;
     };
@@ -362,6 +344,31 @@ angular.module('ThreeSixtyOneView')
     // make the temporary changes in the filters
     $scope.changeFilter = function() {
         $modalInstance.close($scope.addedFilter);
+    };
+
+    $scope.categorizeValuesCount = function(_index, addedFilter) {
+        var output = $scope.categorizeValues(_index, addedFilter);
+        $scope.categorizedValue[_index] = output;
+
+        // add empty category to the empty items list and show error
+        if(output.selected === 0) {
+            var index = $scope.emptyFiltersList.indexOf($scope.dimensions[_index].label)
+            if(index < 0) {
+                $scope.emptyFiltersList.push($scope.dimensions[_index].label);
+            }
+            $scope.noFilterSelected = true;
+        }
+        // check if any item is selected from an empty list, remove it
+        if($scope.noFilterSelected && output.selected > 0) {
+            var index = $scope.emptyFiltersList.indexOf($scope.dimensions[_index].label);
+            if(index > -1) {
+                $scope.emptyFiltersList.splice(index, 1);
+                if($scope.emptyFiltersList.length < 1) {
+                    $scope.noFilterSelected = false;
+                }
+            }
+        }
+        return output;
     };
 
     init();

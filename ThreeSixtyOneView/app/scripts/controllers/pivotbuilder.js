@@ -57,9 +57,12 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 				$scope.saveDraftView();
 				$scope.applyView();
 			},
-			// dragStart: function(event) {
-			// 	// console.log(event);
-			// },
+			dragStart: function() {
+				$scope.dragging = true;
+			},
+			dragEnd: function() {
+				$scope.dragging = false;
+			},
 			containment: '#dragDropArea'
 		};
 
@@ -677,6 +680,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		$scope.membersList = membersList;
 		$scope.loadFilters();
 		return membersList;
+	};
+
+	$scope.test = function(label) {
+		console.log(label);
 	};
 
 	init();
