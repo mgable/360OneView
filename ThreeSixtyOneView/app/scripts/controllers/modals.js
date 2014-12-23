@@ -159,7 +159,7 @@ angular.module('ThreeSixtyOneView')
         }, true);
 
         w.bind('resize', function () {
-            scope.$apply();
+            $scope.$apply();
         });
     };
 
@@ -300,6 +300,26 @@ angular.module('ThreeSixtyOneView')
         };
 
         output = treeCount(object);
+
+        // add empty category to the empty items list and show error
+        if(output.selected === 0) {
+            var index = $scope.emptyFiltersList.indexOf($scope.selectedFilter.cat.label)
+            if(index < 0) {
+                $scope.emptyFiltersList.push($scope.selectedFilter.cat.label);
+            }
+            $scope.noFilterSelected = true;
+        }
+        // check if any item is selected from an empty list, remove it
+        if($scope.noFilterSelected && output.selected > 0) {
+            var index = $scope.emptyFiltersList.indexOf($scope.selectedFilter.cat.label);
+            if(index > -1) {
+                $scope.emptyFiltersList.splice(index, 1);
+                if($scope.emptyFiltersList.length < 1) {
+                    $scope.noFilterSelected = false;
+                }
+            }
+        }
+
         $scope.filterCount = output;
         return output;
     };

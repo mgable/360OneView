@@ -27,9 +27,9 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		}
 		$scope.loadDimensions($scope.cubeId);
 
-		$scope.$on(EVENTS.selectScenarioElement, function(evt, cubeId) {
-			$scope.cubeId = cubeId;
-			console.log(cubeId);
+		$scope.$on(EVENTS.selectScenarioElement, function(evt, element) {
+			$scope.cubeId = element.cubeMeta.id;
+			loadCube(element.cubeMeta.id, element.cubeMeta.label);
 		});
 
 		$scope.saveAs = false;
@@ -475,6 +475,21 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 	// load a view from the backend
 	$scope.loadView = function(cubeId, viewId) {
 		PivotViewService.getView(viewId, cubeId).then(function(view) {
+
+			// remove the draft view if one exists
+			if($scope.draftView) {
+				var draftId;
+
+				_.each($scope.viewsList, function(listItem) {
+					if(listItem.name.substring(0, 8) === 'Draft - ') {
+						draftId = listItem.id;
+					}
+				});
+
+				$scope.deleteView($scope.cubeId, draftId);
+				$scope.draftView = false;
+			}
+
 			$scope.views.currentView = view;
 			$scope.viewData = view;
 			$scope.viewName = view.name;
@@ -494,6 +509,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 	// save the view
 	$scope.updateView = function(cubeId, view) {
+		// might need to set filter ids to zero
 		return PivotViewService.updateView(view, cubeId).then(function(response) {
 			return response;
 		});
@@ -519,12 +535,61 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 			$scope.viewName = view.name;
 			$scope.setUpAddedLevels(view);
 			$scope.viewsList.unshift(view);
+			$scope.loadFilters();
+		});
+	};
+
+	// create an initial empty view when there is no view in the cube
+	var loadCube = function(cubeId, label) {
+		var dimensionsPromise = $scope.loadDimensions(cubeId);
+		PivotViewService.getViewsList(cubeId).then(function(list) {
+			$scope.viewsList = list;
+			if(list.length < 1) {
+				// create an empty default view
+				createInitialView(cubeId, label, dimensionsPromise);
+			} else {
+				// load default view
+				var view = list[0];
+				_.each(list, function(item) {
+					if(item.isDefault) {
+						view = item;
+					}
+				});
+				$scope.loadView(cubeId, view.id);
+			}
+		});
+	};
+
+	var createInitialView = function(cubeId, label, dimensionsPromise) {
+		dimensionsPromise.then(function(dimensions) {
+			var i, newView = {
+				name: 'Default ' + label + ' view',
+				isDefault: true,
+				columns: [],
+				rows: [],
+				filters: []
+			};
+
+			for(i = 0; i < dimensions.length; i++) {
+				newView.filters.push({
+					scope: {
+						dimension: {id: dimensions[i].id},
+						hierarchy: {id: dimensions[i].members[0].hierarchyId},
+						level: {id: dimensions[i].members[0].levelId}
+					},
+					value: {
+						specification: {type: 'All'}
+					}
+				});
+			}
+
+			$scope.createView(cubeId, newView);
 		});
 	};
 
 	// load applicable dimensions
 	$scope.loadDimensions = function(cubeId) {
-		CubeService.getMeta(cubeId).then(function(response) {
+		return CubeService.getMeta(cubeId).then(function(response) {
 			// $scope.dimensions = response;
 			$scope.getViewByMembers(cubeId, response);
 			return response;

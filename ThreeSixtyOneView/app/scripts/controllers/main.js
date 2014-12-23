@@ -234,7 +234,7 @@ angular.module('ThreeSixtyOneView')
             var selectedElement = _.find(Element, function(fileName) {
                 return (fileName.id === type.id)
             });
-            $scope.$broadcast(EVENTS.selectScenarioElement, selectedElement.cubeMeta.id);
+            $scope.$broadcast(EVENTS.selectScenarioElement, selectedElement);
             return selectedElement;
         },
         init = function(){
