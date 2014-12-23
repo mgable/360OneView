@@ -64,14 +64,19 @@ angular.module('ThreeSixtyOneView.directives')
                 };
 
                 $scope.select = function(item) {
+
                     if (typeof $scope.reverse !== "boolean") {
                         $scope.reverse = $scope.reverse.bool();
                     }
 
-                    $scope.reverse = !$scope.reverse;
-                    $scope.selectedItem = item;
-                    SortAndFilterService.setFilter("reverse", $scope.reverse, false);
-                    setOrderBy(item);
+                    if (!isActive()) {
+                        $scope.selectedItem = item;
+                        SortAndFilterService.setFilter("reverse", $scope.reverse, false);
+                        setOrderBy(item);
+                    } else {
+                        $scope.reverse = !$scope.reverse;
+                        SortAndFilterService.setFilter("reverse", $scope.reverse, true);
+                    }
                 };
             }
         };
