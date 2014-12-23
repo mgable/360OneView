@@ -38,9 +38,10 @@ angular.module('ThreeSixtyOneView.services')
             if (typeof obj.description === "undefined"){
                 obj.description = "";
             }
-            return this.put(obj).then(function(response){
-            	return response;
-            });
+            this.put(obj);
+            // return this.put(obj).then(function(response){
+            // 	return response;
+            // });
         };
 
 		$rootScope.$on(EVENTS.renameProject, function($event, data){
