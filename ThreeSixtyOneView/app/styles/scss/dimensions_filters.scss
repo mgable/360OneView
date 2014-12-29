@@ -147,11 +147,19 @@
 						&:hover {
 							color: $blue;
 						}
+
+						.fa {
+							padding-right: 5px;
+						}
 					}
 
 					.pbItemAddDisabled {
 						color: $mediumgray;
 						text-transform: capitalize;
+
+						.fa {
+							padding-right: 5px;
+						}
 					}
 				}
 			}
@@ -169,7 +177,8 @@
 			color: $gray;
 
 			.fa-plus-square {
-				font-size: 10px;
+				font-size: 14px;
+				padding-right: 5px;
 			}
 		}
 
@@ -180,6 +189,13 @@
 				color: $blue;
 			}
 		}
+	}
+
+	.dropdown-menu {
+		background-color: transparent;
+		border: 0;
+		-webkit-box-shadow: none;
+		box-shadow: none;
 	}
 
 	.pbFilterValues {

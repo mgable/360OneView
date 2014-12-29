@@ -7,14 +7,10 @@
 * # scenarioResultCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function ($scope, resultsData, Element) {
-
-    console.info("element is");
-    console.info(Element);
+angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function ($scope, resultsData, Element, Scenarios) {
 
     // private variables
     var cnt = 0;
-
 
     // private functions
     var getChartData = function() {
@@ -42,15 +38,14 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
 
 
     // scope variables
-    $scope.srShow           = false;
-    $scope.saveAs           = false;
-    $scope.draftView        = false;
-    $scope.isTest           = null;
-    $scope.viewName         = resultsData.viewData.name;
-    $scope.spendDatumHeader = resultsData.spendData.header;
-    $scope.chartData        = [];
-    $scope.selectedView     = resultsData.viewsList[0];
-
+    $scope.srShow            = false;
+    $scope.saveAs            = false;
+    $scope.draftView         = false;
+    $scope.isTest            = null;
+    $scope.viewName          = $scope.views.currentView.name;
+    $scope.spendDatumHeader  = resultsData.spendData.header;
+    $scope.chartData         = [];
+    $scope.selectedView      = Scenarios[0];
 
     // scope functions
     $scope.getKpiData = function() {
@@ -62,8 +57,11 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
     $scope.getFilters = function() {
         return resultsData.viewData.filters;
     };
+    $scope.getComparedViews = function() {
+        return Scenarios;
+    }
     $scope.getViews = function() {
-        return resultsData.viewsList;
+        return $scope.views.views;
     };
     $scope.setView = function(view) {
         $scope.selectedView = view;

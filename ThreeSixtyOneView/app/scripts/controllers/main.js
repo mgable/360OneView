@@ -228,22 +228,42 @@ angular.module('ThreeSixtyOneView')
             DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
         });
 
-    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", "Views", 'ptData', function($scope, Project, Scenario, ScenarioElements, Views, ptData) {
-        $scope.project = Project;
-        $scope.scenario = Scenario;
-        $scope.views = Views;
-        // hardcoded data
-        $scope.pivotTableData = ptData.data;
-        // this is how pivotbuilder and pivottable communicate
-        $scope.spread = {sheet: {}};
+    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", "Element", "Views", "ptData", "$state", "EVENTS", function($scope, Project, Scenario, ScenarioElements, Element, Views, ptData, $state, EVENTS) {
 
-        $scope.types =  ScenarioElements;
-        // $scope.scenarioElementType = $scope.types[0];
-        $scope.selectedType = $scope.types[0];
-        $scope.getTypes = function() {
-            return $scope.types;
+        var findElementByType = function(type) {
+            var selectedElement = _.find(Element, function(fileName) {
+                return (fileName.id === type.id)
+            });
+            $scope.$broadcast(EVENTS.selectScenarioElement, selectedElement);
+            return selectedElement;
+        },
+        init = function(){
+            $scope.project = Project;
+            $scope.scenario = Scenario;
+            $scope.views = Views;
+            $scope.scenarioElements =  ScenarioElements;
+            $scope.setScenarioElement($scope.scenarioElements[0]);
+            $scope.location = $state.current.url;
+            // hardcoded data
+            $scope.pivotTableData = ptData.data;
+            // this is how pivotbuilder and pivottable communicate
+            $scope.spread = {sheet: {}};
         };
-        $scope.setType = function(type) {
-            $scope.selectedType = type;
+
+        $scope.getScenarioElements = function() {
+            return $scope.scenarioElements;
         };
+
+        $scope.setScenarioElement = function(type) {
+            var element = findElementByType(type);
+            $scope.selectedScenarioElement = type;
+            $scope.cubeId = element.cubeMeta.id;
+            $scope.selectedScenarioElementsFile = element.name;
+        };
+
+        $scope.$on('$locationChangeSuccess', function(){
+            $scope.location = $state.current.url;
+        });
+
+        init();
     }]);

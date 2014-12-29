@@ -4,6 +4,7 @@
 	font-family: $sansFontFamily;
 	font-size: 14px;
 	color: $black;
+	margin-bottom: 35px;
 
 	.pbTitle {
 		border: 1px solid $mediumgray;
@@ -13,6 +14,8 @@
 		transition: width 0.3s linear;
 		transition: color 0.3s linear;
 		width: 240px;
+		margin-right: 20px;
+		margin-top: 5px;
 
 		&:hover {
 			color: $blue;
@@ -48,7 +51,7 @@
 		}
 
 		.pbRenameArea {
-			width: 225px;
+			width: 235px;
 
 			.fa-eye {
 				vertical-align: top;
@@ -66,7 +69,7 @@
 
 			.pbSaveAsBox {
 				display: inline-block;
-				width: 200px;
+				width: 210px;
 				border: 1px solid $blue;
 				background-color: white;
 
@@ -136,50 +139,48 @@
 				position: relative;
 				margin-left: 20px;
 
-				.pbSaveHolder {
+				.pbSaveButton {
 					display: inline-block;
+					border: 1px solid $mediumgray;
+					padding: 1px 5px;
+					float: left;
 					color: $darkgray;
 
-					.pbSaveButton {
-						display: inline-block;
-						border: 1px solid $mediumgray;
-						padding: 1px 5px;
-						float: left;
-
-						&:hover {
-							border: 1px solid $blue;
-							color: $blue;
-						}
+					.fa {
+						padding-right: 5px;
 					}
 
-					.pbSaveDropButton {
-						display: inline-block;
-						border: 1px solid $mediumgray;
-						background-color: $mediumgray;
-						padding: 4px 4px;
-						float: left;
+					&:hover {
+						border: 1px solid $blue;
+						color: $blue;
+					}
+				}
 
-						&:hover {
-							background-color: $blue;
-							border: 1px solid $blue;
-							color: white;
-						}
+				.pbSaveDropButton {
+					display: inline-block;
+					border: 1px solid $mediumgray;
+					background-color: $mediumgray;
+					padding: 4px 4px;
+					float: left;
+					color: $darkgray;
 
-						&.pbSaveDropSelected {
-							background-color: $blue;
-							border: 1px solid $blue;
-							color: white;
-						}
+					&:hover {
+						background-color: $blue;
+						border: 1px solid $blue;
+						color: white;
+					}
+
+					&.pbSaveDropSelected {
+						background-color: $blue;
+						border: 1px solid $blue;
+						color: white;
 					}
 				}
 
 				.pbViewSaveMenu {
-					position: absolute;
-					width: 145px;
-					height: 100px;
-					padding: 10px;
-					left: 29%;
-					z-index: 10;
+					padding: 5px;
+					left: 30%;
+					top: 25px;
 
 					.pbViewSaveMenuVisible {
 						background: white;
@@ -200,8 +201,8 @@
 							-ms-transform: rotate(45deg);
 							-o-transform: rotate(45deg);
 							transform: rotate(45deg);
-							top: 5px;
-							left: 44%;
+							left: 40%;
+							top: 0;
 							z-index: 13;
 							background-color: white;
 						}
@@ -239,6 +240,14 @@
 
 				.pbRecentViewsButton {
 					padding: 1px 5px;
+
+					.fa:first-child {
+						padding-right: 5px;
+					}
+
+					.fa:last-child {
+						padding-left: 5px;
+					}
 				}
 
 				.pbRecentViewsMenu {
@@ -333,6 +342,13 @@
 	.bold {
 		font-weight: bold;
 	}
+
+	.dropdown-menu {
+		background-color: transparent;
+		border: 0;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+	}
 }
 
 .filtersSelectionModal {
@@ -423,6 +439,10 @@
 						&.pbHideAlert {
 							opacity: 0;
 						}
+
+						.fa {
+							padding-right: 5px;
+						}
 					}
 
 					.pbFilterModalContent {
@@ -436,8 +456,8 @@
 								display: inline-block;
 								width: 270px;
 								
-								.pbFilterTitle {
-									display: inline-block;
+								/*.pbFilterTitle {
+									display: inline-block;*/
 
 									&:hover {
 										.pbFilterViewTitle {
@@ -449,12 +469,14 @@
 											display: inline-block;
 											position: relative;
 
-									.pbFilterViewTitle {
+										.pbFilterViewTitle {
 											font-size: 20px;
 											margin: 5px 10px 5px 20px;
+											text-transform: capitalize;
 
 											.fa {
 												font-size: 14px;
+												padding-left: 5px;
 											}
 
 											.pbFilterViewDrop {
@@ -466,8 +488,8 @@
 												font-size: 14px;
 												margin-left: auto;
 												margin-right: auto;
-												left: -60%;
-												right: -70%;
+												left: -200%;
+												right: -200%;
 
 												.pbFilterViewDropVisible {
 													border: 1px solid $blue;
@@ -496,6 +518,7 @@
 													div {
 														padding: 5px 20px;
 														color: $black;
+														text-transform: capitalize;
 
 														&:hover {
 															background-color: $blue;
@@ -506,7 +529,7 @@
 											}
 										}
 									}
-								}
+								/*}*/
 							}
 
 							.pbFilterSearch {
@@ -641,11 +664,6 @@
 									margin-right: 2px;
 								}
 
-								.pbFilterListValue {
-									padding: 5px 10px 5px 16px;
-
-								}
-
 								.pbFilterListCategory {
 									padding: 5px 0;
 
@@ -666,6 +684,11 @@
 											}
 										}
 									}
+								}
+
+								.pbFilterListValue {
+									padding: 5px 10px 5px 20;
+
 								}
 								
 								.pbFilterCollection {
@@ -694,6 +717,7 @@
 						.filterCancelButton {
 							background-color: $mediumgray;
 							border: 1px solid $gray;
+							color: white;
 						}
 
 						.filterApplyButton {
@@ -725,5 +749,12 @@
 
 	.underline {
 		text-decoration: underline;
+	}
+
+	.dropdown-menu {
+		background-color: transparent;
+		border: 0;
+		-webkit-box-shadow: none;
+		box-shadow: none;
 	}
 }

@@ -225,5 +225,4 @@ angular.module('ThreeSixtyOneView')
 			}
 			return result;
 		};
-
     }]);

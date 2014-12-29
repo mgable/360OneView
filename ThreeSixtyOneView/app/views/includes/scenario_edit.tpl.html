@@ -1,11 +1,12 @@
 <div class="scenario-type-dropdown">
     <div class="dropdown">
         <span class="dropdown-toggle">
-            {{selectedType.title}} <icon type="caret-down"></icon>
+            {{selectedScenarioElement.title}} <icon type="caret-down"></icon>
         </span>
-        <ul class="dropdown-menu" ms-link-group selected-item="1" radio="true">
-            <li ng-repeat="type in getTypes() | orderBy:'id'" ms-link="{{type.id}}" >
-                <a href="" ng-click="setType(type)">{{type.title}}</a>
+        <span class="dropdown-filename"><icon type="file-text-o"></icon> {{selectedScenarioElementsFile}}</span>
+        <ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenarioElement.id}}" radio="true">
+            <li ng-repeat="scenarioElement in getScenarioElements()" ms-link="{{type.id}}" >
+                <a href="" ng-click="setScenarioElement(scenarioElement)">{{scenarioElement.title}}</a>
             </li>
         </ul>
     </div>

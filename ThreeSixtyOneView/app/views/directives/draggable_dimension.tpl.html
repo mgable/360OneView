@@ -1,10 +1,10 @@
-<div class="pbItem" data-as-sortable-item>
-	<div data-as-sortable-item-handle>
+<div class="pbItem dropdown" data-as-sortable-item>
+	<div data-as-sortable-item-handle class="">
 		<span title="Reorder"><icon type="reorder"></icon></span>
-		<span class="pbItemInfo">
+		<span class="pbItemInfo dropdown-toggle">
 			<span class="pbItemName clickable" ng-click="toggleMenu()">{{item.level.label.toLowerCase()}}</span>
 		</span>
 		<span class="clickable" title="Remove" ng-click="delete($index)"><icon type="remove"></icon></span>
 	</div>
-	<div ng-include src="'views/includes/pop_menu.tpl.html'"></div>
+	<div ng-include src="'views/includes/pop_menu.tpl.html'" class="dropdown-menu" ms-link-group radio="true"></div>
 </div>

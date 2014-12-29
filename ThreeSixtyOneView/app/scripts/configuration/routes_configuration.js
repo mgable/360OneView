@@ -43,8 +43,9 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
       controller: "ScenarioCtrl",
       resolve: {
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
+        'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);},
         'Scenario': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId, $stateParams.scenarioId);},
-        'Views': function(PivotViewService){return PivotViewService.getViewsAndDefault();},
+        'Views': function(PivotViewService){return PivotViewService.getViewsAndDefault(1);},
         'ScenarioElements': function(ScenarioElementService, $stateParams){return ScenarioElementService.get($stateParams.scenarioId);},
         'Element': function(ScenarioElementService, $stateParams){return ScenarioElementService.getAnalysisElementByScenarioType($stateParams.scenarioId)}
       },

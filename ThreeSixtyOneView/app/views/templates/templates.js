@@ -2,11 +2,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   'use strict';
 
   $templateCache.put('views/directives/add_dimension_button.tpl.html',
-    "<div class=\"pbAddBox\">\r" +
+    "<div class=\"pbAddBox dropdown\">\r" +
     "\n" +
-    "\t<div class=\"pbItemAdd clickable\" ng-click=\"toggleMenu()\"><icon type=\"plus-square\"></icon> Add</div>\r" +
+    "\t<div class=\"pbItemAdd clickable dropdown-toggle\" ng-click=\"toggleMenu()\"><icon type=\"plus-square\"></icon>Add</div>\r" +
     "\n" +
-    "\t<div ng-include src=\"'views/includes/pop_menu.tpl.html'\"></div>\r" +
+    "\t<div ng-include src=\"'views/includes/pop_menu.tpl.html'\" class=\"dropdown-menu\" ms-link-group radio=\"true\"></div>\r" +
     "\n" +
     "</div>"
   );
@@ -57,13 +57,13 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/draggable_dimension.tpl.html',
-    "<div class=\"pbItem\" data-as-sortable-item>\r" +
+    "<div class=\"pbItem dropdown\" data-as-sortable-item>\r" +
     "\n" +
-    "\t<div data-as-sortable-item-handle>\r" +
+    "\t<div data-as-sortable-item-handle class=\"\">\r" +
     "\n" +
     "\t\t<span title=\"Reorder\"><icon type=\"reorder\"></icon></span>\r" +
     "\n" +
-    "\t\t<span class=\"pbItemInfo\">\r" +
+    "\t\t<span class=\"pbItemInfo dropdown-toggle\">\r" +
     "\n" +
     "\t\t\t<span class=\"pbItemName clickable\" ng-click=\"toggleMenu()\">{{item.level.label.toLowerCase()}}</span>\r" +
     "\n" +
@@ -73,7 +73,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t</div>\r" +
     "\n" +
-    "\t<div ng-include src=\"'views/includes/pop_menu.tpl.html'\"></div>\r" +
+    "\t<div ng-include src=\"'views/includes/pop_menu.tpl.html'\" class=\"dropdown-menu\" ms-link-group radio=\"true\"></div>\r" +
     "\n" +
     "</div>"
   );
@@ -266,13 +266,13 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<div>{{cat.label}}\r" +
     "\n" +
-    "\t\t\t\t<span class=\"pbFilterSize\">({{categorizeValues($index, addedFilter[cat.label]).selected}}/{{categorizeValues($index, addedFilter[cat.label]).total}})</span>\r" +
+    "\t\t\t\t<span class=\"pbFilterSize\">({{categorizeValuesCount($index, addedFilter[cat.label]).selected}}/{{categorizedValue[$index].total}})</span>\r" +
     "\n" +
     "\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t<div ng-show=\"categorizeValues($index, addedFilter[cat.label]).selected<categorizeValues($index, addedFilter[cat.label]).total\" class=\"pbFilterModalValues\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{{categorizeValues($index, addedFilter[cat.label]).label.join(', ')}}\">{{categorizeValues($index, addedFilter[cat.label]).label.join(', ')}}</div>\r" +
+    "\t\t\t<div ng-show=\"categorizedValue[$index].selected<categorizedValue[$index].total\" class=\"pbFilterModalValues\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{{categorizedValue[$index].label.join(', ')}}\">{{categorizedValue[$index].label.join(', ')}}</div>\r" +
     "\n" +
-    "\t\t\t<div ng-hide=\"categorizeValues($index, addedFilter[cat.label]).selected<categorizeValues($index, addedFilter[cat.label]).total\" class=\"pbFilterModalValues\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{{categorizeValues($index, addedFilter[cat.label]).label.join(', ')}}\">All</div>\r" +
+    "\t\t\t<div ng-hide=\"categorizedValue[$index].selected<categorizedValue[$index].total\" class=\"pbFilterModalValues\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{{categorizedValue[$index].label.join(', ')}}\">All</div>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
@@ -282,7 +282,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<div class=\"pbFilterModalAlert\" role=\"alert\" ng-class=\"{pbHideAlert: !noFilterSelected}\">\r" +
     "\n" +
-    "\t\t\t<div><icon type=\"warning\"></icon> Plaese select at least one item from the following filter<span ng-if=\"emptyFiltersList.length > 1\">s</span>: <span ng-repeat=\"missing in emptyFiltersList\"><span class=\"underline clickable\" ng-click=\"chooseFilterByName(missing)\">{{missing}}</span><span ng-if=\"!$last\">, </span></span></div>\r" +
+    "\t\t\t<div><icon type=\"warning\"></icon>Plaese select at least one item from the following filter<span ng-if=\"emptyFiltersList.length > 1\">s</span>: <span ng-repeat=\"missing in emptyFiltersList\"><span class=\"underline clickable\" ng-click=\"chooseFilterByName(missing)\">{{missing}}</span><span ng-if=\"!$last\">, </span></span></div>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
@@ -292,23 +292,21 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t<div class=\"pbFilterTitleArea\">\r" +
     "\n" +
-    "\t\t\t\t\t<div class=\"pbFilterTitle\" ng-mouseleave=\"filterViewDrop = false;\">\r" +
+    "\t\t\t\t\t<div class=\"pbFilterDropDownContainer\">\r" +
     "\n" +
-    "\t\t\t\t\t\t<div class=\"pbFilterDropDownContainer\">\r" +
+    "\t\t\t\t\t\t<div class=\"pbFilterViewTitle clickable dropdown\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<div class=\"pbFilterViewTitle clickable\" ng-click=\"filterViewDrop = !filterViewDrop\">\r" +
+    "\t\t\t\t\t\t\t<div class=\"dropdown-toggle\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t{{selectedFilter.selFil.label}} \r" +
+    "\t\t\t\t\t\t\t\t{{selectedFilter.selFil.label.toLowerCase()}}<icon type=\"caret-down\"></icon>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<icon type=\"caret-down\"></icon>\r" +
+    "\t\t\t\t\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<div class=\"pbFilterViewDrop\" ng-show=\"filterViewDrop\">\r" +
+    "\t\t\t\t\t\t\t<div class=\"pbFilterViewDrop dropdown-menu\" ms-link-group radio=\"true\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t<div class=\"pbFilterViewDropVisible\">\r" +
+    "\t\t\t\t\t\t\t\t<div class=\"pbFilterViewDropVisible\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t\t<div ng-repeat=\"item in selectedFilter.cat.members\" class=\"clickable\" ng-click=\"filterViewDrop = false; chooseFilter(selectedFilter.cat, false, $index)\">{{item.label}}</div>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t</div>\r" +
+    "\t\t\t\t\t\t\t\t\t<div ng-repeat=\"item in selectedFilter.cat.members\" class=\"clickable\" ng-click=\"chooseFilter(selectedFilter.cat, false, $index)\">{{item.label.toLowerCase()}}</div>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t</div>\r" +
     "\n" +
@@ -330,7 +328,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t<div class=\"pbFilterCustomSelection\" ng-mouseleave=\"filterPopup = false\" ng-hide=\"filterCount.total === 0\">\r" +
+    "\t\t\t<div class=\"pbFilterCustomSelection dropdown\" ng-hide=\"filterCount.total === 0\">\r" +
     "\n" +
     "\t\t\t\t<div class=\"pbFilterSelectionButton\" ng-class=\"{active: filterPopup}\">\r" +
     "\n" +
@@ -340,19 +338,19 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t<div class=\"pbFilterSelectAll clickable\" ng-show=\"filterCount.selected % filterCount.total > 0.01\" ng-click=\"selectFilters(selectedFilter.cat.label, true, true);\"><icon type=\"minus-circle\"></icon></div>\r" +
     "\n" +
-    "\t\t\t\t\t<div class=\"pbFilterSelectDrop clickable\" ng-click=\"filterPopup = !filterPopup\"><icon type=\"caret-down\"></icon></div>\r" +
+    "\t\t\t\t\t<div class=\"pbFilterSelectDrop clickable dropdown-toggle\" ng-click=\"filterPopup = !filterPopup\"><icon type=\"caret-down\"></icon></div>\r" +
     "\n" +
     "\t\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t\t<div class=\"pFilterDrop\" ng-show=\"filterPopup\">\r" +
+    "\t\t\t\t<div class=\"pFilterDrop dropdown-menu\" ms-link-group radio=\"true\">\r" +
     "\n" +
     "\t\t\t\t\t<div class=\"pbFilterDropVisible\">\r" +
     "\n" +
-    "\t\t\t\t\t\t<div class=\"clickable\" ng-click=\"filterPopup = false; selectFilters(selectedFilter.cat.label, true, true);\">Select All Visible</div>\r" +
+    "\t\t\t\t\t\t<div class=\"clickable\" ng-click=\"selectFilters(selectedFilter.cat.label, true, true);\">Select All Visible</div>\r" +
     "\n" +
-    "\t\t\t\t\t\t<div class=\"clickable\" ng-click=\"filterPopup = false; selectFilters(selectedFilter.cat.label, true, false);\">Deselect All Visible</div>\r" +
+    "\t\t\t\t\t\t<div class=\"clickable\" ng-click=\"selectFilters(selectedFilter.cat.label, true, false);\">Deselect All Visible</div>\r" +
     "\n" +
-    "\t\t\t\t\t\t<div class=\"clickable\" ng-click=\"filterPopup = false; selectFilters(selectedFilter.cat.label, false, false);\">Deselect All Not Visible</div>\r" +
+    "\t\t\t\t\t\t<div class=\"clickable\" ng-click=\"selectFilters(selectedFilter.cat.label, false, false);\">Deselect All Not Visible</div>\r" +
     "\n" +
     "\t\t\t\t\t</div>\r" +
     "\n" +
@@ -380,7 +378,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<div class=\"pbFilterModalButtons\">\r" +
     "\n" +
-    "\t\t\t<button type=\"button\" class=\"btn filterCancelButton\" data-dismiss=\"modal\" ng-click=\"cancelChangeFilter();\">Cancel</button>\r" +
+    "\t\t\t<button type=\"button\" class=\"btn filterCancelButton\" data-dismiss=\"modal\" ng-click=\"cancelChangeFilter();\">CANCEL</button>\r" +
     "\n" +
     "\t\t\t<button type=\"button\" class=\"btn filterApplyButton\" data-dismiss=\"modal\" ng-click=\"changeFilter()\" ng-disabled=\"noFilterSelected\">APPLY</button>\r" +
     "\n" +

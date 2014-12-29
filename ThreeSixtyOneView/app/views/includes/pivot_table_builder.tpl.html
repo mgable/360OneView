@@ -30,11 +30,11 @@
 				<div class="pbFunctionFlipButton clickable" ng-click="showTable(true);" ms-link="filters"><icon type="filter"></icon></div>
 			</div>
 
-			<div class="pbSaveMenu" ng-mouseleave="viewSaveMenu = false">
+			<!-- <div class="pbSaveMenu" ng-mouseleave="viewSaveMenu = false">
 				<div class="pbViewSave">
 					<div class="pbSaveHolder">
 						<div class="pbSaveButton clickable" ng-click="saveView()" ng-class="{pbViewSaveDisabled: !changeMade()}">
-							<icon type="save"></icon> Save View
+							<icon type="save"></icon>Save View
 						</div>
 						<div class="pbSaveDropButton clickable" ng-class="{pbSaveDropSelected: viewSaveMenu}" ng-click="viewSaveMenu = !viewSaveMenu">
 							<icon type="caret-down"></icon>
@@ -42,25 +42,65 @@
 					</div>
 					<div class="pbViewSaveMenu" ng-show="viewSaveMenu">
 						<div class="pbViewSaveMenuVisible">
-							<div class="pbViewSaveMenuItem" ng-click="startSaveAs(false); viewSaveMenu = false;"><icon type="save"></icon> Save As</div>
-							<div class="pbViewSaveMenuItem" ng-click="resetView(); viewSaveMenu = false;"><icon type="undo"></icon> Revert</div>
+							<div class="pbViewSaveMenuItem" ng-click="startSaveAs(false); viewSaveMenu = false;"><icon type="save"></icon>Save As</div>
+							<div class="pbViewSaveMenuItem" ng-click="resetView(); viewSaveMenu = false;"><icon type="undo"></icon>Revert</div>
 						</div>
 					</div>
 				</div>
+			</div> -->
+
+			<div class="pbSaveMenu">
+				<div class="dropdown">
+					<span class="pbSaveButton clickable" ng-click="saveView()" >
+						<icon type="save"></icon>Save View
+					</span>
+					<span class="dropdown-toggle pbSaveDropButton clickable">
+						<icon type="caret-down"></icon>
+					</span>
+					<ul class="dropdown-menu pbViewSaveMenu" ms-link-group radio="true">
+						<div class="pbViewSaveMenuVisible">
+							<li>
+								<div class="pbViewSaveMenuItem" ng-click="startSaveAs(false);"><icon type="save"></icon>Save As</div>
+							</li>
+							<li>
+								<div class="pbViewSaveMenuItem" ng-click="resetView();"><icon type="undo"></icon>Revert</div>
+							</li>
+						</div>
+					</ul>
+				</div>
 			</div>
 
-			<div class="pbViewsList" ng-mouseleave="viewRecentViews = false">
+			<div class="pbViewsList">
+				<div class="dropdown">
+					<span class="dropdown-toggle pbRecentViewsButton clickable">
+						<icon type="eye"></icon>Recent Views<icon type="caret-down"></icon>
+					</span>
+					<ul class="dropdown-menu pbRecentViewsMenu" ms-link-group radio="true">
+						<div class="pbRecentViewsMenuVisible">
+							<li ng-repeat="view in viewsList">
+								<div class="" ng-click="loadView(cubeId, view.id);"><icon type="eye"></icon>{{view.name}}</div>
+							</li>
+							<hr>
+							<li>
+								<div class=""><icon type="folder-open-o"></icon>All Views</div>
+							</li>
+						</div>
+					</ul>
+				</div>
+			</div>
+
+			<!-- <div class="pbViewsList" ng-mouseleave="viewRecentViews = false">
 				<div class="pbRecentViewsButton clickable" ng-click="viewRecentViews = !viewRecentViews">
-					<icon type="eye"></icon> Recent Views <icon type="caret-down"></icon>
+					<icon type="eye"></icon>Recent Views<icon type="caret-down"></icon>
 				</div>
 				<div class="pbRecentViewsMenu" ng-show="viewRecentViews">
 					<div class="pbRecentViewsMenuVisible">
-						<div ng-repeat="view in viewsList" ng-click="loadView(view.id); viewRecentViews = false"><icon type="eye"></icon> {{view.name}}</div>
+						<div ng-repeat="view in viewsList" ng-click="loadView(cubeId, view.id); viewRecentViews = false"><icon type="eye"></icon>{{view.name}}</div>
 						<hr>
-						<div><icon type="folder-open-o"></icon> All Views</div>
+						<div><icon type="folder-open-o"></icon>All Views</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 
 		<div id="dragDropArea" ng-hide="filterSection">
@@ -69,7 +109,7 @@
 				<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="viewData[pivotBuilderItem.name]" tabindex="-1">
 					<draggable-dimension ng-repeat="item in viewData[pivotBuilderItem.name]" row-or-col="{{pivotBuilderItem.name}}"></draggable-dimension>
 					<!-- name="item.level.label" menu="dimensions" -->
-					<add-dimension-btn menu="dimensions" row-or-col="{{pivotBuilderItem.name}}"></add-dimension-btn>
+					<add-dimension-btn menu="dimensions" row-or-col="{{pivotBuilderItem.name}}" ng-hide="dragging"></add-dimension-btn>
 				</div>
 			</div>
 		</div>
@@ -86,7 +126,7 @@
 		</div>
 		<div class="pbSliderCollapse">
 			<span class="clickable" ng-click="heightChanged(); pbShow = false; finishSaveAs(false);">
-				<icon type="chevron-up"></icon> Collapse
+				<icon type="chevron-up"></icon>Collapse
 			</span>
 		</div>
 	</div>
