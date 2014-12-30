@@ -80,7 +80,6 @@ angular.module('ThreeSixtyOneView.services')
                 }
 
                 resetFilterBy();
-                $rootScope.$broadcast(EVENTS.resetFilterBy);
             },
             self = this;
             display = {};
@@ -139,7 +138,6 @@ angular.module('ThreeSixtyOneView.services')
 
         this.resetSearchText = function() {
             this.searchText = searchText = "";
-            this.filter();
         };
 
         this.getSelected = function() {
@@ -201,5 +199,6 @@ angular.module('ThreeSixtyOneView.services')
             temp = filterPipline(temp);
 
             display = temp;
+            $rootScope.$broadcast(EVENTS.filter);
         };
     }]);

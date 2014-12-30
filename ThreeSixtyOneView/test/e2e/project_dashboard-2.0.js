@@ -4,10 +4,10 @@ var projectUrl = '/#/projects?e2e=true',
 	dashboardUrl = '/#/dashboard/:id?e2e=true';
 
 	//TEMP data - remove in production
-	var projectId = "a559d191fcd83788b4a62bd324fcbc83";
-	dashboardUrl = dashboardUrl.replace(/:id/, projectId);
+	// var projectId = "41ff45e05d193558a13ca7afb5b94ed6";
+	// dashboardUrl = dashboardUrl.replace(/:id/, projectId);
 
-xdescribe('Project Dashboard', function() {
+describe('Project Dashboard', function() {
 	var hasClass = function (element, cls) {
 	    return element.getAttribute('class').then(function (classes) {
 	        return classes.split(' ').indexOf(cls) !== -1;
@@ -27,39 +27,34 @@ xdescribe('Project Dashboard', function() {
 		createdBy = "//li[@data-ms-id='Created Date']",
 		ascending = "//li[@data-ms-id='ascending']",
 		descending = "//li[@data-ms-id='descending']",
+		create = "//button[@data-ms-id='createButton']",
+		input = "//input[@data-ms-id='modalInput']",
+		submit = "//button[@data-ms-id='submit']",
+		cancel = "//button[@data-ms-id='cancel']",
+		itemTitle = "//div[@data-ms-id='projectTitle']",
 		ascendingButton = element(by.xpath(ascending)),
+		createButton = element(by.xpath(create)),
 		descendingButton = element(by.xpath(descending)),
 		dropdownButton = element(by.xpath(dropdown)),
 		nameButton = element(by.xpath(nameField)),
 		nameLabelField = element(by.xpath(nameLabel)),
 		column_1Button = element(by.xpath(column_1)),
 		createdByButton = element(by.xpath(createdBy)),
-		column_1LabelField = element(by.xpath(column_1Label));
+		column_1LabelField = element(by.xpath(column_1Label)),
+		inputField = element(by.xpath(input)),
+		submitButton = element(by.xpath(submit)),
+		cancelButton = element(by.xpath(cancel));
 
 	it("should create a new project and go to the dashboard", function(){
-		var create = "//button[@data-ms-id='createButton']",
-			input = "//input[@data-ms-id='modalInput']",
-			submit = "//button[@data-ms-id='submit']",
-			cancel = "//button[@data-ms-id='cancel']",
-			itemTitle = "//div[@data-ms-id='projectTitle']",
-			createButton = element(by.xpath(create)),
-			inputField,
-			submitButton,
-			cancelButton, 
-			firstItemTitle,
-			noScenariosAlert;
-
 		browser.get(projectUrl);
 		createButton.click();
 		browser.waitForAngular();
-		inputField = element(by.xpath(input));
-		submitButton = element(by.xpath(submit));
-		cancelButton = element(by.xpath(cancel));
+
 		inputField.sendKeys(testFileName);
 
 		submitButton.click();
 		browser.waitForAngular();
-		firstItemTitle = element.all(by.xpath(itemTitle));
+		var firstItemTitle = element.all(by.xpath(itemTitle));
 		
 		firstItemTitle.getText(function(text){
 			expect(text).toBe(testFileName);
@@ -108,6 +103,7 @@ xdescribe('Project Dashboard', function() {
 			browser.get(dashboardUrl);
 		});
 
+
 		describe("Create functions: ", function(){
 			var baseScenario = "scenario.referenceScenario.name",
 				baseScenarioInputField = element(by.model(baseScenario));
@@ -117,6 +113,10 @@ xdescribe('Project Dashboard', function() {
 					itemCount = element(by.xpath("//span[@data-ms-id='dataCount']"));
 				expect(data.count()).toBe(0);
 				expect(itemCount.getText()).toContain(data.count());
+			});
+
+			it("should enable the create button", function(){
+				expect(createButton.getAttribute("disabled")).toBe(null);
 			});
 		
 			it("should display the create scenario alert", function(){
@@ -298,6 +298,29 @@ xdescribe('Project Dashboard', function() {
 					expect(itemCount.getText()).toContain(element.all(by.repeater('item in getData()')).count());
 					expect(element.all(by.repeater('item in getData()')).count()).toEqual(favorites);
 				});
+			});
+
+			it("should update the tray when favorites are filtered", function(){
+				var lastElement = element.all(by.css(".favorites a")).last();
+				hasClass(lastElement, 'favorite').then(function(isFavorite){
+					if(!isFavorite){
+						lastElement.click();
+					}
+
+					element(by.css(filterMenu)).click();
+					element(by.css(filterFavorites)).click();
+
+					var firstTitle = element.all(by.repeater('item in getData()').column('title')).first(),
+						titleInTray = element(by.xpath("//h4[@data-ms-id='inlineRenameField']"));
+
+					firstTitle.getText().then(function(title){
+						titleInTray.getText().then(function(secondTitle){
+							expect(title).toEqual(secondTitle);
+						});
+					});
+
+				});
+
 			});
 		});
 
@@ -494,7 +517,24 @@ xdescribe('Project Dashboard', function() {
 					});
 				});
 			});
-			
+		});
+	});
+
+	describe("Edit controls on master project's master scenario", function(){		
+		it('should not allow the scenario to be edited', function(){
+			browser.get(projectUrl);	
+			element(by.model('SortAndFilterService.searchText')).sendKeys('master project');
+			var masterProject = element(by.repeater('item in getData()').column('title'));
+
+			masterProject.click();
+			browser.waitForAngular();
+			var renameField = element(by.xpath("//h4[@data-ms-id='inlineRenameField']"));
+			expect(renameField.isPresent()).toBe(false);
+
+		});
+
+		it("should disable the create button", function(){
+			expect(createButton.getAttribute("disabled")).toBe('true');
 		});
 	});
 });

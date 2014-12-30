@@ -9,7 +9,7 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     updateProjects: 'ProjectsService:updateProjects',
     gotoScenarioCreate: 'GotoService:scenarioCreate',
     gotoDashboard: 'GotoService:dashboard',
-    resetFilterBy: 'SortAndFilterService:resetFilterBy',
+    filter: 'SortAndFilterService:filter',
     getNewProjectTitle: "DialogService:create",
     selectScenarioElement: "PivotBuilderCtrl:loadCube",
     openScenarioCreate: "DialogService:openCreateScenario",

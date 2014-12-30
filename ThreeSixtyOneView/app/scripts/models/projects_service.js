@@ -39,6 +39,9 @@ angular.module('ThreeSixtyOneView.services')
                 obj.description = "";
             }
             this.put(obj);
+            // return this.put(obj).then(function(response){
+            // 	return response;
+            // });
         };
 
 		$rootScope.$on(EVENTS.renameProject, function($event, data){

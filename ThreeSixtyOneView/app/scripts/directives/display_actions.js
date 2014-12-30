@@ -12,6 +12,7 @@ angular.module('ThreeSixtyOneView.directives')
                 // Bootstrap
                 $scope.CONFIG = CONFIG.view[$state.current.name];
                 $scope.SortAndFilterService = SortAndFilterService;
+                $scope.isDisabled = $attrs.isDisabled || false;
                 var filterDropdown = $($element).find('.filterDropdown');
 
 

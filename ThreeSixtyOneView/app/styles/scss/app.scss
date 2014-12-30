@@ -182,11 +182,18 @@ body {
 				text-transform: uppercase;
 				margin-left: 20px;
 				margin-right: 20px;
+				white-space: nowrap;
 				a {
 					cursor: pointer;
 					&:hover {
 						text-decoration: none;
 					}
+				}
+				span {
+					display: inline-block;
+					text-overflow:ellipsis;
+					width: 500px;
+					overflow: hidden;
 				}
 			}
 		}
@@ -196,7 +203,7 @@ body {
 		width:100%;
 		z-index:1000;
 		height:50px;
-		// position:fixed;
+		/* position:fixed; */
 		bottom:0;
 		div {
 			&.footerLeft {
