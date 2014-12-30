@@ -25,7 +25,7 @@ describe('Project Listing', function() {
 		createdBy = "//li[@data-ms-id='Created Date']",
 		ascending = "//li[@data-ms-id='ascending']",
 		descending = "//li[@data-ms-id='descending']",
-		breadcrumb = ".breadcrumbs span span",
+		breadcrumb = "ol.breadcrumb li",
 		filterMenu = ".app .ProjectManager .display-actions .filter-holder .title",
 		filterFavorites = '.filterDropdown li:last-child',
 		filterAll = '.filterDropdown li:first-child',

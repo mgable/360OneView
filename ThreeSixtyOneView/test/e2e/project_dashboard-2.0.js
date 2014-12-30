@@ -7,7 +7,7 @@ var projectUrl = '/#/projects?e2e=true',
 	// var projectId = "41ff45e05d193558a13ca7afb5b94ed6";
 	// dashboardUrl = dashboardUrl.replace(/:id/, projectId);
 
-describe('Project Dashboard', function() {
+xdescribe('Project Dashboard', function() {
 	var hasClass = function (element, cls) {
 	    return element.getAttribute('class').then(function (classes) {
 	        return classes.split(' ').indexOf(cls) !== -1;
@@ -485,7 +485,7 @@ describe('Project Dashboard', function() {
 		});
 
 		describe("Breadcrumbs: ", function(){
-			var breadcrumb = ".breadcrumbs span",
+			var breadcrumb = "ol.breadcrumbs li",
 				breadcrumbField = element(by.css(breadcrumb));
 
 			it("should have the correct label", function(){
