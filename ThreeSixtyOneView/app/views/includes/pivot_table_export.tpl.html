@@ -1,4 +1,4 @@
-<div id="pivotExport">
+<div class="importExport">
 	<h4>Exporting Data</h4>
 	<p class="warning">The data set you have selected exceeds the 1.4 million row limit on Excel.</p>
 	<div ng-hide="exportObj.exportClicked">
@@ -23,7 +23,7 @@
 	</div>
 
 	<div ng-show="exportObj.exportClicked" class="prepareContainer">
-		<div ng-show="!exportObj.readyForDownload">
+		<div ng-hide="exportObj.readyForDownload">
 			<p>Preparing files for download</p>
 			<progressbar value="exportObj.prepareProgress"></progressbar>
 			<p class="percentage">{{exportObj.prepareProgress}}%</p>

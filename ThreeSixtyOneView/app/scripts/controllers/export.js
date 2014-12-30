@@ -2,25 +2,23 @@
 
 angular.module('ThreeSixtyOneView')
     .controller("exportCtrl", ["$scope", 'PivotViewService', 'CubeService', '$interval', 'DialogService', function($scope, PivotViewService, CubeService, $interval, DialogService){
-		$scope.viewData = [];
-		$scope.filters = [];
+		$scope.viewData = $scope.views.currentView.rows.concat($scope.views.currentView.columns);
 		$scope.dimensions = [];
 		$scope.added = {};
 		$scope.exportObj = {prepareProgress:0, readyForDownload:false, exportClicked: false};
 		$scope.stopTime;
+
+		$scope.filters = [];
 		//copy from pb
 		$scope.addedFilters = {};
 		$scope.selectedFilter = {cat: ''};
 
-		PivotViewService.getView(18).then(function(view) {
-			$scope.viewData = view.rows.concat(view.columns);
-			$scope.filters = view.filters;
-			angular.forEach($scope.viewData, function(val) {
-				$scope.added[val.level.label] = true;
-			});
+	 	$scope.filters = $scope.views.currentView.filters;
+		angular.forEach($scope.viewData, function(val) {
+			$scope.added[val.level.label] = true;
 		});
 
-		CubeService.getMeta().then(function(response) {
+		CubeService.getMeta($scope.cubeId).then(function(response) {
 			$scope.dimensions = response;
 		});
 

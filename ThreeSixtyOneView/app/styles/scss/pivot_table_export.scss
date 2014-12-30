@@ -1,6 +1,6 @@
 @import "variables";
 
-#pivotExport {
+.importExport {
 	h4 {
 		display: inline-block;
 		margin-right: 10px;
@@ -16,30 +16,45 @@
 		width: 450px;
 		background: #fff;
 		padding: 20px;
-
-		.percentage {
-			display: inline-block;
-			margin-left: 5px;
-			vertical-align: middle;
-		}
 	}
-	
+
+	.uploadContainer {
+		display: inline-block;
+		width: 400px;
+	}
+
+	.percentage {
+		display: inline-block;
+		margin-left: 5px;
+		vertical-align: middle;
+	}
+
 	.btn {
 		padding: 6px 22px;
 	}
 
 	.btnGroup {
 		margin-top: 16px;
-		.activeBtn {
-			background-color: #f35528;
-			color: #fff;
-			margin-left: 12px;
+		display: inline-block;
+		.btn {
+			margin-right: 12px;
 		}
+	}	
 
-		.inactiveBtn {
-			background-color: #d9d9d9;
-			color: #727272;
-		}
+	.activeBtn {
+		background-color: #f35528;
+		color: #fff;
+	}
+
+	.inactiveBtn {
+		background-color: #d9d9d9;
+		color: #727272;
+	}
+
+	.disabledBtn {
+		background-color: #f2f2f2;
+		border: 1px solid #d9d9d9;
+		color: #d9d9d9;
 	}
 
 	.progress {
@@ -53,6 +68,24 @@
 
 	.progress-bar {
 		background-color: #2d5eab;
+	}
+
+	input {
+		width: 230px;
+		padding: 4px 6px;
+		vertical-align: middle;
+	}
+
+	.errMsg {
+		display: inline-block;
+		color: #cf1006;
+	}
+
+	.successMsg {
+		padding: 5px;
+		border: 1px solid #449e47;
+		display: inline-block;
+		background-color: #c7e9c8;
 	}
 }
 .tab-content {
