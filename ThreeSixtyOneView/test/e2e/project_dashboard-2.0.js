@@ -7,7 +7,7 @@ var projectUrl = '/#/projects?e2e=true',
 	// var projectId = "41ff45e05d193558a13ca7afb5b94ed6";
 	// dashboardUrl = dashboardUrl.replace(/:id/, projectId);
 
-xdescribe('Project Dashboard', function() {
+describe('Project Dashboard', function() {
 	var hasClass = function (element, cls) {
 	    return element.getAttribute('class').then(function (classes) {
 	        return classes.split(' ').indexOf(cls) !== -1;
@@ -485,16 +485,15 @@ xdescribe('Project Dashboard', function() {
 		});
 
 		describe("Breadcrumbs: ", function(){
-			var breadcrumb = "ol.breadcrumbs li",
+			var breadcrumb = "ol.breadcrumb",
 				breadcrumbField = element(by.css(breadcrumb));
 
 			it("should have the correct label", function(){
-				expect(breadcrumbField.getText()).toEqual("ALL PROJECTS > " + testFileName.toUpperCase());
+				expect(breadcrumbField.getText()).toEqual("ALL PROJECTS" + testFileName.toUpperCase());
 			});
 		});
 
 		describe("Change base scenario: ", function(){
-			//
 
 			it("should change the base scenario", function(){
 				createButton.click();

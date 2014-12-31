@@ -24,7 +24,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
         'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);},
         'Favorites': function(FavoritesService, $stateParams){return FavoritesService.getFavoritesScenarios($stateParams.projectId);}
       },
-      breadcrumb: "<li><a goto='projects'>All Projects</a></li><li>{project.title}}</li>"
+      breadcrumb: "<li><a goto='projects'>All Projects</a></li><li>{{project.title}}</li>"
     })
     .state('ScenarioCreate', {
       url: "/scenarioCreate/:projectId",

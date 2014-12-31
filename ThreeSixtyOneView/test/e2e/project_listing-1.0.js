@@ -282,7 +282,6 @@ describe('Project Listing', function() {
 			expect(hasClass(elem, 'hide')).toBe(false);
 		});
 
-
 		it("should create a project", function(){
 			var create = "//button[@data-ms-id='createButton']",
 				input = "//input[@data-ms-id='modalInput']",
@@ -339,7 +338,6 @@ describe('Project Listing', function() {
 			});
 		});
 
-
 		it("should edit a description", function(){
 			var newDescription = "This is my new description - " + Date.now(),
 				editDescription = "//a[@data-ms-id='inlineEdit']",
@@ -381,6 +379,15 @@ describe('Project Listing', function() {
 			var scenarios = element.all(by.repeater("scenario in selectedItem.scenarios"));
 
 			expect(scenarios.count()).toBe(1);
+		});
+
+		it("should click through to the scenario edit page from the scenario listings in the tray", function(){
+			element(by.model('SortAndFilterService.searchText')).sendKeys('master project');
+			var masterProject = element(by.repeater('item in getData()').row(0));
+			masterProject.click();
+			var scenario = element(by.repeater("scenario in selectedItem.scenarios").row(0));
+			scenario.click();
+			expect(browser.getLocationAbsUrl()).toContain("/#/scenario");
 		});
 	});
 
