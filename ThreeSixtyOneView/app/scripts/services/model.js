@@ -41,17 +41,15 @@ angular.module("ThreeSixtyOneView.services")
 						t = data[k];
 						if (typeof t !== "undefined") {
 							result[v] = t;
-						} else if (_.isObject(k)){
+							console.info(typeof k);
+						} else if (typeof k === "string" && k.indexOf(".") > -1){
 							try{
 								/* jshint ignore:start */
-								result[v] = eval("data." + k.selector);
+								result[v] = eval("data." + k);
 								/* jshint ignore:end */
 							} catch(e){
-								console.info (k.selector + " does not exist");
+								console.info (k + " does not exist");
 							}
-						} else {
-							// value is undefined
-							//result[v] = "";
 						}
 					}
 				});

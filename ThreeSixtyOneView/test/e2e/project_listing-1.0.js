@@ -25,7 +25,11 @@ describe('Project Listing', function() {
 		createdBy = "//li[@data-ms-id='Created Date']",
 		ascending = "//li[@data-ms-id='ascending']",
 		descending = "//li[@data-ms-id='descending']",
-		breadcrumb = ".breadcrumbs span span",
+		breadcrumb = "ol.breadcrumb li",
+		filterMenu = ".app .ProjectManager .display-actions .filter-holder .title",
+		filterFavorites = '.filterDropdown li:last-child',
+		filterAll = '.filterDropdown li:first-child',
+		countHolder = '//span[@data-ms-id="dataCount"]';
 		ascendingButton = element(by.xpath(ascending)),
 		descendingButton = element(by.xpath(descending)),
 		dropdownButton = element(by.xpath(dropdown)),
@@ -223,14 +227,27 @@ describe('Project Listing', function() {
 				expect(hasClass(firstElement, 'favorite')).not.toBe(isFavorite);
 			});
 		});
+
+		it("should update the tray when favorites are filtered", function(){
+			element(by.css(filterMenu)).click();
+			element(by.css(filterFavorites)).click();
+
+			var firstTitle = element.all(by.repeater('item in getData()').column('title')).first(),
+				titleInTray = element(by.xpath("//h4[@data-ms-id='inlineRenameField']"));
+
+			firstTitle.getText().then(function(title){
+				titleInTray.getText().then(function(secondTitle){
+					console.info("titles");
+					console.info(title);
+					console.info(secondTitle);
+					expect(title).toEqual(secondTitle);
+				});
+			});
+
+		});
 	});
 
 	describe("Filters: ", function(){
-		var filterMenu = ".app .ProjectManager .display-actions .filter-holder .title",
-			filterFavorites = '.filterDropdown li:last-child',
-			filterAll = '.filterDropdown li:first-child',
-			countHolder = '//span[@data-ms-id="dataCount"]';
-
 		it("should filter by favorite", function(){
 			var filteredCount, unFilteredCount,
 				itemCount = element(by.xpath(countHolder));
@@ -264,7 +281,6 @@ describe('Project Listing', function() {
 			element(by.css(".app .ProjectManager .display-actions .filter-holder .title")).click();
 			expect(hasClass(elem, 'hide')).toBe(false);
 		});
-
 
 		it("should create a project", function(){
 			var create = "//button[@data-ms-id='createButton']",
@@ -322,7 +338,6 @@ describe('Project Listing', function() {
 			});
 		});
 
-
 		it("should edit a description", function(){
 			var newDescription = "This is my new description - " + Date.now(),
 				editDescription = "//a[@data-ms-id='inlineEdit']",
@@ -364,6 +379,15 @@ describe('Project Listing', function() {
 			var scenarios = element.all(by.repeater("scenario in selectedItem.scenarios"));
 
 			expect(scenarios.count()).toBe(1);
+		});
+
+		it("should click through to the scenario edit page from the scenario listings in the tray", function(){
+			element(by.model('SortAndFilterService.searchText')).sendKeys('master project');
+			var masterProject = element(by.repeater('item in getData()').row(0));
+			masterProject.click();
+			var scenario = element(by.repeater("scenario in selectedItem.scenarios").row(0));
+			scenario.click();
+			expect(browser.getLocationAbsUrl()).toContain("/#/scenario");
 		});
 	});
 

@@ -178,15 +178,23 @@ body {
 			padding-left: 15px;
 			color: $white;
 			font-size: 1.0em;
-			.breadcrumbs {
+			.breadcrumb {
+				padding:0;
+				margin-bottom: 0;
+				background-color: transparent;
+				border-radius: 0;
 				text-transform: uppercase;
-				margin-left: 20px;
-				margin-right: 20px;
+				white-space: nowrap;
 				a {
 					cursor: pointer;
 					&:hover {
 						text-decoration: none;
 					}
+				}
+				li {
+					text-overflow:ellipsis;
+					max-width: 500px;
+					overflow: hidden;
 				}
 			}
 		}
@@ -196,7 +204,7 @@ body {
 		width:100%;
 		z-index:1000;
 		height:50px;
-		// position:fixed;
+		/* position:fixed; */
 		bottom:0;
 		div {
 			&.footerLeft {

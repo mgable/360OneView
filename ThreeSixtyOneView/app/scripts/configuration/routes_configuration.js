@@ -13,7 +13,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
         'Projects': function(ProjectsService){return ProjectsService.get();},
         'Favorites': function(FavoritesService){return FavoritesService.get("project");}
       },
-      breadcrumb: "<span>All Projects</span>"
+      breadcrumb: "<li>All Projects</li>"
     })
     .state('Dashboard', {
       url: "/dashboard/:projectId",
@@ -24,7 +24,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
         'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);},
         'Favorites': function(FavoritesService, $stateParams){return FavoritesService.getFavoritesScenarios($stateParams.projectId);}
       },
-      breadcrumb: "<a goto='projects'>All Projects</a> &gt; {{project.title}}"
+      breadcrumb: "<li><a goto='projects'>All Projects</a></li><li>{{project.title}}</li>"
     })
     .state('ScenarioCreate', {
       url: "/scenarioCreate/:projectId",
@@ -34,7 +34,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
         'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);}
       },
-      breadcrumb: "<a goto='projects'>All Projects</a> &gt; {{project.title}} &gt; Create Scenario"
+      breadcrumb: "<li><a goto='projects'>All Projects</a></li><li>{{project.title}} &gt; Create Scenario</li>"
     })
     .state('Scenario', {
       abstract: true,
@@ -49,7 +49,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
         'ScenarioElements': function(ScenarioElementService, $stateParams){return ScenarioElementService.get($stateParams.scenarioId);},
         'Element': function(ScenarioElementService, $stateParams){return ScenarioElementService.getAnalysisElementByScenarioType($stateParams.scenarioId)}
       },
-      breadcrumb: "<a goto='projects'>All Projects</a> &gt; <a goto='dashboard' params='{{project.id}}'>{{project.title}}</a> &gt; {{scenario.title}}"
+      breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.id}}'>{{project.title}}</a></li><li>{{scenario.title}}</li>"
     })
     .state("Scenario.edit", {
         url: "/edit",
@@ -58,7 +58,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
             templateUrl: "views/includes/scenario_edit.tpl.html"
           }
         },
-        breadcrumb: "<a goto='projects'>All Projects</a> &gt; <a goto='dashboard' params='{{project.id}}'>{{project.title}}</a> &gt; {{scenario.title}}"
+        breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.id}}'>{{project.title}}</a></li><li>{{scenario.title}}</li>"
     })
     .state("Scenario.results", {
       url: "/results",
@@ -68,6 +68,6 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
           templateUrl: "views/includes/scenario_results.tpl.html"
         }
       },
-      breadcrumb: "<a goto='projects'>All Projects</a> &gt; <a goto='dashboard' params='{{project.id}}'>{{project.title}}</a> &gt; {{scenario.title}}"
+      breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.id}}'>{{project.title}}</a></li><li>{{scenario.title}}</li>"
     });
 }]);

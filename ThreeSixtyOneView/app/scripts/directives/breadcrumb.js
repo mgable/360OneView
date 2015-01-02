@@ -3,7 +3,7 @@
 angular.module('ThreeSixtyOneView.directives')
   .directive('breadcrumb', function ($compile, $state, $stateParams, $sce, $interpolate, GotoService, ProjectsService, ScenarioService) {
 	return {
-		template: "<span ng-bind-html='breadcrumbs' ng-click='goto($event)'></span>",
+		template: "<ol class='breadcrumb' ng-bind-html='breadcrumbs' ng-click='goto($event)'></ol>",
 		restrict: 'AE',
 		link: function (scope) {
 			var breadcrumbs, where, params;
