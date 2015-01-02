@@ -198,15 +198,8 @@ angular.module('ThreeSixtyOneView')
         }
 
         for(var i = 0; i < items.length; i++) {
-            for(var j = 0; j < $scope.viewData.columns.length; j++) {
-                if(items[i].label === $scope.viewData.columns[j].level.label) {
-                    $scope.searchFilters(items[i], $scope.filterSearch);
-                    return items[i];
-                }
-            }
-
-            for(j = 0; j < $scope.viewData.rows.length; j++) {
-                if(items[i].label === $scope.viewData.rows[j].level.label) {
+            for(var j = 0; j < $scope.viewData.length; j++) {
+                if(items[i].label === $scope.viewData[j].level.label) {
                     $scope.searchFilters(items[i], $scope.filterSearch);
                     return items[i];
                 }
