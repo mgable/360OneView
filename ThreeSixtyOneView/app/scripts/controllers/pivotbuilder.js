@@ -7,7 +7,9 @@
 * # PivotbuilderctrlCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'pbData', 'ptData', 'PivotViewService', 'CubeService', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, $q, pbData, ptData, PivotViewService, CubeService, DialogService) {
+angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', 
+	['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'pbData', 'ptData', 'PivotViewService', 'CubeService', 'DialogService', 'PivotIntermediatesService',
+	function ($scope, $rootScope, EVENTS, $timeout, $q, pbData, ptData, PivotViewService, CubeService, DialogService, PivotIntermediatesService) {
 
 	var init = function() {
 		$scope.pbShow = false;
@@ -25,7 +27,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		} else {
 			$scope.loadView($scope.cubeId, $scope.viewsList[0].id);
 		}
-		$scope.loadDimensions($scope.cubeId);
 
 		$scope.$on(EVENTS.selectScenarioElement, function(evt, element) {
 			$scope.cubeId = element.cubeMeta.id;
@@ -41,8 +42,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		$scope.added = {};
 
 		$scope.setUpAddedLevels($scope.views.currentView);
-
-		$scope.selectedFilter = {cat: ''};
 		$scope.addedFilters = {};
 		$scope.filterSearch = {label: ''};
 
@@ -67,49 +66,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		};
 
 		// $scope.identity = angular.identity();
-	};
-
-	// create the temporary filter object from the view data
-	$scope.loadFilters = function() {
-		var i, j, dimensionIndex;
-		$scope.addedFilters = {};
-
-		var findTree = function(_label, _dimension, _add) {
-			var i, add, output = {};
-
-			add = _add || (_dimension.label === _label);
-
-			for(i = 0; i < _dimension.members.length; i++) {
-				output = angular.extend(output, findTree(_label, _dimension.members[i], add));
-				// output = output.concat(findTree(_label, _dimension.members[i], add));
-			}
-
-			if(_dimension.members.length === 0 && add) {
-				output[_dimension.label] = true;
-			}
-
-			return output;
-		};
-
-		for(i = 0; i < $scope.viewData.filters.length; i++) {
-			$scope.addedFilters[$scope.viewData.filters[i].scope.dimension.label] = {};
-			$scope.addedFilters[$scope.viewData.filters[i].scope.dimension.label].scope = $scope.viewData.filters[i].scope;
-
-			for(j = 0; j < $scope.dimensions.length; j++) {
-				if($scope.viewData.filters[i].scope.dimension.id === $scope.dimensions[j].id) {
-					dimensionIndex = j;
-					break;
-				}
-			}
-
-			if($scope.viewData.filters[i].value.specification.type === 'All') {
-				angular.extend($scope.addedFilters[$scope.viewData.filters[i].scope.dimension.label], findTree($scope.viewData.filters[i].scope.level.label, $scope.dimensions[dimensionIndex], false));
-			} else {
-				for(j = 0; j < $scope.viewData.filters[i].value.specification.members.length; j++) {
-					angular.extend($scope.addedFilters[$scope.viewData.filters[i].scope.dimension.label], findTree($scope.viewData.filters[i].value.specification.members[j].label, $scope.dimensions[dimensionIndex], false));
-				}
-			}
-		}
 	};
 
 	// delete an item from column/row
@@ -153,9 +109,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 
 	// open/dismiss filters selection modal
 	$scope.filtersModal = function(category) {
-		$scope.selectedFilter.cat = category;
-
-		var dialog = DialogService.openFilterSelection('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl', {selFil: $scope.selectedFilter.selFil, cat: $scope.selectedFilter.cat, addedFilters: $scope.addedFilters, viewData: $scope.viewData, dimensions: $scope.dimensions, categorizeValues: $scope.categorizeValues}, {windowSize: 'lg', windowClass: 'filtersSelectionModal'});
+		var dialog = DialogService.openFilterSelection('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl', {cat: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData, dimensions: $scope.dimensions}, {windowSize: 'lg', windowClass: 'filtersSelectionModal'});
 
 		dialog.result.then(function(data) {
 			$scope.addedFilters = data;
@@ -179,7 +133,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 			newFilter.value = {};
 			newFilter.value.specification = {};
 
-			values = $scope.categorizeValues(i, $scope.addedFilters[$scope.dimensions[i].label]);
+			values = PivotIntermediatesService.getCategorizeValues($scope.dimensions[i], $scope.addedFilters[$scope.dimensions[i].label]);
 
 			if(values.selected === values.total) {
 				newFilter.value.specification.type = 'All';
@@ -195,58 +149,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		}
 
 		$scope.viewData.filters = filters;
-	};
-
-	// aggregate filter values based on categories
-	$scope.categorizeValues = function(index, items) {
-		var i, result;
-
-		var countValues = function(category) {
-			var output = {
-				label: [],
-				selected: 0,
-				total: 0
-			};
-			var j, tempResult;
-
-			if(category.members.length > 0) {
-				for(j = 0; j < category.members.length; j++) {
-					tempResult = countValues(category.members[j]);
-
-					if(!tempResult) {
-						return false;
-					}
-
-					if(tempResult.selected > 0 && tempResult.selected !== tempResult.total) {
-						return false;
-					} else if(tempResult.selected === tempResult.total) {
-						output.label.push(category.members[j].label);
-						output.selected++;
-					}
-					output.total++;
-				}
-
-			} else {
-				if(items[category.label]) {
-					output.selected = 1;
-					output.label.push(category.label);
-				}
-				output.total = 1;
-			}
-
-			return output;
-		};
-
-		for(i = 0; i < $scope.dimensions[index].members.length; i++) {
-			result = countValues($scope.dimensions[index].members[i]);
-
-			if(!!result) {
-				if(result.selected !== result.total) {
-					return result;
-				}
-			}
-		}
-		return result;
 	};
 
 	// reset the view to the last saved state
@@ -497,9 +399,12 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 			$scope.viewData = view;
 			$scope.viewName = view.name;
 			$scope.setUpAddedLevels(view);
-			if($scope.dimensions) {
-				$scope.loadFilters();
-			}
+			$scope.loadDimensions(cubeId).then(function() {
+				$scope.addedFilters = PivotIntermediatesService.getAddedFilters($scope.viewData.filters, $scope.dimensions);
+				_.each($scope.dimensions, function(_dimension) {
+					_dimension.catVal = PivotIntermediatesService.getCategorizeValues(_dimension, $scope.addedFilters[_dimension.label]);
+				});
+			});
 		});
 	};
 
@@ -538,7 +443,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 			$scope.viewName = view.name;
 			$scope.setUpAddedLevels(view);
 			$scope.viewsList.unshift(view);
-			$scope.loadFilters();
+			$scope.addedFilters = PivotIntermediatesService.getAddedFilters($scope.viewData.filters, $scope.dimensions);
 		});
 	};
 
@@ -585,17 +490,47 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 					}
 				});
 			}
-
+			$scope.addedFilters = PivotIntermediatesService.getAddedFilters($scope.viewData.filters, $scope.dimensions);
 			$scope.createView(cubeId, newView);
 		});
 	};
 
 	// load applicable dimensions
 	$scope.loadDimensions = function(cubeId) {
-		return CubeService.getMeta(cubeId).then(function(response) {
-			// $scope.dimensions = response;
-			$scope.getViewByMembers(cubeId, response);
-			return response;
+		return CubeService.getMeta(cubeId).then(function(dimensions) {
+			// get all members of all dimensions and build the dimensions tree
+			var i, j, k, count = 0, timeIndex, promises = [];
+
+			_.each(dimensions, function(_dimension, _index) {
+				_.each(_dimension.members, function(_member) {
+					if(!_member.leafLevel) {
+						promises.push(CubeService.getViewByMembers(cubeId, _dimension.id, _member.levelId));
+						if(_dimension.type === 'TimeDimension') {
+							timeIndex = _index;
+						}
+					}
+				});
+			});
+
+			return $q.all(promises).then(function(response) {
+				var timeAdded = false, lastMembers;
+
+				_.each(dimensions, function(_dimension) {
+					_.each(_dimension.members, function(_member) {
+						if(!_member.leafLevel) {
+							_member.members = response[count++].members;
+						} else {
+							_.each(lastMembers, function(_lastMember) {
+								_member.members = _member.members.concat(_lastMember.members);
+							});
+						}
+						lastMembers = _member.members;
+					});
+				});
+
+				$scope.dimensions = dimensions;
+				$scope.membersList = PivotIntermediatesService.generateMembersList($scope.dimensions);
+			});
 		});
 	};
 
@@ -610,76 +545,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', ['$scope', '$
 		for(i = 0; i < view.rows.length; i++) {
 			$scope.added[view.rows[i].level.label] = true;
 		}
-	};
-
-	// get all members of all dimensions and build the dimensions tree
-	$scope.getViewByMembers = function(cubeId, dimensions) {
-		var i, j, k, count = 0, timeIndex, promises = [];
-
-		_.each(dimensions, function(_dimension, _index) {
-			_.each(_dimension.members, function(_member) {
-				if(!_member.leafLevel) {
-					promises.push(CubeService.getViewByMembers(cubeId, _dimension.id, _member.levelId));
-					if(_dimension.type === 'TimeDimension') {
-						timeIndex = _index;
-					}
-				}
-			});
-		});
-
-		$q.all(promises).then(function(response) {
-			var timeAdded = false, lastMembers;
-
-			_.each(dimensions, function(_dimension) {
-				_.each(_dimension.members, function(_member) {
-					if(!_member.leafLevel) {
-						_member.members = response[count++].members;
-					} else {
-						_.each(lastMembers, function(_lastMember) {
-							_member.members = _member.members.concat(_lastMember.members);
-						});
-					}
-					lastMembers = _member.members;
-				});
-			});
-
-			$scope.dimensions = dimensions;
-			$scope.generateMembersList(dimensions);
-			return dimensions;
-		});
-	};
-
-	// generate a flat list of all the members for the purpose of generating filters list
-	$scope.generateMembersList = function(tree) {
-		var membersList = [];
-
-		var flattenTree = function(branch, _dimensionId, _hierarchyId, _levelId) {
-			var hierarchyId, levelId, output = {};
-
-			hierarchyId = _hierarchyId || branch.hierarchyId || null;
-			levelId = _levelId || branch.levelId || null;
-
-			output[branch.label] = {
-				id: branch.id,
-				dimensionId: _dimensionId,
-				hierarchyId: hierarchyId,
-				levelId: levelId
-			};
-
-			_.each(branch.members, function(_member) {
-				angular.extend(output, flattenTree(_member, _dimensionId, hierarchyId, levelId));
-			});
-
-			return output;
-		};
-
-		_.each(tree, function(_branch) {
-			membersList[_branch.dimensionId] = flattenTree(_branch, _branch.dimensionId, null, null);
-		});
-
-		$scope.membersList = membersList;
-		$scope.loadFilters();
-		return membersList;
 	};
 
 	$scope.test = function(label) {

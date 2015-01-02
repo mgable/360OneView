@@ -156,10 +156,10 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t<div class=\"pbFilterModalLinks\">\n" +
     "\t\t<div class=\"pbFilterModalLink clickable\" ng-repeat=\"cat in dimensions\" ng-click=\"chooseFilter(cat, false, false)\" ng-class=\"{active: cat.label == selectedFilter.cat.label}\">\n" +
     "\t\t\t<div>{{cat.label}}\n" +
-    "\t\t\t\t<span class=\"pbFilterSize\">({{categorizeValuesCount($index, addedFilter[cat.label]).selected}}/{{categorizedValue[$index].total}})</span>\n" +
+    "\t\t\t\t<span class=\"pbFilterSize\">({{categorizeValuesCount($index, addedFilter[cat.label]).selected}}/{{cat.catVal.total}})</span>\n" +
     "\t\t\t</div>\n" +
-    "\t\t\t<div ng-show=\"categorizedValue[$index].selected<categorizedValue[$index].total\" class=\"pbFilterModalValues\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{{categorizedValue[$index].label.join(', ')}}\">{{categorizedValue[$index].label.join(', ')}}</div>\n" +
-    "\t\t\t<div ng-hide=\"categorizedValue[$index].selected<categorizedValue[$index].total\" class=\"pbFilterModalValues\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{{categorizedValue[$index].label.join(', ')}}\">All</div>\n" +
+    "\t\t\t<div ng-show=\"cat.catVal.selected < cat.catVal.total\" class=\"pbFilterModalValues\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{{cat.catVal.label.join(', ')}}\">{{cat.catVal.label.join(', ')}}</div>\n" +
+    "\t\t\t<div ng-hide=\"cat.catVal.selected < cat.catVal.total\" class=\"pbFilterModalValues\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{{cat.catVal.label.join(', ')}}\">All</div>\n" +
     "\t\t</div>\n" +
     "\t</div>\n" +
     "\t<div class=\"pbFilterModalMain\">\n" +
