@@ -10,24 +10,24 @@
 		</div>
 		<ul class="detail-list no-margin">
 			<li class="detail">
-				<a class="pull-left" ng-click="action(trayActions.copy, selectedItem)" data-ms-id="trayActions.copy">
-					<icon type="files-o"></icon>Copy
-				</a>
+				<button class="pull-left btn btn-default" ng-disabled="selectedItem.isMaster" ng-click="action(trayActions.copy, selectedItem)" data-ms-id="trayActions.copy">
+					<icon type="files-o"></icon>&nbsp;Copy
+				</button>
 			</li>
 			<li class="detail">
-				<a class="pull-left share" ng-click="action(trayActions.share, selectedItem)" data-ms-id="trayActions.share">
-					<icon type="users"></icon>Share
-				</a>
+				<button class="pull-left btn btn-default" ng-click="action(trayActions.share, selectedItem)" data-ms-id="trayActions.share">
+					<icon type="users"></icon>&nbsp;Share
+				</button>
 			</li>
 			<li class="detail">
-				<a class="pull-left" ng-click="action(trayActions.archive, selectedItem)" data-ms-id="trayActions.archive">
-					<icon type="inbox"></icon>Archive
-				</a>
+				<button class="pull-left btn btn-default" ng-click="action(trayActions.archive, selectedItem)" data-ms-id="trayActions.archive">
+					<icon type="inbox"></icon>&nbsp;Archive
+				</button>
 			</li>
 			<li class="detail">
-				<a class="pull-left" ng-click="action(trayActions.dropdown, selectedItem)" data-ms-id="trayActions.dropdown">
+				<button class="pull-left btn btn-default" ng-click="action(trayActions.dropdown, selectedItem)" data-ms-id="trayActions.dropdown">
 					<icon type="ellipsis-h" cname="dropdown-trigger"></icon>
-				</a>
+				</button>
 			</li>
 		</ul>
 	</div>
