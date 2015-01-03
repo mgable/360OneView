@@ -210,6 +210,7 @@ angular.module('ThreeSixtyOneView')
             if (!item.isMaster) {
                 FavoritesService.toggleFavorite(item.id, $scope.CONFIG.favoriteType);
                 SortAndFilterService.filter();
+                selectFirstItem();
             }
         };
 
