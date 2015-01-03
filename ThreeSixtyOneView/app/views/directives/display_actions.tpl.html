@@ -3,8 +3,8 @@
 	<h4 class="filter-holder" ng-click="toggle()" ><span class="title">{{SortAndFilterService.getSelectedLabel()}}&nbsp;(<span data-ms-id='dataCount'>{{SortAndFilterService.getCount()}}</span>)<span  class="filterToggle"><icon type="caret-down"></icon></span></span>
 
 		<ul ms-link-group selected-item="{{CONFIG.filterMenu.items[0].label}}" radio="true" class='filterDropdown dropdownshadow title hide menu'>
-			<li ng-repeat="item in CONFIG.filterMenu.items" class="header" ms-link="{{item.label}}">
-				 <a  ng-click="setFilter(item.filterType, item, true)">{{item.label}}</a>
+			<li ng-repeat="item in CONFIG.filterMenu.items" class="header" ms-link="{{item.label}}" ng-click="setFilter(item.filterType, item, true)">
+				 <a>{{item.label}}</a>
 			</li>
 	    </ul>
 	</h4>
