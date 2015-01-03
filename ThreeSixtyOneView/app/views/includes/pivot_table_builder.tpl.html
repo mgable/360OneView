@@ -118,9 +118,9 @@
 			<div class="pbSecTitle">Filters</div>
 			<div class="pbFilterValues">
 				<div ng-repeat="cat in dimensions" class="pbFilterBox clickable" ng-click="filtersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="addedFilters[cat.label]">
-					<div class="pbFilterCat">{{cat.label}} <span class="pbFilterSize">({{categorizeValues($index, addedFilters[cat.label]).selected}}/{{categorizeValues($index, addedFilters[cat.label]).total}})</span></div>
-					<div class="pbFilterVal" ng-show="categorizeValues($index, addedFilters[cat.label]).selected < categorizeValues($index, addedFilters[cat.label]).total" data-toggle="tooltip" data-placement="bottom" title="{{viewData.filters[$index].items.join(', ')}}">{{categorizeValues($index, addedFilters[cat.label]).label.join(', ')}}</div>
-					<div class="pbFilterVal" ng-show="categorizeValues($index, addedFilters[cat.label]).selected == categorizeValues($index, addedFilters[cat.label]).total">All</div>
+					<div class="pbFilterCat">{{cat.label}} <span class="pbFilterSize">({{cat.catVal.selected}}/{{cat.catVal.total}})</span></div>
+					<div class="pbFilterVal" ng-show="cat.catVal.selected < cat.catVal.total" data-toggle="tooltip" data-placement="bottom" title="{{viewData.filters[$index].items.join(', ')}}">{{cat.catVal.label.join(', ')}}</div>
+					<div class="pbFilterVal" ng-show="cat.catVal.selected == cat.catVal.total">All</div>
 				</div>
 			</div>
 		</div>

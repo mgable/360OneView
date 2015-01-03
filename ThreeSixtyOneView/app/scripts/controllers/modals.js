@@ -121,19 +121,18 @@ angular.module('ThreeSixtyOneView')
         
         init();
 
-    }]).controller('FilterSelectionCtrl', ["$scope", "$window", "$rootScope", "$modalInstance", "$controller", "data", "CONFIG", function($scope, $window, $rootScope, $modalInstance, $controller, data, CONFIG) {
+    }]).controller('FilterSelectionCtrl', ["$scope", "$window", "$rootScope", "$modalInstance", "$controller", "data", "CONFIG", "PivotIntermediatesService", 
+    function($scope, $window, $rootScope, $modalInstance, $controller, data, CONFIG, PivotIntermediatesService) {
     angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
     var init = function() {
         $scope.selectedFilter = {};
-        $scope.selectedFilter.selFil = data.selFil;
+        //$scope.selectedFilter.selFil = data.selFil;
         $scope.selectedFilter.cat = data.cat;
         $scope.addedFilter = data.addedFilters;
         $scope.dimensions = data.dimensions;
-        $scope.categorizeValues = data.categorizeValues;
         $scope.viewData = data.viewData;
 
-        $scope.categorizedValue = [];
         $scope.filterSearch = {label: ''};
         $scope.emptyFiltersList = [];
         $scope.noFilterSelected = false;
@@ -195,15 +194,8 @@ angular.module('ThreeSixtyOneView')
         }
 
         for(var i = 0; i < items.length; i++) {
-            for(var j = 0; j < $scope.viewData.columns.length; j++) {
-                if(items[i].label === $scope.viewData.columns[j].level.label) {
-                    $scope.searchFilters(items[i], $scope.filterSearch);
-                    return items[i];
-                }
-            }
-
-            for(j = 0; j < $scope.viewData.rows.length; j++) {
-                if(items[i].label === $scope.viewData.rows[j].level.label) {
+            for(var j = 0; j < $scope.viewData.length; j++) {
+                if(items[i].label === $scope.viewData[j].level.label) {
                     $scope.searchFilters(items[i], $scope.filterSearch);
                     return items[i];
                 }
@@ -343,8 +335,7 @@ angular.module('ThreeSixtyOneView')
     };
 
     $scope.categorizeValuesCount = function(_index, addedFilter) {
-        var output = $scope.categorizeValues(_index, addedFilter);
-        $scope.categorizedValue[_index] = output;
+        var output = PivotIntermediatesService.getCategorizeValues($scope.dimensions[_index], addedFilter);
 
         // add empty category to the empty items list and show error
         if(output.selected === 0) {
