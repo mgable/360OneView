@@ -13,6 +13,7 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     getNewProjectTitle: "DialogService:create",
     selectScenarioElement: "PivotBuilderCtrl:loadCube",
     openScenarioCreate: "DialogService:openCreateScenario",
+    newSelectedItem: "ListingView:newSelectedItem",
     trayCopy: "Tray:copy",
     changePivotTableFilter: "PivotTable:changeFilter",
     noop: "noop",

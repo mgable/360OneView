@@ -34,7 +34,7 @@
 	<div class="well profile description-holder">
 		<span ng-switch="selectedItem.isMaster">
 			<span ng-switch-default>
-				<inline-edit template="inline_description" item="selectedItem" test="e2e" submitAction="trayActions.rename"></inline-edit>
+				<inline-edit template="inline_description" focusTarget="textarea" item="selectedItem" test="e2e" submitAction="trayActions.rename"></inline-edit>
 			</span>
 			<span ng-if="selectedItem.createdBy">
 				<h5>Created By</h5>

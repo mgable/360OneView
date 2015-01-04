@@ -182,6 +182,7 @@ angular.module('ThreeSixtyOneView')
 
         $scope.showDetails = function(item){
             $scope.selectedItem = item;
+            $rootScope.$broadcast(EVENTS.newSelectedItem, $scope.selectedItem);
         };
 
         $scope.isActiveItem = function (item){

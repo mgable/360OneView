@@ -1,0 +1,71 @@
+.inlineRename {
+	margin:0px;
+	font-size: 18px;
+	.noEdit {
+		cursor: pointer;
+		display: inline-block;
+		.title {
+			display: inline-block;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			width: 290px;
+		}
+		.action {
+			visibility: hidden;
+			float: right;
+		}
+		&:hover {
+			.action {
+				visibility: visible;
+				.icon {
+					color: #428bca;
+				}
+			}
+		}
+	}
+	.edit {
+		button[disabled] i{
+			color: #AAAAAA;
+		}
+		input {
+			width: 233px;
+		}
+	}
+}
+
+.inlineDescription {
+	font-size: 14px;
+	.title {
+		display: inline-block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		width: 290px;
+	}
+	.noEdit {
+		clear:both;
+	}
+	textarea {
+		width: 100%;
+	}
+	.action {
+		visibility: hidden;
+		float:right;
+		cursor:pointer;
+	}
+	.controls {
+		float:right;
+		button[disabled] i{
+			color: #AAAAAA;
+		}
+	}
+	&:hover {
+		.action {
+			visibility: visible;
+			.icon {
+				color: #428bca;
+			}
+		}
+	}
+}
