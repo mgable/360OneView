@@ -4,22 +4,17 @@ var projectUrl = '/#/projects?e2e=true',
 	dashboardUrl = '/#/dashboard/:id?e2e=true';
 
 	//TEMP data - remove in production
-	// var projectId = "41ff45e05d193558a13ca7afb5b94ed6";
-	// dashboardUrl = dashboardUrl.replace(/:id/, projectId);
+	var projectId = "40d7a3f103133da6b4f1e38f219e479a";
+	dashboardUrl = dashboardUrl.replace(/:id/, projectId);
 
 xdescribe('Project Dashboard', function() {
-	var hasClass = function (element, cls) {
-	    return element.getAttribute('class').then(function (classes) {
-	        return classes.split(' ').indexOf(cls) !== -1;
-	    });
-	}, menuId, nameField, column_1, createdBy, ascending, descending, ascendingButton, descendingButton, dropdown, nameButton, column_1Button, createdByButton, nameLabel, nameLabelField, dropdownButton, column_1Label, column_1LabelField, projectId, testFileName = "My New Test Project- " + Date.now();
-
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
 		}
 	);
-	var dropdown = "//span[@data-ms-id='toggle_column_1']",
+	var testFileName = "My New Test Project- " + Date.now(),
+		dropdown = "//span[@data-ms-id='toggle_column_1']",
 		nameField = "//a[@data-ms-id='name-field']",
 		nameLabel = "//div[@data-ms-id='name-label']",
 		column_1 = "//span[@data-ms-id='select_column_1']",
@@ -45,7 +40,7 @@ xdescribe('Project Dashboard', function() {
 		submitButton = element(by.xpath(submit)),
 		cancelButton = element(by.xpath(cancel));
 
-	it("should create a new project and go to the dashboard", function(){
+	xit("should create a new project and go to the dashboard", function(){
 		browser.get(projectUrl);
 		createButton.click();
 		browser.waitForAngular();
@@ -80,12 +75,13 @@ xdescribe('Project Dashboard', function() {
 			submit = "//input[@data-ms-id='ScenarioCreate.submit']",
 			cancel = "//button[@data-ms-id='ScenarioCreate.cancel']",
 			create = "//button[@data-ms-id='createButton']",
-			trayCopy = "//a[@data-ms-id='trayActions.copy']",
+			trayCopy = "//button[@data-ms-id='trayActions.copy']",
 			modal = "//input[@data-ms-id='modalInput']",
 			confirmBaseScenario = "//button[@data-ms-id='ScenarioCreate.confirmBaseScenario']",
 			cancelBaseScenario = "//button[@data-ms-id='ScenarioCreate.cancelBaseScenario']",
 			baseScenarioInput = "scenario.referenceScenario.name",
 			scenarioBaseScenario = "//p[@data-ms-id='ScenarioListing:baseScenario']",
+			titleInTray = "form[data-ms-id='inlineRename'] span.title",
 			scenarioBaseScenarioElement = element(by.xpath(scenarioBaseScenario )),
 			baseScenarioInputField = element(by.model(baseScenarioInput)),
 			modalInput = element(by.xpath(modal)),
@@ -104,7 +100,7 @@ xdescribe('Project Dashboard', function() {
 		});
 
 
-		describe("Create functions: ", function(){
+		xdescribe("Create functions: ", function(){
 			var baseScenario = "scenario.referenceScenario.name",
 				baseScenarioInputField = element(by.model(baseScenario));
 
@@ -282,7 +278,7 @@ xdescribe('Project Dashboard', function() {
 				filterAll = '.filterDropdown li:first-child',
 				countHolder = '//span[@data-ms-id="dataCount"]';
 
-			it("should filter by favorite", function(){
+			xit("should filter by favorite", function(){
 				var filteredCount, unFilteredCount,
 					itemCount = element(by.xpath(countHolder));
 				element.all(by.repeater('item in getData()')).count().then(function(count){
@@ -311,10 +307,10 @@ xdescribe('Project Dashboard', function() {
 					element(by.css(filterFavorites)).click();
 
 					var firstTitle = element.all(by.repeater('item in getData()').column('title')).first(),
-						titleInTray = element(by.xpath("//h4[@data-ms-id='inlineRenameField']"));
+						trayTitle = element(by.css(titleInTray));
 
 					firstTitle.getText().then(function(title){
-						titleInTray.getText().then(function(secondTitle){
+						trayTitle.getText().then(function(secondTitle){
 							expect(title).toEqual(secondTitle);
 						});
 					});
@@ -324,27 +320,29 @@ xdescribe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Edit functions: ", function(){
+		xdescribe("Edit functions: ", function(){
 			it("should rename a scenario", function(){
 				var first,
+					rootElement = "form[data-ms-id='inlineRename']",
 					newName = "My Renamed Scenario - " + Date.now(),
-					rename = "//a[@data-ms-id='inlineRename']",
-					renameButton = element(by.xpath(rename)), 
-					input = "input.inputTarget",
+					rename = rootElement + " span.noEdit",
+					renameButton = element(by.css(rename)),
+					input = rootElement + " input",
 					inputField = element(by.css(input)),
-					inlineSubmit = "//button[@data-ms-id='inlineSubmit']",
-					inlineCancel = "//button[@data-ms-id='inlineCancel']";
+					inputFieldParent = rootElement + " span.edit",
+					inlineSubmit = rootElement + " button.submit",
+					inlineCancel = rootElement + " button.cancel",
+					inlineSubmitButton = element(by.css(inlineSubmit)),
+					inlineCancelButton = element(by.css(inlineCancel)),
+					inputFieldHolder = element(by.css(inputFieldParent));
+
 
 				browser.actions().mouseMove(renameButton).perform();
 				renameButton.click();
-				browser.waitForAngular();
-				var inlineSubmitButton = element(by.xpath(inlineSubmit)),
-					inlineCancelButton = element(by.xpath(inlineCancel)),
-					currentName = inputField.getAttribute('value');
+				var currentName = inputField.getAttribute('value');
 				inputField.clear();
 				inputField.sendKeys(newName);
 				inlineSubmitButton.click();
-				browser.waitForAngular();
 				first = element(by.repeater('item in getData()').row(0).column("title"));
 				first.getText().then(function(name){
 					expect(name).toEqual(newName);
@@ -352,7 +350,7 @@ xdescribe('Project Dashboard', function() {
 			});
 		})
 
-		describe("Sort functions: ", function(){
+		xdescribe("Sort functions: ", function(){
 			var dropdown = "//span[@data-ms-id='toggle_column_1']",
 				nameField = "//a[@data-ms-id='name-field']",
 				nameLabel = "//div[@data-ms-id='name-label']",
@@ -394,7 +392,7 @@ xdescribe('Project Dashboard', function() {
 				expect(hasClass(column_1LabelField, 'active')).toBe(true);
 			});
 
-			it("should order by name", function(){
+			xit("should order by name", function(){
 				var elem = element(by.xpath(nameField)),
 					titles = element.all(by.repeater('item in getData()').column('title'));
 				
@@ -415,7 +413,7 @@ xdescribe('Project Dashboard', function() {
 				});
 			});
 
-			it("should sort by last modified", function(){
+			xit("should sort by last modified", function(){
 				var dates = element.all(by.repeater('item in getData()').column('modifiedOn'));
 				dates.first().getText().then(function(firstDate){
 					dates.last().getText().then(function(lastDate){
@@ -433,7 +431,7 @@ xdescribe('Project Dashboard', function() {
 				});
 			});
 
-			it("should order by created date", function(){
+			xit("should order by created date", function(){
 				var dates = element.all(by.repeater('item in getData()').column('createdOn'));
 
 				dropdownButton.click();
@@ -456,7 +454,7 @@ xdescribe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Favorite behaviors: ", function(){
+		xdescribe("Favorite behaviors: ", function(){
 
 			it("should toggle favorite", function(){
 				var firstElement = element.all(by.css(".favorites a")).first(),
@@ -484,7 +482,7 @@ xdescribe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Breadcrumbs: ", function(){
+		xdescribe("Breadcrumbs: ", function(){
 			var breadcrumb = "ol.breadcrumb",
 				breadcrumbField = element(by.css(breadcrumb));
 
@@ -493,7 +491,7 @@ xdescribe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Change base scenario: ", function(){
+		xdescribe("Change base scenario: ", function(){
 
 			it("should change the base scenario", function(){
 				createButton.click();
@@ -519,7 +517,7 @@ xdescribe('Project Dashboard', function() {
 		});
 	});
 
-	describe("Edit controls on master project's master scenario", function(){		
+	xdescribe("Edit controls on master project's master scenario", function(){		
 		it('should not allow the scenario to be edited', function(){
 			browser.get(projectUrl);	
 			element(by.model('SortAndFilterService.searchText')).sendKeys('master project');
@@ -527,7 +525,7 @@ xdescribe('Project Dashboard', function() {
 
 			masterProject.click();
 			browser.waitForAngular();
-			var renameField = element(by.xpath("//h4[@data-ms-id='inlineRenameField']"));
+			var renameField = element(by.css("form[data-ms-id='inlineRename'] .edit"));
 			expect(renameField.isPresent()).toBe(false);
 
 		});

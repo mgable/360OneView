@@ -59,7 +59,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t</div>\n" +
     "\n" +
     "\t<div class=\"noEdit\" ng-hide=\"isActive\">\n" +
-    "\t\t<div ng-class=\"{'description':item.description, 'noDescription': !item.description}\" ng-show=\"!isActive\" data-ms-id=\"inlineEditField\">{{item.description}}</div>\n" +
+    "\t\t<div ng-class=\"{'description':item.description, 'noDescription': !item.description}\" ng-show=\"!isActive\">{{item.description}}</div>\n" +
     "\t</div>\n" +
     "\n" +
     "\t<div class=\"edit\" ng-show=\"isActive\">\n" +

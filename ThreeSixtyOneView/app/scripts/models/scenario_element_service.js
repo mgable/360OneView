@@ -19,7 +19,7 @@ angular.module('ThreeSixtyOneView.services')
 
 		this.getAnalysisElementByScenarioType = function (id) {
 			// (params, _config_, additionalPath)
-			return this.resource.get({"id": id}, {params:{'cubeName': 'Touchpoint' }}).then(function(response){
+			return this.resource.get({"id": id}, {params:{'cubeName': 'TOUCHPOINT' }}).then(function(response){
 				return response;
 			});
 		}
