@@ -28,7 +28,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			$scope.loadView($scope.cubeId, $scope.viewsList[0].id);
 		}
 
+		loadCube($scope.selectedScenarioElement.cubeMeta.id, $scope.selectedScenarioElement.cubeMeta.label);
+
 		$scope.$on(EVENTS.selectScenarioElement, function(evt, element) {
+			console.log(element);
 			$scope.cubeId = element.cubeMeta.id;
 			loadCube(element.cubeMeta.id, element.cubeMeta.label);
 		});

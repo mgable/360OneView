@@ -36,7 +36,7 @@ angular.module('ThreeSixtyOneView.config')
                     "requestTranslator": ""
                 },
                 "ScenarioElement": {
-                    "responseTranslator": {"id":"id", "title": {"selector": "cubeMeta.name"}},
+                    "responseTranslator": {"id":"id", "name": "name", "group":"group", "cubeMeta":"cubeMeta", "title":"cubeMeta.name"},
                     "requestTranslator": {"id":"id", "name": "title"}
                 },
                 "PivotView": {

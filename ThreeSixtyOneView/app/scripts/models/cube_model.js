@@ -5,7 +5,7 @@ angular.module('ThreeSixtyOneView.services')
 	var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.cube),
 	 transformResponse = function(data) {
 		var i, j, k, leafNode, newMember, dimensions = [], response = JSON.parse(data);
-		console.info(response);
+		// console.info(response);
 		if (response){
 			for(i = 0; i < response.dimensions.length; i++) {
 
@@ -50,7 +50,7 @@ angular.module('ThreeSixtyOneView.services')
 					}
 				}
 			}
-			console.info(dimensions);
+			// console.info(dimensions);
 			return dimensions;
 		}
 		return data;

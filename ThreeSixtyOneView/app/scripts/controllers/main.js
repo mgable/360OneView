@@ -252,10 +252,10 @@ angular.module('ThreeSixtyOneView')
         });
 
         var findElementByType = function(type) {
-            var selectedElement = _.find(Element, function(fileName) {
+            var selectedElement = _.find(ScenarioElements, function(fileName) {
                 return (fileName.id === type.id)
             });
-            $scope.$broadcast(EVENTS.selectScenarioElement, selectedElement);
+            // $scope.$broadcast(EVENTS.selectScenarioElement, selectedElement);
             return selectedElement;
         },
         init = function(){
@@ -277,6 +277,7 @@ angular.module('ThreeSixtyOneView')
 
         $scope.setScenarioElement = function(type) {
             var element = findElementByType(type);
+            $scope.$broadcast(EVENTS.selectScenarioElement, element);
             $scope.selectedScenarioElement = type;
             $scope.cubeId = element.cubeMeta.id;
             $scope.selectedScenarioElementsFile = element.name;
