@@ -1,21 +1,4 @@
 <div id="pivotBuilder">
-	<div>
-		<div class="pbTitle" ng-class="{pbTitleSel: pbShow, pbGray: !pbShow}">
-			<div class="pbRenameArea">
-				</i><icon type="eye" cname="{{pbShow ? '':'pbGray'}}"></icon>
-				<div class="pbTitleText clickable" ng-click="heightChanged(); pbShow ? startSaveAs(true) : (pbShow = true)" ng-hide="saveAs">{{viewName}}</div>
-				<div class="pbSaveAsBox" ng-show="saveAs">
-					<input type="text" ng-model="saveAsName" ng-keyup="renameAction($event)">
-					<span class="clickable" ng-click="finishSaveAs(true)"><icon type="check"></icon></span>
-					<span class="clickable" ng-click="finishSaveAs(false)"><icon type="remove"></icon></span>
-				</div>
-			</div>
-		</div>
-
-		<!-- <div class="pbToolbar" ng-class="{pbTitleSel: !pbShow}">
-		</div> -->
-	</div>
-
 	<!-- <span class="holder col-2" ng-click="globalInfo.showTray=!globalInfo.showTray"><i class="fa fa-book"></i>&nbsp;Contentual Info</span>
 	<span class="holder col-2"><i class="fa fa-building"></i>&nbsp;Adjust Amounts</span>
 	<span class="holder col-1"><i class="fa fa-expand"></i>&nbsp;Import/Export</span>
