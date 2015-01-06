@@ -71,12 +71,32 @@
                     </div>
                 </div>
             </div>
-            <div class="srSec" ng-repeat="filter in getFilters()">
+            <!-- <div class="srSec" ng-repeat="filter in getFilters()">
                 <div class="srSecTitle">{{filter.name}}</div>
                 <div class="srFilterValues">
                     <div class="srFilterBox clickable" ng-repeat="filterItem in filter.items">
                         <div class="srFilterCat">{{filterItem.name}}</div>
                         <div class="srFilterVal">{{filterItem.value}}</div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="srSec">
+                <div class="srSecTitle">Spend Filters</div>
+                <div class="srFilterValues">
+                    <div ng-repeat="cat in dimensions" class="srFilterBox clickable" ng-click="filtersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="addedFilters[cat.label]">
+                        <div class="srFilterCat">{{cat.label}} <span class="srFilterSize">({{cat.catVal.selected}}/{{cat.catVal.total}})</span></div>
+                        <div class="srFilterVal" ng-show="cat.catVal.selected < cat.catVal.total" data-toggle="tooltip" data-placement="bottom" title="{{viewData.filters[$index].items.join(', ')}}">{{cat.catVal.label.join(', ')}}</div>
+                        <div class="srFilterVal" ng-show="cat.catVal.selected == cat.catVal.total">All</div>
+                    </div>
+                </div>
+            </div>
+            <div class="srSec">
+                <div class="srSecTitle">KPI Filters</div>
+                <div class="srFilterValues">
+                    <div ng-repeat="cat in dimensions" class="srFilterBox clickable" ng-click="filtersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="addedFilters[cat.label]">
+                        <div class="srFilterCat">{{cat.label}} <span class="srFilterSize">({{cat.catVal.selected}}/{{cat.catVal.total}})</span></div>
+                        <div class="srFilterVal" ng-show="cat.catVal.selected < cat.catVal.total" data-toggle="tooltip" data-placement="bottom" title="{{viewData.filters[$index].items.join(', ')}}">{{cat.catVal.label.join(', ')}}</div>
+                        <div class="srFilterVal" ng-show="cat.catVal.selected == cat.catVal.total">All</div>
                     </div>
                 </div>
             </div>
