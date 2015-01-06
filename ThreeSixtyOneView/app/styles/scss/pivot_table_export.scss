@@ -89,18 +89,21 @@
 		background-color: #c7e9c8;
 	}
 }
-.tab-content {
-	>.tab-pane {
-		background-color: #f2f2f2;
-		border-bottom: 1px solid #ddd;
-		border-left: 1px solid #ddd;
-		border-right: 1px solid #ddd;
+.editor {
+	.tab-content {
+		>.tab-pane {
+			background-color: #f2f2f2;
+			border-bottom: 1px solid #ddd;
+			border-left: 1px solid #ddd;
+			border-right: 1px solid #ddd;
+		}
+	}
+
+	.nav > li > a {
+		padding: 6px 15px;
+		border: 1px solid $mediumgray;
+		margin-right: 0;
+		border-radius: 0;
 	}
 }
 
-.nav > li > a {
-	padding: 6px 15px;
-	border: 1px solid $mediumgray;
-	margin-right: 0;
-	border-radius: 0;
-}
