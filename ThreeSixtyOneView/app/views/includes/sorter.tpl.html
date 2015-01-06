@@ -5,8 +5,8 @@
 		    <col width="315">
 		</colgroup>
 		<thead>
-			<th><sorting-options label="title" display="Name" msid="name-field"></sorting-options></th>
-			<th><ms-dropdown reverse=true is-active=true msid="column_1"></ms-dropdown></th>
+			<th><sorting-options label="title" display="Name" msid="column_1"></sorting-options></th>
+			<th><ms-dropdown reverse=true is-active=true msid="column_2"></ms-dropdown></th>
 			<!-- <th><ms-dropdown selected-sort-index="1" reverse=false msid="column_2"></ms-dropdown></th> -->
 		</thead>
 		<tbody>
@@ -18,12 +18,14 @@
 					</div>
 					<div class="text-holder">
                     	<span class="title">
-	                        <a class="default" ng-click="goto($event, CONFIG.nameClickAction, item)">{{item.title}}</a>&nbsp;<icon type="marketshare"></icon>
+	                        <a ng-if="!e2e" class="default" ng-click="goto($event, CONFIG.nameClickAction, item)">{{item.title}}</a>
+	                        <a ng-if="e2e" data-ms-id="{{item.id}}" class="default" ng-click="goto($event, CONFIG.nameClickAction, item)">{{item.title}}</a>
+	                        &nbsp;<icon type="marketshare"></icon>
                     	</span>
                 	</div>
 				</td>
 				<td ng-click="showDetails(item)">
-					<sortable-columns item=item display-by="getSorter('column_1')" test="e2e"></sortable-columns>
+					<sortable-columns item=item display-by="getSorter('column_2')" test="e2e"></sortable-columns>
 				</td>
 			</tr>
 		</tbody>

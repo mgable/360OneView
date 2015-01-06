@@ -4,18 +4,15 @@
 	font-family: $sansFontFamily;
 	font-size: 14px;
 	color: $black;
-	margin-bottom: 35px;
 
 	.pbTitle {
-		border: 1px solid $mediumgray;
+		border: 1px solid transparent;
 		font-size: 17px;
 		height: 30px;
 		padding: 3px 5px;
 		transition: width 0.3s linear;
 		transition: color 0.3s linear;
 		width: 240px;
-		margin-right: 20px;
-		margin-top: 5px;
 
 		&:hover {
 			color: $blue;
@@ -87,6 +84,10 @@
 		}
 	}
 
+	a {
+		padding: 0;
+	}
+
 	.pbToolbar {
 		height: 30px;
 		border-bottom: 1px solid $mediumgray;
@@ -105,6 +106,7 @@
 		max-height: 0;
 		transition: all 0.3s ease-out;
 		overflow: hidden;
+		padding: 0 16px;
 
 		&.pbOpened {
 			max-height: 300px;
@@ -114,7 +116,7 @@
 
 		.pbControlBar {
 			font-size: 16px;
-			padding: 10px 15px;
+			padding: 16px 0;
 
 			.pbFunctionFlip {
 				color: $darkgray;
@@ -356,7 +358,6 @@
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
-
 
 	.modal-dialog {
 		width: 1126px;

@@ -31,7 +31,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 		loadCube($scope.selectedScenarioElement.cubeMeta.id, $scope.selectedScenarioElement.cubeMeta.label);
 
 		$scope.$on(EVENTS.selectScenarioElement, function(evt, element) {
-			console.log(element);
 			$scope.cubeId = element.cubeMeta.id;
 			loadCube(element.cubeMeta.id, element.cubeMeta.label);
 		});
@@ -502,9 +501,12 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 
 	// load applicable dimensions
 	$scope.loadDimensions = function(cubeId) {
+		CubeService.buildDimensionsTree(cubeId, 4, 1, 1, true).then(function(dimensions) {
+			// console.log(dimensions);
+		});
 		return CubeService.getMeta(cubeId).then(function(dimensions) {
 			// get all members of all dimensions and build the dimensions tree
-			var i, j, k, count = 0, timeIndex, promises = [];
+			var count = 0, timeIndex, promises = [];
 
 			_.each(dimensions, function(_dimension, _index) {
 				_.each(_dimension.members, function(_member) {
