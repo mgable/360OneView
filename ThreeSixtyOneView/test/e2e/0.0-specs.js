@@ -85,6 +85,8 @@ var breadcrumb = "ol.breadcrumb",
 		masterProject: "master project",
 		pageTitle: "360 One View",
 		projectsBreadcrumb: "ALL PROJECTS", 
+		inputRestrictions: ["\\", "\/", ":", "?", "*", "\"", ">", "<", "|"], //\\\/\?\:\*"><|
+		minimumCharacters: "xx",
 
 		column_2SortOptionsButton: element(by.css(column_2SortOptions)),
 		column_1SortButton: element(by.css(column_1Sort)),
