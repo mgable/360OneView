@@ -308,20 +308,22 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/modal/simple_input.tpl.html',
-    "<div class=\"modal-header\" ui-keypress=\"{'esc': 'close($event)'}\">\n" +
-    "\t<h4 class=\"modal-title\"><icon type=\"{{modalProperties.icon}}\"></icon>&nbsp;{{modalProperties.title}}&nbsp;</h4>\n" +
-    "</div>\n" +
-    "<div class=\"modal-body\">\n" +
-    "\t<form name=\"nameDialog\" novalidate role=\"form\">\n" +
-    "\t\t<div class=\"form-group input-group-lg\" ng-class=\"{true: 'has-error'}[nameDialog.username.$dirty && nameDialog.username.$invalid]\">\n" +
-    "\t\t\t<label class=\"control-label\" for=\"inputField\">{{modalProperties.field}}:&nbsp;</label>\n" +
-    "\t\t\t<input type=\"text\" class=\"form-control\" id=\"inputField\" ng-model=\"item.title\" focus required ng-maxlength=\"{{inputRestrictions.maximumCharacterLimit}}\" ng-minlength=\"{{inputRestrictions.minimumCharacterLimit}}\" ng-pattern='inputRestrictions.characterRestrictions' data-ms-id=\"modalInput\" />\n" +
-    "\t\t</div>\n" +
-    "\t</form>\n" +
-    "</div>\n" +
-    "<div class=\"modal-footer\">\n" +
-    "\t<button type=\"button\" ng-disabled=\"nameDialog.$invalid\" class=\"btn btn-primary\" ng-click=\"submit(item.title)\" ui-keypress=\"{13: 'submit(item.title, $event)'}\" data-ms-id=\"submit\">{{modalProperties.button}}</button>\n" +
-    "\t<button type=\"button\" class=\"btn btn-default\" ng-click=\"close($event)\" data-ms-id=\"cancel\">Cancel</button>\n" +
+    "<div data-ms-id=\"simpleModal\">\n" +
+    "\t<div class=\"modal-header\" ui-keypress=\"{'esc': 'close($event)'}\">\n" +
+    "\t\t<h4 class=\"modal-title\"><icon type=\"{{modalProperties.icon}}\"></icon>&nbsp;{{modalProperties.title}}&nbsp;</h4>\n" +
+    "\t</div>\n" +
+    "\t<div class=\"modal-body\">\n" +
+    "\t\t<form name=\"nameDialog\" novalidate role=\"form\">\n" +
+    "\t\t\t<div class=\"form-group input-group-lg\" ng-class=\"{true: 'has-error'}[nameDialog.username.$dirty && nameDialog.username.$invalid]\">\n" +
+    "\t\t\t\t<label class=\"control-label\" for=\"inputField\">{{modalProperties.field}}:&nbsp;</label>\n" +
+    "\t\t\t\t<input type=\"text\" class=\"form-control\" id=\"inputField\" ng-model=\"item.title\" focus required ng-maxlength=\"{{inputRestrictions.maximumCharacterLimit}}\" ng-minlength=\"{{inputRestrictions.minimumCharacterLimit}}\" ng-pattern='inputRestrictions.characterRestrictions'/>\n" +
+    "\t\t\t</div>\n" +
+    "\t\t</form>\n" +
+    "\t</div>\n" +
+    "\t<div class=\"modal-footer\">\n" +
+    "\t\t<button type=\"button\" ng-disabled=\"nameDialog.$invalid\" class=\"btn btn-primary submit\" ng-click=\"submit(item.title)\" ui-keypress=\"{13: 'submit(item.title, $event)'}\" data-ms-id=\"modalSubmit\">{{modalProperties.button}}</button>\n" +
+    "\t\t<button type=\"button\" class=\"btn btn-default cancel\" ng-click=\"close($event)\">Cancel</button>\n" +
+    "\t</div>\n" +
     "</div>"
   );
 
