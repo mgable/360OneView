@@ -14,8 +14,97 @@
 
 <div class="editor">
     <tabset>
-        <tab heading="Pivot Table">
-        	<ng-include src="'views/includes/pivot_table_builder.tpl.html'" ng-controller="PivotBuilderCtrl"></ng-include>
+        <tab id="pivotBuilder" ng-controller="PivotBuilderCtrl">
+            <tab-heading>
+                <div class="pbTitle" ng-class="{pbTitleSel: pbShow, pbGray: !pbShow}">
+                    <div class="pbRenameArea">
+                        </i><icon type="eye" cname="{{pbShow ? '':'pbGray'}}"></icon>
+                        <div class="pbTitleText clickable" ng-click="heightChanged(); pbShow ? startSaveAs(true) : (pbShow = true)" ng-hide="saveAs">{{viewName}}</div>
+                        <div class="pbSaveAsBox" ng-show="saveAs">
+                            <input type="text" ng-model="saveAsName" ng-keyup="renameAction($event)">
+                            <span class="clickable" ng-click="finishSaveAs(true)"><icon type="check"></icon></span>
+                            <span class="clickable" ng-click="finishSaveAs(false)"><icon type="remove"></icon></span>
+                        </div>
+                    </div>
+                </div>
+            </tab-heading>
+            <div id="pivotBuilder">
+                <div ng-class="{pbOpened: pbShow}" class="pbSlider">
+                    <div class="pbControlBar">
+                        <div class="pbFunctionFlip" ms-link-group  selected-item="table">
+                            <div class="pbFunctionFlipButton clickable" ng-click="showTable(false);" ms-link="table"><icon type="table"></icon></div>
+                            <div class="pbFunctionFlipButton clickable" ng-click="showTable(true);" ms-link="filters"><icon type="filter"></icon></div>
+                        </div>
+
+                        <div class="pbSaveMenu">
+                            <div class="dropdown">
+                                <span class="pbSaveButton clickable" ng-click="saveView()" >
+                                    <icon type="save"></icon>Save View
+                                </span>
+                                <span class="dropdown-toggle pbSaveDropButton clickable">
+                                    <icon type="caret-down"></icon>
+                                </span>
+                                <ul class="dropdown-menu pbViewSaveMenu" ms-link-group radio="true">
+                                    <div class="pbViewSaveMenuVisible">
+                                        <li>
+                                            <div class="pbViewSaveMenuItem" ng-click="startSaveAs(false);"><icon type="save"></icon>Save As</div>
+                                        </li>
+                                        <li>
+                                            <div class="pbViewSaveMenuItem" ng-click="resetView();"><icon type="undo"></icon>Revert</div>
+                                        </li>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="pbViewsList">
+                            <div class="dropdown">
+                                <span class="dropdown-toggle pbRecentViewsButton clickable">
+                                    <icon type="eye"></icon>Recent Views<icon type="caret-down"></icon>
+                                </span>
+                                <ul class="dropdown-menu pbRecentViewsMenu" ms-link-group radio="true">
+                                    <div class="pbRecentViewsMenuVisible">
+                                        <li ng-repeat="view in viewsList">
+                                            <div class="" ng-click="loadView(cubeId, view.id);"><icon type="eye"></icon>{{view.name}}</div>
+                                        </li>
+                                        <hr>
+                                        <li>
+                                            <div class=""><icon type="folder-open-o"></icon>All Views</div>
+                                        </li>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="dragDropArea" ng-hide="filterSection">
+                        <div ng-repeat="pivotBuilderItem in pivotBuilderItems" class="pbSec" ng-if="viewData">
+                            <div class="pbSecTitle">{{pivotBuilderItem.label}}</div>
+                            <div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="viewData[pivotBuilderItem.name]" tabindex="-1">
+                                <draggable-dimension ng-repeat="item in viewData[pivotBuilderItem.name]" row-or-col="{{pivotBuilderItem.name}}"></draggable-dimension>
+                                <!-- name="item.level.label" menu="dimensions" -->
+                                <add-dimension-btn menu="dimensions" row-or-col="{{pivotBuilderItem.name}}" ng-hide="dragging"></add-dimension-btn>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pbSec" ng-show="filterSection">
+                        <div class="pbSecTitle">Filters</div>
+                        <div class="pbFilterValues">
+                            <div ng-repeat="cat in dimensions" class="pbFilterBox clickable" ng-click="filtersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="addedFilters[cat.label]">
+                                <div class="pbFilterCat">{{cat.label}} <span class="pbFilterSize">({{categorizedValue[$index].selected}}/{{categorizedValue[$index].total}})</span></div>
+                                <div class="pbFilterVal" ng-show="categorizedValue[$index].selected < categorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{categorizedValue[$index].label.join(', ')}}">{{categorizedValue[$index].label.join(', ')}}</div>
+                                <div class="pbFilterVal" ng-hide="categorizedValue[$index].selected < categorizedValue[$index].total" title="{{categorizedValue[$index].label.join(', ')}}">All</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pbSliderCollapse">
+                        <span class="clickable" ng-click="heightChanged(); pbShow = false; finishSaveAs(false);">
+                            <icon type="chevron-up"></icon>Collapse
+                        </span>
+                    </div>
+                </div>
+            </div>
         </tab>
         <tab heading="Import">
         	<ng-include src="'views/includes/pivot_table_import.tpl.html'" ng-controller="importCtrl"></ng-include>

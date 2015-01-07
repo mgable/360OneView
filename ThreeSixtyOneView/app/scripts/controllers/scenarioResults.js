@@ -7,7 +7,9 @@
 * # scenarioResultCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function ($scope, resultsData, Element, Scenarios) {
+angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
+    ['$scope', 'resultsData', 'Element', 'Scenarios', 'DialogService', 'PivotViewService', 'CubeService', 'PivotIntermediatesService', '$q',
+    function ($scope, resultsData, Element, Scenarios, DialogService, PivotViewService, CubeService, PivotIntermediatesService, $q) {
 
     // private variables
     var cnt = 0;
@@ -31,8 +33,17 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
             $scope.chartData.push(chartSubData);
         });
     }
+    var loadDimension = function() {
+        $scope.loadDimensions($scope.cubeId).then(function() {
+            $scope.addedFilters = PivotIntermediatesService.getAddedFilters($scope.filters, $scope.dimensions);
+            _.each($scope.dimensions, function(_dimension) {
+                _dimension.catVal = PivotIntermediatesService.getCategorizeValues(_dimension, $scope.addedFilters[_dimension.label]);
+            });
+        });
+    }
     var init = function() {
         angular.element('.Scenario').css('height', 'auto');
+        loadDimension();
         getChartData();
     };
 
@@ -46,6 +57,9 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
     $scope.spendDatumHeader  = resultsData.spendData.header;
     $scope.chartData         = [];
     $scope.selectedView      = Scenarios[0];
+    $scope.viewData          = $scope.views.currentView.rows.concat($scope.views.currentView.columns);
+    $scope.dimensions        = [];
+    $scope.filters           = $scope.views.currentView.filters;
 
     // scope functions
     $scope.getKpiData = function() {
@@ -96,12 +110,55 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl', function (
         }
         $scope.saveAs = false;
     };
+    $scope.loadDimensions = function(cubeId) {
+        return CubeService.getMeta(cubeId).then(function(dimensions) {
+            // get all members of all dimensions and build the dimensions tree
+            var i, j, k, count = 0, timeIndex, promises = [];
 
+            _.each(dimensions, function(_dimension, _index) {
+                _.each(_dimension.members, function(_member) {
+                    if(!_member.leafLevel) {
+                        promises.push(CubeService.getViewByMembers(cubeId, _dimension.id, _member.levelId));
+                        if(_dimension.type === 'TimeDimension') {
+                            timeIndex = _index;
+                        }
+                    }
+                });
+            });
+
+            return $q.all(promises).then(function(response) {
+                var timeAdded = false, lastMembers;
+
+                _.each(dimensions, function(_dimension) {
+                    _.each(_dimension.members, function(_member) {
+                        if(!_member.leafLevel) {
+                            _member.members = response[count++].members;
+                        } else {
+                            _.each(lastMembers, function(_lastMember) {
+                                _member.members = _member.members.concat(_lastMember.members);
+                            });
+                        }
+                        lastMembers = _member.members;
+                    });
+                });
+
+                $scope.dimensions = dimensions;
+                //$scope.generateMembersList(dimensions);
+            });
+        });
+    };
+    $scope.filtersModal = function(category) {
+        var dialog = DialogService.openFilterSelection('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl', {cat: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData, dimensions: $scope.dimensions}, {windowSize: 'lg', windowClass: 'filtersSelectionModal'});
+
+        dialog.result.then(function(data) {
+            $scope.addedFilters = data;
+        });
+    };
 
     // fire off init function
     init();
 
-}).factory('resultsData', function () {
+}]).factory('resultsData', function () {
     return {
         "kpiData": [
             {
