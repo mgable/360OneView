@@ -39,12 +39,20 @@ angular.module('ThreeSixtyOneView')
             $scope.init(Scenarios, getProject);
 
             $scope.project = Project;
+
             $scope.scenarios = Scenarios;
             $scope.hasAlerts = Scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
+
+            if($scope.project.isMaster){
+                setMasterScenario($scope.scenarios[0]);
+            }
         },
         getProject = function(){
             return $scope.project;
-        };
+        },
+        setMasterScenario = function(scenario){
+            scenario.isMaster = true;
+        }
 
         // API
         // Click handler interface
@@ -126,6 +134,10 @@ angular.module('ThreeSixtyOneView')
         init();
     }]).controller("ListingViewCtrl", ["$scope", "$rootScope", "$state", "SortAndFilterService", "DialogService", "GotoService", "CONFIG", "EVENTS", "FavoritesService", "$stateParams", function($scope, $rootScope, $state, SortAndFilterService, DialogService, GotoService, CONFIG, EVENTS, FavoritesService, $stateParams){
 
+        var selectFirstItem = function(){
+            $scope.showDetails(SortAndFilterService.getData()[0]);
+        };
+
         $scope.init = function(_data_, fn){
             var currentView = CONFIG.view[$state.current.name],
                 filter = currentView.filterMenu.items[0],
@@ -145,6 +157,8 @@ angular.module('ThreeSixtyOneView')
             _.extend($scope.CONFIG, $stateParams);
             _.extend($scope.CONFIG, CONFIG);
 
+            SortAndFilterService.resetSearchText();
+
             SortAndFilterService.init({
                 data: _data_,
                 orderBy: orderBy,
@@ -153,7 +167,7 @@ angular.module('ThreeSixtyOneView')
             });
 
             // select first time in list
-            $scope.showDetails(SortAndFilterService.getData()[0]);
+            selectFirstItem();
         };
 
 
@@ -168,6 +182,7 @@ angular.module('ThreeSixtyOneView')
 
         $scope.showDetails = function(item){
             $scope.selectedItem = item;
+            $rootScope.$broadcast(EVENTS.newSelectedItem, $scope.selectedItem);
         };
 
         $scope.isActiveItem = function (item){
@@ -188,6 +203,7 @@ angular.module('ThreeSixtyOneView')
 
         $scope.setFilter = function(type, item, forceFilter) {
             SortAndFilterService.setFilter(type, item, forceFilter);
+            selectFirstItem();
         };
 
         $scope.toggleFavorite = function(evt, item){
@@ -195,6 +211,7 @@ angular.module('ThreeSixtyOneView')
             if (!item.isMaster) {
                 FavoritesService.toggleFavorite(item.id, $scope.CONFIG.favoriteType);
                 SortAndFilterService.filter();
+                selectFirstItem();
             }
         };
 
@@ -228,41 +245,47 @@ angular.module('ThreeSixtyOneView')
             DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
         });
 
-    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", "Element", "Views", "ptData", "$state", function($scope, Project, Scenario, ScenarioElements, Element, Views, ptData, $state) {
+    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", "Element", "Views", "ptData", "$state", "EVENTS", function($scope, Project, Scenario, ScenarioElements, Element, Views, ptData, $state, EVENTS) {
 
-        var findFileByType = function(type) {
-            _.each(Element, function(v) {
-                if (v.cubeMeta.id !== 1) {
-                    if ( v.id === type.id) { $scope.selectedFile = v.name.split("-")[1].trim(); }
-                } else {
-                    $scope.selectedFile = '';
-                }
+        $scope.$on(EVENTS.filter, function(){
+            $scope.showDetails(SortAndFilterService.getData()[0]);
+        });
+
+        var findElementByType = function(type) {
+            var selectedElement = _.find(ScenarioElements, function(fileName) {
+                return (fileName.id === type.id)
             });
-            return $scope.selectedFile;
-        }
+            // $scope.$broadcast(EVENTS.selectScenarioElement, selectedElement);
+            return selectedElement;
+        },
+        init = function(){
+            $scope.project = Project;
+            $scope.scenario = Scenario;
+            $scope.views = Views;
+            $scope.scenarioElements =  ScenarioElements;
+            $scope.setScenarioElement($scope.scenarioElements[0]);
+            $scope.location = $state.current.url;
+            // hardcoded data
+            $scope.pivotTableData = ptData.data;
+            // this is how pivotbuilder and pivottable communicate
+            $scope.spread = {sheet: {}};
+        };
 
-        $scope.project = Project;
-        $scope.scenario = Scenario;
-        $scope.views = Views;
-        $scope.location = $state.current.url;
+        $scope.getScenarioElements = function() {
+            return $scope.scenarioElements;
+        };
+
+        $scope.setScenarioElement = function(type) {
+            var element = findElementByType(type);
+            $scope.$broadcast(EVENTS.selectScenarioElement, element);
+            $scope.selectedScenarioElement = type;
+            $scope.cubeId = element.cubeMeta.id;
+            $scope.selectedScenarioElementsFile = element.name;
+        };
 
         $scope.$on('$locationChangeSuccess', function(){
             $scope.location = $state.current.url;
-        })
-        // hardcoded data
-        $scope.pivotTableData = ptData.data;
-        // this is how pivotbuilder and pivottable communicate
-        $scope.spread = {sheet: {}};
+        });
 
-        $scope.types =  ScenarioElements;
-        $scope.selectedType = $scope.types[0];
-        $scope.selectedFile = findFileByType($scope.types[0]);
-        $scope.getTypes = function() {
-            return $scope.types;
-        };
-        $scope.setType = function(type) {
-            $scope.selectedType = type;
-            $scope.selectedFile = findFileByType(type);
-        };
-
+        init();
     }]);

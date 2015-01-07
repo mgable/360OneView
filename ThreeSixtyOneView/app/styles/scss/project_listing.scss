@@ -99,28 +99,16 @@
 
 			li.detail {
 	    		display: inline-block;
-				margin: 10px 7px 10px 0;
-	    		background-color: #FFF;
-	    		cursor: pointer;
-
+				margin: 10px 6px 10px 0;
+	    		background-color:transparent;
 	    		&:last-child {
 	    			margin: 10px 0;
-
 	    			a {
-	    			padding: 6px 8px;
-
-		    			i {
-		    				margin: 0;
-		    				font-size: 1.4em;
-		    			}
+	    				padding: 6px 8px;
 		    		}
 	    		}
 
-	    		a {
-	    			&.share{
-	    				padding-left: 12px;
-	    				padding-right: 12px;
-	    			}
+	    		button {
 	    			cursor: pointer;
 	    			display: block;
 	    			float: none;
@@ -128,17 +116,13 @@
 				    padding: 6px 13px;
 				    color: #999;
 				    text-align: center;
+				    height:32px;
 	    			border: 1px solid $subtitle;
 				    &:hover {
 				    	border: 1px solid $blue;
 				    	text-decoration: none;
 				    	color: $black;
-				    }
-
-				    i {
-				    	font-size: 1.1em;
-				    	margin-right: 5px;
-				    }				    
+				    }			    
 				}
 			}		
 		}
@@ -366,7 +350,6 @@
 	.info-tray {
 		margin: 15px 10px 10px;
 		min-width: 315px;
-
 		.details {
 			margin:0 0 10px;
 
@@ -376,88 +359,8 @@
 				color: $gray;
 				float:left;
 			}
-			form.inlineRename {
-				margin: 0;
-			}
 			.title-holder {
 				border-bottom: 1px solid #BBB;
-
-				&:hover {
-					.inlineRename {
-						.edit {
-							display: inline-block;
-							visibility: visible;
-							float: right;
-						}
-					}
-				}
-				&.hasFavorites .title {clear:none;}
-				.favorites {
-					display: none;
-
-					clear: both;
-					float:left;
-					padding: 2px 8px 0 0;
-					a {
-						cursor:pointer;
-						font-family: "font awesome";
-						&:after {
-							content: '\f006';
-						}
-						&.favorite {
-							&:after {
-								content: '\f005';
-							}
-						}
-						&:hover {
-							text-decoration: none;
-						}
-					}
-				}
-				.title {
-					clear:both;
-					/*overflow: hidden;*/
-					text-overflow: ellipsis;
-					white-space: nowrap;
-					float: left;
-					display: block;
-					width: auto;
-					padding: 0;
-					margin: 0 0 10px;
-					button {
-						text-align: right;
-					}
-				}
-				.title.clear {
-					clear: both;
-				}
-			}
-			.pencil {
-				float:right;
-				font-size: 18px;
-				margin: 0 15px 0 0;
-				cursor: pointer;
-			}
-			.inlineRename {
-				input {
-					height:24px;
-					width: 223px;
-					float:left;
-					margin: 0;
-				}
-				a {
-					float:left;
-					padding:0 0 0 3px;
-					cursor: pointer;
-				}
-				.edit {
-					visibility: hidden;
-					float: right;
-					margin: 0 0 10px;
-				}
-			}
-			.close {
-				margin:0 15px 0 0;
 			}
 		}
 	}
@@ -472,48 +375,9 @@
 			font-size: 14px;
 
 			.field-label {
-				font-weight: 400; 
 				float: left;
 				color: $gray;
 				width: auto;
-			}
-			.controls {
-				float: right;
-				a {
-					cursor: pointer;
-				}
-			}
-			.edit {
-				float:right;
-				visibility: hidden;
-				cursor: pointer;
-			}
-			.description {
-				clear:both;
-				width:100%;
-				padding: 0;
-				max-width: 293px;
-				display:block;
-				border: 1px solid $white;
-				background-color: $white;
-				height: 54px;
-				&:hover {
-					border: 1px solid $subtitle;
-				}
-				&.active {
-					border: 1px solid $subtitle;
-					padding: 5px 10px;
-					height: 54px;
-				}
-			}
-			.noDescription{
-				height: 1em;
-			}
-			text-area {
-				background-color: $white;
-			}
-			&:hover .edit {
-				visibility: visible;
 			}
 			h5 {
 				margin-bottom: 1px;

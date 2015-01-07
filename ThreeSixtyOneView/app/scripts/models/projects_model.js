@@ -18,7 +18,7 @@ angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout
         // used for the rename functions
         put : function(_data_){
             var self = this;
-            resource.put(_data_, this.config).then(function(response){
+            return resource.put(_data_, this.config).then(function(response){
                 var index = _.indexOf(self.data, _.findWhere(self.data, {id: response.id}));
                 self.data.splice(index, 1, response);
                 $timeout(function(){
@@ -28,6 +28,7 @@ angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout
                         original: _data_
                     });
                 });
+                return response;
             });
         },
         create: function(_data_) {

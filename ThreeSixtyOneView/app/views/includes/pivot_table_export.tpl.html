@@ -1,15 +1,40 @@
-<div id="pivotExport">
-	<h3>Exporting Data</h3><p>The data set you have selected exceeds the 1.4 million row limit on Excel.</p>
-	<div class="pbSecTitle">Dimensions:</div>
-	<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="viewData" tabindex="-1">
-		<draggable-dimension ng-repeat="item in viewData"></draggable-dimension>
-					
-		<add-dimension-btn menu="menuList"></add-dimension-btn>
+<div class="importExport">
+	<h4>Exporting Data</h4>
+	<p class="warning">The data set you have selected exceeds the 1.4 million row limit on Excel.</p>
+	<div ng-hide="exportObj.exportClicked">
+		<div class="pbSec">
+			<div class="pbSecTitle">Dimensions</div>
+			<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="viewData" tabindex="-1">
+				<draggable-dimension ng-repeat="item in viewData"></draggable-dimension>
+							
+				<add-dimension-btn menu="menuList"></add-dimension-btn>
+			</div>
+		</div>
+		<div class="pbSec">
+			<div class="pbSecTitle">Filters</div>
+			<div class="pbFilterValues">
+				<div ng-repeat="cat in dimensions" class="pbFilterBox clickable" ng-click="filtersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="addedFilters[cat.label]">
+					<div class="pbFilterCat">{{cat.label}} <span class="pbFilterSize">({{cat.catVal.selected}}/{{cat.catVal.total}})</span></div>
+					<div class="pbFilterVal" ng-show="cat.catVal.selected < cat.catVal.total" data-toggle="tooltip" data-placement="bottom" title="{{viewData.filters[$index].items.join(', ')}}">{{cat.catVal.label.join(', ')}}</div>
+					<div class="pbFilterVal" ng-show="cat.catVal.selected == cat.catVal.total">All</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div>
-		<p>Preparing files for download</p>
-		<progressbar value="55"></progressbar>
+
+	<div ng-show="exportObj.exportClicked" class="prepareContainer">
+		<div ng-hide="exportObj.readyForDownload">
+			<p>Preparing files for download</p>
+			<progressbar value="exportObj.prepareProgress"></progressbar>
+			<p class="percentage">{{exportObj.prepareProgress}}%</p>
+		</div>
+		<p ng-show="exportObj.readyForDownload">Your file is ready</p>
 	</div>
-	<button>Cancel</button>
-	<button>Export</button>
+
+	<div class="btnGroup">
+		<button class="btn inactiveBtn" ng-hide="exportObj.exportClicked" ng-click="collapseTab()">Cancel</button>
+		<button class="btn inactiveBtn" ng-show="exportObj.exportClicked" ng-click="initStatus()">Cancel</button>
+		<button class="btn activeBtn" ng-click="prepareFile()" ng-hide="exportObj.exportClicked">Export</button>
+		<a href="http://127.0.0.1:9001/views/scenario.tpl.html" download="sample.html" ng-show="exportObj.readyForDownload" class="btn activeBtn">Download</button>
+	</div>
 </div>

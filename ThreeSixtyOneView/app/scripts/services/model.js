@@ -29,10 +29,18 @@ angular.module("ThreeSixtyOneView.services")
 					});
 				});
 			},
+			/*
+			Translate a collection by passing in a reference object
+			- any attributes not in the reference object will not be in the output object
+			translateObj({“id”: ”uuid”}, {uuid: 12345, description: "foobar"} ) returns {id: 12345}
+			translateObj({“id”: ”uuid”, "description": description}, {uuid: 12345, description: "foobar"} ) returns {id: 12345, description: "foobar"}
+			translateObj({auditInfo: { createdBy: { name: “fred}}}, {“createdBy” : ”auditInfo.createdBy.name"}) returns {createdBy :” fred”}
+			translateObj({createdBy: ”fred”}, {“auditInfo.createdBy.name” : ”createdBy"}) returns {auditInfo: { createdBy: { name: “fred}}}	
+			*/
 			translateObj: function(data, translator){
 				var result = {}, self = this,
 					t; // attribute value
-				_.each(translator, function(k,v,o){
+				_.each(translator, function(k,v){
 					// k is what you get
 					// v is what you want
 					if(v.indexOf(".") > -1 && data[k]){
@@ -40,36 +48,37 @@ angular.module("ThreeSixtyOneView.services")
 					}else{
 						t = data[k];
 						if (typeof t !== "undefined") {
-							result[v] = t;
-						} else if (_.isObject(k)){
+							result[v] = t;	
+						} else if (typeof k === "string" && k.indexOf(".") > -1){
 							try{
 								/* jshint ignore:start */
-								result[v] = eval("data." + k.selector);
+								result[v] = eval("data." + k);
 								/* jshint ignore:end */
 							} catch(e){
-								console.info (k.selector + " does not exist");
+								console.info (k + " does not exist");
 							}
-						} else {
-							// value is undefined
-							//result[v] = "";
 						}
 					}
 				});
 				return result;
 			},
+			/*
+			Make an object from a string and assign it a value
+			makeObjs("a.b.c", "foobar") returns {a: {b: {c: "foobar"}}}
+			*/
 			makeObjs: function(stingObj, _value_){
-				var k = stingObj,
+				var objectPattern = stingObj,
 					value = _value_,
 					newObj,
 					list = [];
 
-				k.replace(/(\w+)/g, function (d) {
-				  list.push(d);
+				objectPattern.replace(/(\w+)/g, function (objectName) {
+				  list.push(objectName);
 				});
 
 				list.reverse();
 
-				newObj = _.reduce(list, function (memo, v, i, l) {
+				newObj = _.reduce(list, function (memo, v) {
 				  var obj = {};
 				  obj[v] = memo;
 				  return obj;

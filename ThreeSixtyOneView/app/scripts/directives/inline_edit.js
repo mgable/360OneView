@@ -14,17 +14,19 @@ angular.module('ThreeSixtyOneView.directives')
             scope: {
                 item: "=",
                 test: "=",
-                submitaction: "="
+                submitaction: "=",
+                focustarget: "@"
             },
             link: function($scope, $element, $attrs) {
                 var tempItem = angular.copy($scope.item),
-                inputTarget = $element.find(".inputTarget");
+                inputTarget = $element.find($scope.focustarget || "input");
 
                 $scope.isActive = false;
                 $scope.inputRestrictions = CONFIG.application.inputRestrictions;
 
                 // edit action
                 $scope.action = function() {
+                    $rootScope.$broadcast(EVENTS.newSelectedItem);
                     if (!$scope.isActive) {
                         tempItem = angular.copy($scope.item);
                         $scope.isActive = true;
@@ -37,14 +39,20 @@ angular.module('ThreeSixtyOneView.directives')
                 $scope.submit = function(item) {
                     $scope.item = item;
                     $rootScope.$broadcast(EVENTS[$scope.submitaction], $scope.item);
+                    $scope.form.$setPristine();
                     $scope.isActive = false;
                 };
 
                 $scope.cancel = function() {
-                    $scope.item.title = tempItem.title;
-                    $scope.item.description = tempItem.description;
-                    $scope.isActive = false;
+                    if($scope.isActive){
+                        $scope.item.title = tempItem.title;
+                        $scope.item.description = tempItem.description;
+                        $scope.form.$setPristine();
+                        $scope.isActive = false;
+                    }
                 };
+
+                $scope.$on(EVENTS.newSelectedItem, $scope.cancel)
 
             }
         };

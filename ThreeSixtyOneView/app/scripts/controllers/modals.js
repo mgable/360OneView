@@ -48,12 +48,7 @@ angular.module('ThreeSixtyOneView')
 
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
-        var getBaseScenario = function(){
-            var baseScenario = angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
-                baseScenario.referenceScenario.id = findBaseScenarioId($scope.masterProject);
-                return baseScenario;
-            },
-            findBaseScenarioId = function(scenario){
+        var findBaseScenarioId = function(scenario){
                 var baseScenario = _.find(scenario.data, function(obj){return /PRE LOADED SIMULATION/.test(obj.title)} );
                 return baseScenario.id;
             },
@@ -75,12 +70,13 @@ angular.module('ThreeSixtyOneView')
                 $scope.showFields = true;
                 $scope.project = data.project;
                 $scope.scenarios = data.scenarios;
+                $scope.scenario = angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
 
                 ScenarioService.getAll().then(function(response){
                     $scope.masterProject = getMasterProject(response);
                     $scope.scenarioList = sortScenarios(response);
                     $scope.masterProjectReferenceScenario = $scope.masterProject.data[0];
-                    $scope.scenario = getBaseScenario();
+                    $scope.scenario.referenceScenario.id  = findBaseScenarioId($scope.masterProject);
                     selectedBaseScenario = $scope.masterProjectReferenceScenario ;
                 });
             },selectedBaseScenario;
@@ -112,10 +108,10 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.submit = function(_scenario_){
+            $scope.close();
             ScenarioService.create($scope.project, _scenario_).then(function(response){
                 GotoService.scenarioEdit($scope.project.id, response.id);
             });
-            $scope.close();
         };
 
         $scope.$on(EVENTS.updateBaseScenario, function(event, data){
@@ -125,18 +121,19 @@ angular.module('ThreeSixtyOneView')
         
         init();
 
-    }]).controller('FilterSelectionCtrl', ["$scope", "$window", "$rootScope", "$modalInstance", "$controller", "data", "CONFIG", function($scope, $window, $rootScope, $modalInstance, $controller, data, CONFIG) {
+    }]).controller('FilterSelectionCtrl', ["$scope", "$window", "$rootScope", "$modalInstance", "$controller", "data", "CONFIG", "PivotIntermediatesService", 
+    function($scope, $window, $rootScope, $modalInstance, $controller, data, CONFIG, PivotIntermediatesService) {
     angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
     var init = function() {
         $scope.selectedFilter = {};
-        $scope.selectedFilter.selFil = data.selFil;
+        //$scope.selectedFilter.selFil = data.selFil;
         $scope.selectedFilter.cat = data.cat;
         $scope.addedFilter = data.addedFilters;
         $scope.dimensions = data.dimensions;
-        $scope.categorizeValues = data.categorizeValues;
         $scope.viewData = data.viewData;
 
+        $scope.categorizedValue = [];
         $scope.filterSearch = {label: ''};
         $scope.emptyFiltersList = [];
         $scope.noFilterSelected = false;
@@ -159,7 +156,7 @@ angular.module('ThreeSixtyOneView')
         }, true);
 
         w.bind('resize', function () {
-            scope.$apply();
+            $scope.$apply();
         });
     };
 
@@ -198,15 +195,8 @@ angular.module('ThreeSixtyOneView')
         }
 
         for(var i = 0; i < items.length; i++) {
-            for(var j = 0; j < $scope.viewData.columns.length; j++) {
-                if(items[i].label === $scope.viewData.columns[j].level.label) {
-                    $scope.searchFilters(items[i], $scope.filterSearch);
-                    return items[i];
-                }
-            }
-
-            for(j = 0; j < $scope.viewData.rows.length; j++) {
-                if(items[i].label === $scope.viewData.rows[j].level.label) {
+            for(var j = 0; j < $scope.viewData.length; j++) {
+                if(items[i].label === $scope.viewData[j].level.label) {
                     $scope.searchFilters(items[i], $scope.filterSearch);
                     return items[i];
                 }
@@ -300,6 +290,7 @@ angular.module('ThreeSixtyOneView')
         };
 
         output = treeCount(object);
+
         $scope.filterCount = output;
         return output;
     };
@@ -342,6 +333,31 @@ angular.module('ThreeSixtyOneView')
     // make the temporary changes in the filters
     $scope.changeFilter = function() {
         $modalInstance.close($scope.addedFilter);
+    };
+
+    $scope.categorizeValuesCount = function(_index, addedFilter) {
+        var output = PivotIntermediatesService.getCategorizeValues($scope.dimensions[_index], addedFilter);
+        $scope.categorizedValue[_index] = output;
+
+        // add empty category to the empty items list and show error
+        if(output.selected === 0) {
+            var index = $scope.emptyFiltersList.indexOf($scope.dimensions[_index].label)
+            if(index < 0) {
+                $scope.emptyFiltersList.push($scope.dimensions[_index].label);
+            }
+            $scope.noFilterSelected = true;
+        }
+        // check if any item is selected from an empty list, remove it
+        if($scope.noFilterSelected && output.selected > 0) {
+            var index = $scope.emptyFiltersList.indexOf($scope.dimensions[_index].label);
+            if(index > -1) {
+                $scope.emptyFiltersList.splice(index, 1);
+                if($scope.emptyFiltersList.length < 1) {
+                    $scope.noFilterSelected = false;
+                }
+            }
+        }
+        return output;
     };
 
     init();
