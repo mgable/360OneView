@@ -133,6 +133,7 @@ angular.module('ThreeSixtyOneView')
         $scope.dimensions = data.dimensions;
         $scope.viewData = data.viewData;
 
+        $scope.categorizedValue = [];
         $scope.filterSearch = {label: ''};
         $scope.emptyFiltersList = [];
         $scope.noFilterSelected = false;
@@ -336,6 +337,7 @@ angular.module('ThreeSixtyOneView')
 
     $scope.categorizeValuesCount = function(_index, addedFilter) {
         var output = PivotIntermediatesService.getCategorizeValues($scope.dimensions[_index], addedFilter);
+        $scope.categorizedValue[_index] = output;
 
         // add empty category to the empty items list and show error
         if(output.selected === 0) {
