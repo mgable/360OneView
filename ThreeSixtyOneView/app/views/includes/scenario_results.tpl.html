@@ -8,7 +8,7 @@
             </span>
           <ul class="dropdown-menu" ms-link-group selected-item="{{selectedView.id}}" radio="true">
             <li ng-repeat="view in getComparedViews()" ms-link="{{view.id}}" >
-                <a href="" ng-click="setView(view)">{{view.title}}</a>
+                <a href="" ng-click="setComparedView(view)">{{view.title}}</a>
             </li>
           </ul>
         </div>
@@ -64,7 +64,7 @@
                     </div>
                     <div class="srRecentViewsMenu" ng-show="viewRecentViews">
                         <div class="srRecentViewsMenuVisible">
-                            <div class="clickable" ng-repeat="viewsListItem in getViews() | orderBy:'id'">
+                            <div class="clickable" ng-repeat="viewsListItem in viewsList | orderBy:'id'">
                                 <icon type="eye"></icon> {{viewsListItem.name}}
                             </div>
                             <hr>
@@ -73,15 +73,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="srSec" ng-repeat="filter in getFilters()">
-                <div class="srSecTitle">{{filter.name}}</div>
-                <div class="srFilterValues">
-                    <div class="srFilterBox clickable" ng-repeat="filterItem in filter.items">
-                        <div class="srFilterCat">{{filterItem.name}}</div>
-                        <div class="srFilterVal">{{filterItem.value}}</div>
-                    </div>
-                </div>
-            </div> -->
             <div class="srSec">
                 <div class="srSecTitle">Spend Filters</div>
                 <div class="srFilterValues">
