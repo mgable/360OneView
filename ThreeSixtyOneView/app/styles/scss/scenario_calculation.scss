@@ -7,11 +7,19 @@
     text-align: center;
     .scenario-calculation-title {
         font-size: 26px;
+        i {
+            font-size: 20px;
+            color: #f45724;
+        }
+    }
+    .scenario-calculation-description {
+        text-align: left;
+        text-justify: inter-word;
     }
     .scenario-calculation-value {
         font-size: 14px;
         font-weight: 700;
-        color: #498b0e;
+        color: #5cb85c;
     }
     ul.scenario-calculation-list {
         text-align: left;
@@ -21,10 +29,13 @@
             &.completed {
                 color: #333;
                 span.numberCircle {
-                    background-color: #f35528;
+                    background-color: #5cb85c;
                 }
-                i {
-                    color: #f35528;
+                span.error {
+                    color: #f45724;
+                }
+                i.checkmark {
+                    color: #5cb85c;
                 }
             }
             span.numberCircle {
@@ -43,4 +54,13 @@
         }
     }
     .sm-padding { padding: 5px; }
+    .btn-calculate {
+        font-size: 14px;
+        text-transform: uppercase;
+        background-color: #d9d9d9;
+        &:hover, &:active {
+            background-color: #cdcdcd;
+            color: #333;
+        }
+    }
 }

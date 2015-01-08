@@ -1,5 +1,7 @@
 <div class="scenario-calculation">
-    <h2 class="scenario-calculation-title">Optimization is in progress</h2>
+    <h2 class="scenario-calculation-title" ng-show="success">Optimization is in progress</h2>
+    <h2 class="scenario-calculation-title" ng-show="!success"><icon type="exclamation-triangle"></icon> Error during optimization</h2>
+    <p class="scenario-calculation-description" ng-show="!success">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, vero itaque tenetur explicabo eius minus nisi rerum quae assumenda eveniet.</p>
     <div class="row">
         <div class="col-sm-7 sm-padding">
             <progressbar class="progress-striped active" max="100" value="progressValue" type="success"></progressbar>
@@ -10,14 +12,28 @@
     </div>
     <div class="row">
         <ul class="scenario-calculation-list">
-            <li class="completed"><span class="numberCircle">1</span>step 1 - Queued <icon type="check" ng-show={{completed}}></icon></li>
-            <li class="completed"><span class="numberCircle">2</span>step 2 - Read Scoef <icon type="check ng-show={{completed}}"></icon></li>
-            <li><span class="numberCircle">3</span>step 3 - Read Sstack</li>
-            <li><span class="numberCircle">4</span>step 4 - Read Smetad</li>
-            <li><span class="numberCircle">5</span>step 5 - Read Sgoals</li>
-            <li><span class="numberCircle">6</span>step 6 - Calculation</li>
-            <li><span class="numberCircle">7</span>step 7 - Load to Stage</li>
-            <li><span class="numberCircle">8</span>step 8 - Load to Fact</li>
+            <li ng-repeat="state in runningStates" ng-class="{completed: state.completed}">
+                <span class="numberCircle">{{state.id}}</span>
+                {{state.name}}
+                <i class="fa fa-check checkmark" type="check" ng-show="success ? state.completed : step > $index+1"></i>
+                <span class="error" ng-show="!success && step === $index+1"><i class="fa fa-exclamation-triangle"></i> Error</span>
+            </li>
         </ul>
+    </div>
+    <div class="row" style="margin-top: 20px;" ng-show="!success">
+        <div class="col-sm-6 sm-padding">
+            <button class="btn btn-sm btn-block btn-calculate" ui-sref="Scenario.edit">goto editor</button>
+        </div>
+        <div class="col-sm-6 sm-padding">
+            <button class="btn btn-sm btn-block btn-calculate" ng-click="resetProgress()">try again</button>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-sm-6 sm-padding">
+            <button class="btn btn-default btn-sm btn-block" ng-click="resetProgress()">Reset</button>
+        </div>
+        <div class="col-sm-6 sm-padding">
+            <button class="btn btn-danger btn-sm btn-block" ng-click="interruptProgress()">Interrupt</button>
+        </div>
     </div>
 </div>
