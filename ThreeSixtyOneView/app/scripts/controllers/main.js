@@ -245,14 +245,15 @@ angular.module('ThreeSixtyOneView')
             DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
         });
 
-    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", "Element", "Views", "ptData", "$state", "EVENTS", function($scope, Project, Scenario, ScenarioElements, Element, Views, ptData, $state, EVENTS) {
+    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioAnalysisElements", "Views", "ptData", "$state", "EVENTS", "ScenarioElementService",
+    function($scope, Project, Scenario, ScenarioAnalysisElements, Views, ptData, $state, EVENTS, ScenarioElementService) {
 
         $scope.$on(EVENTS.filter, function(){
             $scope.showDetails(SortAndFilterService.getData()[0]);
         });
 
         var findElementByType = function(type) {
-            var selectedElement = _.find(ScenarioElements, function(fileName) {
+            var selectedElement = _.find(ScenarioAnalysisElements, function(fileName) {
                 return (fileName.id === type.id)
             });
             // $scope.$broadcast(EVENTS.selectScenarioElement, selectedElement);
@@ -262,13 +263,16 @@ angular.module('ThreeSixtyOneView')
             $scope.project = Project;
             $scope.scenario = Scenario;
             $scope.views = Views;
-            $scope.scenarioElements =  ScenarioElements;
+            $scope.scenarioElements =  ScenarioAnalysisElements;
             $scope.setScenarioElement($scope.scenarioElements[0]);
             $scope.location = $state.current.url;
             // hardcoded data
             $scope.pivotTableData = ptData.data;
             // this is how pivotbuilder and pivottable communicate
             $scope.spread = {sheet: {}};
+            
+            // ScenarioElementService.replaceAnalysisElementForCube(172, 2, {id: 19}).then(function(response) {});
+            // ScenarioElementService.copyAndReplaceAnalysisElementForCube(172, 2, 63, {"name":"Behrooz", "description": "Behrooz"}).then(function(response){});
         };
 
         $scope.getScenarioElements = function() {

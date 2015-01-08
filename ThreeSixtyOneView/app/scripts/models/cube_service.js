@@ -38,7 +38,7 @@ angular.module('ThreeSixtyOneView')
 			return mycube.get({id: cubeId, dimensionId:dimensionId, hierarchyId:hierarchyId, levelId:levelId}, additionalPath).then(function(response) {
 				return response;
 			});
-		}
+		};
 
 		this.buildDimensionsTree = function(cubeId) {
 			return self.getMeta(cubeId).then(function(dimensions) {
@@ -62,5 +62,12 @@ angular.module('ThreeSixtyOneView')
 					return dimensions;
 				});
 			});
-		}
+		};
+
+		this.getCubeAnalysisElements = function(cubeId) {
+			var additionalPath = "analysis-element";
+			return mycube.get({id:cubeId}, additionalPath).then(function(response){
+				return response;
+			});
+		};
 }]);

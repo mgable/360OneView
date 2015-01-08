@@ -48,7 +48,7 @@ angular.module("ThreeSixtyOneView.services")
 					}else{
 						t = data[k];
 						if (typeof t !== "undefined") {
-							result[v] = t;	
+							result[v] = t;
 						} else if (typeof k === "string" && k.indexOf(".") > -1){
 							try{
 								/* jshint ignore:start */
