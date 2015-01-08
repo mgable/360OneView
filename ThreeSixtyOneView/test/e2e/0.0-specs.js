@@ -1,11 +1,8 @@
-var breadcrumb = "ol.breadcrumb li",
+var breadcrumb = "ol.breadcrumb",
 	filterBy = "h4[data-ms-id='filterBy']",
 	filterByFavorites = "li[data-ms-id='Favorites']",
 	filterByItem = ".filterDropdown li:first-child",
 	filterDropdown = ".filterDropdown",
-	// countHolder = '//span[@data-ms-id="dataCount"]',
-	// masterProject = '.master a.favorite',
-	
 
 	// happy with these names
 	column_2SortOptions = "span[data-ms-id='column_2SortOptions']",
@@ -19,10 +16,18 @@ var breadcrumb = "ol.breadcrumb li",
 	descending = "li[data-ms-id='descending']",
 	searchInput = "SortAndFilterService.searchText",
 
+	inlineRename = "form[data-ms-id='inlineRename']",
+	rename = inlineRename + " span.noEdit",
+	input = inlineRename + " input",
+	inputFieldParent = inlineRename + " span.edit",
+	inlineSubmit = inlineRename + " button.submit",
+	inlineCancel = inlineRename + " button.cancel",
+
 	items = "item in getData()",
+	scenarios = "scenario in selectedItem.scenarios",
 	itemCount = "span[data-ms-id='itemCount']"
 	masterProjectClass = ".master",
-	selectedItemTitle = "form[data-ms-id='inlineRename'] span.title",
+	selectedItemTitle = inlineRename  + " span.title",
 
 	data = { 
 		hasClass: function (element, cls) {
@@ -60,6 +65,15 @@ var breadcrumb = "ol.breadcrumb li",
 		getFavorites: function(){
 			return element.all(by.css(this.favoriteClassHolder));
 		},
+		getFirstItem: function(){
+			return element(by.repeater(items).row(0));
+		},
+		getScenarios: function(){
+			return element.all(by.repeater(scenarios));
+		},
+		getFirstScenario: function(){
+			return element(by.repeater(scenarios).row(0));
+		},
 
 		testQuery: "?e2e=true",
 		projectUrl: "/#/projects",
@@ -69,6 +83,10 @@ var breadcrumb = "ol.breadcrumb li",
 		favoriteClass: "favorite",
 		itemUUID: "data-ms-id",
 		masterProject: "master project",
+		pageTitle: "360 One View",
+		projectsBreadcrumb: "ALL PROJECTS", 
+		inputRestrictions: ["\\", "\/", ":", "?", "*", "\"", ">", "<", "|"], //\\\/\?\:\*"><|
+		minimumCharacters: "xx",
 
 		column_2SortOptionsButton: element(by.css(column_2SortOptions)),
 		column_1SortButton: element(by.css(column_1Sort)),
@@ -83,8 +101,13 @@ var breadcrumb = "ol.breadcrumb li",
 		filterByfavoritesButton: element(by.css(filterByFavorites)),
 		filterByItemButton: element(by.css(filterByItem)),
 		searchInputField: element(by.model(searchInput)),
-		filterDropdown: element(by.css(filterDropdown))
-		//breadcrumbField: element(by.css(breadcrumb))
+		filterDropdown: element(by.css(filterDropdown)),
+		inputField: element(by.css(input)),
+		renameButton: element(by.css(rename)),
+		inlineSubmitButton: element(by.css(inlineSubmit)),
+		inlineCancelButton: element(by.css(inlineCancel)),
+		inputFieldHolder: element(by.css(inputFieldParent)),
+		breadcrumbField: element(by.css(breadcrumb))
 	};
 
 module.exports = data;

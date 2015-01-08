@@ -1,15 +1,17 @@
-<div class="modal-header" ui-keypress="{'esc': 'close($event)'}">
-	<h4 class="modal-title"><icon type="{{modalProperties.icon}}"></icon>&nbsp;{{modalProperties.title}}&nbsp;</h4>
-</div>
-<div class="modal-body">
-	<form name="nameDialog" novalidate role="form">
-		<div class="form-group input-group-lg" ng-class="{true: 'has-error'}[nameDialog.username.$dirty && nameDialog.username.$invalid]">
-			<label class="control-label" for="inputField">{{modalProperties.field}}:&nbsp;</label>
-			<input type="text" class="form-control" id="inputField" ng-model="item.title" focus required ng-maxlength="{{inputRestrictions.maximumCharacterLimit}}" ng-minlength="{{inputRestrictions.minimumCharacterLimit}}" ng-pattern='inputRestrictions.characterRestrictions' data-ms-id="modalInput" />
-		</div>
-	</form>
-</div>
-<div class="modal-footer">
-	<button type="button" ng-disabled="nameDialog.$invalid" class="btn btn-primary" ng-click="submit(item.title)" ui-keypress="{13: 'submit(item.title, $event)'}" data-ms-id="submit">{{modalProperties.button}}</button>
-	<button type="button" class="btn btn-default" ng-click="close($event)" data-ms-id="cancel">Cancel</button>
+<div data-ms-id="simpleModal">
+	<div class="modal-header" ui-keypress="{'esc': 'close($event)'}">
+		<h4 class="modal-title"><icon type="{{modalProperties.icon}}"></icon>&nbsp;{{modalProperties.title}}&nbsp;</h4>
+	</div>
+	<div class="modal-body">
+		<form name="nameDialog" novalidate role="form">
+			<div class="form-group input-group-lg" ng-class="{true: 'has-error'}[nameDialog.username.$dirty && nameDialog.username.$invalid]">
+				<label class="control-label" for="inputField">{{modalProperties.field}}:&nbsp;</label>
+				<input type="text" class="form-control" id="inputField" ng-model="item.title" focus required ng-maxlength="{{inputRestrictions.maximumCharacterLimit}}" ng-minlength="{{inputRestrictions.minimumCharacterLimit}}" ng-pattern='inputRestrictions.characterRestrictions'/>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="button" ng-disabled="nameDialog.$invalid" class="btn btn-primary submit" ng-click="submit(item.title)" ui-keypress="{13: 'submit(item.title, $event)'}" data-ms-id="modalSubmit">{{modalProperties.button}}</button>
+		<button type="button" class="btn btn-default cancel" ng-click="close($event)">Cancel</button>
+	</div>
 </div>
