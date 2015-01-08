@@ -1,0 +1,46 @@
+@import "variables";
+
+.scenario-calculation {
+    margin: 55px auto;
+    width: 330px;
+    height: 590px;
+    text-align: center;
+    .scenario-calculation-title {
+        font-size: 26px;
+    }
+    .scenario-calculation-value {
+        font-size: 14px;
+        font-weight: 700;
+        color: #498b0e;
+    }
+    ul.scenario-calculation-list {
+        text-align: left;
+        li {
+            margin: 10px 0 10px 60px;
+            color: #808080;
+            &.completed {
+                color: #333;
+                span.numberCircle {
+                    background-color: #f35528;
+                }
+                i {
+                    color: #f35528;
+                }
+            }
+            span.numberCircle {
+                display: inline-block;
+                margin-right: 10px;
+                border-radius: 50%;
+                width: 22px;
+                height: 22px;
+                padding: 4px;
+                background: #bfbfbf;
+                color: #fff;
+                text-align: center;
+                font-size: 14px;
+                line-height: 14px;
+            }
+        }
+    }
+    .sm-padding { padding: 5px; }
+}

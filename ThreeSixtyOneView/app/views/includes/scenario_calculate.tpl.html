@@ -1,0 +1,23 @@
+<div class="scenario-calculation">
+    <h2 class="scenario-calculation-title">Optimization is in progress</h2>
+    <div class="row">
+        <div class="col-sm-7 sm-padding">
+            <progressbar class="progress-striped active" max="100" value="progressValue" type="success"></progressbar>
+        </div>
+        <div class="col-sm-5 sm-padding">
+            <span class="scenario-calculation-value">{{progressValue}}% completed</span>
+        </div>
+    </div>
+    <div class="row">
+        <ul class="scenario-calculation-list">
+            <li class="completed"><span class="numberCircle">1</span>step 1 - Queued <icon type="check" ng-show={{completed}}></icon></li>
+            <li class="completed"><span class="numberCircle">2</span>step 2 - Read Scoef <icon type="check ng-show={{completed}}"></icon></li>
+            <li><span class="numberCircle">3</span>step 3 - Read Sstack</li>
+            <li><span class="numberCircle">4</span>step 4 - Read Smetad</li>
+            <li><span class="numberCircle">5</span>step 5 - Read Sgoals</li>
+            <li><span class="numberCircle">6</span>step 6 - Calculation</li>
+            <li><span class="numberCircle">7</span>step 7 - Load to Stage</li>
+            <li><span class="numberCircle">8</span>step 8 - Load to Fact</li>
+        </ul>
+    </div>
+</div>
