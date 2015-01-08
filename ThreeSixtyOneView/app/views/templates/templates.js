@@ -246,8 +246,8 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t\t\t<input type=\"text\" id=\"baseScenario\" ng-model=\"scenario.referenceScenario.name\" readonly><icon type=\"folder-open-o\" cname=\"open\"></icon>\n" +
     "\t\t\t\t\t</label>\n" +
     "\t\t\t\t\t<div class=\"buttons\" ng-show=\"showFields\">\n" +
-    "\t\t\t\t\t\t<input type=\"submit\" value=\"CONTINUE\" class=\"button\" ng-click=\"submit(scenario)\" ng-disabled=\"ScenarioCreate.$invalid || ScenarioCreate.$pristine\" data-ms-id=\"ScenarioCreate.submit\">\n" +
-    "\t\t\t\t\t\t<button id=\"cancel\" class=\"button\" ng-click=\"close()\" data-ms-id=\"ScenarioCreate.cancel\">Cancel</button>\n" +
+    "\t\t\t\t\t\t<button class=\"button cancel\" ng-click=\"close()\" data-ms-id=\"ScenarioCreate.cancel\">Cancel</button>\n" +
+    "\t\t\t\t\t\t<button class=\"button submit\" ng-click=\"submit(scenario)\" ng-disabled=\"ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList\" data-ms-id=\"ScenarioCreate.submit\">Continue</button><span ng-hide=\"scenarioList\" class=\"loaderHolder\"><span class=\"loading\"></span>Loading scenarios</span>\n" +
     "\t\t\t\t\t</div>\n" +
     "\n" +
     "\t\t\t\t\t<!-- Begin hidden group -->\n" +
