@@ -220,23 +220,20 @@ angular.module('ThreeSixtyOneView')
             return null;
         }
 
-        var output;
+        var searchResults;
 
         var treeSearch = function(tree, searchLabel) {
-            var output = {
-                label: tree.label
-            };
-
-            if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1) {
-                return tree;
-            }
+            var output = null;
 
             if(tree.members.length > 0) {
                 for(var i = 0; i < tree.members.length; i++) {
                     var results = treeSearch(tree.members[i], searchLabel);
-                    if(results && results.members) {
-                        if(!output.members) {
-                            output.members = [];
+                    if(!!results && !!results.members) {
+                        if(!output) {
+                            output = {
+                                label: tree.label,
+                                members: []
+                            };
                         }
                         output.members.push(results);
                     }
@@ -248,13 +245,14 @@ angular.module('ThreeSixtyOneView')
                     return null;
                 }
             }
+
             return output;
         };
 
-        output = treeSearch(obj, search.label);
+        searchResults = treeSearch(obj, search.label);
 
-        $scope.searchResults = output;
-        $scope.countFilters(output, $scope.addedFilter);
+        $scope.searchResults = searchResults;
+        $scope.countFilters(searchResults, $scope.addedFilter);
     };
 
     // count number of selected and total filters
@@ -264,7 +262,7 @@ angular.module('ThreeSixtyOneView')
             total: 0
         };
 
-        if(!object.members) {
+        if(!object) {
             $scope.filterCount = output;
             return output;
         }

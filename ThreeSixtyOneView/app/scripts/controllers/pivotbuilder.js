@@ -16,18 +16,13 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 		$scope.draftView = false;
 
 		// Rest APIs
-		$scope.viewData = $scope.views.currentView;
+		// $scope.viewData = $scope.views.currentView;
 		$scope.viewName = $scope.views.currentView.name;
-		$scope.viewsList = $scope.views.views;
-		// var draftViewExists = _.find($scope.viewsList, function(view) {
-		// 	return view.name.substring(0, 8) === 'Draft - ';
-		// });
-		// if(!!draftViewExists) {
-		// 	$scope.loadView($scope.cubeId, draftViewExists.id);
-		// 	$scope.draftView = true;
-		// } else {
-		// 	$scope.loadView($scope.cubeId, $scope.viewsList[0].id);
-		// }
+		// $scope.viewsList = $scope.views.views;
+
+		CubeService.getCubeAnalysisElements(2).then(function(response) {
+			// console.log(response);
+		});
 
 		// load cube dimensions initially and after scenario element change
 		loadCube($scope.selectedScenarioElement.cubeMeta.id, $scope.selectedScenarioElement.cubeMeta.label);
@@ -525,7 +520,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 
 	// load applicable dimensions
 	$scope.loadDimensions = function(cubeId) {
-		return CubeService.buildDimensionsTree(cubeId, 4, 1, 1, true).then(function(dimensions) {
+		return CubeService.buildDimensionsTree(cubeId).then(function(dimensions) {
 			var i;
 
 			$scope.dimensions = dimensions;

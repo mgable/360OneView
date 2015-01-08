@@ -12,15 +12,37 @@ angular.module('ThreeSixtyOneView.services')
 		this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
 		this.get = function(id){
-			return myElements.get.call(this, {"id": id}).then(function(response){
+			var additionalPath = "analysis-element";
+			return this.resource.get({"id": id}, this.config, additionalPath).then(function(response){
 				return response;
 			});
 		};
 
-		this.getAnalysisElementByScenarioType = function (id) {
-			// (params, _config_, additionalPath)
-			return this.resource.get({"id": id}, {params:{'cubeName': 'TOUCHPOINT' }}).then(function(response){
+		this.getAnalysisElementByScenario = function (scenarioId) {
+			return this.resource.get({"id": scenarioId}, {}).then(function(response){
 				return response;
 			});
-		}
+		};
+
+		this.getAnalysisElementByScenarioAndCube = function(scenarioId, cubeId) {
+			var additionalPath = "cube/:cubeId/analysis-element";
+			return this.resource.get({"id": scenarioId, "cubeId": cubeId}, {}, additionalPath).then(function(response){
+				return response;
+			});
+		};
+
+		this.replaceAnalysisElementForCube = function(scenarioId, cubeId, analysisElement) {
+			var additionalPath = "cube/:cubeId/analysis-element";
+			return this.resource.put({"id": analysisElement.id}, {}, {id: scenarioId, cubeId: cubeId}, additionalPath).then(function (response) {
+				return response;
+			});
+		};
+
+		this.copyAndReplaceAnalysisElementForCube = function(scenarioId, cubeId, sourceElementId, analysisElement) {
+			var additionalPath = "cube/:cubeId/analysis-element?source=" + sourceElementId;
+			console.log(analysisElement);
+			return this.resource.post(analysisElement, {}, {id: scenarioId, cubeId: cubeId}, additionalPath).then(function (response) {
+				return response;
+			});
+		};
   }]);

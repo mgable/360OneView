@@ -46,8 +46,8 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
         'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);},
         'Scenario': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId, $stateParams.scenarioId);},
         'Views': function(PivotViewService){return PivotViewService.getViewsAndDefault(2);},
-        'ScenarioElements': function(ScenarioElementService, $stateParams){return ScenarioElementService.get($stateParams.scenarioId);},
-        'Element': function(ScenarioElementService, $stateParams){return ScenarioElementService.getAnalysisElementByScenarioType($stateParams.scenarioId)}
+        // 'Element': function(ScenarioElementService, $stateParams){return ScenarioElementService.getAnalysisElementByScenario($stateParams.scenarioId);},
+        'ScenarioAnalysisElements': function(ScenarioElementService, $stateParams){return ScenarioElementService.get($stateParams.scenarioId);}
       },
       breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.id}}'>{{project.title}}</a></li><li>{{scenario.title}}</li>"
     })
