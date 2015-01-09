@@ -52,7 +52,7 @@ angular.module('ThreeSixtyOneView')
         },
         setMasterScenario = function(scenario){
             scenario.isMaster = true;
-        }
+        };
 
         // API
         // Click handler interface
@@ -245,8 +245,8 @@ angular.module('ThreeSixtyOneView')
             DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
         });
 
-    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioAnalysisElements", "Views", "ptData", "$state", "EVENTS", "ScenarioElementService",
-    function($scope, Project, Scenario, ScenarioAnalysisElements, Views, ptData, $state, EVENTS, ScenarioElementService) {
+    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioAnalysisElements", "Views", "ptData", "$state", "EVENTS", "ScenarioElementService", "DialogService",
+    function($scope, Project, Scenario, ScenarioAnalysisElements, Views, ptData, $state, EVENTS, ScenarioElementService, DialogService) {
 
         $scope.$on(EVENTS.filter, function(){
             $scope.showDetails(SortAndFilterService.getData()[0]);
@@ -254,7 +254,7 @@ angular.module('ThreeSixtyOneView')
 
         var findElementByType = function(type) {
             var selectedElement = _.find(ScenarioAnalysisElements, function(fileName) {
-                return (fileName.id === type.id)
+                return (fileName.id === type.id);
             });
             // $scope.$broadcast(EVENTS.selectScenarioElement, selectedElement);
             return selectedElement;
@@ -290,6 +290,16 @@ angular.module('ThreeSixtyOneView')
         $scope.$on('$locationChangeSuccess', function(){
             $scope.location = $state.current.url;
         });
+
+        $scope.openScenarioElementFileModal = function(selectedScenarioElement) {
+            var dialog = DialogService.openFilterSelection('views/modal/scenario_analysis_element_files.tpl.html', 'ScenarioAnalysisElementFilesCtrl',
+                {selectedScenarioElement: selectedScenarioElement},
+                {windowSize: 'lg', windowClass: 'scenarioAnalysisElementFiles'});
+
+            dialog.result.then(function(data) {
+                console.log(data);
+            });
+        };
 
         init();
     }]);

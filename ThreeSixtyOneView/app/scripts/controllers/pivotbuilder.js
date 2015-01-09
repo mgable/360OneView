@@ -7,7 +7,7 @@
 * # PivotbuilderctrlCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl', 
+angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 	['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'PivotViewService', 'CubeService', 'DialogService', 'PivotIntermediatesService',
 	function ($scope, $rootScope, EVENTS, $timeout, $q, PivotViewService, CubeService, DialogService, PivotIntermediatesService) {
 
@@ -20,9 +20,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 		$scope.viewName = $scope.views.currentView.name;
 		// $scope.viewsList = $scope.views.views;
 
-		CubeService.getCubeAnalysisElements(2).then(function(response) {
-			// console.log(response);
-		});
+		// CubeService.getCubeAnalysisElements(2).then(function(response) {});
 
 		// load cube dimensions initially and after scenario element change
 		loadCube($scope.selectedScenarioElement.cubeMeta.id, $scope.selectedScenarioElement.cubeMeta.label);
@@ -108,8 +106,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 
 	// open/dismiss filters selection modal
 	$scope.filtersModal = function(category) {
-		var dialog = DialogService.openFilterSelection('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl', 
-			{cat: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData.rows.concat($scope.viewData.columns), dimensions: $scope.dimensions}, 
+		var dialog = DialogService.openFilterSelection('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
+			{cat: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData.rows.concat($scope.viewData.columns), dimensions: $scope.dimensions},
 			{windowSize: 'lg', windowClass: 'filtersSelectionModal'});
 
 		dialog.result.then(function(data) {
@@ -382,10 +380,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 	// load a view from the backend
 	$scope.loadView = function(cubeId, viewId) {
 		PivotViewService.getView(viewId, cubeId).then(function(view) {
-
+			var i;
 			// remove the draft view if one exists and is not selected
 			if($scope.draftView) {
-				var i, draftId;
+				var draftId;
 
 				_.each($scope.viewsList, function(listItem) {
 					if(listItem.name.substring(0, 8) === 'Draft - ') {

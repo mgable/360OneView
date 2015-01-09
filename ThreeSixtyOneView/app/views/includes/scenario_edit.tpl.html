@@ -4,6 +4,8 @@
             {{selectedScenarioElement.title}} <icon type="caret-down"></icon>
         </span>
         <span class="dropdown-filename"><icon type="file-text-o"></icon> {{selectedScenarioElementsFile}}</span>
+        <span ng-click="openScenarioElementFileModal(selectedScenarioElement)" class="filename-option"><icon type="folder-open-o"></icon>Replace</span>
+        <span class="filename-option"><icon type="folder-open-o"></icon>Copy &amp; Replace</span>
         <ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenarioElement.id}}" radio="true">
             <li ng-repeat="scenarioElement in getScenarioElements()" ms-link="{{type.id}}" >
                 <a href="" ng-click="setScenarioElement(scenarioElement)">{{scenarioElement.title}}</a>

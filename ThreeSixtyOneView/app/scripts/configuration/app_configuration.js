@@ -85,7 +85,7 @@ angular.module('ThreeSixtyOneView.config')
                     "displayColumns": [{
                         "label": "Last Modified",
                         "filter": "modifiedOn"
-                    }, 
+                    },
                     // {
                     //     "label": "Type",
                     //     "filter": "type"

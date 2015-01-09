@@ -1,0 +1,31 @@
+<div class="element-file-modal-header">
+	<h4 class="element-file-modal-title" id="myModalLabel">{{selectedScenarioElement.title}}</h4>
+	<h3>Select A New File</h3>
+</div>
+<div class="element-file-modal-body">
+	<div class="element-file-box">
+		<div class="element-file-toolbar">
+			<div class="file-owner-dropdown"></div>
+			<div class="file-name-search">
+				<div class="search-box">
+					<icon type="search"></icon>
+					<input type="text" ng-model="searchTerm.name" placeholder="Search">
+				</div>
+			</div>
+		</div>
+		<div class="element-file-list">
+			<div ng-repeat="file in fileList | filter:searchTerm" class="element-file-item" ng-class="{'current-file': file.id === currentFile.id}" ng-click="currentFile.id = file.id">
+				<div class="element-file-name"><icon type="circle-o"></icon><icon type="dot-circle-o"></icon>{{file.name}}</div>
+				<div class="element-file-info">
+					<span class="element-file-date">{{file.auditInfo.lastUpdatedOn}}</span>
+					<span class="element-file-owner">{{file.auditInfo.lastUpdatedBy.name}}</span>
+				</div>
+				<div class="element-file-description">{{file.description}}</div>
+			</div>
+		</div>
+	</div>
+	<div class="element-file-buttons">
+		<button type="button" class="btn cancel-button" data-dismiss="modal" ng-click="cancelChangeFile();">CANCEL</button>
+		<button type="button" class="btn apply-button" data-dismiss="modal" ng-click="changeFile()" ng-disabled="noFilterSelected">APPLY</button>
+	</div>
+</div>
