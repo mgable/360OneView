@@ -4,12 +4,7 @@
     <h2 class="scenario-calculation-title" ng-show="!success"><icon type="exclamation-triangle"></icon> Error during optimization</h2>
     <p class="scenario-calculation-description" ng-show="!success">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, vero itaque tenetur explicabo eius.</p>
     <div class="row">
-        <div class="col-sm-7 sm-padding">
-            <progressbar class="progress-striped active" max="100" value="progressValue" type="success"></progressbar>
-        </div>
-        <div class="col-sm-5 sm-padding">
-            <span class="scenario-calculation-value">{{progressValue}}% completed</span>
-        </div>
+        <progressbar class="progress-striped active" max="100" value="progressValue" type="success"><i>{{progressValue | number:0}}%</i></progressbar>
     </div>
     <div class="row">
         <ul class="scenario-calculation-list">

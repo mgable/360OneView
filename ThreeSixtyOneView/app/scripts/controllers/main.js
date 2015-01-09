@@ -245,8 +245,8 @@ angular.module('ThreeSixtyOneView')
             DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
         });
 
-    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioAnalysisElements", "Views", "ptData", "$state", "EVENTS", "ScenarioElementService", "DialogService",
-    function($scope, Project, Scenario, ScenarioAnalysisElements, Views, ptData, $state, EVENTS, ScenarioElementService, DialogService) {
+    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioAnalysisElements", "Views", "ptData", "$state", "EVENTS", "ScenarioElementService", "DialogService", "ScenarioCalculateService",
+    function($scope, Project, Scenario, ScenarioAnalysisElements, Views, ptData, $state, EVENTS, ScenarioElementService, DialogService, ScenarioCalculateService) {
 
         $scope.$on(EVENTS.filter, function(){
             $scope.showDetails(SortAndFilterService.getData()[0]);
@@ -270,7 +270,7 @@ angular.module('ThreeSixtyOneView')
             $scope.pivotTableData = ptData.data;
             // this is how pivotbuilder and pivottable communicate
             $scope.spread = {sheet: {}};
-            
+
             // ScenarioElementService.replaceAnalysisElementForCube(172, 2, {id: 19}).then(function(response) {});
             // ScenarioElementService.copyAndReplaceAnalysisElementForCube(172, 2, 63, {"name":"Behrooz", "description": "Behrooz"}).then(function(response){});
         };
@@ -300,6 +300,12 @@ angular.module('ThreeSixtyOneView')
                 console.log(data);
             });
         };
+
+        $scope.calculateScenario = function() {
+            console.log($scope.scenario.id);
+            ScenarioCalculateService.post($scope.scenario.id);
+            console.log('CALCULATE START');
+        }
 
         init();
     }]);

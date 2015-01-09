@@ -7,10 +7,10 @@
 * # scenarioCalcCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$interval', 'calcStatesData', function ($scope, $interval, calcStatesData) {
+angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$interval', 'ScenarioCalculate', function ($scope, $interval, ScenarioCalculate) {
 
     // private varibles and functions
-    var stepLen   = calcStatesData.runningStates.length,
+    var stepLen   = ScenarioCalculate.runningStates.length,
         stepValue = 100 / stepLen,
 
         // init the progress
@@ -68,7 +68,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
         };
 
     // scope variables
-    $scope.calcStatesData = prepareStatesData(calcStatesData);
+    $scope.calcStatesData = prepareStatesData(ScenarioCalculate);
     $scope.runningStates = $scope.calcStatesData.runningStates;
 
     // scope functions
@@ -107,54 +107,4 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
     // fire off functions
     init();
 
-}]).factory('calcStatesData', function () {
-    return {
-        "id" : 17,
-          "currentState" : {
-            "name" : "     QUEUED ",
-            "completed" : false,
-            "label" : "     QUEUED "
-          },
-          "runningStates" : [ {
-            "name" : "     QUEUED ",
-            "completed" : false,
-            "label" : "     QUEUED "
-          }, {
-            "name" : "     READ_SCOEF ",
-            "completed" : false,
-            "label" : "     READ_SCOEF "
-          }, {
-            "name" : "     READ_SSTACK ",
-            "completed" : false,
-            "label" : "     READ_SSTACK "
-          }, {
-            "name" : "     READ_SMETAD",
-            "completed" : false,
-            "label" : "     READ_SMETAD"
-          }, {
-            "name" : "     READ_SGOALS ",
-            "completed" : false,
-            "label" : "     READ_SGOALS "
-          }, {
-            "name" : "     CALCULATION ",
-            "completed" : false,
-            "label" : "     CALCULATION "
-          }, {
-            "name" : "     LOAD_TO_STAGE ",
-            "completed" : false,
-            "label" : "     LOAD_TO_STAGE "
-          }, {
-            "name" : "     LOAD_TO_FACT ",
-            "completed" : false,
-            "label" : "     LOAD_TO_FACT "
-          } ],
-          "auditInfo" : {
-            "createdOn" : "2015-01-08T00:04:03.299Z",
-            "createdBy" : {
-              "uuid" : "UUID-1",
-              "name" : "me"
-            },
-            "lastUpdatedOn" : "2015-01-08T00:04:03.299Z"
-          }
-    };
-});;
+}]);

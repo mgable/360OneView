@@ -16,10 +16,14 @@
         text-align: left;
         text-justify: inter-word;
     }
-    .scenario-calculation-value {
-        font-size: 14px;
-        font-weight: 700;
-        color: #5cb85c;
+    .progress {
+        height: 30px;
+        i {
+            line-height: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            font-style: normal;
+        }
     }
     ul.scenario-calculation-list {
         text-align: left;

@@ -67,6 +67,9 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
           // controller: "scenarioResultsCtrl",
           // templateUrl: "views/includes/scenario_results.tpl.html"
           controller: "scenarioCalcCtrl",
+          resolve: {
+            'ScenarioCalculate': function(ScenarioCalculateService, $stateParams){return ScenarioCalculateService.get($stateParams.scenarioId);},
+          },
           templateUrl: "views/includes/scenario_calculate.tpl.html"
         }
       },
