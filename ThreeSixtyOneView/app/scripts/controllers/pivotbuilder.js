@@ -22,13 +22,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 
 		// CubeService.getCubeAnalysisElements(2).then(function(response) {});
 
-		// load cube dimensions initially and after scenario element change
-		loadCube($scope.selectedScenarioElement.cubeMeta.id, $scope.selectedScenarioElement.cubeMeta.label);
-		$scope.$on(EVENTS.selectScenarioElement, function(evt, element) {
-			$scope.cubeId = element.cubeMeta.id;
-			loadCube(element.cubeMeta.id, element.cubeMeta.label);
-		});
-
 		$scope.saveAs = false;
 		$scope.rename = false;
 
@@ -37,11 +30,52 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 		$scope.add = {selected: ''};
 		$scope.added = {};
 
-		$scope.setUpAddedLevels($scope.views.currentView);
+		setUpAddedLevels($scope.views.currentView);
 		$scope.addedFilters = {};
 		$scope.categorizedValue = [];
 		$scope.filterSearch = {label: ''};
 
+		// load cube dimensions initially and after scenario element change
+		var initModel = function(cubeId, label, fnLoadView, fnCreateInitialView, scoptCubeId, fnSetViewList, fnSetDraftView) {
+			CubeService.buildDimensionsTree(cubeId).then(function(dimensions) {
+				PivotViewService.getViewsList(cubeId).then(function(list) {
+					fnSetViewList(list);
+					if(list.length < 1) {
+						// create an empty default view
+						fnCreateInitialView(cubeId, label, dimensions);
+					} else {
+						var draftView = false,
+							defaultView = false;
+
+						// check for draft or default views
+						_.each(list, function(item) {
+							if(item.name.substring(0, 8) === 'Draft - ') {
+								draftView = item;
+							} else if(item.isDefault) {
+								defaultView = item;
+							}
+						});
+
+						// load the proper view
+						if(!!draftView) {
+							fnLoadView(scoptCubeId, draftView.id, dimensions);
+							fnSetDraftView(true);
+						} else if(!!defaultView) {
+							fnLoadView(scoptCubeId, defaultView.id, dimensions);
+						} else {
+							fnLoadView(cubeId, list[0].id, dimensions);
+						}
+					}
+				});
+			});
+		}
+
+		$scope.$on(EVENTS.selectScenarioElement, function(evt, element) {
+			$scope.cubeId = element.cubeMeta.id;
+			initModel(element.cubeMeta.id, element.cubeMeta.label, $scope.loadView, createInitialView, $scope.cubeId, setViewList, setDraftView);
+		});
+
+		initModel($scope.selectedScenarioElement.cubeMeta.id, $scope.selectedScenarioElement.cubeMeta.label, $scope.loadView, createInitialView, $scope.cubeId, setViewList, setDraftView);
 		$scope.dragOptions = {
 			itemMoved: function() {
 				// console.log(event);
@@ -158,7 +192,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			var originalViewId = _.find($scope.viewsList, function(view) { return originalViewName === view.name; }).id;
 			var draftViewId = $scope.viewData.id;
 
-			$scope.loadView($scope.cubeId, originalViewId);
+			$scope.loadView($scope.cubeId, originalViewId, $scope.dimensions);
 			$scope.deleteView($scope.cubeId, draftViewId);
 			$scope.draftView = false;
 		}
@@ -188,7 +222,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			$scope.updateView($scope.cubeId, $scope.viewData).then(function(view) {
 				$scope.viewData = view;
 				$scope.viewName = view.name;
-				$scope.setUpAddedLevels(view);
+				setUpAddedLevels(view);
 			});
 			$scope.deleteView($scope.cubeId, draftViewId);
 			$scope.draftView = false;
@@ -378,7 +412,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 	};
 
 	// load a view from the backend
-	$scope.loadView = function(cubeId, viewId) {
+	$scope.loadView = function(cubeId, viewId, dimensions) {
 		PivotViewService.getView(viewId, cubeId).then(function(view) {
 			var i;
 			// remove the draft view if one exists and is not selected
@@ -401,8 +435,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			$scope.views.currentView = view;
 			$scope.viewData = view;
 			$scope.viewName = view.name;
-			$scope.setUpAddedLevels(view);
+			setUpAddedLevels(view);
 
+			$scope.dimensions = dimensions;
+			$scope.membersList = PivotIntermediatesService.generateMembersList(dimensions);
 			// load filter values if dimensions are loaded, otherwise when dimensions are loaded, filters are loaded
 			if(!!$scope.dimensions) {
 				$scope.addedFilters = PivotIntermediatesService.getAddedFilters($scope.viewData.filters, $scope.dimensions);
@@ -448,49 +484,15 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 		PivotViewService.createView(view, cubeId).then(function(view) {
 			$scope.viewData = view;
 			$scope.viewName = view.name;
-			$scope.setUpAddedLevels(view);
+			setUpAddedLevels(view);
 			$scope.viewsList.unshift(view);
 			$scope.addedFilters = PivotIntermediatesService.getAddedFilters(view.filters, $scope.dimensions);
 		});
 	};
 
-	// create an initial empty view when there is no view in the cube
-	var loadCube = function(cubeId, label) {
-		var dimensionsPromise = $scope.loadDimensions(cubeId);
-		PivotViewService.getViewsList(cubeId).then(function(list) {
-			$scope.viewsList = list;
-			if(list.length < 1) {
-				// create an empty default view
-				createInitialView(cubeId, label, dimensionsPromise);
-			} else {
-				var draftView = false,
-					defaultView = false;
-
-				// check for draft or default views
-				_.each(list, function(item) {
-					if(item.name.substring(0, 8) === 'Draft - ') {
-						draftView = item;
-					} else if(item.isDefault) {
-						defaultView = item;
-					}
-				});
-
-				// load the proper view
-				if(!!draftView) {
-					$scope.loadView($scope.cubeId, draftView.id);
-					$scope.draftView = true;
-				} else if(!!defaultView) {
-					$scope.loadView($scope.cubeId, defaultView.id);
-				} else {
-					$scope.loadView(cubeId, list[0].id);
-				}
-			}
-		});
-	};
 
 	// create an empty initial view if there are no views in the selected cube
-	var createInitialView = function(cubeId, label, dimensionsPromise) {
-		dimensionsPromise.then(function(dimensions) {
+	var createInitialView = function(cubeId, label, dimensions) {
 			var i, newView = {
 				name: 'Default ' + label + ' view',
 				isDefault: true,
@@ -513,30 +515,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			}
 			// $scope.addedFilters = PivotIntermediatesService.getAddedFilters($scope.viewData.filters, $scope.dimensions);
 			$scope.createView(cubeId, newView);
-		});
-	};
-
-	// load applicable dimensions
-	$scope.loadDimensions = function(cubeId) {
-		return CubeService.buildDimensionsTree(cubeId).then(function(dimensions) {
-			var i;
-
-			$scope.dimensions = dimensions;
-			$scope.membersList = PivotIntermediatesService.generateMembersList($scope.dimensions);
-
-			if(!_.isEmpty($scope.viewData)) {
-				$scope.addedFilters = PivotIntermediatesService.getAddedFilters($scope.viewData.filters, $scope.dimensions);
-				for(i = 0; i < $scope.dimensions.length; i++) {
-					$scope.categorizedValue[i] = PivotIntermediatesService.getCategorizeValues($scope.dimensions[i], $scope.addedFilters[$scope.dimensions[i].label]);
-				}
-			}
-
-			return dimensions;
-		});
 	};
 
 	// set up added levels
-	$scope.setUpAddedLevels = function(view) {
+	var setUpAddedLevels = function(view) {
 		var i;
 		$scope.added = {};
 
@@ -547,6 +529,14 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			$scope.added[view.rows[i].level.label] = true;
 		}
 	};
+
+	var setViewList = function(viewList) {
+		$scope.viewsList = viewList;
+	}
+
+	var setDraftView = function(isDraftView) {
+		$scope.draftView = isDraftView;
+	}
 
 	init();
 }]).controller('pivotTableCtrl', ['$scope', 'pbData',
