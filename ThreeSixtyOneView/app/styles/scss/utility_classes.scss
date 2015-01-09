@@ -5,6 +5,15 @@
   url('../fonts/fontawesome-webfont.woff') format('woff'), url('../fonts/fontawesome-webfont.ttf') format('truetype'), url('../fonts/fontawesome-webfont.svg#fontawesome-webfont') format('svg');
 }
 
+.loading {
+  background: transparent url(../images/loading.gif) 0 0 no-repeat;
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  margin: 0 5px 0 0;
+  vertical-align: middle;
+}
+
 .space-after {
 	margin-bottom: 20px;
 }

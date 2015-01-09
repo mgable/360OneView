@@ -56,7 +56,6 @@ describe('Project Listing Page: ', function() {
 				itemTitle.click();
 				expect(browser.getLocationAbsUrl()).toContain(specs.getDashboardUrl(id));
 			});
-			
 		});
 
 		it("should have the active item in the tray", function(){
@@ -66,7 +65,7 @@ describe('Project Listing Page: ', function() {
 				expect(itemTitle.getText()).toBe(selectedItemTitle.getText());
 		});
 
-		it("should put the active item in the tray when clicked", function(){
+		it("should put the selected item in the tray", function(){
 			var counter = 0,
 				maxItemsToTest = 5,
 				limit;
@@ -148,6 +147,7 @@ describe('Project Listing Page: ', function() {
 
 		it("should order by last modified", function(){
 			var itemModifiedOn = specs.getAllItemModifiedOn();
+
 			itemModifiedOn.first().getText().then(function(firstDate){
 				itemModifiedOn.last().getText().then(function(lastDate){
 					expect(firstDate).toBeGreaterThan(lastDate);
@@ -278,7 +278,7 @@ describe('Project Listing Page: ', function() {
 
 	xdescribe("Search: ", function(){
 		it("should search", function(){
-			specs.searchInputField.sendKeys(specs.masterProject);
+			funcs.searchMasterProject()
 			expect(specs.getItems().count()).toBe(1);
 		});
 	});
@@ -324,37 +324,7 @@ describe('Project Listing Page: ', function() {
 			createButton.click();
 			browser.waitForAngular();
 
-			inputField.sendKeys("xx\\");
-			expect(submitButton.getAttribute('disabled')).toBeTruthy();
-
-			inputField.clear();
-			inputField.sendKeys("xx*");
-			expect(submitButton.getAttribute('disabled')).toBeTruthy();
-
-			inputField.clear();
-			inputField.sendKeys("xx\"");
-			expect(submitButton.getAttribute('disabled')).toBeTruthy();
-
-			inputField.clear();
-			inputField.sendKeys("xx|");
-			expect(submitButton.getAttribute('disabled')).toBeTruthy();
-
-			inputField.clear();
-			inputField.sendKeys("xx?");
-			expect(submitButton.getAttribute('disabled')).toBeTruthy();
-
-			inputField.clear();
-			inputField.sendKeys("xx>");
-			expect(submitButton.getAttribute('disabled')).toBeTruthy();
-
-			inputField.clear();
-			inputField.sendKeys("xx<");
-			expect(submitButton.getAttribute('disabled')).toBeTruthy();
-
-			inputField.clear();
-			inputField.sendKeys("xx");
-			expect(submitButton.getAttribute('disabled')).toBeFalsy();
-
+			funcs.testInputRestrictions(inputField, submitButton);
 		});
 	});
 
@@ -363,9 +333,8 @@ describe('Project Listing Page: ', function() {
 			newName = "My Renamed Project - " + Date.now();
 
 		it("should rename a project", function(){
-			browser.actions().mouseMove(specs.renameButton).perform();
-			specs.renameButton.click();
-			browser.waitForAngular();
+			funcs.hoverAndClick(specs.renameButton);
+
 			var currentName = specs.inputField.getAttribute('value');
 			specs.inputField.clear();
 			specs.inputField.sendKeys(newName);
@@ -378,8 +347,8 @@ describe('Project Listing Page: ', function() {
 		});
 
 		it("should not submit if the title has not been changed", function(){
-			browser.actions().mouseMove(specs.renameButton).perform();
-			specs.renameButton.click();
+			funcs.hoverAndClick(specs.renameButton);
+
 			expect(specs.inlineSubmitButton.getAttribute('disabled')).toBeTruthy();
 			specs.inputField.sendKeys(newName);
 			expect(specs.inlineSubmitButton.getAttribute('disabled')).toBeFalsy();
@@ -387,14 +356,15 @@ describe('Project Listing Page: ', function() {
 
 		it("should unhide the input field when action is clicked", function(){
 			expect(specs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(true);
-			browser.actions().mouseMove(specs.renameButton).perform();
-			specs.renameButton.click();
+
+			funcs.hoverAndClick(specs.renameButton);
+
 			expect(specs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(false);
 		});
 
 		it("should reset if the selectedItem is changed", function(){
-			browser.actions().mouseMove(specs.renameButton).perform();
-			specs.renameButton.click();
+			funcs.hoverAndClick(specs.renameButton);
+
 			expect(specs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(false);
 			first = specs.getFirstItem();
 			first.click();
@@ -402,16 +372,16 @@ describe('Project Listing Page: ', function() {
 		});
 
 		it("should reset if the rename is cancelled", function(){
-			browser.actions().mouseMove(specs.renameButton).perform();
-			specs.renameButton.click();
+			funcs.hoverAndClick(specs.renameButton);
+
 			expect(specs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(false);
 			specs.inlineCancelButton.click();
 			expect(specs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(true);
 		});
 
 		it("should reset the selectedItem if the rename is cancelled", function(){
-			browser.actions().mouseMove(specs.renameButton).perform();
-			specs.renameButton.click();
+			funcs.hoverAndClick(specs.renameButton);
+
 			var currentName = specs.inputField.getAttribute('value');
 			specs.inputField.clear();
 			specs.inputField.sendKeys(newName);
@@ -419,45 +389,28 @@ describe('Project Listing Page: ', function() {
 			expect(specs.inputField.getAttribute('value')).toEqual(currentName);
 		});
 
-		it("should correct set form states", function(){
-			browser.actions().mouseMove(specs.renameButton).perform();
-			specs.renameButton.click();
+		it("should set form states", function(){
+			funcs.hoverAndClick(specs.renameButton);
 			expect(specs.hasClass(specs.inputField, "ng-pristine")).toBe(true);
 			expect(specs.hasClass(specs.inputField, "ng-dirty")).toBe(false);
+
 			specs.inputField.sendKeys("x");
 			expect(specs.hasClass(specs.inputField, "ng-pristine")).toBe(false);
 			expect(specs.hasClass(specs.inputField, "ng-dirty")).toBe(true);
 			specs.inlineCancelButton.click();
-			browser.actions().mouseMove(specs.renameButton).perform();
-			specs.renameButton.click();
+
+			funcs.hoverAndClick(specs.renameButton);
 			expect(specs.hasClass(specs.inputField, "ng-pristine")).toBe(true);
 			expect(specs.hasClass(specs.inputField, "ng-dirty")).toBe(false);
 		});
 
 		it("should respect input limitations", function(){
-			browser.actions().mouseMove(specs.renameButton).perform();
-			specs.renameButton.click();
-			specs.inputField.clear();
-			expect(specs.inlineSubmitButton.getAttribute('disabled')).toBeTruthy();
-			specs.inputField.sendKeys("x");
-			expect(specs.inlineSubmitButton.getAttribute('disabled')).toBeTruthy();
-			specs.inputField.sendKeys("x");
-			expect(specs.inlineSubmitButton.getAttribute('disabled')).toBeFalsy();
-			specs.inputField.clear();
-			specs.inputField.sendKeys("xxxx\\");
-			expect(specs.inlineSubmitButton.getAttribute('disabled')).toBeTruthy();
-			specs.inputField.clear();
-			specs.inputField.sendKeys("xxxx*");
-			expect(specs.inlineSubmitButton.getAttribute('disabled')).toBeTruthy();
-			specs.inputField.clear();
-			specs.inputField.sendKeys("Bacon ipsum dolor amet spare ribs drumstick short loin capicola boudin kielbasa. Ham hock chuck jowl swine, pork beef ribs turducken shoulder short ribs landjaeger. Beef turkey jowl tongue filet mignon cow spare ribs kielbasa drumstick ham hock jerky capxx");
-			expect(specs.inlineSubmitButton.getAttribute('disabled')).toBeFalsy();
-			specs.inputField.sendKeys("z");
-			expect(specs.inlineSubmitButton.getAttribute('disabled')).toBeTruthy();
+			funcs.hoverAndClick(specs.renameButton);
+			funcs.testInputRestrictions(specs.inputField, specs.inlineSubmitButton);
 		});
 	});	
 
-	xdescribe("edit description: ", function(){
+	describe("edit description: ", function(){
 		var first,
 			newDescription = "This is my new description - " + Date.now(),
 			rootElement = "form[data-ms-id='inlineDescription']",
@@ -475,8 +428,8 @@ describe('Project Listing Page: ', function() {
 			inlineEditSubmitButton = element(by.css(inlineEditSubmit));
 
 		it("should edit a description", function(){
-			browser.actions().mouseMove(editDescriptionButton).perform();
-			editDescriptionButton.click();
+			funcs.hoverAndClick(editDescriptionButton);
+
 			textAreaField.clear();
 			textAreaField.sendKeys(newDescription);
 
@@ -490,8 +443,8 @@ describe('Project Listing Page: ', function() {
 		});
 
 		it("should not submit if the description has not been changed", function(){
-			browser.actions().mouseMove(editDescriptionButton).perform();
-			editDescriptionButton.click();
+			funcs.hoverAndClick(editDescriptionButton);
+
 			expect(inlineEditSubmitButton.getAttribute('disabled')).toBeTruthy();
 			textAreaField.sendKeys(newDescription);
 			expect(inlineEditSubmitButton.getAttribute('disabled')).toBeFalsy();
@@ -499,14 +452,15 @@ describe('Project Listing Page: ', function() {
 
 		it("should unhide the textarea when action is clicked", function(){
 			expect(specs.hasClass(textAreaHolder, "ng-hide")).toBe(true);
-			browser.actions().mouseMove(editDescriptionButton).perform();
-			editDescriptionButton.click();
+
+			funcs.hoverAndClick(editDescriptionButton);
+
 			expect(specs.hasClass(textAreaHolder, "ng-hide")).toBe(false);
 		});
 
 		it("should reset if the selectedItem is changed", function(){
-			browser.actions().mouseMove(editDescriptionButton).perform();
-			editDescriptionButton.click();
+			funcs.hoverAndClick(editDescriptionButton);
+
 			expect(specs.hasClass(textAreaHolder, "ng-hide")).toBe(false);
 			first = specs.getFirstItem();
 			first.click();
@@ -514,7 +468,7 @@ describe('Project Listing Page: ', function() {
 		});
 	});
 
-	describe("Page actions: ", function(){
+	xdescribe("Page actions: ", function(){
 		it("should prevent the master project from being edited", function(){
 			funcs.selectMasterProject();
 			expect(specs.renameButton.isPresent()).toBe(false);

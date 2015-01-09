@@ -101,11 +101,11 @@ angular.module('ThreeSixtyOneView')
 				}
 
 				if(filters[i].value.specification.type === 'All') {
-					angular.extend(addedFilters[filters[i].scope.dimension.label], 
+					angular.extend(addedFilters[filters[i].scope.dimension.label],
 						findTree(filters[i].scope.level.label, dimensions[dimensionIndex], false));
 				} else {
 					for(j = 0; j < filters[i].value.specification.members.length; j++) {
-						angular.extend(addedFilters[filters[i].scope.dimension.label], 
+						angular.extend(addedFilters[filters[i].scope.dimension.label],
 							findTree(filters[i].value.specification.members[j].label, dimensions[dimensionIndex], false));
 					}
 				}
@@ -195,6 +195,16 @@ angular.module('ThreeSixtyOneView')
 			});
 
 			return membersList;
+		};
+
+		this.generateCategorizeValueStructure = function(addedFilters, dimensions, viewData) {
+			if(!_.isEmpty(viewData)) {
+				var categorizedValue = [];
+				for(i = 0; i < dimensions.length; i++) {
+					categorizedValue[i] = this.getCategorizeValues(dimensions[i], addedFilters[dimensions[i].label]);
+				}
+				return categorizedValue;
+			}
 		};
 
 	}]);

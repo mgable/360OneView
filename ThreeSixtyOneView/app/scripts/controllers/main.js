@@ -52,7 +52,7 @@ angular.module('ThreeSixtyOneView')
         },
         setMasterScenario = function(scenario){
             scenario.isMaster = true;
-        }
+        };
 
         // API
         // Click handler interface
@@ -245,15 +245,16 @@ angular.module('ThreeSixtyOneView')
             DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
         });
 
-    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", "Element", "Views", "ptData", "$state", "EVENTS", function($scope, Project, Scenario, ScenarioElements, Element, Views, ptData, $state, EVENTS) {
+    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioAnalysisElements", "Views", "ptData", "$state", "EVENTS", "ScenarioElementService", "DialogService",
+    function($scope, Project, Scenario, ScenarioAnalysisElements, Views, ptData, $state, EVENTS, ScenarioElementService, DialogService) {
 
         $scope.$on(EVENTS.filter, function(){
             $scope.showDetails(SortAndFilterService.getData()[0]);
         });
 
         var findElementByType = function(type) {
-            var selectedElement = _.find(ScenarioElements, function(fileName) {
-                return (fileName.id === type.id)
+            var selectedElement = _.find(ScenarioAnalysisElements, function(fileName) {
+                return (fileName.id === type.id);
             });
             // $scope.$broadcast(EVENTS.selectScenarioElement, selectedElement);
             return selectedElement;
@@ -262,13 +263,16 @@ angular.module('ThreeSixtyOneView')
             $scope.project = Project;
             $scope.scenario = Scenario;
             $scope.views = Views;
-            $scope.scenarioElements =  ScenarioElements;
+            $scope.scenarioElements =  ScenarioAnalysisElements;
             $scope.setScenarioElement($scope.scenarioElements[0]);
             $scope.location = $state.current.url;
             // hardcoded data
             $scope.pivotTableData = ptData.data;
             // this is how pivotbuilder and pivottable communicate
             $scope.spread = {sheet: {}};
+            
+            // ScenarioElementService.replaceAnalysisElementForCube(172, 2, {id: 19}).then(function(response) {});
+            // ScenarioElementService.copyAndReplaceAnalysisElementForCube(172, 2, 63, {"name":"Behrooz", "description": "Behrooz"}).then(function(response){});
         };
 
         $scope.getScenarioElements = function() {
@@ -286,6 +290,16 @@ angular.module('ThreeSixtyOneView')
         $scope.$on('$locationChangeSuccess', function(){
             $scope.location = $state.current.url;
         });
+
+        $scope.openScenarioElementFileModal = function(selectedScenarioElement) {
+            var dialog = DialogService.openFilterSelection('views/modal/scenario_analysis_element_files.tpl.html', 'ScenarioAnalysisElementFilesCtrl',
+                {selectedScenarioElement: selectedScenarioElement},
+                {windowSize: 'lg', windowClass: 'scenarioAnalysisElementFiles'});
+
+            dialog.result.then(function(data) {
+                console.log(data);
+            });
+        };
 
         init();
     }]);

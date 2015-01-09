@@ -49,7 +49,7 @@ angular.module('ThreeSixtyOneView')
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
         var findBaseScenarioId = function(scenario){
-                var baseScenario = _.find(scenario.data, function(obj){return /PRE LOADED SIMULATION/.test(obj.title)} );
+                var baseScenario = _.find(scenario.data, function(obj){return /PRE LOADED SIMULATION/.test(obj.title);} );
                 return baseScenario.id;
             },
             getMasterProject = function(projects){
@@ -121,7 +121,7 @@ angular.module('ThreeSixtyOneView')
         
         init();
 
-    }]).controller('FilterSelectionCtrl', ["$scope", "$window", "$rootScope", "$modalInstance", "$controller", "data", "CONFIG", "PivotIntermediatesService", 
+    }]).controller('FilterSelectionCtrl', ["$scope", "$window", "$rootScope", "$modalInstance", "$controller", "data", "CONFIG", "PivotIntermediatesService",
     function($scope, $window, $rootScope, $modalInstance, $controller, data, CONFIG, PivotIntermediatesService) {
     angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
@@ -220,23 +220,20 @@ angular.module('ThreeSixtyOneView')
             return null;
         }
 
-        var output;
+        var searchResults;
 
         var treeSearch = function(tree, searchLabel) {
-            var output = {
-                label: tree.label
-            };
-
-            if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1) {
-                return tree;
-            }
+            var output = null;
 
             if(tree.members.length > 0) {
                 for(var i = 0; i < tree.members.length; i++) {
                     var results = treeSearch(tree.members[i], searchLabel);
-                    if(results && results.members) {
-                        if(!output.members) {
-                            output.members = [];
+                    if(!!results && !!results.members) {
+                        if(!output) {
+                            output = {
+                                label: tree.label,
+                                members: []
+                            };
                         }
                         output.members.push(results);
                     }
@@ -248,13 +245,14 @@ angular.module('ThreeSixtyOneView')
                     return null;
                 }
             }
+
             return output;
         };
 
-        output = treeSearch(obj, search.label);
+        searchResults = treeSearch(obj, search.label);
 
-        $scope.searchResults = output;
-        $scope.countFilters(output, $scope.addedFilter);
+        $scope.searchResults = searchResults;
+        $scope.countFilters(searchResults, $scope.addedFilter);
     };
 
     // count number of selected and total filters
@@ -264,7 +262,7 @@ angular.module('ThreeSixtyOneView')
             total: 0
         };
 
-        if(!object.members) {
+        if(!object) {
             $scope.filterCount = output;
             return output;
         }
@@ -336,12 +334,12 @@ angular.module('ThreeSixtyOneView')
     };
 
     $scope.categorizeValuesCount = function(_index, addedFilter) {
-        var output = PivotIntermediatesService.getCategorizeValues($scope.dimensions[_index], addedFilter);
+        var index, output = PivotIntermediatesService.getCategorizeValues($scope.dimensions[_index], addedFilter);
         $scope.categorizedValue[_index] = output;
 
         // add empty category to the empty items list and show error
         if(output.selected === 0) {
-            var index = $scope.emptyFiltersList.indexOf($scope.dimensions[_index].label)
+            index = $scope.emptyFiltersList.indexOf($scope.dimensions[_index].label);
             if(index < 0) {
                 $scope.emptyFiltersList.push($scope.dimensions[_index].label);
             }
@@ -349,7 +347,7 @@ angular.module('ThreeSixtyOneView')
         }
         // check if any item is selected from an empty list, remove it
         if($scope.noFilterSelected && output.selected > 0) {
-            var index = $scope.emptyFiltersList.indexOf($scope.dimensions[_index].label);
+            index = $scope.emptyFiltersList.indexOf($scope.dimensions[_index].label);
             if(index > -1) {
                 $scope.emptyFiltersList.splice(index, 1);
                 if($scope.emptyFiltersList.length < 1) {
@@ -362,4 +360,34 @@ angular.module('ThreeSixtyOneView')
 
     init();
 
+}]).controller('ScenarioAnalysisElementFilesCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "data", "CubeService",
+function($scope, $controller, $modalInstance, CONFIG, data, CubeService) {
+    angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+
+    var init = function() {
+        $scope.fileList = [];
+
+        $scope.selectedScenarioElement = data.selectedScenarioElement;
+        $scope.currentFile = {id: data.selectedScenarioElement.id};
+
+        CubeService.getCubeAnalysisElements($scope.selectedScenarioElement.cubeMeta.id).then(function(response) {
+            $scope.fileList = response;
+        });
+    };
+
+    // cancel the changes and dismiss the modal
+    $scope.cancelChangeFile = function() {
+        $scope.fileList = [];
+        $modalInstance.dismiss('canceled');
+    };
+
+    // pass back the selected file and dismiss the modal
+    $scope.changeFile = function() {
+        var newFile = _.find($scope.fileList, function(file) {
+            return file.id === $scope.currentFile.id;
+        });
+        $modalInstance.close(newFile);
+    };
+
+    init();
 }]);

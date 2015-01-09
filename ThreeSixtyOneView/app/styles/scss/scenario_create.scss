@@ -381,7 +381,7 @@
 		border-radius: 3px;
 		border: none;
 	}
-	input.button,
+	button.button,
 	div.radios button.confirmRadio {
 		display: inline-block;
 		float: right;
@@ -395,6 +395,16 @@
 		background-color: #F53;
 		border-radius: 3px;
 		border: none;
+	}
+	button.cancel {
+		background-color: #BBB;
+	}
+	button.submit[disabled]{
+		opacity:.65;
+	}
+	.loaderHolder {
+		margin:10px 0 0 0;
+		float:right;
 	}
 	div.radios button.confirmRadio {
 		margin-top: 10px;
