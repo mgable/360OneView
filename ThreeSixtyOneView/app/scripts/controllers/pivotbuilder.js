@@ -37,6 +37,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 
 		// load cube dimensions initially and after scenario element change
 		var initModel = function(cubeId, label, fnLoadView, fnCreateInitialView, scoptCubeId, fnSetViewList, fnSetDraftView) {
+			$scope.draftView = false;
 			CubeService.buildDimensionsTree(cubeId).then(function(dimensions) {
 				PivotViewService.getViewsList(cubeId).then(function(list) {
 					fnSetViewList(list);
