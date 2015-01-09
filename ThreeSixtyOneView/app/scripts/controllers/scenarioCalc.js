@@ -9,71 +9,78 @@
 */
 angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$interval', 'calcStatesData', function ($scope, $interval, calcStatesData) {
 
-    var stepValue = 100 / 8;
+    // private varibles and functions
+    var stepLen   = calcStatesData.runningStates.length,
+        stepValue = 100 / stepLen,
 
-    var init = function() {
-        angular.element('.Scenario').css('height', 'auto');
-        $scope.progressCompleted = false;
-        $scope.progressValue     = 0;
-        $scope.step              = 0;
-        $scope.success           = true;
-        $scope.timer;
-        $scope.runProgress();
-    };
+        // init the progress
+        init = function() {
+            angular.element('.Scenario').css('height', 'auto');
+            $scope.progressCompleted = false;
+            $scope.progressValue     = 0;
+            $scope.step              = 0;
+            $scope.success           = true;
+            $scope.timer;
+            $scope.runProgress();
+        },
 
-    var prepareStatesData = function(_data) {
-        angular.forEach(_data.runningStates, function(value, key) {
-            value.id = key + 1;
-            var trimText = capitalize(value.name.trim().replace(/_/g, " "));
-            value.name = trimText;
-            value.label = trimText;
-        });
-        return _data;
-    };
+        // transform and clean up statues data
+        prepareStatesData = function(_data) {
+            angular.forEach(_data.runningStates, function(value, key) {
+                value.id = key + 1;
+                var trimText = capitalize(value.name.trim().replace(/_/g, " "));
+                value.name = trimText;
+                value.label = trimText;
+            });
+            _data.currentState = _data.runningStates[0];
+            console.log('INITIAL DATA: ', _data);
+            return _data;
+        },
 
-    var capitalize = function(str) {
-        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-    };
+        // capitalize a string
+        capitalize = function(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        },
 
-    var updateStates = function(_step, _data) {
-        angular.forEach(_data.runningStates, function(value, key) {
-            if(key <= _step && !value.completed) {
-                value.completed = true;
-            }
-        });
-        _data.currentState = _data.runningStates[_step-1];
-        console.log(_data);
-        return _data;
-    };
+        // update the states during calculation
+        updateStates = function(_step, _data) {
+            angular.forEach(_data.runningStates, function(value, key) {
+                if(key <= _step && !value.completed) {
+                    value.completed = true;
+                }
+            });
+            _data.currentState = _data.runningStates[_step];
+            console.log('STEP' + parseInt(_step+1) + ' UPDATE DATA: ', _data);
+        },
 
-    var resetStates = function(_data) {
-        angular.forEach(_data.runningStates, function(value, key) {
-            value.completed = false;
-        });
-        _data.currentState = _data.runningStates[0];
-        return _data;
-    }
+        // reset the states
+        resetStates = function(_data) {
+            angular.forEach(_data.runningStates, function(value, key) {
+                value.completed = false;
+            });
+            _data.currentState = _data.runningStates[0];
+            console.log('INITIAL DATA: ', _data);
+        },
 
-    var interruptStates = function(_data) {
-        _data.currentState.completed = false;
-        _data.currentState.name = "falied";
-        _data.currentState.completed = "falied";
-        return _data;
-    }
+        // interrupt states when errors occur
+        interruptStates = function(_step, _data) {
+            console.log('STEP' + parseInt(_step) + ' ERROR DATA: ', _data);
+        };
 
+    // scope variables
     $scope.calcStatesData = prepareStatesData(calcStatesData);
     $scope.runningStates = $scope.calcStatesData.runningStates;
-    $scope.currentState = $scope.calcStatesData.currentState;
 
+    // scope functions
     $scope.runProgress = function() {
         $scope.stopProgress();
         $scope.timer = $interval(function(){
             if ($scope.progressValue === 100) {
-                $scope.progreeCompleted = true;
+                $scope.progressCompleted = true;
             } else {
                 updateStates($scope.step, $scope.calcStatesData);
-                $scope.progressValue += stepValue;
                 $scope.step += 1;
+                $scope.progressValue += stepValue;
             }
         }, 1000);
     }
@@ -94,9 +101,10 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
     $scope.interruptProgress = function() {
         $scope.stopProgress();
         $scope.success = false;
-        interruptStates();
+        interruptStates($scope.step, $scope.calcStatesData);
     }
 
+    // fire off functions
     init();
 
 }]).factory('calcStatesData', function () {

@@ -1,7 +1,8 @@
 <div class="scenario-calculation">
+
     <h2 class="scenario-calculation-title" ng-show="success">Optimization is in progress</h2>
     <h2 class="scenario-calculation-title" ng-show="!success"><icon type="exclamation-triangle"></icon> Error during optimization</h2>
-    <p class="scenario-calculation-description" ng-show="!success">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, vero itaque tenetur explicabo eius minus nisi rerum quae assumenda eveniet.</p>
+    <p class="scenario-calculation-description" ng-show="!success">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, vero itaque tenetur explicabo eius.</p>
     <div class="row">
         <div class="col-sm-7 sm-padding">
             <progressbar class="progress-striped active" max="100" value="progressValue" type="success"></progressbar>
@@ -29,11 +30,7 @@
         </div>
     </div>
     <div class="row" style="margin-top: 20px;">
-        <div class="col-sm-6 sm-padding">
-            <button class="btn btn-default btn-sm btn-block" ng-click="resetProgress()">Reset</button>
-        </div>
-        <div class="col-sm-6 sm-padding">
-            <button class="btn btn-danger btn-sm btn-block" ng-click="interruptProgress()">Interrupt</button>
-        </div>
+        <button class="btn btn-danger btn-sm btn-block" ng-click="interruptProgress()">Interrupt</button>
     </div>
+
 </div>
