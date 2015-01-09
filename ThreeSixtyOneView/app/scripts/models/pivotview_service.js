@@ -197,4 +197,14 @@ angular.module('ThreeSixtyOneView')
 			return membersList;
 		};
 
+		this.generateCategorizeValueStructure = function(addedFilters, dimensions, viewData) {
+			if(!_.isEmpty(viewData)) {
+				var categorizedValue = [];
+				for(i = 0; i < dimensions.length; i++) {
+					categorizedValue[i] = this.getCategorizeValues(dimensions[i], addedFilters[dimensions[i].label]);
+				}
+				return categorizedValue;
+			}
+		};
+
 	}]);
