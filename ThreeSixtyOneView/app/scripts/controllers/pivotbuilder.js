@@ -30,20 +30,40 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 		$scope.add = {selected: ''};
 		$scope.added = {};
 
-		setUpAddedLevels($scope.views.currentView);
+		$scope.added = setUpAddedLevels($scope.views.currentView);
 		$scope.addedFilters = {};
 		$scope.categorizedValue = [];
 		$scope.filterSearch = {label: ''};
 
 		// load cube dimensions initially and after scenario element change
-		var initModel = function(cubeId, label, fnLoadView, fnCreateInitialView, scoptCubeId, fnSetViewList, fnSetDraftView) {
+		var initModel = function(cubeId, label, fnLoadView, fnCreateInitialView, scoptCubeId) {
 			$scope.draftView = false;
 			CubeService.buildDimensionsTree(cubeId).then(function(dimensions) {
 				PivotViewService.getViewsList(cubeId).then(function(list) {
-					fnSetViewList(list);
 					if(list.length < 1) {
-						// create an empty default view
-						fnCreateInitialView(cubeId, label, dimensions);
+						// create an empty initial view if there are no views in the selected cube
+						var i, newView = {
+							name: 'Default ' + label + ' view',
+							isDefault: true,
+							columns: [],
+							rows: [],
+							filters: []
+						};
+
+						for(i = 0; i < dimensions.length; i++) {
+							newView.filters.push({
+								scope: {
+									dimension: {id: dimensions[i].id},
+									hierarchy: {id: dimensions[i].members[0].hierarchyId},
+									level: {id: dimensions[i].members[0].levelId}
+								},
+								value: {
+									specification: {type: 'All'}
+								}
+							});
+						}
+
+						fnCreateInitialView(cubeId, newView, list);
 					} else {
 						var draftView = false,
 							defaultView = false;
@@ -58,14 +78,9 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 						});
 
 						// load the proper view
-						if(!!draftView) {
-							fnLoadView(scoptCubeId, draftView.id, dimensions);
-							fnSetDraftView(true);
-						} else if(!!defaultView) {
-							fnLoadView(scoptCubeId, defaultView.id, dimensions);
-						} else {
-							fnLoadView(cubeId, list[0].id, dimensions);
-						}
+						var cId = (!!draftView || !!defaultView) ? scoptCubeId : cubeId;
+						var vId = !!draftView ? draftView.id : !!defaultView ? defaultView.id : list[0].id;
+						fnLoadView(cId, vId, dimensions, list);
 					}
 				});
 			});
@@ -73,10 +88,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 
 		$scope.$on(EVENTS.selectScenarioElement, function(evt, element) {
 			$scope.cubeId = element.cubeMeta.id;
-			initModel(element.cubeMeta.id, element.cubeMeta.label, $scope.loadView, createInitialView, $scope.cubeId, setViewList, setDraftView);
+			initModel(element.cubeMeta.id, element.cubeMeta.label, $scope.loadView, createView, $scope.cubeId);
 		});
 
-		initModel($scope.selectedScenarioElement.cubeMeta.id, $scope.selectedScenarioElement.cubeMeta.label, $scope.loadView, createInitialView, $scope.cubeId, setViewList, setDraftView);
+		initModel($scope.selectedScenarioElement.cubeMeta.id, $scope.selectedScenarioElement.cubeMeta.label, $scope.loadView, createView, $scope.cubeId);
 		$scope.dragOptions = {
 			itemMoved: function() {
 				// console.log(event);
@@ -205,7 +220,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			$scope.draftView = true;
 			var draftView = angular.copy($scope.viewData);
 			draftView.name = 'Draft - ' + draftView.name;
-			$scope.createView($scope.cubeId, draftView);
+			createView($scope.cubeId, draftView, $scope.viewsList);
 		} else {
 			$scope.updateView($scope.cubeId, $scope.viewData);
 		}
@@ -223,7 +238,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			$scope.updateView($scope.cubeId, $scope.viewData).then(function(view) {
 				$scope.viewData = view;
 				$scope.viewName = view.name;
-				setUpAddedLevels(view);
+				$scope.added = setUpAddedLevels(view);
 			});
 			$scope.deleteView($scope.cubeId, draftViewId);
 			$scope.draftView = false;
@@ -267,7 +282,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 		} else if (save && !$scope.rename) {
 			$scope.viewData.name = $scope.saveAsName;
 			$scope.viewData.id = null;
-			$scope.createView($scope.cubeId, $scope.viewData);
+			createView($scope.cubeId, $scope.viewData, $scope.viewsList);
 		}
 
 		$scope.saveAs = false;
@@ -413,9 +428,16 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 	};
 
 	// load a view from the backend
-	$scope.loadView = function(cubeId, viewId, dimensions) {
+	$scope.loadView = function(cubeId, viewId, dimensions, viewList) {
+
 		PivotViewService.getView(viewId, cubeId).then(function(view) {
-			var i;
+			if(viewList) {
+				$scope.viewsList = viewList;
+				var foundView = _.find(viewList, function(view){ return view.id == viewId; });
+				if (foundView) {
+					$scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
+				}
+			}
 			// remove the draft view if one exists and is not selected
 			if($scope.draftView) {
 				var draftId;
@@ -436,17 +458,14 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			$scope.views.currentView = view;
 			$scope.viewData = view;
 			$scope.viewName = view.name;
-			setUpAddedLevels(view);
-
-			$scope.dimensions = dimensions;
-			$scope.membersList = PivotIntermediatesService.generateMembersList(dimensions);
-			// load filter values if dimensions are loaded, otherwise when dimensions are loaded, filters are loaded
-			if(!!$scope.dimensions) {
-				$scope.addedFilters = PivotIntermediatesService.getAddedFilters($scope.viewData.filters, $scope.dimensions);
-				for(i = 0; i < $scope.dimensions.length; i++) {
-					$scope.categorizedValue[i] = PivotIntermediatesService.getCategorizeValues($scope.dimensions[i], $scope.addedFilters[$scope.dimensions[i].label]);
-				}
+			$scope.added = setUpAddedLevels(view);
+			if (dimensions) {
+				$scope.dimensions = dimensions;
 			}
+			
+			$scope.membersList = PivotIntermediatesService.generateMembersList($scope.dimensions);
+			$scope.addedFilters = PivotIntermediatesService.getAddedFilters(view.filters, $scope.dimensions);
+			$scope.categorizedValue = PivotIntermediatesService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, view);
 		});
 	};
 
@@ -473,9 +492,9 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 	};
 
 	// create a new view
-	$scope.createView = function(cubeId, view) {
+	var createView = function(cubeId, view, viewList) {
 		var i;
-
+		$scope.viewsList = viewList;
 		// remove conflicting elements from the view
 		view.id = null;
 		for(i = 0; i < view.filters.length; i++) {
@@ -485,59 +504,25 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 		PivotViewService.createView(view, cubeId).then(function(view) {
 			$scope.viewData = view;
 			$scope.viewName = view.name;
-			setUpAddedLevels(view);
+			$scope.added = setUpAddedLevels(view);
 			$scope.viewsList.unshift(view);
 			$scope.addedFilters = PivotIntermediatesService.getAddedFilters(view.filters, $scope.dimensions);
 		});
 	};
 
-
-	// create an empty initial view if there are no views in the selected cube
-	var createInitialView = function(cubeId, label, dimensions) {
-			var i, newView = {
-				name: 'Default ' + label + ' view',
-				isDefault: true,
-				columns: [],
-				rows: [],
-				filters: []
-			};
-
-			for(i = 0; i < dimensions.length; i++) {
-				newView.filters.push({
-					scope: {
-						dimension: {id: dimensions[i].id},
-						hierarchy: {id: dimensions[i].members[0].hierarchyId},
-						level: {id: dimensions[i].members[0].levelId}
-					},
-					value: {
-						specification: {type: 'All'}
-					}
-				});
-			}
-			// $scope.addedFilters = PivotIntermediatesService.getAddedFilters($scope.viewData.filters, $scope.dimensions);
-			$scope.createView(cubeId, newView);
-	};
-
 	// set up added levels
 	var setUpAddedLevels = function(view) {
 		var i;
-		$scope.added = {};
+		var added = {};
 
 		for(i = 0; i < view.columns.length; i++) {
-			$scope.added[view.columns[i].level.label] = true;
+			added[view.columns[i].level.label] = true;
 		}
 		for(i = 0; i < view.rows.length; i++) {
-			$scope.added[view.rows[i].level.label] = true;
+			added[view.rows[i].level.label] = true;
 		}
+		return added;
 	};
-
-	var setViewList = function(viewList) {
-		$scope.viewsList = viewList;
-	}
-
-	var setDraftView = function(isDraftView) {
-		$scope.draftView = isDraftView;
-	}
 
 	init();
 }]).controller('pivotTableCtrl', ['$scope', 'pbData',
