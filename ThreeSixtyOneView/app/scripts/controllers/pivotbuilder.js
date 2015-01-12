@@ -31,13 +31,28 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 
 		$scope.$on(EVENTS.selectScenarioElement, function(evt, element) {
 			$scope.cubeId = element.cubeMeta.id;
-			PivotIntermediatesService.initModel(element.cubeMeta, $scope.cubeId);
+			PivotIntermediatesService.initModel(element.cubeMeta, $scope.cubeId).then(function(result) {
+				var foundView = _.find(result.viewsList, function(view){ return view.id == result.view.id; });
+				if (foundView) {
+					$scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
+				}
+				$scope.viewsList = result.viewsList;
+				$scope.views.currentView = result.view;
+				$scope.viewData = result.view;
+				$scope.viewName = result.view.name;
+				$scope.added = PivotIntermediatesService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
+				$scope.dimensions = result.dimensions;
+				
+				$scope.membersList = PivotIntermediatesService.generateMembersList(result.dimensions);
+				$scope.addedFilters = PivotIntermediatesService.getAddedFilters(result.view.filters, result.dimensions);
+				$scope.categorizedValue = PivotIntermediatesService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
+			});;
 		});
 
 		// load cube dimensions initially and after scenario element change
 		PivotIntermediatesService.initModel($scope.selectedScenarioElement.cubeMeta, $scope.cubeId)
 			.then(function(result) {
-				var foundView = _.find(result.viewList, function(view){ return view.id == result.view.id; });
+				var foundView = _.find(result.viewsList, function(view){ return view.id == result.view.id; });
 				if (foundView) {
 					$scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
 				}
@@ -237,7 +252,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 				}
 			}
 
-			renameView($scope.viewData);
+			renameView($scope.cubeId, $scope.viewData);
 
 			$scope.viewRecentViews = false;
 		} else if (save && !$scope.rename) {

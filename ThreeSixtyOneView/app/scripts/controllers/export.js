@@ -53,7 +53,7 @@ angular.module('ThreeSixtyOneView')
 			$scope.categorizedValue = [];
 			PivotIntermediatesService.initModel($scope.selectedScenarioElement.cubeMeta, $scope.cubeId)
 				.then(function(result) {
-					var foundView = _.find(result.viewList, function(view){ return view.id == result.view.id; });
+					var foundView = _.find(result.viewsList, function(view){ return view.id == result.view.id; });
 					if (foundView) {
 						$scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
 					}
