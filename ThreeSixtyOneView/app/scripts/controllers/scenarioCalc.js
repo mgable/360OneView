@@ -75,8 +75,9 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
     $scope.runProgress = function() {
         $scope.stopProgress();
         $scope.timer = $interval(function(){
-            if ($scope.progressValue === 100) {
+            if ($scope.step === stepLen) {
                 $scope.progressCompleted = true;
+                $scope.stopProgress();
             } else {
                 updateStates($scope.step, $scope.calcStatesData);
                 $scope.step += 1;
@@ -86,7 +87,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
     }
 
     $scope.stopProgress = function() {
-      $interval.cancel($scope.timer);
+        $interval.cancel($scope.timer);
     };
 
     $scope.resetProgress = function() {
@@ -102,6 +103,11 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
         $scope.stopProgress();
         $scope.success = false;
         interruptStates($scope.step, $scope.calcStatesData);
+    }
+
+    $scope.returnToEdit = function() {
+        console.log($scope.location);
+        $scope.location = "/edit";
     }
 
     // fire off functions

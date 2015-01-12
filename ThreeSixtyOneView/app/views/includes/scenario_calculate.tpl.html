@@ -18,7 +18,7 @@
     </div>
     <div class="row" style="margin-top: 20px;" ng-show="!success">
         <div class="col-sm-6 sm-padding">
-            <button class="btn btn-sm btn-block btn-calculate" ui-sref="Scenario.edit">goto editor</button>
+            <button class="btn btn-sm btn-block btn-calculate" ui-sref="Scenario.edit" ng-click="returnToEdit()">goto editor</button>
         </div>
         <div class="col-sm-6 sm-padding">
             <button class="btn btn-sm btn-block btn-calculate" ng-click="resetProgress()">try again</button>

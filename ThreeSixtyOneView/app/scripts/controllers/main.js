@@ -266,6 +266,7 @@ angular.module('ThreeSixtyOneView')
             $scope.scenarioElements =  ScenarioAnalysisElements;
             $scope.setScenarioElement($scope.scenarioElements[0]);
             $scope.location = $state.current.url;
+            $scope.scenarioIsCalculated = false;
             // hardcoded data
             $scope.pivotTableData = ptData.data;
             // this is how pivotbuilder and pivottable communicate
@@ -302,9 +303,9 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.calculateScenario = function() {
-            console.log($scope.scenario.id);
+            $scope.scenarioIsCalculated = true;
+            $scope.location = "/results";
             ScenarioCalculateService.post($scope.scenario.id);
-            console.log('CALCULATE START');
         }
 
         init();
