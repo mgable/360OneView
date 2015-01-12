@@ -44,15 +44,13 @@ angular.module('ThreeSixtyOneView')
 			return self.getMeta(cubeId).then(function(dimensions) {
 				var count = 0, promises = [];
 
-				_.each(dimensions, function(_dimension, _index) {
+				_.each(dimensions, function(_dimension) {
 					_.each(_dimension.members, function(_member) {
 						promises.push(self.getLevelMembers(cubeId, _dimension.id, _member.hierarchyId, _member.levelId, true));
 					});
 				});
 
 				return $q.all(promises).then(function(response) {
-					var timeAdded = false, lastMembers;
-
 					_.each(dimensions, function(_dimension) {
 						_.each(_dimension.members, function(_member) {
 							_member.members = response[count++].members;
