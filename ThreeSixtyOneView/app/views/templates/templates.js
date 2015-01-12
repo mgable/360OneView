@@ -229,6 +229,76 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
+  $templateCache.put('views/modal/scenario_analysis_element_copy.tpl.html',
+    "<div class=\"element-copy-modal-header\">\n" +
+    "\t<h4 class=\"element-copy-modal-title\" id=\"myModalLabel\">{{selectedScenarioElement.cubeMeta.label}}</h4>\n" +
+    "\t<h3>Copy &amp; Replace</h3>\n" +
+    "</div>\n" +
+    "<div class=\"element-copy-modal-body\">\n" +
+    "\t<form name=\"elementCopy\" class=\"element-copy-form\" novalidate>\n" +
+    "\t\t<div class=\"element-copy-name\">\n" +
+    "\t\t\t<label>\n" +
+    "\t\t\t\t<span class=\"element-copy-label\">Name:</span>\n" +
+    "\t\t\t\t<input type=\"text\" name=\"elementName\" placeholder=\"Enter Name\" ng-model=\"newElement.name\" required>\n" +
+    "\t\t\t</label>\n" +
+    "\t\t</div>\n" +
+    "\t\t<div class=\"element-copy-description\">\n" +
+    "\t\t\t<label>\n" +
+    "\t\t\t\t<span class=\"element-copy-label\">Description:</span>\n" +
+    "\t\t\t\t<input type=\"text\" name=\"elementDescription\" placeholder=\"Enter Description\" ng-model=\"newElement.description\" required>\n" +
+    "\t\t\t</label>\n" +
+    "\t\t</div>\n" +
+    "\t</form>\n" +
+    "\t<div class=\"element-copy-buttons\">\n" +
+    "\t\t<button type=\"button\" class=\"btn cancel-button\" data-dismiss=\"modal\" ng-click=\"cancelCopyFile();\">CANCEL</button>\n" +
+    "\t\t<button type=\"button\" class=\"btn apply-button\" data-dismiss=\"modal\" ng-click=\"copyFile()\" ng-disabled=\"elementCopy.$invalid\">REPLACE</button>\n" +
+    "\t</div>\n" +
+    "</div>"
+  );
+
+
+  $templateCache.put('views/modal/scenario_analysis_element_files.tpl.html',
+    "<div class=\"element-file-modal-header\">\n" +
+    "\t<h4 class=\"element-file-modal-title\" id=\"myModalLabel\">{{selectedScenarioElement.cubeMeta.label}}</h4>\n" +
+    "\t<h3>Select A New File</h3>\n" +
+    "</div>\n" +
+    "<div class=\"element-file-modal-body\">\n" +
+    "\t<div class=\"element-file-box\">\n" +
+    "\t\t<div class=\"element-file-toolbar\">\n" +
+    "\t\t\t<div class=\"file-type-dropdown\">\n" +
+    "\t\t\t\t<div class=\"dropdown\">\n" +
+    "\t\t\t\t\t<div class=\"dropdown-toggle\">{{elementTypeItems[currentElementType]}}<icon type=\"caret-down\"></icon></div>\n" +
+    "\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{selectedScenarioElement.id}}\" radio=\"true\">\n" +
+    "\t\t\t            <li ng-repeat=\"item in elementTypeItems\" ms-link=\"{{$index}}\"><a href=\"\" ng-click=\"changeElementType($index)\">{{item}}</a></li>\n" +
+    "\t\t\t        </ul>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\t\t\t<div class=\"file-name-search\">\n" +
+    "\t\t\t\t<div class=\"search-box\">\n" +
+    "\t\t\t\t\t<icon type=\"search\"></icon>\n" +
+    "\t\t\t\t\t<input type=\"text\" ng-model=\"searchTerm.name\" placeholder=\"Search\">\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\t\t</div>\n" +
+    "\t\t<div class=\"element-file-list\">\n" +
+    "\t\t\t<div ng-repeat=\"file in fileList | filter:searchTerm | orderBy:'auditInfo.lastUpdatedOn':true\" class=\"element-file-item\" ng-class=\"{'current-file': file.id === currentFile.id}\" ng-click=\"currentFile.id = file.id\">\n" +
+    "\t\t\t\t<div class=\"element-file-name\"><icon type=\"circle-o\"></icon><icon type=\"dot-circle-o\"></icon>{{file.name}}</div>\n" +
+    "\t\t\t\t<div class=\"element-file-info\">\n" +
+    "\t\t\t\t\t<span class=\"element-file-date\">{{file.auditInfo.lastUpdatedOn}}</span>\n" +
+    "\t\t\t\t\t<span class=\"element-file-owner\">{{file.auditInfo.lastUpdatedBy.name}}</span>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t\t<div class=\"element-file-description\">{{file.description}}</div>\n" +
+    "\t\t\t</div>\n" +
+    "\t\t</div>\n" +
+    "\t</div>\n" +
+    "\t<div class=\"element-file-buttons\">\n" +
+    "\t\t<button type=\"button\" class=\"btn cancel-button\" data-dismiss=\"modal\" ng-click=\"cancelChangeFile();\">CANCEL</button>\n" +
+    "\t\t<button type=\"button\" class=\"btn apply-button\" data-dismiss=\"modal\" ng-click=\"changeFile()\">REPLACE</button>\n" +
+    "\t</div>\n" +
+    "</div>"
+  );
+
+
   $templateCache.put('views/modal/scenario_create.tpl.html',
     "<form name=\"ScenarioCreate\" id=\"ScenarioCreate\">\n" +
     "\t<div class=\"scenario-create\">\n" +
