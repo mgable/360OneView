@@ -1,0 +1,7 @@
+{
+  "name": "ThreeSixtyOneView",
+  "version": "0.0.0",
+  "dependencies": {
+    "underscore": "1.6.0"
+  }
+}

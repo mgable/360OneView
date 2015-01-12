@@ -1,0 +1,24 @@
+<div class="element-copy-modal-header">
+	<h4 class="element-copy-modal-title" id="myModalLabel">{{selectedScenarioElement.cubeMeta.label}}</h4>
+	<h3>Copy &amp; Replace</h3>
+</div>
+<div class="element-copy-modal-body">
+	<form name="elementCopy" class="element-copy-form" novalidate>
+		<div class="element-copy-name">
+			<label>
+				<span class="element-copy-label">Name:</span>
+				<input type="text" name="elementName" placeholder="Enter Name" ng-model="newElement.name" required>
+			</label>
+		</div>
+		<div class="element-copy-description">
+			<label>
+				<span class="element-copy-label">Description:</span>
+				<input type="text" name="elementDescription" placeholder="Enter Description" ng-model="newElement.description" required>
+			</label>
+		</div>
+	</form>
+	<div class="element-copy-buttons">
+		<button type="button" class="btn cancel-button" data-dismiss="modal" ng-click="cancelCopyFile();">CANCEL</button>
+		<button type="button" class="btn apply-button" data-dismiss="modal" ng-click="copyFile()" ng-disabled="elementCopy.$invalid">REPLACE</button>
+	</div>
+</div>

@@ -11,7 +11,7 @@ angular.module('ThreeSixtyOneView.config')
                 "scenarios": "/rubix/v1/project/:id/scenario",
                 "cube": "/rubix/v1/model/cube/:id",
                 "pivotview": "/rubix/v1/cube/:cubeId/analysis-view/:viewId",
-                "scenarioElement": "/rubix/v1/scenario/:id/analysis-element"
+                "scenarioElement": "/rubix/v1/scenario/:id"
             },
             "models": {
                 "ProjectsModel": {
@@ -85,7 +85,7 @@ angular.module('ThreeSixtyOneView.config')
                     "displayColumns": [{
                         "label": "Last Modified",
                         "filter": "modifiedOn"
-                    }, 
+                    },
                     // {
                     //     "label": "Type",
                     //     "filter": "type"

@@ -1,0 +1,38 @@
+<div class="element-file-modal-header">
+	<h4 class="element-file-modal-title" id="myModalLabel">{{selectedScenarioElement.cubeMeta.label}}</h4>
+	<h3>Select A New File</h3>
+</div>
+<div class="element-file-modal-body">
+	<div class="element-file-box">
+		<div class="element-file-toolbar">
+			<div class="file-type-dropdown">
+				<div class="dropdown">
+					<div class="dropdown-toggle">{{elementTypeItems[currentElementType]}}<icon type="caret-down"></icon></div>
+					<ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenarioElement.id}}" radio="true">
+			            <li ng-repeat="item in elementTypeItems" ms-link="{{$index}}"><a href="" ng-click="changeElementType($index)">{{item}}</a></li>
+			        </ul>
+				</div>
+			</div>
+			<div class="file-name-search">
+				<div class="search-box">
+					<icon type="search"></icon>
+					<input type="text" ng-model="searchTerm.name" placeholder="Search">
+				</div>
+			</div>
+		</div>
+		<div class="element-file-list">
+			<div ng-repeat="file in fileList | filter:searchTerm | orderBy:'auditInfo.lastUpdatedOn':true" class="element-file-item" ng-class="{'current-file': file.id === currentFile.id}" ng-click="currentFile.id = file.id">
+				<div class="element-file-name"><icon type="circle-o"></icon><icon type="dot-circle-o"></icon>{{file.name}}</div>
+				<div class="element-file-info">
+					<span class="element-file-date">{{file.auditInfo.lastUpdatedOn}}</span>
+					<span class="element-file-owner">{{file.auditInfo.lastUpdatedBy.name}}</span>
+				</div>
+				<div class="element-file-description">{{file.description}}</div>
+			</div>
+		</div>
+	</div>
+	<div class="element-file-buttons">
+		<button type="button" class="btn cancel-button" data-dismiss="modal" ng-click="cancelChangeFile();">CANCEL</button>
+		<button type="button" class="btn apply-button" data-dismiss="modal" ng-click="changeFile()">REPLACE</button>
+	</div>
+</div>

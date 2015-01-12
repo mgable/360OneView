@@ -1,7 +1,7 @@
 @import "variables";
 
 .importExport {
-	padding: 16px;
+	padding: 0 16px;
 	h4 {
 		display: inline-block;
 		margin-right: 10px;
@@ -56,6 +56,7 @@
 		background-color: #f2f2f2;
 		border: 1px solid #d9d9d9;
 		color: #d9d9d9;
+		cursor: not-allowed;
 	}
 
 	.progress {
@@ -71,10 +72,22 @@
 		background-color: #2d5eab;
 	}
 
-	input {
+	.fileName {
 		width: 230px;
 		padding: 4px 6px;
-		vertical-align: middle;
+		display: inline-block;
+		background: white;
+		margin-right: 5px;
+		border: 1px solid #2d5eab;
+		color: #727272;
+	}
+
+	.activeFileName {
+		color: black;
+	}
+
+	.errFileName {
+		border-color: #cf1006;
 	}
 
 	.errMsg {

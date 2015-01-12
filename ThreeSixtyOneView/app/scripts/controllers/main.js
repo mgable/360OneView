@@ -52,7 +52,7 @@ angular.module('ThreeSixtyOneView')
         },
         setMasterScenario = function(scenario){
             scenario.isMaster = true;
-        }
+        };
 
         // API
         // Click handler interface
@@ -245,47 +245,91 @@ angular.module('ThreeSixtyOneView')
             DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
         });
 
-    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioElements", "Element", "Views", "ptData", "$state", "EVENTS", function($scope, Project, Scenario, ScenarioElements, Element, Views, ptData, $state, EVENTS) {
+    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioAnalysisElements", "Views", "ptData", "$state", "EVENTS", "ScenarioElementService", "DialogService",
+    function($scope, Project, Scenario, ScenarioAnalysisElements, Views, ptData, $state, EVENTS, ScenarioElementService, DialogService) {
 
         $scope.$on(EVENTS.filter, function(){
             $scope.showDetails(SortAndFilterService.getData()[0]);
         });
 
-        var findElementByType = function(type) {
-            var selectedElement = _.find(ScenarioElements, function(fileName) {
-                return (fileName.id === type.id)
-            });
-            // $scope.$broadcast(EVENTS.selectScenarioElement, selectedElement);
-            return selectedElement;
-        },
-        init = function(){
+        // var findElementByType = function(type) {
+        //     var selectedElement = _.find(ScenarioAnalysisElements, function(fileName) {
+        //         return (fileName.id === type.id);
+        //     });
+        //     // $scope.$broadcast(EVENTS.selectScenarioElement, selectedElement);
+        //     return selectedElement;
+        // },
+        var init = function() {
             $scope.project = Project;
             $scope.scenario = Scenario;
             $scope.views = Views;
-            $scope.scenarioElements =  ScenarioElements;
+            $scope.scenarioElements =  ScenarioAnalysisElements;
             $scope.setScenarioElement($scope.scenarioElements[0]);
             $scope.location = $state.current.url;
             // hardcoded data
             $scope.pivotTableData = ptData.data;
             // this is how pivotbuilder and pivottable communicate
             $scope.spread = {sheet: {}};
+            
+            // ScenarioElementService.copyAndReplaceAnalysisElementForCube(172, 2, 63, {"name":"Behrooz", "description": "Behrooz"}).then(function(response){});
         };
 
         $scope.getScenarioElements = function() {
             return $scope.scenarioElements;
         };
 
-        $scope.setScenarioElement = function(type) {
-            var element = findElementByType(type);
+        $scope.setScenarioElement = function(element) {
             $scope.$broadcast(EVENTS.selectScenarioElement, element);
-            $scope.selectedScenarioElement = type;
+            $scope.selectedScenarioElement = element;
             $scope.cubeId = element.cubeMeta.id;
             $scope.selectedScenarioElementsFile = element.name;
+        };
+
+        $scope.replaceScenarioElement = function(newElement) {
+            _.each($scope.scenarioElements, function(element, index) {
+                if(element.cubeMeta.id === newElement.cubeMeta.id) {
+                    $scope.scenarioElements.splice(index, 1, newElement);
+                }
+            });
+            $scope.selectedScenarioElement = newElement;
+            $scope.selectedScenarioElementsFile = newElement.name;
         };
 
         $scope.$on('$locationChangeSuccess', function(){
             $scope.location = $state.current.url;
         });
+
+        $scope.openScenarioElementFileModal = function(scenarioId, selectedScenarioElement) {
+            var dialog = DialogService.openFilterSelection('views/modal/scenario_analysis_element_files.tpl.html', 'ScenarioAnalysisElementFilesCtrl',
+                {selectedScenarioElement: selectedScenarioElement},
+                {windowSize: 'lg', windowClass: 'scenarioAnalysisElementFiles'});
+
+            dialog.result.then(function(data) {
+                $scope.replaceAnalysisElementForCube(scenarioId, selectedScenarioElement.cubeMeta.id, data.id);
+            });
+        };
+
+        $scope.replaceAnalysisElementForCube = function(scenarioId, cubeId, elementId) {
+            ScenarioElementService.replaceAnalysisElementForCube(scenarioId, cubeId, elementId).then(function(element) {
+                $scope.replaceScenarioElement(element);
+            });
+        };
+
+        $scope.openScenarioElementCopyModal = function(scenarioId, selectedScenarioElement) {
+            var dialog = DialogService.openFilterSelection('views/modal/scenario_analysis_element_copy.tpl.html', 'ScenarioAnalysisElementCopyCtrl',
+                {selectedScenarioElement: selectedScenarioElement},
+                {windowSize: 'lg', windowClass: 'scenarioAnalysisElementCopy'});
+
+            dialog.result.then(function(data) {
+                $scope.copyAndReplaceAnalysisElementForCube($scope.scenario.id, $scope.cubeId, selectedScenarioElement.id, data);
+            });
+        };
+
+        $scope.copyAndReplaceAnalysisElementForCube = function(scenarioId, cubeId, sourceElementId, newElementData) {
+            ScenarioElementService.copyAndReplaceAnalysisElementForCube(scenarioId, cubeId, sourceElementId, newElementData).then(function(element){
+                $scope.replaceScenarioElement(element);
+            });
+        };
 
         init();
     }]);

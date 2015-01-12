@@ -2,17 +2,16 @@
 	<h4>Importing Data</h4>
 	<p>Do you want to export a template first? <a href="#">Yes</a></p>
 	<div>
-		<input type="text" placeholder="Select a file to import" ng-model="selectedFile.name" value={{selectedFile.name}} ></input><!-- ng-change="changeFileName()" -->
-		<button  class="btn activeBtn" ng-hide="importObj.fileSelected" onclick="f.click()">Browse</button>
+		<div class="fileName" ng-class="{activeFileName: importObj.fileSelected, errFileName: importObj.invalidFile}" onclick="f.click()">{{selectedFile.name}}</div>
+		<button  class="btn activeBtn" ng-class="{inactiveBtn: importObj.fileSelected && !importObj.invalidFile}" onclick="f.click()">Browse</button>
 		<input id="f" type="file" fileread style="display:none;"></input>
-		<button class="btn inactiveBtn" ng-show="importObj.fileSelected">Browse</button>
 		<div class="errMsg" ng-show="importObj.invalidFile">This file is invalid. Please try again.</div>
 	</div>
 	<div class="btnGroup">
-		<button class="btn inactiveBtn" ng-hide="importObj.fileSelected" ng-click="collapseTab()">Cancel</button>
-		<button class="btn inactiveBtn" ng-show="importObj.fileSelected" ng-click="initStatus()">Cancel</button>
-		<button class="btn disabledBtn" ng-hide="importObj.fileSelected">Import</button>
-		<button class="btn activeBtn" ng-show="importObj.fileSelected" ng-click="uploadFile()" ng-disabled="importObj.importClicked">Import</button>
+		<button class="btn inactiveBtn" ng-show="!importObj.fileSelected || importObj.uploadFinished" ng-click="collapseTab()">Close</button>
+		<button class="btn inactiveBtn" ng-show="importObj.fileSelected && !importObj.uploadFinished" ng-click="initStatus()" ng-disabled="importObj.importClicked">Cancel</button>
+		<button class="btn disabledBtn" ng-hide="importObj.fileSelected && !importObj.invalidFile">Import</button>
+		<button class="btn activeBtn" ng-show="importObj.fileSelected && !importObj.invalidFile" ng-click="uploadFile()" ng-disabled="importObj.importClicked">Import</button>
 	</div>
 	<div ng-show="importObj.importClicked" class="uploadContainer">
 		<div ng-hide="importObj.uploadFinished">
@@ -21,5 +20,9 @@
 		</div>
 		<div ng-show="importObj.uploadFinished" class="successMsg">You successfully imported {{selectedFile.name}}</div>
 	</div>
-
+	<div class="pbSliderCollapse">
+		<span class="clickable">
+			<icon type="chevron-up"></icon>Collapse
+		</span>
+	</div>
 </div>
