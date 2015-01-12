@@ -404,6 +404,11 @@ function($scope, $controller, $modalInstance, CONFIG, data) {
 
     var init = function() {
         $scope.selectedScenarioElement = data.selectedScenarioElement;
+        
+        $scope.newElement = {
+            name: data.selectedScenarioElement.name + ' - copy',
+            description: ''
+        };
     };
 
     // cancel the changes and dismiss the modal
