@@ -66,7 +66,7 @@ angular.module('ThreeSixtyOneView')
 		};
 
 }])
-	.service('PivotIntermediatesService', [function PivotIntermediatesService() {
+	.service('PivotIntermediatesService', ['CubeService', 'PivotViewService', function PivotIntermediatesService(CubeService, PivotViewService) {
 		// create the temporary filter object from the view data
 		this.getAddedFilters = function(filters, dimensions) {
 			var i, j, dimensionIndex;
@@ -200,11 +200,73 @@ angular.module('ThreeSixtyOneView')
 		this.generateCategorizeValueStructure = function(addedFilters, dimensions, viewData) {
 			if(!_.isEmpty(viewData)) {
 				var categorizedValue = [];
-				for(i = 0; i < dimensions.length; i++) {
+				for(var i = 0; i < dimensions.length; i++) {
 					categorizedValue[i] = this.getCategorizeValues(dimensions[i], addedFilters[dimensions[i].label]);
 				}
 				return categorizedValue;
 			}
+		};
+
+		this.initModel = function(cubeMeta, scoptCubeId) {
+			return CubeService.buildDimensionsTree(cubeMeta.id).then(function(dimensions) {
+				return  PivotViewService.getViewsList(cubeMeta.id).then(function(list) {
+					if(list.length < 1) {
+						// create an empty initial view if there are no views in the selected cube
+						var i, newView = {
+							name: 'Default ' + cubeMeta.label + ' view',
+							isDefault: true,
+							columns: [],
+							rows: [],
+							filters: []
+						};
+
+						for(i = 0; i < dimensions.length; i++) {
+							newView.filters.push({
+								scope: {
+									dimension: {id: dimensions[i].id},
+									hierarchy: {id: dimensions[i].members[0].hierarchyId},
+									level: {id: dimensions[i].members[0].levelId}
+								},
+								value: {
+									specification: {type: 'All'}
+								}
+							});
+						}
+
+						return PivotViewService.createView(view, cubeId).then(function(view) {
+							list.unshift(view);
+							var result = {viewsList: list, view: view, dimensions: dimensions};
+							return result;
+						});
+					} else {
+						var cId = cubeMeta.id,
+							vId = list[0].id,
+							isDraftView = false;
+						// check for draft or default views
+						_.each(list, function(item) {
+							if(item.name.substring(0, 8) === 'Draft - ' || item.isDefault) {
+								cId = scoptCubeId;
+								vId = item.id;
+							}
+						});
+
+						// load the proper view
+						return PivotViewService.getView(vId, cId).then(function(view) {
+							var result = {viewsList: list, view: view, dimensions: dimensions};
+							return result;	
+						});	
+					}
+				});
+			});
+		};
+
+		this.setUpAddedLevels = function(colAndRow) {
+			var i, added = {};
+
+			for(i = 0; i < colAndRow.length; i++) {
+				added[colAndRow[i].level.label] = true;
+			}
+			return added;
 		};
 
 	}]);

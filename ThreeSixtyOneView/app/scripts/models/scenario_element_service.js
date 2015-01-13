@@ -31,16 +31,15 @@ angular.module('ThreeSixtyOneView.services')
 			});
 		};
 
-		this.replaceAnalysisElementForCube = function(scenarioId, cubeId, analysisElement) {
+		this.replaceAnalysisElementForCube = function(scenarioId, cubeId, analysisElementId) {
 			var additionalPath = "cube/:cubeId/analysis-element";
-			return this.resource.put({"id": analysisElement.id}, {}, {id: scenarioId, cubeId: cubeId}, additionalPath).then(function (response) {
+			return this.resource.put({"id": analysisElementId}, {}, {id: scenarioId, cubeId: cubeId}, additionalPath).then(function (response) {
 				return response;
 			});
 		};
 
 		this.copyAndReplaceAnalysisElementForCube = function(scenarioId, cubeId, sourceElementId, analysisElement) {
 			var additionalPath = "cube/:cubeId/analysis-element?source=" + sourceElementId;
-			console.log(analysisElement);
 			return this.resource.post(analysisElement, {}, {id: scenarioId, cubeId: cubeId}, additionalPath).then(function (response) {
 				return response;
 			});
