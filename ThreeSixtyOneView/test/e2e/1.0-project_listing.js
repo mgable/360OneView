@@ -3,7 +3,7 @@
 var specs = require('./0.0-specs.js'),
 	funcs = require('./0.1-project_functions.js');
 
-describe('Project Listing Page: ', function() {
+xdescribe('Project Listing Page: ', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
@@ -256,8 +256,8 @@ describe('Project Listing Page: ', function() {
 
 		it("should filter by favorite", function(){
 			var startItemCount = specs.getItemCount();
-			specs.filterByButton.click();
-			specs.filterByfavoritesButton.click();
+
+			funcs.filterByFavorite();
 
 			specs.getItems().count().then(function(itemCount){
 				specs.getFavorites().count().then(function(favoriteCount){
@@ -265,14 +265,35 @@ describe('Project Listing Page: ', function() {
 				});
 			});
 
-			specs.filterByButton.click();
-			specs.filterByItemButton.click();
+			funcs.filterByItem();
+
 			startItemCount.getText().then(function(count){
 				specs.getItems().count().then(function(itemCount){
 					expect(count).toBe(itemCount.toString());
 				});
+			});	
+		});
+
+		it("should update the tray when favorites are filtered", function(){
+			var lastItem = specs.getFavorites().last();
+			specs.hasClass(lastItem, specs.favoriteClass).then(function(isFavorite){
+				if(!isFavorite){
+					lastItem.click();
+				}
+
+				funcs.filterByFavorites();
+
+				var firstTitle = specs.getFirstItemTitle(),
+					slectedItemTitle = specs.getSelectedItemTitle()
+
+				firstTitle.getText().then(function(title){
+					slectedItemTitle.getText().then(function(secondTitle){
+						expect(title).toEqual(secondTitle);
+					});
+				});
+
 			});
-			
+
 		});
 	});
 
@@ -285,22 +306,14 @@ describe('Project Listing Page: ', function() {
 
 	describe("Create project: ", function(){
 		var firstItemTitle,
-			testFileName = "My New Test Project- " + Date.now(),
-			create = "button[data-ms-id='createButton']",
-			input = "div[data-ms-id='simpleModal'] input",
-			submit = "div[data-ms-id='simpleModal'] button.submit",
-			cancel = "div[data-ms-id='simpleModal'] button.cancel",
-			createButton = element(by.css(create)),
-			inputField = element(by.css(input)),
-			submitButton = element(by.css(submit)),
-			cancelButton = element(by.css(cancel));
+			testFileName = "My New Test Project- " + Date.now();
 
 		it("should create a project", function(){
-			createButton.click();
+			specs.createButton.click();
 			browser.waitForAngular();
 
-			inputField.sendKeys(testFileName);
-			submitButton.click();
+			specs.modalInputField.sendKeys(testFileName);
+			specs.modalSubmitButton.click();
 			browser.waitForAngular();
 			expect(browser.getLocationAbsUrl()).toContain("/#/dashboard/");
 
@@ -314,17 +327,17 @@ describe('Project Listing Page: ', function() {
 		});
 
 		it("should not allow a project to be created with no name", function(){
-			createButton.click();
+			specs.createButton.click();
 			browser.waitForAngular();
 
-			expect(submitButton.getAttribute('disabled')).toBeTruthy();
+			expect(specs.modalSubmitButton.getAttribute('disabled')).toBeTruthy();
 		});
 
 		it("should respect input limitations", function(){
-			createButton.click();
+			specs.createButton.click();
 			browser.waitForAngular();
 
-			funcs.testInputRestrictions(inputField, submitButton);
+			funcs.testInputRestrictions(specs.modalInputField, specs.modalSubmitButton);
 		});
 	});
 

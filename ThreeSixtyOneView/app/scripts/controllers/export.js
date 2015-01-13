@@ -38,10 +38,6 @@ angular.module('ThreeSixtyOneView')
 			}, 100);
 		}
 
-		$scope.collapseTab = function() {
-
-		}
-
 		$scope.init = function() {
 			$scope.viewData = [];
 			$scope.dimensions = [];
@@ -53,15 +49,10 @@ angular.module('ThreeSixtyOneView')
 			$scope.categorizedValue = [];
 			PivotIntermediatesService.initModel($scope.selectedScenarioElement.cubeMeta, $scope.cubeId)
 				.then(function(result) {
-					var foundView = _.find(result.viewsList, function(view){ return view.id == result.view.id; });
-					if (foundView) {
-						$scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
-					}
 					$scope.viewData = result.view.rows.concat(result.view.columns);
 					$scope.added = PivotIntermediatesService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
 					$scope.dimensions = result.dimensions;
 					
-					$scope.membersList = PivotIntermediatesService.generateMembersList(result.dimensions);
 					$scope.addedFilters = PivotIntermediatesService.getAddedFilters(result.view.filters, result.dimensions);
 					$scope.categorizedValue = PivotIntermediatesService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
 				});

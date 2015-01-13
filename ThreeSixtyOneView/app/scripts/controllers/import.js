@@ -21,10 +21,6 @@ angular.module('ThreeSixtyOneView')
 			$scope.$apply(); 
 		}
 
-		$scope.collapseTab = function() {
-
-		}
-
 		$scope.initStatus = function() {
 			$interval.cancel($scope.stopTime);
 			$scope.importObj = {uploadProgress:0, fileSelected:false, invalidFile: false, importClicked: false, uploadFinished: false};

@@ -62,6 +62,18 @@
 	pointer-events:none;
 }
 
+.hidden {
+  max-height: 0;  
+}
+.shown {
+  max-height: auto;
+  transition: all 0.3s ease-out;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
 .dropshadow {
 	-webkit-box-shadow: 8px 8px 5px 0px rgba(125, 125, 125 ,1);
 	-moz-box-shadow: 8px 8px 5px 0px rgba(125, 125, 125 ,1);
