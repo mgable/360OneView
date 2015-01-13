@@ -29,6 +29,12 @@ var breadcrumb = "ol.breadcrumb",
 	masterProjectClass = ".master",
 	selectedItemTitle = inlineRename  + " span.title",
 
+	// simple modal - create project or scenario
+	create = "button[data-ms-id='createButton']",
+	modalInput = "div[data-ms-id='simpleModal'] input",
+	modalSubmit = "div[data-ms-id='simpleModal'] button.submit",
+	modalCancel = "div[data-ms-id='simpleModal'] button.cancel",
+
 	data = { 
 		hasClass: function (element, cls) {
 		    return element.getAttribute('class').then(function (classes) {
@@ -87,6 +93,7 @@ var breadcrumb = "ol.breadcrumb",
 		projectsBreadcrumb: "ALL PROJECTS", 
 		inputRestrictions: ["\\", "\/", ":", "?", "*", "\"", ">", "<", "|"], //\\\/\?\:\*"><|
 		minimumCharacters: "xx",
+		maximumCharacters: "Bacon ipsum dolor amet spare ribs drumstick short loin capicola boudin kielbasa. Ham hock chuck jowl swine, pork beef ribs turducken shoulder short ribs landjaeger. Beef turkey jowl tongue filet mignon cow spare ribs kielbasa drumstick ham hock jerky capxx",
 
 		column_2SortOptionsButton: element(by.css(column_2SortOptions)),
 		column_1SortButton: element(by.css(column_1Sort)),
@@ -107,7 +114,11 @@ var breadcrumb = "ol.breadcrumb",
 		inlineSubmitButton: element(by.css(inlineSubmit)),
 		inlineCancelButton: element(by.css(inlineCancel)),
 		inputFieldHolder: element(by.css(inputFieldParent)),
-		breadcrumbField: element(by.css(breadcrumb))
+		breadcrumbField: element(by.css(breadcrumb)),
+		createButton: element(by.css(create)),
+		modalInputField: element(by.css(modalInput)),
+		modalSubmitButton: element(by.css(modalSubmit)),
+		modalCancelButton: element(by.css(modalCancel))
 	};
 
 module.exports = data;
