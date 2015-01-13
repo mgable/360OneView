@@ -26,14 +26,11 @@
 
 			&.pbTitleSel {
 				border: 1px solid $mediumgray;
-				border-bottom: 0;
-				border-right: 0;
-				border-top: 0;
 			}
 		}
 
 		&.pbTitleSel {
-			background-color: $lightestgray;
+			
 			border-bottom: 0;
 			border-right: 0;
 			border-top: 0;
@@ -88,31 +85,11 @@
 		padding: 0;
 	}
 
-	.pbToolbar {
-		height: 30px;
-		border-bottom: 1px solid $mediumgray;
-		min-width: 100px;
-
-		&.pbTitleSel {
-			border-bottom: 0;
-			border-right: 0;
-			border-top: 0;
-		}
-	}
-
 	.pbSlider {
 		background-color: $lightestgray;
 		border: 0;
-		max-height: 0;
-		transition: all 0.3s ease-out;
 		overflow: hidden;
 		padding: 0 16px;
-
-		&.pbOpened {
-			max-height: 300px;
-			border-top: 0;
-			overflow: inherit;
-		}
 
 		.pbControlBar {
 			font-size: 16px;

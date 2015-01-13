@@ -12,7 +12,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 	function ($scope, $rootScope, EVENTS, $timeout, $q, PivotViewService, DialogService, PivotIntermediatesService) {
 
 	var init = function() {
-		$scope.pbShow = false;
+		$scope.tabClosed = true;
 		$scope.draftView = false;
 
 		// Rest APIs
