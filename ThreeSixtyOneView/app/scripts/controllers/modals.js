@@ -367,12 +367,20 @@ function($scope, $controller, $modalInstance, CONFIG, data, CubeService) {
     var init = function() {
         $scope.fileList = [];
 
+        $scope.elementTypeItems = ['All', 'By Me', 'Favorite'];
+        $scope.currentElementType = 0;
+
         $scope.selectedScenarioElement = data.selectedScenarioElement;
         $scope.currentFile = {id: data.selectedScenarioElement.id};
 
         CubeService.getCubeAnalysisElements($scope.selectedScenarioElement.cubeMeta.id).then(function(response) {
             $scope.fileList = response;
         });
+    };
+
+    // change element type
+    $scope.changeElementType = function(type) {
+        $scope.currentElementType = type;
     };
 
     // cancel the changes and dismiss the modal
@@ -387,6 +395,25 @@ function($scope, $controller, $modalInstance, CONFIG, data, CubeService) {
             return file.id === $scope.currentFile.id;
         });
         $modalInstance.close(newFile);
+    };
+
+    init();
+}]).controller('ScenarioAnalysisElementCopyCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "data",
+function($scope, $controller, $modalInstance, CONFIG, data) {
+    angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+
+    var init = function() {
+        $scope.selectedScenarioElement = data.selectedScenarioElement;
+    };
+
+    // cancel the changes and dismiss the modal
+    $scope.cancelCopyFile = function() {
+        $modalInstance.dismiss('canceled');
+    };
+
+    // pass back the selected file and dismiss the modal
+    $scope.copyFile = function() {
+        $modalInstance.close($scope.newElement);
     };
 
     init();

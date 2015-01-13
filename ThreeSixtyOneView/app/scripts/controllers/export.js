@@ -42,76 +42,43 @@ angular.module('ThreeSixtyOneView')
 
 		}
 
-		// load applicable dimensions
-		$scope.loadDimensions = function(cubeId) {
-			return CubeService.getMeta(cubeId).then(function(dimensions) {
-				// get all members of all dimensions and build the dimensions tree
-				var i, j, k, count = 0, timeIndex, promises = [];
-
-				_.each(dimensions, function(_dimension, _index) {
-					_.each(_dimension.members, function(_member) {
-						if(!_member.leafLevel) {
-							promises.push(CubeService.getViewByMembers(cubeId, _dimension.id, _member.levelId));
-							if(_dimension.type === 'TimeDimension') {
-								timeIndex = _index;
-							}
-						}
-					});
-				});
-
-				return $q.all(promises).then(function(response) {
-					var timeAdded = false, lastMembers;
-
-					_.each(dimensions, function(_dimension) {
-						_.each(_dimension.members, function(_member) {
-							if(!_member.leafLevel) {
-								_member.members = response[count++].members;
-							} else {
-								_.each(lastMembers, function(_lastMember) {
-									_member.members = _member.members.concat(_lastMember.members);
-								});
-							}
-							lastMembers = _member.members;
-						});
-					});
-
-					$scope.dimensions = dimensions;
-					//$scope.generateMembersList(dimensions);
-				});
-			});
-		};
-
-		// open/dismiss filters selection modal
-		$scope.filtersModal = function(category) {
-			var dialog = DialogService.openFilterSelection('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl', {cat: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData, dimensions: $scope.dimensions}, {windowSize: 'lg', windowClass: 'filtersSelectionModal'});
-
-			dialog.result.then(function(data) {
-				$scope.addedFilters = data;
-
-				//$scope.updateFilters();
-			});
-		};
-
 		$scope.init = function() {
-			$scope.viewData = $scope.views.currentView.rows.concat($scope.views.currentView.columns);
+			$scope.viewData = [];
 			$scope.dimensions = [];
 			$scope.added = {};
 			$scope.exportObj = {prepareProgress:0, readyForDownload:false, exportClicked: false};
 			$scope.stopTime;
 
-			$scope.filters = $scope.views.currentView.filters;
-			angular.forEach($scope.viewData, function(val) {
-				$scope.added[val.level.label] = true;
-			});
-
-			$scope.loadDimensions($scope.cubeId).then(function() {
-				$scope.addedFilters = PivotIntermediatesService.getAddedFilters($scope.filters, $scope.dimensions);
-				_.each($scope.dimensions, function(_dimension) {
-					_dimension.catVal = PivotIntermediatesService.getCategorizeValues(_dimension, $scope.addedFilters[_dimension.label]);
+			$scope.addedFilters = {};
+			$scope.categorizedValue = [];
+			PivotIntermediatesService.initModel($scope.selectedScenarioElement.cubeMeta, $scope.cubeId)
+				.then(function(result) {
+					var foundView = _.find(result.viewsList, function(view){ return view.id == result.view.id; });
+					if (foundView) {
+						$scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
+					}
+					$scope.viewData = result.view.rows.concat(result.view.columns);
+					$scope.added = PivotIntermediatesService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
+					$scope.dimensions = result.dimensions;
+					
+					$scope.membersList = PivotIntermediatesService.generateMembersList(result.dimensions);
+					$scope.addedFilters = PivotIntermediatesService.getAddedFilters(result.view.filters, result.dimensions);
+					$scope.categorizedValue = PivotIntermediatesService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
 				});
-			});
 		};
 		$scope.init();
+
+		// open/dismiss filters selection modal
+		$scope.filtersModal = function(category) {
+			var dialog = DialogService.openFilterSelection('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
+				{cat: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData, dimensions: $scope.dimensions},
+				{windowSize: 'lg', windowClass: 'filtersSelectionModal'});
+
+			dialog.result.then(function(data) {
+				$scope.addedFilters = data;
+				$scope.categorizedValue = PivotIntermediatesService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.viewData);
+			});
+		};
 
 		$scope.initStatus = function() {
 			$interval.cancel($scope.stopTime);
