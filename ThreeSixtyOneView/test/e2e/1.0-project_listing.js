@@ -11,7 +11,7 @@ describe('Project Listing Page: ', function() {
 		}
 	);
 
-	xdescribe("Sorter: ", function(){
+	describe("Sorter: ", function(){
 		it("should have at least one project", function(){
 			expect(specs.getItems().count()).toBeGreaterThan(0);
 		});
@@ -92,7 +92,7 @@ describe('Project Listing Page: ', function() {
 		});
 	});
 
-	xdescribe("Sort: ", function(){
+	describe("Sort: ", function(){
 		it("should switch between ordering by name, modified last and created on", function(){
 			var itemTitles,
 				itemModifiedOn,
@@ -192,7 +192,7 @@ describe('Project Listing Page: ', function() {
 		});
 	});
 
-	xdescribe("Favorite: ", function(){
+	describe("Favorite: ", function(){
 		var masterProject = specs.getMasterProjectItem(),
 			masterProjectFavorite = masterProject.element(by.css(specs.favoriteClassHolder));
 
@@ -247,7 +247,7 @@ describe('Project Listing Page: ', function() {
 		});
 	});
 
-	xdescribe("Filters: ", function(){
+	describe("Filters: ", function(){
 		it ("should toggle the filter menu dropdown", function(){
 			expect(specs.hasClass(specs.filterDropdown, 'hide')).toBe(true);
 			specs.filterByButton.click();
@@ -276,14 +276,14 @@ describe('Project Listing Page: ', function() {
 		});
 	});
 
-	xdescribe("Search: ", function(){
+	describe("Search: ", function(){
 		it("should search", function(){
 			funcs.searchMasterProject()
 			expect(specs.getItems().count()).toBe(1);
 		});
 	});
 
-	xdescribe("Create project: ", function(){
+	describe("Create project: ", function(){
 		var firstItemTitle,
 			testFileName = "My New Test Project- " + Date.now(),
 			create = "button[data-ms-id='createButton']",
@@ -328,7 +328,7 @@ describe('Project Listing Page: ', function() {
 		});
 	});
 
-	xdescribe("rename functions:", function(){
+	describe("rename functions:", function(){
 		var first,
 			newName = "My Renamed Project - " + Date.now();
 
@@ -468,7 +468,7 @@ describe('Project Listing Page: ', function() {
 		});
 	});
 
-	xdescribe("Page actions: ", function(){
+	describe("Page actions: ", function(){
 		it("should prevent the master project from being edited", function(){
 			funcs.selectMasterProject();
 			expect(specs.renameButton.isPresent()).toBe(false);
@@ -494,7 +494,7 @@ describe('Project Listing Page: ', function() {
 		});
 	});
 
-	xdescribe("Page attributes: ", function(){
+	describe("Page attributes: ", function(){
 		it('should have a title', function() {
 			expect(browser.getTitle()).toEqual(specs.pageTitle);
 		});

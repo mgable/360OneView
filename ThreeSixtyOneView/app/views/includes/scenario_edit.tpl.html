@@ -22,8 +22,8 @@
             <tab-heading>
                 <div class="pbTitle" ng-class="{pbTitleSel: pbShow, pbGray: !pbShow}">
                     <div class="pbRenameArea">
-                        </i><icon type="eye" cname="{{pbShow ? '':'pbGray'}}"></icon>
-                        <div class="pbTitleText clickable" ng-click="heightChanged(); pbShow ? startSaveAs(true) : (pbShow = true)" ng-hide="saveAs">{{viewName}}</div>
+                        <icon type="eye" cname="{{pbShow ? '':'pbGray'}}"></icon>
+                        <div class="pbTitleText clickable" ng-click="heightChanged(); pbShow = !pbShow" ng-hide="saveAs">{{viewName}}</div>
                         <div class="pbSaveAsBox" ng-show="saveAs">
                             <input type="text" ng-model="saveAsName" ng-keyup="renameAction($event)">
                             <span class="clickable" ng-click="finishSaveAs(true)"><icon type="check"></icon></span>
@@ -55,6 +55,9 @@
                                         </li>
                                         <li>
                                             <div class="pbViewSaveMenuItem" ng-click="resetView();"><icon type="undo"></icon>Revert</div>
+                                        </li>
+                                        <li>
+                                            <div class="pbViewSaveMenuItem" ng-click="startSaveAs(true)"><icon type="pencil"></icon>Rename</div>
                                         </li>
                                     </div>
                                 </ul>
