@@ -5,7 +5,7 @@
 				<li ms-link="/edit" ui-sref="Scenario.edit">
 					<a><icon type="pencil"></icon> Editor</a>
 				</li>
-				<li ms-link="/results" ui-sref="Scenario.results">
+				<li ms-link="/results" ui-sref="scenarioIsCalculated ? Scenario.results : #">
 					<a><icon type="check-square-o"></icon> Results</a>
 				</li>
 			</ul>
@@ -22,6 +22,7 @@
 	</div>
 
 	<div class="display">
-		<div ui-view="display"></div>
+		<div ui-view="display" ng-show="!scenarioIsCalculated"></div>
+		<div ui-view="calculate" ng-show="scenarioIsCalculated"></div>
 	</div>
 </div>

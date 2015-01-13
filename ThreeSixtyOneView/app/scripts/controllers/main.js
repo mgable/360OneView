@@ -280,6 +280,10 @@ angular.module('ThreeSixtyOneView')
             return $scope.scenarioElements;
         };
 
+        $scope.setCalculate = function(param) {
+            $scope.scenarioIsCalculated = param;
+        }
+
         $scope.setScenarioElement = function(type) {
             var element = findElementByType(type);
             $scope.$broadcast(EVENTS.selectScenarioElement, element);
@@ -303,7 +307,7 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.calculateScenario = function() {
-            $scope.scenarioIsCalculated = true;
+            $scope.setCalculate(true);
             $scope.location = "/results";
             ScenarioCalculateService.post($scope.scenario.id);
         }
