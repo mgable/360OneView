@@ -27,7 +27,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t</div>\n" +
     "\n" +
     "\t<div class=\"button-holder\">\n" +
-    "\t\t<button ng-disabled=\"selectedItem.isMaster\" class=\"btn btn-default\" ng-click=\"create(CONFIG.displayActionsCreate)\" data-ms-id='createButton'><icon type=\"plus\"></icon>CREATE</button>\n" +
+    "\t\t<button class=\"btn btn-default\" ng-click=\"create(CONFIG.displayActionsCreate)\" data-ms-id='createButton'><icon type=\"plus\"></icon>CREATE</button>\n" +
     "\t</div>\n" +
     "</div>\n"
   );
@@ -78,11 +78,8 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t<span class=\"action\"><icon type=\"pencil\" cname=\"icon\"></icon></span>\n" +
     "\t</span>\n" +
     "\n" +
-    "\n" +
-    "\t<div class=\"alert alert-danger\" ng-show=\"form.$error.isUnique\" role=\"alert\">The scenario name &quot;{{item.title}}&quot; has been taken. Please choose another name.</div></label>\n" +
-    "\n" +
     "    <span class=\"edit\" ng-show=\"isActive\">\n" +
-    "    \t<input type=\"text\" class=\"title\" ng-model=\"item.title\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\" is-unique=\"inputrestriction\"/>&nbsp;\n" +
+    "    \t<input type=\"text\" class=\"title\" ng-model=\"item.title\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\"/>&nbsp;\n" +
     "    \t<button class=\"submit btn btn-default btn-sm\" ng-click=\"submit(item)\" ng-disabled=\"(form.$dirty && form.$invalid) || form.$pristine\"><icon type=\"check\"></icon></button>&nbsp;\n" +
     "    \t<button class=\"cancel btn btn-default btn-sm\" ng-click=\"cancel()\"><icon type=\"times\"></icon></button>\n" +
     "    </span>\n" +

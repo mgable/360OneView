@@ -192,7 +192,7 @@ xdescribe('Project Listing Page: ', function() {
 		});
 	});
 
-	describe("Favorite: ", function(){
+	describe("Favorites: ", function(){
 		var masterProject = specs.getMasterProjectItem(),
 			masterProjectFavorite = masterProject.element(by.css(specs.favoriteClassHolder));
 
@@ -232,6 +232,16 @@ xdescribe('Project Listing Page: ', function() {
 		});
 
 		it("should update the tray when favorites are filtered", function(){
+			var firstFavoriteItem = specs.getFavorites().first(),
+				isFavorite;
+				
+			specs.hasClass(firstFavoriteItem, specs.favoriteClass).then(function(favorite){
+				isFavorite = favorite;
+				if (! isFavorite){
+					firstFavoriteItem.click();
+				};
+			});
+
 			specs.filterByButton.click();
 			specs.filterByfavoritesButton.click();
 

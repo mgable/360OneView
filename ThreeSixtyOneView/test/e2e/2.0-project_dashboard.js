@@ -5,9 +5,7 @@ var specs = require('./0.0-specs.js'),
 
 	var dashboardUrl, projectId;
 	//TEMP data - remove in production
-	//var dashboardUrl, projectId = "2cf6a6fc5e5234ce92dd65c68c2ec16a";
-
-		//dashboardUrl = specs.getDashboardUrl(projectId);
+	//var dashboardUrl, projectId = "4aef7f8842873a13baff73abcc306d64"; dashboardUrl = specs.getDashboardUrl(projectId);
 
 
 describe('Project Dashboard', function() {
@@ -18,7 +16,7 @@ describe('Project Dashboard', function() {
 	);
 	var testFileName = "My New Test Project- " + Date.now();
 
-	it("should create a new project and go to the dashboard", function(){
+	xit("should create a new project and go to the dashboard", function(){
 		var firstItemTitle;
 
 		browser.get(specs.projectUrl + specs.testQuery);
@@ -83,7 +81,7 @@ describe('Project Dashboard', function() {
 		});
 
 
-		describe("Create functions: ", function(){
+		xdescribe("Create functions: ", function(){
 			var baseScenario = "scenario.referenceScenario.name",
 				baseScenarioInputField = element(by.model(baseScenario));
 
@@ -237,7 +235,7 @@ describe('Project Dashboard', function() {
 			it("should filter by favorite", function(){
 				var startItemCount = specs.getItemCount();
 
-				funcs.filterByFavorite();
+				funcs.filterByFavorites();
 
 				specs.getItems().count().then(function(itemCount){
 					specs.getFavorites().count().then(function(favoriteCount){
@@ -279,11 +277,11 @@ describe('Project Dashboard', function() {
 
 		xdescribe("Breadcrumbs: ", function(){
 			it("should have the correct label", function(){
-				expect(breadcrumbField.getText()).toEqual("ALL PROJECTS" + testFileName.toUpperCase());
+				expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + testFileName.toUpperCase());
 			});
 		});
 
-		xdescribe("Change base scenario: ", function(){
+		describe("Change base scenario: ", function(){
 
 			it("should change the base scenario", function(){
 				var scenario;
@@ -293,7 +291,7 @@ describe('Project Dashboard', function() {
 				inputName.sendKeys("New " + testScenarionNameSecond);
 				inputbaseScenario.click();
 				browser.waitForAngular();
-				scenario = element.all(by.repeater("scenarios in scenarioList")).get(1);
+				scenario = element.all(by.repeater("scenario in scenarios.data")).get(1);
 				scenario.click();
 				scenario.getText().then(function(scenarioText){
 					confirmBaseScenarioButton.click();
@@ -328,13 +326,14 @@ describe('Project Dashboard', function() {
 			expect(specs.inputFieldHolder.isPresent()).toBe(false);
 		});
 
-		it("should disable the create button", function(){
-			var masterProject;
-			funcs.selectMasterProject();
-			masterProject = specs.getFirstItemTitle();
-			masterProject.click();
-			browser.waitForAngular();
-			expect(specs.createButton.getAttribute("disabled")).toBe('true');
-		});
+		// KEEP THIS OFF
+		// it("should disable the create button", function(){
+		// 	var masterProject;
+		// 	funcs.selectMasterProject();
+		// 	masterProject = specs.getFirstItemTitle();
+		// 	masterProject.click();
+		// 	browser.waitForAngular();
+		// 	expect(specs.createButton.getAttribute("disabled")).toBe('true');
+		// });
 	});
 });
