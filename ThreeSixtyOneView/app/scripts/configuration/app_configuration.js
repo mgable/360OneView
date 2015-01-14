@@ -61,12 +61,11 @@ angular.module('ThreeSixtyOneView.config')
                 "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
                 "displayActionsCreate": "gotoScenarioCreate",
                 "renameAction": "renameScenario",
-                "trayActions": {
-                    "copy": "trayCopy",
-                    "share": "noop",
-                    "archive": "noop",
-                    "dropdown": "noop"
-                },
+                "trayButtons": [{
+                    "action": "trayCopy",
+                    "label": "copy",
+                    "icon": "files-o"
+                }],
                 "filterMenu": {
                     "firstSelected": 0,
                     "title": "Scenarios",
@@ -103,12 +102,7 @@ angular.module('ThreeSixtyOneView.config')
                 "nameClickAction": 'gotoDashboard',
                 "displayActionsCreate": "getNewProjectTitle",
                 "renameAction": "renameProject",
-                "trayActions": {
-                    "copy": "noop",
-                    "share": "noop",
-                    "archive": "noop",
-                    "dropdown": "noop"
-                },
+                "trayButtons": [],
                 "filterMenu": {
                     "firstSelected": 0,
                     "icon": "suitcase",

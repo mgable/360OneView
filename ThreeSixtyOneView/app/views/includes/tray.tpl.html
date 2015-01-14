@@ -8,25 +8,10 @@
 				</span>
 			</span>
 		</div>
-		<ul class="detail-list no-margin">
-			<li class="detail">
-				<button class="pull-left btn btn-default" ng-disabled="selectedItem.isMaster" ng-click="action(trayActions.copy, selectedItem)" data-ms-id="trayActions.copy">
-					<icon type="files-o"></icon>&nbsp;Copy
-				</button>
-			</li>
-			<li class="detail">
-				<button class="pull-left btn btn-default" ng-click="action(trayActions.share, selectedItem)" data-ms-id="trayActions.share">
-					<icon type="users"></icon>&nbsp;Share
-				</button>
-			</li>
-			<li class="detail">
-				<button class="pull-left btn btn-default" ng-click="action(trayActions.archive, selectedItem)" data-ms-id="trayActions.archive">
-					<icon type="inbox"></icon>&nbsp;Archive
-				</button>
-			</li>
-			<li class="detail">
-				<button class="pull-left btn btn-default" ng-click="action(trayActions.dropdown, selectedItem)" data-ms-id="trayActions.dropdown">
-					<icon type="ellipsis-h" cname="dropdown-trigger"></icon>
+		<ul class="detail-list no-margin" ng-show="CONFIG.trayButtons">
+			<li class="detail" ng-repeat="button in CONFIG.trayButtons">
+				<button class="pull-left btn btn-default" ng-disabled="selectedItem.isMaster || !selectedItem" ng-click="action(button.action, selectedItem)" data-ms-id="trayActions.copy">
+					<icon type="{{button.icon}}"></icon>&nbsp;{{button.label}}
 				</button>
 			</li>
 		</ul>
