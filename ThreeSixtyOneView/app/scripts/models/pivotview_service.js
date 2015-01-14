@@ -17,18 +17,6 @@ angular.module('ThreeSixtyOneView')
 			return this.get({viewId: viewId, cubeId: cubeId});
 		};
 
-		this.getViewsAndDefault = function(cubeId){
-			return this.get({cubeId: cubeId}).then(function(views){
-				if (views.length && views.length > 0){
-					return self.getDefaultView(views, cubeId).then(function(currentView){
-						return {"views": views, "currentView": currentView};
-					});
-				}
-				$rootScope.$broadcast(EVENTS.error, {title: "ERROR: No Views", msg: "There are no views available"});
-				return {"views": [], "currentView": {}};
-			});
-		};
-
 		this.getViewsList = function(cubeId) {
 			return this.resource.get({cubeId: cubeId}, this.config, '').then(function (response) {
 				return response;
