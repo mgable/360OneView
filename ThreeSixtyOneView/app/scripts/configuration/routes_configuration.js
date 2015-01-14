@@ -69,10 +69,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
         },
         'calculate': {
           controller: "scenarioCalcCtrl",
-          templateUrl: "views/includes/scenario_calculate.tpl.html",
-          resolve: {
-            'ScenarioCalculate': function(ScenarioCalculateService, $stateParams){return ScenarioCalculateService.get($stateParams.scenarioId);},
-          }
+          templateUrl: "views/includes/scenario_calculate.tpl.html"
         }
       },
       breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.id}}'>{{project.title}}</a></li><li>{{scenario.title}}</li>"

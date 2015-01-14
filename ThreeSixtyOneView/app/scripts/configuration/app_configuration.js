@@ -135,6 +135,9 @@ angular.module('ThreeSixtyOneView.config')
                     }]
                 }
             },
+            "ScenarioCalculate": {
+                "timerInterval": 1000
+            }
         },
         "user": {
             "name": "me",
