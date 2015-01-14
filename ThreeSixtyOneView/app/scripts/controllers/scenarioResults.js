@@ -8,8 +8,8 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
-    ['$scope', 'resultsData', 'Scenarios', 'DialogService', 'PivotViewService', 'CubeService', 'PivotIntermediatesService', '$q',
-    function ($scope, resultsData, Scenarios, DialogService, PivotViewService, CubeService, PivotIntermediatesService, $q) {
+    ['$scope', 'resultsData', 'Scenarios', 'DialogService', 'PivotViewService', 'CubeService', 'PivotMetaService', '$q',
+    function ($scope, resultsData, Scenarios, DialogService, PivotViewService, CubeService, PivotMetaService, $q) {
 
     // private variables
     var cnt = 0;
@@ -35,9 +35,9 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     }
     var loadDimension = function() {
         $scope.loadDimensions($scope.cubeId).then(function() {
-            $scope.addedFilters = PivotIntermediatesService.getAddedFilters($scope.filters, $scope.dimensions);
+            $scope.addedFilters = PivotMetaService.getAddedFilters($scope.filters, $scope.dimensions);
             _.each($scope.dimensions, function(_dimension) {
-                _dimension.catVal = PivotIntermediatesService.getCategorizeValues(_dimension, $scope.addedFilters[_dimension.label]);
+                _dimension.catVal = PivotMetaService.getCategorizeValues(_dimension, $scope.addedFilters[_dimension.label]);
             });
         });
     }

@@ -123,8 +123,8 @@ angular.module('ThreeSixtyOneView')
         
         init();
 
-    }]).controller('FilterSelectionCtrl', ["$scope", "$window", "$rootScope", "$modalInstance", "$controller", "data", "CONFIG", "PivotIntermediatesService",
-    function($scope, $window, $rootScope, $modalInstance, $controller, data, CONFIG, PivotIntermediatesService) {
+    }]).controller('FilterSelectionCtrl', ["$scope", "$window", "$rootScope", "$modalInstance", "$controller", "data", "CONFIG", "PivotMetaService",
+    function($scope, $window, $rootScope, $modalInstance, $controller, data, CONFIG, PivotMetaService) {
     angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
     var init = function() {
@@ -336,7 +336,7 @@ angular.module('ThreeSixtyOneView')
     };
 
     $scope.categorizeValuesCount = function(_index, addedFilter) {
-        var index, output = PivotIntermediatesService.getCategorizeValues($scope.dimensions[_index], addedFilter);
+        var index, output = PivotMetaService.getCategorizeValues($scope.dimensions[_index], addedFilter);
         $scope.categorizedValue[_index] = output;
 
         // add empty category to the empty items list and show error
