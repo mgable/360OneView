@@ -18,8 +18,8 @@
 
 <div class="editor">
     <tabset>
-        <tab id="pivotBuilder" ng-controller="PivotBuilderCtrl">
-            <tab-heading>
+        <tab id="pivotBuilderTab" ng-controller="PivotBuilderCtrl">
+            <tab-heading >
                 <div class="pbTitle" ng-class="{pbTitleSel: !tabClosed, pbGray: tabClosed}">
                     <div class="pbRenameArea" ng-click="heightChanged(); tabClosed ? expandTab() : collapseTab()">
                         <icon type="eye" cname="{{!tabClosed ? '':'pbGray'}}"></icon>
@@ -119,7 +119,7 @@
             </tab-heading>
         	<div class="importExport" ng-class="{hidden: tabClosed, shown: !tabClosed}">
                 <h4>Importing Data</h4>
-                <p>Do you want to export a template first? <a href="#">Yes</a></p>
+                <p>Do you want to download an import template first? <a href="javascript:void(0);" onclick="exportTabHeader.click()">Yes</a></p>
                 <div>
                     <div class="fileName" ng-class="{activeFileName: importObj.fileSelected, errFileName: importObj.invalidFile}" onclick="f.click()">{{selectedFile.name}}</div>
                     <button  class="btn activeBtn" ng-class="{inactiveBtn: importObj.fileSelected && !importObj.invalidFile}" onclick="f.click()">Browse</button>
@@ -147,12 +147,12 @@
             </div>
         </tab>
         <tab ng-controller="exportCtrl">
-            <tab-heading ng-click="expandTab()">
+            <tab-heading ng-click="expandTab()" id="exportTabHeader">
                 Export
             </tab-heading>
         	<div class="importExport" ng-class="{hidden: tabClosed, shown: !tabClosed}">
                 <h4>Exporting Data</h4>
-                <p class="warning">The data set you have selected exceeds the 1.4 million row limit on Excel.</p>
+                <p ng-show="exportObj.exceedLimit" class="warning">The data set you have selected exceeds the 1.4 million row limit on Excel.</p>
                 <div ng-hide="exportObj.exportClicked">
                     <div class="pbSec">
                         <div class="pbSecTitle">Dimensions</div>

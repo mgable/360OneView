@@ -82,7 +82,7 @@ angular.module('ThreeSixtyOneView')
         });
 
         init();
-    }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "GotoService", "DialogService", "EVENTS", function($scope, $controller, FavoritesService, ProjectsService, ScenarioService, Projects,  GotoService, DialogService, EVENTS) {
+    }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "GotoService", "DialogService", "EVENTS", "CONFIG", function($scope, $controller, FavoritesService, ProjectsService, ScenarioService, Projects,  GotoService, DialogService, EVENTS, CONFIG) {
 
         // Inherit from base class
         angular.extend(this, $controller('ListingViewCtrl', {$scope: $scope}));
@@ -124,7 +124,7 @@ angular.module('ThreeSixtyOneView')
         });
 
         $scope.$on(EVENTS.createProject, function(evt, title){
-            var newProject = angular.copy($scope.CONFIG.application.models.ProjectsModel.newProject);
+            var newProject = angular.copy(CONFIG.application.models.ProjectsModel.newProject);
             newProject.title = title;
             ProjectsService.create(newProject).then(function(response){
                 GotoService.dashboard(response.id);
@@ -155,7 +155,7 @@ angular.module('ThreeSixtyOneView')
             $scope.trayActions = CONFIG.view[$state.current.name].trayActions;
 
             _.extend($scope.CONFIG, $stateParams);
-            _.extend($scope.CONFIG, CONFIG);
+            _.extend($scope.CONFIG, CONFIG.view[$state.current.name]);
 
             SortAndFilterService.resetSearchText();
 
