@@ -60,8 +60,8 @@ angular.module('ThreeSixtyOneView.config')
                 "nameClickAction": "gotoScenarioEdit",
                 "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
                 "displayActionsCreate": "gotoScenarioCreate",
+                "renameAction": "renameScenario",
                 "trayActions": {
-                    "rename": "renameScenario",
                     "copy": "trayCopy",
                     "share": "noop",
                     "archive": "noop",
@@ -102,8 +102,8 @@ angular.module('ThreeSixtyOneView.config')
                 "favoriteType": "project",
                 "nameClickAction": 'gotoDashboard',
                 "displayActionsCreate": "getNewProjectTitle",
-                 "trayActions": {
-                    "rename": "renameProject",
+                "renameAction": "renameProject",
+                "trayActions": {
                     "copy": "noop",
                     "share": "noop",
                     "archive": "noop",

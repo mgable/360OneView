@@ -4,7 +4,7 @@
 			<span ng-switch="selectedItem.isMaster">
 				<h4 ng-switch-when="true" class="title clear"><icon type="marketshare"></icon>&nbsp;{{selectedItem.title}}</h4>
 				<span ng-switch-default>
-					<inline-edit template="inline_rename" test="e2e" submitAction="trayActions.rename" item="selectedItem"></inline-edit>
+					<inline-edit template="inline_rename" test="e2e" submitAction="CONFIG.renameAction" item="selectedItem"></inline-edit>
 				</span>
 			</span>
 		</div>
@@ -34,7 +34,7 @@
 	<div class="well profile description-holder">
 		<span ng-switch="selectedItem.isMaster">
 			<span ng-switch-default>
-				<inline-edit template="inline_description" focusTarget="textarea" item="selectedItem" test="e2e" submitAction="trayActions.rename"></inline-edit>
+				<inline-edit template="inline_description" focusTarget="textarea" item="selectedItem" test="e2e" submitAction="CONFIG.renameAction"></inline-edit>
 			</span>
 			<span ng-if="selectedItem.createdBy">
 				<h5>Created By</h5>
@@ -47,26 +47,12 @@
 		</span>
 	</div>
 
-	<div class="well profile">
-		<ul class="media-list no-margin">
-			<li class="media">
-			<div class="media-body">
-				<h5 class="media-heading">Access</h5>
-			</div>
-			<a class="pull-left">
-				<img class="media-object" src="images/users_pic_sprite.png">
-			</a>
-			</li>
-		</ul>
-	</div>
-
 	<div class="well profile description-holder" ng-if="selectedItem.referenceScenario.name">
 		<h5>Base Scenario</h5>
 		<p class="entity-holder" data-ms-id="ScenarioListing:baseScenario">{{selectedItem.referenceScenario.name}}</p>
 	</div>
 
 	<div class="well profile scenario-listing" ng-if="selectedItem.scenarios.length">
-	<!-- <div class="well profile scenario-listing" ng-if="true"> -->
 		<div class="scenarioWrapper">
 			<h5 class="media-heading bold">Contains</h5>
 			<span class='field-label bold'>Total&nbsp;<span>{{selectedItem.scenarios.length}}</span>&nbsp;scenarios</span>

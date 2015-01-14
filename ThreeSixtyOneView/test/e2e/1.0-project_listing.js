@@ -257,7 +257,7 @@ describe('Project Listing Page: ', function() {
 		it("should filter by favorite", function(){
 			var startItemCount = specs.getItemCount();
 
-			funcs.filterByFavorite();
+			funcs.filterByFavorites();
 
 			specs.getItems().count().then(function(itemCount){
 				specs.getFavorites().count().then(function(favoriteCount){
@@ -299,7 +299,7 @@ describe('Project Listing Page: ', function() {
 
 	describe("Search: ", function(){
 		it("should search", function(){
-			funcs.searchMasterProject()
+			funcs.enterSearch(specs.masterProject)
 			expect(specs.getItems().count()).toBe(1);
 		});
 	});
