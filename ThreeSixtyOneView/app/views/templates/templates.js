@@ -82,7 +82,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t<div class=\"alert alert-danger\" ng-show=\"form.$error.isUnique\" role=\"alert\">The scenario name &quot;{{item.title}}&quot; has been taken. Please choose another name.</div></label>\n" +
     "\n" +
     "    <span class=\"edit\" ng-show=\"isActive\">\n" +
-    "    \t<input type=\"text\" class=\"title\" ng-model=\"item.title\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\" is-unique=\"isScenarioTitleUnique\"/>&nbsp;\n" +
+    "    \t<input type=\"text\" class=\"title\" ng-model=\"item.title\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\" is-unique=\"inputrestriction\"/>&nbsp;\n" +
     "    \t<button class=\"submit btn btn-default btn-sm\" ng-click=\"submit(item)\" ng-disabled=\"(form.$dirty && form.$invalid) || form.$pristine\"><icon type=\"check\"></icon></button>&nbsp;\n" +
     "    \t<button class=\"cancel btn btn-default btn-sm\" ng-click=\"cancel()\"><icon type=\"times\"></icon></button>\n" +
     "    </span>\n" +

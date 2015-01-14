@@ -16,7 +16,7 @@ angular.module('ThreeSixtyOneView.directives')
                 test: "=",
                 submitaction: "=",
                 focustarget: "@",
-                isunique: "@"
+                inputrestriction: "&"
             },
             link: function($scope, $element, $attrs) {
                 var tempItem = angular.copy($scope.item),

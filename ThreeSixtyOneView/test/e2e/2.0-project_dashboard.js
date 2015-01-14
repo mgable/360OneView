@@ -199,7 +199,7 @@ describe('Project Dashboard', function() {
 			});
 
 			it("should search scenarios", function(){
-				specs.searchInputField.sendKeys('FIRST');
+				funcs.enterSearch('FIRST');
 				expect(specs.getItems().count()).toBe(1);
 			});
 
