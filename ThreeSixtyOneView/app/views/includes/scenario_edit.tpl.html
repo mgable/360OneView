@@ -20,10 +20,10 @@
     <tabset>
         <tab id="pivotBuilder" ng-controller="PivotBuilderCtrl">
             <tab-heading>
-                <div class="pbTitle" ng-class="{pbTitleSel: pbShow, pbGray: !pbShow}">
-                    <div class="pbRenameArea">
-                        </i><icon type="eye" cname="{{pbShow ? '':'pbGray'}}"></icon>
-                        <div class="pbTitleText clickable" ng-click="heightChanged(); pbShow ? startSaveAs(true) : (pbShow = true)" ng-hide="saveAs">{{viewName}}</div>
+                <div class="pbTitle" ng-class="{pbTitleSel: !tabClosed, pbGray: tabClosed}">
+                    <div class="pbRenameArea" ng-click="heightChanged(); tabClosed ? expandTab() : collapseTab()">
+                        <icon type="eye" cname="{{!tabClosed ? '':'pbGray'}}"></icon>
+                        <div class="pbTitleText clickable" ng-hide="saveAs">{{viewName}}</div>
                         <div class="pbSaveAsBox" ng-show="saveAs">
                             <input type="text" ng-model="saveAsName" ng-keyup="renameAction($event)">
                             <span class="clickable" ng-click="finishSaveAs(true)"><icon type="check"></icon></span>
@@ -33,7 +33,7 @@
                 </div>
             </tab-heading>
             <div id="pivotBuilder">
-                <div ng-class="{pbOpened: pbShow}" class="pbSlider">
+                <div ng-class="{hidden: tabClosed, shown: !tabClosed}" class="pbSlider">
                     <div class="pbControlBar">
                         <div class="pbFunctionFlip" ms-link-group  selected-item="table">
                             <div class="pbFunctionFlipButton clickable" ng-click="showTable(false);" ms-link="table"><icon type="table"></icon></div>
@@ -55,6 +55,9 @@
                                         </li>
                                         <li>
                                             <div class="pbViewSaveMenuItem" ng-click="resetView();"><icon type="undo"></icon>Revert</div>
+                                        </li>
+                                        <li>
+                                            <div class="pbViewSaveMenuItem" ng-click="startSaveAs(true)"><icon type="pencil"></icon>Rename</div>
                                         </li>
                                     </div>
                                 </ul>
@@ -103,18 +106,96 @@
                         </div>
                     </div>
                     <div class="pbSliderCollapse">
-                        <span class="clickable" ng-click="heightChanged(); pbShow = false; finishSaveAs(false);">
+                        <span class="clickable" ng-click="heightChanged(); collapseTab(); finishSaveAs(false);">
                             <icon type="chevron-up"></icon>Collapse
                         </span>
                     </div>
                 </div>
             </div>
         </tab>
-        <tab heading="Import">
-        	<ng-include src="'views/includes/pivot_table_import.tpl.html'" ng-controller="importCtrl"></ng-include>
+        <tab ng-controller="importCtrl">
+            <tab-heading ng-click="expandTab()">
+                Import
+            </tab-heading>
+        	<div class="importExport" ng-class="{hidden: tabClosed, shown: !tabClosed}">
+                <h4>Importing Data</h4>
+                <p>Do you want to export a template first? <a href="#">Yes</a></p>
+                <div>
+                    <div class="fileName" ng-class="{activeFileName: importObj.fileSelected, errFileName: importObj.invalidFile}" onclick="f.click()">{{selectedFile.name}}</div>
+                    <button  class="btn activeBtn" ng-class="{inactiveBtn: importObj.fileSelected && !importObj.invalidFile}" onclick="f.click()">Browse</button>
+                    <input id="f" type="file" fileread style="display:none;"></input>
+                    <div class="errMsg" ng-show="importObj.invalidFile">This file is invalid. Please try again.</div>
+                </div>
+                <div class="btnGroup">
+                    <button class="btn inactiveBtn" ng-show="!importObj.fileSelected || importObj.uploadFinished" ng-click="collapseTab()">Close</button>
+                    <button class="btn inactiveBtn" ng-show="importObj.fileSelected && !importObj.uploadFinished" ng-click="initStatus()" ng-disabled="importObj.importClicked">Cancel</button>
+                    <button class="btn disabledBtn" ng-hide="importObj.fileSelected && !importObj.invalidFile">Import</button>
+                    <button class="btn activeBtn" ng-show="importObj.fileSelected && !importObj.invalidFile" ng-click="uploadFile()" ng-disabled="importObj.importClicked">Import</button>
+                </div>
+                <div ng-show="importObj.importClicked" class="uploadContainer">
+                    <div ng-hide="importObj.uploadFinished">
+                        <progressbar value="importObj.uploadProgress"></progressbar>
+                        <p class="percentage">{{importObj.uploadProgress}}%</p>
+                    </div>
+                    <div ng-show="importObj.uploadFinished" class="successMsg">You successfully imported {{selectedFile.name}}</div>
+                </div>
+                <div class="pbSliderCollapse">
+                    <span class="clickable" ng-click="collapseTab()">
+                        <icon type="chevron-up"></icon>Collapse
+                    </span>
+                </div>
+            </div>
         </tab>
-        <tab heading="Export">
-        	<ng-include src="'views/includes/pivot_table_export.tpl.html'" ng-controller="exportCtrl"></ng-include>
+        <tab ng-controller="exportCtrl">
+            <tab-heading ng-click="expandTab()">
+                Export
+            </tab-heading>
+        	<div class="importExport" ng-class="{hidden: tabClosed, shown: !tabClosed}">
+                <h4>Exporting Data</h4>
+                <p class="warning">The data set you have selected exceeds the 1.4 million row limit on Excel.</p>
+                <div ng-hide="exportObj.exportClicked">
+                    <div class="pbSec">
+                        <div class="pbSecTitle">Dimensions</div>
+                        <div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="viewData" tabindex="-1">
+                            <draggable-dimension ng-repeat="item in viewData"></draggable-dimension>
+                                        
+                            <add-dimension-btn menu="menuList"></add-dimension-btn>
+                        </div>
+                    </div>
+                   <div class="pbSec">
+                        <div class="pbSecTitle">Filters</div>
+                        <div class="pbFilterValues">
+                            <div ng-repeat="cat in dimensions" class="pbFilterBox clickable" ng-click="filtersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="addedFilters[cat.label]">
+                                <div class="pbFilterCat">{{cat.label}} <span class="pbFilterSize">({{categorizedValue[$index].selected}}/{{categorizedValue[$index].total}})</span></div>
+                                <div class="pbFilterVal" ng-show="categorizedValue[$index].selected < categorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{categorizedValue[$index].label.join(', ')}}">{{categorizedValue[$index].label.join(', ')}}</div>
+                                <div class="pbFilterVal" ng-hide="categorizedValue[$index].selected < categorizedValue[$index].total" title="{{categorizedValue[$index].label.join(', ')}}">All</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-show="exportObj.exportClicked" class="prepareContainer">
+                    <div ng-hide="exportObj.readyForDownload">
+                        <p>Preparing files for download</p>
+                        <progressbar value="exportObj.prepareProgress"></progressbar>
+                        <p class="percentage">{{exportObj.prepareProgress}}%</p>
+                    </div>
+                    <p ng-show="exportObj.readyForDownload">Your file is ready</p>
+                </div>
+
+                <div class="btnGroup">
+                    <button class="btn inactiveBtn" ng-hide="exportObj.exportClicked" ng-click="collapseTab()">Cancel</button>
+                    <button class="btn inactiveBtn" ng-show="exportObj.exportClicked" ng-click="initStatus()">Cancel</button>
+                    <button class="btn activeBtn" ng-click="prepareFile()" ng-hide="exportObj.exportClicked">Export</button>
+                    <a href="http://127.0.0.1:9001/views/scenario.tpl.html" download="sample.html" ng-show="exportObj.readyForDownload" class="btn activeBtn">Download</a>
+                </div>
+
+                <div class="pbSliderCollapse">
+                    <span class="clickable" ng-click="collapseTab()">
+                        <icon type="chevron-up"></icon>Collapse
+                    </span>
+                </div>
+            </div>
         </tab>
     </tabset>
     <ng-include src="'views/includes/pivot_table.tpl.html'" ng-controller="pivotTableCtrl" onload="init()"></ng-include>

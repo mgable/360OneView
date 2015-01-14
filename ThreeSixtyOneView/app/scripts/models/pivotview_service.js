@@ -207,7 +207,7 @@ angular.module('ThreeSixtyOneView')
 			}
 		};
 
-		this.initModel = function(cubeMeta, scoptCubeId) {
+		this.initModel = function(cubeMeta) {
 			return CubeService.buildDimensionsTree(cubeMeta.id).then(function(dimensions) {
 				return  PivotViewService.getViewsList(cubeMeta.id).then(function(list) {
 					if(list.length < 1) {
@@ -233,19 +233,18 @@ angular.module('ThreeSixtyOneView')
 							});
 						}
 
-						return PivotViewService.createView(view, cubeId).then(function(view) {
+						return PivotViewService.createView(newView, cubeMeta.id).then(function(view) {
 							list.unshift(view);
 							var result = {viewsList: list, view: view, dimensions: dimensions};
 							return result;
 						});
 					} else {
 						var cId = cubeMeta.id,
-							vId = list[0].id,
-							isDraftView = false;
+							vId = list[0].id;
 						// check for draft or default views
 						_.each(list, function(item) {
 							if(item.name.substring(0, 8) === 'Draft - ' || item.isDefault) {
-								cId = scoptCubeId;
+								cId = cubeMeta.id;
 								vId = item.id;
 							}
 						});
@@ -253,8 +252,8 @@ angular.module('ThreeSixtyOneView')
 						// load the proper view
 						return PivotViewService.getView(vId, cId).then(function(view) {
 							var result = {viewsList: list, view: view, dimensions: dimensions};
-							return result;	
-						});	
+							return result;
+						});
 					}
 				});
 			});

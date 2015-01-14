@@ -331,5 +331,13 @@ angular.module('ThreeSixtyOneView')
             });
         };
 
+        $scope.collapseTab = function() {
+            this.tabClosed = true;
+        }
+
+        $scope.expandTab = function() {
+            this.tabClosed = false;
+        }
+
         init();
     }]);
