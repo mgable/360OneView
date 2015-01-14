@@ -21,9 +21,9 @@
         <tab id="pivotBuilder" ng-controller="PivotBuilderCtrl">
             <tab-heading>
                 <div class="pbTitle" ng-class="{pbTitleSel: !tabClosed, pbGray: tabClosed}">
-                    <div class="pbRenameArea">
-                        </i><icon type="eye" cname="{{!tabClosed ? '':'pbGray'}}"></icon>
-                        <div class="pbTitleText clickable" ng-click="heightChanged(); !tabClosed ? startSaveAs(true) : expandTab()" ng-hide="saveAs">{{viewName}}</div>
+                    <div class="pbRenameArea" ng-click="heightChanged(); tabClosed ? expandTab() : collapseTab()">
+                        <icon type="eye" cname="{{!tabClosed ? '':'pbGray'}}"></icon>
+                        <div class="pbTitleText clickable" ng-hide="saveAs">{{viewName}}</div>
                         <div class="pbSaveAsBox" ng-show="saveAs">
                             <input type="text" ng-model="saveAsName" ng-keyup="renameAction($event)">
                             <span class="clickable" ng-click="finishSaveAs(true)"><icon type="check"></icon></span>
@@ -55,6 +55,9 @@
                                         </li>
                                         <li>
                                             <div class="pbViewSaveMenuItem" ng-click="resetView();"><icon type="undo"></icon>Revert</div>
+                                        </li>
+                                        <li>
+                                            <div class="pbViewSaveMenuItem" ng-click="startSaveAs(true)"><icon type="pencil"></icon>Rename</div>
                                         </li>
                                     </div>
                                 </ul>

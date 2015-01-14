@@ -16,16 +16,12 @@
 
 		&:hover {
 			color: $blue;
-			border: 1px solid $blue;
+			/*border: 1px solid $blue;*/
 
 			.pbRenameArea {
 				.fa-eye {
 					color: $blue;
 				}
-			}
-
-			&.pbTitleSel {
-				border: 1px solid $mediumgray;
 			}
 		}
 
@@ -36,12 +32,6 @@
 			border-top: 0;
 			width: 240px;
 			transition: width 0.3s linear;
-
-			.pbRenameArea {
-				.pbTitleText:hover {
-					border: 1px solid $blue;
-				}
-			}
 		}
 
 		.pbRenameArea {
