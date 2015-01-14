@@ -64,6 +64,10 @@ angular.module('ThreeSixtyOneView')
             DialogService.openCreateScenario(Project, Scenarios);
         };
 
+        $scope.isScenarioTitleUnique = function(scenarioTitle) {
+            return ! _.findWhere($scope.scenarios, {title:scenarioTitle});
+        };
+
         // Event Listeners
         $scope.$on(EVENTS.gotoScenarioCreate, function(){
             $scope.gotoScenarioCreate();
