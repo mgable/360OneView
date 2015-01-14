@@ -8,8 +8,8 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
-	['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'PivotViewService', 'DialogService', 'PivotIntermediatesService',
-	function ($scope, $rootScope, EVENTS, $timeout, $q, PivotViewService, DialogService, PivotIntermediatesService) {
+	['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'PivotViewService', 'DialogService', 'PivotMetaService',
+	function ($scope, $rootScope, EVENTS, $timeout, $q, PivotViewService, DialogService, PivotMetaService) {
 
 	var init = function() {
 		$scope.tabClosed = true;
@@ -55,7 +55,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 
 		// $scope.identity = angular.identity();
 	},	initiateModel = function(cubeMeta) {
-		PivotIntermediatesService.initModel(cubeMeta).then(function(result) {
+		PivotMetaService.initModel(cubeMeta).then(function(result) {
 			var foundView = _.find(result.viewsList, function(view){ return view.id === result.view.id; });
 			if (foundView) {
 				$scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
@@ -64,12 +64,12 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			$scope.views.currentView = result.view;
 			$scope.viewData = result.view;
 			$scope.viewName = result.view.name;
-			$scope.added = PivotIntermediatesService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
+			$scope.added = PivotMetaService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
 			$scope.dimensions = result.dimensions;
 			
-			$scope.membersList = PivotIntermediatesService.generateMembersList(result.dimensions);
-			$scope.addedFilters = PivotIntermediatesService.getAddedFilters(result.view.filters, result.dimensions);
-			$scope.categorizedValue = PivotIntermediatesService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
+			$scope.membersList = PivotMetaService.generateMembersList(result.dimensions);
+			$scope.addedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
+			$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
 		});
 	},	deleteView = function(cubeId, viewId) { // delete a view
 		PivotViewService.deleteView(viewId, cubeId).then(function() {
@@ -96,9 +96,9 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 		PivotViewService.createView(view, cubeId).then(function(view) {
 			$scope.viewData = view;
 			$scope.viewName = view.name;
-			$scope.added = PivotIntermediatesService.setUpAddedLevels(view.columns.concat(view.rows));
+			$scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
 			$scope.viewsList.unshift(view);
-			$scope.addedFilters = PivotIntermediatesService.getAddedFilters(view.filters, $scope.dimensions);
+			$scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
 		});
 	},	updateFilters = function() { // update view filters based on the user selections
 		var i, j, filters = [], newFilter, values = {}, dimensionId;
@@ -112,7 +112,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			newFilter.value = {};
 			newFilter.value.specification = {};
 
-			values = PivotIntermediatesService.getCategorizeValues($scope.dimensions[i], $scope.addedFilters[$scope.dimensions[i].label]);
+			values = PivotMetaService.getCategorizeValues($scope.dimensions[i], $scope.addedFilters[$scope.dimensions[i].label]);
 			$scope.categorizedValue[i] = values;
 
 			if(values.selected === values.total) {
@@ -222,7 +222,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			updateView($scope.cubeId, $scope.viewData).then(function(view) {
 				$scope.viewData = view;
 				$scope.viewName = view.name;
-				$scope.added = PivotIntermediatesService.setUpAddedLevels(view.columns.concat(view.rows));
+				$scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
 			});
 			deleteView($scope.cubeId, draftViewId);
 			$scope.draftView = false;
@@ -434,10 +434,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			$scope.views.currentView = view;
 			$scope.viewData = view;
 			$scope.viewName = view.name;
-			$scope.added = PivotIntermediatesService.setUpAddedLevels(view.columns.concat(view.rows));
-			$scope.membersList = PivotIntermediatesService.generateMembersList($scope.dimensions);
-			$scope.addedFilters = PivotIntermediatesService.getAddedFilters(view.filters, $scope.dimensions);
-			$scope.categorizedValue = PivotIntermediatesService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, view);
+			$scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
+			$scope.membersList = PivotMetaService.generateMembersList($scope.dimensions);
+			$scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
+			$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, view);
 		});
 	};
 

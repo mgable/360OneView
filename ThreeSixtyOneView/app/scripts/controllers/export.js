@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .controller("exportCtrl", ["$scope", 'PivotViewService', 'CubeService', '$interval', 'DialogService', 'PivotIntermediatesService', '$q',
-    	function($scope, PivotViewService, CubeService, $interval, DialogService, PivotIntermediatesService, $q){
+    .controller("exportCtrl", ["$scope", 'PivotViewService', 'CubeService', '$interval', 'DialogService', 'PivotMetaService', '$q',
+    	function($scope, PivotViewService, CubeService, $interval, DialogService, PivotMetaService, $q){
 
 		$scope.deleteItem = function(index) {
 			$scope.added[$scope.viewData[index].level.label] = false;
@@ -47,14 +47,14 @@ angular.module('ThreeSixtyOneView')
 
 			$scope.addedFilters = {};
 			$scope.categorizedValue = [];
-			PivotIntermediatesService.initModel($scope.selectedScenarioElement.cubeMeta, $scope.cubeId)
+			PivotMetaService.initModel($scope.selectedScenarioElement.cubeMeta, $scope.cubeId)
 				.then(function(result) {
 					$scope.viewData = result.view.rows.concat(result.view.columns);
-					$scope.added = PivotIntermediatesService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
+					$scope.added = PivotMetaService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
 					$scope.dimensions = result.dimensions;
 					
-					$scope.addedFilters = PivotIntermediatesService.getAddedFilters(result.view.filters, result.dimensions);
-					$scope.categorizedValue = PivotIntermediatesService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
+					$scope.addedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
+					$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
 				});
 		};
 		$scope.init();
@@ -67,7 +67,7 @@ angular.module('ThreeSixtyOneView')
 
 			dialog.result.then(function(data) {
 				$scope.addedFilters = data;
-				$scope.categorizedValue = PivotIntermediatesService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.viewData);
+				$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.viewData);
 			});
 		};
 
