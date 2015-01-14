@@ -42,7 +42,7 @@ angular.module('ThreeSixtyOneView')
 			$scope.viewData = [];
 			$scope.dimensions = [];
 			$scope.added = {};
-			$scope.exportObj = {prepareProgress:0, readyForDownload:false, exportClicked: false};
+			$scope.exportObj = {prepareProgress:0, readyForDownload:false, exportClicked: false, exceedLimit:false};
 			$scope.stopTime;
 
 			$scope.addedFilters = {};
@@ -73,7 +73,7 @@ angular.module('ThreeSixtyOneView')
 
 		$scope.initStatus = function() {
 			$interval.cancel($scope.stopTime);
-			$scope.exportObj = {prepareProgress:0, readyForDownload:false, exportClicked: false};
+			$scope.exportObj = {prepareProgress:0, readyForDownload:false, exportClicked: false, exceedLimit:false};
 		}
 
     }]);
