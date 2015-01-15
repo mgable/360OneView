@@ -277,6 +277,10 @@
 }
 
 .scenarioAnalysisElementFiles {
+	.modal-content {
+		width: 800px;
+	}
+
 	.element-file-modal-header {
 		h4 {
 			font-size: 32px;
@@ -386,7 +390,7 @@
 				.element-file-name {
 					padding-left: 35px;
 					padding-right: 15px;
-					width: 300px;
+					width: 500px;
 					display: inline-block;
 					white-space: nowrap;
 					overflow: hidden;
@@ -399,7 +403,8 @@
 
 				.element-file-info {
 					display: inline-block;
-					width: 300px;
+					width: 250px;
+					vertical-align: top;
 
 					.element-file-date {}
 
@@ -499,6 +504,191 @@
 		}
 
 		.element-copy-buttons {
+			float: right;
+
+			.btn {
+				margin-left: 20px;
+				margin-top: 15px;
+				padding: 5px 20px;
+				border-radius: 3px;
+			}
+
+			.cancel-button {
+				background-color: $mediumgray;
+				border: 1px solid $gray;
+				color: white;
+			}
+
+			.apply-button {
+				background-color: $orange;
+				color: white;
+			}
+		}
+	}
+}
+
+.pivotBuilderAllViewsModal {
+	.modal-content {
+		width: 800px;
+	}
+
+	.all-views-modal-header {
+		h4 {
+			font-size: 32px;
+			font-weight: normal;
+		}
+	}
+
+	.all-views-modal-body {
+		background-color: white;
+
+		.all-views-toolbar {
+			height: 60px;
+			background-color: $lightgray;
+
+			.views-type-dropdown {
+				display: inline-block;
+				width: 300px;
+
+				.dropdown {
+					.dropdown-toggle {
+						padding-left: 20px;
+						font-size: 18px;
+
+						.fa {
+							margin-left: 5px;
+							font-size: 14px;
+						}
+					}
+
+					.dropdown-menu {
+						border: 1px solid $blue;
+						border-radius: 0;
+						background-color: white;
+						padding: 7px 0;
+						box-shadow: 0 3px 10px rgba(100,100,100,0.5);
+						margin-top: 5px;
+						position: absolute;
+						left: -35px;
+
+						&::before {
+							position: absolute;
+							height: 11px;
+							width: 11px;
+							content: "";
+							border-left: 1px solid $blue;
+							border-top: 1px solid $blue;
+							-webkit-transform: rotate(45deg);
+							-moz-transform: rotate(45deg);
+							-ms-transform: rotate(45deg);
+							-o-transform: rotate(45deg);
+							transform: rotate(45deg);
+							top: -6px;
+							left: 47%;
+							z-index: 13;
+							background-color: white;
+						}
+
+						li:hover {
+							background-color: $blue;
+						}
+					}
+				}
+			}
+
+			.view-name-search {
+				display: inline-block;
+				width: 340px;
+
+				.search-box {
+					background-color: white;
+					margin-top: 10px;
+					height: 40px;
+					border: 1px solid $mediumgray;
+					padding: 5px;
+
+					.fa {
+						margin-left: 5px;
+						color: $gray;
+					}
+
+					input {
+						border: none;
+						outline: none;
+						font-size: 16px;
+						width: 290px;
+					}
+				}
+			}
+		}
+
+		.all-views-list {
+			overflow-y: auto;
+			height: 400px;
+			border: 1px solid $mediumgray;
+
+			.fa-dot-circle-o {
+				display: none;
+			}
+
+			.all-views-item {
+				height: 70px;
+				border-top: 1px solid $lightgray;
+				padding-top: 15px;
+				padding-bottom: 10px;
+				cursor: pointer;
+
+				.all-views-name {
+					padding-left: 35px;
+					padding-right: 15px;
+					width: 500px;
+					display: inline-block;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+
+					.fa {
+						margin-right: 5px;
+					}
+				}
+
+				.all-views-info {
+					display: inline-block;
+					width: 250px;
+					vertical-align: top;
+
+					.element-file-date {}
+
+					.all-views-owner {
+						color: $gray;
+						margin-left: 10px;
+					}
+				}
+
+				&.current-view {
+					background-color: $blue;
+					color: white;
+
+					.all-views-owner {
+						color: $lightgray;
+					}
+
+					.all-views-description {
+						color: $lightgray;
+					}
+
+					.fa-circle-o {
+						display: none;
+					}
+
+					.fa-dot-circle-o {
+						display: inline;
+					}
+				}
+			}
+		}
+
+		.all-views-buttons {
 			float: right;
 
 			.btn {
