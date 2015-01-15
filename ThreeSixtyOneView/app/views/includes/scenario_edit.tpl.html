@@ -71,12 +71,12 @@
                                 </span>
                                 <ul class="dropdown-menu pbRecentViewsMenu" ms-link-group radio="true">
                                     <div class="pbRecentViewsMenuVisible">
-                                        <li ng-repeat="view in viewsList">
+                                        <li ng-repeat="view in viewsList | limitTo:4">
                                             <div class="" ng-click="loadView(cubeId, view.id);"><icon type="eye"></icon>{{view.name}}</div>
                                         </li>
                                         <hr>
                                         <li>
-                                            <div class=""><icon type="folder-open-o"></icon>All Views</div>
+                                            <div class="" ng-click="openAllViewsModal()"><icon type="folder-open-o"></icon>All Views</div>
                                         </li>
                                     </div>
                                 </ul>
