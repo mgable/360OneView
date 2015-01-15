@@ -3,7 +3,7 @@
 describe('Service: PivotMetaService', function () {
 
   // load the service's module
-  beforeEach(module('threeSixtOneViewApp'));
+  beforeEach(module('ThreeSixtyOneView'));
 
   // instantiate service
   var PivotMetaService;
