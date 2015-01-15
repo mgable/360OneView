@@ -25,7 +25,7 @@ angular.module('ThreeSixtyOneView.config')
                     // want: get
                     "responseTranslator": {"referenceScenario": "referenceScenario", "title": "name", "id": "id", "description": "description", "type":"prediction.type", "createdBy":"auditInfo.createdBy.name", "createdOn": "auditInfo.createdOn", "modifiedBy":"auditInfo.lastUpdatedBy.name", "modifiedOn":"auditInfo.lastUpdatedOn"},
                     "requestTranslator": {"id": "id", "name":"title", "referenceScenario": "referenceScenario", "description": "description", "prediction.type": "type"},
-                    "newScenario": {"title" : "", "description": "","referenceScenario": {"id": ":id", "name": "PRE LOADED SIMULATION NEW"}, "type": "Simulation"}
+                    "newScenario": {"title" : "", "description": "","referenceScenario": {"id": "", "name": ""}, "type": "Simulation"}
                 },
                 "CubeModel" : {
                     "responseTranslator": "",
@@ -60,13 +60,12 @@ angular.module('ThreeSixtyOneView.config')
                 "nameClickAction": "gotoScenarioEdit",
                 "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
                 "displayActionsCreate": "gotoScenarioCreate",
-                "trayActions": {
-                    "rename": "renameScenario",
-                    "copy": "trayCopy",
-                    "share": "noop",
-                    "archive": "noop",
-                    "dropdown": "noop"
-                },
+                "renameAction": "renameScenario",
+                "trayButtons": [{
+                    "action": "trayCopy",
+                    "label": "copy",
+                    "icon": "files-o"
+                }],
                 "filterMenu": {
                     "firstSelected": 0,
                     "title": "Scenarios",
@@ -102,13 +101,8 @@ angular.module('ThreeSixtyOneView.config')
                 "favoriteType": "project",
                 "nameClickAction": 'gotoDashboard',
                 "displayActionsCreate": "getNewProjectTitle",
-                 "trayActions": {
-                    "rename": "renameProject",
-                    "copy": "noop",
-                    "share": "noop",
-                    "archive": "noop",
-                    "dropdown": "noop"
-                },
+                "renameAction": "renameProject",
+                "trayButtons": [],
                 "filterMenu": {
                     "firstSelected": 0,
                     "icon": "suitcase",

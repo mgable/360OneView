@@ -64,6 +64,10 @@ angular.module('ThreeSixtyOneView')
             DialogService.openCreateScenario(Project, Scenarios);
         };
 
+        $scope.isScenarioTitleUnique = function(scenarioTitle) {
+            return ! _.findWhere($scope.scenarios, {title:scenarioTitle});
+        };
+
         // Event Listeners
         $scope.$on(EVENTS.gotoScenarioCreate, function(){
             $scope.gotoScenarioCreate();
@@ -82,7 +86,7 @@ angular.module('ThreeSixtyOneView')
         });
 
         init();
-    }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "GotoService", "DialogService", "EVENTS", function($scope, $controller, FavoritesService, ProjectsService, ScenarioService, Projects,  GotoService, DialogService, EVENTS) {
+    }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "GotoService", "DialogService", "EVENTS", "CONFIG", function($scope, $controller, FavoritesService, ProjectsService, ScenarioService, Projects,  GotoService, DialogService, EVENTS, CONFIG) {
 
         // Inherit from base class
         angular.extend(this, $controller('ListingViewCtrl', {$scope: $scope}));
@@ -124,7 +128,7 @@ angular.module('ThreeSixtyOneView')
         });
 
         $scope.$on(EVENTS.createProject, function(evt, title){
-            var newProject = angular.copy($scope.CONFIG.application.models.ProjectsModel.newProject);
+            var newProject = angular.copy(CONFIG.application.models.ProjectsModel.newProject);
             newProject.title = title;
             ProjectsService.create(newProject).then(function(response){
                 GotoService.dashboard(response.id);
@@ -155,7 +159,7 @@ angular.module('ThreeSixtyOneView')
             $scope.trayActions = CONFIG.view[$state.current.name].trayActions;
 
             _.extend($scope.CONFIG, $stateParams);
-            _.extend($scope.CONFIG, CONFIG);
+            _.extend($scope.CONFIG, CONFIG.view[$state.current.name]);
 
             SortAndFilterService.resetSearchText();
 
@@ -245,24 +249,34 @@ angular.module('ThreeSixtyOneView')
             DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
         });
 
-    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioAnalysisElements", "Views", "ptData", "$state", "EVENTS", "ScenarioElementService", "DialogService",
-    function($scope, Project, Scenario, ScenarioAnalysisElements, Views, ptData, $state, EVENTS, ScenarioElementService, DialogService) {
+    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioAnalysisElements", "ptData", "$state", "EVENTS", "ScenarioElementService", "DialogService", "PivotMetaService",
+    function($scope, Project, Scenario, ScenarioAnalysisElements, ptData, $state, EVENTS, ScenarioElementService, DialogService, PivotMetaService) {
 
         $scope.$on(EVENTS.filter, function(){
             $scope.showDetails(SortAndFilterService.getData()[0]);
         });
 
-        // var findElementByType = function(type) {
-        //     var selectedElement = _.find(ScenarioAnalysisElements, function(fileName) {
-        //         return (fileName.id === type.id);
-        //     });
-        //     // $scope.$broadcast(EVENTS.selectScenarioElement, selectedElement);
-        //     return selectedElement;
-        // },
+        $scope.$on(EVENTS.selectScenarioElement, function(evt, element) {
+            $scope.cubeId = element.cubeMeta.id;
+            initiateModel(element.cubeMeta);
+        });
+
         var init = function() {
+            $scope.draftView = false;
+            $scope.added = {};
+            $scope.addedFilters = {};
+            $scope.categorizedValue = [];
+            $scope.viewData = [];
+            $scope.viewDataExport = [];
+
             $scope.project = Project;
             $scope.scenario = Scenario;
-            $scope.views = Views;
+            $scope.views = {
+                views: [],
+                currentView: {
+                    name: 'Loading...'
+                }
+            };
             $scope.scenarioElements =  ScenarioAnalysisElements;
             $scope.setScenarioElement($scope.scenarioElements[0]);
             $scope.location = $state.current.url;
@@ -270,8 +284,24 @@ angular.module('ThreeSixtyOneView')
             $scope.pivotTableData = ptData.data;
             // this is how pivotbuilder and pivottable communicate
             $scope.spread = {sheet: {}};
-            
-            // ScenarioElementService.copyAndReplaceAnalysisElementForCube(172, 2, 63, {"name":"Behrooz", "description": "Behrooz"}).then(function(response){});
+        }, initiateModel = function(cubeMeta) {
+            PivotMetaService.initModel(cubeMeta).then(function(result) {
+                var foundView = _.find(result.viewsList, function(view){ return view.id === result.view.id; });
+                if (foundView) {
+                    $scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
+                }
+                $scope.viewsList = result.viewsList;
+                $scope.views.currentView = result.view;
+                $scope.viewData = result.view;
+                $scope.viewDataExport = result.view.rows.concat(result.view.columns);
+                $scope.viewName = result.view.name;
+                $scope.added = PivotMetaService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
+                $scope.dimensions = result.dimensions;
+                
+                $scope.membersList = PivotMetaService.generateMembersList(result.dimensions);
+                $scope.addedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
+                $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
+            });
         };
 
         $scope.getScenarioElements = function() {

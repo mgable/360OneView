@@ -5,80 +5,9 @@
 	font-size: 14px;
 	color: $black;
 
-	.pbTitle {
-		border: 1px solid transparent;
-		font-size: 17px;
-		height: 30px;
-		padding: 3px 5px;
-		transition: width 0.3s linear;
-		transition: color 0.3s linear;
-		width: 240px;
-
-		&:hover {
-			color: $blue;
-			/*border: 1px solid $blue;*/
-
-			.pbRenameArea {
-				.fa-eye {
-					color: $blue;
-				}
-			}
-		}
-
-		&.pbTitleSel {
-			
-			border-bottom: 0;
-			border-right: 0;
-			border-top: 0;
-			width: 240px;
-			transition: width 0.3s linear;
-		}
-
-		.pbRenameArea {
-			width: 235px;
-
-			.fa-eye {
-				vertical-align: top;
-				margin-top: 5px;
-			}
-
-			.pbTitleText {
-				display: inline-block;
-				border: 1px solid rgba(255,255,255,0);
-				width: 200px;
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-			}
-
-			.pbSaveAsBox {
-				display: inline-block;
-				width: 210px;
-				border: 1px solid $blue;
-				background-color: white;
-
-				input {
-					width: 155px;
-					height: 24px;
-					border: 0;
-					outline: 0;
-				}
-
-				.fa-check {
-					color: $blue;
-				}
-			}
-		}
-	}
-
-	a {
-		padding: 0;
-	}
-
 	.pbSlider {
 		background-color: $lightestgray;
 		border: 0;
-		overflow: hidden;
 		padding: 0 16px;
 
 		.pbControlBar {
@@ -716,3 +645,75 @@
 		box-shadow: none;
 	}
 }
+
+#pivotBuilderTab {
+	a {
+		padding: 0;
+	}
+	.pbTitle {
+		border: 1px solid transparent;
+		font-size: 17px;
+		height: 30px;
+		padding: 3px 5px;
+		transition: width 0.3s linear;
+		transition: color 0.3s linear;
+		width: 240px;
+
+		&:hover {
+			color: $blue;
+			/*border: 1px solid $blue;*/
+
+			.pbRenameArea {
+				.fa-eye {
+					color: $blue;
+				}
+			}
+		}
+
+		&.pbTitleSel {
+			
+			border-bottom: 0;
+			border-right: 0;
+			border-top: 0;
+			width: 240px;
+			transition: width 0.3s linear;
+		}
+
+		.pbRenameArea {
+			width: 235px;
+
+			.fa-eye {
+				vertical-align: top;
+				margin-top: 5px;
+			}
+
+			.pbTitleText {
+				display: inline-block;
+				border: 1px solid rgba(255,255,255,0);
+				width: 200px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			.pbSaveAsBox {
+				display: inline-block;
+				width: 210px;
+				border: 1px solid $blue;
+				background-color: white;
+
+				input {
+					width: 155px;
+					height: 24px;
+					border: 0;
+					outline: 0;
+				}
+
+				.fa-check {
+					color: $blue;
+				}
+			}
+		}
+	}
+}
+

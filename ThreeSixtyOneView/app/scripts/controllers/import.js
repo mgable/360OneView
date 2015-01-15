@@ -61,7 +61,7 @@ angular.module('ThreeSixtyOneView')
 	    return {
 	        link: function (scope, element, attributes) {
 	            element.bind("change", function (changeEvent) {
-	            	scope.$parent.changeFileName(changeEvent.target.files);
+	            	scope.changeFileName(changeEvent.target.files);
 	            });
 	        }
 	    }

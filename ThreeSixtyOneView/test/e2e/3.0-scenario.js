@@ -1,13 +1,29 @@
 "use strict";
 
-var scenarioUrl = '/#/scenario/:projectId/:scenarioId/edit'
+var scenarioUrl = '/#/scenario/:projectId/:scenarioId/edit';
 
 	//TEMP data - remove in production
-	var projectId = "a512b7fce6113c33a3efd81cfe876d48",
-		scenarioId = "82";
+	var projectId = "2cd7647b770f3daba1fe74afe58d2309",
+		scenarioId = "5";
 	scenarioUrl = scenarioUrl.replace(/:projectId/, projectId).replace(/:scenarioId/, scenarioId);
 
-xdescribe('Scenario Edit: ', function() {
+describe('Scenario page: ', function() {
+	beforeEach(
+		function(){
+			browser.get(scenarioUrl);
+			browser.driver.manage().window().setSize(1280, 1024);
+		}
+	);
+
+	describe('Scenario page tabs:', function() {
+		it('should switch between scenario page tabs', function() {
+			expect(hasClass(element(by.css('.pbTitle')), 'pbTitleSel')).toBe(false);
+		});
+	});
+
+
+
+
 	var hasClass = function (element, cls) {
 	    return element.getAttribute('class').then(function (classes) {
 	        return classes.split(' ').indexOf(cls) !== -1;
@@ -28,39 +44,39 @@ xdescribe('Scenario Edit: ', function() {
 	filterViewButton = element(by.css(filterView));
 
 
-	beforeEach(
-		function(){
-			browser.get(scenarioUrl);
-			browser.driver.manage().window().setSize(1280, 1024);
-		}
-	);
+	// beforeEach(
+	// 	function(){
+	// 		browser.get(scenarioUrl);
+	// 		browser.driver.manage().window().setSize(1280, 1024);
+	// 	}
+	// );
 
-	describe("basic drawer functions: ", function(){
-		it("should expand when the tab is clicked", function(){
-			expect(hasClass(drawerWidget, openedClass)).toBe(false);
-			openDrawerButton.click();
-			expect(hasClass(drawerWidget, openedClass)).toBe(true);
-			closeDrawerButton.click();
-			expect(hasClass(drawerWidget, openedClass)).toBe(false);
-		});
+	// xdescribe("basic drawer functions: ", function(){
+	// 	it("should expand when the tab is clicked", function(){
+	// 		expect(hasClass(drawerWidget, openedClass)).toBe(false);
+	// 		openDrawerButton.click();
+	// 		expect(hasClass(drawerWidget, openedClass)).toBe(true);
+	// 		closeDrawerButton.click();
+	// 		expect(hasClass(drawerWidget, openedClass)).toBe(false);
+	// 	});
 
-		it("should toggle between rows-columns view  and filter view", function(){
-			openDrawerButton.click();
-			expect(hasClass(columnAndRowsViewButton, toggleViewsActiveClass)).toBe(true);
-			expect(hasClass(filterViewButton, toggleViewsActiveClass)).toBe(false);
-			filterViewButton.click();
-			expect(hasClass(columnAndRowsViewButton, toggleViewsActiveClass)).toBe(false);
-			expect(hasClass(filterViewButton, toggleViewsActiveClass)).toBe(true);
-			columnAndRowsViewButton.click();
-			expect(hasClass(columnAndRowsViewButton, toggleViewsActiveClass)).toBe(true);
-			expect(hasClass(filterViewButton, toggleViewsActiveClass)).toBe(false);
-		});
-	});
+	// 	it("should toggle between rows-columns view  and filter view", function(){
+	// 		openDrawerButton.click();
+	// 		expect(hasClass(columnAndRowsViewButton, toggleViewsActiveClass)).toBe(true);
+	// 		expect(hasClass(filterViewButton, toggleViewsActiveClass)).toBe(false);
+	// 		filterViewButton.click();
+	// 		expect(hasClass(columnAndRowsViewButton, toggleViewsActiveClass)).toBe(false);
+	// 		expect(hasClass(filterViewButton, toggleViewsActiveClass)).toBe(true);
+	// 		columnAndRowsViewButton.click();
+	// 		expect(hasClass(columnAndRowsViewButton, toggleViewsActiveClass)).toBe(true);
+	// 		expect(hasClass(filterViewButton, toggleViewsActiveClass)).toBe(false);
+	// 	});
+	// });
 
-	describe("columns and rows", function(){
-		it("should have the correct row count", function(){
-			var columns = element.all(by.repeater(data));
-			expect(columns.count()).toBe(2);
-		});
-	});
+	// xdescribe("columns and rows", function(){
+	// 	it("should have the correct row count", function(){
+	// 		var columns = element.all(by.repeater(data));
+	// 		expect(columns.count()).toBe(2);
+	// 	});
+	// });
 });
