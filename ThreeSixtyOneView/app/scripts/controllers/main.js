@@ -330,7 +330,7 @@ angular.module('ThreeSixtyOneView')
         });
 
         $scope.openScenarioElementFileModal = function(scenarioId, selectedScenarioElement) {
-            var dialog = DialogService.openFilterSelection('views/modal/scenario_analysis_element_files.tpl.html', 'ScenarioAnalysisElementFilesCtrl',
+            var dialog = DialogService.openLightbox('views/modal/scenario_analysis_element_files.tpl.html', 'ScenarioAnalysisElementFilesCtrl',
                 {selectedScenarioElement: selectedScenarioElement},
                 {windowSize: 'lg', windowClass: 'scenarioAnalysisElementFiles'});
 
@@ -346,7 +346,7 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.openScenarioElementCopyModal = function(scenarioId, selectedScenarioElement) {
-            var dialog = DialogService.openFilterSelection('views/modal/scenario_analysis_element_copy.tpl.html', 'ScenarioAnalysisElementCopyCtrl',
+            var dialog = DialogService.openLightbox('views/modal/scenario_analysis_element_copy.tpl.html', 'ScenarioAnalysisElementCopyCtrl',
                 {selectedScenarioElement: selectedScenarioElement},
                 {windowSize: 'lg', windowClass: 'scenarioAnalysisElementCopy'});
 

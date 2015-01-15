@@ -138,9 +138,9 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 
 	// open/dismiss filters selection modal
 	$scope.filtersModal = function(category) {
-		var dialog = DialogService.openFilterSelection('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
+		var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
 			{cat: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData.rows.concat($scope.viewData.columns), dimensions: $scope.dimensions},
-			{windowSize: 'lg', windowClass: 'filtersSelectionModal'});
+			{windowSize: 'lg', windowClass: 'filtersSelectionModal fullscreen'});
 
 		dialog.result.then(function(data) {
 			$scope.addedFilters = data;
