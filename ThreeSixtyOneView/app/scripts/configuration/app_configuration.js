@@ -26,7 +26,7 @@ angular.module('ThreeSixtyOneView.config')
                     // want: get
                     "responseTranslator": {"referenceScenario": "referenceScenario", "title": "name", "id": "id", "description": "description", "type":"prediction.type", "createdBy":"auditInfo.createdBy.name", "createdOn": "auditInfo.createdOn", "modifiedBy":"auditInfo.lastUpdatedBy.name", "modifiedOn":"auditInfo.lastUpdatedOn"},
                     "requestTranslator": {"id": "id", "name":"title", "referenceScenario": "referenceScenario", "description": "description", "prediction.type": "type"},
-                    "newScenario": {"title" : "", "description": "","referenceScenario": {"id": ":id", "name": "PRE LOADED SIMULATION NEW"}, "type": "Simulation"}
+                    "newScenario": {"title" : "", "description": "","referenceScenario": {"id": "", "name": ""}, "type": "Simulation"}
                 },
                 "CubeModel" : {
                     "responseTranslator": "",

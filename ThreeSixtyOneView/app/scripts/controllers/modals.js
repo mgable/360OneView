@@ -48,12 +48,11 @@ angular.module('ThreeSixtyOneView')
 
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
-        var findBaseScenarioId = function(scenario){
-                var baseScenario = _.find(scenario.data, function(obj){return /PRE LOADED SIMULATION/.test(obj.title);} );
-                return baseScenario.id;
+        var findBaseScenario = function(scenario){
+                return _.find(scenario.data, function(obj){return /PRELOADED SIMULATION/.test(obj.title);});
             },
             getMasterProject = function(projects){
-                return (_.findWhere(projects, {"title": "MASTER PROJECT"}));
+                return _.findWhere(projects, {"title": "MASTER PROJECT"});
             },
             sortScenarios = function(scenarios){
                 var scenarioList = scenarios;
@@ -73,10 +72,13 @@ angular.module('ThreeSixtyOneView')
                 $scope.scenario = angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
 
                 ScenarioService.getAll().then(function(response){
+                    var baseScenario;
                     $scope.masterProject = getMasterProject(response);
+                    baseScenario = findBaseScenario($scope.masterProject);
                     $scope.scenarioList = sortScenarios(response);
                     $scope.masterProjectReferenceScenario = $scope.masterProject.data[0];
-                    $scope.scenario.referenceScenario.id  = findBaseScenarioId($scope.masterProject);
+                    $scope.scenario.referenceScenario.id  = baseScenario.id;
+                    $scope.scenario.referenceScenario.name  = baseScenario.title;
                     selectedBaseScenario = $scope.masterProjectReferenceScenario ;
                 });
             },selectedBaseScenario;
@@ -419,6 +421,39 @@ function($scope, $controller, $modalInstance, CONFIG, data) {
     // pass back the selected file and dismiss the modal
     $scope.copyFile = function() {
         $modalInstance.close($scope.newElement);
+    };
+
+    init();
+}]).controller('pivotBuilderAllViewsCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "data",
+function($scope, $controller, $modalInstance, CONFIG, data) {
+    angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+
+    var init = function() {
+        $scope.viewsList = data.viewsList;
+
+        $scope.elementTypeItems = ['All', 'By Me', 'Favorite'];
+        $scope.currentElementType = 0;
+
+        $scope.selectedView = {
+            id: data.selectedViewId
+        };
+    };
+
+    // change element type
+    $scope.changeElementType = function(type) {
+        $scope.currentElementType = type;
+    };
+
+    // cancel the changes and dismiss the modal
+    $scope.cancelChangeView = function() {
+        $scope.viewsList = [];
+        $modalInstance.dismiss('canceled');
+    };
+
+    // pass back the selected file and dismiss the modal
+    $scope.changeView = function() {
+        var newViewId = $scope.selectedView.id;
+        $modalInstance.close(newViewId);
     };
 
     init();

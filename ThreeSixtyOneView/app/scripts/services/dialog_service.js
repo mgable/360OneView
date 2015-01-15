@@ -18,11 +18,11 @@ angular.module('ThreeSixtyOneView.services')
             dialogs.create('views/modal/scenario_create.tpl.html','ScenarioCreateCtrl',{
                 project: _project_,
                 scenarios: _scenarios_
-            },{size:'md'});
+            },{size:'md', windowClass: 'lightbox'});
         };
 
-        this.openFilterSelection = function(templateAddress, controllerName, sharedObjects, options) {
-            return dialogs.create(templateAddress, controllerName, sharedObjects, {size: options.windowSize, windowClass: options.windowClass});
+        this.openLightbox = function(templateAddress, controllerName, sharedObjects, options) {
+            return dialogs.create(templateAddress, controllerName, sharedObjects, {size: options.windowSize, windowClass: options.windowClass + ' lightbox'});
         };
 
         this.noop = function(header, msg){

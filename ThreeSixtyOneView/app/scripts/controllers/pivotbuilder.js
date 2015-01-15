@@ -13,25 +13,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 
 	var init = function() {
 		$scope.tabClosed = true;
-		$scope.draftView = false;
-
-		$scope.viewName = $scope.views.currentView.name;
 
 		$scope.saveAs = false;
 		$scope.rename = false;
 		$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
-		$scope.added = {};
-		$scope.addedFilters = {};
-		$scope.categorizedValue = [];
-
-		$scope.$on(EVENTS.selectScenarioElement, function(evt, element) {
-			$scope.cubeId = element.cubeMeta.id;
-			initiateModel(element.cubeMeta);
-		});
-
-		// load cube dimensions initially and after scenario element change
-		initiateModel($scope.selectedScenarioElement.cubeMeta);
-		
 
 		$scope.dragOptions = {
 			itemMoved: function() {
@@ -52,25 +37,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			},
 			containment: '#dragDropArea'
 		};
-
-		// $scope.identity = angular.identity();
-	},	initiateModel = function(cubeMeta) {
-		PivotMetaService.initModel(cubeMeta).then(function(result) {
-			var foundView = _.find(result.viewsList, function(view){ return view.id === result.view.id; });
-			if (foundView) {
-				$scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
-			}
-			$scope.viewsList = result.viewsList;
-			$scope.views.currentView = result.view;
-			$scope.viewData = result.view;
-			$scope.viewName = result.view.name;
-			$scope.added = PivotMetaService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
-			$scope.dimensions = result.dimensions;
-			
-			$scope.membersList = PivotMetaService.generateMembersList(result.dimensions);
-			$scope.addedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
-			$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
-		});
 	},	deleteView = function(cubeId, viewId) { // delete a view
 		PivotViewService.deleteView(viewId, cubeId).then(function() {
 			$scope.viewsList = _.reject($scope.viewsList, function(view) { return view.id === viewId; });
@@ -94,7 +60,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 		}
 
 		PivotViewService.createView(view, cubeId).then(function(view) {
-			$scope.viewData = view;
+			$scope.viewData = angular.copy(view);
 			$scope.viewName = view.name;
 			$scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
 			$scope.viewsList.unshift(view);
@@ -172,7 +138,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 
 	// open/dismiss filters selection modal
 	$scope.filtersModal = function(category) {
-		var dialog = DialogService.openFilterSelection('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
+		var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
 			{cat: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData.rows.concat($scope.viewData.columns), dimensions: $scope.dimensions},
 			{windowSize: 'lg', windowClass: 'filtersSelectionModal'});
 
@@ -182,6 +148,16 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			updateFilters();
 			$scope.saveDraftView();
 			$scope.applyView();
+		});
+	};
+
+	$scope.openAllViewsModal = function() {
+		var dialog = DialogService.openLightbox('views/modal/pivot_builder_all_views.tpl.html', 'pivotBuilderAllViewsCtrl',
+			{viewsList: $scope.viewsList, selectedViewId: $scope.viewData.id},
+			{windowSize: 'lg', windowClass: 'pivotBuilderAllViewsModal'});
+
+		dialog.result.then(function(data) {
+			$scope.loadView($scope.cubeId, data);
 		});
 	};
 
@@ -425,7 +401,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 				});
 
 				if(viewId !== draftId) {
-					console.log(draftId);
 					deleteView($scope.cubeId, draftId);
 					$scope.draftView = false;
 				}

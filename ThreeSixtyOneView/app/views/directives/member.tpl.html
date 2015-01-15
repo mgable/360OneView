@@ -5,13 +5,13 @@
 	<label class="clickable" ng-class="{allSelected: isAllSelected(member)}" ng-click="toggleMember(member)">
 		<span ng-switch="determineStyle(member)">
 			<span ng-switch-when="ALL_SELECTED"> <!-- all selected -->
-				<icon type="check-circle"></icon>
+				<icon type="check-square"></icon>
 			</span>
 			<span ng-switch-when="NOT_SELECTED"> <!-- not selected -->
-				<icon type="circle-o"></icon>
+				<icon type="square-o"></icon>
 			</span>
 			<span ng-switch-default> <!-- indeterminent -->
-				<icon type="minus-circle"></icon>
+				<icon type="minus-square"></icon>
 			</span> 
 		</span>
 		<span>{{member.label}}</span> 

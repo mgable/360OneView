@@ -4,7 +4,7 @@
 			<span ng-switch="selectedItem.isMaster">
 				<h4 ng-switch-when="true" class="title clear"><icon type="marketshare"></icon>&nbsp;{{selectedItem.title}}</h4>
 				<span ng-switch-default>
-					<inline-edit template="inline_rename" test="e2e" submitAction="CONFIG.renameAction" item="selectedItem"></inline-edit>
+					<inline-edit template="inline_rename" test="e2e" submitAction="CONFIG.renameAction" item="selectedItem" inputrestriction="isScenarioTitleUnique"></inline-edit>
 				</span>
 			</span>
 		</div>
@@ -41,12 +41,9 @@
 		<div class="scenarioWrapper">
 			<h5 class="media-heading bold">Contains</h5>
 			<span class='field-label bold'>Total&nbsp;<span>{{selectedItem.scenarios.length}}</span>&nbsp;scenarios</span>
-			<span class="create"><icon type="plus-circle"></icon>Create</span>
 			<div class="entity-holder" >
 				<div class="scenario" ng-show="{{$index < 3}} || showScenario" ng-repeat="scenario in selectedItem.scenarios">
-					<a ng-click="goto($event, 'gotoScenarioEdit', scenario)">
-						<icon type="cubes"></icon> {{scenario.title}}
-					</a>
+					<a ng-click="goto($event, 'gotoScenarioEdit', scenario)">{{scenario.title}}</a>
 				</div>
 
 			</div>
