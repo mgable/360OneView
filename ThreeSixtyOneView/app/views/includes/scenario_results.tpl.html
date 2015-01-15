@@ -8,7 +8,7 @@
             </span>
           <ul class="dropdown-menu" ms-link-group selected-item="{{selectedView.id}}" radio="true">
             <li ng-repeat="view in getComparedViews()" ms-link="{{view.id}}" >
-                <a href="" ng-click="setView(view)">{{view.title}}</a>
+                <a href="" ng-click="setComparedView(view)">{{view.title}}</a>
             </li>
           </ul>
         </div>
@@ -27,9 +27,9 @@
                     </div>
                 </div>
             </div>
-            <div class="srTimestamp">
+            <!-- <div class="srTimestamp">
                 <span>Calculated 3:57pm</span>
-            </div>
+            </div> -->
             <div class="srToolbar" ng-class="{srTitleSel: !srShow}"></div>
         </div>
 
@@ -64,29 +64,22 @@
                     </div>
                     <div class="srRecentViewsMenu" ng-show="viewRecentViews">
                         <div class="srRecentViewsMenuVisible">
-                            <div class="clickable" ng-repeat="viewsListItem in getViews() | orderBy:'id'">
+                            <div class="clickable" ng-repeat="viewsListItem in viewsList | orderBy:'id'">
                                 <icon type="eye"></icon> {{viewsListItem.name}}
                             </div>
+                            <hr>
+                            <div><icon type="folder-open-o"></icon> All Views</div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- <div class="srSec" ng-repeat="filter in getFilters()">
-                <div class="srSecTitle">{{filter.name}}</div>
-                <div class="srFilterValues">
-                    <div class="srFilterBox clickable" ng-repeat="filterItem in filter.items">
-                        <div class="srFilterCat">{{filterItem.name}}</div>
-                        <div class="srFilterVal">{{filterItem.value}}</div>
-                    </div>
-                </div>
-            </div> -->
             <div class="srSec">
                 <div class="srSecTitle">Spend Filters</div>
                 <div class="srFilterValues">
                     <div ng-repeat="cat in dimensions" class="srFilterBox clickable" ng-click="filtersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="addedFilters[cat.label]">
-                        <div class="srFilterCat">{{cat.label}} <span class="srFilterSize">({{cat.catVal.selected}}/{{cat.catVal.total}})</span></div>
-                        <div class="srFilterVal" ng-show="cat.catVal.selected < cat.catVal.total" data-toggle="tooltip" data-placement="bottom" title="{{viewData.filters[$index].items.join(', ')}}">{{cat.catVal.label.join(', ')}}</div>
-                        <div class="srFilterVal" ng-show="cat.catVal.selected == cat.catVal.total">All</div>
+                        <div class="srFilterCat">{{cat.label}} <span class="srFilterSize">({{categorizedValue[$index].selected}}/{{categorizedValue[$index].total}})</span></div>
+                        <div class="srFilterVal" ng-show="categorizedValue[$index].selected < categorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{categorizedValue[$index].label.join(', ')}}">{{categorizedValue[$index].label.join(', ')}}</div>
+                        <div class="srFilterVal" ng-hide="categorizedValue[$index].selected < categorizedValue[$index].total" title="{{categorizedValue[$index].label.join(', ')}}">All</div>
                     </div>
                 </div>
             </div>
@@ -94,12 +87,11 @@
                 <div class="srSecTitle">KPI Filters</div>
                 <div class="srFilterValues">
                     <div ng-repeat="cat in dimensions" class="srFilterBox clickable" ng-click="filtersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="addedFilters[cat.label]">
-                        <div class="srFilterCat">{{cat.label}} <span class="srFilterSize">({{cat.catVal.selected}}/{{cat.catVal.total}})</span></div>
-                        <div class="srFilterVal" ng-show="cat.catVal.selected < cat.catVal.total" data-toggle="tooltip" data-placement="bottom" title="{{viewData.filters[$index].items.join(', ')}}">{{cat.catVal.label.join(', ')}}</div>
-                        <div class="srFilterVal" ng-show="cat.catVal.selected == cat.catVal.total">All</div>
-                    </div>
+                        <div class="srFilterCat">{{cat.label}} <span class="srFilterSize">({{categorizedValue[$index].selected}}/{{categorizedValue[$index].total}})</span></div>
+                        <div class="srFilterVal" ng-show="categorizedValue[$index].selected < categorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{categorizedValue[$index].label.join(', ')}}">{{categorizedValue[$index].label.join(', ')}}</div>
+                        <div class="srFilterVal" ng-hide="categorizedValue[$index].selected < categorizedValue[$index].total" title="{{categorizedValue[$index].label.join(', ')}}">All</div>
                 </div>
-            </div>
+                </div>
             <div class="srSec">
                 <div class="srSwitchTitle">Sync KPI with Spend</div>
                 <span class="ms-switch btn-group"  ms-link-group selected-item="on" radio="true">

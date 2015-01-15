@@ -8,13 +8,13 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
-    ['$scope', 'resultsData', 'Scenarios', 'DialogService', 'PivotViewService', 'CubeService', 'PivotMetaService', '$q',
-    function ($scope, resultsData, Scenarios, DialogService, PivotViewService, CubeService, PivotMetaService, $q) {
+    ['$scope', 'resultsData', 'Scenarios', 'PivotViewService', 'CubeService', '$interval', 'DialogService', 'PivotMetaService', '$q',
+    function ($scope, resultsData, Scenarios, PivotViewService, CubeService, $interval, DialogService, PivotMetaService, $q) {
 
     // private variables
     var cnt = 0;
 
-    // private functions
+    // get the data for spend summary chart
     var getChartData = function() {
         _.each($scope.getSpendDataBody(), function(v) {
             var chartSubData = {};
@@ -32,126 +32,54 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             });
             $scope.chartData.push(chartSubData);
         });
-    }
-    var loadDimension = function() {
-        $scope.loadDimensions($scope.cubeId).then(function() {
-            $scope.addedFilters = PivotMetaService.getAddedFilters($scope.filters, $scope.dimensions);
-            _.each($scope.dimensions, function(_dimension) {
-                _dimension.catVal = PivotMetaService.getCategorizeValues(_dimension, $scope.addedFilters[_dimension.label]);
-            });
-        });
-    }
-    var init = function() {
+    },
+    // init function
+    init = function() {
+        // scope variables
+        $scope.srShow    = false;
+        $scope.isTest    = null;
+
+        $scope.selectedView      = Scenarios[0];
+        $scope.spendDatumHeader  = resultsData.spendData.header;
+        $scope.chartData         = [];
+
         angular.element('.Scenario').css('height', 'auto');
-        loadDimension();
         getChartData();
     };
 
-
-    // scope variables
-    $scope.srShow            = false;
-    $scope.saveAs            = false;
-    $scope.draftView         = false;
-    $scope.isTest            = null;
-    $scope.viewName          = $scope.views.currentView.name;
-    $scope.spendDatumHeader  = resultsData.spendData.header;
-    $scope.chartData         = [];
-    $scope.selectedView      = Scenarios[0];
-    $scope.viewData          = $scope.views.currentView.rows.concat($scope.views.currentView.columns);
-    $scope.dimensions        = [];
-    $scope.filters           = $scope.views.currentView.filters;
-
-    // scope functions
+    // get KPI raw data
     $scope.getKpiData = function() {
         return resultsData.kpiData;
     };
+    // get spend raw data
     $scope.getSpendDataBody = function() {
         return resultsData.spendData.body;
     };
-    $scope.getFilters = function() {
-        return resultsData.viewData.filters;
-    };
+    // get compared views list
     $scope.getComparedViews = function() {
         return Scenarios;
     }
-    $scope.getViews = function() {
-        return $scope.views.views;
-    };
-    $scope.setView = function(view) {
+    // set compared view
+    $scope.setComparedView = function(view) {
         $scope.selectedView = view;
     };
+    // add sign to KPI summary
     $scope.addSign = function(direction) {
         return direction === 'increase' ? '+' : '-';
     };
+    // add arrow to KPI summary
     $scope.addArrow = function(direction) {
         return direction === 'increase' ? 'arrow-up' : 'arrow-down';
     };
-    $scope.saveView = function() {
-        if($scope.draftView) {
-            $scope.viewName = resultsData.viewData.name;
-        }
-        $scope.draftView = false;
-    };
-    $scope.startSaveAs = function() {
-        $scope.saveAsName = $scope.viewName;
-        $scope.saveAs = true;
-    };
-    $scope.renameAction = function (event) {
-        if(event.keyCode === 13) {
-            $scope.finishSaveAs(true);
-        } else if(event.keyCode === 27) {
-            $scope.finishSaveAs(false);
-        }
-    };
-    $scope.finishSaveAs = function(save) {
-        if(save) {
-            $scope.viewName = $scope.saveAsName;
-            $scope.draftView = false;
-        }
-        $scope.saveAs = false;
-    };
-    $scope.loadDimensions = function(cubeId) {
-        return CubeService.getMeta(cubeId).then(function(dimensions) {
-            // get all members of all dimensions and build the dimensions tree
-            var i, j, k, count = 0, timeIndex, promises = [];
-
-            _.each(dimensions, function(_dimension, _index) {
-                _.each(_dimension.members, function(_member) {
-                    if(!_member.leafLevel) {
-                        promises.push(CubeService.getViewByMembers(cubeId, _dimension.id, _member.levelId));
-                        if(_dimension.type === 'TimeDimension') {
-                            timeIndex = _index;
-                        }
-                    }
-                });
-            });
-
-            return $q.all(promises).then(function(response) {
-                var timeAdded = false, lastMembers;
-
-                _.each(dimensions, function(_dimension) {
-                    _.each(_dimension.members, function(_member) {
-                        if(!_member.leafLevel) {
-                            _member.members = response[count++].members;
-                        } else {
-                            _.each(lastMembers, function(_lastMember) {
-                                _member.members = _member.members.concat(_lastMember.members);
-                            });
-                        }
-                        lastMembers = _member.members;
-                    });
-                });
-
-                $scope.dimensions = dimensions;
-                //$scope.generateMembersList(dimensions);
-            });
-        });
-    };
+    // open/dismiss filters selection modal
     $scope.filtersModal = function(category) {
-        var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl', {cat: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData, dimensions: $scope.dimensions}, {windowSize: 'lg', windowClass: 'filtersSelectionModal'});
+        var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
+            {cat: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData, dimensions: $scope.dimensions},
+            {windowSize: 'lg', windowClass: 'filtersSelectionModal'});
 
         dialog.result.then(function(data) {
             $scope.addedFilters = data;
+            $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.viewDataExport);
         });
     };
 
@@ -294,35 +222,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                                 compared: 43
                             }
                         }]
-                }
-            ]
-        },
-        "viewsList": [
-            {name: 'Joe\'s View',id: '1'},
-            {name: 'Fiesta 2015',id: '2'},
-            {name: 'Region by nameplate 2013',id: '3'},
-            {name: 'Behrooz\'s View',id: '4'}
-        ],
-        "viewData": {
-            id: '4',
-            name: 'Behrooz\'s View',
-            filters: [
-                {
-                    name: 'Spend Filters',
-                    items: [
-                        { name: 'Product', value: 'Fiesta' },
-                        { name: 'Touchpoint', value: 'All' },
-                        { name: 'Geography', value: 'All' },
-                        { name: 'Time', value: '2015' },
-                    ]
-                }, {
-                    name: 'KPI Filters',
-                    items: [
-                        { name: 'Product', value: 'Fiesta' },
-                        { name: 'Geography', value: 'All' },
-                        { name: 'Sales Channel', value: 'Online' },
-                        { name: 'Time', value: 'All' },
-                    ]
                 }
             ]
         }
