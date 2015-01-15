@@ -249,8 +249,8 @@ angular.module('ThreeSixtyOneView')
             DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
         });
 
-    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioAnalysisElements", "ptData", "$state", "EVENTS", "ScenarioElementService", "DialogService", "PivotMetaService",
-    function($scope, Project, Scenario, ScenarioAnalysisElements, ptData, $state, EVENTS, ScenarioElementService, DialogService, PivotMetaService) {
+    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioAnalysisElements", "ptData", "$state", "EVENTS", "ScenarioElementService", "DialogService", "PivotMetaService", "ScenarioCalculateService",
+    function($scope, Project, Scenario, ScenarioAnalysisElements, ptData, $state, EVENTS, ScenarioElementService, DialogService, PivotMetaService, ScenarioCalculateService) {
 
         $scope.$on(EVENTS.filter, function(){
             $scope.showDetails(SortAndFilterService.getData()[0]);
@@ -280,6 +280,8 @@ angular.module('ThreeSixtyOneView')
             $scope.scenarioElements =  ScenarioAnalysisElements;
             $scope.setScenarioElement($scope.scenarioElements[0]);
             $scope.location = $state.current.url;
+            $scope.toggleCalculation(false);
+            $scope.toggleSuccess(false);
             // hardcoded data
             $scope.pivotTableData = ptData.data;
             // this is how pivotbuilder and pivottable communicate
@@ -297,7 +299,7 @@ angular.module('ThreeSixtyOneView')
                 $scope.viewName = result.view.name;
                 $scope.added = PivotMetaService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
                 $scope.dimensions = result.dimensions;
-                
+
                 $scope.membersList = PivotMetaService.generateMembersList(result.dimensions);
                 $scope.addedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
                 $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
@@ -367,6 +369,20 @@ angular.module('ThreeSixtyOneView')
 
         $scope.expandTab = function() {
             this.tabClosed = false;
+        }
+
+        $scope.toggleCalculation = function(value) {
+            $scope.scenarioIsCalculated = value;
+        }
+
+        $scope.toggleSuccess = function(value) {
+            $scope.calculationIsSuccess = value;
+        }
+
+        $scope.calculateScenario = function() {
+            $scope.toggleCalculation(true);
+            $scope.location = "/results";
+            // ScenarioCalculateService.post($scope.scenario.id);
         }
 
         init();

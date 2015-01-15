@@ -1,0 +1,70 @@
+@import "variables";
+
+.scenario-calculation {
+    margin: 55px auto;
+    width: 330px;
+    height: 590px;
+    text-align: center;
+    .scenario-calculation-title {
+        font-size: 26px;
+        i {
+            font-size: 20px;
+            color: #f45724;
+        }
+    }
+    .scenario-calculation-description {
+        text-align: left;
+        text-justify: inter-word;
+    }
+    .progress {
+        height: 30px;
+        i {
+            line-height: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            font-style: normal;
+        }
+    }
+    ul.scenario-calculation-list {
+        text-align: left;
+        li {
+            margin: 10px 0 10px 90px;
+            color: #808080;
+            &.completed {
+                color: #333;
+                span.numberCircle {
+                    background-color: #5cb85c;
+                }
+                span.error {
+                    color: #f45724;
+                }
+                i.checkmark {
+                    color: #5cb85c;
+                }
+            }
+            span.numberCircle {
+                display: inline-block;
+                margin-right: 10px;
+                border-radius: 50%;
+                width: 22px;
+                height: 22px;
+                padding: 4px;
+                background: #bfbfbf;
+                color: #fff;
+                text-align: center;
+                font-size: 14px;
+                line-height: 14px;
+            }
+        }
+    }
+    .sm-padding { padding: 5px; }
+    .btn-calculate {
+        font-size: 14px;
+        text-transform: uppercase;
+        background-color: #d9d9d9;
+        &:hover, &:active {
+            background-color: #cdcdcd;
+            color: #333;
+        }
+    }
+}
