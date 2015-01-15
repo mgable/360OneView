@@ -21,10 +21,6 @@ angular.module('ThreeSixtyOneView')
 			$scope.$apply(); 
 		}
 
-		$scope.collapseTab = function() {
-
-		}
-
 		$scope.initStatus = function() {
 			$interval.cancel($scope.stopTime);
 			$scope.importObj = {uploadProgress:0, fileSelected:false, invalidFile: false, importClicked: false, uploadFinished: false};
@@ -65,7 +61,7 @@ angular.module('ThreeSixtyOneView')
 	    return {
 	        link: function (scope, element, attributes) {
 	            element.bind("change", function (changeEvent) {
-	            	scope.$parent.changeFileName(changeEvent.target.files);
+	            	scope.changeFileName(changeEvent.target.files);
 	            });
 	        }
 	    }

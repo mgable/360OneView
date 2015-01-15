@@ -3,7 +3,7 @@
 var specs = require('./0.0-specs.js'),
 	funcs = require('./0.1-project_functions.js');
 
-describe('Project Listing Page: ', function() {
+xdescribe('Project Listing Page: ', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
@@ -11,7 +11,7 @@ describe('Project Listing Page: ', function() {
 		}
 	);
 
-	xdescribe("Sorter: ", function(){
+	describe("Sorter: ", function(){
 		it("should have at least one project", function(){
 			expect(specs.getItems().count()).toBeGreaterThan(0);
 		});
@@ -92,7 +92,7 @@ describe('Project Listing Page: ', function() {
 		});
 	});
 
-	xdescribe("Sort: ", function(){
+	describe("Sort: ", function(){
 		it("should switch between ordering by name, modified last and created on", function(){
 			var itemTitles,
 				itemModifiedOn,
@@ -192,7 +192,7 @@ describe('Project Listing Page: ', function() {
 		});
 	});
 
-	xdescribe("Favorite: ", function(){
+	describe("Favorites: ", function(){
 		var masterProject = specs.getMasterProjectItem(),
 			masterProjectFavorite = masterProject.element(by.css(specs.favoriteClassHolder));
 
@@ -232,6 +232,16 @@ describe('Project Listing Page: ', function() {
 		});
 
 		it("should update the tray when favorites are filtered", function(){
+			var firstFavoriteItem = specs.getFavorites().first(),
+				isFavorite;
+				
+			specs.hasClass(firstFavoriteItem, specs.favoriteClass).then(function(favorite){
+				isFavorite = favorite;
+				if (! isFavorite){
+					firstFavoriteItem.click();
+				};
+			});
+
 			specs.filterByButton.click();
 			specs.filterByfavoritesButton.click();
 
@@ -247,7 +257,7 @@ describe('Project Listing Page: ', function() {
 		});
 	});
 
-	xdescribe("Filters: ", function(){
+	describe("Filters: ", function(){
 		it ("should toggle the filter menu dropdown", function(){
 			expect(specs.hasClass(specs.filterDropdown, 'hide')).toBe(true);
 			specs.filterByButton.click();
@@ -256,8 +266,8 @@ describe('Project Listing Page: ', function() {
 
 		it("should filter by favorite", function(){
 			var startItemCount = specs.getItemCount();
-			specs.filterByButton.click();
-			specs.filterByfavoritesButton.click();
+
+			funcs.filterByFavorites();
 
 			specs.getItems().count().then(function(itemCount){
 				specs.getFavorites().count().then(function(favoriteCount){
@@ -265,42 +275,55 @@ describe('Project Listing Page: ', function() {
 				});
 			});
 
-			specs.filterByButton.click();
-			specs.filterByItemButton.click();
+			funcs.filterByItem();
+
 			startItemCount.getText().then(function(count){
 				specs.getItems().count().then(function(itemCount){
 					expect(count).toBe(itemCount.toString());
 				});
+			});	
+		});
+
+		it("should update the tray when favorites are filtered", function(){
+			var lastItem = specs.getFavorites().last();
+			specs.hasClass(lastItem, specs.favoriteClass).then(function(isFavorite){
+				if(!isFavorite){
+					lastItem.click();
+				}
+
+				funcs.filterByFavorites();
+
+				var firstTitle = specs.getFirstItemTitle(),
+					slectedItemTitle = specs.getSelectedItemTitle()
+
+				firstTitle.getText().then(function(title){
+					slectedItemTitle.getText().then(function(secondTitle){
+						expect(title).toEqual(secondTitle);
+					});
+				});
+
 			});
-			
+
 		});
 	});
 
-	xdescribe("Search: ", function(){
+	describe("Search: ", function(){
 		it("should search", function(){
-			funcs.searchMasterProject()
+			funcs.enterSearch(specs.masterProject)
 			expect(specs.getItems().count()).toBe(1);
 		});
 	});
 
-	xdescribe("Create project: ", function(){
+	describe("Create project: ", function(){
 		var firstItemTitle,
-			testFileName = "My New Test Project- " + Date.now(),
-			create = "button[data-ms-id='createButton']",
-			input = "div[data-ms-id='simpleModal'] input",
-			submit = "div[data-ms-id='simpleModal'] button.submit",
-			cancel = "div[data-ms-id='simpleModal'] button.cancel",
-			createButton = element(by.css(create)),
-			inputField = element(by.css(input)),
-			submitButton = element(by.css(submit)),
-			cancelButton = element(by.css(cancel));
+			testFileName = "My New Test Project- " + Date.now();
 
 		it("should create a project", function(){
-			createButton.click();
+			specs.createButton.click();
 			browser.waitForAngular();
 
-			inputField.sendKeys(testFileName);
-			submitButton.click();
+			specs.modalInputField.sendKeys(testFileName);
+			specs.modalSubmitButton.click();
 			browser.waitForAngular();
 			expect(browser.getLocationAbsUrl()).toContain("/#/dashboard/");
 
@@ -314,21 +337,21 @@ describe('Project Listing Page: ', function() {
 		});
 
 		it("should not allow a project to be created with no name", function(){
-			createButton.click();
+			specs.createButton.click();
 			browser.waitForAngular();
 
-			expect(submitButton.getAttribute('disabled')).toBeTruthy();
+			expect(specs.modalSubmitButton.getAttribute('disabled')).toBeTruthy();
 		});
 
 		it("should respect input limitations", function(){
-			createButton.click();
+			specs.createButton.click();
 			browser.waitForAngular();
 
-			funcs.testInputRestrictions(inputField, submitButton);
+			funcs.testInputRestrictions(specs.modalInputField, specs.modalSubmitButton);
 		});
 	});
 
-	xdescribe("rename functions:", function(){
+	describe("rename functions:", function(){
 		var first,
 			newName = "My Renamed Project - " + Date.now();
 
@@ -468,7 +491,7 @@ describe('Project Listing Page: ', function() {
 		});
 	});
 
-	xdescribe("Page actions: ", function(){
+	describe("Page actions: ", function(){
 		it("should prevent the master project from being edited", function(){
 			funcs.selectMasterProject();
 			expect(specs.renameButton.isPresent()).toBe(false);
@@ -494,7 +517,7 @@ describe('Project Listing Page: ', function() {
 		});
 	});
 
-	xdescribe("Page attributes: ", function(){
+	describe("Page attributes: ", function(){
 		it('should have a title', function() {
 			expect(browser.getTitle()).toEqual(specs.pageTitle);
 		});

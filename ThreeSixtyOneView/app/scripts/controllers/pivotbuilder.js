@@ -8,65 +8,15 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
-	['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'PivotViewService', 'DialogService', 'PivotIntermediatesService',
-	function ($scope, $rootScope, EVENTS, $timeout, $q, PivotViewService, DialogService, PivotIntermediatesService) {
+	['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'PivotViewService', 'DialogService', 'PivotMetaService',
+	function ($scope, $rootScope, EVENTS, $timeout, $q, PivotViewService, DialogService, PivotMetaService) {
 
 	var init = function() {
-		$scope.pbShow = false;
-		$scope.draftView = false;
-
-		// Rest APIs
-		// $scope.viewData = $scope.views.currentView;
-		$scope.viewName = $scope.views.currentView.name;
-		// $scope.viewsList = $scope.views.views;
-
-		// CubeService.getCubeAnalysisElements(2).then(function(response) {});
+		$scope.tabClosed = true;
 
 		$scope.saveAs = false;
 		$scope.rename = false;
 		$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
-		$scope.added = {};
-		$scope.addedFilters = {};
-		$scope.categorizedValue = [];
-
-		$scope.$on(EVENTS.selectScenarioElement, function(evt, element) {
-			$scope.cubeId = element.cubeMeta.id;
-			PivotIntermediatesService.initModel(element.cubeMeta, $scope.cubeId).then(function(result) {
-				var foundView = _.find(result.viewsList, function(view){ return view.id == result.view.id; });
-				if (foundView) {
-					$scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
-				}
-				$scope.viewsList = result.viewsList;
-				$scope.views.currentView = result.view;
-				$scope.viewData = result.view;
-				$scope.viewName = result.view.name;
-				$scope.added = PivotIntermediatesService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
-				$scope.dimensions = result.dimensions;
-				
-				$scope.membersList = PivotIntermediatesService.generateMembersList(result.dimensions);
-				$scope.addedFilters = PivotIntermediatesService.getAddedFilters(result.view.filters, result.dimensions);
-				$scope.categorizedValue = PivotIntermediatesService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
-			});;
-		});
-
-		// load cube dimensions initially and after scenario element change
-		PivotIntermediatesService.initModel($scope.selectedScenarioElement.cubeMeta, $scope.cubeId)
-			.then(function(result) {
-				var foundView = _.find(result.viewsList, function(view){ return view.id == result.view.id; });
-				if (foundView) {
-					$scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
-				}
-				$scope.viewsList = result.viewsList;
-				$scope.views.currentView = result.view;
-				$scope.viewData = result.view;
-				$scope.viewName = result.view.name;
-				$scope.added = PivotIntermediatesService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
-				$scope.dimensions = result.dimensions;
-				
-				$scope.membersList = PivotIntermediatesService.generateMembersList(result.dimensions);
-				$scope.addedFilters = PivotIntermediatesService.getAddedFilters(result.view.filters, result.dimensions);
-				$scope.categorizedValue = PivotIntermediatesService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
-			});
 
 		$scope.dragOptions = {
 			itemMoved: function() {
@@ -87,8 +37,64 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			},
 			containment: '#dragDropArea'
 		};
+	},	deleteView = function(cubeId, viewId) { // delete a view
+		PivotViewService.deleteView(viewId, cubeId).then(function() {
+			$scope.viewsList = _.reject($scope.viewsList, function(view) { return view.id === viewId; });
+		});
+	},	updateView = function(cubeId, view) { // save the view
+		_.each(view.filters, function(filter) {
+			filter.id = 0;
+		});
+		return PivotViewService.updateView(view, cubeId).then(function(response) {
+			return response;
+		});
+	},	renameView = function(cubeId, view) { // rename the view
+		PivotViewService.renameView(view.id, cubeId, view.name);
+	},	createView = function(cubeId, view, viewList) { // create a new view
+		var i;
+		$scope.viewsList = viewList;
+		// remove conflicting elements from the view
+		view.id = null;
+		for(i = 0; i < view.filters.length; i++) {
+			view.filters[i].id = null;
+		}
 
-		// $scope.identity = angular.identity();
+		PivotViewService.createView(view, cubeId).then(function(view) {
+			$scope.viewData = view;
+			$scope.viewName = view.name;
+			$scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
+			$scope.viewsList.unshift(view);
+			$scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
+		});
+	},	updateFilters = function() { // update view filters based on the user selections
+		var i, j, filters = [], newFilter, values = {}, dimensionId;
+
+		for(i = 0; i < $scope.dimensions.length; i++) {
+			dimensionId = $scope.dimensions[i].id;
+
+			newFilter = {};
+			newFilter.scope = $scope.addedFilters[$scope.dimensions[i].label].scope;
+			newFilter.id = $scope.viewData.filters[i].id;
+			newFilter.value = {};
+			newFilter.value.specification = {};
+
+			values = PivotMetaService.getCategorizeValues($scope.dimensions[i], $scope.addedFilters[$scope.dimensions[i].label]);
+			$scope.categorizedValue[i] = values;
+
+			if(values.selected === values.total) {
+				newFilter.value.specification.type = 'All';
+			} else {
+				newFilter.value.specification.type = 'Absolute';
+				newFilter.value.specification.members = [];
+				for(j = 0; j < values.label.length; j++) {
+					newFilter.value.specification.members.push({id: $scope.membersList[dimensionId][values.label[j]].id});
+				}
+			}
+
+			filters.push(newFilter);
+		}
+
+		$scope.viewData.filters = filters;
 	};
 
 	// delete an item from column/row
@@ -139,42 +145,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 		dialog.result.then(function(data) {
 			$scope.addedFilters = data;
 
-			$scope.updateFilters();
+			updateFilters();
 			$scope.saveDraftView();
 			$scope.applyView();
 		});
-	};
-
-	// update view filters based on the user selections
-	$scope.updateFilters = function() {
-		var i, j, filters = [], newFilter, values = {}, dimensionId;
-
-		for(i = 0; i < $scope.dimensions.length; i++) {
-			dimensionId = $scope.dimensions[i].id;
-
-			newFilter = {};
-			newFilter.scope = $scope.addedFilters[$scope.dimensions[i].label].scope;
-			newFilter.id = $scope.viewData.filters[i].id;
-			newFilter.value = {};
-			newFilter.value.specification = {};
-
-			values = PivotIntermediatesService.getCategorizeValues($scope.dimensions[i], $scope.addedFilters[$scope.dimensions[i].label]);
-			$scope.categorizedValue[i] = values;
-
-			if(values.selected === values.total) {
-				newFilter.value.specification.type = 'All';
-			} else {
-				newFilter.value.specification.type = 'Absolute';
-				newFilter.value.specification.members = [];
-				for(j = 0; j < values.label.length; j++) {
-					newFilter.value.specification.members.push({id: $scope.membersList[dimensionId][values.label[j]].id});
-				}
-			}
-
-			filters.push(newFilter);
-		}
-
-		$scope.viewData.filters = filters;
 	};
 
 	// reset the view to the last saved state
@@ -214,7 +188,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			updateView($scope.cubeId, $scope.viewData).then(function(view) {
 				$scope.viewData = view;
 				$scope.viewName = view.name;
-				$scope.added = PivotIntermediatesService.setUpAddedLevels(view.columns.concat(view.rows));
+				$scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
 			});
 			deleteView($scope.cubeId, draftViewId);
 			$scope.draftView = false;
@@ -417,7 +391,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 				});
 
 				if(viewId !== draftId) {
-					console.log(draftId);
 					deleteView($scope.cubeId, draftId);
 					$scope.draftView = false;
 				}
@@ -426,51 +399,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			$scope.views.currentView = view;
 			$scope.viewData = view;
 			$scope.viewName = view.name;
-			$scope.added = PivotIntermediatesService.setUpAddedLevels(view.columns.concat(view.rows));			
-			$scope.membersList = PivotIntermediatesService.generateMembersList($scope.dimensions);
-			$scope.addedFilters = PivotIntermediatesService.getAddedFilters(view.filters, $scope.dimensions);
-			$scope.categorizedValue = PivotIntermediatesService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, view);
-		});
-	};
-
-	// delete a view
-	var deleteView = function(cubeId, viewId) {
-		PivotViewService.deleteView(viewId, cubeId).then(function() {
-			$scope.viewsList = _.reject($scope.viewsList, function(view) { return view.id === viewId; });
-		});
-	};
-
-	// save the view
-	var updateView = function(cubeId, view) {
-		_.each(view.filters, function(filter) {
-			filter.id = 0;
-		});
-		return PivotViewService.updateView(view, cubeId).then(function(response) {
-			return response;
-		});
-	};
-
-	// rename the view
-	var renameView = function(cubeId, view) {
-		PivotViewService.renameView(view.id, cubeId, view.name);
-	};
-
-	// create a new view
-	var createView = function(cubeId, view, viewList) {
-		var i;
-		$scope.viewsList = viewList;
-		// remove conflicting elements from the view
-		view.id = null;
-		for(i = 0; i < view.filters.length; i++) {
-			view.filters[i].id = null;
-		}
-
-		PivotViewService.createView(view, cubeId).then(function(view) {
-			$scope.viewData = view;
-			$scope.viewName = view.name;
-			$scope.added = PivotIntermediatesService.setUpAddedLevels(view.columns.concat(view.rows));
-			$scope.viewsList.unshift(view);
-			$scope.addedFilters = PivotIntermediatesService.getAddedFilters(view.filters, $scope.dimensions);
+			$scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
+			$scope.membersList = PivotMetaService.generateMembersList($scope.dimensions);
+			$scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
+			$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, view);
 		});
 	};
 

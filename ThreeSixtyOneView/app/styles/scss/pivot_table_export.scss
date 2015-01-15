@@ -118,5 +118,10 @@
 		margin-right: 0;
 		border-radius: 0;
 	}
+
+	.nav-tabs>li.active>a {
+		background-color: $lightestgray;
+		border-bottom: 1px solid $lightestgray;
+	}
 }
 

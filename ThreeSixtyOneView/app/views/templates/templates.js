@@ -27,7 +27,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t</div>\n" +
     "\n" +
     "\t<div class=\"button-holder\">\n" +
-    "\t\t<button ng-disabled=\"selectedItem.isMaster\" class=\"btn btn-default\" ng-click=\"create(CONFIG.displayActionsCreate)\" data-ms-id='createButton'><icon type=\"plus\"></icon>CREATE</button>\n" +
+    "\t\t<button class=\"btn btn-default\" ng-click=\"create(CONFIG.displayActionsCreate)\" data-ms-id='createButton'><icon type=\"plus\"></icon>CREATE</button>\n" +
     "\t</div>\n" +
     "</div>\n"
   );
@@ -79,7 +79,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t</span>\n" +
     "\n" +
     "    <span class=\"edit\" ng-show=\"isActive\">\n" +
-    "    \t<input type=\"text\" class=\"title\" ng-model=\"item.title\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\" />&nbsp;\n" +
+    "    \t<input type=\"text\" class=\"title\" ng-model=\"item.title\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\"/>&nbsp;\n" +
     "    \t<button class=\"submit btn btn-default btn-sm\" ng-click=\"submit(item)\" ng-disabled=\"(form.$dirty && form.$invalid) || form.$pristine\"><icon type=\"check\"></icon></button>&nbsp;\n" +
     "    \t<button class=\"cancel btn btn-default btn-sm\" ng-click=\"cancel()\"><icon type=\"times\"></icon></button>\n" +
     "    </span>\n" +
@@ -284,7 +284,8 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t<div ng-repeat=\"file in fileList | filter:searchTerm | orderBy:'auditInfo.lastUpdatedOn':true\" class=\"element-file-item\" ng-class=\"{'current-file': file.id === currentFile.id}\" ng-click=\"currentFile.id = file.id\">\n" +
     "\t\t\t\t<div class=\"element-file-name\"><icon type=\"circle-o\"></icon><icon type=\"dot-circle-o\"></icon>{{file.name}}</div>\n" +
     "\t\t\t\t<div class=\"element-file-info\">\n" +
-    "\t\t\t\t\t<span class=\"element-file-date\">{{file.auditInfo.lastUpdatedOn}}</span>\n" +
+    "\t\t\t\t\t<span ng-if=\"e2e\" class=\"element-file-date\">{{file.auditInfo.lastUpdatedOn}}</span>\n" +
+    "\t\t\t\t\t<span ng-if=\"!e2e\" class=\"element-file-date\">{{file.auditInfo.lastUpdatedOn | timeago}}</span>\n" +
     "\t\t\t\t\t<span class=\"element-file-owner\">{{file.auditInfo.lastUpdatedBy.name}}</span>\n" +
     "\t\t\t\t</div>\n" +
     "\t\t\t\t<div class=\"element-file-description\">{{file.description}}</div>\n" +

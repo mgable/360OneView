@@ -7,12 +7,12 @@ data = {
 	selectMasterProject: function(){
 		var masterProject;
 		
-		this.searchMasterProject();
+		this.enterSearch(specs.masterProject);
 		masterProject = specs.getFirstItem();
 		masterProject.click();
 	},
-	searchMasterProject: function(){
-		specs.searchInputField.sendKeys(specs.masterProject);
+	enterSearch: function(searchTerm){
+		specs.searchInputField.sendKeys(searchTerm);
 	},
 	testInputRestrictions: function(input, submit){
 		_.each(specs.inputRestrictions, function(restrictedCharacter){
@@ -21,9 +21,37 @@ data = {
 			expect(submit.getAttribute('disabled')).toBeTruthy();
 		});
 	},
+	testMinAndMaxNameLength: function(input, submit){
+		input.clear();
+		input.sendKeys("x");
+		expect(submit.isEnabled()).toBe(false);
+
+		input.clear();
+		input.sendKeys(specs.minimumCharacters);
+		expect(submit.isEnabled()).toBe(true);
+
+		input.clear();
+		input.sendKeys(specs.maximumCharacters);
+		expect(submit.isEnabled()).toBe(true);
+
+		input.sendKeys("z");
+		expect(submit.isEnabled()).toBe(false);
+
+		input.clear();
+		input.sendKeys("this is just right");
+		expect(submit.isEnabled()).toBe(true);
+	},
 	hoverAndClick: function(button){
 		browser.actions().mouseMove(button).perform();
 		button.click();
+	},
+	filterByFavorites: function(){
+		specs.filterByButton.click();
+		specs.filterByfavoritesButton.click();
+	},
+	filterByItem: function(){
+		specs.filterByButton.click();
+		specs.filterByItemButton.click();
 	}
 };
 
