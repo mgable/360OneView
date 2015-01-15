@@ -49,7 +49,13 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			return response;
 		});
 	},	renameView = function(cubeId, view) { // rename the view
-		PivotViewService.renameView(view.id, cubeId, view.name);
+		PivotViewService.renameView(view.id, cubeId, view.name).then(function(response) {
+			_.each($scope.viewsList, function(item) {
+				if(item.id === response.id) {
+					item.name = response.name;
+				}
+			});
+		});
 	},	createView = function(cubeId, view, viewList) { // create a new view
 		var i;
 		$scope.viewsList = viewList;
