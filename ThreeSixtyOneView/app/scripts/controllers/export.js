@@ -46,7 +46,7 @@ angular.module('ThreeSixtyOneView')
 
 		// open/dismiss filters selection modal
 		$scope.filtersModal = function(category) {
-			var dialog = DialogService.openFilterSelection('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
+			var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
 				{cat: category, addedFilters: $scope.addedFilters, viewData: $scope.viewDataExport, dimensions: $scope.dimensions},
 				{windowSize: 'lg', windowClass: 'filtersSelectionModal'});
 

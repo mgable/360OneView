@@ -60,7 +60,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 		}
 
 		PivotViewService.createView(view, cubeId).then(function(view) {
-			$scope.viewData = view;
+			$scope.viewData = angular.copy(view);
 			$scope.viewName = view.name;
 			$scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
 			$scope.viewsList.unshift(view);
@@ -138,7 +138,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 
 	// open/dismiss filters selection modal
 	$scope.filtersModal = function(category) {
-		var dialog = DialogService.openFilterSelection('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
+		var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
 			{cat: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData.rows.concat($scope.viewData.columns), dimensions: $scope.dimensions},
 			{windowSize: 'lg', windowClass: 'filtersSelectionModal'});
 
@@ -148,6 +148,16 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			updateFilters();
 			$scope.saveDraftView();
 			$scope.applyView();
+		});
+	};
+
+	$scope.openAllViewsModal = function() {
+		var dialog = DialogService.openLightbox('views/modal/pivot_builder_all_views.tpl.html', 'pivotBuilderAllViewsCtrl',
+			{viewsList: $scope.viewsList, selectedViewId: $scope.viewData.id},
+			{windowSize: 'lg', windowClass: 'pivotBuilderAllViewsModal'});
+
+		dialog.result.then(function(data) {
+			$scope.loadView($scope.cubeId, data);
 		});
 	};
 

@@ -73,8 +73,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     };
     // open/dismiss filters selection modal
     $scope.filtersModal = function(category) {
-        var dialog = DialogService.openFilterSelection('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
-            {cat: category, addedFilters: $scope.addedFilters, viewData: $scope.viewDataExport, dimensions: $scope.dimensions},
+        var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
+            {cat: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData, dimensions: $scope.dimensions},
             {windowSize: 'lg', windowClass: 'filtersSelectionModal'});
 
         dialog.result.then(function(data) {

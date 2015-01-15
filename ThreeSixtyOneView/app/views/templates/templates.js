@@ -95,13 +95,13 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t<label class=\"clickable\" ng-class=\"{allSelected: isAllSelected(member)}\" ng-click=\"toggleMember(member)\">\n" +
     "\t\t<span ng-switch=\"determineStyle(member)\">\n" +
     "\t\t\t<span ng-switch-when=\"ALL_SELECTED\"> <!-- all selected -->\n" +
-    "\t\t\t\t<icon type=\"check-circle\"></icon>\n" +
+    "\t\t\t\t<icon type=\"check-square\"></icon>\n" +
     "\t\t\t</span>\n" +
     "\t\t\t<span ng-switch-when=\"NOT_SELECTED\"> <!-- not selected -->\n" +
-    "\t\t\t\t<icon type=\"circle-o\"></icon>\n" +
+    "\t\t\t\t<icon type=\"square-o\"></icon>\n" +
     "\t\t\t</span>\n" +
     "\t\t\t<span ng-switch-default> <!-- indeterminent -->\n" +
-    "\t\t\t\t<icon type=\"minus-circle\"></icon>\n" +
+    "\t\t\t\t<icon type=\"minus-square\"></icon>\n" +
     "\t\t\t</span> \n" +
     "\t\t</span>\n" +
     "\t\t<span>{{member.label}}</span> \n" +
@@ -367,7 +367,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t\t\t</table>\n" +
     "\t\t\t\t\t\t<div class=\"base-scenario\" >\n" +
     "\t\t\t\t\t\t\t<button class=\"confirmRadio\" ng-click=\"confirm()\" data-ms-id=\"ScenarioCreate.confirmBaseScenario\">Confirm Base Scenario</button>\n" +
-    "\t\t\t\t\t\t\t<button class=\"button\" ng-click=\"cancel()\" data-ms-id=\"ScenarioCreate.cancelBaseScenario\">Cancel</button>\n" +
+    "\t\t\t\t\t\t\t<button ng-click=\"cancel()\" data-ms-id=\"ScenarioCreate.cancelBaseScenario\">Cancel</button>\n" +
     "\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t</div>\n" +
     "\t\t\t\t<!-- End hidden group -->\n" +
@@ -381,7 +381,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/modal/simple_input.tpl.html',
     "<div data-ms-id=\"simpleModal\">\n" +
     "\t<div class=\"modal-header\" ui-keypress=\"{'esc': 'close($event)'}\">\n" +
-    "\t\t<h4 class=\"modal-title\"><icon type=\"{{modalProperties.icon}}\"></icon>&nbsp;{{modalProperties.title}}&nbsp;</h4>\n" +
+    "\t\t<h4 class=\"modal-title\">{{modalProperties.title}}&nbsp;</h4>\n" +
     "\t</div>\n" +
     "\t<div class=\"modal-body\">\n" +
     "\t\t<form name=\"nameDialog\" novalidate role=\"form\">\n" +

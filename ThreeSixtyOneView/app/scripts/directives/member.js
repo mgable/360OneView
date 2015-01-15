@@ -63,27 +63,27 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 			scope.determineStyle = function(member){
 				var result;
 				switch(checkedItems(member).checked / checkedItems(member).total){
-					case 1: result = "ALL_SELECTED"; break;
-					case 0: result = "NOT_SELECTED"; break;
-					default: result = "INDETERMINENT"; break;
+					case 1: result = 'ALL_SELECTED'; break;
+					case 0: result = 'NOT_SELECTED'; break;
+					default: result = 'INDETERMINENT'; break;
 				}
 				return result;
 			};
 
 			scope.outputSelectedOverTotal = function(member){
-				return checkedItems(member).checked.toString() + "/" + checkedItems(member).total.toString();
+				return checkedItems(member).checked.toString() + '/' + checkedItems(member).total.toString();
 			};
 
 			scope.hasMembers = function(){
 				return scope.member.members.length > 0;
 			};
 
-			scope.setToggleStyle = function(member){
+			scope.setToggleStyle = function(member) {
 				return (!!scope.expanded[member.label] || scope.expandall.label !== '') ? 'fa-rotate-90':'';
 			};
 
-			scope.isAllSelected = function(member){
-				return scope.determineStyle(member) === "ALL_SELECTED";
+			scope.isAllSelected = function(member) {
+				return scope.determineStyle(member) === 'ALL_SELECTED' || ('INDETERMINENT' && member.members.length > 0);
 			};
 
 			if(scope.member.members.length > 0) {
