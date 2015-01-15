@@ -7,17 +7,16 @@
 * # scenarioCalcCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$interval', 'ScenarioCalculateService', 'CONFIG', function ($scope, $interval, ScenarioCalculateService, CONFIG) {
+angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$interval', '$timeout', 'ScenarioCalculateService', 'ScenarioCalculate', 'CONFIG', function ($scope, $interval, $timeout, ScenarioCalculateService, ScenarioCalculate, CONFIG) {
 
     // private varibles and functions
-    var stepLen = 7,
+    var stepLen = ScenarioCalculate.runningStates.length,
         stepValue = 100 / stepLen,
-        scenarioId = 2,
+        scenarioId = 6,
 
         // init the progress
         init = function() {
             angular.element('.Scenario').css('height', 'auto');
-            $scope.progressCompleted = false;
             $scope.progressValue     = 0;
             $scope.step              = 0;
             $scope.success           = true;
@@ -56,15 +55,16 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
 
         checkStateData = function() {
             ScenarioCalculateService.get(scenarioId).then(function(data) {
-                console.log(data);
                 $scope.calcStatesData = prepareStatesData(data);
                 $scope.runningStates  = $scope.calcStatesData.runningStates;
                 $scope.currentState   = $scope.calcStatesData.currentState;
                 $scope.step           = getCurrentStepIndex($scope.calcStatesData);
                 if ($scope.currentState.completed) {
-                    $scope.progressCompleted = true;
-                    $scope.setCalculate(false);
                     $scope.stopProgress();
+                    $scope.progressValue = 100;
+                    $timeout(function() {
+                        $scope.toggleSuccess(true);
+                    }, 3000);
                 } else {
                     $scope.progressValue = stepValue * $scope.step;
                     if($scope.currentState.name === 'Failed') {
@@ -88,7 +88,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
     };
 
     $scope.resetProgress = function() {
-        $scope.progressCompleted = false;
+        $scope.toggleSuccess(false);
         $scope.progressValue     = 0;
         $scope.step              = 0;
         $scope.success           = true;
@@ -99,7 +99,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
     $scope.returnToEdit = function() {
         $scope.stopProgress();
         $scope.location = "/edit";
-        $scope.scenarioIsCalculated = false;
     };
 
     // fire off functions

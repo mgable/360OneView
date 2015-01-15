@@ -13,6 +13,7 @@ angular.module('ThreeSixtyOneView')
 		this.get = function(id){
 			var additionalPath = "calculate";
 			return this.resource.get({"id": id}, {}, additionalPath).then(function(response){
+				console.log(response);
 				return response;
 			});
 		};

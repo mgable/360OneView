@@ -250,7 +250,7 @@ angular.module('ThreeSixtyOneView')
         });
 
     }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioAnalysisElements", "ptData", "$state", "EVENTS", "ScenarioElementService", "DialogService", "PivotMetaService", "ScenarioCalculateService",
-    function($scope, Project, Scenario, ScenarioAnalysisElements, ptData, $state, EVENTS, ScenarioElementService, DialogService, PivotMetaService) {
+    function($scope, Project, Scenario, ScenarioAnalysisElements, ptData, $state, EVENTS, ScenarioElementService, DialogService, PivotMetaService, ScenarioCalculateService) {
 
         $scope.$on(EVENTS.filter, function(){
             $scope.showDetails(SortAndFilterService.getData()[0]);
@@ -280,7 +280,8 @@ angular.module('ThreeSixtyOneView')
             $scope.scenarioElements =  ScenarioAnalysisElements;
             $scope.setScenarioElement($scope.scenarioElements[0]);
             $scope.location = $state.current.url;
-            $scope.scenarioIsCalculated = false;
+            $scope.toggleCalculation(false);
+            $scope.toggleSuccess(false);
             // hardcoded data
             $scope.pivotTableData = ptData.data;
             // this is how pivotbuilder and pivottable communicate
@@ -307,10 +308,6 @@ angular.module('ThreeSixtyOneView')
 
         $scope.getScenarioElements = function() {
             return $scope.scenarioElements;
-        };
-
-        $scope.setCalculate = function(param) {
-            $scope.scenarioIsCalculated = param;
         };
 
         $scope.setScenarioElement = function(element) {
@@ -374,8 +371,16 @@ angular.module('ThreeSixtyOneView')
             this.tabClosed = false;
         }
 
+        $scope.toggleCalculation = function(value) {
+            $scope.scenarioIsCalculated = value;
+        }
+
+        $scope.toggleSuccess = function(value) {
+            $scope.calculationIsSuccess = value;
+        }
+
         $scope.calculateScenario = function() {
-            $scope.setCalculate(true);
+            $scope.toggleCalculation(true);
             $scope.location = "/results";
             // ScenarioCalculateService.post($scope.scenario.id);
         }
