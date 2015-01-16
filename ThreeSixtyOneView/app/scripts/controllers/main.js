@@ -331,6 +331,11 @@ angular.module('ThreeSixtyOneView')
             $scope.location = $state.current.url;
         });
 
+        // hide scenario copy and replace options if part of the marleting plan
+        $scope.hiddenScenarioElement = function(element) {
+            return element.group === 'Marketing Plan';
+        };
+
         $scope.openScenarioElementFileModal = function(scenarioId, selectedScenarioElement) {
             var dialog = DialogService.openLightbox('views/modal/scenario_analysis_element_files.tpl.html', 'ScenarioAnalysisElementFilesCtrl',
                 {selectedScenarioElement: selectedScenarioElement},

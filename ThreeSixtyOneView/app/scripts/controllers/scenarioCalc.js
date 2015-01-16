@@ -12,7 +12,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
     // private varibles and functions
     var stepLen = ScenarioCalculate.runningStates.length,
         stepValue = 100 / stepLen,
-        scenarioId = 6,
+        scenarioId = $scope.scenario.id,
 
         // init the progress
         init = function() {
@@ -28,25 +28,17 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
         prepareStatesData = function(_data) {
             angular.forEach(_data.runningStates, function(value, key) {
                 value.id = key + 1;
-                var trimText = capitalize(value.name.trim().replace(/_/g, " "));
-                value.name = trimText;
-                value.label = trimText;
+                trimString(value.name);
+                trimString(value.label);
             });
-
-            var trimText = capitalize(_data.currentState.name.trim().replace(/_/g, " "));
-            _data.currentState.name = trimText;
-            _data.currentState.label = trimText;
+            trimString(_data.currentState.name);
+            trimString(_data.currentState.label);
             return _data;
-        },
-
-        // capitalize a string
-        capitalize = function(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
         },
 
         // return the step of current state
         getCurrentStepIndex = function(_data) {
-            if (_data.currentState.completed) {
+            if ($scope.currentState.name === "SUCCESSFUL") {
                 return _data.runningStates.length;
             } else {
                 return _.indexOf(_.pluck(_data.runningStates, 'completed'), false);
@@ -59,20 +51,24 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
                 $scope.runningStates  = $scope.calcStatesData.runningStates;
                 $scope.currentState   = $scope.calcStatesData.currentState;
                 $scope.step           = getCurrentStepIndex($scope.calcStatesData);
-                if ($scope.currentState.completed) {
+                if ($scope.currentState.name === "SUCCESSFUL") {
                     $scope.stopProgress();
                     $scope.progressValue = 100;
                     $timeout(function() {
                         $scope.toggleSuccess(true);
-                    }, 3000);
+                    }, 2000);
+                } else if ($scope.currentState.name === 'FAILED') {
+                    $scope.stopProgress();
+                    $scope.success = false;
+                    $scope.progressValue = stepValue * $scope.step;
                 } else {
                     $scope.progressValue = stepValue * $scope.step;
-                    if($scope.currentState.name === 'Failed') {
-                        $scope.stopProgress();
-                        $scope.success = false;
-                    }
                 }
             });
+        },
+
+        trimString = function(str) {
+            str = str.trim();
         };
 
     // scope functions
@@ -88,16 +84,21 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
     };
 
     $scope.resetProgress = function() {
-        $scope.toggleSuccess(false);
-        $scope.progressValue     = 0;
-        $scope.step              = 0;
-        $scope.success           = true;
-        resetStates($scope.calcStatesData);
-        $scope.runProgress();
+        $scope.toggleCalculation(false);
+        // ScenarioCalculateService.post($scope.scenario.id);
+        init();
+        $scope.toggleCalculation(true);
     };
+
+    $scope.getErrorMsg = function() {
+        var errorMsg = ScenarioCalculate.additionalInfo.message ? ScenarioCalculate.additionalInfo.message : '';
+        return errorMsg;
+    }
 
     $scope.returnToEdit = function() {
         $scope.stopProgress();
+        $scope.toggleSuccess(false);
+        $scope.toggleCalculation(false);
         $scope.location = "/edit";
     };
 
