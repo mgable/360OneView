@@ -12,7 +12,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
     // private varibles and functions
     var stepLen = ScenarioCalculate.runningStates.length,
         stepValue = 100 / stepLen,
-        // scenarioId = 7,
         scenarioId = $scope.scenario.id,
 
         // init the progress
@@ -86,8 +85,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
 
     $scope.resetProgress = function() {
         $scope.toggleCalculation(false);
-        // ScenarioCalculateService.post(7);
-        ScenarioCalculateService.post($scope.scenario.id);
+        // ScenarioCalculateService.post($scope.scenario.id);
         init();
         $scope.toggleCalculation(true);
     };
