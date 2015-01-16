@@ -12,8 +12,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 	function ($scope, $rootScope, EVENTS, $timeout, $q, PivotViewService, DialogService, PivotMetaService) {
 
 	var init = function() {
-		$scope.tabClosed = true;
-
 		$scope.saveAs = false;
 		$scope.rename = false;
 		$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
