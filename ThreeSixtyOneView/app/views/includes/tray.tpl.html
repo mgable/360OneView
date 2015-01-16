@@ -34,7 +34,7 @@
 
 	<div class="well profile description-holder" ng-if="selectedItem.referenceScenario.name">
 		<h5>Base Scenario</h5>
-		<p class="entity-holder" data-ms-id="ScenarioListing:baseScenario">{{selectedItem.referenceScenario.name}}</p>
+		<p class="entity-holder" data-ms-id="ScenarioListing:baseScenario"><a ng-click="goto($event, 'gotoScenarioEdit', selectedItem.referenceScenario)">{{selectedItem.referenceScenario.name}}</a></p>
 	</div>
 
 	<div class="well profile scenario-listing" ng-if="selectedItem.scenarios.length">
