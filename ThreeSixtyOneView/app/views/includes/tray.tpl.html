@@ -34,7 +34,7 @@
 
 	<div class="well profile description-holder" ng-if="selectedItem.referenceScenario.name">
 		<h5>Base Scenario</h5>
-		<p class="entity-holder" data-ms-id="ScenarioListing:baseScenario"><a ng-click="goto($event, 'gotoScenarioEdit', selectedItem.referenceScenario)">{{selectedItem.referenceScenario.name}}</a></p>
+		<p class="entity-holder" data-ms-id="ScenarioListing:baseScenario">{{selectedItem.referenceScenario.name}}</p>
 	</div>
 
 	<div class="well profile scenario-listing" ng-if="selectedItem.scenarios.length">
@@ -51,5 +51,21 @@
 		<div class="profile-footer" ng-click="toggleShowScenarios()" ng-if="selectedItem.scenarios.length > 3">
 			<a>{{viewAll}}</a>
 		</div>
+	</div>
+
+	<div class="well profile scenario-listing" ng-if="scenarioElements.length">
+		<div class="scenarioWrapper">
+			<h5 class="media-heading bold">Contains</h5>
+			<span class='field-label bold'>Total&nbsp;<span>{{scenarioElements.length}}</span>&nbsp;scenarios elements</span>
+			<div class="entity-holder" >
+				<div class="scenario" ng-show="{{$index < 3}} || showScenario" ng-repeat="element in scenarioElements">
+					<a ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)">{{element.title}}</a>
+				</div>
+			</div>
+		</div>
+		<div class="profile-footer" ng-click="toggleShowScenarios()" ng-if="scenarioElements.length > 3">
+			<a>{{viewAll}}</a>
+		</div>
+
 	</div>
 </div>

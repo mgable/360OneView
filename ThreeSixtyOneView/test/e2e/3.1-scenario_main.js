@@ -2,7 +2,7 @@
 
 var specs = require('./3.0-scenario_specs.js');
 
-describe('Scenario page: ', function() {
+xdescribe('Scenario page: ', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);

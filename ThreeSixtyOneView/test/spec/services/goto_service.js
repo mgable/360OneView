@@ -6,12 +6,13 @@ describe('Service: GotoService', function () {
   beforeEach(module('ThreeSixtyOneView'));
 
   // instantiate service
-  var GotoService, $state, projectId, scenarioId;
+  var GotoService, $state, projectId, scenarioId, scenarioElementId;
   beforeEach(inject(function (_GotoService_, _$state_) {
     GotoService = _GotoService_;
     $state = _$state_;
     projectId = 1;
     scenarioId = 2;
+    scenarioElementId = 3;
     spyOn($state, "go");
   }));
 
@@ -27,8 +28,8 @@ describe('Service: GotoService', function () {
   });
 
   it('should go to Scenario Edit', function(){
-    GotoService.scenarioEdit(projectId, scenarioId);
-    expect($state.go).toHaveBeenCalledWith("Scenario.edit", {projectId:projectId, scenarioId:scenarioId});
+    GotoService.scenarioEdit(projectId, scenarioId, scenarioElementId);
+    expect($state.go).toHaveBeenCalledWith("Scenario.edit", {projectId:projectId, scenarioId:scenarioId, scenarioElementId:scenarioElementId});
   });
 
   it('should go to Scenario Create', function(){

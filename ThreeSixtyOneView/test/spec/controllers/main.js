@@ -165,6 +165,7 @@ describe('Controllers: ', function() {
             data = {id:"123", title:"title", description: "description", isMaster:false};
             spyOn(scope, "$on");
             spyOn(SortAndFilterService, "init");
+            spyOn(SortAndFilterService, "getData").and.returnValue([data]);
             ctrl = $controller('ScenarioListingCtrl', {
                 $scope: scope,
                 '$stateParams': {projectId:"foo"},
@@ -267,8 +268,8 @@ describe('Controllers: ', function() {
 
         it("should goto various places", function(){
             var id = '123', data = {id:id};
-            scope.goto(event, "gotoScenarioEdit", data);
-            expect(GotoService.scenarioEdit).toHaveBeenCalledWith(id, id);
+            scope.goto(event, "gotoScenarioEdit", data, id);
+            expect(GotoService.scenarioEdit).toHaveBeenCalledWith(id, id, id);
             scope.goto(event, "gotoDashboard", data);
             expect(GotoService.dashboard).toHaveBeenCalledWith(id);
             scope.goto(event, "gotoProjects");
