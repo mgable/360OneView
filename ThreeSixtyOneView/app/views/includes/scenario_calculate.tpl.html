@@ -2,7 +2,7 @@
 
     <h2 class="scenario-calculation-title" ng-show="success">Optimization is in progress</h2>
     <h2 class="scenario-calculation-title" ng-show="!success"><icon type="exclamation-triangle"></icon> Error during optimization</h2>
-    <p class="scenario-calculation-description" ng-show="!success">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus, vero itaque tenetur explicabo eius.</p>
+    <p class="scenario-calculation-description" ng-show="!success">Error Message {{ getErrorMsg() }}</p>
     <div class="row">
         <progressbar class="progress-striped active" max="100" value="progressValue" type="success"><i>{{progressValue | number:0}}%</i></progressbar>
     </div>
@@ -10,7 +10,7 @@
         <ul class="scenario-calculation-list">
             <li ng-repeat="state in runningStates" ng-class="{completed: state.completed}">
                 <span class="numberCircle">{{state.id}}</span>
-                {{state.name}}
+                {{state.label}}
                 <i class="fa fa-check checkmark" type="check" ng-show="success ? state.completed : step > $index+1"></i>
                 <span class="error" ng-show="!success && step === $index+1"><i class="fa fa-exclamation-triangle"></i> Error</span>
             </li>

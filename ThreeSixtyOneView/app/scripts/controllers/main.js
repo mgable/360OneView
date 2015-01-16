@@ -382,7 +382,7 @@ angular.module('ThreeSixtyOneView')
         $scope.calculateScenario = function() {
             $scope.toggleCalculation(true);
             $scope.location = "/results";
-            // ScenarioCalculateService.post($scope.scenario.id);
+            ScenarioCalculateService.post($scope.scenario.id);
         }
 
         init();
