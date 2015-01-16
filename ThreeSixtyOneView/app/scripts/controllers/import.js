@@ -33,16 +33,15 @@ angular.module('ThreeSixtyOneView')
 			var file = $scope.selectedFile;
 			ImportService.uploadFile(file.name, file).then(function(response) {
 				$scope.stopTime = $interval(function(){
-					ImportService.checkStatus(1,1).then(function(response){
+					ImportService.checkStatus($scope.cubeId, 1).then(function(response){
 						if (response == 100) {
 							$interval.cancel($scope.stopTime);
 							$scope.importObj.uploadFinished = true;
 						} else {
 							$scope.importObj.uploadProgress = response;
 						}
-					});
-					
-				}, 1000);
+					});	
+				}, 10000);
 			});
 		}
     }])
