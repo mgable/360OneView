@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .controller("importCtrl", ["$scope", '$interval', 'DialogService', function($scope, $interval, DialogService){
+    .controller("importCtrl", ["$scope", '$interval', 'DialogService', 'ImportService', function($scope, $interval, DialogService, ImportService){
 		$scope.importObj = {uploadProgress:0, fileSelected:false, invalidFile: false, importClicked: false, uploadFinished: false};
 		$scope.selectedFile = {name: "Select a file to import"};
 		$scope.stopTime;
@@ -29,31 +29,21 @@ angular.module('ThreeSixtyOneView')
 
 		$scope.uploadFile = function() {
 			$scope.importObj.importClicked = true;
-			$scope.stopTime = $interval(function(){
-				if ($scope.importObj.uploadProgress == 100) {
-					$interval.cancel($scope.stopTime);
-					$scope.importObj.uploadFinished = true;
-				} else {
-					$scope.importObj.uploadProgress++;
-				}
-			}, 100);
-			// var file = $scope.selectedFile;
-			// $.ajax({
-			// 	type: 'post',
-			// 	url: 'http://127.0.0.1:9001/?name=' + file.name,
-			// 	data: file,
-			// 	success: function () {
-			// 		$scope.importObj.uploadFinished = true;
-			// 	},
-			// 	xhrFields: {
-			// 	  // add listener to XMLHTTPRequest object directly for progress (jquery doesn't have this yet)
-			// 	  onprogress: function (progress) {
-			// 	    $scope.importObj.uploadProgress = Math.floor((progress.total / progress.totalSize) * 100);
-			// 	  }
-			// 	},
-			// 	processData: false,
-			// 	contentType: file.type
-			// });
+			
+			var file = $scope.selectedFile;
+			ImportService.uploadFile(file.name, file).then(function(response) {
+				$scope.stopTime = $interval(function(){
+					ImportService.checkStatus(1,1).then(function(response){
+						if (response == 100) {
+							$interval.cancel($scope.stopTime);
+							$scope.importObj.uploadFinished = true;
+						} else {
+							$scope.importObj.uploadProgress = response;
+						}
+					});
+					
+				}, 1000);
+			});
 		}
     }])
     //ng-model and ng-change are not supported for input[file]

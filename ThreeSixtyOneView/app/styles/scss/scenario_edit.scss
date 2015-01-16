@@ -111,6 +111,10 @@
 					font-size: 16px;
 					padding-right: 5px;
 				}
+				&.disabled {
+					background-color: #cdcdcd;
+					cursor: not-allowed;
+				}
 			}
 		}
 	}
