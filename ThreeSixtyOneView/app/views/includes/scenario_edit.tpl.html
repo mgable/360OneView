@@ -1,16 +1,16 @@
 <div class="scenario-type-dropdown">
     <div class="dropdown">
         <span class="dropdown-toggle">
-            {{selectedScenarioElement.cubeMeta.label}} <icon type="caret-down"></icon>
+            {{selectedScenarioElement.cubeMeta.label}}<icon type="caret-down"></icon>
         </span>
-        <span ng-hide="selectedScenarioElement.group === 'Marketing Plan'">
-            <span class="dropdown-filename"><icon type="file-text-o"></icon> {{selectedScenarioElementsFile}}</span>
+        <span ng-hide="hiddenScenarioElement(selectedScenarioElement)">
+            <span class="dropdown-filename"><icon type="file-text-o"></icon>{{selectedScenarioElementsFile}}</span>
             <span ng-click="openScenarioElementFileModal(scenario.id, selectedScenarioElement)" class="filename-option"><icon type="folder-open-o"></icon>Replace</span>
             <span ng-click="openScenarioElementCopyModal(scenario.id, selectedScenarioElement)" class="filename-option"><icon type="folder-open-o"></icon>Copy &amp; Replace</span>
         </span>
         <ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenarioElement.id}}" radio="true">
-            <li ng-repeat="scenarioElement in getScenarioElements()" ms-link="{{type.id}}" >
-                <a href="" ng-click="setScenarioElement(scenarioElement)">{{scenarioElement.cubeMeta.label}}</a>
+            <li ng-repeat="element in getScenarioElements()" ms-link="{{type.id}}" >
+                <span class="clickable" ng-click="setScenarioElement(element)">{{element.cubeMeta.label}}</span>
             </li>
         </ul>
     </div>
@@ -22,12 +22,12 @@
             <tab-heading >
                 <div class="pbTitle" ng-class="{pbTitleSel: !tabClosed, pbGray: tabClosed}">
                     <div class="pbRenameArea" ng-click="heightChanged(); tabClosed ? expandTab() : collapseTab()">
-                        <icon type="eye" cname="{{!tabClosed ? '':'pbGray'}}"></icon>
-                        <div class="pbTitleText clickable" ng-hide="saveAs">{{viewName}}</div>
+                        <icon type="eye"></icon>
+                        <div class="pbTitleText clickable" ng-hide="saveAs">{{viewData.name}}</div>
                         <div class="pbSaveAsBox" ng-show="saveAs">
-                            <input type="text" ng-model="saveAsName" ng-keyup="renameAction($event)">
-                            <span class="clickable" ng-click="finishSaveAs(true)"><icon type="check"></icon></span>
-                            <span class="clickable" ng-click="finishSaveAs(false)"><icon type="remove"></icon></span>
+                            <input type="text" ng-model="saveAsName" ui-keydown="{'esc': 'cancelSaveAs()', 'enter': 'submitSaveAs()'}">
+                            <span class="clickable" ng-click="submitSaveAs()"><icon type="check"></icon></span>
+                            <span class="clickable" ng-click="cancelSaveAs(false)"><icon type="remove"></icon></span>
                         </div>
                     </div>
                 </div>
@@ -51,13 +51,13 @@
                                 <ul class="dropdown-menu pbViewSaveMenu" ms-link-group radio="true">
                                     <div class="pbViewSaveMenuVisible">
                                         <li>
-                                            <div class="pbViewSaveMenuItem" ng-click="startSaveAs(false);"><icon type="save"></icon>Save As</div>
+                                            <div class="pbViewSaveMenuItem" ng-click="startSaveAs();"><icon type="save"></icon>Save As</div>
                                         </li>
                                         <li>
                                             <div class="pbViewSaveMenuItem" ng-click="resetView();"><icon type="undo"></icon>Revert</div>
                                         </li>
                                         <li>
-                                            <div class="pbViewSaveMenuItem" ng-click="startSaveAs(true)"><icon type="pencil"></icon>Rename</div>
+                                            <div class="pbViewSaveMenuItem" ng-click="startRename()"><icon type="pencil"></icon>Rename</div>
                                         </li>
                                     </div>
                                 </ul>

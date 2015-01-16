@@ -21,7 +21,7 @@
                     <icon type="eye" ng-class="{srGray: !srShow}"></icon>
                     <div class="srTitleText clickable" ng-click="srShow ? startSaveAs() : (srShow = true)" ng-hide="saveAs">{{viewName}}</div>
                     <div class="srSaveAsBox" ng-show="saveAs">
-                        <input type="text" ng-model="saveAsName" ng-keyup="renameAction($event)">
+                        <input type="text" ng-model="saveAsName" ui-keydown="{'esc': 'finishSaveAs(false)', 'enter': 'finishSaveAs(true)'}">
                         <icon type="check" ng-click="finishSaveAs(true)"></icon>
                         <icon type="remove" ng-click="finishSaveAs(false)"></icon>
                     </div>
