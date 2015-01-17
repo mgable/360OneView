@@ -105,8 +105,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="pbSliderCollapse" close-control target-area="#pivotBuilder" header="#pivotBuildHeader">
-                        <span class="clickable" ng-click="heightChanged(); finishSaveAs(false);">
+                    <div class="pbSliderCollapse">
+                        <span class="clickable" ng-click="heightChanged(); finishSaveAs(false);" close-control target-area="#pivotBuilder" header="#pivotBuildHeader">
                             <icon type="chevron-up"></icon>Collapse
                         </span>
                     </div>
@@ -141,8 +141,8 @@
                     </div>
                     <div ng-show="importObj.uploadFinished" class="successMsg">You successfully imported {{selectedFile.name}}</div>
                 </div>
-                <div class="pbSliderCollapse" close-control target-area="#importBody" header="#importHeader">
-                    <span class="clickable">
+                <div class="pbSliderCollapse">
+                    <span class="clickable" close-control target-area="#importBody" header="#importHeader">
                         <icon type="chevron-up"></icon>Collapse
                     </span>
                 </div>
@@ -193,8 +193,8 @@
                     <a href="http://127.0.0.1:9001/views/scenario.tpl.html" download="sample.html" ng-show="exportObj.readyForDownload" class="btn activeBtn">DOWNLOAD</a>
                 </div>
 
-                <div class="pbSliderCollapse" close-control target-area="#exportBody" header="#exportHeader">
-                    <span class="clickable">
+                <div class="pbSliderCollapse" >
+                    <span class="clickable" close-control target-area="#exportBody" header="#exportHeader">
                         <icon type="chevron-up"></icon>Collapse
                     </span>
                 </div>

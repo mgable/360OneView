@@ -69,35 +69,6 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			$scope.viewsList.unshift(view);
 			$scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
 		});
-	},	updateFilters = function() { // update view filters based on the user selections
-		var i, j, filters = [], newFilter, values = {}, dimensionId;
-
-		for(i = 0; i < $scope.dimensions.length; i++) {
-			dimensionId = $scope.dimensions[i].id;
-
-			newFilter = {};
-			newFilter.scope = $scope.addedFilters[$scope.dimensions[i].label].scope;
-			newFilter.id = $scope.viewData.filters[i].id;
-			newFilter.value = {};
-			newFilter.value.specification = {};
-
-			values = PivotMetaService.getCategorizeValues($scope.dimensions[i], $scope.addedFilters[$scope.dimensions[i].label]);
-			$scope.categorizedValue[i] = values;
-
-			if(values.selected === values.total) {
-				newFilter.value.specification.type = 'All';
-			} else {
-				newFilter.value.specification.type = 'Absolute';
-				newFilter.value.specification.members = [];
-				for(j = 0; j < values.label.length; j++) {
-					newFilter.value.specification.members.push({id: $scope.membersList[dimensionId][values.label[j]].id});
-				}
-			}
-
-			filters.push(newFilter);
-		}
-
-		$scope.viewData.filters = filters;
 	};
 
 	// delete an item from column/row
@@ -143,7 +114,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 		dialog.result.then(function(data) {
 			$scope.addedFilters = data;
 
-			updateFilters();
+			$scope.viewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedFilters, $scope.membersList, $scope.viewData.filters);
+			$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.views.currentView);
 			$scope.saveDraftView();
 			$scope.applyView();
 		});
