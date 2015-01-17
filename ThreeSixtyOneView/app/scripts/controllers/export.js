@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .controller("exportCtrl", ["$scope", 'PivotViewService', 'CubeService', '$interval', 'DialogService', 'PivotMetaService', '$q',
-    	function($scope, PivotViewService, CubeService, $interval, DialogService, PivotMetaService, $q){
+    .controller("exportCtrl", ["$scope", 'PivotViewService', 'ExportService', '$interval', 'DialogService', 'PivotMetaService', '$q',
+    	function($scope, PivotViewService, ExportService, $interval, DialogService, PivotMetaService, $q){
 
 		$scope.deleteItem = function(index) {
 			$scope.added[$scope.viewDataExport[index].level.label] = false;
@@ -28,14 +28,26 @@ angular.module('ThreeSixtyOneView')
 
 		$scope.prepareFile = function() {
 			$scope.exportObj.exportClicked = true;
-			$scope.stopTime = $interval(function(){
-				if ($scope.exportObj.prepareProgress == 100) {
-					$interval.cancel($scope.stopTime);
-					$scope.exportObj.readyForDownload = true;
-				} else {
-					$scope.exportObj.prepareProgress++;
-				}
-			}, 100);
+
+			ExportService.prepareFile({
+				rows:$scope.viewDataExport,
+				columns:[],
+				filters:$scope.viewData.filters,
+				auditInfo:$scope.viewData.auditInfo
+			}, $scope.cubeId, 1)
+			.then(function(response) {
+				$scope.stopTime = $interval(function(){
+					ExportService.checkStatus($scope.cubeId, 1).then(function(pollingResponse){
+						if (pollingResponse.message == "COMPLETED") {
+							$interval.cancel($scope.stopTime);
+							$scope.exportObj.readyForDownload = true;
+							$scope.exportObj.prepareProgress = 100;
+						} else {
+							// support later
+						}
+					});	
+				}, 10000);
+			});
 		}
 
 		var init = function() {
@@ -52,6 +64,7 @@ angular.module('ThreeSixtyOneView')
 
 			dialog.result.then(function(data) {
 				$scope.addedFilters = data;
+				$scope.viewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedFilters, $scope.membersList, $scope.viewData.filters);
 				$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.viewDataExport);
 			});
 		};

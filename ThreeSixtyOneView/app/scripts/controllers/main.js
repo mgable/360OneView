@@ -29,7 +29,7 @@ angular.module('ThreeSixtyOneView')
 
     }]).controller("NavigationCtrl", ["$scope", function($scope){
         // Not sure if this is even needed
-    }]).controller("ScenarioListingCtrl", ["$scope", "$controller", "Project", "Scenarios", "ScenarioService", "EVENTS", "DialogService", function($scope,  $controller, Project, Scenarios, ScenarioService, EVENTS, DialogService) {
+    }]).controller("ScenarioListingCtrl", ["$scope", "$controller", "Project", "Scenarios", "ScenarioService", "EVENTS", "DialogService", "ScenarioElementService", function($scope,  $controller, Project, Scenarios, ScenarioService, EVENTS, DialogService, ScenarioElementService) {
 
         // Inherit from base class
         angular.extend(this, $controller('ListingViewCtrl', {$scope: $scope}));
@@ -39,13 +39,16 @@ angular.module('ThreeSixtyOneView')
             $scope.init(Scenarios, getProject);
 
             $scope.project = Project;
-
             $scope.scenarios = Scenarios;
             $scope.hasAlerts = Scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
 
             if($scope.project.isMaster){
                 setMasterScenario($scope.scenarios[0]);
-            }
+            };
+
+            if ($scope.selectedItem) {
+                $scope.getScenarioElements($scope.selectedItem.id);
+            };
         },
         getProject = function(){
             return $scope.project;
@@ -58,10 +61,17 @@ angular.module('ThreeSixtyOneView')
         // Click handler interface
         $scope.selectItem = function(item){
             $scope.showDetails(item);
+            $scope.getScenarioElements(item.id);
         };
 
         $scope.gotoScenarioCreate = function(){
             DialogService.openCreateScenario(Project, Scenarios);
+        };
+
+        $scope.getScenarioElements = function(id){
+            ScenarioElementService.get(id).then(function(response){
+                $scope.scenarioElements = response;
+            });
         };
 
         $scope.isScenarioTitleUnique = function(scenarioTitle) {
@@ -175,16 +185,18 @@ angular.module('ThreeSixtyOneView')
         };
 
 
-        $scope.goto = function(evt, where, item){
+        $scope.goto = function(evt, where, item, id){
             if (evt && evt.stopPropagation){ evt.stopPropagation(); }
             switch(where){
-                case "gotoScenarioEdit": GotoService.scenarioEdit($scope.getProject().id, item.id); break;
+                case "gotoScenarioEdit": GotoService.scenarioEdit($scope.getProject().id, item.id, id); break;
                 case "gotoDashboard": GotoService.dashboard(item.id); break;
                 case "gotoProjects": GotoService.projects(); break;
             }
         };
 
         $scope.showDetails = function(item){
+            console.info("zzzzzzzzzzzzzz");
+            console.info(item);
             $scope.selectedItem = item;
             $rootScope.$broadcast(EVENTS.newSelectedItem, $scope.selectedItem);
         };
@@ -252,9 +264,9 @@ angular.module('ThreeSixtyOneView')
     }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioAnalysisElements", "ptData", "$state", "EVENTS", "ScenarioElementService", "DialogService", "PivotMetaService", "ScenarioCalculateService", "PivotDataService",
     function($scope, Project, Scenario, ScenarioAnalysisElements, ptData, $state, EVENTS, ScenarioElementService, DialogService, PivotMetaService, ScenarioCalculateService, PivotDataService) {
 
-        $scope.$on(EVENTS.filter, function(){
-            $scope.showDetails(SortAndFilterService.getData()[0]);
-        });
+        // $scope.$on(EVENTS.filter, function(){
+        //     $scope.showDetails(SortAndFilterService.getData()[0]);
+        // });
 
         $scope.$on(EVENTS.selectScenarioElement, function(evt, element) {
             $scope.cubeId = element.cubeMeta.id;
@@ -278,7 +290,8 @@ angular.module('ThreeSixtyOneView')
                 }
             };
             $scope.scenarioElements =  ScenarioAnalysisElements;
-            $scope.setScenarioElement($scope.scenarioElements[0]);
+
+            $scope.setScenarioElement(getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) || $scope.scenarioElements[0]);
             $scope.location = $state.current.url;
             $scope.toggleCalculation(false);
             $scope.toggleSuccess(false);
@@ -304,6 +317,9 @@ angular.module('ThreeSixtyOneView')
                 $scope.addedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
                 $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
             });
+        },
+        getScenarioElementById = function(data, id){
+           return  _.findWhere(data, {id: id});
         };
 
         $scope.loadPivotTable = function(elementId, viewId) {
@@ -445,14 +461,6 @@ angular.module('ThreeSixtyOneView')
             ScenarioElementService.copyAndReplaceAnalysisElementForCube(scenarioId, cubeId, sourceElementId, newElementData).then(function(element){
                 $scope.replaceScenarioElement(element);
             });
-        };
-
-        $scope.collapseTab = function() {
-            this.tabClosed = true;
-        };
-
-        $scope.expandTab = function() {
-            this.tabClosed = false;
         };
 
         $scope.toggleCalculation = function(value) {
