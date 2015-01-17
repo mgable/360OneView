@@ -211,4 +211,34 @@
 		
 		return added;
 	};
+
+	this.updateFilters = function(dimensions, addedFilters, membersList, viewFilters) { // update view filters based on the user selections
+		var i, j, filters = [], newFilter, values = {}, dimensionId;
+
+		for(i = 0; i < dimensions.length; i++) {
+			dimensionId = dimensions[i].id;
+
+			newFilter = {};
+			newFilter.scope = addedFilters[dimensions[i].label].scope;
+			newFilter.id = viewFilters[i].id;
+			newFilter.value = {};
+			newFilter.value.specification = {};
+
+			values = this.getCategorizeValues(dimensions[i], addedFilters[dimensions[i].label]);
+
+			if(values.selected === values.total) {
+				newFilter.value.specification.type = 'All';
+			} else {
+				newFilter.value.specification.type = 'Absolute';
+				newFilter.value.specification.members = [];
+				for(j = 0; j < values.label.length; j++) {
+					newFilter.value.specification.members.push({id: membersList[dimensionId][values.label[j]].id});
+				}
+			}
+
+			filters.push(newFilter);
+		}
+
+		return filters;
+	};
 }]);
