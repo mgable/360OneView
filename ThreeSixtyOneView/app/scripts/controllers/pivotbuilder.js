@@ -65,11 +65,12 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			view.filters[i].id = null;
 		}
 
-		PivotViewService.createView(view, cubeId).then(function(view) {
+		return PivotViewService.createView(view, cubeId).then(function(view) {
 			$scope.viewData = angular.copy(view);
 			$scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
 			$scope.viewsList.unshift(view);
 			$scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
+			return view;
 		});
 	},	updateFilters = function() { // update view filters based on the user selections
 		var i, j, filters = [], newFilter, values = {}, dimensionId;
@@ -180,9 +181,13 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			$scope.draftView = true;
 			var draftView = angular.copy($scope.viewData);
 			draftView.name = 'Draft - ' + draftView.name;
-			createView($scope.cubeId, draftView, $scope.viewsList);
+			createView($scope.cubeId, draftView, $scope.viewsList).then(function() {
+				$scope.loadPivotTable();
+			});
 		} else {
-			updateView($scope.cubeId, $scope.viewData);
+			updateView($scope.cubeId, $scope.viewData).then(function() {
+				$scope.loadPivotTable();
+			});
 		}
 	};
 

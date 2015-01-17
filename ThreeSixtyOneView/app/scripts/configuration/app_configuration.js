@@ -11,6 +11,7 @@ angular.module('ThreeSixtyOneView.config')
                 "scenarios": "/rubix/v1/project/:id/scenario",
                 "cube": "/rubix/v1/model/cube/:id",
                 "pivotview": "/rubix/v1/cube/:cubeId/analysis-view/:viewId",
+                "pivotdata": "/rubix/v1/pivot/analysis-element/:elementId/analysis-view/:viewId",
                 "scenarioElement": "/rubix/v1/scenario/:id",
                 "scenarioAnalytics": "/rubix/v1/analytics/scenario/:id",
                 "upload": "/rubix/v1/import"
