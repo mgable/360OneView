@@ -323,36 +323,22 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.loadPivotTable = function(elementId, viewId) {
-            console.clear();
             PivotDataService.getSlice(70, 65).then(function(response) {
-                console.log(response);
-                var tableTree = {}, numCols = $scope.viewData.columns.length, numRows = $scope.viewData.rows.length, numLines = response.length;
-                // var output = [];
-                // _.each(response, function(row) {
-                //     var line = '';
+                var i, j,
+                    tableTree = {},
+                    numCols = $scope.viewData.columns.length,
+                    numRows = $scope.viewData.rows.length,
+                    numLines = response.length,
+                    pivotTable = [],
+                    columnIndex = numRows;
 
-                //     var rowElms = [];
-                //     _.each(row[0].key.value.coordinates.rowAddresses, function(rowElement) {
-                //         rowElms.push(rowElement.cellValue.specification.members[0].label);
-                //     });
-                //     line = rowElms.join(',') + ': ';
+                for(i = 0; i < numCols; i++) {
+                    pivotTable[i] = {};
+                    for(j = 0; j < numRows; j++) {
+                        pivotTable[i][j] = '';
+                    }
+                }
 
-                //     var colElms = [];
-                //     _.each(row, function(column) {
-                //         var colElm = [];
-                //         _.each(column.key.value.coordinates.columnAddresses, function(columnElement) {
-                //             colElm.push(columnElement.cellValue.specification.members[0].label);
-                //         });
-                //         colElms.push(colElm);
-                //         line += ' --- ' + colElm.join(',');
-                //     });
-                //     console.log(line);
-                //     // output.push({row: rowElms, col: colElms});
-                // });
-                // // console.log(output);
-                var pivotTable = [], columnIndex = 2;
-                pivotTable[0] = {0: '', 1: ''};
-                pivotTable[1] = {0: '', 1: ''};
                 _.each(response, function(row, rowIndex) {
                     pivotTable[rowIndex + numCols] = {};
                     _.each(row[0].key.value.coordinates.rowAddresses, function(rowElement, rowElementIndex) {
@@ -361,21 +347,22 @@ angular.module('ThreeSixtyOneView')
                     _.each(row, function(column) {
                         var branch = [];
                         _.each(column.key.value.coordinates.columnAddresses, function(columnElement, columnIndex) {
-                            if(columnIndex === 0) {
-                                tableTree[columnElement.cellValue.specification.members[0].label] = branch[columnIndex] =
-                                    tableTree[columnElement.cellValue.specification.members[0].label] || {};
+                            var columnLabel = columnElement.cellValue.specification.members[0].label;
+
+                            if(columnIndex === 0 && numCols > 1) {
+                                tableTree[columnLabel] = branch[columnIndex] = tableTree[columnLabel] || {};
+                            } else if(columnIndex === 0) {
+                                tableTree[columnLabel] = branch[columnIndex] = tableTree[columnLabel] || [];
+                                branch[columnIndex][rowIndex] = column.value.value;
                             } else if(columnIndex === numCols - 1) {
-                                branch[columnIndex - 1][columnElement.cellValue.specification.members[0].label] = branch[columnIndex] =
-                                    branch[columnIndex - 1][columnElement.cellValue.specification.members[0].label] || [];
-                                    branch[columnIndex][rowIndex] = column.value.value;
+                                branch[columnIndex - 1][columnLabel] = branch[columnIndex] = branch[columnIndex - 1][columnLabel] || [];
+                                branch[columnIndex][rowIndex] = column.value.value;
                             } else {
-                                branch[columnIndex - 1][columnElement.cellValue.specification.members[0].label] = branch[columnIndex] =
-                                    branch[columnIndex - 1][columnElement.cellValue.specification.members[0].label] || {};
+                                branch[columnIndex - 1][columnLabel] = branch[columnIndex] = branch[columnIndex - 1][columnLabel] || {};
                             }
                         });
                     });
                 });
-                console.log(tableTree);
 
                 var formPivotTable = function(tree, columnLabels) {
                     if(angular.isArray(tree)) {
@@ -396,8 +383,7 @@ angular.module('ThreeSixtyOneView')
                     }
                 };
                 formPivotTable(tableTree, new Array());
-                $scope.spread.updateSheet(pivotTable, 0, numCols);
-                console.log(pivotTable);
+                $scope.spread.updateSheet(pivotTable, numCols, numRows);
             });
         };
 
