@@ -17,18 +17,20 @@
 		</ul>
 	</div>
 	<div class="well profile description-holder">
+		<h5 class="description-title">Description</h5>
 		<span ng-switch="selectedItem.isMaster">
+			<span ng-switch-when="true" class="description">{{item.description}}</span>
 			<span ng-switch-default>
 				<inline-edit template="inline_description" focusTarget="textarea" item="selectedItem" test="e2e" submitAction="CONFIG.renameAction"></inline-edit>
 			</span>
-			<span ng-if="selectedItem.createdBy">
-				<h5>Created By</h5>
-				 <p class="name">{{selectedItem.createdBy}} , {{selectedItem.createdOn | date}}</p>
-			</span>
-			<span ng-if="selectedItem.modifiedBy">
-				 <h5>Modified by</h5>
-				 <p class="name">{{selectedItem.modifiedBy}} , {{selectedItem.modifiedOn | date}}</p>
-			</span>
+		</span>
+		<span ng-if="selectedItem.createdBy">
+			<h5>Created By</h5>
+			 <p class="name">{{selectedItem.createdBy}} , {{selectedItem.createdOn | date}}</p>
+		</span>
+		<span ng-if="selectedItem.modifiedBy">
+			 <h5>Modified by</h5>
+			 <p class="name">{{selectedItem.modifiedBy}} , {{selectedItem.modifiedOn | date}}</p>
 		</span>
 	</div>
 

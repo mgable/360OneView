@@ -333,126 +333,123 @@
 			}
 		}
 	}
-	div.tray {
+	.tray {
 		width: 360px;
-
 		height: 100%;
-		overflow-y: hidden;
-		overflow-x: hidden;
+		overflow: hidden;
 		position: absolute;
 		right: 0;
 		top: 0;
 		z-index: 10;
-		padding-bottom: 150px;
 		background-color: #e6e6e6;
 		box-shadow: -2px 0 6px rgba(0,0,0, 0.3);
-	}
-	.info-tray {
-		margin: 15px 10px 10px;
-		min-width: 315px;
-		.details {
-			margin:0 0 10px;
-
-			.sub-header {
+		.info-tray {
+			margin: 15px 10px 10px;
+			.details {
 				margin:0 0 10px;
-				font-weight: bold;
-				color: $gray;
-				float:left;
-			}
-			.title-holder {
-				border-bottom: 1px solid #BBB;
-			}
-		}
-	}
-	.profile {
-		padding: 10px;
-		margin-bottom: 10px;
-		background-color: white;
-		box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
-		border-radius: 0;
-
-		&.description-holder {
-			font-size: 14px;
-
-			.field-label {
-				float: left;
-				color: $gray;
-				width: auto;
-			}
-			h5 {
-				margin-bottom: 1px;
-				color: #999;
-				font-weight: 400;
-			}
-		}
-		&.scenario-listing {
-			padding: 0;
-
-			.scenarioWrapper {
-				padding: 10px;
-			}
-			.field-label {
-				display: inline-block;
-				margin-bottom: 15px;
-			}
-			.used-in {
-				font-weight: bold;
-				margin: 0 0 10px;
-				float:left;
-			}
-			.see-all-toggle {
-				float:right;
-				cursor: pointer;
-			}
-			.entity-holder {
-				clear: both;
-
-				.scenario {
-					margin:0 0 10px;
-					padding: 0;
-					a {
-						cursor: pointer;
-						text-transform: capitalize;
-						&:hover {
-							text-decoration: none;
-						}
+				.title-holder {
+					border-bottom: 1px solid #BBB;
+					.title {
+						margin-top:0;
 					}
 				}
 			}
-			.create{
-				float: right;
-				width: 28.5%;
-				margin-left: 10px;
-			}
-			.fa-plus-circle{
-				margin-right: 5px;
-			}
 		}
-		.media-heading {
-			margin-bottom: 5px;
-			font-weight: 400;
-			color: #999;
-		}
-		.name {
-			text-transform: capitalize;
-		}
-	}
-	.profile-footer{
-		width: 100%;
+		.profile {
+			padding: 10px;
+			margin-bottom: 10px;
+			background-color: white;
+			box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+			border-radius: 0;
 
-		a {
-			display: block;
+			&.description-holder {
+				font-size: 14px;
+				h5 {
+					margin-bottom: 1px;
+					color: #999;
+					font-weight: 400;
+					clear:both;
+					&.description-title{
+						float: left;
+					}
+				}
+				form {
+					margin-bottom:0;
+				}
+				.description {
+					display: inline-block;
+					min-height: 26px;
+				}
+			}
+			&.scenario-listing {
+				padding: 0;
+
+				.scenarioWrapper {
+					padding: 10px;
+				}
+				.field-label {
+					display: inline-block;
+					margin-bottom: 15px;
+				}
+				.used-in {
+					font-weight: bold;
+					margin: 0 0 10px;
+					float:left;
+				}
+				.see-all-toggle {
+					float:right;
+					cursor: pointer;
+				}
+				.entity-holder {
+					clear: both;
+
+					.scenario {
+						margin:0 0 10px;
+						padding: 0;
+						a {
+							cursor: pointer;
+							text-transform: capitalize;
+							&:hover {
+								text-decoration: none;
+							}
+						}
+					}
+				}
+				.create{
+					float: right;
+					width: 28.5%;
+					margin-left: 10px;
+				}
+				.fa-plus-circle{
+					margin-right: 5px;
+				}
+			}
+			.media-heading {
+				margin-bottom: 5px;
+				font-weight: 400;
+				color: #999;
+			}
+			.name {
+				text-transform: capitalize;
+			}
+		}
+		.profile-footer{
 			width: 100%;
-			padding: 5px;
-			background-color: $lightgray;
-			color: $subtitle;
-			text-align: center;
-			cursor: pointer;
 
-			&:hover {
-				color: $white;
-				text-decoration: none;
-				background-color: $blue;
+			a {
+				display: block;
+				width: 100%;
+				padding: 5px;
+				background-color: $lightgray;
+				color: $subtitle;
+				text-align: center;
+				cursor: pointer;
+
+				&:hover {
+					color: $white;
+					text-decoration: none;
+					background-color: $blue;
+				}
 			}
 		}
 	}
