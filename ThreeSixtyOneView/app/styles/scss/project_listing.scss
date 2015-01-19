@@ -336,8 +336,7 @@
 	.tray {
 		width: 360px;
 		height: 100%;
-		overflow-y: hidden;
-		overflow-x: hidden;
+		overflow: hidden;
 		position: absolute;
 		right: 0;
 		top: 0;
