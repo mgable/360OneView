@@ -10,14 +10,10 @@ angular.module('ThreeSixtyOneView')
 		angular.extend(this, myView);
 
 		this.uploadFile = function(name, file){
-			var reader = new FileReader(), deferred = $q.defer();
-			
-		    reader.onload = deferred.resolve;
-			reader.readAsDataURL(file);
-		    
-		    return deferred.promise.then(function(e) { 
-		    	return self.resource.post(e.target.result, self.config, {}, "upload?name="+name); 
-		    });
+	        var fd = new FormData();
+	        fd.append('file', file);
+
+	        return self.resource.post(fd, { transformRequest: angular.identity, headers: {'Content-Type': undefined} }, {}, "upload?name="+name); 
 		};
 
 		this.checkStatus = function(groupId, localeId) {

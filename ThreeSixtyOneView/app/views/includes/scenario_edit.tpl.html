@@ -19,11 +19,11 @@
 <div class="editor">
     <tabset>
         <tab id="pivotBuilderTab" ng-controller="PivotBuilderCtrl">
-            <tab-heading >
-                <div class="pbTitle" ng-class="{pbTitleSel: !tabClosed, pbGray: tabClosed}">
-                    <div class="pbRenameArea" ng-click="heightChanged(); tabClosed ? expandTab() : collapseTab()">
-                        <icon type="eye"></icon>
-                        <div class="pbTitleText clickable" ng-hide="saveAs">{{viewData.name}}</div>
+            <tab-heading>
+                <div id="pivotBuildHeader" class="pbTitle" close-expand-control target-area="#pivotBuilder"><!-- ng-class="{pbTitleSel: !tabClosed, pbGray: tabClosed}" -->
+                    <div class="pbRenameArea"> <!-- ng-click="heightChanged(); tabClosed ? expandTab() : collapseTab()" -->
+                        <icon type="eye" cname="{{!tabClosed ? '':'pbGray'}}"></icon>
+                        <div class="pbTitleText clickable" ng-hide="saveAs">{{viewName}}</div>
                         <div class="pbSaveAsBox" ng-show="saveAs">
                             <input type="text" ng-model="saveAsName" ui-keydown="{'esc': 'cancelSaveAs()', 'enter': 'submitSaveAs()'}">
                             <span class="clickable" ng-click="submitSaveAs()"><icon type="check"></icon></span>
@@ -32,8 +32,8 @@
                     </div>
                 </div>
             </tab-heading>
-            <div id="pivotBuilder">
-                <div ng-class="{hidden: tabClosed, shown: !tabClosed}" class="pbSlider">
+            <div id="pivotBuilder" class="hidden">
+                <div class="pbSlider"><!-- ng-class="{hidden: tabClosed, shown: !tabClosed}"  -->
                     <div class="pbControlBar">
                         <div class="pbFunctionFlip" ms-link-group  selected-item="table">
                             <div class="pbFunctionFlipButton clickable" ng-click="showTable(false);" ms-link="table"><icon type="table"></icon></div>
@@ -106,7 +106,7 @@
                         </div>
                     </div>
                     <div class="pbSliderCollapse">
-                        <span class="clickable" ng-click="heightChanged(); collapseTab(); finishSaveAs(false);">
+                        <span class="clickable" ng-click="heightChanged(); finishSaveAs(false);" close-control target-area="#pivotBuilder" header="#pivotBuildHeader">
                             <icon type="chevron-up"></icon>Collapse
                         </span>
                     </div>
@@ -114,10 +114,12 @@
             </div>
         </tab>
         <tab ng-controller="importCtrl">
-            <tab-heading ng-click="expandTab()">
-                Import
+            <tab-heading>
+                <div id="importHeader" close-expand-control target-area="#importBody">
+                    <icon type="download" ></icon>
+                </div>
             </tab-heading>
-        	<div class="importExport" ng-class="{hidden: tabClosed, shown: !tabClosed}">
+        	<div id="importBody" class="importExport hidden">
                 <h4>Importing Data</h4>
                 <p>Do you want to download an import template first? <a href="javascript:void(0);" onclick="exportTabHeader.click()">Yes</a></p>
                 <div>
@@ -140,17 +142,19 @@
                     <div ng-show="importObj.uploadFinished" class="successMsg">You successfully imported {{selectedFile.name}}</div>
                 </div>
                 <div class="pbSliderCollapse">
-                    <span class="clickable" ng-click="collapseTab()">
+                    <span class="clickable" close-control target-area="#importBody" header="#importHeader">
                         <icon type="chevron-up"></icon>Collapse
                     </span>
                 </div>
             </div>
         </tab>
         <tab ng-controller="exportCtrl">
-            <tab-heading ng-click="expandTab()" id="exportTabHeader">
-                Export
+            <tab-heading>
+                <div id="exportHeader" close-expand-control target-area="#exportBody">
+                    <icon type="upload"></icon>
+                </div>
             </tab-heading>
-        	<div class="importExport" ng-class="{hidden: tabClosed, shown: !tabClosed}">
+        	<div id="exportBody" class="importExport hidden">
                 <h4>Exporting Data</h4>
                 <p ng-show="exportObj.exceedLimit" class="warning">The data set you have selected exceeds the 1.4 million row limit on Excel.</p>
                 <div ng-hide="exportObj.exportClicked">
@@ -189,8 +193,8 @@
                     <a href="http://127.0.0.1:9001/views/scenario.tpl.html" download="sample.html" ng-show="exportObj.readyForDownload" class="btn activeBtn">DOWNLOAD</a>
                 </div>
 
-                <div class="pbSliderCollapse">
-                    <span class="clickable" ng-click="collapseTab()">
+                <div class="pbSliderCollapse" >
+                    <span class="clickable" close-control target-area="#exportBody" header="#exportHeader">
                         <icon type="chevron-up"></icon>Collapse
                     </span>
                 </div>

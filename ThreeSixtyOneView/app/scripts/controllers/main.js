@@ -384,14 +384,6 @@ angular.module('ThreeSixtyOneView')
             });
         };
 
-        $scope.collapseTab = function() {
-            this.tabClosed = true;
-        };
-
-        $scope.expandTab = function() {
-            this.tabClosed = false;
-        };
-
         $scope.toggleCalculation = function(value) {
             $scope.scenarioIsCalculated = value;
         }
