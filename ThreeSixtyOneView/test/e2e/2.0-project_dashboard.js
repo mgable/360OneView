@@ -281,7 +281,7 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Change base scenario: ", function(){
+		xdescribe("Change base scenario: ", function(){
 
 			it("should change the base scenario", function(){
 				var scenarios, scenario;
@@ -305,6 +305,37 @@ describe('Project Dashboard', function() {
 						browser.get(dashboardUrl);
 						browser.waitForAngular();
 						expect(scenarioBaseScenarioElement.getText()).toEqual(scenarioText);
+					});
+				});
+			});
+		});
+
+		describe("Scenario Elements: ", function(){
+			var scenarioElements = "element in scenarioElements",
+				scenarioEditScenarioElements = "div[data-ms-id='ScenarioEdit.scenarioElements'] .dropdown-toggle",
+				allScenarioElements = element.all(by.repeater(scenarioElements)),
+				firstScenarioElement = allScenarioElements.first().element(by.css("a")),
+				lastScenarioElement =   allScenarioElements.last().element(by.css("a")),
+				selectedScenarioElement = element(by.css(scenarioEditScenarioElements));
+
+			it("should click through to scenario edit with the correct scenario element selected", function(){
+				firstScenarioElement.getText().then(function(titleInTray){
+					firstScenarioElement.click();
+					browser.waitForAngular();
+					expect(browser.getLocationAbsUrl()).toContain("/#/scenario/" + projectId);
+					selectedScenarioElement.getText().then(function(titleInScenarioEdit){
+						expect(titleInTray).toBe(titleInScenarioEdit);
+					});
+				});
+
+				browser.get(specs.getDashboardUrl(projectId) + specs.testQuery);
+
+				lastScenarioElement.getText().then(function(titleInTray){
+					lastScenarioElement.click();
+					browser.waitForAngular();
+					expect(browser.getLocationAbsUrl()).toContain("/#/scenario/" + projectId);
+					selectedScenarioElement.getText().then(function(titleInScenarioEdit){
+						expect(titleInTray).toBe(titleInScenarioEdit);
 					});
 				});
 			});

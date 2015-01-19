@@ -39,7 +39,7 @@ angular.module('ThreeSixtyOneView.config')
                     "requestTranslator": ""
                 },
                 "ScenarioElement": {
-                    "responseTranslator": {"id":"id", "name": "name", "group":"group", "cubeMeta":"cubeMeta", "title":"cubeMeta.name"},
+                    "responseTranslator": {"id":"id", "name": "name", "group":"group", "cubeMeta":"cubeMeta", "title":"cubeMeta.label"},
                     "requestTranslator": {"id":"id", "name": "title"}
                 },
                 "PivotView": {

@@ -195,8 +195,6 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.showDetails = function(item){
-            console.info("zzzzzzzzzzzzzz");
-            console.info(item);
             $scope.selectedItem = item;
             $rootScope.$broadcast(EVENTS.newSelectedItem, $scope.selectedItem);
         };
