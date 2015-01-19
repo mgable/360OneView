@@ -5,7 +5,7 @@ var specs = require('./0.0-specs.js'),
 
 	var dashboardUrl, projectId;
 	//TEMP data - remove in production
-	//var dashboardUrl, projectId = "4aef7f8842873a13baff73abcc306d64"; dashboardUrl = specs.getDashboardUrl(projectId);
+	var dashboardUrl, projectId = "0606bd18f82c31f2ab1094bb7d6c3317"; dashboardUrl = specs.getDashboardUrl(projectId);
 
 
 describe('Project Dashboard', function() {
@@ -16,7 +16,7 @@ describe('Project Dashboard', function() {
 	);
 	var testFileName = "My New Test Project- " + Date.now();
 
-	it("should create a new project and go to the dashboard", function(){
+	xit("should create a new project and go to the dashboard", function(){
 		var firstItemTitle;
 
 		browser.get(specs.projectUrl + specs.testQuery);
@@ -70,7 +70,7 @@ describe('Project Dashboard', function() {
 			trayCopyButton = element(by.xpath(trayCopy)),
 			inputName = element(by.xpath(name)),
 			inputDescription = element(by.xpath(description)),
-			inputbaseScenario = element(by.xpath(baseScenario )),
+			inputbaseScenario = element(by.xpath(baseScenario)),
 			submitButton = element(by.xpath(submit)),
 			cancelButton = element(by.xpath(cancel)),
 			confirmBaseScenarioButton = element(by.xpath(confirmBaseScenario)),
@@ -81,7 +81,7 @@ describe('Project Dashboard', function() {
 		});
 
 
-		describe("Create functions: ", function(){
+		xdescribe("Create functions: ", function(){
 			var baseScenario = "scenario.referenceScenario.name",
 				baseScenarioInputField = element(by.model(baseScenario));
 
@@ -230,7 +230,7 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Filter functions: ", function(){
+		xdescribe("Filter functions: ", function(){
 
 			it("should filter by favorite", function(){
 				var startItemCount = specs.getItemCount();
@@ -253,7 +253,7 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Edit functions: ", function(){
+		xdescribe("Edit functions: ", function(){
 			var first,
 				newName = "My Renamed Scenario - " + Date.now();
 
@@ -275,7 +275,7 @@ describe('Project Dashboard', function() {
 			xit("should only allow unique names", function(){});
 		})
 
-		describe("Breadcrumbs: ", function(){
+		xdescribe("Breadcrumbs: ", function(){
 			it("should have the correct label", function(){
 				expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + testFileName.toUpperCase());
 			});
@@ -284,13 +284,15 @@ describe('Project Dashboard', function() {
 		describe("Change base scenario: ", function(){
 
 			it("should change the base scenario", function(){
-				var scenario;
+				var scenarios, scenario;
 
 				specs.createButton.click();
 				browser.waitForAngular();
 				inputName.sendKeys("New " + testScenarionNameSecond);
 				inputbaseScenario.click();
 				browser.waitForAngular();
+				scenarios = element.all(by.repeater("scenarios in scenarioList"));
+				scenarios.first().click();
 				scenario = element.all(by.repeater("scenario in scenarios.data")).get(1);
 				scenario.click();
 				scenario.getText().then(function(scenarioText){
@@ -309,7 +311,7 @@ describe('Project Dashboard', function() {
 		});
 	});
 
-	describe("Edit controls on master project's master scenario", function(){
+	xdescribe("Edit controls on master project's master scenario", function(){
 		beforeEach(
 			function(){
 				browser.driver.manage().window().setSize(1280, 1024);
