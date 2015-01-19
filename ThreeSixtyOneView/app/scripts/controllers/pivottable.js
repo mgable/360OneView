@@ -67,7 +67,12 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                             row.wordWrap(true);
                         } else {
                             for (var j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
-                                sheet.getCell(i, j).font("14px proxima-nova").foreColor("#333").value(randomNumber(0, 2000)).locked(false);
+                                // sheet.getCell(i, j).font("14px proxima-nova").foreColor("#333").locked(false);
+                                if(sheet.getCell(i, j).value() === null) {
+                                    sheet.getCell(i, j).backColor("#EEE").locked(true);
+                                } else {
+                                    sheet.getCell(i, j).font("14px proxima-nova").foreColor("#333").locked(false);
+                                }
                             }
                         }
                     }

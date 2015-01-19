@@ -50,7 +50,6 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/inline_description.tpl.html',
     "<form class=\"inlineDescription\" name=\"form\" data-ms-id=\"inlineDescription\">\n" +
     "\t<div>\n" +
-    "\t\t<span class='field-label'>Description</span>\n" +
     "\t\t<span class=\"controls\" ng-show=\"isActive\">\n" +
     "\t\t\t<button class=\"submit btn btn-default btn-xs\" ng-click=\"submit(item)\" ng-disabled=\"(form.$dirty && form.$invalid) || form.$pristine\"><icon type=\"check\"></icon></button>&nbsp;\n" +
     "\t\t\t<button class=\"cancel btn btn-default btn-xs\" ng-click=\"cancel()\"><icon type=\"times\"></icon></button>\n" +

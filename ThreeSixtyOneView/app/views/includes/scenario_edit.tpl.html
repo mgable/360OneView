@@ -23,7 +23,7 @@
                 <div id="pivotBuildHeader" class="pbTitle" close-expand-control target-area="#pivotBuilder"><!-- ng-class="{pbTitleSel: !tabClosed, pbGray: tabClosed}" -->
                     <div class="pbRenameArea"> <!-- ng-click="heightChanged(); tabClosed ? expandTab() : collapseTab()" -->
                         <icon type="eye" cname="{{!tabClosed ? '':'pbGray'}}"></icon>
-                        <div class="pbTitleText clickable" ng-hide="saveAs">{{viewName}}</div>
+                        <div class="pbTitleText clickable" ng-hide="saveAs">{{viewData.name}}</div>
                         <div class="pbSaveAsBox" ng-show="saveAs">
                             <input type="text" ng-model="saveAsName" ui-keydown="{'esc': 'cancelSaveAs()', 'enter': 'submitSaveAs()'}">
                             <span class="clickable" ng-click="submitSaveAs()"><icon type="check"></icon></span>

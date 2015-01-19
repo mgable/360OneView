@@ -65,6 +65,10 @@
 .hidden {
   max-height: 0;  
 }
+
+.invisible {
+  visibility: hidden;
+}
 .shown {
   max-height: auto;
   transition: all 0.3s ease-out;
