@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.filters')
-    .filter("filterBaseScenarios", [function(){
+    .filter("filterProjects", [function(){
         return function(input, term){
             var results = [],
                 regExp;
@@ -14,16 +14,16 @@ angular.module('ThreeSixtyOneView.filters')
                 return input;
             }
 
-            _.each(input, function(e){
-                if (e.title && regExp){
-                    if (regExp.test(e.title.toLowerCase())){
-                        results.push(e);
+            _.each(input, function(project){
+                if (project.title && regExp){
+                    if (regExp.test(project.title.toLowerCase())){
+                        results.push(project);
                     } else {
-                        var inScenario = _.find(e.data, function(f){
-                            return regExp.test(f.title.toLowerCase());
+                        var inScenario = _.find(project.data, function(scenario){
+                            return regExp.test(scenario.title.toLowerCase());
                         });
                         if (inScenario){
-                            results.push(e);
+                            results.push(project);
                         }
                     }
                 }
