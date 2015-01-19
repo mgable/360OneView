@@ -40,6 +40,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			$scope.viewsList = _.reject($scope.viewsList, function(view) { return view.id === viewId; });
 		});
 	},	updateView = function(cubeId, view) { // save the view
+		// filter ids should be set to zero before update
 		_.each(view.filters, function(filter) {
 			filter.id = 0;
 		});
