@@ -4,9 +4,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/add_dimension_button.tpl.html',
     "<div class=\"dimensionAddBox dropdown\">\r" +
     "\n" +
-    "\t<div class=\"dimensionItemAdd clickable dropdown-toggle\" ng-click=\"toggleMenu()\"><icon type=\"plus-square\"></icon>Add</div>\r" +
+    "\t<div class=\"dimensionItemAdd clickable dropdown-toggle\"><icon type=\"plus-square\"></icon>Add</div>\r" +
     "\n" +
-    "\t<div ng-include src=\"'views/includes/pop_menu.tpl.html'\" class=\"dropdown-menu\" ms-link-group radio=\"true\"></div>\r" +
+    "\t<div ng-include src=\"'views/includes/dimensions_pop_menu.tpl.html'\" class=\"dropdown-menu\"></div>\r" +
     "\n" +
     "</div>"
   );
@@ -65,7 +65,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<span class=\"dimensionItemInfo dropdown-toggle\">\r" +
     "\n" +
-    "\t\t\t<span class=\"dimensionItemName clickable\" ng-click=\"toggleMenu()\">{{item.level.label.toLowerCase()}}</span>\r" +
+    "\t\t\t<span class=\"dimensionItemName clickable\">{{item.level.label.toLowerCase()}}</span>\r" +
     "\n" +
     "\t\t</span>\r" +
     "\n" +
@@ -73,7 +73,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t</div>\r" +
     "\n" +
-    "\t<div ng-include src=\"'views/includes/pop_menu.tpl.html'\" class=\"dropdown-menu\"></div>\r" +
+    "\t<div ng-include src=\"'views/includes/dimensions_pop_menu.tpl.html'\" class=\"dropdown-menu\"></div>\r" +
     "\n" +
     "</div>"
   );

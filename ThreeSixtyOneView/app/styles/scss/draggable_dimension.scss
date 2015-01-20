@@ -133,7 +133,7 @@
 					padding-bottom: 10px;
 				}
 
-				.dimensionItemAddEnabled {
+				span {
 					text-transform: capitalize;
 
 					&:hover {
@@ -143,14 +143,9 @@
 					.fa {
 						padding-right: 5px;
 					}
-				}
 
-				.dimensionItemAddDisabled {
-					color: $mediumgray;
-					text-transform: capitalize;
-
-					.fa {
-						padding-right: 5px;
+					&.disabled {
+						color: $mediumgray;
 					}
 				}
 			}
