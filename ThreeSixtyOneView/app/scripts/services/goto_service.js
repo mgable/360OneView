@@ -3,8 +3,8 @@
 angular.module('ThreeSixtyOneView.services')
 	.service('GotoService', ["$state", function Goto($state) {
 	
-	this.scenarioEdit = function (projectId, scenarioId){
-		$state.go("Scenario.edit", {"projectId": projectId, "scenarioId": scenarioId});
+	this.scenarioEdit = function (projectId, scenarioId, scenarioElementId){
+		$state.go("Scenario.edit", {"projectId": projectId, "scenarioId": scenarioId, "scenarioElementId": scenarioElementId});
 	};
 
 	this.dashboard = function(projectId){

@@ -10,7 +10,7 @@ angular.module('ThreeSixtyOneView')
 			if (files.length > 0) {
 				$scope.selectedFile = files[0];
 				$scope.importObj.fileSelected = true;
-				$scope.importObj.invalidFile = !($scope.selectedFile.type == "application/vnd.ms-excel");
+				$scope.importObj.invalidFile = !($scope.selectedFile.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
 			} else {
 				$scope.selectedFile = {name: "Select a file to import"};
@@ -33,16 +33,17 @@ angular.module('ThreeSixtyOneView')
 			var file = $scope.selectedFile;
 			ImportService.uploadFile(file.name, file).then(function(response) {
 				$scope.stopTime = $interval(function(){
-					ImportService.checkStatus(1,1).then(function(response){
-						if (response == 100) {
+					ImportService.checkStatus($scope.cubeId, 1).then(function(response){
+						if (response.message == "COMPLETED") {
 							$interval.cancel($scope.stopTime);
 							$scope.importObj.uploadFinished = true;
+							$scope.importObj.uploadProgress = 100;
+							//send out scenario call and refresh table
 						} else {
-							$scope.importObj.uploadProgress = response;
+							// support later
 						}
-					});
-					
-				}, 1000);
+					});	
+				}, 10000);
 			});
 		}
     }])

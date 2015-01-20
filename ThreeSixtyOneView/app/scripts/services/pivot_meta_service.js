@@ -141,13 +141,20 @@
 
 	// create an empty view with no rows and columns and ALL for filters
 	this.createEmptyView = function(dimensions, cubeMeta) {
-		var i, newView = {
+		var i,
+			newColumn = {dimension:{id:dimensions[dimensions.length-1].dimensionId},hierarchy:{id:-1},level:{id:dimensions[dimensions.length-1].members[0].levelId}},
+			newRow = {dimension:{id:dimensions[0].dimensionId},hierarchy:{id:-1},level:{id:dimensions[0].members[0].levelId}},
+			columns = [],
+			rows = [],
+			newView = {
 			name: 'Default ' + cubeMeta.label + ' view',
 			isDefault: true,
-			columns: [],
-			rows: [],
+			columns: columns,
+			rows: rows,
 			filters: []
 		};
+		newView.columns.push(newColumn);
+		newView.rows.push(newRow);
 
 		_.each(dimensions, function(dimension) {
 			newView.filters.push({
@@ -210,5 +217,35 @@
 		});
 		
 		return added;
+	};
+
+	this.updateFilters = function(dimensions, addedFilters, membersList, viewFilters) { // update view filters based on the user selections
+		var i, j, filters = [], newFilter, values = {}, dimensionId;
+
+		for(i = 0; i < dimensions.length; i++) {
+			dimensionId = dimensions[i].id;
+
+			newFilter = {};
+			newFilter.scope = addedFilters[dimensions[i].label].scope;
+			newFilter.id = viewFilters[i].id;
+			newFilter.value = {};
+			newFilter.value.specification = {};
+
+			values = this.getCategorizeValues(dimensions[i], addedFilters[dimensions[i].label]);
+
+			if(values.selected === values.total) {
+				newFilter.value.specification.type = 'All';
+			} else {
+				newFilter.value.specification.type = 'Absolute';
+				newFilter.value.specification.members = [];
+				for(j = 0; j < values.label.length; j++) {
+					newFilter.value.specification.members.push({id: membersList[dimensionId][values.label[j]].id});
+				}
+			}
+
+			filters.push(newFilter);
+		}
+
+		return filters;
 	};
 }]);

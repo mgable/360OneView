@@ -17,18 +17,20 @@
 		</ul>
 	</div>
 	<div class="well profile description-holder">
+		<h5 class="description-title">Description</h5>
 		<span ng-switch="selectedItem.isMaster">
+			<span ng-switch-when="true" class="description">{{item.description}}</span>
 			<span ng-switch-default>
 				<inline-edit template="inline_description" focusTarget="textarea" item="selectedItem" test="e2e" submitAction="CONFIG.renameAction"></inline-edit>
 			</span>
-			<span ng-if="selectedItem.createdBy">
-				<h5>Created By</h5>
-				 <p class="name">{{selectedItem.createdBy}} , {{selectedItem.createdOn | date}}</p>
-			</span>
-			<span ng-if="selectedItem.modifiedBy">
-				 <h5>Modified by</h5>
-				 <p class="name">{{selectedItem.modifiedBy}} , {{selectedItem.modifiedOn | date}}</p>
-			</span>
+		</span>
+		<span ng-if="selectedItem.createdBy">
+			<h5>Created By</h5>
+			 <p class="name">{{selectedItem.createdBy}} , {{selectedItem.createdOn | date}}</p>
+		</span>
+		<span ng-if="selectedItem.modifiedBy">
+			 <h5>Modified by</h5>
+			 <p class="name">{{selectedItem.modifiedBy}} , {{selectedItem.modifiedOn | date}}</p>
 		</span>
 	</div>
 
@@ -51,5 +53,21 @@
 		<div class="profile-footer" ng-click="toggleShowScenarios()" ng-if="selectedItem.scenarios.length > 3">
 			<a>{{viewAll}}</a>
 		</div>
+	</div>
+
+	<div class="well profile scenario-listing" ng-if="scenarioElements.length">
+		<div class="scenarioWrapper">
+			<h5 class="media-heading bold">Contains</h5>
+			<span class='field-label bold'>Total&nbsp;<span>{{scenarioElements.length}}</span>&nbsp;scenarios elements</span>
+			<div class="entity-holder" >
+				<div class="scenario" ng-show="{{$index < 3}} || showScenario" ng-repeat="element in scenarioElements">
+					<a ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)">{{element.title}}</a>
+				</div>
+			</div>
+		</div>
+		<div class="profile-footer" ng-click="toggleShowScenarios()" ng-if="scenarioElements.length > 3">
+			<a>{{viewAll}}</a>
+		</div>
+
 	</div>
 </div>
