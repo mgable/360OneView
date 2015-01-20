@@ -88,9 +88,8 @@
                         <div ng-repeat="pivotBuilderItem in getPivotBuilderItems()" class="pbSec" ng-if="viewData">
                             <div class="pbSecTitle">{{pivotBuilderItem.label}}</div>
                             <div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="viewData[pivotBuilderItem.name]" tabindex="-1">
-                                <draggable-dimension ng-repeat="item in getViewData(pivotBuilderItem.name)" row-or-col="{{pivotBuilderItem.name}}"></draggable-dimension>
-                                <!-- name="item.level.label" menu="dimensions" -->
-                                <add-dimension-btn menu="dimensions" row-or-col="{{pivotBuilderItem.name}}" ng-hide="isDragging"></add-dimension-btn>
+                                <draggable-dimension ng-repeat="item in getViewData(pivotBuilderItem.name)" row-or-col="{{pivotBuilderItem.name}}" template="draggable_dimension"></draggable-dimension>
+                                <draggable-dimension row-or-col="{{pivotBuilderItem.name}}" template="add_dimension_button" ng-hide="isDragging"></draggable-dimension>
                             </div>
                         </div>
                     </div>
@@ -161,8 +160,8 @@
                     <div class="pbSec">
                         <div class="pbSecTitle">Dimensions</div>
                         <div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="viewDataExport" tabindex="-1">
-                            <draggable-dimension ng-repeat="item in viewDataExport"></draggable-dimension>
-                            <add-dimension-btn menu="menuList"></add-dimension-btn>
+                            <draggable-dimension ng-repeat="item in viewDataExport" template="draggable_dimension"></draggable-dimension>
+                            <draggable-dimension ng-hide="isDragging" template="add_dimension_button"></draggable-dimension>
                         </div>
                     </div>
                    <div class="pbSec">

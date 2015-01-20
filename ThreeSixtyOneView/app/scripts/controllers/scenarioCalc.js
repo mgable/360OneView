@@ -90,10 +90,10 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
         $scope.toggleCalculation(true);
     };
 
-    $scope.getErrorMsg = function() {
-        var errorMsg = ScenarioCalculate.additionalInfo.message ? ScenarioCalculate.additionalInfo.message : '';
-        return errorMsg;
-    }
+    // $scope.getErrorMsg = function() {
+    //     var errorMsg = ScenarioCalculate.additionalInfo.message ? ScenarioCalculate.additionalInfo.message : '';
+    //     return errorMsg;
+    // }
 
     $scope.returnToEdit = function() {
         $scope.stopProgress();
