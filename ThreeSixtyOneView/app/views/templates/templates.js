@@ -2,9 +2,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   'use strict';
 
   $templateCache.put('views/directives/add_dimension_button.tpl.html',
-    "<div class=\"pbAddBox dropdown\">\n" +
-    "\t<div class=\"pbItemAdd clickable dropdown-toggle\" ng-click=\"toggleMenu()\"><icon type=\"plus-square\"></icon>Add</div>\n" +
-    "\t<div ng-include src=\"'views/includes/pop_menu.tpl.html'\" class=\"dropdown-menu\" ms-link-group radio=\"true\"></div>\n" +
+    "<div class=\"dimensionAddBox dropdown\">\n" +
+    "\t<div class=\"dimensionItemAdd clickable dropdown-toggle\"><icon type=\"plus-square\"></icon>Add</div>\n" +
+    "\t<div ng-include src=\"'views/includes/dimensions_pop_menu.tpl.html'\" class=\"dropdown-menu\"></div>\n" +
     "</div>"
   );
 
@@ -34,15 +34,15 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/draggable_dimension.tpl.html',
-    "<div class=\"pbItem dropdown\" data-as-sortable-item>\n" +
-    "\t<div data-as-sortable-item-handle class=\"\">\n" +
+    "<div class=\"dimensionItem dropdown\" data-as-sortable-item>\n" +
+    "\t<div data-as-sortable-item-handle>\n" +
     "\t\t<span title=\"Reorder\"><icon type=\"reorder\"></icon></span>\n" +
-    "\t\t<span class=\"pbItemInfo dropdown-toggle\">\n" +
-    "\t\t\t<span class=\"pbItemName clickable\" ng-click=\"toggleMenu()\">{{item.level.label.toLowerCase()}}</span>\n" +
+    "\t\t<span class=\"dimensionItemInfo dropdown-toggle\">\n" +
+    "\t\t\t<span class=\"dimensionItemName clickable\">{{item.level.label.toLowerCase()}}</span>\n" +
     "\t\t</span>\n" +
     "\t\t<span class=\"clickable\" title=\"Remove\" ng-click=\"delete($index)\"><icon type=\"remove\"></icon></span>\n" +
     "\t</div>\n" +
-    "\t<div ng-include src=\"'views/includes/pop_menu.tpl.html'\" class=\"dropdown-menu\" ms-link-group radio=\"true\"></div>\n" +
+    "\t<div ng-include src=\"'views/includes/dimensions_pop_menu.tpl.html'\" class=\"dropdown-menu\"></div>\n" +
     "</div>"
   );
 

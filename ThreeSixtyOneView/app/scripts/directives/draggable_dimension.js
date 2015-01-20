@@ -3,27 +3,33 @@
 angular.module('ThreeSixtyOneView.directives')
     .directive('draggableDimension', function() {
         return {
-            templateUrl: 'views/directives/draggable_dimension.tpl.html',
+            templateUrl: function(elem, attrs) {
+                return "views/directives/" + attrs.template + ".tpl.html";
+            },
             restrict: "AE",
             replace: true,
             controller: function($scope, $element, $attrs) {
-                $scope.show = false;
-                $scope.selected = function(label) {
+                var init = function() {
+                    $scope.addDimension = $attrs['template'] === 'add_dimension_button' ? true : false;
+                };
+
+                $scope.isSelected = function(label) {
                      return $scope.$parent.added[label];
                 };
 
                 $scope.selectDimension = function(selected, prioLabel) {
-                    $scope.$parent.replaceItem(selected, prioLabel, $attrs.rowOrCol);
-                    $scope.show = false;
-                };
-
-                $scope.toggleMenu = function() {
-                    $scope.show = !$scope.show;
+                    if($scope.addDimension) {
+                        $scope.$parent.addItem(selected, $attrs.rowOrCol);
+                    } else {
+                        $scope.$parent.replaceItem(selected, prioLabel, $attrs.rowOrCol);
+                    }
                 };
 
                 $scope.delete = function(index) {
                     $scope.$parent.deleteItem(index, $attrs.rowOrCol);
                 };
+
+                init();
             }
         };
     });

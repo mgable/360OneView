@@ -2,9 +2,9 @@
 
 'use strict';
 
-angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$timeout", function($scope, $timeout) {
-            var sheet,
-                spread,
+angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$timeout", "$q", function($scope, $timeout, $q) {
+            var sheet = {},
+                spread = {},
                 setDefaultWidth = function(){
                     // set default column width and height
                     var maxW = 250,
@@ -67,7 +67,12 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                             row.wordWrap(true);
                         } else {
                             for (var j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
-                                sheet.getCell(i, j).font("14px proxima-nova").foreColor("#333").value(randomNumber(0, 2000)).locked(false);
+                                // sheet.getCell(i, j).font("14px proxima-nova").foreColor("#333").locked(false);
+                                if(sheet.getCell(i, j).value() === null) {
+                                    sheet.getCell(i, j).backColor("#EEE").locked(true);
+                                } else {
+                                    sheet.getCell(i, j).font("14px proxima-nova").foreColor("#333").locked(false);
+                                }
                             }
                         }
                     }
@@ -162,21 +167,26 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
 
             // This is public because it needs to be called from the template
             $scope.init = function (numRows, numCols) {
+                // get spread object
                 spread = $("#pivotTable").wijspread("spread");
-                sheet = spread.getActiveSheet();
+                // wait until spread is available then execute the rest
+                if(spread) {
+                    // get active sheet
+                    sheet = spread.getActiveSheet();
 
-                spread.grayAreaBackColor("Transparent");
-                spread.scrollbarMaxAlign(true);
-                sheet.setColumnHeaderVisible(false);
-                sheet.setRowHeaderVisible(false);
-                sheet.setColumnHeaderVisible(false);
-                sheet.setIsProtected(true);
-                sheet.autoGenerateColumns = true;
+                    spread.grayAreaBackColor("Transparent");
+                    spread.scrollbarMaxAlign(true);
+                    sheet.setColumnHeaderVisible(false);
+                    sheet.setRowHeaderVisible(false);
+                    sheet.setColumnHeaderVisible(false);
+                    sheet.setIsProtected(true);
+                    sheet.autoGenerateColumns = true;
 
-                // $scope.pivotTableData is located in ScenarioCtrl
-                $scope.spread.updateSheet($scope.pivotTableData);
+                    // $scope.pivotTableData is located in ScenarioCtrl
+                    $scope.spread.updateSheet($scope.pivotTableData);
+                }
             };
-        
+
 
             // $scope.spread is in ScenarioCtrl and how pivottable and pivotbuilder communicate
             $scope.spread.updateSheet = function(_data_, numRows, numCols) {

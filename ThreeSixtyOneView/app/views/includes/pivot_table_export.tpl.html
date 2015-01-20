@@ -5,9 +5,8 @@
 		<div class="pbSec">
 			<div class="pbSecTitle">Dimensions</div>
 			<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="viewData" tabindex="-1">
-				<draggable-dimension ng-repeat="item in viewData"></draggable-dimension>
-
-				<add-dimension-btn menu="menuList"></add-dimension-btn>
+				<draggable-dimension ng-repeat="item in viewData" template="draggable_dimension"></draggable-dimension>
+				<draggable-dimension ng-hide="isDragging" template="add_dimension_button"></draggable-dimension>
 			</div>
 		</div>
        <div class="pbSec">

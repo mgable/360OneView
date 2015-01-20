@@ -53,6 +53,16 @@ angular.module('ThreeSixtyOneView')
 		var init = function() {
 			$scope.exportObj = {prepareProgress:0, readyForDownload:false, exportClicked: false, exceedLimit:false};
 			$scope.stopTime;
+
+			$scope.dragOptions = {
+			dragStart: function() {
+				$scope.isDragging = true;
+			},
+			dragEnd: function() {
+				$scope.isDragging = false;
+			}
+			// containment: '.pbSec'
+		};
 		};
 		init();
 
