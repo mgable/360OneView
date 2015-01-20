@@ -6,13 +6,6 @@
 		<span class="action"><icon type="pencil" cname="icon"></icon></span>
 	</span>
 
-	<pre>
-form errors {{form.$error}}
-
-
-
-	</pre>
-
     <span class="edit" ng-show="isActive">
     	<!-- validator -->
     	<input ng-if="comparisonModel" type="text" class="title" ng-model="item.title" required ng-maxlength="256" validator="comparisonModel" error-type="foo" ng-minlength="2" ng-pattern='inputRestrictions.characterRestrictions' tabindex="1"/>

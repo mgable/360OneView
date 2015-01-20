@@ -4,7 +4,7 @@
 			<h3>Create a Scenario</h3>
 			<div class="inputGroup" ng-show="showFields">
 				<label>Enter Scenario Name
-				<input type="text" focus placeholder="Enter Scenario Name" required ng-maxlength="{{inputRestrictions.maximumCharacterLimit}}" ng-minlength="{{inputRestrictions.minimumCharacterLimit}}" ng-pattern='inputRestrictions.characterRestrictions' is-unique="isScenarioTitleUnique" ng-model="scenario.title" data-ms-id="ScenarioCreate.inputName"/>
+				<input type="text" focus placeholder="Enter Scenario Name" required ng-maxlength="{{inputRestrictions.maximumCharacterLimit}}" ng-minlength="{{inputRestrictions.minimumCharacterLimit}}" ng-pattern='inputRestrictions.characterRestrictions' validator="isScenarioTitleUnique" error-type="isUnique" ng-model="scenario.title" data-ms-id="ScenarioCreate.inputName"/>
 				<div class="alert alert-danger" ng-show="ScenarioCreate.$error.isUnique" role="alert">The scenario name &quot;{{scenario.title}}&quot; has been taken. Please choose another name.</div></label>
 				<label>Enter Description (Optional)
 				<input class="description" type="text" placeholder="Enter Scenario description (optional)" ng-model="scenario.description" ng-maxlength="1024" data-ms-id="ScenarioCreate.inputDescription"></label>

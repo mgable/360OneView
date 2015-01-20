@@ -77,13 +77,6 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t<span class=\"action\"><icon type=\"pencil\" cname=\"icon\"></icon></span>\n" +
     "\t</span>\n" +
     "\n" +
-    "\t<pre>\n" +
-    "form errors {{form.$error}}\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\t</pre>\n" +
-    "\n" +
     "    <span class=\"edit\" ng-show=\"isActive\">\n" +
     "    \t<!-- validator -->\n" +
     "    \t<input ng-if=\"comparisonModel\" type=\"text\" class=\"title\" ng-model=\"item.title\" required ng-maxlength=\"256\" validator=\"comparisonModel\" error-type=\"foo\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\"/>\n" +
@@ -360,7 +353,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t<h3>Create a Scenario</h3>\n" +
     "\t\t\t<div class=\"inputGroup\" ng-show=\"showFields\">\n" +
     "\t\t\t\t<label>Enter Scenario Name\n" +
-    "\t\t\t\t<input type=\"text\" focus placeholder=\"Enter Scenario Name\" required ng-maxlength=\"{{inputRestrictions.maximumCharacterLimit}}\" ng-minlength=\"{{inputRestrictions.minimumCharacterLimit}}\" ng-pattern='inputRestrictions.characterRestrictions' is-unique=\"isScenarioTitleUnique\" ng-model=\"scenario.title\" data-ms-id=\"ScenarioCreate.inputName\"/>\n" +
+    "\t\t\t\t<input type=\"text\" focus placeholder=\"Enter Scenario Name\" required ng-maxlength=\"{{inputRestrictions.maximumCharacterLimit}}\" ng-minlength=\"{{inputRestrictions.minimumCharacterLimit}}\" ng-pattern='inputRestrictions.characterRestrictions' validator=\"isScenarioTitleUnique\" error-type=\"isUnique\" ng-model=\"scenario.title\" data-ms-id=\"ScenarioCreate.inputName\"/>\n" +
     "\t\t\t\t<div class=\"alert alert-danger\" ng-show=\"ScenarioCreate.$error.isUnique\" role=\"alert\">The scenario name &quot;{{scenario.title}}&quot; has been taken. Please choose another name.</div></label>\n" +
     "\t\t\t\t<label>Enter Description (Optional)\n" +
     "\t\t\t\t<input class=\"description\" type=\"text\" placeholder=\"Enter Scenario description (optional)\" ng-model=\"scenario.description\" ng-maxlength=\"1024\" data-ms-id=\"ScenarioCreate.inputDescription\"></label>\n" +
