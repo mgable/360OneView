@@ -141,13 +141,20 @@
 
 	// create an empty view with no rows and columns and ALL for filters
 	this.createEmptyView = function(dimensions, cubeMeta) {
-		var i, newView = {
+		var i,
+			newColumn = {dimension:{id:dimensions[dimensions.length-1].dimensionId},hierarchy:{id:-1},level:{id:dimensions[dimensions.length-1].members[0].levelId}},
+			newRow = {dimension:{id:dimensions[0].dimensionId},hierarchy:{id:-1},level:{id:dimensions[0].members[0].levelId}},
+			columns = [],
+			rows = [],
+			newView = {
 			name: 'Default ' + cubeMeta.label + ' view',
 			isDefault: true,
-			columns: [],
-			rows: [],
+			columns: columns,
+			rows: rows,
 			filters: []
 		};
+		newView.columns.push(newColumn);
+		newView.rows.push(newRow);
 
 		_.each(dimensions, function(dimension) {
 			newView.filters.push({

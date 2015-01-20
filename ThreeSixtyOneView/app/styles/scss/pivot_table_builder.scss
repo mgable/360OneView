@@ -183,20 +183,28 @@
 							background-color: white;
 						}
 
-						div {
-							white-space: nowrap;
-							overflow: hidden;
-							text-overflow: ellipsis;
-							padding: 5px 20px;
-							cursor: pointer;
+						li {
+							div {
+								white-space: nowrap;
+								overflow: hidden;
+								text-overflow: ellipsis;
+								padding: 5px 20px;
+								cursor: pointer;
 
-							&:hover {
-								background-color: $blue;
-								color: white;
+								&:hover {
+									background-color: $lightgray;
+								}
+
+								i {
+									margin-right: 5px;
+								}
 							}
 
-							i {
-								margin-right: 5px;
+							&.selected {
+								div {
+									background-color: $blue;
+									color: white;
+								}
 							}
 						}
 
