@@ -5,7 +5,7 @@ var specs = require('./0.0-specs.js'),
 
 	var dashboardUrl, projectId;
 	//TEMP data - remove in production
-	var dashboardUrl, projectId = "0606bd18f82c31f2ab1094bb7d6c3317"; dashboardUrl = specs.getDashboardUrl(projectId);
+	//var dashboardUrl, projectId = "d62424317f333a33b590fd00852c124a"; dashboardUrl = specs.getDashboardUrl(projectId);
 
 
 describe('Project Dashboard', function() {
@@ -16,7 +16,7 @@ describe('Project Dashboard', function() {
 	);
 	var testFileName = "My New Test Project- " + Date.now();
 
-	xit("should create a new project and go to the dashboard", function(){
+	it("should create a new project and go to the dashboard", function(){
 		var firstItemTitle;
 
 		browser.get(specs.projectUrl + specs.testQuery);
@@ -81,7 +81,7 @@ describe('Project Dashboard', function() {
 		});
 
 
-		xdescribe("Create functions: ", function(){
+		describe("Create functions: ", function(){
 			var baseScenario = "scenario.referenceScenario.name",
 				baseScenarioInputField = element(by.model(baseScenario));
 
@@ -230,7 +230,7 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		xdescribe("Filter functions: ", function(){
+		describe("Filter functions: ", function(){
 
 			it("should filter by favorite", function(){
 				var startItemCount = specs.getItemCount();
@@ -253,11 +253,11 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		xdescribe("Edit functions: ", function(){
+		describe("Edit functions: ", function(){
 			var first,
 				newName = "My Renamed Scenario - " + Date.now();
 
-			it("should rename a scenario", function(){
+			xit("should rename a scenario", function(){
 				var currentName;
 
 				funcs.hoverAndClick(specs.renameButton);
@@ -272,16 +272,28 @@ describe('Project Dashboard', function() {
 				});
 			});
 
-			xit("should only allow unique names", function(){});
+			it("should only allow unique names", function(){
+				var firstItemTitle = specs.getFirstItemTitle(),
+				lastItem = specs.getLastItem();
+				firstItemTitle.getText().then(function(title){
+					lastItem.click();
+					funcs.hoverAndClick(specs.renameButton);
+					specs.inputField.clear();
+					specs.inputField.sendKeys(title);
+					expect(specs.inlineSubmitButton.getAttribute("disabled")).toBeTruthy();
+					specs.inputField.sendKeys("x");
+					expect(specs.inlineSubmitButton.getAttribute("disabled")).toBeFalsy();
+				});
+			});
 		})
 
-		xdescribe("Breadcrumbs: ", function(){
+		describe("Breadcrumbs: ", function(){
 			it("should have the correct label", function(){
 				expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + testFileName.toUpperCase());
 			});
 		});
 
-		xdescribe("Change base scenario: ", function(){
+		describe("Change base scenario: ", function(){
 
 			it("should change the base scenario", function(){
 				var scenarios, scenario;
@@ -342,7 +354,7 @@ describe('Project Dashboard', function() {
 		});
 	});
 
-	xdescribe("Edit controls on master project's master scenario", function(){
+	describe("Edit controls on master project's master scenario", function(){
 		beforeEach(
 			function(){
 				browser.driver.manage().window().setSize(1280, 1024);
