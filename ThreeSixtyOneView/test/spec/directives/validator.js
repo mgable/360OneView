@@ -1,7 +1,7 @@
 /* global xit, xdescribe */
 'use strict';
 
-describe('Directive: isUnique', function () {
+describe('Directive: validator', function () {
 
   // load the directive's module
   beforeEach(module('ThreeSixtyOneView.directives'));
@@ -16,7 +16,7 @@ describe('Directive: isUnique', function () {
     scope.isScenarioTitleUnique = function(scenarioTitle) {
       return ! _.findWhere([{title:"xyz"}, {title:"123"}, {title:"abc"}], {title:scenarioTitle});
     };
-    element = angular.element('<form name="theForm"><input type="text" name="theName" ng-model="name" is-unique="isScenarioTitleUnique"></input></form>');
+    element = angular.element('<form name="theForm"><input type="text" error-type="isUnique" name="theName" ng-model="name" validator="isScenarioTitleUnique"></input></form>');
     element = $compile(element)(scope);
     scope.$digest();
   }));

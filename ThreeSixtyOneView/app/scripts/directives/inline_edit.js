@@ -16,12 +16,13 @@ angular.module('ThreeSixtyOneView.directives')
                 test: "=",
                 submitaction: "=",
                 focustarget: "@",
-                inputrestriction: "&"
+                comparisonModel: "="
             },
             link: function($scope, $element, $attrs) {
                 var tempItem = angular.copy($scope.item),
-                inputTarget = $element.find($scope.focustarget || "input");
+                    inputTarget;
 
+                $timeout(function(){inputTarget = $element.find($scope.focustarget || "input");});
                 $scope.isActive = false;
                 $scope.inputRestrictions = CONFIG.application.inputRestrictions;
 
@@ -36,6 +37,7 @@ angular.module('ThreeSixtyOneView.directives')
                         $scope.isActive = false;
                     }
                 };
+
 
                 $scope.submit = function(item) {
                     $scope.item = item;
