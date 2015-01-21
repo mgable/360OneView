@@ -314,6 +314,8 @@ angular.module('ThreeSixtyOneView')
                 $scope.membersList = PivotMetaService.generateMembersList(result.dimensions);
                 $scope.addedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
                 $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
+
+                $scope.loadPivotTable($scope.selectedScenarioElement, result.view);
             });
         },
         getScenarioElementById = function(data, id){
@@ -344,6 +346,8 @@ angular.module('ThreeSixtyOneView')
                 $scope.membersList = PivotMetaService.generateMembersList($scope.dimensions);
                 $scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
                 $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, view);
+
+                $scope.loadPivotTable($scope.selectedScenarioElement, view);
             });
         };
 
@@ -481,6 +485,7 @@ angular.module('ThreeSixtyOneView')
                     }
                 };
                 formPivotTable(tableTree, new Array());
+
                 $scope.spread.updateSheet(pivotTable, numCols, numRows);
             });
         };
