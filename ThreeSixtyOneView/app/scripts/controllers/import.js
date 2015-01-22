@@ -19,13 +19,13 @@ angular.module('ThreeSixtyOneView')
 			}
 
 			$scope.$apply(); 
-		}
+		};
 
 		$scope.initStatus = function() {
 			$interval.cancel($scope.stopTime);
 			$scope.importObj = {uploadProgress:0, fileSelected:false, invalidFile: false, importClicked: false, uploadFinished: false};
 			$scope.selectedFile = {name: "Select a file to import"};
-		}
+		};
 
 		$scope.uploadFile = function() {
 			$scope.importObj.importClicked = true;
@@ -44,7 +44,7 @@ angular.module('ThreeSixtyOneView')
 						}
 					});	
 				}, 10000);
-			});
+			});;
 		}
     }])
     //ng-model and ng-change are not supported for input[file]
