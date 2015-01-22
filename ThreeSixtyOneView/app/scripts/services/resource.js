@@ -23,6 +23,8 @@ angular.module('ThreeSixtyOneView.services').factory("Resource", ["$http", "$q",
                 return url;
             };
 
+            this.getPath = getPath;
+
             this.setPath = function (_path_){
                 this._path = this._basePath + "/" +  _path_;
             };

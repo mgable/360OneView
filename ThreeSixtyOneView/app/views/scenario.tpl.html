@@ -2,22 +2,22 @@
 	<div class="toggle-header">
 		<div class="tabs-holder">
 			<ul ms-link-group radio="true" selected-item="{{location}}">
-				<li ms-link="/edit" ui-sref="Scenario.edit" ng-class="{disabled: scenarioIsCalculated && !calculationIsSuccess, selected:!scenarioIsCalculated}">
+				<li ms-link="/edit" ui-sref="Scenario.edit">
 					<a><icon type="pencil"></icon> Editor</a>
 				</li>
-				<li ms-link="/results" ui-sref="Scenario.results" ng-class="{disabled: !scenarioIsCalculated, selected: scenarioIsCalculated}">
+				<li ms-link="/results" ui-sref="Scenario.results" ng-class='{disabled: !isCalculated}'>
 					<a><icon type="check-square-o"></icon> Results</a>
 				</li>
 			</ul>
 		</div>
 		<div class="button-holder">
-			<span ng-click="calculateScenario()" ui-sref="Scenario.results" ng-class="{disabled: scenarioIsCalculated}"><icon type="tachometer"></icon>simulate</span>
+			<span ui-sref="Scenario.results" ng-class='{disabled: isCalculated}'><icon type="tachometer"></icon>simulate</span>
 		</div>
 	</div>
 
 	<div class="display">
 		<div ui-view="display"></div>
-		<div ui-view="result" ng-show="scenarioIsCalculated && calculationIsSuccess"></div>
-		<div ui-view="calculate" ng-show="scenarioIsCalculated && !calculationIsSuccess"></div>
+		<div ui-view="result"></div>
+		<div ui-view="calculate"></div>
 	</div>
 </div>

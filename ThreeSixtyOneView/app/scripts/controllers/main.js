@@ -259,8 +259,8 @@ angular.module('ThreeSixtyOneView')
             DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
         });
 
-    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioAnalysisElements", "ptData", "$state", "EVENTS", "ScenarioElementService", "DialogService", "PivotMetaService", "ScenarioCalculateService", "PivotDataService", "PivotViewService",
-    function($scope, Project, Scenario, ScenarioAnalysisElements, ptData, $state, EVENTS, ScenarioElementService, DialogService, PivotMetaService, ScenarioCalculateService, PivotDataService, PivotViewService) {
+    }]).controller("ScenarioCtrl", ["$scope", "Project", "Scenario", "ScenarioAnalysisElements", "ptData", "$state", "EVENTS", "ScenarioElementService", "DialogService", "PivotMetaService", "Calculate", "PivotDataService", "PivotViewService",
+    function($scope, Project, Scenario, ScenarioAnalysisElements, ptData, $state, EVENTS, ScenarioElementService, DialogService, PivotMetaService, Calculate, PivotDataService, PivotViewService) {
 
         // $scope.$on(EVENTS.filter, function(){
         //     $scope.showDetails(SortAndFilterService.getData()[0]);
@@ -290,14 +290,22 @@ angular.module('ThreeSixtyOneView')
             $scope.scenarioElements = ScenarioAnalysisElements;
 
             $scope.setScenarioElement(getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) || $scope.scenarioElements[0]);
-            $scope.location = $state.current.url;
-            $scope.toggleCalculation(false);
-            $scope.toggleSuccess(false);
+            // remove param from path
+            $scope.location = $state.current.url.match(/\/\w+/)[0];
+
             // hardcoded data
             $scope.pivotTableData = ptData.data;
             // this is how pivotbuilder and pivottable communicate
             $scope.spread = {sheet: {}};
-        }, initiateModel = function(cubeMeta) {
+
+            determineScenarioState();
+        }, 
+        determineScenarioState = function(){
+            console.info("Calculate");
+            console.info(Calculate);
+            $scope.isCalculated = (Calculate.currentState.completed === "not calculated") ? false : true ;
+        },
+        initiateModel = function(cubeMeta) {
             PivotMetaService.initModel(cubeMeta).then(function(result) {
                 var foundView = _.find(result.viewsList, function(view){ return view.id === result.view.id; });
                 if (foundView) {
@@ -551,20 +559,6 @@ angular.module('ThreeSixtyOneView')
                 $scope.replaceScenarioElement(element);
             });
         };
-
-        $scope.toggleCalculation = function(value) {
-            $scope.scenarioIsCalculated = value;
-        }
-
-        $scope.toggleSuccess = function(value) {
-            $scope.calculationIsSuccess = value;
-        }
-
-        $scope.calculateScenario = function() {
-            $scope.toggleCalculation(true);
-            $scope.location = "/results";
-            // ScenarioCalculateService.post($scope.scenario.id);
-        }
 
         init();
     }]);

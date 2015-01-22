@@ -11,16 +11,13 @@ angular.module('ThreeSixtyOneView')
 		angular.extend(this, myCalculate);
 
 		this.get = function(id){
-			var additionalPath = "calculate";
-			return this.resource.get({"id": id}, {}, additionalPath).then(function(response){
-				console.log(response);
+			return myCalculate.get({"id": id}, {}).then(function(response){
 				return response;
 			});
 		};
 
 		this.post = function(id){
-			var additionalPath = "calculate";
-			return this.resource.post({}, {}, {id: id}, additionalPath).then(function(response){
+			return this.resource.post({}, {}, {id: id}).then(function(response){
 				return response;
 			});
 		};
