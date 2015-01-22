@@ -312,6 +312,10 @@
     	}
 	}
 
+	.scenario-title {
+		cursor:pointer;
+	}
+
 	h3 {
 		display: block;
 		width: 500px;
@@ -466,6 +470,7 @@
 	}
 	div.searchBack {
 		position: relative;
+		margin:0 0 5px;
 		display: block;
 		width: 100%;
 		padding: 10px;

@@ -4,9 +4,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/add_dimension_button.tpl.html',
     "<div class=\"dimensionAddBox dropdown\">\r" +
     "\n" +
-    "\t<div class=\"dimensionItemAdd clickable dropdown-toggle\" ng-click=\"toggleMenu()\"><icon type=\"plus-square\"></icon>Add</div>\r" +
+    "\t<div class=\"dimensionItemAdd clickable dropdown-toggle\"><icon type=\"plus-square\"></icon>Add</div>\r" +
     "\n" +
-    "\t<div ng-include src=\"'views/includes/pop_menu.tpl.html'\" class=\"dropdown-menu\" ms-link-group radio=\"true\"></div>\r" +
+    "\t<div ng-include src=\"'views/includes/dimensions_pop_menu.tpl.html'\" class=\"dropdown-menu\"></div>\r" +
     "\n" +
     "</div>"
   );
@@ -65,7 +65,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<span class=\"dimensionItemInfo dropdown-toggle\">\r" +
     "\n" +
-    "\t\t\t<span class=\"dimensionItemName clickable\" ng-click=\"toggleMenu()\">{{item.level.label.toLowerCase()}}</span>\r" +
+    "\t\t\t<span class=\"dimensionItemName clickable\">{{item.level.label.toLowerCase()}}</span>\r" +
     "\n" +
     "\t\t</span>\r" +
     "\n" +
@@ -73,7 +73,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t</div>\r" +
     "\n" +
-    "\t<div ng-include src=\"'views/includes/pop_menu.tpl.html'\" class=\"dropdown-menu\"></div>\r" +
+    "\t<div ng-include src=\"'views/includes/dimensions_pop_menu.tpl.html'\" class=\"dropdown-menu\"></div>\r" +
     "\n" +
     "</div>"
   );
@@ -135,7 +135,17 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "    <span class=\"edit\" ng-show=\"isActive\">\r" +
     "\n" +
-    "    \t<input type=\"text\" class=\"title\" ng-model=\"item.title\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\"/>&nbsp;\r" +
+    "    \t<!-- validator -->\r" +
+    "\n" +
+    "    \t<input ng-if=\"comparisonModel\" type=\"text\" class=\"title\" ng-model=\"item.title\" required ng-maxlength=\"256\" validator=\"comparisonModel\" error-type=\"foo\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\"/>\r" +
+    "\n" +
+    "\r" +
+    "\n" +
+    "    \t<!-- no vaildator -->\r" +
+    "\n" +
+    "    \t<input ng-if=\"!comparisonModel\" type=\"text\" class=\"title\" ng-model=\"item.title\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\"/>\r" +
+    "\n" +
+    "\r" +
     "\n" +
     "    \t<button class=\"submit btn btn-default btn-sm\" ng-click=\"submit(item)\" ng-disabled=\"(form.$dirty && form.$invalid) || form.$pristine\"><icon type=\"check\"></icon></button>&nbsp;\r" +
     "\n" +
@@ -348,11 +358,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t<div class=\"pbFilterSelectionButton\" ng-class=\"{active: filterPopup}\">\r" +
     "\n" +
-    "\t\t\t\t\t<div class=\"pbFilterSelectAll clickable\" ng-show=\"filterCount.selected === 0\" ng-click=\"selectFilters(selectedFilter.cat.label, true, true);\"><icon type=\"circle-o\"></icon></div>\r" +
+    "\t\t\t\t\t<div class=\"pbFilterSelectAll clickable\" ng-show=\"filterCount.selected === 0\" ng-click=\"selectFilters(selectedFilter.cat.label, true, true);\"><icon type=\"square-o\"></icon></div>\r" +
     "\n" +
-    "\t\t\t\t\t<div class=\"pbFilterSelectAll clickable blue\" ng-show=\"filterCount.selected === filterCount.total\" ng-click=\"selectFilters(selectedFilter.cat.label, true, false);\"><icon type=\"check-circle\"></icon></div>\r" +
+    "\t\t\t\t\t<div class=\"pbFilterSelectAll clickable blue\" ng-show=\"filterCount.selected === filterCount.total\" ng-click=\"selectFilters(selectedFilter.cat.label, true, false);\"><icon type=\"check-square\"></icon></div>\r" +
     "\n" +
-    "\t\t\t\t\t<div class=\"pbFilterSelectAll clickable\" ng-show=\"filterCount.selected % filterCount.total > 0.01\" ng-click=\"selectFilters(selectedFilter.cat.label, true, true);\"><icon type=\"minus-circle\"></icon></div>\r" +
+    "\t\t\t\t\t<div class=\"pbFilterSelectAll clickable\" ng-show=\"filterCount.selected % filterCount.total > 0.01\" ng-click=\"selectFilters(selectedFilter.cat.label, true, true);\"><icon type=\"minus-square\"></icon></icon></div>\r" +
     "\n" +
     "\t\t\t\t\t<div class=\"pbFilterSelectDrop clickable dropdown-toggle\" ng-click=\"filterPopup = !filterPopup\"><icon type=\"caret-down\"></icon></div>\r" +
     "\n" +
@@ -624,141 +634,121 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<div class=\"details scenario-form\">\r" +
     "\n" +
-    "\t\t\t\t<h3>Create a Scenario</h3>\r" +
+    "\t\t\t<h3>Create a Scenario</h3>\r" +
     "\n" +
-    "\t\t\t\t<div class=\"inputGroup\" ng-show=\"showFields\">\r" +
+    "\t\t\t<div class=\"inputGroup\" ng-show=\"showFields\">\r" +
     "\n" +
-    "\t\t\t\t\t<label>Enter Scenario Name\r" +
+    "\t\t\t\t<label>Enter Scenario Name\r" +
     "\n" +
-    "\t\t\t\t\t<input type=\"text\" focus placeholder=\"Enter Scenario Name\" required ng-maxlength=\"{{inputRestrictions.maximumCharacterLimit}}\" ng-minlength=\"{{inputRestrictions.minimumCharacterLimit}}\" ng-pattern='inputRestrictions.characterRestrictions' is-unique=\"isScenarioTitleUnique\" ng-model=\"scenario.title\" data-ms-id=\"ScenarioCreate.inputName\"/>\r" +
+    "\t\t\t\t<input type=\"text\" focus placeholder=\"Enter Scenario Name\" required ng-maxlength=\"{{inputRestrictions.maximumCharacterLimit}}\" ng-minlength=\"{{inputRestrictions.minimumCharacterLimit}}\" ng-pattern='inputRestrictions.characterRestrictions' validator=\"isScenarioTitleUnique\" error-type=\"isUnique\" ng-model=\"scenario.title\" data-ms-id=\"ScenarioCreate.inputName\"/>\r" +
     "\n" +
-    "\t\t\t\t\t<div class=\"alert alert-danger\" ng-show=\"ScenarioCreate.$error.isUnique\" role=\"alert\">The scenario name &quot;{{scenario.title}}&quot; has been taken. Please choose another name.</div></label>\r" +
+    "\t\t\t\t<div class=\"alert alert-danger\" ng-show=\"ScenarioCreate.$error.isUnique\" role=\"alert\">The scenario name &quot;{{scenario.title}}&quot; has been taken. Please choose another name.</div></label>\r" +
     "\n" +
-    "\t\t\t\t\t<label>Enter Description (Optional)\r" +
+    "\t\t\t\t<label>Enter Description (Optional)\r" +
     "\n" +
-    "\t\t\t\t\t<input class=\"description\" type=\"text\" placeholder=\"Enter Scenario description (optional)\" ng-model=\"scenario.description\" ng-maxlength=\"1024\" data-ms-id=\"ScenarioCreate.inputDescription\"></label>\r" +
+    "\t\t\t\t<input class=\"description\" type=\"text\" placeholder=\"Enter Scenario description (optional)\" ng-model=\"scenario.description\" ng-maxlength=\"1024\" data-ms-id=\"ScenarioCreate.inputDescription\"></label>\r" +
+    "\n" +
+    "\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t<div class=\"baseGroup\">\r" +
+    "\n" +
+    "\t\t\t\t<label for=\"baseScenario\" ng-click=\"showBaseScenario()\" data-ms-id=\"ScenarioCreate.inputBaseScenario\">Base Scenario\r" +
+    "\n" +
+    "\t\t\t\t\t<input type=\"text\" id=\"baseScenario\" ng-model=\"scenario.referenceScenario.name\" readonly><icon type=\"folder-open-o\" cname=\"open\"></icon>\r" +
+    "\n" +
+    "\t\t\t\t</label>\r" +
+    "\n" +
+    "\t\t\t\t<div class=\"buttons\" ng-show=\"showFields\">\r" +
+    "\n" +
+    "\t\t\t\t\t<button class=\"button cancel\" ng-click=\"close()\" data-ms-id=\"ScenarioCreate.cancel\">Cancel</button>\r" +
+    "\n" +
+    "\t\t\t\t\t<button class=\"button submit\" ng-click=\"submit(scenario)\" ng-disabled=\"ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList\" data-ms-id=\"ScenarioCreate.submit\">Continue</button><span ng-hide=\"scenarioList\" class=\"loaderHolder\"><span class=\"loading\"></span>Loading scenarios</span>\r" +
     "\n" +
     "\t\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t\t<div class=\"baseGroup\">\r" +
+    "\r" +
     "\n" +
-    "\t\t\t\t\t<label for=\"baseScenario\" ng-click=\"showBaseScenario()\" data-ms-id=\"ScenarioCreate.inputBaseScenario\">Base Scenario\r" +
+    "\t\t\t\t<!-- Begin hidden group -->\r" +
     "\n" +
-    "\t\t\t\t\t\t<input type=\"text\" id=\"baseScenario\" ng-model=\"scenario.referenceScenario.name\" readonly><icon type=\"folder-open-o\" cname=\"open\"></icon>\r" +
+    "\t\t\t\t<div class=\"radios\" ng-show=\"!showFields\">\r" +
     "\n" +
-    "\t\t\t\t\t</label>\r" +
+    "\t\t\t\t\t<div class='searchBack'>\r" +
     "\n" +
-    "\t\t\t\t\t<div class=\"buttons\" ng-show=\"showFields\">\r" +
+    "\t\t\t\t\t\t<icon type=\"search\"></icon>\r" +
     "\n" +
-    "\t\t\t\t\t\t<button class=\"button cancel\" ng-click=\"close()\" data-ms-id=\"ScenarioCreate.cancel\">Cancel</button>\r" +
-    "\n" +
-    "\t\t\t\t\t\t<button class=\"button submit\" ng-click=\"submit(scenario)\" ng-disabled=\"ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList\" data-ms-id=\"ScenarioCreate.submit\">Continue</button><span ng-hide=\"scenarioList\" class=\"loaderHolder\"><span class=\"loading\"></span>Loading scenarios</span>\r" +
+    "\t\t\t\t\t\t<input type=\"text\" class=\"form-control\" id=\"search\" placeholder=\"Search by Name\" ng-model=\"searchText\"/>\r" +
     "\n" +
     "\t\t\t\t\t</div>\r" +
     "\n" +
     "\r" +
     "\n" +
-    "\t\t\t\t\t<!-- Begin hidden group -->\r" +
+    "\t\t\t\t\t<accordion close-others=\"false\">\r" +
     "\n" +
-    "\t\t\t\t\t<div class=\"radios\" ng-show=\"!showFields\">\r" +
+    "\t\t\t\t\t\t<accordion-group is-open=\"true\">\r" +
     "\n" +
-    "\t\t\t\t\t\t<div class='searchBack'>\r" +
+    "\t\t\t\t\t\t\t<accordion-heading>{{masterProject.title}}</accordion-heading>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<icon type=\"search\"></icon>\r" +
+    "\t\t\t\t\t\t\t<div class=\"row\" ng-click=\"setScenario(masterProjectReferenceScenario)\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<input type=\"text\" class=\"form-control\" id=\"search\" placeholder=\"Search by Name\" ng-model=\"searchText\"/>\r" +
+    "\t\t\t\t\t\t\t\t<div class=\"col-md-1\">\r" +
     "\n" +
-    "\t\t\t\t\t\t</div>\r" +
+    "\t\t\t\t\t\t\t\t\t<span><icon type=\"check-circle\" cname=\"ok-sign\" ng-show=\"showRow(masterProjectReferenceScenario)\"></icon></span>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t<div class=\"col-md-11\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t\t<span>{{masterProjectReferenceScenario.title}}</span>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t\t\t</accordion-group>\r" +
+    "\n" +
+    "\t\t\t\t\t\t<accordion-group ng-repeat=\"scenarios in scenarioList | filterProjects : searchText\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t<accordion-heading>{{scenarios.title}} Project</accordion-heading>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t<div ng-repeat=\"scenario in scenarios.data\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t<div class=\"row\" ng-click=\"setScenario(scenario)\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t\t<div class=\"col-md-1\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t\t\t<span ng-show=\"showRow(scenario)\"><icon type=\"check-circle\" cname=\"ok-sign\"></icon></span>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t\t<div class=\"col-md-11\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t\t\t<span class=\"scenario-title\">{{scenario.title}}</span>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t\t\t</accordion-group>\r" +
+    "\n" +
+    "\t\t\t\t\t</accordion>\r" +
     "\n" +
     "\r" +
     "\n" +
-    "\t\t\t\t\t\t<table class=\"table table-hover table-bordered no-margin\" >\r" +
+    "\t\t\t\t\t<div class=\"base-scenario\" >\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<thead>\r" +
+    "\t\t\t\t\t\t<button class=\"confirmRadio\" ng-click=\"confirm()\" data-ms-id=\"ScenarioCreate.confirmBaseScenario\">Confirm Base Scenario</button>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<th class=\"col-lg-6\">{{masterProject.title}}</th>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t</thead>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t<tbody>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t<tr>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t<td ng-click=\"setScenario(masterProjectReferenceScenario)\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t\t<div class=\"row\" >\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-1\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t\t<span><icon type=\"check-circle\" cname=\"ok-sign\" ng-show=\"showRow(masterProjectReferenceScenario)\"></icon></span>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-11\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t\t<span>{{masterProjectReferenceScenario.title}}</span>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t</td>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t</tr>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t</tbody>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t<thead ng-repeat-start=\"scenarios in scenarioList | filterBaseScenarios : searchText\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t<th class=\"col-lg-6\" data-align=\"left\">{{scenarios.title}} Project</th>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t</thead>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t<tbody ng-repeat-end>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t<tr ng-repeat=\"scenario in scenarios.data\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t<td ng-click=\"setScenario(scenario)\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t\t<div class=\"row\" >\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-1\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t\t<span ng-show=\"showRow(scenario)\"><icon type=\"check-circle\" cname=\"ok-sign\"></icon></span>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-11\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"{{scenario.type}}\">{{scenario.title}}</span>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t</td>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t</tr>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t</tbody>\r" +
-    "\n" +
-    "\t\t\t\t\t\t</table>\r" +
-    "\n" +
-    "\t\t\t\t\t\t<div class=\"base-scenario\" >\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t<button class=\"confirmRadio\" ng-click=\"confirm()\" data-ms-id=\"ScenarioCreate.confirmBaseScenario\">Confirm Base Scenario</button>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t<button ng-click=\"cancel()\" data-ms-id=\"ScenarioCreate.cancelBaseScenario\">Cancel</button>\r" +
-    "\n" +
-    "\t\t\t\t\t\t</div>\r" +
+    "\t\t\t\t\t\t<button ng-click=\"cancel()\" data-ms-id=\"ScenarioCreate.cancelBaseScenario\">Cancel</button>\r" +
     "\n" +
     "\t\t\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t\t<!-- End hidden group -->\r" +
-    "\n" +
     "\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t<!-- End hidden group -->\r" +
+    "\n" +
+    "\t\t\t</div>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +

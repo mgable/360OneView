@@ -95,7 +95,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     });
                     _.each(rowOrder, function(v) {
                         var span = rowSpan[v];
-                        if (span === 1) {
+                        if (span === 1 && level > 0) {
                             return;
                         }
                         sheet.addSpan(level, min, 1, span);

@@ -5,7 +5,7 @@ var specs = require('./0.0-specs.js'),
 
 	var dashboardUrl, projectId;
 	//TEMP data - remove in production
-	//var dashboardUrl, projectId = "4aef7f8842873a13baff73abcc306d64"; dashboardUrl = specs.getDashboardUrl(projectId);
+	//var dashboardUrl, projectId = "d62424317f333a33b590fd00852c124a"; dashboardUrl = specs.getDashboardUrl(projectId);
 
 
 describe('Project Dashboard', function() {
@@ -70,7 +70,7 @@ describe('Project Dashboard', function() {
 			trayCopyButton = element(by.xpath(trayCopy)),
 			inputName = element(by.xpath(name)),
 			inputDescription = element(by.xpath(description)),
-			inputbaseScenario = element(by.xpath(baseScenario )),
+			inputbaseScenario = element(by.xpath(baseScenario)),
 			submitButton = element(by.xpath(submit)),
 			cancelButton = element(by.xpath(cancel)),
 			confirmBaseScenarioButton = element(by.xpath(confirmBaseScenario)),
@@ -257,7 +257,7 @@ describe('Project Dashboard', function() {
 			var first,
 				newName = "My Renamed Scenario - " + Date.now();
 
-			it("should rename a scenario", function(){
+			xit("should rename a scenario", function(){
 				var currentName;
 
 				funcs.hoverAndClick(specs.renameButton);
@@ -272,7 +272,19 @@ describe('Project Dashboard', function() {
 				});
 			});
 
-			xit("should only allow unique names", function(){});
+			it("should only allow unique names", function(){
+				var firstItemTitle = specs.getFirstItemTitle(),
+				lastItem = specs.getLastItem();
+				firstItemTitle.getText().then(function(title){
+					lastItem.click();
+					funcs.hoverAndClick(specs.renameButton);
+					specs.inputField.clear();
+					specs.inputField.sendKeys(title);
+					expect(specs.inlineSubmitButton.getAttribute("disabled")).toBeTruthy();
+					specs.inputField.sendKeys("x");
+					expect(specs.inlineSubmitButton.getAttribute("disabled")).toBeFalsy();
+				});
+			});
 		})
 
 		describe("Breadcrumbs: ", function(){
@@ -284,13 +296,15 @@ describe('Project Dashboard', function() {
 		describe("Change base scenario: ", function(){
 
 			it("should change the base scenario", function(){
-				var scenario;
+				var scenarios, scenario;
 
 				specs.createButton.click();
 				browser.waitForAngular();
 				inputName.sendKeys("New " + testScenarionNameSecond);
 				inputbaseScenario.click();
 				browser.waitForAngular();
+				scenarios = element.all(by.repeater("scenarios in scenarioList"));
+				scenarios.first().click();
 				scenario = element.all(by.repeater("scenario in scenarios.data")).get(1);
 				scenario.click();
 				scenario.getText().then(function(scenarioText){
@@ -303,6 +317,37 @@ describe('Project Dashboard', function() {
 						browser.get(dashboardUrl);
 						browser.waitForAngular();
 						expect(scenarioBaseScenarioElement.getText()).toEqual(scenarioText);
+					});
+				});
+			});
+		});
+
+		describe("Scenario Elements: ", function(){
+			var scenarioElements = "element in scenarioElements",
+				scenarioEditScenarioElements = "div[data-ms-id='ScenarioEdit.scenarioElements'] .dropdown-toggle",
+				allScenarioElements = element.all(by.repeater(scenarioElements)),
+				firstScenarioElement = allScenarioElements.first().element(by.css("a")),
+				lastScenarioElement =   allScenarioElements.last().element(by.css("a")),
+				selectedScenarioElement = element(by.css(scenarioEditScenarioElements));
+
+			it("should click through to scenario edit with the correct scenario element selected", function(){
+				firstScenarioElement.getText().then(function(titleInTray){
+					firstScenarioElement.click();
+					browser.waitForAngular();
+					expect(browser.getLocationAbsUrl()).toContain("/#/scenario/" + projectId);
+					selectedScenarioElement.getText().then(function(titleInScenarioEdit){
+						expect(titleInTray).toBe(titleInScenarioEdit);
+					});
+				});
+
+				browser.get(specs.getDashboardUrl(projectId) + specs.testQuery);
+
+				lastScenarioElement.getText().then(function(titleInTray){
+					lastScenarioElement.click();
+					browser.waitForAngular();
+					expect(browser.getLocationAbsUrl()).toContain("/#/scenario/" + projectId);
+					selectedScenarioElement.getText().then(function(titleInScenarioEdit){
+						expect(titleInTray).toBe(titleInScenarioEdit);
 					});
 				});
 			});

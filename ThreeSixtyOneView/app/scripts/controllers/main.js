@@ -74,8 +74,8 @@ angular.module('ThreeSixtyOneView')
             });
         };
 
-        $scope.isScenarioTitleUnique = function(scenarioTitle) {
-            return ! _.findWhere($scope.scenarios, {title:scenarioTitle});
+        $scope.isScenarioTitleUnique = function(scenario) {
+            return ! _.findWhere($scope.scenarios, {title: scenario});
         };
 
         // Event Listeners
@@ -195,8 +195,6 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.showDetails = function(item){
-            console.info("zzzzzzzzzzzzzz");
-            console.info(item);
             $scope.selectedItem = item;
             $rootScope.$broadcast(EVENTS.newSelectedItem, $scope.selectedItem);
         };
@@ -289,7 +287,7 @@ angular.module('ThreeSixtyOneView')
                     name: 'Loading...'
                 }
             };
-            $scope.scenarioElements =  ScenarioAnalysisElements;
+            $scope.scenarioElements = ScenarioAnalysisElements;
 
             $scope.setScenarioElement(getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) || $scope.scenarioElements[0]);
             $scope.location = $state.current.url;
@@ -316,6 +314,8 @@ angular.module('ThreeSixtyOneView')
                 $scope.membersList = PivotMetaService.generateMembersList(result.dimensions);
                 $scope.addedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
                 $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
+
+                $scope.loadPivotTable($scope.selectedScenarioElement, result.view);
             });
         },
         getScenarioElementById = function(data, id){
@@ -346,6 +346,8 @@ angular.module('ThreeSixtyOneView')
                 $scope.membersList = PivotMetaService.generateMembersList($scope.dimensions);
                 $scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
                 $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, view);
+
+                $scope.loadPivotTable($scope.selectedScenarioElement, view);
             });
         };
 
@@ -394,11 +396,11 @@ angular.module('ThreeSixtyOneView')
                 var draftView = angular.copy($scope.viewData);
                 draftView.name = 'Draft - ' + draftView.name;
                 $scope.createView($scope.cubeId, draftView, $scope.viewsList).then(function() {
-                    // $scope.loadPivotTable();
+                    $scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
                 });
             } else {
                 $scope.updateView($scope.cubeId, $scope.viewData).then(function() {
-                    // $scope.loadPivotTable();
+                    $scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
                 });
             }
         };
@@ -420,12 +422,14 @@ angular.module('ThreeSixtyOneView')
             }
         };
 
-        $scope.loadPivotTable = function(elementId, viewId) {
-            PivotDataService.getSlice(70, 65).then(function(response) {
+        $scope.loadPivotTable = function(element, view) {
+            if(element.cubeMeta.id !== 1) return;
+            PivotDataService.getSlice(element.id, view.id).then(function(response) {
+                // console.log(response);
                 var i, j,
                     tableTree = {},
-                    numCols = $scope.viewData.columns.length,
-                    numRows = $scope.viewData.rows.length,
+                    numCols = view.columns.length,
+                    numRows = view.rows.length,
                     numLines = response.length,
                     pivotTable = [],
                     columnIndex = numRows;
@@ -481,6 +485,7 @@ angular.module('ThreeSixtyOneView')
                     }
                 };
                 formPivotTable(tableTree, new Array());
+
                 $scope.spread.updateSheet(pivotTable, numCols, numRows);
             });
         };

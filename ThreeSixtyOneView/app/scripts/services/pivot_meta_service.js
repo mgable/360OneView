@@ -220,31 +220,36 @@
 	};
 
 	this.updateFilters = function(dimensions, addedFilters, membersList, viewFilters) { // update view filters based on the user selections
-		var i, j, filters = [], newFilter, values = {}, dimensionId;
+		var filters = [], self = this;
 
-		for(i = 0; i < dimensions.length; i++) {
-			dimensionId = dimensions[i].id;
-
-			newFilter = {};
-			newFilter.scope = addedFilters[dimensions[i].label].scope;
-			newFilter.id = viewFilters[i].id;
-			newFilter.value = {};
-			newFilter.value.specification = {};
-
-			values = this.getCategorizeValues(dimensions[i], addedFilters[dimensions[i].label]);
+		_.each(dimensions, function(dimension, dimensionIndex) {
+			var dimensionId = dimension.id,
+				values = self.getCategorizeValues(dimension, addedFilters[dimension.label]),
+				newFilter = {
+					id: viewFilters[dimensionIndex].id,
+					value: {
+						specification: {}
+					},
+					scope: {
+						dimension: {id: membersList[dimensionId][values.label[0]].dimensionId},
+						hierarchy: {id: membersList[dimensionId][values.label[0]].hierarchyId},
+						level: {id: membersList[dimensionId][values.label[0]].levelId}
+					}
+				};
 
 			if(values.selected === values.total) {
 				newFilter.value.specification.type = 'All';
+				newFilter.scope.level.id = dimension.members[0].id;
 			} else {
 				newFilter.value.specification.type = 'Absolute';
 				newFilter.value.specification.members = [];
-				for(j = 0; j < values.label.length; j++) {
-					newFilter.value.specification.members.push({id: membersList[dimensionId][values.label[j]].id});
-				}
+				_.each(values.label, function(item, index) {
+					newFilter.value.specification.members.push({id: membersList[dimensionId][item].id});
+				});
 			}
 
 			filters.push(newFilter);
-		}
+		});
 
 		return filters;
 	};

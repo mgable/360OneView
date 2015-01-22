@@ -10,11 +10,10 @@ angular.module('ThreeSixtyOneView.directives')
             replace: true,
             controller: function($scope, $element, $attrs) {
                 var init = function() {
-                    $scope.show = false;
                     $scope.addDimension = $attrs['template'] === 'add_dimension_button' ? true : false;
                 };
 
-                $scope.selected = function(label) {
+                $scope.isSelected = function(label) {
                      return $scope.$parent.added[label];
                 };
 
@@ -24,11 +23,6 @@ angular.module('ThreeSixtyOneView.directives')
                     } else {
                         $scope.$parent.replaceItem(selected, prioLabel, $attrs.rowOrCol);
                     }
-                    $scope.show = false;
-                };
-
-                $scope.toggleMenu = function() {
-                    $scope.show = !$scope.show;
                 };
 
                 $scope.delete = function(index) {

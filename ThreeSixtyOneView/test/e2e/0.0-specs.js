@@ -53,6 +53,9 @@ var breadcrumb = "ol.breadcrumb",
 		getFirstItemTitle: function(){
 			return element.all(by.repeater(items).column('title')).first();
 		},
+		getLastItemTitle: function(){
+			return element.all(by.repeater(items).column('title')).last();
+		},
 		getDashboardUrl: function(id){
 			return this.dashboardUrl.replace(/:id/, id);
 		},
@@ -73,6 +76,9 @@ var breadcrumb = "ol.breadcrumb",
 		},
 		getFirstItem: function(){
 			return element(by.repeater(items).row(0));
+		},
+		getLastItem: function(){
+			return element.all(by.repeater(items)).last();
 		},
 		getScenarios: function(){
 			return element.all(by.repeater(scenarios));

@@ -1,4 +1,4 @@
-<div class="scenario-type-dropdown">
+<div class="scenario-type-dropdown" data-ms-id="ScenarioEdit.scenarioElements">
     <div class="dropdown">
         <span class="dropdown-toggle">
             {{selectedScenarioElement.cubeMeta.label}}<icon type="caret-down"></icon>
@@ -20,7 +20,7 @@
     <tabset>
         <tab id="pivotBuilderTab" ng-controller="PivotBuilderCtrl">
             <tab-heading>
-                <div id="pivotBuildHeader" class="pbTitle" close-expand-control target-area="#pivotBuilder"><!-- ng-class="{pbTitleSel: !tabClosed, pbGray: tabClosed}" -->
+                <div id="pivotBuildHeader" class="pbTitle" close-expand-control target-area="#pivotBuilder" tab-id="1"><!-- ng-class="{pbTitleSel: !tabClosed, pbGray: tabClosed}" -->
                     <div class="pbRenameArea"> <!-- ng-click="heightChanged(); tabClosed ? expandTab() : collapseTab()" -->
                         <icon type="eye" cname="{{!tabClosed ? '':'pbGray'}}"></icon>
                         <div class="pbTitleText clickable" ng-hide="saveAs">{{viewData.name}}</div>
@@ -114,7 +114,7 @@
         </tab>
         <tab ng-controller="importCtrl">
             <tab-heading>
-                <div id="importHeader" close-expand-control target-area="#importBody">
+                <div id="importHeader" close-expand-control target-area="#importBody" tab-id="2">
                     <icon type="download" ></icon>
                 </div>
             </tab-heading>
@@ -149,7 +149,7 @@
         </tab>
         <tab ng-controller="exportCtrl">
             <tab-heading>
-                <div id="exportHeader" close-expand-control target-area="#exportBody">
+                <div id="exportHeader" close-expand-control target-area="#exportBody" tab-id="3">
                     <icon type="upload"></icon>
                 </div>
             </tab-heading>
