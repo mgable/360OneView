@@ -660,9 +660,19 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t<div class=\"buttons\" ng-show=\"showFields\">\r" +
     "\n" +
-    "\t\t\t\t\t<button class=\"button cancel\" ng-click=\"close()\" data-ms-id=\"ScenarioCreate.cancel\">Cancel</button>\r" +
+    "\t\t\t\t\t<!-- <button class=\"button cancel\" ng-click=\"close()\" data-ms-id=\"ScenarioCreate.cancel\">Cancel</button> -->\r" +
     "\n" +
-    "\t\t\t\t\t<button class=\"button submit\" ng-click=\"submit(scenario)\" ng-disabled=\"ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList\" data-ms-id=\"ScenarioCreate.submit\">Continue</button><span ng-hide=\"scenarioList\" class=\"loaderHolder\"><span class=\"loading\"></span>Loading scenarios</span>\r" +
+    "\t\t\t\t\t<ms-button type=\"cancel\" action=\"close()\" label=\"Cancel\" data-ms-id=\"ScenarioCreate.cancel\"></ms-button>\r" +
+    "\n" +
+    "\t\t\t\t\t<!-- <button class=\"button submit\" ng-click=\"submit(scenario)\" ng-disabled=\"ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList\" data-ms-id=\"ScenarioCreate.submit\">Continue</button> -->\r" +
+    "\n" +
+    "\t\t\t\t\t<ms-button type=\"submit\" action=\"submit(scenario)\" label=\"Continue\" ng-disabled=\"ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList\" data-ms-id=\"ScenarioCreate.submit\"></ms-button>\r" +
+    "\n" +
+    "\t\t\t\t\t<span ng-hide=\"scenarioList\" class=\"loaderHolder\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t<span class=\"loading\"></span>Loading scenarios\r" +
+    "\n" +
+    "\t\t\t\t\t</span>\r" +
     "\n" +
     "\t\t\t\t</div>\r" +
     "\n" +
@@ -784,8 +794,6 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t</div>\r" +
     "\n" +
     "\t<div class=\"modal-footer\">\r" +
-    "\n" +
-    "\t\t<!-- <button type=\"button\" ng-disabled=\"nameDialog.$invalid\" class=\"btn btn-primary submit\" ng-click=\"submit(item.title)\" ui-keypress=\"{13: 'submit(item.title, $event)'}\" data-ms-id=\"modalSubmit\">{{modalProperties.button}}</button> -->\r" +
     "\n" +
     "\t\t<ms-button type=\"submit\" action=\"submit(item.title)\" label=\"{{modalProperties.button}}\" ui-keypress=\"{13: 'submit(item.title, $event)'}\" data-ms-id=\"modalSubmit\"></ms-button>\r" +
     "\n" +
