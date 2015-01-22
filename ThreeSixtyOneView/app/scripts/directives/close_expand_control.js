@@ -5,7 +5,6 @@ angular.module('ThreeSixtyOneView.directives')
         return {
             restrict: "A",
             link: function(scope, element, attrs) {
-                scope.isClosed = true;
                 var targetArea = attrs['targetArea'],
                     tabId = attrs['tabId'];
                 scope.$parent.tabControl = scope.$parent.tabControl || {};
