@@ -11,7 +11,7 @@
 		</form>
 	</div>
 	<div class="modal-footer">
-		<button type="button" ng-disabled="nameDialog.$invalid" class="btn btn-primary submit" ng-click="submit(item.title)" ui-keypress="{13: 'submit(item.title, $event)'}" data-ms-id="modalSubmit">{{modalProperties.button}}</button>
-		<button type="button" class="btn btn-default cancel" ng-click="close($event)">Cancel</button>
+		<ms-button type="submit" action="submit(item.title)" label="{{modalProperties.button}}" ui-keypress="{13: 'submit(item.title, $event)'}" data-ms-id="modalSubmit"></ms-button>
+		<ms-button type="cancel" action="close($event)" label="Cancel"></ms-button>
 	</div>
 </div>
