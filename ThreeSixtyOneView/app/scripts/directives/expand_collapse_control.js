@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.directives')
-    .directive("closeExpandControl", [function() {
+    .directive("expandCollapseControl", [function() {
         return {
             restrict: "A",
             link: function(scope, element, attrs) {
@@ -30,7 +30,7 @@ angular.module('ThreeSixtyOneView.directives')
             }
         };
     }])
-    .directive("closeControl", [function() {
+    .directive("collapseControl", [function() {
         return {
             restrict: "A",
             link: function(scope, element, attrs) {
