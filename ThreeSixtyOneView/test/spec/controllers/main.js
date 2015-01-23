@@ -33,18 +33,6 @@ describe('Controllers: ', function() {
         });
     });
 
-    describe("Navigation CTRL:", function(){
-        beforeEach(inject(function($rootScope, $controller) {
-            scope = $rootScope.$new();
-            ctrl = $controller('NavigationCtrl', {
-                $scope: scope,
-            });
-        }));
-
-        it("should exist", function(){
-            expect(ctrl).toBeDefined();
-        });
-    });
 
     describe("Project Listing CTRL", function(){
         beforeEach(inject(function(_$rootScope_, _$state_, $controller,  _CONFIG_, _FavoritesService_, _SortAndFilterService_, _EVENTS_, _ScenarioService_, $q ) {

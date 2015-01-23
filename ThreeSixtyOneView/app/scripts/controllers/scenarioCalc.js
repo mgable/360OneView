@@ -7,16 +7,21 @@
 * # scenarioCalcCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$interval', '$timeout', 'ScenarioCalculateService', 'ScenarioCalculate', 'CONFIG', '$location', '$rootScope',
-    function ($scope, $interval, $timeout, ScenarioCalculateService, ScenarioCalculate, CONFIG, $location, $rootScope) {
+angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$interval', '$timeout', 'ScenarioCalculateService', 'Calculate', 'submitCalculate', 'Scenario', 'CONFIG', '$location', '$rootScope',
+    function ($scope, $interval, $timeout, ScenarioCalculateService, Calculate, submitCalculate, Scenario, CONFIG, $location, $rootScope) {
 
-    /**
-    * private varibles and functions
-    */
-    var stepLen    = ScenarioCalculate.runningStates.length,  // the number of states for the calculation
-        stepValue  = 100 / stepLen,                           // set the interval value for progress bar
-        scenarioId = 5,                                       // get the scenario id for checking the calculation status
-        // scenarioId = $scope.scenario.id,                   // get the scenario id for checking the calculation status
+    console.info("Calculate");
+    console.info(Calculate);
+
+    // console.info("submitCalculate");
+    // console.info(submitCalculate);
+
+    // console.info("Scenario");
+    // console.info(Scenario);
+
+    var stepLen = Calculate.runningStates.length,
+        stepValue = 100 / stepLen,
+        scenarioId = Scenario.id,
 
         // init the progress
         init = function() {
@@ -25,7 +30,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
             $scope.success           = true;
             $scope.errorMsg          = "";
             getCalcStatusData($scope.calcStatesData);
-            $scope.runProgress();
         },
 
         // get the current index for status
@@ -102,7 +106,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
 
     // scope functions
     $scope.runProgress = function() {
-        $scope.stopProgress();
         $scope.timer = $interval(function(){
             getCalcStatusData($scope.calcStatesData);
         }, CONFIG.view.ScenarioCalculate.timerInterval);
@@ -114,7 +117,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
 
     $scope.resetProgress = function() {
         $scope.toggleCalculation(false);
-        ScenarioCalculateService.post(5);
+        ScenarioCalculateService.post(Scenario.id);
         init();
         $scope.toggleCalculation(true);
     };
@@ -126,17 +129,19 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
         $scope.location = "/edit";
     };
 
-    $rootScope.$on('$locationChangeStart', function() {
-        var currentPath = $location.path(),
-            re = /results$/;
+    $rootScope.$on('$locationChangeStart', function(event, next, current) {
+        var currentPath = next,
+            re = /calculate$/;
         if(currentPath.search(re) !== -1) {
             $scope.runProgress();
+            console.log('in calculate page');
         } else {
             $scope.stopProgress();
+            console.log('leave calculate page');
         }
     });
 
-    // fire off functions
+    // fire off init functions
     init();
 
 }]);

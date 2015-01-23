@@ -108,7 +108,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 	// open the modal for the list of all views
 	$scope.openAllViewsModal = function() {
 		var dialog = DialogService.openLightbox('views/modal/pivot_builder_all_views.tpl.html', 'pivotBuilderAllViewsCtrl',
-			{viewsList: $scope.viewsList, selectedViewId: $scope.viewData.id},
+			{viewsList: $scope.viewsList, selectedViewId: $scope.viewData.id, e2e: $scope.e2e},
 			{windowSize: 'lg', windowClass: 'pivotBuilderAllViewsModal'});
 
 		dialog.result.then(function(data) {

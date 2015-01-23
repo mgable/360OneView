@@ -129,11 +129,11 @@ angular.module('ThreeSixtyOneView')
 
     var init = function() {
         $scope.selectedFilter = {};
-        //$scope.selectedFilter.selFil = data.selFil;
         $scope.selectedFilter.cat = data.cat;
         $scope.addedFilter = data.addedFilters;
         $scope.dimensions = data.dimensions;
         $scope.viewData = data.viewData;
+        $scope.e2e = data.e2e;
 
         $scope.categorizedValue = [];
         $scope.filterSearch = {label: ''};
@@ -374,6 +374,7 @@ function($scope, $controller, $modalInstance, CONFIG, data, CubeService) {
 
         $scope.selectedScenarioElement = data.selectedScenarioElement;
         $scope.currentFile = {id: data.selectedScenarioElement.id};
+        $scope.e2e = data.e2e;
 
         CubeService.getCubeAnalysisElements($scope.selectedScenarioElement.cubeMeta.id).then(function(response) {
             $scope.fileList = response;
@@ -430,6 +431,7 @@ function($scope, $controller, $modalInstance, CONFIG, data) {
 
     var init = function() {
         $scope.viewsList = data.viewsList;
+        $scope.e2e = data.e2e;
 
         $scope.elementTypeItems = ['All', 'By Me', 'Favorite'];
         $scope.currentElementType = 0;

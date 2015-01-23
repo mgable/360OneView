@@ -29,6 +29,13 @@ angular.module('ThreeSixtyOneView.directives')
                     items.push(elem);
                 };
 
+                this.setState = function(item){
+                    var element = _.find(items, function(elem){return elem.attr('ms-link') === item});
+                    if (element) {
+                        element.addClass("selected");
+                    };
+                }
+
                 this.toggleSelected = function(event) {
                     var item = event.data.label;
                     $scope.$apply(
@@ -41,6 +48,11 @@ angular.module('ThreeSixtyOneView.directives')
                         }
                     );
                 };
+
+                $attrs.$observe('selectedItem', function(){
+                    self.removeState();
+                    self.setState($scope.selectedItem);
+                });
 
                 init();
             }

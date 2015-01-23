@@ -5,8 +5,7 @@ angular.module('ThreeSixtyOneView.services')
 	var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.cube),
 	 transformResponse = function(data) {
 		var i, j, k, leafNode, newMember, dimensions = [], response = JSON.parse(data);
-		// console.info(response);
-		if (response){
+		if (response) {
 			for(i = 0; i < response.dimensions.length; i++) {
 
 				leafNode = false;
@@ -50,7 +49,6 @@ angular.module('ThreeSixtyOneView.services')
 					}
 				}
 			}
-			// console.info(dimensions);
 			return dimensions;
 		}
 		return data;
@@ -59,7 +57,7 @@ angular.module('ThreeSixtyOneView.services')
 	return {
 		resource: resource,
 		metaConfig: {
-			transformResponse: function(data){ return transformResponse(data);}
+			transformResponse: function(data) { return transformResponse(data); }
 			//,transformRequest: function(data){ return JSON.stringify(data);}
 		}
 	};

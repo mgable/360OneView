@@ -4,6 +4,7 @@
 	margin: 0 20px;
 	padding: 20px;
 	background-color: $purewhite;
+
 	.toggle-header {
 		position: relative;
 		padding: 7px 20px;
@@ -149,10 +150,11 @@
 	            display: inline-block;
 
 	            .dropdown-menu {
-	            	width: 200px;
+	            	width: 300px;
 	            	border-radius: 0;
 	            	border: 1px solid $blue;
 	            	padding: 7px 0;
+	            	margin-top: 5px;
 
 	                li {
 	                	padding: 3px 10px;
@@ -188,7 +190,7 @@
 						-o-transform: rotate(45deg);
 						transform: rotate(45deg);
 						top: -6px;
-						left: 47%;
+						left: 27%;
 						z-index: 13;
 						background-color: white;
 					}
