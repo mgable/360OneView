@@ -7,8 +7,8 @@
 * # scenarioCalcCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$interval', '$timeout', 'ScenarioCalculateService', 'Calculate', 'submitCalculate', 'Scenario', 'CONFIG', '$location', '$rootScope',
-    function ($scope, $interval, $timeout, ScenarioCalculateService, Calculate, submitCalculate, Scenario, CONFIG, $location, $rootScope) {
+angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$interval', '$timeout', 'AnalyticCalculationsService', 'Calculate', 'submitCalculate', 'Scenario', 'CONFIG', '$location', '$rootScope',
+    function ($scope, $interval, $timeout, AnalyticCalculationsService, Calculate, submitCalculate, Scenario, CONFIG, $location, $rootScope) {
 
     console.info("Calculate");
     console.info(Calculate);
@@ -46,7 +46,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
         },
 
         getCalcStatusData = function() {
-            ScenarioCalculateService.get(scenarioId).then(function(data) {
+            AnalyticCalculationsService.get(scenarioId).then(function(data) {
                 $scope.calcStatesData = transformStatusData(data);
                 $scope.runningStates  = $scope.calcStatesData.runningStates;
                 $scope.currentState   = $scope.calcStatesData.currentState;
@@ -116,17 +116,17 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
     };
 
     $scope.resetProgress = function() {
-        $scope.toggleCalculation(false);
-        ScenarioCalculateService.post(Scenario.id);
-        init();
-        $scope.toggleCalculation(true);
+        // $scope.toggleCalculation(false);
+        // AnalyticCalculationsService.post(scenarioId);
+        // init();
+        // $scope.toggleCalculation(true);
     };
 
     $scope.returnToEdit = function() {
-        $scope.stopProgress();
-        $scope.toggleSuccess(false);
-        $scope.toggleCalculation(false);
-        $scope.location = "/edit";
+        // $scope.stopProgress();
+        // $scope.toggleSuccess(false);
+        // $scope.toggleCalculation(false);
+        // $scope.location = "/edit";
     };
 
     $rootScope.$on('$locationChangeStart', function(event, next, current) {
