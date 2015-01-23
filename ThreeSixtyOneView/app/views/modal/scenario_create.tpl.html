@@ -14,9 +14,7 @@
 					<input type="text" id="baseScenario" ng-model="scenario.referenceScenario.name" readonly><icon type="folder-open-o" cname="open"></icon>
 				</label>
 				<div class="buttons" ng-show="showFields">
-					<!-- <button class="button cancel" ng-click="close()" data-ms-id="ScenarioCreate.cancel">Cancel</button> -->
 					<ms-button type="cancel" action="close()" label="Cancel" data-ms-id="ScenarioCreate.cancel"></ms-button>
-					<!-- <button class="button submit" ng-click="submit(scenario)" ng-disabled="ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList" data-ms-id="ScenarioCreate.submit">Continue</button> -->
 					<ms-button type="submit" action="submit(scenario)" label="Continue" ng-disabled="ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList" data-ms-id="ScenarioCreate.submit"></ms-button>
 					<span ng-hide="scenarioList" class="loaderHolder">
 						<span class="loading"></span>Loading scenarios
