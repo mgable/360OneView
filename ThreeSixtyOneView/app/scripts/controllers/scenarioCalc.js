@@ -7,20 +7,27 @@
 * # scenarioCalcCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$interval', '$timeout', 'ScenarioCalculateService', 'ScenarioCalculate', 'CONFIG', function ($scope, $interval, $timeout, ScenarioCalculateService, ScenarioCalculate, CONFIG) {
+angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$interval', '$timeout', 'ScenarioCalculateService', 'Calculate', 'submitCalculate', 'Scenario', 'CONFIG', function ($scope, $interval, $timeout, ScenarioCalculateService, Calculate, submitCalculate, Scenario, CONFIG) {
 
-    // private varibles and functions
-    var stepLen = ScenarioCalculate.runningStates.length,
+    console.info("Calculate");
+    console.info(Calculate);
+
+    // console.info("submitCalculate");
+    // console.info(submitCalculate);
+
+    // console.info("Scenario");
+    // console.info(Scenario);
+
+    var stepLen = Calculate.runningStates.length,
         stepValue = 100 / stepLen,
-        scenarioId = 5,
-        // scenarioId = $scope.scenario.id,
+        scenarioId = Scenario.id,
 
         // init the progress
         init = function() {
             angular.element('.Scenario').css('height', 'auto');
-            $scope.progressValue     = 0;
-            $scope.step              = 0;
-            $scope.success           = true;
+            $scope.progressValue = 0;
+            $scope.step = 0;
+            $scope.success = true;
             checkStateData();
             $scope.runProgress();
         },
@@ -86,15 +93,10 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
 
     $scope.resetProgress = function() {
         $scope.toggleCalculation(false);
-        // ScenarioCalculateService.post($scope.scenario.id);
         init();
         $scope.toggleCalculation(true);
     };
 
-    // $scope.getErrorMsg = function() {
-    //     var errorMsg = ScenarioCalculate.additionalInfo.message ? ScenarioCalculate.additionalInfo.message : '';
-    //     return errorMsg;
-    // }
 
     $scope.returnToEdit = function() {
         $scope.stopProgress();
@@ -103,7 +105,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
         $scope.location = "/edit";
     };
 
-    // fire off functions
     init();
 
 }]);

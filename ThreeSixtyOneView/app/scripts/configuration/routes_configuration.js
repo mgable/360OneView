@@ -46,7 +46,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
         'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);},
         'Scenario': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId, $stateParams.scenarioId);},
         'ScenarioAnalysisElements': function(ScenarioElementService, $stateParams){return ScenarioElementService.get($stateParams.scenarioId);},
-        'ScenarioCalculate': function(ScenarioCalculateService, $stateParams){return ScenarioCalculateService.get(5);}
+        'Calculate': function(ScenarioCalculateService, $stateParams){return ScenarioCalculateService.get($stateParams.scenarioId);}
       },
       breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.id}}'>{{project.title}}</a></li><li>{{scenario.title || scenario.name}}</li>"
     })
@@ -65,12 +65,21 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
         'result': {
           controller: "scenarioResultsCtrl",
           templateUrl: "views/includes/scenario_results.tpl.html"
-        },
-        'calculate': {
-          controller: "scenarioCalcCtrl",
-          templateUrl: "views/includes/scenario_calculate.tpl.html"
         }
       },
       breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.id}}'>{{project.title}}</a></li><li>{{scenario.title || scenario.name}}</li>"
-    });
+    })
+    .state("Scenario.calculate", {
+        url: "/calculate",
+        resolve: {
+          'submitCalculate': function(ScenarioCalculateService, $stateParams){return ScenarioCalculateService.post($stateParams.scenarioId);},
+        },
+        views: {
+          'calculate': {
+            controller: "scenarioCalcCtrl",
+            templateUrl: "views/includes/scenario_calculate.tpl.html"
+          }
+        },
+        breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.id}}'>{{project.title}}</a></li><li>{{scenario.title || scenario.name}}</li>"
+    }); 
 }]);
