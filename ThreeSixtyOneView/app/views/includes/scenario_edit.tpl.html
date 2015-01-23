@@ -5,11 +5,11 @@
         </span>
         <span ng-hide="hiddenScenarioElement(selectedScenarioElement)">
             <span class="dropdown-filename"><icon type="file-text-o"></icon>{{selectedScenarioElementsFile}}</span>
-            <span ng-click="openScenarioElementFileModal(scenario.id, selectedScenarioElement)" class="filename-option"><icon type="folder-open-o"></icon>Replace</span>
+            <span ng-click="openScenarioElementFileModal(scenario.id, selectedScenarioElement, e2e)" class="filename-option"><icon type="folder-open-o"></icon>Replace</span>
             <span ng-click="openScenarioElementCopyModal(scenario.id, selectedScenarioElement)" class="filename-option"><icon type="folder-open-o"></icon>Copy &amp; Replace</span>
         </span>
         <ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenarioElement.id}}" radio="true">
-            <li ng-repeat="element in getScenarioElements()" ms-link="{{type.id}}" ng-click="setScenarioElement(element)">
+            <li ng-repeat="element in getScenarioElements() | orderBy:'cubeMeta.id'" ms-link="{{type.id}}" ng-click="setScenarioElement(element)">
                 <span class="clickable">{{element.cubeMeta.label}}</span>
             </li>
         </ul>

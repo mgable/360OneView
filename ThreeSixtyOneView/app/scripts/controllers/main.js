@@ -461,9 +461,9 @@ angular.module('ThreeSixtyOneView')
             return element.group === 'Marketing Plan';
         };
 
-        $scope.openScenarioElementFileModal = function(scenarioId, selectedScenarioElement) {
+        $scope.openScenarioElementFileModal = function(scenarioId, selectedScenarioElement, e2e) {
             var dialog = DialogService.openLightbox('views/modal/scenario_analysis_element_files.tpl.html', 'ScenarioAnalysisElementFilesCtrl',
-                {selectedScenarioElement: selectedScenarioElement},
+                {selectedScenarioElement: selectedScenarioElement, e2e: e2e},
                 {windowSize: 'lg', windowClass: 'scenarioAnalysisElementFiles'});
 
             dialog.result.then(function(data) {

@@ -374,6 +374,7 @@ function($scope, $controller, $modalInstance, CONFIG, data, CubeService) {
 
         $scope.selectedScenarioElement = data.selectedScenarioElement;
         $scope.currentFile = {id: data.selectedScenarioElement.id};
+        $scope.e2e = data.e2e;
 
         CubeService.getCubeAnalysisElements($scope.selectedScenarioElement.cubeMeta.id).then(function(response) {
             $scope.fileList = response;

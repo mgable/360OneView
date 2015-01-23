@@ -2,6 +2,7 @@
 
 .importExport {
 	padding: 0 16px;
+	border-bottom: 1px solid #ddd;
 	
 	.tabTitle {
 		display: inline-block;
@@ -110,9 +111,12 @@
 	.tab-content {
 		>.tab-pane {
 			background-color: #f2f2f2;
-			border-bottom: 1px solid #ddd;
 			border-left: 1px solid #ddd;
 			border-right: 1px solid #ddd;
+
+			>div {
+				border-bottom: 1px solid #ddd;
+			}
 		}
 	}
 
@@ -124,7 +128,6 @@
 	}
 
 	.nav-tabs>li.active>a {
-		border-bottom: 1px solid $lightestgray;
 	}
 
 	.lightestgrayBg {
