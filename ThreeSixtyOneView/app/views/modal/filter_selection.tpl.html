@@ -38,9 +38,9 @@
 			</div>
 			<div class="pbFilterCustomSelection dropdown" ng-hide="filterCount.total === 0">
 				<div class="pbFilterSelectionButton" ng-class="{active: filterPopup}">
-					<div class="pbFilterSelectAll clickable" ng-show="filterCount.selected === 0" ng-click="selectFilters(selectedFilter.cat.label, true, true);"><icon type="circle-o"></icon></div>
-					<div class="pbFilterSelectAll clickable blue" ng-show="filterCount.selected === filterCount.total" ng-click="selectFilters(selectedFilter.cat.label, true, false);"><icon type="check-circle"></icon></div>
-					<div class="pbFilterSelectAll clickable" ng-show="filterCount.selected % filterCount.total > 0.01" ng-click="selectFilters(selectedFilter.cat.label, true, true);"><icon type="minus-circle"></icon></div>
+					<div class="pbFilterSelectAll clickable" ng-show="filterCount.selected === 0" ng-click="selectFilters(selectedFilter.cat.label, true, true);"><icon type="square-o"></icon></div>
+					<div class="pbFilterSelectAll clickable blue" ng-show="filterCount.selected === filterCount.total" ng-click="selectFilters(selectedFilter.cat.label, true, false);"><icon type="check-square"></icon></div>
+					<div class="pbFilterSelectAll clickable" ng-show="filterCount.selected % filterCount.total > 0.01" ng-click="selectFilters(selectedFilter.cat.label, true, true);"><icon type="minus-square"></icon></icon></div>
 					<div class="pbFilterSelectDrop clickable dropdown-toggle" ng-click="filterPopup = !filterPopup"><icon type="caret-down"></icon></div>
 				</div>
 				<div class="pFilterDrop dropdown-menu" ms-link-group radio="true">

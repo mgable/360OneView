@@ -13,7 +13,7 @@ angular.module('ThreeSixtyOneView')
 
 		this.getSlice = function(elementId, viewId) {
 			var additionalPath = 'slice';
-			return this.resource.get({elementId: elementId, viewId: viewId}, this.config, additionalPath).then(function (response) {
+			return this.resource.get({elementId: elementId, viewId: viewId}, this.pivotConfig, additionalPath).then(function (response) {
 				return response;
 			});
 		};

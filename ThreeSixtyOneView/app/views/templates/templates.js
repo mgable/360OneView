@@ -136,6 +136,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "    <span class=\"edit\" ng-show=\"isActive\">\r" +
     "\n" +
     "    \t<!-- validator -->\r" +
+<<<<<<< HEAD
     "\n" +
     "    \t<input ng-if=\"comparisonModel\" type=\"text\" class=\"title\" ng-model=\"item.title\" required ng-maxlength=\"256\" validator=\"comparisonModel\" error-type=\"foo\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\"/>\r" +
     "\n" +
@@ -143,6 +144,15 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "    \t<!-- no vaildator -->\r" +
     "\n" +
+=======
+    "\n" +
+    "    \t<input ng-if=\"comparisonModel\" type=\"text\" class=\"title\" ng-model=\"item.title\" required ng-maxlength=\"256\" validator=\"comparisonModel\" error-type=\"foo\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\"/>\r" +
+    "\n" +
+    "\r" +
+    "\n" +
+    "    \t<!-- no vaildator -->\r" +
+    "\n" +
+>>>>>>> ea4633be1a109f8887a46efeb8c5557fc77ac6a7
     "    \t<input ng-if=\"!comparisonModel\" type=\"text\" class=\"title\" ng-model=\"item.title\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\"/>\r" +
     "\n" +
     "\r" +
@@ -358,11 +368,19 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t<div class=\"pbFilterSelectionButton\" ng-class=\"{active: filterPopup}\">\r" +
     "\n" +
+<<<<<<< HEAD
     "\t\t\t\t\t<div class=\"pbFilterSelectAll clickable\" ng-show=\"filterCount.selected === 0\" ng-click=\"selectFilters(selectedFilter.cat.label, true, true);\"><icon type=\"circle-o\"></icon></div>\r" +
     "\n" +
     "\t\t\t\t\t<div class=\"pbFilterSelectAll clickable blue\" ng-show=\"filterCount.selected === filterCount.total\" ng-click=\"selectFilters(selectedFilter.cat.label, true, false);\"><icon type=\"check-circle\"></icon></div>\r" +
     "\n" +
     "\t\t\t\t\t<div class=\"pbFilterSelectAll clickable\" ng-show=\"filterCount.selected % filterCount.total > 0.01\" ng-click=\"selectFilters(selectedFilter.cat.label, true, true);\"><icon type=\"minus-circle\"></icon></div>\r" +
+=======
+    "\t\t\t\t\t<div class=\"pbFilterSelectAll clickable\" ng-show=\"filterCount.selected === 0\" ng-click=\"selectFilters(selectedFilter.cat.label, true, true);\"><icon type=\"square-o\"></icon></div>\r" +
+    "\n" +
+    "\t\t\t\t\t<div class=\"pbFilterSelectAll clickable blue\" ng-show=\"filterCount.selected === filterCount.total\" ng-click=\"selectFilters(selectedFilter.cat.label, true, false);\"><icon type=\"check-square\"></icon></div>\r" +
+    "\n" +
+    "\t\t\t\t\t<div class=\"pbFilterSelectAll clickable\" ng-show=\"filterCount.selected % filterCount.total > 0.01\" ng-click=\"selectFilters(selectedFilter.cat.label, true, true);\"><icon type=\"minus-square\"></icon></icon></div>\r" +
+>>>>>>> ea4633be1a109f8887a46efeb8c5557fc77ac6a7
     "\n" +
     "\t\t\t\t\t<div class=\"pbFilterSelectDrop clickable dropdown-toggle\" ng-click=\"filterPopup = !filterPopup\"><icon type=\"caret-down\"></icon></div>\r" +
     "\n" +
@@ -660,6 +678,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t<div class=\"buttons\" ng-show=\"showFields\">\r" +
     "\n" +
+<<<<<<< HEAD
     "\t\t\t\t\t<!-- <button class=\"button cancel\" ng-click=\"close()\" data-ms-id=\"ScenarioCreate.cancel\">Cancel</button> -->\r" +
     "\n" +
     "\t\t\t\t\t<ms-button type=\"cancel\" action=\"close()\" label=\"Cancel\" data-ms-id=\"ScenarioCreate.cancel\"></ms-button>\r" +
@@ -673,6 +692,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t\t\t<span class=\"loading\"></span>Loading scenarios\r" +
     "\n" +
     "\t\t\t\t\t</span>\r" +
+=======
+    "\t\t\t\t\t<button class=\"button cancel\" ng-click=\"close()\" data-ms-id=\"ScenarioCreate.cancel\">Cancel</button>\r" +
+    "\n" +
+    "\t\t\t\t\t<button class=\"button submit\" ng-click=\"submit(scenario)\" ng-disabled=\"ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList\" data-ms-id=\"ScenarioCreate.submit\">Continue</button><span ng-hide=\"scenarioList\" class=\"loaderHolder\"><span class=\"loading\"></span>Loading scenarios</span>\r" +
+>>>>>>> ea4633be1a109f8887a46efeb8c5557fc77ac6a7
     "\n" +
     "\t\t\t\t</div>\r" +
     "\n" +
@@ -795,9 +819,15 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<div class=\"modal-footer\">\r" +
     "\n" +
+<<<<<<< HEAD
     "\t\t<ms-button type=\"submit\" action=\"submit(item.title)\" label=\"{{modalProperties.button}}\" ui-keypress=\"{13: 'submit(item.title, $event)'}\" data-ms-id=\"modalSubmit\"></ms-button>\r" +
     "\n" +
     "\t\t<ms-button type=\"cancel\" action=\"close($event)\" label=\"Cancel\"></ms-button>\r" +
+=======
+    "\t\t<button type=\"button\" ng-disabled=\"nameDialog.$invalid\" class=\"btn btn-primary submit\" ng-click=\"submit(item.title)\" ui-keypress=\"{13: 'submit(item.title, $event)'}\" data-ms-id=\"modalSubmit\">{{modalProperties.button}}</button>\r" +
+    "\n" +
+    "\t\t<button type=\"button\" class=\"btn btn-default cancel\" ng-click=\"close($event)\">Cancel</button>\r" +
+>>>>>>> ea4633be1a109f8887a46efeb8c5557fc77ac6a7
     "\n" +
     "\t</div>\r" +
     "\n" +

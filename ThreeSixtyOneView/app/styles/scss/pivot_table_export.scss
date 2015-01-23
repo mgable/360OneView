@@ -2,9 +2,12 @@
 
 .importExport {
 	padding: 0 16px;
-	h4 {
+	border-bottom: 1px solid #ddd;
+	
+	.tabTitle {
 		display: inline-block;
-		margin-right: 10px;
+		margin: 5px 10px 10px 0;
+		font-size: 18px;
 	}
 
 	p.warning {
@@ -42,12 +45,14 @@
 		}
 	}	
 
-	.activeBtn {
+	.active {
 		background-color: #f35528;
 		color: #fff;
+		-webkit-box-shadow: none;
+		box-shadow: none;
 	}
 
-	.inactiveBtn {
+	.inactive {
 		background-color: #d9d9d9;
 		color: #727272;
 	}
@@ -90,7 +95,7 @@
 		border-color: #cf1006;
 	}
 
-	.errMsg {
+	.error {
 		display: inline-block;
 		color: #cf1006;
 	}
@@ -106,9 +111,12 @@
 	.tab-content {
 		>.tab-pane {
 			background-color: #f2f2f2;
-			border-bottom: 1px solid #ddd;
 			border-left: 1px solid #ddd;
 			border-right: 1px solid #ddd;
+
+			>div {
+				border-bottom: 1px solid #ddd;
+			}
 		}
 	}
 
@@ -120,7 +128,6 @@
 	}
 
 	.nav-tabs>li.active>a {
-		border-bottom: 1px solid $lightestgray;
 	}
 
 	.lightestgrayBg {

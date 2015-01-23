@@ -314,6 +314,8 @@ angular.module('ThreeSixtyOneView')
                 $scope.membersList = PivotMetaService.generateMembersList(result.dimensions);
                 $scope.addedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
                 $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
+
+                $scope.loadPivotTable($scope.selectedScenarioElement, result.view);
             });
         },
         getScenarioElementById = function(data, id){
@@ -344,6 +346,8 @@ angular.module('ThreeSixtyOneView')
                 $scope.membersList = PivotMetaService.generateMembersList($scope.dimensions);
                 $scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
                 $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, view);
+
+                $scope.loadPivotTable($scope.selectedScenarioElement, view);
             });
         };
 
@@ -421,67 +425,9 @@ angular.module('ThreeSixtyOneView')
         $scope.loadPivotTable = function(element, view) {
             if(element.cubeMeta.id !== 1) return;
             PivotDataService.getSlice(element.id, view.id).then(function(response) {
-                // console.log(response);
-                var i, j,
-                    tableTree = {},
-                    numCols = view.columns.length,
-                    numRows = view.rows.length,
-                    numLines = response.length,
-                    pivotTable = [],
-                    columnIndex = numRows;
-
-                for(i = 0; i < numCols; i++) {
-                    pivotTable[i] = {};
-                    for(j = 0; j < numRows; j++) {
-                        pivotTable[i][j] = '';
-                    }
-                }
-
-                _.each(response, function(row, rowIndex) {
-                    pivotTable[rowIndex + numCols] = {};
-                    _.each(row[0].key.value.coordinates.rowAddresses, function(rowElement, rowElementIndex) {
-                        pivotTable[rowIndex + numCols][rowElementIndex] = rowElement.cellValue.specification.members[0].label;
-                    });
-                    _.each(row, function(column) {
-                        var branch = [];
-                        _.each(column.key.value.coordinates.columnAddresses, function(columnElement, columnIndex) {
-                            var columnLabel = columnElement.cellValue.specification.members[0].label;
-
-                            if(columnIndex === 0 && numCols > 1) {
-                                tableTree[columnLabel] = branch[columnIndex] = tableTree[columnLabel] || {};
-                            } else if(columnIndex === 0) {
-                                tableTree[columnLabel] = branch[columnIndex] = tableTree[columnLabel] || [];
-                                branch[columnIndex][rowIndex] = column.value.value;
-                            } else if(columnIndex === numCols - 1) {
-                                branch[columnIndex - 1][columnLabel] = branch[columnIndex] = branch[columnIndex - 1][columnLabel] || [];
-                                branch[columnIndex][rowIndex] = column.value.value;
-                            } else {
-                                branch[columnIndex - 1][columnLabel] = branch[columnIndex] = branch[columnIndex - 1][columnLabel] || {};
-                            }
-                        });
-                    });
-                });
-
-                var formPivotTable = function(tree, columnLabels) {
-                    if(angular.isArray(tree)) {
-                        _.each(tree, function(value, index) {
-                            pivotTable[index + numCols][columnIndex] = value;
-                        });
-                        _.each(columnLabels, function(columnLabel, index) {
-                            pivotTable[index] = pivotTable[index] || {};
-                            pivotTable[index][columnIndex] = columnLabel;
-                        });
-                        columnIndex++;
-                    } else if(angular.isObject(tree)) {
-                        _.each(tree, function(branch, columnLabel) {
-                            var newLabels = _.values(columnLabels);
-                            newLabels.push(columnLabel);
-                            formPivotTable(branch, newLabels);
-                        });
-                    }
-                };
-                formPivotTable(tableTree, new Array());
-                $scope.spread.updateSheet(pivotTable, numCols, numRows);
+                var numCols = view.columns.length,
+                    numRows = view.rows.length;
+                $scope.spread.updateSheet(response, numCols, numRows);
             });
         };
 
@@ -515,9 +461,9 @@ angular.module('ThreeSixtyOneView')
             return element.group === 'Marketing Plan';
         };
 
-        $scope.openScenarioElementFileModal = function(scenarioId, selectedScenarioElement) {
+        $scope.openScenarioElementFileModal = function(scenarioId, selectedScenarioElement, e2e) {
             var dialog = DialogService.openLightbox('views/modal/scenario_analysis_element_files.tpl.html', 'ScenarioAnalysisElementFilesCtrl',
-                {selectedScenarioElement: selectedScenarioElement},
+                {selectedScenarioElement: selectedScenarioElement, e2e: e2e},
                 {windowSize: 'lg', windowClass: 'scenarioAnalysisElementFiles'});
 
             dialog.result.then(function(data) {
