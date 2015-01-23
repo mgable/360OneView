@@ -291,20 +291,15 @@ angular.module('ThreeSixtyOneView')
 
             $scope.setScenarioElement(getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) || $scope.scenarioElements[0]);
             // remove param from path
-            $scope.location = $state.current.url.match(/\/\w+/)[0];
+            
 
             // hardcoded data
             $scope.pivotTableData = ptData.data;
             // this is how pivotbuilder and pivottable communicate
             $scope.spread = {sheet: {}};
-
-            determineScenarioState();
+            $scope.getlocation();
+            $scope.currentState = Calculate.currentState;
         }, 
-        determineScenarioState = function(){
-            console.info("Calculate");
-            console.info(Calculate);
-            $scope.isCalculated = (Calculate.currentState.completed === "not calculated") ? false : true ;
-        },
         initiateModel = function(cubeMeta) {
             PivotMetaService.initModel(cubeMeta).then(function(result) {
                 var foundView = _.find(result.viewsList, function(view){ return view.id === result.view.id; });
@@ -328,6 +323,35 @@ angular.module('ThreeSixtyOneView')
         },
         getScenarioElementById = function(data, id){
            return  _.findWhere(data, {id: id});
+        };
+
+        $scope.isCalculated = function(){
+            return Calculate.currentState.completed;
+            //$scope.isCalculated = (Calculate.currentState.completed === "not calculated") ? false : true ;
+            // $scope.inProgress = (Calculate.currentState.completed === "false") ? true : false ;
+            // $scope.hasError = 
+            
+        };
+
+        $scope.getlocation = function (){
+            var url = $state.current.url.match(/\/\w+/)[0],
+                location;
+
+            switch(url){
+                case "/edit" : location = url; break;
+                default: location = "/results";
+            };
+
+            console.info(location);
+            $scope.location = location;
+        }
+
+        $scope.gotoResults = function(){
+            if (!Calculate.currentState.completed || Calculate.currentState.name === "FAILED") {
+                $state.go("Scenario.calculate");
+            } else {
+                $state.go("Scenario.results");
+            }
         };
 
         // load a view from the backend
@@ -520,7 +544,7 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.$on('$locationChangeSuccess', function(){
-            $scope.location = $state.current.url;
+            $scope.getlocation();
         });
 
         // hide scenario copy and replace options if part of the marleting plan

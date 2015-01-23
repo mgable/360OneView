@@ -7,12 +7,21 @@
 * # scenarioCalcCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$interval', '$timeout', 'ScenarioCalculateService', 'ScenarioCalculate', 'CONFIG', function ($scope, $interval, $timeout, ScenarioCalculateService, ScenarioCalculate, CONFIG) {
+angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$interval', '$timeout', 'ScenarioCalculateService', 'Calculate', 'submitCalculate', 'Scenario', 'CONFIG', function ($scope, $interval, $timeout, ScenarioCalculateService, Calculate, submitCalculate, Scenario, CONFIG) {
+
+    // console.info("Calculate");
+    // console.info(Calculate);
+
+    // console.info("submitCalculate");
+    // console.info(submitCalculate);
+
+    // console.info("Scenario");
+    // console.info(Scenario);
 
     // private varibles and functions
-    var stepLen = ScenarioCalculate.runningStates.length,
+    var stepLen = Calculate.runningStates.length,
         stepValue = 100 / stepLen,
-        scenarioId = $scope.scenario.id,
+        scenarioId = Scenario.id,
 
         // init the progress
         init = function() {
@@ -91,7 +100,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
     };
 
     // $scope.getErrorMsg = function() {
-    //     var errorMsg = ScenarioCalculate.additionalInfo.message ? ScenarioCalculate.additionalInfo.message : '';
+    //     var errorMsg = Calculate.additionalInfo.message ? Calculate.additionalInfo.message : '';
     //     return errorMsg;
     // }
 

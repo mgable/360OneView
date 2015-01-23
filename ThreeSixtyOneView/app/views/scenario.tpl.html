@@ -1,17 +1,21 @@
 <div class="Scenario">
+
+	<pre>
+The state of the scenario is {{currentState}}
+	</pre>
 	<div class="toggle-header">
 		<div class="tabs-holder">
 			<ul ms-link-group radio="true" selected-item="{{location}}">
 				<li ms-link="/edit" ui-sref="Scenario.edit">
 					<a><icon type="pencil"></icon> Editor</a>
 				</li>
-				<li ms-link="/results" ui-sref="Scenario.results" ng-class='{disabled: !isCalculated}'>
+				<li ms-link="/results" ng-click="gotoResults()" XXng-class='{disabled: !isCalculated()}'>
 					<a><icon type="check-square-o"></icon> Results</a>
 				</li>
 			</ul>
 		</div>
 		<div class="button-holder">
-			<span ui-sref="Scenario.results" ng-class='{disabled: isCalculated}'><icon type="tachometer"></icon>simulate</span>
+			<span ui-sref="Scenario.calculate" XXng-class='{disabled: isCalculated()}'><icon type="tachometer"></icon>simulate</span>
 		</div>
 	</div>
 

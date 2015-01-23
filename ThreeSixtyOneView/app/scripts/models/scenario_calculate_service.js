@@ -17,7 +17,7 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		this.post = function(id){
-			return this.resource.post({}, {}, {id: id}).then(function(response){
+			return myCalculate.post({}, {}, {id: id}).then(function(response){
 				return response;
 			});
 		};
