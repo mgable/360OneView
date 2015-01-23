@@ -7,7 +7,7 @@
 * # scenarioCalcCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$interval', '$timeout', 'ScenarioCalculateService', 'Calculate', 'submitCalculate', 'Scenario', 'CONFIG', function ($scope, $interval, $timeout, ScenarioCalculateService, Calculate, submitCalculate, Scenario, CONFIG) {
+angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$interval', '$timeout', 'AnalyticCalculationsService', 'Calculate', 'submitCalculate', 'Scenario', 'CONFIG', function ($scope, $interval, $timeout, AnalyticCalculationsService, Calculate, submitCalculate, Scenario, CONFIG) {
 
     console.info("Calculate");
     console.info(Calculate);
@@ -54,7 +54,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
         },
 
         checkStateData = function() {
-            ScenarioCalculateService.get(scenarioId).then(function(data) {
+            AnalyticCalculationsService.get(scenarioId).then(function(data) {
                 $scope.calcStatesData = prepareStatesData(data);
                 $scope.runningStates  = $scope.calcStatesData.runningStates;
                 $scope.currentState   = $scope.calcStatesData.currentState;
