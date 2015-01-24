@@ -1,8 +1,8 @@
 <div class="scenario-calculation">
 
-    <h2 class="scenario-calculation-title" ng-show="success">Optimization is in progress</h2>
-    <h2 class="scenario-calculation-title" ng-show="!success"><icon type="exclamation-triangle"></icon> Error during optimization</h2>
-    <p class="scenario-calculation-description" ng-show="!success">{{errorMsg}}</p>
+    <h2 class="scenario-calculation-title" ng-if="scenarioState === 'in progress' || scenarioState === 'SUCCESSFUL'">Optimization is in progress</h2>
+    <h2 class="scenario-calculation-title" ng-if="scenarioState === 'FAILED' || scenarioState === 'not calculated'"><icon type="exclamation-triangle"></icon> Error during optimization</h2>
+    <p class="scenario-calculation-description" ng-if="scenarioState === 'FAILED' || scenarioState === 'not calculated'">{{errorMsg}}</p>
     <div class="row">
         <progressbar class="progress-striped active" max="100" value="progressValue" type="success"><i>{{progressValue | number:0}}%</i></progressbar>
     </div>
@@ -16,7 +16,7 @@
             </li>
         </ul>
     </div>
-    <div class="row" style="margin-top: 20px;" ng-show="!success">
+    <div class="row" style="margin-top: 20px;" ng-if="scenarioState === 'FAILED' || scenarioState === 'not calculated'">
         <div class="col-sm-6 sm-padding">
             <button class="btn btn-sm btn-block btn-calculate" ui-sref="Scenario.edit" ng-click="returnToEdit()">goto editor</button>
         </div>

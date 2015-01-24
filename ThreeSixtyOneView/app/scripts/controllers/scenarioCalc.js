@@ -24,12 +24,12 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
             $scope.success           = true;
             $scope.errorMsg          = "";
             getCalcStatusData(Calculate);
-            console.log($scope.scenarioState);
             if($scope.scenarioState === IN_PROGRESS) {
                 $scope.runProgress();
             } else if ($scope.scenarioState === SUCCESS) {
                 $state.go("Scenario.results");
             }
+            angular.element('.Scenario').css('height', 'auto');
         },
 
         // get the current index for status
@@ -51,7 +51,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
                 $scope.runningStates  = $scope.calcStatesData.runningStates;
                 $scope.currentState   = $scope.calcStatesData.currentState;
                 $scope.step           = getCurrentStepIndex($scope.calcStatesData);
-                console.log('GET CALC DATA: ', $scope.calcStatesData);
+                console.info('GET CALC DATA: ', $scope.calcStatesData);
                 updateCalcStatusData($scope.currentState);
             });
         },
