@@ -2,7 +2,7 @@
 
     <h2 class="scenario-calculation-title" ng-show="success">Optimization is in progress</h2>
     <h2 class="scenario-calculation-title" ng-show="!success"><icon type="exclamation-triangle"></icon> Error during optimization</h2>
-    <p class="scenario-calculation-description" ng-show="!success">Error Message</p>
+    <p class="scenario-calculation-description" ng-show="!success">{{errorMsg}}</p>
     <div class="row">
         <progressbar class="progress-striped active" max="100" value="progressValue" type="success"><i>{{progressValue | number:0}}%</i></progressbar>
     </div>

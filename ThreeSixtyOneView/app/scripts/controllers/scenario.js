@@ -31,7 +31,7 @@ angular.module('ThreeSixtyOneView')
 
                 $scope.setScenarioElement(getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) || $scope.scenarioElements[0]);
                 // remove param from path
-                
+
 
                 // hardcoded data
                 $scope.pivotTableData = ptData.data;
@@ -45,7 +45,7 @@ angular.module('ThreeSixtyOneView')
                 getScenarioState(Calculate.currentState);
                 setView($scope.scenarioState);
 
-            }, 
+            },
             initiateModel = function(cubeMeta) {
                 PivotMetaService.initModel(cubeMeta).then(function(result) {
                     var foundView = _.find(result.viewsList, function(view){ return view.id === result.view.id; });
@@ -279,7 +279,7 @@ angular.module('ThreeSixtyOneView')
             });
         };
 
-        $scope.$on('$locationChangeSuccess', function(){
+        $scope.$on('$locationChangeStart', function(){
             $scope.getlocation();
         });
 
