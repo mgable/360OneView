@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-  	.service('AnalyticCalculationsService', ["Model", "AnalyticCalculationsModel", function (Model, AnalyticCalculationsModel) {
-
-		var MyScenarioCalculate, myCalculate;
+  	.service('AnalyticCalculationsService', ["Model", "AnalyticCalculationsModel", "$q", function (Model, AnalyticCalculationsModel, $q) {
+		var MyScenarioCalculate, myCalculate, self = this;
 
 		MyScenarioCalculate = new Model();
 		angular.extend(this, MyScenarioCalculate.prototype);
@@ -28,6 +27,20 @@ angular.module('ThreeSixtyOneView')
 					return response;
 				});
 			}
+		};
+
+		this.getAllScenarioStatus = function(scenarios){
+			var promises = [];
+
+			_.each(scenarios, function(k,v){
+				promises.push(self.get(k.id));
+			});
+
+			return $q.all(promises).then(function(response){
+				console.info("all scenario status");
+				console.info(response);
+				return response;
+			});
 		}
 
 	}]);

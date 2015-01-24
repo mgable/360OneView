@@ -159,7 +159,8 @@ describe('Controllers: ', function() {
                 '$stateParams': {projectId:"foo"},
                 Favorites: {},
                 Scenarios: data,
-                Project: data
+                Project: data,
+                Status: data
             });
         }));
 
