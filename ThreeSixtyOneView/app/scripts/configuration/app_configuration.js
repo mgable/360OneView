@@ -132,7 +132,8 @@ angular.module('ThreeSixtyOneView.config')
                 }
             },
             "ScenarioCalculate": {
-                "timerInterval": 10000
+                "timerInterval": 10000,
+                "statusLen": 7
             }
         },
         "user": {

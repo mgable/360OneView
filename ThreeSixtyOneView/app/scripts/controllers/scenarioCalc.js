@@ -7,21 +7,15 @@
 * # scenarioCalcCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$interval', '$timeout', 'AnalyticCalculationsService', 'Calculate', 'submitCalculate', 'Scenario', 'CONFIG', '$location', '$rootScope',
-    function ($scope, $interval, $timeout, AnalyticCalculationsService, Calculate, submitCalculate, Scenario, CONFIG, $location, $rootScope) {
+angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$interval', '$timeout', 'AnalyticCalculationsService', 'Calculate', 'submitCalculate', 'Scenario', 'CONFIG', '$location', '$rootScope', '$state',
+    function ($scope, $interval, $timeout, AnalyticCalculationsService, Calculate, submitCalculate, Scenario, CONFIG, $location, $rootScope, $state) {
 
-    console.info("Calculate");
-    console.info(Calculate);
-
-    // console.info("submitCalculate");
-    // console.info(submitCalculate);
-
-    // console.info("Scenario");
-    // console.info(Scenario);
-
-    var stepLen = Calculate.runningStates.length,
+    var stepLen = Calculate.runningStates.length || CONFIG.view.ScenarioCalculate.statusLen,
         stepValue = 100 / stepLen,
-        scenarioId = Scenario.id,
+        NOT_CALCULATED = "not calculated",
+        FAILED = "FAILED",
+        SUCCESS = "SUCCESSFUL",
+        IN_PROGRESS = "in progress",
 
         // init the progress
         init = function() {
@@ -29,12 +23,18 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
             $scope.step              = 0;
             $scope.success           = true;
             $scope.errorMsg          = "";
-            getCalcStatusData($scope.calcStatesData);
+            getCalcStatusData(Calculate);
+            console.log($scope.scenarioState);
+            if($scope.scenarioState === IN_PROGRESS) {
+                $scope.runProgress();
+            } else if ($scope.scenarioState === SUCCESS) {
+                $state.go("Scenario.results");
+            }
         },
 
         // get the current index for status
         getCurrentStepIndex = function(_data) {
-            if (isCalcSucceed(_data.currentState)) {
+            if ($scope.scenarioState === SUCCESS) {
                 return _data.runningStates.length;
             } else {
                 return _.indexOf(_.pluck(_data.runningStates, 'completed'), false);
@@ -46,23 +46,21 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
         },
 
         getCalcStatusData = function() {
-            AnalyticCalculationsService.get(scenarioId).then(function(data) {
+            AnalyticCalculationsService.get(Scenario.id).then(function(data) {
                 $scope.calcStatesData = transformStatusData(data);
                 $scope.runningStates  = $scope.calcStatesData.runningStates;
                 $scope.currentState   = $scope.calcStatesData.currentState;
                 $scope.step           = getCurrentStepIndex($scope.calcStatesData);
+                console.log('GET CALC DATA: ', $scope.calcStatesData);
                 updateCalcStatusData($scope.currentState);
             });
         },
 
         updateCalcStatusData = function(_currentState) {
-            if (isCalcSucceed(_currentState)) {
-                $scope.stopProgress();
+            if ($scope.scenarioState === SUCCESS) {
                 $scope.progressValue = 100;
-                $timeout(function() {
-                    $scope.toggleSuccess(true);
-                }, 2000);
-            } else if (isCalcFailed(_currentState)) {
+                $state.go("Scenario.results");
+            } else if ($scope.scenarioState === FAILED) {
                 $scope.stopProgress();
                 $scope.success = false;
                 $scope.errorMsg = $scope.calcStatesData.additionalInfo.message;
@@ -81,67 +79,40 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
             trimString(_data.currentState.name);
             trimString(_data.currentState.label);
             return _data;
-        },
-
-        isCalcInProgrss = function(_currentState) {
-            return _currentState.completed;
-        },
-
-        isCalcFailed = function(_currentState) {
-            if (_currentState.name === 'FAILED') {
-                return true;
-            } else {
-                return false;
-            }
-        },
-
-        isCalcSucceed = function(_currentState) {
-            if (_currentState.name === 'SUCCESSFUL') {
-                return true;
-            } else {
-                return false;
-            }
         };
 
 
     // scope functions
     $scope.runProgress = function() {
-        $scope.timer = $interval(function(){
+        $scope.stopTime = $interval(function(){
             getCalcStatusData($scope.calcStatesData);
         }, CONFIG.view.ScenarioCalculate.timerInterval);
     }
 
     $scope.stopProgress = function() {
-        $interval.cancel($scope.timer);
+        $interval.cancel($scope.stopTime);
+        $scope.stopTime = null;
     };
 
     $scope.resetProgress = function() {
-        // $scope.toggleCalculation(false);
-        // AnalyticCalculationsService.post(scenarioId);
-        // init();
-        // $scope.toggleCalculation(true);
+        AnalyticCalculationsService.post(Scenario.id);
+        init();
     };
 
     $scope.returnToEdit = function() {
-        // $scope.stopProgress();
-        // $scope.toggleSuccess(false);
-        // $scope.toggleCalculation(false);
-        // $scope.location = "/edit";
+        $scope.stopProgress();
+        $state.go("Scenario.edit");
     };
 
     $rootScope.$on('$locationChangeStart', function(event, next, current) {
         var currentPath = next,
             re = /calculate$/;
-        if(currentPath.search(re) !== -1) {
-            $scope.runProgress();
-            console.log('in calculate page');
-        } else {
+        if (currentPath.search(re) === -1) {
             $scope.stopProgress();
-            console.log('leave calculate page');
         }
     });
 
-    // fire off init functions
+    // fire off init function
     init();
 
 }]);
