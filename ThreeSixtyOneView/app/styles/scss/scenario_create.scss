@@ -290,7 +290,7 @@
 
 .scenario-create {
 	width: 100%;
-	min-height: 100%;
+	max-height: 80%;
 	/*position: absolute;  // Re-enable this when a modal
 	top: 0;
 	left: 0;*/
@@ -460,5 +460,4 @@
 	div.baseGroup {
 		position: relative;
 	}
-
 }

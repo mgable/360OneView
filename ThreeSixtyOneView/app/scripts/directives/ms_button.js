@@ -26,7 +26,6 @@ angular.module('ThreeSixtyOneView.directives')
             },
             template: '<button class="btn btn-default ms-btn-{{type}}" ng-click="action()"><icon ng-if="hasIcon" type="{{icon}}"></icon>{{label}}</button>',
             link: function($scope) {
-                console.log("buttons");
                 $scope.label = $scope.label || "Submit";
 
                 $scope.hasIcon = $scope.icon || false;

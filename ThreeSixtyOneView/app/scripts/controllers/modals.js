@@ -41,7 +41,7 @@ angular.module('ThreeSixtyOneView')
 
         $scope.submit = function(title, evt) {
             if (evt) { evt.preventDefault(); }
-            $rootScope.$broadcast(EVENTS.createProject, title.trim());
+            $rootScope.$broadcast(EVENTS.createProject, modalProperties.title.trim());
             $modalInstance.dismiss('create');
         };
     }]).controller('ScenarioCreateCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", "GotoService", function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS, GotoService) {
