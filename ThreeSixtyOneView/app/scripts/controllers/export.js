@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .controller("exportCtrl", ["$scope", 'ManageAnalysisViewsService', 'ExportService', '$interval', 'DialogService', 'PivotMetaService', '$q',
-    	function($scope, ManageAnalysisViewsService, ExportService, $interval, DialogService, PivotMetaService, $q){
+    .controller("exportCtrl", ["$scope", 'ManageAnalysisViewsService', 'ExportResourceService', '$interval', 'DialogService', 'PivotMetaService', '$q',
+    	function($scope, ManageAnalysisViewsService, ExportResourceService, $interval, DialogService, PivotMetaService, $q){
 
 		$scope.deleteItem = function(index) {
 			$scope.added[$scope.viewDataExport[index].level.label] = false;
@@ -29,7 +29,7 @@ angular.module('ThreeSixtyOneView')
 		$scope.prepareFile = function() {
 			$scope.exportObj.exportClicked = true;
 
-			ExportService.prepareFile({
+			ExportResourceService.prepareFile({
 				rows:$scope.viewDataExport,
 				columns:[],
 				filters:$scope.viewData.filters,
@@ -37,16 +37,27 @@ angular.module('ThreeSixtyOneView')
 			}, $scope.cubeId, 1)
 			.then(function(response) {
 				$scope.stopTime = $interval(function(){
-					ExportService.checkStatus($scope.cubeId, 1).then(function(pollingResponse){
-						if (pollingResponse.message == "COMPLETED") {
-							$interval.cancel($scope.stopTime);
-							$scope.exportObj.readyForDownload = true;
-							$scope.exportObj.prepareProgress = 100;
-						} else {
-							// support later
-						}
+					ExportResourceService.checkStatus($scope.cubeId, 1).then(function(pollingResponse){
+						// if (pollingResponse.message == "COMPLETED") {
+						// 	$interval.cancel($scope.stopTime);
+						// 	$scope.exportObj.readyForDownload = true;
+						// 	$scope.exportObj.prepareProgress = 100;
+						// } else {
+						// 	// support later
+						// }
 					});	
 				}, 10000);
+				// this.downloadFile(68).then(function(response) {
+				// 	var a = angular.element('<a>');
+				// 	$('body').append(a);
+				// 	a.text('wow');
+				// 	a.attr('href',response);
+				// 	a.attr('id','exportLink');
+				// 	$timeout(function() {
+				// 		console.log(a);
+				// 		document.getElementById('exportLink').click();
+				// 	}, 1000);
+				// });
 			});
 		};
 
