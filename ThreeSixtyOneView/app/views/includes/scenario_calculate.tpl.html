@@ -1,8 +1,8 @@
 <div class="scenario-calculation">
 
-    <h2 class="scenario-calculation-title" ng-show="success">Optimization is in progress</h2>
-    <h2 class="scenario-calculation-title" ng-show="!success"><icon type="exclamation-triangle"></icon> Error during optimization</h2>
-    <p class="scenario-calculation-description" ng-show="!success">Error Message</p>
+    <h2 class="scenario-calculation-title" ng-if="scenarioState === 'in progress' || scenarioState === 'SUCCESSFUL'">Optimization is in progress</h2>
+    <h2 class="scenario-calculation-title" ng-if="scenarioState === 'FAILED' || scenarioState === 'not calculated'"><icon type="exclamation-triangle"></icon> Error during optimization</h2>
+    <p class="scenario-calculation-description" ng-if="scenarioState === 'FAILED' || scenarioState === 'not calculated'">{{errorMsg}}</p>
     <div class="row">
         <progressbar class="progress-striped active" max="100" value="progressValue" type="success"><i>{{progressValue | number:0}}%</i></progressbar>
     </div>
@@ -11,12 +11,12 @@
             <li ng-repeat="state in runningStates" ng-class="{completed: state.completed}">
                 <span class="numberCircle">{{state.id}}</span>
                 {{state.label}}
-                <i class="fa fa-check checkmark" type="check" ng-show="success ? state.completed : step > $index+1"></i>
-                <span class="error" ng-show="!success && step === $index+1"><i class="fa fa-exclamation-triangle"></i> Error</span>
+                <i class="fa fa-check checkmark" type="check" ng-show="scenarioState !== 'FAILED' ? state.completed : step > $index+1"></i>
+                <span class="error" ng-show="scenarioState === 'FAILED' && step === $index+1"><i class="fa fa-exclamation-triangle"></i> Error</span>
             </li>
         </ul>
     </div>
-    <div class="row" style="margin-top: 20px;" ng-show="!success">
+    <div class="row" style="margin-top: 20px;" ng-if="scenarioState === 'FAILED' || scenarioState === 'not calculated'">
         <div class="col-sm-6 sm-padding">
             <button class="btn btn-sm btn-block btn-calculate" ui-sref="Scenario.edit" ng-click="returnToEdit()">goto editor</button>
         </div>

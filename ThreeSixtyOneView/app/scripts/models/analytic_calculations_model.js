@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-    .factory('ScenarioCalculateModel', ["$location", "Resource", "CONFIG", "SERVER", "$q", "$http", function ScenarioCalculateModel($location, Resource, CONFIG, SERVER, $q, $http) {
+    .factory('AnalyticCalculationsModel', ["$location", "Resource", "CONFIG", "SERVER", "$q", "$http", function AnalyticCalculationsModel($location, Resource, CONFIG, SERVER, $q, $http) {
 
         var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.scenarioAnalytics);
 
@@ -17,7 +17,7 @@ angular.module('ThreeSixtyOneView.services')
                     .get(path, config)
                     .success(deferred.resolve)
                     .error(function(data, status, headers, config){
-                        deferred.resolve({'id': parseInt(params.id), currentState: {completed: "not calculated", label: "not calculated"}});
+                        deferred.resolve({'id': parseInt(params.id), currentState: {completed: "not calculated", name: "not calculated", label: "not calculated"}});
                         return deferred.promise;
                     });
 

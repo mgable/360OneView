@@ -10,13 +10,13 @@ is in progress {{scenarioState}}
 				<li ms-link="/edit" ui-sref="Scenario.edit" ng-class="{disabled: scenarioState === 'in progress' || scenarioState === 'FAILED'}">
 					<a><icon type="pencil"></icon> Editor</a>
 				</li>
-				<li ms-link="/results" ng-click="gotoResults()">
+				<li ms-link="/results" ng-click="gotoResults()" ng-class="{disabled: scenarioState === 'not calculated'}">
 					<a><icon type="check-square-o"></icon> Results</a>
 				</li>
 			</ul>
 		</div>
 		<div class="button-holder">
-			<span ui-sref="Scenario.calculate" ng-class="{disabled: scenarioState === 'in progress' || scenarioState === 'SUCCESSFUL'}"><icon type="tachometer"></icon>simulate</span>
+			<span ui-sref="Scenario.calculate" ng-class="{disabled: scenarioState === 'in progress' || scenarioState === 'SUCCESSFUL' || scenarioState === 'FAILED'}"><icon type="tachometer"></icon>simulate</span>
 		</div>
 	</div>
 
