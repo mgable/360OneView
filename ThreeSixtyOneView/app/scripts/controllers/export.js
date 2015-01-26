@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .controller("exportCtrl", ["$scope", 'PivotViewService', 'ExportService', '$interval', 'DialogService', 'PivotMetaService', '$q',
-    	function($scope, PivotViewService, ExportService, $interval, DialogService, PivotMetaService, $q){
+    .controller("exportCtrl", ["$scope", 'ManageAnalysisViewsService', 'ExportService', '$interval', 'DialogService', 'PivotMetaService', '$q',
+    	function($scope, ManageAnalysisViewsService, ExportService, $interval, DialogService, PivotMetaService, $q){
 
 		$scope.deleteItem = function(index) {
 			$scope.added[$scope.viewDataExport[index].level.label] = false;

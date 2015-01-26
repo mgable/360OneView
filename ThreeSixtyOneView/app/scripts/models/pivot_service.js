@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-  .service('PivotDataService', ["$q", "$rootScope", "EVENTS", "Model", "PivotDataModel", function PivotViewService($q, $rootScope, EVENTS, Model, PivotDataModel) {
+  .service('PivotService', ["$q", "$rootScope", "EVENTS", "Model", "PivotModel", function ($q, $rootScope, EVENTS, Model, PivotModel) {
 		var MyPivotDataModel, mypivotdata, self = this;
 
 		MyPivotDataModel = new Model();
 		angular.extend(this, MyPivotDataModel.prototype);
-		mypivotdata = new MyPivotDataModel(PivotDataModel);
+		mypivotdata = new MyPivotDataModel(PivotModel);
 		angular.extend(this, mypivotdata);
 
 		//this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));

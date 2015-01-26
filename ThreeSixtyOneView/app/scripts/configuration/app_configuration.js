@@ -30,7 +30,7 @@ angular.module('ThreeSixtyOneView.config')
                     "requestTranslator": {"id": "id", "name":"title", "referenceScenario": "referenceScenario", "description": "description", "prediction.type": "type"},
                     "newScenario": {"title" : "", "description": "","referenceScenario": {"id": "", "name": ""}, "type": "Simulation"}
                 },
-                "CubeModel" : {
+                "MetaDataModel" : {
                     "responseTranslator": "",
                     "requestTranslator": ""
                 },
@@ -41,9 +41,6 @@ angular.module('ThreeSixtyOneView.config')
                 "ScenarioElement": {
                     "responseTranslator": {"id":"id", "name": "name", "group":"group", "cubeMeta":"cubeMeta", "title":"cubeMeta.label"},
                     "requestTranslator": {"id":"id", "name": "title"}
-                },
-                "PivotView": {
-                    "newView": {"name":"New View","isDefault":false,"rows":[],"columns":[],"filters":[]}
                 }
             },
             "inputRestrictions": {

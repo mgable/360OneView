@@ -8,8 +8,8 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
-	['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'PivotViewService', 'DialogService', 'PivotMetaService',
-	function ($scope, $rootScope, EVENTS, $timeout, $q, PivotViewService, DialogService, PivotMetaService) {
+	['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'ManageAnalysisViewsService', 'DialogService', 'PivotMetaService',
+	function ($scope, $rootScope, EVENTS, $timeout, $q, ManageAnalysisViewsService, DialogService, PivotMetaService) {
 
 	var init = function() {
 		$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
@@ -36,7 +36,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			containment: '#dragDropArea'
 		};
 	},	renameView = function(cubeId, view) { // rename the view
-		PivotViewService.renameView(view.id, cubeId, view.name).then(function(response) {
+		ManageAnalysisViewsService.renameView(view.id, cubeId, view.name).then(function(response) {
 			_.each($scope.viewsList, function(item) {
 				if(item.id === response.id) {
 					item.name = response.name;

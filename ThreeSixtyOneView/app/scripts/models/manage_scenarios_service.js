@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-  .service('ScenarioElementService', ["Model", "ScenarioElementModel", function (Model, ScenarioElementModel) {
+  .service('ManageScenariosService', ["Model", "ManageScenariosModel", function (Model, ManageScenariosModel) {
 	var MyScenarioElement, myElements;
 
 		MyScenarioElement = new Model();
 		angular.extend(this, MyScenarioElement.prototype);
-		myElements = new MyScenarioElement(ScenarioElementModel);
+		myElements = new MyScenarioElement(ManageScenariosModel);
 		angular.extend(this, myElements);
 
 		this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
