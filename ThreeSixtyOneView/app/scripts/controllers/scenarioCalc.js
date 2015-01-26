@@ -10,7 +10,7 @@
 angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$interval', '$timeout', 'AnalyticCalculationsService', 'Calculate', 'submitCalculate', 'Scenario', 'CONFIG', '$location', '$rootScope', '$state',
     function ($scope, $interval, $timeout, AnalyticCalculationsService, Calculate, submitCalculate, Scenario, CONFIG, $location, $rootScope, $state) {
 
-    var stepLen = Calculate.runningStates.length || CONFIG.view.ScenarioCalculate.statusLen,
+    var stepLen = CONFIG.view.ScenarioCalculate.statusLen,
         stepValue = 100 / stepLen,
         NOT_CALCULATED = "not calculated",
         FAILED = "FAILED",
@@ -21,7 +21,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
         init = function() {
             $scope.progressValue     = 0;
             $scope.step              = 0;
-            $scope.success           = true;
             $scope.errorMsg          = "";
             getCalcStatusData(Calculate);
             if($scope.scenarioState === IN_PROGRESS) {
@@ -62,7 +61,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
                 $state.go("Scenario.results");
             } else if ($scope.scenarioState === FAILED) {
                 $scope.stopProgress();
-                $scope.success = false;
+                console.log();
                 $scope.errorMsg = $scope.calcStatesData.additionalInfo.message;
                 $scope.progressValue = stepValue * $scope.step;
             } else {
@@ -95,8 +94,11 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
     };
 
     $scope.resetProgress = function() {
-        AnalyticCalculationsService.post(Scenario.id);
-        init();
+        $scope.scenarioState = NOT_CALCULATED;
+        AnalyticCalculationsService.post(Scenario.id).then(function(data) {
+            $scope.scenarioState = IN_PROGRESS;
+            init();
+        });
     };
 
     $scope.returnToEdit = function() {
