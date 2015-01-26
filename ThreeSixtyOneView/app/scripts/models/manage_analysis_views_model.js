@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-	.factory('PivotViewModel', ["$location", "Resource", "CONFIG", "SERVER", "$q", "$http", function PivotViewModel($location, Resource, CONFIG, SERVER, $q, $http) {
+	.factory('ManageAnalysisViewsModel', ["$location", "Resource", "CONFIG", "SERVER", "$q", "$http", function ManageAnalysisViewsModel($location, Resource, CONFIG, SERVER, $q, $http) {
 		
 		var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.pivotview);
 

@@ -8,8 +8,8 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
-    ['$scope', 'resultsData', 'Scenarios', 'PivotViewService', 'CubeService', '$interval', 'DialogService', 'PivotMetaService', '$q',
-    function ($scope, resultsData, Scenarios, PivotViewService, CubeService, $interval, DialogService, PivotMetaService, $q) {
+    ['$scope', 'resultsData', 'Scenarios', 'ManageAnalysisViewsService', 'MetaDataService', '$interval', 'DialogService', 'PivotMetaService', '$q',
+    function ($scope, resultsData, Scenarios, ManageAnalysisViewsService, MetaDataService, $interval, DialogService, PivotMetaService, $q) {
 
     // private variables
     var cnt = 0;

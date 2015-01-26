@@ -362,8 +362,8 @@ angular.module('ThreeSixtyOneView')
 
     init();
 
-}]).controller('ScenarioAnalysisElementFilesCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "data", "CubeService",
-function($scope, $controller, $modalInstance, CONFIG, data, CubeService) {
+}]).controller('ScenarioAnalysisElementFilesCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "data", "MetaDataService",
+function($scope, $controller, $modalInstance, CONFIG, data, MetaDataService) {
     angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
     var init = function() {
@@ -376,7 +376,7 @@ function($scope, $controller, $modalInstance, CONFIG, data, CubeService) {
         $scope.currentFile = {id: data.selectedScenarioElement.id};
         $scope.e2e = data.e2e;
 
-        CubeService.getCubeAnalysisElements($scope.selectedScenarioElement.cubeMeta.id).then(function(response) {
+        MetaDataService.getCubeAnalysisElements($scope.selectedScenarioElement.cubeMeta.id).then(function(response) {
             $scope.fileList = response;
         });
     };
