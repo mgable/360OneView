@@ -24,6 +24,10 @@
             font-weight: 700;
             font-style: normal;
         }
+        .progress-bar-danger {
+            background-color: #f45724;
+        }
+        .progress-bar-success: #5cb85c;
     }
     ul.scenario-calculation-list {
         text-align: left;
@@ -35,12 +39,12 @@
                 span.numberCircle {
                     background-color: #5cb85c;
                 }
-                span.error {
-                    color: #f45724;
-                }
                 i.checkmark {
                     color: #5cb85c;
                 }
+            }
+            span.error {
+                color: #f45724;
             }
             span.numberCircle {
                 display: inline-block;
