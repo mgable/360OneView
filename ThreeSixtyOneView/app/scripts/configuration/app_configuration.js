@@ -7,13 +7,12 @@ angular.module('ThreeSixtyOneView.config')
             "api": {
                 "projects": "/rubix/v1/project",
                 "favorites": "/rubix/v1/favorite",
-                //"scenarioFavorites": "/rubix/v1/favorite/scenario",
                 "scenarios": "/rubix/v1/project/:id/scenario",
                 "cube": "/rubix/v1/model/cube/:id",
                 "pivotview": "/rubix/v1/cube/:cubeId/analysis-view/:viewId",
                 "pivotdata": "/rubix/v1/pivot/analysis-element/:elementId/analysis-view/:viewId",
                 "scenarioElement": "/rubix/v1/scenario/:id",
-                "scenarioAnalytics": "/rubix/v1/analytics/scenario/:id",
+                "scenarioAnalytics": "/rubix/v1/analytics/scenario/:id/calculate",
                 "upload": "/rubix/v1/import",
                 "exportFile": "/rubix/v1/export"
             },
@@ -133,7 +132,8 @@ angular.module('ThreeSixtyOneView.config')
                 }
             },
             "ScenarioCalculate": {
-                "timerInterval": 2000
+                "timerInterval": 10000,
+                "statusLen": 7
             }
         },
         "user": {
