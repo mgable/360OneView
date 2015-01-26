@@ -61,7 +61,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
                 $state.go("Scenario.results");
             } else if ($scope.scenarioState === FAILED) {
                 $scope.stopProgress();
-                console.log();
                 $scope.errorMsg = $scope.calcStatesData.additionalInfo.message;
                 $scope.progressValue = stepValue * $scope.step;
             } else {
