@@ -5,7 +5,7 @@
 
 // View controllers
 angular.module('ThreeSixtyOneView')
-.controller("ScenarioListingCtrl", ["$scope", "$controller", "Project", "Scenarios", "ScenarioService", "EVENTS", "DialogService", "ScenarioElementService", function($scope,  $controller, Project, Scenarios, ScenarioService, EVENTS, DialogService, ScenarioElementService) {
+.controller("ScenarioListingCtrl", ["$scope", "$controller", "Project", "Scenarios", "ScenarioService", "EVENTS", "DialogService", "ManageScenariosService", function($scope,  $controller, Project, Scenarios, ScenarioService, EVENTS, DialogService, ManageScenariosService) {
 
         // Inherit from base class
         angular.extend(this, $controller('ListingViewCtrl', {$scope: $scope}));
@@ -45,7 +45,7 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.getScenarioElements = function(id){
-            ScenarioElementService.get(id).then(function(response){
+            ManageScenariosService.get(id).then(function(response){
                 $scope.scenarioElements = response;
             });
         };

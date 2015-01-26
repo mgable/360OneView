@@ -8,7 +8,7 @@
  * Service in the threeSixtOneViewApp.
  */
  angular.module('ThreeSixtyOneView.services')
- .service('PivotMetaService', ['CubeService', 'PivotViewService', function PivotMetaService(CubeService, PivotViewService) {
+ .service('PivotMetaService', ['MetaDataService', 'ManageAnalysisViewsService', function PivotMetaService(MetaDataService, ManageAnalysisViewsService) {
  	var self = this;
 	// create the temporary filter object from the view data
 	this.getAddedFilters = function(filters, dimensions) {
@@ -169,7 +169,7 @@
 			});
 		});
 
-		return PivotViewService.createView(newView, cubeMeta.id).then(function(view) {
+		return ManageAnalysisViewsService.createView(newView, cubeMeta.id).then(function(view) {
 			return view;
 		});
 	};
@@ -190,8 +190,8 @@
 
 	// initialize the dimensions, views list, and the default view
 	this.initModel = function(cubeMeta) {
-		return CubeService.buildDimensionsTree(cubeMeta.id).then(function(dimensions) {
-			return  PivotViewService.getViewsList(cubeMeta.id).then(function(list) {
+		return MetaDataService.buildDimensionsTree(cubeMeta.id).then(function(dimensions) {
+			return  ManageAnalysisViewsService.getViewsList(cubeMeta.id).then(function(list) {
 				if(list.length < 1) { // if no items in the list create an empty view
 					return self.createEmptyView(dimensions, cubeMeta).then(function(view) {
 						list.unshift(view);
@@ -200,7 +200,7 @@
 				} else { // if there are views in the list, load the default/draft view
 					var viewId = self.findDefaultView(list);
 
-					return PivotViewService.getView(viewId, cubeMeta.id).then(function(view) {
+					return ManageAnalysisViewsService.getView(viewId, cubeMeta.id).then(function(view) {
 						var result = {viewsList: list, view: view, dimensions: dimensions};
 						return result;
 					});

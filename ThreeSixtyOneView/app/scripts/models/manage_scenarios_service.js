@@ -1,32 +1,39 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-  .service('ScenarioElementService', ["Model", "ScenarioElementModel", function (Model, ScenarioElementModel) {
+  .service('ManageScenariosService', ["Model", "ManageScenariosModel", function (Model, ManageScenariosModel) {
 	var MyScenarioElement, myElements;
 
 		MyScenarioElement = new Model();
 		angular.extend(this, MyScenarioElement.prototype);
-		myElements = new MyScenarioElement(ScenarioElementModel);
+		myElements = new MyScenarioElement(ManageScenariosModel);
 		angular.extend(this, myElements);
 
 		this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
-		this.get = function(id){
+		this.get = function(id) {
 			var additionalPath = "analysis-element";
-			return this.resource.get({"id": id}, this.config, additionalPath).then(function(response){
+			return this.resource.get({"id": id}, this.config, additionalPath).then(function(response) {
 				return response;
 			});
 		};
 
 		this.getAnalysisElementByScenario = function (scenarioId) {
-			return this.resource.get({"id": scenarioId}, {}).then(function(response){
+			return this.resource.get({"id": scenarioId}, {}).then(function(response) {
 				return response;
 			});
 		};
 
 		this.getAnalysisElementByScenarioAndCube = function(scenarioId, cubeId) {
 			var additionalPath = "cube/:cubeId/analysis-element";
-			return this.resource.get({"id": scenarioId, "cubeId": cubeId}, {}, additionalPath).then(function(response){
+			return this.resource.get({"id": scenarioId, "cubeId": cubeId}, {}, additionalPath).then(function(response) {
+				return response;
+			});
+		};
+
+		this.getAnalysisElementByCubeName = function(scenarioId, cubeName) {
+			var additionalPath = "analysis-element?cubeName=" + cubeName;
+			return this.resource.get({"id": scenarioId}, {}, additionalPath).then(function(response){
 				return response;
 			});
 		};

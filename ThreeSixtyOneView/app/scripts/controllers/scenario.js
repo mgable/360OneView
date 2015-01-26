@@ -3,8 +3,8 @@
 
 'use strict';
 angular.module('ThreeSixtyOneView')
-.controller("ScenarioCtrl", ["$scope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "ptData", "$state", "EVENTS", "ScenarioElementService", "DialogService", "PivotMetaService", "Calculate", "PivotDataService", "PivotViewService",
-    function($scope, $timeout, Project, Scenario, ScenarioAnalysisElements, ptData, $state, EVENTS, ScenarioElementService, DialogService, PivotMetaService, Calculate, PivotDataService, PivotViewService) {
+.controller("ScenarioCtrl", ["$scope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "ptData", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService",
+    function($scope, $timeout, Project, Scenario, ScenarioAnalysisElements, ptData, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService) {
 
         var NOT_CALCULATED = "not calculated",
             FAILED = "FAILED",
@@ -114,7 +114,7 @@ angular.module('ThreeSixtyOneView')
 
         // load a view from the backend
         $scope.loadView = function(cubeId, viewId) {
-            PivotViewService.getView(viewId, cubeId).then(function(view) {
+            ManageAnalysisViewsService.getView(viewId, cubeId).then(function(view) {
                 // remove the draft view if one exists and is not selected
                 if($scope.draftView) {
                     var draftId;
@@ -143,7 +143,7 @@ angular.module('ThreeSixtyOneView')
 
         // delete a view
         $scope.deleteView = function(cubeId, viewId) {
-            PivotViewService.deleteView(viewId, cubeId).then(function() {
+            ManageAnalysisViewsService.deleteView(viewId, cubeId).then(function() {
                 $scope.viewsList = _.reject($scope.viewsList, function(view) { return view.id === viewId; });
                 $scope.draftView = false;
             });
@@ -159,7 +159,7 @@ angular.module('ThreeSixtyOneView')
                 view.filters[i].id = null;
             }
 
-            return PivotViewService.createView(view, cubeId).then(function(view) {
+            return ManageAnalysisViewsService.createView(view, cubeId).then(function(view) {
                 $scope.viewData = angular.copy(view);
                 $scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
                 $scope.viewsList.unshift(view);
@@ -174,7 +174,7 @@ angular.module('ThreeSixtyOneView')
             _.each(view.filters, function(filter) {
                 filter.id = 0;
             });
-            return PivotViewService.updateView(view, cubeId).then(function(response) {
+            return ManageAnalysisViewsService.updateView(view, cubeId).then(function(response) {
                 return response;
             });
         };
@@ -214,7 +214,7 @@ angular.module('ThreeSixtyOneView')
 
         $scope.loadPivotTable = function(element, view) {
             if(element.cubeMeta.id !== 1) return;
-            PivotDataService.getSlice(element.id, view.id).then(function(response) {
+            PivotService.getSlice(element.id, view.id).then(function(response) {
                 var numCols = view.columns.length,
                     numRows = view.rows.length;
                 $scope.spread.updateSheet(response, numCols, numRows);
@@ -258,7 +258,7 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.replaceAnalysisElementForCube = function(scenarioId, cubeId, elementId) {
-            ScenarioElementService.replaceAnalysisElementForCube(scenarioId, cubeId, elementId).then(function(element) {
+            ManageScenariosService.replaceAnalysisElementForCube(scenarioId, cubeId, elementId).then(function(element) {
                 $scope.replaceScenarioElement(element);
             });
         };
@@ -274,7 +274,7 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.copyAndReplaceAnalysisElementForCube = function(scenarioId, cubeId, sourceElementId, newElementData) {
-            ScenarioElementService.copyAndReplaceAnalysisElementForCube(scenarioId, cubeId, sourceElementId, newElementData).then(function(element){
+            ManageScenariosService.copyAndReplaceAnalysisElementForCube(scenarioId, cubeId, sourceElementId, newElementData).then(function(element){
                 $scope.replaceScenarioElement(element);
             });
         };
