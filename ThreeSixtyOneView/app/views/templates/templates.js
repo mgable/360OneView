@@ -536,9 +536,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<div class=\"element-copy-buttons\">\r" +
     "\n" +
-    "\t\t<button type=\"button\" class=\"btn cancel-button\" data-dismiss=\"modal\" ng-click=\"cancelCopyFile();\">CANCEL</button>\r" +
+    "\t\t<ms-button type=\"submit\" action=\"copyFile()\" label=\"Replace\" data-dismiss=\"modal\" ng-disabled=\"elementCopy.$invalid\"></ms-button>\r" +
     "\n" +
-    "\t\t<button type=\"button\" class=\"btn apply-button\" data-dismiss=\"modal\" ng-click=\"copyFile()\" ng-disabled=\"elementCopy.$invalid\">REPLACE</button>\r" +
+    "\t\t<ms-button type=\"cancel\" action=\"cancelCopyFile()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\r" +
     "\n" +
     "\t</div>\r" +
     "\n" +
@@ -617,9 +617,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<div class=\"element-file-buttons\">\r" +
     "\n" +
-    "\t\t<button type=\"button\" class=\"btn cancel-button\" data-dismiss=\"modal\" ng-click=\"cancelChangeFile();\">CANCEL</button>\r" +
+    "\t\t<ms-button type=\"submit\" action=\"changeFile()\" label=\"Replace\" data-dismiss=\"modal\"></ms-button>\r" +
     "\n" +
-    "\t\t<button type=\"button\" class=\"btn apply-button\" data-dismiss=\"modal\" ng-click=\"changeFile()\">REPLACE</button>\r" +
+    "\t\t<ms-button type=\"cancel\" action=\"cancelChangeFile()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\r" +
     "\n" +
     "\t</div>\r" +
     "\n" +

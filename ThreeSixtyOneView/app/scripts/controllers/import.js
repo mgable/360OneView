@@ -6,6 +6,8 @@ angular.module('ThreeSixtyOneView')
 		$scope.selectedFile = {name: 'Select a file to import'};
 		$scope.stopTime;
 
+		console.log($scope.importObj.fileSelected && !($scope.importObj.uploadFinished));
+
 		$scope.changeFileName = function(event) {
 			var files = event.target.files;
 			if (files.length > 0) {
@@ -18,7 +20,6 @@ angular.module('ThreeSixtyOneView')
 				$scope.importObj.fileSelected = false;
 				$scope.importObj.invalidFile = false;
 			}
-
 			$scope.$apply(); 
 		};
 
@@ -26,6 +27,8 @@ angular.module('ThreeSixtyOneView')
 			$interval.cancel($scope.stopTime);
 			$scope.importObj = {uploadProgress:0, fileSelected:false, invalidFile: false, importClicked: false, uploadFinished: false};
 			$scope.selectedFile = {name: 'Select a file to import'};
+
+			console.log($scope.importObj.fileSelected && !($scope.importObj.uploadFinished));
 		};
 
 		$scope.uploadFile = function() {
