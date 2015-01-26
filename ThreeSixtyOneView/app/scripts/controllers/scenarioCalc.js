@@ -105,6 +105,17 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
         $state.go("Scenario.edit");
     };
 
+    $scope.getProgressbarType = function() {
+        var type;
+        if ($scope.scenarioState === FAILED) {
+            type = 'danger';
+        } else {
+            type = 'success';
+        }
+        $scope.progressbarType = type;
+    }
+    $scope.getProgressbarType();
+
     $rootScope.$on('$locationChangeStart', function(event, next, current) {
         var currentPath = next,
             re = /calculate$/;
