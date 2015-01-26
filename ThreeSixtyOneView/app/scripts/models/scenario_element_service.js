@@ -11,22 +11,29 @@ angular.module('ThreeSixtyOneView.services')
 
 		this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
-		this.get = function(id){
+		this.get = function(id) {
 			var additionalPath = "analysis-element";
-			return this.resource.get({"id": id}, this.config, additionalPath).then(function(response){
+			return this.resource.get({"id": id}, this.config, additionalPath).then(function(response) {
 				return response;
 			});
 		};
 
 		this.getAnalysisElementByScenario = function (scenarioId) {
-			return this.resource.get({"id": scenarioId}, {}).then(function(response){
+			return this.resource.get({"id": scenarioId}, {}).then(function(response) {
 				return response;
 			});
 		};
 
 		this.getAnalysisElementByScenarioAndCube = function(scenarioId, cubeId) {
 			var additionalPath = "cube/:cubeId/analysis-element";
-			return this.resource.get({"id": scenarioId, "cubeId": cubeId}, {}, additionalPath).then(function(response){
+			return this.resource.get({"id": scenarioId, "cubeId": cubeId}, {}, additionalPath).then(function(response) {
+				return response;
+			});
+		};
+
+		this.getAnalysisElementByCubeName = function(scenarioId, cubeName) {
+			var additionalPath = "analysis-element?cubeName=" + cubeName;
+			return this.resource.get({"id": scenarioId}, {}, additionalPath).then(function(response){
 				return response;
 			});
 		};

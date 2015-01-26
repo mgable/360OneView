@@ -14,7 +14,7 @@ angular.module('ThreeSixtyOneView')
 		this.getDefaultView = function(views, cubeId){
 			// this logic will change
 			var viewId = views[0].id;
-			return this.get({viewId: viewId, cubeId: cubeId});
+			return this.resource.get({viewId: viewId, cubeId: cubeId});
 		};
 
 		this.getViewsList = function(cubeId) {
@@ -29,8 +29,23 @@ angular.module('ThreeSixtyOneView')
 			});
 		};
 
-		this.createView = function(newView, cubeId) {
-			return this.resource.post(newView, this.config, {cubeId: cubeId}, '').then(function (response) {
+		this.getViewRelatedBy = function(viewId, cubeId) {
+			var additionalPath = '?relatedByView=' + viewId;
+			return this.get({cubeId: cubeId}, this.config, additionalPath).then(function (response) {
+				return response;
+			});
+		};
+
+		this.createView = function(newView, cubeId, relatedByView) {
+			var additionalPath = !!relatedByView ? '?relatedByView=' + relatedByView : '';
+
+			// view and filter ids should be null when creating a new view
+			newView.id = null;
+			_.each(newView.filters, function(filter) {
+				filter.id = null;
+			});
+
+			return this.resource.post(newView, this.config, {cubeId: cubeId}, additionalPath).then(function (response) {
 				return response;
 			});
 		};
