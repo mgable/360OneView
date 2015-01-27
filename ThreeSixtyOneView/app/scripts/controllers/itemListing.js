@@ -54,7 +54,7 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.getScenarioElements = function(id){
-            ScenarioElementService.get(id).then(function(response){
+            ManageScenariosService.get(id).then(function(response){
                 $scope.scenarioElements = response;
             });
         };

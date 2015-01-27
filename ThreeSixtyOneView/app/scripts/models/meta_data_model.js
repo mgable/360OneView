@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-  .factory('CubeModel', ["$location", "Resource", "CONFIG", "SERVER", function CubeModel($location, Resource, CONFIG, SERVER) {
+  .factory('MetaDataModel', ["$location", "Resource", "CONFIG", "SERVER", function MetaDataModel($location, Resource, CONFIG, SERVER) {
 	var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.cube),
 	 transformResponse = function(data) {
 		var i, j, k, leafNode, newMember, dimensions = [], response = JSON.parse(data);
+		
 		if (response) {
 			for(i = 0; i < response.dimensions.length; i++) {
 
@@ -16,7 +17,6 @@ angular.module('ThreeSixtyOneView.services')
 					type: response.dimensions[i].type,
 					members: []
 				};
-
 
 				for(j = 0; j < response.dimensions[i].hierarchies.length; j++) {
 					for(k = 0; k < response.dimensions[i].hierarchies[j].levels.length; k++) {
