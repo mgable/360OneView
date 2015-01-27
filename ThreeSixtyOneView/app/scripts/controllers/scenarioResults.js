@@ -8,14 +8,17 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
-    ['$scope', 'resultsData', 'Scenarios', 'ManageAnalysisViewsService', 'MetaDataService', '$interval', 'DialogService', 'PivotMetaService', '$q',
-    function ($scope, resultsData, Scenarios, ManageAnalysisViewsService, MetaDataService, $interval, DialogService, PivotMetaService, $q) {
+    ['$scope', 'resultsData', 'Scenarios', 'ManageAnalysisViewsService', 'ManageScenariosService', 'MetaDataService', '$interval', 'DialogService', 'PivotMetaService', '$q',
+    function ($scope, resultsData, Scenarios, ManageAnalysisViewsService, ManageScenariosService, MetaDataService, $interval, DialogService, PivotMetaService, $q) {
 
     // private variables
-    var cnt = 0;
+    var cnt = 0,
+        spendCubeMeta = _.find($scope.scenarioElements, function(v) {
+            return v.cubeMeta.name === "TOUCHPOINT";
+        }).cubeMeta,
 
     // get the data for spend summary chart
-    var getChartData = function() {
+    getChartData = function() {
         _.each($scope.getSpendDataBody(), function(v) {
             var chartSubData = {};
             chartSubData.id = v.id;
@@ -33,6 +36,24 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.chartData.push(chartSubData);
         });
     },
+    initiateSpendModel = function(cubeMeta) {
+        PivotMetaService.initModel(cubeMeta).then(function(result) {
+            var foundView = _.find(result.viewsList, function(view){ return view.id === result.view.id; });
+            if (foundView) {
+                $scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
+            }
+            $scope.spendViewsList = result.viewsList;
+            // $scope.spendViews.currentView = result.view;
+            $scope.spendViewData = result.view;
+            $scope.spendViewName = result.view.name;
+            $scope.spendDimensions = result.dimensions;
+
+            $scope.spendAdded = PivotMetaService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
+            $scope.spendMembersList = PivotMetaService.generateMembersList(result.dimensions);
+            $scope.spendAddedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
+            $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, result.dimensions, result.view);
+        });
+    },
     // init function
     init = function() {
         // scope variables
@@ -45,6 +66,10 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
 
         angular.element('.Scenario').css('height', 'auto');
         getChartData();
+
+        console.log(spendCubeMeta);
+        initiateSpendModel(spendCubeMeta);
+
     };
 
     // get KPI raw data
@@ -74,12 +99,12 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     // open/dismiss filters selection modal
     $scope.filtersModal = function(category) {
         var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
-            {cat: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData, dimensions: $scope.dimensions},
+            {cat: category, addedFilters: $scope.spendAddedFilters, viewData: $scope.spendViewData, dimensions: $scope.dimensions},
             {windowSize: 'lg', windowClass: 'filtersSelectionModal'});
 
         dialog.result.then(function(data) {
-            $scope.addedFilters = data;
-            $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.viewDataExport);
+            $scope.spendAddedFilters = data;
+            $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, $scope.dimensions, $scope.spendViewData);
         });
     };
 
