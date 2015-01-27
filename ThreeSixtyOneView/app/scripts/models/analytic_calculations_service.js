@@ -1,24 +1,21 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView')
-  	.service('AnalyticCalculationsService', ["Model", "AnalyticCalculationsModel", "$q", function (Model, AnalyticCalculationsModel, $q) {
+angular.module('ThreeSixtyOneView.services')
+  	.service('AnalyticCalculationsService', ["Model", "AnalyticCalculationsModel", "$q", "CONFIG", function (Model, AnalyticCalculationsModel, $q, CONFIG) {
 		var MyScenarioCalculate, myCalculate, self = this,
-			NOT_CALCULATED = "not_calculated",
-            FAILED = "FAILED",
-            SUCCESS = "SUCCESSFUL",
-            IN_PROGRESS = "in_progress",
+			scenarioStates = CONFIG.application.models.ScenarioAnalytics.states,
             getScenarioState = function(currentStateObj){
             	var state;
                 if (currentStateObj.completed === true){
-                    if (currentStateObj.name === FAILED){
-                        state = FAILED;
-                    } else if (currentStateObj.name === SUCCESS){
-                        state = SUCCESS;
+                    if (currentStateObj.name === scenarioStates.FAILED){
+                        state = scenarioStates.FAILED;
+                    } else if (currentStateObj.name === scenarioStates.SUCCESS){
+                        state = scenarioStates.SUCCESS;
                     }
-                } else if (currentStateObj.name === NOT_CALCULATED){
-                    state = NOT_CALCULATED;
+                } else if (currentStateObj.name === scenarioStates.NOT_CALCULATED){
+                    state = scenarioStates.NOT_CALCULATED;
                 } else {
-                    state = IN_PROGRESS;
+                    state = scenarioStates.IN_PROGRESS;
                 }
                 return state;
             },
@@ -32,6 +29,24 @@ angular.module('ThreeSixtyOneView')
 		angular.extend(this, MyScenarioCalculate.prototype);
 		myCalculate = new MyScenarioCalculate(AnalyticCalculationsModel);
 		angular.extend(this, myCalculate);
+
+		this.getScenarioState = getScenarioState;
+
+		this.isInProgress = function(state){
+			return state === scenarioStates.IN_PROGRESS;
+		};
+
+		this.isFailed = function(state){
+			return state === scenarioStates.FAILED;
+		};
+
+		this.isNotCalculated = function(state){
+			return state = scenarioStates.NOT_CALCULATED;
+		};
+
+		this.isSuccess = function(state){
+			return state = scenarioStates.SUCCESS;
+		};
 
 		this.get = function(id){
 			return myCalculate.get({"id": id}, {}).then(function(response){
@@ -54,18 +69,16 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		this.getAllScenarioStatus = function(scenarios){
-
 			var promises = [];
 
 			_.each(scenarios, function(k,v){
 				promises.push(self.get(k.id));
 			});
 
-
 			return $q.all(promises).then(function(response){
 				setScenarioState(response);
 				return response;
 			});
-		}
+		};
 
 	}]);
