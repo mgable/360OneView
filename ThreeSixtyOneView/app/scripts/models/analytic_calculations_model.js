@@ -17,7 +17,7 @@ angular.module('ThreeSixtyOneView.services')
                     .get(path, config)
                     .success(deferred.resolve)
                     .error(function(data, status, headers, config){
-                        deferred.resolve({'id': parseInt(params.id), currentState: {completed: "not calculated", name: "not calculated", label: "not_calculated"}});
+                        deferred.resolve({'id': parseInt(params.id), currentState: {completed: false, name: "not_calculated", label: "not calculated", state: "not_calculated"}});
                         return deferred.promise;
                     });
 

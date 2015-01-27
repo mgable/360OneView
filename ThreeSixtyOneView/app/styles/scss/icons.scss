@@ -18,7 +18,7 @@
 	color: #e4162f;
 }
 
-.fa-not_calculated:before {
+.fa-in_progress:before {
 	@extend .fa-spin;
 	content: "\f1ce";
 	color: #909090;
