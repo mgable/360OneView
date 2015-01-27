@@ -26,9 +26,9 @@ describe('Service: ScenarioService', function () {
   it('should get all scenarios related to a project', function(){
     var deferred = $q.defer();
     deferred.resolve(data);
-    var spy = spyOn(ScenarioService.myScenarios, "get").and.returnValue(deferred.promise);
+    var spy = spyOn(ScenarioService.resource, "get").and.returnValue(deferred.promise);
     ScenarioService.get("123", "345");
-    expect(spy).toHaveBeenCalledWith({id: "123"});
+    expect(spy).toHaveBeenCalledWith({id: "123"}, {transformResponse: jasmine.any(Function), transformRequest: jasmine.any(Function)});
   });
 
   it('should get all scenarios', function(){

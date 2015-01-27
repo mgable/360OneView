@@ -54,18 +54,16 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		this.getAllScenarioStatus = function(scenarios){
+
 			var promises = [];
 
 			_.each(scenarios, function(k,v){
 				promises.push(self.get(k.id));
 			});
 
+
 			return $q.all(promises).then(function(response){
-				console.info("all scenario status");
-				console.info(response);
-				console.info("added state");
 				setScenarioState(response);
-				console.info(response);
 				return response;
 			});
 		}

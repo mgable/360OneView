@@ -17,10 +17,14 @@ angular.module('ThreeSixtyOneView.services')
 		this.myScenarios = myScenarios;
 
 		this.get = function (projectId, scenarioId){
-			return myScenarios.get.call(this, {"id": projectId}).then(function(response){
+			return this.resource.get({"id": projectId}, this.config).then(function(response){
 				if(scenarioId) {
+					console.info("the scenario for id " + scenarioId);
+					console.info(response);
 					return _.findWhere(response, {id: parseInt(scenarioId,10)});
 				} else {
+					console.info("scenario service: getting all scenarios ");
+					console.info(response);
 					return response;
 				}
 			});
@@ -56,7 +60,4 @@ angular.module('ThreeSixtyOneView.services')
 			});
 		};
 
-		// $rootScope.$on(EVENTS.renameScenario, function($event, scenario, projectId){
-		// 	self.rename(scenario, projectId);
-		// });
 	}]);

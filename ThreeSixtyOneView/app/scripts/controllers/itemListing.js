@@ -18,8 +18,6 @@ angular.module('ThreeSixtyOneView')
             addStatusToScenarios(Scenarios, Status);
             $scope.scenarios = Scenarios;
 
-            console.info("scenarios with their status");
-            console.info($scope.scenarios);
             $scope.hasAlerts = Scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
 
             if($scope.project.isMaster){
@@ -32,7 +30,7 @@ angular.module('ThreeSixtyOneView')
         },
         addStatusToScenarios = function(scenarios, statuses){
             _.each(scenarios, function(k,i){
-                _.extend(k, statuses[i]);
+                _.extend(k, _.omit(statuses[i], 'id'));
             });
         },
         getProject = function(){

@@ -13,6 +13,16 @@
 	height: 16px;
 }
 
+.fa-not_calculated:before {
+	content: "\f0c2";
+	color: #33CCFF;
+}
+
+.fa-SUCCESSFUL:before {
+	content: "\f0f4";
+	color: #33CCFF;
+}
+
 .fa-failed:before {
 	content: "\f071";
 	color: #e4162f;

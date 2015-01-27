@@ -21,6 +21,8 @@ angular.module('ThreeSixtyOneView')
 
                 $scope.project = Project;
                 $scope.scenario = Scenario;
+                console.info("SCENRIOJS: the scenatio is ");
+                console.info(Scenario);
                 $scope.views = {
                     views: [],
                     currentView: {
@@ -86,7 +88,7 @@ angular.module('ThreeSixtyOneView')
             setView = function(currentState){
                 console.info("setting view for ");
                 console.info(currentState);
-                if (currentState === FAILED || currentState === IN_PROGRESS){
+                if (currentState === IN_PROGRESS){
                     console.info("failed or in progress");
                     $timeout(function(){$state.go("Scenario.calculate");});
                 }
