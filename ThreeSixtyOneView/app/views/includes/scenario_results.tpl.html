@@ -15,101 +15,107 @@
     </section>
 
     <section class="results-view">
-        <div>
-            <div class="srTitle" ng-class="{srTitleSel: srShow, srGray: !srShow}">
-                <div class="srRenameArea">
-                    <icon type="eye" ng-class="{srGray: !srShow}"></icon>
-                    <div class="srTitleText clickable" ng-click="srShow ? startSaveAs() : (srShow = true)" ng-hide="saveAs">{{spendViewData.name}}</div>
-                    <div class="srSaveAsBox" ng-show="saveAs">
-                        <input type="text" ng-model="saveAsName" ui-keydown="{'esc': 'finishSaveAs(false)', 'enter': 'finishSaveAs(true)'}">
-                        <icon type="check" ng-click="finishSaveAs(true)"></icon>
-                        <icon type="remove" ng-click="finishSaveAs(false)"></icon>
-                    </div>
-                </div>
-            </div>
-            <!-- <div class="srTimestamp">
-                <span>Calculated 3:57pm</span>
-            </div> -->
-            <div class="srToolbar" ng-class="{srTitleSel: !srShow}"></div>
-        </div>
-
-        <div ng-class="{srOpened: srShow}" class="srSlider">
-            <div class="srControlBar">
-                <div class="srSaveMenu" ng-mouseleave="viewSaveMenu = false">
-                    <div class="srViewSave">
-                        <div class="srSaveHolder">
-                            <div class="srSaveButton clickable" ng-click="saveView()"">
-                                <icon type="save"></icon> Save View
-                            </div>
-                            <div class="srSaveDropButton clickable" ng-class="{srSaveDropSelected: viewSaveMenu}" ng-click="viewSaveMenu = !viewSaveMenu">
-                                <icon type="caret-down"></icon>
-                            </div>
-                        </div>
-                        <div class="srViewSaveMenu" ng-show="viewSaveMenu">
-                            <div class="srViewSaveMenuVisible" ng-click="">
-                                <div class="srViewSaveMenuItem clickable" ng-click="startSaveAs(); viewSaveMenu = false;">
-                                    <icon type="save"></icon> Save As
-                                </div>
-                                <div class="srViewSaveMenuItem clickable" ng-click="resetView(); viewSaveMenu = false;">
-                                    <icon type="undo"></icon> Revert
-                                </div>
+        <tabset>
+            <tab id="resultViewsTab">
+                <tab-heading>
+                    <div id="resultViewsHeader" class="srTitle" expand-collapse-control target-area="#resultViews" tab-id="1">
+                        <div class="srRenameArea">
+                            <icon type="eye"></icon>
+                            <div class="srTitleText" ng-hide="saveAs">{{spendViewData.name}}</div>
+                            <div class="srSaveAsBox" ng-show="saveAs">
+                                <input type="text" ng-model="saveAsName" ui-keydown="{'esc': 'cancelSaveAs()', 'enter': 'submitSaveAs()'}">
+                                <span class="clickable" ng-click="submitSaveAs()"><icon type="check"></icon></span>
+                                <span class="clickable" ng-click="cancelSaveAs()"><icon type="remove"></icon></span>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="srViewsList">
-                    <div class="dropdown">
-                        <span class="dropdown-toggle srRecentViewsButton clickable">
-                            <icon type="eye"></icon>Recent Views<icon type="caret-down"></icon>
-                        </span>
-                        <ul class="dropdown-menu srRecentViewsMenu">
-                            <div class="srRecentViewsMenuVisible">
-                                <li ng-repeat="view in getViewsList() | limitTo:4">
-                                    <div ng-click="loadView(spendCubeId, view.id);"><icon type="eye"></icon>{{view.name}}</div>
-                                </li>
-                                <hr>
-                                <li>
-                                    <div ng-click="openAllViewsModal()"><icon type="folder-open-o"></icon>All Views</div>
-                                </li>
+                </tab-heading>
+                <div id="resultViews" class="hidden">
+                    <div class="srSlider">
+                        <div class="srControlBar">
+                            <div class="srSaveMenu">
+                                <div class="dropdown">
+                                    <span class="srSaveButton clickable" ng-click="saveView()" >
+                                        <icon type="save"></icon>Save View
+                                    </span>
+                                    <span class="dropdown-toggle srSaveDropButton clickable">
+                                        <icon type="caret-down"></icon>
+                                    </span>
+                                    <ul class="dropdown-menu srViewSaveMenu">
+                                        <div class="srViewSaveMenuVisible">
+                                            <li>
+                                                <div class="srViewSaveMenuItem" ng-click="startSaveAs();"><icon type="save"></icon>Save As</div>
+                                            </li>
+                                            <li>
+                                                <div class="srViewSaveMenuItem" ng-click="revertView();"><icon type="undo"></icon>Revert</div>
+                                            </li>
+                                            <li>
+                                                <div class="srViewSaveMenuItem" ng-click="startRename()"><icon type="pencil"></icon>Rename</div>
+                                            </li>
+                                        </div>
+                                    </ul>
+                                </div>
                             </div>
-                        </ul>
+
+                            <div class="srViewsList">
+                                <div class="dropdown">
+                                    <span class="dropdown-toggle srRecentViewsButton clickable">
+                                        <icon type="eye"></icon>Recent Views<icon type="caret-down"></icon>
+                                    </span>
+                                    <ul class="dropdown-menu srRecentViewsMenu">
+                                        <div class="srRecentViewsMenuVisible">
+                                            <li ng-repeat="view in getViewsList() | limitTo:4">
+                                                <div ng-click="loadView(spendCubeId, view.id);"><icon type="eye"></icon>{{view.name}}</div>
+                                            </li>
+                                            <hr>
+                                            <li>
+                                                <div ng-click="openAllViewsModal()"><icon type="folder-open-o"></icon>All Views</div>
+                                            </li>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="srSec">
+                            <div class="srSecTitle">Spend Filters</div>
+                            <div class="srFilterValues">
+                                <div ng-repeat="cat in dimensions" class="srFilterBox clickable" ng-click="filtersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="spendAddedFilters[cat.label]">
+                                    <div class="srFilterCat">{{cat.label}} <span class="srFilterSize">({{spendCategorizedValue[$index].selected}}/{{spendCategorizedValue[$index].total}})</span></div>
+                                    <div class="srFilterVal" ng-show="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{spendCategorizedValue[$index].label.join(', ')}}">{{spendCategorizedValue[$index].label.join(', ')}}</div>
+                                    <div class="srFilterVal" ng-hide="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" title="{{spendCategorizedValue[$index].label.join(', ')}}">All</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="srSec">
+                            <div class="srSecTitle">KPI Filters</div>
+                            <div class="srFilterValues">
+                                <div ng-repeat="cat in dimensions" class="srFilterBox clickable" ng-click="filtersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="spendAddedFilters[cat.label]">
+                                    <div class="srFilterCat">{{cat.label}} <span class="srFilterSize">({{spendCategorizedValue[$index].selected}}/{{spendCategorizedValue[$index].total}})</span></div>
+                                    <div class="srFilterVal" ng-show="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{spendCategorizedValue[$index].label.join(', ')}}">{{spendCategorizedValue[$index].label.join(', ')}}</div>
+                                    <div class="srFilterVal" ng-hide="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" title="{{spendCategorizedValue[$index].label.join(', ')}}">All</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="srSec">
+                            <div class="srSwitchTitle">Sync KPI with Spend</div>
+                            <span class="ms-switch btn-group"  ms-link-group selected-item="on" radio="true">
+                                <button class="ms-switch-on btn btn-xs" ms-link="on">ON</button>
+                                <button class="ms-switch-off btn btn-xs" ms-link="off">OFF</button>
+                            </span>
+                        </div>
+
+                        <div class="srSliderCollapse">
+                            <span class="clickable" ng-click="cancelSaveAs();" collapse-control target-area="#pivotBuilder">
+                                <icon type="chevron-up"></icon>Collapse
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="srSec">
-                <div class="srSecTitle">Spend Filters</div>
-                <div class="srFilterValues">
-                    <div ng-repeat="cat in dimensions" class="srFilterBox clickable" ng-click="filtersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="spendAddedFilters[cat.label]">
-                        <div class="srFilterCat">{{cat.label}} <span class="srFilterSize">({{spendCategorizedValue[$index].selected}}/{{spendCategorizedValue[$index].total}})</span></div>
-                        <div class="srFilterVal" ng-show="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{spendCategorizedValue[$index].label.join(', ')}}">{{spendCategorizedValue[$index].label.join(', ')}}</div>
-                        <div class="srFilterVal" ng-hide="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" title="{{spendCategorizedValue[$index].label.join(', ')}}">All</div>
-                    </div>
-                </div>
-            </div>
-            <div class="srSec">
-                <div class="srSecTitle">KPI Filters</div>
-                <div class="srFilterValues">
-                    <div ng-repeat="cat in dimensions" class="srFilterBox clickable" ng-click="filtersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="spendAddedFilters[cat.label]">
-                        <div class="srFilterCat">{{cat.label}} <span class="srFilterSize">({{spendCategorizedValue[$index].selected}}/{{spendCategorizedValue[$index].total}})</span></div>
-                        <div class="srFilterVal" ng-show="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{spendCategorizedValue[$index].label.join(', ')}}">{{spendCategorizedValue[$index].label.join(', ')}}</div>
-                        <div class="srFilterVal" ng-hide="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" title="{{spendCategorizedValue[$index].label.join(', ')}}">All</div>
-                    </div>
-                </div>
-            </div>
-            <div class="srSec">
-                <div class="srSwitchTitle">Sync KPI with Spend</div>
-                <span class="ms-switch btn-group"  ms-link-group selected-item="on" radio="true">
-                    <button class="ms-switch-on btn btn-xs" ms-link="on">ON</button>
-                    <button class="ms-switch-off btn btn-xs" ms-link="off">OFF</button>
-                </span>
-            </div>
-            <div class="srSliderCollapse">
-                <span class="clickable" ng-click="srShow = false; finishSaveAs(false);">
-                    <icon type="chevron-up"></icon> Collapse
-                </span>
-            </div>
-        </div>
+            </tab>
+        </tabset>
     </section>
 
     <section class="results-panel">

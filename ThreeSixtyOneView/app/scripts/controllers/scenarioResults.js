@@ -38,6 +38,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     },
     initiateSpendModel = function(cubeMeta) {
         PivotMetaService.initModel(cubeMeta).then(function(result) {
+            console.log('result', result);
             var foundView = _.find(result.viewsList, function(view){ return view.id === result.view.id; });
             if (foundView) {
                 $scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
@@ -57,22 +58,29 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     // init function
     init = function() {
         // scope variables
-        $scope.srShow    = false;
-        $scope.isTest    = null;
+        $scope.saveAs = false;
+        $scope.rename = false;
 
         $scope.selectedView      = Scenarios[0];
         $scope.spendDatumHeader  = resultsData.spendData.header;
         $scope.chartData         = [];
 
-        angular.element('.Scenario').css('height', 'auto');
-        getChartData();
-
+        // spend cube id
+        $scope.spendCubeId = spendCubeMeta.id;
         initiateSpendModel(spendCubeMeta);
 
+        angular.element('.Scenario').css('height', 'auto');
+        getChartData();
+    }, renameView = function(cubeId, view) { // rename the view
+        ManageAnalysisViewsService.renameView(view.id, cubeId, view.name).then(function(response) {
+            _.each($scope.spendViewsList, function(item) {
+                if(item.id === response.id) {
+                    item.name = response.name;
+                }
+            });
+        });
     };
 
-    // spend cube id
-    $scope.spendCubeId = spendCubeMeta.id;
     // returns list of all the views in the current cube
     $scope.getViewsList = function() {
         return $scope.spendViewsList;
@@ -92,11 +100,58 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         ManageAnalysisViewsService.getView(viewId, cubeId).then(function(view) {
             // $scope.views.currentView = view;
             $scope.spendViewData = view;
-            $scope.spendAdded = PivotMetaService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
-            $scope.spendMembersList = PivotMetaService.generateMembersList(result.dimensions);
-            $scope.spendAddedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
-            $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, result.dimensions, result.view);
+            $scope.spendAdded = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
+            $scope.spendMembersList = PivotMetaService.getAddedFilters(view.filters, $scope.spendDimensions);
+            $scope.spendAddedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.spendDimensions);
+            $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, $scope.spendDimensions, view);
         });
+    };
+
+    // reset the view to the last saved state
+    $scope.revertView = function() {
+        if($scope.draftView) {
+            var originalViewName = $scope.spendViewData.name.substring(8);
+            var originalViewId = _.find($scope.spendViewsList, function(view) { return originalViewName === view.name; }).id;
+            var draftViewId = $scope.spendViewData.id;
+
+            // load view automatically deletes draft view if a non-draft is loaded
+            $scope.loadView($scope.spendCubeId, originalViewId);
+        }
+    };
+
+    // start save as process
+    $scope.startSaveAs = function() {
+        $scope.saveAsName = $scope.spendViewData.name;
+        $scope.saveAs = true;
+        $scope.rename = false;
+    };
+
+    // submit save as process
+    $scope.submitSaveAs = function() {
+        $scope.spendViewData.name = $scope.saveAsName;
+
+        if($scope.rename) { // if submitting
+            $scope.draftView = false;
+            renameView($scope.spendCubeId, $scope.spendViewData);
+        } else if (!$scope.rename) {
+            $scope.spendViewData.id = null;
+            $scope.createView($scope.spendCubeId, $scope.spendViewData, $scope.spendViewsList);
+        }
+
+        $scope.cancelSaveAs();
+    };
+
+    // cancel the save as process
+    $scope.cancelSaveAs = function() {
+        $scope.rename = false;
+        $scope.saveAs = false;
+    };
+
+    // start the rename process
+    $scope.startRename = function() {
+        $scope.saveAsName = $scope.spendViewData.name;
+        $scope.saveAs = true;
+        $scope.rename = true;
     };
 
     // get KPI raw data
@@ -126,12 +181,12 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     // open/dismiss filters selection modal
     $scope.filtersModal = function(category) {
         var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
-            {cat: category, addedFilters: $scope.spendAddedFilters, viewData: $scope.spendViewData, dimensions: $scope.dimensions},
+            {cat: category, addedFilters: $scope.spendAddedFilters, viewData: $scope.spendViewData, dimensions: $scope.spendDimensions},
             {windowSize: 'lg', windowClass: 'filtersSelectionModal'});
 
         dialog.result.then(function(data) {
             $scope.spendAddedFilters = data;
-            $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, $scope.dimensions, $scope.spendViewData);
+            $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, $scope.spendDimensions, $scope.spendViewData);
         });
     };
 
