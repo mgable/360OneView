@@ -67,9 +67,36 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         angular.element('.Scenario').css('height', 'auto');
         getChartData();
 
-        console.log(spendCubeMeta);
         initiateSpendModel(spendCubeMeta);
 
+    };
+
+    // spend cube id
+    $scope.spendCubeId = spendCubeMeta.id;
+    // returns list of all the views in the current cube
+    $scope.getViewsList = function() {
+        return $scope.spendViewsList;
+    };
+    // open the modal for the list of all views
+    $scope.openAllViewsModal = function() {
+        var dialog = DialogService.openLightbox('views/modal/pivot_builder_all_views.tpl.html', 'pivotBuilderAllViewsCtrl',
+            {viewsList: $scope.spendViewsList, selectedViewId: $scope.spendViewData.id, e2e: $scope.e2e},
+            {windowSize: 'lg', windowClass: 'pivotBuilderAllViewsModal'});
+
+        dialog.result.then(function(data) {
+            $scope.loadView($scope.spendCubeId, data);
+        });
+    };
+    // load view
+    $scope.loadView = function(cubeId, viewId) {
+        ManageAnalysisViewsService.getView(viewId, cubeId).then(function(view) {
+            // $scope.views.currentView = view;
+            $scope.spendViewData = view;
+            $scope.spendAdded = PivotMetaService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
+            $scope.spendMembersList = PivotMetaService.generateMembersList(result.dimensions);
+            $scope.spendAddedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
+            $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, result.dimensions, result.view);
+        });
     };
 
     // get KPI raw data

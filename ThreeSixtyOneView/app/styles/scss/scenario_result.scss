@@ -241,69 +241,78 @@
                     }
                 }
 
-                .srViewsList {
-                    color: $darkgray;
-                    display: inline-block;
-                    margin-left: 10px;
-                    position: relative;
-                    font-size: 14px;
-                    vertical-align: top;
+            .srViewsList {
+                color: $darkgray;
+                display: inline-block;
+                margin-left: 20px;
+                position: relative;
+                font-size: 14px;
+                vertical-align: top;
 
-                    &:hover {
-                        .srRecentViewsButton {
-                            color: $blue;
-                        }
-                    }
-
+                &:hover {
                     .srRecentViewsButton {
-                        padding: 1px 5px;
+                        color: $blue;
+                    }
+                }
+
+                .srRecentViewsButton {
+                    padding: 1px 5px;
+
+                    .fa:first-child {
+                        padding-right: 5px;
                     }
 
-                    .srRecentViewsMenu {
+                    .fa:last-child {
+                        padding-left: 5px;
+                    }
+                }
+
+                .srRecentViewsMenu {
+                    position: absolute;
+                    min-height: 250px;
+                    width: 290px;
+                    padding: 20px;
+                    padding-top: 0;
+                    left: -50%;
+                    z-index: 10;
+
+                    .srRecentViewsMenuVisible {
+                        background: white;
+                        border: 1px solid $blue;
+                        padding: 7px 0;
+                        width: 250px;
                         position: absolute;
-                        min-height: 250px;
-                        width: 290px;
-                        padding: 20px;
-                        padding-top: 0;
-                        left: -50%;
-                        z-index: 10;
+                        top: 7px;
+                        box-shadow: 0 3px 10px rgba(100,100,100,0.5);
 
-                        .srRecentViewsMenuVisible {
-                            background: white;
-                            border: 1px solid $blue;
-                            padding: 7px 0;
-                            width: 250px;
+                        &::before {
                             position: absolute;
-                            top: 7px;
-                            box-shadow: 0 3px 10px rgba(100,100,100,0.5);
+                            height: 11px;
+                            width: 11px;
+                            content: "";
+                            border-left: 1px solid $blue;
+                            border-top: 1px solid $blue;
+                            -webkit-transform: rotate(45deg);
+                            -moz-transform: rotate(45deg);
+                            -ms-transform: rotate(45deg);
+                            -o-transform: rotate(45deg);
+                            transform: rotate(45deg);
+                            top: -6px;
+                            left: 47%;
+                            z-index: 13;
+                            background-color: white;
+                        }
 
-                            &::before {
-                                position: absolute;
-                                height: 11px;
-                                width: 11px;
-                                content: "";
-                                border-left: 1px solid $blue;
-                                border-top: 1px solid $blue;
-                                -webkit-transform: rotate(45deg);
-                                -moz-transform: rotate(45deg);
-                                -ms-transform: rotate(45deg);
-                                -o-transform: rotate(45deg);
-                                transform: rotate(45deg);
-                                top: -6px;
-                                left: 47%;
-                                z-index: 13;
-                                background-color: white;
-                            }
-
+                        li {
                             div {
                                 white-space: nowrap;
                                 overflow: hidden;
                                 text-overflow: ellipsis;
                                 padding: 5px 20px;
+                                cursor: pointer;
 
                                 &:hover {
-                                    background-color: $blue;
-                                    color: white;
+                                    background-color: $lightgray;
                                 }
 
                                 i {
@@ -311,12 +320,20 @@
                                 }
                             }
 
-                            hr {
-                                margin: 12px 0;
+                            &.selected {
+                                div {
+                                    background-color: $blue;
+                                    color: white;
+                                }
                             }
+                        }
+
+                        hr {
+                            margin: 12px 0;
                         }
                     }
                 }
+            }
             }
 
             .srSec {
@@ -380,8 +397,19 @@
             color: $darkgray;
         }
 
-        .clickable {
-            cursor: pointer;
+        .blue {
+            color: $blue;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .dropdown-menu {
+            background-color: transparent;
+            border: 0;
+            -webkit-box-shadow: none;
+            box-shadow: none;
         }
 	}
     .results-panel {

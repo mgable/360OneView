@@ -19,7 +19,7 @@
             <div class="srTitle" ng-class="{srTitleSel: srShow, srGray: !srShow}">
                 <div class="srRenameArea">
                     <icon type="eye" ng-class="{srGray: !srShow}"></icon>
-                    <div class="srTitleText clickable" ng-click="srShow ? startSaveAs() : (srShow = true)" ng-hide="saveAs">{{viewName}}</div>
+                    <div class="srTitleText clickable" ng-click="srShow ? startSaveAs() : (srShow = true)" ng-hide="saveAs">{{spendViewData.name}}</div>
                     <div class="srSaveAsBox" ng-show="saveAs">
                         <input type="text" ng-model="saveAsName" ui-keydown="{'esc': 'finishSaveAs(false)', 'enter': 'finishSaveAs(true)'}">
                         <icon type="check" ng-click="finishSaveAs(true)"></icon>
@@ -58,18 +58,22 @@
                     </div>
                 </div>
 
-                <div class="srViewsList" ng-mouseleave="viewRecentViews = false">
-                    <div class="srRecentViewsButton clickable" ng-click="viewRecentViews = !viewRecentViews">
-                        <icon type="eye"></icon> Recent Views <icon type="caret-down"></icon>
-                    </div>
-                    <div class="srRecentViewsMenu" ng-show="viewRecentViews">
-                        <div class="srRecentViewsMenuVisible">
-                            <div class="clickable" ng-repeat="viewsListItem in viewsList | orderBy:'id'">
-                                <icon type="eye"></icon> {{viewsListItem.name}}
+                <div class="srViewsList">
+                    <div class="dropdown">
+                        <span class="dropdown-toggle srRecentViewsButton clickable">
+                            <icon type="eye"></icon>Recent Views<icon type="caret-down"></icon>
+                        </span>
+                        <ul class="dropdown-menu srRecentViewsMenu">
+                            <div class="srRecentViewsMenuVisible">
+                                <li ng-repeat="view in getViewsList() | limitTo:4">
+                                    <div ng-click="loadView(spendCubeId, view.id);"><icon type="eye"></icon>{{view.name}}</div>
+                                </li>
+                                <hr>
+                                <li>
+                                    <div ng-click="openAllViewsModal()"><icon type="folder-open-o"></icon>All Views</div>
+                                </li>
                             </div>
-                            <hr>
-                            <div><icon type="folder-open-o"></icon> All Views</div>
-                        </div>
+                        </ul>
                     </div>
                 </div>
             </div>
