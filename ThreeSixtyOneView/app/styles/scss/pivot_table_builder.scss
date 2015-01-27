@@ -1,10 +1,6 @@
 @import "variables";
 
 #pivotBuilder {
-	font-family: $sansFontFamily;
-	font-size: 14px;
-	color: $black;
-
 	.pbSlider {
 		border: 0;
 		padding: 0 16px;
@@ -620,9 +616,6 @@
 }
 
 #pivotBuilderTab {
-	a {
-		padding: 0;
-	}
 	.pbTitle {
 		font-size: 17px;
 		height: 30px;

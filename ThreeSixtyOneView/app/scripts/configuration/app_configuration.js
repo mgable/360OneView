@@ -14,7 +14,7 @@ angular.module('ThreeSixtyOneView.config')
                 "scenarioElement": "/rubix/v1/scenario/:id",
                 "scenarioAnalytics": "/rubix/v1/analytics/scenario/:id/calculate",
                 "upload": "/rubix/v1/import",
-                "exportFile": "/rubix/v1/export"
+                "exportResource": "/rubix/v1/export/analysis-element/:elementId"
             },
             "models": {
                 "ProjectsModel": {
