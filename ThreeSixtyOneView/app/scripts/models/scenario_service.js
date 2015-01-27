@@ -19,12 +19,8 @@ angular.module('ThreeSixtyOneView.services')
 		this.get = function (projectId, scenarioId){
 			return this.resource.get({"id": projectId}, this.config).then(function(response){
 				if(scenarioId) {
-					console.info("the scenario for id " + scenarioId);
-					console.info(response);
 					return _.findWhere(response, {id: parseInt(scenarioId,10)});
 				} else {
-					console.info("scenario service: getting all scenarios ");
-					console.info(response);
 					return response;
 				}
 			});
