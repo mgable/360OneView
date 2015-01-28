@@ -148,8 +148,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 	// submit save as process
 	$scope.submitSaveAs = function() {
 		$scope.viewData.name = $scope.saveAsName;
-		
-		if($scope.rename) { // if submitting 
+
+		if($scope.rename) { // if submitting
 			$scope.draftView = false;
 			renameView($scope.cubeId, $scope.viewData);
 		} else if (!$scope.rename) {
@@ -175,7 +175,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 
 	// apply the changes in the pivot table
 	$scope.applyView = function() {
-		
+
 	};
 
 	// show table/filters section and update height for pivot table
