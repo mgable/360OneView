@@ -41,6 +41,14 @@ angular.module('ThreeSixtyOneView.config')
                 "ScenarioElement": {
                     "responseTranslator": {"id":"id", "name": "name", "group":"group", "cubeMeta":"cubeMeta", "title":"cubeMeta.label"},
                     "requestTranslator": {"id":"id", "name": "title"}
+                },
+                "ScenarioAnalytics": {
+                    "states" : {
+                        "NOT_CALCULATED": "not_calculated",
+                        "FAILED": "FAILED",
+                        "SUCCESS": "SUCCESSFUL",
+                        "IN_PROGRESS": "in_progress"
+                    }
                 }
             },
             "inputRestrictions": {
