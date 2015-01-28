@@ -186,10 +186,9 @@
                 </div>
 
                 <div class="btnGroup">
-                    <ms-button type="submit" action="prepareFile()" label="Export" ng-hide="exportObj.exportClicked"></ms-button>
-                    <ms-button type="cancel" action="collapseTab()" label="Close" collapse-control target-area="#exportBody" ng-hide="exportObj.exportClicked"></ms-button>
-                    <ms-button class="ng-hide" type="cancel" action="initStatus()" label="Cancel" ng-show="exportObj.exportClicked"></ms-button>
-                    <a ng-href="downloadLink" download="sample.html" ng-show="exportObj.readyForDownload" class="btn active">DOWNLOAD</a>
+                    <ms-button type="submit" action="requestExport()" label="Export" ng-hide="exportInProgress"></ms-button>
+                    <ms-button type="cancel" action="cancelExport()" label="Cancel" ng-disabled="!exportInProgress"></ms-button>
+                    <a ng-href="downloadLink" download="sample.html" ng-show="downloadReady" class="btn active">DOWNLOAD</a>
                 </div>
 
                 <div class="pbSliderCollapse" >
