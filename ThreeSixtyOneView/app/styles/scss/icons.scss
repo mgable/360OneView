@@ -1,9 +1,35 @@
 /* Icon Styles */
 @import "variables";
 
+.fa-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
+  animation: fa-spin 2s infinite linear;
+}
+
 .fa-marketshare {
 	background-color:$white;
 	background-image: url(../images/ms-confirm_gray.png);
 	width: 16px;
 	height: 16px;
+}
+
+.fa-not_calculated:before {
+	content: "\f0c2";
+	color: #33CCFF;
+}
+
+.fa-SUCCESSFUL:before {
+	content: "\f0f4";
+	color: #33CCFF;
+}
+
+.fa-failed:before {
+	content: "\f071";
+	color: #e4162f;
+}
+
+.fa-in_progress:before {
+	@extend .fa-spin;
+	content: "\f1ce";
+	color: #909090;
 }

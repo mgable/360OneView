@@ -6,10 +6,10 @@ angular.module('ThreeSixtyOneView')
 .controller("ScenarioCtrl", ["$scope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "ptData", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService",
     function($scope, $timeout, Project, Scenario, ScenarioAnalysisElements, ptData, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService) {
 
-        var NOT_CALCULATED = "not calculated",
+        var NOT_CALCULATED = "not_calculated",
             FAILED = "FAILED",
             SUCCESS = "SUCCESSFUL",
-            IN_PROGRESS = "in progress",
+            IN_PROGRESS = "in_progress",
 
             init = function() {
                 $scope.draftView = false;
@@ -21,6 +21,8 @@ angular.module('ThreeSixtyOneView')
 
                 $scope.project = Project;
                 $scope.scenario = Scenario;
+                console.info("SCENRIOJS: the scenatio is ");
+                console.info(Scenario);
                 $scope.views = {
                     views: [],
                     currentView: {
@@ -71,14 +73,14 @@ angular.module('ThreeSixtyOneView')
                return  _.findWhere(data, {id: id});
             },
             getScenarioState = function(currentStateObj){
-                if (currentStateObj.completed === NOT_CALCULATED){
-                    $scope.scenarioState = NOT_CALCULATED;
-                } else if (currentStateObj.completed === true){
+                if (currentStateObj.completed === true){
                     if (currentStateObj.name === FAILED){
                         $scope.scenarioState = FAILED;
                     } else if (currentStateObj.name === SUCCESS){
                         $scope.scenarioState = SUCCESS;
                     }
+                } else if (currentStateObj.name === NOT_CALCULATED){
+                    $scope.scenarioState = NOT_CALCULATED;
                 } else {
                     $scope.scenarioState = IN_PROGRESS;
                 }
@@ -86,7 +88,7 @@ angular.module('ThreeSixtyOneView')
             setView = function(currentState){
                 console.info("setting view for ");
                 console.info(currentState);
-                if (currentState === FAILED || currentState === IN_PROGRESS){
+                if (currentState === IN_PROGRESS){
                     console.info("failed or in progress");
                     $timeout(function(){$state.go("Scenario.calculate");});
                 }
