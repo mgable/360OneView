@@ -8,8 +8,8 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
-	['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'PivotViewService', 'DialogService', 'PivotMetaService',
-	function ($scope, $rootScope, EVENTS, $timeout, $q, PivotViewService, DialogService, PivotMetaService) {
+	['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'ManageAnalysisViewsService', 'DialogService', 'PivotMetaService',
+	function ($scope, $rootScope, EVENTS, $timeout, $q, ManageAnalysisViewsService, DialogService, PivotMetaService) {
 
 	var init = function() {
 		$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
@@ -36,7 +36,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			containment: '#dragDropArea'
 		};
 	},	renameView = function(cubeId, view) { // rename the view
-		PivotViewService.renameView(view.id, cubeId, view.name).then(function(response) {
+		ManageAnalysisViewsService.renameView(view.id, cubeId, view.name).then(function(response) {
 			_.each($scope.viewsList, function(item) {
 				if(item.id === response.id) {
 					item.name = response.name;
@@ -148,8 +148,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 	// submit save as process
 	$scope.submitSaveAs = function() {
 		$scope.viewData.name = $scope.saveAsName;
-		
-		if($scope.rename) { // if submitting 
+
+		if($scope.rename) { // if submitting
 			$scope.draftView = false;
 			renameView($scope.cubeId, $scope.viewData);
 		} else if (!$scope.rename) {
@@ -175,7 +175,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 
 	// apply the changes in the pivot table
 	$scope.applyView = function() {
-		
+
 	};
 
 	// show table/filters section and update height for pivot table

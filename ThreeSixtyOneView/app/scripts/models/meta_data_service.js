@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView')
-  .service('CubeService', ["$q", "Model", "CubeModel", function CubeService($q, Model, CubeModel) {
-		var MyCubeModel, mycube, self = this;
+angular.module('ThreeSixtyOneView.services')
+  .service('MetaDataService', ["$q", "Model", "MetaDataModel", function MetaDataService($q, Model, MetaDataModel) {
+		var MyMetaDataModel, mymetadata, self = this;
 
-		MyCubeModel = new Model();
-		angular.extend(this, MyCubeModel.prototype);
-		mycube = new MyCubeModel(CubeModel);
-		angular.extend(this, mycube);
+		MyMetaDataModel = new Model();
+		angular.extend(this, MyMetaDataModel.prototype);
+		mymetadata = new MyMetaDataModel(MetaDataModel);
+		angular.extend(this, mymetadata);
 
 		//this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
@@ -20,14 +20,14 @@ angular.module('ThreeSixtyOneView')
 
 		this.getMembers = function(cubeId){
 			var additionalPath = "members";
-			return mycube.get({id:cubeId}, additionalPath).then(function(response){
+			return mymetadata.get({id:cubeId}, additionalPath).then(function(response){
 				return response;
 			});
 		};
 
 		this.getViewByMembers = function(cubeId, dimensionId, hierarchyId){
 			var additionalPath =  "dimension/:dimensionId/hierarchy/:hierarchyId/members";
-			return mycube.get({id: cubeId, dimensionId:dimensionId, hierarchyId:hierarchyId}, additionalPath).then(function(response){
+			return mymetadata.get({id: cubeId, dimensionId:dimensionId, hierarchyId:hierarchyId}, additionalPath).then(function(response){
 				return response;
 			});
 		};
@@ -35,7 +35,7 @@ angular.module('ThreeSixtyOneView')
 		this.getLevelMembers = function(cubeId, dimensionId, hierarchyId, levelId, children) {
 			var additionalPath =  "dimension/:dimensionId/hierarchy/:hierarchyId/level/:levelId/members?children=" + children;
 
-			return mycube.get({id: cubeId, dimensionId:dimensionId, hierarchyId:hierarchyId, levelId:levelId}, additionalPath).then(function(response) {
+			return mymetadata.get({id: cubeId, dimensionId:dimensionId, hierarchyId:hierarchyId, levelId:levelId}, additionalPath).then(function(response) {
 				return response;
 			});
 		};
@@ -64,7 +64,7 @@ angular.module('ThreeSixtyOneView')
 
 		this.getCubeAnalysisElements = function(cubeId) {
 			var additionalPath = "analysis-element";
-			return mycube.get({id:cubeId}, additionalPath).then(function(response){
+			return mymetadata.get({id:cubeId}, additionalPath).then(function(response){
 				return response;
 			});
 		};

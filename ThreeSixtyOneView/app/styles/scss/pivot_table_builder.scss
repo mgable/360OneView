@@ -1,10 +1,6 @@
 @import "variables";
 
 #pivotBuilder {
-	font-family: $sansFontFamily;
-	font-size: 14px;
-	color: $black;
-
 	.pbSlider {
 		border: 0;
 		padding: 0 16px;
@@ -552,7 +548,7 @@
 							padding: 5px 10px 5px 20;
 
 						}
-						
+
 						.pbFilterCollection {
 							padding-left: 25px;
 							height: inherit;
@@ -620,9 +616,6 @@
 }
 
 #pivotBuilderTab {
-	a {
-		padding: 0;
-	}
 	.pbTitle {
 		font-size: 17px;
 		height: 30px;
@@ -642,7 +635,6 @@
 		}
 
 		&.pbTitleSel {
-			
 			border-bottom: 0;
 			border-right: 0;
 			border-top: 0;
@@ -656,6 +648,7 @@
 			.fa-eye {
 				vertical-align: top;
 				margin-top: 5px;
+				margin-right: 5px;
 			}
 
 			.pbTitleText {

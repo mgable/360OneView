@@ -216,24 +216,6 @@
 							cursor: pointer;
 						}
 					}
-					.status {
-						font: {
-							size: 10px;
-							weight: bold;
-						}
-						text-transform: uppercase;
-						color: $darkgray;
-
-						padding: 0 0 0 5px;
-					}
-					.title {
-						/*font-size: 1.2em;*/
-						i {
-							font-size: 1.2em;
-							padding: 0 10px 0 5px;
-							visibility: hidden;
-						}
-					}
 					
 					&.master {
 						font: {
@@ -379,6 +361,8 @@
 				.description {
 					display: inline-block;
 					min-height: 26px;
+					word-wrap: break-word;
+					width: 100%;
 				}
 			}
 			&.scenario-listing {

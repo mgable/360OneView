@@ -8,7 +8,7 @@
  * Service in the threeSixtOneViewApp.
  */
  angular.module('ThreeSixtyOneView.services')
- .service('PivotMetaService', ['CubeService', 'PivotViewService', function PivotMetaService(CubeService, PivotViewService) {
+ .service('PivotMetaService', ['MetaDataService', 'ManageAnalysisViewsService', function PivotMetaService(MetaDataService, ManageAnalysisViewsService) {
  	var self = this;
 	// create the temporary filter object from the view data
 	this.getAddedFilters = function(filters, dimensions) {
@@ -140,19 +140,19 @@
 	};
 
 	// create an empty view with no rows and columns and ALL for filters
-	this.createEmptyView = function(dimensions, cubeMeta) {
+	this.createEmptyView = function(dimensions, cubeMeta, spendViewId) {
 		var i,
 			newColumn = {dimension:{id:dimensions[dimensions.length-1].dimensionId},hierarchy:{id:-1},level:{id:dimensions[dimensions.length-1].members[0].levelId}},
 			newRow = {dimension:{id:dimensions[0].dimensionId},hierarchy:{id:-1},level:{id:dimensions[0].members[0].levelId}},
 			columns = [],
 			rows = [],
 			newView = {
-			name: 'Default ' + cubeMeta.label + ' view',
-			isDefault: true,
-			columns: columns,
-			rows: rows,
-			filters: []
-		};
+				name: 'Default ' + cubeMeta.label + ' view',
+				isDefault: true,
+				columns: columns,
+				rows: rows,
+				filters: []
+			};
 		newView.columns.push(newColumn);
 		newView.rows.push(newRow);
 
@@ -169,7 +169,7 @@
 			});
 		});
 
-		return PivotViewService.createView(newView, cubeMeta.id).then(function(view) {
+		return ManageAnalysisViewsService.createView(newView, cubeMeta.id, spendViewId).then(function(view) {
 			return view;
 		});
 	};
@@ -190,17 +190,17 @@
 
 	// initialize the dimensions, views list, and the default view
 	this.initModel = function(cubeMeta) {
-		return CubeService.buildDimensionsTree(cubeMeta.id).then(function(dimensions) {
-			return  PivotViewService.getViewsList(cubeMeta.id).then(function(list) {
+		return MetaDataService.buildDimensionsTree(cubeMeta.id).then(function(dimensions) {
+			return  ManageAnalysisViewsService.getViewsList(cubeMeta.id).then(function(list) {
 				if(list.length < 1) { // if no items in the list create an empty view
-					return self.createEmptyView(dimensions, cubeMeta).then(function(view) {
+					return self.createEmptyView(dimensions, cubeMeta, false).then(function(view) {
 						list.unshift(view);
 						return {viewsList: list, view: view, dimensions: dimensions};
 					});
 				} else { // if there are views in the list, load the default/draft view
 					var viewId = self.findDefaultView(list);
 
-					return PivotViewService.getView(viewId, cubeMeta.id).then(function(view) {
+					return ManageAnalysisViewsService.getView(viewId, cubeMeta.id).then(function(view) {
 						var result = {viewsList: list, view: view, dimensions: dimensions};
 						return result;
 					});
@@ -215,7 +215,7 @@
 		_.each(colAndRow, function(item) {
 			added[item.level.label] = true;
 		});
-		
+
 		return added;
 	};
 
