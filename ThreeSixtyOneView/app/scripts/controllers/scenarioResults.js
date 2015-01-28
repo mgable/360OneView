@@ -8,13 +8,16 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
-    ['$scope', 'resultsData', 'Scenarios', 'ManageAnalysisViewsService', 'ManageScenariosService', 'MetaDataService', '$interval', 'DialogService', 'PivotMetaService', '$q',
-    function ($scope, resultsData, Scenarios, ManageAnalysisViewsService, ManageScenariosService, MetaDataService, $interval, DialogService, PivotMetaService, $q) {
+    ['$scope', 'resultsData', 'Scenario', 'Scenarios', 'ManageAnalysisViewsService', 'ManageScenariosService', 'MetaDataService', '$interval', 'DialogService', 'PivotMetaService', 'ReportsService', '$q',
+    function ($scope, resultsData, Scenario, Scenarios, ManageAnalysisViewsService, ManageScenariosService, MetaDataService, $interval, DialogService, PivotMetaService, ReportsService, $q) {
 
     // private variables
     var cnt = 0,
         spendCubeMeta = _.find($scope.scenarioElements, function(v) {
-            return v.cubeMeta.name === "TOUCHPOINT";
+            if (v.cubeMeta.name === "TOUCHPOINT") {
+                $scope.spendElementId = v.id;
+                return v;
+            }
         }).cubeMeta,
 
     // get the data for spend summary chart
@@ -34,6 +37,11 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 }
             });
             $scope.chartData.push(chartSubData);
+        });
+    },
+    getSpendSummary= function() {
+        ReportsService.getSummary(48, 10).then(function(_spendSummaryData) {
+            console.log('spend summary data: ', _spendSummaryData);
         });
     },
     initiateSpendModel = function(cubeMeta) {
@@ -57,6 +65,12 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
 
             // kpi view
             getKPICube();
+
+            // spend summary
+            getSpendSummary();
+
+            // kpi summary
+            getKPISummary();
         });
     },
     getKPICube = function() {
@@ -84,6 +98,11 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             initiateKPIModel();
         });
     },
+    getKPISummary = function() {
+        ReportsService.getSummary(61, 98).then(function(_KPISummaryData) {
+            console.log('kPI summary data: ', _KPISummaryData);
+        });
+    },
     initiateKPIModel = function() {
         $scope.kpiViewId = $scope.kpiView.id;
         $scope.kpiViewData = $scope.kpiView;
@@ -100,7 +119,11 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         $scope.saveAs = false;
         $scope.rename = false;
 
-        $scope.selectedView      = Scenarios[0];
+        $scope.comparedViewList = angular.copy(Scenarios);
+        $scope.comparedViewList.unshift(Scenario.referenceScenario);
+        $scope.comparedViewList[0].title = $scope.comparedViewList[0].name;
+        $scope.selectedComparedView = $scope.comparedViewList[0];
+
         $scope.spendDatumHeader  = resultsData.spendData.header;
         $scope.chartData         = [];
 
@@ -196,13 +219,14 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     $scope.getSpendDataBody = function() {
         return resultsData.spendData.body;
     };
-    // get compared views list
-    $scope.getComparedViews = function() {
-        return Scenarios;
-    }
     // set compared view
-    $scope.setComparedView = function(view) {
-        $scope.selectedView = view;
+    $scope.loadComparedView = function(_viewId) {
+        _.find($scope.comparedViewList, function(v) {
+            if(v.id === _viewId) { $scope.selectedComparedView = v };
+        });
+    };
+    // open the modal for the list of all views
+    $scope.openAllComparedViewsModal = function() {
     };
     // add sign to KPI summary
     $scope.addSign = function(direction) {
