@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-  .factory('ScenarioElementModel', ["$location", "Resource", "CONFIG", "SERVER", function ($location, Resource, CONFIG, SERVER) {
+  .factory('ManageScenariosModel', ["$location", "Resource", "CONFIG", "SERVER", function ($location, Resource, CONFIG, SERVER) {
      var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.scenarioElement),
     responseTranslator = CONFIG.application.models.ScenarioElement.responseTranslator,
     requestTranslator = CONFIG.application.models.ScenarioElement.requestTranslator,

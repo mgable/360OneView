@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-  .factory('PivotDataModel', ["$location", "Resource", "CONFIG", "SERVER", function PivotViewModel($location, Resource, CONFIG, SERVER) {
+  .factory('PivotModel', ["$location", "Resource", "CONFIG", "SERVER", function ($location, Resource, CONFIG, SERVER) {
     var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.pivotdata),
     	transformResponse = function(data) {
     		var response = JSON.parse(data);

@@ -47,6 +47,25 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
+  $templateCache.put('views/directives/filter.tpl.html',
+    "<div>\n" +
+    "\t<h4 class=\"filter-holder\" ng-click=\"toggle()\" data-ms-id=\"filterBy\"><span class=\"title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;(<span data-ms-id='itemCount'>{{SortAndFilterService.getCount()}}</span>)<span  class=\"filterToggle\"><icon type=\"caret-down\"></icon></span></span>\n" +
+    "\n" +
+    "\t\t<ul ms-link-group selected-item=\"{{CONFIG.filterMenu.items[0].label}}\" radio=\"true\" class='filterDropdown dropdownshadow title hide menu'>\n" +
+    "\t\t\t<li ng-repeat=\"item in CONFIG.filterMenu.items\" class=\"header\" ms-link=\"{{item.label}}\" ng-click=\"setFilter(item.filterType, item, true)\" data-ms-id=\"{{item.label}}\">\n" +
+    "\t\t\t\t <a>{{item.label}}</a>\n" +
+    "\t\t\t</li>\n" +
+    "\t    </ul>\n" +
+    "\t</h4>\n" +
+    "\n" +
+    "\t<div class=\"input-holder\">\n" +
+    "\t\t<icon type=\"filter\"></icon>\n" +
+    "\t\t<input type=\"text\" class=\"search-input\" ng-model=\"SortAndFilterService.searchText\" ng-change=\"SortAndFilterService.filter()\" placeholder=\"Filter List\" ng-maxlength=\"1000\" />&nbsp;\n" +
+    "\t</div>\n" +
+    "</div>"
+  );
+
+
   $templateCache.put('views/directives/inline_description.tpl.html',
     "<form class=\"inlineDescription\" name=\"form\" data-ms-id=\"inlineDescription\">\n" +
     "\t<div>\n" +
@@ -415,7 +434,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/modal/simple_input.tpl.html',
-    "<div data-ms-id=\"simpleModal\">\n" +
+    "<div data-ms-id=\"simpleModal\" ui-keypress=\"{13: 'submit(item.title, $event)'}\">\n" +
     "\t<div class=\"modal-header\">\n" +
     "\t\t<h4 class=\"modal-title\">{{modalProperties.title}}&nbsp;</h4>\n" +
     "\t</div>\n" +
@@ -428,7 +447,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t</form>\n" +
     "\t</div>\n" +
     "\t<div class=\"modal-footer\">\n" +
-    "\t\t<button type=\"button\" ng-disabled=\"nameDialog.$invalid\" class=\"btn btn-primary submit\" ng-click=\"submit(item.title)\" ui-keypress=\"{13: 'submit(item.title, $event)'}\" data-ms-id=\"modalSubmit\">{{modalProperties.button}}</button>\n" +
+    "\t\t<button type=\"button\" ng-disabled=\"nameDialog.$invalid\" class=\"btn btn-primary submit\" ng-click=\"submit(item.title)\" data-ms-id=\"modalSubmit\">{{modalProperties.button}}</button>\n" +
     "\t\t<button type=\"button\" class=\"btn btn-default cancel\" ng-click=\"close($event)\">Cancel</button>\n" +
     "\t</div>\n" +
     "</div>"
