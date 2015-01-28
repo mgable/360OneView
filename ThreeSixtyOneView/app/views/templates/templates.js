@@ -799,7 +799,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/modal/simple_input.tpl.html',
-    "<div data-ms-id=\"simpleModal\">\r" +
+    "<div data-ms-id=\"simpleModal\" ui-keypress=\"{13: 'submit(item.title, $event)'}\">\r" +
     "\n" +
     "\t<div class=\"modal-header\">\r" +
     "\n" +
