@@ -38,13 +38,12 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     },
     initiateSpendModel = function(cubeMeta) {
         PivotMetaService.initModel(cubeMeta).then(function(result) {
-            console.log('result', result);
             var foundView = _.find(result.viewsList, function(view){ return view.id === result.view.id; });
             if (foundView) {
                 $scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
             }
+            $scope.spendViewId = result.view.id;
             $scope.spendViewsList = result.viewsList;
-            // $scope.spendViews.currentView = result.view;
             $scope.spendViewData = result.view;
             $scope.spendViewName = result.view.name;
             $scope.spendDimensions = result.dimensions;
@@ -53,7 +52,45 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.spendMembersList = PivotMetaService.generateMembersList(result.dimensions);
             $scope.spendAddedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
             $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, result.dimensions, result.view);
+
+            // kpi view
+            getKPICube();
         });
+    },
+    getKPICube = function() {
+        ManageScenariosService.getAnalysisElementByCubeName($scope.scenario.id, 'OUTCOME').then(function(KPICube) {
+            $scope.kpiCubeMeta = KPICube.cubeMeta;
+            $scope.kpiCubeId = KPICube.cubeMeta.id;
+            return getKPIMeta();
+        })
+    },
+    getKPIMeta = function() {
+        MetaDataService.buildDimensionsTree($scope.kpiCubeId).then(function(_KPIDimensions) {
+            $scope.kpiDimensions = _KPIDimensions;
+            getKPIView();
+        });
+    },
+    getKPIView = function() {
+        ManageAnalysisViewsService.getViewRelatedBy($scope.spendViewId, $scope.kpiCubeId).then(function(_KPIView) {
+            if (_KPIView.id === null) {
+                return PivotMetaService.createEmptyView($scope.kpiDimensions, $scope.kpiCubeMeta, $scope.spendViewId).then(function(_KPINewView) {
+                    $scope.kpiView = _KPINewView;
+                });
+            } else {
+                $scope.kpiView = _KPIView
+            }
+            initiateKPIModel();
+        });
+    },
+    initiateKPIModel = function() {
+        $scope.kpiViewId = $scope.kpiView.id;
+        $scope.kpiViewData = $scope.kpiView;
+        $scope.kpiViewName = $scope.kpiView.name;
+
+        $scope.kpiAdded = PivotMetaService.setUpAddedLevels($scope.kpiView.columns.concat($scope.kpiView.rows));
+        $scope.kpiMembersList = PivotMetaService.generateMembersList($scope.kpiDimensions);
+        $scope.kpiAddedFilters = PivotMetaService.getAddedFilters($scope.kpiView.filters, $scope.kpiDimensions);
+        $scope.kpiCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.kpiAddedFilters, $scope.kpiDimensions, $scope.kpiView);
     },
     // init function
     init = function() {
@@ -65,7 +102,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         $scope.spendDatumHeader  = resultsData.spendData.header;
         $scope.chartData         = [];
 
-        // spend cube id
+        // spend cube
         $scope.spendCubeId = spendCubeMeta.id;
         initiateSpendModel(spendCubeMeta);
 
@@ -98,7 +135,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     // load view
     $scope.loadView = function(cubeId, viewId) {
         ManageAnalysisViewsService.getView(viewId, cubeId).then(function(view) {
-            // $scope.views.currentView = view;
+            $scope.spendViewId = view.id;
             $scope.spendViewData = view;
             $scope.spendAdded = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
             $scope.spendMembersList = PivotMetaService.getAddedFilters(view.filters, $scope.spendDimensions);
@@ -106,7 +143,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, $scope.spendDimensions, view);
         });
     };
-
     // reset the view to the last saved state
     $scope.revertView = function() {
         if($scope.draftView) {
@@ -118,14 +154,12 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.loadView($scope.spendCubeId, originalViewId);
         }
     };
-
     // start save as process
     $scope.startSaveAs = function() {
         $scope.saveAsName = $scope.spendViewData.name;
         $scope.saveAs = true;
         $scope.rename = false;
     };
-
     // submit save as process
     $scope.submitSaveAs = function() {
         $scope.spendViewData.name = $scope.saveAsName;
@@ -140,20 +174,17 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
 
         $scope.cancelSaveAs();
     };
-
     // cancel the save as process
     $scope.cancelSaveAs = function() {
         $scope.rename = false;
         $scope.saveAs = false;
     };
-
     // start the rename process
     $scope.startRename = function() {
         $scope.saveAsName = $scope.spendViewData.name;
         $scope.saveAs = true;
         $scope.rename = true;
     };
-
     // get KPI raw data
     $scope.getKpiData = function() {
         return resultsData.kpiData;
@@ -179,7 +210,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         return direction === 'increase' ? 'arrow-up' : 'arrow-down';
     };
     // open/dismiss filters selection modal
-    $scope.filtersModal = function(category) {
+    $scope.spendFiltersModal = function(category) {
         var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
             {cat: category, addedFilters: $scope.spendAddedFilters, viewData: $scope.spendViewData, dimensions: $scope.spendDimensions},
             {windowSize: 'lg', windowClass: 'filtersSelectionModal'});
@@ -187,6 +218,17 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         dialog.result.then(function(data) {
             $scope.spendAddedFilters = data;
             $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, $scope.spendDimensions, $scope.spendViewData);
+        });
+    };
+    // open/dismiss filters selection modal
+    $scope.kpiFiltersModal = function(category) {
+        var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
+            {cat: category, addedFilters: $scope.kpiAddedFilters, viewData: $scope.kpiViewData, dimensions: $scope.kpiDimensions},
+            {windowSize: 'lg', windowClass: 'filtersSelectionModal'});
+
+        dialog.result.then(function(data) {
+            $scope.kpiAddedFilters = data;
+            $scope.kpiCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.kpiAddedFilters, $scope.kpiDimensions, $scope.kpiViewData);
         });
     };
 
