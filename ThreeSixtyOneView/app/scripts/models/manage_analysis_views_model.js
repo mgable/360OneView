@@ -2,7 +2,7 @@
 
 angular.module('ThreeSixtyOneView.services')
 	.factory('ManageAnalysisViewsModel', ["$location", "Resource", "CONFIG", "SERVER", "$q", "$http", function ManageAnalysisViewsModel($location, Resource, CONFIG, SERVER, $q, $http) {
-		
+
 		var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.pivotview);
 
 		return {

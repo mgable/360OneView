@@ -140,19 +140,19 @@
 	};
 
 	// create an empty view with no rows and columns and ALL for filters
-	this.createEmptyView = function(dimensions, cubeMeta) {
+	this.createEmptyView = function(dimensions, cubeMeta, spendViewId) {
 		var i,
 			newColumn = {dimension:{id:dimensions[dimensions.length-1].dimensionId},hierarchy:{id:-1},level:{id:dimensions[dimensions.length-1].members[0].levelId}},
 			newRow = {dimension:{id:dimensions[0].dimensionId},hierarchy:{id:-1},level:{id:dimensions[0].members[0].levelId}},
 			columns = [],
 			rows = [],
 			newView = {
-			name: 'Default ' + cubeMeta.label + ' view',
-			isDefault: true,
-			columns: columns,
-			rows: rows,
-			filters: []
-		};
+				name: 'Default ' + cubeMeta.label + ' view',
+				isDefault: true,
+				columns: columns,
+				rows: rows,
+				filters: []
+			};
 		newView.columns.push(newColumn);
 		newView.rows.push(newRow);
 
@@ -169,7 +169,7 @@
 			});
 		});
 
-		return ManageAnalysisViewsService.createView(newView, cubeMeta.id).then(function(view) {
+		return ManageAnalysisViewsService.createView(newView, cubeMeta.id, spendViewId).then(function(view) {
 			return view;
 		});
 	};
@@ -193,7 +193,7 @@
 		return MetaDataService.buildDimensionsTree(cubeMeta.id).then(function(dimensions) {
 			return  ManageAnalysisViewsService.getViewsList(cubeMeta.id).then(function(list) {
 				if(list.length < 1) { // if no items in the list create an empty view
-					return self.createEmptyView(dimensions, cubeMeta).then(function(view) {
+					return self.createEmptyView(dimensions, cubeMeta, false).then(function(view) {
 						list.unshift(view);
 						return {viewsList: list, view: view, dimensions: dimensions};
 					});
@@ -215,7 +215,7 @@
 		_.each(colAndRow, function(item) {
 			added[item.level.label] = true;
 		});
-		
+
 		return added;
 	};
 
