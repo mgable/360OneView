@@ -16,8 +16,8 @@ angular.module('ThreeSixtyOneView')
                 $scope.added = {};
                 $scope.addedFilters = {};
                 $scope.categorizedValue = [];
-                $scope.viewData = [];
-                $scope.viewDataExport = [];
+                $scope.viewData = {};
+                // $scope.viewDataExport = [];
 
                 $scope.project = Project;
                 $scope.scenario = Scenario;
@@ -55,11 +55,11 @@ angular.module('ThreeSixtyOneView')
                     $scope.viewsList = result.viewsList;
                     $scope.views.currentView = result.view;
                     $scope.viewData = result.view;
-                    $scope.viewDataExport = result.view.rows.concat(result.view.columns);
+                    // $scope.viewDataExport = result.view.rows.concat(result.view.columns);
                     $scope.viewName = result.view.name;
-                    $scope.added = PivotMetaService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
                     $scope.dimensions = result.dimensions;
 
+                    $scope.added = PivotMetaService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
                     $scope.membersList = PivotMetaService.generateMembersList(result.dimensions);
                     $scope.addedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
                     $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);

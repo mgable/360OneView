@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView')
+angular.module('ThreeSixtyOneView.services')
   .service('ExportResourceService', ["$q", "$rootScope", "EVENTS", "Model", "ExportResourceModel", '$timeout', function ($q, $rootScope, EVENTS, Model, ExportResourceModel, $timeout) {
 		var MyExportModel, myView, self = this;
 

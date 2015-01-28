@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView')
+angular.module('ThreeSixtyOneView.services')
   .service('MetaDataService', ["$q", "Model", "MetaDataModel", function MetaDataService($q, Model, MetaDataModel) {
 		var MyMetaDataModel, mymetadata, self = this;
 
