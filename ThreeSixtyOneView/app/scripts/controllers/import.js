@@ -18,7 +18,6 @@ angular.module('ThreeSixtyOneView')
 				$scope.importObj.fileSelected = false;
 				$scope.importObj.invalidFile = false;
 			}
-
 			$scope.$apply(); 
 		};
 

@@ -542,6 +542,11 @@ module.exports = function(grunt) {
         'usebanner'
     ]);
 
+    grunt.registerTask('retemp', [
+        'ngtemplates',
+        'serve'
+    ]);
+
     grunt.registerTask('default', [
         'newer:jshint',
         'test',
