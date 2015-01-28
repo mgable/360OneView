@@ -53,6 +53,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.spendAddedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
             $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, result.dimensions, result.view);
 
+            $scope.isSynced = "off";
+
             // kpi view
             getKPICube();
         });
@@ -141,6 +143,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.spendMembersList = PivotMetaService.getAddedFilters(view.filters, $scope.spendDimensions);
             $scope.spendAddedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.spendDimensions);
             $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, $scope.spendDimensions, view);
+            getKPIView();
         });
     };
     // reset the view to the last saved state
