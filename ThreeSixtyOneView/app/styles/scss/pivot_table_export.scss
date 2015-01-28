@@ -113,6 +113,9 @@
 			background-color: #f2f2f2;
 			border-left: 1px solid #ddd;
 			border-right: 1px solid #ddd;
+			font-family: $sansFontFamily;
+			font-size: 14px;
+			color: $black;
 
 			>div {
 				border-bottom: 1px solid #ddd;
@@ -122,20 +125,42 @@
 
 	.nav > li > a {
 		padding: 0;
-		border: 1px solid $mediumgray;
 		margin-right: 0;
 		border-radius: 0;
+		border: none;
+		cursor: pointer;
+
+		> tab-heading > div {
+			border: 1px solid $mediumgray;
+
+			&.lightestgrayBg {
+				background-color: $lightestgray;
+				border-bottom-color: $lightestgray;
+				cursor: pointer;
+			}
+		}
+
+		&:hover {
+			background-color: transparent;
+		}
 	}
 
-	.nav-tabs>li.active>a {
-	}
+	.nav-tabs {
+		border-bottom: none;
 
-	.lightestgrayBg {
-		background-color: $lightestgray;
+		> li.active {
+			> a {
+				background-color: transparent;
+
+				&:hover {
+					border: none;
+				}
+			}	
+		} 	
 	}
 
 	#importHeader, #exportHeader {
-		padding: 9px 15px;
+		padding: 7.5px 15px;
 	}
 }
 

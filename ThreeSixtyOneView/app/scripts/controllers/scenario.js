@@ -3,15 +3,10 @@
 
 'use strict';
 angular.module('ThreeSixtyOneView')
-.controller("ScenarioCtrl", ["$scope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "ptData", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService",
-    function($scope, $timeout, Project, Scenario, ScenarioAnalysisElements, ptData, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService) {
+.controller("ScenarioCtrl", ["$scope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "ptData", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService", "AnalyticCalculationsService", 
+    function($scope, $timeout, Project, Scenario, ScenarioAnalysisElements, ptData, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService, AnalyticCalculationsService) {
 
-        var NOT_CALCULATED = "not calculated",
-            FAILED = "FAILED",
-            SUCCESS = "SUCCESSFUL",
-            IN_PROGRESS = "in progress",
-
-            init = function() {
+        var init = function() {
                 $scope.draftView = false;
                 $scope.added = {};
                 $scope.addedFilters = {};
@@ -21,6 +16,8 @@ angular.module('ThreeSixtyOneView')
 
                 $scope.project = Project;
                 $scope.scenario = Scenario;
+                console.info("SCENRIOJS: the scenatio is ");
+                console.info(Scenario);
                 $scope.views = {
                     views: [],
                     currentView: {
@@ -39,10 +36,8 @@ angular.module('ThreeSixtyOneView')
                 $scope.spread = {sheet: {}};
                 $scope.getlocation();
 
-                // debugging
-                $scope.currentState = Calculate.currentState;
+                $scope.scenarioState = AnalyticCalculationsService.getScenarioState(Calculate.currentState);
 
-                getScenarioState(Calculate.currentState);
                 setView($scope.scenarioState);
 
             },
@@ -70,24 +65,8 @@ angular.module('ThreeSixtyOneView')
             getScenarioElementById = function(data, id){
                return  _.findWhere(data, {id: id});
             },
-            getScenarioState = function(currentStateObj){
-                if (currentStateObj.completed === NOT_CALCULATED){
-                    $scope.scenarioState = NOT_CALCULATED;
-                } else if (currentStateObj.completed === true){
-                    if (currentStateObj.name === FAILED){
-                        $scope.scenarioState = FAILED;
-                    } else if (currentStateObj.name === SUCCESS){
-                        $scope.scenarioState = SUCCESS;
-                    }
-                } else {
-                    $scope.scenarioState = IN_PROGRESS;
-                }
-            },
             setView = function(currentState){
-                console.info("setting view for ");
-                console.info(currentState);
-                if (currentState === FAILED || currentState === IN_PROGRESS){
-                    console.info("failed or in progress");
+                if (AnalyticCalculationsService.isInProgress($scope.scenarioState)){
                     $timeout(function(){$state.go("Scenario.calculate");});
                 }
             };
@@ -105,7 +84,7 @@ angular.module('ThreeSixtyOneView')
         }
 
         $scope.gotoResults = function(){
-            if ($scope.scenarioState === IN_PROGRESS || $scope.scenarioState === FAILED) {
+            if (AnalyticCalculationsService.isInProgress($scope.scenarioState) || AnalyticCalculationsService.isFailed($scope.scenarioState)) {
                 $state.go("Scenario.calculate");
             } else {
                 $state.go("Scenario.results");

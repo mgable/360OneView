@@ -1,22 +1,21 @@
 <div class="Scenario">
 
 	<pre>
-The state of the scenario is {{currentState}}
-is in progress {{scenarioState}}
+the state is {{scenarioState}}
 	</pre>
 	<div class="toggle-header">
 		<div class="tabs-holder">
 			<ul ms-link-group radio="true" selected-item="{{location}}">
-				<li ms-link="/edit" ui-sref="Scenario.edit" ng-class="{disabled: scenarioState === 'in progress' || scenarioState === 'FAILED'}">
+				<li ms-link="/edit" ui-sref="Scenario.edit" ng-class="{disabled: scenarioState === 'in_progress' || scenarioState === 'FAILED'}">
 					<a><icon type="pencil"></icon> Editor</a>
 				</li>
-				<li ms-link="/results" ng-click="gotoResults()" ng-class="{disabled: scenarioState === 'not calculated'}">
+				<li ms-link="/results" ng-click="gotoResults()" ng-class="{disabled: scenarioState === 'not_calculated' || scenarioState === 'FAILED'}">
 					<a><icon type="check-square-o"></icon> Results</a>
 				</li>
 			</ul>
 		</div>
 		<div class="button-holder">
-			<span ui-sref="Scenario.calculate" ng-class="{disabled: scenarioState === 'in progress' || scenarioState === 'SUCCESSFUL' || scenarioState === 'FAILED'}"><icon type="tachometer"></icon>simulate</span>
+			<span ui-sref="Scenario.calculate" ng-class="{disabled: scenarioState === 'in_progress' || scenarioState === 'SUCCESSFUL'}"><icon type="tachometer"></icon>simulate</span>
 		</div>
 	</div>
 

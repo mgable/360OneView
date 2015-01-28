@@ -12,10 +12,10 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
 
     var stepLen = CONFIG.view.ScenarioCalculate.statusLen,
         stepValue = 100 / stepLen,
-        NOT_CALCULATED = "not calculated",
+        NOT_CALCULATED = "not_calculated",
         FAILED = "FAILED",
         SUCCESS = "SUCCESSFUL",
-        IN_PROGRESS = "in progress",
+        IN_PROGRESS = "in_progress",
 
         // init the progress
         init = function() {
@@ -23,12 +23,16 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
             $scope.step              = 0;
             $scope.errorMsg          = "";
             getCalcStatusData(Calculate);
+            // $scope.scenarioState = SUCCESS;
             if($scope.scenarioState === IN_PROGRESS) {
                 $scope.runProgress();
             } else if ($scope.scenarioState === SUCCESS) {
                 $state.go("Scenario.results");
             }
             angular.element('.Scenario').css('height', 'auto');
+
+            console.info("SCENRIO.CALCU.JS: the scenatio is ");
+                console.info(Scenario);
         },
 
         // get the current index for status
@@ -45,6 +49,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
         },
 
         getCalcStatusData = function() {
+            console.info("the scenatio is ");
+            console.info(Scenario);
             AnalyticCalculationsService.get(Scenario.id).then(function(data) {
                 $scope.calcStatesData = transformStatusData(data);
                 $scope.runningStates  = $scope.calcStatesData.runningStates;
