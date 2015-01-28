@@ -1,0 +1,39 @@
+/* Standard Button Styles */
+@import "variables";
+
+.ms-btn-submit {
+	color: white;
+	background-color: #f45724;
+	border: none;
+
+	&.ms-btn-submit:hover,
+	&.ms-btn-submit:focus {
+		color: white;
+		background-color: #ee430c;
+	}
+
+	&.ms-btn-submit.disabled,
+	&.ms-btn-submit[disabled],
+	fieldset[disabled] .ms-btn-submit {
+	  	background-color: #f45724;
+	}
+}
+
+
+.ms-btn-cancel {
+	color: white;
+	background-color: #808080;
+	border: none;
+
+	&.ms-btn-cancel:hover,
+	&.ms-btn-cancel:focus {
+		color: white;
+		background-color: #737373;
+	}
+
+	&.ms-btn-cancel.disabled,
+	&.ms-btn-cancel[disabled],
+	fieldset[disabled] .ms-btn-cancel {
+	  	background-color: #808080;
+	}
+}

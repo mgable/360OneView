@@ -1,71 +1,18 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView')
-    .controller("exportCtrl", ["$scope", 'ManageAnalysisViewsService', 'ExportResourceService', '$interval', 'DialogService', 'PivotMetaService', '$q',
-    	function($scope, ManageAnalysisViewsService, ExportResourceService, $interval, DialogService, PivotMetaService, $q){
+angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportResourceService', '$timeout', 'DialogService', 'PivotMetaService',
+    function($scope, ExportResourceService, $timeout, DialogService, PivotMetaService) {
+    	var init = function() {
+    		$scope.exportViewData = {};
+    		$scope.addedExportFilters = {};
+    		$scope.categorizedExportValue = [];
+    		$scope.exportAdded = {};
 
-		$scope.deleteItem = function(index) {
-			$scope.added[$scope.viewDataExport[index].level.label] = false;
-			$scope.viewDataExport.splice(index, 1);
-		};
+    		$scope.$watch('viewData', function() {
+    			$scope.setupExportView();
+    		});
 
-		$scope.addItem = function(item) {
-			var newItem = {dimension:{id:item.dimensionId},hierarchy:{id:-1},level:{id:item.levelId, label:item.label}};
-			$scope.viewDataExport.push(newItem);
-			$scope.added[item.label] = true;
-		};
-
-		$scope.replaceItem = function(selected, priorLabel) {
-			$scope.added[priorLabel] = false;
-			$scope.added[selected.label] = true;
-			var match = _.find($scope.viewDataExport, function(item) { return item.level.label.toUpperCase() == priorLabel.toUpperCase() });
-			if (match) {
-				var newItem = {dimension:{id:selected.dimensionId},hierarchy:{id:-1},level:{id:selected.levelId, label:selected.label}};
-	            var index = _.indexOf($scope.viewDataExport, match);
-	            $scope.viewDataExport.splice(index, 1, newItem);
-	        }
-		};
-
-		$scope.prepareFile = function() {
-			$scope.exportObj.exportClicked = true;
-
-			ExportResourceService.prepareFile({
-				rows:$scope.viewDataExport,
-				columns:[],
-				filters:$scope.viewData.filters,
-				auditInfo:$scope.viewData.auditInfo
-			}, $scope.cubeId, 1)
-			.then(function(response) {
-				$scope.stopTime = $interval(function(){
-					ExportResourceService.checkStatus($scope.cubeId, 1).then(function(pollingResponse){
-						// if (pollingResponse.message == "COMPLETED") {
-						// 	$interval.cancel($scope.stopTime);
-						// 	$scope.exportObj.readyForDownload = true;
-						// 	$scope.exportObj.prepareProgress = 100;
-						// } else {
-						// 	// support later
-						// }
-					});	
-				}, 10000);
-				// this.downloadFile(68).then(function(response) {
-				// 	var a = angular.element('<a>');
-				// 	$('body').append(a);
-				// 	a.text('wow');
-				// 	a.attr('href',response);
-				// 	a.attr('id','exportLink');
-				// 	$timeout(function() {
-				// 		console.log(a);
-				// 		document.getElementById('exportLink').click();
-				// 	}, 1000);
-				// });
-			});
-		};
-
-		var init = function() {
-			$scope.exportObj = {prepareProgress:0, readyForDownload:false, exportClicked: false, exceedLimit:false};
-			$scope.stopTime;
-
-			$scope.dragOptions = {
+    		$scope.dragOptions = {
 				dragStart: function() {
 					$scope.isDragging = true;
 				},
@@ -74,25 +21,55 @@ angular.module('ThreeSixtyOneView')
 				}
 				// containment: '.pbSec'
 			};
+    	}, setupExportViewFilters = function() {
+    		if(!!$scope.addedFilters && !!$scope.dimensions) {
+	    		$scope.addedExportFilters = angular.copy($scope.addedFilters);
+				$scope.exportViewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedFilters, $scope.membersList, $scope.exportViewData.filters);
+				$scope.categorizedExportValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.exportViewData);
+			}
+    	};
+
+    	$scope.setupExportView = function() {
+	    		$scope.exportViewData = angular.copy($scope.viewData);
+	    		$scope.exportViewData.rows = $scope.viewData.rows.concat($scope.viewData.columns);
+	    		$scope.exportViewData.columns = [];
+	    		$scope.exportAdded = angular.copy($scope.added);
+	    		setupExportViewFilters();
+    	};
+
+		$scope.deleteItem = function(index) {
+			$scope.exportAdded[$scope.exportViewData.rows[index].level.label] = false;
+			$scope.exportViewData.rows.splice(index, 1);
 		};
-		init();
+
+		$scope.addItem = function(item) {
+			var newItem = {dimension:{id:item.dimensionId},hierarchy:{id:-1},level:{id:item.levelId, label:item.label}};
+			$scope.exportViewData.rows.push(newItem);
+			$scope.exportAdded[item.label] = true;
+		};
+
+		$scope.replaceItem = function(selected, priorLabel) {
+			$scope.exportAdded[priorLabel] = false;
+			$scope.exportAdded[selected.label] = true;
+			var match = _.find($scope.exportViewData.rows, function(item) { return item.level.label.toLowerCase() === priorLabel.toLowerCase() });
+			if (match) {
+				var newItem = {dimension:{id:selected.dimensionId},hierarchy:{id:-1},level:{id:selected.levelId, label:selected.label}};
+	            var index = _.indexOf($scope.exportViewData.rows, match);
+	            $scope.exportViewData.rows.splice(index, 1, newItem);
+	        }
+		};
 
 		// open/dismiss filters selection modal
 		$scope.filtersModal = function(category) {
 			var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
-				{cat: category, addedFilters: $scope.addedFilters, viewData: $scope.viewDataExport, dimensions: $scope.dimensions},
+				{cat: category, addedFilters: $scope.addedExportFilters, viewData: $scope.exportViewData.rows, dimensions: $scope.dimensions},
 				{windowSize: 'lg', windowClass: 'filtersSelectionModal'});
 
 			dialog.result.then(function(data) {
-				$scope.addedFilters = data;
-				$scope.viewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedFilters, $scope.membersList, $scope.viewData.filters);
-				$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.viewDataExport);
+				$scope.addedExportFilters = data;
+				$scope.exportViewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedExportFilters, $scope.membersList, $scope.exportViewData.filters);
+				$scope.categorizedExportValue = PivotMetaService.generateCategorizeValueStructure($scope.addedExportFilters, $scope.dimensions, $scope.exportViewData);
 			});
-		};
-
-		$scope.initStatus = function() {
-			$interval.cancel($scope.stopTime);
-			$scope.exportObj = {prepareProgress:0, readyForDownload:false, exportClicked: false, exceedLimit:false};
 		};
 
 		// get list of the dimensions in the current cube
@@ -101,8 +78,66 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		// get all added rows and columns in the current view
-		$scope.getViewDataExport = function() {
-			return $scope.viewDataExport;
+		$scope.getExportViewDataRows = function() {
+			return $scope.exportViewData.rows;
 		};
 
-    }]);
+		// start the export process
+		$scope.requestExport = function() {
+			$scope.exportInProgress = true;
+			$scope.downloadReady = false;
+			$scope.progressPercentage = 0;
+
+			$scope.exportElementId = $scope.selectedScenarioElement.id;
+			$scope.exportElementName = $scope.selectedScenarioElement.name;
+
+			console.log($scope.exportElementId);
+			console.log($scope.exportViewData);
+			ExportResourceService.requestExport($scope.exportElementId, $scope.exportViewData).then(function(response) {
+				if(response === '"OK"') {
+					$scope.trackProgress();
+				}
+			});
+		};
+
+		// tracks the export preparation progress and request download upon completion
+		$scope.trackProgress = function() {
+			ExportResourceService.checkStatus($scope.exportElementId).then(function(response) {
+				// console.log(response);
+				if(response.status === "INIT") {
+					$scope.progressPromise = $timeout(function() {
+						$scope.trackProgress();
+					}, 2000);
+					$scope.progressPercentage += 10;
+				} else if(response.status === "COMPLETED") {
+					$scope.downloadReady = true;
+					$scope.downloadFile();
+				} else if(response.status === "DOWNLOADED") {
+					$scope.downloadFile();
+					$scope.cancelExport();
+				}
+			});
+		};
+
+		// download the prepared export file
+		$scope.downloadFile = function() {
+			ExportResourceService.downloadFile(68).then(function(response) {
+				var a = angular.element('<a>').css('display', 'none').attr('href',response).attr('id','exportLink').attr('download',$scope.exportElementName+'.xlsx');
+				$('body').append(a);
+				$timeout(function() {
+					document.getElementById('exportLink').click();
+					a.remove();
+				}, 100);
+			});
+			$scope.cancelExport();
+		};
+
+		// cancel the export process
+		$scope.cancelExport = function() {
+			$timeout.cancel($scope.progressPromise);
+			$scope.exportInProgress = false;
+			$scope.downloadReady = false;
+		};
+
+		init();
+}]);

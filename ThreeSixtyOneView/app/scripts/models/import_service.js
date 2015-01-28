@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView')
+angular.module('ThreeSixtyOneView.services')
   .service('ImportService', ["$q", "$rootScope", "EVENTS", "Model", "ImportModel", function ImportService($q, $rootScope, EVENTS, Model, ImportModel) {
 		var MyImportModel, myView, self = this;
 
