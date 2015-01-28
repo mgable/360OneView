@@ -6,14 +6,11 @@ angular.module('ThreeSixtyOneView.directives')
     .directive("createButton", ["$rootScope", "CONFIG", "$state", "EVENTS", function($rootScope, CONFIG, $state, EVENTS) {
         return {
             restrict: "E",
-            replace: true,
-            template: "<button class='btn btn-default' ng-click='create(CONFIG.displayActionsCreate)' data-ms-id='createButton'><icon type='plus'></icon>CREATE</button>",
+            template: "<ms-button type='submit' action='create(CONFIG.displayActionsCreate)' label='Create' icon='plus' data-ms-id='createButton'></ms-button>",
             controller: function($scope) {
                 $scope.CONFIG = CONFIG.view[$state.current.name];
-                //$scope.isDisabled = $attrs.isDisabled || false;
                 
                 $scope.create = function(action, data) {
-                    console.log($scope);
                     $rootScope.$broadcast(EVENTS[action], data);
                 };
             }
