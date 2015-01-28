@@ -1,16 +1,22 @@
 <div class="scenario_results">
 
-    <section class="results-dropdown">
+    <section class="srDropdown">
         <div class="dropdown">
             <span>Results compared to </span>
-            <span class="dropdown-toggle">
-                {{selectedView.title}} <icon type="caret-down"></icon>
+            <span class="dropdown-toggle srDropdownBtn clickable">
+                {{selectedComparedView.title}}&nbsp;<icon type="caret-down"></icon>
             </span>
-          <ul class="dropdown-menu" ms-link-group selected-item="{{selectedView.id}}" radio="true">
-            <li ng-repeat="view in getComparedViews()" ms-link="{{view.id}}" >
-                <a href="" ng-click="setComparedView(view)">{{view.title}}</a>
-            </li>
-          </ul>
+            <ul class="dropdown-menu srDropdownMenu">
+                <div class="srDropdownMenuVisible">
+                    <li ng-repeat="view in comparedViewList | limitTo:4">
+                        <div ng-click="loadComparedView(view.id)">{{view.title}}</div>
+                    </li>
+                    <hr>
+                    <li>
+                        <div ng-click="openAllComparedViewsModal()"><icon type="folder-open-o"></icon>All Views</div>
+                    </li>
+                </div>
+            </ul>
         </div>
     </section>
 
