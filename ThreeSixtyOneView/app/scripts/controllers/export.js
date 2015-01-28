@@ -1,14 +1,15 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportResourceService', '$interval', 'DialogService', 'PivotMetaService',
-    function($scope, ExportResourceService, $interval, DialogService, PivotMetaService) {
+angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportResourceService', '$timeout', 'DialogService', 'PivotMetaService',
+    function($scope, ExportResourceService, $timeout, DialogService, PivotMetaService) {
     	var init = function() {
     		$scope.exportViewData = {};
     		$scope.addedExportFilters = {};
     		$scope.categorizedExportValue = [];
+    		$scope.exportAdded = {};
 
     		$scope.$watch('viewData', function() {
-    			setupExportView($scope.viewData);
+    			$scope.setupExportView();
     		});
 
     		$scope.dragOptions = {
@@ -20,13 +21,6 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 				}
 				// containment: '.pbSec'
 			};
-    	}, setupExportView = function(originalView) {
-    		if(!!originalView) {
-	    		$scope.exportViewData = angular.copy(originalView);
-	    		$scope.exportViewData.rows = $scope.viewData.rows.concat($scope.viewData.columns);
-	    		$scope.exportViewData.columns = [];
-	    		setupExportViewFilters();
-	    	}
     	}, setupExportViewFilters = function() {
     		if(!!$scope.addedFilters && !!$scope.dimensions) {
 	    		$scope.addedExportFilters = angular.copy($scope.addedFilters);
@@ -35,20 +29,28 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 			}
     	};
 
+    	$scope.setupExportView = function() {
+	    		$scope.exportViewData = angular.copy($scope.viewData);
+	    		$scope.exportViewData.rows = $scope.viewData.rows.concat($scope.viewData.columns);
+	    		$scope.exportViewData.columns = [];
+	    		$scope.exportAdded = angular.copy($scope.added);
+	    		setupExportViewFilters();
+    	};
+
 		$scope.deleteItem = function(index) {
-			$scope.added[$scope.exportViewData.rows[index].level.label] = false;
+			$scope.exportAdded[$scope.exportViewData.rows[index].level.label] = false;
 			$scope.exportViewData.rows.splice(index, 1);
 		};
 
 		$scope.addItem = function(item) {
 			var newItem = {dimension:{id:item.dimensionId},hierarchy:{id:-1},level:{id:item.levelId, label:item.label}};
 			$scope.exportViewData.rows.push(newItem);
-			$scope.added[item.label] = true;
+			$scope.exportAdded[item.label] = true;
 		};
 
 		$scope.replaceItem = function(selected, priorLabel) {
-			$scope.added[priorLabel] = false;
-			$scope.added[selected.label] = true;
+			$scope.exportAdded[priorLabel] = false;
+			$scope.exportAdded[selected.label] = true;
 			var match = _.find($scope.exportViewData.rows, function(item) { return item.level.label.toLowerCase() === priorLabel.toLowerCase() });
 			if (match) {
 				var newItem = {dimension:{id:selected.dimensionId},hierarchy:{id:-1},level:{id:selected.levelId, label:selected.label}};
@@ -86,23 +88,53 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 			$scope.downloadReady = false;
 			$scope.progressPercentage = 0;
 
-			console.log($scope.selectedScenarioElement.id);
-			console.log($scope.exportViewData);
-			ExportResourceService.requestExport($scope.selectedScenarioElement.id, $scope.exportViewData).then(function(response) {
-				console.log(response);
-			});
+			$scope.exportElementId = $scope.selectedScenarioElement.id;
+			$scope.exportElementName = $scope.selectedScenarioElement.name;
 
-			$scope.progressPromise = $interval(function() {
-				if($scope.progressPercentage >= 100) {
-					$scope.downloadReady = true;
+			console.log($scope.exportElementId);
+			console.log($scope.exportViewData);
+			ExportResourceService.requestExport($scope.exportElementId, $scope.exportViewData).then(function(response) {
+				if(response === '"OK"') {
+					$scope.trackProgress();
 				}
-				$scope.progressPercentage += 20;
-			}, 1000, 6);
+			});
+		};
+
+		// tracks the export preparation progress and request download upon completion
+		$scope.trackProgress = function() {
+			ExportResourceService.checkStatus($scope.exportElementId).then(function(response) {
+				// console.log(response);
+				if(response.status === "INIT") {
+					$scope.progressPromise = $timeout(function() {
+						$scope.trackProgress();
+					}, 2000);
+					$scope.progressPercentage += 10;
+				} else if(response.status === "COMPLETED") {
+					$scope.downloadReady = true;
+					$scope.downloadFile();
+				} else if(response.status === "DOWNLOADED") {
+					$scope.downloadFile();
+					$scope.cancelExport();
+				}
+			});
+		};
+
+		// download the prepared export file
+		$scope.downloadFile = function() {
+			ExportResourceService.downloadFile(68).then(function(response) {
+				var a = angular.element('<a>').css('display', 'none').attr('href',response).attr('id','exportLink').attr('download',$scope.exportElementName+'.xlsx');
+				$('body').append(a);
+				$timeout(function() {
+					document.getElementById('exportLink').click();
+					a.remove();
+				}, 100);
+			});
+			$scope.cancelExport();
 		};
 
 		// cancel the export process
 		$scope.cancelExport = function() {
-			$interval.cancel($scope.progressPromise);
+			$timeout.cancel($scope.progressPromise);
 			$scope.exportInProgress = false;
 			$scope.downloadReady = false;
 		};

@@ -150,7 +150,7 @@
         </tab>
         <tab ng-controller="exportCtrl">
             <tab-heading>
-                <div id="exportHeader" expand-collapse-control target-area="#exportBody" tab-id="3">
+                <div id="exportHeader" expand-collapse-control target-area="#exportBody" tab-id="3" ng-click="setupExportView()">
                     <icon type="upload"></icon>
                 </div>
             </tab-heading>
@@ -160,7 +160,7 @@
                     <div class="pbSec">
                         <div class="pbSecTitle">Dimensions</div>
                         <div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="exportViewData.rows" tabindex="-1">
-                            <draggable-dimension ng-repeat="item in getExportViewDataRows()" template="draggable_dimension"></draggable-dimension>
+                            <draggable-dimension ng-repeat="item in getExportViewDataRows()" template="draggable_dimension" added-values="exportAdded"></draggable-dimension>
                             <draggable-dimension ng-hide="isDragging" template="add_dimension_button"></draggable-dimension>
                         </div>
                     </div>
