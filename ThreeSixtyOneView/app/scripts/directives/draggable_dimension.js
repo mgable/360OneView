@@ -11,10 +11,10 @@ angular.module('ThreeSixtyOneView.directives')
             controller: function($scope, $element, $attrs) {
                 var init = function() {
                     $scope.addDimension = $attrs['template'] === 'add_dimension_button' ? true : false;
-                };
+                }, added = !!$attrs['addedValues'] ? $attrs['addedValues'] : false;
 
                 $scope.isSelected = function(label) {
-                     return $scope.$parent.added[label];
+                     return added ? $scope[added][label] : $scope.$parent.added[label];
                 };
 
                 $scope.selectDimension = function(selected, prioLabel) {
