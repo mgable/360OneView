@@ -130,9 +130,9 @@
                     <div class="error" ng-show="importObj.invalidFile">This file is invalid. Please try again.</div>
                 </div>
                 <div class="btnGroup">
-                    <ms-button type="submit" action="uploadFile()" label="Import" ng-disabled="!importObj.fileSelected || importObj.invalidFile || importObj.importClicked"></ms-button>
                     <ms-button type="cancel" label="Close" collapse-control target-area="#importBody" ng-show="!importObj.fileSelected || importObj.uploadFinished"></ms-button>
                     <ms-button class="ng-hide" type="cancel" action="initStatus()" label="Cancel" ng-disabled="importObj.importClicked" ng-show="importObj.fileSelected && !importObj.uploadFinished"></ms-button>
+                    <ms-button type="submit" action="uploadFile()" label="Import" ng-disabled="!importObj.fileSelected || importObj.invalidFile || importObj.importClicked"></ms-button>
                 </div>
                 <div ng-show="importObj.importClicked" class="uploadContainer">
                     <div ng-hide="importObj.uploadFinished">
@@ -186,8 +186,8 @@
                 </div>
 
                 <div class="btnGroup">
-                    <ms-button type="submit" action="requestExport()" label="Export" ng-hide="exportInProgress"></ms-button>
                     <ms-button type="cancel" action="cancelExport()" label="Cancel" ng-disabled="!exportInProgress"></ms-button>
+                    <ms-button type="submit" action="requestExport()" label="Export" ng-hide="exportInProgress"></ms-button>
                     <a ng-href="downloadLink" download="sample.html" ng-show="downloadReady" class="btn active">DOWNLOAD</a>
                 </div>
 
