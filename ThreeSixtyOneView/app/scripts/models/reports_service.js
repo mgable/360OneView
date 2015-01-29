@@ -10,7 +10,7 @@ angular.module('ThreeSixtyOneView.services')
         angular.extend(this, myReports);
 
         this.getSummary = function(elementId, viewId){
-            return this.resource.get({elementId: elementId, viewId: viewId}, {}).then(function(response){
+            return this.resource.get({elementId: elementId, viewId: viewId}, this.reportConfig, '').then(function(response){
                 return response;
             });
         };
