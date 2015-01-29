@@ -1,0 +1,285 @@
+@import "variables";
+@import "new_variables";
+
+.app {
+	.row {
+		position: relative;
+		margin: 0;
+	}
+
+	.listingView {
+		background-color: $ms-pureWhite;
+    	margin: 0 20px;
+		.middle {
+			position:relative;
+
+			.row {
+				&:first-child {
+					z-index: 20;
+				}
+				&:nth-child(2) {
+					top: -4px;
+				}
+			}
+			.col-xs-70 {
+				height: 90%;
+				width: calc(100% - 360px);
+				overflow-y: scroll;
+				padding-right: 0;
+				padding-left: 15px;
+			}
+		}
+		.alert {
+			a {
+				cursor: pointer;
+			}
+		}
+		.display-table {
+			table {
+				padding: 20px 8px 5px 8px;
+				width: 100%;
+				th {
+					.title {
+						margin: 0 0 0 20px;
+					}
+					&:first-child {
+						padding: 20px 8px 5px 20px;
+					}
+				}
+				tr {
+					&.active {
+						span {
+							color: $ms-white;
+						}
+						td {
+							background-color:$ms-blue;
+						}
+					}
+				}
+				td {
+					white-space: nowrap;
+					padding: 13px 8px;
+					border-top: 1px solid #e5e5e5;
+
+					&:first-child {
+						padding: 13px 0;
+
+						.text-holder {
+							cursor: pointer;
+						}
+					}
+					
+					&.master {
+						font: {
+							weight:bold;
+							size:16px;
+						}
+						 i {
+							visibility: visible;
+							display: inline-block;
+						}
+						.favorites {
+							.favorite {
+								cursor: default;
+								&:hover {
+									color:#428bca;
+								}
+							}
+						}
+					}
+
+					.text-holder {
+						&.favorites-holder {
+							width:25px;
+						}
+						display: inline-block;
+						float: left;
+						max-width:400px;
+						margin-right: 10px;
+						a {
+							color: inherit;
+						}
+						.favorites {
+							display: inline-block;
+							margin-top: 2px;
+							padding: 0px 5px;
+
+							&.disabled {
+								cursor: default;
+								display:none;
+							}
+							a {
+							  font-family: "font awesome";
+							  display: inline-block;
+							  width: 15px;
+							  height: 15px;
+							  background-color:inherit;
+							  &:hover {
+								text-decoration: none;
+
+								&:after {
+								  content: '\f006';
+								  color: $gray;
+								}
+							  }
+							  &:after {
+								content: '\f006';
+								color: $lightgray;
+							  }
+							  &.favorite:after {
+								content: '\f005';
+								color: gold;
+							  }
+							}
+						}
+					}
+				}
+				thead {
+					.title.active a{
+						color: $ms-orange;
+						font-weight: bold;
+					}
+					th {
+						border: 0 none;
+						border-bottom:1px solid $mediumgray;
+						a {
+							color: #333;
+							text-decoration: none;
+							cursor: pointer;
+							font-weight: bold;
+							text-transform: uppercase;
+						}
+					}
+				}
+			}
+		}
+		.tray {
+			width: 360px;
+			height: 100%;
+			overflow: hidden;
+			position: absolute;
+			right: 0;
+			top: 0;
+			z-index: 10;
+			background-color: $ms-lightGray;
+			@include drop-shadow(-2px, 0, 6px, 0, 0.3);
+			.tray-holder {
+				margin: 15px 10px 10px;
+				.ms-label {
+					margin: 5px 0 2px 0;
+					color: $ms-mediumGray;
+					font-weight: bold;
+					clear:both;
+				}
+				.details {
+					margin:0 0 10px;
+					.title-holder {
+						border-bottom: 1px solid $ms-gray;
+						.title {
+							font-size:18px;
+						}
+					}
+					.button-group {
+						height: 50px;
+						margin: 0;
+						.button-holder {
+				    		display: inline-block;
+							margin: 10px 6px 10px 0;
+				    		background-color:transparent;
+				    		&:last-child {
+				    			margin: 10px 0;
+				    			a {
+				    				padding: 6px 8px;
+					    		}
+				    		}
+
+				    		button {
+				    			cursor: pointer;
+				    			display: block;
+				    			float: none;
+				    			width: 100%;
+							    padding: 6px 13px;
+							    color: #999;
+							    text-align: center;
+							    height:32px;
+				    			border: 1px solid $subtitle;
+							    &:hover {
+							    	border: 1px solid $blue;
+							    	text-decoration: none;
+							    	color: $black;
+							    }			    
+							}
+						}		
+					}
+				}
+				.well {
+					padding: 10px;
+					margin-bottom: 10px;
+					background-color: $ms-pureWhite;
+					@include drop-shadow(1px, 1px, 5px, 0, 0.3);
+					border-radius: 0;
+
+					&.meta {
+						.description-label {
+							float: left;
+						}
+						.description {
+							display: inline-block;
+							min-height: 26px;
+							word-wrap: break-word;
+							width: 100%;
+						}
+						.name {
+							text-transform: capitalize;
+						}
+					}
+
+					&.relatedItems {
+						padding: 0;
+
+						.relatedItems-holder {
+							padding: 10px;
+						}
+						.description-label {
+							display: inline-block;
+							margin-bottom: 15px;
+							font-weight: bold;
+						}
+						.item-holder {
+							.item {
+								margin:0 0 10px;
+								padding: 0;
+								span {
+									cursor: pointer;
+									text-transform: capitalize;
+									color: $ms-lightBlue;
+									&:hover {
+										text-decoration: none;
+									}
+								}
+							}
+						}
+					}
+					.viewAll{
+						width: 100%;
+						span {
+							display: block;
+							width: 100%;
+							padding: 5px;
+							background-color: $ms-lightGray;
+							color: $ms-mediumGray;
+							text-align: center;
+							cursor: pointer;
+
+							&:hover {
+								color: $ms-pureWhite;
+								text-decoration: none;
+								background-color: $ms-blue;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
