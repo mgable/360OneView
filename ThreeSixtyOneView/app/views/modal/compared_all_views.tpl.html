@@ -1,0 +1,38 @@
+<div class="all-views-modal-header">
+    <h4 class="element-file-modal-title" id="myModalLabel">{{selectedScenarioElement.cubeMeta.label}}</h4>
+    <h3>Select A Scenario</h3>
+</div>
+<div class="all-views-modal-body">
+    <div class="all-views-box">
+        <div class="all-views-toolbar">
+            <div class="views-type-dropdown">
+                <div class="dropdown">
+                    <div class="dropdown-toggle">{{elementTypeItems[currentElementType]}}<icon type="caret-down"></icon></div>
+                    <ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenarioElement.id}}" radio="true">
+                        <li ng-repeat="item in elementTypeItems" ms-link="{{$index}}"><a href="" ng-click="changeElementType($index)">{{item}}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="view-name-search">
+                <div class="search-box">
+                    <icon type="search"></icon>
+                    <input type="text" ng-model="searchTerm.title" placeholder="Search">
+                </div>
+            </div>
+        </div>
+        <div class="all-views-list">
+            <div ng-repeat="view in comparedViewList | filter:searchTerm | orderBy:'view.modifiedOn':true" class="all-views-item" ng-class="{'current-view': view.id === selectedComparedView.id}" ng-click="selectedComparedView.id = view.id">
+                <div class="all-views-name"><icon type="circle-o"></icon><icon type="dot-circle-o"></icon>{{view.title}}</div>
+                <div class="all-views-info">
+                    <span ng-if="e2e" class="all-views-date">{{view.createdOn}}</span>
+                    <span ng-if="!e2e" class="all-views-date">{{view.createdOn | timeago}}</span>
+                    <span class="all-views-owner">{{view.modifiedBy}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="all-views-buttons">
+        <ms-button type="submit" action="changeView()" label="Replace" data-dismiss="modal"></ms-button>
+        <ms-button type="cancel" action="cancelChangeView()" label="Cancel" data-dismiss="modal"></ms-button>
+    </div>
+</div>

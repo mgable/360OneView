@@ -123,6 +123,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         $scope.comparedViewList.unshift(Scenario.referenceScenario);
         $scope.comparedViewList[0].title = $scope.comparedViewList[0].name;
         $scope.selectedComparedView = $scope.comparedViewList[0];
+        console.log($scope.comparedViewList);
 
         $scope.spendDatumHeader  = resultsData.spendData.header;
         $scope.chartData         = [];
@@ -227,6 +228,13 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     };
     // open the modal for the list of all views
     $scope.openAllComparedViewsModal = function() {
+        var dialog = DialogService.openLightbox('views/modal/compared_all_views.tpl.html', 'comparedAllViewsCtrl',
+            {viewsList: $scope.comparedViewList, selectedViewId: $scope.selectedComparedView.id, e2e: $scope.e2e},
+            {windowSize: 'lg', windowClass: 'pivotBuilderAllViewsModal'});
+
+        dialog.result.then(function(_replacedComparedViewId) {
+            $scope.loadComparedView(_replacedComparedViewId);
+        });
     };
     // add sign to KPI summary
     $scope.addSign = function(direction) {
