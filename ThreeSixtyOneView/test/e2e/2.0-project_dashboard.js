@@ -230,7 +230,7 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Filter functions: ", function(){
+		xdescribe("Filter functions: ", function(){
 
 			it("should filter by favorite", function(){
 				var startItemCount = specs.getItemCount();
@@ -253,7 +253,7 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Edit functions: ", function(){
+		xdescribe("Edit functions: ", function(){
 			var first,
 				newName = "My Renamed Scenario - " + Date.now();
 
@@ -287,13 +287,13 @@ describe('Project Dashboard', function() {
 			});
 		})
 
-		describe("Breadcrumbs: ", function(){
+		xdescribe("Breadcrumbs: ", function(){
 			it("should have the correct label", function(){
 				expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + testFileName.toUpperCase());
 			});
 		});
 
-		describe("Change base scenario: ", function(){
+		xdescribe("Change base scenario: ", function(){
 
 			it("should change the base scenario", function(){
 				var scenarios, scenario;
@@ -322,7 +322,7 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Scenario Elements: ", function(){
+		xdescribe("Scenario Elements: ", function(){
 			var scenarioElements = "element in scenarioElements",
 				scenarioEditScenarioElements = "div[data-ms-id='ScenarioEdit.scenarioElements'] .dropdown-toggle",
 				allScenarioElements = element.all(by.repeater(scenarioElements)),
@@ -354,7 +354,7 @@ describe('Project Dashboard', function() {
 		});
 	});
 
-	describe("Edit controls on master project's master scenario", function(){
+	xdescribe("Edit controls on master project's master scenario", function(){
 		beforeEach(
 			function(){
 				browser.driver.manage().window().setSize(1280, 1024);

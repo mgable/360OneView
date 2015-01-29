@@ -239,14 +239,15 @@ module.exports = function(grunt) {
         // Renames files for browser caching purposes
         rev: {
             dist: {
-                files: {
+                files: [{
+                    expand: true,
                     src: [
                         '<%= yeoman.dist %>/scripts/{,*/}*.js',
                         '<%= yeoman.dist %>/styles/{,*/}*.css',
-                        // '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-                        '<%= yeoman.dist %>/styles/fonts/*'
+                        '<%= yeoman.dist %>/styles/fonts/*',
+                        '!<%= yeoman.dist %>/scripts/external/*.js'
                     ]
-                }
+                }]
             }
         },
 
@@ -386,6 +387,11 @@ module.exports = function(grunt) {
                   cwd: '<%= yeoman.app %>',
                   dest: '<%= yeoman.dist %>/fonts',
                   src: ['bower_components/bootstrap/dist/css/*.*', 'bower_components/components-font-awesome/css/*.*']
+                },{
+                    expand: true,
+                    cwd: '<%= yeoman.app %>',
+                    dest: '<%= yeoman.dist %>',
+                    src: ['scripts/external/*.js']
                 }]
             },
             styles: {
@@ -540,11 +546,6 @@ module.exports = function(grunt) {
         'usemin',
         'htmlmin',
         'usebanner'
-    ]);
-
-    grunt.registerTask('retemp', [
-        'ngtemplates',
-        'serve'
     ]);
 
     grunt.registerTask('default', [
