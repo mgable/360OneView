@@ -22,7 +22,8 @@ describe('Controllers: Modals: ', function() {
             CONFIG = _CONFIG_;
             ctrl = $controller('ProjectCreateCtrl', {
                 $scope: scope,
-                $modalInstance: modalInstance
+                $modalInstance: modalInstance,
+                modalProperties: modalInstance
             });
 
         }));
