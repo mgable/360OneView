@@ -483,6 +483,9 @@
                 .kpi-title {
                     color: #666;
                     font-size: 20px;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
                     font-weight: 700;
                     text-transform: capitalize;
                     margin: 0 0;

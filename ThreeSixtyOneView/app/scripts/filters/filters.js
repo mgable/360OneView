@@ -158,4 +158,30 @@ angular.module('ThreeSixtyOneView.filters')
             }
             return (time <= local) ? span + ' ago' : 'in ' + span;
         };
+    }]).filter('nrFormat', [function() {
+        return function(number) {
+            var abs;
+            if (number !== void 0) {
+                abs = Math.abs(number);
+                if (abs >= Math.pow(10, 12)) {
+                    number = (number / Math.pow(10, 12)).toFixed(1) + "T";
+                } else if (abs < Math.pow(10, 12) && abs >= Math.pow(10, 9)) {
+                    number = (number / Math.pow(10, 9)).toFixed(1) + "B";
+                } else if (abs < Math.pow(10, 9) && abs >= Math.pow(10, 6)) {
+                    number = (number / Math.pow(10, 6)).toFixed(1) + "M";
+                } else if (abs < Math.pow(10, 6) && abs >= Math.pow(10, 3)) {
+                    number = (number / Math.pow(10, 3)).toFixed(1) + "K";
+                }
+                return number;
+            }
+        };
+    }]).filter('percentage', ['$window', function ($window) {
+        return function (input, decimals, suffix) {
+            decimals = angular.isNumber(decimals) ? decimals : 2;
+            suffix = suffix || '%';
+            if ($window.isNaN(input) || input === '') {
+                return '';
+            }
+            return Math.round(input * Math.pow(10, decimals + 2))/Math.pow(10, decimals) + suffix
+        };
     }]);

@@ -8,8 +8,8 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
-    ['$scope', 'resultsData', 'Scenario', 'Scenarios', 'ManageAnalysisViewsService', 'ManageScenariosService', 'MetaDataService', '$interval', 'DialogService', 'PivotMetaService', 'ReportsService', '$q',
-    function ($scope, resultsData, Scenario, Scenarios, ManageAnalysisViewsService, ManageScenariosService, MetaDataService, $interval, DialogService, PivotMetaService, ReportsService, $q) {
+    ['$scope', 'Scenario', 'Scenarios', 'ManageAnalysisViewsService', 'ManageScenariosService', 'MetaDataService', '$interval', 'DialogService', 'PivotMetaService', 'ReportsService', '$q',
+    function ($scope, Scenario, Scenarios, ManageAnalysisViewsService, ManageScenariosService, MetaDataService, $interval, DialogService, PivotMetaService, ReportsService, $q) {
 
     // private variables
     var cnt = 0,
@@ -22,7 +22,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
 
     // get the data for spend summary chart
     getChartData = function() {
-        _.each($scope.getSpendDataBody(), function(v) {
+        _.each($scope.spendData.body, function(v) {
             var chartSubData = {};
             chartSubData.id = v.id;
             chartSubData.name = v.category;
@@ -39,11 +39,68 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.chartData.push(chartSubData);
         });
     },
+    // get spend summary data through API
     getSpendSummary= function() {
         ReportsService.getSummary(48, 10).then(function(_spendSummaryData) {
-            console.log('spend summary data: ', _spendSummaryData);
+            $scope.spendSummaryData = _spendSummaryData;
+            ReportsService.getSummary(64, 10).then(function(_spendComparedSummaryData) {
+                $scope.spendComparedSummaryData = _spendComparedSummaryData;
+                transformSpendSummaryData($scope.spendSummaryData, $scope.spendComparedSummaryData);
+            });
         });
     },
+    // transform the spend summary data
+    transformSpendSummaryData = function(_spendSummaryData, _spendComparedSummaryData) {
+        var spendData = {};
+        spendData.header = {};
+        spendData.header.title = 'Total Spend';
+        spendData.header.total = _spendSummaryData[0].Spend;
+        spendData.header.incremental = _spendSummaryData[0].Spend - _spendComparedSummaryData[0].Spend;
+        spendData.header.percent = spendData.header.incremental / _spendComparedSummaryData[0].Spend;
+        if (spendData.header.incremental >= 0) {
+            spendData.header.direction = "increase";
+        } else {
+            spendData.header.direction = "decrease";
+        }
+
+        spendData.body = [];
+        _.each(_spendSummaryData, function(v,i) {
+            if(i > 0) {
+                var spendDatum = {};
+                spendDatum.id = i-1;
+                spendDatum.children = [];
+                var spendDatumChild = {};
+                spendDatumChild.id = 0;
+                spendDatumChild.title = '';
+                spendDatumChild.total = '';
+                spendDatumChild.incremental = '';
+                spendDatumChild.percent = '';
+                spendDatumChild.direction = '';
+                spendDatum.children.push(spendDatumChild);
+                _.each(_.pairs(v), function(v1, i1){
+                    spendDatumChild = {};
+                    spendDatumChild.id = i1+1;
+                    spendDatumChild.title = v1[0];
+                    spendDatumChild.total = v1[1];
+                    spendDatumChild.incremental = v1[1] - _.pairs(_spendComparedSummaryData[i])[i1][1];
+                    spendDatumChild.percent = spendDatumChild.incremental / _.pairs(_spendComparedSummaryData[i])[i1][1];
+                    if (spendDatumChild.incremental >= 0) {
+                        spendDatumChild.direction = "increase";
+                    } else {
+                        spendDatumChild.direction = "decrease";
+                    }
+                    spendDatumChild.chart = {};
+                    spendDatumChild.chart.results = parseInt((v1[1] / spendData.header.total) * 100);
+                    spendDatumChild.chart.compared = parseInt((_.pairs(_spendComparedSummaryData[i])[i1][1] / spendData.header.total) * 100);
+                    spendDatum.children.push(spendDatumChild);
+                });
+                spendData.body.push(spendDatum);
+            }
+        })
+        $scope.spendData = spendData;
+        getChartData();
+    },
+    // initiate spend view, spend summary and kpi summary, get kpi cube
     initiateSpendModel = function(cubeMeta) {
         PivotMetaService.initModel(cubeMeta).then(function(result) {
             var foundView = _.find(result.viewsList, function(view){ return view.id === result.view.id; });
@@ -61,7 +118,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.spendAddedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
             $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, result.dimensions, result.view);
 
-            $scope.isSynced = "off";
+            $scope.isSynced = "on";
 
             // kpi view
             getKPICube();
@@ -73,6 +130,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             getKPISummary();
         });
     },
+    // get kpi cube
     getKPICube = function() {
         ManageScenariosService.getAnalysisElementByCubeName($scope.scenario.id, 'OUTCOME').then(function(KPICube) {
             $scope.kpiCubeMeta = KPICube.cubeMeta;
@@ -80,12 +138,14 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             return getKPIMeta();
         })
     },
+    // get kpi meta data
     getKPIMeta = function() {
         MetaDataService.buildDimensionsTree($scope.kpiCubeId).then(function(_KPIDimensions) {
             $scope.kpiDimensions = _KPIDimensions;
             getKPIView();
         });
     },
+    // get kpi view
     getKPIView = function() {
         ManageAnalysisViewsService.getViewRelatedBy($scope.spendViewId, $scope.kpiCubeId).then(function(_KPIView) {
             if (_KPIView.id === null) {
@@ -98,11 +158,38 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             initiateKPIModel();
         });
     },
+    // get kpi summary data
     getKPISummary = function() {
         ReportsService.getSummary(61, 98).then(function(_KPISummaryData) {
-            console.log('kPI summary data: ', _KPISummaryData);
+            $scope.kpiSummaryData = transformKPISummaryData(_KPISummaryData);
+            ReportsService.getSummary(61, 191).then(function(_KPIComparedSummaryData) {
+                $scope.kpiComparedSummaryData = transformKPISummaryData(_KPIComparedSummaryData);
+                _.each($scope.kpiSummaryData, function(v, i) {
+                    v.incremental = v.total - $scope.kpiComparedSummaryData[i].total;
+                    v.percent = v.incremental / $scope.kpiComparedSummaryData[i].total;
+                    if (v.incremental >= 0) {
+                        v.direction = "increase";
+                    } else {
+                        v.direction = "decrease";
+                    }
+                });
+            });
         });
     },
+    // transform kpi summary data
+    transformKPISummaryData = function(_KPISummaryData) {
+        var tmpKPISummaryData = _.pairs(_KPISummaryData[0]).slice(1,6);
+        var kpiSummaryData = [];
+        _.each(tmpKPISummaryData, function(v,i){
+            var kpiSummaryDatum = {};
+            kpiSummaryDatum.id = i+1;
+            kpiSummaryDatum.title=v[0];
+            kpiSummaryDatum.total=v[1];
+            kpiSummaryData.push(kpiSummaryDatum);
+        })
+        return kpiSummaryData;
+    },
+    // initalte the kpi view
     initiateKPIModel = function() {
         $scope.kpiViewId = $scope.kpiView.id;
         $scope.kpiViewData = $scope.kpiView;
@@ -124,15 +211,13 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         $scope.comparedViewList[0].title = $scope.comparedViewList[0].name;
         $scope.selectedComparedView = $scope.comparedViewList[0];
 
-        $scope.spendDatumHeader  = resultsData.spendData.header;
-        $scope.chartData         = [];
+        $scope.chartData = [];
 
         // spend cube
         $scope.spendCubeId = spendCubeMeta.id;
         initiateSpendModel(spendCubeMeta);
 
         angular.element('.Scenario').css('height', 'auto');
-        getChartData();
     }, renameView = function(cubeId, view) { // rename the view
         ManageAnalysisViewsService.renameView(view.id, cubeId, view.name).then(function(response) {
             _.each($scope.spendViewsList, function(item) {
@@ -211,14 +296,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         $scope.saveAs = true;
         $scope.rename = true;
     };
-    // get KPI raw data
-    $scope.getKpiData = function() {
-        return resultsData.kpiData;
-    };
-    // get spend raw data
-    $scope.getSpendDataBody = function() {
-        return resultsData.spendData.body;
-    };
     // set compared view
     $scope.loadComparedView = function(_viewId) {
         _.find($scope.comparedViewList, function(v) {
@@ -269,144 +346,4 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     // fire off init function
     init();
 
-}]).factory('resultsData', function () {
-    return {
-        "kpiData": [
-            {
-                "id": 1,
-                "title": "awareness",
-                "incremental": {
-                    "number": 432,
-                    "unit": "K"
-                },
-                "total": "3.6M",
-                "percent": "+12%",
-                "direction": "increase"
-            }, {
-                "id": 2,
-                "title": "web visit",
-                "incremental": {
-                    "number": 770,
-                    "unit": "K"
-                },
-                "total": "10.3M",
-                "percent": "+7.5%",
-                "direction": "increase"
-            }, {
-                "id": 3,
-                "title": "sales",
-                "incremental": {
-                    "current": "$",
-                    "number": 3.5,
-                    "unit": "M"
-                },
-                "total": "$90M",
-                "percent": "+3.9%",
-                "direction": "increase"
-            }, {
-                "id": 4,
-                "title": "Revenue",
-                "incremental": {
-                    "current": "$",
-                    "number": 76,
-                    "unit": "K"
-                },
-                "total": "$19M",
-                "percent": "+0.4%",
-                "direction": "increase"
-            }, {
-                "id": 5,
-                "title": "Profit",
-                "incremental": {
-                    "current": "$",
-                    "number": 2.1,
-                    "unit": "M"
-                },
-                "total": "$60M",
-                "percent": "-3.5%",
-                "direction": "decrease"
-            },
-        ],
-        "spendData": {
-            header: {
-                id: 0,
-                title: 'Total Spend',
-                total: '$10M',
-                incremental: '+$5M',
-                percent: '+100%',
-                direction: 'increase'
-            },
-            body: [
-                {
-                    id: 0,
-                    category: "Local-National",
-                    children: [
-                        {
-                            id: 0,
-                            title: '',
-                            total: '',
-                            incremental: '',
-                            percent: '',
-                            direction: ''
-                        }, {
-                            id: 1,
-                            title: 'Local Spend',
-                            total: '$12M',
-                            incremental: '+$2.5M',
-                            percent: '+12%',
-                            direction: 'increase',
-                            chart: {
-                                results: 47,
-                                compared: 42
-                            }
-                        }, {
-                            id: 2,
-                            title: 'National Spend',
-                            total: '$17M',
-                            incremental: '+$3.7M',
-                            percent: '+7.5%',
-                            direction: 'increase',
-                            chart: {
-                                results: 53,
-                                compared: 58
-                            }
-                        }]
-                }, {
-                    id: 1,
-                    category: "Product-Brand",
-                    children: [
-                        {
-                            id: 0,
-                            title: '',
-                            total: '',
-                            incremental: '',
-                            percent: '',
-                            direction: ''
-                        }, {
-                            id: 1,
-                            title: 'Product Spend',
-                            total: '$6M',
-                            incremental: '+$1.3M',
-                            percent: '+22.4%',
-                            direction: 'increase',
-                            chart: {
-                                results: 55,
-                                compared: 57
-                            }
-                        }, {
-                            id: 2,
-                            title: 'Brand Spend',
-                            total: '$9.3M',
-                            incremental: '+$300K',
-                            percent: '+13.1%',
-                            direction: 'increase',
-                            chart: {
-                                results: 45,
-                                compared: 43
-                            }
-                        }]
-                }
-            ]
-        }
-    };
-});
+}]);
