@@ -32,8 +32,8 @@ var breadcrumb = "ol.breadcrumb",
 	// simple modal - create project or scenario
 	create = "button[data-ms-id='createButton']",
 	modalInput = "div[data-ms-id='simpleModal'] input",
-	modalSubmit = "div[data-ms-id='simpleModal'] button.submit",
-	modalCancel = "div[data-ms-id='simpleModal'] button.cancel",
+	modalSubmit = "div[data-ms-id='simpleModal'] button.ms-btn-submit",
+	modalCancel = "div[data-ms-id='simpleModal'] button.ms-btn-cancel",
 
 	data = { 
 		hasClass: function (element, cls) {

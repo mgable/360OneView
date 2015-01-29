@@ -122,24 +122,23 @@
                 <div class="tabTitle">Importing Data</div class="tabTitle">
                 <p>Do you want to download an import template first? <a class="clickable" onclick="exportHeader.click()">Yes</a></p>
                 <div>
-                    <div class="fileName" ng-class="{activeFileName: importObj.fileSelected, errFileName: importObj.invalidFile}" onclick="fileInput.click()">
-                        {{selectedFile.name}}
+                    <div class="fileName" ng-class="{activeFileName: fileSelected, errFileName: invalidFile}" onclick="fileInput.click()">
+                        {{selectedFileName}}
                     </div>
-                    <button class="btn active" onclick="fileInput.click()">BROWSE</button>
-                    <input id="fileInput" type="file" onchange="angular.element(this).scope().changeFileName(event)" class="ng-hide"></input>
-                    <div class="error" ng-show="importObj.invalidFile">This file is invalid. Please try again.</div>
+                    <ms-button type="submit" label="Browse" onclick="fileInput.click()" ng-disabled="importStarted"></ms-button>
+                    <input id="fileInput" type="file" onchange="angular.element(this).scope().newFileSelected(event)" class="ng-hide"></input>
+                    <div class="error" ng-show="invalidFile"><icon type="warning"></icon>This file is invalid. Please try again.</div>
                 </div>
                 <div class="btnGroup">
-                    <ms-button type="cancel" label="Close" collapse-control target-area="#importBody" ng-show="!importObj.fileSelected || importObj.uploadFinished"></ms-button>
-                    <ms-button class="ng-hide" type="cancel" action="initStatus()" label="Cancel" ng-disabled="importObj.importClicked" ng-show="importObj.fileSelected && !importObj.uploadFinished"></ms-button>
-                    <ms-button type="submit" action="uploadFile()" label="Import" ng-disabled="!importObj.fileSelected || importObj.invalidFile || importObj.importClicked"></ms-button>
+                    <ms-button type="cancel" action="cancelUpload()" label="Cancel" ng-disabled="!importStarted"></ms-button>
+                    <ms-button type="submit" action="startUpload()" label="Import" ng-disabled="!fileSelected || invalidFile || importStarted"></ms-button>
                 </div>
-                <div ng-show="importObj.importClicked" class="uploadContainer">
-                    <div ng-hide="importObj.uploadFinished">
-                        <progressbar value="importObj.uploadProgress"></progressbar>
-                        <p class="percentage">{{importObj.uploadProgress}}%</p>
+                <div ng-show="importStarted" class="uploadContainer">
+                    <div ng-hide="uploadCompleted">
+                        <progressbar value="uploadProgress"></progressbar>
+                        <p class="percentage">{{uploadProgress}}%</p>
                     </div>
-                    <div ng-show="importObj.uploadFinished" class="successMsg">You successfully imported {{selectedFile.name}}</div>
+                    <div ng-show="uploadCompleted" class="successMsg">You successfully imported {{selectedFileName}}</div>
                 </div>
                 <div class="pbSliderCollapse">
                     <span class="clickable" collapse-control target-area="#importBody" header="#importHeader">
