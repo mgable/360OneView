@@ -14,8 +14,11 @@
 					<input type="text" id="baseScenario" ng-model="scenario.referenceScenario.name" readonly><icon type="folder-open-o" cname="open"></icon>
 				</label>
 				<div class="buttons" ng-show="showFields">
-					<button class="button cancel" ng-click="close()" data-ms-id="ScenarioCreate.cancel">Cancel</button>
-					<button class="button submit" ng-click="submit(scenario)" ng-disabled="ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList" data-ms-id="ScenarioCreate.submit">Continue</button><span ng-hide="scenarioList" class="loaderHolder"><span class="loading"></span>Loading scenarios</span>
+					<ms-button type="submit" action="submit(scenario)" label="Continue" ng-disabled="ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList" data-ms-id="ScenarioCreate.submit"></ms-button>
+					<ms-button type="cancel" action="close()" label="Cancel" data-ms-id="ScenarioCreate.cancel"></ms-button>
+					<span ng-hide="scenarioList" class="loaderHolder">
+						<span class="loading"></span>Loading scenarios
+					</span>
 				</div>
 
 				<!-- Begin hidden group -->
@@ -53,8 +56,8 @@
 					</accordion>
 
 					<div class="base-scenario" >
-						<button class="confirmRadio" ng-click="confirm()" data-ms-id="ScenarioCreate.confirmBaseScenario">Confirm Base Scenario</button>
-						<button ng-click="cancel()" data-ms-id="ScenarioCreate.cancelBaseScenario">Cancel</button>
+						<ms-button type="submit" action="confirm()" label="Continue" data-ms-id="ScenarioCreate.confirmBaseScenario"></ms-button>
+						<ms-button type="cancel" action="cancel()" label="Cancel" data-ms-id="ScenarioCreate.cancelBaseScenario"></ms-button>
 					</div>
 				</div>
 			<!-- End hidden group -->

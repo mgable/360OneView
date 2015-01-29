@@ -2,35 +2,91 @@
 @import "new_variables";
 
 .scenario_results {
-	.results-dropdown {
-		margin: 20px 0;
+	.srDropdown {
 		span {
 			font-size: 17px;
 			line-height: 22px;
 			font-weight: 300;
 		}
+        color: #666666;
+        display: inline-block;
+        position: relative;
+        vertical-align: top;
         .dropdown {
-            display: inline-block;
-            .dropdown-menu {
-                left: 150px;
-                li.selected {
-                    a {
-                        color: #f35528;
-                        font-weight: 700;
-                    }
-                }
-            }
-            .dropdown-toggle {
-                cursor: pointer;
+            margin: 0 20px 20px 0;
+            .srDropdownBtn {
                 color: #f35528;
                 text-decoration: none;
                 font-weight: 700;
                 i {
-                    line-height: 21px;
-                    float: right;
                     color: #999;
                     font-size: 14px;
-                    margin-left: 10px;
+                }
+            }
+            .srDropdownMenu {
+                position: absolute;
+                min-height: 250px;
+                width: 290px;
+                padding: 20px;
+                padding-top: 0;
+                left: 27%;
+                z-index: 10;
+
+                .srDropdownMenuVisible {
+                    background: white;
+                    border: 1px solid $blue;
+                    padding: 7px 0;
+                    width: 250px;
+                    position: absolute;
+                    top: 7px;
+                    box-shadow: 0 3px 10px rgba(100,100,100,0.5);
+
+                    &::before {
+                        position: absolute;
+                        height: 11px;
+                        width: 11px;
+                        content: "";
+                        border-left: 1px solid $blue;
+                        border-top: 1px solid $blue;
+                        -webkit-transform: rotate(45deg);
+                        -moz-transform: rotate(45deg);
+                        -ms-transform: rotate(45deg);
+                        -o-transform: rotate(45deg);
+                        transform: rotate(45deg);
+                        top: -6px;
+                        left: 47%;
+                        z-index: 13;
+                        background-color: white;
+                    }
+
+                    li {
+                        div {
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            padding: 5px 20px;
+                            cursor: pointer;
+
+                            &:hover {
+                                background-color: $lightgray;
+                            }
+
+                            i {
+                                margin-right: 5px;
+                            }
+                        }
+
+                        &.selected {
+                            div {
+                                background-color: $blue;
+                                color: white;
+                            }
+                        }
+                    }
+
+                    hr {
+                        margin: 12px 0;
+                    }
                 }
             }
         }
@@ -409,25 +465,6 @@
                 }
             }
         }
-
-        .srGray {
-            color: $darkgray;
-        }
-
-        .blue {
-            color: $blue;
-        }
-
-        .bold {
-            font-weight: bold;
-        }
-
-        .dropdown-menu {
-            background-color: transparent;
-            border: 0;
-            -webkit-box-shadow: none;
-            box-shadow: none;
-        }
 	}
     .results-panel {
         margin-bottom: 5px;
@@ -613,6 +650,21 @@
                 }
             }
         }
+    }
+    .srGray {
+        color: $darkgray;
+    }
+    .blue {
+        color: $blue;
+    }
+    .bold {
+        font-weight: bold;
+    }
+    .dropdown-menu {
+        background-color: transparent;
+        border: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
     }
 }
 

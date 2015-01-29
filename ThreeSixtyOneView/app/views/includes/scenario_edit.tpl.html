@@ -130,9 +130,9 @@
                     <div class="error" ng-show="importObj.invalidFile">This file is invalid. Please try again.</div>
                 </div>
                 <div class="btnGroup">
-                    <button class="btn inactive" ng-show="!importObj.fileSelected || importObj.uploadFinished" collapse-control target-area="#importBody">CLOSE</button>
-                    <button class="btn inactive" ng-show="importObj.fileSelected && !importObj.uploadFinished" ng-click="initStatus()" ng-disabled="importObj.importClicked">CANCEL</button>
-                    <button class="btn active" ng-disabled="!importObj.fileSelected || importObj.invalidFile || importObj.importClicked" ng-click="uploadFile()">IMPORT</button>
+                    <ms-button type="cancel" label="Close" collapse-control target-area="#importBody" ng-show="!importObj.fileSelected || importObj.uploadFinished"></ms-button>
+                    <ms-button class="ng-hide" type="cancel" action="initStatus()" label="Cancel" ng-disabled="importObj.importClicked" ng-show="importObj.fileSelected && !importObj.uploadFinished"></ms-button>
+                    <ms-button type="submit" action="uploadFile()" label="Import" ng-disabled="!importObj.fileSelected || importObj.invalidFile || importObj.importClicked"></ms-button>
                 </div>
                 <div ng-show="importObj.importClicked" class="uploadContainer">
                     <div ng-hide="importObj.uploadFinished">
@@ -150,7 +150,7 @@
         </tab>
         <tab ng-controller="exportCtrl">
             <tab-heading>
-                <div id="exportHeader" expand-collapse-control target-area="#exportBody" tab-id="3">
+                <div id="exportHeader" expand-collapse-control target-area="#exportBody" tab-id="3" ng-click="setupExportView()">
                     <icon type="upload"></icon>
                 </div>
             </tab-heading>
@@ -160,7 +160,7 @@
                     <div class="pbSec">
                         <div class="pbSecTitle">Dimensions</div>
                         <div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="exportViewData.rows" tabindex="-1">
-                            <draggable-dimension ng-repeat="item in getExportViewDataRows()" template="draggable_dimension"></draggable-dimension>
+                            <draggable-dimension ng-repeat="item in getExportViewDataRows()" template="draggable_dimension" added-values="exportAdded"></draggable-dimension>
                             <draggable-dimension ng-hide="isDragging" template="add_dimension_button"></draggable-dimension>
                         </div>
                     </div>
@@ -186,8 +186,8 @@
                 </div>
 
                 <div class="btnGroup">
-                    <button class="btn inactive" ng-click="cancelExport()" ng-disabled="!exportInProgress">Cancel</button>
-                    <button class="btn active" ng-click="requestExport()" ng-hide="exportInProgress">EXPORT</button>
+                    <ms-button type="cancel" action="cancelExport()" label="Cancel" ng-disabled="!exportInProgress"></ms-button>
+                    <ms-button type="submit" action="requestExport()" label="Export" ng-hide="exportInProgress"></ms-button>
                     <a ng-href="downloadLink" download="sample.html" ng-show="downloadReady" class="btn active">DOWNLOAD</a>
                 </div>
 

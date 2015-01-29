@@ -290,8 +290,7 @@
 
 .scenario-create {
 	width: 100%;
-	min-height: 85%;
-	max-height: 85%;
+	max-height: 80%;
 	/*position: absolute;  // Re-enable this when a modal
 	top: 0;
 	left: 0;*/
@@ -375,38 +374,12 @@
 	.base-scenario button{
 		margin-top: 10px;
 	}
-	button {
-		display: inline-block;
-		float: right;
-		padding: 12px 15px;
-		font-size: 16px;
-		font-weight: 400;
-		color: #FFF;
-		background-color: #BBB;
-		border-radius: 3px;
-		border: none;
-	}
-	button.button,
-	div.radios button.confirmRadio {
-		display: inline-block;
-		float: right;
-		width: auto;
-		margin-left: 10px;
-		padding: 12px 15px;
 
-		font-size: 16px;
-		font-weight: 400;
-		color: #FFF;
-		background-color: #F53;
-		border-radius: 3px;
-		border: none;
+	button {
+	 	float: right;
+	 	margin-left: 10px;
 	}
-	button.cancel {
-		background-color: #BBB;
-	}
-	button.submit[disabled]{
-		opacity:.65;
-	}
+	
 	.loaderHolder {
 		margin:10px 0 0 0;
 		float:right;
@@ -487,5 +460,4 @@
 	div.baseGroup {
 		position: relative;
 	}
-
 }

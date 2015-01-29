@@ -2,5 +2,11 @@
 <div class="alerts" ng-show="hasAlerts"><ng-include src="hasAlerts"></ng-include></div>
 
 <!-- display actions -->
-<display-actions></display-actions>
+<div class="display-actions">
+	<ms-filter-dropdown></ms-filter-dropdown>
+	<ms-filter-input></ms-filter-input>
 
+	<div class="button-holder">
+		<create-button></create-button>
+	</div>
+</div>

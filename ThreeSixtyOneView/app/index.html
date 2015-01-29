@@ -22,8 +22,15 @@
 
         <link rel="stylesheet" href="styles/vendor/jquery.wijmo.wijspread.3.20143.14.css" />
         <link rel="stylesheet" href="styles/vendor/theme.css" />
+
+        <script src="scripts/external/servers.js"></script>
+
 	</head>
 	<body ng-app="ThreeSixtyOneView" ng-controller="MainCtrl">
+        <!-- Qualaroo for marketshare.com -->
+        <!-- Paste this code right after the <body> tag on every page of your site. -->
+        <script type="text/javascript" src="scripts/external/qualaroo.js"></script>
+
 		<!--[if lt IE 9]>
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
@@ -79,15 +86,18 @@
         <script src="scripts/controllers/scenarioResults.js"></script>
         <script src="scripts/controllers/scenarioCalc.js"></script>
         <script src="scripts/directives/bindonce.js"></script>
+        <script src="scripts/directives/create_button.js"></script>
         <script src="scripts/directives/breadcrumb.js"></script>
-        <script src="scripts/directives/display_actions.js"></script>
         <script src="scripts/directives/draggable_dimension.js"></script>
         <script src="scripts/directives/expand_collapse_control.js"></script>
         <script src="scripts/directives/focus.js"></script>
         <script src="scripts/directives/icon.js"></script>
+        <script src="scripts/directives/ms_button.js"></script>
         <script src="scripts/directives/inline_edit.js"></script>
         <script src="scripts/directives/member.js"></script>
         <script src="scripts/directives/ms_dropdown.js"></script>
+        <script src="scripts/directives/ms_filter_dropdown.js"></script>
+        <script src="scripts/directives/ms_filter_input.js"></script>
         <script src="scripts/directives/ms_link_group.js"></script>
         <script src="scripts/directives/ms_link.js"></script>
         <script src="scripts/directives/resize_pivot_table.js"></script>
@@ -95,6 +105,7 @@
         <script src="scripts/directives/single_click.js"></script>
         <script src="scripts/directives/sorting_options.js"></script>
         <script src="scripts/directives/sortable_columns.js"></script>
+        <script src="scripts/directives/focus.js"></script>
         <script src="scripts/directives/sorter.js"></script>
         <script src="scripts/directives/validator.js"></script>
         <script src="scripts/directives/d3/bar_chart.js"></script>
@@ -115,8 +126,8 @@
         <script src="scripts/models/export_resource_service.js"></script>
         <script src="scripts/models/favorites_model.js"></script>
         <script src="scripts/models/favorites_service.js"></script>
-        <script src="scripts/models/import_model.js"></script>
-        <script src="scripts/models/import_service.js"></script>
+        <script src="scripts/models/import_resource_model.js"></script>
+        <script src="scripts/models/import_resource_service.js"></script>
         <script src="scripts/models/manage_analysis_views_model.js"></script>
         <script src="scripts/models/manage_analysis_views_service.js"></script>
         <script src="scripts/models/meta_data_model.js"></script>
@@ -129,8 +140,14 @@
         <script src="scripts/models/scenario_service.js"></script>
         <script src="scripts/models/manage_scenarios_model.js"></script>
         <script src="scripts/models/manage_scenarios_service.js"></script>
+        <script src="scripts/models/reports_model.js"></script>
+        <script src="scripts/models/reports_service.js"></script>
         <script src="scripts/temp/pivotdata.js"></script>
         <!-- endbuild -->
+
+        <!-- Begin Inspectlet Embed Code -->
+        <script type="text/javascript" src="scripts/external/inspectlet.js" id="inspectletjs"></script>
+        <!-- End Inspectlet Embed Code -->
 
         <script>
             // Web fonts key for http://*.markeshare.com

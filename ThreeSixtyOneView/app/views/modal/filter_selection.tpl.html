@@ -61,8 +61,8 @@
 			</div>
 		</div>
 		<div class="pbFilterModalButtons">
-			<button type="button" class="btn filterCancelButton" data-dismiss="modal" ng-click="cancelChangeFilter();">CANCEL</button>
-			<button type="button" class="btn filterApplyButton" data-dismiss="modal" ng-click="changeFilter()" ng-disabled="noFilterSelected">APPLY</button>
+			<ms-button type="cancel" action="cancelChangeFilter()" label="Cancel" data-dismiss="modal"></ms-button>
+			<ms-button type="submit" action="changeFilter()" label="Apply" data-dismiss="modal" ng-disabled="noFilterSelected"></ms-button>
 		</div>
 	</div>
 </div>

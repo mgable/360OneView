@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .controller('importCtrl', ['$scope', '$interval', 'DialogService', 'ImportService', function($scope, $interval, DialogService, ImportService) {
+    .controller('importCtrl', ['$scope', '$interval', 'DialogService', 'ImportResourceService', function($scope, $interval, DialogService, ImportResourceService) {
 		$scope.importObj = {uploadProgress:0, fileSelected:false, invalidFile: false, importClicked: false, uploadFinished: false};
 		$scope.selectedFile = {name: 'Select a file to import'};
 		$scope.stopTime;
@@ -18,7 +18,6 @@ angular.module('ThreeSixtyOneView')
 				$scope.importObj.fileSelected = false;
 				$scope.importObj.invalidFile = false;
 			}
-
 			$scope.$apply(); 
 		};
 
@@ -32,9 +31,9 @@ angular.module('ThreeSixtyOneView')
 			$scope.importObj.importClicked = true;
 			
 			var file = $scope.selectedFile;
-			ImportService.uploadFile(file.name, file).then(function(response) {
+			ImportResourceService.uploadFile(file.name, file).then(function(response) {
 				$scope.stopTime = $interval(function(){
-					ImportService.checkStatus($scope.cubeId, 1).then(function(response){
+					ImportResourceService.checkStatus($scope.cubeId, 1).then(function(response){
 						if (response.message == 'COMPLETED') {
 							$interval.cancel($scope.stopTime);
 							$scope.importObj.uploadFinished = true;
