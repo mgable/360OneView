@@ -123,7 +123,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         $scope.comparedViewList.unshift(Scenario.referenceScenario);
         $scope.comparedViewList[0].title = $scope.comparedViewList[0].name;
         $scope.selectedComparedView = $scope.comparedViewList[0];
-        console.log($scope.comparedViewList);
 
         $scope.spendDatumHeader  = resultsData.spendData.header;
         $scope.chartData         = [];
