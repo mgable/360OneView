@@ -26,10 +26,8 @@ angular.module('ThreeSixtyOneView')
                 };
                 $scope.scenarioElements = ScenarioAnalysisElements;
 
-                // $scope.setScenarioElement(getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) || $scope.scenarioElements[0]);
-                $scope.setScenarioElement(getScenarioElementByCubeName($scope.scenarioElements, 'TOUCHPOINT'));
-                // remove param from path
-
+                // either load the element selected in scenario listing page or TOUCHPOINT related element if none selected
+                $scope.setScenarioElement(!!parseInt($state.params.scenarioElementId) ? getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) : getScenarioElementByCubeName($scope.scenarioElements, 'TOUCHPOINT'));
 
                 // hardcoded data
                 $scope.pivotTableData = ptData.data;
