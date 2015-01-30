@@ -27,12 +27,7 @@
                     <div id="resultViewsHeader" class="srTitle" expand-collapse-control target-area="#resultViews" tab-id="1">
                         <div class="srRenameArea">
                             <icon type="eye"></icon>
-                            <div class="srTitleText" ng-hide="saveAs">{{spendViewData.name}}</div>
-                            <div class="srSaveAsBox" ng-show="saveAs">
-                                <input type="text" ng-model="saveAsName" ui-keydown="{'esc': 'cancelSaveAs()', 'enter': 'submitSaveAs()'}">
-                                <span class="clickable" ng-click="submitSaveAs()"><icon type="check"></icon></span>
-                                <span class="clickable" ng-click="cancelSaveAs()"><icon type="remove"></icon></span>
-                            </div>
+                            <div class="srTitleText" ng-hide="saveAs" tooltip="{{spendViewData.name}}">{{spendViewData.name}}</div>
                         </div>
                     </div>
                 </tab-heading>
@@ -54,9 +49,6 @@
                                             </li>
                                             <li>
                                                 <div class="srViewSaveMenuItem" ng-click="revertView();"><icon type="undo"></icon>Revert</div>
-                                            </li>
-                                            <li>
-                                                <div class="srViewSaveMenuItem" ng-click="startRename()"><icon type="pencil"></icon>Rename</div>
                                             </li>
                                         </div>
                                     </ul>
