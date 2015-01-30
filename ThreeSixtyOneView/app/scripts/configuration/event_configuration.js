@@ -6,6 +6,7 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     scenarioCopied: 'ScenarioService:copyCompleted',
     createProject: 'ProjectsService:create',
     renameProject: 'ProjectsService:rename',
+    editScenario: 'ScenarioService:edit',
     updateProjects: 'ProjectsService:updateProjects',
     gotoScenarioCreate: 'GotoService:scenarioCreate',
     gotoDashboard: 'GotoService:dashboard',

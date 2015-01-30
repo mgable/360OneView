@@ -1,0 +1,25 @@
+// Colors
+$ms-pureBlack: #000;
+$ms-black: #333;
+$ms-white: #fafafa;
+$ms-pureWhite: #fff;
+
+$ms-blue: #3271cd;
+$ms-lightBlue: #428bca;
+$ms-orange: #f45724;
+$ms-gold: #ffa500;
+
+$ms-gray: #808080;
+$ms-mediumGray: #999;
+$ms-lightGray: #e6e6e6;
+
+// Fonts
+$sansFontFamily: "proxima-nova", arial, sans-serif;
+$body_font_size: 14px;
+
+// Text styles
+.baseFont {
+	font-size: $body_font_size;
+	color: $ms-black;
+	font-family: $sansFontFamily;
+}

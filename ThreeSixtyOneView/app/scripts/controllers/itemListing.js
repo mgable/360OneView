@@ -216,7 +216,8 @@ angular.module('ThreeSixtyOneView')
             return FavoritesService.isFavorite(itemID);
         };
 
-        // tray actions
+        // tray button actions
+        // NOT inline edit action
          $scope.action = function(action, data){
             if(action){
                 $rootScope.$broadcast(EVENTS[action], action, data);

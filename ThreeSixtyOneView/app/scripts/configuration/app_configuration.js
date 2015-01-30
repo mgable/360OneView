@@ -69,7 +69,7 @@ angular.module('ThreeSixtyOneView.config')
                 "nameClickAction": "gotoScenarioEdit",
                 "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
                 "displayActionsCreate": "gotoScenarioCreate",
-                "renameAction": "renameScenario",
+                "renameAction": "editScenario",
                 "trayButtons": [{
                     "action": "trayCopy",
                     "label": "copy",
