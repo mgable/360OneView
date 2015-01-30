@@ -26,7 +26,8 @@ angular.module('ThreeSixtyOneView')
                 };
                 $scope.scenarioElements = ScenarioAnalysisElements;
 
-                $scope.setScenarioElement(getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) || $scope.scenarioElements[0]);
+                // $scope.setScenarioElement(getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) || $scope.scenarioElements[0]);
+                $scope.setScenarioElement(getScenarioElementByCubeName($scope.scenarioElements, 'TOUCHPOINT'));
                 // remove param from path
 
 
@@ -64,6 +65,9 @@ angular.module('ThreeSixtyOneView')
             },
             getScenarioElementById = function(data, id){
                return  _.findWhere(data, {id: id});
+            },
+            getScenarioElementByCubeName = function(_data, _name){
+               return  _.find(_data, function(element) { return element.cubeMeta.name ===_name; });
             },
             setView = function(currentState){
                 if (AnalyticCalculationsService.isInProgress($scope.scenarioState)){
