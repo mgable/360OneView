@@ -39,10 +39,14 @@ angular.module('ThreeSixtyOneView.services')
                 obj.description = "";
             }
             this.put(obj);
-            // return this.put(obj).then(function(response){
-            // 	return response;
-            // });
         };
+
+        this.getProjectIdByScenarioId = function(scenarioId){
+        	var params = {params: {scenarioId: scenarioId}};
+			return this.resource.get({}, params).then(function(response){
+				return response[0];
+			});
+		};
 
 		$rootScope.$on(EVENTS.renameProject, function($event, data){
 			self.rename(data);

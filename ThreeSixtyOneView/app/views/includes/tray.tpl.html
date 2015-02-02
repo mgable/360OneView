@@ -61,7 +61,7 @@
 			<p class="ms-label">Contains</p>
 			<span class='description-label'>Total&nbsp;<span>{{scenarioElements.length}}</span>&nbsp;scenarios elements</span>
 			<div class="item-holder" >
-				<div class="item" ng-show="{{$index < 3}} || showScenario || e2e" ng-repeat="element in scenarioElements">
+				<div class="item" ng-show="{{$index < 3}} || showScenario || e2e" ng-repeat="element in scenarioElements | orderBy:'cubeMeta.id'">
 					<span ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)">{{element.title}}</span>
 				</div>
 			</div>
