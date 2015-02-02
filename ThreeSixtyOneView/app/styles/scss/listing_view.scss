@@ -217,7 +217,19 @@
 							padding: 0;
 
 							.relatedItems-holder {
+								height: 200px;
 								padding: 10px;
+								max-height:300px;
+								overflow-x: hidden;
+								overflow-y: hidden;
+								&.show {
+									overflow-y: scroll;
+									height: 300px;
+								}
+								.field-label {
+									margin: 0 0 5px;
+									font-weight: bold;
+								}
 							}
 							.description-label {
 								display: inline-block;
@@ -226,9 +238,10 @@
 							}
 							.item-holder {
 								.item {
-									margin:0 0 10px;
+									margin:0 0 5px;
 									padding: 0;
 									span {
+										word-break: break-all;
 										cursor: pointer;
 										text-transform: capitalize;
 										color: $ms-lightBlue;
