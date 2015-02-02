@@ -148,7 +148,7 @@
 	this.createEmptyView = function(dimensions, cubeMeta, spendViewId) {
 		var i,
 			newColumn = {dimension:{id:dimensions[dimensions.length-1].dimensionId},hierarchy:{id:-1},level:{id:dimensions[dimensions.length-1].members[0].levelId}},
-			newRow = {dimension:{id:dimensions[0].dimensionId},hierarchy:{id:-1},level:{id:dimensions[0].members[0].levelId}},
+			newRow = {dimension:{id:dimensions[0].dimensionId},hierarchy:{id:-1},level:{id:dimensions[0].members[dimensions[0].members.length-1].levelId}},
 			columns = [],
 			rows = [],
 			newView = {
@@ -172,6 +172,18 @@
 					specification: {type: 'All'}
 				}
 			});
+			// for time filter, only have the current year selected
+			if(dimension.label === 'TIME') {
+				var currentYear =_.find(dimension.members[0].members, function(year) {
+					return year.label.indexOf(new Date().getFullYear()) > -1;
+				});
+				newView.filters[newView.filters.length-1].value.specification = {
+					type: 'Absolute',
+					members: [{
+						id: currentYear.id
+					}]
+				};
+			}
 		});
 
 		return ManageAnalysisViewsService.createView(newView, cubeMeta.id, spendViewId).then(function(view) {
