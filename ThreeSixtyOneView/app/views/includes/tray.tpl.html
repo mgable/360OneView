@@ -41,33 +41,33 @@
 	</div>
 
 	<div class="well relatedItems" ng-if="selectedItem.scenarios.length">
-		<div class="relatedItems-holder">
+		<div class="relatedItems-holder" xng-class="{'show': showScenario}">
 			<p class="ms-label">Contains</p>
-			<span class='field-label'>Total&nbsp;<span>{{selectedItem.scenarios.length}}</span>&nbsp;scenarios</span>
+			<p class='field-label'>Total&nbsp;<span>{{selectedItem.scenarios.length}}</span>&nbsp;scenarios</p>
 			<div class="item-holder" >
-				<div class="item" ng-show="{{$index < 3}} || showScenario" ng-repeat="scenario in selectedItem.scenarios">
+				<div class="item" ng-repeat="scenario in selectedItem.scenarios">
 					<span ng-click="goto($event, 'gotoScenarioEdit', scenario)">{{scenario.title}}</span>
 				</div>
 
 			</div>
 		</div>
-		<div class="viewAll" ng-click="toggleShowScenarios()" ng-if="selectedItem.scenarios.length > 3">
+<!-- 		<div class="viewAll" ng-click="toggleShowScenarios()" ng-if="selectedItem.scenarios.length > 3">
 			<span>{{viewAll}}</span>
-		</div>
+		</div> -->
 	</div>
 
 	<div class="well relatedItems" ng-if="scenarioElements.length">
-		<div class="relatedItems-holder">
+		<div class="relatedItems-holder" xng-class="{'show': showScenario}">
 			<p class="ms-label">Contains</p>
-			<span class='description-label'>Total&nbsp;<span>{{scenarioElements.length}}</span>&nbsp;scenarios elements</span>
+			<p class='description-label'>Total&nbsp;<span>{{scenarioElements.length}}</span>&nbsp;scenarios elements</p>
 			<div class="item-holder" >
-				<div class="item" ng-show="{{$index < 3}} || showScenario || e2e" ng-repeat="element in scenarioElements">
+				<div class="item" ng-repeat="element in scenarioElements">
 					<span ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)">{{element.title}}</span>
 				</div>
 			</div>
 		</div>
-		<div class="viewAll" ng-click="toggleShowScenarios()" ng-if="scenarioElements.length > 3">
+<!-- 		<div class="viewAll" ng-click="toggleShowScenarios()" ng-if="scenarioElements.length > 3">
 			<span>{{viewAll}}</span>
-		</div>
+		</div> -->
 	</div>
 </div>

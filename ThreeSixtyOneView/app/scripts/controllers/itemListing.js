@@ -91,7 +91,7 @@ angular.module('ThreeSixtyOneView')
             if (master) { FavoritesService.addFavorite(master.id, $scope.CONFIG.favoriteType); }
 
             // Highlight first item
-            $scope.selectItem($scope.selectedItem);
+            //$scope.selectItem($scope.selectedItem);
         },
         getScenarios = function(id){
             return ScenarioService.get(id);
@@ -116,10 +116,12 @@ angular.module('ThreeSixtyOneView')
         };
 
         // Event listeners
+        // create new project dialog box to get new project title
         $scope.$on(EVENTS.getNewProjectTitle, function(){
             DialogService.create();
         });
 
+        // create project API call
         $scope.$on(EVENTS.createProject, function(evt, title){
             var newProject = angular.copy(CONFIG.application.models.ProjectsModel.newProject);
             newProject.title = title;
@@ -132,7 +134,7 @@ angular.module('ThreeSixtyOneView')
     }]).controller("ListingViewCtrl", ["$scope", "$rootScope", "$state", "SortAndFilterService", "DialogService", "GotoService", "CONFIG", "EVENTS", "FavoritesService", "$stateParams", function($scope, $rootScope, $state, SortAndFilterService, DialogService, GotoService, CONFIG, EVENTS, FavoritesService, $stateParams){
 
         var selectFirstItem = function(){
-            $scope.showDetails(SortAndFilterService.getData()[0]);
+            $scope.selectItem(SortAndFilterService.getData()[0]);
         };
 
         $scope.init = function(_data_, fn){
