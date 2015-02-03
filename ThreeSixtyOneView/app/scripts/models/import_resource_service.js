@@ -14,7 +14,6 @@ angular.module('ThreeSixtyOneView.services')
 	        	formData = new FormData();
 	        formData.append('file', file);
 
-			// return this.resource.post(formData, { headers: {'Content-Type': undefined} }, {elementId: elementId}, additionalPath).then(function (response) {
 			return this.resource.post(formData, { transformRequest: angular.identity, headers: {'Content-Type': undefined} }, {elementId: elementId}, additionalPath).then(function (response) {
 				return response;
 			});

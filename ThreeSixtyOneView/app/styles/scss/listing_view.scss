@@ -136,6 +136,8 @@
 				top: 0;
 				z-index: 10;
 				background-color: $ms-lightGray;
+				overflow-x: hidden;
+				overflow-y: scroll;
 				@include drop-shadow(-2px, 0, 6px, 0, 0.3);
 
 				.tray-holder {
@@ -217,7 +219,12 @@
 							padding: 0;
 
 							.relatedItems-holder {
+								height: auto;
 								padding: 10px;
+								.field-label {
+									margin: 0 0 5px;
+									font-weight: bold;
+								}
 							}
 							.description-label {
 								display: inline-block;
@@ -226,9 +233,10 @@
 							}
 							.item-holder {
 								.item {
-									margin:0 0 10px;
+									margin:0 0 5px;
 									padding: 0;
 									span {
+										word-break: break-all;
 										cursor: pointer;
 										text-transform: capitalize;
 										color: $ms-lightBlue;

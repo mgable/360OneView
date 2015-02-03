@@ -21,11 +21,19 @@
 		width: 450px;
 		background: #fff;
 		padding: 20px;
+
+		.fa {
+			margin-right: 5px;
+		}
 	}
 
 	.uploadContainer {
 		display: inline-block;
 		width: 400px;
+
+		.fa {
+			margin-right: 5px;
+		}
 	}
 
 	.percentage {
@@ -106,6 +114,21 @@
 		border: 1px solid #449e47;
 		display: inline-block;
 		background-color: #c7e9c8;
+
+		.fa {
+			margin-right: 5px;
+		}
+	}
+
+	.errorMsg {
+		padding: 5px;
+		border: 1px solid $errorRed;
+		display: inline-block;
+		background-color: $error;
+
+		.fa {
+			margin-right: 5px;
+		}
 	}
 }
 .editor {

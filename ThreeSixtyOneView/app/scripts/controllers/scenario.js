@@ -6,6 +6,8 @@ angular.module('ThreeSixtyOneView')
 .controller("ScenarioCtrl", ["$scope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "ptData", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService", "AnalyticCalculationsService",
     function($scope, $timeout, Project, Scenario, ScenarioAnalysisElements, ptData, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService, AnalyticCalculationsService) {
 
+        console.info("the scenrario");
+        console.info(Scenario);
         var init = function() {
                 $scope.draftView = false;
                 $scope.added = {};
@@ -166,6 +168,14 @@ angular.module('ThreeSixtyOneView')
             return ManageAnalysisViewsService.updateView(view, cubeId).then(function(response) {
                 return response;
             });
+        };
+
+        // update filter values after any change made to them in the filters modal
+        $scope.updateFilterValues = function(newFilterData) {
+            $scope.addedFilters = newFilterData;
+
+            $scope.viewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedFilters, $scope.membersList, $scope.viewData.filters);
+            $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.views.currentView);
         };
 
         // save the draft view

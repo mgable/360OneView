@@ -84,18 +84,25 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 
 		// start the export process
 		$scope.requestExport = function() {
-			$scope.exportInProgress = true;
-			$scope.downloadReady = false;
+			$scope.isExportInProgress = true;
+			$scope.isDownloadReady = false;
 			$scope.progressPercentage = 0;
 
 			$scope.exportElementId = $scope.selectedScenarioElement.id;
 			$scope.exportElementName = $scope.selectedScenarioElement.name;
 
-			console.log($scope.exportElementId);
-			console.log($scope.exportViewData);
+			// console.log($scope.exportElementId);
+			// console.log($scope.exportViewData);
 			ExportResourceService.requestExport($scope.exportElementId, $scope.exportViewData).then(function(response) {
-				if(response === '"OK"') {
-					$scope.trackProgress();
+				if(response.status === 'EXPORT_REQUEST_ACCEPTED') {
+					$scope.statusMessage = 'Initializing the export process ...';
+					$scope.isExportFailed = false;
+					$scope.isDownloadCompleted = false;
+					$timeout(function() {
+						$scope.trackProgress();
+					}, 500)
+				} else {
+					console.log(response);
 				}
 			});
 		};
@@ -103,26 +110,38 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 		// tracks the export preparation progress and request download upon completion
 		$scope.trackProgress = function() {
 			ExportResourceService.checkStatus($scope.exportElementId).then(function(response) {
-				// console.log(response);
-				if(response.status === "INIT") {
-					$scope.progressPromise = $timeout(function() {
-						$scope.trackProgress();
-					}, 2000);
-					$scope.progressPercentage += 10;
-				} else if(response.status === "COMPLETED") {
-					$scope.downloadReady = true;
+				if(response.status === 'INIT') {
+					$scope.statusMessage = 'Initializing the export process ...';
+				} else if(response.status === 'COMPLETED') {
+					$scope.isDownloadReady = true;
+					$scope.statusMessage = 'Export process completed, initializing the download process ...';
 					$scope.downloadFile();
-				} else if(response.status === "DOWNLOADED") {
-					$scope.downloadFile();
+				} else if(response.status === 'DOWNLOADED') {
+					$scope.statusMessage = 'File downloaded successfully.';
+					$scope.isDownloadCompleted = true;
 					$scope.cancelExport();
+					return;
+				} else if(response.status === 'FAILED') {
+					$scope.statusMessage = 'Export failed, please try again.';
+					$scope.isExportFailed = true;
+					$scope.cancelExport();
+					return;
+				} else if(response.status === 'IN_PROGRESS') {
+					$scope.statusMessage = 'Preparing the file to download ...';
+				} else {
+					console.log(response);
 				}
+				
+				$scope.progressPromise = $timeout(function() {
+					$scope.trackProgress();
+				}, 2000);
 			});
 		};
 
 		// download the prepared export file
 		$scope.downloadFile = function() {
-			ExportResourceService.downloadFile(68).then(function(response) {
-				var a = angular.element('<a>').css('display', 'none').attr('href',response).attr('id','exportLink').attr('download',$scope.exportElementName+'.xlsx');
+			ExportResourceService.downloadFile($scope.exportElementId).then(function(response) {
+				var a = angular.element('<a>').css('display', 'none').attr('href',response).attr('id','exportLink');//.attr('download',$scope.exportElementName+'.xlsx');
 				$('body').append(a);
 				$timeout(function() {
 					document.getElementById('exportLink').click();
@@ -135,8 +154,10 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 		// cancel the export process
 		$scope.cancelExport = function() {
 			$timeout.cancel($scope.progressPromise);
-			$scope.exportInProgress = false;
-			$scope.downloadReady = false;
+			$scope.statusMessage = '';
+			$scope.isExportInProgress = false;
+			$scope.isDownloadReady = false;
+			// $scope.isDownloadCompleted = false;
 		};
 
 		init();
