@@ -212,7 +212,7 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.loadPivotTable = function(element, view) {
-            if(element.cubeMeta.id !== 1) return;
+            // if(element.cubeMeta.id !== 1) return;
             PivotService.getSlice(element.id, view.id).then(function(response) {
                 var numCols = view.columns.length,
                     numRows = view.rows.length;

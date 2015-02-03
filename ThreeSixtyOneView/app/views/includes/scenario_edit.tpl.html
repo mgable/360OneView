@@ -134,10 +134,11 @@
                     <ms-button type="submit" action="startUpload()" label="Import" ng-disabled="!isFileSelected || isFileInvalid || isImportStarted"></ms-button>
                 </div>
                 <div ng-show="isImportStarted" class="uploadContainer">
-                    <div ng-hide="isImportCompleted">
+                    <div ng-hide="isImportCompleted || isImportFailed">
                         <icon type="refresh" class="fa-spin"></icon>{{statusMessage}}
                     </div>
                     <div ng-show="isImportCompleted" class="successMsg"><icon type="thumbs-o-up"></icon>You successfully imported {{selectedFileName}}</div>
+                    <div ng-show="isImportFailed" class="errorMsg"><icon type="thumbs-o-down"></icon>{{statusMessage}}</div>
                 </div>
                 <div class="pbSliderCollapse">
                     <span class="clickable" collapse-control target-area="#importBody" header="#importHeader">
@@ -192,7 +193,7 @@
                     <!-- <a ng-href="downloadLink" download="sample.html" ng-show="isDownloadReady" class="btn active">DOWNLOAD</a> -->
                 </div>
                 <div ng-show="isDownloadCompleted" class="successMsg"><icon type="thumbs-o-up"></icon>You successfully exported the data.</div>
-                <div ng-show="isExportFailed" class="errorMsg"><icon type="thumbs-o-up"></icon>An error occurred in exporting data. Please try again.</div>
+                <div ng-show="isExportFailed" class="errorMsg"><icon type="thumbs-o-down"></icon>An error occurred in exporting data. Please try again.</div>
 
                 <div class="pbSliderCollapse" >
                     <span class="clickable" collapse-control target-area="#exportBody" header="#exportHeader">
