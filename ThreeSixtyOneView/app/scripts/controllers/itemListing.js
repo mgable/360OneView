@@ -53,17 +53,13 @@ angular.module('ThreeSixtyOneView')
             });
         };
 
-        $scope.gotoScenarioCreate = function(){
-            DialogService.openCreateScenario(Project, Scenarios);
-        };
-
         $scope.isScenarioTitleUnique = function(scenario) {
             return ! _.findWhere($scope.scenarios, {title: scenario});
         };
 
         // Event Listeners
         $scope.$on(EVENTS.gotoScenarioCreate, function(){
-            $scope.gotoScenarioCreate();
+            DialogService.openCreateScenario(Project, Scenarios);
         });
 
         $scope.$on(EVENTS.copyScenario, function(evt, scenario){

@@ -8,7 +8,7 @@ describe('Controllers: ', function() {
 
     var $httpBackend, $rootScope, $state, $controller, $q, scope, CONFIG, EVENTS, SERVER;
 
-    var data, ctrl, spy, deferred, signature;
+    var data, ctrl, spy, deferred, signature, scenarios;
 
     var getAPI = function(scope){
         var api = [];
@@ -21,7 +21,23 @@ describe('Controllers: ', function() {
             }
         });
         return api;
-    };
+    },
+    equals = function (array1, array2){
+        var length = array1.length;
+        if (array1.length !== array2.length){
+            return false
+        }
+        array1.sort();
+        array2.sort();
+        
+        for(var i = 0, limit =length; i < limit; i++){
+            if (array1[i] !== array2[i]){
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     beforeEach(module('ThreeSixtyOneView', 'ThreeSixtyOneView.services'));
 
@@ -52,7 +68,7 @@ describe('Controllers: ', function() {
 
         it("should have a defined api", function(){
             var api = getAPI(scope);
-            expect(_.difference(api, signature)).toEqual([]);
+            expect(equals(api, signature)).toEqual(true);
         });
 
         it("should import Error Service", function(){
@@ -100,9 +116,10 @@ describe('Controllers: ', function() {
 
         it("should have a defined api", function(){
             var api = getAPI(scope);
-            expect(_.difference(api, signature)).toEqual([]);
+            expect(equals(api, signature)).toEqual(true);
         });
 
+        // API
         it("should select an item", function(){
             scope.$apply(function(){
                 scope.selectItem({}).then(function(){
@@ -134,6 +151,7 @@ describe('Controllers: ', function() {
                 );
         });
 
+        //API
         it("should toggle favorites", function(){
             var data = {id: "123"};
             scope.toggleFavorite(event, data);
@@ -142,6 +160,7 @@ describe('Controllers: ', function() {
             expect(SortAndFilterService.filter).toHaveBeenCalled();
         });
 
+        //API
         it("should determine if an item is favorited", function(){
             FavoritesService.addFavorite("123");
             FavoritesService.addFavorite("345");
@@ -149,28 +168,31 @@ describe('Controllers: ', function() {
             expect(scope.isFavorite("555")).toBe(false);
             expect(scope.isFavorite("345")).toBe(true);
         });
-
-        it("should get selected project", function(){
-            var data = "1";
-            scope.showDetails(data);
-            expect(scope.getProject()).toBe(data);
-        });
     });
 
     describe("Scenario Listing CTRL", function(){
-        beforeEach(inject(function(_SortAndFilterService_, ManageScenariosService) {
+        beforeEach(inject(function(_SortAndFilterService_, ManageScenariosService, _FavoritesService_) {
+            scenarios = [{title:"foo"}, {title: "bar"}, {title: "foobar"}];
             data = {id:"123", title:"title", description: "description", isMaster:false};
             deferred = $q.defer();
             deferred.resolve(data);
 
             SortAndFilterService = _SortAndFilterService_;
+            FavoritesService = _FavoritesService_;
 
             $state.current.name = "Dashboard";
+            signature = [ 'this', 'init', 'getDetails', 'goto', 'showDetails', 'isActiveItem', 'getData', 'getSorter', 'getCount', 'setFilter', 'toggleFavorite', 'isFavorite', 'action', 'selectItem', 'isScenarioTitleUnique', 'CONFIG', 'data', 'selectedItem', 'getProject', 'trayActions', 'project', 'scenarios', 'hasAlerts' ];
             
             spyOn(scope, "$on");
+            spyOn(SortAndFilterService, "filter");
             spyOn(SortAndFilterService, "init");
             spyOn(SortAndFilterService, "getData").and.returnValue([data]);
             spyOn(ManageScenariosService, "get").and.returnValue(deferred.promise);
+            spyOn(FavoritesService, "toggleFavorite");
+            spyOn(FavoritesService, "isFavorite").and.callThrough();
+             event = {
+                stopPropagation: jasmine.createSpy('event.stopPropagation'),
+            };
 
             $httpBackend.expectGET(SERVER + "/rubix/v1/project").respond({});
             $httpBackend.expectGET(SERVER + "/rubix/v1/favorite/project").respond({});
@@ -180,7 +202,7 @@ describe('Controllers: ', function() {
                 $scope: scope,
                 '$stateParams': {projectId: "foo"},
                 Favorites: {},
-                Scenarios: data,
+                Scenarios: scenarios,
                 Project: data,
                 Status: data
             });
@@ -190,21 +212,47 @@ describe('Controllers: ', function() {
             expect(ctrl).toBeDefined();
         });
 
-        it("should define an API", function(){
-            expect(scope.getProject).toBeDefined();
-            expect(scope.showDetails).toBeDefined();
+        it("should have a defined api", function(){
+            var api = getAPI(scope);
+            expect(equals(api, signature)).toEqual(true);
         });
 
         it("should get the project", function(){
             expect(scope.getProject()).toBe(data);
         });
 
+        //API
+        it("should toggle favorites", function(){
+            var data = {id: "123"};
+            scope.toggleFavorite(event, data);
+            expect(event.stopPropagation).toHaveBeenCalled();
+            expect(FavoritesService.toggleFavorite).toHaveBeenCalledWith(data.id, "scenario");
+            expect(SortAndFilterService.filter).toHaveBeenCalled();
+        });
+
+        //API
+        it("should determine if an item is favorited", function(){
+            FavoritesService.addFavorite("123");
+            FavoritesService.addFavorite("345");
+            expect(scope.isFavorite("123")).toBe(true);
+            expect(scope.isFavorite("555")).toBe(false);
+            expect(scope.isFavorite("345")).toBe(true);
+        });
+
+        //API
         it("should set the active item", function(){
             scope.$apply(function(){
                 scope.selectItem({}).then(function(response){
                     expect(scope.selectedItem).toEqual({scenarioElements: data});
                 });
             })
+        });
+
+        //API
+        it("should determine if a scenario title is unique", function(){
+            console.info(scope.scenarios);
+            expect(scope.isScenarioTitleUnique("bar")).toBe(false);
+            expect(scope.isScenarioTitleUnique("foobarbuzz")).toBe(true);
         });
 
         it("should set event listeners", function(){
@@ -220,18 +268,10 @@ describe('Controllers: ', function() {
             expect(scope.CONFIG.displayActionsCreate).toBe(CONFIG.view.Dashboard.displayActionsCreate);
         });
 
-        it ("should extend Project View CTRL", function(){
-            expect(scope.showDetails).toBeDefined();
-            expect(scope.isActiveItem).toBeDefined();
-            expect(scope.getData).toBeDefined();
-            expect(scope.getSorter).toBeDefined();
-            expect(scope.getCount).toBeDefined();
-            expect(scope.setFilter).toBeDefined();
-        });
 
         it("should pass all data to SortAndFilterService", function(){
             expect(SortAndFilterService.init).toHaveBeenCalledWith(
-                {data:data, orderBy:CONFIG.view[$state.current.name].orderBy, filter:{label : 'all scenarios', filterType : 'activeFilter', filter : {  } }, reverse:CONFIG.view[$state.current.name].reverse}
+                {data:scenarios, orderBy:CONFIG.view[$state.current.name].orderBy, filter:{label : 'all scenarios', filterType : 'activeFilter', filter : {  } }, reverse:CONFIG.view[$state.current.name].reverse}
                 );
         });
     });
@@ -239,24 +279,30 @@ describe('Controllers: ', function() {
     describe("Listing View CTRL", function(){
 
         beforeEach(inject(function(_SortAndFilterService_, _GotoService_) {
+            signature = ['this', 'getProject', 'getProjects', 'init', 'getDetails', 'goto', 'showDetails', 'isActiveItem', 'getData', 'getSorter', 'getCount', 'setFilter', 'toggleFavorite', 'isFavorite', 'action'];
+            data = {id:"123", title:"title", description: "description", isMaster:false};
+            deferred = $q.defer();
+            deferred.resolve(data);
             scope.getProject = function(){return {id: '123'};};
+
             SortAndFilterService = _SortAndFilterService_;
             GotoService = _GotoService_;
+
             spyOn(GotoService, "scenarioEdit");
             spyOn(GotoService, "dashboard");
             spyOn(GotoService, "projects");
             spyOn(GotoService, "scenarioCreate");
+            spyOn($rootScope, "$broadcast");
+
             spyOn(SortAndFilterService, "getData").and.returnValue(data);
             spyOn(SortAndFilterService, "getSelectedLabel").and.returnValue("foo");
             spyOn(SortAndFilterService, "getCount").and.returnValue(1);
             spyOn(SortAndFilterService, "setFilter");
             scope.getProjects = jasmine.createSpy("scope.getProjects");
+
             event = {
                 stopPropagation: jasmine.createSpy('event.stopPropagation'),
             };
-            data = {id:"123", title:"title", description: "description", isMaster:false};
-            deferred = $q.defer();
-            deferred.resolve(data);
 
             ctrl = $controller('ListingViewCtrl', {
                 $scope: scope
@@ -267,16 +313,12 @@ describe('Controllers: ', function() {
             expect(ctrl).toBeDefined();
         });
 
-        it("should define an API", function(){
-            expect(scope.goto).toBeDefined();
-            expect(scope.showDetails).toBeDefined();
-            expect(scope.isActiveItem).toBeDefined();
-            expect(scope.getData).toBeDefined();
-            expect(scope.getSorter).toBeDefined();
-            expect(scope.getCount).toBeDefined();
-            expect(scope.setFilter).toBeDefined();
+        it("should have a defined api", function(){
+            var api = getAPI(scope);
+            expect(equals(api, signature)).toEqual(true);
         });
 
+        //API
         it("should goto various places", function(){
             var id = '123', data = {id:id};
             scope.goto(event, "gotoScenarioEdit", data, id);
@@ -287,31 +329,43 @@ describe('Controllers: ', function() {
             expect(GotoService.projects).toHaveBeenCalled();
         });
 
+        //API
         it("should show details", function(){
             scope.showDetails(data);
             expect(scope.selectedItem).toBe(data);
         });
 
+        //API
         it("should check active item", function(){
             scope.showDetails(data);
             expect(scope.isActiveItem(data)).toBe(true);
         });
 
+        //API
         it("should get the data", function(){
             expect(scope.getData()).toEqual(data);
         });
 
+        //API
         it("should get the sorter", function(){
             var data = "foo";
             SortAndFilterService.setSorter(123, data);
             expect(scope.getSorter(123)).toEqual(data);
-
         });
 
+        //API
         it("should get the count of data items", function(){
             expect(scope.getCount()).toEqual(1);
         });
 
+        //API
+        it("should broadcast an action", function(){
+            var data = {foo: "bar"};
+            scope.action("test", data);
+            expect(scope.$broadcast).toHaveBeenCalledWith("test", "test", data)
+        });
+
+        //API
         it("should set the filters", function(){
             scope.setFilter("foo", data, true);
             expect(SortAndFilterService.setFilter).toHaveBeenCalledWith("foo", data, true);
