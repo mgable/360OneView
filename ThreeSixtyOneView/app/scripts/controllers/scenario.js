@@ -3,7 +3,7 @@
 
 'use strict';
 angular.module('ThreeSixtyOneView')
-.controller("ScenarioCtrl", ["$scope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "ptData", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService", "AnalyticCalculationsService", 
+.controller("ScenarioCtrl", ["$scope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "ptData", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService", "AnalyticCalculationsService",
     function($scope, $timeout, Project, Scenario, ScenarioAnalysisElements, ptData, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService, AnalyticCalculationsService) {
 
         console.info("the scenrario");
@@ -70,7 +70,7 @@ angular.module('ThreeSixtyOneView')
                return  _.find(_data, function(element) { return element.cubeMeta.name ===_name; });
             },
             setView = function(currentState){
-                if (AnalyticCalculationsService.isInProgress($scope.scenarioState)){
+                if (AnalyticCalculationsService.isInProgress($scope.scenarioState) || AnalyticCalculationsService.isFailed($scope.scenarioState)){
                     $timeout(function(){$state.go("Scenario.calculate");});
                 }
             };
@@ -94,6 +94,14 @@ angular.module('ThreeSixtyOneView')
                 $state.go("Scenario.results");
             }
         };
+
+        $scope.disableSimulateBtn = function() {
+            if($scope.location === '/edit') {
+                return ($scope.scenarioState === 'in_progress' || $scope.scenarioState === 'SUCCESSFUL') ? true : false;
+            } else {
+                return true;
+            }
+        }
 
         // load a view from the backend
         $scope.loadView = function(cubeId, viewId) {

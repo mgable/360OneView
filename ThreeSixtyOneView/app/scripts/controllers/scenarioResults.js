@@ -8,8 +8,8 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
-    ['$scope', 'resultsData', 'Scenario', 'Scenarios', 'ManageAnalysisViewsService', 'ManageScenariosService', 'MetaDataService', '$interval', 'DialogService', 'PivotMetaService', 'ReportsService', '$q',
-    function ($scope, resultsData, Scenario, Scenarios, ManageAnalysisViewsService, ManageScenariosService, MetaDataService, $interval, DialogService, PivotMetaService, ReportsService, $q) {
+    ['$scope', 'Scenario', 'Scenarios', 'ManageAnalysisViewsService', 'ManageScenariosService', 'MetaDataService', 'DialogService', 'PivotMetaService', 'ReportsService',
+    function ($scope, Scenario, Scenarios, ManageAnalysisViewsService, ManageScenariosService, MetaDataService, DialogService, PivotMetaService, ReportsService) {
 
     // private variables
     var cnt = 0,
@@ -20,30 +20,147 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             }
         }).cubeMeta,
 
-    // get the data for spend summary chart
-    getChartData = function() {
-        _.each($scope.getSpendDataBody(), function(v) {
-            var chartSubData = {};
-            chartSubData.id = v.id;
-            chartSubData.name = v.category;
-            chartSubData.data = [];
-            _.each(v.children, function(v1) {
-                if (_.has(v1, 'chart')) {
-                    v1.chart.categoryId = v.id;
-                    v1.chart.id = v1.id;
-                    v1.chart.colorId = ++cnt;
-                    v1.chart.category = v1.title;
-                    chartSubData.data.push(v1.chart);
-                }
+    // get kpi cube
+    getKPICube = function() {
+        ManageScenariosService.getAnalysisElementByCubeName($scope.scenario.id, 'OUTCOME').then(function(KPICube) {
+            $scope.kpiElementId = KPICube.id;
+            $scope.kpiCubeMeta = KPICube.cubeMeta;
+            $scope.kpiCubeId = KPICube.cubeMeta.id;
+            return getKPIMeta();
+        });
+    },
+    // get kpi meta data
+    getKPIMeta = function() {
+        MetaDataService.buildDimensionsTree($scope.kpiCubeId).then(function(_KPIDimensions) {
+            $scope.kpiDimensions = _KPIDimensions;
+            getKPIView();
+        });
+    },
+    // get kpi view
+    getKPIView = function() {
+        ManageAnalysisViewsService.getViewRelatedBy($scope.spendViewId, $scope.kpiCubeId).then(function(_KPIView) {
+            if (_KPIView.id === null) {
+                return PivotMetaService.createEmptyView($scope.kpiDimensions, $scope.kpiCubeMeta, $scope.spendViewId).then(function(_KPINewView) {
+                    $scope.kpiView = _KPINewView;
+                });
+            } else {
+                $scope.kpiView = _KPIView;
+            }
+            initiateKPIModel();
+        });
+    },
+    // get kpi summary data
+    getKPISummary = function() {
+        ReportsService.getSummary($scope.kpiElementId, $scope.kpiViewId).then(function(_KPISummaryData) {
+            $scope.kpiSummaryData = transformKPISummaryData(_KPISummaryData);
+            ManageScenariosService.getAnalysisElementByCubeName($scope.selectedComparedView.id, 'OUTCOME').then(function(_kpiComparedElementCube) {
+                $scope.kpiComparedElementId = _kpiComparedElementCube.id;
+                ReportsService.getSummary($scope.kpiComparedElementId, $scope.kpiViewId).then(function(_KPIComparedSummaryData) {
+                    $scope.kpiComparedSummaryData = transformKPISummaryData(_KPIComparedSummaryData);
+                    _.each($scope.kpiSummaryData, function(v, i) {
+                        v.incremental = Math.abs(v.total - $scope.kpiComparedSummaryData[i].total);
+                        v.percent = v.incremental / $scope.kpiComparedSummaryData[i].total;
+                        if (v.incremental >= 0) {
+                            v.direction = "increase";
+                        } else {
+                            v.direction = "decrease";
+                        }
+                    });
+                });
             });
-            $scope.chartData.push(chartSubData);
         });
     },
+    // transform kpi summary data
+    transformKPISummaryData = function(_KPISummaryData) {
+        var tmpKPISummaryData = _.pairs(_KPISummaryData[0]).slice(1,6);
+        var kpiSummaryData = [];
+        _.each(tmpKPISummaryData, function(v,i){
+            var kpiSummaryDatum = {};
+            kpiSummaryDatum.id = i+1;
+            kpiSummaryDatum.title=v[0];
+            kpiSummaryDatum.total=v[1];
+            kpiSummaryData.push(kpiSummaryDatum);
+        });
+        return kpiSummaryData;
+    },
+    // initalte the kpi view
+    initiateKPIModel = function() {
+        $scope.kpiViewId = $scope.kpiView.id;
+        $scope.kpiViewData = $scope.kpiView;
+        $scope.kpiViewName = $scope.kpiView.name;
+
+        $scope.kpiAdded = PivotMetaService.setUpAddedLevels($scope.kpiView.columns.concat($scope.kpiView.rows));
+        $scope.kpiMembersList = PivotMetaService.generateMembersList($scope.kpiDimensions);
+        $scope.kpiAddedFilters = PivotMetaService.getAddedFilters($scope.kpiView.filters, $scope.kpiDimensions);
+        $scope.kpiCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.kpiAddedFilters, $scope.kpiDimensions, $scope.kpiView);
+
+        getKPISummary();
+    },
+    // get spend summary data through API
     getSpendSummary= function() {
-        ReportsService.getSummary(48, 10).then(function(_spendSummaryData) {
-            console.log('spend summary data: ', _spendSummaryData);
+        ReportsService.getSummary($scope.spendElementId, $scope.spendViewId).then(function(_spendSummaryData) {
+            $scope.spendSummaryData = _spendSummaryData;
+            ManageScenariosService.getAnalysisElementByCubeName($scope.selectedComparedView.id, 'TOUCHPOINT').then(function(_spendComparedElementCube) {
+                $scope.spendComparedElementId = _spendComparedElementCube.id;
+                ReportsService.getSummary($scope.spendComparedElementId, $scope.spendViewId).then(function(_spendComparedSummaryData) {
+                    $scope.spendComparedSummaryData = _spendComparedSummaryData;
+                    transformSpendSummaryData($scope.spendSummaryData, $scope.spendComparedSummaryData);
+                });
+            });
         });
     },
+    // transform spend summary data
+    transformSpendSummaryData = function(_spendSummaryData, _spendComparedSummaryData) {
+        var spendData = {};
+        spendData.header = {};
+        spendData.header.title = 'Total Spend';
+        spendData.header.total = _spendSummaryData[0].Spend;
+        spendData.header.incremental = Math.abs(_spendSummaryData[0].Spend - _spendComparedSummaryData[0].Spend);
+        spendData.header.percent = spendData.header.incremental / _spendComparedSummaryData[0].Spend;
+        if (spendData.header.incremental >= 0) {
+            spendData.header.direction = "increase";
+        } else {
+            spendData.header.direction = "decrease";
+        }
+
+        spendData.body = [];
+        _.each(_spendSummaryData, function(v,i) {
+            if(i > 0) {
+                var spendDatum = {};
+                spendDatum.id = i-1;
+                spendDatum.children = [];
+                var spendDatumChild = {};
+                spendDatumChild.id = 0;
+                spendDatumChild.title = '';
+                spendDatumChild.total = '';
+                spendDatumChild.incremental = '';
+                spendDatumChild.percent = '';
+                spendDatumChild.direction = '';
+                spendDatum.children.push(spendDatumChild);
+                _.each(_.pairs(v), function(v1, i1){
+                    spendDatumChild = {};
+                    spendDatumChild.id = i1+1;
+                    spendDatumChild.title = v1[0];
+                    spendDatumChild.total = v1[1];
+                    spendDatumChild.incremental = v1[1] - _.pairs(_spendComparedSummaryData[i])[i1][1];
+                    spendDatumChild.percent = spendDatumChild.incremental / _.pairs(_spendComparedSummaryData[i])[i1][1];
+                    if (spendDatumChild.incremental >= 0) {
+                        spendDatumChild.direction = "increase";
+                    } else {
+                        spendDatumChild.direction = "decrease";
+                    }
+                    spendDatumChild.chart = {};
+                    spendDatumChild.chart.results = parseFloat((v1[1] / _spendSummaryData[0].Spend) * 100).toFixed(1);
+                    spendDatumChild.chart.compared = parseFloat((_.pairs(_spendComparedSummaryData[i])[i1][1] / _spendComparedSummaryData[0].Spend) * 100).toFixed(1);
+                    spendDatum.children.push(spendDatumChild);
+                });
+                spendData.body.push(spendDatum);
+            }
+        });
+        $scope.spendData = spendData;
+        getChartData();
+    },
+    // initiate spend view, get kpi cube, get spend summary and kpi summary,
     initiateSpendModel = function(cubeMeta) {
         PivotMetaService.initModel(cubeMeta).then(function(result) {
             var foundView = _.find(result.viewsList, function(view){ return view.id === result.view.id; });
@@ -61,93 +178,65 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.spendAddedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
             $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, result.dimensions, result.view);
 
-            $scope.isSynced = "off";
-
-            // kpi view
-            getKPICube();
+            $scope.isSynced = "on";
 
             // spend summary
             getSpendSummary();
 
-            // kpi summary
-            getKPISummary();
+            // kpi cube
+            getKPICube();
         });
     },
-    getKPICube = function() {
-        ManageScenariosService.getAnalysisElementByCubeName($scope.scenario.id, 'OUTCOME').then(function(KPICube) {
-            $scope.kpiCubeMeta = KPICube.cubeMeta;
-            $scope.kpiCubeId = KPICube.cubeMeta.id;
-            return getKPIMeta();
-        })
-    },
-    getKPIMeta = function() {
-        MetaDataService.buildDimensionsTree($scope.kpiCubeId).then(function(_KPIDimensions) {
-            $scope.kpiDimensions = _KPIDimensions;
-            getKPIView();
+    // get the data for spend summary chart
+    getChartData = function() {
+        $scope.chartData = [];
+        _.each($scope.spendData.body, function(v) {
+            var chartSubData = {};
+            chartSubData.id = v.id;
+            chartSubData.name = v.category;
+            chartSubData.data = [];
+            _.each(v.children, function(v1) {
+                if (_.has(v1, 'chart')) {
+                    v1.chart.categoryId = v.id;
+                    v1.chart.id = v1.id;
+                    v1.chart.colorId = ++cnt;
+                    v1.chart.category = v1.title;
+                    chartSubData.data.push(v1.chart);
+                }
+            });
+            $scope.chartData.push(chartSubData);
         });
-    },
-    getKPIView = function() {
-        ManageAnalysisViewsService.getViewRelatedBy($scope.spendViewId, $scope.kpiCubeId).then(function(_KPIView) {
-            if (_KPIView.id === null) {
-                return PivotMetaService.createEmptyView($scope.kpiDimensions, $scope.kpiCubeMeta, $scope.spendViewId).then(function(_KPINewView) {
-                    $scope.kpiView = _KPINewView;
-                });
-            } else {
-                $scope.kpiView = _KPIView
-            }
-            initiateKPIModel();
-        });
-    },
-    getKPISummary = function() {
-        ReportsService.getSummary(61, 98).then(function(_KPISummaryData) {
-            console.log('kPI summary data: ', _KPISummaryData);
-        });
-    },
-    initiateKPIModel = function() {
-        $scope.kpiViewId = $scope.kpiView.id;
-        $scope.kpiViewData = $scope.kpiView;
-        $scope.kpiViewName = $scope.kpiView.name;
-
-        $scope.kpiAdded = PivotMetaService.setUpAddedLevels($scope.kpiView.columns.concat($scope.kpiView.rows));
-        $scope.kpiMembersList = PivotMetaService.generateMembersList($scope.kpiDimensions);
-        $scope.kpiAddedFilters = PivotMetaService.getAddedFilters($scope.kpiView.filters, $scope.kpiDimensions);
-        $scope.kpiCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.kpiAddedFilters, $scope.kpiDimensions, $scope.kpiView);
     },
     // init function
     init = function() {
-        // scope variables
+        // view scope variables
         $scope.saveAs = false;
         $scope.rename = false;
 
+        // spend view scope variables
+        $scope.spendAdded = {};
+        $scope.spendAddedFilters = {};
+        $scope.spendCategorizedValue = [];
+        $scope.spendViewData = {};
+
+        // compared analysis element scope variables
         $scope.comparedViewList = angular.copy(Scenarios);
         $scope.comparedViewList.unshift(Scenario.referenceScenario);
         $scope.comparedViewList[0].title = $scope.comparedViewList[0].name;
         $scope.selectedComparedView = $scope.comparedViewList[0];
 
-        $scope.spendDatumHeader  = resultsData.spendData.header;
-        $scope.chartData         = [];
+        // spend chart scope variables
+        $scope.chartData = [];
 
-        // spend cube
+        // spend cube scope varaibles
         $scope.spendCubeId = spendCubeMeta.id;
         initiateSpendModel(spendCubeMeta);
 
+        // set height for results page
         angular.element('.Scenario').css('height', 'auto');
-        getChartData();
-    }, renameView = function(cubeId, view) { // rename the view
-        ManageAnalysisViewsService.renameView(view.id, cubeId, view.name).then(function(response) {
-            _.each($scope.spendViewsList, function(item) {
-                if(item.id === response.id) {
-                    item.name = response.name;
-                }
-            });
-        });
     };
 
-    // returns list of all the views in the current cube
-    $scope.getViewsList = function() {
-        return $scope.spendViewsList;
-    };
-    // open the modal for the list of all views
+    // open the modal for the list of all spend views
     $scope.openAllViewsModal = function() {
         var dialog = DialogService.openLightbox('views/modal/pivot_builder_all_views.tpl.html', 'pivotBuilderAllViewsCtrl',
             {viewsList: $scope.spendViewsList, selectedViewId: $scope.spendViewData.id, e2e: $scope.e2e},
@@ -157,13 +246,36 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.loadView($scope.spendCubeId, data);
         });
     };
-    // load view
+    // returns list of all the views in the current cube
+    $scope.getViewsList = function() {
+        return $scope.spendViewsList;
+    };
+    // delete a view
+    $scope.deleteView = function(cubeId, viewId) {
+        ManageAnalysisViewsService.deleteView(viewId, cubeId).then(function() {
+            $scope.spendViewsList = _.reject($scope.spendViewsList, function(view) { return view.id === viewId; });
+            $scope.draftView = false;
+        });
+    };
+    // load spend view and render kpi view
     $scope.loadView = function(cubeId, viewId) {
         ManageAnalysisViewsService.getView(viewId, cubeId).then(function(view) {
+            if($scope.draftView) {
+                var draftId;
+                _.each($scope.spendViewsList, function(listItem) {
+                    if(listItem.name.substring(0, 8) === 'Draft - ') {
+                        draftId = listItem.id;
+                    }
+                });
+                if(viewId !== draftId) {
+                    $scope.deleteView($scope.spendCubeId, draftId);
+                }
+            }
+
             $scope.spendViewId = view.id;
             $scope.spendViewData = view;
             $scope.spendAdded = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
-            $scope.spendMembersList = PivotMetaService.getAddedFilters(view.filters, $scope.spendDimensions);
+            $scope.spendMembersList = PivotMetaService.generateMembersList($scope.spendDimensions);
             $scope.spendAddedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.spendDimensions);
             $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, $scope.spendDimensions, view);
             getKPIView();
@@ -173,78 +285,103 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     $scope.revertView = function() {
         if($scope.draftView) {
             var originalViewName = $scope.spendViewData.name.substring(8);
-            var originalViewId = _.find($scope.spendViewsList, function(view) { return originalViewName === view.name; }).id;
-            var draftViewId = $scope.spendViewData.id;
+            var originalViewId = _.find($scope.spendViewsList, function(_view) { return originalViewName === _view.name; }).id;
 
             // load view automatically deletes draft view if a non-draft is loaded
             $scope.loadView($scope.spendCubeId, originalViewId);
         }
     };
-    // start save as process
-    $scope.startSaveAs = function() {
-        $scope.saveAsName = $scope.spendViewData.name;
-        $scope.saveAs = true;
-        $scope.rename = false;
-    };
-    // submit save as process
-    $scope.submitSaveAs = function() {
-        $scope.spendViewData.name = $scope.saveAsName;
-
-        if($scope.rename) { // if submitting
-            $scope.draftView = false;
-            renameView($scope.spendCubeId, $scope.spendViewData);
-        } else if (!$scope.rename) {
-            $scope.spendViewData.id = null;
-            $scope.createView($scope.spendCubeId, $scope.spendViewData, $scope.spendViewsList);
+    // create a new view
+    $scope.createView = function(cubeId, view, viewList) {
+        var i;
+        $scope.spendViewsList = viewList;
+        // remove conflicting elements from the view
+        view.id = null;
+        for(i = 0; i < view.filters.length; i++) {
+            view.filters[i].id = null;
         }
 
-        $scope.cancelSaveAs();
+        return ManageAnalysisViewsService.createView(view, cubeId).then(function(view) {
+            $scope.spendViewData = angular.copy(view);
+            $scope.spendAdded = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
+            $scope.spendViewsList.unshift(view);
+            $scope.spendAddedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.spendDimensions);
+            return view;
+        });
     };
-    // cancel the save as process
-    $scope.cancelSaveAs = function() {
-        $scope.rename = false;
-        $scope.saveAs = false;
+    // save the changes in spend and kpi view
+    $scope.saveView = function() {
+        if($scope.draftView) {
+            var originalViewName = $scope.spendViewData.name.substring(8);
+            var originalViewId = _.find($scope.spendViewsList, function(_view) { return originalViewName === _view.name; }).id;
+            var draftViewId = $scope.spendViewData.id;
+
+            $scope.spendViewData.name = originalViewName;
+            $scope.spendViewData.id = originalViewId;
+            $scope.updateView($scope.spendCubeId, $scope.spendViewData).then(function(view) {
+                $scope.spendViewData = view;
+                $scope.spendAdded = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
+                // $scope.updateView($scope.kpiCubeId, $scope.kpiViewData).then(function(_view) {
+                //     $scope.kpiViewData = _view;
+                // });
+            });
+            $scope.deleteView($scope.spendCubeId, draftViewId);
+        }
     };
-    // start the rename process
-    $scope.startRename = function() {
-        $scope.saveAsName = $scope.spendViewData.name;
-        $scope.saveAs = true;
-        $scope.rename = true;
-    };
-    // get KPI raw data
-    $scope.getKpiData = function() {
-        return resultsData.kpiData;
-    };
-    // get spend raw data
-    $scope.getSpendDataBody = function() {
-        return resultsData.spendData.body;
+    // save the draft view
+    $scope.saveDraftView = function() {
+        if(!$scope.draftView) {
+            $scope.draftView = true;
+            var draftView = angular.copy($scope.spendViewData);
+            draftView.name = 'Draft - ' + draftView.name;
+            $scope.createView($scope.spendCubeId, draftView, $scope.spendViewsList).then(function(response) {
+                console.log('create view: ', response);
+            });
+        } else {
+            $scope.updateView($scope.spendCubeId, $scope.spendViewData).then(function(response) {
+                console.log('update view: ', response);
+            });
+        }
     };
     // set compared view
     $scope.loadComparedView = function(_viewId) {
-        _.find($scope.comparedViewList, function(v) {
-            if(v.id === _viewId) { $scope.selectedComparedView = v };
+        _.find($scope.comparedViewList, function(_view) {
+            if(_view.id === _viewId) { $scope.selectedComparedView = _view; }
         });
+        // get spend summary
+        getSpendSummary();
+        // get kpi summary
+        getKPISummary();
     };
     // open the modal for the list of all views
     $scope.openAllComparedViewsModal = function() {
+        var dialog = DialogService.openLightbox('views/modal/compared_all_views.tpl.html', 'comparedAllViewsCtrl',
+            {viewsList: $scope.comparedViewList, selectedViewId: $scope.selectedComparedView.id, e2e: $scope.e2e},
+            {windowSize: 'lg', windowClass: 'pivotBuilderAllViewsModal'});
+
+        dialog.result.then(function(_replacedComparedViewId) {
+            $scope.loadComparedView(_replacedComparedViewId);
+        });
     };
     // add sign to KPI summary
     $scope.addSign = function(direction) {
         return direction === 'increase' ? '+' : '-';
     };
-    // add arrow to KPI summary
+    // add arrow icon to KPI summary
     $scope.addArrow = function(direction) {
         return direction === 'increase' ? 'arrow-up' : 'arrow-down';
     };
     // open/dismiss filters selection modal
     $scope.spendFiltersModal = function(category) {
         var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
-            {cat: category, addedFilters: $scope.spendAddedFilters, viewData: $scope.spendViewData, dimensions: $scope.spendDimensions},
+            {cat: category, addedFilters: $scope.spendAddedFilters, viewData: $scope.spendViewData.rows.concat($scope.spendViewData.columns), dimensions: $scope.spendDimensions},
             {windowSize: 'lg', windowClass: 'filtersSelectionModal'});
 
         dialog.result.then(function(data) {
             $scope.spendAddedFilters = data;
+            $scope.spendViewData.filters = PivotMetaService.updateFilters($scope.spendDimensions, $scope.spendAddedFilters, $scope.spendMembersList, $scope.spendViewData.filters);
             $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, $scope.spendDimensions, $scope.spendViewData);
+            $scope.saveDraftView();
         });
     };
     // open/dismiss filters selection modal
@@ -262,144 +399,4 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     // fire off init function
     init();
 
-}]).factory('resultsData', function () {
-    return {
-        "kpiData": [
-            {
-                "id": 1,
-                "title": "awareness",
-                "incremental": {
-                    "number": 432,
-                    "unit": "K"
-                },
-                "total": "3.6M",
-                "percent": "+12%",
-                "direction": "increase"
-            }, {
-                "id": 2,
-                "title": "web visit",
-                "incremental": {
-                    "number": 770,
-                    "unit": "K"
-                },
-                "total": "10.3M",
-                "percent": "+7.5%",
-                "direction": "increase"
-            }, {
-                "id": 3,
-                "title": "sales",
-                "incremental": {
-                    "current": "$",
-                    "number": 3.5,
-                    "unit": "M"
-                },
-                "total": "$90M",
-                "percent": "+3.9%",
-                "direction": "increase"
-            }, {
-                "id": 4,
-                "title": "Revenue",
-                "incremental": {
-                    "current": "$",
-                    "number": 76,
-                    "unit": "K"
-                },
-                "total": "$19M",
-                "percent": "+0.4%",
-                "direction": "increase"
-            }, {
-                "id": 5,
-                "title": "Profit",
-                "incremental": {
-                    "current": "$",
-                    "number": 2.1,
-                    "unit": "M"
-                },
-                "total": "$60M",
-                "percent": "-3.5%",
-                "direction": "decrease"
-            },
-        ],
-        "spendData": {
-            header: {
-                id: 0,
-                title: 'Total Spend',
-                total: '$10M',
-                incremental: '+$5M',
-                percent: '+100%',
-                direction: 'increase'
-            },
-            body: [
-                {
-                    id: 0,
-                    category: "Local-National",
-                    children: [
-                        {
-                            id: 0,
-                            title: '',
-                            total: '',
-                            incremental: '',
-                            percent: '',
-                            direction: ''
-                        }, {
-                            id: 1,
-                            title: 'Local Spend',
-                            total: '$12M',
-                            incremental: '+$2.5M',
-                            percent: '+12%',
-                            direction: 'increase',
-                            chart: {
-                                results: 47,
-                                compared: 42
-                            }
-                        }, {
-                            id: 2,
-                            title: 'National Spend',
-                            total: '$17M',
-                            incremental: '+$3.7M',
-                            percent: '+7.5%',
-                            direction: 'increase',
-                            chart: {
-                                results: 53,
-                                compared: 58
-                            }
-                        }]
-                }, {
-                    id: 1,
-                    category: "Product-Brand",
-                    children: [
-                        {
-                            id: 0,
-                            title: '',
-                            total: '',
-                            incremental: '',
-                            percent: '',
-                            direction: ''
-                        }, {
-                            id: 1,
-                            title: 'Product Spend',
-                            total: '$6M',
-                            incremental: '+$1.3M',
-                            percent: '+22.4%',
-                            direction: 'increase',
-                            chart: {
-                                results: 55,
-                                compared: 57
-                            }
-                        }, {
-                            id: 2,
-                            title: 'Brand Spend',
-                            total: '$9.3M',
-                            incremental: '+$300K',
-                            percent: '+13.1%',
-                            direction: 'increase',
-                            chart: {
-                                results: 45,
-                                compared: 43
-                            }
-                        }]
-                }
-            ]
-        }
-    };
-});
+}]);

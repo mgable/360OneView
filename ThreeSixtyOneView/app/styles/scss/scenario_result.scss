@@ -186,24 +186,6 @@
                         overflow: hidden;
                         text-overflow: ellipsis;
                     }
-
-                    .srSaveAsBox {
-                        display: inline-block;
-                        width: 210px;
-                        border: 1px solid $blue;
-                        background-color: white;
-
-                        input {
-                            width: 155px;
-                            height: 24px;
-                            border: 0;
-                            outline: 0;
-                        }
-
-                        .fa-check {
-                            color: $blue;
-                        }
-                    }
                 }
             }
         }
@@ -215,7 +197,7 @@
 
                 .srControlBar {
                     font-size: 16px;
-                    padding: 16px 0;
+                    padding: 15px 0;
 
                     .srSaveMenu {
                         font-size: 14px;
@@ -417,7 +399,7 @@
                 .srSec {
                     margin-bottom: 10px 0;
                     &:last-child {
-                        margin-bottom: 0;
+                        margin-bottom: 15px 0;
                     }
 
                     .srSecTitle {
@@ -485,6 +467,9 @@
                 .kpi-title {
                     color: #666;
                     font-size: 20px;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
                     font-weight: 700;
                     text-transform: capitalize;
                     margin: 0 0;
@@ -596,6 +581,7 @@
 					}
 					tbody {
 						tr {
+                            &:first-child { height: 20px; }
                             -webkit-transition:0.15s linear all;
                             -moz-transition:0.15s linear all;
                             -o-transition:0.15s linear all;
