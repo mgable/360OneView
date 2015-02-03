@@ -165,17 +165,13 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     sheet.isPaintSuspended(false);
                 },
                 cellValueChanged = function(dirtyCell) {
-                    if(dirtyCell.oldValue === dirtyCell.newValue) return;
-                    var i,
-                        rowHeaders = [],
-                        colHeaders = [];
+                    // if old and new values are the same OR if old value is not a number, then don't do anything
+                    if(dirtyCell.oldValue === dirtyCell.newValue || !angular.isNumber(dirtyCell.oldValue)) return;
 
-                    for(i = 0; i < $scope.colHeaderCnt; i++) {
-                        rowHeaders.push(sheet.getValue(dirtyCell.row, i));
-                    }
-
-                    for(i = 0; i < $scope.rowHeaderCnt; i++) {
-                        colHeaders.push(sheet.getValue(i, dirtyCell.col));
+                    // if the new value is not a number, discard the change and put the old value in place
+                    if(!angular.isNumber(dirtyCell.newValue)) {
+                        sheet.setValue(dirtyCell.row, dirtyCell.col, dirtyCell.oldValue);
+                        return;
                     }
 
                     var cellObject = false;
@@ -183,8 +179,8 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     _.each($scope.pivotTableObject[dirtyCell.row - $scope.rowHeaderCnt], function(column, columnIndex) {
                         var match = true;
                         if(!cellObject) {
-                            _.each(column.key.value.coordinates.columnAddresses, function(columnAddress) {
-                                if(match && colHeaders.indexOf(columnAddress.cellValue.specification.members[0].label) < 0) {
+                            _.each(column.key.value.coordinates.columnAddresses, function(columnAddress, columnAddressIndex) {
+                                if(match && columnAddress.cellValue.specification.members[0].label !== sheet.getValue(columnAddressIndex, dirtyCell.col)) {
                                     match = false;
                                 }
                             });
