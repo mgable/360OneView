@@ -86,10 +86,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 			{windowSize: 'lg', windowClass: 'filtersSelectionModal'});
 
 		dialog.result.then(function(data) {
-			$scope.addedFilters = data;
-
-			$scope.viewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedFilters, $scope.membersList, $scope.viewData.filters);
-			$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.views.currentView);
+			$scope.updateFilterValues(data);
+			
 			$scope.saveDraftView();
 			$scope.applyView();
 		});
