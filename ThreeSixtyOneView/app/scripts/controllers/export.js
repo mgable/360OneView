@@ -95,7 +95,12 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 			// console.log($scope.exportViewData);
 			ExportResourceService.requestExport($scope.exportElementId, $scope.exportViewData).then(function(response) {
 				if(response.status === 'EXPORT_REQUEST_ACCEPTED') {
-					$scope.trackProgress();
+					$scope.statusMessage = 'Initializing the export process ...';
+					$scope.isExportFailed = false;
+					$scope.isDownloadCompleted = false;
+					$timeout(function() {
+						$scope.trackProgress();
+					}, 500)
 				} else {
 					console.log(response);
 				}
@@ -104,7 +109,6 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 
 		// tracks the export preparation progress and request download upon completion
 		$scope.trackProgress = function() {
-			$scope.statusMessage = 'Initializing the export process ...';
 			ExportResourceService.checkStatus($scope.exportElementId).then(function(response) {
 				if(response.status === 'INIT') {
 					$scope.statusMessage = 'Initializing the export process ...';
@@ -119,10 +123,15 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 					return;
 				} else if(response.status === 'FAILED') {
 					$scope.statusMessage = 'Export failed, please try again.';
+					$scope.isExportFailed = true;
+					$scope.cancelExport();
 					return;
+				} else if(response.status === 'IN_PROGRESS') {
+					$scope.statusMessage = 'Preparing the file to download ...';
 				} else {
 					console.log(response);
 				}
+				
 				$scope.progressPromise = $timeout(function() {
 					$scope.trackProgress();
 				}, 2000);
@@ -148,7 +157,7 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 			$scope.statusMessage = '';
 			$scope.isExportInProgress = false;
 			$scope.isDownloadReady = false;
-			$scope.isDownloadCompleted = false;
+			// $scope.isDownloadCompleted = false;
 		};
 
 		init();

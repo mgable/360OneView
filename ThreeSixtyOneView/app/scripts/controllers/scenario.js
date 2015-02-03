@@ -162,6 +162,14 @@ angular.module('ThreeSixtyOneView')
             });
         };
 
+        // update filter values after any change made to them in the filters modal
+        $scope.updateFilterValues = function(newFilterData) {
+            $scope.addedFilters = newFilterData;
+
+            $scope.viewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedFilters, $scope.membersList, $scope.viewData.filters);
+            $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.views.currentView);
+        };
+
         // save the draft view
         $scope.saveDraftView = function() {
             if(!$scope.draftView) {
