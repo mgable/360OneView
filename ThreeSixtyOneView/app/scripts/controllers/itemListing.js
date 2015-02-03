@@ -38,23 +38,23 @@ angular.module('ThreeSixtyOneView')
         },
         setMasterScenario = function(scenario){
             scenario.isMaster = true;
+        },
+        getScenarioElements = function(id){
+            return  ManageScenariosService.get(id);
         };
 
         // API
         // Click handler interface
         $scope.selectItem = function(item){
-            $scope.showDetails(item);
-            $scope.getScenarioElements(item.id);
+            // the return is for unit tests, it does nothing in the UI
+            return $scope.getDetails(item, getScenarioElements).then(function(data){
+                item.scenarioElements = data;
+                $scope.showDetails(item);
+            });
         };
 
         $scope.gotoScenarioCreate = function(){
             DialogService.openCreateScenario(Project, Scenarios);
-        };
-
-        $scope.getScenarioElements = function(id){
-            ManageScenariosService.get(id).then(function(response){
-                $scope.scenarioElements = response;
-            });
         };
 
         $scope.isScenarioTitleUnique = function(scenario) {
@@ -89,17 +89,9 @@ angular.module('ThreeSixtyOneView')
             // the master project is always a favorite and not in the favorite REST call (yet?)
             var master = _.find(Projects, function(elem){return elem.isMaster;});
             if (master) { FavoritesService.addFavorite(master.id, $scope.CONFIG.favoriteType); }
-
-            // Highlight first item
-            //$scope.selectItem($scope.selectedItem);
         },
         getScenarios = function(id){
             return ScenarioService.get(id);
-        },
-        getDetails = function(item, model){
-            return model(item.id).then(function(response){
-                return response;
-            });
         },
         getProject = function(){
             return $scope.selectedItem;
@@ -109,7 +101,7 @@ angular.module('ThreeSixtyOneView')
         // click handler interface
         $scope.selectItem = function(item){
             // the return is for unit tests, it does nothing in the UI
-            return getDetails(item, getScenarios).then(function(data){
+            return $scope.getDetails(item, getScenarios).then(function(data){
                 item.scenarios = data;
                 $scope.showDetails(item);
             });
@@ -134,7 +126,10 @@ angular.module('ThreeSixtyOneView')
     }]).controller("ListingViewCtrl", ["$scope", "$rootScope", "$state", "SortAndFilterService", "DialogService", "GotoService", "CONFIG", "EVENTS", "FavoritesService", "$stateParams", function($scope, $rootScope, $state, SortAndFilterService, DialogService, GotoService, CONFIG, EVENTS, FavoritesService, $stateParams){
 
         var selectFirstItem = function(){
-            $scope.selectItem(SortAndFilterService.getData()[0]);
+            var firstItem = SortAndFilterService.getData()[0];
+            if(firstItem){
+                $scope.selectItem(firstItem);
+            }
         };
 
         $scope.init = function(_data_, fn){
@@ -149,8 +144,6 @@ angular.module('ThreeSixtyOneView')
             $scope.getProject = fn;
 
             // tray variables
-            $scope.showScenario = false;
-            $scope.viewAll = 'View All';
             $scope.trayActions = CONFIG.view[$state.current.name].trayActions;
 
             _.extend($scope.CONFIG, $stateParams);
@@ -169,6 +162,11 @@ angular.module('ThreeSixtyOneView')
             selectFirstItem();
         };
 
+        $scope.getDetails = function(item, model){
+            return model(item.id).then(function(response){
+                return response;
+            });
+        };
 
         $scope.goto = function(evt, where, item, id){
             if (evt && evt.stopPropagation){ evt.stopPropagation(); }
@@ -202,7 +200,6 @@ angular.module('ThreeSixtyOneView')
 
         $scope.setFilter = function(type, item, forceFilter) {
             SortAndFilterService.setFilter(type, item, forceFilter);
-            selectFirstItem();
         };
 
         $scope.toggleFavorite = function(evt, item){
@@ -226,23 +223,17 @@ angular.module('ThreeSixtyOneView')
             }
         };
 
-        $scope.toggleShowScenarios = function() {
-            $scope.showScenario = !$scope.showScenario;
-            $scope.viewAll = ($scope.showScenario) ? 'View Less' : 'View All';
-        };
+        // tray event listeners
+        $scope.$on(EVENTS.filter, function(){
+            selectFirstItem();
+        });
 
-        // tray event listners
         $scope.$on(EVENTS.trayCopy, function(evt, action, data){
             if (data){
                 DialogService[action](data);
             } else {
                 DialogService.notify("ERROR: no scenarios", "There are no scenarios to copy.");
             }
-        });
-
-
-        $scope.$on(EVENTS.noop, function(event, action){
-            DialogService[action]("Functionality TBD", "The functionality of this control is TDB");
         });
 
     }]);

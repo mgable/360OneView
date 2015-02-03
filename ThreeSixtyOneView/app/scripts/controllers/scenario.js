@@ -6,8 +6,6 @@ angular.module('ThreeSixtyOneView')
 .controller("ScenarioCtrl", ["$scope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "ptData", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService", "AnalyticCalculationsService", 
     function($scope, $timeout, Project, Scenario, ScenarioAnalysisElements, ptData, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService, AnalyticCalculationsService) {
 
-        console.info("the scenrario");
-        console.info(Scenario);
         var init = function() {
                 $scope.draftView = false;
                 $scope.added = {};
