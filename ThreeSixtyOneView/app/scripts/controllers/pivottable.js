@@ -163,6 +163,41 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     addRowStyle();
 
                     sheet.isPaintSuspended(false);
+                },
+                cellValueChanged = function(dirtyCell) {
+                    if(dirtyCell.oldValue === dirtyCell.newValue) return;
+                    var i,
+                        rowHeaders = [],
+                        colHeaders = [];
+
+                    for(i = 0; i < $scope.colHeaderCnt; i++) {
+                        rowHeaders.push(sheet.getValue(dirtyCell.row, i));
+                    }
+
+                    for(i = 0; i < $scope.rowHeaderCnt; i++) {
+                        colHeaders.push(sheet.getValue(i, dirtyCell.col));
+                    }
+
+                    var cellObject = false;
+
+                    _.each($scope.pivotTableObject[dirtyCell.row - $scope.rowHeaderCnt], function(column, columnIndex) {
+                        var match = true;
+                        if(!cellObject) {
+                            _.each(column.key.value.coordinates.columnAddresses, function(columnAddress) {
+                                if(match && colHeaders.indexOf(columnAddress.cellValue.specification.members[0].label) < 0) {
+                                    match = false;
+                                }
+                            });
+                            if(match) {
+                                cellObject = column.key.value;
+                            }
+                        }
+                    });
+
+                    cellObject.oldvalue = dirtyCell.oldValue;
+                    cellObject.newvalue = dirtyCell.newValue;
+
+                    console.log(cellObject);
                 };
 
             // This is public because it needs to be called from the template
@@ -184,6 +219,21 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
 
                     // $scope.pivotTableData is located in ScenarioCtrl
                     $scope.spread.updateSheet($scope.pivotTableData);
+                    spread.bind($.wijmo.wijspread.Events.CellChanged, function (event, data) { 
+                    // console.log(data);
+                        var row = data.row,
+                            col = data.col; 
+                        if(row === undefined || col === undefined) { 
+                            return; 
+                        } 
+
+                        if(sheet.hasPendingChanges(row, col)) { 
+                            var dirtyDataArray = sheet.getDirtyCells(row, col); 
+                            if (dirtyDataArray.length > 0) { 
+                                cellValueChanged(dirtyDataArray[0]); 
+                            } 
+                        } 
+                    });
                 }
             };
 

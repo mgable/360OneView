@@ -208,7 +208,8 @@ angular.module('ThreeSixtyOneView')
             PivotService.getSlice(element.id, view.id).then(function(response) {
                 var numCols = view.columns.length,
                     numRows = view.rows.length;
-                $scope.spread.updateSheet(response, numCols, numRows);
+                $scope.pivotTableObject = response.original;
+                $scope.spread.updateSheet(response.formatted, numCols, numRows);
             });
         };
 

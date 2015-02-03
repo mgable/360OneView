@@ -252,9 +252,11 @@
 							label: dimension.label
 						},
 						hierarchy: {
-							id: level.hierarchyId,
-							name: level.hierarchyName,
-							label: level.hierarchyLabel
+							id: -1
+						// },hierarchy: {
+						// 	id: level.hierarchyId,
+						// 	name: level.hierarchyName,
+						// 	label: level.hierarchyLabel
 						},
 						level: {
 							id: level.id,
