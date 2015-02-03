@@ -23,6 +23,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     // get kpi cube
     getKPICube = function() {
         ManageScenariosService.getAnalysisElementByCubeName($scope.scenario.id, 'OUTCOME').then(function(KPICube) {
+            $scope.kpiElementId = KPICube.id;
             $scope.kpiCubeMeta = KPICube.cubeMeta;
             $scope.kpiCubeId = KPICube.cubeMeta.id;
             return getKPIMeta();
@@ -50,18 +51,21 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     },
     // get kpi summary data
     getKPISummary = function() {
-        ReportsService.getSummary(61, 98).then(function(_KPISummaryData) {
+        ReportsService.getSummary($scope.kpiElementId, $scope.kpiViewId).then(function(_KPISummaryData) {
             $scope.kpiSummaryData = transformKPISummaryData(_KPISummaryData);
-            ReportsService.getSummary(61, 191).then(function(_KPIComparedSummaryData) {
-                $scope.kpiComparedSummaryData = transformKPISummaryData(_KPIComparedSummaryData);
-                _.each($scope.kpiSummaryData, function(v, i) {
-                    v.incremental = v.total - $scope.kpiComparedSummaryData[i].total;
-                    v.percent = v.incremental / $scope.kpiComparedSummaryData[i].total;
-                    if (v.incremental >= 0) {
-                        v.direction = "increase";
-                    } else {
-                        v.direction = "decrease";
-                    }
+            ManageScenariosService.getAnalysisElementByCubeName($scope.selectedComparedView.id, 'OUTCOME').then(function(_kpiComparedElementCube) {
+                $scope.kpiComparedElementId = _kpiComparedElementCube.id;
+                ReportsService.getSummary($scope.kpiComparedElementId, $scope.kpiViewId).then(function(_KPIComparedSummaryData) {
+                    $scope.kpiComparedSummaryData = transformKPISummaryData(_KPIComparedSummaryData);
+                    _.each($scope.kpiSummaryData, function(v, i) {
+                        v.incremental = Math.abs(v.total - $scope.kpiComparedSummaryData[i].total);
+                        v.percent = v.incremental / $scope.kpiComparedSummaryData[i].total;
+                        if (v.incremental >= 0) {
+                            v.direction = "increase";
+                        } else {
+                            v.direction = "decrease";
+                        }
+                    });
                 });
             });
         });
@@ -89,14 +93,19 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         $scope.kpiMembersList = PivotMetaService.generateMembersList($scope.kpiDimensions);
         $scope.kpiAddedFilters = PivotMetaService.getAddedFilters($scope.kpiView.filters, $scope.kpiDimensions);
         $scope.kpiCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.kpiAddedFilters, $scope.kpiDimensions, $scope.kpiView);
+
+        getKPISummary();
     },
     // get spend summary data through API
     getSpendSummary= function() {
-        ReportsService.getSummary(48, 10).then(function(_spendSummaryData) {
+        ReportsService.getSummary($scope.spendElementId, $scope.spendViewId).then(function(_spendSummaryData) {
             $scope.spendSummaryData = _spendSummaryData;
-            ReportsService.getSummary(64, 10).then(function(_spendComparedSummaryData) {
-                $scope.spendComparedSummaryData = _spendComparedSummaryData;
-                transformSpendSummaryData($scope.spendSummaryData, $scope.spendComparedSummaryData);
+            ManageScenariosService.getAnalysisElementByCubeName($scope.selectedComparedView.id, 'TOUCHPOINT').then(function(_spendComparedElementCube) {
+                $scope.spendComparedElementId = _spendComparedElementCube.id;
+                ReportsService.getSummary($scope.spendComparedElementId, $scope.spendViewId).then(function(_spendComparedSummaryData) {
+                    $scope.spendComparedSummaryData = _spendComparedSummaryData;
+                    transformSpendSummaryData($scope.spendSummaryData, $scope.spendComparedSummaryData);
+                });
             });
         });
     },
@@ -106,7 +115,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         spendData.header = {};
         spendData.header.title = 'Total Spend';
         spendData.header.total = _spendSummaryData[0].Spend;
-        spendData.header.incremental = _spendSummaryData[0].Spend - _spendComparedSummaryData[0].Spend;
+        spendData.header.incremental = Math.abs(_spendSummaryData[0].Spend - _spendComparedSummaryData[0].Spend);
         spendData.header.percent = spendData.header.incremental / _spendComparedSummaryData[0].Spend;
         if (spendData.header.incremental >= 0) {
             spendData.header.direction = "increase";
@@ -141,8 +150,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                         spendDatumChild.direction = "decrease";
                     }
                     spendDatumChild.chart = {};
-                    spendDatumChild.chart.results = parseFloat((v1[1] / spendData.header.total) * 100).toFixed(1);
-                    spendDatumChild.chart.compared = parseFloat((_.pairs(_spendComparedSummaryData[i])[i1][1] / spendData.header.total) * 100).toFixed(1);
+                    spendDatumChild.chart.results = parseFloat((v1[1] / _spendSummaryData[0].Spend) * 100).toFixed(1);
+                    spendDatumChild.chart.compared = parseFloat((_.pairs(_spendComparedSummaryData[i])[i1][1] / _spendComparedSummaryData[0].Spend) * 100).toFixed(1);
                     spendDatum.children.push(spendDatumChild);
                 });
                 spendData.body.push(spendDatum);
@@ -171,18 +180,16 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
 
             $scope.isSynced = "on";
 
-            // kpi view
-            getKPICube();
-
             // spend summary
             getSpendSummary();
 
-            // kpi summary
-            getKPISummary();
+            // kpi cube
+            getKPICube();
         });
     },
     // get the data for spend summary chart
     getChartData = function() {
+        $scope.chartData = [];
         _.each($scope.spendData.body, function(v) {
             var chartSubData = {};
             chartSubData.id = v.id;
@@ -198,16 +205,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 }
             });
             $scope.chartData.push(chartSubData);
-        });
-    },
-    // rename the view
-    renameView = function(cubeId, view) {
-        ManageAnalysisViewsService.renameView(view.id, cubeId, view.name).then(function(response) {
-            _.each($scope.spendViewsList, function(_view) {
-                if(_view.id === response.id) {
-                    _view.name = response.name;
-                }
-            });
         });
     },
     // init function
@@ -256,7 +253,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     // delete a view
     $scope.deleteView = function(cubeId, viewId) {
         ManageAnalysisViewsService.deleteView(viewId, cubeId).then(function() {
-            $scope.viewsList = _.reject($scope.spendViewsList, function(view) { return view.id === viewId; });
+            $scope.spendViewsList = _.reject($scope.spendViewsList, function(view) { return view.id === viewId; });
             $scope.draftView = false;
         });
     };
@@ -278,7 +275,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.spendViewId = view.id;
             $scope.spendViewData = view;
             $scope.spendAdded = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
-            $scope.spendMembersList = PivotMetaService.getAddedFilters(view.filters, $scope.spendDimensions);
+            $scope.spendMembersList = PivotMetaService.generateMembersList($scope.spendDimensions);
             $scope.spendAddedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.spendDimensions);
             $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, $scope.spendDimensions, view);
             getKPIView();
@@ -333,7 +330,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     };
     // save the draft view
     $scope.saveDraftView = function() {
-        console.log('HERE', $scope.draftView);
         if(!$scope.draftView) {
             $scope.draftView = true;
             var draftView = angular.copy($scope.spendViewData);
@@ -352,6 +348,10 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         _.find($scope.comparedViewList, function(_view) {
             if(_view.id === _viewId) { $scope.selectedComparedView = _view; }
         });
+        // get spend summary
+        getSpendSummary();
+        // get kpi summary
+        getKPISummary();
     };
     // open the modal for the list of all views
     $scope.openAllComparedViewsModal = function() {
