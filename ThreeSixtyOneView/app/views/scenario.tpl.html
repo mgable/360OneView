@@ -11,7 +11,7 @@
 			</ul>
 		</div>
 		<div class="button-holder">
-			<span ui-sref="Scenario.calculate" ng-class="{disabled: scenarioState === 'in_progress' || scenarioState === 'SUCCESSFUL'}"><icon type="tachometer"></icon>simulate</span>
+			<span ui-sref="Scenario.calculate" ng-class="{disabled: disableSimulateBtn()}"><icon type="tachometer"></icon>simulate</span>
 		</div>
 	</div>
 
