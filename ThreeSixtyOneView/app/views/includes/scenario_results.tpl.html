@@ -13,7 +13,7 @@
                     </li>
                     <hr>
                     <li>
-                        <div ng-click="openAllComparedViewsModal()"><icon type="folder-open-o"></icon>All Views</div>
+                        <div ng-click="openAllComparedViewsModal()"><icon type="folder-open-o"></icon>All Scenarios</div>
                     </li>
                 </div>
             </ul>
@@ -27,12 +27,7 @@
                     <div id="resultViewsHeader" class="srTitle" expand-collapse-control target-area="#resultViews" tab-id="1">
                         <div class="srRenameArea">
                             <icon type="eye"></icon>
-                            <div class="srTitleText" ng-hide="saveAs">{{spendViewData.name}}</div>
-                            <div class="srSaveAsBox" ng-show="saveAs">
-                                <input type="text" ng-model="saveAsName" ui-keydown="{'esc': 'cancelSaveAs()', 'enter': 'submitSaveAs()'}">
-                                <span class="clickable" ng-click="submitSaveAs()"><icon type="check"></icon></span>
-                                <span class="clickable" ng-click="cancelSaveAs()"><icon type="remove"></icon></span>
-                            </div>
+                            <div class="srTitleText" ng-hide="saveAs" tooltip="{{spendViewData.name}}">{{spendViewData.name}}</div>
                         </div>
                     </div>
                 </tab-heading>
@@ -54,9 +49,6 @@
                                             </li>
                                             <li>
                                                 <div class="srViewSaveMenuItem" ng-click="revertView();"><icon type="undo"></icon>Revert</div>
-                                            </li>
-                                            <li>
-                                                <div class="srViewSaveMenuItem" ng-click="startRename()"><icon type="pencil"></icon>Rename</div>
                                             </li>
                                         </div>
                                     </ul>
@@ -128,14 +120,13 @@
         <h3 class="results-panel-title">KPI Summary</h3>
         <div class="result-panel-body well">
             <div class="row">
-                <div class="kpi-container col-md-5ths col-xs-5ths" ng-repeat="kpiDatum in getKpiData()">
-                    <h4 class="kpi-title">{{kpiDatum.title}}</h4>
-                    <h2 class="kpi-incremental kpi-{{kpiDatum.direction}}">
-                        <icon class="kpi-arrow" type="{{addArrow(kpiDatum.direction)}}"></icon>{{kpiDatum.incremental.current}}{{kpiDatum.incremental.number}}
-                        <span class="kpi-unit">{{kpiDatum.incremental.unit}}</span>
+                <div class="kpi-container col-md-5ths col-xs-5ths" ng-repeat="kpiSummaryDatum in kpiSummaryData">
+                    <h4 class="kpi-title" tooltip="{{kpiSummaryDatum.title}}">{{kpiSummaryDatum.title}}</h4>
+                    <h2 class="kpi-incremental kpi-{{kpiSummaryDatum.direction}}">
+                        <icon class="kpi-arrow" type="{{addArrow(kpiSummaryDatum.direction)}}"></icon>${{kpiSummaryDatum.incremental | nrFormat}}
                     </h2>
-                    <span class="kpi-total">{{kpiDatum.total}}</span>
-                    <span class="kpi-percent kpi-{{kpiDatum.direction}}">{{kpiDatum.percent}}</span>
+                    <span class="kpi-total">${{kpiSummaryDatum.total | nrFormat}}</span>
+                    <span class="kpi-percent kpi-{{kpiSummaryDatum.direction}}">{{kpiSummaryDatum.percent | percentage}}</span>
                 </div>
             </div>
         </div>
@@ -148,19 +139,19 @@
                 <div class="spend-container col-md-6 col-sm-6 col-xs-6">
                     <table class="spend-table">
                         <thead>
-                            <tr ng-model="spendDatumHeader">
-                                <th>{{spendDatumHeader.title}}</th>
-                                <th>{{spendDatumHeader.total}}</th>
-                                <th class="spend-{{spendDatumHeader.direction}}">{{spendDatumHeader.incremental}}</th>
-                                <th class="spend-{{spendDatumHeader.direction}}">{{spendDatumHeader.percent}}</th>
+                            <tr ng-model="spendData.header">
+                                <th>{{spendData.header.title}}</th>
+                                <th>{{spendData.header.total | nrFormat}}</th>
+                                <th class="spend-{{spendData.header.direction}}">{{spendData.header.incremental | nrFormat}}</th>
+                                <th class="spend-{{spendData.header.direction}}">{{spendData.header.percent | percentage}}</th>
                             </tr>
                         </thead>
-                        <tbody ng-repeat="spendDatumBody in getSpendDataBody()">
+                        <tbody ng-repeat="spendDatumBody in spendData.body">
                             <tr ng-repeat="spendDatumRow in spendDatumBody.children">
                                 <td>{{spendDatumRow.title}}</td>
-                                <td>{{spendDatumRow.total}}</td>
-                                <td class="spend-{{spendDatumRow.direction}}">{{spendDatumRow.incremental}}</td>
-                                <td class="spend-{{spendDatumRow.direction}}">{{spendDatumRow.percent}}</td>
+                                <td>{{spendDatumRow.total | nrFormat}}</td>
+                                <td class="spend-{{spendDatumRow.direction}}">{{spendDatumRow.incremental | nrFormat}}</td>
+                                <td class="spend-{{spendDatumRow.direction}}">{{spendDatumRow.percent | percentage}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -168,7 +159,7 @@
                 <div class="spend-container col-md-6 col-sm-6 col-xs-6">
                     <div class="legend">
                         <img src="images/legend.png" alt="legend">
-                        <span>{{selectedView.title}} </span>
+                        <span>{{selectedComparedView.title}} </span>
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-xs-6 chartContainer" ng-repeat="chartDatum in chartData">
