@@ -2,7 +2,7 @@
 
 'use strict';
 
-angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$timeout", "$q", function($scope, $timeout, $q) {
+angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$timeout", "$q", "PivotService", function($scope, $timeout, $q, PivotService) {
             var sheet = {},
                 spread = {},
                 setDefaultWidth = function(){
@@ -194,6 +194,9 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     cellObject.newvalue = dirtyCell.newValue;
 
                     console.log(cellObject);
+                    PivotService.updateCell($scope.selectedScenarioElement.id, $scope.viewData.id, cellObject).then(function(response) {
+                        console.log(response);
+                    });
                 };
 
             // This is public because it needs to be called from the template
