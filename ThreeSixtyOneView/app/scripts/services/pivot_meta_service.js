@@ -52,8 +52,8 @@
 
 	// aggregate filter values based on categories
 	this.getCategorizeValues = function(dimension, items) {
-		console.info("getCategorizeValues");
-		console.info(dimension, items);
+		// console.info("getCategorizeValues");
+		// console.info(dimension, items);
 		var i, result;
 
 		var countValues = function(category) {

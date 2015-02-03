@@ -12,15 +12,18 @@ html {
 
 body {
 	@extend .baseFont;
-  overflow-y: scroll;
-  overflow-x: hidden;
   background-color: transparent;
   position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 .app {
-	max-width: $app_max_width;
-	min-width: $app_min_width;
-	margin: $app_top_margin auto 60px;
-	overflow-y: hidden;
+  margin: 105px auto 0;
+  width: calc(100% - 40px);
+  height: calc(100% - 160px);
+  box-sizing: content-box;
+  max-width: $app_max_width;
+  min-width: $app_min_width;
 }

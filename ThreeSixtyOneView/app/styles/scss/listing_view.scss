@@ -136,6 +136,8 @@
 				top: 0;
 				z-index: 10;
 				background-color: $ms-lightGray;
+				overflow-x: hidden;
+				overflow-y: scroll;
 				@include drop-shadow(-2px, 0, 6px, 0, 0.3);
 
 				.tray-holder {
@@ -217,15 +219,8 @@
 							padding: 0;
 
 							.relatedItems-holder {
-								height: 200px;
+								height: auto;
 								padding: 10px;
-								max-height:300px;
-								overflow-x: hidden;
-								overflow-y: hidden;
-								&.show {
-									overflow-y: scroll;
-									height: 300px;
-								}
 								.field-label {
 									margin: 0 0 5px;
 									font-weight: bold;
