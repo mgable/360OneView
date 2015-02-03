@@ -9,7 +9,7 @@
  */
  angular.module('ThreeSixtyOneView.services')
  .service('PivotMetaService', ['MetaDataService', 'ManageAnalysisViewsService', function PivotMetaService(MetaDataService, ManageAnalysisViewsService) {
- 	var self = this;
+	var self = this;
 	// create the temporary filter object from the view data
 	this.getAddedFilters = function(filters, dimensions) {
 		var currentDimension;
@@ -117,7 +117,9 @@
 				id: branch.id,
 				dimensionId: _dimensionId,
 				hierarchyId: hierarchyId,
-				levelId: levelId
+				levelId: levelId,
+				name: branch.name,
+				label: branch.label
 			};
 
 			_.each(branch.members, function(_member) {
@@ -146,8 +148,7 @@
 
 	// create an empty view with no rows and columns and ALL for filters
 	this.createEmptyView = function(dimensions, cubeMeta, spendViewId) {
-		var i,
-			newColumn = {dimension:{id:dimensions[dimensions.length-1].dimensionId},hierarchy:{id:-1},level:{id:dimensions[dimensions.length-1].members[0].levelId}},
+		var newColumn = {dimension:{id:dimensions[dimensions.length-1].dimensionId},hierarchy:{id:-1},level:{id:dimensions[dimensions.length-1].members[0].levelId}},
 			newRow = {dimension:{id:dimensions[0].dimensionId},hierarchy:{id:-1},level:{id:dimensions[0].members[dimensions[0].members.length-1].levelId}},
 			columns = [],
 			rows = [],
@@ -203,7 +204,7 @@
 		});
 
 			return viewId;
-		};
+	};
 
 	// initialize the dimensions, views list, and the default view
 	this.initModel = function(cubeMeta) {
@@ -242,15 +243,28 @@
 		_.each(dimensions, function(dimension, dimensionIndex) {
 			var dimensionId = dimension.id,
 				values = self.getCategorizeValues(dimension, addedFilters[dimension.label]),
+				level = _.findWhere(dimension.members, {levelId: membersList[dimensionId][values.label[0]].levelId}),
 				newFilter = {
 					id: viewFilters[dimensionIndex].id,
 					value: {
 						specification: {}
 					},
 					scope: {
-						dimension: {id: membersList[dimensionId][values.label[0]].dimensionId},
-						hierarchy: {id: membersList[dimensionId][values.label[0]].hierarchyId},
-						level: {id: membersList[dimensionId][values.label[0]].levelId}
+						dimension: {
+							id: dimension.id,
+							name: dimension.name,
+							label: dimension.label
+						},
+						hierarchy: {
+							id: level.hierarchyId,
+							name: level.hierarchyName,
+							label: level.hierarchyLabel
+						},
+						level: {
+							id: level.id,
+							name: level.name,
+							label: level.label
+						}
 					}
 				};
 
@@ -260,8 +274,12 @@
 			} else {
 				newFilter.value.specification.type = 'Absolute';
 				newFilter.value.specification.members = [];
-				_.each(values.label, function(item, index) {
-					newFilter.value.specification.members.push({id: membersList[dimensionId][item].id});
+				_.each(values.label, function(item) {
+					newFilter.value.specification.members.push({
+						id: membersList[dimensionId][item].id,
+						name: membersList[dimensionId][item].name,
+						label: membersList[dimensionId][item].label
+					});
 				});
 			}
 

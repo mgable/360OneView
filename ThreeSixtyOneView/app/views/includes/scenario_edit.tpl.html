@@ -154,7 +154,7 @@
             </tab-heading>
         	<div id="exportBody" class="importExport hidden">
                 <div class="tabTitle">Exporting Data</div>
-                <div ng-hide="exportInProgress">
+                <div ng-hide="isExportInProgress">
                     <div class="pbSec">
                         <div class="pbSecTitle">Dimensions</div>
                         <div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="exportViewData.rows" tabindex="-1">
@@ -174,19 +174,23 @@
                     </div>
                 </div>
 
-                <div ng-show="exportInProgress" class="prepareContainer">
-                    <div ng-hide="downloadReady">
+                <div ng-show="isExportInProgress" class="prepareContainer">
+                    <div ng-hide="isDownloadCompleted">
+                        <icon type="refresh" class="fa-spin"></icon>{{statusMessage}}
+                    </div>
+                    <div ng-show="isDownloadCompleted" class="successMsg"><icon type="thumbs-o-up"></icon>You successfully exported the data.</div>
+                    <!-- <div ng-hide="isDownloadReady">
                         <p>Preparing file for download</p>
                         <progressbar value="progressPercentage"></progressbar>
                         <p class="percentage">{{progressPercentage}}%</p>
                     </div>
-                    <p ng-show="downloadReady">Your file is ready</p>
+                    <p ng-show="isDownloadReady">Your file is ready</p> -->
                 </div>
 
                 <div class="btnGroup">
-                    <ms-button type="cancel" action="cancelExport()" label="Cancel" ng-disabled="!exportInProgress"></ms-button>
-                    <ms-button type="submit" action="requestExport()" label="Export" ng-hide="exportInProgress"></ms-button>
-                    <a ng-href="downloadLink" download="sample.html" ng-show="downloadReady" class="btn active">DOWNLOAD</a>
+                    <ms-button type="cancel" action="cancelExport()" label="Cancel" ng-disabled="!isExportInProgress"></ms-button>
+                    <ms-button type="submit" action="requestExport()" label="Export" ng-hide="isExportInProgress"></ms-button>
+                    <!-- <a ng-href="downloadLink" download="sample.html" ng-show="isDownloadReady" class="btn active">DOWNLOAD</a> -->
                 </div>
 
                 <div class="pbSliderCollapse" >

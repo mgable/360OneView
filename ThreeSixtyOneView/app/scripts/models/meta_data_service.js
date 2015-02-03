@@ -56,7 +56,7 @@ angular.module('ThreeSixtyOneView.services')
 							_member.members = response[count++].members;
 						});
 					});
-
+					
 					return dimensions;
 				});
 			});
