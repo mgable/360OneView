@@ -84,7 +84,9 @@ var breadcrumb = "ol.breadcrumb",
 			return element.all(by.repeater(scenarios));
 		},
 		getFirstScenario: function(){
-			return element(by.repeater(scenarios).row(0));
+			var allScenarios = element.all(by.repeater(scenarios)),
+				firstScenarioElement = allScenarios.first().element(by.css("span"));
+			return firstScenarioElement;
 		},
 
 		testQuery: "?e2e=true",

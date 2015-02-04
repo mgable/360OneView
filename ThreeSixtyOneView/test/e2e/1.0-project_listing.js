@@ -3,7 +3,7 @@
 var specs = require('./0.0-specs.js'),
 	funcs = require('./0.1-project_functions.js');
 
-xdescribe('Project Listing Page: ', function() {
+describe('Project Listing Page: ', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
@@ -67,11 +67,11 @@ xdescribe('Project Listing Page: ', function() {
 
 		it("should put the selected item in the tray", function(){
 			var counter = 0,
-				maxItemsToTest = 5,
+				maitemsToTest = 5,
 				limit;
 			specs.getItemCount().then(function(itemCount){
 				itemCount.getText().then(function(totalNumberOfItems){
-					limit = Math.min(maxItemsToTest, totalNumberOfItems);
+					limit = Math.min(maitemsToTest, totalNumberOfItems);
 					specs.getItems().each(function(el) {
 						if (counter++ < limit) {
 							el.click();
@@ -511,7 +511,9 @@ xdescribe('Project Listing Page: ', function() {
 
 			funcs.selectMasterProject();
 			scenario = specs.getFirstScenario();
+
 			scenario.click();
+			browser.waitForAngular();
 
 			expect(browser.getLocationAbsUrl()).toContain("/#/scenario");
 		});
