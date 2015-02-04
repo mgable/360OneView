@@ -181,7 +181,7 @@ describe('Controllers: ', function() {
             FavoritesService = _FavoritesService_;
 
             $state.current.name = "Dashboard";
-            signature = [ 'this', 'init', 'getDetails', 'goto', 'showDetails', 'isActiveItem', 'getData', 'getSorter', 'getCount', 'setFilter', 'toggleFavorite', 'isFavorite', 'action', 'selectItem', 'isScenarioTitleUnique', 'CONFIG', 'data', 'selectedItem', 'getProject', 'trayActions', 'project', 'scenarios', 'hasAlerts' ];
+            signature = [ 'gotoScenarioCreate', 'this', 'init', 'getDetails', 'goto', 'showDetails', 'isActiveItem', 'getData', 'getSorter', 'getCount', 'setFilter', 'toggleFavorite', 'isFavorite', 'action', 'selectItem', 'isScenarioTitleUnique', 'CONFIG', 'data', 'selectedItem', 'getProject', 'trayActions', 'project', 'scenarios', 'hasAlerts' ];
             
             spyOn(scope, "$on");
             spyOn(SortAndFilterService, "filter");

@@ -4,11 +4,11 @@ var specs = require('./0.0-specs.js'),
 	funcs = require('./0.1-project_functions.js');
 
 	var dashboardUrl, projectId;
-	//TEMP data - remove in production
-	//var dashboardUrl, projectId = "d62424317f333a33b590fd00852c124a"; dashboardUrl = specs.getDashboardUrl(projectId);
+	// TEMP data - remove in production
+	var dashboardUrl, projectId = "c54c1f988ff93015914ed79f695b60b5"; dashboardUrl = specs.getDashboardUrl(projectId);
 
 
-describe('Project Dashboard', function() {
+xdescribe('Project Dashboard', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
@@ -51,7 +51,7 @@ describe('Project Dashboard', function() {
 			testScenarionDescription = "My new test scenario description.",
 
 			noScenarios = "a[data-ms-id='noScenariosAlert']", 
-			name = "//input[@data-ms-id='ScenarioCreate.inputName']",
+			name = "scenario.title",
 			description = "//input[@data-ms-id='ScenarioCreate.inputDescription']",
 			baseScenario = "//label[@data-ms-id='ScenarioCreate.inputBaseScenario']",
 			submit = "//button[@data-ms-id='ScenarioCreate.submit']",
@@ -68,7 +68,7 @@ describe('Project Dashboard', function() {
 			baseScenarioInputField = element(by.model(baseScenarioInput)),
 
 			trayCopyButton = element(by.xpath(trayCopy)),
-			inputName = element(by.xpath(name)),
+			inputName = element(by.model(name)),
 			inputDescription = element(by.xpath(description)),
 			inputbaseScenario = element(by.xpath(baseScenario)),
 			submitButton = element(by.xpath(submit)),
@@ -230,7 +230,7 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		xdescribe("Filter functions: ", function(){
+		describe("Filter functions: ", function(){
 
 			it("should filter by favorite", function(){
 				var startItemCount = specs.getItemCount();
@@ -253,11 +253,11 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		xdescribe("Edit functions: ", function(){
+		describe("Edit functions: ", function(){
 			var first,
 				newName = "My Renamed Scenario - " + Date.now();
 
-			xit("should rename a scenario", function(){
+			it("should rename a scenario", function(){
 				var currentName;
 
 				funcs.hoverAndClick(specs.renameButton);
@@ -287,13 +287,13 @@ describe('Project Dashboard', function() {
 			});
 		})
 
-		xdescribe("Breadcrumbs: ", function(){
+		describe("Breadcrumbs: ", function(){
 			it("should have the correct label", function(){
 				expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + testFileName.toUpperCase());
 			});
 		});
 
-		xdescribe("Change base scenario: ", function(){
+		describe("Change base scenario: ", function(){
 
 			it("should change the base scenario", function(){
 				var scenarios, scenario;
@@ -322,12 +322,12 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		xdescribe("Scenario Elements: ", function(){
-			var scenarioElements = "element in scenarioElements",
+		describe("Scenario Elements: ", function(){
+			var scenarioElements = "element in selectedItem.scenarioElements",
 				scenarioEditScenarioElements = "div[data-ms-id='ScenarioEdit.scenarioElements'] .dropdown-toggle",
 				allScenarioElements = element.all(by.repeater(scenarioElements)),
-				firstScenarioElement = allScenarioElements.first().element(by.css("a")),
-				lastScenarioElement =   allScenarioElements.last().element(by.css("a")),
+				firstScenarioElement = allScenarioElements.first().element(by.css("span")),
+				lastScenarioElement =   allScenarioElements.last().element(by.css("span")),
 				selectedScenarioElement = element(by.css(scenarioEditScenarioElements));
 
 			it("should click through to scenario edit with the correct scenario element selected", function(){
@@ -354,7 +354,7 @@ describe('Project Dashboard', function() {
 		});
 	});
 
-	xdescribe("Edit controls on master project's master scenario", function(){
+	describe("Edit controls on master project's master scenario", function(){
 		beforeEach(
 			function(){
 				browser.driver.manage().window().setSize(1280, 1024);

@@ -4,12 +4,12 @@
 	.noEdit {
 		cursor: pointer;
 		display: inline-block;
+		width: 100%;
 		.title {
 			display: inline-block;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
-			width: 290px;
 		}
 		.action {
 			visibility: hidden;
@@ -29,7 +29,7 @@
 			color: #AAAAAA;
 		}
 		input {
-			width: 233px;
+			width: 225px;
 		}
 	}
 }
