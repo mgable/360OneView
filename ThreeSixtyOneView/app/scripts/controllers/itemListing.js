@@ -126,11 +126,11 @@ angular.module('ThreeSixtyOneView')
     }]).controller("ListingViewCtrl", ["$scope", "$rootScope", "$state", "SortAndFilterService", "DialogService", "GotoService", "CONFIG", "EVENTS", "FavoritesService", "$stateParams", function($scope, $rootScope, $state, SortAndFilterService, DialogService, GotoService, CONFIG, EVENTS, FavoritesService, $stateParams){
 
         var selectFirstItem = function(){
-            var firstItem = SortAndFilterService.getData()[0];
-            if(firstItem){
-                $scope.selectItem(firstItem);
-            }
-        };
+                var firstItem = SortAndFilterService.getData()[0];
+                if(firstItem){
+                    $scope.selectItem(firstItem);
+                }
+            };
 
         $scope.init = function(_data_, fn){
             var currentView = CONFIG.view[$state.current.name],
@@ -190,6 +190,12 @@ angular.module('ThreeSixtyOneView')
             return SortAndFilterService.getData();
         };
 
+        $scope.isMasterProjectScenario = function(item){
+            if (item){
+                return (item.isMaster && $state.current.name === "Dashboard");
+            }
+        };
+
         $scope.getSorter = function(column) {
             return SortAndFilterService.getSorter(column);
         };
@@ -200,6 +206,10 @@ angular.module('ThreeSixtyOneView')
 
         $scope.setFilter = function(type, item, forceFilter) {
             SortAndFilterService.setFilter(type, item, forceFilter);
+        };
+
+        $scope.create = function(action, data) {
+            $rootScope.$broadcast(EVENTS[action], data);
         };
 
         $scope.toggleFavorite = function(evt, item){
