@@ -161,7 +161,7 @@ angular.module('ThreeSixtyOneView.filters')
     }]).filter('nrFormat', [function() {
         return function(number) {
             var abs;
-            if (number !== void 0) {
+            if (number !== undefined) {
                 abs = Math.abs(number);
                 if (abs >= Math.pow(10, 12)) {
                     number = (number / Math.pow(10, 12)).toFixed(1) + "T";
@@ -171,10 +171,12 @@ angular.module('ThreeSixtyOneView.filters')
                     number = (number / Math.pow(10, 6)).toFixed(1) + "M";
                 } else if (abs < Math.pow(10, 6) && abs >= Math.pow(10, 3)) {
                     number = (number / Math.pow(10, 3)).toFixed(1) + "K";
-                } else if (abs < Math.pow(10, 3) && abs >= Math.pow(10, 0) || abs == 0) {
-                    number = number;
+                } else if (abs < Math.pow(10, 3) && abs >= Math.pow(10, 0)) {
+                    number = number.toFixed(1);
                 } else if (abs < Math.pow(10, 0) && abs > 0) {
                     number = number.toFixed(2);
+                } else {
+                    number = number;
                 }
                 return number;
             }
