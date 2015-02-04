@@ -21,7 +21,8 @@
 			.display{
 				height: 90%;
 				width: calc(100% - 360px);
-				overflow-y: scroll;
+				overflow-y: auto;
+				overflow-x: hidden;
 				padding-right: 0;
 				padding-left: 15px;
 
@@ -129,7 +130,6 @@
 			.tray {
 				width: 360px;
 				height: 100%;
-				overflow: hidden;
 				position: absolute;
 				padding:0 10px;
 				right: 0;
@@ -137,7 +137,7 @@
 				z-index: 10;
 				background-color: $ms-lightGray;
 				overflow-x: hidden;
-				overflow-y: scroll;
+				overflow-y: auto;
 				@include drop-shadow(-2px, 0, 6px, 0, 0.3);
 
 				.tray-holder {
