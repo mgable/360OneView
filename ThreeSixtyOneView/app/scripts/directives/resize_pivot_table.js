@@ -42,7 +42,7 @@ angular.module('ThreeSixtyOneView.directives')
                     }
 
                     $rootScope.$on(EVENTS.heightChanged, function(event, data){
-
+                        console.log('pivot table height');
                         pivotTableHeight = $window.innerHeight - data - 20 - 40;
 
                         var rowViewCnt = parseInt(pivotTableHeight / 40);
