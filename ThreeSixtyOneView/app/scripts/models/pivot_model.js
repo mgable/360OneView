@@ -67,7 +67,7 @@ angular.module('ThreeSixtyOneView.services')
 	            };
 	            formPivotTable(tableTree, new Array());
 
-	            return pivotTable;
+	            return {formatted: pivotTable, original: response};
 	        }
 
 	        return response;

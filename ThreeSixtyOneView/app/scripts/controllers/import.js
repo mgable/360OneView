@@ -39,8 +39,10 @@ angular.module('ThreeSixtyOneView')
 					$scope.checkStatus();
 				} else if (response.status === 'EMPTY_FILE_IMPORTED') {
 					$scope.statusMessage = 'Uploaded file is empty.';
+					$scope.isImportFailed = true;
 				} else if (response.status === 'FILE_UPLOAD_FAILED') {
 					$scope.statusMessage = 'File upload failed, please try again.';
+					$scope.isImportFailed = true;
 				} else {
 					console.log(response);
 				}
@@ -59,6 +61,10 @@ angular.module('ThreeSixtyOneView')
 						$scope.statusMessage = 'Initializing the import process ...';
 					} else if(response.status === 'IN_PROGRESS') {
 						$scope.statusMessage = 'Processing the imported file ...';
+					} else if (response.status === 'FAILED') {
+						$scope.statusMessage = 'Processing the uploaded file failed, please try again.';
+						$scope.isImportFailed = true;
+						return;
 					} else {
 						console.log(response);
 					}
@@ -77,6 +83,8 @@ angular.module('ThreeSixtyOneView')
 			$scope.isFileSelected = false;
 			$scope.isImportStarted = false;
 			$scope.isImportCompleted = false;
+			$scope.isImportFailed = false;
+			$scope.isFileInvalid = false;
 			$scope.statusMessage = '';
 		};
     }]);

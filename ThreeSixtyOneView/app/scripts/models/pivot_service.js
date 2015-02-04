@@ -18,4 +18,11 @@ angular.module('ThreeSixtyOneView.services')
 			});
 		};
 
+		this.updateCell = function(elementId, viewId, cellData) {
+			var additionalPath = 'updateCell';
+			return this.resource.post(cellData, this.config, {elementId: elementId, viewId: viewId}, additionalPath).then(function (response) {
+				return response;
+			});
+		};
+
 }]);
