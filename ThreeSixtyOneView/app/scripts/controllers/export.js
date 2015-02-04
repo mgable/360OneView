@@ -100,7 +100,7 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 					$scope.isDownloadCompleted = false;
 					$timeout(function() {
 						$scope.trackProgress();
-					}, 500)
+					}, 1000)
 				} else {
 					console.log(response);
 				}
