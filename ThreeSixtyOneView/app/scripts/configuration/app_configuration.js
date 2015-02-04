@@ -58,9 +58,6 @@ angular.module('ThreeSixtyOneView.config')
                 "maximumCharacterLimit": 256
             }
         },
-        "session": {
-            // session level data here
-        },
         "view": {
             "Dashboard": {
                 "orderBy": 'modifiedOn',

@@ -5,8 +5,8 @@ $sprite: "../images/360sprite.png";
 $logo: "../images/logo_pic_sprite.png";
 $users_img: "../images/users_pic_sprite.png";
 
-// Fonts
-$sansFontFamily: "proxima-nova", arial, sans-serif;
+// // Fonts
+// $sansFontFamily: "proxima-nova", arial, sans-serif;
 
 // action colors
 $mouseover: #8796B4;
@@ -64,7 +64,7 @@ $app_min_width: 1160px;
 $app_top_margin: 50px;
 $navigation_min_width: 1024px;
 $content_min_width: 1080px;
-$body_font_size: 13px;
+
 
 // mixins
 @mixin drop-shadow($t,$r,$b,$l,$o) {

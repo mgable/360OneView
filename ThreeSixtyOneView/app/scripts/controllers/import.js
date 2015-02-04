@@ -1,49 +1,90 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .controller('importCtrl', ['$scope', '$interval', 'DialogService', 'ImportResourceService', function($scope, $interval, DialogService, ImportResourceService) {
-		$scope.importObj = {uploadProgress:0, fileSelected:false, invalidFile: false, importClicked: false, uploadFinished: false};
-		$scope.selectedFile = {name: 'Select a file to import'};
-		$scope.stopTime;
+    .controller('importCtrl', ['$scope', '$interval', 'ImportResourceService', '$timeout', function($scope, $interval, ImportResourceService, $timeout) {
+		var init = function() {
+			$scope.selectedFile = {};
+			$scope.selectedFileName = 'Select a file to import';
+			$scope.isFileSelected = false;
+			$scope.cancelButtonLabel = 'Cancel';
+		};
 
-		$scope.changeFileName = function(event) {
+		init();
+
+		$scope.newFileSelected = function(event) {
 			var files = event.target.files;
 			if (files.length > 0) {
 				$scope.selectedFile = files[0];
-				$scope.importObj.fileSelected = true;
-				$scope.importObj.invalidFile = !($scope.selectedFile.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+				$scope.selectedFileName = $scope.selectedFile.name;
+				$scope.isFileSelected = true;
+				$scope.isFileInvalid = !($scope.selectedFile.type.toLowerCase() === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 
 			} else {
-				$scope.selectedFile = {name: 'Select a file to import'};
-				$scope.importObj.fileSelected = false;
-				$scope.importObj.invalidFile = false;
+				$scope.selectedFile = {};
+				$scope.selectedFileName = 'Select a file to import';
+				$scope.isFileSelected = false;
+				$scope.isFileInvalid = false;
 			}
 			$scope.$apply(); 
 		};
 
-		$scope.initStatus = function() {
-			$interval.cancel($scope.stopTime);
-			$scope.importObj = {uploadProgress:0, fileSelected:false, invalidFile: false, importClicked: false, uploadFinished: false};
-			$scope.selectedFile = {name: 'Select a file to import'};
+		$scope.startUpload = function() {
+			$scope.isImportStarted = true;
+			$scope.isImportCompleted = false;
+			$scope.statusMessage = 'Uploading file ...';
+
+			ImportResourceService.uploadFile($scope.selectedScenarioElement.id, $scope.selectedFile).then(function(response) {
+				if(response.status === 'IMPORT_REQUEST_ACCEPTED') {
+					$scope.statusMessage = 'Upload successful.';
+					$scope.checkStatus();
+				} else if (response.status === 'EMPTY_FILE_IMPORTED') {
+					$scope.statusMessage = 'Uploaded file is empty.';
+					$scope.isImportFailed = true;
+				} else if (response.status === 'FILE_UPLOAD_FAILED') {
+					$scope.statusMessage = 'File upload failed, please try again.';
+					$scope.isImportFailed = true;
+				} else {
+					console.log(response);
+				}
+			});
 		};
 
-		$scope.uploadFile = function() {
-			$scope.importObj.importClicked = true;
-			
-			var file = $scope.selectedFile;
-			ImportResourceService.uploadFile(file.name, file).then(function(response) {
-				$scope.stopTime = $interval(function(){
-					ImportResourceService.checkStatus($scope.cubeId, 1).then(function(response){
-						if (response.message == 'COMPLETED') {
-							$interval.cancel($scope.stopTime);
-							$scope.importObj.uploadFinished = true;
-							$scope.importObj.uploadProgress = 100;
-							//send out scenario call and refresh table
-						} else {
-							// support later
-						}
-					});	
-				}, 10000);
-			});;
-		}
+		$scope.checkStatus = function() {
+			if($scope.isImportStarted && !$scope.isImportCompleted) {
+				ImportResourceService.checkStatus($scope.selectedScenarioElement.id).then(function(response) {
+					if(response.status === 'COMPLETED') {
+						$scope.statusMessage = 'Import completed.';
+						$scope.isImportCompleted = true;
+						$scope.cancelButtonLabel = 'Reset';
+						return;
+					} else if(response.status === 'INIT') {
+						$scope.statusMessage = 'Initializing the import process ...';
+					} else if(response.status === 'IN_PROGRESS') {
+						$scope.statusMessage = 'Processing the imported file ...';
+					} else if (response.status === 'FAILED') {
+						$scope.statusMessage = 'Processing the uploaded file failed, please try again.';
+						$scope.isImportFailed = true;
+						return;
+					} else {
+						console.log(response);
+					}
+					$scope.statusPromise = $timeout(function() {
+						$scope.checkStatus();
+					}, 2000);
+				});
+			}
+		};
+
+		$scope.cancelUpload = function() {
+			$timeout.cancel($scope.statusPromise);
+			$scope.selectedFile = {};
+			$scope.selectedFileName = 'Select a file to import';
+			$scope.cancelButtonLabel = 'Cancel';
+			$scope.isFileSelected = false;
+			$scope.isImportStarted = false;
+			$scope.isImportCompleted = false;
+			$scope.isImportFailed = false;
+			$scope.isFileInvalid = false;
+			$scope.statusMessage = '';
+		};
     }]);

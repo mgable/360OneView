@@ -18,6 +18,7 @@ angular.module('ThreeSixtyOneView.services')
 
 		this.get = function (projectId, scenarioId){
 			return this.resource.get({"id": projectId}, this.config).then(function(response){
+				self.data = response;
 				if(scenarioId) {
 					return _.findWhere(response, {id: parseInt(scenarioId,10)});
 				} else {
@@ -27,7 +28,21 @@ angular.module('ThreeSixtyOneView.services')
 		};
 
 		this.rename = function(scenario, projectId){
-			return this.put(scenario, {id: projectId}, "name").then(function(response){
+			var additionalPath = "name";
+			return this.put(scenario, {id: projectId}, additionalPath).then(function(response){
+				return response;
+			});
+		};
+
+		this.edit = function(scenario, projectId){
+			var additionalPath = "description";
+			return this.put(scenario, {id: projectId}, additionalPath).then(function(response){
+				return response;
+			});
+		};
+
+		this.getProjectIdByScenarioId = function(scenarioId){
+			return ProjectsService.getProjectIdByScenarioId(scenarioId).then(function(response){
 				return response;
 			});
 		};
@@ -55,5 +70,12 @@ angular.module('ThreeSixtyOneView.services')
 				return results;
 			});
 		};
+
+		// $rootScope.$on(EVENTS.editScenario, function($event, scenario){
+		// 	self.getProjectIdByScenarioId(scenario.id).then(function(project){
+		// 		console.info(scenario);
+		// 		self.edit(scenario, project.uuid)
+		// 	});
+		// });
 
 	}]);

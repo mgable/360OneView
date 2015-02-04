@@ -2,7 +2,7 @@
 
 'use strict';
 
-angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$timeout", "$q", function($scope, $timeout, $q) {
+angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$timeout", "$q", "PivotService", function($scope, $timeout, $q, PivotService) {
             var sheet = {},
                 spread = {},
                 setDefaultWidth = function(){
@@ -163,6 +163,40 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     addRowStyle();
 
                     sheet.isPaintSuspended(false);
+                },
+                cellValueChanged = function(dirtyCell) {
+                    // if old and new values are the same OR if old value is not a number, then don't do anything
+                    if(dirtyCell.oldValue === dirtyCell.newValue || !angular.isNumber(dirtyCell.oldValue)) return;
+
+                    // if the new value is not a number, discard the change and put the old value in place
+                    if(!angular.isNumber(dirtyCell.newValue)) {
+                        sheet.setValue(dirtyCell.row, dirtyCell.col, dirtyCell.oldValue);
+                        return;
+                    }
+
+                    var cellObject = false;
+
+                    _.each($scope.pivotTableObject[dirtyCell.row - $scope.rowHeaderCnt], function(column, columnIndex) {
+                        var match = true;
+                        if(!cellObject) {
+                            _.each(column.key.value.coordinates.columnAddresses, function(columnAddress, columnAddressIndex) {
+                                if(match && columnAddress.cellValue.specification.members[0].label !== sheet.getValue(columnAddressIndex, dirtyCell.col)) {
+                                    match = false;
+                                }
+                            });
+                            if(match) {
+                                cellObject = column.key.value;
+                            }
+                        }
+                    });
+
+                    cellObject.oldvalue = dirtyCell.oldValue;
+                    cellObject.newvalue = dirtyCell.newValue;
+
+                    console.log(cellObject);
+                    PivotService.updateCell($scope.selectedScenarioElement.id, $scope.viewData.id, cellObject).then(function(response) {
+                        console.log(response);
+                    });
                 };
 
             // This is public because it needs to be called from the template
@@ -184,6 +218,21 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
 
                     // $scope.pivotTableData is located in ScenarioCtrl
                     $scope.spread.updateSheet($scope.pivotTableData);
+                    spread.bind($.wijmo.wijspread.Events.CellChanged, function (event, data) { 
+                    // console.log(data);
+                        var row = data.row,
+                            col = data.col; 
+                        if(row === undefined || col === undefined) { 
+                            return; 
+                        } 
+
+                        if(sheet.hasPendingChanges(row, col)) { 
+                            var dirtyDataArray = sheet.getDirtyCells(row, col); 
+                            if (dirtyDataArray.length > 0) { 
+                                cellValueChanged(dirtyDataArray[0]); 
+                            } 
+                        } 
+                    });
                 }
             };
 

@@ -13,6 +13,7 @@ angular.module('ThreeSixtyOneView.services')
 				dimensions[i] = {
 					dimensionId: response.dimensions[i].id,
 					id: response.dimensions[i].id,
+					name: response.dimensions[i].name,
 					label: response.dimensions[i].label,
 					type: response.dimensions[i].type,
 					members: []
@@ -23,8 +24,11 @@ angular.module('ThreeSixtyOneView.services')
 						newMember = {
 							dimensionId: response.dimensions[i].id,
 							hierarchyId: response.dimensions[i].hierarchies[j].id,
+							hierarchyName: response.dimensions[i].hierarchies[j].name,
+							hierarchyLabel: response.dimensions[i].hierarchies[j].label,
 							levelId: response.dimensions[i].hierarchies[j].levels[k].id,
 							id: response.dimensions[i].hierarchies[j].levels[k].id,
+							name: response.dimensions[i].hierarchies[j].levels[k].name,
 							label: response.dimensions[i].hierarchies[j].levels[k].label,
 							leafLevel: false,
 							members: []

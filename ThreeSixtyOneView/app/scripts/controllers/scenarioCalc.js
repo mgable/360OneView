@@ -102,6 +102,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioCalcCtrl', ['$scope', '$
         $scope.scenarioState = NOT_CALCULATED;
         AnalyticCalculationsService.post(Scenario.id).then(function(data) {
             $scope.scenarioState = IN_PROGRESS;
+            $scope.getProgressbarType();
             init();
         });
     };

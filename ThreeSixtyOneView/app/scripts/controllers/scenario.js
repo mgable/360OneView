@@ -3,7 +3,7 @@
 
 'use strict';
 angular.module('ThreeSixtyOneView')
-.controller("ScenarioCtrl", ["$scope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "ptData", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService", "AnalyticCalculationsService", 
+.controller("ScenarioCtrl", ["$scope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "ptData", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService", "AnalyticCalculationsService",
     function($scope, $timeout, Project, Scenario, ScenarioAnalysisElements, ptData, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService, AnalyticCalculationsService) {
 
         var init = function() {
@@ -26,9 +26,8 @@ angular.module('ThreeSixtyOneView')
                 };
                 $scope.scenarioElements = ScenarioAnalysisElements;
 
-                $scope.setScenarioElement(getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) || $scope.scenarioElements[0]);
-                // remove param from path
-
+                // either load the element selected in scenario listing page or TOUCHPOINT related element if none selected
+                $scope.setScenarioElement(!!parseInt($state.params.scenarioElementId) ? getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) : getScenarioElementByCubeName($scope.scenarioElements, 'TOUCHPOINT'));
 
                 // hardcoded data
                 $scope.pivotTableData = ptData.data;
@@ -65,8 +64,11 @@ angular.module('ThreeSixtyOneView')
             getScenarioElementById = function(data, id){
                return  _.findWhere(data, {id: id});
             },
+            getScenarioElementByCubeName = function(_data, _name){
+               return  _.find(_data, function(element) { return element.cubeMeta.name ===_name; });
+            },
             setView = function(currentState){
-                if (AnalyticCalculationsService.isInProgress($scope.scenarioState)){
+                if (AnalyticCalculationsService.isInProgress($scope.scenarioState) || AnalyticCalculationsService.isFailed($scope.scenarioState)){
                     $timeout(function(){$state.go("Scenario.calculate");});
                 }
             };
@@ -90,6 +92,14 @@ angular.module('ThreeSixtyOneView')
                 $state.go("Scenario.results");
             }
         };
+
+        $scope.disableSimulateBtn = function() {
+            if($scope.location === '/edit') {
+                return ($scope.scenarioState === 'in_progress' || $scope.scenarioState === 'SUCCESSFUL') ? true : false;
+            } else {
+                return true;
+            }
+        }
 
         // load a view from the backend
         $scope.loadView = function(cubeId, viewId) {
@@ -158,6 +168,14 @@ angular.module('ThreeSixtyOneView')
             });
         };
 
+        // update filter values after any change made to them in the filters modal
+        $scope.updateFilterValues = function(newFilterData) {
+            $scope.addedFilters = newFilterData;
+
+            $scope.viewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedFilters, $scope.membersList, $scope.viewData.filters);
+            $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.views.currentView);
+        };
+
         // save the draft view
         $scope.saveDraftView = function() {
             if(!$scope.draftView) {
@@ -192,11 +210,12 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.loadPivotTable = function(element, view) {
-            if(element.cubeMeta.id !== 1) return;
+            // if(element.cubeMeta.id !== 1) return;
             PivotService.getSlice(element.id, view.id).then(function(response) {
                 var numCols = view.columns.length,
                     numRows = view.rows.length;
-                $scope.spread.updateSheet(response, numCols, numRows);
+                $scope.pivotTableObject = response.original;
+                $scope.spread.updateSheet(response.formatted, numCols, numRows);
             });
         };
 

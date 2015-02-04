@@ -16,15 +16,14 @@ angular.module('ThreeSixtyOneView')
         }
 
         // convenience methods
-        $scope.console = function(msg) {
+        $scope.console = function console(msg) {
             console.info(msg);
         };
 
-        $scope.alert = function(msg, evt) {
+        $scope.alert = function alert(msg, evt) {
             window.alert(msg);
             if (evt){
                 evt.stopPropagation();
             }
         };
-
     }]);

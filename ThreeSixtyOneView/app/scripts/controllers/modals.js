@@ -120,7 +120,7 @@ angular.module('ThreeSixtyOneView')
             $scope.scenario.referenceScenario.id = data.id;
             $scope.scenario.referenceScenario.name = data.title;
         });
-        
+
         init();
 
     }]).controller('FilterSelectionCtrl', ["$scope", "$window", "$rootScope", "$modalInstance", "$controller", "data", "CONFIG", "PivotMetaService",
@@ -407,7 +407,7 @@ function($scope, $controller, $modalInstance, CONFIG, data) {
 
     var init = function() {
         $scope.selectedScenarioElement = data.selectedScenarioElement;
-        
+
         $scope.newElement = {
             name: data.selectedScenarioElement.name + ' - copy',
             description: ''
@@ -455,6 +455,40 @@ function($scope, $controller, $modalInstance, CONFIG, data) {
     // pass back the selected file and dismiss the modal
     $scope.changeView = function() {
         var newViewId = $scope.selectedView.id;
+        $modalInstance.close(newViewId);
+    };
+
+    init();
+}]).controller('comparedAllViewsCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "data",
+function($scope, $controller, $modalInstance, CONFIG, data) {
+    angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+
+    var init = function() {
+        $scope.comparedViewList = data.viewsList;
+        $scope.e2e = data.e2e;
+
+        $scope.elementTypeItems = ['All', 'By Me', 'Favorite'];
+        $scope.currentElementType = 0;
+
+        $scope.selectedComparedView = {
+            id: data.selectedViewId
+        };
+    };
+
+    // change element type
+    $scope.changeElementType = function(type) {
+        $scope.currentElementType = type;
+    };
+
+    // cancel the changes and dismiss the modal
+    $scope.cancelChangeView = function() {
+        $scope.comparedViewList = [];
+        $modalInstance.dismiss('canceled');
+    };
+
+    // pass back the selected file and dismiss the modal
+    $scope.changeView = function() {
+        var newViewId = $scope.selectedComparedView.id;
         $modalInstance.close(newViewId);
     };
 

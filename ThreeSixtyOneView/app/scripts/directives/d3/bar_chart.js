@@ -10,7 +10,7 @@ angular.module('ThreeSixtyOneView.directives')
                     angular.element($window).on('resize', function(){ scope.$apply() })
 
                     // setup chart variables
-                    var margin = attrs.margin || { top: 20, right: 10, bottom: 40, left: 10 },
+                    var margin = attrs.margin || { top: 20, right: 10, bottom: 20, left: 10 },
                         width = parseInt(attrs.width) || parseInt(d3.select('.chartContainer').style('width')),
                         width = width - margin.left - margin.right,
                         height = parseInt(attrs.height) || 160,
@@ -244,7 +244,7 @@ angular.module('ThreeSixtyOneView.directives')
                         bar.append("text")
                             .attr("x", function(d) { return x1(d.name) + x1.rangeBand()/2; })
                             .attr("y", function(d) { return y(d.value) - 15; })
-                            .attr("dx", "-.85em")
+                            .attr("dx", "-1.2em")
                             .attr("dy", ".35em")
                             .style("fill", "#333")
                             .text(function(d) { return d.value + '%'; })

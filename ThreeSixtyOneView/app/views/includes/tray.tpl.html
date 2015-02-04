@@ -1,23 +1,24 @@
-<div class="info-tray">
+<div class="tray-holder">
 	<div class="details">
 		<div class="clearfix title-holder">
 			<span ng-switch="selectedItem.isMaster">
-				<h4 ng-switch-when="true" class="title clear"><icon type="marketshare"></icon>&nbsp;{{selectedItem.title}}</h4>
+				<span ng-switch-when="true" class="title"><icon type="marketshare"></icon>&nbsp;{{selectedItem.title}}</span>
 				<span ng-switch-default>
 					<inline-edit template="inline_rename" test="e2e" submitAction="CONFIG.renameAction" item="selectedItem" comparison-model="isScenarioTitleUnique"></inline-edit>
 				</span>
 			</span>
 		</div>
-		<ul class="detail-list no-margin" ng-show="CONFIG.trayButtons">
-			<li class="detail" ng-repeat="button in CONFIG.trayButtons">
+		<ul class="button-group" ng-show="CONFIG.trayButtons">
+			<li class="button-holder" ng-repeat="button in CONFIG.trayButtons">
 				<button class="pull-left btn btn-default" ng-disabled="selectedItem.isMaster || !selectedItem" ng-click="action(button.action, selectedItem)" data-ms-id="trayActions.copy">
 					<icon type="{{button.icon}}"></icon>&nbsp;{{button.label}}
 				</button>
 			</li>
 		</ul>
 	</div>
-	<div class="well profile description-holder">
-		<h5 class="description-title">Description</h5>
+
+	<div class="well meta">
+		<p class="description-label ms-label">Description</p>
 		<span ng-switch="selectedItem.isMaster">
 			<span ng-switch-when="true" class="description">{{item.description}}</span>
 			<span ng-switch-default>
@@ -25,49 +26,41 @@
 			</span>
 		</span>
 		<span ng-if="selectedItem.createdBy">
-			<h5>Created By</h5>
-			 <p class="name">{{selectedItem.createdBy}} , {{selectedItem.createdOn | date}}</p>
+			<p class="ms-label">Created By</p>
+			 <p class="name">{{selectedItem.createdBy}},&nbsp;{{selectedItem.createdOn | date}}</p>
 		</span>
 		<span ng-if="selectedItem.modifiedBy">
-			 <h5>Modified by</h5>
-			 <p class="name">{{selectedItem.modifiedBy}} , {{selectedItem.modifiedOn | date}}</p>
+			 <p class="ms-label">Modified by</p>
+			 <p class="name">{{selectedItem.modifiedBy}},&nbsp;{{selectedItem.modifiedOn | date}}</p>
 		</span>
 	</div>
 
-	<div class="well profile description-holder" ng-if="selectedItem.referenceScenario.name">
-		<h5>Base Scenario</h5>
-		<p class="entity-holder" data-ms-id="ScenarioListing:baseScenario">{{selectedItem.referenceScenario.name}}</p>
+	<div class="well meta" ng-if="selectedItem.referenceScenario.name">
+		<p class="ms-label">Base Scenario</p>
+		<p data-ms-id="ScenarioListing:baseScenario">{{selectedItem.referenceScenario.name}}</p>
 	</div>
 
-	<div class="well profile scenario-listing" ng-if="selectedItem.scenarios.length">
-		<div class="scenarioWrapper">
-			<h5 class="media-heading bold">Contains</h5>
-			<span class='field-label bold'>Total&nbsp;<span>{{selectedItem.scenarios.length}}</span>&nbsp;scenarios</span>
-			<div class="entity-holder" >
-				<div class="scenario" ng-show="{{$index < 3}} || showScenario" ng-repeat="scenario in selectedItem.scenarios">
-					<a ng-click="goto($event, 'gotoScenarioEdit', scenario)">{{scenario.title}}</a>
-				</div>
-
-			</div>
-		</div>
-		<div class="profile-footer" ng-click="toggleShowScenarios()" ng-if="selectedItem.scenarios.length > 3">
-			<a>{{viewAll}}</a>
-		</div>
-	</div>
-
-	<div class="well profile scenario-listing" ng-if="scenarioElements.length">
-		<div class="scenarioWrapper">
-			<h5 class="media-heading bold">Contains</h5>
-			<span class='field-label bold'>Total&nbsp;<span>{{scenarioElements.length}}</span>&nbsp;scenarios elements</span>
-			<div class="entity-holder" >
-				<div class="scenario" ng-show="{{$index < 3}} || showScenario || e2e" ng-repeat="element in scenarioElements">
-					<a ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)">{{element.title}}</a>
+	<div class="well relatedItems" ng-if="selectedItem.scenarios.length">
+		<div class="relatedItems-holder">
+			<p class="ms-label">Contains</p>
+			<p class='field-label'>Total&nbsp;<span>{{selectedItem.scenarios.length}}</span>&nbsp;scenarios</p>
+			<div class="item-holder" >
+				<div class="item" ng-repeat="scenario in selectedItem.scenarios">
+					<span ng-click="goto($event, 'gotoScenarioEdit', scenario)">{{scenario.title}}</span>
 				</div>
 			</div>
 		</div>
-		<div class="profile-footer" ng-click="toggleShowScenarios()" ng-if="scenarioElements.length > 3">
-			<a>{{viewAll}}</a>
-		</div>
+	</div>
 
+	<div class="well relatedItems" ng-if="selectedItem.scenarioElements.length">
+		<div class="relatedItems-holder">
+			<p class="ms-label">Contains</p>
+			<p class='description-label'>Total&nbsp;<span>{{selectedItem.scenarioElements.length}}</span>&nbsp;scenarios elements</p>
+			<div class="item-holder" >
+				<div class="item" ng-repeat="element in selectedItem.scenarioElements">
+					<span ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)">{{element.title}}</span>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
