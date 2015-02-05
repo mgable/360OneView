@@ -57,7 +57,7 @@
 			<p class="ms-label">Contains</p>
 			<p class='description-label'>Total&nbsp;<span>{{selectedItem.scenarioElements.length}}</span>&nbsp;scenarios elements</p>
 			<div class="item-holder" >
-				<div class="item" ng-repeat="element in selectedItem.scenarioElements">
+				<div class="item" ng-repeat="element in selectedItem.scenarioElements | orderBy:['group','name']">
 					<span ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)">{{element.title}}</span>
 				</div>
 			</div>
