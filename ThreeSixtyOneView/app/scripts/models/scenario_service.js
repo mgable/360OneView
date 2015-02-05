@@ -18,6 +18,7 @@ angular.module('ThreeSixtyOneView.services')
 
 		this.get = function (projectId, scenarioId){
 			return this.resource.get({"id": projectId}, this.config).then(function(response){
+				self.data = response;
 				if(scenarioId) {
 					return _.findWhere(response, {id: parseInt(scenarioId,10)});
 				} else {
@@ -70,11 +71,11 @@ angular.module('ThreeSixtyOneView.services')
 			});
 		};
 
-		$rootScope.$on(EVENTS.editScenario, function($event, scenario){
-			self.getProjectIdByScenarioId(scenario.id).then(function(project){
-				console.info(scenario);
-				self.edit(scenario, project.uuid)
-			});
-		});
+		// $rootScope.$on(EVENTS.editScenario, function($event, scenario){
+		// 	self.getProjectIdByScenarioId(scenario.id).then(function(project){
+		// 		console.info(scenario);
+		// 		self.edit(scenario, project.uuid)
+		// 	});
+		// });
 
 	}]);

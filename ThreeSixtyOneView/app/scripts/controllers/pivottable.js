@@ -166,7 +166,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                 },
                 cellValueChanged = function(dirtyCell) {
                     // if old and new values are the same OR if old value is not a number, then don't do anything
-                    if(dirtyCell.oldValue === dirtyCell.newValue || !angular.isNumber(dirtyCell.oldValue)) return;
+                    if(Math.round(dirtyCell.oldValue) === Math.round(dirtyCell.newValue) || !angular.isNumber(dirtyCell.oldValue)) return;
 
                     // if the new value is not a number, discard the change and put the old value in place
                     if(!angular.isNumber(dirtyCell.newValue)) {
@@ -215,11 +215,13 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     sheet.setColumnHeaderVisible(false);
                     sheet.setIsProtected(true);
                     sheet.autoGenerateColumns = true;
+                    sheet.clipBoardOptions($.wijmo.wijspread.ClipboardPasteOptions.Values);
 
                     // $scope.pivotTableData is located in ScenarioCtrl
                     $scope.spread.updateSheet($scope.pivotTableData);
+
+                    // find the cells that has been changed and request save in the backend
                     spread.bind($.wijmo.wijspread.Events.CellChanged, function (event, data) { 
-                    // console.log(data);
                         var row = data.row,
                             col = data.col; 
                         if(row === undefined || col === undefined) { 
@@ -229,9 +231,19 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                         if(sheet.hasPendingChanges(row, col)) { 
                             var dirtyDataArray = sheet.getDirtyCells(row, col); 
                             if (dirtyDataArray.length > 0) { 
-                                cellValueChanged(dirtyDataArray[0]); 
+                                cellValueChanged(dirtyDataArray[0]);
                             } 
                         } 
+                    });
+
+                    // update all copy/paste cells in the table
+                    sheet.bind($.wijmo.wijspread.Events.ClipboardPasted, function (sender, args) {
+                        var i,
+                            dirtyDataArray = sheet.getDirtyCells(args.cellRange.row, args.cellRange.col, args.cellRange.rowCount, args.cellRange.colCount);
+
+                        for(i = 0; i < dirtyDataArray.length; i++) {
+                            cellValueChanged(dirtyDataArray[i]);
+                        }
                     });
                 }
             };

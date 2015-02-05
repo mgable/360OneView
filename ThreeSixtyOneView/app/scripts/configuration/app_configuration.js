@@ -58,9 +58,6 @@ angular.module('ThreeSixtyOneView.config')
                 "maximumCharacterLimit": 256
             }
         },
-        "session": {
-            // session level data here
-        },
         "view": {
             "Dashboard": {
                 "orderBy": 'modifiedOn',
@@ -69,7 +66,7 @@ angular.module('ThreeSixtyOneView.config')
                 "nameClickAction": "gotoScenarioEdit",
                 "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
                 "displayActionsCreate": "gotoScenarioCreate",
-                "renameAction": "editScenario",
+                "renameAction": "renameScenario",
                 "trayButtons": [{
                     "action": "trayCopy",
                     "label": "copy",

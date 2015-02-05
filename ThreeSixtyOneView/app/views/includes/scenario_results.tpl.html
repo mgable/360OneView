@@ -86,7 +86,7 @@
                         <div class="srSec">
                             <div class="srSecTitle">Spend Filters</div>
                             <div class="srFilterValues">
-                                <div ng-repeat="cat in dimensions" class="srFilterBox clickable" ng-click="spendFiltersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="spendAddedFilters[cat.label]">
+                                <div ng-repeat="cat in spendDimensions" class="srFilterBox clickable" ng-click="spendFiltersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="spendAddedFilters[cat.label]">
                                     <div class="srFilterCat">{{cat.label}} <span class="srFilterSize">({{spendCategorizedValue[$index].selected}}/{{spendCategorizedValue[$index].total}})</span></div>
                                     <div class="srFilterVal" ng-show="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{spendCategorizedValue[$index].label.join(', ')}}">{{spendCategorizedValue[$index].label.join(', ')}}</div>
                                     <div class="srFilterVal" ng-hide="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" title="{{spendCategorizedValue[$index].label.join(', ')}}">All</div>
@@ -97,7 +97,7 @@
                         <div class="srSec" ng-show="isSynced === 'off'">
                             <div class="srSecTitle">KPI Filters</div>
                             <div class="srFilterValues">
-                                <div ng-repeat="cat in dimensions" class="srFilterBox clickable" ng-click="kpiFiltersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="kpiAddedFilters[cat.label]">
+                                <div ng-repeat="cat in kpiDimensions" class="srFilterBox clickable" ng-click="kpiFiltersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="kpiAddedFilters[cat.label]">
                                     <div class="srFilterCat">{{cat.label}} <span class="srFilterSize">({{kpiCategorizedValue[$index].selected}}/{{kpiCategorizedValue[$index].total}})</span></div>
                                     <div class="srFilterVal" ng-show="kpiCategorizedValue[$index].selected < kpiCategorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{kpiCategorizedValue[$index].label.join(', ')}}">{{kpiCategorizedValue[$index].label.join(', ')}}</div>
                                     <div class="srFilterVal" ng-hide="kpiCategorizedValue[$index].selected < kpiCategorizedValue[$index].total" title="{{kpiCategorizedValue[$index].label.join(', ')}}">All</div>

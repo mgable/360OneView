@@ -4,8 +4,8 @@ var specs = require('./0.0-specs.js'),
 	funcs = require('./0.1-project_functions.js');
 
 	var dashboardUrl, projectId;
-	//TEMP data - remove in production
-	//var dashboardUrl, projectId = "d62424317f333a33b590fd00852c124a"; dashboardUrl = specs.getDashboardUrl(projectId);
+	// TEMP data - remove in production
+	var dashboardUrl, projectId = "eb2449ce190f3808b0d52d595ba9f4ab"; dashboardUrl = specs.getDashboardUrl(projectId);
 
 
 describe('Project Dashboard', function() {
@@ -16,7 +16,7 @@ describe('Project Dashboard', function() {
 	);
 	var testFileName = "My New Test Project- " + Date.now();
 
-	it("should create a new project and go to the dashboard", function(){
+	xit("should create a new project and go to the dashboard", function(){
 		var firstItemTitle;
 
 		browser.get(specs.projectUrl + specs.testQuery);
@@ -42,7 +42,6 @@ describe('Project Dashboard', function() {
 		firstItemTitle.getText(function(text){
 			expect(text).toBe(testFileName);
 		});
-
 	});
 
 	describe("Scenario List", function(){
@@ -51,12 +50,11 @@ describe('Project Dashboard', function() {
 			testScenarionDescription = "My new test scenario description.",
 
 			noScenarios = "a[data-ms-id='noScenariosAlert']", 
-			name = "//input[@data-ms-id='ScenarioCreate.inputName']",
+			name = "scenario.title",
 			description = "//input[@data-ms-id='ScenarioCreate.inputDescription']",
 			baseScenario = "//label[@data-ms-id='ScenarioCreate.inputBaseScenario']",
 			submit = "//button[@data-ms-id='ScenarioCreate.submit']",
 			cancel = "//button[@data-ms-id='ScenarioCreate.cancel']",
-			trayCopy = "//button[@data-ms-id='trayActions.copy']",
 
 			confirmBaseScenario = "//button[@data-ms-id='ScenarioCreate.confirmBaseScenario']",
 			cancelBaseScenario = "//button[@data-ms-id='ScenarioCreate.cancelBaseScenario']",
@@ -67,8 +65,7 @@ describe('Project Dashboard', function() {
 			scenarioBaseScenarioElement = element(by.xpath(scenarioBaseScenario )),
 			baseScenarioInputField = element(by.model(baseScenarioInput)),
 
-			trayCopyButton = element(by.xpath(trayCopy)),
-			inputName = element(by.xpath(name)),
+			inputName = element(by.model(name)),
 			inputDescription = element(by.xpath(description)),
 			inputbaseScenario = element(by.xpath(baseScenario)),
 			submitButton = element(by.xpath(submit)),
@@ -92,6 +89,12 @@ describe('Project Dashboard', function() {
 				itemCount.getText().then(function(count){
 					expect(parseInt(count)).toEqual(0);
 				});
+			});
+
+			it("should not enabled the rename, copy or edit buttons", function(){
+				expect(specs.trayCopyButton.getAttribute("disabled")).toBeTruthy();
+				expect(specs.renameButton.isPresent()).toBeFalsy();
+				expect(specs.editDescriptionButton.isPresent()).toBeFalsy();
 			});
 
 			it("should enable the create button", function(){
@@ -172,7 +175,7 @@ describe('Project Dashboard', function() {
 
 				items.count().then(function(count){
 					numberOfScenarios = count;
-					trayCopyButton.click();
+					specs.trayCopyButton.click();
 					browser.waitForAngular();
 					scenarioTitle.getText().then(function(scenarioTitle){
 						specs.modalInputField.getAttribute("value").then(function(inputText){
@@ -230,7 +233,7 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		xdescribe("Filter functions: ", function(){
+		describe("Filter functions: ", function(){
 
 			it("should filter by favorite", function(){
 				var startItemCount = specs.getItemCount();
@@ -253,11 +256,11 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		xdescribe("Edit functions: ", function(){
+		describe("Edit functions: ", function(){
 			var first,
 				newName = "My Renamed Scenario - " + Date.now();
 
-			xit("should rename a scenario", function(){
+			it("should rename a scenario", function(){
 				var currentName;
 
 				funcs.hoverAndClick(specs.renameButton);
@@ -287,13 +290,13 @@ describe('Project Dashboard', function() {
 			});
 		})
 
-		xdescribe("Breadcrumbs: ", function(){
+		describe("Breadcrumbs: ", function(){
 			it("should have the correct label", function(){
 				expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + testFileName.toUpperCase());
 			});
 		});
 
-		xdescribe("Change base scenario: ", function(){
+		describe("Change base scenario: ", function(){
 
 			it("should change the base scenario", function(){
 				var scenarios, scenario;
@@ -322,12 +325,12 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		xdescribe("Scenario Elements: ", function(){
-			var scenarioElements = "element in scenarioElements",
+		describe("Scenario Elements: ", function(){
+			var scenarioElements = "element in selectedItem.scenarioElements",
 				scenarioEditScenarioElements = "div[data-ms-id='ScenarioEdit.scenarioElements'] .dropdown-toggle",
 				allScenarioElements = element.all(by.repeater(scenarioElements)),
-				firstScenarioElement = allScenarioElements.first().element(by.css("a")),
-				lastScenarioElement =   allScenarioElements.last().element(by.css("a")),
+				firstScenarioElement = allScenarioElements.first().element(by.css("span")),
+				lastScenarioElement =   allScenarioElements.last().element(by.css("span")),
 				selectedScenarioElement = element(by.css(scenarioEditScenarioElements));
 
 			it("should click through to scenario edit with the correct scenario element selected", function(){
@@ -354,7 +357,7 @@ describe('Project Dashboard', function() {
 		});
 	});
 
-	xdescribe("Edit controls on master project's master scenario", function(){
+	describe("Edit controls on master project's master scenario", function(){
 		beforeEach(
 			function(){
 				browser.driver.manage().window().setSize(1280, 1024);
@@ -371,14 +374,13 @@ describe('Project Dashboard', function() {
 			expect(specs.inputFieldHolder.isPresent()).toBe(false);
 		});
 
-		// KEEP THIS OFF
-		// it("should disable the create button", function(){
-		// 	var masterProject;
-		// 	funcs.selectMasterProject();
-		// 	masterProject = specs.getFirstItemTitle();
-		// 	masterProject.click();
-		// 	browser.waitForAngular();
-		// 	expect(specs.createButton.getAttribute("disabled")).toBe('true');
-		// });
+		it("should disable the create button", function(){
+			var masterProject;
+			funcs.selectMasterProject();
+			masterProject = specs.getFirstItemTitle();
+			masterProject.click();
+			browser.waitForAngular();
+			expect(specs.createButton.getAttribute("disabled")).toBe('true');
+		});
 	});
 });

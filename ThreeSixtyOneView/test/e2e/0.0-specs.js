@@ -4,7 +4,7 @@ var breadcrumb = "ol.breadcrumb",
 	filterByItem = ".filterDropdown li:first-child",
 	filterDropdown = ".filterDropdown",
 
-	// happy with these names
+	// sorter
 	column_2SortOptions = "span[data-ms-id='column_2SortOptions']",
 	column_1Sort = "div[data-ms-id='column_1'] a",
 	column_1Label = "div[data-ms-id='column_1']",
@@ -16,6 +16,7 @@ var breadcrumb = "ol.breadcrumb",
 	descending = "li[data-ms-id='descending']",
 	searchInput = "SortAndFilterService.searchText",
 
+	// inline rename
 	inlineRename = "form[data-ms-id='inlineRename']",
 	rename = inlineRename + " span.noEdit",
 	input = inlineRename + " input",
@@ -23,11 +24,23 @@ var breadcrumb = "ol.breadcrumb",
 	inlineSubmit = inlineRename + " button.submit",
 	inlineCancel = inlineRename + " button.cancel",
 
+	// inline edit
+	inlineEdit = "form[data-ms-id='inlineDescription']",
+	editDescription = inlineEdit + " span.action",
+	textArea = inlineEdit + " textarea",
+	inlineEdit = inlineEdit + " div.noEdit div",
+	inlineEditCancel = inlineEdit + " .cancel",
+	inlineEditSubmit = inlineEdit + " .submit",
+	textAreaParent = inlineEdit + " .edit",
+
 	items = "item in getData()",
 	scenarios = "scenario in selectedItem.scenarios",
 	itemCount = "span[data-ms-id='itemCount']"
 	masterProjectClass = ".master",
 	selectedItemTitle = inlineRename  + " span.title",
+
+	// tray
+	trayCopy = "//button[@data-ms-id='trayActions.copy']",
 
 	// simple modal - create project or scenario
 	create = "button[data-ms-id='createButton']",
@@ -84,7 +97,9 @@ var breadcrumb = "ol.breadcrumb",
 			return element.all(by.repeater(scenarios));
 		},
 		getFirstScenario: function(){
-			return element(by.repeater(scenarios).row(0));
+			var allScenarios = element.all(by.repeater(scenarios)),
+				firstScenarioElement = allScenarios.first().element(by.css("span"));
+			return firstScenarioElement;
 		},
 
 		testQuery: "?e2e=true",
@@ -124,7 +139,14 @@ var breadcrumb = "ol.breadcrumb",
 		createButton: element(by.css(create)),
 		modalInputField: element(by.css(modalInput)),
 		modalSubmitButton: element(by.css(modalSubmit)),
-		modalCancelButton: element(by.css(modalCancel))
+		modalCancelButton: element(by.css(modalCancel)),
+		trayCopyButton: element(by.xpath(trayCopy)),
+		textAreaField: element(by.css(textArea)),
+		inlineEditField: element(by.css(inlineEdit)),
+		editDescriptionButton: element(by.css(editDescription)),
+		inlineEditCancelButton: element(by.css(inlineEditCancel)),
+		textAreaHolder: element(by.css(textAreaParent)),
+		inlineEditSubmitButton: element(by.css(inlineEditSubmit))
 	};
 
 module.exports = data;

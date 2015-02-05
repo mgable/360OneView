@@ -67,11 +67,11 @@ xdescribe('Project Listing Page: ', function() {
 
 		it("should put the selected item in the tray", function(){
 			var counter = 0,
-				maxItemsToTest = 5,
+				maitemsToTest = 5,
 				limit;
 			specs.getItemCount().then(function(itemCount){
 				itemCount.getText().then(function(totalNumberOfItems){
-					limit = Math.min(maxItemsToTest, totalNumberOfItems);
+					limit = Math.min(maitemsToTest, totalNumberOfItems);
 					specs.getItems().each(function(el) {
 						if (counter++ < limit) {
 							el.click();
@@ -435,28 +435,15 @@ xdescribe('Project Listing Page: ', function() {
 
 	describe("edit description: ", function(){
 		var first,
-			newDescription = "This is my new description - " + Date.now(),
-			rootElement = "form[data-ms-id='inlineDescription']",
-			editDescription = rootElement + " span.action",
-			textArea = rootElement + " textarea",
-			inlineEdit = rootElement + " div.noEdit div",
-			inlineEditCancel = rootElement + " .cancel",
-			inlineEditSubmit = rootElement + " .submit",
-			textAreaParent = rootElement + " .edit",
-			textAreaField = element(by.css(textArea)),
-			inlineEditField = element(by.css(inlineEdit)),
-			editDescriptionButton = element(by.css(editDescription)),
-			inlineEditCancelButton = element(by.css(inlineEditCancel)),
-			textAreaHolder = element(by.css(textAreaParent)),
-			inlineEditSubmitButton = element(by.css(inlineEditSubmit));
+			newDescription = "This is my new description - " + Date.now();
 
 		it("should edit a description", function(){
-			funcs.hoverAndClick(editDescriptionButton);
+			funcs.hoverAndClick(specs.editDescriptionButton);
 
-			textAreaField.clear();
-			textAreaField.sendKeys(newDescription);
+			specs.textAreaField.clear();
+			specs.textAreaField.sendKeys(newDescription);
 
-			inlineEditSubmitButton.click();
+			specs.inlineEditSubmitButton.click();
 			browser.waitForAngular();
 			browser.get(specs.projectUrl);
 
@@ -466,28 +453,28 @@ xdescribe('Project Listing Page: ', function() {
 		});
 
 		it("should not submit if the description has not been changed", function(){
-			funcs.hoverAndClick(editDescriptionButton);
+			funcs.hoverAndClick(specs.editDescriptionButton);
 
-			expect(inlineEditSubmitButton.getAttribute('disabled')).toBeTruthy();
-			textAreaField.sendKeys(newDescription);
-			expect(inlineEditSubmitButton.getAttribute('disabled')).toBeFalsy();
+			expect(specs.inlineEditSubmitButton.getAttribute('disabled')).toBeTruthy();
+			specs.textAreaField.sendKeys(newDescription);
+			expect(specs.inlineEditSubmitButton.getAttribute('disabled')).toBeFalsy();
 		});
 
 		it("should unhide the textarea when action is clicked", function(){
-			expect(specs.hasClass(textAreaHolder, "ng-hide")).toBe(true);
+			expect(specs.hasClass(specs.textAreaHolder, "ng-hide")).toBe(true);
 
-			funcs.hoverAndClick(editDescriptionButton);
+			funcs.hoverAndClick(specs.editDescriptionButton);
 
-			expect(specs.hasClass(textAreaHolder, "ng-hide")).toBe(false);
+			expect(specs.hasClass(specs.textAreaHolder, "ng-hide")).toBe(false);
 		});
 
 		it("should reset if the selectedItem is changed", function(){
-			funcs.hoverAndClick(editDescriptionButton);
+			funcs.hoverAndClick(specs.editDescriptionButton);
 
-			expect(specs.hasClass(textAreaHolder, "ng-hide")).toBe(false);
+			expect(specs.hasClass(specs.textAreaHolder, "ng-hide")).toBe(false);
 			first = specs.getFirstItem();
 			first.click();
-			expect(specs.hasClass(textAreaHolder, "ng-hide")).toBe(true);
+			expect(specs.hasClass(specs.textAreaHolder, "ng-hide")).toBe(true);
 		});
 	});
 
@@ -511,7 +498,9 @@ xdescribe('Project Listing Page: ', function() {
 
 			funcs.selectMasterProject();
 			scenario = specs.getFirstScenario();
+
 			scenario.click();
+			browser.waitForAngular();
 
 			expect(browser.getLocationAbsUrl()).toContain("/#/scenario");
 		});

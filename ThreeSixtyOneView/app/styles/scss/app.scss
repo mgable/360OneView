@@ -16,13 +16,14 @@ body {
   position: relative;
   height: 100%;
   width: 100%;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .app {
-  margin: 105px auto 0;
+  margin: 65px auto 20px;
   width: calc(100% - 40px);
-  height: calc(100% - 160px);
+  //height: calc(100% - 160px);
   box-sizing: content-box;
   max-width: $app_max_width;
   min-width: $app_min_width;
