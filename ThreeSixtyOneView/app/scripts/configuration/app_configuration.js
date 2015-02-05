@@ -139,8 +139,7 @@ angular.module('ThreeSixtyOneView.config')
                 "statusLen": 7
             }
         },
-        "user": {
-            "name": "me",
-            "role": "default user"
+        "client": {
+            "name": "Ford"
         }
     });
