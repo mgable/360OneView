@@ -69,7 +69,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                             for (var j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
                                 // sheet.getCell(i, j).font("14px proxima-nova").foreColor("#333").locked(false);
                                 if(sheet.getCell(i, j).value() === null) {
-                                    sheet.getCell(i, j).backColor("#EEE").locked(true);
+                                    sheet.getCell(i, j).backColor("#EEE").locked(false);
                                 } else {
                                     sheet.getCell(i, j).font("14px proxima-nova").foreColor("#333").locked(false);
                                 }
@@ -165,6 +165,12 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     sheet.isPaintSuspended(false);
                 },
                 cellValueChanged = function(dirtyCell) {
+                    // if the cell was empty, do not allow change and revert back to empty
+                    if(dirtyCell.oldValue === null) {
+                        sheet.setValue(dirtyCell.row, dirtyCell.col, dirtyCell.oldValue);
+                        return;
+                    }
+
                     // if old and new values are the same OR if old value is not a number, then don't do anything
                     if(Math.round(dirtyCell.oldValue) === Math.round(dirtyCell.newValue) || !angular.isNumber(dirtyCell.oldValue)) return;
 
@@ -193,9 +199,11 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     cellObject.oldvalue = dirtyCell.oldValue;
                     cellObject.newvalue = dirtyCell.newValue;
 
-                    console.log(cellObject);
+                    // console.log(cellObject);
+                    sheet.getCell(dirtyCell.row, dirtyCell.col).backColor("#EEE").locked(true);
                     PivotService.updateCell($scope.selectedScenarioElement.id, $scope.viewData.id, cellObject).then(function(response) {
-                        console.log(response);
+                        // console.log(response);
+                        sheet.getCell(dirtyCell.row, dirtyCell.col).backColor("#FFF").locked(false);
                     });
                 };
 
@@ -221,7 +229,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     $scope.spread.updateSheet($scope.pivotTableData);
 
                     // find the cells that has been changed and request save in the backend
-                    spread.bind($.wijmo.wijspread.Events.CellChanged, function (event, data) { 
+                    spread.bind($.wijmo.wijspread.Events.ValueChanged, function (event, data) { 
                         var row = data.row,
                             col = data.col; 
                         if(row === undefined || col === undefined) { 
@@ -231,7 +239,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                         if(sheet.hasPendingChanges(row, col)) { 
                             var dirtyDataArray = sheet.getDirtyCells(row, col); 
                             if (dirtyDataArray.length > 0) { 
-                                cellValueChanged(dirtyDataArray[0]);
+                                !!dirtyDataArray[0].newValue ? cellValueChanged(dirtyDataArray[0]) : null;
                             } 
                         } 
                     });

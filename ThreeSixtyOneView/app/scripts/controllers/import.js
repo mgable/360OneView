@@ -56,6 +56,7 @@ angular.module('ThreeSixtyOneView')
 						$scope.statusMessage = 'Import completed.';
 						$scope.isImportCompleted = true;
 						$scope.cancelButtonLabel = 'Reset';
+						$scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
 						return;
 					} else if(response.status === 'INIT') {
 						$scope.statusMessage = 'Initializing the import process ...';
@@ -86,5 +87,6 @@ angular.module('ThreeSixtyOneView')
 			$scope.isImportFailed = false;
 			$scope.isFileInvalid = false;
 			$scope.statusMessage = '';
+			document.getElementById('fileInput').value = '';
 		};
     }]);
