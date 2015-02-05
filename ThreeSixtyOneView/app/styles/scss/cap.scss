@@ -5,9 +5,9 @@
     width:100%;
     background-color: $header-background;
     height: $cap_height;
-    position: fixed;
-    z-index: 1000;
-    top: 0;
+    // position: fixed;
+    // z-index: 1000;
+    // top: 0;
 
 	.headerrow {
 		min-width: $content_min_width;
@@ -189,10 +189,10 @@
 .footer {
 	background-color: $footer-background;
 	width:100%;
-	z-index:1001;
 	height:50px;
-	bottom:0;
-	position: fixed;
+	// z-index:1001;
+	// bottom:0;
+	// position: fixed;
 	padding: 0 10px;
 	div {
 		&.footerLeft {

@@ -311,6 +311,85 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
+  $templateCache.put('views/modal/compared_all_views.tpl.html',
+    "<div class=\"all-views-modal-header\">\r" +
+    "\n" +
+    "    <h4 class=\"element-file-modal-title\" id=\"myModalLabel\">{{selectedScenarioElement.cubeMeta.label}}</h4>\r" +
+    "\n" +
+    "    <h3>Select A Scenario</h3>\r" +
+    "\n" +
+    "</div>\r" +
+    "\n" +
+    "<div class=\"all-views-modal-body\">\r" +
+    "\n" +
+    "    <div class=\"all-views-box\">\r" +
+    "\n" +
+    "        <div class=\"all-views-toolbar\">\r" +
+    "\n" +
+    "            <div class=\"views-type-dropdown\">\r" +
+    "\n" +
+    "                <div class=\"dropdown\">\r" +
+    "\n" +
+    "                    <div class=\"dropdown-toggle\">{{elementTypeItems[currentElementType]}}<icon type=\"caret-down\"></icon></div>\r" +
+    "\n" +
+    "                    <ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{selectedScenarioElement.id}}\" radio=\"true\">\r" +
+    "\n" +
+    "                        <li ng-repeat=\"item in elementTypeItems\" ms-link=\"{{$index}}\"><a href=\"\" ng-click=\"changeElementType($index)\">{{item}}</a></li>\r" +
+    "\n" +
+    "                    </ul>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "            <div class=\"view-name-search\">\r" +
+    "\n" +
+    "                <div class=\"search-box\">\r" +
+    "\n" +
+    "                    <icon type=\"search\"></icon>\r" +
+    "\n" +
+    "                    <input type=\"text\" ng-model=\"searchTerm.title\" placeholder=\"Search\">\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "        </div>\r" +
+    "\n" +
+    "        <div class=\"all-views-list\">\r" +
+    "\n" +
+    "            <div ng-repeat=\"view in comparedViewList | filter:searchTerm | orderBy:'view.modifiedOn':true\" class=\"all-views-item\" ng-class=\"{'current-view': view.id === selectedComparedView.id}\" ng-click=\"selectedComparedView.id = view.id\">\r" +
+    "\n" +
+    "                <div class=\"all-views-name\"><icon type=\"circle-o\"></icon><icon type=\"dot-circle-o\"></icon>{{view.title}}</div>\r" +
+    "\n" +
+    "                <div class=\"all-views-info\">\r" +
+    "\n" +
+    "                    <span ng-if=\"e2e\" class=\"all-views-date\">{{view.createdOn}}</span>\r" +
+    "\n" +
+    "                    <span ng-if=\"!e2e\" class=\"all-views-date\">{{view.createdOn | timeago}}</span>\r" +
+    "\n" +
+    "                    <span class=\"all-views-owner\">{{view.modifiedBy}}</span>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "        </div>\r" +
+    "\n" +
+    "    </div>\r" +
+    "\n" +
+    "    <div class=\"all-views-buttons\">\r" +
+    "\n" +
+    "        <ms-button type=\"cancel\" action=\"cancelChangeView()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\r" +
+    "\n" +
+    "        <ms-button type=\"submit\" action=\"changeView()\" label=\"Replace\" data-dismiss=\"modal\"></ms-button>\r" +
+    "\n" +
+    "    </div>\r" +
+    "\n" +
+    "</div>"
+  );
+
+
   $templateCache.put('views/modal/filter_selection.tpl.html',
     "<div class=\"filter-modal-header\">\r" +
     "\n" +

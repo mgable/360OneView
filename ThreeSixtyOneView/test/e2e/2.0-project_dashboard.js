@@ -5,10 +5,10 @@ var specs = require('./0.0-specs.js'),
 
 	var dashboardUrl, projectId;
 	// TEMP data - remove in production
-	var dashboardUrl, projectId = "c54c1f988ff93015914ed79f695b60b5"; dashboardUrl = specs.getDashboardUrl(projectId);
+	var dashboardUrl, projectId = "eb2449ce190f3808b0d52d595ba9f4ab"; dashboardUrl = specs.getDashboardUrl(projectId);
 
 
-xdescribe('Project Dashboard', function() {
+describe('Project Dashboard', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
@@ -16,7 +16,7 @@ xdescribe('Project Dashboard', function() {
 	);
 	var testFileName = "My New Test Project- " + Date.now();
 
-	it("should create a new project and go to the dashboard", function(){
+	xit("should create a new project and go to the dashboard", function(){
 		var firstItemTitle;
 
 		browser.get(specs.projectUrl + specs.testQuery);
@@ -42,7 +42,6 @@ xdescribe('Project Dashboard', function() {
 		firstItemTitle.getText(function(text){
 			expect(text).toBe(testFileName);
 		});
-
 	});
 
 	describe("Scenario List", function(){
@@ -56,7 +55,6 @@ xdescribe('Project Dashboard', function() {
 			baseScenario = "//label[@data-ms-id='ScenarioCreate.inputBaseScenario']",
 			submit = "//button[@data-ms-id='ScenarioCreate.submit']",
 			cancel = "//button[@data-ms-id='ScenarioCreate.cancel']",
-			trayCopy = "//button[@data-ms-id='trayActions.copy']",
 
 			confirmBaseScenario = "//button[@data-ms-id='ScenarioCreate.confirmBaseScenario']",
 			cancelBaseScenario = "//button[@data-ms-id='ScenarioCreate.cancelBaseScenario']",
@@ -67,7 +65,6 @@ xdescribe('Project Dashboard', function() {
 			scenarioBaseScenarioElement = element(by.xpath(scenarioBaseScenario )),
 			baseScenarioInputField = element(by.model(baseScenarioInput)),
 
-			trayCopyButton = element(by.xpath(trayCopy)),
 			inputName = element(by.model(name)),
 			inputDescription = element(by.xpath(description)),
 			inputbaseScenario = element(by.xpath(baseScenario)),
@@ -92,6 +89,12 @@ xdescribe('Project Dashboard', function() {
 				itemCount.getText().then(function(count){
 					expect(parseInt(count)).toEqual(0);
 				});
+			});
+
+			it("should not enabled the rename, copy or edit buttons", function(){
+				expect(specs.trayCopyButton.getAttribute("disabled")).toBeTruthy();
+				expect(specs.renameButton.isPresent()).toBeFalsy();
+				expect(specs.editDescriptionButton.isPresent()).toBeFalsy();
 			});
 
 			it("should enable the create button", function(){
@@ -172,7 +175,7 @@ xdescribe('Project Dashboard', function() {
 
 				items.count().then(function(count){
 					numberOfScenarios = count;
-					trayCopyButton.click();
+					specs.trayCopyButton.click();
 					browser.waitForAngular();
 					scenarioTitle.getText().then(function(scenarioTitle){
 						specs.modalInputField.getAttribute("value").then(function(inputText){
@@ -371,14 +374,13 @@ xdescribe('Project Dashboard', function() {
 			expect(specs.inputFieldHolder.isPresent()).toBe(false);
 		});
 
-		// KEEP THIS OFF
-		// it("should disable the create button", function(){
-		// 	var masterProject;
-		// 	funcs.selectMasterProject();
-		// 	masterProject = specs.getFirstItemTitle();
-		// 	masterProject.click();
-		// 	browser.waitForAngular();
-		// 	expect(specs.createButton.getAttribute("disabled")).toBe('true');
-		// });
+		it("should disable the create button", function(){
+			var masterProject;
+			funcs.selectMasterProject();
+			masterProject = specs.getFirstItemTitle();
+			masterProject.click();
+			browser.waitForAngular();
+			expect(specs.createButton.getAttribute("disabled")).toBe('true');
+		});
 	});
 });
