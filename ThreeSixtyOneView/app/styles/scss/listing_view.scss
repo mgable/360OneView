@@ -16,6 +16,7 @@
 				}
 				&.display-area {
 					top: -4px;
+					height: 100%;
 				}
 			}
 			.display{
@@ -24,6 +25,7 @@
 				overflow-x: hidden;
 				padding-right: 0;
 				padding-left: 15px;
+				height: 100%;
 
 				.display-table {
 					table {
@@ -128,15 +130,15 @@
 			}
 			.tray {
 				width: 360px;
-				height: 100%;
-				position: absolute;
 				padding:0 10px;
-				right: 0;
-				top: 0;
-				z-index: 10;
 				background-color: $ms-lightGray;
 				overflow-x: hidden;
 				overflow-y: auto;
+				position: absolute;
+				right:0;
+				top: 0;
+				bottom: 0;
+
 				@include drop-shadow(-2px, 0, 6px, 0, 0.3);
 
 				.tray-holder {
