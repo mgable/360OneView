@@ -167,7 +167,6 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                 cellValueChanged = function(dirtyCell) {
                     // if the cell was empty, do not allow change and revert back to empty
                     if(dirtyCell.oldValue === null) {
-                        console.log(dirtyCell);
                         sheet.setValue(dirtyCell.row, dirtyCell.col, dirtyCell.oldValue);
                         return;
                     }
@@ -200,10 +199,10 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     cellObject.oldvalue = dirtyCell.oldValue;
                     cellObject.newvalue = dirtyCell.newValue;
 
-                    console.log(cellObject);
+                    // console.log(cellObject);
                     sheet.getCell(dirtyCell.row, dirtyCell.col).backColor("#EEE").locked(true);
                     PivotService.updateCell($scope.selectedScenarioElement.id, $scope.viewData.id, cellObject).then(function(response) {
-                        console.log(response);
+                        // console.log(response);
                         sheet.getCell(dirtyCell.row, dirtyCell.col).backColor("#FFF").locked(false);
                     });
                 };
