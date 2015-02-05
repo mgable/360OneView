@@ -178,8 +178,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.spendAddedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
             $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, result.dimensions, result.view);
 
-            $scope.isSynced = "on";
-
             // spend summary
             getSpendSummary();
 
@@ -212,6 +210,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         // view scope variables
         $scope.saveAs = false;
         $scope.rename = false;
+        $scope.isSynced = "on";
 
         // spend view scope variables
         $scope.spendAdded = {};
@@ -353,12 +352,24 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.createView($scope.spendCubeId, spendDraftView, $scope.spendViewsList).then(function(response) {
                 console.log('create spend view: ', response);
                 // spend summary
+                $scope.spendViewId = response.id;
+                $scope.spendViewData = response;
+                $scope.spendAdded = PivotMetaService.setUpAddedLevels(response.columns.concat(response.rows));
+                $scope.spendMembersList = PivotMetaService.generateMembersList($scope.spendDimensions);
+                $scope.spendAddedFilters = PivotMetaService.getAddedFilters(response.filters, $scope.spendDimensions);
+                $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, $scope.spendDimensions, response);
                 getSpendSummary();
             });
         } else {
             $scope.updateView($scope.spendCubeId, $scope.spendViewData).then(function(response) {
                 console.log('update spend view: ', response);
                 // spend summary
+                $scope.spendViewId = response.id;
+                $scope.spendViewData = response;
+                $scope.spendAdded = PivotMetaService.setUpAddedLevels(response.columns.concat(response.rows));
+                $scope.spendMembersList = PivotMetaService.generateMembersList($scope.spendDimensions);
+                $scope.spendAddedFilters = PivotMetaService.getAddedFilters(response.filters, $scope.spendDimensions);
+                $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, $scope.spendDimensions, response);
                 getSpendSummary();
             });
         }
@@ -373,12 +384,14 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             kpiDraftView.name = 'Draft - ' + kpiDraftView.name;
             $scope.createView($scope.spendCubeId, spendDraftView, $scope.spendViewsList).then(function(response) {
                 console.log('create kpi view: ', response);
-                getKPIView($scope.spendViewId);
+                $scope.updateView($scope.kpiCubeId, $scope.kpiViewData).then(function(response) {
+                    getKPIView($scope.spendViewId);
+                });
             });
         } else {
             $scope.updateView($scope.kpiCubeId, $scope.kpiViewData).then(function(response) {
                 console.log('update kpi view: ', response);
-                getKPISummary();
+                getKPISummary($scope.spendViewId);
             });
         }
     };
