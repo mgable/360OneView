@@ -238,6 +238,7 @@ angular.module('ThreeSixtyOneView')
             });
             $scope.selectedScenarioElement = newElement;
             $scope.selectedScenarioElementsFile = newElement.name;
+            $scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
         };
 
         // hide scenario copy and replace options if part of the marleting plan
