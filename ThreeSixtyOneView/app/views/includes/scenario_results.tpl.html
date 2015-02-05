@@ -9,7 +9,7 @@
             <ul class="dropdown-menu srDropdownMenu">
                 <div class="srDropdownMenuVisible">
                     <li ng-repeat="view in comparedViewList | limitTo:4">
-                        <div ng-click="loadComparedView(view.id)">{{view.title}}</div>
+                        <div ng-click="loadComparedView(view.id)" title="{{view.title}}">{{view.title}}</div>
                     </li>
                     <hr>
                     <li>
@@ -27,7 +27,7 @@
                     <div id="resultViewsHeader" class="srTitle" expand-collapse-control target-area="#resultViews" tab-id="1">
                         <div class="srRenameArea">
                             <icon type="eye"></icon>
-                            <div class="srTitleText" ng-hide="saveAs" tooltip="{{spendViewData.name}}">{{spendViewData.name}}</div>
+                            <div class="srTitleText" ng-hide="saveAs" title="{{spendViewData.name}}">{{spendViewData.name}}</div>
                         </div>
                     </div>
                 </tab-heading>
@@ -63,7 +63,7 @@
                                     <ul class="dropdown-menu srRecentViewsMenu">
                                         <div class="srRecentViewsMenuVisible">
                                             <li ng-repeat="view in getViewsList() | limitTo:4">
-                                                <div ng-click="loadView(spendCubeId, view.id);"><icon type="eye"></icon>{{view.name}}</div>
+                                                <div ng-click="loadView(spendCubeId, view.id);" title="{{view.name}}"><icon type="eye"></icon>{{view.name}}</div>
                                             </li>
                                             <hr>
                                             <li>
@@ -121,7 +121,7 @@
         <div class="result-panel-body well">
             <div class="row">
                 <div class="kpi-container col-md-5ths col-xs-5ths" ng-repeat="kpiSummaryDatum in kpiSummaryData">
-                    <h4 class="kpi-title" tooltip="{{kpiSummaryDatum.title}}">{{kpiSummaryDatum.title}}</h4>
+                    <h4 class="kpi-title" title="{{kpiSummaryDatum.title}}">{{kpiSummaryDatum.title}}</h4>
                     <h2 class="kpi-incremental kpi-{{kpiSummaryDatum.direction}}">
                         <icon class="kpi-arrow" type="{{addArrow(kpiSummaryDatum.direction)}}"></icon>${{kpiSummaryDatum.incremental | nrFormat}}
                     </h2>
