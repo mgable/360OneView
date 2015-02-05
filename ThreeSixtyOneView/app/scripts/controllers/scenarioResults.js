@@ -117,7 +117,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         spendData.header.total = _spendSummaryData[0].Spend;
         spendData.header.incremental = Math.abs(_spendSummaryData[0].Spend - _spendComparedSummaryData[0].Spend);
         spendData.header.percent = spendData.header.incremental / _spendComparedSummaryData[0].Spend;
-        if (spendData.header.incremental >= 0) {
+        if (_spendSummaryData[0].Spend - _spendComparedSummaryData[0].Spend >= 0) {
             spendData.header.direction = "increase";
         } else {
             spendData.header.direction = "decrease";
@@ -142,9 +142,9 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                     spendDatumChild.id = i1+1;
                     spendDatumChild.title = v1[0];
                     spendDatumChild.total = v1[1];
-                    spendDatumChild.incremental = v1[1] - _.pairs(_spendComparedSummaryData[i])[i1][1];
+                    spendDatumChild.incremental = Math.abs(v1[1] - _.pairs(_spendComparedSummaryData[i])[i1][1]);
                     spendDatumChild.percent = spendDatumChild.incremental / _.pairs(_spendComparedSummaryData[i])[i1][1];
-                    if (spendDatumChild.incremental >= 0) {
+                    if (v1[1] - _.pairs(_spendComparedSummaryData[i])[i1][1] >= 0) {
                         spendDatumChild.direction = "increase";
                     } else {
                         spendDatumChild.direction = "decrease";
@@ -417,7 +417,13 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     };
     // add sign to KPI summary
     $scope.addSign = function(direction) {
-        return direction === 'increase' ? '+' : '-';
+        if (direction === 'increase') {
+            return '+';
+        } else if (direction === 'decrease') {
+            return '-';
+        } else {
+            return '';
+        }
     };
     // add arrow icon to KPI summary
     $scope.addArrow = function(direction) {

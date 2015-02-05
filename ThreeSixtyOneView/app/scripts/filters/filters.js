@@ -174,7 +174,7 @@ angular.module('ThreeSixtyOneView.filters')
                 } else if (abs < Math.pow(10, 3) && abs >= Math.pow(10, 0)) {
                     number = number.toFixed(1);
                 } else if (abs < Math.pow(10, 0) && abs > 0) {
-                    number = number.toFixed(2);
+                    number = 0
                 } else {
                     number = number;
                 }
