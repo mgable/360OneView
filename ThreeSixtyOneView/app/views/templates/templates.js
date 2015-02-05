@@ -9,30 +9,6 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
-  $templateCache.put('views/directives/display_actions.tpl.html',
-    "<div class=\"display-actions\">\n" +
-    "\n" +
-    "\t<h4 class=\"filter-holder\" ng-click=\"toggle()\" data-ms-id=\"filterBy\"><span class=\"title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;(<span data-ms-id='itemCount'>{{SortAndFilterService.getCount()}}</span>)<span  class=\"filterToggle\"><icon type=\"caret-down\"></icon></span></span>\n" +
-    "\n" +
-    "\t\t<ul ms-link-group selected-item=\"{{CONFIG.filterMenu.items[0].label}}\" radio=\"true\" class='filterDropdown dropdownshadow title hide menu'>\n" +
-    "\t\t\t<li ng-repeat=\"item in CONFIG.filterMenu.items\" class=\"header\" ms-link=\"{{item.label}}\" ng-click=\"setFilter(item.filterType, item, true)\" data-ms-id=\"{{item.label}}\">\n" +
-    "\t\t\t\t <a>{{item.label}}</a>\n" +
-    "\t\t\t</li>\n" +
-    "\t    </ul>\n" +
-    "\t</h4>\n" +
-    "\n" +
-    "\t<div class=\"input-holder\">\n" +
-    "\t\t<icon type=\"filter\"></icon>\n" +
-    "\t\t<input type=\"text\" class=\"search-input\" ng-model=\"SortAndFilterService.searchText\" ng-change=\"SortAndFilterService.filter()\" placeholder=\"Filter List\" ng-maxlength=\"1000\" />&nbsp;\n" +
-    "\t</div>\n" +
-    "\n" +
-    "\t<div class=\"button-holder\">\n" +
-    "\t\t<button class=\"btn btn-default\" ng-click=\"create(CONFIG.displayActionsCreate)\" data-ms-id='createButton'><icon type=\"plus\"></icon>CREATE</button>\n" +
-    "\t</div>\n" +
-    "</div>\n"
-  );
-
-
   $templateCache.put('views/directives/draggable_dimension.tpl.html',
     "<div class=\"dimensionItem dropdown\" data-as-sortable-item>\n" +
     "\t<div data-as-sortable-item-handle>\n" +

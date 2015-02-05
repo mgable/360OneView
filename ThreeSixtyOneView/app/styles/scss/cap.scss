@@ -27,14 +27,14 @@
 			margin:auto;
 		}
 		a.logo {
-			background: transparent url($logo) 0px 0px no-repeat;
+			background: transparent url($client_logo) 0px 0px no-repeat;
 			display:inline-block;
 			height: 50px;
 			width: 100px;
 			text-indent: -1000px;
 		}
 		a.piechart {
-			background: transparent url($logo) -239px 4px no-repeat;
+			background: transparent url($client_logo) -239px 4px no-repeat;
 			background-size: auto 76px;
 			display:inline-block;
 			height: 50px;
