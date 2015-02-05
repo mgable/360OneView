@@ -9,268 +9,267 @@
 	.listingView {
 		background-color: $ms-pureWhite;
     	margin: 0 20px;
-		.middle {
-			.row {
-				&.alert-area {
-					z-index: 20;
-				}
-				&.display-area {
-					top: -4px;
-					height: 100%;
-				}
+		.row {
+			&.alert-area {
+				z-index: 20;
 			}
-			.display{
-				width: calc(100% - 360px);
-				overflow-y: auto;
-				overflow-x: hidden;
-				padding-right: 0;
-				padding-left: 15px;
+			&.display-area {
+				top: -4px;
 				height: 100%;
+			}
+		}
+		.display{
+			width: calc(100% - 360px);
+			overflow-y: auto;
+			overflow-x: hidden;
+			padding-right: 0;
+			padding-left: 15px;
+			height: 100%;
 
-				.display-table {
-					table {
-						padding: 20px 8px 5px 8px;
-						width: 100%;
-						th {
-							.title {
-								margin: 0 0 0 20px;
+			.display-table {
+				table {
+					padding: 20px 8px 5px 8px;
+					width: 100%;
+					th {
+						.title {
+							margin: 0 0 0 20px;
+						}
+						&:first-child {
+							padding: 20px 8px 5px 20px;
+						}
+					}
+					tr {
+						&.active {
+							span {
+								color: $ms-white;
 							}
-							&:first-child {
-								padding: 20px 8px 5px 20px;
+							td {
+								background-color:$ms-blue;
 							}
 						}
-						tr {
-							&.active {
-								span {
-									color: $ms-white;
-								}
-								td {
-									background-color:$ms-blue;
-								}
-							}
-						}
-						td {
-							white-space: nowrap;
-							padding: 13px 8px;
-							border-top: 1px solid $ms-lightGray;
+					}
+					td {
+						white-space: nowrap;
+						padding: 13px 8px;
+						border-top: 1px solid $ms-lightGray;
 
-							&:first-child {
-								padding: 13px 0;
-
-								.text-holder {
-									cursor: pointer;
-								}
-							}
-							
-							&.master {
-								font: {
-									weight:bold;
-									size:16px;
-								}
-							}
+						&:first-child {
+							padding: 13px 0;
 
 							.text-holder {
-								&.favorites-holder {
-									width:25px;
-								}
-								display: inline-block;
-								float: left;
-								max-width:400px;
-								margin-right: 10px;
-								a {
-									color: inherit;
-								}
-								.favorites {
-									display: inline-block;
-									margin-top: 2px;
-									padding: 0px 5px;
-									a {
-									  font-family: "font awesome";
-									  display: inline-block;
-									  width: 15px;
-									  height: 17px;
-									  background-color:inherit;
-									  &:hover {
-										text-decoration: none;
-										&:after {
-										  content: '\f006';
-										  color: $ms-gray;
-										}
-									  }
-									  &:after {
-										content: '\f006';
-										color: $ms-lightGray;
-									  }
-									  &.favorite:after {
-										content: '\f005';
-										color: $ms-gold;
-									  }
-									}
-								}
-							}
-						}
-						thead {
-							.title.active a{
-								color: $ms-orange;
-								font-weight: bold;
-							}
-							th {
-								border: 0 none;
-								border-bottom:1px solid $ms-mediumGray;
-								a {
-									color: $ms-black;
-									text-decoration: none;
-									font-weight: bold;
-									text-transform: uppercase;
-								}
-							}
-						}
-					}
-				}
-			}
-			.tray {
-				width: 360px;
-				padding:0 10px;
-				background-color: $ms-lightGray;
-				overflow-x: hidden;
-				overflow-y: auto;
-				position: absolute;
-				right:0;
-				top: 0;
-				bottom: 0;
-
-				@include drop-shadow(-2px, 0, 6px, 0, 0.3);
-
-				.tray-holder {
-					margin: 15px 10px 10px;
-
-					.ms-label {
-						margin: 5px 0 2px 0;
-						color: $ms-mediumGray;
-						font-weight: bold;
-						clear:both;
-					}
-					.details {
-						margin:0 0 10px;
-
-						.title-holder {
-							border-bottom: 1px solid $ms-gray;
-
-							.title {
-								font-size:18px;
-								max-width: 280px;
-							}
-						}
-						.button-group {
-							height: 50px;
-							margin: 0;
-
-							.button-holder {
-					    		display: inline-block;
-								margin: 10px 6px 10px 0;
-					    		background-color:transparent;
-
-					    		&:last-child {
-					    			margin: 10px 0;
-					    			a {
-					    				padding: 6px 8px;
-						    		}
-					    		}
-					    		button {
-					    			cursor: pointer;
-					    			display: block;
-					    			float: none;
-					    			width: 100%;
-								    padding: 6px 13px;
-								    color: $ms-mediumGray;
-								    text-align: center;
-								    height:32px;
-					    			border: 1px solid $subtitle;
-
-								    &:hover {
-								    	border: 1px solid $blue;
-								    	text-decoration: none;
-								    	color: $black;
-								    }			    
-								}
-							}		
-						}
-					}
-					.well {
-						padding: 10px;
-						margin-bottom: 10px;
-						background-color: $ms-pureWhite;
-						@include drop-shadow(1px, 1px, 5px, 0, 0.3);
-						border-radius: 0;
-
-						&.meta {
-							.description-label {
-								float: left;
-							}
-							.description {
-								display: inline-block;
-								min-height: 26px;
-								word-wrap: break-word;
-								width: 100%;
-							}
-							.name {
-								text-transform: capitalize;
-							}
-						}
-						&.relatedItems {
-							padding: 0;
-
-							.relatedItems-holder {
-								height: auto;
-								padding: 10px;
-								.field-label {
-									margin: 0 0 5px;
-									font-weight: bold;
-								}
-							}
-							.description-label {
-								display: inline-block;
-								margin-bottom: 15px;
-								font-weight: bold;
-							}
-							.item-holder {
-								.item {
-									margin:0 0 5px;
-									padding: 0;
-									span {
-										word-break: break-all;
-										cursor: pointer;
-										text-transform: capitalize;
-										color: $ms-lightBlue;
-
-										&:hover {
-											text-decoration: none;
-										}
-									}
-								}
-							}
-						}
-						.viewAll{
-							width: 100%;
-							span {
-								display: block;
-								width: 100%;
-								padding: 5px;
-								background-color: $ms-lightGray;
-								color: $ms-mediumGray;
-								text-align: center;
 								cursor: pointer;
+							}
+						}
+						
+						&.master {
+							font: {
+								weight:bold;
+								size:16px;
+							}
+						}
 
-								&:hover {
-									color: $ms-pureWhite;
+						.text-holder {
+							&.favorites-holder {
+								width:25px;
+							}
+							display: inline-block;
+							float: left;
+							max-width:400px;
+							margin-right: 10px;
+							a {
+								color: inherit;
+							}
+							.favorites {
+								display: inline-block;
+								margin-top: 2px;
+								padding: 0px 5px;
+								a {
+								  font-family: "font awesome";
+								  display: inline-block;
+								  width: 15px;
+								  height: 17px;
+								  background-color:inherit;
+								  &:hover {
 									text-decoration: none;
-									background-color: $ms-blue;
+									&:after {
+									  content: '\f006';
+									  color: $ms-gray;
+									}
+								  }
+								  &:after {
+									content: '\f006';
+									color: $ms-lightGray;
+								  }
+								  &.favorite:after {
+									content: '\f005';
+									color: $ms-gold;
+								  }
 								}
+							}
+						}
+					}
+					thead {
+						.title.active a{
+							color: $ms-orange;
+							font-weight: bold;
+						}
+						th {
+							border: 0 none;
+							border-bottom:1px solid $ms-mediumGray;
+							a {
+								color: $ms-black;
+								text-decoration: none;
+								font-weight: bold;
+								text-transform: uppercase;
 							}
 						}
 					}
 				}
 			}
 		}
+		.tray {
+			width: 360px;
+			padding:0 10px;
+			background-color: $ms-lightGray;
+			overflow-x: hidden;
+			overflow-y: auto;
+			position: absolute;
+			right:0;
+			top: 0;
+			bottom: 0;
+
+			@include drop-shadow(-2px, 0, 6px, 0, 0.3);
+
+			.tray-holder {
+				margin: 15px 10px 10px;
+
+				.ms-label {
+					margin: 5px 0 2px 0;
+					color: $ms-mediumGray;
+					font-weight: bold;
+					clear:both;
+				}
+				.details {
+					margin:0 0 10px;
+
+					.title-holder {
+						border-bottom: 1px solid $ms-gray;
+
+						.title {
+							font-size:18px;
+							max-width: 280px;
+						}
+					}
+					.button-group {
+						height: 50px;
+						margin: 0;
+
+						.button-holder {
+				    		display: inline-block;
+							margin: 10px 6px 10px 0;
+				    		background-color:transparent;
+
+				    		&:last-child {
+				    			margin: 10px 0;
+				    			a {
+				    				padding: 6px 8px;
+					    		}
+				    		}
+				    		button {
+				    			cursor: pointer;
+				    			display: block;
+				    			float: none;
+				    			width: 100%;
+							    padding: 6px 13px;
+							    color: $ms-mediumGray;
+							    text-align: center;
+							    height:32px;
+				    			border: 1px solid $subtitle;
+
+							    &:hover {
+							    	border: 1px solid $blue;
+							    	text-decoration: none;
+							    	color: $black;
+							    }			    
+							}
+						}		
+					}
+				}
+				.well {
+					padding: 10px;
+					margin-bottom: 10px;
+					background-color: $ms-pureWhite;
+					@include drop-shadow(1px, 1px, 5px, 0, 0.3);
+					border-radius: 0;
+
+					&.meta {
+						.description-label {
+							float: left;
+						}
+						.description {
+							display: inline-block;
+							min-height: 26px;
+							word-wrap: break-word;
+							width: 100%;
+						}
+						.name {
+							text-transform: capitalize;
+						}
+					}
+					&.relatedItems {
+						padding: 0;
+
+						.relatedItems-holder {
+							height: auto;
+							padding: 10px;
+							.field-label {
+								margin: 0 0 5px;
+								font-weight: bold;
+							}
+						}
+						.description-label {
+							display: inline-block;
+							margin-bottom: 15px;
+							font-weight: bold;
+						}
+						.item-holder {
+							.item {
+								margin:0 0 5px;
+								padding: 0;
+								span {
+									word-break: break-all;
+									cursor: pointer;
+									text-transform: capitalize;
+									color: $ms-lightBlue;
+
+									&:hover {
+										text-decoration: none;
+									}
+								}
+							}
+						}
+					}
+					.viewAll{
+						width: 100%;
+						span {
+							display: block;
+							width: 100%;
+							padding: 5px;
+							background-color: $ms-lightGray;
+							color: $ms-mediumGray;
+							text-align: center;
+							cursor: pointer;
+
+							&:hover {
+								color: $ms-pureWhite;
+								text-decoration: none;
+								background-color: $ms-blue;
+							}
+						}
+					}
+				}
+			}
+		}
+		
 	}
 }
