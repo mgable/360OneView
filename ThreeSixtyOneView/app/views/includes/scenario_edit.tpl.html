@@ -25,7 +25,7 @@
                         <icon type="eye"></icon>
                         <div class="pbTitleText" ng-hide="saveAs">{{viewData.name}}</div>
                         <div class="pbSaveAsBox" ng-show="saveAs">
-                            <input type="text" ng-model="saveAsName" ui-keydown="{'esc': 'cancelSaveAs()', 'enter': 'submitSaveAs()'}">
+                            <input type="text" id="saveAsInput" ng-model="saveAsName" ui-keydown="{'esc': 'cancelSaveAs()', 'enter': 'submitSaveAs()'}">
                             <span class="clickable" ng-click="submitSaveAs()"><icon type="check"></icon></span>
                             <span class="clickable" ng-click="cancelSaveAs()"><icon type="remove"></icon></span>
                         </div>
