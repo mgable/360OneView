@@ -1,5 +1,5 @@
-<div class="element-copy-modal-header">
-	<h4 class="element-copy-modal-title" id="myModalLabel">{{selectedScenarioElement.cubeMeta.label}}</h4>
+<div class="modal-header">
+	<h4 class="element-modal-title" id="myModalLabel">{{selectedScenarioElement.cubeMeta.label}}</h4>
 	<h3>Copy &amp; Replace</h3>
 </div>
 <div class="element-copy-modal-body">
@@ -17,7 +17,7 @@
 			</label>
 		</div>
 	</form>
-	<div class="element-copy-buttons">
+	<div class="element-file-buttons">
 		<ms-button type="cancel" action="cancelCopyFile()" label="Cancel" data-dismiss="modal"></ms-button>
 		<ms-button type="submit" action="copyFile()" label="Replace" data-dismiss="modal" ng-disabled="elementCopy.$invalid"></ms-button>
 	</div>

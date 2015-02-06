@@ -16,8 +16,6 @@ angular.module('ThreeSixtyOneView')
 
                 $scope.project = Project;
                 $scope.scenario = Scenario;
-                console.info("SCENRIOJS: the scenatio is ");
-                console.info(Scenario);
                 $scope.views = {
                     views: [],
                     currentView: {
@@ -238,6 +236,7 @@ angular.module('ThreeSixtyOneView')
             });
             $scope.selectedScenarioElement = newElement;
             $scope.selectedScenarioElementsFile = newElement.name;
+            $scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
         };
 
         // hide scenario copy and replace options if part of the marleting plan
