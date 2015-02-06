@@ -15,6 +15,9 @@
 						<span class="favorites"><a ng-class="{favorite:isFavorite(item.id)}" ng-click="toggleFavorite($event, item)">&nbsp;</a></span>
 					</div>
 					<div class="text-holder">
+											<pre>
+item.currentState is {{item.currentState}}
+	</pre>
                     	<span class="title">
 	                        <a ng-if="!e2e" class="default" ng-click="goto($event, CONFIG.nameClickAction, item)">{{item.title}}</a>
 	                        <a ng-if="e2e" data-ms-id="{{item.id}}" class="default" ng-click="goto($event, CONFIG.nameClickAction, item)">{{item.title}}</a>

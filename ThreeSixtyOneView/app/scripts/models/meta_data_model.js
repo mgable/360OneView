@@ -4,6 +4,8 @@ angular.module('ThreeSixtyOneView.services')
   .factory('MetaDataModel', ["$location", "Resource", "CONFIG", "SERVER", function MetaDataModel($location, Resource, CONFIG, SERVER) {
 	var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.cube),
 	 transformResponse = function(data) {
+	 	console.info("data in");
+	 	console.info(data);
 		var i, j, k, leafNode, newMember, dimensions = [], response = JSON.parse(data);
 		
 		if (response) {
@@ -54,6 +56,9 @@ angular.module('ThreeSixtyOneView.services')
 					}
 				}
 			}
+
+			console.info("dimensions out");
+			console.info(JSON.stringify(dimensions));
 			return dimensions;
 		}
 		return data;
