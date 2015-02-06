@@ -5,10 +5,10 @@ var specs = require('./0.0-specs.js'),
 
 	var dashboardUrl, projectId;
 	// TEMP data - remove in production
-	var dashboardUrl, projectId = "eb2449ce190f3808b0d52d595ba9f4ab"; dashboardUrl = specs.getDashboardUrl(projectId);
+	//var dashboardUrl, projectId = "123f69cf1b6a38a9942b65b015810854"; dashboardUrl = specs.getDashboardUrl(projectId);
 
 
-describe('Project Dashboard', function() {
+xdescribe('Project Dashboard', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
@@ -16,7 +16,7 @@ describe('Project Dashboard', function() {
 	);
 	var testFileName = "My New Test Project- " + Date.now();
 
-	xit("should create a new project and go to the dashboard", function(){
+	it("should create a new project and go to the dashboard", function(){
 		var firstItemTitle;
 
 		browser.get(specs.projectUrl + specs.testQuery);
@@ -258,7 +258,8 @@ describe('Project Dashboard', function() {
 
 		describe("Edit functions: ", function(){
 			var first,
-				newName = "My Renamed Scenario - " + Date.now();
+				newName = "My Renamed Scenario - " + Date.now(),
+				newDescription = "My new Description - " + Date.now();
 
 			it("should rename a scenario", function(){
 				var currentName;
@@ -287,6 +288,22 @@ describe('Project Dashboard', function() {
 					specs.inputField.sendKeys("x");
 					expect(specs.inlineSubmitButton.getAttribute("disabled")).toBeFalsy();
 				});
+			});
+
+			it("should edit a description", function(){
+
+				funcs.hoverAndClick(specs.editDescriptionButton);
+
+				specs.textAreaField.clear();
+				specs.textAreaField.sendKeys(newDescription);
+				specs.inlineEditSubmitButton.click();
+				browser.waitForAngular();
+				browser.get(specs.getDashboardUrl(projectId) + specs.testQuery);
+
+				specs.inlineEditField.getText().then(function(description){
+					expect(newDescription).toEqual(description);
+				});
+
 			});
 		})
 

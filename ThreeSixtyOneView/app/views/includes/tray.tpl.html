@@ -22,7 +22,7 @@
 		<span ng-switch="selectedItem.isMaster || ! selectedItem">
 			<span ng-switch-when="true" class="description">{{item.description}}</span>
 			<span ng-switch-default>
-				<inline-edit template="inline_description" focusTarget="textarea" item="selectedItem" test="e2e" submitAction="CONFIG.renameAction"></inline-edit>
+				<inline-edit template="inline_description" focusTarget="textarea" item="selectedItem" test="e2e" submitAction="CONFIG.editAction"></inline-edit>
 			</span>
 		</span>
 		<span ng-if="selectedItem.createdBy">

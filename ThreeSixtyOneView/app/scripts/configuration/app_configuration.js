@@ -111,6 +111,7 @@ angular.module('ThreeSixtyOneView.config')
                 "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
                 "displayActionsCreate": "gotoScenarioCreate",
                 "renameAction": "renameScenario",
+                "editAction": "editScenario",
                 "trayButtons": [{
                     "action": "trayCopy",
                     "label": "copy",
@@ -152,6 +153,7 @@ angular.module('ThreeSixtyOneView.config')
                 "nameClickAction": 'gotoDashboard',
                 "displayActionsCreate": "getNewProjectTitle",
                 "renameAction": "renameProject",
+                "editAction": "renameProject",
                 "trayButtons": [],
                 "filterMenu": {
                     "firstSelected": 0,
