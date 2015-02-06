@@ -165,7 +165,6 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     sheet.isPaintSuspended(false);
                 },
                 cellValueChanged = function(dirtyCell) {
-                    console.log(Number(dirtyCell.newValue));
                     // if the cell was empty, do not allow change and revert back to empty
                     if(dirtyCell.oldValue === null) {
                         sheet.setValue(dirtyCell.row, dirtyCell.col, dirtyCell.oldValue);
@@ -200,10 +199,8 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     cellObject.oldvalue = dirtyCell.oldValue;
                     cellObject.newvalue = dirtyCell.newValue;
 
-                    // console.log(cellObject);
                     sheet.getCell(dirtyCell.row, dirtyCell.col).backColor("#EEE").locked(true);
                     PivotService.updateCell($scope.selectedScenarioElement.id, $scope.viewData.id, cellObject).then(function(response) {
-                        // console.log(response);
                         sheet.getCell(dirtyCell.row, dirtyCell.col).backColor("#FFF").locked(false);
                     });
                 };
@@ -272,7 +269,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                 }, (numCols + numRows) * 400);
                 //TEMP : END
 
-                $scope.data = _data_;
+                $scope.data = _data_ || {};
                 $scope.rowCnt = $scope.data.length;
                 $scope.rowHeaderCnt = numRows || 2;
                 $scope.rowDataCnt = $scope.rowCnt - $scope.rowHeaderCnt;
