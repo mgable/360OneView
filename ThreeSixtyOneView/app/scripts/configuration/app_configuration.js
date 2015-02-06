@@ -44,12 +44,28 @@ angular.module('ThreeSixtyOneView.config')
                     "requestTranslator": {"id":"id", "name": "title"}
                 },
                 "ScenarioAnalytics": {
-                    "states" : {
-                        "NOT_CALCULATED": "not_calculated",
-                        "FAILED": "FAILED",
-                        "SUCCESS": "SUCCESSFUL",
-                        "IN_PROGRESS": "in_progress"
-                    }
+                    "states": {
+                        "FAILED": {
+                            "message": "FAILED",
+                            "description": "Error during optimization",
+                            "icon": "exclamation-triangle"
+                        },
+                        "NOT_CALCULATED": {
+                            "message": "not_calculated",
+                            "description": "This scenario has not been calculated",
+                            "icon": "exclamation-triangle"
+                        },
+                        "SUCCESS": {
+                            "message": "SUCCESSFUL",
+                            "description": "Calculation is succeed",
+                            "icon": ""
+                        },
+                        "IN_PROGRESS": {
+                            "message": "in_progress",
+                            "description": "Optimization is in progress",
+                            "icon": ""
+                        }
+                    },
                 },
                 "ImportModel": {
                     "uploadStates": {
@@ -180,7 +196,7 @@ angular.module('ThreeSixtyOneView.config')
             },
             "ScenarioCalculate": {
                 "timerInterval": 10000,
-                "statusLen": 7
+                "stateLength": 7
             }
         },
         "client": {

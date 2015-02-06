@@ -7,15 +7,15 @@ angular.module('ThreeSixtyOneView.services')
             getScenarioState = function(currentStateObj){
             	var state;
                 if (currentStateObj.completed === true){
-                    if (currentStateObj.name === scenarioStates.FAILED){
-                        state = scenarioStates.FAILED;
-                    } else if (currentStateObj.name === scenarioStates.SUCCESS){
-                        state = scenarioStates.SUCCESS;
+                    if (currentStateObj.name === scenarioStates.FAILED.message){
+                        state = scenarioStates.FAILED.message;
+                    } else if (currentStateObj.name === scenarioStates.SUCCESS.message){
+                        state = scenarioStates.SUCCESS.message;
                     }
-                } else if (currentStateObj.name === scenarioStates.NOT_CALCULATED){
-                    state = scenarioStates.NOT_CALCULATED;
+                } else if (currentStateObj.name === scenarioStates.NOT_CALCULATED.message){
+                    state = scenarioStates.NOT_CALCULATED.message;
                 } else {
-                    state = scenarioStates.IN_PROGRESS;
+                    state = scenarioStates.IN_PROGRESS.message;
                 }
                 return state;
             },
@@ -33,19 +33,19 @@ angular.module('ThreeSixtyOneView.services')
 		this.getScenarioState = getScenarioState;
 
 		this.isInProgress = function(state){
-			return state === scenarioStates.IN_PROGRESS;
+			return state === scenarioStates.IN_PROGRESS.message;
 		};
 
 		this.isFailed = function(state){
-			return state === scenarioStates.FAILED;
+			return state === scenarioStates.FAILED.message;
 		};
 
 		this.isNotCalculated = function(state){
-			return state = scenarioStates.NOT_CALCULATED;
+			return state = scenarioStates.NOT_CALCULATED.message;
 		};
 
 		this.isSuccess = function(state){
-			return state = scenarioStates.SUCCESS;
+			return state = scenarioStates.SUCCESS.message;
 		};
 
 		this.get = function(id){
