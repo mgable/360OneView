@@ -6,6 +6,7 @@
     height: 590px;
     text-align: center;
     .scenario-calculation-title {
+        margin-bottom: 10px;
         font-size: 26px;
         i {
             font-size: 20px;
@@ -63,14 +64,17 @@
             }
         }
     }
-    .sm-padding { padding: 5px; }
-    .btn-calculate {
-        font-size: 14px;
-        text-transform: uppercase;
-        background-color: #d9d9d9;
-        &:hover, &:active {
-            background-color: #cdcdcd;
-            color: #333;
+    .scenario-calculation-btn-group {
+        margin-top: 20px;
+        .btn-calculate {
+            font-size: 14px;
+            text-transform: uppercase;
+            background-color: #d9d9d9;
+            &:hover, &:active {
+                background-color: #cdcdcd;
+                color: #333;
+            }
         }
+        .sm-padding { padding: 5px; }
     }
 }

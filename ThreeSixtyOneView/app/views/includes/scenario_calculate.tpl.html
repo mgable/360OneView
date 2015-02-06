@@ -1,23 +1,24 @@
 <div class="scenario-calculation">
-
-    <h2 class="scenario-calculation-title" ng-if="scenarioState === 'in progress' || scenarioState === 'SUCCESSFUL'">Optimization is in progress</h2>
-    <h2 class="scenario-calculation-title" ng-if="scenarioState === 'FAILED'"><icon type="exclamation-triangle"></icon> Error during optimization</h2>
-    <h2 class="scenario-calculation-title" ng-if="scenarioState === 'not calculated'">This scenario has not been calculated</h2>
+    <div class="scenario-calculation-title">
+        <icon type="{{currentStateTitle.icon}}"></icon>&nbsp;{{currentStateTitle.description}}
+    </div>
     <p class="scenario-calculation-description" ng-if="scenarioState === 'FAILED'">{{errorMsg}}</p>
     <div class="row">
         <progressbar class="progress-striped active" max="100" value="progressValue" type="{{progressbarType}}"><i>{{progressValue | number:0}}%</i></progressbar>
     </div>
     <div class="row">
         <ul class="scenario-calculation-list">
-            <li ng-repeat="state in runningStates" ng-class="{completed: state.completed}">
+            <li ng-repeat="state in getStates()" ng-class="{completed: state.completed}">
                 <span class="numberCircle">{{state.id}}</span>
                 {{state.label}}
-                <i class="fa fa-check checkmark" type="check" ng-show="scenarioState !== 'FAILED' ? state.completed : step > $index"></i>
-                <span class="error" ng-show="scenarioState === 'FAILED' && step === $index"><i class="fa fa-exclamation-triangle"></i> Error</span>
+                <icon type="check" class="checkmark" ng-if="scenarioState !== 'FAILED' ? state.completed : step > $index"></icon>
+                <span class="error" ng-if="scenarioState === 'FAILED' && step === $index">
+                    <icon type="exclamation-triangle"></icon>&nbsp;Error
+                </span>
             </li>
         </ul>
     </div>
-    <div class="row" style="margin-top: 20px;" ng-if="scenarioState === 'FAILED'">
+    <div class="row scenario-calculation-btn-group" ng-if="scenarioState === 'FAILED'">
         <div class="col-sm-6 sm-padding">
             <button class="btn btn-sm btn-block btn-calculate" ui-sref="Scenario.edit" ng-click="returnToEdit()">goto editor</button>
         </div>
@@ -25,5 +26,4 @@
             <button class="btn btn-sm btn-block btn-calculate" ng-click="resetProgress()">try again</button>
         </div>
     </div>
-
 </div>
