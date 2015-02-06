@@ -26,6 +26,7 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 	    		$scope.addedExportFilters = angular.copy($scope.addedFilters);
 				$scope.exportViewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedFilters, $scope.membersList, $scope.exportViewData.filters);
 				$scope.categorizedExportValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.exportViewData);
+				$scope.getLockedDimensions($scope.dimensions, $scope.membersList, $scope.categorizedExportValue);
 			}
     	};
 
@@ -69,6 +70,7 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 				$scope.addedExportFilters = data;
 				$scope.exportViewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedExportFilters, $scope.membersList, $scope.exportViewData.filters);
 				$scope.categorizedExportValue = PivotMetaService.generateCategorizeValueStructure($scope.addedExportFilters, $scope.dimensions, $scope.exportViewData);
+				$scope.getLockedDimensions($scope.dimensions, $scope.membersList, $scope.categorizedExportValue);
 			});
 		};
 
@@ -80,6 +82,20 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 		// get all added rows and columns in the current view
 		$scope.getExportViewDataRows = function() {
 			return $scope.exportViewData.rows;
+		};
+
+		// get dimensions that cannot be removed due to filters applied on them
+		$scope.getLockedDimensions = function(dimensions, membersList, filters) {
+			$scope.lockedDimensions = {};
+			_.each(dimensions, function(dimension, dimensionIndex) {
+				if(filters[dimensionIndex].selected < filters[dimensionIndex].total) {
+					var level = _.findWhere(dimension.members, {levelId: membersList[dimension.id][filters[dimensionIndex].label[0]].levelId});
+					if(!$scope.exportAdded[level.label]) {
+						$scope.addItem(level);
+					}
+					$scope.lockedDimensions[level.label] = true;
+				}
+			});
 		};
 
 		// start the export process
