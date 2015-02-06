@@ -75,7 +75,16 @@ angular.module('ThreeSixtyOneView')
         });
 
         $scope.$on(EVENTS.renameScenario, function(evt, scenario){
+            console.info("rename scenario");
             ScenarioService.rename(scenario, getProject().id);
+        });
+
+        $scope.$on(EVENTS.editScenario, function($event, scenario){
+            console.info("edit scenario");
+            ScenarioService.getProjectIdByScenarioId(scenario.id).then(function(project){
+                 console.info(scenario);
+                 ScenarioService.edit(scenario, project.uuid);
+            });
         });
 
         init();
