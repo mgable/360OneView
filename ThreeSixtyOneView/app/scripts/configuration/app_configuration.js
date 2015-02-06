@@ -50,7 +50,51 @@ angular.module('ThreeSixtyOneView.config')
                         "SUCCESS": "SUCCESSFUL",
                         "IN_PROGRESS": "in_progress"
                     }
-                }
+                },
+                "ImportModel": {
+                    "uploadStates": {
+                        "success": {
+                            "message": "IMPORT_REQUEST_ACCEPTED",
+                            "description": "Upload successful.",
+                            "code": 201
+                        },
+                        "fail": {
+                            "message": "FILE_UPLOAD_FAILED",
+                            "description": "File upload failed, please try again.",
+                            "code": 400
+                        },
+                        "empty": {
+                            "message": "EMPTY_FILE_IMPORTED",
+                            "description": "Uploaded file is empty.",
+                            "code": 400
+                        }
+                    },
+                    "importStates": {
+                        "init": {
+                            "message": "INIT",
+                            "description": "Initializing the import process ...",
+                            "code": 201
+                        },
+                        "success": {
+                            "message": "COMPLETED",
+                            "description": "Import completed.",
+                            "code": 201
+                        },
+                        "inprogress": {
+                            "message": "IN_PROGRESS",
+                            "description": "Processing the imported file ...",
+                            "code": 201
+                        },
+                        "fail": {
+                            "message": "FAILED",
+                            "description": "Processing the uploaded file failed, please try again.",
+                            "code": 400
+                        }
+                    },
+                    "acceptedFileType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+
+                },
+                "ExportModel": {}
             },
             "inputRestrictions": {
                 "characterRestrictions": /^[^\\\/\?\:\*"><|]+$/,
