@@ -34,7 +34,8 @@ angular.module('ThreeSixtyOneView.services')
 							members: []
 						};
 						
-						if(response.dimensions[i].hierarchies[j].levels[k].id !== response.dimensions[i].hierarchies[j].id) {
+						// if(response.dimensions[i].hierarchies[j].levels[k].id !== response.dimensions[i].hierarchies[j].id) {
+						if(k === response.dimensions[i].hierarchies[j].levels.length - 1) {
 							if(!leafNode) {
 								newMember.leafLevel = true;
 								dimensions[i].members.push(newMember);
