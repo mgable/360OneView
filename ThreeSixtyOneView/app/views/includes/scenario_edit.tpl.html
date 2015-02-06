@@ -130,7 +130,7 @@
                     <div class="error" ng-show="isFileInvalid"><icon type="warning"></icon>This file is invalid. Please try again.</div>
                 </div>
                 <div class="btnGroup">
-                    <ms-button type="cancel" action="cancelUpload()" label="{{cancelButtonLabel}}" ng-disabled="!isImportStarted"></ms-button>
+                    <ms-button type="cancel" action="resetUploadForm()" label="{{cancelButtonLabel}}" ng-disabled="!isImportStarted"></ms-button>
                     <ms-button type="submit" action="startUpload()" label="Import" ng-disabled="!isFileSelected || isFileInvalid || isImportStarted"></ms-button>
                 </div>
                 <div ng-show="isImportStarted" class="uploadContainer">
