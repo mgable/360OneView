@@ -3,7 +3,7 @@
 var specs = require('./0.0-specs.js'),
 	funcs = require('./0.1-project_functions.js');
 
-xdescribe('Project Listing Page: ', function() {
+describe('Project Listing Page: ', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
@@ -447,7 +447,7 @@ xdescribe('Project Listing Page: ', function() {
 			browser.waitForAngular();
 			browser.get(specs.projectUrl);
 
-			inlineEditField.getText().then(function(currentDescription){
+			specs.inlineEditField.getText().then(function(currentDescription){
 				expect(newDescription).toBe(currentDescription);
 			});
 		});

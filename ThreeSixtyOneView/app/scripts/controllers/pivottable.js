@@ -175,7 +175,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     if(Math.round(dirtyCell.oldValue) === Math.round(dirtyCell.newValue) || !angular.isNumber(dirtyCell.oldValue)) return;
 
                     // if the new value is not a number, discard the change and put the old value in place
-                    if(!angular.isNumber(dirtyCell.newValue)) {
+                    if(!angular.isNumber(dirtyCell.newValue) || Number(dirtyCell.newValue) < 0) {
                         sheet.setValue(dirtyCell.row, dirtyCell.col, dirtyCell.oldValue);
                         return;
                     }
@@ -199,10 +199,8 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     cellObject.oldvalue = dirtyCell.oldValue;
                     cellObject.newvalue = dirtyCell.newValue;
 
-                    // console.log(cellObject);
                     sheet.getCell(dirtyCell.row, dirtyCell.col).backColor("#EEE").locked(true);
                     PivotService.updateCell($scope.selectedScenarioElement.id, $scope.viewData.id, cellObject).then(function(response) {
-                        // console.log(response);
                         sheet.getCell(dirtyCell.row, dirtyCell.col).backColor("#FFF").locked(false);
                     });
                 };
@@ -239,9 +237,13 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                         if(sheet.hasPendingChanges(row, col)) { 
                             var dirtyDataArray = sheet.getDirtyCells(row, col); 
                             if (dirtyDataArray.length > 0) { 
-                                !!dirtyDataArray[0].newValue ? cellValueChanged(dirtyDataArray[0]) : null;
-                            } 
-                        } 
+                                if(!!dirtyDataArray[0].newValue && Number(dirtyDataArray[0].oldValue) >= 0 && Number(dirtyDataArray[0].newValue) >= 0) {
+                                    cellValueChanged(dirtyDataArray[0]);
+                                } else if(Number(dirtyDataArray[0].newValue) < 0) {
+                                    sheet.setValue(dirtyDataArray[0].row, dirtyDataArray[0].col, dirtyDataArray[0].oldValue);
+                                }
+                            }
+                        }
                     });
 
                     // update all copy/paste cells in the table
@@ -267,7 +269,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                 }, (numCols + numRows) * 400);
                 //TEMP : END
 
-                $scope.data = _data_;
+                $scope.data = _data_ || {};
                 $scope.rowCnt = $scope.data.length;
                 $scope.rowHeaderCnt = numRows || 2;
                 $scope.rowDataCnt = $scope.rowCnt - $scope.rowHeaderCnt;

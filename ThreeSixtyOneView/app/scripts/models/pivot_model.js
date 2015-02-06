@@ -4,6 +4,8 @@ angular.module('ThreeSixtyOneView.services')
   .factory('PivotModel', ["$location", "Resource", "CONFIG", "SERVER", function ($location, Resource, CONFIG, SERVER) {
     var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.pivotdata),
     	transformResponse = function(data) {
+    		if(data === '') return data;
+
     		var response = JSON.parse(data);
     		
     		if(response) {

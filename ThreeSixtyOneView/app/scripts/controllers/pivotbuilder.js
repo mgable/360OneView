@@ -141,6 +141,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 		$scope.saveAsName = $scope.viewData.name;
 		$scope.saveAs = true;
 		$scope.rename = false;
+		$scope.tabCollapseStatus('disable');
 	};
 
 	// submit save as process
@@ -162,6 +163,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 	$scope.cancelSaveAs = function() {
 		$scope.rename = false;
 		$scope.saveAs = false;
+		$scope.tabCollapseStatus('intermediate');
 	};
 
 	// start the rename process
@@ -169,6 +171,7 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 		$scope.saveAsName = $scope.viewData.name;
 		$scope.saveAs = true;
 		$scope.rename = true;
+		$scope.tabCollapseStatus('disable');
 	};
 
 	// apply the changes in the pivot table

@@ -69,7 +69,9 @@ angular.module('ThreeSixtyOneView')
                 if (AnalyticCalculationsService.isInProgress($scope.scenarioState) || AnalyticCalculationsService.isFailed($scope.scenarioState)){
                     $timeout(function(){$state.go("Scenario.calculate");});
                 }
-            };
+            },
+            tabCollapseStates = ['enable','disable','intermediate'],
+            isTabCollapsable = 'enable';
 
 
         $scope.getlocation = function (){
@@ -274,6 +276,15 @@ angular.module('ThreeSixtyOneView')
             ManageScenariosService.copyAndReplaceAnalysisElementForCube(scenarioId, cubeId, sourceElementId, newElementData).then(function(element){
                 $scope.replaceScenarioElement(element);
             });
+        };
+
+
+        $scope.tabCollapseStatus = function(state) {
+            if(!!state) {
+                isTabCollapsable = tabCollapseStates.indexOf(state) > -1 ? state : tabCollapseStates[0];
+            }
+
+            return isTabCollapsable;
         };
 
         $scope.$on('$locationChangeStart', function(){

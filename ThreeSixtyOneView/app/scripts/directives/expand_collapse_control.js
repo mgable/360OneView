@@ -15,6 +15,13 @@ angular.module('ThreeSixtyOneView.directives')
                 };
 
                 element.on('click', function() {
+                    if(scope.$parent.tabCollapseStatus() === 'disable') {
+                        return;
+                    } else if(scope.$parent.tabCollapseStatus() === 'intermediate') {
+                        scope.$parent.tabCollapseStatus('enable');
+                        return;
+                    }
+
                     scope.$parent.tabControl[tabId].collapsed = !scope.$parent.tabControl[tabId].collapsed;
                     $(element).toggleClass('lightestgrayBg');
                     $(targetArea).toggleClass('hidden');
