@@ -5,6 +5,8 @@ angular.module('ThreeSixtyOneView.services')
 		var MyScenarioCalculate, myCalculate, self = this,
 			scenarioStates = CONFIG.application.models.ScenarioAnalytics.states,
             getScenarioState = function(currentStateObj){
+            	console.info("the current object is");
+            	console.info(currentStateObj);
             	var state;
                 if (currentStateObj.completed === true){
                     if (currentStateObj.name === scenarioStates.FAILED.message){
