@@ -35,6 +35,9 @@ angular.module('ThreeSixtyOneView')
 
                 $scope.scenarioState = AnalyticCalculationsService.getScenarioState(Calculate.currentState);
 
+                console.info(Calculate);
+                console.info($scope.scenarioState);
+
                 setView($scope.scenarioState);
 
             },
@@ -66,7 +69,7 @@ angular.module('ThreeSixtyOneView')
                return  _.find(_data, function(element) { return element.cubeMeta.name ===_name; });
             },
             setView = function(currentState){
-                if (AnalyticCalculationsService.isInProgress($scope.scenarioState) || AnalyticCalculationsService.isFailed($scope.scenarioState)){
+                if (AnalyticCalculationsService.isInProgress($scope.scenarioState.message) || AnalyticCalculationsService.isFailed($scope.scenarioState.message)){
                     $timeout(function(){$state.go("Scenario.calculate");});
                 }
             },
