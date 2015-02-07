@@ -92,7 +92,7 @@ angular.module('ThreeSixtyOneView')
         }
 
         $scope.gotoResults = function(){
-            if (AnalyticCalculationsService.isInProgress($scope.scenarioState) || AnalyticCalculationsService.isFailed($scope.scenarioState)) {
+            if (AnalyticCalculationsService.isInProgress($scope.scenarioState.message) || AnalyticCalculationsService.isFailed($scope.scenarioState.message)) {
                 $state.go("Scenario.calculate");
             } else {
                 $state.go("Scenario.results");
@@ -101,7 +101,7 @@ angular.module('ThreeSixtyOneView')
 
         $scope.disableSimulateBtn = function() {
             if($scope.location === '/edit') {
-                return ($scope.scenarioState === 'in_progress' || $scope.scenarioState === 'SUCCESSFUL') ? true : false;
+                return ($scope.scenarioState.message === 'in_progress' || $scope.scenarioState.message === 'SUCCESSFUL') ? true : false;
             } else {
                 return true;
             }
