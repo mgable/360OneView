@@ -2,7 +2,7 @@
 
 angular.module('ThreeSixtyOneView.services')
   .service('ManageAnalysisViewsService', ["$q", "$rootScope", "EVENTS", "Model", "ManageAnalysisViewsModel", function ManageAnalysisViewsService($q, $rootScope, EVENTS, Model, ManageAnalysisViewsModel) {
-		var MyPivotviewModel, mypivotview, self = this;
+		var MyPivotviewModel, mypivotview;
 
 		MyPivotviewModel = new Model();
 		angular.extend(this, MyPivotviewModel.prototype);

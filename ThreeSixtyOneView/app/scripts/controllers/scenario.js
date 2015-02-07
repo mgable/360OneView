@@ -81,9 +81,9 @@ angular.module('ThreeSixtyOneView')
             switch(url){
                 case "/edit" : location = url; break;
                 default: location = "/results";
-            };
+            }
             $scope.location = location;
-        }
+        };
 
         $scope.gotoResults = function(){
             if (AnalyticCalculationsService.isInProgress($scope.scenarioState) || AnalyticCalculationsService.isFailed($scope.scenarioState)) {
@@ -99,7 +99,7 @@ angular.module('ThreeSixtyOneView')
             } else {
                 return true;
             }
-        }
+        };
 
         // load a view from the backend
         $scope.loadView = function(cubeId, viewId) {
