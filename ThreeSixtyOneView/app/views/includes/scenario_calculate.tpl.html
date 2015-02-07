@@ -1,9 +1,5 @@
 <div class="scenario-calculation">
 
-    <pre>
-scenarioState is {{scenarioState}}
-
-    </pre>
     <div class="scenario-calculation-title">
         <icon type="{{currentStateTitle.icon}}"></icon>&nbsp;{{currentStateTitle.description}}
     </div>
@@ -18,7 +14,7 @@ scenarioState is {{scenarioState}}
                 {{state.label}}
                 <icon type="check" class="checkmark" ng-if="scenarioState !== 'FAILED' ? state.completed : step > $index"></icon>
                 <span class="error" ng-if="scenarioState === 'FAILED' && step === $index">
-                    <icon type="exclamation-triangle"></icon>&nbsp;Error
+                    <icon type="failed"></icon>&nbsp;Error
                 </span>
             </li>
         </ul>

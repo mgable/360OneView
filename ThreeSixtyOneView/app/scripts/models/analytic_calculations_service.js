@@ -5,25 +5,23 @@ angular.module('ThreeSixtyOneView.services')
 		var MyScenarioCalculate, myCalculate, self = this,
 			scenarioStates = CONFIG.application.models.ScenarioAnalytics.states,
             getScenarioState = function(currentStateObj){
-            	console.info("the current object is");
-            	console.info(currentStateObj);
             	var state;
                 if (currentStateObj.completed === true){
                     if (currentStateObj.name === scenarioStates.FAILED.message){
-                        state = scenarioStates.FAILED.message;
+                        state = scenarioStates.FAILED;
                     } else if (currentStateObj.name === scenarioStates.SUCCESS.message){
-                        state = scenarioStates.SUCCESS.message;
+                        state = scenarioStates.SUCCESS;
                     }
                 } else if (currentStateObj.name === scenarioStates.NOT_CALCULATED.message){
-                    state = scenarioStates.NOT_CALCULATED.message;
+                    state = scenarioStates.NOT_CALCULATED;
                 } else {
-                    state = scenarioStates.IN_PROGRESS.message;
+                    state = scenarioStates.IN_PROGRESS;
                 }
                 return state;
             },
             setScenarioState = function(scenarios){
             	_.each(scenarios, function(k){
-            		k.currentState.state = getScenarioState(k.currentState);
+            		_.extend(k.currentState, getScenarioState(k.currentState));
             	});
             }
 
@@ -63,7 +61,7 @@ angular.module('ThreeSixtyOneView.services')
 		};
 
 		this.startCalculation = function(state, id){
-			if (state.currentState.name !== "FAILED"){
+			if (state.name !== "FAILED"){
 				return this.post(id).then(function(response){
 					return response;
 				});
