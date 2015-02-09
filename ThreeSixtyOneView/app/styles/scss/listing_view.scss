@@ -246,6 +246,18 @@
 										text-decoration: none;
 									}
 								}
+
+								.element-name {
+									color: $black;
+									font-weight: 700;
+									margin-top: 10px;
+									overflow: hidden;
+									white-space: nowrap;
+									text-overflow: ellipsis;
+								}
+								.element-title {
+									color: $ms-mediumGray;
+								}
 							}
 						}
 					}
