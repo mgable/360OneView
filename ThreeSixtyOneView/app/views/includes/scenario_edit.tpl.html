@@ -23,7 +23,7 @@
     <tabset tabs-control>
         <tab id="pivotBuilderTab" expand-collapse-control-disabled="{{saveAs}}" ng-controller="PivotBuilderCtrl" expand-collapse-control="#pivotBuilder">
             <tab-heading>
-                <div id="pivotBuildHeader" class="pbTitle">
+                <div id="pivotBuildHeader" class="pbTitle scenarioEditControls">
                     <div class="pbRenameArea">
                         <icon type="eye"></icon>
                         <div class="pbTitleText clickable" ng-hide="saveAs">{{viewData.name}}</div>
@@ -117,8 +117,8 @@
         </tab>
         <tab ng-controller="importCtrl" expand-collapse-control="#importBody">
             <tab-heading>
-                <div id="importHeader">
-                    <icon type="download" ></icon>
+                <div id="importHeader" class="scenarioEditControls">
+                    <icon type="download"></icon>Import
                 </div>
             </tab-heading>
             <div id="importBody" class="importExport hidden">
@@ -152,8 +152,8 @@
         </tab>
         <tab ng-controller="exportCtrl" expand-collapse-control="#exportBody">
             <tab-heading>
-                <div id="exportHeader" ng-click="setupExportView()">
-                    <icon type="upload"></icon>
+                <div id="exportHeader" class="scenarioEditControls" ng-click="setupExportView()">
+                    <icon type="upload"></icon>Export
                 </div>
             </tab-heading>
             <div id="exportBody" class="importExport hidden">
@@ -182,12 +182,6 @@
                     <div ng-hide="isDownloadCompleted">
                         <icon type="refresh" class="fa-spin"></icon>{{statusMessage}}
                     </div>
-                    <!-- <div ng-hide="isDownloadReady">
-                        <p>Preparing file for download</p>
-                        <progressbar value="progressPercentage"></progressbar>
-                        <p class="percentage">{{progressPercentage}}%</p>
-                    </div>
-                    <p ng-show="isDownloadReady">Your file is ready</p> -->
                 </div>
 
                 <div class="btnGroup">
