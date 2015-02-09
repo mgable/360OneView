@@ -1,15 +1,15 @@
 <div class="editor">
     <tabset tabs-control>
-        <tab ng-controller="PivotBuilderCtrl" id="pivotBuilderTab" expand-collapse-control-disabled="{{saveAs}}" expand-collapse-control="#pivotBuilder">
+        <tab ng-controller="PivotBuilderCtrl" expand-collapse-control-disabled="{{saveAs}}" expand-collapse-control="#pivotBuilder">
             <tab-heading>
-                <div id="pivotBuildHeader" class="pbTitle scenarioEditControls">
-                    <div class="pbRenameArea">
+                <div class="ms-title">
+                    <div class="edit clickable">
                         <icon type="eye"></icon>
-                        <div class="pbTitleText clickable" ng-hide="saveAs">{{viewData.name}}</div>
+                        <div class="pbTitleText" ng-hide="saveAs">{{viewData.name}}</div>
                         <div class="pbSaveAsBox" ng-show="saveAs">
                             <input type="text" ng-model="saveAsName" ui-keydown="{'esc': 'cancelSaveAs()', 'enter': 'submitSaveAs()'}">
-                            <span class="clickable" ng-click="submitSaveAs($event)"><icon type="check"></icon></span>
-                            <span class="clickable" ng-click="cancelSaveAs($event)"><icon type="remove"></icon></span>
+                            <span ng-click="submitSaveAs($event)"><icon type="check"></icon></span>
+                            <span ng-click="cancelSaveAs($event)"><icon type="remove"></icon></span>
                         </div>
                     </div>
                 </div>
