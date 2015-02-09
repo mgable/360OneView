@@ -23,6 +23,7 @@ angular.module('ThreeSixtyOneView')
                     }
                 };
                 $scope.scenarioElements = ScenarioAnalysisElements;
+                $scope.groupedScenarioElements = _.groupBy(ScenarioAnalysisElements, function(element) {return element.group});
 
                 // either load the element selected in scenario listing page or TOUCHPOINT related element if none selected
                 $scope.setScenarioElement(!!parseInt($state.params.scenarioElementId) ? getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) : getScenarioElementByCubeName($scope.scenarioElements, 'TOUCHPOINT'));
@@ -225,8 +226,8 @@ angular.module('ThreeSixtyOneView')
             });
         };
 
-        $scope.getScenarioElements = function() {
-            return $scope.scenarioElements;
+        $scope.getGroupedScenarioElements = function() {
+            return $scope.groupedScenarioElements;
         };
 
         $scope.setScenarioElement = function(element) {
