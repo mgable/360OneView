@@ -5,7 +5,7 @@
                 <div id="pivotBuildHeader" class="pbTitle">
                     <div class="pbRenameArea">
                         <icon type="eye"></icon>
-                        <div class="pbTitleText" ng-hide="saveAs">{{viewData.name}}</div>
+                        <div class="pbTitleText clickable" ng-hide="saveAs">{{viewData.name}}</div>
                         <div class="pbSaveAsBox" ng-show="saveAs">
                             <input type="text" ng-model="saveAsName" ui-keydown="{'esc': 'cancelSaveAs()', 'enter': 'submitSaveAs()'}">
                             <span class="clickable" ng-click="submitSaveAs($event)"><icon type="check"></icon></span>
