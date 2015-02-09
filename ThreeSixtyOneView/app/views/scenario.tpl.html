@@ -2,10 +2,10 @@
 	<div class="toggle-header">
 		<div class="tabs-holder">
 			<ul ms-link-group radio="true" selected-item="{{location}}">
-				<li ms-link="/edit" ui-sref="Scenario.edit" ng-class="{disabled: scenarioState === 'in_progress' || scenarioState === 'FAILED'}">
+				<li ms-link="/edit" ui-sref="Scenario.edit" ng-class="{disabled: scenarioState.message === 'in_progress' || scenarioState.message === 'FAILED'}">
 					<a><icon type="pencil"></icon> Editor</a>
 				</li>
-				<li ms-link="/results" ng-click="gotoResults()" ng-class="{disabled: scenarioState === 'not_calculated' || scenarioState === 'FAILED'}">
+				<li ms-link="/results" ng-click="gotoResults()" ng-class="{disabled: scenarioState.message === 'not_calculated' || scenarioState.message === 'FAILED'}">
 					<a><icon type="check-square-o"></icon> Results</a>
 				</li>
 			</ul>

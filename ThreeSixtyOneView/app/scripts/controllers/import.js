@@ -12,7 +12,7 @@ angular.module('ThreeSixtyOneView')
 				$scope.selectedFile = files[0];
 				$scope.selectedFileName = $scope.selectedFile.name;
 				$scope.isFileSelected = true;
-				$scope.isFileInvalid = !($scope.selectedFile.type.toLowerCase() === importModel.acceptedFileType);
+				$scope.isFileInvalid = $scope.selectedFile.type.toLowerCase() !== importModel.acceptedFileType;
 
 			} else {
 				$scope.selectedFile = {};
@@ -20,7 +20,7 @@ angular.module('ThreeSixtyOneView')
 				$scope.isFileSelected = false;
 				$scope.isFileInvalid = false;
 			}
-			$scope.$apply(); 
+			$scope.$apply();
 		};
 
 		$scope.startUpload = function() {
@@ -31,7 +31,9 @@ angular.module('ThreeSixtyOneView')
 			ImportResourceService.uploadFile($scope.selectedScenarioElement.id, $scope.selectedFile).then(function(response) {
 				if(response.status === importModel.uploadStates.success.message) {
 					$scope.statusMessage = importModel.uploadStates.success.description;
-					$scope.checkStatus();
+					$timeout(function() {
+						$scope.checkStatus();
+					}, 1000);
 				} else if (response.status === importModel.uploadStates.empty.message) {
 					$scope.statusMessage = importModel.uploadStates.empty.description;
 					$scope.cancelButtonLabel = 'Reset';
@@ -85,7 +87,9 @@ angular.module('ThreeSixtyOneView')
 			$scope.isImportFailed = false;
 			$scope.isFileInvalid = false;
 			$scope.statusMessage = '';
-			document.getElementById('fileInput') ? document.getElementById('fileInput').value = '' : null;
+			if(!!document.getElementById('fileInput')) {
+				document.getElementById('fileInput').value = '';
+			}
 		};
 
 		init();

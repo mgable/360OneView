@@ -619,7 +619,7 @@
 #pivotBuilderTab {
 	.pbTitle {
 		font-size: 17px;
-		height: 30px;
+		height: 31px;
 		padding: 3px 5px;
 		transition: width 0.3s linear;
 		transition: color 0.3s linear;
@@ -679,5 +679,11 @@
 				}
 			}
 		}
+	}
+}
+
+.nav-tabs {
+	li {
+		margin-bottom: -4px;
 	}
 }

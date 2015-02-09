@@ -2,7 +2,7 @@
 
 angular.module('ThreeSixtyOneView.services')
   .service('PivotService', ["$q", "$rootScope", "EVENTS", "Model", "PivotModel", function ($q, $rootScope, EVENTS, Model, PivotModel) {
-		var MyPivotDataModel, mypivotdata, self = this;
+		var MyPivotDataModel, mypivotdata;
 
 		MyPivotDataModel = new Model();
 		angular.extend(this, MyPivotDataModel.prototype);

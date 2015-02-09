@@ -29,9 +29,10 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
             $scope.step = 0;
             $scope.errorMsg = "";
             getCalcStatesData(Calculate);
-            if($scope.scenarioState === IN_PROGRESS) {
+            console.info($scope.scenarioState.message);
+            if($scope.scenarioState.message === IN_PROGRESS) {
                 runProgress();
-            } else if ($scope.scenarioState === SUCCESS) {
+            } else if ($scope.scenarioState.message === SUCCESS) {
                 $state.go("Scenario.results");
             }
             getProgressbarType();
@@ -39,7 +40,7 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         },
         // get the current index for status
         getCurrentStateIndex = function(_data) {
-            if ($scope.scenarioState === SUCCESS) {
+            if ($scope.scenarioState.message === SUCCESS) {
                 return _data.runningStates.length;
             } else {
                 return _.indexOf(_.pluck(_data.runningStates, 'completed'), false);
@@ -63,10 +64,10 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         },
         // update states data
         updateCalcStatesData = function() {
-            if ($scope.scenarioState === SUCCESS) {
+            if ($scope.scenarioState.message === SUCCESS) {
                 $scope.progressValue = 100;
                 $state.go("Scenario.results");
-            } else if ($scope.scenarioState === FAILED) {
+            } else if ($scope.scenarioState.message === FAILED) {
                 stopProgress();
                 $scope.errorMsg = calcStatesData.additionalInfo.message;
                 $scope.progressValue = stepValue * $scope.step;
@@ -98,13 +99,13 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         },
         // change progressbar color based on states
         getProgressbarType = function() {
-            var type = ($scope.scenarioState === FAILED) ? 'danger' : 'success';
+            var type = ($scope.scenarioState.message === FAILED) ? 'danger' : 'success';
             $scope.progressbarType = type;
         },
         // get the current state title
         getCurrentStateTitle = function() {
             $scope.currentStateTitle = _.find(scenarioStates, function(v){
-                return v.message === $scope.scenarioState;
+                return v.message === $scope.scenarioState.message;
             });
         };
 
@@ -114,9 +115,9 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
     };
     // reset the progress
     $scope.resetProgress = function() {
-        $scope.scenarioState = NOT_CALCULATED;
+        $scope.scenarioState.message = NOT_CALCULATED;
         AnalyticCalculationsService.post(Scenario.id).then(function() {
-            $scope.scenarioState = IN_PROGRESS;
+            $scope.scenarioState.message = IN_PROGRESS;
             getProgressbarType();
             init();
         });

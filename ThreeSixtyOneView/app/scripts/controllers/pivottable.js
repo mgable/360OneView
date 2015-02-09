@@ -147,9 +147,6 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     createRowSpan(l, $scope.colHeaderCnt, $scope.colCnt);
                     createColSpan(l, $scope.rowHeaderCnt, $scope.rowCnt);
                 },
-                randomNumber = function (min, max) {
-                    return Math.floor(Math.random() * (max - min + 1) + min);
-                },
                 formatSheet = function () {
                     sheet.isPaintSuspended(true);
 
@@ -172,7 +169,9 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     }
 
                     // if old and new values are the same OR if old value is not a number, then don't do anything
-                    if(Math.round(dirtyCell.oldValue) === Math.round(dirtyCell.newValue) || !angular.isNumber(dirtyCell.oldValue)) return;
+                    if(Math.round(dirtyCell.oldValue) === Math.round(dirtyCell.newValue) || !angular.isNumber(dirtyCell.oldValue)) {
+                        return;
+                    }
 
                     // if the new value is not a number, discard the change and put the old value in place
                     if(!angular.isNumber(dirtyCell.newValue) || Number(dirtyCell.newValue) < 0) {
@@ -182,7 +181,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
 
                     var cellObject = false;
 
-                    _.each($scope.pivotTableObject[dirtyCell.row - $scope.rowHeaderCnt], function(column, columnIndex) {
+                    _.each($scope.pivotTableObject[dirtyCell.row - $scope.rowHeaderCnt], function(column) {
                         var match = true;
                         if(!cellObject) {
                             _.each(column.key.value.coordinates.columnAddresses, function(columnAddress, columnAddressIndex) {
@@ -206,7 +205,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                 };
 
             // This is public because it needs to be called from the template
-            $scope.init = function (numRows, numCols) {
+            $scope.init = function () {
                 // get spread object
                 spread = $("#pivotTable").wijspread("spread");
                 // wait until spread is available then execute the rest
@@ -227,16 +226,16 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     $scope.spread.updateSheet($scope.pivotTableData);
 
                     // find the cells that has been changed and request save in the backend
-                    spread.bind($.wijmo.wijspread.Events.ValueChanged, function (event, data) { 
+                    spread.bind($.wijmo.wijspread.Events.ValueChanged, function (event, data) {
                         var row = data.row,
-                            col = data.col; 
-                        if(row === undefined || col === undefined) { 
-                            return; 
-                        } 
+                            col = data.col;
+                        if(row === undefined || col === undefined) {
+                            return;
+                        }
 
-                        if(sheet.hasPendingChanges(row, col)) { 
-                            var dirtyDataArray = sheet.getDirtyCells(row, col); 
-                            if (dirtyDataArray.length > 0) { 
+                        if(sheet.hasPendingChanges(row, col)) {
+                            var dirtyDataArray = sheet.getDirtyCells(row, col);
+                            if (dirtyDataArray.length > 0) {
                                 if(!!dirtyDataArray[0].newValue && Number(dirtyDataArray[0].oldValue) >= 0 && Number(dirtyDataArray[0].newValue) >= 0) {
                                     cellValueChanged(dirtyDataArray[0]);
                                 } else if(Number(dirtyDataArray[0].newValue) < 0) {

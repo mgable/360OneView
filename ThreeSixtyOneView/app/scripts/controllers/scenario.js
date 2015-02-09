@@ -3,8 +3,8 @@
 
 'use strict';
 angular.module('ThreeSixtyOneView')
-.controller("ScenarioCtrl", ["$scope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "ptData", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService", "AnalyticCalculationsService", "CONFIG",
-    function($scope, $timeout, Project, Scenario, ScenarioAnalysisElements, ptData, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService, AnalyticCalculationsService, CONFIG) {
+.controller("ScenarioCtrl", ["$scope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService", "AnalyticCalculationsService", "CONFIG",
+    function($scope, $timeout, Project, Scenario, ScenarioAnalysisElements, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService, AnalyticCalculationsService, CONFIG) {
 
         var init = function() {
                 $scope.draftView = false;
@@ -28,7 +28,7 @@ angular.module('ThreeSixtyOneView')
                 $scope.setScenarioElement(!!parseInt($state.params.scenarioElementId) ? getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) : getScenarioElementByCubeName($scope.scenarioElements, 'TOUCHPOINT'));
 
                 // hardcoded data
-                $scope.pivotTableData = ptData.data;
+                $scope.pivotTableData = '';
                 // this is how pivotbuilder and pivottable communicate
                 $scope.spread = {sheet: {}};
                 $scope.getlocation();
@@ -87,12 +87,12 @@ angular.module('ThreeSixtyOneView')
             switch(url){
                 case "/edit" : location = url; break;
                 default: location = "/results";
-            };
+            }
             $scope.location = location;
-        }
+        };
 
         $scope.gotoResults = function(){
-            if (AnalyticCalculationsService.isInProgress($scope.scenarioState) || AnalyticCalculationsService.isFailed($scope.scenarioState)) {
+            if (AnalyticCalculationsService.isInProgress($scope.scenarioState.message) || AnalyticCalculationsService.isFailed($scope.scenarioState.message)) {
                 $state.go("Scenario.calculate");
             } else {
                 $state.go("Scenario.results");
@@ -101,11 +101,11 @@ angular.module('ThreeSixtyOneView')
 
         $scope.disableSimulateBtn = function() {
             if($scope.location === '/edit') {
-                return ($scope.scenarioState === 'in_progress' || $scope.scenarioState === 'SUCCESSFUL') ? true : false;
+                return ($scope.scenarioState.message === 'in_progress' || $scope.scenarioState.message === 'SUCCESSFUL') ? true : false;
             } else {
                 return true;
             }
-        }
+        };
 
         // load a view from the backend
         $scope.loadView = function(cubeId, viewId) {
