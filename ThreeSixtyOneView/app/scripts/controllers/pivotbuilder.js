@@ -144,7 +144,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 	};
 
 	// submit save as process
-	$scope.submitSaveAs = function() {
+	$scope.submitSaveAs = function(evt) {
+		if (evt){
+			evt.stopPropagation();
+		}
 		$scope.viewData.name = $scope.saveAsName;
 
 		if($scope.rename) { // if submitting
@@ -159,7 +162,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 	};
 
 	// cancel the save as process
-	$scope.cancelSaveAs = function() {
+	$scope.cancelSaveAs = function(evt) {
+		if (evt){
+			evt.stopPropagation();
+		}
 		$scope.rename = false;
 		$scope.saveAs = false;
 	};

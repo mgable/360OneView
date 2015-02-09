@@ -17,17 +17,17 @@
 </div>
 
 <div class="editor">
-    <tabset>
-        <tab id="pivotBuilderTab" ng-controller="PivotBuilderCtrl">
+    <tabset tabs-control>
+        <tab id="pivotBuilderTab" expand-collapse-control-disabled="{{saveAs}}" ng-controller="PivotBuilderCtrl" expand-collapse-control="#pivotBuilder">
             <tab-heading>
-                <div id="pivotBuildHeader" class="pbTitle" expand-collapse-control target-area="#pivotBuilder" tab-id="1">
+                <div id="pivotBuildHeader" class="pbTitle" tab-id="1">
                     <div class="pbRenameArea">
                         <icon type="eye"></icon>
                         <div class="pbTitleText" ng-hide="saveAs">{{viewData.name}}</div>
                         <div class="pbSaveAsBox" ng-show="saveAs">
                             <input type="text" ng-model="saveAsName" ui-keydown="{'esc': 'cancelSaveAs()', 'enter': 'submitSaveAs()'}">
-                            <span class="clickable" ng-click="submitSaveAs()"><icon type="check"></icon></span>
-                            <span class="clickable" ng-click="cancelSaveAs()"><icon type="remove"></icon></span>
+                            <span class="clickable" ng-click="submitSaveAs($event)"><icon type="check"></icon></span>
+                            <span class="clickable" ng-click="cancelSaveAs($event)"><icon type="remove"></icon></span>
                         </div>
                     </div>
                 </div>
@@ -112,9 +112,9 @@
                 </div>
             </div>
         </tab>
-        <tab ng-controller="importCtrl">
+        <tab ng-controller="importCtrl" expand-collapse-control="#importBody">
             <tab-heading>
-                <div id="importHeader" expand-collapse-control target-area="#importBody" tab-id="2">
+                <div id="importHeader" tab-id="2">
                     <icon type="download" ></icon>
                 </div>
             </tab-heading>
@@ -147,9 +147,9 @@
                 </div>
             </div>
         </tab>
-        <tab ng-controller="exportCtrl">
+        <tab ng-controller="exportCtrl" expand-collapse-control="#exportBody">
             <tab-heading>
-                <div id="exportHeader" expand-collapse-control target-area="#exportBody" tab-id="3" ng-click="setupExportView()">
+                <div id="exportHeader" tab-id="3" ng-click="setupExportView()">
                     <icon type="upload"></icon>
                 </div>
             </tab-heading>
