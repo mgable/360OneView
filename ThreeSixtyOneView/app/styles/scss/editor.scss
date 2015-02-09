@@ -8,4 +8,58 @@
 			background-color:$ms-lightGray;
 		}
 	}
+	.ms-title {
+		font-size: 17px;
+		height: 31px;
+		padding: 3px 5px;
+		transition: width 0.3s linear;
+		transition: color 0.3s linear;
+		width: 250px;
+		border: 0 none;
+		color: $ms-black;
+
+		&:hover {
+			color: $ms-blue;
+
+			.edit {
+				i {
+					color: $ms-blue;
+				}
+			}
+		}
+
+		.edit {
+			width: 240px;
+
+			i {
+				vertical-align: top;
+				margin-top: 5px;
+				margin-right: 5px;
+			}
+
+			.pbTitleText {
+				display: inline-block;
+				border: 1px solid rgba(255,255,255,0);
+				width: 200px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			.pbSaveAsBox {
+				display: inline-block;
+				width: 200px;
+				border: 1px solid $blue;
+				background-color: white;
+
+				input {
+					width: 155px;
+					height: 24px;
+					border: 0;
+					outline: 0;
+				}
+
+			}
+		}
+	}
 }
