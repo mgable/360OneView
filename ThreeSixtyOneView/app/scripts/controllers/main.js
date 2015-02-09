@@ -5,10 +5,11 @@
 
 // View controllers
 angular.module('ThreeSixtyOneView')
-    .controller("MainCtrl", ["$scope", "$location", "ErrorService", function($scope, $location, ErrorService) {
+    .controller("MainCtrl", ["$scope", "$location", "ErrorService", "CONFIG", function($scope, $location, ErrorService, CONFIG) {
         // Error service surfaced here
         // For unit testing only;
         $scope.ErrorService = ErrorService;
+        $scope.CONFIG = CONFIG;
 
         // querystring 'e2e' formats data for protractor tests
         if ($location.search().e2e === "true"){

@@ -34,7 +34,10 @@ angular.module('ThreeSixtyOneView')
 
             $scope.scenarioState = AnalyticCalculationsService.getScenarioState(Calculate.currentState);
 
+            $scope.scenarioStates =CONFIG.application.models.ScenarioAnalytics.states;
+
             setView($scope.scenarioState);
+
 
         },
         initiateModel = function(cubeMeta) {

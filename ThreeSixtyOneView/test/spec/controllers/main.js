@@ -17,7 +17,7 @@ describe('Controllers: ', function() {
         beforeEach(inject(function(_ErrorService_, $rootScope, $controller) {
             scope = $rootScope.$new();
             ErrorService = _ErrorService_;
-            signature = ['this', 'ErrorService', 'console', 'alert'];
+            signature = ['this', 'ErrorService', 'console', 'alert', 'CONFIG'];
             ctrl = $controller('MainCtrl', {
                 $scope: scope
             });
