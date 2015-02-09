@@ -137,12 +137,12 @@
             </tab-heading>
             <div id="exportBody" class="importExport hidden">
                 <div class="tabTitle">Exporting Data</div>
-                <div ng-hide="isExportInProgress">
+                <div id="exportDragArea" ng-hide="isExportInProgress">
                     <div class="pbSec">
                         <div class="pbSecTitle">Dimensions</div>
                         <div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="exportViewData.rows" tabindex="-1">
-                            <draggable-dimension ng-repeat="item in getExportViewDataRows()" template="draggable_dimension" added-values="exportAdded" locked="{{!!lockedDimensions[item.level.label]}}" test="{{item.level.label}}"></draggable-dimension>
-                            <draggable-dimension ng-hide="isDragging" template="add_dimension_button"></draggable-dimension>
+                            <draggable-dimension ng-repeat="item in getExportViewDataRows()" template="draggable_dimension" added-values="exportAddedDimensions" locked="{{!!lockedDimensions[item.level.label]}}" test="{{item.level.label}}"></draggable-dimension>
+                            <draggable-dimension ng-hide="isDragging" added-values="exportAddedDimensions" template="add_dimension_button"></draggable-dimension>
                         </div>
                     </div>
                    <div class="pbSec">

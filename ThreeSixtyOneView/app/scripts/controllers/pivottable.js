@@ -262,10 +262,10 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
 
                 $scope.data = _data_ || {};
                 $scope.rowCnt = $scope.data.length;
-                $scope.rowHeaderCnt = numRows || 2;
+                $scope.rowHeaderCnt = numRows;// || 2;
                 $scope.rowDataCnt = $scope.rowCnt - $scope.rowHeaderCnt;
                 $scope.colCnt = _.keys($scope.data[0]).length;
-                $scope.colHeaderCnt = numCols || 2;
+                $scope.colHeaderCnt = numCols;// || 2;
                 $scope.colDataCnt = $scope.colCnt - $scope.colHeaderCnt;
 
                 sheet.reset();
