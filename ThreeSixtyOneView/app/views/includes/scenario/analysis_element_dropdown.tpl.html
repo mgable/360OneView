@@ -9,9 +9,12 @@
             <span ng-click="openScenarioElementCopyModal(scenario.id, selectedScenarioElement)" class="filename-option"><icon type="folder-open-o"></icon>Copy &amp; Replace</span>
         </span>
         <ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenarioElement.id}}" radio="true">
-            <li ng-repeat="element in getScenarioElements() | orderBy:'cubeMeta.id'" ms-link="{{type.id}}" ng-click="setScenarioElement(element)">
-                <span class="clickable">{{element.cubeMeta.label}}</span>
-            </li>
+            <div ng-repeat="(groupLabel, group) in getGroupedScenarioElements()">
+                <div class="group-title">{{groupLabel}}</div>
+                <li ng-repeat="element in group | orderBy:'title'" ms-link="{{type.id}}" ng-click="setScenarioElement(element)">
+                    <span class="clickable">{{element.title}}</span>
+                </li>
+            </div>
         </ul>
     </div>
 </div>
