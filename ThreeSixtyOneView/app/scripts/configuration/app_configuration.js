@@ -107,10 +107,44 @@ angular.module('ThreeSixtyOneView.config')
                             "code": 400
                         }
                     },
-                    "acceptedFileType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-
+                    "acceptedFileType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 },
-                "ExportModel": {}
+                "ExportModel": {
+                    "exportStates": {
+                        "success": {
+                            "message": "EXPORT_REQUEST_ACCEPTED",
+                            "description": "Initializing the export process ...",
+                            "code": 201
+                        }
+                    },
+                    "processingStates": {
+                        "init": {
+                            "message": "INIT",
+                            "description": "Initializing the export process ...",
+                            "code": 201
+                        },
+                        "complete": {
+                            "message": "COMPLETED",
+                            "description": "Export process completed, initializing the download process ...",
+                            "code": 201
+                        },
+                        "inprogress": {
+                            "message": "IN_PROGRESS",
+                            "description": "Preparing the file to download ...",
+                            "code": 201
+                        },
+                        "fail": {
+                            "message": "FAILED",
+                            "description": "Export failed, please try again.",
+                            "code": 400
+                        },
+                        "download": {
+                            "message": "DOWNLOADED",
+                            "description": "File downloaded successfully.",
+                            "code": 201
+                        }
+                    }
+                }
             },
             "inputRestrictions": {
                 "characterRestrictions": /^[^\\\/\?\:\*"><|]+$/,
