@@ -29,7 +29,7 @@ describe('Routes tests: ', function() {
             expect(config.name).toBe(state);
             expect(config.url).toBe("/scenario/:projectId/:scenarioId");
             expect(config.controller).toBe("ScenarioCtrl");
-            expect(config.templateUrl).toBe("views/scenario.tpl.html");
+            expect(config.templateUrl).toBe("views/scenarios.tpl.html");
         });
 
         it("should have a scenario edit state", function() {
