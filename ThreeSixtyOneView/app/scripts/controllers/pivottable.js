@@ -209,8 +209,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                 // get spread object
                 spread = $("#pivotTable").wijspread("spread");
                 // wait until spread is available then execute the rest
-                if(spread) {
-                    // get active sheet
+                if(spread) {                    // get active sheet
                     sheet = spread.getActiveSheet();
 
                     spread.grayAreaBackColor("Transparent");
@@ -260,13 +259,6 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
 
             // $scope.spread is in ScenarioCtrl and how pivottable and pivotbuilder communicate
             $scope.spread.updateSheet = function(_data_, numRows, numCols) {
-
-                //TEMP : START
-                $scope.spread.sheet.loading = true;
-                $timeout(function() {
-                    $scope.spread.sheet.loading = false;
-                }, (numCols + numRows) * 400);
-                //TEMP : END
 
                 $scope.data = _data_ || {};
                 $scope.rowCnt = $scope.data.length;

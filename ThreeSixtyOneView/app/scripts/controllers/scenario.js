@@ -7,72 +7,71 @@ angular.module('ThreeSixtyOneView')
     function($scope, $timeout, Project, Scenario, ScenarioAnalysisElements, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService, AnalyticCalculationsService, CONFIG) {
 
         var init = function() {
-                $scope.draftView = false;
-                $scope.added = {};
-                $scope.addedFilters = {};
-                $scope.categorizedValue = [];
-                $scope.viewData = {};
-                // $scope.viewDataExport = [];
+            $scope.draftView = false;
+            $scope.added = {};
+            $scope.addedFilters = {};
+            $scope.categorizedValue = [];
+            $scope.viewData = {name: 'Loading ...'};
+            // $scope.viewDataExport = [];
 
-                $scope.project = Project;
-                $scope.scenario = Scenario;
-                $scope.views = {
-                    views: [],
-                    currentView: {
-                        name: 'Loading...'
-                    }
-                };
-                $scope.scenarioElements = ScenarioAnalysisElements;
-                $scope.groupedScenarioElements = _.groupBy(ScenarioAnalysisElements, function(element) {return element.group});
-
-                // either load the element selected in scenario listing page or TOUCHPOINT related element if none selected
-                $scope.setScenarioElement(!!parseInt($state.params.scenarioElementId) ? getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) : getScenarioElementByCubeName($scope.scenarioElements, 'TOUCHPOINT'));
-
-                // hardcoded data
-                $scope.pivotTableData = '';
-                // this is how pivotbuilder and pivottable communicate
-                $scope.spread = {sheet: {}};
-                $scope.getlocation();
-
-                $scope.scenarioState = AnalyticCalculationsService.getScenarioState(Calculate.currentState);
-
-                $scope.scenarioStates =CONFIG.application.models.ScenarioAnalytics.states;
-
-                setView($scope.scenarioState);
-
-            },
-            initiateModel = function(cubeMeta) {
-                PivotMetaService.initModel(cubeMeta).then(function(result) {
-                    var foundView = _.find(result.viewsList, function(view){ return view.id === result.view.id; });
-                    if (foundView) {
-                        $scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
-                    }
-                    $scope.viewsList = result.viewsList;
-                    $scope.views.currentView = result.view;
-                    $scope.viewData = result.view;
-                    // $scope.viewDataExport = result.view.rows.concat(result.view.columns);
-                    $scope.viewName = result.view.name;
-                    $scope.dimensions = result.dimensions;
-
-                    $scope.added = PivotMetaService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
-                    $scope.membersList = PivotMetaService.generateMembersList(result.dimensions);
-                    $scope.addedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
-                    $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
-
-                    $scope.loadPivotTable($scope.selectedScenarioElement, result.view);
-                });
-            },
-            getScenarioElementById = function(data, id){
-               return  _.findWhere(data, {id: id});
-            },
-            getScenarioElementByCubeName = function(_data, _name){
-               return  _.find(_data, function(element) { return element.cubeMeta.name ===_name; });
-            },
-            setView = function(currentState){
-                if (AnalyticCalculationsService.isInProgress($scope.scenarioState.message) || AnalyticCalculationsService.isFailed($scope.scenarioState.message)){
-                    $timeout(function(){$state.go("Scenario.calculate");});
-                }
+            $scope.project = Project;
+            $scope.scenario = Scenario;
+            $scope.views = {
+                views: [],
+                currentView: {}
             };
+            $scope.scenarioElements = ScenarioAnalysisElements;
+            $scope.groupedScenarioElements = _.groupBy(ScenarioAnalysisElements, function(element) {return element.group});
+
+            // either load the element selected in scenario listing page or TOUCHPOINT related element if none selected
+            $scope.setScenarioElement(!!parseInt($state.params.scenarioElementId) ? getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) : getScenarioElementByCubeName($scope.scenarioElements, 'TOUCHPOINT'));
+
+            // hardcoded data
+            $scope.pivotTableData = '';
+            // this is how pivotbuilder and pivottable communicate
+            $scope.spread = {sheet: {}};
+            $scope.getlocation();
+
+            $scope.scenarioState = AnalyticCalculationsService.getScenarioState(Calculate.currentState);
+
+            $scope.scenarioStates =CONFIG.application.models.ScenarioAnalytics.states;
+
+            setView($scope.scenarioState);
+
+
+        },
+        initiateModel = function(cubeMeta) {
+            PivotMetaService.initModel(cubeMeta).then(function(result) {
+                var foundView = _.find(result.viewsList, function(view){ return view.id === result.view.id; });
+                if (foundView) {
+                    $scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
+                }
+                $scope.viewsList = result.viewsList;
+                $scope.views.currentView = result.view;
+                $scope.viewData = result.view;
+                // $scope.viewDataExport = result.view.rows.concat(result.view.columns);
+                $scope.viewName = result.view.name;
+                $scope.dimensions = result.dimensions;
+
+                $scope.added = PivotMetaService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
+                $scope.membersList = PivotMetaService.generateMembersList(result.dimensions);
+                $scope.addedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
+                $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
+
+                $scope.loadPivotTable($scope.selectedScenarioElement, result.view);
+            });
+        },
+        getScenarioElementById = function(data, id){
+           return  _.findWhere(data, {id: id});
+        },
+        getScenarioElementByCubeName = function(_data, _name){
+           return  _.find(_data, function(element) { return element.cubeMeta.name ===_name; });
+        },
+        setView = function(currentState){
+            if (AnalyticCalculationsService.isInProgress($scope.scenarioState.message) || AnalyticCalculationsService.isFailed($scope.scenarioState.message)){
+                $timeout(function(){$state.go("Scenario.calculate");});
+            }
+        };
 
         $scope.setState = function(state){
             $scope.scenarioState = CONFIG.application.models.ScenarioAnalytics.states[state];
@@ -220,6 +219,7 @@ angular.module('ThreeSixtyOneView')
                     numRows = view.rows.length;
                 $scope.pivotTableObject = response.original;
                 $scope.spread.updateSheet(response.formatted, numCols, numRows);
+                $scope.pivotTableData = response.formatted;
             });
         };
 
