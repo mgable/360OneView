@@ -150,32 +150,44 @@
 	            display: inline-block;
 
 	            .dropdown-menu {
-	            	width: 300px;
+	            	width: 320px;
 	            	border-radius: 0;
 	            	border: 1px solid $blue;
 	            	padding: 7px 0;
 	            	margin-top: 5px;
 
-	                li {
-	                	padding: 3px 10px;
+	            	div {
+	            		.group-title {
+		            		margin: 10px 15px 3px 20px;
+		            		color: $gray;
+		            		border-bottom: 1px solid $mediumgray;
+		            		font-weight: 700;
+		            		text-transform: uppercase;
+		            		font-size: 12px;
+		            	}
 
-		                &.selected {
-		                    background-color: $blue;
+		                li {
+		                	color: $black;
+		                	padding: 3px 20px;
 
-		                    span {
-		                        color: $lightestgray;
-		                        font-weight: 400;
-		                    }
+			                &.selected {
+			                    background-color: $blue;
 
-		                    &:hover {
-		                    	background-color: $blue;
-		                    }
-		                }
+			                    span {
+			                        color: $lightestgray;
+			                        font-weight: 400;
+			                    }
 
-		                &:hover {
-		                	background-color: $lightgray;
-		                }
-		            }
+			                    &:hover {
+			                    	background-color: $blue;
+			                    }
+			                }
+
+			                &:hover {
+			                	background-color: $lightgray;
+			                }
+			            }
+			        }
 
 		            &::before {
 						position: absolute;
@@ -223,63 +235,7 @@
 	            }
 			}
 		}
-		.actions {
-			/*border: 1px solid $mediumgray;
-			border-bottom: 0 none;
-			height: 30px;*/
-			> span:hover {
-				background-color:$mouseover;
-				/*cursor: pointer;*/
-			}
-			.holder {
-				/*border-right: 1px solid $mediumgray;
-				height:29px;
-				padding:4px 0 0 9px;*/
-				border: 1px solid $mediumgray;
-				/*height: 25px;*/
-				display: inline-block;
-				margin: 0 -1px 0 -4px;
-				padding: 0.2em 1em;
-				&:last-child {
-					border-right: 0 none;
-				}
-			}
-			.pivotTableControlsHolder {
-				position: relative;
-				.pivotTableControls {
-					position: absolute;
-					top: 29px;
-					left: 0px;
-					width:100%;
-					border: 1px solid $mediumgray;
-					background-color: $white;
-					.dimensions {
-						padding:15px;
-						.dimension {
-							margin: 0 0 8px;
-							span {
-								display:inline-block;
-							}
-							.tag {
-								font-size:14px;
-								color: $darkgray;
-								margin:0 5px 0 0;
-							}
-							.type {
-								width:120px;
-								text-transform: uppercase;
-							}
-							.name {width:100px}
-							.trigger {float:right}
-						}
-					}
-				}
-			}
-			.pivitTableHolder {
-				border:1px solid $mediumgray;
-				padding: 0;
-			}
-		}
+		
 		.tableHolder {
 			width: 100%;
 			.trayHolder {
@@ -521,6 +477,11 @@
 
 .scenarioEditControls {
 	border: 0!important;
+	color: $black;
+
+	&:hover {
+		color: $blue;
+	}
 
 	.fa {
 		margin-right: 5px;

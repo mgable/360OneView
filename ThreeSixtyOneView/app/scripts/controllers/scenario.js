@@ -23,6 +23,7 @@ angular.module('ThreeSixtyOneView')
                     }
                 };
                 $scope.scenarioElements = ScenarioAnalysisElements;
+                $scope.groupedScenarioElements = _.groupBy(ScenarioAnalysisElements, function(element) {return element.group});
 
                 // either load the element selected in scenario listing page or TOUCHPOINT related element if none selected
                 $scope.setScenarioElement(!!parseInt($state.params.scenarioElementId) ? getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) : getScenarioElementByCubeName($scope.scenarioElements, 'TOUCHPOINT'));
@@ -34,9 +35,6 @@ angular.module('ThreeSixtyOneView')
                 $scope.getlocation();
 
                 $scope.scenarioState = AnalyticCalculationsService.getScenarioState(Calculate.currentState);
-
-                console.info(Calculate);
-                console.info($scope.scenarioState);
 
                 setView($scope.scenarioState);
 
@@ -72,9 +70,7 @@ angular.module('ThreeSixtyOneView')
                 if (AnalyticCalculationsService.isInProgress($scope.scenarioState.message) || AnalyticCalculationsService.isFailed($scope.scenarioState.message)){
                     $timeout(function(){$state.go("Scenario.calculate");});
                 }
-            },
-            tabCollapseStates = ['enable','disable','intermediate'],
-            isTabCollapsable = 'enable';
+            };
 
         $scope.setState = function(state){
             $scope.scenarioState = CONFIG.application.models.ScenarioAnalytics.states[state];
@@ -225,8 +221,8 @@ angular.module('ThreeSixtyOneView')
             });
         };
 
-        $scope.getScenarioElements = function() {
-            return $scope.scenarioElements;
+        $scope.getGroupedScenarioElements = function() {
+            return $scope.groupedScenarioElements;
         };
 
         $scope.setScenarioElement = function(element) {
@@ -282,15 +278,6 @@ angular.module('ThreeSixtyOneView')
             ManageScenariosService.copyAndReplaceAnalysisElementForCube(scenarioId, cubeId, sourceElementId, newElementData).then(function(element){
                 $scope.replaceScenarioElement(element);
             });
-        };
-
-
-        $scope.tabCollapseStatus = function(state) {
-            if(!!state) {
-                isTabCollapsable = tabCollapseStates.indexOf(state) > -1 ? state : tabCollapseStates[0];
-            }
-
-            return isTabCollapsable;
         };
 
         $scope.$on('$locationChangeStart', function(){
