@@ -1,0 +1,11 @@
+/* Application Styles */
+@import "variables";
+@import "new_variables";
+
+.editor {
+	.nav-tabs {
+		li.active {
+			background-color:$ms-lightGray;
+		}
+	}
+}

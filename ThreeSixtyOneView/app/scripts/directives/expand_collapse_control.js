@@ -1,38 +1,47 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView.directives')
+angular.module('ThreeSixtyOneView.directives').directive("tabsControl", [function(){
+        return {
+            restrict: "A",
+            controller: function($scope, $element, $attrs){
+                this.tabs = [];
+
+                this.register = function(item){
+                    this.tabs.push(item);
+                };
+
+                this.closeAll = function(){
+                    _.each(this.tabs, function(tab, index) {
+                        $(tab.target).addClass('hidden');
+                    });
+                };
+            }
+        };
+    }])
     .directive("expandCollapseControl", [function() {
         return {
             restrict: "A",
-            link: function(scope, element, attrs) {
-                var targetArea = attrs['targetArea'],
-                    tabId = attrs['tabId'];
-                scope.$parent.tabControl = scope.$parent.tabControl || {};
-                scope.$parent.tabControl[tabId] = {
-                    collapsed: true,
-                    target: targetArea,
-                    element: element
-                };
+            require: "^tabsControl",
+            link: function(scope, element, attrs, ctrl) {
+                var target = attrs.expandCollapseControl, disabled = false;
+                ctrl.register({element: element, target: target})
 
-                element.on('click', function() {
-                    if(scope.$parent.tabCollapseStatus() === 'disable') {
-                        return;
-                    } else if(scope.$parent.tabCollapseStatus() === 'intermediate') {
-                        scope.$parent.tabCollapseStatus('enable');
-                        return;
-                    }
+                element.on('click', function(evt) {
+                    var active = true;
 
-                    scope.$parent.tabControl[tabId].collapsed = !scope.$parent.tabControl[tabId].collapsed;
-                    $(element).toggleClass('lightestgrayBg');
-                    $(targetArea).toggleClass('hidden');
-
-                    _.each(scope.$parent.tabControl, function(tab, index) {
-                        if(index !== tabId && !tab.collapsed) {
-                            $(tab.element).removeClass('lightestgrayBg');
-                            $(tab.target).addClass('hidden');
-                            tab.collapsed = true;
+                    if (!disabled){
+                        if (!$(target).hasClass('hidden')){
+                            active = false;
                         }
-                    });
+                        ctrl.closeAll();
+                        if(active){
+                            $(target).removeClass('hidden');
+                        }
+                    };
+                });
+
+                attrs.$observe("expandCollapseControlDisabled", function(){
+                    disabled = attrs.expandCollapseControlDisabled === "false" || typeof attrs.expandCollapseControlDisabled  === "undefined" ? false : true;
                 });
             }
         };
@@ -40,15 +49,10 @@ angular.module('ThreeSixtyOneView.directives')
     .directive("collapseControl", [function() {
         return {
             restrict: "A",
-            link: function(scope, element, attrs) {
+            require: "^tabsControl",
+            link: function(scope, element, attrs, ctrl) {
                 element.on('click', function(){
-                    _.each(scope.$parent.tabControl, function(tab, index) {
-                        if(!tab.collapsed) {
-                            $(tab.element).removeClass('lightestgrayBg');
-                            $(tab.target).addClass('hidden');
-                            tab.collapsed = true;
-                        }
-                    });
+                    ctrl.closeAll();
                 });
             }
         };

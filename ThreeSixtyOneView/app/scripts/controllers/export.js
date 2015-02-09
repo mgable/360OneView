@@ -1,18 +1,18 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportResourceService', '$timeout', 'DialogService', 'PivotMetaService',
-    function($scope, ExportResourceService, $timeout, DialogService, PivotMetaService) {
-    	var init = function() {
-    		$scope.exportViewData = {};
-    		$scope.addedExportFilters = {};
-    		$scope.categorizedExportValue = [];
-    		$scope.exportAdded = {};
+	function($scope, ExportResourceService, $timeout, DialogService, PivotMetaService) {
+		var init = function() {
+			$scope.exportViewData = {};
+			$scope.addedExportFilters = {};
+			$scope.categorizedExportValue = [];
+			$scope.exportAdded = {};
 
-    		$scope.$watch('viewData', function() {
-    			$scope.setupExportView();
-    		});
+			$scope.$watch('viewData', function() {
+				$scope.setupExportView();
+			});
 
-    		$scope.dragOptions = {
+			$scope.dragOptions = {
 				dragStart: function() {
 					$scope.isDragging = true;
 				},
@@ -21,22 +21,22 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 				}
 				// containment: '.pbSec'
 			};
-    	}, setupExportViewFilters = function() {
-    		if(!!$scope.addedFilters && !!$scope.dimensions) {
-	    		$scope.addedExportFilters = angular.copy($scope.addedFilters);
+		}, setupExportViewFilters = function() {
+			if(!!$scope.addedFilters && !!$scope.dimensions) {
+				$scope.addedExportFilters = angular.copy($scope.addedFilters);
 				$scope.exportViewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedFilters, $scope.membersList, $scope.exportViewData.filters);
 				$scope.categorizedExportValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.exportViewData);
 				$scope.getLockedDimensions($scope.dimensions, $scope.membersList, $scope.categorizedExportValue);
 			}
-    	};
+		};
 
-    	$scope.setupExportView = function() {
-	    		$scope.exportViewData = angular.copy($scope.viewData);
-	    		$scope.exportViewData.rows = $scope.viewData.rows.concat($scope.viewData.columns);
-	    		$scope.exportViewData.columns = [];
-	    		$scope.exportAdded = angular.copy($scope.added);
-	    		setupExportViewFilters();
-    	};
+		$scope.setupExportView = function() {
+				$scope.exportViewData = angular.copy($scope.viewData);
+				$scope.exportViewData.rows = $scope.viewData.rows.concat($scope.viewData.columns);
+				$scope.exportViewData.columns = [];
+				$scope.exportAdded = angular.copy($scope.added);
+				setupExportViewFilters();
+		};
 
 		$scope.deleteItem = function(index) {
 			$scope.exportAdded[$scope.exportViewData.rows[index].level.label] = false;
@@ -52,12 +52,12 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 		$scope.replaceItem = function(selected, priorLabel) {
 			$scope.exportAdded[priorLabel] = false;
 			$scope.exportAdded[selected.label] = true;
-			var match = _.find($scope.exportViewData.rows, function(item) { return item.level.label.toLowerCase() === priorLabel.toLowerCase() });
+			var match = _.find($scope.exportViewData.rows, function(item) { return item.level.label.toLowerCase() === priorLabel.toLowerCase(); });
 			if (match) {
 				var newItem = {dimension:{id:selected.dimensionId},hierarchy:{id:-1},level:{id:selected.levelId, label:selected.label}};
-	            var index = _.indexOf($scope.exportViewData.rows, match);
-	            $scope.exportViewData.rows.splice(index, 1, newItem);
-	        }
+				var index = _.indexOf($scope.exportViewData.rows, match);
+				$scope.exportViewData.rows.splice(index, 1, newItem);
+			}
 		};
 
 		// open/dismiss filters selection modal
@@ -116,7 +116,7 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 					$scope.isDownloadCompleted = false;
 					$timeout(function() {
 						$scope.trackProgress();
-					}, 1000)
+					}, 1000);
 				} else {
 					console.log(response);
 				}

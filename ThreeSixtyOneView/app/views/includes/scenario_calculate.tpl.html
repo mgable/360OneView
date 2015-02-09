@@ -1,13 +1,9 @@
 <div class="scenario-calculation">
 
-    <pre>
-scenarioState is {{scenarioState}}
-
-    </pre>
     <div class="scenario-calculation-title">
         <icon type="{{currentStateTitle.icon}}"></icon>&nbsp;{{currentStateTitle.description}}
     </div>
-    <p class="scenario-calculation-description" ng-if="scenarioState === 'FAILED'">{{errorMsg}}</p>
+    <p class="scenario-calculation-description" ng-if="scenarioState.message === 'FAILED'">{{errorMsg}}</p>
     <div class="row">
         <progressbar class="progress-striped active" max="100" value="progressValue" type="{{progressbarType}}"><i>{{progressValue | number:0}}%</i></progressbar>
     </div>
@@ -16,14 +12,14 @@ scenarioState is {{scenarioState}}
             <li ng-repeat="state in getStates()" ng-class="{completed: state.completed}">
                 <span class="numberCircle">{{state.id}}</span>
                 {{state.label}}
-                <icon type="check" class="checkmark" ng-if="scenarioState !== 'FAILED' ? state.completed : step > $index"></icon>
-                <span class="error" ng-if="scenarioState === 'FAILED' && step === $index">
-                    <icon type="exclamation-triangle"></icon>&nbsp;Error
+                <icon type="check" class="checkmark" ng-if="scenarioState.message !== 'FAILED' ? state.completed : step > $index"></icon>
+                <span class="error" ng-if="scenarioState.message === 'FAILED' && step === $index">
+                    <icon type="failed"></icon>&nbsp;Error
                 </span>
             </li>
         </ul>
     </div>
-    <div class="row scenario-calculation-btn-group" ng-if="scenarioState === 'FAILED'">
+    <div class="row scenario-calculation-btn-group" ng-if="scenarioState.message === 'FAILED'">
         <div class="col-sm-6 sm-padding">
             <button class="btn btn-sm btn-block btn-calculate" ui-sref="Scenario.edit" ng-click="returnToEdit()">goto editor</button>
         </div>
