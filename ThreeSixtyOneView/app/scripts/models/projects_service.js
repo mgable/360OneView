@@ -7,11 +7,11 @@ angular.module('ThreeSixtyOneView.services')
 		var MyProjectModel, myprojects, self = this;
 
 		MyProjectModel = new Model();
-        angular.extend(this, MyProjectModel.prototype);
-        myprojects = new MyProjectModel(ProjectsModel);
-        angular.extend(this, myprojects);
+		angular.extend(this, MyProjectModel.prototype);
+		myprojects = new MyProjectModel(ProjectsModel);
+		angular.extend(this, myprojects);
 
-        this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
+		this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
 		this.getProjectItemById = function(_id_){
 			if (this.data.length === 0){
@@ -34,15 +34,15 @@ angular.module('ThreeSixtyOneView.services')
 		};
 
 		this.rename = function(data){
-            var obj = (_.pick(data, 'title', 'description', 'id'));
-            if (typeof obj.description === "undefined"){
-                obj.description = "";
-            }
-            this.put(obj);
-        };
+			var obj = (_.pick(data, 'title', 'description', 'id'));
+			if (typeof obj.description === "undefined"){
+				obj.description = "";
+			}
+			this.put(obj);
+		};
 
-        this.getProjectIdByScenarioId = function(scenarioId){
-        	var params = {params: {scenarioId: scenarioId}};
+		this.getProjectIdByScenarioId = function(scenarioId){
+			var params = {params: {scenarioId: scenarioId}};
 			return this.resource.get({}, params).then(function(response){
 				return response[0];
 			});

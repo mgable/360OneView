@@ -22,11 +22,11 @@ angular.module('ThreeSixtyOneView')
 
             if($scope.project.isMaster){
                 setMasterScenario($scope.scenarios[0]);
-            };
+            }
 
             if ($scope.selectedItem) {
                 $scope.getScenarioElements($scope.selectedItem.id);
-            };
+            }
         },
         addStatusToScenarios = function(scenarios, statuses){
             _.each(scenarios, function(k,i){

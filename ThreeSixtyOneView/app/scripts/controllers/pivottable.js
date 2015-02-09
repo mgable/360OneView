@@ -199,7 +199,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     cellObject.newvalue = dirtyCell.newValue;
 
                     sheet.getCell(dirtyCell.row, dirtyCell.col).backColor("#EEE").locked(true);
-                    PivotService.updateCell($scope.selectedScenarioElement.id, $scope.viewData.id, cellObject).then(function(response) {
+                    PivotService.updateCell($scope.selectedScenarioElement.id, $scope.viewData.id, cellObject).then(function() {
                         sheet.getCell(dirtyCell.row, dirtyCell.col).backColor("#FFF").locked(false);
                     });
                 };

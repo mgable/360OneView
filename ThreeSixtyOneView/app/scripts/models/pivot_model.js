@@ -33,7 +33,11 @@ angular.module('ThreeSixtyOneView.services')
 					});
 					_.each(row, function(column) {
 						if(!column.key.value.coordinates.columnAddresses) {
-							!!tableTree['Values'] ? tableTree['Values'].push(column.value.value) : tableTree['Values'] = [column.value.value];
+							if(!!tableTree.Values) {
+								tableTree.Values.push(column.value.value);
+							} else {
+								tableTree.Values = [column.value.value];
+							}
 						} else {
 							var branch = [];
 							_.each(column.key.value.coordinates.columnAddresses, function(columnElement, columnIndex) {

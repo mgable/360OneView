@@ -1,3 +1,5 @@
+"use strict";
+
 var kiq = kiq || [];
   (function(){
     setTimeout(function(){

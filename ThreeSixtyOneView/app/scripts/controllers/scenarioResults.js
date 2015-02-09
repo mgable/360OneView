@@ -284,7 +284,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             getKPIView($scope.spendViewId);
 
             // get spend summary
-            getSpendSummary()
+            getSpendSummary();
         });
     };
     // reset the view to the last saved state
@@ -386,7 +386,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             kpiDraftView.name = 'Draft - ' + kpiDraftView.name;
             $scope.createView($scope.spendCubeId, spendDraftView, $scope.spendViewsList).then(function(response) {
                 console.log('create kpi view: ', response);
-                $scope.updateView($scope.kpiCubeId, $scope.kpiViewData).then(function(response) {
+                $scope.updateView($scope.kpiCubeId, $scope.kpiViewData).then(function() {
                     getKPIView($scope.spendViewId);
                 });
             });
