@@ -10,11 +10,11 @@ angular.module('ThreeSixtyOneView.services')
 
 			var response = JSON.parse(data);
 			
-			if(response) {
+			if(response.length > 0) {
 				var i, j,
 					tableTree = {},
-					numCols = response[0][0].key.value.coordinates.columnAddresses.length,
-					numRows = response[0][0].key.value.coordinates.rowAddresses.length,
+					numCols = !!response[0][0].key.value.coordinates.columnAddresses ? response[0][0].key.value.coordinates.columnAddresses.length : 1,
+					numRows = !!response[0][0].key.value.coordinates.rowAddresses ? response[0][0].key.value.coordinates.rowAddresses.length : 1,
 					pivotTable = [],
 					columnIndex = numRows;
 
@@ -29,24 +29,29 @@ angular.module('ThreeSixtyOneView.services')
 					pivotTable[rowIndex + numCols] = {};
 					_.each(row[0].key.value.coordinates.rowAddresses, function(rowElement, rowElementIndex) {
 						pivotTable[rowIndex + numCols][rowElementIndex] = rowElement.cellValue.specification.members[0].label;
+						pivotTable[numCols - 1][rowElementIndex] = rowElement.scope.level.label;
 					});
 					_.each(row, function(column) {
-						var branch = [];
-						_.each(column.key.value.coordinates.columnAddresses, function(columnElement, columnIndex) {
-							var columnLabel = columnElement.cellValue.specification.members[0].label;
+						if(!column.key.value.coordinates.columnAddresses) {
+							!!tableTree['Values'] ? tableTree['Values'].push(column.value.value) : tableTree['Values'] = [column.value.value];
+						} else {
+							var branch = [];
+							_.each(column.key.value.coordinates.columnAddresses, function(columnElement, columnIndex) {
+								var columnLabel = columnElement.cellValue.specification.members[0].label;
 
-							if(columnIndex === 0 && numCols > 1) {
-								tableTree[columnLabel] = branch[columnIndex] = tableTree[columnLabel] || {};
-							} else if(columnIndex === 0) {
-								tableTree[columnLabel] = branch[columnIndex] = tableTree[columnLabel] || [];
-								branch[columnIndex][rowIndex] = column.value.value;
-							} else if(columnIndex === numCols - 1) {
-								branch[columnIndex - 1][columnLabel] = branch[columnIndex] = branch[columnIndex - 1][columnLabel] || [];
-								branch[columnIndex][rowIndex] = column.value.value;
-							} else {
-								branch[columnIndex - 1][columnLabel] = branch[columnIndex] = branch[columnIndex - 1][columnLabel] || {};
-							}
-						});
+								if(columnIndex === 0 && numCols > 1) {
+									tableTree[columnLabel] = branch[columnIndex] = tableTree[columnLabel] || {};
+								} else if(columnIndex === 0) {
+									tableTree[columnLabel] = branch[columnIndex] = tableTree[columnLabel] || [];
+									branch[columnIndex][rowIndex] = column.value.value;
+								} else if(columnIndex === numCols - 1) {
+									branch[columnIndex - 1][columnLabel] = branch[columnIndex] = branch[columnIndex - 1][columnLabel] || [];
+									branch[columnIndex][rowIndex] = column.value.value;
+								} else {
+									branch[columnIndex - 1][columnLabel] = branch[columnIndex] = branch[columnIndex - 1][columnLabel] || {};
+								}
+							});
+						}
 					});
 				});
 
