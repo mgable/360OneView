@@ -209,8 +209,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                 // get spread object
                 spread = $("#pivotTable").wijspread("spread");
                 // wait until spread is available then execute the rest
-                if(spread) {
-                    // get active sheet
+                if(spread) {                    // get active sheet
                     sheet = spread.getActiveSheet();
 
                     spread.grayAreaBackColor("Transparent");
