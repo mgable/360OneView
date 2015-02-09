@@ -40,7 +40,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
     .state('Scenario', {
       abstract: true,
       url: "/scenario/:projectId/:scenarioId",
-      templateUrl: "views/scenario.tpl.html",
+      templateUrl: "views/scenarios.tpl.html",
       controller: "ScenarioCtrl",
       resolve: {
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
@@ -55,7 +55,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
         url: "/edit/:scenarioElementId",
         views: {
           'display' : {
-            templateUrl: "views/includes/scenario/edit.tpl.html"
+            templateUrl: "views/includes/scenario/scenario.tpl.html"
           }
         },
         breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.id}}'>{{project.title}}</a></li><li>{{scenario.title || scenario.name}}</li>"
