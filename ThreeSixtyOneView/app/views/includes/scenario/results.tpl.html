@@ -1,5 +1,4 @@
 <div class="scenario_results">
-
     <section class="srDropdown">
         <div class="dropdown">
             <span>Results compared to </span>
@@ -21,10 +20,10 @@
     </section>
 
     <section class="results-view">
-        <tabset>
-            <tab id="resultViewsTab">
+        <tabset tabs-control>
+            <tab id="resultViewsTab" expand-collapse-control="#resultViews" expand-collapse-control-disabled="{{saveAs}}">
                 <tab-heading>
-                    <div id="resultViewsHeader" class="srTitle" expand-collapse-control target-area="#resultViews" tab-id="1">
+                    <div id="resultViewsHeader" class="srTitle">
                         <div class="srRenameArea">
                             <icon type="eye"></icon>
                             <div class="srTitleText" ng-hide="saveAs" title="{{spendViewData.name}}">{{spendViewData.name}}</div>
