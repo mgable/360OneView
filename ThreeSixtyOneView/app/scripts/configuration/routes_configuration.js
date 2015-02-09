@@ -55,7 +55,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
         url: "/edit/:scenarioElementId",
         views: {
           'display' : {
-            templateUrl: "views/includes/scenario_edit.tpl.html"
+            templateUrl: "views/includes/scenario/edit.tpl.html"
           }
         },
         breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.id}}'>{{project.title}}</a></li><li>{{scenario.title || scenario.name}}</li>"
@@ -65,7 +65,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
       views: {
         'result': {
           controller: "scenarioResultsCtrl",
-          templateUrl: "views/includes/scenario_results.tpl.html"
+          templateUrl: "views/includes/scenario/results.tpl.html"
         }
       },
       breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.id}}'>{{project.title}}</a></li><li>{{scenario.title || scenario.name}}</li>"
@@ -78,7 +78,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
         views: {
           'calculate': {
             controller: "ScenarioCalculationCtrl",
-            templateUrl: "views/includes/scenario_calculate.tpl.html"
+            templateUrl: "views/includes/scenario/calculate.tpl.html"
           }
         },
         breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.id}}'>{{project.title}}</a></li><li>{{scenario.title || scenario.name}}</li>"
