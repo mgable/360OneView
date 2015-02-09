@@ -7,12 +7,12 @@ angular.module('ThreeSixtyOneView.services')
             getScenarioState = function(currentStateObj){
             	var state;
                 if (currentStateObj.completed === true){
-                    if (currentStateObj.name === scenarioStates.FAILED){
+                    if (currentStateObj.name === scenarioStates.FAILED.message){
                         state = scenarioStates.FAILED;
-                    } else if (currentStateObj.name === scenarioStates.SUCCESS){
+                    } else if (currentStateObj.name === scenarioStates.SUCCESS.message){
                         state = scenarioStates.SUCCESS;
                     }
-                } else if (currentStateObj.name === scenarioStates.NOT_CALCULATED){
+                } else if (currentStateObj.name === scenarioStates.NOT_CALCULATED.message){
                     state = scenarioStates.NOT_CALCULATED;
                 } else {
                     state = scenarioStates.IN_PROGRESS;
@@ -21,7 +21,7 @@ angular.module('ThreeSixtyOneView.services')
             },
             setScenarioState = function(scenarios){
             	_.each(scenarios, function(k){
-            		k.currentState.state = getScenarioState(k.currentState);
+            		_.extend(k.currentState, getScenarioState(k.currentState));
             	});
             }
 
@@ -33,19 +33,19 @@ angular.module('ThreeSixtyOneView.services')
 		this.getScenarioState = getScenarioState;
 
 		this.isInProgress = function(state){
-			return state === scenarioStates.IN_PROGRESS;
+			return state === scenarioStates.IN_PROGRESS.message;
 		};
 
 		this.isFailed = function(state){
-			return state === scenarioStates.FAILED;
+			return state === scenarioStates.FAILED.message;
 		};
 
 		this.isNotCalculated = function(state){
-			return state = scenarioStates.NOT_CALCULATED;
+			return state = scenarioStates.NOT_CALCULATED.message;
 		};
 
 		this.isSuccess = function(state){
-			return state = scenarioStates.SUCCESS;
+			return state = scenarioStates.SUCCESS.message;
 		};
 
 		this.get = function(id){
@@ -61,7 +61,7 @@ angular.module('ThreeSixtyOneView.services')
 		};
 
 		this.startCalculation = function(state, id){
-			if (state.currentState.name !== "FAILED"){
+			if (state.name !== "FAILED"){
 				return this.post(id).then(function(response){
 					return response;
 				});

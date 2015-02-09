@@ -20,7 +20,7 @@
     <tabset>
         <tab id="pivotBuilderTab" ng-controller="PivotBuilderCtrl">
             <tab-heading>
-                <div id="pivotBuildHeader" class="pbTitle" expand-collapse-control target-area="#pivotBuilder" tab-id="1">
+                <div id="pivotBuildHeader" class="pbTitle scenarioEditControls" expand-collapse-control target-area="#pivotBuilder" tab-id="1">
                     <div class="pbRenameArea">
                         <icon type="eye"></icon>
                         <div class="pbTitleText" ng-hide="saveAs">{{viewData.name}}</div>
@@ -114,8 +114,8 @@
         </tab>
         <tab ng-controller="importCtrl">
             <tab-heading>
-                <div id="importHeader" expand-collapse-control target-area="#importBody" tab-id="2">
-                    <icon type="download" ></icon>
+                <div id="importHeader" class="scenarioEditControls" expand-collapse-control target-area="#importBody" tab-id="2">
+                    <icon type="download" ></icon>Import
                 </div>
             </tab-heading>
         	<div id="importBody" class="importExport hidden">
@@ -149,8 +149,8 @@
         </tab>
         <tab ng-controller="exportCtrl">
             <tab-heading>
-                <div id="exportHeader" expand-collapse-control target-area="#exportBody" tab-id="3" ng-click="setupExportView()">
-                    <icon type="upload"></icon>
+                <div id="exportHeader" class="scenarioEditControls" expand-collapse-control target-area="#exportBody" tab-id="3" ng-click="setupExportView()">
+                    <icon type="upload"></icon>Export
                 </div>
             </tab-heading>
         	<div id="exportBody" class="importExport hidden">

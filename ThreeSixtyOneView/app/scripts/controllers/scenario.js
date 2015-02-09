@@ -3,8 +3,8 @@
 
 'use strict';
 angular.module('ThreeSixtyOneView')
-.controller("ScenarioCtrl", ["$scope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService", "AnalyticCalculationsService",
-    function($scope, $timeout, Project, Scenario, ScenarioAnalysisElements, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService, AnalyticCalculationsService) {
+.controller("ScenarioCtrl", ["$scope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService", "AnalyticCalculationsService", "CONFIG",
+    function($scope, $timeout, Project, Scenario, ScenarioAnalysisElements, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService, AnalyticCalculationsService, CONFIG) {
 
         var init = function() {
                 $scope.draftView = false;
@@ -34,6 +34,9 @@ angular.module('ThreeSixtyOneView')
                 $scope.getlocation();
 
                 $scope.scenarioState = AnalyticCalculationsService.getScenarioState(Calculate.currentState);
+
+                console.info(Calculate);
+                console.info($scope.scenarioState);
 
                 setView($scope.scenarioState);
 
@@ -66,13 +69,16 @@ angular.module('ThreeSixtyOneView')
                return  _.find(_data, function(element) { return element.cubeMeta.name ===_name; });
             },
             setView = function(currentState){
-                if (AnalyticCalculationsService.isInProgress($scope.scenarioState) || AnalyticCalculationsService.isFailed($scope.scenarioState)){
+                if (AnalyticCalculationsService.isInProgress($scope.scenarioState.message) || AnalyticCalculationsService.isFailed($scope.scenarioState.message)){
                     $timeout(function(){$state.go("Scenario.calculate");});
                 }
             },
             tabCollapseStates = ['enable','disable','intermediate'],
             isTabCollapsable = 'enable';
 
+        $scope.setState = function(state){
+            $scope.scenarioState = CONFIG.application.models.ScenarioAnalytics.states[state];
+        };
 
         $scope.getlocation = function (){
             var url = $state.current.url.match(/\/\w+/)[0],
@@ -86,7 +92,7 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.gotoResults = function(){
-            if (AnalyticCalculationsService.isInProgress($scope.scenarioState) || AnalyticCalculationsService.isFailed($scope.scenarioState)) {
+            if (AnalyticCalculationsService.isInProgress($scope.scenarioState.message) || AnalyticCalculationsService.isFailed($scope.scenarioState.message)) {
                 $state.go("Scenario.calculate");
             } else {
                 $state.go("Scenario.results");
@@ -95,7 +101,7 @@ angular.module('ThreeSixtyOneView')
 
         $scope.disableSimulateBtn = function() {
             if($scope.location === '/edit') {
-                return ($scope.scenarioState === 'in_progress' || $scope.scenarioState === 'SUCCESSFUL') ? true : false;
+                return ($scope.scenarioState.message === 'in_progress' || $scope.scenarioState.message === 'SUCCESSFUL') ? true : false;
             } else {
                 return true;
             }
