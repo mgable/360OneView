@@ -25,22 +25,20 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
 
         // init function
         init = function() {
-            $scope.progressValue = 0;
-            $scope.step = 0;
-            $scope.errorMsg = "";
-            getCalcStatesData(Calculate);
+            getCalcStatesData();
             if($scope.scenarioState.message === IN_PROGRESS) {
+                $scope.progressValue = 0;
+                $scope.step = 0;
+                $scope.errorMsg = "";
                 runProgress();
             } else if ($scope.scenarioState.message === SUCCESS) {
                 $state.go("Scenario.results");
             }
-            getProgressbarType();
-            angular.element('.Scenario').css('height', 'auto');
         },
         // get the current index for status
         getCurrentStateIndex = function(_data) {
             if ($scope.scenarioState.message === SUCCESS) {
-                return _data.runningStates.length;
+                return CONFIG.view.ScenarioCalculate.stateLength;
             } else {
                 return _.indexOf(_.pluck(_data.runningStates, 'completed'), false);
             }
@@ -57,21 +55,22 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
                 calcStatesData = transformStatesData(data);
                 $scope.runningStates = calcStatesData.runningStates;
                 currentState = calcStatesData.currentState;
+                $scope.scenarioState = AnalyticCalculationsService.getScenarioState(currentState);
+                console.log(AnalyticCalculationsService.getScenarioState(currentState));
                 $scope.step = getCurrentStateIndex(calcStatesData);
-                updateCalcStatesData(currentState);
+                $scope.progressValue = stepValue * $scope.step;
+                getProgressbarType();
+                updateCalcStatesData();
             });
         },
         // update states data
-        updateCalcStatesData = function() {
+        updateCalcStatesData = function(_data) {
             if ($scope.scenarioState.message === SUCCESS) {
-                $scope.progressValue = 100;
+                console.log('go to result page');
                 $state.go("Scenario.results");
             } else if ($scope.scenarioState.message === FAILED) {
                 stopProgress();
                 $scope.errorMsg = calcStatesData.additionalInfo.message;
-                $scope.progressValue = stepValue * $scope.step;
-            } else {
-                $scope.progressValue = stepValue * $scope.step;
             }
         },
         // transform states data
@@ -88,7 +87,7 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         // start the progress
         runProgress = function() {
             stopTimer = $interval(function(){
-                getCalcStatesData(calcStatesData);
+                getCalcStatesData();
             }, CONFIG.view.ScenarioCalculate.timerInterval);
         },
         // stop the progress
