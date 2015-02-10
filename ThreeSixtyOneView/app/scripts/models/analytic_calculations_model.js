@@ -16,7 +16,7 @@ angular.module('ThreeSixtyOneView.services')
                 $http
                     .get(path, config)
                     .success(deferred.resolve)
-                    .error(function(data, status, headers, config){
+                    .error(function(){
                         deferred.resolve({currentState: {completed: false, name: "not_calculated", label: "not calculated", state: "not_calculated"}});
                         return deferred.promise;
                     });
@@ -36,7 +36,7 @@ angular.module('ThreeSixtyOneView.services')
                 $http
                     .post(path, data, config)
                     .success(deferred.resolve)
-                    .error(function(data, status, headers, config){
+                    .error(function(data, status){
                         deferred.resolve({currentState: {completed: status, label: "?"}});
                         return deferred.promise;
                     });

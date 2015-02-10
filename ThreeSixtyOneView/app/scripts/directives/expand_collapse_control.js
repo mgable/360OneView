@@ -3,7 +3,7 @@
 angular.module('ThreeSixtyOneView.directives').directive("tabsControl", [function(){
         return {
             restrict: "A",
-            controller: function($scope, $element, $attrs){
+            controller: function(){
                 this.tabs = [];
 
                 this.register = function(item){
@@ -11,7 +11,7 @@ angular.module('ThreeSixtyOneView.directives').directive("tabsControl", [functio
                 };
 
                 this.closeAll = function(){
-                    _.each(this.tabs, function(tab, index) {
+                    _.each(this.tabs, function(tab) {
                         $(tab.target).addClass('hidden');
                     });
                 };
@@ -24,9 +24,9 @@ angular.module('ThreeSixtyOneView.directives').directive("tabsControl", [functio
             require: "^tabsControl",
             link: function(scope, element, attrs, ctrl) {
                 var target = attrs.expandCollapseControl, disabled = false;
-                ctrl.register({element: element, target: target})
+                ctrl.register({element: element, target: target});
 
-                element.on('click', function(evt) {
+                element.on('click', function() {
                     var active = true;
 
                     if (!disabled){
@@ -37,7 +37,7 @@ angular.module('ThreeSixtyOneView.directives').directive("tabsControl", [functio
                         if(active){
                             $(target).removeClass('hidden');
                         }
-                    };
+                    }
                 });
 
                 attrs.$observe("expandCollapseControlDisabled", function(){

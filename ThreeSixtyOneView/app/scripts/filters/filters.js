@@ -174,7 +174,7 @@ angular.module('ThreeSixtyOneView.filters')
                 } else if (abs < Math.pow(10, 3) && abs >= Math.pow(10, 0)) {
                     number = number.toFixed(1);
                 } else if (abs < Math.pow(10, 0) && abs > 0) {
-                    number = 0
+                    number = 0;
                 } else {
                     number = number;
                 }
@@ -188,6 +188,6 @@ angular.module('ThreeSixtyOneView.filters')
             if ($window.isNaN(input) || input === '') {
                 return '';
             }
-            return Math.round(input * Math.pow(10, decimals + 2))/Math.pow(10, decimals) + suffix
+            return Math.round(input * Math.pow(10, decimals + 2))/Math.pow(10, decimals) + suffix;
         };
     }]);

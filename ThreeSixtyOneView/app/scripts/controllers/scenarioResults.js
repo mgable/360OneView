@@ -32,13 +32,14 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     // get kpi meta data
     getKPIMeta = function() {
         MetaDataService.buildDimensionsTree($scope.kpiCubeId).then(function(_KPIDimensions) {
-            $scope.kpiDimensions = _KPIDimensions;
+            $scope.kpiDimensions = _.reject(_KPIDimensions, function(value){ return value.label === 'VARIABLE'; });
             getKPIView($scope.spendViewId);
         });
     },
     // get kpi view
     getKPIView = function(_spendViewId) {
         ManageAnalysisViewsService.getViewRelatedBy(_spendViewId, $scope.kpiCubeId).then(function(_KPIView) {
+            _KPIView.filters = _.reject(_KPIView.filters, function(value){ return value.scope.dimension.label === 'VARIABLE'; });
             if (_KPIView.id === null) {
                 return PivotMetaService.createEmptyView($scope.kpiDimensions, $scope.kpiCubeMeta, _spendViewId).then(function(_KPINewView) {
                     $scope.kpiView = _KPINewView;
@@ -171,7 +172,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.spendViewsList = result.viewsList;
             $scope.spendViewData = result.view;
             $scope.spendViewName = result.view.name;
-            $scope.spendDimensions = result.dimensions;
+            $scope.spendDimensions = _.reject(result.dimensions, function(value){ return value.label === 'VARIABLE'; });
 
             $scope.spendAdded = PivotMetaService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
             $scope.spendMembersList = PivotMetaService.generateMembersList(result.dimensions);
@@ -273,6 +274,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 }
             }
 
+            view.filters = _.reject(view.filters, function(value){ return value.scope.dimension.label === 'VARIABLE'; });
             $scope.spendViewId = view.id;
             $scope.spendViewData = view;
             $scope.spendAdded = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
@@ -282,7 +284,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             getKPIView($scope.spendViewId);
 
             // get spend summary
-            getSpendSummary()
+            getSpendSummary();
         });
     };
     // reset the view to the last saved state
@@ -384,7 +386,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             kpiDraftView.name = 'Draft - ' + kpiDraftView.name;
             $scope.createView($scope.spendCubeId, spendDraftView, $scope.spendViewsList).then(function(response) {
                 console.log('create kpi view: ', response);
-                $scope.updateView($scope.kpiCubeId, $scope.kpiViewData).then(function(response) {
+                $scope.updateView($scope.kpiCubeId, $scope.kpiViewData).then(function() {
                     getKPIView($scope.spendViewId);
                 });
             });
