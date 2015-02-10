@@ -4,25 +4,28 @@ angular.module('ThreeSixtyOneView.services')
     .factory('AnalyticCalculationsModel', ["$location", "Resource", "CONFIG", "SERVER", "$q", "$http", function AnalyticCalculationsModel($location, Resource, CONFIG, SERVER, $q, $http) {
 
         var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.scenarioAnalytics),
-            responseTranslator = function(_data) {
-                angular.forEach(_data.runningStates, function(value, index) {
+            transformResponse = function(data) {
+                angular.forEach(data.runningStates, function(value, index) {
                     value.id = index + 1;
                     value.name = value.name.trim();
                     value.name = value.label.trim();
                 });
-                _data.currentState.name = _data.currentState.name.trim();
-                _data.currentState.label = _data.currentState.label.trim();
-                return _data;
-            },
-            config = {};
+
+                data.currentState.name = data.currentState.name.trim();
+                data.currentState.label = data.currentState.label.trim();
+                return data;
+            };
 
         return {
-            responseTranslator: responseTranslator,
+            config: {
+                transformResponse: function(data){ return transformResponse(JSON.parse(data));},
+                transformRequest: function(data){ return JSON.stringify(data);}
+            },
             resource: resource,
             data: [],
 
             get: function(params, _config_, additionalPath){
-                var deferred = $q.defer(), config = _config_ || {},
+                var deferred = $q.defer(), config = _config_ || this.config,
                     path = this.resource.getPath(params, additionalPath);
 
                 $http
