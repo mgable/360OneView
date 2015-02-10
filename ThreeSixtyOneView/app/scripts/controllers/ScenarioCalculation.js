@@ -40,17 +40,17 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         // initiate the model
         getCalcStatesData = function() {
             AnalyticCalculationsService.get(Scenario.id).then(function(data) {
-                console.log('DATA: ', data);
-                getCurrentStateTitle();
+                calcStatesData = data;
                 $scope.runningStates = calcStatesData.runningStates;
-                // var currentState = AnalyticCalculationsService.getScenarioState(calcStatesData.currentState),
-                //     setState;
-                // _.each(scenarioStates, function(v, k) {
-                //     if (v.message === currentState.message) { setState = k; }
-                // });
-                // $scope.setState(setState);
+                var currentState = AnalyticCalculationsService.getScenarioState(calcStatesData.currentState),
+                    setState;
+                _.each(scenarioStates, function(v, k) {
+                    if (v.message === currentState.message) { setState = k; }
+                });
+                $scope.setState(setState);
                 $scope.step = getCurrentStateIndex(calcStatesData);
                 $scope.progressValue = stepValue * $scope.step;
+                getCurrentStateTitle();
                 getProgressbarType();
                 updateCalcStatesData();
             });
@@ -97,7 +97,6 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         $scope.setState('NOT_CALCULATED');
         AnalyticCalculationsService.post(Scenario.id).then(function() {
             $scope.setState('IN_PROGRESS');
-            getProgressbarType();
             init();
         });
     };
