@@ -69,7 +69,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                             for (var j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
                                 // sheet.getCell(i, j).font("14px proxima-nova").foreColor("#333").locked(false);
                                 if(sheet.getCell(i, j).value() === null) {
-                                    sheet.getCell(i, j).backColor("#EEE").locked(true);
+                                    sheet.getCell(i, j).backColor("#EEE").locked(false);
                                 } else {
                                     sheet.getCell(i, j).font("14px proxima-nova").foreColor("#333").locked(false);
                                 }
@@ -147,9 +147,6 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     createRowSpan(l, $scope.colHeaderCnt, $scope.colCnt);
                     createColSpan(l, $scope.rowHeaderCnt, $scope.rowCnt);
                 },
-                randomNumber = function (min, max) {
-                    return Math.floor(Math.random() * (max - min + 1) + min);
-                },
                 formatSheet = function () {
                     sheet.isPaintSuspended(true);
 
@@ -165,18 +162,26 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     sheet.isPaintSuspended(false);
                 },
                 cellValueChanged = function(dirtyCell) {
+                    // if the cell was empty, do not allow change and revert back to empty
+                    if(dirtyCell.oldValue === null) {
+                        sheet.setValue(dirtyCell.row, dirtyCell.col, dirtyCell.oldValue);
+                        return;
+                    }
+
                     // if old and new values are the same OR if old value is not a number, then don't do anything
-                    if(dirtyCell.oldValue === dirtyCell.newValue || !angular.isNumber(dirtyCell.oldValue)) return;
+                    if(Math.round(dirtyCell.oldValue) === Math.round(dirtyCell.newValue) || !angular.isNumber(dirtyCell.oldValue)) {
+                        return;
+                    }
 
                     // if the new value is not a number, discard the change and put the old value in place
-                    if(!angular.isNumber(dirtyCell.newValue)) {
+                    if(!angular.isNumber(dirtyCell.newValue) || Number(dirtyCell.newValue) < 0) {
                         sheet.setValue(dirtyCell.row, dirtyCell.col, dirtyCell.oldValue);
                         return;
                     }
 
                     var cellObject = false;
 
-                    _.each($scope.pivotTableObject[dirtyCell.row - $scope.rowHeaderCnt], function(column, columnIndex) {
+                    _.each($scope.pivotTableObject[dirtyCell.row - $scope.rowHeaderCnt], function(column) {
                         var match = true;
                         if(!cellObject) {
                             _.each(column.key.value.coordinates.columnAddresses, function(columnAddress, columnAddressIndex) {
@@ -193,19 +198,18 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     cellObject.oldvalue = dirtyCell.oldValue;
                     cellObject.newvalue = dirtyCell.newValue;
 
-                    console.log(cellObject);
-                    PivotService.updateCell($scope.selectedScenarioElement.id, $scope.viewData.id, cellObject).then(function(response) {
-                        console.log(response);
+                    sheet.getCell(dirtyCell.row, dirtyCell.col).backColor("#EEE").locked(true);
+                    PivotService.updateCell($scope.selectedScenarioElement.id, $scope.viewData.id, cellObject).then(function() {
+                        sheet.getCell(dirtyCell.row, dirtyCell.col).backColor("#FFF").locked(false);
                     });
                 };
 
             // This is public because it needs to be called from the template
-            $scope.init = function (numRows, numCols) {
+            $scope.init = function () {
                 // get spread object
                 spread = $("#pivotTable").wijspread("spread");
                 // wait until spread is available then execute the rest
-                if(spread) {
-                    // get active sheet
+                if(spread) {                    // get active sheet
                     sheet = spread.getActiveSheet();
 
                     spread.grayAreaBackColor("Transparent");
@@ -215,23 +219,39 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     sheet.setColumnHeaderVisible(false);
                     sheet.setIsProtected(true);
                     sheet.autoGenerateColumns = true;
+                    sheet.clipBoardOptions($.wijmo.wijspread.ClipboardPasteOptions.Values);
 
                     // $scope.pivotTableData is located in ScenarioCtrl
                     $scope.spread.updateSheet($scope.pivotTableData);
-                    spread.bind($.wijmo.wijspread.Events.CellChanged, function (event, data) { 
-                    // console.log(data);
-                        var row = data.row,
-                            col = data.col; 
-                        if(row === undefined || col === undefined) { 
-                            return; 
-                        } 
 
-                        if(sheet.hasPendingChanges(row, col)) { 
-                            var dirtyDataArray = sheet.getDirtyCells(row, col); 
-                            if (dirtyDataArray.length > 0) { 
-                                cellValueChanged(dirtyDataArray[0]); 
-                            } 
-                        } 
+                    // find the cells that has been changed and request save in the backend
+                    spread.bind($.wijmo.wijspread.Events.ValueChanged, function (event, data) {
+                        var row = data.row,
+                            col = data.col;
+                        if(row === undefined || col === undefined) {
+                            return;
+                        }
+
+                        if(sheet.hasPendingChanges(row, col)) {
+                            var dirtyDataArray = sheet.getDirtyCells(row, col);
+                            if (dirtyDataArray.length > 0) {
+                                if(!!dirtyDataArray[0].newValue && Number(dirtyDataArray[0].oldValue) >= 0 && Number(dirtyDataArray[0].newValue) >= 0) {
+                                    cellValueChanged(dirtyDataArray[0]);
+                                } else if(Number(dirtyDataArray[0].newValue) < 0) {
+                                    sheet.setValue(dirtyDataArray[0].row, dirtyDataArray[0].col, dirtyDataArray[0].oldValue);
+                                }
+                            }
+                        }
+                    });
+
+                    // update all copy/paste cells in the table
+                    sheet.bind($.wijmo.wijspread.Events.ClipboardPasted, function (sender, args) {
+                        var i,
+                            dirtyDataArray = sheet.getDirtyCells(args.cellRange.row, args.cellRange.col, args.cellRange.rowCount, args.cellRange.colCount);
+
+                        for(i = 0; i < dirtyDataArray.length; i++) {
+                            cellValueChanged(dirtyDataArray[i]);
+                        }
                     });
                 }
             };
@@ -240,19 +260,12 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
             // $scope.spread is in ScenarioCtrl and how pivottable and pivotbuilder communicate
             $scope.spread.updateSheet = function(_data_, numRows, numCols) {
 
-                //TEMP : START
-                $scope.spread.sheet.loading = true;
-                $timeout(function() {
-                    $scope.spread.sheet.loading = false;
-                }, (numCols + numRows) * 400);
-                //TEMP : END
-
-                $scope.data = _data_;
+                $scope.data = _data_ || {};
                 $scope.rowCnt = $scope.data.length;
-                $scope.rowHeaderCnt = numRows || 2;
+                $scope.rowHeaderCnt = numRows;// || 2;
                 $scope.rowDataCnt = $scope.rowCnt - $scope.rowHeaderCnt;
                 $scope.colCnt = _.keys($scope.data[0]).length;
-                $scope.colHeaderCnt = numCols || 2;
+                $scope.colHeaderCnt = numCols;// || 2;
                 $scope.colDataCnt = $scope.colCnt - $scope.colHeaderCnt;
 
                 sheet.reset();

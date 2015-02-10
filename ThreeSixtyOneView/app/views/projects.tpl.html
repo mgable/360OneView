@@ -1,15 +1,13 @@
 <div class="listingView">
-	<div class="middle">
-		<div class="row alert-area">
-			<ng-include src="'views/includes/display.tpl.html'"></ng-include>
+	<div class="row alert-area">
+		<ng-include src="'views/includes/display.tpl.html'"></ng-include>
+	</div>
+	<div class="row display-area">
+		<div class="display">
+			<ng-include src="'views/includes/display_table.tpl.html'"></ng-include>
 		</div>
-		<div class="row display-area">
-			<div class="display">
-				<ng-include src="'views/includes/display_table.tpl.html'"></ng-include>
-			</div>
-			<div class="tray">
-				<ng-include src="'views/includes/tray.tpl.html'"></ng-include>
-			</div>
+		<div class="tray">
+			<ng-include src="'views/includes/tray.tpl.html'"></ng-include>
 		</div>
 	</div>
 </div>

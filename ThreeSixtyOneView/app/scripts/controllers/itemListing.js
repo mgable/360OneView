@@ -22,11 +22,11 @@ angular.module('ThreeSixtyOneView')
 
             if($scope.project.isMaster){
                 setMasterScenario($scope.scenarios[0]);
-            };
+            }
 
             if ($scope.selectedItem) {
                 $scope.getScenarioElements($scope.selectedItem.id);
-            };
+            }
         },
         addStatusToScenarios = function(scenarios, statuses){
             _.each(scenarios, function(k,i){
@@ -75,7 +75,16 @@ angular.module('ThreeSixtyOneView')
         });
 
         $scope.$on(EVENTS.renameScenario, function(evt, scenario){
+            console.info("rename scenario");
             ScenarioService.rename(scenario, getProject().id);
+        });
+
+        $scope.$on(EVENTS.editScenario, function($event, scenario){
+            console.info("edit scenario");
+            ScenarioService.getProjectIdByScenarioId(scenario.id).then(function(project){
+                 console.info(scenario);
+                 ScenarioService.edit(scenario, project.uuid);
+            });
         });
 
         init();
@@ -126,11 +135,11 @@ angular.module('ThreeSixtyOneView')
     }]).controller("ListingViewCtrl", ["$scope", "$rootScope", "$state", "SortAndFilterService", "DialogService", "GotoService", "CONFIG", "EVENTS", "FavoritesService", "$stateParams", function($scope, $rootScope, $state, SortAndFilterService, DialogService, GotoService, CONFIG, EVENTS, FavoritesService, $stateParams){
 
         var selectFirstItem = function(){
-            var firstItem = SortAndFilterService.getData()[0];
-            if(firstItem){
-                $scope.selectItem(firstItem);
-            }
-        };
+                var firstItem = SortAndFilterService.getData()[0];
+                if(firstItem){
+                    $scope.selectItem(firstItem);
+                }
+            };
 
         $scope.init = function(_data_, fn){
             var currentView = CONFIG.view[$state.current.name],
@@ -190,6 +199,12 @@ angular.module('ThreeSixtyOneView')
             return SortAndFilterService.getData();
         };
 
+        $scope.isMasterProjectScenario = function(item){
+            if (item){
+                return (item.isMaster && $state.current.name === "Dashboard");
+            }
+        };
+
         $scope.getSorter = function(column) {
             return SortAndFilterService.getSorter(column);
         };
@@ -200,6 +215,10 @@ angular.module('ThreeSixtyOneView')
 
         $scope.setFilter = function(type, item, forceFilter) {
             SortAndFilterService.setFilter(type, item, forceFilter);
+        };
+
+        $scope.create = function(action, data) {
+            $rootScope.$broadcast(EVENTS[action], data);
         };
 
         $scope.toggleFavorite = function(evt, item){

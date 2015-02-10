@@ -21,6 +21,8 @@
   "white": false,
   "globals": {
     "angular": false,
-    "_": false
+    "_": false,
+    "$": false,
+    "__insp": false
   }
 }

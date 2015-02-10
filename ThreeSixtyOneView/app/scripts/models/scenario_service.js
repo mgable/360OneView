@@ -71,11 +71,4 @@ angular.module('ThreeSixtyOneView.services')
 			});
 		};
 
-		// $rootScope.$on(EVENTS.editScenario, function($event, scenario){
-		// 	self.getProjectIdByScenarioId(scenario.id).then(function(project){
-		// 		console.info(scenario);
-		// 		self.edit(scenario, project.uuid)
-		// 	});
-		// });
-
 	}]);

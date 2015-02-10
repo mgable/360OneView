@@ -1,62 +1,96 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportResourceService', '$timeout', 'DialogService', 'PivotMetaService',
-    function($scope, ExportResourceService, $timeout, DialogService, PivotMetaService) {
-    	var init = function() {
-    		$scope.exportViewData = {};
-    		$scope.addedExportFilters = {};
-    		$scope.categorizedExportValue = [];
-    		$scope.exportAdded = {};
+angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportResourceService', '$timeout', 'DialogService', 'PivotMetaService', 'CONFIG',
+	function($scope, ExportResourceService, $timeout, DialogService, PivotMetaService, CONFIG) {
+		var init = function() {
+			$scope.exportViewData = {};
+			$scope.addedExportFilters = {};
+			$scope.categorizedExportValue = [];
+			$scope.exportAddedDimensions = {};
 
-    		$scope.$watch('viewData', function() {
-    			$scope.setupExportView();
-    		});
+			var unwatchViewData = $scope.$watch('viewData', function() {
+				$scope.setupExportView();
+			});
 
-    		$scope.dragOptions = {
+			$scope.$on('$destroy', function() {
+				unwatchViewData();
+			});
+
+			$scope.dragOptions = {
 				dragStart: function() {
 					$scope.isDragging = true;
 				},
 				dragEnd: function() {
 					$scope.isDragging = false;
-				}
-				// containment: '.pbSec'
+				},
+				containment: '#exportDragArea'
 			};
-    	}, setupExportViewFilters = function() {
-    		if(!!$scope.addedFilters && !!$scope.dimensions) {
-	    		$scope.addedExportFilters = angular.copy($scope.addedFilters);
+		}, setupExportViewFilters = function() {
+			if(!!$scope.addedFilters && !!$scope.dimensions) {
+				$scope.addedExportFilters = angular.copy($scope.addedFilters);
 				$scope.exportViewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedFilters, $scope.membersList, $scope.exportViewData.filters);
 				$scope.categorizedExportValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.exportViewData);
+				$scope.getLockedDimensions($scope.dimensions, $scope.membersList, $scope.categorizedExportValue);
 			}
-    	};
+		}, trackProgress = function() {
+			ExportResourceService.checkStatus($scope.exportElementId).then(function(response) {
+				if(response.status === exportModel.processingStates.init.message) {
+					$scope.statusMessage = exportModel.processingStates.init.description;
+				} else if(response.status === exportModel.processingStates.complete.message) {
+					$scope.isDownloadReady = true;
+					$scope.statusMessage = exportModel.processingStates.complete.description;
+					$scope.downloadFile();
+				} else if(response.status === exportModel.processingStates.download.message) {
+					$scope.statusMessage = exportModel.processingStates.download.description;
+					$scope.isDownloadCompleted = true;
+					$scope.cancelExport();
+					return;
+				} else if(response.status === exportModel.processingStates.fail.message) {
+					$scope.statusMessage = exportModel.processingStates.fail.description;
+					$scope.isExportFailed = true;
+					$scope.cancelExport();
+					return;
+				} else if(response.status === exportModel.processingStates.inprogress.message) {
+					$scope.statusMessage = exportModel.processingStates.inprogress.description;
+				} else {
+					console.log(response);
+				}
+				
+				progressPromise = $timeout(function() {
+					trackProgress();
+				}, 2000);
+			});
+		}, exportModel = CONFIG.application.models.ExportModel,
+		progressPromise;
 
-    	$scope.setupExportView = function() {
-	    		$scope.exportViewData = angular.copy($scope.viewData);
-	    		$scope.exportViewData.rows = $scope.viewData.rows.concat($scope.viewData.columns);
-	    		$scope.exportViewData.columns = [];
-	    		$scope.exportAdded = angular.copy($scope.added);
-	    		setupExportViewFilters();
-    	};
+		$scope.setupExportView = function() {
+				$scope.exportViewData = angular.copy($scope.viewData);
+				$scope.exportViewData.rows = $scope.viewData.rows.concat($scope.viewData.columns);
+				$scope.exportViewData.columns = [];
+				$scope.exportAddedDimensions = angular.copy($scope.added);
+				setupExportViewFilters();
+		};
 
 		$scope.deleteItem = function(index) {
-			$scope.exportAdded[$scope.exportViewData.rows[index].level.label] = false;
+			$scope.exportAddedDimensions[$scope.exportViewData.rows[index].level.label] = false;
 			$scope.exportViewData.rows.splice(index, 1);
 		};
 
 		$scope.addItem = function(item) {
 			var newItem = {dimension:{id:item.dimensionId},hierarchy:{id:-1},level:{id:item.levelId, label:item.label}};
 			$scope.exportViewData.rows.push(newItem);
-			$scope.exportAdded[item.label] = true;
+			$scope.exportAddedDimensions[item.label] = true;
 		};
 
 		$scope.replaceItem = function(selected, priorLabel) {
-			$scope.exportAdded[priorLabel] = false;
-			$scope.exportAdded[selected.label] = true;
-			var match = _.find($scope.exportViewData.rows, function(item) { return item.level.label.toLowerCase() === priorLabel.toLowerCase() });
+			$scope.exportAddedDimensions[priorLabel] = false;
+			$scope.exportAddedDimensions[selected.label] = true;
+			var match = _.find($scope.exportViewData.rows, function(item) { return item.level.label.toLowerCase() === priorLabel.toLowerCase(); });
 			if (match) {
 				var newItem = {dimension:{id:selected.dimensionId},hierarchy:{id:-1},level:{id:selected.levelId, label:selected.label}};
-	            var index = _.indexOf($scope.exportViewData.rows, match);
-	            $scope.exportViewData.rows.splice(index, 1, newItem);
-	        }
+				var index = _.indexOf($scope.exportViewData.rows, match);
+				$scope.exportViewData.rows.splice(index, 1, newItem);
+			}
 		};
 
 		// open/dismiss filters selection modal
@@ -69,6 +103,7 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 				$scope.addedExportFilters = data;
 				$scope.exportViewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedExportFilters, $scope.membersList, $scope.exportViewData.filters);
 				$scope.categorizedExportValue = PivotMetaService.generateCategorizeValueStructure($scope.addedExportFilters, $scope.dimensions, $scope.exportViewData);
+				$scope.getLockedDimensions($scope.dimensions, $scope.membersList, $scope.categorizedExportValue);
 			});
 		};
 
@@ -82,6 +117,20 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 			return $scope.exportViewData.rows;
 		};
 
+		// get dimensions that cannot be removed due to filters applied on them
+		$scope.getLockedDimensions = function(dimensions, membersList, filters) {
+			$scope.lockedDimensions = {};
+			_.each(dimensions, function(dimension, dimensionIndex) {
+				if(filters[dimensionIndex].selected < filters[dimensionIndex].total) {
+					var level = _.findWhere(dimension.members, {levelId: membersList[dimension.id][filters[dimensionIndex].label[0]].levelId});
+					if(!$scope.exportAddedDimensions[level.label]) {
+						$scope.addItem(level);
+					}
+					$scope.lockedDimensions[level.label] = true;
+				}
+			});
+		};
+
 		// start the export process
 		$scope.requestExport = function() {
 			$scope.isExportInProgress = true;
@@ -91,50 +140,17 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 			$scope.exportElementId = $scope.selectedScenarioElement.id;
 			$scope.exportElementName = $scope.selectedScenarioElement.name;
 
-			// console.log($scope.exportElementId);
-			// console.log($scope.exportViewData);
 			ExportResourceService.requestExport($scope.exportElementId, $scope.exportViewData).then(function(response) {
-				if(response.status === 'EXPORT_REQUEST_ACCEPTED') {
-					$scope.statusMessage = 'Initializing the export process ...';
+				if(response.status === exportModel.exportStates.success.message) {
+					$scope.statusMessage = exportModel.exportStates.success.description;
 					$scope.isExportFailed = false;
 					$scope.isDownloadCompleted = false;
 					$timeout(function() {
-						$scope.trackProgress();
-					}, 500)
+						trackProgress();
+					}, 1000);
 				} else {
 					console.log(response);
 				}
-			});
-		};
-
-		// tracks the export preparation progress and request download upon completion
-		$scope.trackProgress = function() {
-			ExportResourceService.checkStatus($scope.exportElementId).then(function(response) {
-				if(response.status === 'INIT') {
-					$scope.statusMessage = 'Initializing the export process ...';
-				} else if(response.status === 'COMPLETED') {
-					$scope.isDownloadReady = true;
-					$scope.statusMessage = 'Export process completed, initializing the download process ...';
-					$scope.downloadFile();
-				} else if(response.status === 'DOWNLOADED') {
-					$scope.statusMessage = 'File downloaded successfully.';
-					$scope.isDownloadCompleted = true;
-					$scope.cancelExport();
-					return;
-				} else if(response.status === 'FAILED') {
-					$scope.statusMessage = 'Export failed, please try again.';
-					$scope.isExportFailed = true;
-					$scope.cancelExport();
-					return;
-				} else if(response.status === 'IN_PROGRESS') {
-					$scope.statusMessage = 'Preparing the file to download ...';
-				} else {
-					console.log(response);
-				}
-				
-				$scope.progressPromise = $timeout(function() {
-					$scope.trackProgress();
-				}, 2000);
 			});
 		};
 
@@ -153,11 +169,10 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 
 		// cancel the export process
 		$scope.cancelExport = function() {
-			$timeout.cancel($scope.progressPromise);
+			$timeout.cancel(progressPromise);
 			$scope.statusMessage = '';
 			$scope.isExportInProgress = false;
 			$scope.isDownloadReady = false;
-			// $scope.isDownloadCompleted = false;
 		};
 
 		init();

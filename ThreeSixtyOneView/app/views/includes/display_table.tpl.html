@@ -20,7 +20,7 @@
 	                        <a ng-if="e2e" data-ms-id="{{item.id}}" class="default" ng-click="goto($event, CONFIG.nameClickAction, item)">{{item.title}}</a>
 	                        &nbsp;<icon ng-if="item.isMaster" type="marketshare"></icon>
                     	</span>
-                    	<span class="status"><icon type="{{item.currentState.state}}"></icon></span>
+                    	<span class="status"><icon type="{{item.currentState.icon}}"></icon></span>
                 	</div>
 				</td>
 				<td ng-click="showDetails(item)">

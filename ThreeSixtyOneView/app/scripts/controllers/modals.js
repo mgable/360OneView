@@ -49,20 +49,23 @@ angular.module('ThreeSixtyOneView')
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
         var findBaseScenario = function(scenario){
-                return _.find(scenario.data, function(obj){return /PRELOADED SIMULATION/.test(obj.title);});
+                return _.find(scenario.data, function(obj){return (/PRELOADED SIMULATION/).test(obj.title);});
             },
             getMasterProject = function(projects){
                 return _.findWhere(projects, {"title": "MASTER PROJECT"});
             },
             sortScenarios = function(scenarios){
                 var scenarioList = scenarios;
+                // remove master project from scenarioList
                 scenarioList.splice(_.indexOf(scenarioList, $scope.masterProject),1);
 
+                // bring current project to top of the list
                 angular.forEach(scenarioList, function(k,v){
                     if (k.title === $scope.project.title){
                         scenarioList.unshift(scenarioList.splice(v,1)[0]);
                     }
                 });
+
                 return scenarioList;
             },
             init = function(){

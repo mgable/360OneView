@@ -55,7 +55,7 @@ angular.module('ThreeSixtyOneView.directives')
                     }
                 };
 
-                $scope.$on(EVENTS.newSelectedItem, $scope.cancel)
+                $scope.$on(EVENTS.newSelectedItem, $scope.cancel);
 
             }
         };

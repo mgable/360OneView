@@ -19,7 +19,7 @@ angular.module('ThreeSixtyOneView.directives')
                     // setup tooltip
                     var tip = d3.tip()
                             .attr('class', 'd3-tip')
-                            .offset([-10, 0])
+                            .offset([-40, 0])
                             .html(function(d) {
                                 return "<strong>" + d.name + ": </strong> <span style='color:#f35528'>" + d.value + "%</span>";
                             });
@@ -131,37 +131,37 @@ angular.module('ThreeSixtyOneView.directives')
                         }
 
                         // create stripe pattern
-                        var patternData = [
-                            {
-                                x1: 10, y1: 0, x2: 30, y2: 20
-                            }, {
-                                x1: -10, y1: 0, x2: 10, y2: 20
-                            }, {
-                                x1: 30, y1: 0, x2: 50, y2: 20
-                            }
-                        ];
+                        // var patternData = [
+                        //     {
+                        //         x1: 10, y1: 0, x2: 30, y2: 20
+                        //     }, {
+                        //         x1: -10, y1: 0, x2: 10, y2: 20
+                        //     }, {
+                        //         x1: 30, y1: 0, x2: 50, y2: 20
+                        //     }
+                        // ];
 
-                        var defs = svg.append("defs");
+                        // var defs = svg.append("defs");
 
-                        defs.append("pattern")
-                            .attr("id", "stripe")
-                            .attr("patternUnits", "userSpaceOnUse")
-                            .attr("width", 40)
-                            .attr("height", 20)
-                            .selectAll("line")
-                                .data(patternData).enter()
-                                .append("line")
-                                .attr('x1', function(d){ return d.x1; })
-                                .attr('x2', function(d){ return d.x2; })
-                                .attr('y1', function(d){ return d.y1; })
-                                .attr('y2', function(d){ return d.y2; });
+                        // defs.append("pattern")
+                        //     .attr("id", "stripe")
+                        //     .attr("patternUnits", "userSpaceOnUse")
+                        //     .attr("width", 40)
+                        //     .attr("height", 20)
+                        //     .selectAll("line")
+                        //         .data(patternData).enter()
+                        //         .append("line")
+                        //         .attr('x1', function(d){ return d.x1; })
+                        //         .attr('x2', function(d){ return d.x2; })
+                        //         .attr('y1', function(d){ return d.y1; })
+                        //         .attr('y2', function(d){ return d.y2; });
 
-                        defs.append("mask")
-                            .attr("id", "mask")
-                            .append("rect")
-                                .attr("height", 500)
-                                .attr("width", 500)
-                                .style("fill", "url(#stripe)");
+                        // defs.append("mask")
+                        //     .attr("id", "mask")
+                        //     .append("rect")
+                        //         .attr("height", 500)
+                        //         .attr("width", 500)
+                        //         .style("fill", "url(#stripe)");
 
                         // create x axis group element
                         var xaxisG = svg.append("g")
@@ -209,8 +209,12 @@ angular.module('ThreeSixtyOneView.directives')
                             .attr("y", height)
                             .attr("height", 0)
                             .attr("width", x1.rangeBand())
-                            .style("fill", function(d) {
-                                return color(d.colorId % 4);
+                            .style("fill", function(d, i) {
+                                if(i == 1) {
+                                    return d3.rgb(color(d.colorId % 4)).darker(1);
+                                } else {
+                                    return color(d.colorId % 4);
+                                }
                             })
                             .style("opacity", 0)
                             .transition().ease("cubic-out")
@@ -221,24 +225,24 @@ angular.module('ThreeSixtyOneView.directives')
                                 .style("opacity", 1);
 
                         // create stripe mask rectangles
-                        bar.append("rect")
-                            .attr("x", function(d) { return x1(d.name); })
-                            .attr("y", function(d) { return y(d.value); })
-                            .attr("height", function(d) { return height - y(d.value); })
-                            .attr("width", x1.rangeBand())
-                            .style("fill", function(d, i) {
-                                return i===1 ? "rgba(0, 0, 0, 0.3)" : "none";
-                            })
-                            .attr("mask", "url(#mask)")
-                            .attr("stroke-linecap", "square")
-                            .attr("stroke-linejoin", "miter")
-                            .style("opacity", 0)
-                            .transition().ease("cubic-out")
-                                .duration("100")
-                                .delay(function(d, i) { return (d.colorId * 2 + i) * 100 })
-                                .attr("height", function(d) { return height - y(d.value); })
-                                .attr("y", function(d) { return y(d.value); })
-                                .style("opacity", 1);
+                        // bar.append("rect")
+                        //     .attr("x", function(d) { return x1(d.name); })
+                        //     .attr("y", function(d) { return y(d.value); })
+                        //     .attr("height", function(d) { return height - y(d.value); })
+                        //     .attr("width", x1.rangeBand())
+                        //     .style("fill", function(d, i) {
+                        //         return i===1 ? "rgba(0, 0, 0, 0.3)" : "none";
+                        //     })
+                        //     .attr("mask", "url(#mask)")
+                        //     .attr("stroke-linecap", "square")
+                        //     .attr("stroke-linejoin", "miter")
+                        //     .style("opacity", 0)
+                        //     .transition().ease("cubic-out")
+                        //         .duration("100")
+                        //         .delay(function(d, i) { return (d.colorId * 2 + i) * 100 })
+                        //         .attr("height", function(d) { return height - y(d.value); })
+                        //         .attr("y", function(d) { return y(d.value); })
+                        //         .style("opacity", 1);
 
                         // create labels
                         bar.append("text")

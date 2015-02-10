@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-  .service('ExportResourceService', ["$q", "$rootScope", "EVENTS", "Model", "ExportResourceModel", '$timeout', function ($q, $rootScope, EVENTS, Model, ExportResourceModel, $timeout) {
+  .service('ExportResourceService', ["$q", "$rootScope", "EVENTS", "Model", "ExportResourceModel", function ($q, $rootScope, EVENTS, Model, ExportResourceModel) {
 		var MyExportModel, myView, self = this;
 
 		MyExportModel = new Model();
@@ -25,9 +25,8 @@ angular.module('ThreeSixtyOneView.services')
 
 		this.downloadFile = function(elementId) {
 			var additionalPath = 'download';
-			return this.resource.get({elementId: elementId}, this.config, additionalPath).then(function(response) {
+			return this.resource.get({elementId: elementId}, this.config, additionalPath).then(function() {
 				return self.config.url;
-				// return response;
 			});
 		};
 }]);

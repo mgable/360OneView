@@ -8,8 +8,8 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
-	['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'ManageAnalysisViewsService', 'DialogService', 'PivotMetaService',
-	function ($scope, $rootScope, EVENTS, $timeout, $q, ManageAnalysisViewsService, DialogService, PivotMetaService) {
+	['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'ManageAnalysisViewsService', 'DialogService',
+	function ($scope, $rootScope, EVENTS, $timeout, $q, ManageAnalysisViewsService, DialogService) {
 
 	var init = function() {
 		$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
@@ -127,9 +127,8 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 	// reset the view to the last saved state
 	$scope.revertView = function() {
 		if($scope.draftView) {
-			var originalViewName = $scope.viewData.name.substring(8);
-			var originalViewId = _.find($scope.viewsList, function(view) { return originalViewName === view.name; }).id;
-			var draftViewId = $scope.viewData.id;
+			var originalViewName = $scope.viewData.name.substring(8),
+				originalViewId = _.find($scope.viewsList, function(view) { return originalViewName === view.name; }).id;
 
 			// load view automatically deletes draft view if a non-draft is loaded
 			$scope.loadView($scope.cubeId, originalViewId);
@@ -144,7 +143,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 	};
 
 	// submit save as process
-	$scope.submitSaveAs = function() {
+	$scope.submitSaveAs = function(evt) {
+		if (evt){
+			evt.stopPropagation();
+		}
 		$scope.viewData.name = $scope.saveAsName;
 
 		if($scope.rename) { // if submitting
@@ -159,7 +161,10 @@ angular.module('ThreeSixtyOneView').controller('PivotBuilderCtrl',
 	};
 
 	// cancel the save as process
-	$scope.cancelSaveAs = function() {
+	$scope.cancelSaveAs = function(evt) {
+		if (evt){
+			evt.stopPropagation();
+		}
 		$scope.rename = false;
 		$scope.saveAs = false;
 	};

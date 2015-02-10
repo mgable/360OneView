@@ -16,7 +16,7 @@ angular.module('ThreeSixtyOneView.services')
                 $http
                     .get(path, config)
                     .success(deferred.resolve)
-                    .error(function(data, status, headers, config) {
+                    .error(function(data, status) {
                         deferred.resolve({'id': null, error: {code: status, message: data}});
                         return deferred.promise;
                     });

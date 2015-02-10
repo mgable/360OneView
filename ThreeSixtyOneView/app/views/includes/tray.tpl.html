@@ -1,8 +1,8 @@
 <div class="tray-holder">
 	<div class="details">
 		<div class="clearfix title-holder">
-			<span ng-switch="selectedItem.isMaster">
-				<span ng-switch-when="true" class="title"><icon type="marketshare"></icon>&nbsp;{{selectedItem.title}}</span>
+			<span ng-switch="selectedItem.isMaster || ! selectedItem">
+				<span ng-switch-when="true" class="title"><icon ng-if="selectedItem.isMaster" type="marketshare"></icon>&nbsp;{{selectedItem.title}}</span>
 				<span ng-switch-default>
 					<inline-edit template="inline_rename" test="e2e" submitAction="CONFIG.renameAction" item="selectedItem" comparison-model="isScenarioTitleUnique"></inline-edit>
 				</span>
@@ -19,10 +19,10 @@
 
 	<div class="well meta">
 		<p class="description-label ms-label">Description</p>
-		<span ng-switch="selectedItem.isMaster">
+		<span ng-switch="selectedItem.isMaster || ! selectedItem">
 			<span ng-switch-when="true" class="description">{{item.description}}</span>
 			<span ng-switch-default>
-				<inline-edit template="inline_description" focusTarget="textarea" item="selectedItem" test="e2e" submitAction="CONFIG.renameAction"></inline-edit>
+				<inline-edit template="inline_description" focusTarget="textarea" item="selectedItem" test="e2e" submitAction="CONFIG.editAction"></inline-edit>
 			</span>
 		</span>
 		<span ng-if="selectedItem.createdBy">
@@ -54,11 +54,12 @@
 
 	<div class="well relatedItems" ng-if="selectedItem.scenarioElements.length">
 		<div class="relatedItems-holder">
-			<p class="ms-label">Contains</p>
-			<p class='description-label'>Total&nbsp;<span>{{selectedItem.scenarioElements.length}}</span>&nbsp;scenarios elements</p>
+			<p class="ms-label">Scenario Elements</p>
+			<!-- <p class='description-label'>Total&nbsp;<span>{{selectedItem.scenarioElements.length}}</span>&nbsp;scenarios elements</p> -->
 			<div class="item-holder" >
-				<div class="item" ng-repeat="element in selectedItem.scenarioElements">
-					<span ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)">{{element.title}}</span>
+				<div class="item" ng-repeat="element in selectedItem.scenarioElements | orderBy:['group','name']">
+					<div class="element-name clickable" ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)">{{element.name}}</div>
+					<div class="element-title">{{element.title}}</div>
 				</div>
 			</div>
 		</div>

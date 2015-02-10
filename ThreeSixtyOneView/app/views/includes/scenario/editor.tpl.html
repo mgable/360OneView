@@ -1,33 +1,15 @@
-<div class="scenario-type-dropdown" data-ms-id="ScenarioEdit.scenarioElements">
-    <div class="dropdown">
-        <span class="dropdown-toggle">
-            {{selectedScenarioElement.cubeMeta.label}}<icon type="caret-down"></icon>
-        </span>
-        <span ng-hide="hiddenScenarioElement(selectedScenarioElement)">
-            <span class="dropdown-filename"><icon type="file-text-o"></icon>{{selectedScenarioElementsFile}}</span>
-            <span ng-click="openScenarioElementFileModal(scenario.id, selectedScenarioElement, e2e)" class="filename-option"><icon type="folder-open-o"></icon>Replace</span>
-            <span ng-click="openScenarioElementCopyModal(scenario.id, selectedScenarioElement)" class="filename-option"><icon type="folder-open-o"></icon>Copy &amp; Replace</span>
-        </span>
-        <ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenarioElement.id}}" radio="true">
-            <li ng-repeat="element in getScenarioElements() | orderBy:'cubeMeta.id'" ms-link="{{type.id}}" ng-click="setScenarioElement(element)">
-                <span class="clickable">{{element.cubeMeta.label}}</span>
-            </li>
-        </ul>
-    </div>
-</div>
-
 <div class="editor">
-    <tabset>
-        <tab id="pivotBuilderTab" ng-controller="PivotBuilderCtrl">
+    <tabset tabs-control>
+        <tab ng-controller="PivotBuilderCtrl" expand-collapse-control-disabled="{{saveAs}}" expand-collapse-control="#pivotBuilder">
             <tab-heading>
-                <div id="pivotBuildHeader" class="pbTitle" expand-collapse-control target-area="#pivotBuilder" tab-id="1">
-                    <div class="pbRenameArea">
+                <div class="ms-title">
+                    <div class="edit clickable">
                         <icon type="eye"></icon>
                         <div class="pbTitleText" ng-hide="saveAs">{{viewData.name}}</div>
                         <div class="pbSaveAsBox" ng-show="saveAs">
                             <input type="text" ng-model="saveAsName" ui-keydown="{'esc': 'cancelSaveAs()', 'enter': 'submitSaveAs()'}">
-                            <span class="clickable" ng-click="submitSaveAs()"><icon type="check"></icon></span>
-                            <span class="clickable" ng-click="cancelSaveAs()"><icon type="remove"></icon></span>
+                            <span ng-click="submitSaveAs($event)"><icon type="check"></icon></span>
+                            <span ng-click="cancelSaveAs($event)"><icon type="remove"></icon></span>
                         </div>
                     </div>
                 </div>
@@ -112,13 +94,13 @@
                 </div>
             </div>
         </tab>
-        <tab ng-controller="importCtrl">
+        <tab ng-controller="importCtrl" expand-collapse-control="#importBody">
             <tab-heading>
-                <div id="importHeader" expand-collapse-control target-area="#importBody" tab-id="2">
-                    <icon type="download" ></icon>
+                <div id="importHeader" class="scenarioEditControls">
+                    <icon type="download"></icon>Import
                 </div>
             </tab-heading>
-        	<div id="importBody" class="importExport hidden">
+            <div id="importBody" class="importExport hidden">
                 <div class="tabTitle">Importing Data</div class="tabTitle">
                 <p>Do you want to download an import template first? <a class="clickable" onclick="exportHeader.click()">Yes</a></p>
                 <div>
@@ -130,7 +112,7 @@
                     <div class="error" ng-show="isFileInvalid"><icon type="warning"></icon>This file is invalid. Please try again.</div>
                 </div>
                 <div class="btnGroup">
-                    <ms-button type="cancel" action="cancelUpload()" label="{{cancelButtonLabel}}" ng-disabled="!isImportStarted"></ms-button>
+                    <ms-button type="cancel" action="resetUploadForm()" label="{{cancelButtonLabel}}" ng-disabled="!isImportStarted"></ms-button>
                     <ms-button type="submit" action="startUpload()" label="Import" ng-disabled="!isFileSelected || isFileInvalid || isImportStarted"></ms-button>
                 </div>
                 <div ng-show="isImportStarted" class="uploadContainer">
@@ -147,20 +129,20 @@
                 </div>
             </div>
         </tab>
-        <tab ng-controller="exportCtrl">
+        <tab ng-controller="exportCtrl" expand-collapse-control="#exportBody">
             <tab-heading>
-                <div id="exportHeader" expand-collapse-control target-area="#exportBody" tab-id="3" ng-click="setupExportView()">
-                    <icon type="upload"></icon>
+                <div id="exportHeader" class="scenarioEditControls" ng-click="setupExportView()">
+                    <icon type="upload"></icon>Export
                 </div>
             </tab-heading>
-        	<div id="exportBody" class="importExport hidden">
+            <div id="exportBody" class="importExport hidden">
                 <div class="tabTitle">Exporting Data</div>
-                <div ng-hide="isExportInProgress">
+                <div id="exportDragArea" ng-hide="isExportInProgress">
                     <div class="pbSec">
                         <div class="pbSecTitle">Dimensions</div>
                         <div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="exportViewData.rows" tabindex="-1">
-                            <draggable-dimension ng-repeat="item in getExportViewDataRows()" template="draggable_dimension" added-values="exportAdded"></draggable-dimension>
-                            <draggable-dimension ng-hide="isDragging" template="add_dimension_button"></draggable-dimension>
+                            <draggable-dimension ng-repeat="item in getExportViewDataRows()" template="draggable_dimension" added-values="exportAddedDimensions" locked="{{!!lockedDimensions[item.level.label]}}" test="{{item.level.label}}"></draggable-dimension>
+                            <draggable-dimension ng-hide="isDragging" added-values="exportAddedDimensions" template="add_dimension_button"></draggable-dimension>
                         </div>
                     </div>
                    <div class="pbSec">
@@ -179,12 +161,6 @@
                     <div ng-hide="isDownloadCompleted">
                         <icon type="refresh" class="fa-spin"></icon>{{statusMessage}}
                     </div>
-                    <!-- <div ng-hide="isDownloadReady">
-                        <p>Preparing file for download</p>
-                        <progressbar value="progressPercentage"></progressbar>
-                        <p class="percentage">{{progressPercentage}}%</p>
-                    </div>
-                    <p ng-show="isDownloadReady">Your file is ready</p> -->
                 </div>
 
                 <div class="btnGroup">
@@ -203,5 +179,4 @@
             </div>
         </tab>
     </tabset>
-    <ng-include src="'views/includes/pivot_table.tpl.html'" ng-controller="pivotTableCtrl" onload="init()"></ng-include>
 </div>

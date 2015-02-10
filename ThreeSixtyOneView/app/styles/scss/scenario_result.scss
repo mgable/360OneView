@@ -95,7 +95,7 @@
         margin-bottom: 25px;
         .tab-content {
             >.tab-pane {
-                background-color: #f2f2f2;
+                background-color: $lightestgray;
                 border-left: 1px solid #ddd;
                 border-right: 1px solid #ddd;
                 font-family: $sansFontFamily;
@@ -107,6 +107,7 @@
                 }
             }
         }
+
         .nav > li > a {
             padding: 0;
             margin-right: 0;
@@ -115,7 +116,8 @@
             cursor: pointer;
 
             > tab-heading > div {
-                border: 1px solid $mediumgray;
+                border: 1px solid #ddd;
+                border-bottom: 0;
 
                 &.lightestgrayBg {
                     background-color: $lightestgray;
@@ -128,10 +130,15 @@
                 background-color: transparent;
             }
         }
+
         .nav-tabs {
             border-bottom: none;
+            li {
+                margin-bottom: 0;
+            }
 
             > li.active {
+                background-color: $lightestgray;
                 > a {
                     background-color: transparent;
 
@@ -145,11 +152,11 @@
         #resultViewsTab {
             .srTitle {
                 font-size: 17px;
-                height: 30px;
+                height: 31px;
                 padding: 3px 5px;
                 transition: width 0.3s linear;
                 transition: color 0.3s linear;
-                width: 240px;
+                width: 250px;
 
                 &:hover {
                     color: $blue;
@@ -170,7 +177,7 @@
                 }
 
                 .srRenameArea {
-                    width: 235px;
+                    width: 240px;
 
                     .fa-eye {
                         vertical-align: top;
@@ -185,6 +192,24 @@
                         white-space: nowrap;
                         overflow: hidden;
                         text-overflow: ellipsis;
+                    }
+
+                    .srSaveAsBox {
+                        display: inline-block;
+                        width: 200px;
+                        border: 1px solid $blue;
+                        background-color: white;
+
+                        input {
+                            width: 155px;
+                            height: 24px;
+                            border: 0;
+                            outline: 0;
+                        }
+
+                        .fa-check {
+                            color: $blue;
+                        }
                     }
                 }
             }

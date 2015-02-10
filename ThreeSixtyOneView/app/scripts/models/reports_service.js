@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-  .service('ReportsService', ["Model", "ReportsModel", "$q", "CONFIG", function ImportService(Model, ReportsModel, $q, CONFIG) {
-        var MyReportsModel, myReports, self = this;
+  .service('ReportsService', ["Model", "ReportsModel", function ImportService(Model, ReportsModel) {
+        var MyReportsModel, myReports;
 
         MyReportsModel = new Model();
         angular.extend(this, MyReportsModel.prototype);

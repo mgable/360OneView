@@ -44,11 +44,105 @@ angular.module('ThreeSixtyOneView.config')
                     "requestTranslator": {"id":"id", "name": "title"}
                 },
                 "ScenarioAnalytics": {
-                    "states" : {
-                        "NOT_CALCULATED": "not_calculated",
-                        "FAILED": "FAILED",
-                        "SUCCESS": "SUCCESSFUL",
-                        "IN_PROGRESS": "in_progress"
+                    "states": {
+                        "FAILED": {
+                            "message": "FAILED",
+                            "description": "Error during optimization",
+                            "icon": "failed"
+                        },
+                        "NOT_CALCULATED": {
+                            "message": "not_calculated",
+                            "description": "This scenario has not been calculated",
+                            "icon": "not_calculated"
+                        },
+                        "SUCCESS": {
+                            "message": "SUCCESSFUL",
+                            "description": "Calculation is succeed",
+                            "icon": "successful"
+                        },
+                        "IN_PROGRESS": {
+                            "message": "in_progress",
+                            "description": "Optimization is in progress",
+                            "icon": "in_progress"
+                        }
+                    },
+                },
+                "ImportModel": {
+                    "uploadStates": {
+                        "success": {
+                            "message": "IMPORT_REQUEST_ACCEPTED",
+                            "description": "Upload successful.",
+                            "code": 201
+                        },
+                        "fail": {
+                            "message": "FILE_UPLOAD_FAILED",
+                            "description": "File upload failed, please try again.",
+                            "code": 400
+                        },
+                        "empty": {
+                            "message": "EMPTY_FILE_IMPORTED",
+                            "description": "Uploaded file is empty.",
+                            "code": 400
+                        }
+                    },
+                    "importStates": {
+                        "init": {
+                            "message": "INIT",
+                            "description": "Initializing the import process ...",
+                            "code": 201
+                        },
+                        "success": {
+                            "message": "COMPLETED",
+                            "description": "Import completed.",
+                            "code": 201
+                        },
+                        "inprogress": {
+                            "message": "IN_PROGRESS",
+                            "description": "Processing the imported file ...",
+                            "code": 201
+                        },
+                        "fail": {
+                            "message": "FAILED",
+                            "description": "Processing the uploaded file failed, please try again.",
+                            "code": 400
+                        }
+                    },
+                    "acceptedFileType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                },
+                "ExportModel": {
+                    "exportStates": {
+                        "success": {
+                            "message": "EXPORT_REQUEST_ACCEPTED",
+                            "description": "Initializing the export process ...",
+                            "code": 201
+                        }
+                    },
+                    "processingStates": {
+                        "init": {
+                            "message": "INIT",
+                            "description": "Initializing the export process ...",
+                            "code": 201
+                        },
+                        "complete": {
+                            "message": "COMPLETED",
+                            "description": "Export process completed, initializing the download process ...",
+                            "code": 201
+                        },
+                        "inprogress": {
+                            "message": "IN_PROGRESS",
+                            "description": "Preparing the file to download ...",
+                            "code": 201
+                        },
+                        "fail": {
+                            "message": "FAILED",
+                            "description": "Export failed, please try again.",
+                            "code": 400
+                        },
+                        "download": {
+                            "message": "DOWNLOADED",
+                            "description": "File downloaded successfully.",
+                            "code": 201
+                        }
                     }
                 }
             },
@@ -67,6 +161,7 @@ angular.module('ThreeSixtyOneView.config')
                 "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
                 "displayActionsCreate": "gotoScenarioCreate",
                 "renameAction": "renameScenario",
+                "editAction": "editScenario",
                 "trayButtons": [{
                     "action": "trayCopy",
                     "label": "copy",
@@ -108,6 +203,7 @@ angular.module('ThreeSixtyOneView.config')
                 "nameClickAction": 'gotoDashboard',
                 "displayActionsCreate": "getNewProjectTitle",
                 "renameAction": "renameProject",
+                "editAction": "renameProject",
                 "trayButtons": [],
                 "filterMenu": {
                     "firstSelected": 0,
@@ -136,11 +232,10 @@ angular.module('ThreeSixtyOneView.config')
             },
             "ScenarioCalculate": {
                 "timerInterval": 10000,
-                "statusLen": 7
+                "stateLength": 7
             }
         },
-        "user": {
-            "name": "me",
-            "role": "default user"
+        "client": {
+            "name": "Ford"
         }
     });

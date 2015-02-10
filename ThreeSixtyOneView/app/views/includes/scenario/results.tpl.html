@@ -1,5 +1,4 @@
 <div class="scenario_results">
-
     <section class="srDropdown">
         <div class="dropdown">
             <span>Results compared to </span>
@@ -9,7 +8,7 @@
             <ul class="dropdown-menu srDropdownMenu">
                 <div class="srDropdownMenuVisible">
                     <li ng-repeat="view in comparedViewList | limitTo:4">
-                        <div ng-click="loadComparedView(view.id)">{{view.title}}</div>
+                        <div ng-click="loadComparedView(view.id)" title="{{view.title}}">{{view.title}}</div>
                     </li>
                     <hr>
                     <li>
@@ -21,13 +20,13 @@
     </section>
 
     <section class="results-view">
-        <tabset>
-            <tab id="resultViewsTab">
+        <tabset tabs-control>
+            <tab id="resultViewsTab" expand-collapse-control="#resultViews" expand-collapse-control-disabled="{{saveAs}}">
                 <tab-heading>
-                    <div id="resultViewsHeader" class="srTitle" expand-collapse-control target-area="#resultViews" tab-id="1">
+                    <div id="resultViewsHeader" class="srTitle">
                         <div class="srRenameArea">
                             <icon type="eye"></icon>
-                            <div class="srTitleText" ng-hide="saveAs" tooltip="{{spendViewData.name}}">{{spendViewData.name}}</div>
+                            <div class="srTitleText" ng-hide="saveAs" title="{{spendViewData.name}}">{{spendViewData.name}}</div>
                         </div>
                     </div>
                 </tab-heading>
@@ -63,7 +62,7 @@
                                     <ul class="dropdown-menu srRecentViewsMenu">
                                         <div class="srRecentViewsMenuVisible">
                                             <li ng-repeat="view in getViewsList() | limitTo:4">
-                                                <div ng-click="loadView(spendCubeId, view.id);"><icon type="eye"></icon>{{view.name}}</div>
+                                                <div ng-click="loadView(spendCubeId, view.id);" title="{{view.name}}"><icon type="eye"></icon>{{view.name}}</div>
                                             </li>
                                             <hr>
                                             <li>
@@ -86,7 +85,7 @@
                         <div class="srSec">
                             <div class="srSecTitle">Spend Filters</div>
                             <div class="srFilterValues">
-                                <div ng-repeat="cat in dimensions" class="srFilterBox clickable" ng-click="spendFiltersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="spendAddedFilters[cat.label]">
+                                <div ng-repeat="cat in spendDimensions" class="srFilterBox clickable" ng-click="spendFiltersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="spendAddedFilters[cat.label]">
                                     <div class="srFilterCat">{{cat.label}} <span class="srFilterSize">({{spendCategorizedValue[$index].selected}}/{{spendCategorizedValue[$index].total}})</span></div>
                                     <div class="srFilterVal" ng-show="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{spendCategorizedValue[$index].label.join(', ')}}">{{spendCategorizedValue[$index].label.join(', ')}}</div>
                                     <div class="srFilterVal" ng-hide="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" title="{{spendCategorizedValue[$index].label.join(', ')}}">All</div>
@@ -97,7 +96,7 @@
                         <div class="srSec" ng-show="isSynced === 'off'">
                             <div class="srSecTitle">KPI Filters</div>
                             <div class="srFilterValues">
-                                <div ng-repeat="cat in dimensions" class="srFilterBox clickable" ng-click="kpiFiltersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="kpiAddedFilters[cat.label]">
+                                <div ng-repeat="cat in kpiDimensions" class="srFilterBox clickable" ng-click="kpiFiltersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="kpiAddedFilters[cat.label]">
                                     <div class="srFilterCat">{{cat.label}} <span class="srFilterSize">({{kpiCategorizedValue[$index].selected}}/{{kpiCategorizedValue[$index].total}})</span></div>
                                     <div class="srFilterVal" ng-show="kpiCategorizedValue[$index].selected < kpiCategorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{kpiCategorizedValue[$index].label.join(', ')}}">{{kpiCategorizedValue[$index].label.join(', ')}}</div>
                                     <div class="srFilterVal" ng-hide="kpiCategorizedValue[$index].selected < kpiCategorizedValue[$index].total" title="{{kpiCategorizedValue[$index].label.join(', ')}}">All</div>
@@ -121,7 +120,7 @@
         <div class="result-panel-body well">
             <div class="row">
                 <div class="kpi-container col-md-5ths col-xs-5ths" ng-repeat="kpiSummaryDatum in kpiSummaryData">
-                    <h4 class="kpi-title" tooltip="{{kpiSummaryDatum.title}}">{{kpiSummaryDatum.title}}</h4>
+                    <h4 class="kpi-title" title="{{kpiSummaryDatum.title}}">{{kpiSummaryDatum.title}}</h4>
                     <h2 class="kpi-incremental kpi-{{kpiSummaryDatum.direction}}">
                         <icon class="kpi-arrow" type="{{addArrow(kpiSummaryDatum.direction)}}"></icon>${{kpiSummaryDatum.incremental | nrFormat}}
                     </h2>
@@ -142,16 +141,16 @@
                             <tr ng-model="spendData.header">
                                 <th>{{spendData.header.title}}</th>
                                 <th>{{spendData.header.total | nrFormat}}</th>
-                                <th class="spend-{{spendData.header.direction}}">{{spendData.header.incremental | nrFormat}}</th>
-                                <th class="spend-{{spendData.header.direction}}">{{spendData.header.percent | percentage}}</th>
+                                <th class="spend-{{spendData.header.direction}}">{{addSign(spendData.header.direction)}}{{spendData.header.incremental | nrFormat}}</th>
+                                <th class="spend-{{spendData.header.direction}}">{{addSign(spendData.header.direction)}}{{spendData.header.percent | percentage}}</th>
                             </tr>
                         </thead>
                         <tbody ng-repeat="spendDatumBody in spendData.body">
                             <tr ng-repeat="spendDatumRow in spendDatumBody.children">
                                 <td>{{spendDatumRow.title}}</td>
                                 <td>{{spendDatumRow.total | nrFormat}}</td>
-                                <td class="spend-{{spendDatumRow.direction}}">{{spendDatumRow.incremental | nrFormat}}</td>
-                                <td class="spend-{{spendDatumRow.direction}}">{{spendDatumRow.percent | percentage}}</td>
+                                <td class="spend-{{spendDatumRow.direction}}">{{addSign(spendDatumRow.direction)}}{{spendDatumRow.incremental | nrFormat}}</td>
+                                <td class="spend-{{spendDatumRow.direction}}">{{addSign(spendDatumRow.direction)}}{{spendDatumRow.percent | percentage}}</td>
                             </tr>
                         </tbody>
                     </table>

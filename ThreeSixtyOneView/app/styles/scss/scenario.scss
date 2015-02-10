@@ -1,6 +1,6 @@
 @import "variables";
 
-.Scenario {
+.scenario {
 	margin: 0 20px;
 	padding: 20px;
 	background-color: $purewhite;
@@ -150,32 +150,44 @@
 	            display: inline-block;
 
 	            .dropdown-menu {
-	            	width: 300px;
+	            	width: 320px;
 	            	border-radius: 0;
 	            	border: 1px solid $blue;
 	            	padding: 7px 0;
 	            	margin-top: 5px;
 
-	                li {
-	                	padding: 3px 10px;
+	            	div {
+	            		.group-title {
+		            		margin: 10px 15px 3px 20px;
+		            		color: $gray;
+		            		border-bottom: 1px solid $mediumgray;
+		            		font-weight: 700;
+		            		text-transform: uppercase;
+		            		font-size: 12px;
+		            	}
 
-		                &.selected {
-		                    background-color: $blue;
+		                li {
+		                	color: $black;
+		                	padding: 3px 20px;
 
-		                    span {
-		                        color: $lightestgray;
-		                        font-weight: 400;
-		                    }
+			                &.selected {
+			                    background-color: $blue;
 
-		                    &:hover {
-		                    	background-color: $blue;
-		                    }
-		                }
+			                    span {
+			                        color: $lightestgray;
+			                        font-weight: 400;
+			                    }
 
-		                &:hover {
-		                	background-color: $lightgray;
-		                }
-		            }
+			                    &:hover {
+			                    	background-color: $blue;
+			                    }
+			                }
+
+			                &:hover {
+			                	background-color: $lightgray;
+			                }
+			            }
+			        }
 
 		            &::before {
 						position: absolute;
@@ -184,11 +196,7 @@
 						content: "";
 						border-left: 1px solid $blue;
 						border-top: 1px solid $blue;
-						-webkit-transform: rotate(45deg);
-						-moz-transform: rotate(45deg);
-						-ms-transform: rotate(45deg);
-						-o-transform: rotate(45deg);
-						transform: rotate(45deg);
+						@include vendor(transform, rotate(45deg));
 						top: -6px;
 						left: 27%;
 						z-index: 13;
@@ -227,63 +235,7 @@
 	            }
 			}
 		}
-		.actions {
-			/*border: 1px solid $mediumgray;
-			border-bottom: 0 none;
-			height: 30px;*/
-			> span:hover {
-				background-color:$mouseover;
-				/*cursor: pointer;*/
-			}
-			.holder {
-				/*border-right: 1px solid $mediumgray;
-				height:29px;
-				padding:4px 0 0 9px;*/
-				border: 1px solid $mediumgray;
-				/*height: 25px;*/
-				display: inline-block;
-				margin: 0 -1px 0 -4px;
-				padding: 0.2em 1em;
-				&:last-child {
-					border-right: 0 none;
-				}
-			}
-			.pivotTableControlsHolder {
-				position: relative;
-				.pivotTableControls {
-					position: absolute;
-					top: 29px;
-					left: 0px;
-					width:100%;
-					border: 1px solid $mediumgray;
-					background-color: $white;
-					.dimensions {
-						padding:15px;
-						.dimension {
-							margin: 0 0 8px;
-							span {
-								display:inline-block;
-							}
-							.tag {
-								font-size:14px;
-								color: $darkgray;
-								margin:0 5px 0 0;
-							}
-							.type {
-								width:120px;
-								text-transform: uppercase;
-							}
-							.name {width:100px}
-							.trigger {float:right}
-						}
-					}
-				}
-			}
-			.pivitTableHolder {
-				border:1px solid $mediumgray;
-				padding: 0;
-			}
-		}
+		
 		.tableHolder {
 			width: 100%;
 			.trayHolder {
@@ -327,13 +279,6 @@
 		width: 800px;
 	}
 
-	.element-file-modal-header {
-		h4 {
-			font-size: 32px;
-			font-weight: normal;
-		}
-	}
-
 	.element-file-modal-body {
 		background-color: white;
 
@@ -350,7 +295,7 @@
 						padding-left: 20px;
 						font-size: 18px;
 
-						.fa {
+						.caret-down {
 							margin-left: 5px;
 							font-size: 14px;
 						}
@@ -361,7 +306,6 @@
 						border-radius: 0;
 						background-color: white;
 						padding: 7px 0;
-						box-shadow: 0 3px 10px rgba(100,100,100,0.5);
 						margin-top: 5px;
 						position: absolute;
 						left: -35px;
@@ -373,11 +317,7 @@
 							content: "";
 							border-left: 1px solid $blue;
 							border-top: 1px solid $blue;
-							-webkit-transform: rotate(45deg);
-							-moz-transform: rotate(45deg);
-							-ms-transform: rotate(45deg);
-							-o-transform: rotate(45deg);
-							transform: rotate(45deg);
+							@include vendor(transform, rotate(45deg));
 							top: -6px;
 							left: 47%;
 							z-index: 13;
@@ -402,7 +342,7 @@
 					border: 1px solid $mediumgray;
 					padding: 5px;
 
-					.fa {
+					.search-icon {
 						margin-left: 5px;
 						color: $gray;
 					}
@@ -422,7 +362,7 @@
 			height: 400px;
 			border: 1px solid $mediumgray;
 
-			.fa-dot-circle-o {
+			.dot-circle {
 				display: none;
 			}
 
@@ -442,7 +382,7 @@
 					overflow: hidden;
 					text-overflow: ellipsis;
 
-					.fa {
+					.circle, .dot-circle {
 						margin-right: 5px;
 					}
 				}
@@ -451,8 +391,6 @@
 					display: inline-block;
 					width: 250px;
 					vertical-align: top;
-
-					.element-file-date {}
 
 					.element-file-owner {
 						color: $gray;
@@ -477,51 +415,24 @@
 						color: $lightgray;
 					}
 
-					.fa-circle-o {
+					.circle {
 						display: none;
 					}
 
-					.fa-dot-circle-o {
+					.dot-circle {
 						display: inline;
 					}
 				}
-			}
-		}
-
-		.element-file-buttons {
-			float: right;
-
-			.btn {
-				margin-left: 20px;
-				margin-top: 15px;
-				padding: 5px 20px;
-				border-radius: 3px;
-			}
-
-			.cancel-button {
-				background-color: $mediumgray;
-				border: 1px solid $gray;
-				color: white;
-			}
-
-			.apply-button {
-				background-color: $orange;
-				color: white;
 			}
 		}
 	}
 }
 
 .scenarioAnalysisElementCopy {
-	.element-copy-modal-header {
-		h4 {
-			font-size: 32px;
-			font-weight: normal;
-		}
-	}
 
 	.element-copy-modal-body {
 		background-color: white;
+		padding: 10px 20px;
 
 		.element-copy-form {
 			.element-copy-label {
@@ -543,46 +454,43 @@
 				background-color: #F2CBDB;
 				border: 1px solid #D43538;
 			}
-
-			.element-copy-name {}
-
-			.element-copy-description {}
 		}
+	}
+}
 
-		.element-copy-buttons {
-			float: right;
+/* shared across scenario element modals */
+.element-modal-title {
+	font-size: 32px;
+	font-weight: normal;
+}
 
-			.btn {
-				margin-left: 20px;
-				margin-top: 15px;
-				padding: 5px 20px;
-				border-radius: 3px;
-			}
+.element-file-buttons {
+	float: right;
 
-			.cancel-button {
-				background-color: $mediumgray;
-				border: 1px solid $gray;
-				color: white;
-			}
+	.btn {
+		margin-left: 20px;
+		margin-top: 15px;
+		padding: 5px 20px;
+		border-radius: 3px;
+	}
+}
 
-			.apply-button {
-				background-color: $orange;
-				color: white;
-			}
-		}
+.scenarioEditControls {
+	border: 0!important;
+	color: $black;
+
+	&:hover {
+		color: $blue;
+	}
+
+	.fa {
+		margin-right: 5px;
 	}
 }
 
 .pivotBuilderAllViewsModal {
 	.modal-content {
 		width: 800px;
-	}
-
-	.all-views-modal-header {
-		h4 {
-			font-size: 32px;
-			font-weight: normal;
-		}
 	}
 
 	.all-views-modal-body {
@@ -624,11 +532,7 @@
 							content: "";
 							border-left: 1px solid $blue;
 							border-top: 1px solid $blue;
-							-webkit-transform: rotate(45deg);
-							-moz-transform: rotate(45deg);
-							-ms-transform: rotate(45deg);
-							-o-transform: rotate(45deg);
-							transform: rotate(45deg);
+							@include vendor(transform, rotate(45deg));
 							top: -6px;
 							left: 47%;
 							z-index: 13;
@@ -703,8 +607,6 @@
 					width: 250px;
 					vertical-align: top;
 
-					.element-file-date {}
-
 					.all-views-owner {
 						color: $gray;
 						margin-left: 10px;
@@ -723,36 +625,14 @@
 						color: $lightgray;
 					}
 
-					.fa-circle-o {
+					.circle {
 						display: none;
 					}
 
-					.fa-dot-circle-o {
+					.dot-circle {
 						display: inline;
 					}
 				}
-			}
-		}
-
-		.all-views-buttons {
-			float: right;
-
-			.btn {
-				margin-left: 20px;
-				margin-top: 15px;
-				padding: 5px 20px;
-				border-radius: 3px;
-			}
-
-			.cancel-button {
-				background-color: $mediumgray;
-				border: 1px solid $gray;
-				color: white;
-			}
-
-			.apply-button {
-				background-color: $orange;
-				color: white;
 			}
 		}
 	}

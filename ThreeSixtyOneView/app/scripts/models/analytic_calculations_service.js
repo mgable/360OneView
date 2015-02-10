@@ -1,29 +1,29 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-  	.service('AnalyticCalculationsService', ["Model", "AnalyticCalculationsModel", "$q", "CONFIG", function (Model, AnalyticCalculationsModel, $q, CONFIG) {
+	.service('AnalyticCalculationsService', ["Model", "AnalyticCalculationsModel", "$q", "CONFIG", function (Model, AnalyticCalculationsModel, $q, CONFIG) {
 		var MyScenarioCalculate, myCalculate, self = this,
 			scenarioStates = CONFIG.application.models.ScenarioAnalytics.states,
-            getScenarioState = function(currentStateObj){
-            	var state;
-                if (currentStateObj.completed === true){
-                    if (currentStateObj.name === scenarioStates.FAILED){
-                        state = scenarioStates.FAILED;
-                    } else if (currentStateObj.name === scenarioStates.SUCCESS){
-                        state = scenarioStates.SUCCESS;
-                    }
-                } else if (currentStateObj.name === scenarioStates.NOT_CALCULATED){
-                    state = scenarioStates.NOT_CALCULATED;
-                } else {
-                    state = scenarioStates.IN_PROGRESS;
-                }
-                return state;
-            },
-            setScenarioState = function(scenarios){
-            	_.each(scenarios, function(k){
-            		k.currentState.state = getScenarioState(k.currentState);
-            	});
-            }
+			getScenarioState = function(currentStateObj){
+				var state;
+				if (currentStateObj.completed === true){
+					if (currentStateObj.name === scenarioStates.FAILED.message){
+						state = scenarioStates.FAILED;
+					} else if (currentStateObj.name === scenarioStates.SUCCESS.message){
+						state = scenarioStates.SUCCESS;
+					}
+				} else if (currentStateObj.name === scenarioStates.NOT_CALCULATED.message){
+					state = scenarioStates.NOT_CALCULATED;
+				} else {
+					state = scenarioStates.IN_PROGRESS;
+				}
+				return state;
+			},
+			setScenarioState = function(scenarios){
+				_.each(scenarios, function(k){
+					_.extend(k.currentState, getScenarioState(k.currentState));
+				});
+			};
 
 		MyScenarioCalculate = new Model();
 		angular.extend(this, MyScenarioCalculate.prototype);
@@ -33,19 +33,19 @@ angular.module('ThreeSixtyOneView.services')
 		this.getScenarioState = getScenarioState;
 
 		this.isInProgress = function(state){
-			return state === scenarioStates.IN_PROGRESS;
+			return state === scenarioStates.IN_PROGRESS.message;
 		};
 
 		this.isFailed = function(state){
-			return state === scenarioStates.FAILED;
+			return state === scenarioStates.FAILED.message;
 		};
 
 		this.isNotCalculated = function(state){
-			return state = scenarioStates.NOT_CALCULATED;
+			return state === scenarioStates.NOT_CALCULATED.message;
 		};
 
 		this.isSuccess = function(state){
-			return state = scenarioStates.SUCCESS;
+			return state === scenarioStates.SUCCESS.message;
 		};
 
 		this.get = function(id){
@@ -61,7 +61,7 @@ angular.module('ThreeSixtyOneView.services')
 		};
 
 		this.startCalculation = function(state, id){
-			if (state.currentState.name !== "FAILED"){
+			if (state.name !== "FAILED"){
 				return this.post(id).then(function(response){
 					return response;
 				});
@@ -71,7 +71,7 @@ angular.module('ThreeSixtyOneView.services')
 		this.getAllScenarioStatus = function(scenarios){
 			var promises = [];
 
-			_.each(scenarios, function(k,v){
+			_.each(scenarios, function(k){
 				promises.push(self.get(k.id));
 			});
 
