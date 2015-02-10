@@ -30,7 +30,7 @@ angular.module('ThreeSixtyOneView.services')
 		myCalculate = new MyScenarioCalculate(AnalyticCalculationsModel);
 		angular.extend(this, myCalculate);
 
-		this.setConfig(this.makeConfig(this, this.responseTranslator));
+		//this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
 		this.getScenarioState = getScenarioState;
 
@@ -51,7 +51,7 @@ angular.module('ThreeSixtyOneView.services')
 		};
 
 		this.get = function(id){
-			return myCalculate.get({"id": id}, {}).then(function(response){
+			return myCalculate.get({"id": id}, this.config).then(function(response){
 				return response;
 			});
 		};
