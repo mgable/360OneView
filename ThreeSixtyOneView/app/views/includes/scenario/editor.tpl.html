@@ -2,19 +2,17 @@
     <tabset tabs-control>
         <tab ng-controller="PivotBuilderCtrl" expand-collapse-control-disabled="{{saveAs}}" expand-collapse-control="#pivotBuilder">
             <tab-heading>
-                <div class="ms-title">
-                    <div class="edit clickable">
-                        <icon type="eye"></icon>
-                        <div class="pbTitleText" ng-hide="saveAs">{{viewData.name}}</div>
-                        <div class="pbSaveAsBox" ng-show="saveAs">
-                            <input type="text" ng-model="saveAsName" ui-keydown="{'esc': 'cancelSaveAs()', 'enter': 'submitSaveAs()'}">
-                            <span ng-click="submitSaveAs($event)"><icon type="check"></icon></span>
-                            <span ng-click="cancelSaveAs($event)"><icon type="remove"></icon></span>
-                        </div>
+                <div class="edit clickable">
+                    <icon type="eye"></icon>
+                    <div class="pbTitleText" ng-hide="saveAs">{{viewData.name}}</div>
+                    <div class="pbSaveAsBox" ng-show="saveAs">
+                        <input type="text" ng-model="saveAsName" ui-keydown="{'esc': 'cancelSaveAs()', 'enter': 'submitSaveAs()'}">
+                        <span ng-click="submitSaveAs($event)"><icon type="check"></icon></span>
+                        <span ng-click="cancelSaveAs($event)"><icon type="remove"></icon></span>
                     </div>
                 </div>
             </tab-heading>
-            <div id="pivotBuilder" class="hidden">
+            <div id="pivotBuilder" class="content">
                 <div class="pbSlider">
                     <div class="pbControlBar">
                         <div class="pbFunctionFlip clickable" ms-link-group  selected-item="table">
@@ -97,10 +95,10 @@
         <tab ng-controller="importCtrl" expand-collapse-control="#importBody">
             <tab-heading>
                 <div class="header" class="scenarioEditControls">
-                    <icon type="download"></icon>Import
+                    <icon type="download"></icon>&nbsp;Import
                 </div>
             </tab-heading>
-            <div id="importBody" class="importExport hidden">
+            <div id="importBody" class="importExport hidden content">
                 <div class="tabTitle">Importing Data</div class="tabTitle">
                 <p>Do you want to download an import template first? <a class="clickable" onclick="exportHeader.click()">Yes</a></p>
                 <div>
@@ -132,10 +130,10 @@
         <tab ng-controller="exportCtrl" expand-collapse-control="#exportBody">
             <tab-heading>
                 <div class="header" class="scenarioEditControls" ng-click="setupExportView()">
-                    <icon type="upload"></icon>Export
+                    <icon type="upload"></icon>&nbsp;Export
                 </div>
             </tab-heading>
-            <div id="exportBody" class="importExport hidden">
+            <div id="exportBody" class="importExport hidden content">
                 <div class="tabTitle">Exporting Data</div>
                 <div id="exportDragArea" ng-hide="isExportInProgress">
                     <div class="pbSec">
