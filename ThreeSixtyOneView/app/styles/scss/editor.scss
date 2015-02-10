@@ -8,14 +8,23 @@
 			background-color:$ms-lightGray;
 		}
 	}
+	.nav {
+		li {
+			a {
+				tab-heading {
+					div {
+						border: 0!important;
+					}
+				}
+			}
+		}
+	}
 	.ms-title {
 		font-size: 17px;
 		height: 31px;
 		padding: 3px 5px;
-		transition: width 0.3s linear;
-		transition: color 0.3s linear;
-		width: 250px;
-		border: 0 none;
+		width: 300px;
+		border: 0;
 		color: $ms-black;
 
 		&:hover {
@@ -39,7 +48,6 @@
 
 			.pbTitleText {
 				display: inline-block;
-				border: 1px solid rgba(255,255,255,0);
 				width: 200px;
 				white-space: nowrap;
 				overflow: hidden;
@@ -49,7 +57,7 @@
 			.pbSaveAsBox {
 				display: inline-block;
 				width: 200px;
-				border: 1px solid $blue;
+				border: 1px solid $ms-blue;
 				background-color: white;
 
 				input {

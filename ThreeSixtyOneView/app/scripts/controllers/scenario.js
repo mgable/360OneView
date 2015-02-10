@@ -34,7 +34,7 @@ angular.module('ThreeSixtyOneView')
 
             $scope.scenarioState = AnalyticCalculationsService.getScenarioState(Calculate.currentState);
 
-            $scope.scenarioStates =CONFIG.application.models.ScenarioAnalytics.states;
+            $scope.scenarioStates = CONFIG.application.models.ScenarioAnalytics.states;
 
             setView($scope.scenarioState);
 
@@ -246,6 +246,7 @@ angular.module('ThreeSixtyOneView')
             $scope.selectedScenarioElement = element;
             $scope.cubeId = element.cubeMeta.id;
             $scope.selectedScenarioElementsFile = element.name;
+            console.log($scope);
         };
 
         // hide scenario copy and replace options if part of the marleting plan
