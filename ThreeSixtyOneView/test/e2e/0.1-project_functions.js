@@ -52,6 +52,9 @@ data = {
 	filterByItem: function(){
 		specs.filterByButton.click();
 		specs.filterByItemButton.click();
+	},
+	getProjectUrl: function(){
+		return browser.get(browser.params.path + specs.projectUrl + specs.testQuery);
 	}
 };
 

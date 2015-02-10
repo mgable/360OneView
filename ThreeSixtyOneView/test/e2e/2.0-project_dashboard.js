@@ -8,7 +8,7 @@ var specs = require('./0.0-specs.js'),
 	var dashboardUrl, projectId = "9437e65645383388b03095a017c9480b"; dashboardUrl = specs.getDashboardUrl(projectId);
 
 
-describe('Project Dashboard', function() {
+xdescribe('Project Dashboard', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
