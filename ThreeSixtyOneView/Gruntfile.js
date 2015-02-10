@@ -460,11 +460,36 @@ module.exports = function(grunt) {
                 noColor: false, // If true, protractor will not use colors in its output.
                 args: {}
             },
+            qa: {   // Grunt requires at least one target to run so you can simply put 'all: {}' here too.
+                options: {
+                    configFile: "protractor.conf.js", // Target-specific config file
+                    args: {
+                        baseUrl: "http://360-ui-qa.marketshare.com:8080",
+                        params: {
+                            path: "/360/index.html"
+                        }
+                    } // Target-specific arguments
+                }
+            },
             proto: {   // Grunt requires at least one target to run so you can simply put 'all: {}' here too.
                 options: {
                     configFile: "protractor.conf.js", // Target-specific config file
                     args: {
-                        baseUrl: "http://360-ui-prototype.marketshare.com"
+                        baseUrl: "http://360-ui-prototype.marketshare.com",
+                        params: {
+                            path: "/index.html"
+                        }
+                    } // Target-specific arguments
+                }
+            },
+            dev: {   // Grunt requires at least one target to run so you can simply put 'all: {}' here too.
+                options: {
+                    configFile: "protractor.conf.js", // Target-specific config file
+                    args: {
+                        baseUrl: "http://360-ui-dev.marketshare.com:8080",
+                        params: {
+                            path: "/360/index.html"
+                        }
                     } // Target-specific arguments
                 }
             },
@@ -472,7 +497,10 @@ module.exports = function(grunt) {
                 options: {
                     configFile: "protractor.conf.js", // Target-specific config file
                     args: {
-                        baseUrl: "http://127.0.0.1:9001"
+                        baseUrl: "http://127.0.0.1:9001",
+                        params: {
+                            path: "/"
+                        }
                     } // Target-specific arguments
                 }
             }
