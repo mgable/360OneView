@@ -63,7 +63,7 @@ angular.module('ThreeSixtyOneView.services')
 		};
 
 		this.startCalculation = function(state, id){
-			if (state.name !== "FAILED"){
+			if (state.currentState.name !== "FAILED"){
 				return this.post(id).then(function(response){
 					return response;
 				});
