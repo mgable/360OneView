@@ -3,11 +3,6 @@
 @import "new_variables";
 
 .editor {
-	.nav-tabs {
-		li.active {
-			background-color:$ms-lightGray;
-		}
-	}
 	.ms-title {
 		font-size: 17px;
 		height: 31px;
@@ -60,6 +55,65 @@
 				}
 
 			}
+		}
+	}
+
+	.header {
+		padding: 7.5px 15px;
+	}
+
+	.tab-content {
+		>.tab-pane {
+			background-color: #f2f2f2;
+			border-left: 1px solid #ddd;
+			border-right: 1px solid #ddd;
+			font-family: $sansFontFamily;
+			font-size: 14px;
+			color: $black;
+
+			>div {
+				border-bottom: 1px solid #ddd;
+			}
+		}
+	}
+
+	.nav > li > a {
+		padding: 0;
+		margin-right: 0;
+		border-radius: 0;
+		border: none;
+		cursor: pointer;
+
+		> tab-heading > div {
+			border: 1px solid $mediumgray;
+
+			&.lightestgrayBg {
+				background-color: $lightestgray;
+				border-bottom-color: $lightestgray;
+				cursor: pointer;
+			}
+		}
+
+		&:hover {
+			background-color: transparent;
+		}
+	}
+
+	.nav-tabs {
+		border-bottom: none;
+
+		> li {
+			margin-bottom: -4px;
+			&.active {
+				background-color:$ms-lightGray;
+				> a {
+					background-color: transparent;
+
+					&:hover {
+						border: none;
+					}
+				}	
+			} 	
 		}
 	}
 }
