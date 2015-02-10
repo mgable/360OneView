@@ -97,7 +97,6 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         $scope.setState('NOT_CALCULATED');
         AnalyticCalculationsService.post(Scenario.id).then(function() {
             $scope.setState('IN_PROGRESS');
-            getProgressbarType();
             init();
         });
     };
