@@ -5,14 +5,16 @@ angular.module('ThreeSixtyOneView.services')
 
         var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.scenarioAnalytics),
             transformResponse = function(data) {
-                angular.forEach(data.runningStates, function(value, index) {
-                    value.id = index + 1;
-                    value.name = value.name.trim();
-                    value.name = value.label.trim();
-                });
+                if(!_.has(data, 'errorMessage')) {
+                    angular.forEach(data.runningStates, function(value, index) {
+                        value.id = index + 1;
+                        value.name = value.name.trim();
+                        value.name = value.label.trim();
+                    });
 
-                data.currentState.name = data.currentState.name.trim();
-                data.currentState.label = data.currentState.label.trim();
+                    data.currentState.name = data.currentState.name.trim();
+                    data.currentState.label = data.currentState.label.trim();
+                }
                 return data;
             };
 
