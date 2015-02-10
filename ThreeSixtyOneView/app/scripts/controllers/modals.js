@@ -49,7 +49,7 @@ angular.module('ThreeSixtyOneView')
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
         var findBaseScenario = function(scenario){
-                return _.find(scenario.data, function(obj){return /PRELOADED SIMULATION/.test(obj.title);});
+                return _.find(scenario.data, function(obj){return (/PRELOADED SIMULATION/).test(obj.title);});
             },
             getMasterProject = function(projects){
                 return _.findWhere(projects, {"title": "MASTER PROJECT"});

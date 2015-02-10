@@ -5,10 +5,10 @@ var specs = require('./0.0-specs.js'),
 
 	var dashboardUrl, projectId;
 	// TEMP data - remove in production
-	//var dashboardUrl, projectId = "123f69cf1b6a38a9942b65b015810854"; dashboardUrl = specs.getDashboardUrl(projectId);
+	var dashboardUrl, projectId = "9437e65645383388b03095a017c9480b"; dashboardUrl = specs.getDashboardUrl(projectId);
 
 
-xdescribe('Project Dashboard', function() {
+describe('Project Dashboard', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
@@ -16,7 +16,7 @@ xdescribe('Project Dashboard', function() {
 	);
 	var testFileName = "My New Test Project- " + Date.now();
 
-	it("should create a new project and go to the dashboard", function(){
+	xit("should create a new project and go to the dashboard", function(){
 		var firstItemTitle;
 
 		browser.get(specs.projectUrl + specs.testQuery);
@@ -78,7 +78,7 @@ xdescribe('Project Dashboard', function() {
 		});
 
 
-		describe("Create functions: ", function(){
+		xdescribe("Create functions: ", function(){
 			var baseScenario = "scenario.referenceScenario.name",
 				baseScenarioInputField = element(by.model(baseScenario));
 
@@ -233,7 +233,7 @@ xdescribe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Filter functions: ", function(){
+		xdescribe("Filter functions: ", function(){
 
 			it("should filter by favorite", function(){
 				var startItemCount = specs.getItemCount();
@@ -256,7 +256,7 @@ xdescribe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Edit functions: ", function(){
+		xdescribe("Edit functions: ", function(){
 			var first,
 				newName = "My Renamed Scenario - " + Date.now(),
 				newDescription = "My new Description - " + Date.now();
@@ -307,13 +307,13 @@ xdescribe('Project Dashboard', function() {
 			});
 		})
 
-		describe("Breadcrumbs: ", function(){
+		xdescribe("Breadcrumbs: ", function(){
 			it("should have the correct label", function(){
 				expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + testFileName.toUpperCase());
 			});
 		});
 
-		describe("Change base scenario: ", function(){
+		xdescribe("Change base scenario: ", function(){
 
 			it("should change the base scenario", function(){
 				var scenarios, scenario;
@@ -346,13 +346,15 @@ xdescribe('Project Dashboard', function() {
 			var scenarioElements = "element in selectedItem.scenarioElements",
 				scenarioEditScenarioElements = "div[data-ms-id='ScenarioEdit.scenarioElements'] .dropdown-toggle",
 				allScenarioElements = element.all(by.repeater(scenarioElements)),
-				firstScenarioElement = allScenarioElements.first().element(by.css("span")),
-				lastScenarioElement =   allScenarioElements.last().element(by.css("span")),
+				firstScenarioElementName = allScenarioElements.first().element(by.css(".element-name")),
+				firstScenarioElementTitle = allScenarioElements.first().element(by.css(".element-title")),
+				lastScenarioElementName =   allScenarioElements.last().element(by.css(".element-name")),
+				lastScenarioElementTitle =   allScenarioElements.last().element(by.css(".element-title")),
 				selectedScenarioElement = element(by.css(scenarioEditScenarioElements));
 
 			it("should click through to scenario edit with the correct scenario element selected", function(){
-				firstScenarioElement.getText().then(function(titleInTray){
-					firstScenarioElement.click();
+				firstScenarioElementTitle.getText().then(function(titleInTray){
+					firstScenarioElementName.click();
 					browser.waitForAngular();
 					expect(browser.getLocationAbsUrl()).toContain("/#/scenario/" + projectId);
 					selectedScenarioElement.getText().then(function(titleInScenarioEdit){
@@ -362,8 +364,8 @@ xdescribe('Project Dashboard', function() {
 
 				browser.get(specs.getDashboardUrl(projectId) + specs.testQuery);
 
-				lastScenarioElement.getText().then(function(titleInTray){
-					lastScenarioElement.click();
+				lastScenarioElementTitle.getText().then(function(titleInTray){
+					lastScenarioElementName.click();
 					browser.waitForAngular();
 					expect(browser.getLocationAbsUrl()).toContain("/#/scenario/" + projectId);
 					selectedScenarioElement.getText().then(function(titleInScenarioEdit){
@@ -374,7 +376,7 @@ xdescribe('Project Dashboard', function() {
 		});
 	});
 
-	describe("Edit controls on master project's master scenario", function(){
+	xdescribe("Edit controls on master project's master scenario", function(){
 		beforeEach(
 			function(){
 				browser.driver.manage().window().setSize(1280, 1024);

@@ -21,7 +21,7 @@ angular.module('ThreeSixtyOneView')
                 currentView: {}
             };
             $scope.scenarioElements = ScenarioAnalysisElements;
-            $scope.groupedScenarioElements = _.groupBy(ScenarioAnalysisElements, function(element) {return element.group});
+            $scope.groupedScenarioElements = _.groupBy(ScenarioAnalysisElements, function(element) {return element.group;});
 
             // either load the element selected in scenario listing page or TOUCHPOINT related element if none selected
             $scope.setScenarioElement(!!parseInt($state.params.scenarioElementId) ? getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) : getScenarioElementByCubeName($scope.scenarioElements, 'TOUCHPOINT'));
@@ -34,7 +34,7 @@ angular.module('ThreeSixtyOneView')
 
             $scope.scenarioState = AnalyticCalculationsService.getScenarioState(Calculate.currentState);
 
-            $scope.scenarioStates =CONFIG.application.models.ScenarioAnalytics.states;
+            $scope.scenarioStates = CONFIG.application.models.ScenarioAnalytics.states;
 
             setView($scope.scenarioState);
 
@@ -71,6 +71,46 @@ angular.module('ThreeSixtyOneView')
             if (AnalyticCalculationsService.isInProgress($scope.scenarioState.message) || AnalyticCalculationsService.isFailed($scope.scenarioState.message)){
                 $timeout(function(){$state.go("Scenario.calculate");});
             }
+        },
+        deleteView = function(cubeId, viewId) {
+            ManageAnalysisViewsService.deleteView(viewId, cubeId).then(function() {
+                $scope.viewsList = _.reject($scope.viewsList, function(view) { return view.id === viewId; });
+                $scope.draftView = false;
+            });
+        },
+        createView = function(cubeId, view, viewList) {
+            var i;
+            $scope.viewsList = viewList;
+            // remove conflicting elements from the view
+            view.id = null;
+            for(i = 0; i < view.filters.length; i++) {
+                view.filters[i].id = null;
+            }
+
+            return ManageAnalysisViewsService.createView(view, cubeId).then(function(view) {
+                $scope.viewData = angular.copy(view);
+                $scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
+                $scope.viewsList.unshift(view);
+                $scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
+                return view;
+            });
+        },
+        updateView = function(cubeId, view) {
+            // filter ids should be set to zero before update
+            _.each(view.filters, function(filter) {
+                filter.id = 0;
+            });
+            return ManageAnalysisViewsService.updateView(view, cubeId).then(function(response) {
+                return response;
+            });
+        };
+
+
+        $scope.setScenarioElement = function(element) {
+            $scope.$broadcast(EVENTS.selectScenarioElement, element);
+            $scope.selectedScenarioElement = element;
+            $scope.cubeId = element.cubeMeta.id;
+            $scope.selectedScenarioElementsFile = element.name;
         };
 
         $scope.setState = function(state){
@@ -98,7 +138,7 @@ angular.module('ThreeSixtyOneView')
 
         $scope.disableSimulateBtn = function() {
             if($scope.location === '/edit') {
-                return ($scope.scenarioState.message === 'in_progress' || $scope.scenarioState.message === 'SUCCESSFUL') ? true : false;
+                return ($scope.scenarioState.message === $scope.scenarioStates.IN_PROGRESS.message || $scope.scenarioState.message === $scope.scenarioStates.SUCCESS.message) ? true : false;
             } else {
                 return true;
             }
@@ -118,7 +158,7 @@ angular.module('ThreeSixtyOneView')
                     });
 
                     if(viewId !== draftId) {
-                        $scope.deleteView($scope.cubeId, draftId);
+                        deleteView($scope.cubeId, draftId);
                     }
                 }
 
@@ -130,44 +170,6 @@ angular.module('ThreeSixtyOneView')
                 $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, view);
 
                 $scope.loadPivotTable($scope.selectedScenarioElement, view);
-            });
-        };
-
-        // delete a view
-        $scope.deleteView = function(cubeId, viewId) {
-            ManageAnalysisViewsService.deleteView(viewId, cubeId).then(function() {
-                $scope.viewsList = _.reject($scope.viewsList, function(view) { return view.id === viewId; });
-                $scope.draftView = false;
-            });
-        };
-
-        // create a new view
-        $scope.createView = function(cubeId, view, viewList) {
-            var i;
-            $scope.viewsList = viewList;
-            // remove conflicting elements from the view
-            view.id = null;
-            for(i = 0; i < view.filters.length; i++) {
-                view.filters[i].id = null;
-            }
-
-            return ManageAnalysisViewsService.createView(view, cubeId).then(function(view) {
-                $scope.viewData = angular.copy(view);
-                $scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
-                $scope.viewsList.unshift(view);
-                $scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
-                return view;
-            });
-        };
-
-        // save the view
-        $scope.updateView = function(cubeId, view) {
-            // filter ids should be set to zero before update
-            _.each(view.filters, function(filter) {
-                filter.id = 0;
-            });
-            return ManageAnalysisViewsService.updateView(view, cubeId).then(function(response) {
-                return response;
             });
         };
 
@@ -185,11 +187,11 @@ angular.module('ThreeSixtyOneView')
                 $scope.draftView = true;
                 var draftView = angular.copy($scope.viewData);
                 draftView.name = 'Draft - ' + draftView.name;
-                $scope.createView($scope.cubeId, draftView, $scope.viewsList).then(function() {
+                createView($scope.cubeId, draftView, $scope.viewsList).then(function() {
                     $scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
                 });
             } else {
-                $scope.updateView($scope.cubeId, $scope.viewData).then(function() {
+                updateView($scope.cubeId, $scope.viewData).then(function() {
                     $scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
                 });
             }
@@ -204,11 +206,11 @@ angular.module('ThreeSixtyOneView')
 
                 $scope.viewData.name = originalViewName;
                 $scope.viewData.id = originalViewId;
-                $scope.updateView($scope.cubeId, $scope.viewData).then(function(view) {
+                updateView($scope.cubeId, $scope.viewData).then(function(view) {
                     $scope.viewData = view;
                     $scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
                 });
-                $scope.deleteView($scope.cubeId, draftViewId);
+                deleteView($scope.cubeId, draftViewId);
             }
         };
 
@@ -220,65 +222,6 @@ angular.module('ThreeSixtyOneView')
                 $scope.pivotTableObject = response.original;
                 $scope.spread.updateSheet(response.formatted, numCols, numRows);
                 $scope.pivotTableData = response.formatted;
-            });
-        };
-
-        $scope.getGroupedScenarioElements = function() {
-            return $scope.groupedScenarioElements;
-        };
-
-        $scope.setScenarioElement = function(element) {
-            $scope.$broadcast(EVENTS.selectScenarioElement, element);
-            $scope.selectedScenarioElement = element;
-            $scope.cubeId = element.cubeMeta.id;
-            $scope.selectedScenarioElementsFile = element.name;
-        };
-
-        $scope.replaceScenarioElement = function(newElement) {
-            _.each($scope.scenarioElements, function(element, index) {
-                if(element.cubeMeta.id === newElement.cubeMeta.id) {
-                    $scope.scenarioElements.splice(index, 1, newElement);
-                }
-            });
-            $scope.selectedScenarioElement = newElement;
-            $scope.selectedScenarioElementsFile = newElement.name;
-            $scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
-        };
-
-        // hide scenario copy and replace options if part of the marleting plan
-        $scope.hiddenScenarioElement = function(element) {
-            return element.group === 'Marketing Plan';
-        };
-
-        $scope.openScenarioElementFileModal = function(scenarioId, selectedScenarioElement, e2e) {
-            var dialog = DialogService.openLightbox('views/modal/scenario_analysis_element_files.tpl.html', 'ScenarioAnalysisElementFilesCtrl',
-                {selectedScenarioElement: selectedScenarioElement, e2e: e2e},
-                {windowSize: 'lg', windowClass: 'scenarioAnalysisElementFiles'});
-
-            dialog.result.then(function(data) {
-                $scope.replaceAnalysisElementForCube(scenarioId, selectedScenarioElement.cubeMeta.id, data.id);
-            });
-        };
-
-        $scope.replaceAnalysisElementForCube = function(scenarioId, cubeId, elementId) {
-            ManageScenariosService.replaceAnalysisElementForCube(scenarioId, cubeId, elementId).then(function(element) {
-                $scope.replaceScenarioElement(element);
-            });
-        };
-
-        $scope.openScenarioElementCopyModal = function(scenarioId, selectedScenarioElement) {
-            var dialog = DialogService.openLightbox('views/modal/scenario_analysis_element_copy.tpl.html', 'ScenarioAnalysisElementCopyCtrl',
-                {selectedScenarioElement: selectedScenarioElement},
-                {windowSize: 'lg', windowClass: 'scenarioAnalysisElementCopy'});
-
-            dialog.result.then(function(data) {
-                $scope.copyAndReplaceAnalysisElementForCube($scope.scenario.id, $scope.cubeId, selectedScenarioElement.id, data);
-            });
-        };
-
-        $scope.copyAndReplaceAnalysisElementForCube = function(scenarioId, cubeId, sourceElementId, newElementData) {
-            ManageScenariosService.copyAndReplaceAnalysisElementForCube(scenarioId, cubeId, sourceElementId, newElementData).then(function(element){
-                $scope.replaceScenarioElement(element);
             });
         };
 

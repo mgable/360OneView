@@ -30,11 +30,11 @@ angular.module('ThreeSixtyOneView.directives')
                 };
 
                 this.setState = function(item){
-                    var element = _.find(items, function(elem){return elem.attr('ms-link') === item});
+                    var element = _.find(items, function(elem){return elem.attr('ms-link') === item;});
                     if (element) {
                         element.addClass("selected");
-                    };
-                }
+                    }
+                };
 
                 this.toggleSelected = function(event) {
                     var item = event.data.label;
