@@ -41,7 +41,6 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         getCalcStatesData = function() {
             AnalyticCalculationsService.get(Scenario.id).then(function(data) {
                 calcStatesData = data;
-                getCurrentStateTitle();
                 $scope.runningStates = calcStatesData.runningStates;
                 var currentState = AnalyticCalculationsService.getScenarioState(calcStatesData.currentState),
                     setState;
@@ -51,6 +50,7 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
                 $scope.setState(setState);
                 $scope.step = getCurrentStateIndex(calcStatesData);
                 $scope.progressValue = stepValue * $scope.step;
+                getCurrentStateTitle();
                 getProgressbarType();
                 updateCalcStatesData();
             });
