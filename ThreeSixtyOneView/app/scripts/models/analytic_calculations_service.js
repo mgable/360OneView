@@ -30,6 +30,8 @@ angular.module('ThreeSixtyOneView.services')
 		myCalculate = new MyScenarioCalculate(AnalyticCalculationsModel);
 		angular.extend(this, myCalculate);
 
+		this.setConfig(this.makeConfig(this, this.responseTranslator));
+
 		this.getScenarioState = getScenarioState;
 
 		this.isInProgress = function(state){
