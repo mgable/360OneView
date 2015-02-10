@@ -1,9 +1,9 @@
-<div class="scenario-type-dropdown" data-ms-id="ScenarioEdit.scenarioElements">
+<div class="scenario-type-dropdown" data-ms-id="ScenarioEdit.scenarioElements" ng-controller="AnalysisElementCtrl">
     <div class="dropdown">
         <span class="dropdown-toggle">
             {{selectedScenarioElement.cubeMeta.label}}<icon type="caret-down"></icon>
         </span>
-        <span ng-hide="hiddenScenarioElement(selectedScenarioElement)">
+        <span ng-hide="isHiddenElement(selectedScenarioElement)">
             <span class="dropdown-filename"><icon type="file-text-o"></icon>{{selectedScenarioElementsFile}}</span>
             <span ng-click="openScenarioElementFileModal(scenario.id, selectedScenarioElement, e2e)" class="filename-option"><icon type="folder-open-o"></icon>Replace</span>
             <span ng-click="openScenarioElementCopyModal(scenario.id, selectedScenarioElement)" class="filename-option"><icon type="folder-open-o"></icon>Copy &amp; Replace</span>
