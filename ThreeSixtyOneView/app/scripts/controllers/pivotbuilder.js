@@ -105,9 +105,9 @@ angular.module('ThreeSixtyOneView')
 
 		// open the modal for the list of all views
 		$scope.openAllViewsModal = function() {
-			var dialog = DialogService.openLightbox('views/modal/pivot_builder_all_views.tpl.html', 'pivotBuilderAllViewsCtrl',
+			var dialog = DialogService.openLightbox('views/modal/all_views.tpl.html', 'AllViewsCtrl',
 				{viewsList: $scope.viewsList, selectedViewId: $scope.viewData.id, e2e: $scope.e2e},
-				{windowSize: 'lg', windowClass: 'pivotBuilderAllViewsModal'});
+				{windowSize: 'lg', windowClass: 'AllViewsModal'});
 
 			dialog.result.then(function(data) {
 				$scope.loadView($scope.cubeId, data);
@@ -196,8 +196,4 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		init();
-	}]).controller('pivotTableCtrl', ['$scope', 'pbData',
-	    function ($scope, pbData) {
-	        $scope.data = pbData.tableValues;
-	    }
-]);
+	}]);

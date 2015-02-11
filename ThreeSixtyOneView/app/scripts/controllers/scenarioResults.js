@@ -8,8 +8,7 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
-    ['$scope', 'Scenario', 'Scenarios', 'ManageAnalysisViewsService', 'ManageScenariosService', 'MetaDataService', 'DialogService', 'PivotMetaService', 'ReportsService',
-    function ($scope, Scenario, Scenarios, ManageAnalysisViewsService, ManageScenariosService, MetaDataService, DialogService, PivotMetaService, ReportsService) {
+    ['$scope', 'Scenario', 'Scenarios', 'ManageAnalysisViewsService', 'ManageScenariosService', 'MetaDataService', 'DialogService', 'PivotMetaService', 'ReportsService', function ($scope, Scenario, Scenarios, ManageAnalysisViewsService, ManageScenariosService, MetaDataService, DialogService, PivotMetaService, ReportsService) {
 
     // private variables
     var cnt = 0,
@@ -240,9 +239,9 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
 
     // open the modal for the list of all spend views
     $scope.openAllViewsModal = function() {
-        var dialog = DialogService.openLightbox('views/modal/pivot_builder_all_views.tpl.html', 'pivotBuilderAllViewsCtrl',
+        var dialog = DialogService.openLightbox('views/modal/all_views.tpl.html', 'AllViewsCtrl',
             {viewsList: $scope.spendViewsList, selectedViewId: $scope.spendViewData.id, e2e: $scope.e2e},
-            {windowSize: 'lg', windowClass: 'pivotBuilderAllViewsModal'});
+            {windowSize: 'lg', windowClass: 'AllViewsModal'});
 
         dialog.result.then(function(data) {
             $scope.loadView($scope.spendCubeId, data);
