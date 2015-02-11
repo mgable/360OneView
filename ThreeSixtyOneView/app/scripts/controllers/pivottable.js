@@ -50,7 +50,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                             column.formatter("0").font("14px proxima-nova").foreColor("#333");
                             column.wordWrap(true);
                         } else {
-                            column.formatter("$#,###");
+                            column.formatter("#,###");
                         }
                     }
                 },
@@ -260,18 +260,20 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
             // $scope.spread is in ScenarioCtrl and how pivottable and pivotbuilder communicate
             $scope.spread.updateSheet = function(_data_, numRows, numCols) {
 
-                $scope.data = _data_ || {};
-                $scope.rowCnt = $scope.data.length;
-                $scope.rowHeaderCnt = numRows;// || 2;
-                $scope.rowDataCnt = $scope.rowCnt - $scope.rowHeaderCnt;
-                $scope.colCnt = _.keys($scope.data[0]).length;
-                $scope.colHeaderCnt = numCols;// || 2;
-                $scope.colDataCnt = $scope.colCnt - $scope.colHeaderCnt;
+                if(!_.isEqual(_data_, $scope.data)) {
+                    $scope.data = _data_ || {};
+                    $scope.rowCnt = $scope.data.length;
+                    $scope.rowHeaderCnt = numRows;// || 2;
+                    $scope.rowDataCnt = $scope.rowCnt - $scope.rowHeaderCnt;
+                    $scope.colCnt = _.keys($scope.data[0]).length;
+                    $scope.colHeaderCnt = numCols;// || 2;
+                    $scope.colDataCnt = $scope.colCnt - $scope.colHeaderCnt;
 
-                sheet.reset();
-                $timeout(function() {
-                    formatSheet();
-                });
+                    sheet.reset();
+                    $timeout(function() {
+                        formatSheet();
+                    });
+                }
             };
 
             //init is called in the template (scenario_edit.tpl.html) because html needs to render before controller is executed

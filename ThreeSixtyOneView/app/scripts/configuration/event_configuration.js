@@ -17,6 +17,7 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     newSelectedItem: "ListingView:newSelectedItem",
     trayCopy: "Tray:copy",
     changePivotTableFilter: "PivotTable:changeFilter",
+    tabClosed: "TabControl:closeAll",
     noop: "noop",
     // ERRORS
     noDataReceived: "ErrorService:noDataReceived",
