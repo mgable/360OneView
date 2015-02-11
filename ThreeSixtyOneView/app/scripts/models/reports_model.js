@@ -4,10 +4,9 @@ angular.module('ThreeSixtyOneView.services')
   .factory('ReportsModel', ["$location", "Resource", "CONFIG", "SERVER", function ReportsModel($location, Resource, CONFIG, SERVER) {
 	var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.reports),
 		transformResponse = function(data) {
-			var response = JSON.parse(data),
-				reportTree = [];
+			var reportTree = [];
 
-			_.each(response.cells, function(cell, cellIndex) {
+			_.each(data.cells, function(cell, cellIndex) {
 				_.each(cell, function(row) {
 					if(!!row[0].key.value.coordinates.measure) {
 						reportTree[cellIndex] = reportTree[cellIndex] || {};
@@ -25,10 +24,10 @@ angular.module('ThreeSixtyOneView.services')
 		};
 
 	return {
-		resource: resource,
-		config: {},
-		reportConfig: {
-			transformResponse: function(data) { return transformResponse(data); }
-		}
+        config: {
+            transformResponse: function(data){ return transformResponse(JSON.parse(data));},
+            transformRequest: function(data){ return JSON.stringify(data);}
+        },
+		resource: resource
 	};
 }]);

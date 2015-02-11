@@ -62,7 +62,7 @@ angular.module('ThreeSixtyOneView.config')
                         },
                         "IN_PROGRESS": {
                             "message": "in_progress",
-                            "description": "Optimization is in progress",
+                            "description": "Simulation is in progress",
                             "icon": "in_progress"
                         }
                     },
