@@ -106,6 +106,18 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         $scope.setState('NOT_CALCULATED');
         $state.go("Scenario.edit");
     };
+    // show cehckmark
+    $scope.showCheckmark = function(state, index) {
+        return $scope.scenarioState.message !== 'FAILED' ? state.completed : $scope.step > index;
+    }
+    // show error icon
+    $scope.showErrorIcon = function(index) {
+        return $scope.scenarioState.message === 'FAILED' && $scope.step === index;
+    }
+    // style state
+    $scope.styleState = function(index) {
+        return $scope.step >= index ? true : false;
+    }
 
     // whenever leave calculate page, stop progress
     $rootScope.$on('$locationChangeStart', function(event, newPath) {
