@@ -1,4 +1,5 @@
 <form class="inlineDescription" name="form" data-ms-id="inlineDescription">
+	<ng-transclude></ng-transclude>
 	<div>
 		<span class="controls" ng-show="isActive">
 			<button class="submit btn btn-default btn-xs" ng-click="submit(item)" ng-disabled="(form.$dirty && form.$invalid) || form.$pristine"><icon type="check"></icon></button>&nbsp;

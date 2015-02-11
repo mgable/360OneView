@@ -34,34 +34,37 @@
 	}
 }
 
-.inlineDescription {
-	margin-bottom:0;
-	.title {
-		display: inline-block;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		width: 290px;
-	}
-	.noEdit {
-		clear:both;
-		overflow-wrap: break-word;
-	}
-	textarea {
-		width: 100%;
-	}
-	.action {
-		visibility: hidden;
-		float:right;
-		cursor:pointer;
-	}
-	.controls {
-		float:right;
-		button[disabled] i{
-			color: #AAAAAA;
+.inlineDescription-holder{
+	.inlineDescription {
+		margin-bottom:0;
+		.title {
+			display: inline-block;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			width: 290px;
+		}
+		.noEdit {
+			clear:both;
+			overflow-wrap: break-word;
+		}
+		textarea {
+			width: 100%;
+		}
+		.action {
+			visibility: hidden;
+			float:right;
+			cursor:pointer;
+		}
+		.controls {
+			float:right;
+			button[disabled] i{
+				color: #AAAAAA;
+			}
 		}
 	}
 	&:hover {
+		cursor: pointer;
 		.action {
 			visibility: visible;
 			.icon {

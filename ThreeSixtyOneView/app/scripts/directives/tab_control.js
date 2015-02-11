@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView.directives').directive("tabsControl", [function(){
+angular.module('ThreeSixtyOneView.directives').directive("tabsControl", ["$rootScope", "EVENTS", function($rootScope, EVENTS){
         return {
             restrict: "A",
             controller: function(){
@@ -15,6 +15,7 @@ angular.module('ThreeSixtyOneView.directives').directive("tabsControl", [functio
                         $(tab.target).addClass('hidden');
                         $(tab.element).removeClass('active');
                     });
+                    $rootScope.$broadcast(EVENTS.tabClosed)
                 };
             }
         };
