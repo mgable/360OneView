@@ -8,11 +8,11 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
-    ['$scope', 'Scenario', 'Scenarios', 'ManageAnalysisViewsService', 'ManageScenariosService', 'MetaDataService', 'DialogService', 'PivotMetaService', 'ReportsService', function ($scope, Scenario, Scenarios, ManageAnalysisViewsService, ManageScenariosService, MetaDataService, DialogService, PivotMetaService, ReportsService) {
+    ['$scope', 'Scenario', 'Scenarios', 'ScenarioAnalysisElements', 'ManageAnalysisViewsService', 'ManageScenariosService', 'MetaDataService', 'DialogService', 'PivotMetaService', 'ReportsService', function ($scope, Scenario, Scenarios, ScenarioAnalysisElements, ManageAnalysisViewsService, ManageScenariosService, MetaDataService, DialogService, PivotMetaService, ReportsService) {
 
     // private variables
     var cnt = 0,
-        spendCubeMeta = _.find($scope.scenarioElements, function(v) {
+        spendCubeMeta = _.find(ScenarioAnalysisElements, function(v) {
             if (v.cubeMeta.name === "TOUCHPOINT") {
                 $scope.spendElementId = v.id;
                 return v;
@@ -232,9 +232,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         // spend cube scope varaibles
         $scope.spendCubeId = spendCubeMeta.id;
         initiateSpendModel(spendCubeMeta);
-
-        // set height for results page
-        angular.element('.Scenario').css('height', 'auto');
     };
 
     // // open the modal for the list of all spend views
