@@ -8,8 +8,7 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
-    ['$scope', 'Scenario', 'Scenarios', 'ManageAnalysisViewsService', 'ManageScenariosService', 'MetaDataService', 'DialogService', 'PivotMetaService', 'ReportsService',
-    function ($scope, Scenario, Scenarios, ManageAnalysisViewsService, ManageScenariosService, MetaDataService, DialogService, PivotMetaService, ReportsService) {
+    ['$scope', 'Scenario', 'Scenarios', 'ManageAnalysisViewsService', 'ManageScenariosService', 'MetaDataService', 'DialogService', 'PivotMetaService', 'ReportsService', function ($scope, Scenario, Scenarios, ManageAnalysisViewsService, ManageScenariosService, MetaDataService, DialogService, PivotMetaService, ReportsService) {
 
     // private variables
     var cnt = 0,
@@ -238,17 +237,29 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         angular.element('.Scenario').css('height', 'auto');
     };
 
-    // open the modal for the list of all spend views
+    // // open the modal for the list of all spend views
+    // DUPE
     $scope.openAllViewsModal = function() {
-        var dialog = DialogService.openLightbox('views/modal/pivot_builder_all_views.tpl.html', 'pivotBuilderAllViewsCtrl',
+        var dialog = DialogService.openLightbox('views/modal/all_views.tpl.html', 'AllViewsCtrl',
             {viewsList: $scope.spendViewsList, selectedViewId: $scope.spendViewData.id, e2e: $scope.e2e},
-            {windowSize: 'lg', windowClass: 'pivotBuilderAllViewsModal'});
+            {windowSize: 'lg', windowClass: 'AllViewsModal'});
 
         dialog.result.then(function(data) {
             $scope.loadView($scope.spendCubeId, data);
         });
     };
+    // open the modal for the list of all views
+    $scope.openAllComparedViewsModal = function() {
+        var dialog = DialogService.openLightbox('views/modal/all_views.tpl.html', 'AllViewsCtrl',
+            {viewsList: $scope.comparedViewList, selectedViewId: $scope.selectedComparedView.id, e2e: $scope.e2e},
+            {windowSize: 'lg', windowClass: 'AllViewsModal'});
+
+        dialog.result.then(function(replacedComparedViewId) {
+            $scope.loadComparedView(replacedComparedViewId);
+        });
+    };
     // returns list of all the views in the current cube
+    // DUPE
     $scope.getViewsList = function() {
         return $scope.spendViewsList;
     };
@@ -287,7 +298,18 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             getSpendSummary();
         });
     };
+    // set compared view
+    $scope.loadComparedView = function(_viewId) {
+        _.find($scope.comparedViewList, function(_view) {
+            if(_view.id === _viewId) { $scope.selectedComparedView = _view; }
+        });
+        // get spend summary
+        getSpendSummary();
+        // get kpi summary
+        getKPISummary();
+    };
     // reset the view to the last saved state
+    //DUPE
     $scope.revertView = function() {
         if($scope.draftView) {
             var originalViewName = $scope.spendViewData.name.substring(8);
@@ -396,26 +418,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 getKPISummary($scope.spendViewId);
             });
         }
-    };
-    // set compared view
-    $scope.loadComparedView = function(_viewId) {
-        _.find($scope.comparedViewList, function(_view) {
-            if(_view.id === _viewId) { $scope.selectedComparedView = _view; }
-        });
-        // get spend summary
-        getSpendSummary();
-        // get kpi summary
-        getKPISummary();
-    };
-    // open the modal for the list of all views
-    $scope.openAllComparedViewsModal = function() {
-        var dialog = DialogService.openLightbox('views/modal/compared_all_views.tpl.html', 'comparedAllViewsCtrl',
-            {viewsList: $scope.comparedViewList, selectedViewId: $scope.selectedComparedView.id, e2e: $scope.e2e},
-            {windowSize: 'lg', windowClass: 'pivotBuilderAllViewsModal'});
-
-        dialog.result.then(function(_replacedComparedViewId) {
-            $scope.loadComparedView(_replacedComparedViewId);
-        });
     };
     // add sign to KPI summary
     $scope.addSign = function(direction) {

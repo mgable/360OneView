@@ -13,6 +13,7 @@ angular.module('ThreeSixtyOneView.directives').directive("tabsControl", [functio
                 this.closeAll = function(){
                     _.each(this.tabs, function(tab) {
                         $(tab.target).addClass('hidden');
+                        $(tab.element).removeClass('active');
                     });
                 };
             }
@@ -36,6 +37,7 @@ angular.module('ThreeSixtyOneView.directives').directive("tabsControl", [functio
                         ctrl.closeAll();
                         if(active){
                             $(target).removeClass('hidden');
+                            $(element).addClass('active');
                         }
                     }
                 });
