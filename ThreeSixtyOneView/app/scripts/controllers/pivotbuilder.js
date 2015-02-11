@@ -8,9 +8,7 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView')
-	.controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'ManageAnalysisViewsService', 'DialogService',
-	
-	function ($scope, $rootScope, EVENTS, $timeout, $q, ManageAnalysisViewsService, DialogService) {
+	.controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'ManageAnalysisViewsService', 'DialogService', 'PivotMetaService', function ($scope, $rootScope, EVENTS, $timeout, $q, ManageAnalysisViewsService, DialogService, PivotMetaService) {
 
 	var init = function() {
 			$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
@@ -253,7 +251,7 @@ angular.module('ThreeSixtyOneView')
 				renameView($scope.cubeId, $scope.viewData);
 			} else if (!$scope.rename) {
 				$scope.viewData.id = null;
-				$scope.createView($scope.cubeId, $scope.viewData, $scope.viewsList);
+				createView($scope.cubeId, $scope.viewData, $scope.viewsList);
 			}
 
 			$scope.cancelSaveAs();

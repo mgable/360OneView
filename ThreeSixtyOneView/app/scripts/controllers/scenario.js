@@ -8,18 +8,18 @@ angular.module('ThreeSixtyOneView')
 
         var scenarioElements = ScenarioAnalysisElements,
             init = function() {
-            $scope.draftView = false;
-            $scope.added = {};
-            $scope.addedFilters = {};
-            $scope.categorizedValue = [];
-            $scope.viewData = {name: 'Loading ...'};
-            // $scope.viewDataExport = [];
+                $scope.draftView = false;
+                $scope.added = {};
+                $scope.addedFilters = {};
+                $scope.categorizedValue = [];
+                $scope.viewData = {name: 'Loading ...'};
+                // $scope.viewDataExport = [];
 
-            $scope.project = Project;
-            $scope.scenario = Scenario;
-            $scope.views = {
-                views: [],
-                currentView: {}
+                $scope.project = Project;
+                $scope.scenario = Scenario;
+                $scope.views = {
+                    views: [],
+                    currentView: {}
             };
             
             $scope.groupedScenarioElements = _.groupBy(ScenarioAnalysisElements, function(element) {return element.group;});
