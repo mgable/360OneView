@@ -3,7 +3,7 @@
 var specs = require('./0.0-specs.js'),
 	funcs = require('./0.1-project_functions.js');
 
-describe('Project Listing Page: ', function() {
+xdescribe('Project Listing Page: ', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
@@ -325,7 +325,7 @@ describe('Project Listing Page: ', function() {
 			specs.modalInputField.sendKeys(testFileName);
 			specs.modalSubmitButton.click();
 			browser.waitForAngular();
-			expect(browser.getLocationAbsUrl()).toContain("/#/dashboard/");
+			expect(browser.getLocationAbsUrl()).toContain("#/dashboard/");
 
 			funcs.getProjectUrl();
 			browser.waitForAngular();
@@ -502,7 +502,7 @@ describe('Project Listing Page: ', function() {
 			scenario.click();
 			browser.waitForAngular();
 
-			expect(browser.getLocationAbsUrl()).toContain("/#/scenario");
+			expect(browser.getLocationAbsUrl()).toContain("#/scenario");
 		});
 	});
 

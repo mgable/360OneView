@@ -5,10 +5,10 @@ var specs = require('./0.0-specs.js'),
 
 	var dashboardUrl, projectId;
 	// TEMP data - remove in production
-	var dashboardUrl, projectId = "9437e65645383388b03095a017c9480b"; dashboardUrl = specs.getDashboardUrl(projectId);
+	//var dashboardUrl, projectId = "9437e65645383388b03095a017c9480b"; dashboardUrl = specs.getDashboardUrl(projectId);
 
 
-xdescribe('Project Dashboard', function() {
+describe('Project Dashboard', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
@@ -16,7 +16,7 @@ xdescribe('Project Dashboard', function() {
 	);
 	var testFileName = "My New Test Project- " + Date.now();
 
-	xit("should create a new project and go to the dashboard", function(){
+	it("should create a new project and go to the dashboard", function(){
 		var firstItemTitle;
 
 		browser.get(specs.projectUrl + specs.testQuery);
@@ -78,7 +78,7 @@ xdescribe('Project Dashboard', function() {
 		});
 
 
-		xdescribe("Create functions: ", function(){
+		describe("Create functions: ", function(){
 			var baseScenario = "scenario.referenceScenario.name",
 				baseScenarioInputField = element(by.model(baseScenario));
 
@@ -92,7 +92,7 @@ xdescribe('Project Dashboard', function() {
 			});
 
 			it("should not enabled the rename, copy or edit buttons", function(){
-				expect(specs.trayCopyButton.getAttribute("disabled")).toBeTruthy();
+				expect(specs.trayCopyButton.isPresent()).toBeFalsy();
 				expect(specs.renameButton.isPresent()).toBeFalsy();
 				expect(specs.editDescriptionButton.isPresent()).toBeFalsy();
 			});
@@ -233,7 +233,7 @@ xdescribe('Project Dashboard', function() {
 			});
 		});
 
-		xdescribe("Filter functions: ", function(){
+		describe("Filter functions: ", function(){
 
 			it("should filter by favorite", function(){
 				var startItemCount = specs.getItemCount();
@@ -256,7 +256,7 @@ xdescribe('Project Dashboard', function() {
 			});
 		});
 
-		xdescribe("Edit functions: ", function(){
+		describe("Edit functions: ", function(){
 			var first,
 				newName = "My Renamed Scenario - " + Date.now(),
 				newDescription = "My new Description - " + Date.now();
@@ -307,13 +307,13 @@ xdescribe('Project Dashboard', function() {
 			});
 		})
 
-		xdescribe("Breadcrumbs: ", function(){
+		describe("Breadcrumbs: ", function(){
 			it("should have the correct label", function(){
 				expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + testFileName.toUpperCase());
 			});
 		});
 
-		xdescribe("Change base scenario: ", function(){
+		describe("Change base scenario: ", function(){
 
 			it("should change the base scenario", function(){
 				var scenarios, scenario;
@@ -376,7 +376,7 @@ xdescribe('Project Dashboard', function() {
 		});
 	});
 
-	xdescribe("Edit controls on master project's master scenario", function(){
+	describe("Edit controls on master project's master scenario", function(){
 		beforeEach(
 			function(){
 				browser.driver.manage().window().setSize(1280, 1024);

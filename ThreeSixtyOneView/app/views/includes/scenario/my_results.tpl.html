@@ -1,0 +1,171 @@
+<div class="scenario_results">
+    <section class="srDropdown">
+        <div class="dropdown">
+            <span>Results compared to </span>
+            <span class="dropdown-toggle srDropdownBtn clickable">
+                {{selectedComparedView.title}}&nbsp;<icon type="caret-down"></icon>
+            </span>
+            <ul class="dropdown-menu srDropdownMenu">
+                <div class="srDropdownMenuVisible">
+                    <li ng-repeat="view in comparedViewList | limitTo:4">
+                        <div ng-click="loadComparedView(view.id)" title="{{view.title}}">{{view.title}}</div>
+                    </li>
+                    <hr>
+                    <li>
+                        <div ng-click="openAllComparedViewsModal()"><icon type="folder-open-o"></icon>All Scenarios</div>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </section>
+
+    <div class="editor">
+        <tabset tabs-control>
+            <tab expand-collapse-control="#resultViews" expand-collapse-control-disabled="{{saveAs}}">
+                <tab-heading>
+                    <div class="edit clickable">
+                        <icon type="eye"></icon>
+                        <div class="pbTitleText"  title="{{spendViewData.name}}">{{spendViewData.name}}</div>
+                    </div>
+                </tab-heading>
+                <div id="resultViews" class="content">
+                    <div class="pbSlider">
+                        <div class="pbControlBar">
+                            <div class="pbSaveMenu">
+                                <div class="dropdown">
+                                    <span class="pbSaveButton clickable" ng-click="saveView()" >
+                                        <icon type="save"></icon>Save View
+                                    </span>
+                                    <span class="dropdown-toggle pbSaveDropButton clickable">
+                                        <icon type="caret-down"></icon>
+                                    </span>
+                                    <ul class="dropdown-menu pbViewSaveMenu">
+                                        <div class="pdViewSaveMenuVisible">
+                                            <li>
+                                                <div class="pbViewSaveMenuItem" ng-click="startSaveAs();"><icon type="save"></icon>Save As</div>
+                                            </li>
+                                            <li>
+                                                <div class="pbViewSaveMenuItem" ng-click="revertView();"><icon type="undo"></icon>Revert</div>
+                                            </li>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="pbViewsList">
+                                <div class="dropdown">
+                                    <span class="dropdown-toggle pbRecentViewsButton clickable">
+                                        <icon type="eye"></icon>Recent Views<icon type="caret-down"></icon>
+                                    </span>
+                                    <ul class="dropdown-menu pbRecentViewsMenu">
+                                        <div class="pbRecentViewsMenuVisible">
+                                            <li ng-repeat="view in getViewsList() | limitTo:4">
+                                                <div ng-click="loadView(spendCubeId, view.id);" title="{{view.name}}"><icon type="eye"></icon>{{view.name}}</div>
+                                            </li>
+                                            <hr>
+                                            <li>
+                                                <div ng-click="openAllViewsModal()"><icon type="folder-open-o"></icon>All Views</div>
+                                            </li>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="srSwitch">
+                                <div class="srSwitchTitle">Sync KPI with Spend</div>
+                                <span class="ms-switch btn-group"  ms-link-group selected-item="{{isSynced}}" radio="true">
+                                    <button class="ms-switch-on btn btn-xs" ms-link="on" ng-click="isSynced = 'on'">ON</button>
+                                    <button class="ms-switch-off btn btn-xs" ms-link="off" ng-click="isSynced = 'off'">OFF</button>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="srSec">
+                            <div class="srSecTitle">Spend Filters</div>
+                            <div class="srFilterValues">
+                                <div ng-repeat="cat in spendDimensions" class="srFilterBox clickable" ng-click="spendFiltersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="spendAddedFilters[cat.label]">
+                                    <div class="srFilterCat">{{cat.label}} <span class="srFilterSize">({{spendCategorizedValue[$index].selected}}/{{spendCategorizedValue[$index].total}})</span></div>
+                                    <div class="srFilterVal" ng-show="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{spendCategorizedValue[$index].label.join(', ')}}">{{spendCategorizedValue[$index].label.join(', ')}}</div>
+                                    <div class="srFilterVal" ng-hide="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" title="{{spendCategorizedValue[$index].label.join(', ')}}">All</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="srSec" ng-show="isSynced === 'off'">
+                            <div class="srSecTitle">KPI Filters</div>
+                            <div class="srFilterValues">
+                                <div ng-repeat="cat in kpiDimensions" class="srFilterBox clickable" ng-click="kpiFiltersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="kpiAddedFilters[cat.label]">
+                                    <div class="srFilterCat">{{cat.label}} <span class="srFilterSize">({{kpiCategorizedValue[$index].selected}}/{{kpiCategorizedValue[$index].total}})</span></div>
+                                    <div class="srFilterVal" ng-show="kpiCategorizedValue[$index].selected < kpiCategorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{kpiCategorizedValue[$index].label.join(', ')}}">{{kpiCategorizedValue[$index].label.join(', ')}}</div>
+                                    <div class="srFilterVal" ng-hide="kpiCategorizedValue[$index].selected < kpiCategorizedValue[$index].total" title="{{kpiCategorizedValue[$index].label.join(', ')}}">All</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="srSliderCollapse">
+                            <span class="clickable" ng-click="cancelSaveAs();" collapse-control target-area="#pivotBuilder">
+                                <icon type="chevron-up"></icon>Collapse
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </tab>
+        </tabset>
+    </div>
+
+    <section class="results-panel">
+        <h3 class="results-panel-title">KPI Summary</h3>
+        <div class="result-panel-body well">
+            <div class="row">
+                <div class="kpi-container col-md-5ths col-xs-5ths" ng-repeat="kpiSummaryDatum in kpiSummaryData">
+                    <h4 class="kpi-title" title="{{kpiSummaryDatum.title}}">{{kpiSummaryDatum.title}}</h4>
+                    <h2 class="kpi-incremental kpi-{{kpiSummaryDatum.direction}}">
+                        <icon class="kpi-arrow" type="{{addArrow(kpiSummaryDatum.direction)}}"></icon>${{kpiSummaryDatum.incremental | nrFormat}}
+                    </h2>
+                    <span class="kpi-total">${{kpiSummaryDatum.total | nrFormat}}</span>
+                    <span class="kpi-percent kpi-{{kpiSummaryDatum.direction}}">{{kpiSummaryDatum.percent | percentage}}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="results-panel">
+        <h3 class="results-panel-title">Spend Summary</h3>
+        <div class="result-panel-body well">
+            <div class="row">
+                <div class="spend-container col-md-6 col-sm-6 col-xs-6">
+                    <table class="spend-table">
+                        <thead>
+                            <tr ng-model="spendData.header">
+                                <th>{{spendData.header.title}}</th>
+                                <th>{{spendData.header.total | nrFormat}}</th>
+                                <th class="spend-{{spendData.header.direction}}">{{addSign(spendData.header.direction)}}{{spendData.header.incremental | nrFormat}}</th>
+                                <th class="spend-{{spendData.header.direction}}">{{addSign(spendData.header.direction)}}{{spendData.header.percent | percentage}}</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-repeat="spendDatumBody in spendData.body">
+                            <tr ng-repeat="spendDatumRow in spendDatumBody.children">
+                                <td>{{spendDatumRow.title}}</td>
+                                <td>{{spendDatumRow.total | nrFormat}}</td>
+                                <td class="spend-{{spendDatumRow.direction}}">{{addSign(spendDatumRow.direction)}}{{spendDatumRow.incremental | nrFormat}}</td>
+                                <td class="spend-{{spendDatumRow.direction}}">{{addSign(spendDatumRow.direction)}}{{spendDatumRow.percent | percentage}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="spend-container col-md-6 col-sm-6 col-xs-6">
+                    <div class="legend">
+                        <img src="images/legend.png" alt="legend">
+                        <span>{{selectedComparedView.title}} </span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-6 chartContainer" ng-repeat="chartDatum in chartData">
+                            <ms-bar-chart chart-data="chartDatum.data"></ms-bar-chart>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
