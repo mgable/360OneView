@@ -34,7 +34,6 @@ angular.module('ThreeSixtyOneView')
             $scope.getlocation();
 
             $scope.scenarioState = AnalyticCalculationsService.getScenarioState(Calculate.currentState);
-
             $scope.scenarioStates = CONFIG.application.models.ScenarioAnalytics.states;
 
             setView($scope.scenarioState);
@@ -74,7 +73,6 @@ angular.module('ThreeSixtyOneView')
             }
         };
 
-
         $scope.setScenarioElement = function(element) {
             $scope.$broadcast(EVENTS.selectScenarioElement, element);
             $scope.selectedScenarioElement = element;
@@ -112,10 +110,6 @@ angular.module('ThreeSixtyOneView')
                 return true;
             }
         };
-
-        
-        
-        
 
         $scope.loadPivotTable = function(element, view) {
             // if(element.cubeMeta.id !== 1) return;
