@@ -7,7 +7,7 @@ xdescribe('Project Listing Page: ', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
-			funcs.getProjectUrl();
+			browser.get(funcs.getProjectUrl());
 		}
 	);
 
@@ -54,7 +54,7 @@ xdescribe('Project Listing Page: ', function() {
 			var itemTitle = specs.getFirstItemTitle();
 			itemTitle.getAttribute(specs.itemUUID).then(function(id){
 				itemTitle.click();
-				expect(browser.getLocationAbsUrl()).toContain(specs.getDashboardUrl(id));
+				expect(browser.getLocationAbsUrl()).toContain(funcs.getDashboardAbsoluteUrl(id));
 			});
 		});
 
@@ -225,7 +225,7 @@ xdescribe('Project Listing Page: ', function() {
 				isFavorite = favorite;
 				firstFavoriteItem.click();
 				expect(specs.hasClass(firstFavoriteItem, specs.favoriteClass)).not.toBe(isFavorite);
-				funcs.getProjectUrl();
+				browser.get(funcs.getProjectUrl());
 				firstFavoriteItem = specs.getFavorites().first();
 				expect(specs.hasClass(firstFavoriteItem, specs.favoriteClass)).not.toBe(isFavorite);
 			});
@@ -327,7 +327,7 @@ xdescribe('Project Listing Page: ', function() {
 			browser.waitForAngular();
 			expect(browser.getLocationAbsUrl()).toContain("#/dashboard/");
 
-			funcs.getProjectUrl();
+			browser.get(funcs.getProjectUrl());
 			browser.waitForAngular();
 			firstItemTitle = specs.getFirstItemTitle();
 			firstItemTitle.getText(function(title){
@@ -445,7 +445,7 @@ xdescribe('Project Listing Page: ', function() {
 
 			specs.inlineEditSubmitButton.click();
 			browser.waitForAngular();
-			funcs.getProjectUrl();
+			browser.get(funcs.getProjectUrl());
 
 			specs.inlineEditField.getText().then(function(currentDescription){
 				expect(newDescription).toBe(currentDescription);

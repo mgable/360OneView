@@ -54,7 +54,16 @@ data = {
 		specs.filterByItemButton.click();
 	},
 	getProjectUrl: function(){
-		return browser.get(browser.params.path + specs.projectUrl + specs.testQuery);
+		return this.getProjectAbsoluteUrl() + specs.testQuery;
+	},
+	getProjectAbsoluteUrl: function(){
+		return browser.params.path + specs.projectUrl;
+	},
+	getDashboardUrl: function(id){
+		return this.getDashboardAbsoluteUrl(id) + specs.testQuery;
+	},
+	getDashboardAbsoluteUrl: function(id){
+		return browser.params.path + specs.dashboardUrl.replace(/:id/, id );
 	}
 };
 
