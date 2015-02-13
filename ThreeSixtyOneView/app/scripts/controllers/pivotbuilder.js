@@ -9,11 +9,15 @@
 */
 angular.module('ThreeSixtyOneView')
 	.controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'ManageAnalysisViewsService', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, $q, ManageAnalysisViewsService, DialogService) {
-
 	var init = function() {
 			$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
 			$scope.saveAs = false;
 			$scope.rename = false;
+
+			// loads the pivot table after page was initially loaded from the results tab
+			if(!!$scope.viewData.id && $scope.pivotTableData === '') {
+				$scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
+			}
 
 			$scope.dragOptions = {
 				itemMoved: function() {
