@@ -6,8 +6,7 @@ angular.module('ThreeSixtyOneView')
 .controller("ScenarioCtrl", ["$scope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService", "AnalyticCalculationsService", "CONFIG",
     function($scope, $timeout, Project, Scenario, ScenarioAnalysisElements, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService, AnalyticCalculationsService, CONFIG) {
 
-        var scenarioElements = ScenarioAnalysisElements,
-            init = function() {
+        var init = function() {
                 $scope.draftView = false;
                 $scope.added = {};
                 $scope.addedFilters = {};
@@ -21,11 +20,12 @@ angular.module('ThreeSixtyOneView')
                     views: [],
                     currentView: {}
             };
-
-            $scope.groupedScenarioElements = _.groupBy(ScenarioAnalysisElements, function(element) {return element.group;});
+            
+            $scope.scenarioElements = ScenarioAnalysisElements;
+            $scope.groupedScenarioElements = getGroupedScenarioElements();
 
             // either load the element selected in scenario listing page or TOUCHPOINT related element if none selected
-            $scope.setScenarioElement(!!parseInt($state.params.scenarioElementId) ? getScenarioElementById(scenarioElements, parseInt($state.params.scenarioElementId)) : getScenarioElementByCubeName(scenarioElements, 'TOUCHPOINT'));
+            $scope.setScenarioElement(!!parseInt($state.params.scenarioElementId) ? getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) : getScenarioElementByCubeName($scope.scenarioElements, 'TOUCHPOINT'));
 
             // hardcoded data
             $scope.pivotTableData = '';
@@ -86,6 +86,9 @@ angular.module('ThreeSixtyOneView')
             return ManageAnalysisViewsService.updateView(view, cubeId).then(function(response) {
                 return response;
             });
+        },
+        getGroupedScenarioElements = function(){
+            return  _.groupBy($scope.scenarioElements, function(element) {return element.group;});
         };
 
         $scope.setScenarioElement = function(element) {
@@ -93,6 +96,7 @@ angular.module('ThreeSixtyOneView')
             $scope.selectedScenarioElement = element;
             $scope.cubeId = element.cubeMeta.id;
             $scope.selectedScenarioElementsFile = element.name;
+            $scope.groupedScenarioElements = getGroupedScenarioElements();
         };
 
         $scope.setState = function(state){
