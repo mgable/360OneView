@@ -3,10 +3,10 @@
 angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportResourceService', '$timeout', 'DialogService', 'PivotMetaService', 'CONFIG',
 	function($scope, ExportResourceService, $timeout, DialogService, PivotMetaService, CONFIG) {
 		var init = function() {
-			$scope.exportViewData = {};
-			$scope.addedExportFilters = {};
-			$scope.categorizedExportValue = [];
-			$scope.exportAddedDimensions = {};
+			$scope.exportViewData = {}; // contains the view data modified for export tab
+			$scope.addedExportFilters = {}; // contains the added filter values for the export view
+			$scope.categorizedExportValue = []; // categorized filter values based on selected filters for the export tab
+			$scope.exportAddedDimensions = {}; // contains the added dimensions for the export view
 
 			var unwatchViewData = $scope.$watch('viewData', function() {
 				$scope.setupExportView();

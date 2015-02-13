@@ -179,6 +179,8 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                         return;
                     }
 
+                    $scope.setState("NOT_CALCULATED");
+
                     var cellObject = false;
 
                     _.each($scope.pivotTableObject[dirtyCell.row - $scope.rowHeaderCnt], function(column) {

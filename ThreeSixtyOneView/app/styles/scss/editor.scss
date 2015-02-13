@@ -3,12 +3,24 @@
 @import "new_variables";
 
 .editor {
-	.edit {
-		width: 260px;
+	.nav-tabs {
+		li.active {
+			background-color:$ms-lightGray;
+		}
+	}
+	.nav {
+		li {
+			div {
+				border: 0!important;
+			}
+		}
+	}
+	.ms-title {
 		font-size: 17px;
 		height: 31px;
 		padding: 3px 5px;
-		border: 0 none;
+		width: 300px;
+		border: 0;
 		color: $ms-black;
 		&:hover {
 			color: $ms-blue;
@@ -19,31 +31,75 @@
 
 		i {
 			vertical-align: top;
-			margin: 5px;
+			margin-top: 5px;
+			margin-right: 5px;
 		}
 
-		.pbTitleText {
+		.text {
 			display: inline-block;
-			width: 200px;
+			width: 250px;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
-			padding:2px 0 0 0;
 		}
 
-		.pbSaveAsBox {
+		.saveAsBox {
 			display: inline-block;
-			width: auto;
-			border: 1px solid $blue;
+			width: 250px;
+			border: 1px solid $ms-blue;
 			background-color: white;
 
 			input {
-				width: 155px;
+				width: 200px;
 				height: 24px;
 				border: 0;
 				outline: 0;
+
+				&:hover {
+					color: $ms-black;
+				}
+
+				i {
+					color: $ms-blue;
+				}
 			}
 
+		}
+	}
+	.slider {}
+	.save-menu {
+		display: inline-block;
+		position: relative;
+		margin-left: 20px;
+
+		.ms-button {
+			display: inline-block;
+			border: 1px solid $mediumgray;
+			padding: 1px 5px;
+			float: left;
+			color: $darkgray;
+
+			i {
+				padding-right: 5px;
+			}
+
+			&:hover {
+				border: 1px solid $blue;
+				color: $blue;
+			}
+		}
+		
+		.dropdown-button {
+			display: inline-block;
+			border: 1px solid $mediumgray;
+			background-color: $mediumgray;
+			padding: 4px 4px;
+			float: left;
+			color: $darkgray;
+		}
+
+		.dropdown-menu {
+			left: 44px;
 		}
 	}
 	
@@ -93,4 +149,7 @@
 			}
 		}
 	}
+	.recent-items {}
+	.dimensions-list {}
+	.filter-values {}
 }

@@ -2,10 +2,10 @@
     <tabset tabs-control>
         <tab ng-controller="PivotBuilderCtrl" expand-collapse-control-disabled="{{saveAs}}" expand-collapse-control="#pivotBuilder">
             <tab-heading>
-                <div class="edit clickable">
+                <div class="ms-title clickable">
                     <icon type="eye"></icon>
-                    <div class="pbTitleText" ng-hide="saveAs">{{viewData.name}}</div>
-                    <div class="pbSaveAsBox" ng-show="saveAs">
+                    <div class="text" ng-hide="saveAs">{{viewData.name}}</div>
+                    <div class="saveAsBox" ng-show="saveAs">
                         <input type="text" ng-model="saveAsName" ui-keydown="{'esc': 'cancelSaveAs()', 'enter': 'submitSaveAs()'}">
                         <span ng-click="submitSaveAs($event)"><icon type="check"></icon></span>
                         <span ng-click="cancelSaveAs($event)"><icon type="remove"></icon></span>
@@ -20,24 +20,24 @@
                             <div class="pbFunctionFlipButton" ng-click="showTable(true);" ms-link="filters"><icon type="filter"></icon></div>
                         </div>
 
-                        <div class="pbSaveMenu">
+                        <div class="save-menu">
                             <div class="dropdown">
-                                <span class="pbSaveButton clickable" ng-click="saveView()" >
+                                <span class="ms-button clickable" ng-click="saveView()" >
                                     <icon type="save"></icon>Save View
                                 </span>
-                                <span class="dropdown-toggle pbSaveDropButton clickable">
+                                <span class="dropdown-toggle dropdown-button clickable">
                                     <icon type="caret-down"></icon>
                                 </span>
-                                <ul class="dropdown-menu pbViewSaveMenu">
-                                    <div class="pbViewSaveMenuVisible">
+                                <ul class="dropdown-menu">
+                                    <div class="dropdown-menu-visible">
                                         <li>
-                                            <div class="pbViewSaveMenuItem" ng-click="startSaveAs();"><icon type="save"></icon>Save As</div>
+                                            <div class="menu-item" ng-click="startSaveAs();"><icon type="save"></icon>Save As</div>
                                         </li>
                                         <li>
-                                            <div class="pbViewSaveMenuItem" ng-click="revertView();"><icon type="undo"></icon>Revert</div>
+                                            <div class="menu-item" ng-click="revertView();"><icon type="undo"></icon>Revert</div>
                                         </li>
                                         <li>
-                                            <div class="pbViewSaveMenuItem" ng-click="startRename()"><icon type="pencil"></icon>Rename</div>
+                                            <div class="menu-item" ng-click="startRename()"><icon type="pencil"></icon>Rename</div>
                                         </li>
                                     </div>
                                 </ul>
@@ -49,9 +49,9 @@
                                 <span class="dropdown-toggle pbRecentViewsButton clickable">
                                     <icon type="eye"></icon>Recent Views<icon type="caret-down"></icon>
                                 </span>
-                                <ul class="dropdown-menu pbRecentViewsMenu">
+                                <ul class="dropdown-menu pbRecentViewsMenu" ms-link-group selected-item="{{viewData.id}}" radio="true">
                                     <div class="pbRecentViewsMenuVisible">
-                                        <li ng-repeat="view in getViewsList() | limitTo:4">
+                                        <li ng-repeat="view in getViewsList() | orderBy:'-auditInfo.createdOn' | limitTo:5" ms-link="{{view.id}}">
                                             <div ng-click="loadView(cubeId, view.id);"><icon type="eye"></icon>{{view.name}}</div>
                                         </li>
                                         <hr>

@@ -61,6 +61,12 @@ angular.module('ThreeSixtyOneView')
             return ! _.findWhere($scope.scenarios, {title: scenario});
         };
 
+        $scope.gotoBaseScenario = function(scenario){
+            ScenarioService.getProjectIdByScenarioId(scenario.id).then(function(project){
+                $scope.goto({},"gotoBaseScenario", project.uuid, scenario.id);
+            });
+        }
+
         // Event Listeners
         $scope.$on(EVENTS.gotoScenarioCreate, function(){
             $scope.gotoScenarioCreate();
@@ -75,14 +81,11 @@ angular.module('ThreeSixtyOneView')
         });
 
         $scope.$on(EVENTS.renameScenario, function(evt, scenario){
-            console.info("rename scenario");
             ScenarioService.rename(scenario, getProject().id);
         });
 
         $scope.$on(EVENTS.editScenario, function($event, scenario){
-            console.info("edit scenario");
             ScenarioService.getProjectIdByScenarioId(scenario.id).then(function(project){
-                 console.info(scenario);
                  ScenarioService.edit(scenario, project.uuid);
             });
         });
@@ -183,6 +186,7 @@ angular.module('ThreeSixtyOneView')
                 case "gotoScenarioEdit": GotoService.scenarioEdit($scope.getProject().id, item.id, id); break;
                 case "gotoDashboard": GotoService.dashboard(item.id); break;
                 case "gotoProjects": GotoService.projects(); break;
+                case "gotoBaseScenario" : GotoService.baseScenario(item, id); break;
             }
         };
 

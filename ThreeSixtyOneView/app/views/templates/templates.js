@@ -347,7 +347,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/modal/scenario_create.tpl.html',
-    "<form name=\"ScenarioCreate\" id=\"ScenarioCreate\">\n" +
+    "<form name=\"ScenarioCreate\" id=\"ScenarioCreate\" novalidate >\n" +
     "\t<div class=\"scenario-create\">\n" +
     "\t\t<div class=\"details scenario-form\">\n" +
     "\t\t\t<h3>Create a Scenario</h3>\n" +
