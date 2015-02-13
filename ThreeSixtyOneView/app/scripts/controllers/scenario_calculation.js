@@ -114,6 +114,10 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
     $scope.showErrorIcon = function(index) {
         return $scope.scenarioState.message === 'FAILED' && $scope.step === index;
     }
+    // show in progress icon
+    $scope.showInprogressIcon = function(index) {
+        return $scope.scenarioState.message === 'in_progress' && $scope.step === index;
+    }
     // style state
     $scope.styleState = function(index) {
         return $scope.step >= index ? true : false;

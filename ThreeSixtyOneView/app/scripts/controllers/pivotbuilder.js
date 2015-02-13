@@ -30,7 +30,7 @@ angular.module('ThreeSixtyOneView')
 				},
 				containment: '#dragDropArea'
 			};
-		},	
+		},
 		renameView = function(cubeId, view) { // rename the view
 			ManageAnalysisViewsService.renameView(view.id, cubeId, view.name).then(function(response) {
 				_.each($scope.viewsList, function(item) {
@@ -61,15 +61,6 @@ angular.module('ThreeSixtyOneView')
                 $scope.viewsList.unshift(view);
                 $scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
                 return view;
-            });
-        },
-        updateView = function(cubeId, view) {
-            // filter ids should be set to zero before update
-            _.each(view.filters, function(filter) {
-                filter.id = 0;
-            });
-            return ManageAnalysisViewsService.updateView(view, cubeId).then(function(response) {
-                return response;
             });
         };
 
@@ -112,7 +103,7 @@ angular.module('ThreeSixtyOneView')
 
 			dialog.result.then(function(data) {
 				$scope.updateFilterValues(data);
-				
+
 				$scope.saveDraftView();
 			});
 		};
@@ -175,7 +166,7 @@ angular.module('ThreeSixtyOneView')
                     $scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
                 });
             } else {
-                updateView($scope.cubeId, $scope.viewData).then(function() {
+                $scope.updateView($scope.cubeId, $scope.viewData).then(function() {
                     $scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
                 });
             }
@@ -190,7 +181,7 @@ angular.module('ThreeSixtyOneView')
 
                 $scope.viewData.name = originalViewName;
                 $scope.viewData.id = originalViewId;
-                updateView($scope.cubeId, $scope.viewData).then(function(view) {
+                $scope.updateView($scope.cubeId, $scope.viewData).then(function(view) {
                     $scope.viewData = view;
                     $scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
                 });
