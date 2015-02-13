@@ -31,14 +31,13 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     // get kpi meta data
     getKPIMeta = function() {
         MetaDataService.buildDimensionsTree($scope.kpiCubeId).then(function(_KPIDimensions) {
-            $scope.kpiDimensions = _.reject(_KPIDimensions, function(value){ return value.label === 'VARIABLE'; });
+            $scope.kpiDimensions = _KPIDimensions;
             getKPIView($scope.spendViewId);
         });
     },
     // get kpi view
     getKPIView = function(_spendViewId) {
         ManageAnalysisViewsService.getViewRelatedBy(_spendViewId, $scope.kpiCubeId).then(function(_KPIView) {
-            _KPIView.filters = _.reject(_KPIView.filters, function(value){ return value.scope.dimension.label === 'VARIABLE'; });
             if (_KPIView.id === null) {
                 return PivotMetaService.createEmptyView($scope.kpiDimensions, $scope.kpiCubeMeta, _spendViewId).then(function(_KPINewView) {
                     $scope.kpiView = _KPINewView;
@@ -92,6 +91,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         $scope.kpiAdded = PivotMetaService.setUpAddedLevels($scope.kpiView.columns.concat($scope.kpiView.rows));
         $scope.kpiMembersList = PivotMetaService.generateMembersList($scope.kpiDimensions);
         $scope.kpiAddedFilters = PivotMetaService.getAddedFilters($scope.kpiView.filters, $scope.kpiDimensions);
+        copyFilters($scope.spendAddedFilters, $scope.kpiAddedFilters);
         $scope.kpiCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.kpiAddedFilters, $scope.kpiDimensions, $scope.kpiView);
 
         getKPISummary();
@@ -171,7 +171,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.spendViewsList = result.viewsList;
             $scope.spendViewData = result.view;
             $scope.spendViewName = result.view.name;
-            $scope.spendDimensions = _.reject(result.dimensions, function(value){ return value.label === 'VARIABLE'; });
+            $scope.spendDimensions = result.dimensions;
 
             $scope.spendAdded = PivotMetaService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
             $scope.spendMembersList = PivotMetaService.generateMembersList(result.dimensions);
@@ -205,12 +205,21 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.chartData.push(chartSubData);
         });
     },
+    copyFilters = function(srcFilters, destFilters) {
+        for (var key in destFilters) {
+            if(key !== 'VARIABLE') {
+                if(destFilters.hasOwnProperty(key) && srcFilters.hasOwnProperty(key)) {
+                    destFilters[key] = srcFilters[key];
+                }
+            }
+        }
+    },
     // init function
     init = function() {
         // view scope variables
         $scope.saveAs = false;
         $scope.rename = false;
-        $scope.isSynced = "on";
+        $scope.isSynced = "off";
 
         // spend view scope variables
         $scope.spendAdded = {};
@@ -282,7 +291,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 }
             }
 
-            view.filters = _.reject(view.filters, function(value){ return value.scope.dimension.label === 'VARIABLE'; });
             $scope.spendViewId = view.id;
             $scope.spendViewData = view;
             $scope.spendAdded = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));

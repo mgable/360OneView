@@ -21,7 +21,7 @@ angular.module('ThreeSixtyOneView')
                     views: [],
                     currentView: {}
             };
-            
+
             $scope.groupedScenarioElements = _.groupBy(ScenarioAnalysisElements, function(element) {return element.group;});
 
             // either load the element selected in scenario listing page or TOUCHPOINT related element if none selected
@@ -113,9 +113,15 @@ angular.module('ThreeSixtyOneView')
             }
         };
 
-        
-        
-        
+        $scope.updateView = function(cubeId, view) {
+            // filter ids should be set to zero before update
+            _.each(view.filters, function(filter) {
+                filter.id = 0;
+            });
+            return ManageAnalysisViewsService.updateView(view, cubeId).then(function(response) {
+                return response;
+            });
+        };
 
         $scope.loadPivotTable = function(element, view) {
             // if(element.cubeMeta.id !== 1) return;
