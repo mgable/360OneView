@@ -7,7 +7,7 @@ xdescribe('Project Listing Page: ', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
-			browser.get(specs.projectUrl + specs.testQuery);
+			browser.get(funcs.getProjectUrl());
 		}
 	);
 
@@ -54,7 +54,7 @@ xdescribe('Project Listing Page: ', function() {
 			var itemTitle = specs.getFirstItemTitle();
 			itemTitle.getAttribute(specs.itemUUID).then(function(id){
 				itemTitle.click();
-				expect(browser.getLocationAbsUrl()).toContain(specs.getDashboardUrl(id));
+				expect(browser.getLocationAbsUrl()).toContain(funcs.getDashboardAbsoluteUrl(id));
 			});
 		});
 
@@ -225,7 +225,7 @@ xdescribe('Project Listing Page: ', function() {
 				isFavorite = favorite;
 				firstFavoriteItem.click();
 				expect(specs.hasClass(firstFavoriteItem, specs.favoriteClass)).not.toBe(isFavorite);
-				browser.get(specs.projectUrl + specs.testQuery);
+				browser.get(funcs.getProjectUrl());
 				firstFavoriteItem = specs.getFavorites().first();
 				expect(specs.hasClass(firstFavoriteItem, specs.favoriteClass)).not.toBe(isFavorite);
 			});
@@ -325,9 +325,9 @@ xdescribe('Project Listing Page: ', function() {
 			specs.modalInputField.sendKeys(testFileName);
 			specs.modalSubmitButton.click();
 			browser.waitForAngular();
-			expect(browser.getLocationAbsUrl()).toContain("/#/dashboard/");
+			expect(browser.getLocationAbsUrl()).toContain("#/dashboard/");
 
-			browser.get(specs.projectUrl + specs.testQuery);
+			browser.get(funcs.getProjectUrl());
 			browser.waitForAngular();
 			firstItemTitle = specs.getFirstItemTitle();
 			firstItemTitle.getText(function(title){
@@ -445,7 +445,7 @@ xdescribe('Project Listing Page: ', function() {
 
 			specs.inlineEditSubmitButton.click();
 			browser.waitForAngular();
-			browser.get(specs.projectUrl);
+			browser.get(funcs.getProjectUrl());
 
 			specs.inlineEditField.getText().then(function(currentDescription){
 				expect(newDescription).toBe(currentDescription);
@@ -502,7 +502,7 @@ xdescribe('Project Listing Page: ', function() {
 			scenario.click();
 			browser.waitForAngular();
 
-			expect(browser.getLocationAbsUrl()).toContain("/#/scenario");
+			expect(browser.getLocationAbsUrl()).toContain("#/scenario");
 		});
 	});
 

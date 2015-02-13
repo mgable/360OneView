@@ -30,6 +30,8 @@ angular.module('ThreeSixtyOneView.services')
 		myCalculate = new MyScenarioCalculate(AnalyticCalculationsModel);
 		angular.extend(this, myCalculate);
 
+		//this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
+
 		this.getScenarioState = getScenarioState;
 
 		this.isInProgress = function(state){
@@ -49,7 +51,7 @@ angular.module('ThreeSixtyOneView.services')
 		};
 
 		this.get = function(id){
-			return myCalculate.get({"id": id}, {}).then(function(response){
+			return myCalculate.get({"id": id}, this.config).then(function(response){
 				return response;
 			});
 		};
@@ -61,7 +63,7 @@ angular.module('ThreeSixtyOneView.services')
 		};
 
 		this.startCalculation = function(state, id){
-			if (state.name !== "FAILED"){
+			if (state.currentState.name !== scenarioStates.FAILED.message){
 				return this.post(id).then(function(response){
 					return response;
 				});

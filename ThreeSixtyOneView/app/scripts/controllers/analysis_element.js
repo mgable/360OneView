@@ -8,6 +8,7 @@ angular.module('ThreeSixtyOneView')
     .controller("AnalysisElementCtrl", ["$scope", "DialogService", "ManageScenariosService", function($scope, DialogService, ManageScenariosService) {
         // Inherited from parent controller scenario.js
         // $scope.scenarioElements
+        // $scope.setScenarioElement
         // $scope.selectedScenarioElement
         // $scope.selectedScenarioElementsFile
         // $scope.groupedScenarioElements;
@@ -18,8 +19,7 @@ angular.module('ThreeSixtyOneView')
                         $scope.scenarioElements.splice(index, 1, newElement);
                     }
                 });
-                $scope.selectedScenarioElement = newElement;
-                $scope.selectedScenarioElementsFile = newElement.name;
+                $scope.setScenarioElement(newElement);
                 $scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
             },
             replaceAnalysisElementForCube = function(scenarioId, cubeId, elementId) {

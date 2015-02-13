@@ -19,48 +19,46 @@
         </div>
     </section>
 
-    <section class="results-view">
+    <div class="editor">
         <tabset tabs-control>
-            <tab id="resultViewsTab" expand-collapse-control="#resultViews" expand-collapse-control-disabled="{{saveAs}}">
+            <tab expand-collapse-control="#resultViews" expand-collapse-control-disabled="{{saveAs}}">
                 <tab-heading>
-                    <div id="resultViewsHeader" class="srTitle">
-                        <div class="srRenameArea">
-                            <icon type="eye"></icon>
-                            <div class="srTitleText" ng-hide="saveAs" title="{{spendViewData.name}}">{{spendViewData.name}}</div>
-                        </div>
+                    <div class="edit clickable">
+                        <icon type="eye"></icon>
+                        <div class="pbTitleText"  title="{{spendViewData.name}}">{{spendViewData.name}}</div>
                     </div>
                 </tab-heading>
-                <div id="resultViews" class="hidden">
-                    <div class="srSlider">
-                        <div class="srControlBar">
-                            <div class="srSaveMenu">
+                <div id="resultViews" class="content">
+                    <div class="pbSlider">
+                        <div class="pbControlBar">
+                            <div class="pbSaveMenu">
                                 <div class="dropdown">
-                                    <span class="srSaveButton clickable" ng-click="saveView()" >
+                                    <span class="pbSaveButton clickable" ng-click="saveView()" >
                                         <icon type="save"></icon>Save View
                                     </span>
-                                    <span class="dropdown-toggle srSaveDropButton clickable">
+                                    <span class="dropdown-toggle pbSaveDropButton clickable">
                                         <icon type="caret-down"></icon>
                                     </span>
-                                    <ul class="dropdown-menu srViewSaveMenu">
-                                        <div class="srViewSaveMenuVisible">
+                                    <ul class="dropdown-menu pbViewSaveMenu">
+                                        <div class="pdViewSaveMenuVisible">
                                             <li>
-                                                <div class="srViewSaveMenuItem" ng-click="startSaveAs();"><icon type="save"></icon>Save As</div>
+                                                <div class="pbViewSaveMenuItem" ng-click="startSaveAs();"><icon type="save"></icon>Save As</div>
                                             </li>
                                             <li>
-                                                <div class="srViewSaveMenuItem" ng-click="revertView();"><icon type="undo"></icon>Revert</div>
+                                                <div class="pbViewSaveMenuItem" ng-click="revertView();"><icon type="undo"></icon>Revert</div>
                                             </li>
                                         </div>
                                     </ul>
                                 </div>
                             </div>
 
-                            <div class="srViewsList">
+                            <div class="pbViewsList">
                                 <div class="dropdown">
-                                    <span class="dropdown-toggle srRecentViewsButton clickable">
+                                    <span class="dropdown-toggle pbRecentViewsButton clickable">
                                         <icon type="eye"></icon>Recent Views<icon type="caret-down"></icon>
                                     </span>
-                                    <ul class="dropdown-menu srRecentViewsMenu">
-                                        <div class="srRecentViewsMenuVisible">
+                                    <ul class="dropdown-menu pbRecentViewsMenu">
+                                        <div class="pbRecentViewsMenuVisible">
                                             <li ng-repeat="view in getViewsList() | limitTo:4">
                                                 <div ng-click="loadView(spendCubeId, view.id);" title="{{view.name}}"><icon type="eye"></icon>{{view.name}}</div>
                                             </li>
@@ -73,13 +71,13 @@
                                 </div>
                             </div>
 
-                            <!-- <div class="srSwitch">
+                            <div class="srSwitch">
                                 <div class="srSwitchTitle">Sync KPI with Spend</div>
                                 <span class="ms-switch btn-group"  ms-link-group selected-item="{{isSynced}}" radio="true">
                                     <button class="ms-switch-on btn btn-xs" ms-link="on" ng-click="isSynced = 'on'">ON</button>
                                     <button class="ms-switch-off btn btn-xs" ms-link="off" ng-click="isSynced = 'off'">OFF</button>
                                 </span>
-                            </div> -->
+                            </div>
                         </div>
 
                         <div class="srSec">
@@ -113,7 +111,7 @@
                 </div>
             </tab>
         </tabset>
-    </section>
+    </div>
 
     <section class="results-panel">
         <h3 class="results-panel-title">KPI Summary</h3>
@@ -124,7 +122,7 @@
                     <h2 class="kpi-incremental kpi-{{kpiSummaryDatum.direction}}">
                         <icon class="kpi-arrow" type="{{addArrow(kpiSummaryDatum.direction)}}"></icon>${{kpiSummaryDatum.incremental | nrFormat}}
                     </h2>
-                    <span class="kpi-total">{{kpiSummaryDatum.total | nrFormat}}</span>
+                    <span class="kpi-total">${{kpiSummaryDatum.total | nrFormat}}</span>
                     <span class="kpi-percent kpi-{{kpiSummaryDatum.direction}}">{{kpiSummaryDatum.percent | percentage}}</span>
                 </div>
             </div>

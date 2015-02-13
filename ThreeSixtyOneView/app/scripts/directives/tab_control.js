@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView.directives').directive("tabsControl", [function(){
+angular.module('ThreeSixtyOneView.directives').directive("tabsControl", ["$rootScope", "EVENTS", function($rootScope, EVENTS){
         return {
             restrict: "A",
             controller: function(){
@@ -13,7 +13,9 @@ angular.module('ThreeSixtyOneView.directives').directive("tabsControl", [functio
                 this.closeAll = function(){
                     _.each(this.tabs, function(tab) {
                         $(tab.target).addClass('hidden');
+                        $(tab.element).removeClass('active');
                     });
+                    $rootScope.$broadcast(EVENTS.tabClosed)
                 };
             }
         };
@@ -36,6 +38,7 @@ angular.module('ThreeSixtyOneView.directives').directive("tabsControl", [functio
                         ctrl.closeAll();
                         if(active){
                             $(target).removeClass('hidden');
+                            $(element).addClass('active');
                         }
                     }
                 });

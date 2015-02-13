@@ -13,7 +13,7 @@ window.Marketshare.SERVERS = {
 		//DEV
 		'ec2-54-205-7-240.compute-1.amazonaws.com': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8080',
 		'360-ui-dev.marketshare.com': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8080',
-		//My Dev
+		//Prototype
 		'ec2-54-204-44-149.compute-1.amazonaws.com': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8080',
 		'360-ui-prototype.marketshare.com': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8080'
 };

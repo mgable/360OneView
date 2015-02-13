@@ -52,6 +52,18 @@ data = {
 	filterByItem: function(){
 		specs.filterByButton.click();
 		specs.filterByItemButton.click();
+	},
+	getProjectUrl: function(){
+		return this.getProjectAbsoluteUrl() + specs.testQuery;
+	},
+	getProjectAbsoluteUrl: function(){
+		return browser.params.path + specs.projectUrl;
+	},
+	getDashboardUrl: function(id){
+		return this.getDashboardAbsoluteUrl(id) + specs.testQuery;
+	},
+	getDashboardAbsoluteUrl: function(id){
+		return browser.params.path + specs.dashboardUrl.replace(/:id/, id );
 	}
 };
 

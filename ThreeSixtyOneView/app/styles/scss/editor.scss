@@ -22,14 +22,10 @@
 		width: 300px;
 		border: 0;
 		color: $ms-black;
-
 		&:hover {
 			color: $ms-blue;
-
-			.edit {
-				i {
-					color: $ms-blue;
-				}
+			i {
+				color: $ms-blue;
 			}
 		}
 
@@ -72,7 +68,6 @@
 	}
 	.slider {}
 	.save-menu {
-		/*font-size: 14px;*/
 		display: inline-block;
 		position: relative;
 		margin-left: 20px;
@@ -101,52 +96,55 @@
 			padding: 4px 4px;
 			float: left;
 			color: $darkgray;
-
-			&:hover {
-				background-color: $blue;
-				border: 1px solid $blue;
-				color: white;
-			}
 		}
 
 		.dropdown-menu {
-			padding: 5px;
-			left: 30%;
-			top: 25px;
+			left: 44px;
+		}
+	}
+	
 
-			.dropdown-menu-visible {
-				background: white;
-				border: 1px solid $blue;
-				padding: 7px 0;
-				width: 125px;
-				box-shadow: 0 3px 10px rgba(160,160,160,0.5);
+	.header {
+		padding: 7.5px 15px;
+	}
 
-				&::before {
-					position: absolute;
-					height: 11px;
-					width: 11px;
-					content: "";
-					border-left: 1px solid $blue;
-					border-top: 1px solid $blue;
-					@include vendor(transform, rotate(45deg));
-					left: 40%;
-					top: 0;
-					z-index: 13;
-					background-color: white;
+	.tab-content {
+		.content {
+			background-color: $ms-lightGray;
+			border: 1px solid $ms-mediumGray;
+			color: $ms-black;
+		}
+	}
+
+	.nav {
+		border-bottom: none;
+		> li {
+			height: 37px;
+			border: 1px solid $ms-mediumGray;
+			border-right:0px none;
+			&:last-child {
+				border-right: 1px solid $ms-mediumGray;
+			}
+			&:hover {
+				background-color: $ms-lightGray;
+			}
+			> a {
+				padding: 0;
+				margin-right: 0;
+				border-radius: 0;
+				border: none;
+				cursor: pointer;
+
+				&:hover {
+					background-color: $ms-lightGray;
+					border: none;
 				}
-
-				.menu-item {
-					padding: 5px 20px;
-					cursor: pointer;
-
-					&:hover {
-						color: white;
-						background-color: $blue;
-					}
-
-					i {
-						padding-right: 5px;
-					}
+			}
+			&.active {
+				border-bottom: 1px solid $ms-lightGray;
+				background-color: $ms-lightGray;
+				a {
+					background-color: $ms-lightGray;
 				}
 			}
 		}

@@ -69,9 +69,6 @@ var breadcrumb = "ol.breadcrumb",
 		getLastItemTitle: function(){
 			return element.all(by.repeater(items).column('title')).last();
 		},
-		getDashboardUrl: function(id){
-			return this.dashboardUrl.replace(/:id/, id);
-		},
 		getSelectedItemTitle: function(){
 			return element(by.css(selectedItemTitle));
 		},
@@ -103,8 +100,8 @@ var breadcrumb = "ol.breadcrumb",
 		},
 
 		testQuery: "?e2e=true",
-		projectUrl: "/#/projects",
-		dashboardUrl: '/#/dashboard/:id',
+		projectUrl: "#/projects",
+		dashboardUrl: '#/dashboard/:id',
 		activeSelectionClass: "active",
 		favoriteClassHolder: ".favorites a",
 		favoriteClass: "favorite",

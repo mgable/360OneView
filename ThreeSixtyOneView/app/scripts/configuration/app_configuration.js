@@ -47,22 +47,22 @@ angular.module('ThreeSixtyOneView.config')
                     "states": {
                         "FAILED": {
                             "message": "FAILED",
-                            "description": "Error during optimization",
+                            "description": "Calculation Failed",
                             "icon": "failed"
                         },
                         "NOT_CALCULATED": {
                             "message": "not_calculated",
-                            "description": "This scenario has not been calculated",
+                            "description": "Scenario has not been calculated",
                             "icon": "not_calculated"
                         },
                         "SUCCESS": {
                             "message": "SUCCESSFUL",
-                            "description": "Calculation is succeed",
+                            "description": "Calculation succeed",
                             "icon": "successful"
                         },
                         "IN_PROGRESS": {
                             "message": "in_progress",
-                            "description": "Optimization is in progress",
+                            "description": "Simulation is in progress",
                             "icon": "in_progress"
                         }
                     },

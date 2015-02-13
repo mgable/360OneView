@@ -26,6 +26,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
   $templateCache.put('views/directives/inline_description.tpl.html',
     "<form class=\"inlineDescription\" name=\"form\" data-ms-id=\"inlineDescription\">\n" +
+    "\t<ng-transclude></ng-transclude>\n" +
     "\t<div>\n" +
     "\t\t<span class=\"controls\" ng-show=\"isActive\">\n" +
     "\t\t\t<button class=\"submit btn btn-default btn-xs\" ng-click=\"submit(item)\" ng-disabled=\"(form.$dirty && form.$invalid) || form.$pristine\"><icon type=\"check\"></icon></button>&nbsp;\n" +
@@ -160,44 +161,44 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
-  $templateCache.put('views/modal/compared_all_views.tpl.html',
+  $templateCache.put('views/modal/all_views.tpl.html',
     "<div class=\"all-views-modal-header\">\n" +
-    "    <h4 class=\"element-file-modal-title\" id=\"myModalLabel\">{{selectedScenarioElement.cubeMeta.label}}</h4>\n" +
-    "    <h3>Select A Scenario</h3>\n" +
+    "\t<h4 class=\"element-modal-title\" id=\"myModalLabel\">{{selectedScenarioElement.cubeMeta.label}}</h4>\n" +
+    "\t<h3>Select A View</h3>\n" +
     "</div>\n" +
     "<div class=\"all-views-modal-body\">\n" +
-    "    <div class=\"all-views-box\">\n" +
-    "        <div class=\"all-views-toolbar\">\n" +
-    "            <div class=\"views-type-dropdown\">\n" +
-    "                <div class=\"dropdown\">\n" +
-    "                    <div class=\"dropdown-toggle\">{{elementTypeItems[currentElementType]}}<icon type=\"caret-down\"></icon></div>\n" +
-    "                    <ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{selectedScenarioElement.id}}\" radio=\"true\">\n" +
-    "                        <li ng-repeat=\"item in elementTypeItems\" ms-link=\"{{$index}}\"><a href=\"\" ng-click=\"changeElementType($index)\">{{item}}</a></li>\n" +
-    "                    </ul>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "            <div class=\"view-name-search\">\n" +
-    "                <div class=\"search-box\">\n" +
-    "                    <icon type=\"search\"></icon>\n" +
-    "                    <input type=\"text\" ng-model=\"searchTerm.title\" placeholder=\"Search\">\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "        </div>\n" +
-    "        <div class=\"all-views-list\">\n" +
-    "            <div ng-repeat=\"view in comparedViewList | filter:searchTerm | orderBy:'view.modifiedOn':true\" class=\"all-views-item\" ng-class=\"{'current-view': view.id === selectedComparedView.id}\" ng-click=\"selectedComparedView.id = view.id\">\n" +
-    "                <div class=\"all-views-name\"><icon type=\"circle-o\"></icon><icon type=\"dot-circle-o\"></icon>{{view.title}}</div>\n" +
-    "                <div class=\"all-views-info\">\n" +
-    "                    <span ng-if=\"e2e\" class=\"all-views-date\">{{view.createdOn}}</span>\n" +
-    "                    <span ng-if=\"!e2e\" class=\"all-views-date\">{{view.createdOn | timeago}}</span>\n" +
-    "                    <span class=\"all-views-owner\">{{view.modifiedBy}}</span>\n" +
-    "                </div>\n" +
-    "            </div>\n" +
-    "        </div>\n" +
-    "    </div>\n" +
-    "    <div class=\"all-views-buttons\">\n" +
-    "        <ms-button type=\"cancel\" action=\"cancelChangeView()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\n" +
-    "        <ms-button type=\"submit\" action=\"changeView()\" label=\"Replace\" data-dismiss=\"modal\"></ms-button>\n" +
-    "    </div>\n" +
+    "\t<div class=\"all-views-box\">\n" +
+    "\t\t<div class=\"all-views-toolbar\">\n" +
+    "\t\t\t<div class=\"views-type-dropdown\">\n" +
+    "\t\t\t\t<div class=\"dropdown\">\n" +
+    "\t\t\t\t\t<div class=\"dropdown-toggle\">{{elementTypeItems[currentElementType]}}<icon type=\"caret-down\"></icon></div>\n" +
+    "\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{selectedScenarioElement.id}}\" radio=\"true\">\n" +
+    "\t\t\t            <li ng-repeat=\"item in elementTypeItems\" ms-link=\"{{$index}}\"><a href=\"\" ng-click=\"changeElementType($index)\">{{item}}</a></li>\n" +
+    "\t\t\t        </ul>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\t\t\t<div class=\"view-name-search\">\n" +
+    "\t\t\t\t<div class=\"search-box\">\n" +
+    "\t\t\t\t\t<icon type=\"search\"></icon>\n" +
+    "\t\t\t\t\t<input type=\"text\" ng-model=\"searchTerm.name\" placeholder=\"Search\">\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\t\t</div>\n" +
+    "\t\t<div class=\"all-views-list\">\n" +
+    "\t\t\t<div ng-repeat=\"view in viewsList | filter:searchTerm | orderBy:'auditInfo.lastUpdatedOn':true\" class=\"all-views-item\" ng-class=\"{'current-view': view.id === selectedView.id}\" ng-click=\"selectedView.id = view.id\">\n" +
+    "\t\t\t\t<div class=\"all-views-name\"><icon type=\"circle-o\" cname=\"circle\"></icon><icon type=\"dot-circle-o\" cname=\"dot-circle\"></icon>{{view.name}}</div>\n" +
+    "\t\t\t\t<div class=\"all-views-info\">\n" +
+    "\t\t\t\t\t<span ng-if=\"e2e\" class=\"all-views-date\">{{view.auditInfo.createdOn}}</span>\n" +
+    "\t\t\t\t\t<span ng-if=\"!e2e\" class=\"all-views-date\">{{view.auditInfo.createdOn | timeago}}</span>\n" +
+    "\t\t\t\t\t<span class=\"all-views-owner\">{{view.auditInfo.createdBy.name}}</span>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\t\t</div>\n" +
+    "\t</div>\n" +
+    "\t<div class=\"element-file-buttons\">\n" +
+    "\t\t<ms-button type=\"cancel\" action=\"cancelChangeView()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\n" +
+    "\t\t<ms-button type=\"submit\" action=\"changeView()\" label=\"Replace\" data-dismiss=\"modal\"></ms-button>\n" +
+    "\t</div>\n" +
     "</div>"
   );
 
@@ -269,48 +270,6 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t<ms-button type=\"cancel\" action=\"cancelChangeFilter()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\n" +
     "\t\t\t<ms-button type=\"submit\" action=\"changeFilter()\" label=\"Apply\" data-dismiss=\"modal\" ng-disabled=\"noFilterSelected\"></ms-button>\n" +
     "\t\t</div>\n" +
-    "\t</div>\n" +
-    "</div>"
-  );
-
-
-  $templateCache.put('views/modal/pivot_builder_all_views.tpl.html',
-    "<div class=\"all-views-modal-header\">\n" +
-    "\t<h4 class=\"element-modal-title\" id=\"myModalLabel\">{{selectedScenarioElement.cubeMeta.label}}</h4>\n" +
-    "\t<h3>Select A View</h3>\n" +
-    "</div>\n" +
-    "<div class=\"all-views-modal-body\">\n" +
-    "\t<div class=\"all-views-box\">\n" +
-    "\t\t<div class=\"all-views-toolbar\">\n" +
-    "\t\t\t<div class=\"views-type-dropdown\">\n" +
-    "\t\t\t\t<div class=\"dropdown\">\n" +
-    "\t\t\t\t\t<div class=\"dropdown-toggle\">{{elementTypeItems[currentElementType]}}<icon type=\"caret-down\"></icon></div>\n" +
-    "\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{selectedScenarioElement.id}}\" radio=\"true\">\n" +
-    "\t\t\t            <li ng-repeat=\"item in elementTypeItems\" ms-link=\"{{$index}}\"><a href=\"\" ng-click=\"changeElementType($index)\">{{item}}</a></li>\n" +
-    "\t\t\t        </ul>\n" +
-    "\t\t\t\t</div>\n" +
-    "\t\t\t</div>\n" +
-    "\t\t\t<div class=\"view-name-search\">\n" +
-    "\t\t\t\t<div class=\"search-box\">\n" +
-    "\t\t\t\t\t<icon type=\"search\"></icon>\n" +
-    "\t\t\t\t\t<input type=\"text\" ng-model=\"searchTerm.name\" placeholder=\"Search\">\n" +
-    "\t\t\t\t</div>\n" +
-    "\t\t\t</div>\n" +
-    "\t\t</div>\n" +
-    "\t\t<div class=\"all-views-list\">\n" +
-    "\t\t\t<div ng-repeat=\"view in viewsList | filter:searchTerm | orderBy:'auditInfo.lastUpdatedOn':true\" class=\"all-views-item\" ng-class=\"{'current-view': view.id === selectedView.id}\" ng-click=\"selectedView.id = view.id\">\n" +
-    "\t\t\t\t<div class=\"all-views-name\"><icon type=\"circle-o\" cname=\"circle\"></icon><icon type=\"dot-circle-o\" cname=\"dot-circle\"></icon>{{view.name}}</div>\n" +
-    "\t\t\t\t<div class=\"all-views-info\">\n" +
-    "\t\t\t\t\t<span ng-if=\"e2e\" class=\"all-views-date\">{{view.auditInfo.createdOn}}</span>\n" +
-    "\t\t\t\t\t<span ng-if=\"!e2e\" class=\"all-views-date\">{{view.auditInfo.createdOn | timeago}}</span>\n" +
-    "\t\t\t\t\t<span class=\"all-views-owner\">{{view.auditInfo.createdBy.name}}</span>\n" +
-    "\t\t\t\t</div>\n" +
-    "\t\t\t</div>\n" +
-    "\t\t</div>\n" +
-    "\t</div>\n" +
-    "\t<div class=\"element-file-buttons\">\n" +
-    "\t\t<ms-button type=\"cancel\" action=\"cancelChangeView()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\n" +
-    "\t\t<ms-button type=\"submit\" action=\"changeView()\" label=\"Replace\" data-dismiss=\"modal\"></ms-button>\n" +
     "\t</div>\n" +
     "</div>"
   );

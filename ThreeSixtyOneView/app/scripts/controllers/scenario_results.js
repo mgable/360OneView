@@ -8,12 +8,11 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
-    ['$scope', 'Scenario', 'Scenarios', 'ManageAnalysisViewsService', 'ManageScenariosService', 'MetaDataService', 'DialogService', 'PivotMetaService', 'ReportsService',
-    function ($scope, Scenario, Scenarios, ManageAnalysisViewsService, ManageScenariosService, MetaDataService, DialogService, PivotMetaService, ReportsService) {
+    ['$scope', 'Scenario', 'Scenarios', 'ScenarioAnalysisElements', 'ManageAnalysisViewsService', 'ManageScenariosService', 'MetaDataService', 'DialogService', 'PivotMetaService', 'ReportsService', function ($scope, Scenario, Scenarios, ScenarioAnalysisElements, ManageAnalysisViewsService, ManageScenariosService, MetaDataService, DialogService, PivotMetaService, ReportsService) {
 
     // private variables
     var cnt = 0,
-        spendCubeMeta = _.find($scope.scenarioElements, function(v) {
+        spendCubeMeta = _.find(ScenarioAnalysisElements, function(v) {
             if (v.cubeMeta.name === "TOUCHPOINT") {
                 $scope.spendElementId = v.id;
                 return v;
@@ -32,14 +31,13 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     // get kpi meta data
     getKPIMeta = function() {
         MetaDataService.buildDimensionsTree($scope.kpiCubeId).then(function(_KPIDimensions) {
-            $scope.kpiDimensions = _.reject(_KPIDimensions, function(value){ return value.label === 'VARIABLE'; });
+            $scope.kpiDimensions = _KPIDimensions;
             getKPIView($scope.spendViewId);
         });
     },
     // get kpi view
     getKPIView = function(_spendViewId) {
         ManageAnalysisViewsService.getViewRelatedBy(_spendViewId, $scope.kpiCubeId).then(function(_KPIView) {
-            _KPIView.filters = _.reject(_KPIView.filters, function(value){ return value.scope.dimension.label === 'VARIABLE'; });
             if (_KPIView.id === null) {
                 return PivotMetaService.createEmptyView($scope.kpiDimensions, $scope.kpiCubeMeta, _spendViewId).then(function(_KPINewView) {
                     $scope.kpiView = _KPINewView;
@@ -93,6 +91,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         $scope.kpiAdded = PivotMetaService.setUpAddedLevels($scope.kpiView.columns.concat($scope.kpiView.rows));
         $scope.kpiMembersList = PivotMetaService.generateMembersList($scope.kpiDimensions);
         $scope.kpiAddedFilters = PivotMetaService.getAddedFilters($scope.kpiView.filters, $scope.kpiDimensions);
+        copyFilters($scope.spendAddedFilters, $scope.kpiAddedFilters);
         $scope.kpiCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.kpiAddedFilters, $scope.kpiDimensions, $scope.kpiView);
 
         getKPISummary();
@@ -172,7 +171,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.spendViewsList = result.viewsList;
             $scope.spendViewData = result.view;
             $scope.spendViewName = result.view.name;
-            $scope.spendDimensions = _.reject(result.dimensions, function(value){ return value.label === 'VARIABLE'; });
+            $scope.spendDimensions = result.dimensions;
 
             $scope.spendAdded = PivotMetaService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
             $scope.spendMembersList = PivotMetaService.generateMembersList(result.dimensions);
@@ -206,12 +205,21 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.chartData.push(chartSubData);
         });
     },
+    copyFilters = function(srcFilters, destFilters) {
+        for (var key in destFilters) {
+            if(key !== 'VARIABLE') {
+                if(destFilters.hasOwnProperty(key) && srcFilters.hasOwnProperty(key)) {
+                    destFilters[key] = srcFilters[key];
+                }
+            }
+        }
+    },
     // init function
     init = function() {
         // view scope variables
         $scope.saveAs = false;
         $scope.rename = false;
-        $scope.isSynced = "on";
+        $scope.isSynced = "off";
 
         // spend view scope variables
         $scope.spendAdded = {};
@@ -233,22 +241,31 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         // spend cube scope varaibles
         $scope.spendCubeId = spendCubeMeta.id;
         initiateSpendModel(spendCubeMeta);
-
-        // set height for results page
-        angular.element('.Scenario').css('height', 'auto');
     };
 
-    // open the modal for the list of all spend views
+    // // open the modal for the list of all spend views
+    // DUPE
     $scope.openAllViewsModal = function() {
-        var dialog = DialogService.openLightbox('views/modal/pivot_builder_all_views.tpl.html', 'pivotBuilderAllViewsCtrl',
+        var dialog = DialogService.openLightbox('views/modal/all_views.tpl.html', 'AllViewsCtrl',
             {viewsList: $scope.spendViewsList, selectedViewId: $scope.spendViewData.id, e2e: $scope.e2e},
-            {windowSize: 'lg', windowClass: 'pivotBuilderAllViewsModal'});
+            {windowSize: 'lg', windowClass: 'AllViewsModal'});
 
         dialog.result.then(function(data) {
             $scope.loadView($scope.spendCubeId, data);
         });
     };
+    // open the modal for the list of all views
+    $scope.openAllComparedViewsModal = function() {
+        var dialog = DialogService.openLightbox('views/modal/all_views.tpl.html', 'AllViewsCtrl',
+            {viewsList: $scope.comparedViewList, selectedViewId: $scope.selectedComparedView.id, e2e: $scope.e2e},
+            {windowSize: 'lg', windowClass: 'AllViewsModal'});
+
+        dialog.result.then(function(replacedComparedViewId) {
+            $scope.loadComparedView(replacedComparedViewId);
+        });
+    };
     // returns list of all the views in the current cube
+    // DUPE
     $scope.getViewsList = function() {
         return $scope.spendViewsList;
     };
@@ -274,7 +291,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 }
             }
 
-            view.filters = _.reject(view.filters, function(value){ return value.scope.dimension.label === 'VARIABLE'; });
             $scope.spendViewId = view.id;
             $scope.spendViewData = view;
             $scope.spendAdded = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
@@ -287,7 +303,18 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             getSpendSummary();
         });
     };
+    // set compared view
+    $scope.loadComparedView = function(_viewId) {
+        _.find($scope.comparedViewList, function(_view) {
+            if(_view.id === _viewId) { $scope.selectedComparedView = _view; }
+        });
+        // get spend summary
+        getSpendSummary();
+        // get kpi summary
+        getKPISummary();
+    };
     // reset the view to the last saved state
+    //DUPE
     $scope.revertView = function() {
         if($scope.draftView) {
             var originalViewName = $scope.spendViewData.name.substring(8);
@@ -396,26 +423,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 getKPISummary($scope.spendViewId);
             });
         }
-    };
-    // set compared view
-    $scope.loadComparedView = function(_viewId) {
-        _.find($scope.comparedViewList, function(_view) {
-            if(_view.id === _viewId) { $scope.selectedComparedView = _view; }
-        });
-        // get spend summary
-        getSpendSummary();
-        // get kpi summary
-        getKPISummary();
-    };
-    // open the modal for the list of all views
-    $scope.openAllComparedViewsModal = function() {
-        var dialog = DialogService.openLightbox('views/modal/compared_all_views.tpl.html', 'comparedAllViewsCtrl',
-            {viewsList: $scope.comparedViewList, selectedViewId: $scope.selectedComparedView.id, e2e: $scope.e2e},
-            {windowSize: 'lg', windowClass: 'pivotBuilderAllViewsModal'});
-
-        dialog.result.then(function(_replacedComparedViewId) {
-            $scope.loadComparedView(_replacedComparedViewId);
-        });
     };
     // add sign to KPI summary
     $scope.addSign = function(direction) {
