@@ -14,11 +14,15 @@ angular.module('ThreeSixtyOneView')
         // $scope.groupedScenarioElements;
         // $scope.loadPivotTable()
         var replaceScenarioElement = function(newElement) {
+            console.info("the new element is");
+            console.info(newElement);
+            console.info($scope.scenarioElements);
                 _.each($scope.scenarioElements, function(element, index) {
                     if(element.cubeMeta.id === newElement.cubeMeta.id) {
                         $scope.scenarioElements.splice(index, 1, newElement);
                     }
                 });
+                console.info($scope.scenarioElements);
                 $scope.setScenarioElement(newElement);
                 $scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
             },

@@ -57,11 +57,10 @@
 	<div class="well relatedItems" ng-if="selectedItem.scenarioElements.length">
 		<div class="relatedItems-holder">
 			<p class="ms-label">Scenario Elements</p>
-			<!-- <p class='description-label'>Total&nbsp;<span>{{selectedItem.scenarioElements.length}}</span>&nbsp;scenarios elements</p> -->
 			<div class="item-holder" >
 				<div class="item" ng-repeat="element in selectedItem.scenarioElements | orderBy:['group','name']">
 					<div class="element-name clickable" ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)">{{element.name}}</div>
-					<div class="element-title">{{element.title}}</div>
+					<div class="element-title">{{element.cubeMeta.label}}</div>
 				</div>
 			</div>
 		</div>

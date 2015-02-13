@@ -9,11 +9,12 @@ angular.module('ThreeSixtyOneView.services')
 		myElements = new MyScenarioElement(ManageScenariosModel);
 		angular.extend(this, myElements);
 
-		this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
+		//this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
 		this.get = function(id) {
 			var additionalPath = "analysis-element";
 			return this.resource.get({"id": id}, this.config, additionalPath).then(function(response) {
+				console.info(response);
 				return response;
 			});
 		};
