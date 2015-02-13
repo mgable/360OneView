@@ -7,7 +7,6 @@
 		padding: 0 16px;
 
 		.pbControlBar {
-			font-size: 16px;
 			padding: 16px 0;
 
 			.pbFunctionFlip {
@@ -19,101 +18,11 @@
 					padding: 4px 13px;
 					display: inline-block;
 					float: left;
+					font-size: 16px;
 
 					&.selected {
 						background-color: $blue;
 						color: white;
-					}
-				}
-			}
-
-			.pbSaveMenu {
-				font-size: 14px;
-				display: inline-block;
-				position: relative;
-				margin-left: 20px;
-
-				.pbSaveButton {
-					display: inline-block;
-					border: 1px solid $mediumgray;
-					padding: 1px 5px;
-					float: left;
-					color: $darkgray;
-
-					.fa {
-						padding-right: 5px;
-					}
-
-					&:hover {
-						border: 1px solid $blue;
-						color: $blue;
-					}
-				}
-
-				.pbSaveDropButton {
-					display: inline-block;
-					border: 1px solid $mediumgray;
-					background-color: $mediumgray;
-					padding: 4px 4px;
-					float: left;
-					color: $darkgray;
-
-					&:hover {
-						background-color: $blue;
-						border: 1px solid $blue;
-						color: white;
-					}
-
-					&.pbSaveDropSelected {
-						background-color: $blue;
-						border: 1px solid $blue;
-						color: white;
-					}
-				}
-
-				.pbViewSaveMenu {
-					padding: 5px;
-					left: 30%;
-					top: 25px;
-
-					.pbViewSaveMenuVisible {
-						background: white;
-						border: 1px solid $blue;
-						padding: 7px 0;
-						width: 125px;
-						box-shadow: 0 3px 10px rgba(160,160,160,0.5);
-
-						&::before {
-							position: absolute;
-							height: 11px;
-							width: 11px;
-							content: "";
-							border-left: 1px solid $blue;
-							border-top: 1px solid $blue;
-							-webkit-transform: rotate(45deg);
-							-moz-transform: rotate(45deg);
-							-ms-transform: rotate(45deg);
-							-o-transform: rotate(45deg);
-							transform: rotate(45deg);
-							left: 40%;
-							top: 0;
-							z-index: 13;
-							background-color: white;
-						}
-
-						.pbViewSaveMenuItem {
-							padding: 5px 20px;
-							cursor: pointer;
-
-							&:hover {
-								color: white;
-								background-color: $blue;
-							}
-
-							.fa {
-								padding-right: 5px;
-							}
-						}
 					}
 				}
 			}
