@@ -441,6 +441,14 @@
                         overflow: hidden;
 
                         .srFilterBox {
+                            &.disabled {
+                                .srFilterCat {
+                                    color: $disabled;
+                                }
+                                .srFilterVal {
+                                    color: $disabled;
+                                }
+                            }
                             display: inline-block;
                             width: 22.39%;
                             min-width: 215px;
