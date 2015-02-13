@@ -91,7 +91,9 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         $scope.kpiAdded = PivotMetaService.setUpAddedLevels($scope.kpiView.columns.concat($scope.kpiView.rows));
         $scope.kpiMembersList = PivotMetaService.generateMembersList($scope.kpiDimensions);
         $scope.kpiAddedFilters = PivotMetaService.getAddedFilters($scope.kpiView.filters, $scope.kpiDimensions);
-        copyFilters($scope.spendAddedFilters, $scope.kpiAddedFilters);
+        if ($scope.isSynced) {
+            copyFilters($scope.spendAddedFilters, $scope.kpiAddedFilters);
+        }
         $scope.kpiCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.kpiAddedFilters, $scope.kpiDimensions, $scope.kpiView);
 
         getKPISummary();
@@ -219,7 +221,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         // view scope variables
         $scope.saveAs = false;
         $scope.rename = false;
-        $scope.isSynced = "off";
+        $scope.isSynced = true;
 
         // spend view scope variables
         $scope.spendAdded = {};
@@ -388,6 +390,14 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 $scope.spendAddedFilters = PivotMetaService.getAddedFilters(response.filters, $scope.spendDimensions);
                 $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, $scope.spendDimensions, response);
                 getSpendSummary();
+                console.log('issynced', $scope.isSynced);
+                if ($scope.isSynced) {
+                    copyFilters($scope.spendAddedFilters, $scope.kpiAddedFilters);
+                    $scope.kpiViewData.filters = PivotMetaService.updateFilters($scope.kpiDimensions, $scope.kpiAddedFilters, $scope.kpiMembersList, $scope.kpiViewData.filters);
+                    $scope.kpiCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.kpiAddedFilters, $scope.kpiDimensions, $scope.kpiViewData);
+                    $scope.saveKPIDraftView();
+                    getKPISummary($scope.spendViewId);
+                }
             });
         } else {
             $scope.updateView($scope.spendCubeId, $scope.spendViewData).then(function(response) {
@@ -400,6 +410,14 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 $scope.spendAddedFilters = PivotMetaService.getAddedFilters(response.filters, $scope.spendDimensions);
                 $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, $scope.spendDimensions, response);
                 getSpendSummary();
+                console.log('issynced', $scope.isSynced);
+                if ($scope.isSynced) {
+                    copyFilters($scope.spendAddedFilters, $scope.kpiAddedFilters);
+                    $scope.kpiViewData.filters = PivotMetaService.updateFilters($scope.kpiDimensions, $scope.kpiAddedFilters, $scope.kpiMembersList, $scope.kpiViewData.filters);
+                    $scope.kpiCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.kpiAddedFilters, $scope.kpiDimensions, $scope.kpiViewData);
+                    $scope.saveKPIDraftView();
+                    getKPISummary($scope.spendViewId);
+                }
             });
         }
     };
@@ -463,6 +481,19 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.kpiCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.kpiAddedFilters, $scope.kpiDimensions, $scope.kpiViewData);
             $scope.saveKPIDraftView();
         });
+    };
+
+    $scope.setToTrue = function() {
+        $scope.isSynced = true;
+        copyFilters($scope.spendAddedFilters, $scope.kpiAddedFilters);
+        $scope.kpiViewData.filters = PivotMetaService.updateFilters($scope.kpiDimensions, $scope.kpiAddedFilters, $scope.kpiMembersList, $scope.kpiViewData.filters);
+        $scope.kpiCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.kpiAddedFilters, $scope.kpiDimensions, $scope.kpiViewData);
+        $scope.saveKPIDraftView();
+        getKPISummary($scope.spendViewId);
+    };
+
+    $scope.setToFalse = function() {
+        $scope.isSynced = false;
     };
 
     // fire off init function
