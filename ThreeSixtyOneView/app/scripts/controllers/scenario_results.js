@@ -42,18 +42,19 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             if (_KPIView.id === null) {
                 return PivotMetaService.createEmptyView($scope.kpiDimensions, $scope.kpiCubeMeta, _spendViewId).then(function(_KPINewView) {
                     $scope.kpiView = _KPINewView;
+                    initiateKPIModel();
                 });
             } else {
                 $scope.kpiView = _KPIView;
+                initiateKPIModel();
             }
-            initiateKPIModel();
         });
     },
     // get kpi summary data
     getKPISummary = function() {
         ReportsService.getSummary($scope.kpiElementId, $scope.kpiViewId).then(function(_KPISummaryData) {
             $scope.kpiSummaryData = transformKPISummaryData(_KPISummaryData);
-            ManageScenariosService.getAnalysisElementByCubeName($scope.selectedComparedView.id, 'OUTCOME').then(function(_kpiComparedElementCube) {
+            ManageScenariosService.getAnalysisElementByCubeName($scope.selectedView.id, 'OUTCOME').then(function(_kpiComparedElementCube) {
                 $scope.kpiComparedElementId = _kpiComparedElementCube.id;
                 ReportsService.getSummary($scope.kpiComparedElementId, $scope.kpiViewId).then(function(_KPIComparedSummaryData) {
                     $scope.kpiComparedSummaryData = transformKPISummaryData(_KPIComparedSummaryData);
@@ -103,7 +104,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     getSpendSummary= function() {
         ReportsService.getSummary($scope.spendElementId, $scope.spendViewId).then(function(_spendSummaryData) {
             $scope.spendSummaryData = _spendSummaryData;
-            ManageScenariosService.getAnalysisElementByCubeName($scope.selectedComparedView.id, 'TOUCHPOINT').then(function(_spendComparedElementCube) {
+            ManageScenariosService.getAnalysisElementByCubeName($scope.selectedView.id, 'TOUCHPOINT').then(function(_spendComparedElementCube) {
                 $scope.spendComparedElementId = _spendComparedElementCube.id;
                 ReportsService.getSummary($scope.spendComparedElementId, $scope.spendViewId).then(function(_spendComparedSummaryData) {
                     $scope.spendComparedSummaryData = _spendComparedSummaryData;
@@ -233,12 +234,24 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         $scope.spendViewData = {};
 
         // compared analysis element scope variables
-        $scope.comparedViewList = angular.copy(Scenarios);
+        $scope.viewsList = angular.copy(Scenarios);
         if(_.has(Scenario, 'referenceScenario')) {
-            $scope.comparedViewList.unshift(Scenario.referenceScenario);
-            $scope.comparedViewList[0].title = $scope.comparedViewList[0].name;
+            $scope.viewsList.unshift(Scenario.referenceScenario);
+            _.each($scope.viewsList, function(v) {
+                if(!_.has(v, 'title')) {
+                    v.title = v.name;
+                } else {
+                    v.name = v.title;
+                }
+                if(_.has(v, 'createdBy') && _.has(v, 'createdOn')) {
+                    v.auditInfo = {};
+                    v.auditInfo.createdBy = {};
+                    v.auditInfo.createdOn = v.createdOn;
+                    v.auditInfo.createdBy.name = v.createdBy;
+                }
+            });
         }
-        $scope.selectedComparedView = $scope.comparedViewList[0];
+        $scope.selectedView = $scope.viewsList[0];
 
         // spend chart scope variables
         $scope.chartData = [];
@@ -262,7 +275,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     // open the modal for the list of all views
     $scope.openAllComparedViewsModal = function() {
         var dialog = DialogService.openLightbox('views/modal/all_views.tpl.html', 'AllViewsCtrl',
-            {viewsList: $scope.comparedViewList, selectedViewId: $scope.selectedComparedView.id, e2e: $scope.e2e},
+            {viewsList: $scope.viewsList, selectedViewId: $scope.selectedView.id, e2e: $scope.e2e},
             {windowSize: 'lg', windowClass: 'AllViewsModal'});
 
         dialog.result.then(function(replacedComparedViewId) {
@@ -310,8 +323,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     };
     // set compared view
     $scope.loadComparedView = function(_viewId) {
-        _.find($scope.comparedViewList, function(_view) {
-            if(_view.id === _viewId) { $scope.selectedComparedView = _view; }
+        _.find($scope.viewsList, function(_view) {
+            if(_view.id === _viewId) { $scope.selectedView = _view; }
         });
         // get spend summary
         getSpendSummary();

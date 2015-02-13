@@ -3,11 +3,11 @@
         <div class="dropdown">
             <span>Results compared to </span>
             <span class="dropdown-toggle srDropdownBtn clickable">
-                {{selectedComparedView.title}}&nbsp;<icon type="caret-down"></icon>
+                {{selectedView.title}}&nbsp;<icon type="caret-down"></icon>
             </span>
             <ul class="dropdown-menu srDropdownMenu">
                 <div class="srDropdownMenuVisible">
-                    <li ng-repeat="view in comparedViewList | limitTo:4">
+                    <li ng-repeat="view in viewsList | limitTo:4">
                         <div ng-click="loadComparedView(view.id)" title="{{view.title}}">{{view.title}}</div>
                     </li>
                     <hr>
@@ -122,7 +122,7 @@
                 <div class="kpi-container col-md-5ths col-xs-5ths" ng-repeat="kpiSummaryDatum in kpiSummaryData">
                     <h4 class="kpi-title" title="{{kpiSummaryDatum.title}}">{{kpiSummaryDatum.title}}</h4>
                     <h2 class="kpi-incremental kpi-{{kpiSummaryDatum.direction}}">
-                        <icon class="kpi-arrow" type="{{addArrow(kpiSummaryDatum.direction)}}"></icon>${{kpiSummaryDatum.incremental | nrFormat}}
+                        <icon class="kpi-arrow" type="{{addArrow(kpiSummaryDatum.direction)}}"></icon>{{kpiSummaryDatum.incremental | nrFormat}}
                     </h2>
                     <span class="kpi-total">{{kpiSummaryDatum.total | nrFormat}}</span>
                     <span class="kpi-percent kpi-{{kpiSummaryDatum.direction}}">{{kpiSummaryDatum.percent | percentage}}</span>
@@ -158,7 +158,7 @@
                 <div class="spend-container col-md-6 col-sm-6 col-xs-6">
                     <div class="legend">
                         <img src="images/legend.png" alt="legend">
-                        <span>{{selectedComparedView.title}} </span>
+                        <span>{{selectedView.title}} </span>
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-xs-6 chartContainer" ng-repeat="chartDatum in chartData">

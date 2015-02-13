@@ -50,11 +50,11 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                             column.formatter("0").font("14px proxima-nova").foreColor("#333");
                             column.wordWrap(true);
                         } else {
-                            column.formatter("#,###");
+                            // column.formatter("#,###");
                         }
                     }
                 },
-                addRowStyle = function(){
+                addRowStyle = function(formatObject){
                     for (var i = 0; i < $scope.rowCnt; i++) {
                         var row = sheet.getRow(i);
                             sheet.setRowHeight(i, 40, $.wijmo.wijspread.SheetArea.viewport);
@@ -71,7 +71,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                                 if(sheet.getCell(i, j).value() === null) {
                                     sheet.getCell(i, j).backColor("#EEE").locked(false);
                                 } else {
-                                    sheet.getCell(i, j).font("14px proxima-nova").foreColor("#333").locked(false);
+                                    sheet.getCell(i, j).font("14px proxima-nova").foreColor("#333").locked(false).formatter(formatObject[i][j].currency + formatObject[i][j].format);
                                 }
                             }
                         }
@@ -147,7 +147,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     createRowSpan(l, $scope.colHeaderCnt, $scope.colCnt);
                     createColSpan(l, $scope.rowHeaderCnt, $scope.rowCnt);
                 },
-                formatSheet = function () {
+                formatSheet = function (formatObject) {
                     sheet.isPaintSuspended(true);
 
                     setDefaultWidth();
@@ -157,7 +157,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     addSpan();
                     addDefaultStyles();
                     addColumnStyle();
-                    addRowStyle();
+                    addRowStyle(formatObject);
 
                     sheet.isPaintSuspended(false);
                 },
@@ -260,7 +260,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
 
 
             // $scope.spread is in ScenarioCtrl and how pivottable and pivotbuilder communicate
-            $scope.spread.updateSheet = function(_data_, numRows, numCols) {
+            $scope.spread.updateSheet = function(_data_, numRows, numCols, formatObject) {
 
                 if(!_.isEqual(_data_, $scope.data)) {
                     $scope.data = _data_ || {};
@@ -273,7 +273,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
 
                     sheet.reset();
                     $timeout(function() {
-                        formatSheet();
+                        formatSheet(formatObject);
                     });
                 }
             };
