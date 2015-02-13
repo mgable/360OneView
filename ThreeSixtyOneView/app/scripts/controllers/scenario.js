@@ -20,7 +20,7 @@ angular.module('ThreeSixtyOneView')
                     views: [],
                     currentView: {}
             };
-            
+
             $scope.scenarioElements = ScenarioAnalysisElements;
             $scope.groupedScenarioElements = getGroupedScenarioElements();
 
@@ -90,6 +90,8 @@ angular.module('ThreeSixtyOneView')
         getGroupedScenarioElements = function(){
             return  _.groupBy($scope.scenarioElements, function(element) {return element.group;});
         };
+
+        $scope.updateView = updateView;
 
         $scope.setScenarioElement = function(element) {
             $scope.$broadcast(EVENTS.selectScenarioElement, element);
