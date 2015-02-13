@@ -34,7 +34,6 @@ angular.module('ThreeSixtyOneView')
             $scope.getlocation();
 
             $scope.scenarioState = AnalyticCalculationsService.getScenarioState(Calculate.currentState);
-
             $scope.scenarioStates = CONFIG.application.models.ScenarioAnalytics.states;
 
             setView($scope.scenarioState);
@@ -73,7 +72,6 @@ angular.module('ThreeSixtyOneView')
                 $timeout(function(){$state.go("Scenario.calculate");});
             }
         };
-
 
         $scope.setScenarioElement = function(element) {
             $scope.$broadcast(EVENTS.selectScenarioElement, element);

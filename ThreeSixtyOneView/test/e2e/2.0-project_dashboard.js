@@ -5,7 +5,7 @@ var specs = require('./0.0-specs.js'),
 
 	var dashboardUrl, projectId;
 	// TEMP data - remove in production
-	//var dashboardUrl, projectId = "9437e65645383388b03095a017c9480b"; dashboardUrl = specs.getDashboardUrl(projectId);
+	//var dashboardUrl, projectId = "9437e65645383388b03095a017c9480b"; dashboardUrl = funcs.getDashboardUrl(projectId);
 
 
 describe('Project Dashboard', function() {
@@ -19,7 +19,7 @@ describe('Project Dashboard', function() {
 	it("should create a new project and go to the dashboard", function(){
 		var firstItemTitle;
 
-		browser.get(specs.projectUrl + specs.testQuery);
+		browser.get(funcs.getProjectUrl());
 		specs.createButton.click();
 		browser.waitForAngular();
 
@@ -27,15 +27,14 @@ describe('Project Dashboard', function() {
 
 		specs.modalSubmitButton.click();
 		browser.waitForAngular();
-		expect(browser.getLocationAbsUrl()).toContain("/#/dashboard/");
+		expect(browser.getLocationAbsUrl()).toContain("#/dashboard/");
 
 		browser.getLocationAbsUrl().then(function(url){
 			projectId = url.match(/\w{32}/)[0];
-			dashboardUrl = specs.getDashboardUrl(projectId);
-			console.info(projectId, dashboardUrl);
+			console.info(projectId);
 		});
 
-		browser.get(specs.projectUrl + specs.testQuery);
+		browser.get(funcs.getProjectUrl());
 		browser.waitForAngular();
 
 		firstItemTitle = specs.getFirstItemTitle();
@@ -74,7 +73,7 @@ describe('Project Dashboard', function() {
 			cancelBaseScenarioButton = element(by.xpath(cancelBaseScenario));
 
 		beforeEach(function(){
-			browser.get(specs.getDashboardUrl(projectId) + specs.testQuery);
+			browser.get(funcs.getDashboardUrl(projectId));
 		});
 
 
@@ -112,8 +111,8 @@ describe('Project Dashboard', function() {
 				inputDescription.sendKeys(testScenarionDescription);
 				submitButton.click();
 				browser.waitForAngular();
-				expect(browser.getLocationAbsUrl()).toContain("/#/scenario/");
-				browser.get(specs.getDashboardUrl(projectId) + specs.testQuery);
+				expect(browser.getLocationAbsUrl()).toContain("#/scenario/");
+				browser.get(funcs.getDashboardUrl(projectId));
 				browser.waitForAngular();
 
 				var items = specs.getItems(),
@@ -185,8 +184,8 @@ describe('Project Dashboard', function() {
 
 							specs.modalSubmitButton.click();
 							browser.waitForAngular();
-							expect(browser.getLocationAbsUrl()).toContain("/#/scenario/");
-							browser.get(specs.getDashboardUrl(projectId) + specs.testQuery);
+							expect(browser.getLocationAbsUrl()).toContain("#/scenario/");
+							browser.get(funcs.getDashboardUrl(projectId));
 							browser.waitForAngular();
 							expect(items.count()).toEqual(numberOfScenarios + 1);
 							itemCount.getText().then(function(firstCount){
@@ -298,7 +297,7 @@ describe('Project Dashboard', function() {
 				specs.textAreaField.sendKeys(newDescription);
 				specs.inlineEditSubmitButton.click();
 				browser.waitForAngular();
-				browser.get(specs.getDashboardUrl(projectId) + specs.testQuery);
+				browser.get(funcs.getDashboardUrl(projectId));
 
 				specs.inlineEditField.getText().then(function(description){
 					expect(newDescription).toEqual(description);
@@ -323,18 +322,20 @@ describe('Project Dashboard', function() {
 				inputName.sendKeys("New " + testScenarionNameSecond);
 				inputbaseScenario.click();
 				browser.waitForAngular();
-				scenarios = element.all(by.repeater("scenarios in scenarioList"));
-				scenarios.first().click();
-				scenario = element.all(by.repeater("scenario in scenarios.data")).get(1);
+				scenarios = element.all(by.repeater("scenarios in scenarioList")).first().element(by.css('a'));
+				scenarios.click();
+				scenario = element.all(by.repeater("scenario in scenarios.data")).first().element(by.css('.scenario-title'));
+				browser.waitForAngular();
 				scenario.click();
+
 				scenario.getText().then(function(scenarioText){
 					confirmBaseScenarioButton.click();
 					baseScenarioInputField.getAttribute("value").then(function(baseScenarioText){
 						expect(scenarioText).toEqual(baseScenarioText);
 						submitButton.click();
 						browser.waitForAngular();
-						expect(browser.getLocationAbsUrl()).toContain("/#/scenario/");
-						browser.get(dashboardUrl);
+						expect(browser.getLocationAbsUrl()).toContain("#/scenario/");
+						browser.get(funcs.getDashboardUrl(projectId));
 						browser.waitForAngular();
 						expect(scenarioBaseScenarioElement.getText()).toEqual(scenarioText);
 					});
@@ -356,18 +357,18 @@ describe('Project Dashboard', function() {
 				firstScenarioElementTitle.getText().then(function(titleInTray){
 					firstScenarioElementName.click();
 					browser.waitForAngular();
-					expect(browser.getLocationAbsUrl()).toContain("/#/scenario/" + projectId);
+					expect(browser.getLocationAbsUrl()).toContain("#/scenario/" + projectId);
 					selectedScenarioElement.getText().then(function(titleInScenarioEdit){
 						expect(titleInTray).toBe(titleInScenarioEdit);
 					});
 				});
 
-				browser.get(specs.getDashboardUrl(projectId) + specs.testQuery);
+				browser.get(funcs.getDashboardUrl(projectId));
 
 				lastScenarioElementTitle.getText().then(function(titleInTray){
 					lastScenarioElementName.click();
 					browser.waitForAngular();
-					expect(browser.getLocationAbsUrl()).toContain("/#/scenario/" + projectId);
+					expect(browser.getLocationAbsUrl()).toContain("#/scenario/" + projectId);
 					selectedScenarioElement.getText().then(function(titleInScenarioEdit){
 						expect(titleInTray).toBe(titleInScenarioEdit);
 					});
@@ -380,7 +381,7 @@ describe('Project Dashboard', function() {
 		beforeEach(
 			function(){
 				browser.driver.manage().window().setSize(1280, 1024);
-				browser.get(specs.projectUrl + specs.testQuery);
+				browser.get(funcs.getProjectUrl());
 			}
 		);
 
