@@ -58,7 +58,7 @@ describe('Project Dashboard', function() {
 			confirmBaseScenario = "//button[@data-ms-id='ScenarioCreate.confirmBaseScenario']",
 			cancelBaseScenario = "//button[@data-ms-id='ScenarioCreate.cancelBaseScenario']",
 			baseScenarioInput = "scenario.referenceScenario.name",
-			scenarioBaseScenario = "//p[@data-ms-id='ScenarioListing:baseScenario']",
+			scenarioBaseScenario = "//a[@data-ms-id='ScenarioListing:baseScenario']",
 
 			noScenariosAlert = element(by.css(noScenarios)),
 			scenarioBaseScenarioElement = element(by.xpath(scenarioBaseScenario )),
