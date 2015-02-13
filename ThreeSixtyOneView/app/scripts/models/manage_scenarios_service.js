@@ -14,7 +14,6 @@ angular.module('ThreeSixtyOneView.services')
 		this.get = function(id) {
 			var additionalPath = "analysis-element";
 			return this.resource.get({"id": id}, this.config, additionalPath).then(function(response) {
-				console.info(response);
 				return response;
 			});
 		};
