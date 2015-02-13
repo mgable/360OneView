@@ -18,4 +18,10 @@ angular.module('ThreeSixtyOneView.services')
 	this.scenarioCreate = function(projectId){
 		$state.go("ScenarioCreate", {"projectId": projectId});
 	};
+
+	this.baseScenario = function(projectId, scenarioId){
+		console.info("goto base scenrio");
+		console.info(scenarioId);
+		$state.go("Scenario.edit", {"projectId": projectId, "scenarioId": scenarioId});
+	};
 }]);

@@ -39,7 +39,7 @@
 
 	<div class="well meta" ng-if="selectedItem.referenceScenario.name">
 		<p class="ms-label">Base Scenario</p>
-		<p data-ms-id="ScenarioListing:baseScenario">{{selectedItem.referenceScenario.name}}</p>
+		<p><a data-ms-id="ScenarioListing:baseScenario" ng-click="gotoBaseScenario(selectedItem.referenceScenario)">{{selectedItem.referenceScenario.name}}</a></p>
 	</div>
 
 	<div class="well relatedItems" ng-if="selectedItem.scenarios.length">
