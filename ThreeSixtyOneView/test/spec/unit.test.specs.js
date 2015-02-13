@@ -16,28 +16,19 @@
         areArraysEqual:  function(util, customEquilityTesters){
             return {
                 compare:  function (array1, array2){
-                    var result = {};
+                    var result = {}, difference =_.difference(array1, array2);
 
                     result.pass = true;
 
-                    if (array1.length !== array2.length){
+                    if (difference.length > 0){
                         result.pass = false;
-                    };
-
-                    array1.sort();
-                    array2.sort();
-                    
-                    for(var i = 0, limit = array1.length; i < limit; i++){
-                        if (array1[i] !== array2[i]){
-                            result.pass = false;
-                            break;
-                        };
-                    };
+                        result.exception = difference;
+                    }
 
                     if (result.pass){
                         result.message = 'Expected arrays not to be equal';
                     } else {
-                        result.message = 'Expected arrays to be equal';
+                        result.message = 'Expected arrays to be equal - there is an additional element: ' + result.exception.toString();
                     };
 
                     return result;
