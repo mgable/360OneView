@@ -13,7 +13,7 @@
                 <span class="numberCircle">{{state.id}}</span>
                 {{state.label}}
                 <icon type="check" class="checkmark" ng-if="showCheckmark(state, $index)"></icon>
-                <icon type="in_progress" ng-if="step === $index"></icon>
+                <icon type="in_progress" ng-if="showInprogressIcon($index)"></icon>
                 <span class="error" ng-if="showErrorIcon($index)">
                     <icon type="failed"></icon>&nbsp;Error
                 </span>

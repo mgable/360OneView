@@ -116,6 +116,16 @@ angular.module('ThreeSixtyOneView')
             }
         };
 
+        $scope.updateView = function(cubeId, view) {
+            // filter ids should be set to zero before update
+            _.each(view.filters, function(filter) {
+                filter.id = 0;
+            });
+            return ManageAnalysisViewsService.updateView(view, cubeId).then(function(response) {
+                return response;
+            });
+        };
+
         $scope.loadPivotTable = function(element, view) {
             // if(element.cubeMeta.id !== 1) return;
             PivotService.getSlice(element.id, view.id).then(function(response) {
