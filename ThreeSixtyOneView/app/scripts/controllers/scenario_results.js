@@ -18,6 +18,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 return v;
             }
         }).cubeMeta,
+        syncedDimensions = [],
 
     // get kpi cube
     getKPICube = function() {
@@ -208,11 +209,13 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         });
     },
     copyFilters = function(srcFilters, destFilters) {
+        syncedDimensions = [];
         for (var key in destFilters) {
             if(key !== 'VARIABLE') {
                 if(destFilters.hasOwnProperty(key) && srcFilters.hasOwnProperty(key)) {
                     destFilters[key] = srcFilters[key];
                 }
+                syncedDimensions.push(key);
             }
         }
     },
@@ -390,7 +393,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 $scope.spendAddedFilters = PivotMetaService.getAddedFilters(response.filters, $scope.spendDimensions);
                 $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, $scope.spendDimensions, response);
                 getSpendSummary();
-                console.log('issynced', $scope.isSynced);
                 if ($scope.isSynced) {
                     copyFilters($scope.spendAddedFilters, $scope.kpiAddedFilters);
                     $scope.kpiViewData.filters = PivotMetaService.updateFilters($scope.kpiDimensions, $scope.kpiAddedFilters, $scope.kpiMembersList, $scope.kpiViewData.filters);
@@ -410,7 +412,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 $scope.spendAddedFilters = PivotMetaService.getAddedFilters(response.filters, $scope.spendDimensions);
                 $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, $scope.spendDimensions, response);
                 getSpendSummary();
-                console.log('issynced', $scope.isSynced);
                 if ($scope.isSynced) {
                     copyFilters($scope.spendAddedFilters, $scope.kpiAddedFilters);
                     $scope.kpiViewData.filters = PivotMetaService.updateFilters($scope.kpiDimensions, $scope.kpiAddedFilters, $scope.kpiMembersList, $scope.kpiViewData.filters);
@@ -495,6 +496,14 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     $scope.setToFalse = function() {
         $scope.isSynced = false;
     };
+
+    $scope.isInSyncedDimensions = function(cat) {
+        if(_.indexOf(syncedDimensions, cat.label) !== -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     // fire off init function
     init();
