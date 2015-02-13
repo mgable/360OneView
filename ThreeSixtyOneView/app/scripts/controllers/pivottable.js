@@ -168,8 +168,8 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                         return;
                     }
 
-                    // if old and new values are the same OR if old value is not a number, then don't do anything
-                    if(Math.round(dirtyCell.oldValue) === Math.round(dirtyCell.newValue) || !angular.isNumber(dirtyCell.oldValue)) {
+                    // if old and new values are the same, then don't do anything
+                    if(Math.round(dirtyCell.oldValue) === Math.round(dirtyCell.newValue)) {
                         return;
                     }
 
@@ -239,7 +239,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                             if (dirtyDataArray.length > 0) {
                                 if(!!dirtyDataArray[0].newValue && Number(dirtyDataArray[0].oldValue) >= 0 && Number(dirtyDataArray[0].newValue) >= 0) {
                                     cellValueChanged(dirtyDataArray[0]);
-                                } else if(Number(dirtyDataArray[0].newValue) < 0) {
+                                } else if(Number(dirtyDataArray[0].newValue) < 0 || !angular.isNumber(dirtyDataArray[0].newValue)) {
                                     sheet.setValue(dirtyDataArray[0].row, dirtyDataArray[0].col, dirtyDataArray[0].oldValue);
                                 }
                             }

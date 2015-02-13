@@ -21,7 +21,9 @@ angular.module('ThreeSixtyOneView.services')
 			if(response.length > 0) {
 				var i, j,
 					tableTree = {},
+					// number of selected dimensions in columns
 					numCols = getNumberOfColumns(response),
+					// number of selected dimensions in rows
 					numRows = getNumberOfRows(response),
 					pivotTable = [],
 					columnIndex = numRows,
