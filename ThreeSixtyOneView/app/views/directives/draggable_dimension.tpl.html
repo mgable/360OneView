@@ -7,5 +7,5 @@
 		<span ng-hide="!!lockedDimensions[item.level.label]" class="actionIcon clickable" title="Remove" ng-click="delete($index)"><icon type="remove"></icon></span>
 		<span ng-show="!!lockedDimensions[item.level.label]" class="actionIcon" title="This dimension cannot be removed, because a filter has been applied."><icon type="info-circle"></icon></span>
 	</div>
-	<div ng-include src="'views/includes/dimensions_pop_menu.tpl.html'" class="dropdown-menu"></div>
+	<div ng-if="!lockedDimensions[item.level.label]" ng-include src="'views/includes/dimensions_pop_menu.tpl.html'" class="dropdown-menu"></div>
 </div>
