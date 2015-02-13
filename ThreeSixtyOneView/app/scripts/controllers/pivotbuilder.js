@@ -8,7 +8,7 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView')
-	.controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'ManageAnalysisViewsService', 'DialogService', 'PivotMetaService', function ($scope, $rootScope, EVENTS, $timeout, $q, ManageAnalysisViewsService, DialogService, PivotMetaService) {
+	.controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'ManageAnalysisViewsService', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, $q, ManageAnalysisViewsService, DialogService) {
 
 	var init = function() {
 			$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
@@ -39,30 +39,7 @@ angular.module('ThreeSixtyOneView')
 					}
 				});
 			});
-		},
-		deleteView = function(cubeId, viewId) {
-            ManageAnalysisViewsService.deleteView(viewId, cubeId).then(function() {
-                $scope.viewsList = _.reject($scope.viewsList, function(view) { return view.id === viewId; });
-                $scope.draftView = false;
-            });
-        },
-        createView = function(cubeId, view, viewList) {
-            var i;
-            $scope.viewsList = viewList;
-            // remove conflicting elements from the view
-            view.id = null;
-            for(i = 0; i < view.filters.length; i++) {
-                view.filters[i].id = null;
-            }
-
-            return ManageAnalysisViewsService.createView(view, cubeId).then(function(view) {
-                $scope.viewData = angular.copy(view);
-                $scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
-                $scope.viewsList.unshift(view);
-                $scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
-                return view;
-            });
-        };
+		};
 
 		// delete an item from column/row
 		$scope.deleteItem =  function(index, element) {
@@ -108,43 +85,6 @@ angular.module('ThreeSixtyOneView')
 			});
 		};
 
-		// update filter values after any change made to them in the filters modal
-        $scope.updateFilterValues = function(newFilterData) {
-            $scope.addedFilters = newFilterData;
-
-            $scope.viewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedFilters, $scope.membersList, $scope.viewData.filters);
-            $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.views.currentView);
-        };
-
-		// load a view from the backend
-        $scope.loadView = function(cubeId, viewId) {
-            ManageAnalysisViewsService.getView(viewId, cubeId).then(function(view) {
-                // remove the draft view if one exists and is not selected
-                if($scope.draftView) {
-                    var draftId;
-
-                    _.each($scope.viewsList, function(listItem) {
-                        if(listItem.name.substring(0, 8) === 'Draft - ') {
-                            draftId = listItem.id;
-                        }
-                    });
-
-                    if(viewId !== draftId) {
-                        deleteView($scope.cubeId, draftId);
-                    }
-                }
-
-                $scope.views.currentView = view;
-                $scope.viewData = view;
-                $scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
-                $scope.membersList = PivotMetaService.generateMembersList($scope.dimensions);
-                $scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
-                $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, view);
-
-                $scope.loadPivotTable($scope.selectedScenarioElement, view);
-            });
-        };
-
 		// returns list of all the views in the current cube
 		// DUPE
 		$scope.getViewsList = function() {
@@ -155,39 +95,6 @@ angular.module('ThreeSixtyOneView')
 		$scope.getDimensions = function() {
 			return $scope.dimensions;
 		};
-
-		// save the draft view
-        $scope.saveDraftView = function() {
-            if(!$scope.draftView) {
-                $scope.draftView = true;
-                var draftView = angular.copy($scope.viewData);
-                draftView.name = 'Draft - ' + draftView.name;
-                createView($scope.cubeId, draftView, $scope.viewsList).then(function() {
-                    $scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
-                });
-            } else {
-                $scope.updateView($scope.cubeId, $scope.viewData).then(function() {
-                    $scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
-                });
-            }
-        };
-
-        // save the changes in the current view
-        $scope.saveView = function() {
-            if($scope.draftView) {
-                var originalViewName = $scope.viewData.name.substring(8);
-                var originalViewId = _.find($scope.viewsList, function(view) { return originalViewName === view.name; }).id;
-                var draftViewId = $scope.viewData.id;
-
-                $scope.viewData.name = originalViewName;
-                $scope.viewData.id = originalViewId;
-                $scope.updateView($scope.cubeId, $scope.viewData).then(function(view) {
-                    $scope.viewData = view;
-                    $scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
-                });
-                deleteView($scope.cubeId, draftViewId);
-            }
-        };
 
 		// open the modal for the list of all views
 		//DUPE
@@ -242,7 +149,7 @@ angular.module('ThreeSixtyOneView')
 				renameView($scope.cubeId, $scope.viewData);
 			} else if (!$scope.rename) {
 				$scope.viewData.id = null;
-				createView($scope.cubeId, $scope.viewData, $scope.viewsList);
+				$scope.createView($scope.cubeId, $scope.viewData, $scope.viewsList);
 			}
 
 			$scope.cancelSaveAs();
@@ -250,16 +157,11 @@ angular.module('ThreeSixtyOneView')
 
 		// cancel the save as process
 		$scope.cancelSaveAs = function(evt) {
-			console.info(evt);
-			// stop the click from bubbling up
 			if (evt && evt.stopPropagation){
 				evt.stopPropagation();
 			}
 			$scope.rename = false;
 			$scope.saveAs = false;
-
-			console.info("hey saveas is");
-			console.info($scope.saveAs);
 		};
 
 		// start the rename process

@@ -71,6 +71,21 @@ angular.module('ThreeSixtyOneView')
             if (AnalyticCalculationsService.isInProgress($scope.scenarioState.message) || AnalyticCalculationsService.isFailed($scope.scenarioState.message)){
                 $timeout(function(){$state.go("Scenario.calculate");});
             }
+        },
+        deleteView = function(cubeId, viewId) {
+            ManageAnalysisViewsService.deleteView(viewId, cubeId).then(function() {
+                $scope.viewsList = _.reject($scope.viewsList, function(view) { return view.id === viewId; });
+                $scope.draftView = false;
+            });
+        },
+        updateView = function(cubeId, view) {
+            // filter ids should be set to zero before update
+            _.each(view.filters, function(filter) {
+                filter.id = 0;
+            });
+            return ManageAnalysisViewsService.updateView(view, cubeId).then(function(response) {
+                return response;
+            });
         };
 
         $scope.setScenarioElement = function(element) {
@@ -111,14 +126,92 @@ angular.module('ThreeSixtyOneView')
             }
         };
 
-        $scope.updateView = function(cubeId, view) {
-            // filter ids should be set to zero before update
-            _.each(view.filters, function(filter) {
-                filter.id = 0;
+        // update filter values after any change made to them in the filters modal
+        $scope.updateFilterValues = function(newFilterData) {
+            $scope.addedFilters = newFilterData;
+
+            $scope.viewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedFilters, $scope.membersList, $scope.viewData.filters);
+            $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.views.currentView);
+        };
+
+        // load a view from the backend
+        $scope.loadView = function(cubeId, viewId) {
+            ManageAnalysisViewsService.getView(viewId, cubeId).then(function(view) {
+                // remove the draft view if one exists and is not selected
+                if($scope.draftView) {
+                    var draftId;
+
+                    _.each($scope.viewsList, function(listItem) {
+                        if(listItem.name.substring(0, 8) === 'Draft - ') {
+                            draftId = listItem.id;
+                        }
+                    });
+
+                    if(viewId !== draftId) {
+                        deleteView($scope.cubeId, draftId);
+                    }
+                }
+
+                $scope.views.currentView = view;
+                $scope.viewData = view;
+                $scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
+                $scope.membersList = PivotMetaService.generateMembersList($scope.dimensions);
+                $scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
+                $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, view);
+
+                $scope.loadPivotTable($scope.selectedScenarioElement, view);
             });
-            return ManageAnalysisViewsService.updateView(view, cubeId).then(function(response) {
-                return response;
+        };
+
+        $scope.createView = function(cubeId, view, viewList) {
+            var i;
+            $scope.viewsList = viewList;
+            // remove conflicting elements from the view
+            view.id = null;
+            for(i = 0; i < view.filters.length; i++) {
+                view.filters[i].id = null;
+            }
+
+            return ManageAnalysisViewsService.createView(view, cubeId).then(function(view) {
+                $scope.viewData = angular.copy(view);
+                $scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
+                $scope.viewsList.unshift(view);
+                $scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
+                return view;
             });
+        };
+
+        // save the draft view
+        $scope.saveDraftView = function() {
+            if(!$scope.draftView) {
+                $scope.draftView = true;
+                var draftView = angular.copy($scope.viewData);
+                draftView.name = 'Draft - ' + draftView.name;
+                $scope.createView($scope.cubeId, draftView, $scope.viewsList).then(function() {
+                    $scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
+                });
+            } else {
+                updateView($scope.cubeId, $scope.viewData).then(function() {
+                    $scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
+                });
+            }
+        };
+
+        // save the changes in the current view
+        $scope.saveView = function() {
+            if($scope.draftView) {
+                var originalViewName = $scope.viewData.name.substring(8);
+                var originalViewId = _.find($scope.viewsList, function(view) { return originalViewName === view.name; }).id;
+                var draftViewId = $scope.viewData.id;
+
+                $scope.viewData.name = originalViewName;
+                $scope.viewData.id = originalViewId;
+                updateView($scope.cubeId, $scope.viewData).then(function(view) {
+                    $scope.viewData = view;
+                    $scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
+                });
+                deleteView($scope.cubeId, draftViewId);
+            }
         };
 
         $scope.loadPivotTable = function(element, view) {
