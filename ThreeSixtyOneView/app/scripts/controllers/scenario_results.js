@@ -61,7 +61,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                     _.each($scope.kpiSummaryData, function(v, i) {
                         v.incremental = Math.abs(v.total - $scope.kpiComparedSummaryData[i].total);
                         v.percent = v.incremental / $scope.kpiComparedSummaryData[i].total;
-                        if (v.incremental >= 0) {
+                        if ((v.total - $scope.kpiComparedSummaryData[i].total) >= 0) {
                             v.direction = "increase";
                         } else {
                             v.direction = "decrease";

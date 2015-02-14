@@ -171,10 +171,8 @@ angular.module('ThreeSixtyOneView.filters')
                     number = (number / Math.pow(10, 6)).toFixed(1) + "M";
                 } else if (abs < Math.pow(10, 6) && abs >= Math.pow(10, 3)) {
                     number = (number / Math.pow(10, 3)).toFixed(1) + "K";
-                } else if (abs < Math.pow(10, 3) && abs >= Math.pow(10, 0)) {
+                } else if (abs < Math.pow(10, 3) && abs > 0) {
                     number = number.toFixed(1);
-                } else if (abs < Math.pow(10, 0) && abs > 0) {
-                    number = 0;
                 } else {
                     number = number;
                 }
