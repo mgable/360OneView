@@ -3,6 +3,14 @@
 angular.module('ThreeSixtyOneView.services')
   .factory('PivotModel', ["$location", "Resource", "CONFIG", "SERVER", function ($location, Resource, CONFIG, SERVER) {
 	var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.pivotdata),
+		getNumberOfColumns = function(response) {
+			var output = !!response[0][0].key.value.coordinates.columnAddresses ? response[0][0].key.value.coordinates.columnAddresses.length : 1;
+			return output;
+		},
+		getNumberOfRows = function(response) {
+			var output = !!response[0][0].key.value.coordinates.rowAddresses ? response[0][0].key.value.coordinates.rowAddresses.length : 1;
+			return output;
+		},
 		transformResponse = function(data) {
 			if(data === '') {
 				return data;
@@ -13,8 +21,8 @@ angular.module('ThreeSixtyOneView.services')
 			if(response.length > 0) {
 				var i, j,
 					tableTree = {},
-					numCols = !!response[0][0].key.value.coordinates.columnAddresses ? response[0][0].key.value.coordinates.columnAddresses.length : 1,
-					numRows = !!response[0][0].key.value.coordinates.rowAddresses ? response[0][0].key.value.coordinates.rowAddresses.length : 1,
+					numCols = getNumberOfColumns(response),
+					numRows = getNumberOfRows(response),
 					pivotTable = [],
 					columnIndex = numRows,
 					helperObject = [];
