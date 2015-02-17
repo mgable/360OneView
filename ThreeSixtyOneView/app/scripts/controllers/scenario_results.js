@@ -61,7 +61,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                     _.each($scope.kpiSummaryData, function(v, i) {
                         v.incremental = Math.abs(v.total - $scope.kpiComparedSummaryData[i].total);
                         v.percent = v.incremental / $scope.kpiComparedSummaryData[i].total;
-                        if (v.incremental >= 0) {
+                        if ((v.total - $scope.kpiComparedSummaryData[i].total) >= 0) {
                             v.direction = "increase";
                         } else {
                             v.direction = "decrease";
@@ -118,10 +118,10 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         var spendData = {};
         spendData.header = {};
         spendData.header.title = 'Total Spend';
-        spendData.header.total = _spendSummaryData[0].Spend;
-        spendData.header.incremental = Math.abs(_spendSummaryData[0].Spend - _spendComparedSummaryData[0].Spend);
-        spendData.header.percent = spendData.header.incremental / _spendComparedSummaryData[0].Spend;
-        if (_spendSummaryData[0].Spend - _spendComparedSummaryData[0].Spend >= 0) {
+        spendData.header.total = _spendSummaryData[0].TOUCHPOINT;
+        spendData.header.incremental = Math.abs(_spendSummaryData[0].TOUCHPOINT - _spendComparedSummaryData[0].TOUCHPOINT);
+        spendData.header.percent = spendData.header.incremental / _spendComparedSummaryData[0].TOUCHPOINT;
+        if (_spendSummaryData[0].TOUCHPOINT - _spendComparedSummaryData[0].TOUCHPOINT >= 0) {
             spendData.header.direction = "increase";
         } else {
             spendData.header.direction = "decrease";
@@ -154,8 +154,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                         spendDatumChild.direction = "decrease";
                     }
                     spendDatumChild.chart = {};
-                    spendDatumChild.chart.results = parseFloat((v1[1] / _spendSummaryData[0].Spend) * 100).toFixed(1);
-                    spendDatumChild.chart.compared = parseFloat((_.pairs(_spendComparedSummaryData[i])[i1][1] / _spendComparedSummaryData[0].Spend) * 100).toFixed(1);
+                    spendDatumChild.chart.results = parseFloat((v1[1] / _spendSummaryData[0].TOUCHPOINT) * 100).toFixed(1);
+                    spendDatumChild.chart.compared = parseFloat((_.pairs(_spendComparedSummaryData[i])[i1][1] / _spendComparedSummaryData[0].TOUCHPOINT) * 100).toFixed(1);
                     spendDatum.children.push(spendDatumChild);
                 });
                 spendData.body.push(spendDatum);
