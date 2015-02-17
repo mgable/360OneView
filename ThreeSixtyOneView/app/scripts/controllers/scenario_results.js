@@ -59,12 +59,20 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 ReportsService.getSummary($scope.kpiComparedElementId, $scope.kpiViewId).then(function(_KPIComparedSummaryData) {
                     $scope.kpiComparedSummaryData = transformKPISummaryData(_KPIComparedSummaryData);
                     _.each($scope.kpiSummaryData, function(v, i) {
+                        var tmpkpiIncremental = v.total - $scope.kpiComparedSummaryData[i].total
                         v.incremental = Math.abs(v.total - $scope.kpiComparedSummaryData[i].total);
+                        if(v.incremental < 1) {
+                           v.incremental = 0;
+                        }
                         v.percent = v.incremental / $scope.kpiComparedSummaryData[i].total;
-                        if ((v.total - $scope.kpiComparedSummaryData[i].total) >= 0) {
-                            v.direction = "increase";
+                        if (v.incremental !== 0) {
+                            if (tmpkpiIncremental >= 0) {
+                                v.direction = "increase";
+                            } else {
+                                v.direction = "decrease";
+                            }
                         } else {
-                            v.direction = "decrease";
+                            v.direction = "increase";
                         }
                     });
                 });
@@ -119,12 +127,20 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         spendData.header = {};
         spendData.header.title = 'Total Spend';
         spendData.header.total = _spendSummaryData[0].TOUCHPOINT;
-        spendData.header.incremental = Math.abs(_spendSummaryData[0].TOUCHPOINT - _spendComparedSummaryData[0].TOUCHPOINT);
+        var tmpSpendHeaderIncremental = _spendSummaryData[0].TOUCHPOINT - _spendComparedSummaryData[0].TOUCHPOINT;
+        spendData.header.incremental = Math.abs(tmpSpendHeaderIncremental);
+        if(spendData.header.incremental < 1) {
+           spendData.header.incremental = 0;
+        }
         spendData.header.percent = spendData.header.incremental / _spendComparedSummaryData[0].TOUCHPOINT;
-        if (_spendSummaryData[0].TOUCHPOINT - _spendComparedSummaryData[0].TOUCHPOINT >= 0) {
-            spendData.header.direction = "increase";
+        if (spendData.header.incremental !== 0) {
+            if (tmpSpendHeaderIncremental >= 0) {
+                spendData.header.direction = "increase";
+            } else {
+                spendData.header.direction = "decrease";
+            }
         } else {
-            spendData.header.direction = "decrease";
+            spendData.header.direction = "increase";
         }
 
         spendData.body = [];
@@ -146,12 +162,20 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                     spendDatumChild.id = i1+1;
                     spendDatumChild.title = v1[0];
                     spendDatumChild.total = v1[1];
-                    spendDatumChild.incremental = Math.abs(v1[1] - _.pairs(_spendComparedSummaryData[i])[i1][1]);
+                    var tmpSpendDatumChildIncremental = v1[1] - _.pairs(_spendComparedSummaryData[i])[i1][1];
+                    spendDatumChild.incremental = Math.abs(tmpSpendDatumChildIncremental);;
+                    if(Math.abs(spendDatumChild.incremental) < 1) {
+                       spendDatumChild.incremental = 0;
+                    }
                     spendDatumChild.percent = spendDatumChild.incremental / _.pairs(_spendComparedSummaryData[i])[i1][1];
-                    if (v1[1] - _.pairs(_spendComparedSummaryData[i])[i1][1] >= 0) {
-                        spendDatumChild.direction = "increase";
+                    if (spendDatumChild.incremental !== 0) {
+                        if (tmpSpendDatumChildIncremental >= 0) {
+                            spendDatumChild.direction = "increase";
+                        } else {
+                            spendDatumChild.direction = "decrease";
+                        }
                     } else {
-                        spendDatumChild.direction = "decrease";
+                        spendDatumChild.direction = "increase";
                     }
                     spendDatumChild.chart = {};
                     spendDatumChild.chart.results = parseFloat((v1[1] / _spendSummaryData[0].TOUCHPOINT) * 100).toFixed(1);
