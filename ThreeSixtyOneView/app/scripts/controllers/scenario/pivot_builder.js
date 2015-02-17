@@ -153,7 +153,7 @@ angular.module('ThreeSixtyOneView')
 				renameView($scope.cubeId, $scope.viewData);
 			} else if (!$scope.rename) {
 				$scope.viewData.id = null;
-				$scope.createView($scope.cubeId, $scope.viewData, $scope.viewsList);
+				$scope.createView($scope.cubeId, $scope.viewData);
 			}
 
 			$scope.cancelSaveAs();

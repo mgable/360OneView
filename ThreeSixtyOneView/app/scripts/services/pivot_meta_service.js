@@ -188,6 +188,16 @@
 		});
 	};
 
+	this.updateView = function(cubeId, view) {
+        // filter ids should be set to zero before update
+        _.each(view.filters, function(filter) {
+            filter.id = 0;
+        });
+        return ManageAnalysisViewsService.updateView(view, cubeId).then(function(response) {
+            return response;
+        });
+    };
+
 	// find the default (or draft if exists) view from views list
 	this.findDefaultView = function(list) {
 		var viewId = list[0].id;
