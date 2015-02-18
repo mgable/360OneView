@@ -67,14 +67,8 @@
             font-weight: 300;
             font-size: 30px;
             margin: 0 0 10px;
-            // text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.75);
         }
         .result-panel-body {
-            margin-bottom: 25px;
-            &.compact {
-                padding: 0;
-                height: 180
-            }
             .kpi-container {
                 text-align: center;
                 .kpi-title {
@@ -100,9 +94,6 @@
                         margin: 0 5px 10px 0;
                     }
                 }
-                .kpi-unit {
-                    font-size: 40px;
-                }
                 .kpi-total, .kpi-percent {
                     font-size: 16px;
                     line-height: 22px;
@@ -118,60 +109,8 @@
                     color: #c71f04;
                 }
             }
-            .kpi-chart-container {
-                padding: 0;
-                height: 180px;
-                background-color: #fff;
-                box-shadow: -2px 0px 5px 0px rgba(0, 0, 0, 0.3);
-            }
-            .kpi-table-container {
-                padding: 0;
-                table.kpi-table {
-                    width: 100%;
-                    tbody {
-                        tr {
-                            cursor: pointer;
-                            -webkit-transition:0.15s linear all;
-                            -moz-transition:0.15s linear all;
-                            -o-transition:0.15s linear all;
-                            transition:0.15s linear all;
-                            td {
-                                color: #333;
-                                text-transform: capitalize;
-                                font-size: 16px;
-                                line-height: 22px;
-                                font-weight: 400;
-                                padding: 7px 15px;
-                                &.kpi-increase {
-                                    color: #068700;
-                                }
-                                &.kpi-decrease {
-                                    color: #c71f04;
-                                }
-                            }
-                            &:hover {
-                                background-color: #eee;
-                                -webkit-transition:0.15s linear all;
-                                -moz-transition:0.15s linear all;
-                                -o-transition:0.15s linear all;
-                                transition:0.15s linear all;
-                            }
-                            &.selected {
-                                background-color: #295da7;
-                                -webkit-transition:0.15s linear all;
-                                -moz-transition:0.15s linear all;
-                                -o-transition:0.15s linear all;
-                                transition:0.15s linear all;
-                                td {
-                                    color: #fff;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
             .spend-container{
-				table.spend-table {
+				.spend-table {
 					width: 100%;
 					thead {
 						background: transparent;
@@ -247,51 +186,25 @@
                         font-size: 14px;
                     }
                 }
+                ms-bar-chart {
+                    .axis path,
+                    .axis line {
+                      fill: none;
+                      stroke: #ccc;
+                      shape-rendering: crispEdges;
+                    }
+                    #stripe {
+                        line {
+                            fill: white;
+                            stroke: white;
+                            stroke-linecap: square;
+                            stroke-linejoin: miter;
+                            stroke-width: 10px;
+                        }
+                    }
+                    text { font-size: 12px; }
+                }
             }
         }
-    }
-}
-/* D3 */
-ms-bar-chart {
-    .axis path,
-    .axis line {
-      fill: none;
-      stroke: #ccc;
-      shape-rendering: crispEdges;
-    }
-    #stripe {
-        line {
-            fill: white;
-            stroke: white;
-            stroke-linecap: square;
-            stroke-linejoin: miter;
-            stroke-width: 10px;
-        }
-    }
-    text { font-size: 12px; }
-}
-/* D3-Tip */
-.d3-tip {
-    line-height: 1;
-    font-weight: bold;
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    border-radius: 2px;
-    &:after {
-        box-sizing: border-box;
-        display: inline;
-        font-size: 10px;
-        width: 100%;
-        line-height: 1;
-        color: rgba(0, 0, 0, 0.8);
-        content: "\25BC";
-        position: absolute;
-        text-align: center;
-    }
-    &.n:after {
-        margin: -1px 0 0 0;
-        top: 100%;
-        left: 0;
     }
 }
