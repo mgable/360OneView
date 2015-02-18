@@ -8,8 +8,8 @@
 				</div>
 			</tab-heading>
 			<div id="results-toolbar-container" class="content">
-				<div class="pbSlider">
-					<div class="pbControlBar">
+				<div class="slider">
+					<div class="toolbar">
 
                         <div class="save-menu">
                             <div class="dropdown">
@@ -41,36 +41,36 @@
                             </div>
                         </div>
 
-                        <div class="pbFunctionFlip clickable" ms-link-group selected-item="{{isSynced}}">
-                        	<div class="pbFunctionFlipTitle">Sync KPI with Spend</div>
-                            <div class="pbFunctionFlipButton" ng-click="setToTrue()" ms-link="true">ON</div>
-                            <div class="pbFunctionFlipButton" ng-click="setToFalse()" ms-link="false">OFF</div>
+                        <div class="toggle-switch clickable" ms-link-group selected-item="{{isSynced}}">
+                        	<div class="toggle-switch-title">Sync KPI with Spend</div>
+                            <div class="switch" ng-click="setToTrue()" ms-link="true">ON</div>
+                            <div class="switch" ng-click="setToFalse()" ms-link="false">OFF</div>
                         </div>
 					</div>
 
-					<div class="pbSec">
-						<div class="pbSecTitle">Spend Filters</div>
-						<div class="pbFilterValues">
-							<div ng-repeat="cat in spendDimensions" class="pbFilterBox clickable" ng-click="spendFiltersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="spendAddedFilters[cat.label]">
-								<div class="pbFilterCat">{{cat.label}} <span class="pbFilterSize">({{spendCategorizedValue[$index].selected}}/{{spendCategorizedValue[$index].total}})</span></div>
-								<div class="pbFilterVal" ng-show="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{spendCategorizedValue[$index].label.join(', ')}}">{{spendCategorizedValue[$index].label.join(', ')}}</div>
-								<div class="pbFilterVal" ng-hide="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" title="{{spendCategorizedValue[$index].label.join(', ')}}">All</div>
+					<div class="dimensions-list filters-list">
+						<div class="title">Spend Filters</div>
+						<div class="list">
+							<div ng-repeat="cat in spendDimensions" class="filter-category clickable" ng-click="spendFiltersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="spendAddedFilters[cat.label]">
+								<div class="filter-label">{{cat.label}} <span class="filter-stats">({{spendCategorizedValue[$index].selected}}/{{spendCategorizedValue[$index].total}})</span></div>
+								<div class="filter-values text-holder" ng-show="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{spendCategorizedValue[$index].label.join(', ')}}">{{spendCategorizedValue[$index].label.join(', ')}}</div>
+								<div class="filter-values text-holder" ng-hide="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" title="{{spendCategorizedValue[$index].label.join(', ')}}">All</div>
 							</div>
 						</div>
 					</div>
 
-					<div class="pbSec">
-						<div class="pbSecTitle">KPI Filters</div>
-						<div class="pbFilterValues">
-							<div ng-repeat="cat in kpiDimensions" class="pbFilterBox" ng-class="{'clickable': !isSynced || !isInSyncedDimensions(cat), 'disabled': isSynced && isInSyncedDimensions(cat)}" ng-click="kpiFiltersModal(cat)" data-toggle="modal" data-target="#filterModal" ng-if="kpiAddedFilters[cat.label]">
-								<div class="pbFilterCat">{{cat.label}} <span class="pbFilterSize">({{kpiCategorizedValue[$index].selected}}/{{kpiCategorizedValue[$index].total}})</span></div>
-								<div class="pbFilterVal" ng-show="kpiCategorizedValue[$index].selected < kpiCategorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{kpiCategorizedValue[$index].label.join(', ')}}">{{kpiCategorizedValue[$index].label.join(', ')}}</div>
-								<div class="pbFilterVal" ng-hide="kpiCategorizedValue[$index].selected < kpiCategorizedValue[$index].total" title="{{kpiCategorizedValue[$index].label.join(', ')}}">All</div>
+					<div class="dimensions-list filters-list">
+						<div class="title">KPI Filters</div>
+						<div class="list">
+							<div ng-repeat="cat in kpiDimensions" class="filter-category" ng-class="{'clickable': !isSynced || !isInSyncedDimensions(cat), 'disabled': isSynced && isInSyncedDimensions(cat)}" ng-click="kpiFiltersModal(cat)" data-toggle="modal" data-target="#filterModal" ng-if="kpiAddedFilters[cat.label]">
+								<div class="filter-label">{{cat.label}} <span class="filter-stats">({{kpiCategorizedValue[$index].selected}}/{{kpiCategorizedValue[$index].total}})</span></div>
+								<div class="filter-values text-holder" ng-show="kpiCategorizedValue[$index].selected < kpiCategorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{kpiCategorizedValue[$index].label.join(', ')}}">{{kpiCategorizedValue[$index].label.join(', ')}}</div>
+								<div class="filter-values text-holder" ng-hide="kpiCategorizedValue[$index].selected < kpiCategorizedValue[$index].total" title="{{kpiCategorizedValue[$index].label.join(', ')}}">All</div>
 							</div>
 						</div>
 					</div>
 
-                    <div class="pbSliderCollapse">
+                    <div class="collapse-handle">
                         <span class="clickable" collapse-control target-area="#results-toolbar-container">
                             <icon type="chevron-up"></icon>Collapse
                         </span>
@@ -80,4 +80,3 @@
 		</tab>
 	</tabset>
 </section>
-
