@@ -5,10 +5,9 @@ var specs = require('./0.0-specs.js'),
 
 	var dashboardUrl, projectId;
 	// TEMP data - remove in production
-	//var dashboardUrl, projectId = "9437e65645383388b03095a017c9480b"; dashboardUrl = funcs.getDashboardUrl(projectId);
+var dashboardUrl, projectId = "b2fb3c0190dc3ede8e65413192d68ac1", dashboardUrl = funcs.getDashboardUrl(projectId);
 
-
-describe('Project Dashboard', function() {
+xdescribe('Project Dashboard', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
@@ -16,7 +15,7 @@ describe('Project Dashboard', function() {
 	);
 	var testFileName = "My New Test Project- " + Date.now();
 
-	it("should create a new project and go to the dashboard", function(){
+	xit("should create a new project and go to the dashboard", function(){
 		var firstItemTitle;
 
 		browser.get(funcs.getProjectUrl());
@@ -81,7 +80,7 @@ describe('Project Dashboard', function() {
 			var baseScenario = "scenario.referenceScenario.name",
 				baseScenarioInputField = element(by.model(baseScenario));
 
-			it("should have no scenarios at time of creation", function(){
+			xit("should have no scenarios at time of creation", function(){
 				var items = specs.getItems(),
 					itemCount = specs.getItemCount();
 				expect(items.count()).toEqual(0);
@@ -90,28 +89,32 @@ describe('Project Dashboard', function() {
 				});
 			});
 
-			it("should not enabled the rename, copy or edit buttons", function(){
+			xit("should not enabled the rename, copy or edit buttons", function(){
 				expect(specs.trayCopyButton.isPresent()).toBeFalsy();
 				expect(specs.renameButton.isPresent()).toBeFalsy();
 				expect(specs.editDescriptionButton.isPresent()).toBeFalsy();
 			});
 
-			it("should enable the create button", function(){
+			xit("should enable the create button", function(){
 				expect(specs.createButton.getAttribute("disabled")).toBeFalsy();
 			});
 		
-			it("should display the create scenario alert", function(){
+			xit("should display the create scenario alert", function(){
 				expect(noScenariosAlert.isPresent()).toBe(true);
 			});
 
 			it("should open the create new scenario dialog box and create a new scenario", function(){
-				noScenariosAlert.click();
+				//noScenariosAlert.click();
+				specs.createButton.click();
 				browser.waitForAngular();
 				inputName.sendKeys(testScenarionNameFirst);
 				inputDescription.sendKeys(testScenarionDescription);
 				submitButton.click();
 				browser.waitForAngular();
-				expect(browser.getLocationAbsUrl()).toContain("#/scenario/");
+				browser.getLocationAbsUrl().then(function(url){
+					funcs.saveProjectInfo(url, testFileName, testScenarionNameFirst);
+					expect(url).toContain("#/scenario/");
+				});
 				browser.get(funcs.getDashboardUrl(projectId));
 				browser.waitForAngular();
 
@@ -129,13 +132,13 @@ describe('Project Dashboard', function() {
 				})
 			});
 
-			it("should not allow a new scenario to be created without a name", function(){
+			xit("should not allow a new scenario to be created without a name", function(){
 				specs.createButton.click();
 				browser.waitForAngular();
 				expect(submitButton.isEnabled()).toBe(false);
 			});
 
-			it("should allow a new scenario to be created with a name but no description", function(){
+			xit("should allow a new scenario to be created with a name but no description", function(){
 				specs.createButton.click();
 				browser.waitForAngular();
 				expect(submitButton.isEnabled()).toBe(false);
@@ -143,7 +146,7 @@ describe('Project Dashboard', function() {
 				expect(submitButton.isEnabled()).toBe(true);
 			});
 
-			it("should not allow a duplicate scenario name", function(){
+			xit("should not allow a duplicate scenario name", function(){
 				specs.createButton.click();
 				browser.waitForAngular();
 				expect(submitButton.isEnabled()).toBe(false);
@@ -151,21 +154,21 @@ describe('Project Dashboard', function() {
 				expect(submitButton.isEnabled()).toBe(false);
 			});
 
-			it("should restrict which characters can be used in a name", function(){
+			xit("should restrict which characters can be used in a name", function(){
 				specs.createButton.click();
 				browser.waitForAngular();
 
 				funcs.testInputRestrictions(inputName, submitButton);
 			});
 
-			it("should not allow names less than two characters or more than 256 characters", function(){
+			xit("should not allow names less than two characters or more than 256 characters", function(){
 				specs.createButton.click();
 				browser.waitForAngular();
 
 				funcs.testMinAndMaxNameLength(inputName, submitButton);
 			});
 
-			it("should copy a scenario", function(){
+			xit("should copy a scenario", function(){
 				var scenarioTitle = specs.getFirstItemTitle(),
 					scenario = specs.getFirstItem(),
 					items = specs.getItems(),
@@ -198,17 +201,17 @@ describe('Project Dashboard', function() {
 				});
 			});
 
-			it("should search scenarios", function(){
+			xit("should search scenarios", function(){
 				funcs.enterSearch('FIRST');
 				expect(specs.getItems().count()).toBe(1);
 			});
 
-			it("should have an active selection", function(){
+			xit("should have an active selection", function(){
 				var first = specs.getFirstItem();
 				expect(specs.hasClass(first, specs.activeSelectionClass)).toEqual(true);
 			});
 
-			it("should not allow the base reference scenario to be edited", function(){
+			xit("should not allow the base reference scenario to be edited", function(){
 
 				specs.createButton.click();
 				browser.waitForAngular();
@@ -218,7 +221,7 @@ describe('Project Dashboard', function() {
 				});
 			});
 
-			it("should keep the same base scenario on confirm if a new scenario has not been selected", function(){
+			xit("should keep the same base scenario on confirm if a new scenario has not been selected", function(){
 				specs.createButton.click();
 				browser.waitForAngular();
 				baseScenarioInputField.getAttribute("value").then(function(text){
@@ -232,7 +235,7 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Filter functions: ", function(){
+		xdescribe("Filter functions: ", function(){
 
 			it("should filter by favorite", function(){
 				var startItemCount = specs.getItemCount();
@@ -255,7 +258,7 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Edit functions: ", function(){
+		xdescribe("Edit functions: ", function(){
 			var first,
 				newName = "My Renamed Scenario - " + Date.now(),
 				newDescription = "My new Description - " + Date.now();
@@ -306,13 +309,13 @@ describe('Project Dashboard', function() {
 			});
 		})
 
-		describe("Breadcrumbs: ", function(){
+		xdescribe("Breadcrumbs: ", function(){
 			it("should have the correct label", function(){
 				expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + testFileName.toUpperCase());
 			});
 		});
 
-		describe("Change base scenario: ", function(){
+		xdescribe("Change base scenario: ", function(){
 
 			it("should change the base scenario", function(){
 				var scenarios, scenario;
@@ -343,7 +346,7 @@ describe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Scenario Elements: ", function(){
+		xdescribe("Scenario Elements: ", function(){
 			var scenarioElements = "element in selectedItem.scenarioElements",
 				scenarioEditScenarioElements = "div[data-ms-id='ScenarioEdit.scenarioElements'] .dropdown-toggle",
 				allScenarioElements = element.all(by.repeater(scenarioElements)),
@@ -377,7 +380,7 @@ describe('Project Dashboard', function() {
 		});
 	});
 
-	describe("Edit controls on master project's master scenario", function(){
+	xdescribe("Edit controls on master project's master scenario", function(){
 		beforeEach(
 			function(){
 				browser.driver.manage().window().setSize(1280, 1024);

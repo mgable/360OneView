@@ -2,8 +2,20 @@
 
 var specs = require('./0.0-specs.js'),
 	_ = require('underscore'),
+	fs = require('fs'),
+	filename = "./test/e2e/project.json";
 
 data = {
+	saveProjectInfo: function(url, project, scenario){
+		var data = JSON.stringify({url: url, project: project, scenario: scenario});
+		fs.writeFileSync(filename, data);
+	},
+	readProjectInfo: function(){
+		return JSON.parse(fs.readFileSync(filename, {encoding: 'utf8'}));
+	},
+	deleteProjectInfo: function(){
+		fs.unlinkSync(filename);
+	},
 	selectMasterProject: function(){
 		var masterProject;
 		
@@ -20,6 +32,11 @@ data = {
 			input.sendKeys(specs.minimumCharacters + restrictedCharacter);
 			expect(submit.getAttribute('disabled')).toBeTruthy();
 		});
+	},
+	hasClass: function (element, cls) {
+	    return element.getAttribute('class').then(function (classes) {
+	        return classes.split(' ').indexOf(cls) !== -1;
+	    });
 	},
 	testMinAndMaxNameLength: function(input, submit){
 		input.clear();
@@ -54,16 +71,10 @@ data = {
 		specs.filterByItemButton.click();
 	},
 	getProjectUrl: function(){
-		return this.getProjectAbsoluteUrl() + specs.testQuery;
+		return browser.params.path + specs.projectUrl + specs.testQuery;
 	},
-	getProjectAbsoluteUrl: function(){
-		return browser.params.path + specs.projectUrl;
-	},
-	getDashboardUrl: function(id){
-		return this.getDashboardAbsoluteUrl(id) + specs.testQuery;
-	},
-	getDashboardAbsoluteUrl: function(id){
-		return browser.params.path + specs.dashboardUrl.replace(/:id/, id );
+	getDashboardUrl: function(projectId){
+		return browser.params.path + specs.dashboardUrl.replace(/:id/, projectId) + specs.testQuery;
 	}
 };
 
