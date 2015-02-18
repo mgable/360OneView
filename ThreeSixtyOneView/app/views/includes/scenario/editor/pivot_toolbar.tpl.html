@@ -62,13 +62,13 @@
                         </div>
                     </div>
 
-                    <div class="pbSec" ng-show="isFiltersVisible">
-                        <div class="pbSecTitle">Filters</div>
-                        <div class="pbFilterValues">
-                            <div ng-repeat="cat in getDimensions()" class="pbFilterBox clickable" ng-click="filtersModal(cat)" ng-if="addedFilters[cat.label]">
-                                <div class="pbFilterCat">{{cat.label}} <span class="pbFilterSize">({{categorizedValue[$index].selected}}/{{categorizedValue[$index].total}})</span></div>
-                                <div class="pbFilterVal" ng-show="categorizedValue[$index].selected < categorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{categorizedValue[$index].label.join(', ')}}">{{categorizedValue[$index].label.join(', ')}}</div>
-                                <div class="pbFilterVal" ng-hide="categorizedValue[$index].selected < categorizedValue[$index].total" title="{{categorizedValue[$index].label.join(', ')}}">All</div>
+                    <div class="dimensions-list filters-list" ng-show="isFiltersVisible">
+                        <div class="title">Filters</div>
+                        <div class="list">
+                            <div ng-repeat="cat in getDimensions()" class="filter-category clickable" ng-click="filtersModal(cat)" ng-if="addedFilters[cat.label]">
+                                <div class="filter-label">{{cat.label}}<span class="filter-stats">({{categorizedValue[$index].selected}}/{{categorizedValue[$index].total}})</span></div>
+                                <div class="selected-values text-holder" ng-show="categorizedValue[$index].selected < categorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{categorizedValue[$index].label.join(', ')}}">{{categorizedValue[$index].label.join(', ')}}</div>
+                                <div class="selected-values text-holder" ng-hide="categorizedValue[$index].selected < categorizedValue[$index].total" title="{{categorizedValue[$index].label.join(', ')}}">All</div>
                             </div>
                         </div>
                     </div>
