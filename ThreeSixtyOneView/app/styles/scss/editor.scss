@@ -3,18 +3,6 @@
 @import "new_variables";
 
 .editor {
-	.nav-tabs {
-		li.active {
-			background-color:$ms-lightGray;
-		}
-	}
-	.nav {
-		li {
-			div {
-				border: 0!important;
-			}
-		}
-	}
 	.ms-title {
 		font-size: 17px;
 		height: 31px;
@@ -99,7 +87,7 @@
 		}
 
 		.dropdown-menu {
-			left: 44px;
+			left: 23px;
 		}
 	}
 	
@@ -149,7 +137,33 @@
 			}
 		}
 	}
-	.recent-items {}
+	.recent-items {
+		color: $darkgray;
+		display: inline-block;
+		margin-left: 20px;
+		position: relative;
+		font-size: 14px;
+		vertical-align: top;
+
+		.dropdown-toggle {
+			i {
+				margin: 0 5px;
+			}
+
+			&:hover {
+				color: $blue;
+			}
+		}
+
+		.dropdown-menu {
+			width: 350px;
+			left: -50px;
+
+			hr {
+				margin: 10px 0;
+			}
+		}
+	}
 	.dimensions-list {}
 	.filter-values {}
 }

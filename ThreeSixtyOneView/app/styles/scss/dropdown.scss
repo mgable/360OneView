@@ -1,44 +1,50 @@
 /* Application Styles */
 @import "variables";
 @import "new_variables";
+
 .dropdown {
 	.dropdown-menu {
-		padding: 5px;
-		top: 25px;
+		top: 30px;
+		border-radius: 0;
+		background-color: white;
+		border: 1px solid $blue;
+		padding: 7px 0;
+		width: 125px;
+		box-shadow: 0 3px 10px rgba(160,160,160,0.5);
 
-		.dropdown-menu-visible {
-			background: white;
-			border: 1px solid $blue;
-			padding: 7px 0;
-			width: 125px;
-			box-shadow: 0 3px 10px rgba(160,160,160,0.5);
+		&::before {
+			position: absolute;
+			height: 11px;
+			width: 11px;
+			content: "";
+			border-left: 1px solid $blue;
+			border-top: 1px solid $blue;
+			@include vendor(transform, rotate(45deg));
+			left: 46%;
+			top: -6px;
+			z-index: 13;
+			background-color: white;
+		}
 
-			&::before {
-				position: absolute;
-				height: 11px;
-				width: 11px;
-				content: "";
-				border-left: 1px solid $blue;
-				border-top: 1px solid $blue;
-				@include vendor(transform, rotate(45deg));
-				left: 40%;
-				top: 0;
-				z-index: 13;
-				background-color: white;
+		.menu-item {
+			padding: 5px 20px;
+			cursor: pointer;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+
+			&:hover {
+				color: white;
+				background-color: $blue;
 			}
 
-			.menu-item {
-				padding: 5px 20px;
-				cursor: pointer;
+			i {
+				padding-right: 5px;
+			}
 
-				&:hover {
-					color: white;
-					background-color: $blue;
-				}
-
-				i {
-					padding-right: 5px;
-				}
+			&.selected {
+				background-color: $blue;
+				color: white;
 			}
 		}
 	}

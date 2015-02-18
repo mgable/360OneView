@@ -227,6 +227,10 @@
                     &:last-child {
                         border-right: none;
                     }
+
+                    a:hover {
+                        background-color: transparent;
+                    }
                 }
 
                 a.information {
