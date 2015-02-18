@@ -91,153 +91,137 @@
             }
         }
 	}
-	.results-view {
+	.results-toolbar {
         margin-bottom: 25px;
-        .tab-content {
-            >.tab-pane {
-                background-color: $lightestgray;
-                border-left: 1px solid #ddd;
-                border-right: 1px solid #ddd;
-                font-family: $sansFontFamily;
-                font-size: 14px;
-                color: $black;
-
-                >div {
-                    border-bottom: 1px solid #ddd;
-                }
-            }
-        }
-
-        .nav > li > a {
-            padding: 0;
-            margin-right: 0;
-            border-radius: 0;
-            border: none;
-            cursor: pointer;
-
-            > tab-heading > div {
-                border: 1px solid #ddd;
-                border-bottom: 0;
-
-                &.lightestgrayBg {
-                    background-color: $lightestgray;
-                    border-bottom-color: $lightestgray;
-                    cursor: pointer;
-                }
-            }
-
-            &:hover {
-                background-color: transparent;
-            }
-        }
 
         .nav-tabs {
-            border-bottom: none;
-            li {
-                margin-bottom: 0;
+            li.active {
+                background-color:$ms-lightGray;
             }
-
-            > li.active {
-                background-color: $lightestgray;
+        }
+        .nav {
+            li {
+                div {
+                    border: 0!important;
+                }
+            }
+        }
+        .header {
+            padding: 7.5px 15px;
+        }
+        .tab-content {
+            .content {
+                background-color: $ms-lightGray;
+                border: 1px solid $ms-mediumGray;
+                color: $ms-black;
+            }
+        }
+        .nav {
+            border-bottom: none;
+            > li {
+                height: 37px;
+                border: 1px solid $ms-mediumGray;
+                border-right:0px none;
+                &:last-child {
+                    border-right: 1px solid $ms-mediumGray;
+                }
+                &:hover {
+                    background-color: $ms-lightGray;
+                }
                 > a {
-                    background-color: transparent;
+                    padding: 0;
+                    margin-right: 0;
+                    border-radius: 0;
+                    border: none;
+                    cursor: pointer;
 
                     &:hover {
+                        background-color: $ms-lightGray;
                         border: none;
                     }
                 }
+                &.active {
+                    border-bottom: 1px solid $ms-lightGray;
+                    background-color: $ms-lightGray;
+                    a {
+                        background-color: $ms-lightGray;
+                    }
+                }
             }
         }
+        .ms-title {
+            font-size: 17px;
+            height: 31px;
+            padding: 3px 5px;
+            width: 300px;
+            border: 0;
+            color: $ms-black;
+            &:hover {
+                color: $ms-blue;
+                i {
+                    color: $ms-blue;
+                }
+            }
 
-        #resultViewsTab {
-            .srTitle {
-                font-size: 17px;
-                height: 31px;
-                padding: 3px 5px;
-                transition: width 0.3s linear;
-                transition: color 0.3s linear;
+            i {
+                vertical-align: top;
+                margin-top: 5px;
+                margin-right: 5px;
+            }
+
+            .text {
+                display: inline-block;
                 width: 250px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
 
-                &:hover {
-                    color: $blue;
+            .saveAsBox {
+                display: inline-block;
+                width: 250px;
+                border: 1px solid $ms-blue;
+                background-color: white;
 
-                    .srRenameArea {
-                        .fa-eye {
-                            color: $blue;
-                        }
+                input {
+                    width: 200px;
+                    height: 24px;
+                    border: 0;
+                    outline: 0;
+
+                    &:hover {
+                        color: $ms-black;
+                    }
+
+                    i {
+                        color: $ms-blue;
                     }
                 }
 
-                &.srTitleSel {
-                    border-bottom: 0;
-                    border-right: 0;
-                    border-top: 0;
-                    width: 240px;
-                    transition: width 0.3s linear;
-                }
-
-                .srRenameArea {
-                    width: 240px;
-
-                    .fa-eye {
-                        vertical-align: top;
-                        margin-top: 5px;
-                        margin-right: 5px;
-                    }
-
-                    .srTitleText {
-                        display: inline-block;
-                        border: 1px solid rgba(255,255,255,0);
-                        width: 200px;
-                        white-space: nowrap;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                    }
-
-                    .srSaveAsBox {
-                        display: inline-block;
-                        width: 200px;
-                        border: 1px solid $blue;
-                        background-color: white;
-
-                        input {
-                            width: 155px;
-                            height: 24px;
-                            border: 0;
-                            outline: 0;
-                        }
-
-                        .fa-check {
-                            color: $blue;
-                        }
-                    }
-                }
             }
         }
 
-        #resultViews {
-            .srSlider {
+        #results-toolbar-container {
+            .pbSlider {
                 border: 0;
                 padding: 0 16px;
 
-                .srControlBar {
-                    font-size: 16px;
-                    padding: 15px 0;
+                .pbControlBar {
+                    padding: 16px 0;
 
-                    .srSaveMenu {
-                        font-size: 14px;
+                    .save-menu {
                         display: inline-block;
                         position: relative;
-                        margin-left: 15px;
+                        // margin-left: 20px;
 
-                        .srSaveButton {
+                        .ms-button {
                             display: inline-block;
                             border: 1px solid $mediumgray;
                             padding: 1px 5px;
                             float: left;
                             color: $darkgray;
 
-                            .fa {
+                            i {
                                 padding-right: 5px;
                             }
 
@@ -247,75 +231,21 @@
                             }
                         }
 
-                        .srSaveDropButton {
+                        .dropdown-button {
                             display: inline-block;
                             border: 1px solid $mediumgray;
                             background-color: $mediumgray;
                             padding: 4px 4px;
                             float: left;
                             color: $darkgray;
-
-                            &:hover {
-                                background-color: $blue;
-                                border: 1px solid $blue;
-                                color: white;
-                            }
-
-                            &.srSaveDropSelected {
-                                background-color: $blue;
-                                border: 1px solid $blue;
-                                color: white;
-                            }
                         }
 
-                        .srViewSaveMenu {
-                            padding: 5px;
-                            left: 30%;
-                            top: 25px;
-
-                            .srViewSaveMenuVisible {
-                                background: white;
-                                border: 1px solid $blue;
-                                padding: 7px 0;
-                                width: 125px;
-                                box-shadow: 0 3px 10px rgba(160,160,160,0.5);
-
-                                &::before {
-                                    position: absolute;
-                                    height: 11px;
-                                    width: 11px;
-                                    content: "";
-                                    border-left: 1px solid $blue;
-                                    border-top: 1px solid $blue;
-                                    -webkit-transform: rotate(45deg);
-                                    -moz-transform: rotate(45deg);
-                                    -ms-transform: rotate(45deg);
-                                    -o-transform: rotate(45deg);
-                                    transform: rotate(45deg);
-                                    left: 40%;
-                                    top: 0;
-                                    z-index: 13;
-                                    background-color: white;
-                                }
-
-                                .srViewSaveMenuItem {
-                                    padding: 5px 20px;
-                                    cursor: pointer;
-
-                                    &:hover {
-                                        color: white;
-                                        background-color: $blue;
-                                    }
-
-                                    .fa {
-                                        padding-right: 5px;
-                                    }
-                                }
-                            }
+                        .dropdown-menu {
+                            left: 44px;
                         }
                     }
 
-                    .srViewsList {
+                    .pbViewsList {
                         color: $darkgray;
                         display: inline-block;
                         margin-left: 20px;
@@ -324,12 +254,12 @@
                         vertical-align: top;
 
                         &:hover {
-                            .srRecentViewsButton {
+                            .pbRecentViewsButton {
                                 color: $blue;
                             }
                         }
 
-                        .srRecentViewsButton {
+                        .pbRecentViewsButton {
                             padding: 1px 5px;
 
                             .fa:first-child {
@@ -341,7 +271,7 @@
                             }
                         }
 
-                        .srRecentViewsMenu {
+                        .pbRecentViewsMenu {
                             position: absolute;
                             min-height: 250px;
                             width: 290px;
@@ -350,7 +280,7 @@
                             left: -50%;
                             z-index: 10;
 
-                            .srRecentViewsMenuVisible {
+                            .pbRecentViewsMenuVisible {
                                 background: white;
                                 border: 1px solid $blue;
                                 padding: 7px 0;
@@ -409,70 +339,44 @@
                         }
                     }
 
-                    .srSwitch {
-                        float: right;
-                        display: inline-block;
-                        margin-right: 15px;
+                    .pbFunctionFlip {
+                        color: $darkgray;
                         font-size: 14px;
-                        .srSwitchTitle {
-                            margin: 10px 10px 10px 15px;
-                            display: inline-block;
-                        }
-                    }
-                }
-
-                .srSec {
-                    margin-bottom: 10px 0;
-
-                    .srSecTitle {
-                        margin: 5px 30px 5px 15px;
                         display: inline-block;
-                        width: 100px;
-                        float: left;
-                    }
+                        margin-left: 20px;
+                        position: relative;
 
-                    .srFilterValues {
-                        vertical-align: top;
-                        outline: 0;
-                        margin-right: 20px;
-                        overflow: hidden;
+                        .pbFunctionFlipTitle {
+                            float: left;
+                            margin-right: 10px;
+                            line-height: 24px;
+                        }
+                        .pbFunctionFlipButton {
+                            float: left;
+                            background-color: $mediumgray;
+                            margin: 0;
+                            padding: 2px 8px;
 
-                        .srFilterBox {
-                            &.disabled {
-                                .srFilterCat {
-                                    color: $disabled;
-                                }
-                                .srFilterVal {
-                                    color: $disabled;
-                                }
-                            }
-                            display: inline-block;
-                            width: 22.39%;
-                            min-width: 215px;
-                            margin-right: 25px;
-                            margin-top: 5px;
-
-                            .srFilterCat {
-                                color: $darkgray;
-                            }
-
-                            .srFilterVal {
-                                color: $blue;
-                                white-space: nowrap;
-                                overflow: hidden;
-                                text-overflow: ellipsis;
+                            &.selected {
+                                background-color: $blue;
+                                color: white;
                             }
                         }
                     }
                 }
 
-                .srSliderCollapse {
-                    text-align: center;
-                    color: $gray;
-                    font-size: 12px;
-
-                    &:hover {
-                        color: $blue;
+                .pbSec {
+                    .pbFilterValues {
+                        .pbFilterBox {
+                            &.disabled {
+                                .pbFilterCat {
+                                    color: $disabled;
+                                }
+                                .pbFilterVal {
+                                    color: $disabled;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -667,15 +571,6 @@
             }
         }
     }
-    .srGray {
-        color: $darkgray;
-    }
-    .blue {
-        color: $blue;
-    }
-    .bold {
-        font-weight: bold;
-    }
     .dropdown-menu {
         background-color: transparent;
         border: 0;
@@ -714,49 +609,23 @@
     }
 }
 /* D3 */
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #ccc;
-  shape-rendering: crispEdges;
-}
-#stripe {
-    line {
-        fill: white;
-        stroke: white;
-        stroke-linecap: square;
-        stroke-linejoin: miter;
-        stroke-width: 10px;
+ms-bar-chart {
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #ccc;
+      shape-rendering: crispEdges;
     }
-}
-/* switch */
-.unselectable {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-.ms-switch {
-    height: 24px;
-    line-height: 22px;
-    padding: 0;
-    @extend .unselectable;
-    button {
-        outline:none;
-        border-radius: 3px 3px 3px 3px;
-        text-align: center;
-        font-size: 13px;
-        width: 40px;
-        background-color:#CCCCCC;
-        color:#666666;
-        @extend .unselectable;
-        &.selected{
-            color:#FFF;
-            background-color: #295da7;
+    #stripe {
+        line {
+            fill: white;
+            stroke: white;
+            stroke-linecap: square;
+            stroke-linejoin: miter;
+            stroke-width: 10px;
         }
     }
+    text { font-size: 12px; }
 }
 /* D3-Tip */
 .d3-tip {
@@ -782,7 +651,4 @@
         top: 100%;
         left: 0;
     }
-}
-ms-bar-chart text {
-    font-size: 12px;
 }
