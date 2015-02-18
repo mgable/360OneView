@@ -1,19 +1,15 @@
-<section class="srDropdown">
+<div class="scenario-type-dropdown">
 	<div class="dropdown">
 		<span>Results compared to </span>
-		<span class="dropdown-toggle srDropdownBtn clickable">
+		<span class="dropdown-toggle clickable">
 			{{selectedView.title}}&nbsp;<icon type="caret-down"></icon>
 		</span>
-		<ul class="dropdown-menu srDropdownMenu">
-			<div class="srDropdownMenuVisible">
-				<li ng-repeat="view in viewsList | limitTo:4">
-					<div ng-click="loadComparedView(view.id)" title="{{view.title}}">{{view.title}}</div>
-				</li>
-				<hr>
-				<li>
-					<div ng-click="openAllComparedViewsModal()"><icon type="folder-open-o"></icon>All Scenarios</div>
-				</li>
-			</div>
+		<ul class="dropdown-menu" ms-link-group selected-item="" radio="true">
+			<li ng-repeat="view in viewsList | orderBy:'-createdOn' | limitTo:5" class="menu-item">
+				<div ng-click="loadComparedView(view.id)" title="{{view.title}}">{{view.title}}</div>
+			</li>
+			<hr>
+			<li class="menu-item" ng-click="openAllComparedViewsModal()"><icon type="folder-open-o"></icon>All Scenarios</li>
 		</ul>
 	</div>
-</section>
+</div>
