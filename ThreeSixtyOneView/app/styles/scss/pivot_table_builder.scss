@@ -1,47 +1,6 @@
 @import "variables";
 @import "new_variables";
 
-#pivotBuilder {
-	.pbSlider {
-		border: 0;
-		padding: 0 16px;
-
-		.pbControlBar {
-			padding: 16px 0;
-
-			.pbFunctionFlip {
-				color: $darkgray;
-
-				.pbFunctionFlipButton {
-					background-color: $mediumgray;
-					margin: 0;
-					padding: 4px 13px;
-					display: inline-block;
-					float: left;
-					font-size: 16px;
-
-					&.selected {
-						background-color: $blue;
-						color: white;
-					}
-				}
-			}
-		}
-	}
-
-	.pbGray {
-		color: $darkgray;
-	}
-
-	.blue {
-		color: $blue;
-	}
-
-	.bold {
-		font-weight: bold;
-	}
-}
-
 .filtersSelectionModal {
 	.filter-modal-header {
 		h4 {

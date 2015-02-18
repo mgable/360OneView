@@ -13,11 +13,11 @@
                 </div>
             </tab-heading>
             <div id="pivotBuilder" class="content">
-                <div class="pbSlider">
-                    <div class="pbControlBar">
-                        <div class="pbFunctionFlip clickable" ms-link-group  selected-item="table">
-                            <div class="pbFunctionFlipButton" ng-click="showTable(false);" ms-link="table"><icon type="table"></icon></div>
-                            <div class="pbFunctionFlipButton" ng-click="showTable(true);" ms-link="filters"><icon type="filter"></icon></div>
+                <div class="slider">
+                    <div class="toolbar">
+                        <div class="toggle-switch clickable" ms-link-group selected-item="table" radio="true">
+                            <div class="switch" ng-click="showTable(false);" ms-link="table"><icon type="table"></icon></div>
+                            <div class="switch" ng-click="showTable(true);" ms-link="filters"><icon type="filter"></icon></div>
                         </div>
 
                         <div class="save-menu">
@@ -53,9 +53,9 @@
                     </div>
 
                     <div id="dragDropArea" ng-hide="isFiltersVisible">
-                        <div ng-repeat="pivotBuilderItem in getPivotBuilderItems()" class="pbSec" ng-if="viewData">
-                            <div class="pbSecTitle">{{pivotBuilderItem.label}}</div>
-                            <div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="viewData[pivotBuilderItem.name]" tabindex="-1">
+                        <div ng-repeat="pivotBuilderItem in getPivotBuilderItems()" class="dimensions-list" ng-if="viewData">
+                            <div class="title">{{pivotBuilderItem.label}}</div>
+                            <div class="list" data-as-sortable="dragOptions" ng-model="viewData[pivotBuilderItem.name]" tabindex="-1">
                                 <draggable-dimension ng-repeat="item in getViewData(pivotBuilderItem.name)" row-or-col="{{pivotBuilderItem.name}}" template="draggable_dimension"></draggable-dimension>
                                 <draggable-dimension row-or-col="{{pivotBuilderItem.name}}" template="add_dimension_button" ng-hide="isDragging"></draggable-dimension>
                             </div>
@@ -72,7 +72,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="pbSliderCollapse">
+                    <div class="collapse-handle">
                         <span class="clickable" ng-click="cancelSaveAs();" collapse-control target-area="#pivotBuilder">
                             <icon type="chevron-up"></icon>Collapse
                         </span>

@@ -1,7 +1,7 @@
-<div class="dimensionItem dropdown" data-as-sortable-item>
+<div class="draggable-item dropdown" data-as-sortable-item>
 	<div data-as-sortable-item-handle>
 		<span title="Reorder"><icon type="reorder"></icon></span>
-		<span class="dimensionItemInfo dropdown-toggle">
+		<span class="label dropdown-toggle">
 			<span class="dimensionItemName clickable">{{item.level.label.toLowerCase()}}</span>
 		</span>
 		<span ng-hide="!!lockedDimensions[item.level.label]" class="actionIcon clickable" title="Remove" ng-click="delete($index)"><icon type="remove"></icon></span>
