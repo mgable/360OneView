@@ -394,14 +394,14 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.spendViewData.id = originalViewId;
 
             // update spend view
-            $scope.updateView($scope.spendCubeId, $scope.spendViewData).then(function(view) {
+            PivotMetaService.updateView($scope.spendCubeId, $scope.spendViewData).then(function(view) {
                 console.log('save spend view: ', view);
                 $scope.spendViewData = view;
                 $scope.spendAdded = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
                 // update kpi view
                 ManageAnalysisViewsService.getViewRelatedBy($scope.spendViewData.id, $scope.kpiCubeId).then(function(_KPIView) {
                     $scope.kpiView = _KPIView;
-                    $scope.updateView($scope.kpiCubeId, $scope.kpiView).then(function(view) {
+                    PivotMetaService.updateView($scope.kpiCubeId, $scope.kpiView).then(function(view) {
                         console.log('save kpi view: ', view);
                         $scope.kpiViewData = view;
                         $scope.kpiAdded = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
@@ -438,7 +438,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 }
             });
         } else {
-            $scope.updateView($scope.spendCubeId, $scope.spendViewData).then(function(response) {
+            PivotMetaService.updateView($scope.spendCubeId, $scope.spendViewData).then(function(response) {
                 console.log('update spend view: ', response);
                 // spend summary
                 $scope.spendViewId = response.id;
@@ -468,12 +468,12 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             kpiDraftView.name = 'Draft - ' + kpiDraftView.name;
             $scope.createView($scope.spendCubeId, spendDraftView, $scope.spendViewsList).then(function(response) {
                 console.log('create kpi view: ', response);
-                $scope.updateView($scope.kpiCubeId, $scope.kpiViewData).then(function() {
+                PivotMetaService.updateView($scope.kpiCubeId, $scope.kpiViewData).then(function() {
                     getKPIView($scope.spendViewId);
                 });
             });
         } else {
-            $scope.updateView($scope.kpiCubeId, $scope.kpiViewData).then(function(response) {
+            PivotMetaService.updateView($scope.kpiCubeId, $scope.kpiViewData).then(function(response) {
                 console.log('update kpi view: ', response);
                 getKPISummary($scope.spendViewId);
             });

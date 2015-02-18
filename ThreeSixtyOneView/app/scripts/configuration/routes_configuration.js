@@ -54,7 +54,8 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
     .state("Scenario.edit", {
         url: "/edit/:scenarioElementId",
         views: {
-          'display' : {
+          'editor' : {
+            controller: "scenarioEditorCtrl",
             templateUrl: "views/includes/scenario/editor.tpl.html"
           }
         },

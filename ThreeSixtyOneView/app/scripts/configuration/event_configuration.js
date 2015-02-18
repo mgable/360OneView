@@ -12,13 +12,14 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     gotoDashboard: 'GotoService:dashboard',
     filter: 'SortAndFilterService:filter',
     getNewProjectTitle: "DialogService:create",
-    selectScenarioElement: "PivotBuilderCtrl:loadCube",
     openScenarioCreate: "DialogService:openCreateScenario",
     newSelectedItem: "ListingView:newSelectedItem",
     trayCopy: "Tray:copy",
     changePivotTableFilter: "PivotTable:changeFilter",
     tabClosed: "TabControl:closeAll",
     noop: "noop",
+    // Scenario editor and results
+    scenarioElementChange: "PivotBuilderCtrl:loadCube",
     // ERRORS
     noDataReceived: "ErrorService:noDataReceived",
     serverError: "ErrorService:serverError",
