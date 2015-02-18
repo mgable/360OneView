@@ -3,6 +3,66 @@
 @import "new_variables";
 
 .editor {
+	.tab-content {
+		.content {
+			background-color: $ms-lightGray;
+			border: 1px solid $ms-mediumGray;
+			color: $ms-black;
+		}
+
+		.collapse-handle {
+			text-align: center;
+			color: $gray;
+			font-size: 12px;
+
+			i {
+				margin-right: 5px;
+			}
+
+			&:hover {
+				color: $blue;
+			}
+		}
+	}
+
+	.nav {
+		border-bottom: none;
+		> li {
+			height: 37px;
+			border: 1px solid $ms-mediumGray;
+			border-right:0px none;
+			&:last-child {
+				border-right: 1px solid $ms-mediumGray;
+			}
+			&:hover {
+				background-color: $ms-lightGray;
+			}
+			> a {
+				padding: 0;
+				margin-right: 0;
+				border-radius: 0;
+				border: none;
+				cursor: pointer;
+
+				&:hover {
+					background-color: $ms-lightGray;
+					border: none;
+				}
+			}
+			&.active {
+				border-bottom: 1px solid $ms-lightGray;
+				background-color: $ms-lightGray;
+				a {
+					background-color: $ms-lightGray;
+				}
+			}
+		}
+	}
+
+	.header {
+		padding: 7.5px 15px;
+	}
+
 	.ms-title {
 		font-size: 17px;
 		height: 31px;
@@ -54,18 +114,27 @@
 
 		}
 	}
-	.slider {}
+
+	.slider {
+		padding: 0 15px;
+
+		.toolbar {
+			padding: 15px 0;
+		}
+	}
+
 	.save-menu {
 		display: inline-block;
 		position: relative;
 		margin-left: 20px;
+		color: $ms-darkGray;
 
 		.ms-button {
 			display: inline-block;
-			border: 1px solid $mediumgray;
+			border: 1px solid $ms-mediumLightGray;
 			padding: 1px 5px;
 			float: left;
-			color: $darkgray;
+			/*color: $ms-darkGray;*/
 
 			i {
 				padding-right: 5px;
@@ -79,66 +148,38 @@
 		
 		.dropdown-button {
 			display: inline-block;
-			border: 1px solid $mediumgray;
-			background-color: $mediumgray;
+			border: 1px solid $ms-mediumLightGray;
+			background-color: $ms-mediumLightGray;
 			padding: 4px 4px;
 			float: left;
-			color: $darkgray;
+			/*color: $ms-darkGray;*/
 		}
 
 		.dropdown-menu {
 			left: 23px;
 		}
 	}
-	
 
-	.header {
-		padding: 7.5px 15px;
-	}
+	.toggle-switch {
+		color: $ms-darkGray;
 
-	.tab-content {
-		.content {
-			background-color: $ms-lightGray;
-			border: 1px solid $ms-mediumGray;
-			color: $ms-black;
-		}
-	}
+		.switch {
+			background-color: $ms-mediumLightGray;
+			margin: 0;
+			padding: 4px 13px;
+			display: inline-block;
+			float: left;
+			font-size: 16px;
 
-	.nav {
-		border-bottom: none;
-		> li {
-			height: 37px;
-			border: 1px solid $ms-mediumGray;
-			border-right:0px none;
-			&:last-child {
-				border-right: 1px solid $ms-mediumGray;
-			}
-			&:hover {
-				background-color: $ms-lightGray;
-			}
-			> a {
-				padding: 0;
-				margin-right: 0;
-				border-radius: 0;
-				border: none;
-				cursor: pointer;
-
-				&:hover {
-					background-color: $ms-lightGray;
-					border: none;
-				}
-			}
-			&.active {
-				border-bottom: 1px solid $ms-lightGray;
-				background-color: $ms-lightGray;
-				a {
-					background-color: $ms-lightGray;
-				}
+			&.selected {
+				background-color: $ms-blue;
+				color: white;
 			}
 		}
 	}
+
 	.recent-items {
-		color: $darkgray;
+		color: $ms-darkGray;
 		display: inline-block;
 		margin-left: 20px;
 		position: relative;
@@ -158,12 +199,50 @@
 		.dropdown-menu {
 			width: 350px;
 			left: -50px;
+		}
+	}
 
-			hr {
-				margin: 10px 0;
+	.dimensions-list {
+		margin-bottom: 10px;
+
+		.title {
+			vertical-align: middle;
+			display: inline-block;
+			width: 80px;
+		}
+
+		.list {
+			outline: 0;
+			vertical-align: middle;
+			display: inline-block;
+		}
+	}
+
+	.filters-list {
+
+		.list {
+			vertical-align: top;
+			overflow: hidden;
+			width: 100%;
+
+			.filter-category {
+				display: inline-block;
+				width: 22.39%;
+				min-width: 215px;
+				margin-right: 25px;
+
+				.filter-label {
+					color: $darkgray;
+
+					.filter-stats {
+						margin-left: 5px;
+					}
+				}
+
+				.filter-values {
+					color: $blue;
+				}
 			}
 		}
 	}
-	.dimensions-list {}
-	.filter-values {}
 }
