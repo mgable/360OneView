@@ -145,7 +145,7 @@
 				color: $blue;
 			}
 		}
-		
+
 		.dropdown-button {
 			display: inline-block;
 			border: 1px solid $ms-mediumLightGray;
@@ -208,7 +208,9 @@
 		.title {
 			vertical-align: middle;
 			display: inline-block;
-			width: 80px;
+			width: 100px;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 
 		.list {

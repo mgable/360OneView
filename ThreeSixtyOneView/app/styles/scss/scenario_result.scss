@@ -8,55 +8,32 @@
         }
     }
 	.editor {
-        .pbSlider {
-            border: 0;
-            padding: 0 16px;
+        .save-menu {
+            margin-left: 0;
+        }
 
-            .pbControlBar {
-                padding: 16px 0;
+        .toggle-switch {
+            display: inline-block;
+            margin-left: 20px;
 
-                .save-menu {
-                    margin-left: 0;
-                }
-
-                .pbFunctionFlip {
-                    color: $darkgray;
-                    font-size: 14px;
-                    display: inline-block;
-                    margin-left: 20px;
-                    position: relative;
-
-                    .pbFunctionFlipTitle {
-                        float: left;
-                        margin-right: 10px;
-                        line-height: 24px;
-                    }
-                    .pbFunctionFlipButton {
-                        float: left;
-                        background-color: $mediumgray;
-                        margin: 0;
-                        padding: 2px 8px;
-
-                        &.selected {
-                            background-color: $blue;
-                            color: white;
-                        }
-                    }
-                }
+            .toggle-switch-title {
+                float: left;
+                margin-right: 10px;
+                line-height: 24px;
             }
+            .switch {
+                font-size: 14px;
+                padding: 2px 6px;
+            }
+        }
 
-            .pbSec {
-                .pbFilterValues {
-                    .pbFilterBox {
-                        &.disabled {
-                            .pbFilterCat {
-                                color: $disabled;
-                            }
-                            .pbFilterVal {
-                                color: $disabled;
-                            }
-                        }
-                    }
+        .filter-category {
+            &.disabled {
+                .filter-label {
+                    color: $disabled;
+                }
+                .filter-values {
+                    color: $disabled;
                 }
             }
         }
