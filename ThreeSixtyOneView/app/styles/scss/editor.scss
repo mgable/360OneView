@@ -131,7 +131,7 @@
 
 		.ms-button {
 			display: inline-block;
-			border: 1px solid $ms-mediumGray;
+			border: 1px solid $ms-mediumLightGray;
 			padding: 1px 5px;
 			float: left;
 			/*color: $ms-darkGray;*/
@@ -148,8 +148,8 @@
 		
 		.dropdown-button {
 			display: inline-block;
-			border: 1px solid $ms-mediumGray;
-			background-color: $ms-mediumGray;
+			border: 1px solid $ms-mediumLightGray;
+			background-color: $ms-mediumLightGray;
 			padding: 4px 4px;
 			float: left;
 			/*color: $ms-darkGray;*/
@@ -164,7 +164,7 @@
 		color: $ms-darkGray;
 
 		.switch {
-			background-color: $ms-mediumGray;
+			background-color: $ms-mediumLightGray;
 			margin: 0;
 			padding: 4px 13px;
 			display: inline-block;
@@ -208,7 +208,7 @@
 		.title {
 			vertical-align: middle;
 			display: inline-block;
-			width: 100px;
+			width: 70px;
 		}
 
 		.list {
@@ -218,5 +218,5 @@
 		}
 	}
 
-	.filter-values {}
+	.filters-list {}
 }
