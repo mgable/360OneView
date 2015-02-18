@@ -1,20 +1,20 @@
 <div id="exportBody" class="importExport hidden content">
 	<div class="tabTitle">Exporting Data</div>
 	<div id="exportDragArea" ng-hide="isExportInProgress">
-		<div class="pbSec">
-			<div class="pbSecTitle">Dimensions</div>
-			<div class="pbItemsHolder" data-as-sortable="dragOptions" ng-model="exportViewData.rows" tabindex="-1">
+		<div class="dimensions-list">
+			<div class="title">Dimensions</div>
+			<div class="list" data-as-sortable="dragOptions" ng-model="exportViewData.rows" tabindex="-1">
 				<draggable-dimension ng-repeat="item in getExportViewDataRows()" template="draggable_dimension" added-values="exportAddedDimensions"></draggable-dimension>
 				<draggable-dimension ng-hide="isDragging" added-values="exportAddedDimensions" template="add_dimension_button"></draggable-dimension>
 			</div>
 		</div>
-	   <div class="pbSec">
-			<div class="pbSecTitle">Filters</div>
-			<div class="pbFilterValues">
-				<div ng-repeat="cat in getDimensions()" class="pbFilterBox clickable" ng-click="filtersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="addedExportFilters[cat.label]">
-					<div class="pbFilterCat">{{cat.label}} <span class="pbFilterSize">({{categorizedExportValue[$index].selected}}/{{categorizedExportValue[$index].total}})</span></div>
-					<div class="pbFilterVal" ng-show="categorizedExportValue[$index].selected < categorizedExportValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{categorizedExportValue[$index].label.join(', ')}}">{{categorizedExportValue[$index].label.join(', ')}}</div>
-					<div class="pbFilterVal" ng-hide="categorizedExportValue[$index].selected < categorizedExportValue[$index].total" title="{{categorizedExportValue[$index].label.join(', ')}}">All</div>
+	   <div class="filters-list dimensions-list">
+			<div class="title">Filters</div>
+			<div class="list">
+				<div ng-repeat="cat in getDimensions()" class="filter-category clickable" ng-click="filtersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="addedExportFilters[cat.label]">
+					<div class="filter-label">{{cat.label}}<span class="filter-stats">({{categorizedExportValue[$index].selected}}/{{categorizedExportValue[$index].total}})</span></div>
+					<div class="filter-values text-holder" ng-show="categorizedExportValue[$index].selected < categorizedExportValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{categorizedExportValue[$index].label.join(', ')}}">{{categorizedExportValue[$index].label.join(', ')}}</div>
+					<div class="filter-values text-holder" ng-hide="categorizedExportValue[$index].selected < categorizedExportValue[$index].total" title="{{categorizedExportValue[$index].label.join(', ')}}">All</div>
 				</div>
 			</div>
 		</div>
