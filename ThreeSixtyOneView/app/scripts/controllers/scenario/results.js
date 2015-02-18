@@ -248,7 +248,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     init = function() {
         // view scope variables
         $scope.saveAs = false;
-        $scope.rename = false;
         $scope.isSynced = true;
 
         // spend view scope variables
