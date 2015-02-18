@@ -2,379 +2,58 @@
 @import "new_variables";
 
 .scenario_results {
-	.srDropdown {
-		span {
-			font-size: 17px;
-			line-height: 22px;
-			font-weight: 300;
-		}
-        color: #666666;
-        display: inline-block;
-        position: relative;
-        vertical-align: top;
-        .dropdown {
-            margin: 0 20px 20px 0;
-            .srDropdownBtn {
-                color: #f35528;
-                text-decoration: none;
-                font-weight: 700;
-                i {
-                    color: #999;
-                    font-size: 14px;
+    .scenario-type-dropdown {
+        .dropdown-menu {
+            left: 163px;
+        }
+    }
+	.editor {
+        .pbSlider {
+            border: 0;
+            padding: 0 16px;
+
+            .pbControlBar {
+                padding: 16px 0;
+
+                .save-menu {
+                    margin-left: 0;
                 }
-            }
-            .srDropdownMenu {
-                position: absolute;
-                min-height: 250px;
-                width: 290px;
-                padding: 20px;
-                padding-top: 0;
-                left: 27%;
-                z-index: 10;
 
-                .srDropdownMenuVisible {
-                    background: white;
-                    border: 1px solid $blue;
-                    padding: 7px 0;
-                    width: 250px;
-                    position: absolute;
-                    top: 7px;
-                    box-shadow: 0 3px 10px rgba(100,100,100,0.5);
+                .pbFunctionFlip {
+                    color: $darkgray;
+                    font-size: 14px;
+                    display: inline-block;
+                    margin-left: 20px;
+                    position: relative;
 
-                    &::before {
-                        position: absolute;
-                        height: 11px;
-                        width: 11px;
-                        content: "";
-                        border-left: 1px solid $blue;
-                        border-top: 1px solid $blue;
-                        -webkit-transform: rotate(45deg);
-                        -moz-transform: rotate(45deg);
-                        -ms-transform: rotate(45deg);
-                        -o-transform: rotate(45deg);
-                        transform: rotate(45deg);
-                        top: -6px;
-                        left: 47%;
-                        z-index: 13;
-                        background-color: white;
+                    .pbFunctionFlipTitle {
+                        float: left;
+                        margin-right: 10px;
+                        line-height: 24px;
                     }
-
-                    li {
-                        div {
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            padding: 5px 20px;
-                            cursor: pointer;
-
-                            &:hover {
-                                background-color: $lightgray;
-                            }
-
-                            i {
-                                margin-right: 5px;
-                            }
-                        }
+                    .pbFunctionFlipButton {
+                        float: left;
+                        background-color: $mediumgray;
+                        margin: 0;
+                        padding: 2px 8px;
 
                         &.selected {
-                            div {
-                                background-color: $blue;
-                                color: white;
+                            background-color: $blue;
+                            color: white;
+                        }
+                    }
+                }
+            }
+
+            .pbSec {
+                .pbFilterValues {
+                    .pbFilterBox {
+                        &.disabled {
+                            .pbFilterCat {
+                                color: $disabled;
                             }
-                        }
-                    }
-
-                    hr {
-                        margin: 12px 0;
-                    }
-                }
-            }
-        }
-	}
-	.results-toolbar {
-        margin-bottom: 25px;
-
-        .nav-tabs {
-            li.active {
-                background-color:$ms-lightGray;
-            }
-        }
-        .nav {
-            li {
-                div {
-                    border: 0!important;
-                }
-            }
-        }
-        .header {
-            padding: 7.5px 15px;
-        }
-        .tab-content {
-            .content {
-                background-color: $ms-lightGray;
-                border: 1px solid $ms-mediumGray;
-                color: $ms-black;
-            }
-        }
-        .nav {
-            border-bottom: none;
-            > li {
-                height: 37px;
-                border: 1px solid $ms-mediumGray;
-                border-right:0px none;
-                &:last-child {
-                    border-right: 1px solid $ms-mediumGray;
-                }
-                &:hover {
-                    background-color: $ms-lightGray;
-                }
-                > a {
-                    padding: 0;
-                    margin-right: 0;
-                    border-radius: 0;
-                    border: none;
-                    cursor: pointer;
-
-                    &:hover {
-                        background-color: $ms-lightGray;
-                        border: none;
-                    }
-                }
-                &.active {
-                    border-bottom: 1px solid $ms-lightGray;
-                    background-color: $ms-lightGray;
-                    a {
-                        background-color: $ms-lightGray;
-                    }
-                }
-            }
-        }
-        .ms-title {
-            font-size: 17px;
-            height: 31px;
-            padding: 3px 5px;
-            width: 300px;
-            border: 0;
-            color: $ms-black;
-            &:hover {
-                color: $ms-blue;
-                i {
-                    color: $ms-blue;
-                }
-            }
-
-            i {
-                vertical-align: top;
-                margin-top: 5px;
-                margin-right: 5px;
-            }
-
-            .text {
-                display: inline-block;
-                width: 250px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            .saveAsBox {
-                display: inline-block;
-                width: 250px;
-                border: 1px solid $ms-blue;
-                background-color: white;
-
-                input {
-                    width: 200px;
-                    height: 24px;
-                    border: 0;
-                    outline: 0;
-
-                    &:hover {
-                        color: $ms-black;
-                    }
-
-                    i {
-                        color: $ms-blue;
-                    }
-                }
-
-            }
-        }
-
-        #results-toolbar-container {
-            .pbSlider {
-                border: 0;
-                padding: 0 16px;
-
-                .pbControlBar {
-                    padding: 16px 0;
-
-                    .save-menu {
-                        display: inline-block;
-                        position: relative;
-                        // margin-left: 20px;
-
-                        .ms-button {
-                            display: inline-block;
-                            border: 1px solid $mediumgray;
-                            padding: 1px 5px;
-                            float: left;
-                            color: $darkgray;
-
-                            i {
-                                padding-right: 5px;
-                            }
-
-                            &:hover {
-                                border: 1px solid $blue;
-                                color: $blue;
-                            }
-                        }
-
-                        .dropdown-button {
-                            display: inline-block;
-                            border: 1px solid $mediumgray;
-                            background-color: $mediumgray;
-                            padding: 4px 4px;
-                            float: left;
-                            color: $darkgray;
-                        }
-
-                        .dropdown-menu {
-                            left: 44px;
-                        }
-                    }
-
-                    .pbViewsList {
-                        color: $darkgray;
-                        display: inline-block;
-                        margin-left: 20px;
-                        position: relative;
-                        font-size: 14px;
-                        vertical-align: top;
-
-                        &:hover {
-                            .pbRecentViewsButton {
-                                color: $blue;
-                            }
-                        }
-
-                        .pbRecentViewsButton {
-                            padding: 1px 5px;
-
-                            .fa:first-child {
-                                padding-right: 5px;
-                            }
-
-                            .fa:last-child {
-                                padding-left: 5px;
-                            }
-                        }
-
-                        .pbRecentViewsMenu {
-                            position: absolute;
-                            min-height: 250px;
-                            width: 290px;
-                            padding: 20px;
-                            padding-top: 0;
-                            left: -50%;
-                            z-index: 10;
-
-                            .pbRecentViewsMenuVisible {
-                                background: white;
-                                border: 1px solid $blue;
-                                padding: 7px 0;
-                                width: 250px;
-                                position: absolute;
-                                top: 7px;
-                                box-shadow: 0 3px 10px rgba(100,100,100,0.5);
-
-                                &::before {
-                                    position: absolute;
-                                    height: 11px;
-                                    width: 11px;
-                                    content: "";
-                                    border-left: 1px solid $blue;
-                                    border-top: 1px solid $blue;
-                                    -webkit-transform: rotate(45deg);
-                                    -moz-transform: rotate(45deg);
-                                    -ms-transform: rotate(45deg);
-                                    -o-transform: rotate(45deg);
-                                    transform: rotate(45deg);
-                                    top: -6px;
-                                    left: 47%;
-                                    z-index: 13;
-                                    background-color: white;
-                                }
-
-                                li {
-                                    div {
-                                        white-space: nowrap;
-                                        overflow: hidden;
-                                        text-overflow: ellipsis;
-                                        padding: 5px 20px;
-                                        cursor: pointer;
-
-                                        &:hover {
-                                            background-color: $lightgray;
-                                        }
-
-                                        i {
-                                            margin-right: 5px;
-                                        }
-                                    }
-
-                                    &.selected {
-                                        div {
-                                            background-color: $blue;
-                                            color: white;
-                                        }
-                                    }
-                                }
-
-                                hr {
-                                    margin: 12px 0;
-                                }
-                            }
-                        }
-                    }
-
-                    .pbFunctionFlip {
-                        color: $darkgray;
-                        font-size: 14px;
-                        display: inline-block;
-                        margin-left: 20px;
-                        position: relative;
-
-                        .pbFunctionFlipTitle {
-                            float: left;
-                            margin-right: 10px;
-                            line-height: 24px;
-                        }
-                        .pbFunctionFlipButton {
-                            float: left;
-                            background-color: $mediumgray;
-                            margin: 0;
-                            padding: 2px 8px;
-
-                            &.selected {
-                                background-color: $blue;
-                                color: white;
-                            }
-                        }
-                    }
-                }
-
-                .pbSec {
-                    .pbFilterValues {
-                        .pbFilterBox {
-                            &.disabled {
-                                .pbFilterCat {
-                                    color: $disabled;
-                                }
-                                .pbFilterVal {
-                                    color: $disabled;
-                                }
+                            .pbFilterVal {
+                                color: $disabled;
                             }
                         }
                     }
@@ -383,19 +62,13 @@
         }
 	}
     .results-panel {
-        margin-bottom: 5px;
+        margin-top: 25px;
         .results-panel-title {
             font-weight: 300;
             font-size: 30px;
             margin: 0 0 10px;
-            // text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.75);
         }
         .result-panel-body {
-            margin-bottom: 25px;
-            &.compact {
-                padding: 0;
-                height: 180
-            }
             .kpi-container {
                 text-align: center;
                 .kpi-title {
@@ -421,9 +94,6 @@
                         margin: 0 5px 10px 0;
                     }
                 }
-                .kpi-unit {
-                    font-size: 40px;
-                }
                 .kpi-total, .kpi-percent {
                     font-size: 16px;
                     line-height: 22px;
@@ -439,60 +109,8 @@
                     color: #c71f04;
                 }
             }
-            .kpi-chart-container {
-                padding: 0;
-                height: 180px;
-                background-color: #fff;
-                box-shadow: -2px 0px 5px 0px rgba(0, 0, 0, 0.3);
-            }
-            .kpi-table-container {
-                padding: 0;
-                table.kpi-table {
-                    width: 100%;
-                    tbody {
-                        tr {
-                            cursor: pointer;
-                            -webkit-transition:0.15s linear all;
-                            -moz-transition:0.15s linear all;
-                            -o-transition:0.15s linear all;
-                            transition:0.15s linear all;
-                            td {
-                                color: #333;
-                                text-transform: capitalize;
-                                font-size: 16px;
-                                line-height: 22px;
-                                font-weight: 400;
-                                padding: 7px 15px;
-                                &.kpi-increase {
-                                    color: #068700;
-                                }
-                                &.kpi-decrease {
-                                    color: #c71f04;
-                                }
-                            }
-                            &:hover {
-                                background-color: #eee;
-                                -webkit-transition:0.15s linear all;
-                                -moz-transition:0.15s linear all;
-                                -o-transition:0.15s linear all;
-                                transition:0.15s linear all;
-                            }
-                            &.selected {
-                                background-color: #295da7;
-                                -webkit-transition:0.15s linear all;
-                                -moz-transition:0.15s linear all;
-                                -o-transition:0.15s linear all;
-                                transition:0.15s linear all;
-                                td {
-                                    color: #fff;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
             .spend-container{
-				table.spend-table {
+				.spend-table {
 					width: 100%;
 					thead {
 						background: transparent;
@@ -568,87 +186,25 @@
                         font-size: 14px;
                     }
                 }
+                ms-bar-chart {
+                    .axis path,
+                    .axis line {
+                      fill: none;
+                      stroke: #ccc;
+                      shape-rendering: crispEdges;
+                    }
+                    #stripe {
+                        line {
+                            fill: white;
+                            stroke: white;
+                            stroke-linecap: square;
+                            stroke-linejoin: miter;
+                            stroke-width: 10px;
+                        }
+                    }
+                    text { font-size: 12px; }
+                }
             }
         }
-    }
-    .dropdown-menu {
-        background-color: transparent;
-        border: 0;
-        -webkit-box-shadow: none;
-        box-shadow: none;
-    }
-}
-
-/* Five Columns */
-.col-xs-5ths, .col-sm-5ths, .col-md-5ths, .col-lg-5ths {
-    position: relative;
-    min-height: 1px;
-    padding-right: 10px;
-    padding-left: 10px;
-}
-.col-xs-5ths {
-    width: 20%;
-    float: left;
-}
-@media (min-width: 768px) {
-    .col-sm-5ths {
-        width: 20%;
-        float: left;
-    }
-}
-@media (min-width: 992px) {
-    .col-md-5ths {
-        width: 20%;
-        float: left;
-    }
-}
-@media (min-width: 1200px) {
-    .col-lg-5ths {
-        width: 20%;
-        float: left;
-    }
-}
-/* D3 */
-ms-bar-chart {
-    .axis path,
-    .axis line {
-      fill: none;
-      stroke: #ccc;
-      shape-rendering: crispEdges;
-    }
-    #stripe {
-        line {
-            fill: white;
-            stroke: white;
-            stroke-linecap: square;
-            stroke-linejoin: miter;
-            stroke-width: 10px;
-        }
-    }
-    text { font-size: 12px; }
-}
-/* D3-Tip */
-.d3-tip {
-    line-height: 1;
-    font-weight: bold;
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    border-radius: 2px;
-    &:after {
-        box-sizing: border-box;
-        display: inline;
-        font-size: 10px;
-        width: 100%;
-        line-height: 1;
-        color: rgba(0, 0, 0, 0.8);
-        content: "\25BC";
-        position: absolute;
-        text-align: center;
-    }
-    &.n:after {
-        margin: -1px 0 0 0;
-        top: 100%;
-        left: 0;
     }
 }

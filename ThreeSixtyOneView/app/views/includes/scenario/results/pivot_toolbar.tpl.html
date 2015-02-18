@@ -1,4 +1,4 @@
-<section class="results-toolbar">
+<section class="editor">
 	<tabset tabs-control>
 		<tab expand-collapse-control-disabled="{{saveAs}}" expand-collapse-control="#results-toolbar-container">
 			<tab-heading>
@@ -10,42 +10,33 @@
 			<div id="results-toolbar-container" class="content">
 				<div class="pbSlider">
 					<div class="pbControlBar">
-						<div class="save-menu">
-							<div class="dropdown">
+
+                        <div class="save-menu">
+                            <div class="dropdown">
                                 <span class="ms-button clickable" ng-click="saveView()" >
                                     <icon type="save"></icon>Save View
                                 </span>
                                 <span class="dropdown-toggle dropdown-button clickable">
                                     <icon type="caret-down"></icon>
                                 </span>
-								<ul class="dropdown-menu">
-									<div class="dropdown-menu-visible">
-										<li>
-											<div class="menu-item" ng-click="startSaveAs();"><icon type="save"></icon>Save As</div>
-										</li>
-										<li>
-											<div class="menu-item" ng-click="revertView();"><icon type="undo"></icon>Revert</div>
-										</li>
-									</div>
-								</ul>
-							</div>
-						</div>
+                                <ul class="dropdown-menu">
+                                    <li class="menu-item" ng-click="startSaveAs()"><icon type="save"></icon>Save As</li>
+                                    <li class="menu-item" ng-click="revertView()"><icon type="undo"></icon>Revert</li>
+                                </ul>
+                            </div>
+                        </div>
 
-                        <div class="pbViewsList">
+                        <div class="recent-items">
                             <div class="dropdown">
-                                <span class="dropdown-toggle pbRecentViewsButton clickable">
+                                <span class="dropdown-toggle clickable">
                                     <icon type="eye"></icon>Recent Views<icon type="caret-down"></icon>
                                 </span>
-                                <ul class="dropdown-menu pbRecentViewsMenu" ms-link-group selected-item="{{viewData.id}}" radio="true">
-                                    <div class="pbRecentViewsMenuVisible">
-                                        <li ng-repeat="view in getViewsList() | orderBy:'-createdOn' | limitTo:5" ms-link="{{view.id}}">
-                                            <div ng-click="loadView(spendCubeId, view.id);" title="{{view.name}}"><icon type="eye"></icon>{{view.name}}</div>
-                                        </li>
-                                        <hr>
-                                        <li>
-                                            <div ng-click="openAllViewsModal()"><icon type="folder-open-o"></icon>All Views</div>
-                                        </li>
-                                    </div>
+                                <ul class="dropdown-menu" ms-link-group selected-item="{{viewData.id}}" radio="true">
+                                    <li ng-repeat="view in getViewsList() | orderBy:'-createdOn' | limitTo:5" ms-link="{{view.id}}" class="menu-item" ng-click="loadView(spendCubeId, view.id);" title="{{view.name}}">
+                                        <icon type="eye"></icon>{{view.name}}
+                                    </li>
+                                    <hr>
+                                    <li class="menu-item" ng-click="openAllViewsModal()"><icon type="folder-open-o"></icon>All Views</li>
                                 </ul>
                             </div>
                         </div>
