@@ -22,7 +22,6 @@ angular.module('ThreeSixtyOneView')
             };
 
             $scope.scenarioElements = ScenarioAnalysisElements;
-            $scope.groupedScenarioElements = getGroupedScenarioElements();
 
             // either load the element selected in scenario listing page or TOUCHPOINT related element if none selected
             $scope.setScenarioElement(!!parseInt($state.params.scenarioElementId) ? getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) : getScenarioElementByCubeName($scope.scenarioElements, 'TOUCHPOINT'));
@@ -86,9 +85,6 @@ angular.module('ThreeSixtyOneView')
             return ManageAnalysisViewsService.updateView(view, cubeId).then(function(response) {
                 return response;
             });
-        },
-        getGroupedScenarioElements = function(){
-            return  _.groupBy($scope.scenarioElements, function(element) {return element.group;});
         };
 
         $scope.updateView = updateView;
@@ -98,7 +94,6 @@ angular.module('ThreeSixtyOneView')
             $scope.selectedScenarioElement = element;
             $scope.cubeId = element.cubeMeta.id;
             $scope.selectedScenarioElementsFile = element.name;
-            $scope.groupedScenarioElements = getGroupedScenarioElements();
         };
 
         $scope.setState = function(state){

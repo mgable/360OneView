@@ -13,13 +13,17 @@ angular.module('ThreeSixtyOneView')
         // $scope.selectedScenarioElementsFile
         // $scope.groupedScenarioElements;
         // $scope.loadPivotTable()
-        var replaceScenarioElement = function(newElement) {
+        var init = function(){
+                $scope.groupedScenarioElements = getGroupedScenarioElements();
+            },
+            replaceScenarioElement = function(newElement) {
                 _.each($scope.scenarioElements, function(element, index) {
                     if(element.cubeMeta.id === newElement.cubeMeta.id) {
                         $scope.scenarioElements.splice(index, 1, newElement);
                     }
                 });
                 $scope.setScenarioElement(newElement);
+                $scope.groupedScenarioElements = getGroupedScenarioElements();
                 $scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
             },
             replaceAnalysisElementForCube = function(scenarioId, cubeId, elementId) {
@@ -31,6 +35,9 @@ angular.module('ThreeSixtyOneView')
                 ManageScenariosService.copyAndReplaceAnalysisElementForCube(scenarioId, cubeId, sourceElementId, newElementData).then(function(element){
                     replaceScenarioElement(element);
                 });
+            }, 
+            getGroupedScenarioElements = function(){
+                return  _.groupBy($scope.scenarioElements, function(element) {return element.group;});
             };
 
        // hide scenario copy and replace options if part of the marketing plan
@@ -67,5 +74,7 @@ angular.module('ThreeSixtyOneView')
                 replaceScenarioElement(element);
             });
         };
+
+        init();
 
     }]);
