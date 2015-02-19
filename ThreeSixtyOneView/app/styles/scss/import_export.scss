@@ -1,21 +1,87 @@
 @import "variables";
 @import "new_variables";
 
+.import-export {
+	.slider-title {
+		display: inline-block;
+		margin: 5px 10px 10px 0;
+		font-size: 18px;
+	}
+
+	.file {
+		width: 400px;
+		padding: 4px 6px;
+		display: inline-block;
+		background: white;
+		margin-right: 5px;
+		border: 1px solid #2d5eab;
+		color: #727272;
+
+		&.selected {
+			color: $ms-darkGray;
+		}
+
+		&.invalid {
+			color: $ms-red;
+			border-color: $ms-red;
+		}
+	}
+
+	.message {
+		display: inline-block;
+		margin-left: 10px;
+		padding: 5px;
+
+		i {
+			margin-right: 5px;
+		}
+
+		&.success {
+			border: 1px solid $ms-green;
+			background-color: $ms-lightGreen;
+		}
+
+		&.error {
+			border: 1px solid $ms-red;
+			background-color: $ms-lightRed;
+		}
+	}
+
+	.btn {
+		padding: 5px 20px;
+		margin-right: 10px;
+	}
+
+	.button-group {
+		margin-top: 15px;
+		display: inline-block;
+	}
+
+	.upload-container {
+		display: inline-block;
+		max-width: 700px;
+
+		i {
+			margin-right: 5px;
+		}
+	}
+}
+
 .importExport {
-	padding: 0 16px;
+	/*padding: 0 16px;
 	border-bottom: 1px solid #ddd;
 	
 	.tabTitle {
 		display: inline-block;
 		margin: 5px 10px 10px 0;
 		font-size: 18px;
-	}
+	}*/
 
-	p.warning {
+	/*p.warning {
 		padding: 6px;
 		display: inline-block;
 		background-color: #f9eabf;
-	}
+	}*/
 
 	.prepareContainer {
 		width: 450px;
@@ -27,14 +93,14 @@
 		}
 	}
 
-	.uploadContainer {
+	/*.uploadContainer {
 		display: inline-block;
 		max-width: 700px;
 
 		.fa {
 			margin-right: 5px;
 		}
-	}
+	}*/
 
 	.percentage {
 		display: inline-block;
@@ -42,7 +108,7 @@
 		vertical-align: middle;
 	}
 
-	.btn {
+	/*.btn {
 		padding: 6px 22px;
 	}
 
@@ -52,7 +118,7 @@
 		.btn {
 			margin-right: 12px;
 		}
-	}	
+	}	*/
 
 	.active {
 		background-color: #f35528;
@@ -86,7 +152,7 @@
 		background-color: #2d5eab;
 	}
 
-	.fileName {
+	/*.fileName {
 		width: 400px;
 		padding: 4px 6px;
 		display: inline-block;
@@ -102,14 +168,14 @@
 
 	.errFileName {
 		border-color: #cf1006;
-	}
+	}*/
 
-	.error {
+	/*.error {
 		display: inline-block;
 		color: #cf1006;
-	}
+	}*/
 
-	.successMsg {
+	/*.successMsg {
 		padding: 5px;
 		border: 1px solid #449e47;
 		display: inline-block;
@@ -129,5 +195,5 @@
 		.fa {
 			margin-right: 5px;
 		}
-	}
+	}*/
 }

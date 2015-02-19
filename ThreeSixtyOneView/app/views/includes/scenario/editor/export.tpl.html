@@ -1,5 +1,5 @@
-<div id="exportBody" class="importExport hidden content">
-	<div class="tabTitle">Exporting Data</div>
+<div id="exportBody" class="import-export hidden content slider">
+	<div class="slider-title">Exporting Data</div>
 	<div id="exportDragArea" ng-hide="isExportInProgress">
 		<div class="dimensions-list">
 			<div class="title">Dimensions</div>
@@ -29,7 +29,6 @@
 	<div class="btnGroup">
 		<ms-button type="cancel" action="cancelExport()" label="Cancel" ng-disabled="!isExportInProgress"></ms-button>
 		<ms-button type="submit" action="requestExport()" label="Export" ng-hide="isExportInProgress"></ms-button>
-		<!-- <a ng-href="downloadLink" download="sample.html" ng-show="isDownloadReady" class="btn active">DOWNLOAD</a> -->
 	</div>
 	<div ng-show="isDownloadCompleted" class="successMsg"><icon type="thumbs-o-up"></icon>You successfully exported the data.</div>
 	<div ng-show="isExportFailed" class="errorMsg"><icon type="thumbs-o-down"></icon>An error occurred in exporting data. Please try again.</div>
