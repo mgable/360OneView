@@ -163,7 +163,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                     spendDatumChild.title = v1[0];
                     spendDatumChild.total = v1[1];
                     var tmpSpendDatumChildIncremental = v1[1] - _.pairs(_spendComparedSummaryData[i])[i1][1];
-                    spendDatumChild.incremental = Math.abs(tmpSpendDatumChildIncremental);;
+                    spendDatumChild.incremental = Math.abs(tmpSpendDatumChildIncremental);
                     if(Math.abs(spendDatumChild.incremental) < 1) {
                        spendDatumChild.incremental = 0;
                     }

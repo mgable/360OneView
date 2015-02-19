@@ -235,6 +235,25 @@ angular.module('ThreeSixtyOneView.config')
             "ScenarioCalculate": {
                 "timerInterval": 10000,
                 "stateLength": 7
+            },
+            "PivotTable": {
+                "size": {
+                    "minColumnWidth": 120,
+                    "maxColumnWidth": 250,
+                    "rowHeight": 40
+                },
+                "color": {
+                    "msPureWhite": "#fff",
+                    "msLightGray": "#e6e6e6",
+                    "msMediumLightGray": "#cdcdcd",
+                    "msMediumGray": "#999",
+                    "msBlack": "#333",
+                    "msSelectionColor": "rgba(229, 229, 229, 0.3)"
+                },
+                "font": {
+                    "headerFontStyle": "14px proxima-nova, arial, sans-serif",
+                    "cellFontStyle": "14px proxima-nova, arial, sans-serif"
+                }
             }
         },
         "client": {
