@@ -30,8 +30,8 @@
                                 <span class="dropdown-toggle clickable">
                                     <icon type="eye"></icon>Recent Views<icon type="caret-down"></icon>
                                 </span>
-                                <ul class="dropdown-menu" ms-link-group selected-item="{{viewData.id}}" radio="true">
-                                    <li ng-repeat="view in getViewsList() | orderBy:'-createdOn' | limitTo:5" ms-link="{{view.id}}" class="menu-item" ng-click="loadView(spendCubeId, view.id);" title="{{view.name}}">
+                                <ul class="dropdown-menu" ms-link-group selected-item="{{spendViewData.id}}" radio="true">
+                                    <li ng-repeat="view in getViewsList() | orderBy:'-auditInfo.createdOn' | limitTo:5" ms-link="{{view.id}}" class="menu-item" ng-click="loadView(spendCubeId, view.id);" title="{{view.name}}">
                                         <icon type="eye"></icon>{{view.name}}
                                     </li>
                                     <hr>
@@ -42,8 +42,8 @@
 
                         <div class="toggle-switch clickable" ms-link-group selected-item="{{isSynced}}">
                         	<div class="toggle-switch-title">Sync KPI with Spend</div>
-                            <div class="switch" ng-click="setToTrue()" ms-link="true">ON</div>
-                            <div class="switch" ng-click="setToFalse()" ms-link="false">OFF</div>
+                            <div class="switch" ng-click="setToggleSwitch(true)" ms-link="true">ON</div>
+                            <div class="switch" ng-click="setToggleSwitch(false)" ms-link="false">OFF</div>
                         </div>
 					</div>
 
