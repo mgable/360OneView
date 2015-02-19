@@ -1,11 +1,39 @@
 "use strict";
 
 var specs = require('./3.0-scenario_specs.js'),
-	funcs = require('./0.1-project_functions.js'),
+	funcs = require('./1.0-project_listing_functions.js'),
+	scenarioFuncs = require('./3.0-scenario_functions.js'),
 	_ = require('underscore'),
 	scenario = funcs.readProjectInfo();
 
-describe('Scenario Page: ', function() {
+var customMatchers = {
+		arrayElementContains:  function(expected){
+
+	        var self = this, regEx = new RegExp(expected), deferred = protractor.promise.defer(), result = false;
+
+			_.each(self.actual, function(key){
+				if (regEx.test(key)){
+					result = true;
+				}
+			});
+
+			if (result) {
+	      		deferred.fulfill(true);
+	    	} else {
+	      		deferred.reject(self.actual + ' did not contain ' + expected);
+	    	}
+	        return deferred.promise;
+	    }
+	},
+	analysisElementFileName = "My New Analysis Element File " + Date.now(),
+	analysisElementFileDescription = "My New Description";
+
+
+beforeEach(function(){
+    this.addMatchers(customMatchers);
+});
+
+xdescribe('Scenario Page: ', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
@@ -33,29 +61,25 @@ describe('Scenario Page: ', function() {
 		});
 	});
 
-	describe("should have an analysis element dropdown menu", function(){
+	describe("should have an analysis element toolbar", function(){
 		xit("should have thirteen analysis elements", function(){
-			expect(specs.analysisElements.count()).toBe(13);
+			expect(specs.analysisElements.count()).toBe(specs.assumedData.cubes.length);
 		});
 
 		xit("should have 'marketing plan' selected", function(){
 			specs.selectedAnalysisElement.getText().then(function(selected){
-				expect(selected).toBe("Marketing Plan");
+				expect(selected).toBe(specs.assumedData.defaultSelectedAnalysisElement);
 			});
 		});
 
-		xit("should allow the user to select a new analysis element", function(){
-			specs.selectedAnalysisElement.click();
-			specs.analysisElements.last().click();
-			specs.selectedAnalysisElement.getText().then(function(selected){
-				expect(selected).toBe("Web Traffic");
-
+		xit("should allow the user to select a new cube", function(){
+			var index = 0;
+			specs.analysisElements.each(function(element){
 				specs.selectedAnalysisElement.click();
-				specs.analysisElements.get(2).click();
+				element.click();
 				specs.selectedAnalysisElement.getText().then(function(selected){
-					expect(selected).toBe("Competitive Intent");
+					expect(selected).toEqual(specs.assumedData.cubes[index++]);
 				});
-
 			});
 		});
 
@@ -63,17 +87,80 @@ describe('Scenario Page: ', function() {
 			expect(funcs.hasClass(specs.copyAndReplaceCube, "ng-hide")).toBeTruthy();
 		});
 
-		it("should allow the analysis element to be replaced or copied for all others", function(){
+		xit("should allow the analysis element to be replaced or copied for all others", function(){
+			var index = 0;
 			specs.analysisElements.each(function(element){
-			//for (var i = 0, limit = 13; i < limit; i++){
 				specs.selectedAnalysisElement.click();
 				element.click();
-				//specs.analysisElements.get(i).click();
-				specs.selectedAnalysisElement.getText().then(function(selected){
-					console.info(selected);
-				});
-			//}
+				if (index > 0) {
+					expect(funcs.hasClass(specs.copyAndReplaceCube, "ng-hide")).toBeFalsy();
+				}
+				index++;
 			});
+		});
+
+		xit("should have a default analysis element file", function(){
+			var index = 0;
+			specs.analysisElements.each(function(element){
+				specs.selectedAnalysisElement.click();
+				element.click();
+				if (index > 0) {
+					specs.replaceButton.click();
+					expect(specs.analysisElementFileList.count()).toBeGreaterThan(0);
+					specs.analysisElementFileList.getText().then(function(fileList){
+						expect(fileList).arrayElementContains(specs.assumedData.preloadedAnalysisElement);
+						specs.cancelButton.click();
+					});
+					
+				}
+				browser.waitForAngular();
+				index++;
+			});
+		});
+
+		it("should copy and replace the analysis element file", function(){
+			scenarioFuncs.selectSecondCube();
+			specs.copyButton.click();
+			expect(specs.submitButton.getAttribute("disabled")).toBeTruthy();
+			specs.copyAndReplaceNameField.clear();
+			specs.copyAndReplaceNameField.sendKeys(analysisElementFileName);
+			expect(specs.submitButton.getAttribute("disabled")).toBeTruthy();
+			specs.copyAndReplaceDescriptionField.sendKeys(analysisElementFileDescription);
+			browser.waitForAngular();
+			expect(specs.submitButton.getAttribute("disabled")).toBeFalsy();
+			specs.submitButton.click();
+			specs.copyAndReplaceCubeName.getText().then(function(fileName){
+				expect(fileName).toEqual(analysisElementFileName);
+			});
+		});
+
+		xit("should replace the analysis element file", function(){
+			var file;
+			specs.selectedAnalysisElement.click();
+			specs.analysisElements.get(1).click();
+			specs.replaceButton.click();
+			specs.analysisElementFileList.last().element(by.css('.element-file-name')).getText().then(function(fileName){
+				file = fileName;
+				specs.analysisElementFileList.last().click();
+				specs.replaceSubmitButton.click();
+				browser.waitForAngular();
+				specs.copyAndReplaceCubeName.getText().then(function(fileName){
+					expect(fileName).toEqual(file);
+				});
+
+				specs.selectedAnalysisElement.click();
+				specs.analysisElements.get(1).click();
+				specs.replaceButton.click();
+				specs.analysisElementFileList.first().element(by.css('.element-file-name')).getText().then(function(fileName){
+					file = fileName;
+					specs.analysisElementFileList.first().click();
+					specs.replaceSubmitButton.click();
+					browser.waitForAngular();
+					specs.copyAndReplaceCubeName.getText().then(function(fileName){
+					expect(fileName).toEqual(file);
+				});
+				})
+			})
 		});
 	});
 });
