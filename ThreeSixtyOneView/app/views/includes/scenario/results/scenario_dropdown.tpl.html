@@ -5,7 +5,7 @@
 			{{selectedView.title}}&nbsp;<icon type="caret-down"></icon>
 		</span>
 		<ul class="dropdown-menu" ms-link-group selected-item="" radio="true">
-			<li ng-repeat="view in viewsList | orderBy:'-createdOn' | limitTo:5" class="menu-item" ng-click="loadComparedView(view.id)" title="{{view.title}}">{{view.title}}
+			<li ng-repeat="view in viewsList | orderBy:'-auditInfo.createdOn' | limitTo:5" class="menu-item" ng-click="loadComparedView(view.id)" title="{{view.title}}">{{view.title}}
 			</li>
 			<hr>
 			<li class="menu-item" ng-click="openAllComparedViewsModal()"><icon type="folder-open-o"></icon>All Scenarios</li>
