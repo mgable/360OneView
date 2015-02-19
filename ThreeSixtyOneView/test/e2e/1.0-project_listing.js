@@ -3,7 +3,7 @@
 var specs = require('./1.0-project_listing_specs.js'),
 	funcs = require('./1.0-project_listing_functions.js');
 
-describe('Project Listing Page: ', function() {
+xdescribe('Project Listing Page: ', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
