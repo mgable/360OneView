@@ -280,7 +280,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t<h4 class=\"element-modal-title\" id=\"myModalLabel\">{{selectedScenarioElement.cubeMeta.label}}</h4>\n" +
     "\t<h3>Copy &amp; Replace</h3>\n" +
     "</div>\n" +
-    "<div class=\"element-copy-modal-body\">\n" +
+    "<div class=\"element-copy-modal-body\" data-ms-id=\"analysisElementCopy\">\n" +
     "\t<form name=\"elementCopy\" class=\"element-copy-form\" novalidate>\n" +
     "\t\t<div class=\"element-copy-name\">\n" +
     "\t\t\t<label>\n" +
@@ -308,7 +308,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t<h4 class=\"element-modal-title\" id=\"myModalLabel\">{{selectedScenarioElement.cubeMeta.label}}</h4>\n" +
     "\t<h3>Select A New File</h3>\n" +
     "</div>\n" +
-    "<div class=\"element-file-modal-body\">\n" +
+    "<div class=\"element-file-modal-body\" data-ms-id=\"analysisElementReplace\">\n" +
     "\t<div class=\"element-file-box\">\n" +
     "\t\t<div class=\"element-file-toolbar\">\n" +
     "\t\t\t<div class=\"file-type-dropdown\">\n" +

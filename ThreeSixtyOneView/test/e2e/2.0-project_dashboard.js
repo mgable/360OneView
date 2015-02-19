@@ -1,7 +1,7 @@
 "use strict";
 
-var specs = require('./0.0-specs.js'),
-	funcs = require('./0.1-project_functions.js');
+var specs = require('./1.0-project_listing_specs.js'),
+	funcs = require('./1.0-project_listing_functions.js');
 
 	var dashboardUrl, projectId;
 	// TEMP data - remove in production
