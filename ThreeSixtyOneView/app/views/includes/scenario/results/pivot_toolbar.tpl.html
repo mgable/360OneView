@@ -1,0 +1,81 @@
+<section class="editor">
+	<tabset tabs-control>
+		<tab expand-collapse-control-disabled="{{saveAs}}" expand-collapse-control="#results-toolbar-container">
+			<tab-heading>
+				<div class="ms-title clickable">
+					<icon type="eye"></icon>
+                    <div class="text" ng-hide="saveAs" title="{{spendViewData.name}}">{{spendViewData.name}}</div>
+				</div>
+			</tab-heading>
+			<div id="results-toolbar-container" class="content">
+				<div class="slider">
+					<div class="toolbar">
+                        <div class="save-menu">
+                            <div class="dropdown">
+                                <span class="ms-button clickable" ng-click="saveView()" >
+                                    <icon type="save"></icon>Save View
+                                </span>
+                                <span class="dropdown-toggle dropdown-button clickable">
+                                    <icon type="caret-down"></icon>
+                                </span>
+                                <ul class="dropdown-menu">
+                                    <li class="menu-item" ng-click="startSaveAs()"><icon type="save"></icon>Save As</li>
+                                    <li class="menu-item" ng-click="revertView()"><icon type="undo"></icon>Revert</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="recent-items">
+                            <div class="dropdown">
+                                <span class="dropdown-toggle clickable">
+                                    <icon type="eye"></icon>Recent Views<icon type="caret-down"></icon>
+                                </span>
+                                <ul class="dropdown-menu" ms-link-group selected-item="{{spendViewData.id}}" radio="true">
+                                    <li ng-repeat="view in getViewsList() | orderBy:'-auditInfo.createdOn' | limitTo:5" ms-link="{{view.id}}" class="menu-item" ng-click="loadView(spendCubeId, view.id);" title="{{view.name}}">
+                                        <icon type="eye"></icon>{{view.name}}
+                                    </li>
+                                    <hr>
+                                    <li class="menu-item" ng-click="openAllViewsModal()"><icon type="folder-open-o"></icon>All Views</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="toggle-switch clickable" ms-link-group selected-item="{{isSynced}}">
+                        	<div class="toggle-switch-title">Sync KPI with Spend</div>
+                            <div class="switch" ng-click="setToggleSwitch(true)" ms-link="true">ON</div>
+                            <div class="switch" ng-click="setToggleSwitch(false)" ms-link="false">OFF</div>
+                        </div>
+					</div>
+
+					<div class="dimensions-list filters-list">
+						<div class="title">Spend Filters</div>
+						<div class="list">
+							<div ng-repeat="cat in spendDimensions" class="filter-category clickable" ng-click="spendFiltersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="spendAddedFilters[cat.label]">
+								<div class="filter-label">{{cat.label}} <span class="filter-stats">({{spendCategorizedValue[$index].selected}}/{{spendCategorizedValue[$index].total}})</span></div>
+								<div class="filter-values text-holder" ng-show="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{spendCategorizedValue[$index].label.join(', ')}}">{{spendCategorizedValue[$index].label.join(', ')}}</div>
+								<div class="filter-values text-holder" ng-hide="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" title="{{spendCategorizedValue[$index].label.join(', ')}}">All</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="dimensions-list filters-list">
+						<div class="title">KPI Filters</div>
+						<div class="list">
+							<div ng-repeat="cat in kpiDimensions" class="filter-category" ng-class="{'clickable': !isSynced || !isInSyncedDimensions(cat), 'disabled': isSynced && isInSyncedDimensions(cat)}" ng-click="kpiFiltersModal(cat)" data-toggle="modal" data-target="#filterModal" ng-if="kpiAddedFilters[cat.label]">
+								<div class="filter-label">{{cat.label}} <span class="filter-stats">({{kpiCategorizedValue[$index].selected}}/{{kpiCategorizedValue[$index].total}})</span></div>
+								<div class="filter-values text-holder" ng-show="kpiCategorizedValue[$index].selected < kpiCategorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{kpiCategorizedValue[$index].label.join(', ')}}">{{kpiCategorizedValue[$index].label.join(', ')}}</div>
+								<div class="filter-values text-holder" ng-hide="kpiCategorizedValue[$index].selected < kpiCategorizedValue[$index].total" title="{{kpiCategorizedValue[$index].label.join(', ')}}">All</div>
+							</div>
+						</div>
+					</div>
+
+                    <div class="collapse-handle">
+                        <span class="clickable" collapse-control target-area="#results-toolbar-container">
+                            <icon type="chevron-up"></icon>Collapse
+                        </span>
+                    </div>
+				</div>
+			</div>
+		</tab>
+	</tabset>
+</section>

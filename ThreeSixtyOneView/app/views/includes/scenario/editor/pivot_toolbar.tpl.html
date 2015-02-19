@@ -1,0 +1,100 @@
+<div class="editor">
+    <tabset tabs-control>
+        <tab ng-controller="PivotBuilderCtrl" expand-collapse-control-disabled="{{saveAs}}" expand-collapse-control="#pivotBuilder">
+            <tab-heading>
+                <div class="ms-title clickable">
+                    <icon type="eye"></icon>
+                    <div class="text" ng-hide="saveAs">{{viewData.name}}</div>
+                    <div class="saveAsBox" ng-show="saveAs">
+                        <input type="text" ng-model="saveAsName" ui-keydown="{'esc': 'cancelSaveAs()', 'enter': 'submitSaveAs()'}">
+                        <span ng-click="submitSaveAs($event)"><icon type="check"></icon></span>
+                        <span ng-click="cancelSaveAs($event)"><icon type="remove"></icon></span>
+                    </div>
+                </div>
+            </tab-heading>
+            <div id="pivotBuilder" class="content">
+                <div class="slider">
+                    <div class="toolbar">
+                        <div class="toggle-switch clickable" ms-link-group selected-item="table" radio="true">
+                            <div class="switch" ng-click="showTable(false);" ms-link="table"><icon type="table"></icon></div>
+                            <div class="switch" ng-click="showTable(true);" ms-link="filters"><icon type="filter"></icon></div>
+                        </div>
+
+                        <div class="save-menu">
+                            <div class="dropdown">
+                                <span class="ms-button clickable" ng-click="saveView()" >
+                                    <icon type="save"></icon>Save View
+                                </span>
+                                <span class="dropdown-toggle dropdown-button clickable">
+                                    <icon type="caret-down"></icon>
+                                </span>
+                                <ul class="dropdown-menu">
+                                    <li class="menu-item" ng-click="startSaveAs()"><icon type="save"></icon>Save As</li>
+                                    <li class="menu-item" ng-click="revertView()"><icon type="undo"></icon>Revert</li>
+                                    <li class="menu-item" ng-click="startRename()"><icon type="pencil"></icon>Rename</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="recent-items">
+                            <div class="dropdown">
+                                <span class="dropdown-toggle clickable">
+                                    <icon type="eye"></icon>Recent Views<icon type="caret-down"></icon>
+                                </span>
+                                <ul class="dropdown-menu" ms-link-group selected-item="{{viewData.id}}" radio="true">
+                                    <li ng-repeat="view in getViewsList() | orderBy:'-auditInfo.createdOn' | limitTo:5" ms-link="{{view.id}}" class="menu-item" ng-click="loadView(cubeId, view.id);">
+                                        <icon type="eye"></icon>{{view.name}}
+                                    </li>
+                                    <hr>
+                                    <li class="menu-item" ng-click="openAllViewsModal()"><icon type="folder-open-o"></icon>All Views</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="dragDropArea" ng-hide="isFiltersVisible">
+                        <div ng-repeat="pivotBuilderItem in getPivotBuilderItems()" class="dimensions-list" ng-if="viewData">
+                            <div class="title">{{pivotBuilderItem.label}}</div>
+                            <div class="list" data-as-sortable="dragOptions" ng-model="viewData[pivotBuilderItem.name]" tabindex="-1">
+                                <draggable-dimension ng-repeat="item in getViewData(pivotBuilderItem.name)" row-or-col="{{pivotBuilderItem.name}}" template="draggable_dimension"></draggable-dimension>
+                                <draggable-dimension row-or-col="{{pivotBuilderItem.name}}" template="add_dimension_button" ng-hide="isDragging"></draggable-dimension>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dimensions-list filters-list" ng-show="isFiltersVisible">
+                        <div class="title">Filters</div>
+                        <div class="list">
+                            <div ng-repeat="cat in getDimensions()" class="filter-category clickable" ng-click="filtersModal(cat)" ng-if="addedFilters[cat.label]">
+                                <div class="filter-label">{{cat.label}}<span class="filter-stats">({{categorizedValue[$index].selected}}/{{categorizedValue[$index].total}})</span></div>
+                                <div class="filter-values text-holder" ng-show="categorizedValue[$index].selected < categorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{categorizedValue[$index].label.join(', ')}}">{{categorizedValue[$index].label.join(', ')}}</div>
+                                <div class="filter-values text-holder" ng-hide="categorizedValue[$index].selected < categorizedValue[$index].total" title="{{categorizedValue[$index].label.join(', ')}}">All</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse-handle">
+                        <span class="clickable" ng-click="cancelSaveAs();" collapse-control target-area="#pivotBuilder">
+                            <icon type="chevron-up"></icon>Collapse
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </tab>
+        <tab expand-collapse-control="#importBody">
+            <tab-heading>
+                <div class="header" class="scenarioEditControls">
+                    <icon type="download"></icon>&nbsp;Import
+                </div>
+            </tab-heading>
+            <ng-include src="'views/includes/scenario/editor/import.tpl.html'" ng-controller="importCtrl"></ng-include>
+        </tab>
+        <tab expand-collapse-control="#exportBody">
+            <tab-heading>
+                <div class="header" class="scenarioEditControls" ng-click="setupExportView()">
+                    <icon type="upload"></icon>&nbsp;Export
+                </div>
+            </tab-heading>
+            <ng-include src="'views/includes/scenario/editor/export.tpl.html'" ng-controller="exportCtrl"></ng-include>
+        </tab>
+    </tabset>
+</div>

@@ -1,0 +1,15 @@
+<div class="results-panel">
+	<div class="results-panel-title">KPI Summary</div>
+	<div class="result-panel-body well">
+		<div class="row">
+			<div class="kpi-container col-md-5ths col-xs-5ths" ng-repeat="kpiSummaryDatum in kpiSummaryData">
+				<div class="kpi-title" title="{{kpiSummaryDatum.title}}">{{kpiSummaryDatum.title}}</div>
+				<div class="kpi-incremental kpi-{{kpiSummaryDatum.direction}}">
+					<icon class="kpi-arrow" type="{{addArrow(kpiSummaryDatum.direction)}}"></icon>{{kpiSummaryDatum.incremental | nrFormat}}
+				</div>
+				<span class="kpi-total">{{kpiSummaryDatum.total | nrFormat}}</span>
+				<span class="kpi-percent kpi-{{kpiSummaryDatum.direction}}">{{kpiSummaryDatum.percent | percentage}}</span>
+			</div>
+		</div>
+	</div>
+</div>
