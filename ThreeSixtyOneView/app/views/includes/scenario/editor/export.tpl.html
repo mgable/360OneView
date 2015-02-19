@@ -1,37 +1,40 @@
 <div id="exportBody" class="import-export hidden content slider">
 	<div class="slider-title">Exporting Data</div>
-	<div id="exportDragArea" ng-hide="isExportInProgress">
-		<div class="dimensions-list">
-			<div class="title">Dimensions</div>
-			<div class="list" data-as-sortable="dragOptions" ng-model="exportViewData.rows" tabindex="-1">
-				<draggable-dimension ng-repeat="item in getExportViewDataRows()" template="draggable_dimension" added-values="exportAddedDimensions"></draggable-dimension>
-				<draggable-dimension ng-hide="isDragging" added-values="exportAddedDimensions" template="add_dimension_button"></draggable-dimension>
+	<div class="edit-area">
+		<div class="disabled-edit" ng-show="isExportInProgress"></div>
+		<div id="exportDragArea">
+			<div class="dimensions-list">
+				<div class="title">Dimensions</div>
+				<div class="list" data-as-sortable="dragOptions" ng-model="exportViewData.rows" tabindex="-1">
+					<draggable-dimension ng-repeat="item in getExportViewDataRows()" template="draggable_dimension" added-values="exportAddedDimensions"></draggable-dimension>
+					<draggable-dimension ng-hide="isDragging" added-values="exportAddedDimensions" template="add_dimension_button"></draggable-dimension>
+				</div>
 			</div>
-		</div>
-	   <div class="filters-list dimensions-list">
-			<div class="title">Filters</div>
-			<div class="list">
-				<div ng-repeat="cat in getDimensions()" class="filter-category clickable" ng-click="filtersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="addedExportFilters[cat.label]">
-					<div class="filter-label">{{cat.label}}<span class="filter-stats">({{categorizedExportValue[$index].selected}}/{{categorizedExportValue[$index].total}})</span></div>
-					<div class="filter-values text-holder" ng-show="categorizedExportValue[$index].selected < categorizedExportValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{categorizedExportValue[$index].label.join(', ')}}">{{categorizedExportValue[$index].label.join(', ')}}</div>
-					<div class="filter-values text-holder" ng-hide="categorizedExportValue[$index].selected < categorizedExportValue[$index].total" title="{{categorizedExportValue[$index].label.join(', ')}}">All</div>
+		   <div class="filters-list dimensions-list">
+				<div class="title">Filters</div>
+				<div class="list">
+					<div ng-repeat="cat in getDimensions()" class="filter-category clickable" ng-click="filtersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="addedExportFilters[cat.label]">
+						<div class="filter-label">{{cat.label}}<span class="filter-stats">({{categorizedExportValue[$index].selected}}/{{categorizedExportValue[$index].total}})</span></div>
+						<div class="filter-values text-holder" ng-show="categorizedExportValue[$index].selected < categorizedExportValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{categorizedExportValue[$index].label.join(', ')}}">{{categorizedExportValue[$index].label.join(', ')}}</div>
+						<div class="filter-values text-holder" ng-hide="categorizedExportValue[$index].selected < categorizedExportValue[$index].total" title="{{categorizedExportValue[$index].label.join(', ')}}">All</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div ng-show="isExportInProgress" class="prepareContainer">
+	<div class="button-group">
+		<ms-button type="cancel" action="cancelExport()" label="Cancel" ng-disabled="!isExportInProgress"></ms-button>
+		<ms-button type="submit" action="requestExport()" label="Export" ng-hide="isExportInProgress"></ms-button>
+	</div>
+
+	<div ng-show="isExportInProgress" class="status-container">
 		<div ng-hide="isDownloadCompleted">
 			<icon type="refresh" class="fa-spin"></icon>{{statusMessage}}
 		</div>
 	</div>
-
-	<div class="btnGroup">
-		<ms-button type="cancel" action="cancelExport()" label="Cancel" ng-disabled="!isExportInProgress"></ms-button>
-		<ms-button type="submit" action="requestExport()" label="Export" ng-hide="isExportInProgress"></ms-button>
-	</div>
-	<div ng-show="isDownloadCompleted" class="successMsg"><icon type="thumbs-o-up"></icon>You successfully exported the data.</div>
-	<div ng-show="isExportFailed" class="errorMsg"><icon type="thumbs-o-down"></icon>An error occurred in exporting data. Please try again.</div>
+	<div ng-show="isDownloadCompleted" class="message success"><icon type="thumbs-o-up"></icon>You successfully exported the data.</div>
+	<div ng-show="isExportFailed" class="message error"><icon type="thumbs-o-down"></icon>An error occurred in exporting data. Please try again.</div>
 
 	<div class="collapse-handle" >
 		<span class="clickable" collapse-control target-area="#exportBody" header="#exportHeader">

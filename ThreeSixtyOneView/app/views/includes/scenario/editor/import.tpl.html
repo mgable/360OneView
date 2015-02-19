@@ -13,7 +13,7 @@
 		<ms-button type="cancel" action="resetUploadForm()" label="{{cancelButtonLabel}}" ng-disabled="!isImportStarted"></ms-button>
 		<ms-button type="submit" action="startUpload()" label="Import" ng-disabled="!isFileSelected || isFileInvalid || isImportStarted"></ms-button>
 	</div>
-	<div ng-show="isImportStarted" class="upload-container">
+	<div ng-show="isImportStarted" class="status-container">
 		<div ng-hide="isImportCompleted || isImportFailed">
 			<icon type="refresh" class="fa-spin"></icon>{{statusMessage}}
 		</div>
