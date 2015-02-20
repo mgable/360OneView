@@ -1,1 +1,10 @@
-{"url":"http://127.0.0.1:9001/#/scenario/333c1b413f0930cea4051d98e5928a0f/31/edit/","project":"My New Test Project- 1424383339972","scenario":"My FIRST new test scenario title - 1424383339975"}
+{
+  "project": {
+    "url": "http://127.0.0.1:9001/#/dashboard/333c1b413f0930cea4051d98e5928a0f",
+    "title": "My New Test Project- 1424381316621"
+  },
+  "scenario": {
+    "url": "http://127.0.0.1:9001/#/scenario/333c1b413f0930cea4051d98e5928a0f/29/edit/",
+    "title": "My FIRST new test scenario title - 1424382342286x"
+  }
+}

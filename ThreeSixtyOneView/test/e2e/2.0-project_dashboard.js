@@ -1,11 +1,14 @@
 "use strict";
 
 var specs = require('./1.0-project_listing_specs.js'),
-	funcs = require('./1.0-project_listing_functions.js');
+	funcs = require('./1.0-project_listing_functions.js'),
+	_ = require('underscore'),
+	projectInfo = funcs.readProjectInfo();
 
-	var dashboardUrl, projectId;
+	var dashboardUrl = projectInfo.project.url,
+		projectId;
 	// TEMP data - remove in production
-	var dashboardUrl, projectId = "333c1b413f0930cea4051d98e5928a0f", dashboardUrl = funcs.getDashboardUrl(projectId);
+	//var dashboardUrl, projectId = "333c1b413f0930cea4051d98e5928a0f", dashboardUrl = funcs.getDashboardUrl(projectId);
 
 xdescribe('Project Dashboard', function() {
 	beforeEach(
@@ -13,34 +16,6 @@ xdescribe('Project Dashboard', function() {
 			browser.driver.manage().window().setSize(1280, 1024);
 		}
 	);
-	var testFileName = "My New Test Project- " + Date.now();
-
-	it("should create a new project and go to the dashboard", function(){
-		var firstItemTitle;
-
-		browser.get(funcs.getProjectUrl());
-		specs.createButton.click();
-		browser.waitForAngular();
-
-		specs.modalInputField.sendKeys(testFileName);
-
-		specs.modalSubmitButton.click();
-		browser.waitForAngular();
-		expect(browser.getLocationAbsUrl()).toContain("#/dashboard/");
-
-		browser.getLocationAbsUrl().then(function(url){
-			projectId = url.match(/\w{32}/)[0];
-			console.info(projectId);
-		});
-
-		browser.get(funcs.getProjectUrl());
-		browser.waitForAngular();
-
-		firstItemTitle = funcs.getFirstItemTitle();
-		firstItemTitle.getText(function(text){
-			expect(text).toBe(testFileName);
-		});
-	});
 
 	describe("Scenario List", function(){
 		var testScenarionNameFirst = "My FIRST new test scenario title - " + Date.now(),
@@ -72,7 +47,7 @@ xdescribe('Project Dashboard', function() {
 			cancelBaseScenarioButton = element(by.xpath(cancelBaseScenario));
 
 		beforeEach(function(){
-			browser.get(funcs.getDashboardUrl(projectId));
+			browser.get(dashboardUrl);
 		});
 
 
@@ -163,10 +138,10 @@ xdescribe('Project Dashboard', function() {
 				submitButton.click();
 				browser.waitForAngular();
 				browser.getLocationAbsUrl().then(function(url){
-					funcs.saveProjectInfo(url, testFileName, testScenarionNameFirst);
+					funcs.saveProjectInfo(_.extend(projectInfo, {scenario: {url: url, title: testScenarionNameFirst}}));
 					expect(url).toContain("#/scenario/");
 				});
-				browser.get(funcs.getDashboardUrl(projectId));
+				browser.get(dashboardUrl);
 				browser.waitForAngular();
 
 				var items = funcs.getItems(),
@@ -181,6 +156,11 @@ xdescribe('Project Dashboard', function() {
 				title.getText().then(function(text){
 					expect(text).toBe(testScenarionNameFirst);
 				})
+			});
+
+			it("should have a status of 'not calculated'", function(){
+				var status = funcs.getFirstItem().element(by.css(specs.statusClass));
+				expect(funcs.hasClass(status, "fa-not_calculated")).toBe(true);
 			});
 
 			it("should not allow a duplicate scenario name", function(){
@@ -211,7 +191,7 @@ xdescribe('Project Dashboard', function() {
 							specs.modalSubmitButton.click();
 							browser.waitForAngular();
 							expect(browser.getLocationAbsUrl()).toContain("#/scenario/");
-							browser.get(funcs.getDashboardUrl(projectId));
+							browser.get(dashboardUrl);
 							browser.waitForAngular();
 							expect(items.count()).toEqual(numberOfScenarios + 1);
 							itemCount.getText().then(function(firstCount){
@@ -235,7 +215,7 @@ xdescribe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Filter functions: ", function(){
+		xdescribe("Filter functions: ", function(){
 
 			it("should filter by favorite", function(){
 				var startItemCount = funcs.getItemCount();
@@ -258,7 +238,7 @@ xdescribe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Edit functions: ", function(){
+		xdescribe("Edit functions: ", function(){
 			var first,
 				newName = "My Renamed Scenario - " + Date.now(),
 				newDescription = "My new Description - " + Date.now();
@@ -300,7 +280,7 @@ xdescribe('Project Dashboard', function() {
 				specs.textAreaField.sendKeys(newDescription);
 				specs.inlineEditSubmitButton.click();
 				browser.waitForAngular();
-				browser.get(funcs.getDashboardUrl(projectId));
+				browser.get(dashboardUrl);
 
 				specs.inlineEditField.getText().then(function(description){
 					expect(newDescription).toEqual(description);
@@ -308,13 +288,13 @@ xdescribe('Project Dashboard', function() {
 			});
 		})
 
-		describe("Breadcrumbs: ", function(){
+		xdescribe("Breadcrumbs: ", function(){
 			it("should have the correct label", function(){
 				expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + testFileName.toUpperCase());
 			});
 		});
 
-		describe("Change base scenario: ", function(){
+		xdescribe("Change base scenario: ", function(){
 
 			it("should change the base scenario", function(){
 				var scenarios, scenario;
@@ -337,7 +317,7 @@ xdescribe('Project Dashboard', function() {
 						submitButton.click();
 						browser.waitForAngular();
 						expect(browser.getLocationAbsUrl()).toContain("#/scenario/");
-						browser.get(funcs.getDashboardUrl(projectId));
+						browser.get(dashboardUrl);
 						browser.waitForAngular();
 						expect(scenarioBaseScenarioElement.getText()).toEqual(scenarioText);
 					});
@@ -345,7 +325,7 @@ xdescribe('Project Dashboard', function() {
 			});
 		});
 
-		describe("Scenario Elements: ", function(){
+		xdescribe("Scenario Elements: ", function(){
 			var scenarioElements = "element in selectedItem.scenarioElements",
 				scenarioEditScenarioElements = "div[data-ms-id='ScenarioEdit.analysisElements'] .dropdown-toggle",
 				allScenarioElements = element.all(by.repeater(scenarioElements)),
@@ -365,7 +345,7 @@ xdescribe('Project Dashboard', function() {
 					});
 				});
 
-				browser.get(funcs.getDashboardUrl(projectId));
+				browser.get(dashboardUrl);
 
 				lastScenarioElementTitle.getText().then(function(titleInTray){
 					lastScenarioElementName.click();
@@ -379,7 +359,7 @@ xdescribe('Project Dashboard', function() {
 		});
 	});
 
-	describe("Edit controls on master project's master scenario", function(){
+	xdescribe("Edit controls on master project's master scenario", function(){
 		beforeEach(
 			function(){
 				browser.driver.manage().window().setSize(1280, 1024);

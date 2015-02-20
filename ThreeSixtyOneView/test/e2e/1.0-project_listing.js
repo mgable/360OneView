@@ -11,7 +11,7 @@ xdescribe('Project Listing Page: ', function() {
 		}
 	);
 
-	describe("Sorter: ", function(){
+	xdescribe("Sorter: ", function(){
 		it("should have at least one project", function(){
 			expect(funcs.getItems().count()).toBeGreaterThan(0);
 		});
@@ -92,7 +92,7 @@ xdescribe('Project Listing Page: ', function() {
 		});
 	});
 
-	describe("Sort: ", function(){
+	xdescribe("Sort: ", function(){
 		it("should switch between ordering by name, modified last and created on", function(){
 			var itemTitles,
 				itemModifiedOn,
@@ -192,7 +192,7 @@ xdescribe('Project Listing Page: ', function() {
 		});
 	});
 
-	describe("Favorites: ", function(){
+	xdescribe("Favorites: ", function(){
 		var masterProject = funcs.getMasterProjectItem(),
 			masterProjectFavorite = masterProject.element(by.css(specs.favoriteClassHolder));
 
@@ -256,7 +256,7 @@ xdescribe('Project Listing Page: ', function() {
 		});
 	});
 
-	describe("Filters: ", function(){
+	xdescribe("Filters: ", function(){
 		it ("should toggle the filter menu dropdown", function(){
 			expect(funcs.hasClass(specs.filterDropdown, 'hide')).toBe(true);
 			specs.filterByButton.click();
@@ -305,7 +305,7 @@ xdescribe('Project Listing Page: ', function() {
 		});
 	});
 
-	describe("Search: ", function(){
+	xdescribe("Search: ", function(){
 		it("should search", function(){
 			funcs.enterSearch(specs.masterProject)
 			expect(funcs.getItems().count()).toBe(1);
@@ -323,7 +323,11 @@ xdescribe('Project Listing Page: ', function() {
 			specs.modalInputField.sendKeys(testFileName);
 			specs.modalSubmitButton.click();
 			browser.waitForAngular();
-			expect(browser.getLocationAbsUrl()).toContain("#/dashboard/");
+
+			browser.getLocationAbsUrl().then(function(url){
+				expect(url).toContain("#/dashboard/");
+				funcs.saveProjectInfo({"project": {"url": url, "title": testFileName}});
+			});
 
 			browser.get(funcs.getProjectUrl());
 			browser.waitForAngular();
@@ -334,14 +338,14 @@ xdescribe('Project Listing Page: ', function() {
 			});
 		});
 
-		it("should not allow a project to be created with no name", function(){
+		xit("should not allow a project to be created with no name", function(){
 			specs.createButton.click();
 			browser.waitForAngular();
 
 			expect(specs.modalSubmitButton.getAttribute('disabled')).toBeTruthy();
 		});
 
-		it("should respect input limitations", function(){
+		xit("should respect input limitations", function(){
 			specs.createButton.click();
 			browser.waitForAngular();
 
@@ -349,7 +353,7 @@ xdescribe('Project Listing Page: ', function() {
 		});
 	});
 
-	describe("rename functions:", function(){
+	xdescribe("rename functions:", function(){
 		var first,
 			newName = "My Renamed Project - " + Date.now();
 
@@ -431,7 +435,7 @@ xdescribe('Project Listing Page: ', function() {
 		});
 	});	
 
-	describe("edit description: ", function(){
+	xdescribe("edit description: ", function(){
 		var first,
 			newDescription = "This is my new description - " + Date.now();
 
@@ -476,7 +480,7 @@ xdescribe('Project Listing Page: ', function() {
 		});
 	});
 
-	describe("Page actions: ", function(){
+	xdescribe("Page actions: ", function(){
 		it("should prevent the master project from being edited", function(){
 			funcs.selectMasterProject();
 			expect(specs.renameButton.isPresent()).toBe(false);
@@ -504,7 +508,7 @@ xdescribe('Project Listing Page: ', function() {
 		});
 	});
 
-	describe("Page attributes: ", function(){
+	xdescribe("Page attributes: ", function(){
 		it('should have a title', function() {
 			expect(browser.getTitle()).toEqual(specs.pageTitle);
 		});

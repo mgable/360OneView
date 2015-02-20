@@ -3,7 +3,7 @@
 var specs = require('./3.0-scenario_specs.js'),
 	funcs = require('./3.0-scenario_functions.js'),
 	_ = require('underscore'),
-	scenario = funcs.readProjectInfo();
+	projectInfo = funcs.readProjectInfo();
 
 var customMatchers = {
 		arrayElementContains:  function(expected){
@@ -32,11 +32,11 @@ beforeEach(function(){
     this.addMatchers(customMatchers);
 });
 
-describe('Scenario Page: ', function() {
+xdescribe('Scenario Page: ', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
-			browser.get(scenario.url);
+			browser.get(projectInfo.scenario.url);
 		}
 	);
 
@@ -60,7 +60,7 @@ describe('Scenario Page: ', function() {
 		});
 	});
 
-	describe("should have an analysis element toolbar", function(){
+	xdescribe("analysis element toolbar", function(){
 		it("should have thirteen analysis elements", function(){
 			expect(specs.analysisElements.count()).toBe(specs.assumedData.cubes.length);
 		});
