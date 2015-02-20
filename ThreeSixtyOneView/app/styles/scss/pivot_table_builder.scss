@@ -2,60 +2,49 @@
 @import "new_variables";
 
 .filtersSelectionModal {
-	.filter-modal-header {
-		h4 {
-			font-size: 32px;
-			font-weight: normal;
-		}
-	}
-
-	.filter-modal-body {
-
-		.pbFilterModalLinks {
+	.body {
+		.side-menu {
 			display: inline-block;
 			width: 320px;
 			vertical-align: top;
 			margin-right: 20px;
-			border: 1px solid $mediumgray;
-			background-color: $lightestgray;
+			border: 1px solid $ms-mediumLightGray;
+			background-color: $ms-lightGray;
 			font-size: 16px;
 			padding: 10px 0;
 
-			.pbFilterModalLink {
+			.menu-item {
 				padding: 10px 15px;
 
 				&.active {
-					background-color: $blue;
+					background-color: $ms-blue;
 					color: white;
 
 					&:hover {
-						background-color: $blue;
+						background-color: $ms-blue;
 					}
 
-					.pbFilterModalValues {
+					.values {
 						color: white;
 					}
 				}
 
 				&:hover {
-					background-color: $mediumgray;
+					background-color: $ms-mediumLightGray;
 				}
 
-				.pbFilterModalValues {
-					white-space: nowrap;
-					overflow: hidden;
-					text-overflow: ellipsis;
-					color: $gray;
+				.values {
+					color: $ms-gray;
 				}
 			}
 		}
 
-		.pbFilterModalMain {
+		.content {
 			display: inline-block;
 			width: 780px;
 			vertical-align: top;
 
-			.pbFilterModalAlert {
+			.alert {
 				width: 780px;
 				background-color: $errorRed;
 				color: white;
@@ -66,112 +55,76 @@
 				font-size: 16px;
 				transition: all 0.3s linear;
 
-				&.pbHideAlert {
-					opacity: 0;
+				i {
+					margin-right: 5px;
 				}
 
-				.fa {
-					padding-right: 5px;
+				.underline {
+					text-decoration: underline;
 				}
 			}
 
-			.pbFilterModalContent {
-				border: 1px solid $mediumgray;
-				background-color: white;
+			.main-content {
+				border: 1px solid $ms-mediumLightGray;
+				background-color: $ms-pureWhite;
 
-				.pbFilterModalHeader {
-					background-color: $lightestgray;
+				.filter-tools {
+					background-color: $ms-lightGray;
 
-					.pbFilterTitleArea {
+					.level-box {
 						display: inline-block;
 						width: 270px;
 
-							&:hover {
-								.pbFilterViewTitle {
-									color: $blue;
-								}
-							}
+						.dropdown {
+							position: relative;
+							display: inline-block;
 
-							.pbFilterDropDownContainer {
-									display: inline-block;
-									position: relative;
-
-							.pbFilterViewTitle {
+							.dropdown-toggle {
 								font-size: 20px;
 								margin: 5px 10px 5px 20px;
 								text-transform: capitalize;
 
-								.fa {
+								i {
 									font-size: 14px;
 									padding-left: 5px;
 								}
 
-								.pbFilterViewDrop {
-									position: absolute;
-									padding: 5px 10px 10px;
-									z-index: 20;
-									width: 230px;
-									top: 35px;
-									font-size: 14px;
-									margin-left: auto;
-									margin-right: auto;
-									left: -200%;
-									right: -200%;
+								&:hover {
+									color: $ms-blue;
+								}
+							}
 
-									.pbFilterViewDropVisible {
-										border: 1px solid $blue;
-										background-color: white;
-										padding: 7px 0;
-										box-shadow: 0 3px 10px rgba(100,100,100,0.5);
+							.dropdown-menu {
+								left: -200%;
+								right: -200%;
+								margin-left: auto;
+								margin-right: auto;
+								position: absolute;
+								z-index: 20;
+								top: 35px;
+								width: 170px;
 
-										&::before {
-											position: absolute;
-											height: 11px;
-											width: 11px;
-											content: "";
-											border-left: 1px solid $blue;
-											border-top: 1px solid $blue;
-											-webkit-transform: rotate(45deg);
-											-moz-transform: rotate(45deg);
-											-ms-transform: rotate(45deg);
-											-o-transform: rotate(45deg);
-											transform: rotate(45deg);
-											top: 0;
-											left: 44%;
-											z-index: 13;
-											background-color: white;
-										}
-
-										div {
-											padding: 5px 20px;
-											color: $black;
-											text-transform: capitalize;
-
-											&:hover {
-												background-color: $blue;
-												color: white;
-											}
-										}
-									}
+								.menu-item {
+									text-transform: capitalize;
 								}
 							}
 						}
 					}
 
-					.pbFilterSearch {
+					.search-box {
 						display: inline-block;
 						width: 350px;
 						margin: 5px 10px 5px 10px;
 						background-color: white;
-						border: 1px solid $mediumgray;
+						border: 1px solid $ms-mediumLightGray;
 						padding: 3px 5px;
 						transition: 0.2s all linear;
 
-						.fa {
+						i {
 							color: $orange;
 						}
 
-						.pbFilterSearchInput {
+						input {
 							width: 90%;
 							border: 0;
 							outline: 0;
@@ -180,117 +133,72 @@
 					}
 				}
 
-				.pbFilterCustomSelection {
-					margin: 5px 10px 5px 28px;
-					position: relative;
-					display: inline-block;
+				.selection-tools {
+					height: 35px;
 
-					.pbFilterSelectionButton {
+					.dropdown {
+						margin: 5px 10px 5px 28px;
 						display: inline-block;
-						width: 46px;
-						height: 25px;
 
-						&.active {
-							.pbFilterSelectDrop {
-								color: white;
-							}
-
-							.pbFilterSelectDrop {
-								background-color: $blue;
-								border: 1px solid $blue;
-							}
-						}
-
-						.pbFilterSelectAll {
+						.static-button {
 							display: inline-block;
-							padding: 4px 6px;
-							border: 1px solid $mediumgray;
+							width: 46px;
 							height: 25px;
 
-							&:hover {
-								border: 1px solid $blue;
-								color: $blue;
-							}
-						}
-
-						.pbFilterSelectDrop {
-							display: inline-block;
-							background-color: $lightestgray;
-							float: right;
-							padding: 5px 5px 4px;
-							border: 1px solid $mediumgray;
-
-							&:hover {
-								background-color: $blue;
-								border: 1px solid $blue;
-								color: white;
-							}
-						}
-					}
-
-					.pFilterDrop {
-						position: absolute;
-						padding: 10px;
-						left: -60px;
-						z-index: 20;
-						width: 210px;
-
-						.pbFilterDropVisible {
-							border: 1px solid $blue;
-							background-color: white;
-							padding: 7px 0;
-							box-shadow: 0 3px 10px rgba(100,100,100,0.5);
-
-							&::before {
-								position: absolute;
-								height: 11px;
-								width: 11px;
-								content: "";
-								border-left: 1px solid $blue;
-								border-top: 1px solid $blue;
-								-webkit-transform: rotate(45deg);
-								-moz-transform: rotate(45deg);
-								-ms-transform: rotate(45deg);
-								-o-transform: rotate(45deg);
-								transform: rotate(45deg);
-								top: 5px;
-								left: 44%;
-								z-index: 13;
-								background-color: white;
-							}
-
-							div {
-								padding: 5px 20px;
+							.selection-toggle {
+								display: inline-block;
+								padding: 4px 6px;
+								border: 1px solid $ms-mediumLightGray;
+								height: 25px;
 
 								&:hover {
-									background-color: $blue;
-									color: white;
+									border: 1px solid $ms-blue;
+									color: $ms-blue;
+								}
+							}
+
+							.dropdown-toggle {
+								display: inline-block;
+								background-color: $ms-lightGray;
+								float: right;
+								padding: 5px 5px 4px;
+								border: 1px solid $ms-mediumLightGray;
+
+								&:hover {
+									background-color: $ms-blue;
+									border: 1px solid $ms-blue;
+									color: $ms-pureWhite;
+
 								}
 							}
 						}
+
+						.dropdown-menu {
+							left: -58px;
+							width: 190px;
+						}
+					}
+
+					.stat {
+						display: inline-block;
+						margin-left: 5px;
 					}
 				}
 
-				.pbFilterNumberSelected {
-					display: inline-block;
-					vertical-align: top;
-					padding-top: 7px;
-				}
-
-				.pbModalHeight {
+				.list-box {
 					overflow-y: auto;
-					border-top: 1px solid $mediumgray;
+					border-top: 1px solid $ms-mediumLightGray;
 					padding: 5px;
 
-					.pbFilterList {
+					.list {
 						margin: 5px 10px;
 						font-weight: normal;
 
-						.fa {
+						i {
 							margin-right: 2px;
 						}
 
-						.pbFilterListCategory {
+						.list-subcategory {
 							padding: 5px 0;
 
 							label {
@@ -299,86 +207,60 @@
 								margin-bottom: 4px;
 							}
 
-							.pbExpandHandle {
+							.expand-handle {
 								padding: 5px;
 
-								.fa-caret-right {
-									color: $mediumgray;
+								i {
+									color: $ms-mediumGray;
 
 									&.fa-rotate-90 {
-										color: $black;
+										color: $ms-black;
 									}
 								}
 							}
 						}
 
-						.pbFilterListValue {
+						.list-item {
 							padding: 5px 10px 5px 20;
-
 						}
 
-						.pbFilterCollection {
+						.list-category {
 							padding-left: 25px;
 							height: inherit;
 
-							&.pbFilterCollapsed {
+							&.collapsed {
 								height: 0;
 								overflow: hidden;
 							}
 						}
+
+						.all-selected {
+							color: $ms-blue;
+							font-weight: bold;
+						}
 					}
+				}
+
+				.blue {
+					color: $ms-blue;
 				}
 			}
 
-			.pbFilterModalButtons {
+			.button-group {
 				float: right;
+				margin-top: 15px;
 
 				.btn {
 					margin-left: 20px;
-					margin-top: 15px;
 					padding: 5px 20px;
-					border-radius: 3px;
-				}
-
-				.filterCancelButton {
-					background-color: $mediumgray;
-					border: 1px solid $gray;
-					color: white;
-				}
-
-				.filterApplyButton {
-					background-color: $orange;
-					color: white;
 				}
 			}
 		}
 	}
+}
 
-	.pbGray {
-		color: $darkgray;
-	}
+.lightbox {
+	
 
-	.allSelected {
-		color: $blue;
-		font-weight: bold;
-	}
-
-	.blue {
-		color: $blue;
-	}
-
-	.bold {
-		font-weight: bold;
-	}
-
-	.underline {
-		text-decoration: underline;
-	}
-
-	.dropdown-menu {
-		background-color: transparent;
-		border: 0;
-		-webkit-box-shadow: none;
-		box-shadow: none;
-	}
+	.body {}
 }
