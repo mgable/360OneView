@@ -69,6 +69,10 @@
   max-height: 0;
 }
 
+.transparent {
+  opacity: 0;
+}
+
 .invisible {
   visibility: hidden;
 }
@@ -252,6 +256,13 @@ ul {
       border: 0;
       border-radius: 0;
       background-color: transparent;
+
+      .header {
+        .title {
+          font-size: 32px;
+          font-weight: normal;
+        }
+      }
     }
   }
 }

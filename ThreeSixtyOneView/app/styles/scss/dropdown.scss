@@ -6,8 +6,8 @@
 	.dropdown-menu {
 		top: 30px;
 		border-radius: 0;
-		background-color: white;
-		border: 1px solid $blue;
+		background-color: $ms-pureWhite;
+		border: 1px solid $ms-blue;
 		padding: 7px 0;
 		width: 125px;
 		box-shadow: 0 3px 10px rgba(160,160,160,0.5);
@@ -17,13 +17,13 @@
 			height: 11px;
 			width: 11px;
 			content: "";
-			border-left: 1px solid $blue;
-			border-top: 1px solid $blue;
+			border-left: 1px solid $ms-blue;
+			border-top: 1px solid $ms-blue;
 			@include vendor(transform, rotate(45deg));
 			left: 46%;
 			top: -6px;
 			z-index: 13;
-			background-color: white;
+			background-color: $ms-pureWhite;
 		}
 
 		.menu-item {
@@ -34,8 +34,8 @@
 			text-overflow: ellipsis;
 
 			&:hover {
-				color: white;
-				background-color: $blue;
+				color: $ms-black;
+				background-color: $ms-lightGray;
 			}
 
 			i {
@@ -43,8 +43,8 @@
 			}
 
 			&.selected {
-				background-color: $blue;
-				color: white;
+				background-color: $ms-blue;
+				color: $ms-pureWhite;
 			}
 		}
 
