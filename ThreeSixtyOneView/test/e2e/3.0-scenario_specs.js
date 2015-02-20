@@ -13,9 +13,11 @@ var edit = "li[data-ms-id='scenario.edit.button']",
 	copyButton = "span[data-ms-id='ScenarioEdit.copyElement']",
 	analysisElementFileList = "file in fileList",
 	analysisElementReplace = "div[data-ms-id='analysisElementReplace']",
-	cancelButton = ".ms-btn-cancel",
-	submitButton = "div[data-ms-id='analysisElementCopy'] .ms-btn-submit",
+	analysisElementCopy = "div[data-ms-id='analysisElementCopy']", 
+	cancelButton = analysisElementCopy + " .ms-btn-cancel",
+	submitButton = analysisElementCopy + " .ms-btn-submit",
 	replaceSubmitButton = analysisElementReplace + " .ms-btn-submit",
+	replaceCancelButton = analysisElementReplace + " .ms-btn-cancel",
 	copyAndReplaceField = "newElement.name",
 	copyAndReplaceDescriptionField = "newElement.description",
 
@@ -54,7 +56,8 @@ var edit = "li[data-ms-id='scenario.edit.button']",
 		copyAndReplaceDescriptionField: element(by.model(copyAndReplaceDescriptionField)),
 		submitButton: element(by.css(submitButton)),
 		copyAndReplaceCubeName: element(by.css(copyAndReplaceCubeName)),
-		replaceSubmitButton: element(by.css(replaceSubmitButton))
+		replaceSubmitButton: element(by.css(replaceSubmitButton)),
+		replaceCancelButton: element(by.css(replaceCancelButton))
 	};
 
 module.exports = data;

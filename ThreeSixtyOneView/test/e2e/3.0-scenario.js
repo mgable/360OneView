@@ -1,8 +1,7 @@
 "use strict";
 
 var specs = require('./3.0-scenario_specs.js'),
-	funcs = require('./1.0-project_listing_functions.js'),
-	scenarioFuncs = require('./3.0-scenario_functions.js'),
+	funcs = require('./3.0-scenario_functions.js'),
 	_ = require('underscore'),
 	scenario = funcs.readProjectInfo();
 
@@ -33,7 +32,7 @@ beforeEach(function(){
     this.addMatchers(customMatchers);
 });
 
-xdescribe('Scenario Page: ', function() {
+describe('Scenario Page: ', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
@@ -62,17 +61,17 @@ xdescribe('Scenario Page: ', function() {
 	});
 
 	describe("should have an analysis element toolbar", function(){
-		xit("should have thirteen analysis elements", function(){
+		it("should have thirteen analysis elements", function(){
 			expect(specs.analysisElements.count()).toBe(specs.assumedData.cubes.length);
 		});
 
-		xit("should have 'marketing plan' selected", function(){
+		it("should have 'marketing plan' selected", function(){
 			specs.selectedAnalysisElement.getText().then(function(selected){
 				expect(selected).toBe(specs.assumedData.defaultSelectedAnalysisElement);
 			});
 		});
 
-		xit("should allow the user to select a new cube", function(){
+		it("should allow the user to select a new cube", function(){
 			var index = 0;
 			specs.analysisElements.each(function(element){
 				specs.selectedAnalysisElement.click();
@@ -83,11 +82,11 @@ xdescribe('Scenario Page: ', function() {
 			});
 		});
 
-		xit("should not allow the analysis element to be replaced or copied on the Marketing Plan", function(){
+		it("should not allow the analysis element to be replaced or copied on the Marketing Plan", function(){
 			expect(funcs.hasClass(specs.copyAndReplaceCube, "ng-hide")).toBeTruthy();
 		});
 
-		xit("should allow the analysis element to be replaced or copied for all others", function(){
+		it("should allow the analysis element to be replaced or copied for all others", function(){
 			var index = 0;
 			specs.analysisElements.each(function(element){
 				specs.selectedAnalysisElement.click();
@@ -99,7 +98,7 @@ xdescribe('Scenario Page: ', function() {
 			});
 		});
 
-		xit("should have a default analysis element file", function(){
+		it("should have a default analysis element file", function(){
 			var index = 0;
 			specs.analysisElements.each(function(element){
 				specs.selectedAnalysisElement.click();
@@ -109,7 +108,7 @@ xdescribe('Scenario Page: ', function() {
 					expect(specs.analysisElementFileList.count()).toBeGreaterThan(0);
 					specs.analysisElementFileList.getText().then(function(fileList){
 						expect(fileList).arrayElementContains(specs.assumedData.preloadedAnalysisElement);
-						specs.cancelButton.click();
+						specs.replaceCancelButton.click();
 					});
 					
 				}
@@ -119,7 +118,7 @@ xdescribe('Scenario Page: ', function() {
 		});
 
 		it("should copy and replace the analysis element file", function(){
-			scenarioFuncs.selectSecondCube();
+			funcs.selectSecondCube();
 			specs.copyButton.click();
 			expect(specs.submitButton.getAttribute("disabled")).toBeTruthy();
 			specs.copyAndReplaceNameField.clear();
@@ -134,7 +133,7 @@ xdescribe('Scenario Page: ', function() {
 			});
 		});
 
-		xit("should replace the analysis element file", function(){
+		it("should replace the analysis element file", function(){
 			var file;
 			specs.selectedAnalysisElement.click();
 			specs.analysisElements.get(1).click();
