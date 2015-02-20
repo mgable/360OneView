@@ -1,0 +1,179 @@
+@import "variables";
+@import "new_variables";
+
+.lightbox {
+	background-color: rgba(255,255,255,0.9);
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+
+	.modal-dialog {
+		width: 100%;
+
+		.modal-content {
+			width: 1126px;
+			margin: 50px auto;
+			@include vendor(box-shadow, none);
+			border: 0;
+			border-radius: 0;
+			background-color: transparent;
+
+			.header {
+				.title {
+					font-size: 32px;
+					font-weight: 500;
+				}
+
+				.subtitle {
+					font-size: 24px;
+					font-weight: 500;
+				}
+			}
+
+			.body {
+				.content {
+					.main-content {
+						background-color: $ms-pureWhite;
+						border: 1px solid $ms-mediumLightGray;
+
+						.toolbar {
+							background-color: $ms-lightGray;
+
+							.dropdown-box {
+								display: inline-block;
+								width: 380px;
+
+								.dropdown {
+									position: relative;
+									display: inline-block;
+
+									.dropdown-toggle {
+										font-size: 20px;
+										margin: 5px 10px 5px 20px;
+									}
+
+									.dropdown-menu {
+										left: -200%;
+										right: -200%;
+										margin-left: auto;
+										margin-right: auto;
+										position: absolute;
+										z-index: 20;
+										top: 35px;
+									}
+								}
+							}
+
+							.search-box {
+								display: inline-block;
+								width: 350px;
+								margin: 5px 10px 5px 10px;
+								background-color: white;
+								border: 1px solid $ms-mediumLightGray;
+								padding: 3px 5px;
+								transition: 0.2s all linear;
+
+								input {
+									width: 90%;
+									border: 0;
+									outline: 0;
+									margin-left: 5px;
+								}
+							}
+						}
+
+						.list-box {
+							overflow-y: auto;
+						}
+					}
+				}
+
+				.action-buttons {
+					float: right;
+					margin-top: 15px;
+
+					.btn {
+						margin-left: 20px;
+						padding: 5px 20px;
+					}
+				}
+			}
+		}
+	}
+}
+
+.list-lightbox {
+	.modal-dialog .modal-content {
+		width: 800px;
+	}
+
+	.body .content .main-content {
+		.toolbar .dropdown-box .dropdown .dropdown-toggle i {
+			font-size: 14px;
+			margin-left: 5px;
+		}
+
+		.list-box {
+			height: 400px;
+
+			.dot-circle {
+				display: none;
+			}
+
+			.item {
+				height: 70px;
+				border-top: 1px solid $lightgray;
+				padding: 15px 0 10px 0;
+				/*padding-bottom: 10px;*/
+
+				.item-name {
+					padding: 0 15px 0 35px;
+					/*padding-right: 15px;*/
+					width: 500px;
+					display: inline-block;
+
+					.circle, .dot-circle {
+						margin-right: 5px;
+					}
+				}
+
+				.item-meta {
+					display: inline-block;
+					width: 250px;
+					vertical-align: top;
+
+					.item-owner {
+						color: $ms-gray;
+						margin-left: 10px;
+					}
+				}
+
+				.item-description {
+					padding-left: 52;
+					color: $ms-gray;
+				}
+
+				&.selected {
+					background-color: $ms-blue;
+					color: $ms-pureWhite;
+
+					.item-owner {
+						color: $ms-lightGray;
+					}
+
+					.item-description {
+						color: $ms-lightGray;
+					}
+
+					.circle {
+						display: none;
+					}
+
+					.dot-circle {
+						display: inline;
+					}
+				}
+			}
+		}
+	}
+}

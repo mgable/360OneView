@@ -52,7 +52,7 @@ angular.module('ThreeSixtyOneView')
         $scope.openScenarioElementFileModal = function(scenarioId, selectedScenarioElement, e2e) {
             var dialog = DialogService.openLightbox('views/modal/scenario_analysis_element_files.tpl.html', 'ScenarioAnalysisElementFilesCtrl',
                 {selectedScenarioElement: selectedScenarioElement, e2e: e2e},
-                {windowSize: 'lg', windowClass: 'scenarioAnalysisElementFiles'});
+                {windowSize: 'lg', windowClass: 'list-lightbox'});
 
             dialog.result.then(function(data) {
                 replaceAnalysisElementForCube(scenarioId, selectedScenarioElement.cubeMeta.id, data.id);

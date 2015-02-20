@@ -268,37 +268,37 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/modal/all_views.tpl.html',
-    "<div class=\"all-views-modal-header\">\r" +
+    "<div class=\"header\">\r" +
     "\n" +
-    "\t<h4 class=\"element-modal-title\" id=\"myModalLabel\">{{selectedScenarioElement.cubeMeta.label}}</h4>\r" +
+    "\t<h4 class=\"title\">{{selectedScenarioElement.cubeMeta.label}}</h4>\r" +
     "\n" +
-    "\t<h3>Select A View</h3>\r" +
+    "\t<h3 class=\"subtitle\">Select A View</h3>\r" +
     "\n" +
     "</div>\r" +
     "\n" +
-    "<div class=\"all-views-modal-body\">\r" +
+    "<div class=\"body\">\r" +
     "\n" +
-    "\t<div class=\"all-views-box\">\r" +
+    "\t<div class=\"content\">\r" +
     "\n" +
-    "\t\t<div class=\"all-views-toolbar\">\r" +
+    "\t\t<div class=\"main-content\">\r" +
     "\n" +
-    "\t\t\t<div class=\"views-type-dropdown\">\r" +
+    "\t\t\t<div class=\"toolbar\">\r" +
     "\n" +
-    "\t\t\t\t<div class=\"dropdown\">\r" +
+    "\t\t\t\t<div class=\"dropdown-box\">\r" +
     "\n" +
-    "\t\t\t\t\t<div class=\"dropdown-toggle\">{{elementTypeItems[currentElementType]}}<icon type=\"caret-down\"></icon></div>\r" +
+    "\t\t\t\t\t<div class=\"dropdown\">\r" +
     "\n" +
-    "\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{selectedScenarioElement.id}}\" radio=\"true\">\r" +
+    "\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\">{{elementTypeItems[currentElementType]}}<icon type=\"caret-down\"></icon></div>\r" +
     "\n" +
-    "\t\t\t            <li ng-repeat=\"item in elementTypeItems\" ms-link=\"{{$index}}\"><a href=\"\" ng-click=\"changeElementType($index)\">{{item}}</a></li>\r" +
+    "\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{selectedScenarioElement.id}}\" radio=\"true\">\r" +
     "\n" +
-    "\t\t\t        </ul>\r" +
+    "\t\t\t\t            <li ng-repeat=\"item in elementTypeItems\" ng-click=\"changeElementType($index)\" class=\"menu-item\" ms-link=\"{{$index}}\">{{item}}</li>\r" +
+    "\n" +
+    "\t\t\t\t        </ul>\r" +
+    "\n" +
+    "\t\t\t\t\t</div>\r" +
     "\n" +
     "\t\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t<div class=\"view-name-search\">\r" +
     "\n" +
     "\t\t\t\t<div class=\"search-box\">\r" +
     "\n" +
@@ -310,21 +310,21 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t</div>\r" +
     "\n" +
-    "\t\t</div>\r" +
+    "\t\t\t<div class=\"list-box\">\r" +
     "\n" +
-    "\t\t<div class=\"all-views-list\">\r" +
+    "\t\t\t\t<div ng-repeat=\"view in viewsList | filter:searchTerm | orderBy:'auditInfo.lastUpdatedOn':true\" class=\"item clickable\" ng-class=\"{'selected': view.id === selectedView.id}\" ng-click=\"selectedView.id = view.id\">\r" +
     "\n" +
-    "\t\t\t<div ng-repeat=\"view in viewsList | filter:searchTerm | orderBy:'auditInfo.lastUpdatedOn':true\" class=\"all-views-item\" ng-class=\"{'current-view': view.id === selectedView.id}\" ng-click=\"selectedView.id = view.id\">\r" +
+    "\t\t\t\t\t<div class=\"item-name text-holder\"><icon type=\"circle-o\" cname=\"circle\"></icon><icon type=\"dot-circle-o\" cname=\"dot-circle\"></icon>{{view.name}}</div>\r" +
     "\n" +
-    "\t\t\t\t<div class=\"all-views-name\"><icon type=\"circle-o\" cname=\"circle\"></icon><icon type=\"dot-circle-o\" cname=\"dot-circle\"></icon>{{view.name}}</div>\r" +
+    "\t\t\t\t\t<div class=\"item-meta\">\r" +
     "\n" +
-    "\t\t\t\t<div class=\"all-views-info\">\r" +
+    "\t\t\t\t\t\t<span ng-if=\"e2e\" class=\"item-date\">{{view.auditInfo.createdOn}}</span>\r" +
     "\n" +
-    "\t\t\t\t\t<span ng-if=\"e2e\" class=\"all-views-date\">{{view.auditInfo.createdOn}}</span>\r" +
+    "\t\t\t\t\t\t<span ng-if=\"!e2e\" class=\"item-date\">{{view.auditInfo.createdOn | timeago}}</span>\r" +
     "\n" +
-    "\t\t\t\t\t<span ng-if=\"!e2e\" class=\"all-views-date\">{{view.auditInfo.createdOn | timeago}}</span>\r" +
+    "\t\t\t\t\t\t<span class=\"item-owner\">{{view.auditInfo.createdBy.name}}</span>\r" +
     "\n" +
-    "\t\t\t\t\t<span class=\"all-views-owner\">{{view.auditInfo.createdBy.name}}</span>\r" +
+    "\t\t\t\t\t</div>\r" +
     "\n" +
     "\t\t\t\t</div>\r" +
     "\n" +
@@ -334,7 +334,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t</div>\r" +
     "\n" +
-    "\t<div class=\"element-file-buttons\">\r" +
+    "\t<div class=\"action-buttons\">\r" +
     "\n" +
     "\t\t<ms-button type=\"cancel\" action=\"cancelChangeView()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\r" +
     "\n" +
@@ -395,9 +395,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<div class=\"main-content\">\r" +
     "\n" +
-    "\t\t\t<div class=\"filter-tools\">\r" +
+    "\t\t\t<div class=\"toolbar\">\r" +
     "\n" +
-    "\t\t\t\t<div class=\"level-box\">\r" +
+    "\t\t\t\t<div class=\"dropdown-box\">\r" +
     "\n" +
     "\t\t\t\t\t<div class=\"clickable dropdown\">\r" +
     "\n" +
@@ -479,7 +479,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t</div>\r" +
     "\n" +
-    "\t\t<div class=\"button-group\">\r" +
+    "\t\t<div class=\"action-buttons\">\r" +
     "\n" +
     "\t\t\t<ms-button type=\"cancel\" action=\"cancelChangeFilter()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\r" +
     "\n" +
@@ -545,41 +545,41 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/modal/scenario_analysis_element_files.tpl.html',
-    "<div class=\"modal-header\">\r" +
+    "<div class=\"header\">\r" +
     "\n" +
-    "\t<h4 class=\"element-modal-title\" id=\"myModalLabel\">{{selectedScenarioElement.cubeMeta.label}}</h4>\r" +
+    "\t<h4 class=\"title\">{{selectedScenarioElement.cubeMeta.label}}</h4>\r" +
     "\n" +
-    "\t<h3>Select A New File</h3>\r" +
+    "\t<h3 class=\"subtitle\">Select A New File</h3>\r" +
     "\n" +
     "</div>\r" +
     "\n" +
-    "<div class=\"element-file-modal-body\" data-ms-id=\"analysisElementReplace\">\r" +
+    "<div class=\"body\">\r" +
     "\n" +
-    "\t<div class=\"element-file-box\">\r" +
+    "\t<div class=\"content\">\r" +
     "\n" +
-    "\t\t<div class=\"element-file-toolbar\">\r" +
+    "\t\t<div class=\"main-content\">\r" +
     "\n" +
-    "\t\t\t<div class=\"file-type-dropdown\">\r" +
+    "\t\t\t<div class=\"toolbar\">\r" +
     "\n" +
-    "\t\t\t\t<div class=\"dropdown\">\r" +
+    "\t\t\t\t<div class=\"dropdown-box\">\r" +
     "\n" +
-    "\t\t\t\t\t<div class=\"dropdown-toggle\">{{elementTypeItems[currentElementType]}}<icon type=\"caret-down\" cname=\"caret-down\"></icon></div>\r" +
+    "\t\t\t\t\t<div class=\"dropdown\">\r" +
     "\n" +
-    "\t\t\t\t\t<ul class=\"dropdown-menu dropdownshadow\" ms-link-group selected-item=\"{{selectedScenarioElement.id}}\" radio=\"true\">\r" +
+    "\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\">{{elementTypeItems[currentElementType]}}<icon type=\"caret-down\"></icon></div>\r" +
     "\n" +
-    "\t\t\t            <li ng-repeat=\"item in elementTypeItems\" ms-link=\"{{$index}}\"><a href=\"\" ng-click=\"changeElementType($index)\">{{item}}</a></li>\r" +
+    "\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{selectedScenarioElement.id}}\" radio=\"true\">\r" +
     "\n" +
-    "\t\t\t        </ul>\r" +
+    "\t\t\t\t            <li ng-repeat=\"item in elementTypeItems\" ng-click=\"changeElementType($index)\" class=\"menu-item\" ms-link=\"{{$index}}\">{{item}}</li>\r" +
+    "\n" +
+    "\t\t\t\t        </ul>\r" +
+    "\n" +
+    "\t\t\t\t\t</div>\r" +
     "\n" +
     "\t\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t<div class=\"file-name-search\">\r" +
-    "\n" +
     "\t\t\t\t<div class=\"search-box\">\r" +
     "\n" +
-    "\t\t\t\t\t<icon type=\"search\" cname=\"search-icon\"></icon>\r" +
+    "\t\t\t\t\t<icon type=\"search\"></icon>\r" +
     "\n" +
     "\t\t\t\t\t<input type=\"text\" ng-model=\"searchTerm.name\" placeholder=\"Search\">\r" +
     "\n" +
@@ -587,25 +587,25 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t</div>\r" +
     "\n" +
-    "\t\t</div>\r" +
+    "\t\t\t<div class=\"list-box\">\r" +
     "\n" +
-    "\t\t<div class=\"element-file-list\">\r" +
+    "\t\t\t\t<div ng-repeat=\"file in fileList | filter:searchTerm | orderBy:'auditInfo.lastUpdatedOn':true\" class=\"item clickable\" ng-class=\"{'selected': file.id === currentFile.id}\" ng-click=\"currentFile.id = file.id\">\r" +
     "\n" +
-    "\t\t\t<div ng-repeat=\"file in fileList | filter:searchTerm | orderBy:'auditInfo.lastUpdatedOn':true\" class=\"element-file-item\" ng-class=\"{'current-file': file.id === currentFile.id}\" ng-click=\"currentFile.id = file.id\">\r" +
+    "\t\t\t\t\t<div class=\"item-name text-holder\"><icon type=\"circle-o\" cname=\"circle\"></icon><icon type=\"dot-circle-o\" cname=\"dot-circle\"></icon>{{file.name}}</div>\r" +
     "\n" +
-    "\t\t\t\t<div class=\"element-file-name\"><icon type=\"circle-o\" cname=\"circle\"></icon><icon type=\"dot-circle-o\" cname=\"dot-circle\"></icon>{{file.name}}</div>\r" +
+    "\t\t\t\t\t<div class=\"item-meta\">\r" +
     "\n" +
-    "\t\t\t\t<div class=\"element-file-info\">\r" +
+    "\t\t\t\t\t\t<span ng-if=\"e2e\" class=\"item-date\">{{file.auditInfo.lastUpdatedOn}}</span>\r" +
     "\n" +
-    "\t\t\t\t\t<span ng-if=\"e2e\" class=\"element-file-date\">{{file.auditInfo.lastUpdatedOn}}</span>\r" +
+    "\t\t\t\t\t\t<span ng-if=\"!e2e\" class=\"item-date\">{{file.auditInfo.lastUpdatedOn | timeago}}</span>\r" +
     "\n" +
-    "\t\t\t\t\t<span ng-if=\"!e2e\" class=\"element-file-date\">{{file.auditInfo.lastUpdatedOn | timeago}}</span>\r" +
+    "\t\t\t\t\t\t<span class=\"item-owner\">{{file.auditInfo.lastUpdatedBy.name}}</span>\r" +
     "\n" +
-    "\t\t\t\t\t<span class=\"element-file-owner\">{{file.auditInfo.lastUpdatedBy.name}}</span>\r" +
+    "\t\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t\t<div class=\"item-description\">{{file.description}}</div>\r" +
     "\n" +
     "\t\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t\t<div class=\"element-file-description\">{{file.description}}</div>\r" +
     "\n" +
     "\t\t\t</div>\r" +
     "\n" +
@@ -613,7 +613,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t</div>\r" +
     "\n" +
-    "\t<div class=\"element-file-buttons\">\r" +
+    "\t<div class=\"action-buttons\">\r" +
     "\n" +
     "\t\t<ms-button type=\"cancel\" action=\"cancelChangeFile()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\r" +
     "\n" +

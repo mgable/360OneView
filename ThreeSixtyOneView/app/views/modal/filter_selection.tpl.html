@@ -22,8 +22,8 @@
 			</div>
 		</div>
 		<div class="main-content">
-			<div class="filter-tools">
-				<div class="level-box">
+			<div class="toolbar">
+				<div class="dropdown-box">
 					<div class="clickable dropdown">
 						<div class="dropdown-toggle">
 							{{selectedFilter.selFil.label.toLowerCase()}}<icon type="caret-down"></icon>
@@ -64,7 +64,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="button-group">
+		<div class="action-buttons">
 			<ms-button type="cancel" action="cancelChangeFilter()" label="Cancel" data-dismiss="modal"></ms-button>
 			<ms-button type="submit" action="changeFilter()" label="Apply" data-dismiss="modal" ng-disabled="noFilterSelected"></ms-button>
 		</div>

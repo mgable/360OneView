@@ -1,37 +1,37 @@
-<div class="all-views-modal-header">
-	<h4 class="element-modal-title" id="myModalLabel">{{selectedScenarioElement.cubeMeta.label}}</h4>
-	<h3>Select A View</h3>
+<div class="header">
+	<h4 class="title">{{selectedScenarioElement.cubeMeta.label}}</h4>
+	<h3 class="subtitle">Select A View</h3>
 </div>
-<div class="all-views-modal-body">
-	<div class="all-views-box">
-		<div class="all-views-toolbar">
-			<div class="views-type-dropdown">
-				<div class="dropdown">
-					<div class="dropdown-toggle">{{elementTypeItems[currentElementType]}}<icon type="caret-down"></icon></div>
-					<ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenarioElement.id}}" radio="true">
-			            <li ng-repeat="item in elementTypeItems" ms-link="{{$index}}"><a href="" ng-click="changeElementType($index)">{{item}}</a></li>
-			        </ul>
+<div class="body">
+	<div class="content">
+		<div class="main-content">
+			<div class="toolbar">
+				<div class="dropdown-box">
+					<div class="dropdown">
+						<div class="dropdown-toggle clickable">{{elementTypeItems[currentElementType]}}<icon type="caret-down"></icon></div>
+						<ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenarioElement.id}}" radio="true">
+				            <li ng-repeat="item in elementTypeItems" ng-click="changeElementType($index)" class="menu-item" ms-link="{{$index}}">{{item}}</li>
+				        </ul>
+					</div>
 				</div>
-			</div>
-			<div class="view-name-search">
 				<div class="search-box">
 					<icon type="search"></icon>
 					<input type="text" ng-model="searchTerm.name" placeholder="Search">
 				</div>
 			</div>
-		</div>
-		<div class="all-views-list">
-			<div ng-repeat="view in viewsList | filter:searchTerm | orderBy:'auditInfo.lastUpdatedOn':true" class="all-views-item" ng-class="{'current-view': view.id === selectedView.id}" ng-click="selectedView.id = view.id">
-				<div class="all-views-name"><icon type="circle-o" cname="circle"></icon><icon type="dot-circle-o" cname="dot-circle"></icon>{{view.name}}</div>
-				<div class="all-views-info">
-					<span ng-if="e2e" class="all-views-date">{{view.auditInfo.createdOn}}</span>
-					<span ng-if="!e2e" class="all-views-date">{{view.auditInfo.createdOn | timeago}}</span>
-					<span class="all-views-owner">{{view.auditInfo.createdBy.name}}</span>
+			<div class="list-box">
+				<div ng-repeat="view in viewsList | filter:searchTerm | orderBy:'auditInfo.lastUpdatedOn':true" class="item clickable" ng-class="{'selected': view.id === selectedView.id}" ng-click="selectedView.id = view.id">
+					<div class="item-name text-holder"><icon type="circle-o" cname="circle"></icon><icon type="dot-circle-o" cname="dot-circle"></icon>{{view.name}}</div>
+					<div class="item-meta">
+						<span ng-if="e2e" class="item-date">{{view.auditInfo.createdOn}}</span>
+						<span ng-if="!e2e" class="item-date">{{view.auditInfo.createdOn | timeago}}</span>
+						<span class="item-owner">{{view.auditInfo.createdBy.name}}</span>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="element-file-buttons">
+	<div class="action-buttons">
 		<ms-button type="cancel" action="cancelChangeView()" label="Cancel" data-dismiss="modal"></ms-button>
 		<ms-button type="submit" action="changeView()" label="Replace" data-dismiss="modal"></ms-button>
 	</div>
