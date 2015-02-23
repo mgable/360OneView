@@ -59,6 +59,7 @@ var coreSpecs = require('./0.0-specs.js'),
 		pageTitle: "360 One View",
 		projectsBreadcrumb: "ALL PROJECTS", 
 		statusClass: ".status i",
+		titleClass: ".title a",
 
 		items: "item in getData()",
 		itemCount: "span[data-ms-id='itemCount']",
