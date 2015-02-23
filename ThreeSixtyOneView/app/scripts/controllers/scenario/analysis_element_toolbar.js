@@ -13,13 +13,17 @@ angular.module('ThreeSixtyOneView')
         // $scope.selectedScenarioElementsFile
         // $scope.groupedScenarioElements;
         // $scope.loadPivotTable()
-        var replaceScenarioElement = function(newElement) {
+        var init = function(){
+                $scope.groupedScenarioElements = getGroupedScenarioElements();
+            },
+            replaceScenarioElement = function(newElement) {
                 _.each($scope.scenarioElements, function(element, index) {
                     if(element.cubeMeta.id === newElement.cubeMeta.id) {
                         $scope.scenarioElements.splice(index, 1, newElement);
                     }
                 });
                 $scope.setScenarioElement(newElement);
+                $scope.groupedScenarioElements = getGroupedScenarioElements();
                 $scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
             },
             replaceAnalysisElementForCube = function(scenarioId, cubeId, elementId) {
@@ -31,6 +35,9 @@ angular.module('ThreeSixtyOneView')
                 ManageScenariosService.copyAndReplaceAnalysisElementForCube(scenarioId, cubeId, sourceElementId, newElementData).then(function(element){
                     replaceScenarioElement(element);
                 });
+            }, 
+            getGroupedScenarioElements = function(){
+                return  _.groupBy($scope.scenarioElements, function(element) {return element.group;});
             };
 
        // hide scenario copy and replace options if part of the marketing plan
@@ -45,7 +52,7 @@ angular.module('ThreeSixtyOneView')
         $scope.openScenarioElementFileModal = function(scenarioId, selectedScenarioElement, e2e) {
             var dialog = DialogService.openLightbox('views/modal/scenario_analysis_element_files.tpl.html', 'ScenarioAnalysisElementFilesCtrl',
                 {selectedScenarioElement: selectedScenarioElement, e2e: e2e},
-                {windowSize: 'lg', windowClass: 'scenarioAnalysisElementFiles'});
+                {windowSize: 'lg', windowClass: 'list-lightbox'});
 
             dialog.result.then(function(data) {
                 replaceAnalysisElementForCube(scenarioId, selectedScenarioElement.cubeMeta.id, data.id);
@@ -67,5 +74,7 @@ angular.module('ThreeSixtyOneView')
                 replaceScenarioElement(element);
             });
         };
+
+        init();
 
     }]);

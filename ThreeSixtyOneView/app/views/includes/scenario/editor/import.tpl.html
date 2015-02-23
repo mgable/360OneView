@@ -1,0 +1,28 @@
+<div id="importBody" class="import-export hidden content slider">
+	<div class="slider-title">Importing Data</div>
+	<p>Do you want to download an import template first? <a class="clickable" onclick="exportHeader.click()">Yes</a></p>
+	<div>
+		<div class="file clickable" ng-class="{selected: isFileSelected, invalid: isFileInvalid}" onclick="fileInput.click()">
+			{{selectedFileName}}
+		</div>
+		<ms-button type="submit" label="Browse" onclick="fileInput.click()" ng-disabled="isImportStarted"></ms-button>
+		<input id="fileInput" type="file" onchange="angular.element(this).scope().newFileSelected(event)" class="ng-hide"></input>
+		<div class="message error" ng-show="isFileInvalid"><icon type="warning"></icon>This file is invalid. Please select a valid file.</div>
+	</div>
+	<div class="button-group">
+		<ms-button type="cancel" action="resetUploadForm()" label="{{cancelButtonLabel}}" ng-disabled="!isImportStarted"></ms-button>
+		<ms-button type="submit" action="startUpload()" label="Import" ng-disabled="!isFileSelected || isFileInvalid || isImportStarted"></ms-button>
+	</div>
+	<div ng-show="isImportStarted" class="status-container">
+		<div ng-hide="isImportCompleted || isImportFailed">
+			<icon type="refresh" class="fa-spin"></icon>{{statusMessage}}
+		</div>
+		<div ng-show="isImportCompleted" class="message success"><icon type="thumbs-o-up"></icon>You successfully imported {{selectedFileName}}</div>
+		<div ng-show="isImportFailed" class="message error"><icon type="thumbs-o-down"></icon>{{statusMessage}}</div>
+	</div>
+	<div class="collapse-handle">
+		<span class="clickable" collapse-control target-area="#importBody" header="#importHeader">
+			<icon type="chevron-up"></icon>Collapse
+		</span>
+	</div>
+</div>

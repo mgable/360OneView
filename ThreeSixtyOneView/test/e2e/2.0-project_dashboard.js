@@ -1,14 +1,13 @@
 "use strict";
 
-var specs = require('./0.0-specs.js'),
-	funcs = require('./0.1-project_functions.js');
+var specs = require('./1.0-project_listing_specs.js'),
+	funcs = require('./1.0-project_listing_functions.js');
 
 	var dashboardUrl, projectId;
 	// TEMP data - remove in production
-	//var dashboardUrl, projectId = "9437e65645383388b03095a017c9480b"; dashboardUrl = funcs.getDashboardUrl(projectId);
+	var dashboardUrl, projectId = "333c1b413f0930cea4051d98e5928a0f", dashboardUrl = funcs.getDashboardUrl(projectId);
 
-
-describe('Project Dashboard', function() {
+xdescribe('Project Dashboard', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
@@ -37,7 +36,7 @@ describe('Project Dashboard', function() {
 		browser.get(funcs.getProjectUrl());
 		browser.waitForAngular();
 
-		firstItemTitle = specs.getFirstItemTitle();
+		firstItemTitle = funcs.getFirstItemTitle();
 		firstItemTitle.getText(function(text){
 			expect(text).toBe(testFileName);
 		});
@@ -82,8 +81,8 @@ describe('Project Dashboard', function() {
 				baseScenarioInputField = element(by.model(baseScenario));
 
 			it("should have no scenarios at time of creation", function(){
-				var items = specs.getItems(),
-					itemCount = specs.getItemCount();
+				var items = funcs.getItems(),
+					itemCount = funcs.getItemCount();
 				expect(items.count()).toEqual(0);
 				itemCount.getText().then(function(count){
 					expect(parseInt(count)).toEqual(0);
@@ -104,31 +103,6 @@ describe('Project Dashboard', function() {
 				expect(noScenariosAlert.isPresent()).toBe(true);
 			});
 
-			it("should open the create new scenario dialog box and create a new scenario", function(){
-				noScenariosAlert.click();
-				browser.waitForAngular();
-				inputName.sendKeys(testScenarionNameFirst);
-				inputDescription.sendKeys(testScenarionDescription);
-				submitButton.click();
-				browser.waitForAngular();
-				expect(browser.getLocationAbsUrl()).toContain("#/scenario/");
-				browser.get(funcs.getDashboardUrl(projectId));
-				browser.waitForAngular();
-
-				var items = specs.getItems(),
-					itemCount = specs.getItemCount(),
-					title = specs.getFirstItemTitle();
-				expect(items.count()).toBe(1);
-				itemCount.getText().then(function(count){
-					expect(parseInt(count)).toBe(1);
-				});
-
-				expect(noScenariosAlert.isPresent()).toBe(false);
-				title.getText().then(function(text){
-					expect(text).toBe(testScenarionNameFirst);
-				})
-			});
-
 			it("should not allow a new scenario to be created without a name", function(){
 				specs.createButton.click();
 				browser.waitForAngular();
@@ -141,14 +115,6 @@ describe('Project Dashboard', function() {
 				expect(submitButton.isEnabled()).toBe(false);
 				inputName.sendKeys("New " + testScenarionNameFirst);
 				expect(submitButton.isEnabled()).toBe(true);
-			});
-
-			it("should not allow a duplicate scenario name", function(){
-				specs.createButton.click();
-				browser.waitForAngular();
-				expect(submitButton.isEnabled()).toBe(false);
-				inputName.sendKeys(testScenarionNameFirst);
-				expect(submitButton.isEnabled()).toBe(false);
 			});
 
 			it("should restrict which characters can be used in a name", function(){
@@ -165,11 +131,71 @@ describe('Project Dashboard', function() {
 				funcs.testMinAndMaxNameLength(inputName, submitButton);
 			});
 
+			it("should not allow the base reference scenario to be edited", function(){
+
+				specs.createButton.click();
+				browser.waitForAngular();
+
+				baseScenarioInputField.getAttribute("readonly").then(function(attributeValue){
+					expect(attributeValue).toEqual('true');
+				});
+			});
+
+			it("should keep the same base scenario on confirm if a new scenario has not been selected", function(){
+				specs.createButton.click();
+				browser.waitForAngular();
+				baseScenarioInputField.getAttribute("value").then(function(text){
+					baseScenarioInputField.click();
+					browser.waitForAngular();
+					confirmBaseScenarioButton.click();
+					baseScenarioInputField.getAttribute("value").then(function(newText){
+						expect(text).toEqual(newText);
+					});
+				});
+			});
+
+			// scenario needs to exist for this to work
+			it("should open the create new scenario dialog box and create a new scenario", function(){
+				specs.createButton.click();
+				browser.waitForAngular();
+				inputName.sendKeys(testScenarionNameFirst);
+				inputDescription.sendKeys(testScenarionDescription);
+				submitButton.click();
+				browser.waitForAngular();
+				browser.getLocationAbsUrl().then(function(url){
+					funcs.saveProjectInfo(url, testFileName, testScenarionNameFirst);
+					expect(url).toContain("#/scenario/");
+				});
+				browser.get(funcs.getDashboardUrl(projectId));
+				browser.waitForAngular();
+
+				var items = funcs.getItems(),
+					itemCount = funcs.getItemCount(),
+					title = funcs.getFirstItemTitle();
+				expect(items.count()).toBe(1);
+				itemCount.getText().then(function(count){
+					expect(parseInt(count)).toBe(1);
+				});
+
+				expect(noScenariosAlert.isPresent()).toBe(false);
+				title.getText().then(function(text){
+					expect(text).toBe(testScenarionNameFirst);
+				})
+			});
+
+			it("should not allow a duplicate scenario name", function(){
+				specs.createButton.click();
+				browser.waitForAngular();
+				expect(submitButton.isEnabled()).toBe(false);
+				inputName.sendKeys(testScenarionNameFirst);
+				expect(submitButton.isEnabled()).toBe(false);
+			});
+
 			it("should copy a scenario", function(){
-				var scenarioTitle = specs.getFirstItemTitle(),
-					scenario = specs.getFirstItem(),
-					items = specs.getItems(),
-					itemCount = specs.getItemCount(),
+				var scenarioTitle = funcs.getFirstItemTitle(),
+					scenario = funcs.getFirstItem(),
+					items = funcs.getItems(),
+					itemCount = funcs.getItemCount(),
 					numberOfScenarios;
 
 				items.count().then(function(count){
@@ -200,47 +226,24 @@ describe('Project Dashboard', function() {
 
 			it("should search scenarios", function(){
 				funcs.enterSearch('FIRST');
-				expect(specs.getItems().count()).toBe(1);
+				expect(funcs.getItems().count()).toBe(1);
 			});
 
 			it("should have an active selection", function(){
-				var first = specs.getFirstItem();
-				expect(specs.hasClass(first, specs.activeSelectionClass)).toEqual(true);
-			});
-
-			it("should not allow the base reference scenario to be edited", function(){
-
-				specs.createButton.click();
-				browser.waitForAngular();
-
-				baseScenarioInputField.getAttribute("readonly").then(function(attributeValue){
-					expect(attributeValue).toEqual('true');
-				});
-			});
-
-			it("should keep the same base scenario on confirm if a new scenario has not been selected", function(){
-				specs.createButton.click();
-				browser.waitForAngular();
-				baseScenarioInputField.getAttribute("value").then(function(text){
-					baseScenarioInputField.click();
-					browser.waitForAngular();
-					confirmBaseScenarioButton.click();
-					baseScenarioInputField.getAttribute("value").then(function(newText){
-						expect(text).toEqual(newText);
-					});
-				});
+				var first = funcs.getFirstItem();
+				expect(funcs.hasClass(first, specs.activeSelectionClass)).toEqual(true);
 			});
 		});
 
 		describe("Filter functions: ", function(){
 
 			it("should filter by favorite", function(){
-				var startItemCount = specs.getItemCount();
+				var startItemCount = funcs.getItemCount();
 
 				funcs.filterByFavorites();
 
-				specs.getItems().count().then(function(itemCount){
-					specs.getFavorites().count().then(function(favoriteCount){
+				funcs.getItems().count().then(function(itemCount){
+					funcs.getFavorites().count().then(function(favoriteCount){
 						expect(itemCount).toBe(favoriteCount);
 					});
 				});
@@ -248,7 +251,7 @@ describe('Project Dashboard', function() {
 				funcs.filterByItem();
 
 				startItemCount.getText().then(function(count){
-					specs.getItems().count().then(function(itemCount){
+					funcs.getItems().count().then(function(itemCount){
 						expect(count).toBe(itemCount.toString());
 					});
 				});	
@@ -269,15 +272,15 @@ describe('Project Dashboard', function() {
 				specs.inputField.clear();
 				specs.inputField.sendKeys(newName);
 				specs.inlineSubmitButton.click();
-				first = specs.getFirstItemTitle();
+				first = funcs.getFirstItemTitle();
 				first.getText().then(function(name){
 					expect(name).toEqual(newName);
 				});
 			});
 
 			it("should only allow unique names", function(){
-				var firstItemTitle = specs.getFirstItemTitle(),
-				lastItem = specs.getLastItem();
+				var firstItemTitle = funcs.getFirstItemTitle(),
+				lastItem = funcs.getLastItem();
 				firstItemTitle.getText().then(function(title){
 					lastItem.click();
 					funcs.hoverAndClick(specs.renameButton);
@@ -302,7 +305,6 @@ describe('Project Dashboard', function() {
 				specs.inlineEditField.getText().then(function(description){
 					expect(newDescription).toEqual(description);
 				});
-
 			});
 		})
 
@@ -345,7 +347,7 @@ describe('Project Dashboard', function() {
 
 		describe("Scenario Elements: ", function(){
 			var scenarioElements = "element in selectedItem.scenarioElements",
-				scenarioEditScenarioElements = "div[data-ms-id='ScenarioEdit.scenarioElements'] .dropdown-toggle",
+				scenarioEditScenarioElements = "div[data-ms-id='ScenarioEdit.analysisElements'] .dropdown-toggle",
 				allScenarioElements = element.all(by.repeater(scenarioElements)),
 				firstScenarioElementName = allScenarioElements.first().element(by.css(".element-name")),
 				firstScenarioElementTitle = allScenarioElements.first().element(by.css(".element-title")),
@@ -388,7 +390,7 @@ describe('Project Dashboard', function() {
 		it('should not allow the scenario to be edited', function(){
 			var masterProject;
 			funcs.selectMasterProject();
-			masterProject = specs.getFirstItemTitle();
+			masterProject = funcs.getFirstItemTitle();
 			masterProject.click();
 			browser.waitForAngular();
 			expect(specs.inputFieldHolder.isPresent()).toBe(false);
@@ -397,7 +399,7 @@ describe('Project Dashboard', function() {
 		it("should disable the create button", function(){
 			var masterProject;
 			funcs.selectMasterProject();
-			masterProject = specs.getFirstItemTitle();
+			masterProject = funcs.getFirstItemTitle();
 			masterProject.click();
 			browser.waitForAngular();
 			expect(specs.createButton.getAttribute("disabled")).toBe('true');

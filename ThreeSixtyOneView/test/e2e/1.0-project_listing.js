@@ -1,9 +1,9 @@
 "use strict";
 
-var specs = require('./0.0-specs.js'),
-	funcs = require('./0.1-project_functions.js');
+var specs = require('./1.0-project_listing_specs.js'),
+	funcs = require('./1.0-project_listing_functions.js');
 
-describe('Project Listing Page: ', function() {
+xdescribe('Project Listing Page: ', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
@@ -13,45 +13,45 @@ describe('Project Listing Page: ', function() {
 
 	describe("Sorter: ", function(){
 		it("should have at least one project", function(){
-			expect(specs.getItems().count()).toBeGreaterThan(0);
+			expect(funcs.getItems().count()).toBeGreaterThan(0);
 		});
 
 		it("should have a single master project", function(){
-			expect(specs.getMasterProjectItem().isPresent()).toBe(true);
+			expect(funcs.getMasterProjectItem().isPresent()).toBeTruthy();
 		});
 
 		it("should have an active selection", function(){
-			var firstItem = specs.getItems().first();
-			expect(specs.hasClass(firstItem, specs.activeSelectionClass)).toBe(true);
+			var firstItem = funcs.getItems().first();
+			expect(funcs.hasClass(firstItem, specs.activeSelectionClass)).toBeTruthy();
 		});
 
 		it("should show the number of projects", function(){
-			var itemCount = specs.getItemCount();
+			var itemCount = funcs.getItemCount();
 			itemCount.getText().then(function(count){
-				specs.getItems().count().then(function(totalCount){
+				funcs.getItems().count().then(function(totalCount){
 					expect(count).toEqual(totalCount.toString());
 				});
 			});
 		});
 
 		it("should change the active selection on click", function(){
-			var first = specs.getItems().first(),
-				last = specs.getItems().last();
+			var first = funcs.getItems().first(),
+				last = funcs.getItems().last();
 
-			expect(specs.hasClass(first, specs.activeSelectionClass)).toBe(true);
-			expect(specs.hasClass(last, specs.activeSelectionClass)).toBe(false);
+			expect(funcs.hasClass(first, specs.activeSelectionClass)).toBe(true);
+			expect(funcs.hasClass(last, specs.activeSelectionClass)).toBe(false);
 
 			last.click();
-			expect(specs.hasClass(first, specs.activeSelectionClass)).toBe(false);
-			expect(specs.hasClass(last, specs.activeSelectionClass)).toBe(true);
+			expect(funcs.hasClass(first, specs.activeSelectionClass)).toBe(false);
+			expect(funcs.hasClass(last, specs.activeSelectionClass)).toBe(true);
 
 			first.click();
-			expect(specs.hasClass(first, specs.activeSelectionClass)).toBe(true);
-			expect(specs.hasClass(last, specs.activeSelectionClass)).toBe(false);
+			expect(funcs.hasClass(first, specs.activeSelectionClass)).toBe(true);
+			expect(funcs.hasClass(last, specs.activeSelectionClass)).toBe(false);
 		});
 
 		it("should redirect to Project Dashboard when a project is clicked", function(){
-			var itemTitle = specs.getFirstItemTitle();
+			var itemTitle = funcs.getFirstItemTitle();
 			itemTitle.getAttribute(specs.itemUUID).then(function(id){
 				itemTitle.click();
 				expect(browser.getLocationAbsUrl()).toContain(funcs.getDashboardAbsoluteUrl(id));
@@ -59,8 +59,8 @@ describe('Project Listing Page: ', function() {
 		});
 
 		it("should have the active item in the tray", function(){
-			var itemTitle = specs.getFirstItemTitle(),
-				selectedItemTitle = specs.getSelectedItemTitle();
+			var itemTitle = funcs.getFirstItemTitle(),
+				selectedItemTitle = funcs.getSelectedItemTitle();
 
 				expect(itemTitle.getText()).toBe(selectedItemTitle.getText());
 		});
@@ -69,14 +69,14 @@ describe('Project Listing Page: ', function() {
 			var counter = 0,
 				maitemsToTest = 5,
 				limit;
-			specs.getItemCount().then(function(itemCount){
+			funcs.getItemCount().then(function(itemCount){
 				itemCount.getText().then(function(totalNumberOfItems){
 					limit = Math.min(maitemsToTest, totalNumberOfItems);
-					specs.getItems().each(function(el) {
+					funcs.getItems().each(function(el) {
 						if (counter++ < limit) {
 							el.click();
 							var itemTitle = el.element(by.binding('title')),
-								selectedItemTitle = specs.getSelectedItemTitle();
+								selectedItemTitle = funcs.getSelectedItemTitle();
 							itemTitle.getText().then(function(title){
 								if (title.toLowerCase() !== specs.masterProject) {
 									selectedItemTitle.getText().then(function(selectedTitle){
@@ -99,34 +99,34 @@ describe('Project Listing Page: ', function() {
 				itemCreatedOn;
 
 			specs.column_1SortButton.click();
-			itemTitles = specs.getAllItemTitles();
+			itemTitles = funcs.getAllItemTitles();
 			expect(itemTitles.first().getText()).toBeLessThan(itemTitles.last().getText());
-			expect(specs.hasClass(specs.column_1LabelField, specs.activeSelectionClass)).toBe(true);
-			expect(specs.hasClass(specs.column_2LabelField, specs.activeSelectionClass)).toBe(false);
+			expect(funcs.hasClass(specs.column_1LabelField, specs.activeSelectionClass)).toBe(true);
+			expect(funcs.hasClass(specs.column_2LabelField, specs.activeSelectionClass)).toBe(false);
 
 			specs.column_2SortButton.click();
-			itemModifiedOn = specs.getAllItemModifiedOn();
+			itemModifiedOn = funcs.getAllItemModifiedOn();
 			expect(itemModifiedOn.first().getText()).toBeGreaterThan(itemModifiedOn.last().getText());
-			expect(specs.hasClass(specs.column_1LabelField, specs.activeSelectionClass)).toBe(false);
-			expect(specs.hasClass(specs.column_2LabelField, specs.activeSelectionClass)).toBe(true);
+			expect(funcs.hasClass(specs.column_1LabelField, specs.activeSelectionClass)).toBe(false);
+			expect(funcs.hasClass(specs.column_2LabelField, specs.activeSelectionClass)).toBe(true);
 
 			specs.column_2SortOptionsButton.click();
 			specs.createdByButton.click();
-			itemCreatedOn = specs.getAllItemCreatedOn();
+			itemCreatedOn = funcs.getAllItemCreatedOn();
 			expect(itemCreatedOn.first().getText()).toBeGreaterThan(itemCreatedOn.last().getText());
-			expect(specs.hasClass(specs.column_1LabelField, specs.activeSelectionClass)).toBe(false);
-			expect(specs.hasClass(specs.column_2LabelField, specs.activeSelectionClass)).toBe(true);
+			expect(funcs.hasClass(specs.column_1LabelField, specs.activeSelectionClass)).toBe(false);
+			expect(funcs.hasClass(specs.column_2LabelField, specs.activeSelectionClass)).toBe(true);
 
 			specs.column_2SortOptionsButton.click();
 			specs.modifiedOnButton.click();
-			itemModifiedOn = specs.getAllItemModifiedOn();
+			itemModifiedOn = funcs.getAllItemModifiedOn();
 			expect(itemModifiedOn.first().getText()).toBeGreaterThan(itemModifiedOn.last().getText());
-			expect(specs.hasClass(specs.column_1LabelField, specs.activeSelectionClass)).toBe(false);
-			expect(specs.hasClass(specs.column_2LabelField, specs.activeSelectionClass)).toBe(true);
+			expect(funcs.hasClass(specs.column_1LabelField, specs.activeSelectionClass)).toBe(false);
+			expect(funcs.hasClass(specs.column_2LabelField, specs.activeSelectionClass)).toBe(true);
 		});
 
 		it("should order by name", function(){
-			var itemTitles = specs.getAllItemTitles();
+			var itemTitles = funcs.getAllItemTitles();
 			
 			specs.column_1SortButton.click();
 			
@@ -146,7 +146,7 @@ describe('Project Listing Page: ', function() {
 		});
 
 		it("should order by last modified", function(){
-			var itemModifiedOn = specs.getAllItemModifiedOn();
+			var itemModifiedOn = funcs.getAllItemModifiedOn();
 
 			itemModifiedOn.first().getText().then(function(firstDate){
 				itemModifiedOn.last().getText().then(function(lastDate){
@@ -172,7 +172,7 @@ describe('Project Listing Page: ', function() {
 		});
 
 		it("should order by created date", function(){
-			var itemCreatedOn = specs.getAllItemCreatedOn();
+			var itemCreatedOn = funcs.getAllItemCreatedOn();
 
 			specs.column_2SortOptionsButton.click();
 			specs.createdByButton.click();
@@ -193,49 +193,49 @@ describe('Project Listing Page: ', function() {
 	});
 
 	describe("Favorites: ", function(){
-		var masterProject = specs.getMasterProjectItem(),
+		var masterProject = funcs.getMasterProjectItem(),
 			masterProjectFavorite = masterProject.element(by.css(specs.favoriteClassHolder));
 
 		it("should favorite the master project", function(){
-			expect(specs.hasClass(masterProjectFavorite, specs.favoriteClass)).toBe(true);
+			expect(funcs.hasClass(masterProjectFavorite, specs.favoriteClass)).toBeTruthy();
 		});
 
 		it("should not allow the Master project to be unfavorited", function(){
-			expect(specs.hasClass(masterProjectFavorite, specs.favoriteClass)).toBe(true);
+			expect(funcs.hasClass(masterProjectFavorite, specs.favoriteClass)).toBe(true);
 			masterProjectFavorite.click();
-			expect(specs.hasClass(masterProjectFavorite, specs.favoriteClass)).toBe(true);
+			expect(funcs.hasClass(masterProjectFavorite, specs.favoriteClass)).toBe(true);
 		});
 
 		it("should toggle favorite", function(){
-			var firstFavoriteItem = specs.getFavorites().first(),
+			var firstFavoriteItem = funcs.getFavorites().first(),
 				isFavorite;
 				
-			specs.hasClass(firstFavoriteItem, specs.favoriteClass).then(function(favorite){
+			funcs.hasClass(firstFavoriteItem, specs.favoriteClass).then(function(favorite){
 				isFavorite = favorite;
 				firstFavoriteItem.click();
-				expect(specs.hasClass(firstFavoriteItem, specs.favoriteClass)).not.toBe(isFavorite);
+				expect(funcs.hasClass(firstFavoriteItem, specs.favoriteClass)).not.toBe(isFavorite);
 			});
 		});
 
 		it("should save the favorite", function(){
-			var firstFavoriteItem = specs.getFavorites().first(),
+			var firstFavoriteItem = funcs.getFavorites().first(),
 				isFavorite;
 				
-			specs.hasClass(firstFavoriteItem, specs.favoriteClass).then(function(favorite){
+			funcs.hasClass(firstFavoriteItem, specs.favoriteClass).then(function(favorite){
 				isFavorite = favorite;
 				firstFavoriteItem.click();
-				expect(specs.hasClass(firstFavoriteItem, specs.favoriteClass)).not.toBe(isFavorite);
+				expect(funcs.hasClass(firstFavoriteItem, specs.favoriteClass)).not.toBe(isFavorite);
 				browser.get(funcs.getProjectUrl());
-				firstFavoriteItem = specs.getFavorites().first();
-				expect(specs.hasClass(firstFavoriteItem, specs.favoriteClass)).not.toBe(isFavorite);
+				firstFavoriteItem = funcs.getFavorites().first();
+				expect(funcs.hasClass(firstFavoriteItem, specs.favoriteClass)).not.toBe(isFavorite);
 			});
 		});
 
 		it("should update the tray when favorites are filtered", function(){
-			var firstFavoriteItem = specs.getFavorites().first(),
+			var firstFavoriteItem = funcs.getFavorites().first(),
 				isFavorite;
 				
-			specs.hasClass(firstFavoriteItem, specs.favoriteClass).then(function(favorite){
+			funcs.hasClass(firstFavoriteItem, specs.favoriteClass).then(function(favorite){
 				isFavorite = favorite;
 				if (! isFavorite){
 					firstFavoriteItem.click();
@@ -245,32 +245,31 @@ describe('Project Listing Page: ', function() {
 			specs.filterByButton.click();
 			specs.filterByfavoritesButton.click();
 
-			var itemTitle = specs.getFirstItemTitle(),
-				selectedItemTitle = specs.getSelectedItemTitle();
+			var itemTitle = funcs.getFirstItemTitle(),
+				selectedItemTitle = funcs.getSelectedItemTitle();
 
 			itemTitle.getText().then(function(title){
 				selectedItemTitle.getText().then(function(selectedTitle){
 					expect(title).toEqual(selectedTitle);
 				});
 			});
-
 		});
 	});
 
 	describe("Filters: ", function(){
 		it ("should toggle the filter menu dropdown", function(){
-			expect(specs.hasClass(specs.filterDropdown, 'hide')).toBe(true);
+			expect(funcs.hasClass(specs.filterDropdown, 'hide')).toBe(true);
 			specs.filterByButton.click();
-			expect(specs.hasClass(specs.filterDropdown, 'hide')).toBe(false);
+			expect(funcs.hasClass(specs.filterDropdown, 'hide')).toBe(false);
 		});
 
 		it("should filter by favorite", function(){
-			var startItemCount = specs.getItemCount();
+			var startItemCount = funcs.getItemCount();
 
 			funcs.filterByFavorites();
 
-			specs.getItems().count().then(function(itemCount){
-				specs.getFavorites().count().then(function(favoriteCount){
+			funcs.getItems().count().then(function(itemCount){
+				funcs.getFavorites().count().then(function(favoriteCount){
 					expect(itemCount).toBe(favoriteCount);
 				});
 			});
@@ -278,23 +277,23 @@ describe('Project Listing Page: ', function() {
 			funcs.filterByItem();
 
 			startItemCount.getText().then(function(count){
-				specs.getItems().count().then(function(itemCount){
+				funcs.getItems().count().then(function(itemCount){
 					expect(count).toBe(itemCount.toString());
 				});
 			});	
 		});
 
 		it("should update the tray when favorites are filtered", function(){
-			var lastItem = specs.getFavorites().last();
-			specs.hasClass(lastItem, specs.favoriteClass).then(function(isFavorite){
+			var lastItem = funcs.getFavorites().last();
+			funcs.hasClass(lastItem, specs.favoriteClass).then(function(isFavorite){
 				if(!isFavorite){
 					lastItem.click();
 				}
 
 				funcs.filterByFavorites();
 
-				var firstTitle = specs.getFirstItemTitle(),
-					slectedItemTitle = specs.getSelectedItemTitle()
+				var firstTitle = funcs.getFirstItemTitle(),
+					slectedItemTitle = funcs.getSelectedItemTitle()
 
 				firstTitle.getText().then(function(title){
 					slectedItemTitle.getText().then(function(secondTitle){
@@ -303,14 +302,13 @@ describe('Project Listing Page: ', function() {
 				});
 
 			});
-
 		});
 	});
 
 	describe("Search: ", function(){
 		it("should search", function(){
 			funcs.enterSearch(specs.masterProject)
-			expect(specs.getItems().count()).toBe(1);
+			expect(funcs.getItems().count()).toBe(1);
 		});
 	});
 
@@ -329,7 +327,7 @@ describe('Project Listing Page: ', function() {
 
 			browser.get(funcs.getProjectUrl());
 			browser.waitForAngular();
-			firstItemTitle = specs.getFirstItemTitle();
+			firstItemTitle = funcs.getFirstItemTitle();
 			firstItemTitle.getText(function(title){
 				expect(title).toBe(testFileName);
 				
@@ -363,7 +361,7 @@ describe('Project Listing Page: ', function() {
 			specs.inputField.sendKeys(newName);
 			specs.inlineSubmitButton.click();
 			browser.waitForAngular();
-			first = specs.getFirstItemTitle();
+			first = funcs.getFirstItemTitle();
 			first.getText().then(function(name){
 				expect(name).toEqual(newName);
 			});
@@ -378,28 +376,28 @@ describe('Project Listing Page: ', function() {
 		});
 
 		it("should unhide the input field when action is clicked", function(){
-			expect(specs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(true);
+			expect(funcs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(true);
 
 			funcs.hoverAndClick(specs.renameButton);
 
-			expect(specs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(false);
+			expect(funcs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(false);
 		});
 
 		it("should reset if the selectedItem is changed", function(){
 			funcs.hoverAndClick(specs.renameButton);
 
-			expect(specs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(false);
-			first = specs.getFirstItem();
+			expect(funcs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(false);
+			first = funcs.getFirstItem();
 			first.click();
-			expect(specs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(true);
+			expect(funcs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(true);
 		});
 
 		it("should reset if the rename is cancelled", function(){
 			funcs.hoverAndClick(specs.renameButton);
 
-			expect(specs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(false);
+			expect(funcs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(false);
 			specs.inlineCancelButton.click();
-			expect(specs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(true);
+			expect(funcs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(true);
 		});
 
 		it("should reset the selectedItem if the rename is cancelled", function(){
@@ -414,17 +412,17 @@ describe('Project Listing Page: ', function() {
 
 		it("should set form states", function(){
 			funcs.hoverAndClick(specs.renameButton);
-			expect(specs.hasClass(specs.inputField, "ng-pristine")).toBe(true);
-			expect(specs.hasClass(specs.inputField, "ng-dirty")).toBe(false);
+			expect(funcs.hasClass(specs.inputField, "ng-pristine")).toBe(true);
+			expect(funcs.hasClass(specs.inputField, "ng-dirty")).toBe(false);
 
 			specs.inputField.sendKeys("x");
-			expect(specs.hasClass(specs.inputField, "ng-pristine")).toBe(false);
-			expect(specs.hasClass(specs.inputField, "ng-dirty")).toBe(true);
+			expect(funcs.hasClass(specs.inputField, "ng-pristine")).toBe(false);
+			expect(funcs.hasClass(specs.inputField, "ng-dirty")).toBe(true);
 			specs.inlineCancelButton.click();
 
 			funcs.hoverAndClick(specs.renameButton);
-			expect(specs.hasClass(specs.inputField, "ng-pristine")).toBe(true);
-			expect(specs.hasClass(specs.inputField, "ng-dirty")).toBe(false);
+			expect(funcs.hasClass(specs.inputField, "ng-pristine")).toBe(true);
+			expect(funcs.hasClass(specs.inputField, "ng-dirty")).toBe(false);
 		});
 
 		it("should respect input limitations", function(){
@@ -461,20 +459,20 @@ describe('Project Listing Page: ', function() {
 		});
 
 		it("should unhide the textarea when action is clicked", function(){
-			expect(specs.hasClass(specs.textAreaHolder, "ng-hide")).toBe(true);
+			expect(funcs.hasClass(specs.textAreaHolder, "ng-hide")).toBe(true);
 
 			funcs.hoverAndClick(specs.editDescriptionButton);
 
-			expect(specs.hasClass(specs.textAreaHolder, "ng-hide")).toBe(false);
+			expect(funcs.hasClass(specs.textAreaHolder, "ng-hide")).toBe(false);
 		});
 
 		it("should reset if the selectedItem is changed", function(){
 			funcs.hoverAndClick(specs.editDescriptionButton);
 
-			expect(specs.hasClass(specs.textAreaHolder, "ng-hide")).toBe(false);
-			first = specs.getFirstItem();
+			expect(funcs.hasClass(specs.textAreaHolder, "ng-hide")).toBe(false);
+			first = funcs.getFirstItem();
 			first.click();
-			expect(specs.hasClass(specs.textAreaHolder, "ng-hide")).toBe(true);
+			expect(funcs.hasClass(specs.textAreaHolder, "ng-hide")).toBe(true);
 		});
 	});
 
@@ -488,7 +486,7 @@ describe('Project Listing Page: ', function() {
 			var scenarios;
 
 			funcs.selectMasterProject();
-			scenarios = specs.getScenarios();
+			scenarios = funcs.getScenarios();
 
 			expect(scenarios.count()).toBe(1);
 		});
@@ -497,7 +495,7 @@ describe('Project Listing Page: ', function() {
 			var scenario;
 
 			funcs.selectMasterProject();
-			scenario = specs.getFirstScenario();
+			scenario = funcs.getFirstScenario();
 
 			scenario.click();
 			browser.waitForAngular();

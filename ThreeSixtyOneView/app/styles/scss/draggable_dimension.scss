@@ -1,164 +1,113 @@
 @import "variables";
+@import "new_variables";
 
-.dimensionAddBox {
-	display: inline-block;
-	border: 1px dashed $gray;
-	height: 28px;
-	vertical-align: top;
-
-	.dimensionItemAdd {
-		padding: 3px 10px;
-		color: $gray;
-
-		.fa-plus-square {
-			font-size: 14px;
-			padding-right: 5px;
-		}
-	}
-
-	&:hover {
-		border-color: $blue;
-
-		.dimensionItemAdd {
-			color: $blue;
-		}
-	}
-}
-
-.dimensionItem {
+.draggable-item {
 	min-width: 50px;
-	border: 1px solid $mediumgray;
+	border: 1px solid $ms-mediumLightGray;
 	background-color: white;
 	height: 28px;
 	display: inline-block;
 	margin-right: 5px;
 	vertical-align: top;
 	border-radius: 0;
-	position: relative;
 
-	.fa-reorder{
+	i {
 		height: 26px;
 		padding: 5px;
 		width: 23px;
-		background-color: $mediumgray;
+	}
+
+	.drag-handle i {
+		background-color: $ms-mediumLightGray;
 		color: white;
 	}		
 
 	&:hover {
-		border-color: $blue;
+		border-color: $ms-blue;
 
-		.fa-reorder {
-			background-color: $blue;
+		.drag-handle i {
+			background-color: $ms-blue;
 		}
 	}
-}
 
-.dimensionItemInfo {
-	color: $blue;
-	padding: auto 10px;
-
-	.dimensionItemName {
+	.dimension-label {
+		color: $ms-blue;
+		padding: auto 10px;
 		text-transform: capitalize;
 	}
+
+	.action-icon i {
+		background-color: white;
+		color: $ms-mediumLightGray;
+
+		&:hover {
+			color: $ms-blue;
+		}
+	}
+
+	.dropdown-menu {
+		width: 350px;
+		left: -120px;
+	}
 }
 
-.actionIcon {
-	color: $mediumgray;
-	padding: 5px;
+.dimension-add-button {
+	border: 1px dashed $ms-mediumGray;
+	background-color: transparent;
+
+	.add-label {
+		padding: 1px 10px;
+		color: $ms-gray;
+
+		i {
+			font-size: 14px;
+			padding-right: 5px;
+		}
+	}
 
 	&:hover {
-		color: $blue;
-	}
-}
+		border-color: $ms-blue;
 
-.dimensionAddPopUp {
-	position: absolute;
-	z-index: 10;
-	width: 370px;
-	padding: 20px;
-	left: -155;
-	height: 450px;		
-	position:relative;
-	width: 60px;
-
-	.dimensionAddPopUpVisible {
-		padding: 15px;
-		background: white;
-		border: 1px solid $blue;
-		width: 330px;
-		position: absolute;
-		top: 7px;
-		box-shadow: 0 3px 10px rgba(100,100,100,0.5);
-
-		&::before {
-			position: absolute;
-			height: 11px;
-			width: 11px;
-			content: "";
-			border-left: 1px solid $blue;
-			border-top: 1px solid $blue;
-			-webkit-transform: rotate(45deg);
-			-moz-transform: rotate(45deg);
-			-ms-transform: rotate(45deg);
-			-o-transform: rotate(45deg);
-			transform: rotate(45deg);
-			top: -6px;
-			left: 47%;
-			z-index: 13;
-			background-color: white;
-		}
-
-		table tr {
-			border-bottom: 1px solid $mediumgray;
-			vertical-align: top;
-
-			&:last-child {
-				border-bottom: 0;
-			}
-
-			td:first-child {
-				color: $gray;
-				padding-right: 15px;
-				padding-top: 10px;
-			}
-
-			td div {
-				padding: 5px 5px;
-
-				&:first-child {
-					padding-top: 10px;
-				}
-
-				&:last-child {
-					padding-bottom: 10px;
-				}
-
-				span {
-					text-transform: capitalize;
-
-					&:hover {
-						color: $blue;
-					}
-
-					.fa {
-						padding-right: 5px;
-					}
-
-					&.disabled {
-						color: $mediumgray;
-					}
-				}
-			}
+		.add-label {
+			color: $ms-blue;
 		}
 	}
 }
 
-.as-sortable-item {
-	border-radius: 0;
+.dimension-add-menu {
+	padding: 15px;
+
+	table {
+		width: 100%;
+	}
+
+	.dimension-category {
+		border-bottom: 1px solid $mediumgray;
+		vertical-align: top;
+
+		&:last-child {
+			border-bottom: 0;
+		}
+
+		.category-label {
+			color: $gray;
+			padding-right: 15px;
+			padding-top: 10px;
+		}
+
+		.dimension-item {
+			padding: 5px 5px 0 5px;
+			text-transform: capitalize;
+
+			& .disabled {
+				color: $ms-mediumLightGray;
+			}
+		}
+	}
 }
 
 .as-sortable-item-handle {
-	cursor: url(https://ssl.gstatic.com/ui/v1/icons/mail/images/2/openhand.cur) 7 5, default !important;
+	cursor: url(https://ssl.gstatic.com/ui/v1/icons/mail/images/2/openhand.cur) 6 0, move !important;
 }
 
 .as-sortable-placeholder {
@@ -178,9 +127,5 @@
     z-index: 9999;
     padding: 0;
     overflow: hidden;
-}
-
-.as-sortable-drag {
-	cursor: url(https://ssl.gstatic.com/ui/v1/icons/mail/images/2/closedhand.cur) 7 5, default !important;
-	/*pointer-events: auto;*/
+	cursor: url(https://ssl.gstatic.com/ui/v1/icons/mail/images/2/closedhand.cur) 6 0, move !important;
 }

@@ -66,7 +66,11 @@
 }
 
 .hidden {
-  max-height: 0;  
+  max-height: 0;
+}
+
+.transparent {
+  opacity: 0;
 }
 
 .invisible {
@@ -204,25 +208,57 @@ ul {
     }
 }
 
-.lightbox {
-  background-color: rgba(255,255,255,0.9);
-  width: 100%;
-  height: 100%;
-  // overflow: hidden;
-
-  .modal-dialog {
-    width: 1126px;
-
-    .modal-content {
-      /*width: 1126px;*/
-      margin: 50px auto;
-      -webkit-box-shadow: none;
-      -moz-box-shadow: none;
-      -ms-box-shadow: none;
-      box-shadow: none;
-      border: 0;
-      border-radius: 0;
-      background-color: transparent;
+.col-xs-5ths, .col-sm-5ths, .col-md-5ths, .col-lg-5ths {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+.col-xs-5ths {
+    width: 20%;
+    float: left;
+}
+@media (min-width: 768px) {
+    .col-sm-5ths {
+        width: 20%;
+        float: left;
     }
-  }
+}
+@media (min-width: 992px) {
+    .col-md-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 1200px) {
+    .col-lg-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+/* D3-Tip Tooltip for D3.js */
+.d3-tip {
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
+    &:after {
+        box-sizing: border-box;
+        display: inline;
+        font-size: 10px;
+        width: 100%;
+        line-height: 1;
+        color: rgba(0, 0, 0, 0.8);
+        content: "\25BC";
+        position: absolute;
+        text-align: center;
+    }
+    &.n:after {
+        margin: -1px 0 0 0;
+        top: 100%;
+        left: 0;
+    }
 }

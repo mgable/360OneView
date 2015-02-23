@@ -65,7 +65,7 @@ angular.module('ThreeSixtyOneView')
             ScenarioService.getProjectIdByScenarioId(scenario.id).then(function(project){
                 $scope.goto({},"gotoBaseScenario", project.uuid, scenario.id);
             });
-        }
+        };
 
         // Event Listeners
         $scope.$on(EVENTS.gotoScenarioCreate, function(){

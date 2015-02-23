@@ -80,7 +80,7 @@ angular.module('ThreeSixtyOneView')
 		$scope.filtersModal = function(category) {
 			var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
 				{cat: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData.rows.concat($scope.viewData.columns), dimensions: $scope.dimensions},
-				{windowSize: 'lg', windowClass: 'filtersSelectionModal'});
+				{windowSize: 'lg', windowClass: 'filters-modal'});
 
 			dialog.result.then(function(data) {
 				$scope.updateFilterValues(data);
@@ -105,7 +105,7 @@ angular.module('ThreeSixtyOneView')
 		$scope.openAllViewsModal = function() {
 			var dialog = DialogService.openLightbox('views/modal/all_views.tpl.html', 'AllViewsCtrl',
 				{viewsList: $scope.viewsList, selectedViewId: $scope.viewData.id, e2e: $scope.e2e},
-				{windowSize: 'lg', windowClass: 'AllViewsModal'});
+				{windowSize: 'lg', windowClass: 'list-lightbox'});
 
 			dialog.result.then(function(data) {
 				$scope.loadView($scope.cubeId, data);
@@ -153,7 +153,7 @@ angular.module('ThreeSixtyOneView')
 				renameView($scope.cubeId, $scope.viewData);
 			} else if (!$scope.rename) {
 				$scope.viewData.id = null;
-				$scope.createView($scope.cubeId, $scope.viewData, $scope.viewsList);
+				$scope.createView($scope.cubeId, $scope.viewData);
 			}
 
 			$scope.cancelSaveAs();
