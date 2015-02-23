@@ -148,10 +148,13 @@ angular.module('ThreeSixtyOneView')
 			}
 			$scope.viewData.name = $scope.saveAsName;
 
-			if($scope.rename) { // if submitting
+			if ($scope.rename) { // if submitting
 				$scope.draftView = false;
 				renameView($scope.cubeId, $scope.viewData);
 			} else if (!$scope.rename) {
+				if ($scope.draftView) {
+					$scope.deleteView($scope.cubeId, $scope.viewData.id);
+				}
 				$scope.viewData.id = null;
 				$scope.createView($scope.cubeId, $scope.viewData);
 			}

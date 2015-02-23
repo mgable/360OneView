@@ -38,8 +38,9 @@ angular.module('ThreeSixtyOneView')
 
                 $scope.loadPivotTable($scope.selectedScenarioElement, result.view);
             });
-        },
-        deleteView = function(cubeId, viewId) {
+        };
+
+        $scope.deleteView = function(cubeId, viewId) {
             ManageAnalysisViewsService.deleteView(viewId, cubeId).then(function() {
                 $scope.viewsList = _.reject($scope.viewsList, function(view) { return view.id === viewId; });
                 $scope.draftView = false;
@@ -75,7 +76,7 @@ angular.module('ThreeSixtyOneView')
                     $scope.viewData = view;
                     $scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
                 });
-                deleteView($scope.cubeId, draftViewId);
+                $scope.deleteView($scope.cubeId, draftViewId);
             }
         };
 
@@ -114,7 +115,7 @@ angular.module('ThreeSixtyOneView')
                     });
 
                     if(viewId !== draftId) {
-                        deleteView($scope.cubeId, draftId);
+                        $scope.deleteView($scope.cubeId, draftId);
                     }
                 }
 
