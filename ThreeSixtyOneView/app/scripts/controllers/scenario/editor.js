@@ -141,9 +141,7 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.renameView = function(cubeId, view) { // rename the view
-            console.log(view.id, cubeId, view.name);
             ManageAnalysisViewsService.renameView(view.id, cubeId, view.name).then(function(response) {
-                console.log(response.id);
                 _.each($scope.viewsList, function(item) {
                     if(item.id === response.id) {
                         item.name = response.name;

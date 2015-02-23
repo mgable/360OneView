@@ -286,7 +286,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t<div class=\"dropdown-box\">\r" +
     "\n" +
-    "\t\t\t\t\t<div class=\"dropdown\">\r" +
+    "\t\t\t\t\t<div class=\"dropdown ng-hide\">\r" +
     "\n" +
     "\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\">{{elementTypeItems[currentElementType]}}<icon type=\"caret-down\"></icon></div>\r" +
     "\n" +
@@ -563,7 +563,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t<div class=\"dropdown-box\">\r" +
     "\n" +
-    "\t\t\t\t\t<div class=\"dropdown\">\r" +
+    "\t\t\t\t\t<div class=\"dropdown ng-hide\">\r" +
     "\n" +
     "\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\">{{elementTypeItems[currentElementType]}}<icon type=\"caret-down\"></icon></div>\r" +
     "\n" +
