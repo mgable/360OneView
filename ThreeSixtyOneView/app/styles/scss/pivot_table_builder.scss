@@ -1,7 +1,7 @@
 @import "variables";
 @import "new_variables";
 
-.filtersSelectionModal {
+.filters-modal {
 	.body {
 		.side-menu {
 			display: inline-block;
@@ -65,70 +65,33 @@
 			}
 
 			.main-content {
-				border: 1px solid $ms-mediumLightGray;
-				background-color: $ms-pureWhite;
+				.toolbar {
+					.dropdown-box .dropdown {
+						.dropdown-toggle {
+							text-transform: capitalize;
 
-				.filter-tools {
-					background-color: $ms-lightGray;
-
-					.level-box {
-						display: inline-block;
-						width: 270px;
-
-						.dropdown {
-							position: relative;
-							display: inline-block;
-
-							.dropdown-toggle {
-								font-size: 20px;
-								margin: 5px 10px 5px 20px;
-								text-transform: capitalize;
-
-								i {
-									font-size: 14px;
-									padding-left: 5px;
-								}
-
-								&:hover {
-									color: $ms-blue;
-								}
+							i {
+								font-size: 14px;
+								margin-left: 5px;
 							}
 
-							.dropdown-menu {
-								left: -200%;
-								right: -200%;
-								margin-left: auto;
-								margin-right: auto;
-								position: absolute;
-								z-index: 20;
-								top: 35px;
-								width: 170px;
+							&:hover {
+								color: $ms-blue;
+							}
+						}
 
-								.menu-item {
-									text-transform: capitalize;
-								}
+						.dropdown-menu {
+							width: 260px;
+
+							.menu-item {
+								text-transform: capitalize;
 							}
 						}
 					}
 
 					.search-box {
-						display: inline-block;
-						width: 350px;
-						margin: 5px 10px 5px 10px;
-						background-color: white;
-						border: 1px solid $ms-mediumLightGray;
-						padding: 3px 5px;
-						transition: 0.2s all linear;
-
 						i {
-							color: $orange;
-						}
-
-						input {
-							width: 90%;
-							border: 0;
-							outline: 0;
-							margin-left: 5px;
+							color: $ms-orange;
 						}
 					}
 				}
@@ -186,7 +149,6 @@
 				}
 
 				.list-box {
-					overflow-y: auto;
 					border-top: 1px solid $ms-mediumLightGray;
 					padding: 5px;
 
@@ -245,22 +207,6 @@
 					color: $ms-blue;
 				}
 			}
-
-			.button-group {
-				float: right;
-				margin-top: 15px;
-
-				.btn {
-					margin-left: 20px;
-					padding: 5px 20px;
-				}
-			}
 		}
 	}
-}
-
-.lightbox {
-	
-
-	.body {}
 }
