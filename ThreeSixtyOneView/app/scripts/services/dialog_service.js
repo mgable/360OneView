@@ -18,7 +18,7 @@ angular.module('ThreeSixtyOneView.services')
             dialogs.create('views/modal/scenario_create.tpl.html','ScenarioCreateCtrl',{
                 project: _project_,
                 scenarios: _scenarios_
-            },{size:'md', windowClass: 'lightbox'});
+            },{size:'md', windowClass: 'lightbox form-lightbox'});
         };
 
         this.openLightbox = function(templateAddress, controllerName, sharedObjects, options) {

@@ -1,4 +1,79 @@
-<form name="ScenarioCreate" id="ScenarioCreate" novalidate >
+<div class="header">
+	<h4 class="title">Create a Scenario</h4>
+</div>
+<div class="body">
+	<div class="content">
+		<form class="main-content scenario-create" name="ScenarioCreate" id="ScenarioCreate" novalidate>
+			<div class="inputGroup" ng-show="showFields">
+				<label>Enter Scenario Name
+					<input type="text" focus placeholder="Enter Scenario Name" required ng-maxlength="{{inputRestrictions.maximumCharacterLimit}}" ng-minlength="{{inputRestrictions.minimumCharacterLimit}}" ng-pattern='inputRestrictions.characterRestrictions' validator="isScenarioTitleUnique" error-type="isUnique" ng-model="scenario.title" data-ms-id="ScenarioCreate.inputName"/>
+					<div class="alert alert-danger" ng-show="ScenarioCreate.$error.isUnique" role="alert">
+						The scenario name &quot;{{scenario.title}}&quot; has been taken. Please choose another name.
+					</div>
+				</label>
+				<label>Enter Description (Optional)
+					<input class="description" type="text" placeholder="Enter Scenario description (optional)" ng-model="scenario.description" ng-maxlength="1024" data-ms-id="ScenarioCreate.inputDescription">
+				</label>
+			</div>
+
+			<div class="baseGroup">
+				<label for="baseScenario" ng-click="showBaseScenario()" data-ms-id="ScenarioCreate.inputBaseScenario">Base Scenario
+					<input type="text" class="clickable" id="baseScenario" ng-model="scenario.referenceScenario.name" readonly>
+					<icon type="folder-open-o" cname="open"></icon>
+				</label>
+
+				<!-- Begin hidden group -->
+				<div class="radios" ng-show="!showFields">
+					<div class='search-box'>
+						<icon type="search"></icon>
+						<input type="text" id="search" placeholder="Search by Name" ng-model="searchText"/>
+					</div>
+
+					<accordion close-others="false">
+						<accordion-group is-open="true">
+							<accordion-heading>{{masterProject.title}}</accordion-heading>
+							<div class="row" ng-click="setScenario(masterProjectReferenceScenario)">
+								<div class="col-md-1">
+									<span><icon type="check-circle" cname="ok-sign" ng-show="showRow(masterProjectReferenceScenario)"></icon></span>
+								</div>
+								<div class="col-md-11">
+									<span>{{masterProjectReferenceScenario.title}}</span>
+								</div>
+							</div>
+						</accordion-group>
+						<accordion-group ng-repeat="scenarios in scenarioList | filterProjects : searchText">
+							<accordion-heading>{{scenarios.title}} Project</accordion-heading>
+							<div ng-repeat="scenario in scenarios.data">
+								<div class="row" ng-click="setScenario(scenario)">
+									<div class="col-md-1">
+										<span ng-show="showRow(scenario)"><icon type="check-circle" cname="ok-sign"></icon></span>
+									</div>
+									<div class="col-md-11">
+										<span class="clickable">{{scenario.title}}</span>
+									</div>
+								</div>
+							</div>
+						</accordion-group>
+					</accordion>
+				</div>
+				<!-- End hidden group -->
+			</div>
+		</form>
+	</div>
+	<div class="action-buttons" ng-show="showFields">
+		<ms-button type="cancel" action="close()" label="Cancel" data-ms-id="ScenarioCreate.cancel"></ms-button>
+		<ms-button type="submit" action="submit(scenario)" label="Continue" ng-disabled="ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList" data-ms-id="ScenarioCreate.submit"></ms-button>
+		<span ng-hide="scenarioList" class="loaderHolder">
+			<span class="loading"></span>Loading scenarios
+		</span>
+	</div>
+	<div class="action-buttons" ng-hide="showFields">
+		<ms-button type="cancel" action="cancel()" label="Cancel" data-ms-id="ScenarioCreate.cancelBaseScenario"></ms-button>
+		<ms-button type="submit" action="confirm()" label="Continue" data-ms-id="ScenarioCreate.confirmBaseScenario"></ms-button>
+	</div>
+</div>
+
+<!-- <form name="ScenarioCreate" id="ScenarioCreate" novalidate >
 	<div class="scenario-create">
 		<div class="details scenario-form">
 			<h3>Create a Scenario</h3>
@@ -13,7 +88,7 @@
 				<label for="baseScenario" ng-click="showBaseScenario()" data-ms-id="ScenarioCreate.inputBaseScenario">Base Scenario
 					<input type="text" id="baseScenario" ng-model="scenario.referenceScenario.name" readonly><icon type="folder-open-o" cname="open"></icon>
 				</label>
-				<div class="buttons" ng-show="showFields">
+				<div class="action-buttons" ng-show="showFields">
 					<ms-button type="submit" action="submit(scenario)" label="Continue" ng-disabled="ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList" data-ms-id="ScenarioCreate.submit"></ms-button>
 					<ms-button type="cancel" action="close()" label="Cancel" data-ms-id="ScenarioCreate.cancel"></ms-button>
 					<span ng-hide="scenarioList" class="loaderHolder">
@@ -21,7 +96,6 @@
 					</span>
 				</div>
 
-				<!-- Begin hidden group -->
 				<div class="radios" ng-show="!showFields">
 					<div class='searchBack'>
 						<icon type="search"></icon>
@@ -55,13 +129,12 @@
 						</accordion-group>
 					</accordion>
 
-					<div class="base-scenario" >
+					<div class="action-buttons" >
 						<ms-button type="submit" action="confirm()" label="Continue" data-ms-id="ScenarioCreate.confirmBaseScenario"></ms-button>
 						<ms-button type="cancel" action="cancel()" label="Cancel" data-ms-id="ScenarioCreate.cancelBaseScenario"></ms-button>
 					</div>
 				</div>
-			<!-- End hidden group -->
 			</div>
 		</div>
 	</div>
-</form>
+</form> -->

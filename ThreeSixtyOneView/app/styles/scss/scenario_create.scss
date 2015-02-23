@@ -290,174 +290,61 @@
 
 .scenario-create {
 	width: 100%;
-	max-height: 80%;
-	/*position: absolute;  // Re-enable this when a modal
-	top: 0;
-	left: 0;*/
-	overflow-y: auto;
-
+	max-height: 70%;
 	padding: 30px;
-	background-color: rgba(255,255,255, 0.95);
-	.details {
-		display: block;
-		width: 500px;
-    	margin: 0 auto 50px;
 
-    	a {
-    		cursor: pointer;
-
-    		&:hover {
-    			text-decoration: none;
-    		}
-    	}
-	}
-
-	.scenario-title {
-		cursor:pointer;
-	}
-
-	h3 {
-		display: block;
-		width: 500px;
-		margin: 0 auto 20px;
-
-		text-align: left;
-		font-size: 32px;
-		font-weight: 700;
-		color: $darkgray;
-	}
-
-	h4 {
-		color: $darkgray;
-		font-weight:900;
-		margin-bottom:0;
-	}
-	label {
-		display: block;
-		font-size: 12px;
-		margin-bottom: 8px;
-	}
-
-	input,
-	select {
-		width: 100%;
-		margin-bottom: 15px;
-		padding: 8px 12px;
-		font-size: 16px;
-		border: 1px solid #DDD;
-		border-radius: 0;
-		background-color: #FFF;
-		font-weight: normal;
+	input {
+		border: 1px solid $ms-mediumLightGray;
 
 		&:focus,
 		&:active {
 			background-color: #EEF;
-			border: 1px solid darkblue;
+			border: 1px solid $ms-blue;
 		}
 	}
 	.open {
 		position: absolute;
-		top: 29px;
+		top: 35px;
 		right: 14px;
 		font-size: 17px;
-		color: #CCC;
-	}
-	input#baseScenario {
-		padding-right: 40px;
-	}
-
-	.dotted_line {
-		border-bottom: 1px dotted $gray;
-	}
-
-	
-	.base-scenario button{
-		margin-top: 10px;
-	}
-
-	button {
-	 	float: right;
-	 	margin-left: 10px;
+		color: $ms-mediumLightGray;
 	}
 	
 	.loaderHolder {
 		margin:10px 0 0 0;
 		float:right;
 	}
-	div.radios button.confirmRadio {
-		margin-top: 10px;
-		text-transform: uppercase;
-	}
 
-	div.scenarioRepeatGroup {
+	.baseGroup {
 		position: relative;
-		z-index: 9;
-		border-left: 1px solid #DDD;
-		border-right: 1px solid #DDD;
-	}
-	/* Base Scenario Options */
-	/*************************/
-	div.radios div.radioHeader {
-		position: relative;
-		z-index: 10;
-		display: block;
-		padding: 10px 20px;
-		font-size: 16px;
-		border-left: 1px solid #DDD;
-		border-right: 1px solid #DDD;
-		background-color: #FAFAFA;
-		box-shadow: 0 1px 5px -1px #CCC;
-	}
-	/* The label of each radio button is displayed and styled as a row */
-	div.radios label {
-		display: block;
-		width: 100%;
-		margin: 0;
-		background-color: #FFF;
-		padding: 10px 20px 10px 20px;
-		border-bottom: 1px solid #DDD;
-		font-size: 12px;
-		cursor: pointer;
-	}
 
-	div.radios label:before {
-		font-family: FontAwesome;
-		content: '\f10c'; /* fa-circle-o */
-		margin-right: 10px;
-	}
-	div.radios input[type='radio'] {
-		display: none;
-	}
-	/* When the radio button is checked, highlight the box and change icon */
-	div.radios input[type='radio']:checked + label {
-		background-color: darkblue;
-		color: #FFF;
-	}
-	div.radios input[type='radio']:checked + label:before {
-		font-family: FontAwesome;
-		content: '\f05d'; /* fa-check-circle-o */
-	}
-	input#search {
-		margin-bottom: 0;
-		padding-left: 35px;
-		border: 1px solid #CCC;
-	}
-	div.searchBack {
-		position: relative;
-		margin:0 0 5px;
-		display: block;
-		width: 100%;
-		padding: 10px;
-		background-color: #DDD;
-	}
-	.fa.fa-search {
-		position: absolute;
-		left: 20px;
-		top: 21px;
-		font-size: 17px;
-		color: #777;
-	}
-	div.baseGroup {
-		position: relative;
+		.radios {
+			.search-box {
+				position: relative;
+				margin:0 0 10px;
+				padding: 10px;
+				background-color: $ms-lightGray;
+
+				input {
+					margin-bottom: 0!important;
+					margin-top: 0!important;
+					padding-left: 35px!important;
+					border: 1px solid $ms-mediumLightGray;
+				}
+
+				i {
+					position: absolute;
+					left: 20px;
+					top: 17px;
+					font-size: 17px;
+					color: $ms-mediumLightGray;
+				}
+			}
+
+			.panel-group {
+				overflow-y: auto;
+				max-height: 45%;
+			}
+		}
 	}
 }
