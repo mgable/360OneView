@@ -83,11 +83,12 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 			};
 
 			scope.isAllSelected = function(member) {
-				return scope.determineStyle(member) === 'ALL_SELECTED' || ('INDETERMINENT' && member.members.length > 0);
+				var selection = scope.determineStyle(member);
+				return  (selection === 'ALL_SELECTED') || (selection === 'INDETERMINENT');
 			};
 
 			if(scope.member.members.length > 0) {
-				$compile('<div class="pbFilterCollection" ng-class="{pbFilterCollapsed: !expanded[member.label] && expandall.label === \'\'}"><member ng-repeat="child in member.members | orderBy:\'label\':false" member="child" filters="filters" category="category" expanded="expanded" expandall="expandall"></member></div>')(scope, function(cloned) {
+				$compile('<div class="list-category" ng-class="{collapsed: !expanded[member.label] && expandall.label === \'\'}"><member ng-repeat="child in member.members | orderBy:\'label\':false" member="child" filters="filters" category="category" expanded="expanded" expandall="expandall"></member></div>')(scope, function(cloned) {
 					element.after(cloned);
 				});
 			}
