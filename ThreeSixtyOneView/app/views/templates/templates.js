@@ -773,159 +773,30 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t</div>\r" +
     "\n" +
     "</div>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "<!-- <form name=\"ScenarioCreate\" id=\"ScenarioCreate\" novalidate >\r" +
-    "\n" +
-    "\t<div class=\"scenario-create\">\r" +
-    "\n" +
-    "\t\t<div class=\"details scenario-form\">\r" +
-    "\n" +
-    "\t\t\t<h3>Create a Scenario</h3>\r" +
-    "\n" +
-    "\t\t\t<div class=\"inputGroup\" ng-show=\"showFields\">\r" +
-    "\n" +
-    "\t\t\t\t<label>Enter Scenario Name\r" +
-    "\n" +
-    "\t\t\t\t<input type=\"text\" focus placeholder=\"Enter Scenario Name\" required ng-maxlength=\"{{inputRestrictions.maximumCharacterLimit}}\" ng-minlength=\"{{inputRestrictions.minimumCharacterLimit}}\" ng-pattern='inputRestrictions.characterRestrictions' validator=\"isScenarioTitleUnique\" error-type=\"isUnique\" ng-model=\"scenario.title\" data-ms-id=\"ScenarioCreate.inputName\"/>\r" +
-    "\n" +
-    "\t\t\t\t<div class=\"alert alert-danger\" ng-show=\"ScenarioCreate.$error.isUnique\" role=\"alert\">The scenario name &quot;{{scenario.title}}&quot; has been taken. Please choose another name.</div></label>\r" +
-    "\n" +
-    "\t\t\t\t<label>Enter Description (Optional)\r" +
-    "\n" +
-    "\t\t\t\t<input class=\"description\" type=\"text\" placeholder=\"Enter Scenario description (optional)\" ng-model=\"scenario.description\" ng-maxlength=\"1024\" data-ms-id=\"ScenarioCreate.inputDescription\"></label>\r" +
-    "\n" +
-    "\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t<div class=\"baseGroup\">\r" +
-    "\n" +
-    "\t\t\t\t<label for=\"baseScenario\" ng-click=\"showBaseScenario()\" data-ms-id=\"ScenarioCreate.inputBaseScenario\">Base Scenario\r" +
-    "\n" +
-    "\t\t\t\t\t<input type=\"text\" id=\"baseScenario\" ng-model=\"scenario.referenceScenario.name\" readonly><icon type=\"folder-open-o\" cname=\"open\"></icon>\r" +
-    "\n" +
-    "\t\t\t\t</label>\r" +
-    "\n" +
-    "\t\t\t\t<div class=\"action-buttons\" ng-show=\"showFields\">\r" +
-    "\n" +
-    "\t\t\t\t\t<ms-button type=\"submit\" action=\"submit(scenario)\" label=\"Continue\" ng-disabled=\"ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList\" data-ms-id=\"ScenarioCreate.submit\"></ms-button>\r" +
-    "\n" +
-    "\t\t\t\t\t<ms-button type=\"cancel\" action=\"close()\" label=\"Cancel\" data-ms-id=\"ScenarioCreate.cancel\"></ms-button>\r" +
-    "\n" +
-    "\t\t\t\t\t<span ng-hide=\"scenarioList\" class=\"loaderHolder\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t<span class=\"loading\"></span>Loading scenarios\r" +
-    "\n" +
-    "\t\t\t\t\t</span>\r" +
-    "\n" +
-    "\t\t\t\t</div>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "\t\t\t\t<div class=\"radios\" ng-show=\"!showFields\">\r" +
-    "\n" +
-    "\t\t\t\t\t<div class='searchBack'>\r" +
-    "\n" +
-    "\t\t\t\t\t\t<icon type=\"search\"></icon>\r" +
-    "\n" +
-    "\t\t\t\t\t\t<input type=\"text\" class=\"form-control\" id=\"search\" placeholder=\"Search by Name\" ng-model=\"searchText\"/>\r" +
-    "\n" +
-    "\t\t\t\t\t</div>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "\t\t\t\t\t<accordion close-others=\"false\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t<accordion-group is-open=\"true\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t<accordion-heading>{{masterProject.title}}</accordion-heading>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t<div class=\"row\" ng-click=\"setScenario(masterProjectReferenceScenario)\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t<div class=\"col-md-1\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t<span><icon type=\"check-circle\" cname=\"ok-sign\" ng-show=\"showRow(masterProjectReferenceScenario)\"></icon></span>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t<div class=\"col-md-11\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t<span>{{masterProjectReferenceScenario.title}}</span>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t\t\t\t</accordion-group>\r" +
-    "\n" +
-    "\t\t\t\t\t\t<accordion-group ng-repeat=\"scenarios in scenarioList | filterProjects : searchText\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t<accordion-heading>{{scenarios.title}} Project</accordion-heading>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t<div ng-repeat=\"scenario in scenarios.data\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t<div class=\"row\" ng-click=\"setScenario(scenario)\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t<div class=\"col-md-1\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t\t<span ng-show=\"showRow(scenario)\"><icon type=\"check-circle\" cname=\"ok-sign\"></icon></span>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t<div class=\"col-md-11\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t\t<span class=\"scenario-title\">{{scenario.title}}</span>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t\t\t\t</accordion-group>\r" +
-    "\n" +
-    "\t\t\t\t\t</accordion>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "\t\t\t\t\t<div class=\"action-buttons\" >\r" +
-    "\n" +
-    "\t\t\t\t\t\t<ms-button type=\"submit\" action=\"confirm()\" label=\"Continue\" data-ms-id=\"ScenarioCreate.confirmBaseScenario\"></ms-button>\r" +
-    "\n" +
-    "\t\t\t\t\t\t<ms-button type=\"cancel\" action=\"cancel()\" label=\"Cancel\" data-ms-id=\"ScenarioCreate.cancelBaseScenario\"></ms-button>\r" +
-    "\n" +
-    "\t\t\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t</div>\r" +
-    "\n" +
-    "\t\t</div>\r" +
-    "\n" +
-    "\t</div>\r" +
-    "\n" +
-    "</form> -->"
+    "\n"
   );
 
 
   $templateCache.put('views/modal/simple_input.tpl.html',
-    "<div data-ms-id=\"simpleModal\" ui-keypress=\"{13: 'submit(item.title, $event)'}\">\r" +
+    "<div class=\"header\">\r" +
     "\n" +
-    "\t<div class=\"modal-header\">\r" +
+    "\t<h4 class=\"title\">{{modalProperties.title}}</h4>\r" +
     "\n" +
-    "\t\t<h4 class=\"modal-title\">{{modalProperties.title}}&nbsp;</h4>\r" +
+    "</div>\r" +
     "\n" +
-    "\t</div>\r" +
+    "<div class=\"body\" ui-keypress=\"{13: 'submit(item.title, $event)'}\">\r" +
     "\n" +
-    "\t<div class=\"modal-body\">\r" +
+    "\t<div class=\"content\">\r" +
     "\n" +
-    "\t\t<form name=\"nameDialog\" novalidate role=\"form\">\r" +
+    "\t\t<form class=\"main-content\" name=\"nameDialog\" novalidate role=\"form\">\r" +
     "\n" +
     "\t\t\t<div class=\"form-group input-group-lg\" ng-class=\"{true: 'has-error'}[nameDialog.username.$dirty && nameDialog.username.$invalid]\">\r" +
     "\n" +
-    "\t\t\t\t<label class=\"control-label\" for=\"inputField\">{{modalProperties.field}}:&nbsp;</label>\r" +
+    "\t\t\t\t<label class=\"control-label\" for=\"inputField\">{{modalProperties.field}}:\r" +
     "\n" +
-    "\t\t\t\t<input type=\"text\" class=\"form-control\" id=\"inputField\" ng-model=\"item.title\" focus required ng-maxlength=\"{{inputRestrictions.maximumCharacterLimit}}\" ng-minlength=\"{{inputRestrictions.minimumCharacterLimit}}\" ng-pattern='inputRestrictions.characterRestrictions'/>\r" +
+    "\t\t\t\t\t<input type=\"text\" class=\"form-control\" id=\"inputField\" ng-model=\"item.title\" focus required ng-maxlength=\"{{inputRestrictions.maximumCharacterLimit}}\" ng-minlength=\"{{inputRestrictions.minimumCharacterLimit}}\" ng-pattern='inputRestrictions.characterRestrictions'/>\r" +
+    "\n" +
+    "\t\t\t\t</label>\r" +
     "\n" +
     "\t\t\t</div>\r" +
     "\n" +
@@ -933,7 +804,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t</div>\r" +
     "\n" +
-    "\t<div class=\"modal-footer\">\r" +
+    "\t<div class=\"action-buttons\">\r" +
     "\n" +
     "\t\t<ms-button type=\"cancel\" action=\"close($event)\" label=\"Cancel\"></ms-button>\r" +
     "\n" +

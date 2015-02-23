@@ -4,7 +4,7 @@ angular.module('ThreeSixtyOneView.services')
     .service('DialogService', ["dialogs", function(dialogs) {
         this.create = function() {
             dialogs.create('views/modal/simple_input.tpl.html', 'ProjectCreateCtrl', {}, {
-                size: 'sm'
+                windowClass: 'lightbox form-lightbox'
             });
         };
 
