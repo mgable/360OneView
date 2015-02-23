@@ -289,7 +289,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     $scope.openAllViewsModal = function() {
         var dialog = DialogService.openLightbox('views/modal/all_views.tpl.html', 'AllViewsCtrl',
             {viewsList: $scope.spendViewsList, selectedViewId: $scope.spendViewData.id, e2e: $scope.e2e},
-            {windowSize: 'lg', windowClass: 'AllViewsModal'});
+            {windowSize: 'lg', windowClass: 'list-lightbox'});
 
         dialog.result.then(function(data) {
             $scope.loadView($scope.spendCubeId, data);
@@ -299,7 +299,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     $scope.openAllComparedViewsModal = function() {
         var dialog = DialogService.openLightbox('views/modal/all_views.tpl.html', 'AllViewsCtrl',
             {viewsList: $scope.viewsList, selectedViewId: $scope.selectedView.id, e2e: $scope.e2e},
-            {windowSize: 'lg', windowClass: 'AllViewsModal'});
+            {windowSize: 'lg', windowClass: 'list-lightbox'});
 
         dialog.result.then(function(replacedComparedViewId) {
             $scope.loadComparedView(replacedComparedViewId);
@@ -497,7 +497,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     $scope.spendFiltersModal = function(category) {
         var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
             {cat: category, addedFilters: $scope.spendAddedFilters, viewData: $scope.spendViewData.rows.concat($scope.spendViewData.columns), dimensions: $scope.spendDimensions},
-            {windowSize: 'lg', windowClass: 'filtersSelectionModal'});
+            {windowSize: 'lg', windowClass: 'filters-modal'});
 
         dialog.result.then(function(data) {
             $scope.spendAddedFilters = data;
@@ -510,7 +510,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     $scope.kpiFiltersModal = function(category) {
         var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
             {cat: category, addedFilters: $scope.kpiAddedFilters, viewData: $scope.kpiViewData, dimensions: $scope.kpiDimensions},
-            {windowSize: 'lg', windowClass: 'filtersSelectionModal'});
+            {windowSize: 'lg', windowClass: 'filters-modal'});
 
         dialog.result.then(function(data) {
             $scope.kpiAddedFilters = data;
