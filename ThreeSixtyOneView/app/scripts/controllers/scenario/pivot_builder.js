@@ -8,7 +8,7 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView')
-	.controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'ManageAnalysisViewsService', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, $q, ManageAnalysisViewsService, DialogService) {
+	.controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, $q, DialogService) {
 	var init = function() {
 			$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
 			$scope.saveAs = false;
@@ -34,15 +34,6 @@ angular.module('ThreeSixtyOneView')
 				},
 				containment: '#dragDropArea'
 			};
-		},
-		renameView = function(cubeId, view) { // rename the view
-			ManageAnalysisViewsService.renameView(view.id, cubeId, view.name).then(function(response) {
-				_.each($scope.viewsList, function(item) {
-					if(item.id === response.id) {
-						item.name = response.name;
-					}
-				});
-			});
 		};
 
 		// delete an item from column/row
@@ -125,7 +116,7 @@ angular.module('ThreeSixtyOneView')
 		// reset the view to the last saved state
 		// DUPE
 		$scope.revertView = function() {
-			if($scope.draftView) {
+			if($scope.isViewDraft()) {
 				var originalViewName = $scope.viewData.name.substring(8),
 					originalViewId = _.find($scope.viewsList, function(view) { return originalViewName === view.name; }).id;
 
@@ -149,13 +140,14 @@ angular.module('ThreeSixtyOneView')
 			$scope.viewData.name = $scope.saveAsName;
 
 			if ($scope.rename) { // if submitting
-				$scope.draftView = false;
-				renameView($scope.cubeId, $scope.viewData);
+				if ($scope.isViewDraft()) {
+					$scope.isViewDraft(false);
+				}
+				$scope.renameView($scope.cubeId, $scope.viewData);
 			} else if (!$scope.rename) {
-				if ($scope.draftView) {
+				if ($scope.isViewDraft()) {
 					$scope.deleteView($scope.cubeId, $scope.viewData.id);
 				}
-				$scope.viewData.id = null;
 				$scope.createView($scope.cubeId, $scope.viewData);
 			}
 

@@ -130,6 +130,7 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.createView = function(cubeId, view) {
+            view.id = null;
             return ManageAnalysisViewsService.createView(view, cubeId).then(function(view) {
                 $scope.viewData = angular.copy(view);
                 $scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
@@ -137,6 +138,26 @@ angular.module('ThreeSixtyOneView')
                 $scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
                 return view;
             });
+        };
+
+        $scope.renameView = function(cubeId, view) { // rename the view
+            console.log(view.id, cubeId, view.name);
+            ManageAnalysisViewsService.renameView(view.id, cubeId, view.name).then(function(response) {
+                console.log(response.id);
+                _.each($scope.viewsList, function(item) {
+                    if(item.id === response.id) {
+                        item.name = response.name;
+                    }
+                });
+            });
+        };
+
+        $scope.isViewDraft = function(draft) {
+            if(typeof draft === 'undefined') {
+                return $scope.draftView;
+            } else {
+                $scope.draftView = draft;
+            }
         };
 
         $scope.$on(EVENTS.scenarioElementChange, function(evt, cubeMeta) {
