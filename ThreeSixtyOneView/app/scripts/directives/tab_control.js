@@ -17,8 +17,6 @@ angular.module('ThreeSixtyOneView.directives').directive("tabsControl", ["$rootS
                     });
                     $rootScope.$broadcast(EVENTS.tabClosed);
                 };
-
-                this.closeAll();
             }
         };
     }])
