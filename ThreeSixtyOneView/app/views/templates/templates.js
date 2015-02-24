@@ -19,7 +19,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<span class=\"drag-handle\" title=\"Reorder\"><icon type=\"reorder\"></icon></span>\r" +
     "\n" +
-    "\t\t<span class=\"dropdown-toggle clickable dimension-label\">{{item.level.label.toLowerCase()}}</span>\r" +
+    "\t\t<span class=\"dropdown-toggle clickable dimension-label\">{{item.level.label}}</span>\r" +
     "\n" +
     "\t\t<span ng-hide=\"!!lockedDimensions[item.level.label]\" class=\"action-icon clickable\" title=\"Remove\" ng-click=\"delete($index)\"><icon type=\"remove\"></icon></span>\r" +
     "\n" +
