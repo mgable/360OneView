@@ -165,18 +165,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                 },
                 cellValueChanged = function(dirtyCell) {
                     // if the cell was empty, do not allow change and revert back to empty
-                    if(dirtyCell.oldValue === null) {
-                        sheet.setValue(dirtyCell.row, dirtyCell.col, dirtyCell.oldValue);
-                        return;
-                    }
-
-                    // if old and new values are the same, then don't do anything
-                    if(Math.round(dirtyCell.oldValue) === Math.round(dirtyCell.newValue)) {
-                        return;
-                    }
-
-                    // if the new value is not a number, discard the change and put the old value in place
-                    if(!angular.isNumber(dirtyCell.newValue) || Number(dirtyCell.newValue) < 0) {
+                    if(dirtyCell.oldValue === null || !angular.isNumber(dirtyCell.newValue) || Number(dirtyCell.newValue) < 0) {
                         sheet.setValue(dirtyCell.row, dirtyCell.col, dirtyCell.oldValue);
                         return;
                     }
