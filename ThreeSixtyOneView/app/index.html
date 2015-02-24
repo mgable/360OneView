@@ -147,13 +147,19 @@
         <!-- End Inspectlet Embed Code -->
 
         <script>
-            // Web fonts key for http://*.markeshare.com
-            // //use.typekit.net/zyk1snl.js
-            // Web fonts key for http://localhost
-            // //use.typekit.net/zyk1snl.js
-            // Web fonts key for http://127.0.0.1
-            // //use.typekit.net/zyk1snl.js
-            var src = document.location.host.indexOf("marketshare") > -1 ? "//use.typekit.net/zyk1snl.js" : "//use.typekit.net/zer1wrp.js"
+            var url = "//use.typekit.net/##.js",
+                domain_map = {
+                    "127.0.0.1": "zer1wrp",
+                    "marketshare": "zyk1snl",
+                    "amazonaws": "mug5rbu"
+                }, 
+                src,
+                re = /(\w+)(?=\.com\b)|(127.0.0.1)/;
+
+            try {
+                src = url.replace(/##/, domain_map[document.location.host.match(re)[0]]);
+            }catch(e){}
+
             $.getScript(src, function(){
                 try{Typekit.load();}catch(e){}
             });
