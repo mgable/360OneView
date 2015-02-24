@@ -40,7 +40,7 @@ angular.module('ThreeSixtyOneView')
 		$scope.deleteItem =  function(index, element) {
 			$scope.added[$scope.viewData[element][index].level.label] = false;
 			$scope.viewData[element].splice(index, 1);
-
+			$scope.determineTimeDisability($scope.added);
 			$scope.saveDraftView();
 		};
 
@@ -49,7 +49,7 @@ angular.module('ThreeSixtyOneView')
 			var newItem = {dimension:{id:item.dimensionId},hierarchy:{id:-1},level:{id:item.levelId, label:item.label}};
 			$scope.viewData[element].push(newItem);
 			$scope.added[item.label] = true;
-
+			$scope.determineTimeDisability($scope.added);
 			$scope.saveDraftView();
 		};
 
@@ -57,6 +57,7 @@ angular.module('ThreeSixtyOneView')
 		$scope.replaceItem = function(selected, priorLabel, element) {
 			$scope.added[priorLabel] = false;
 			$scope.added[selected.label] = true;
+			$scope.determineTimeDisability($scope.added);
 			var match = _.find($scope.viewData[element], function(item) { return item.level.label === priorLabel; });
 			if (match) {
 				var newItem = {dimension:{id:selected.dimensionId},hierarchy:{id:-1},level:{id:selected.levelId, label:selected.label}};

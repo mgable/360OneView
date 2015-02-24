@@ -17,6 +17,8 @@ angular.module('ThreeSixtyOneView.directives').directive("tabsControl", ["$rootS
                     });
                     $rootScope.$broadcast(EVENTS.tabClosed);
                 };
+
+                this.closeAll();
             }
         };
     }])
@@ -42,6 +44,10 @@ angular.module('ThreeSixtyOneView.directives').directive("tabsControl", ["$rootS
                         }
                     }
                 });
+
+                // if(ctrl.tabs.length === 1) {
+                //     setTimeout(function() { ctrl.closeAll(); }, 100);
+                // }
 
                 attrs.$observe("expandCollapseControlDisabled", function(){
                     disabled = attrs.expandCollapseControlDisabled === "false" || typeof attrs.expandCollapseControlDisabled  === "undefined" ? false : true;

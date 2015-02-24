@@ -4,10 +4,10 @@
 			<td class="category-label">{{dimension.label}}</td>
 			<td>
 				<div ng-repeat="menuItem in dimension.members" class="dimension-item">
-					<span class="clickable" ng-if="!isSelected(menuItem.label)" ng-click="selectDimension(menuItem, item.level.label)">
+					<span class="clickable" ng-if="!isItemDisabled(menuItem.label, dimension)" ng-click="selectDimension(menuItem, item.level.label)">
 						<icon type="circle-o"></icon>{{menuItem.label.toLowerCase()}}
 					</span>
-					<span class="disabled" ng-if="isSelected(menuItem.label)">
+					<span class="disabled" ng-if="isItemDisabled(menuItem.label, dimension)">
 						<icon type="circle"></icon>{{menuItem.label.toLowerCase()}}
 					</span>
 				</div>
