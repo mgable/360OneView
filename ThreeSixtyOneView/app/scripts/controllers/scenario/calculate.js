@@ -14,6 +14,7 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         stepValue = 100 / stepLength,
         scenarioStates = CONFIG.application.models.ScenarioAnalytics.states,
         calcStatesData = {},
+        runningStates = {},
         currentState = {},
         stopTimer = {},
 
@@ -41,7 +42,7 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         getCalcStatesData = function() {
             AnalyticCalculationsService.get(Scenario.id).then(function(data) {
                 calcStatesData = data;
-                $scope.runningStates = calcStatesData.runningStates;
+                runningStates = calcStatesData.runningStates;
                 var currentState = AnalyticCalculationsService.getScenarioState(calcStatesData.currentState),
                     setState;
                 _.each(scenarioStates, function(v, k) {
@@ -52,6 +53,7 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
                 $scope.progressValue = stepValue * $scope.step;
                 getCurrentStateTitle();
                 getProgressbarType();
+                runningStates = addIcons(runningStates);
                 updateCalcStatesData();
             });
         },
@@ -80,6 +82,24 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
             var type = AnalyticCalculationsService.isFailed($scope.scenarioState.message) ? 'danger' : 'success';
             $scope.progressbarType = type;
         },
+        // add icons to state list
+        addIcons = function(data) {
+            _.each(data, function(v, k) {
+                if (k === $scope.step) {
+                    if ($scope.scenarioState.message === 'FAILED') {
+                        v.iconType = 'failed';
+                        v.iconText = 'Error';
+                    } else if ($scope.scenarioState.message === 'in_progress') {
+                        v.iconType = 'in_progress';
+                        v.iconText = '';
+                    }
+                } else if (k < $scope.step) {
+                    v.iconType = 'check';
+                    v.iconText = '';
+                }
+            });
+            return data;
+        },
         // get the current state title
         getCurrentStateTitle = function() {
             $scope.currentStateTitle = _.find(scenarioStates, function(v){
@@ -89,10 +109,10 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
 
     // get states data
     $scope.getStates = function() {
-        return $scope.runningStates;
+        return runningStates;
     };
     // reset the progress
-    $scope.resetProgress = function() {
+    $scope.retry = function() {
         stopProgress();
         $scope.setState('NOT_CALCULATED');
         AnalyticCalculationsService.post(Scenario.id).then(function() {
@@ -100,29 +120,16 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
             init();
         });
     };
-    // return to the editor page
-    $scope.returnToEdit = function() {
+    // go to the edit page
+    $scope.gotoEdit = function() {
         stopProgress();
         $scope.setState('NOT_CALCULATED');
         $state.go("Scenario.edit");
     };
-    // show cehckmark
-    $scope.showCheckmark = function(state, index) {
-        return $scope.scenarioState.message !== 'FAILED' ? state.completed : $scope.step > index;
-    }
-    // show error icon
-    $scope.showErrorIcon = function(index) {
-        return $scope.scenarioState.message === 'FAILED' && $scope.step === index;
-    }
-    // show in progress icon
-    $scope.showInprogressIcon = function(index) {
-        return $scope.scenarioState.message === 'in_progress' && $scope.step === index;
-    }
-    // style state
+    // style complated state
     $scope.styleState = function(index) {
         return $scope.step >= index ? true : false;
     }
-
     // whenever leave calculate page, stop progress
     $rootScope.$on('$locationChangeStart', function(event, newPath) {
         var currentPath = newPath,

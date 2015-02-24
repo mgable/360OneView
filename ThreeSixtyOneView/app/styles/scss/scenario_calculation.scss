@@ -6,7 +6,7 @@
     width: 330px;
     height: 590px;
     text-align: center;
-    .scenario-calculation-title {
+    .title {
         margin-bottom: 10px;
         font-size: 26px;
         i {
@@ -14,7 +14,7 @@
             color: #f45724;
         }
     }
-    .scenario-calculation-description {
+    .description {
         text-align: center;
         text-justify: inter-word;
     }
@@ -33,24 +33,24 @@
             background-color: #5cb85c;
         }
     }
-    ul.scenario-calculation-list {
+    ul.list {
         text-align: left;
         li {
             margin: 10px 0 10px 90px;
             color: #808080;
             &.completed {
                 color: #333;
-                span.numberCircle {
+                span.number-circle {
                     background-color: #5cb85c;
                 }
-                i.checkmark {
+                i.fa-check {
                     color: #5cb85c;
                 }
+                i.fa-failed {
+                    color: #f45724;
+                }
             }
-            span.error {
-                color: #f45724;
-            }
-            span.numberCircle {
+            span.number-circle {
                 display: inline-block;
                 margin-right: 10px;
                 border-radius: 50%;
@@ -65,17 +65,26 @@
             }
         }
     }
-    .scenario-calculation-btn-group {
+    .action-buttons {
         margin-top: 20px;
-        .btn-calculate {
-            font-size: 14px;
-            text-transform: uppercase;
-            background-color: #d9d9d9;
-            &:hover, &:active {
-                background-color: $ms-mediumLightGray;
+        .col-sm-6 {
+            padding: 0;
+            &:first-child {
+                padding-right: 5px;
+            }
+            &:last-child {
+                padding-left: 5px;
+            }
+            .ms-btn-cancel {
+                font-size: 14px;
                 color: $ms-black;
+                text-transform: uppercase;
+                background-color: $lightgray;
+                &:hover, &:active {
+                    color: $ms-black;
+                    background-color: $ms-mediumLightGray;
+                }
             }
         }
-        .sm-padding { padding: 5px; }
     }
 }
