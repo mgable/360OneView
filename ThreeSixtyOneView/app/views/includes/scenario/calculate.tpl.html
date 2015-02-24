@@ -1,31 +1,27 @@
 <div class="scenario-calculation">
 
-    <div class="scenario-calculation-title">
+    <div class="title">
         <icon type="{{currentStateTitle.icon}}"></icon>&nbsp;{{currentStateTitle.description}}
     </div>
-    <p class="scenario-calculation-description" ng-if="scenarioState.message === 'FAILED'">{{errorMsg}}</p>
+    <p class="description" ng-if="scenarioState.message === 'FAILED'">{{errorMsg}}</p>
     <div class="row">
         <progressbar class="progress-striped active" max="100" value="progressValue" type="{{progressbarType}}"><i>{{progressValue | number:0}}%</i></progressbar>
     </div>
     <div class="row">
-        <ul class="scenario-calculation-list">
+        <ul class="list">
             <li ng-repeat="state in getStates()" ng-class="{completed: styleState($index)}">
-                <span class="numberCircle">{{state.id}}</span>
+                <span class="number-circle">{{state.id}}</span>
                 {{state.label}}
-                <icon type="check" class="checkmark" ng-if="showCheckmark(state, $index)"></icon>
-                <icon type="in_progress" ng-if="showInprogressIcon($index)"></icon>
-                <span class="error" ng-if="showErrorIcon($index)">
-                    <icon type="failed"></icon>&nbsp;Error
-                </span>
+                <icon type="{{state.iconType}}"></icon>&nbsp;{{state.iconText}}
             </li>
         </ul>
     </div>
-    <div class="row scenario-calculation-btn-group" ng-if="scenarioState.message === 'FAILED'">
-        <div class="col-sm-6 sm-padding">
-            <button class="btn btn-sm btn-block btn-calculate" ui-sref="Scenario.edit" ng-click="returnToEdit()">goto editor</button>
+    <div class="row action-buttons" ng-if="scenarioState.message === 'FAILED'">
+        <div class="col-sm-6">
+            <ms-button type="cancel" class="btn-block" action="gotoEdit()" label="goto editor"></ms-button>
         </div>
-        <div class="col-sm-6 sm-padding">
-            <button class="btn btn-sm btn-block btn-calculate" ng-click="resetProgress()">try again</button>
+        <div class="col-sm-6">
+            <ms-button type="cancel" class="btn-block" action="retry()" label="try again"></ms-button>
         </div>
     </div>
 </div>

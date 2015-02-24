@@ -225,14 +225,18 @@ angular.module('ThreeSixtyOneView')
                 return null;
             }
 
-            var searchResults;
+            var searchResults = {};
 
-            var treeSearch = function(tree, searchLabel) {
+            var treeSearch = function(tree, searchLabel, initial) {
                 var output = null;
+
+                if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1 && !initial) {
+                    return tree;
+                }
 
                 if(tree.members.length > 0) {
                     for(var i = 0; i < tree.members.length; i++) {
-                        var results = treeSearch(tree.members[i], searchLabel);
+                        var results = treeSearch(tree.members[i], searchLabel, false);
                         if(!!results && !!results.members) {
                             if(!output) {
                                 output = {
@@ -254,7 +258,7 @@ angular.module('ThreeSixtyOneView')
                 return output;
             };
 
-            searchResults = treeSearch(obj, search.label);
+            searchResults = treeSearch(obj, search.label, true);
 
             $scope.searchResults = searchResults;
             $scope.countFilters(searchResults, $scope.addedFilter);

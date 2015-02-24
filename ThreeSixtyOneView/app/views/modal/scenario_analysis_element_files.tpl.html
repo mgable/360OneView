@@ -7,7 +7,7 @@
 		<div class="main-content">
 			<div class="toolbar">
 				<div class="dropdown-box">
-					<div class="dropdown">
+					<div class="dropdown ng-hide">
 						<div class="dropdown-toggle clickable">{{elementTypeItems[currentElementType]}}<icon type="caret-down"></icon></div>
 						<ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenarioElement.id}}" radio="true">
 				            <li ng-repeat="item in elementTypeItems" ng-click="changeElementType($index)" class="menu-item" ms-link="{{$index}}">{{item}}</li>

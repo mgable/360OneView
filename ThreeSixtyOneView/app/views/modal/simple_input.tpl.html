@@ -1,16 +1,17 @@
-<div data-ms-id="simpleModal" ui-keypress="{13: 'submit(item.title, $event)'}">
-	<div class="modal-header">
-		<h4 class="modal-title">{{modalProperties.title}}&nbsp;</h4>
-	</div>
-	<div class="modal-body">
-		<form name="nameDialog" novalidate role="form">
+<div class="header">
+	<h4 class="title">{{modalProperties.title}}</h4>
+</div>
+<div class="body" ui-keypress="{13: 'submit(item.title, $event)'}">
+	<div class="content">
+		<form class="main-content" name="nameDialog" novalidate role="form">
 			<div class="form-group input-group-lg" ng-class="{true: 'has-error'}[nameDialog.username.$dirty && nameDialog.username.$invalid]">
-				<label class="control-label" for="inputField">{{modalProperties.field}}:&nbsp;</label>
-				<input type="text" class="form-control" id="inputField" ng-model="item.title" focus required ng-maxlength="{{inputRestrictions.maximumCharacterLimit}}" ng-minlength="{{inputRestrictions.minimumCharacterLimit}}" ng-pattern='inputRestrictions.characterRestrictions'/>
+				<label class="control-label" for="inputField">{{modalProperties.field}}:
+					<input type="text" class="form-control" id="inputField" ng-model="item.title" focus required ng-maxlength="{{inputRestrictions.maximumCharacterLimit}}" ng-minlength="{{inputRestrictions.minimumCharacterLimit}}" ng-pattern='inputRestrictions.characterRestrictions'/>
+				</label>
 			</div>
 		</form>
 	</div>
-	<div class="modal-footer">
+	<div class="action-buttons">
 		<ms-button type="cancel" action="close($event)" label="Cancel"></ms-button>
 		<ms-button type="submit" action="submit(item.title)" label="{{modalProperties.button}}" ui-keypress="{13: 'submit(item.title, $event)'}" data-ms-id="modalSubmit" ng-disabled="nameDialog.$invalid"></ms-button>
 	</div>

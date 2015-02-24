@@ -8,7 +8,7 @@
 * Controller of the threeSixtOneViewApp
 */
 angular.module('ThreeSixtyOneView')
-	.controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'ManageAnalysisViewsService', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, $q, ManageAnalysisViewsService, DialogService) {
+	.controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, $q, DialogService) {
 	var init = function() {
 			$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
 			$scope.saveAs = false;
@@ -34,22 +34,13 @@ angular.module('ThreeSixtyOneView')
 				},
 				containment: '#dragDropArea'
 			};
-		},
-		renameView = function(cubeId, view) { // rename the view
-			ManageAnalysisViewsService.renameView(view.id, cubeId, view.name).then(function(response) {
-				_.each($scope.viewsList, function(item) {
-					if(item.id === response.id) {
-						item.name = response.name;
-					}
-				});
-			});
 		};
 
 		// delete an item from column/row
 		$scope.deleteItem =  function(index, element) {
 			$scope.added[$scope.viewData[element][index].level.label] = false;
 			$scope.viewData[element].splice(index, 1);
-
+			$scope.determineTimeDisability($scope.added);
 			$scope.saveDraftView();
 		};
 
@@ -58,7 +49,7 @@ angular.module('ThreeSixtyOneView')
 			var newItem = {dimension:{id:item.dimensionId},hierarchy:{id:-1},level:{id:item.levelId, label:item.label}};
 			$scope.viewData[element].push(newItem);
 			$scope.added[item.label] = true;
-
+			$scope.determineTimeDisability($scope.added);
 			$scope.saveDraftView();
 		};
 
@@ -66,6 +57,7 @@ angular.module('ThreeSixtyOneView')
 		$scope.replaceItem = function(selected, priorLabel, element) {
 			$scope.added[priorLabel] = false;
 			$scope.added[selected.label] = true;
+			$scope.determineTimeDisability($scope.added);
 			var match = _.find($scope.viewData[element], function(item) { return item.level.label === priorLabel; });
 			if (match) {
 				var newItem = {dimension:{id:selected.dimensionId},hierarchy:{id:-1},level:{id:selected.levelId, label:selected.label}};
@@ -125,7 +117,7 @@ angular.module('ThreeSixtyOneView')
 		// reset the view to the last saved state
 		// DUPE
 		$scope.revertView = function() {
-			if($scope.draftView) {
+			if($scope.isViewDraft()) {
 				var originalViewName = $scope.viewData.name.substring(8),
 					originalViewId = _.find($scope.viewsList, function(view) { return originalViewName === view.name; }).id;
 
@@ -148,11 +140,15 @@ angular.module('ThreeSixtyOneView')
 			}
 			$scope.viewData.name = $scope.saveAsName;
 
-			if($scope.rename) { // if submitting
-				$scope.draftView = false;
-				renameView($scope.cubeId, $scope.viewData);
+			if ($scope.rename) { // if submitting
+				if ($scope.isViewDraft()) {
+					$scope.isViewDraft(false);
+				}
+				$scope.renameView($scope.cubeId, $scope.viewData);
 			} else if (!$scope.rename) {
-				$scope.viewData.id = null;
+				if ($scope.isViewDraft()) {
+					$scope.deleteView($scope.cubeId, $scope.viewData.id);
+				}
 				$scope.createView($scope.cubeId, $scope.viewData);
 			}
 
