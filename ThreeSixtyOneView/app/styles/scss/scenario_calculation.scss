@@ -11,7 +11,7 @@
         font-size: 26px;
         i {
             font-size: 20px;
-            color: #f45724;
+            color: $ms-mediumRed;
         }
     }
     .description {
@@ -27,10 +27,10 @@
             font-style: normal;
         }
         .progress-bar-danger {
-            background-color: #f45724;
+            background-color: $ms-mediumRed;
         }
         .progress-bar-success {
-            background-color: #5cb85c;
+            background-color: $ms-mediumGreen;
         }
     }
     ul.list {
@@ -41,13 +41,13 @@
             &.completed {
                 color: #333;
                 span.number-circle {
-                    background-color: #5cb85c;
+                    background-color: $ms-mediumGreen;
                 }
                 i.fa-check {
-                    color: #5cb85c;
+                    color: $ms-mediumGreen;
                 }
                 i.fa-failed {
-                    color: #f45724;
+                    color: $ms-mediumRed;
                 }
             }
             span.number-circle {
@@ -57,7 +57,7 @@
                 width: 22px;
                 height: 22px;
                 padding: 4px;
-                background: #bfbfbf;
+                background: $ms-mediumLightGray;
                 color: $ms-pureWhite;
                 text-align: center;
                 font-size: 14px;
