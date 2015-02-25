@@ -32,7 +32,7 @@ describe('Dialog Services:', function() {
         it("should create a 'copy project' dialog box", function() {
             DialogService.trayCopy("foo");
             expect(dialogs.create).toHaveBeenCalledWith('views/modal/simple_input.tpl.html', 'ScenarioCopyCtrl', "foo", {
-                size: 'sm'
+                windowClass: 'lightbox form-lightbox'
             });
         });
 

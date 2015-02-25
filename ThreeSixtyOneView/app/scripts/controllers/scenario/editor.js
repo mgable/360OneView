@@ -85,6 +85,8 @@ angular.module('ThreeSixtyOneView')
 
         $scope.loadPivotTable = function(element, view) {
             if(!!$scope.spread.updateSheet) {
+                $scope.spread.sheet.loading = true;
+                $scope.spread.updateSheet('');
                 PivotService.getSlice(element.id, view.id).then(function(response) {
                     var numCols = view.columns.length,
                         numRows = view.rows.length;
