@@ -1,7 +1,7 @@
 <div class="draggable-item dropdown" data-as-sortable-item>
 	<div data-as-sortable-item-handle>
 		<span class="drag-handle" title="Reorder"><icon type="reorder"></icon></span>
-		<span class="dropdown-toggle clickable dimension-label">{{item.level.label}}</span>
+		<span class="dropdown-toggle clickable dimension-label" ng-click="clickedItem = item.level.label">{{item.level.label}}</span>
 		<span ng-hide="!!lockedDimensions[item.level.label]" class="action-icon clickable" title="Remove" ng-click="delete($index)"><icon type="remove"></icon></span>
 		<span ng-show="!!lockedDimensions[item.level.label]" class="action-icon" title="This dimension cannot be removed, because a filter has been applied."><icon type="info-circle"></icon></span>
 	</div>

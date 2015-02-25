@@ -184,10 +184,10 @@
 		width: 800px;
 
 		.body > .content {
-			border: 1px solid $ms-lightGray;
-			background-color: $ms-pureWhite;
+			/*border: 1px solid $ms-lightGray;*/
 			
 			.main-content {
+				background-color: transparent;
 				padding: 20px 20px;
 				width: 600px;
 				margin: 10px auto;
