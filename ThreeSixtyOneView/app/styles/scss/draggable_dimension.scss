@@ -49,6 +49,16 @@
 		width: 350px;
 		left: -120px;
 	}
+
+	&.locked {
+		.dimension-label {
+			color: $ms-darkGray;
+
+			&:hover {
+				cursor: url(https://ssl.gstatic.com/ui/v1/icons/mail/images/2/openhand.cur) 6 0, move !important;
+			}
+		}
+	}
 }
 
 .dimension-add-button {

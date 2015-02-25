@@ -97,7 +97,7 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 		$scope.filtersModal = function(category) {
 			var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
 				{cat: category, addedFilters: $scope.addedExportFilters, viewData: $scope.exportViewData.rows, dimensions: $scope.dimensions},
-				{windowSize: 'lg', windowClass: 'filtersSelectionModal'});
+				{windowSize: 'lg', windowClass: 'filters-modal'});
 
 			dialog.result.then(function(data) {
 				$scope.addedExportFilters = data;

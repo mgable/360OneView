@@ -1,4 +1,4 @@
-<div class="draggable-item dropdown" data-as-sortable-item>
+<div class="draggable-item dropdown" data-as-sortable-item ng-class="{locked: !!lockedDimensions[item.level.label]}">
 	<div data-as-sortable-item-handle>
 		<span class="drag-handle" title="Reorder"><icon type="reorder"></icon></span>
 		<span class="dropdown-toggle clickable dimension-label" ng-click="clickedItem = item.level.label">{{item.level.label}}</span>

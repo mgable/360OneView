@@ -1,5 +1,5 @@
 <div id="exportBody" class="import-export hidden content slider">
-	<div class="slider-title">Exporting Data</div>
+	<div class="slider-title">Export Data</div>
 	<div class="edit-area">
 		<div class="disabled-edit" ng-show="isExportInProgress"></div>
 		<div id="exportDragArea">
@@ -24,7 +24,8 @@
 	</div>
 
 	<div class="button-group">
-		<ms-button type="cancel" action="cancelExport()" label="Cancel" ng-disabled="!isExportInProgress"></ms-button>
+		<ms-button type="cancel" action="cancelExport()" label="Close" ng-hide="!isExportInProgress"></ms-button>
+		<ms-button type="cancel" action="cancelExport()" label="Cancel" ng-show="isExportInProgress"></ms-button>
 		<ms-button type="submit" action="requestExport()" label="Export" ng-hide="isExportInProgress"></ms-button>
 	</div>
 

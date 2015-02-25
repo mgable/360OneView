@@ -13,7 +13,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/draggable_dimension.tpl.html',
-    "<div class=\"draggable-item dropdown\" data-as-sortable-item>\r" +
+    "<div class=\"draggable-item dropdown\" data-as-sortable-item ng-class=\"{locked: !!lockedDimensions[item.level.label]}\">\r" +
     "\n" +
     "\t<div data-as-sortable-item-handle>\r" +
     "\n" +
