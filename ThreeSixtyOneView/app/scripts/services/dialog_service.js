@@ -10,7 +10,7 @@ angular.module('ThreeSixtyOneView.services')
 
         this.trayCopy = function(item){
             dialogs.create('views/modal/simple_input.tpl.html', 'ScenarioCopyCtrl', item, {
-                size: 'sm'
+                windowClass: 'lightbox form-lightbox'
             });
         };
 

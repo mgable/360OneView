@@ -10,8 +10,9 @@
 		<div class="message error" ng-show="isFileInvalid"><icon type="warning"></icon>This file is invalid. Please select a valid file.</div>
 	</div>
 	<div class="button-group">
-		<ms-button type="cancel" action="resetUploadForm()" label="{{cancelButtonLabel}}" ng-disabled="!isImportStarted"></ms-button>
-		<ms-button type="submit" action="startUpload()" label="Import" ng-disabled="!isFileSelected || isFileInvalid || isImportStarted"></ms-button>
+		<ms-button type="cancel" action="resetUploadForm()" label="Close" ng-hide="isImportStarted" collapse-control target-area="#importBody" header="#importHeader"></ms-button>
+		<ms-button type="cancel" action="resetUploadForm()" label="{{cancelButtonLabel}}" ng-hide="!isImportStarted" class="ng-hide"></ms-button>
+		<ms-button type="submit" action="startUpload()" label="Import" ng-disabled="!isFileSelected || isFileInvalid || isImportStarted" ng-hide="isImportStarted"></ms-button>
 	</div>
 	<div ng-show="isImportStarted" class="status-container">
 		<div ng-hide="isImportCompleted || isImportFailed">
