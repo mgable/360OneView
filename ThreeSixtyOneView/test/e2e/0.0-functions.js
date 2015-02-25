@@ -6,15 +6,19 @@ var specs = require('./0.0-specs.js'),
 	filename = "./test/e2e/project.json",
 
 	data = {
-		saveProjectInfo: function(url, project, scenario){
-			var data = JSON.stringify({url: url, project: project, scenario: scenario});
+		saveProjectInfo: function(obj){
+			var data = JSON.stringify(obj);
 			fs.writeFileSync(filename, data);
+			console.info("writing");
+			console.info(data);
 		},
 		readProjectInfo: function(){
 			return JSON.parse(fs.readFileSync(filename, {encoding: 'utf8'}));
 		},
 		deleteProjectInfo: function(){
-			fs.unlinkSync(filename);
+			try{
+				fs.unlinkSync(filename);
+			}catch(e){console.info(filename + " does not exist");}
 		},
 		testInputRestrictions: function(input, submit){
 			_.each(specs.inputRestrictions, function(restrictedCharacter){

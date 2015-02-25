@@ -1,9 +1,10 @@
 "use strict";
 
 var specs = require('./1.0-project_listing_specs.js'),
-	funcs = require('./1.0-project_listing_functions.js');
+	funcs = require('./1.0-project_listing_functions.js'),
+	projectInfo = {};
 
-xdescribe('Project Listing Page: ', function() {
+describe('Project Listing Page: ', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
@@ -323,7 +324,13 @@ xdescribe('Project Listing Page: ', function() {
 			specs.modalInputField.sendKeys(testFileName);
 			specs.modalSubmitButton.click();
 			browser.waitForAngular();
-			expect(browser.getLocationAbsUrl()).toContain("#/dashboard/");
+
+			browser.getLocationAbsUrl().then(function(url){
+				var projectId = url.match(/\w{32}/)[0];
+				expect(url).toContain("#/dashboard/");
+				projectInfo = {"project": {"url": url, "id": projectId, "title": testFileName}};
+				funcs.saveProjectInfo(projectInfo);
+			});
 
 			browser.get(funcs.getProjectUrl());
 			browser.waitForAngular();
@@ -364,6 +371,9 @@ xdescribe('Project Listing Page: ', function() {
 			first = funcs.getFirstItemTitle();
 			first.getText().then(function(name){
 				expect(name).toEqual(newName);
+				projectInfo.project.title = name;
+				funcs.deleteProjectInfo();
+				funcs.saveProjectInfo(projectInfo);
 			});
 		});
 

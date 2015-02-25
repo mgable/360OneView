@@ -40,12 +40,12 @@ angular.module('ThreeSixtyOneView')
                 return  _.groupBy($scope.scenarioElements, function(element) {return element.group;});
             };
 
-       // hide scenario copy and replace options if part of the marketing plan
+        // hide scenario copy and replace options if part of the marketing plan
         $scope.isHiddenElement = function(element) {
             return element.group === 'Marketing Plan';
         };
 
-         $scope.getGroupedScenarioElements = function() {
+        $scope.getGroupedScenarioElements = function() {
             return $scope.groupedScenarioElements;
         };
 

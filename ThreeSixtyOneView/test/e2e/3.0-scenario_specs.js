@@ -1,9 +1,11 @@
 'use strict';
 
+var coreSpecs = require('./0.0-specs.js'),
+	_ = require('underscore'),
+
 // globals
-var edit = "li[data-ms-id='scenario.edit.button']",
+	edit = "li[data-ms-id='scenario.edit.button']",
 	results = "li[data-ms-id='scenario.results.button']",
-	simulate = "span[data-ms-id='scenario.simulate.button']",
 	analysisElementsDropdown = "div[data-ms-id='ScenarioEdit.analysisElements']",
 	analysisElements = "element in group",
 	selectedAnalysisElement = analysisElementsDropdown + " .dropdown-toggle",
@@ -20,6 +22,9 @@ var edit = "li[data-ms-id='scenario.edit.button']",
 	replaceCancelButton = analysisElementReplace + " .ms-btn-cancel",
 	copyAndReplaceField = "newElement.name",
 	copyAndReplaceDescriptionField = "newElement.description",
+	editorTabs = ".nav-tabs li",
+	editorTabContent = "tab in tabs",
+	pivotBuilderTab = "#pivotBuilder",
 
 	assumedData = { "cubes":
 			['Marketing Plan',
@@ -44,7 +49,6 @@ var edit = "li[data-ms-id='scenario.edit.button']",
 		assumedData: assumedData,
 		editButton: element(by.css(edit)),
 		resultsButton: element(by.css(results)),
-		simulateButton: element(by.css(simulate)),
 		analysisElements: element.all(by.repeater(analysisElements)),
 		selectedAnalysisElement: element(by.css(selectedAnalysisElement)),
 		copyAndReplaceCube: element(by.css(copyAndReplaceCube)),
@@ -57,7 +61,11 @@ var edit = "li[data-ms-id='scenario.edit.button']",
 		submitButton: element(by.css(submitButton)),
 		copyAndReplaceCubeName: element(by.css(copyAndReplaceCubeName)),
 		replaceSubmitButton: element(by.css(replaceSubmitButton)),
-		replaceCancelButton: element(by.css(replaceCancelButton))
+		replaceCancelButton: element(by.css(replaceCancelButton)),
+		editorTabs: element.all(by.css(editorTabs)),
+		pivotBuilderTab: element(by.css(pivotBuilderTab))
 	};
+
+_.extend(data, coreSpecs);
 
 module.exports = data;

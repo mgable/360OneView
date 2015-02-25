@@ -1,49 +1,33 @@
 "use strict";
 
 var specs = require('./1.0-project_listing_specs.js'),
-	funcs = require('./1.0-project_listing_functions.js');
+	funcs = require('./1.0-project_listing_functions.js'),
+	_ = require('underscore'),
+	projectInfo,
+	dashboardUrl,
+	projectId;
 
-	var dashboardUrl, projectId;
-	// TEMP data - remove in production
-	var dashboardUrl, projectId = "333c1b413f0930cea4051d98e5928a0f", dashboardUrl = funcs.getDashboardUrl(projectId);
+describe('test setup', function(){
+	it("should set up the tests", function(){
+		projectInfo = funcs.readProjectInfo();
+		console.info("Project Dashboard");
+		console.info(projectInfo);
 
-xdescribe('Project Dashboard', function() {
+		dashboardUrl = projectInfo.project.url,
+		projectId = projectInfo.project.id;
+	});
+});
+
+describe('Project Dashboard', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
 		}
 	);
-	var testFileName = "My New Test Project- " + Date.now();
-
-	it("should create a new project and go to the dashboard", function(){
-		var firstItemTitle;
-
-		browser.get(funcs.getProjectUrl());
-		specs.createButton.click();
-		browser.waitForAngular();
-
-		specs.modalInputField.sendKeys(testFileName);
-
-		specs.modalSubmitButton.click();
-		browser.waitForAngular();
-		expect(browser.getLocationAbsUrl()).toContain("#/dashboard/");
-
-		browser.getLocationAbsUrl().then(function(url){
-			projectId = url.match(/\w{32}/)[0];
-			console.info(projectId);
-		});
-
-		browser.get(funcs.getProjectUrl());
-		browser.waitForAngular();
-
-		firstItemTitle = funcs.getFirstItemTitle();
-		firstItemTitle.getText(function(text){
-			expect(text).toBe(testFileName);
-		});
-	});
 
 	describe("Scenario List", function(){
-		var testScenarionNameFirst = "My FIRST new test scenario title - " + Date.now(),
+		var testFileName = "My New Test Project- " + Date.now(),
+			testScenarionNameFirst = "My FIRST new test scenario title - " + Date.now(),
 			testScenarionNameSecond = "My SECOND new test scenario title - " + Date.now(),
 			testScenarionDescription = "My new test scenario description.",
 
@@ -72,7 +56,7 @@ xdescribe('Project Dashboard', function() {
 			cancelBaseScenarioButton = element(by.xpath(cancelBaseScenario));
 
 		beforeEach(function(){
-			browser.get(funcs.getDashboardUrl(projectId));
+			browser.get(dashboardUrl);
 		});
 
 
@@ -163,10 +147,10 @@ xdescribe('Project Dashboard', function() {
 				submitButton.click();
 				browser.waitForAngular();
 				browser.getLocationAbsUrl().then(function(url){
-					funcs.saveProjectInfo(url, testFileName, testScenarionNameFirst);
+					funcs.saveProjectInfo(_.extend(projectInfo, {scenario: {url: url, title: testScenarionNameFirst}}));
 					expect(url).toContain("#/scenario/");
 				});
-				browser.get(funcs.getDashboardUrl(projectId));
+				browser.get(dashboardUrl);
 				browser.waitForAngular();
 
 				var items = funcs.getItems(),
@@ -181,6 +165,11 @@ xdescribe('Project Dashboard', function() {
 				title.getText().then(function(text){
 					expect(text).toBe(testScenarionNameFirst);
 				})
+			});
+
+			it("should have a status of 'not calculated'", function(){
+				var status = funcs.getFirstItem().element(by.css(specs.statusClass));
+				expect(funcs.hasClass(status, "fa-not_calculated")).toBe(true);
 			});
 
 			it("should not allow a duplicate scenario name", function(){
@@ -211,7 +200,7 @@ xdescribe('Project Dashboard', function() {
 							specs.modalSubmitButton.click();
 							browser.waitForAngular();
 							expect(browser.getLocationAbsUrl()).toContain("#/scenario/");
-							browser.get(funcs.getDashboardUrl(projectId));
+							browser.get(dashboardUrl);
 							browser.waitForAngular();
 							expect(items.count()).toEqual(numberOfScenarios + 1);
 							itemCount.getText().then(function(firstCount){
@@ -300,7 +289,7 @@ xdescribe('Project Dashboard', function() {
 				specs.textAreaField.sendKeys(newDescription);
 				specs.inlineEditSubmitButton.click();
 				browser.waitForAngular();
-				browser.get(funcs.getDashboardUrl(projectId));
+				browser.get(dashboardUrl);
 
 				specs.inlineEditField.getText().then(function(description){
 					expect(newDescription).toEqual(description);
@@ -310,7 +299,7 @@ xdescribe('Project Dashboard', function() {
 
 		describe("Breadcrumbs: ", function(){
 			it("should have the correct label", function(){
-				expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + testFileName.toUpperCase());
+				expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + projectInfo.project.title.toUpperCase());
 			});
 		});
 
@@ -326,7 +315,7 @@ xdescribe('Project Dashboard', function() {
 				browser.waitForAngular();
 				scenarios = element.all(by.repeater("scenarios in scenarioList")).first().element(by.css('a'));
 				scenarios.click();
-				scenario = element.all(by.repeater("scenario in scenarios.data")).first().element(by.css('.scenario-title'));
+				scenario = element.all(by.repeater("scenario in scenarios.data")).first().element(by.css("span[data-ms-id='scenario-title']"));
 				browser.waitForAngular();
 				scenario.click();
 
@@ -337,7 +326,7 @@ xdescribe('Project Dashboard', function() {
 						submitButton.click();
 						browser.waitForAngular();
 						expect(browser.getLocationAbsUrl()).toContain("#/scenario/");
-						browser.get(funcs.getDashboardUrl(projectId));
+						browser.get(dashboardUrl);
 						browser.waitForAngular();
 						expect(scenarioBaseScenarioElement.getText()).toEqual(scenarioText);
 					});
@@ -365,7 +354,7 @@ xdescribe('Project Dashboard', function() {
 					});
 				});
 
-				browser.get(funcs.getDashboardUrl(projectId));
+				browser.get(dashboardUrl);
 
 				lastScenarioElementTitle.getText().then(function(titleInTray){
 					lastScenarioElementName.click();
