@@ -24,8 +24,8 @@
 	</div>
 
 	<div class="button-group">
-		<ms-button type="cancel" action="cancelExport()" label="Close" ng-hide="!isExportInProgress"></ms-button>
-		<ms-button type="cancel" action="cancelExport()" label="Cancel" ng-show="isExportInProgress"></ms-button>
+		<ms-button type="cancel" action="cancelExport()" label="Close" ng-hide="isExportInProgress" collapse-control target-area="#exportBody" header="#exportHeader"></ms-button>
+		<ms-button type="cancel" action="cancelExport()" label="Cancel" class="ng-hide" ng-show="isExportInProgress"></ms-button>
 		<ms-button type="submit" action="requestExport()" label="Export" ng-hide="isExportInProgress"></ms-button>
 	</div>
 
