@@ -8,6 +8,7 @@ angular.module('ThreeSixtyOneView')
 
         var init = function() {
             $scope.draftView = false;
+            $scope.timeDisabled = false;
             $scope.added = {};
             $scope.addedFilters = {};
             $scope.categorizedValue = [];
@@ -33,13 +34,15 @@ angular.module('ThreeSixtyOneView')
 
                 $scope.added = PivotMetaService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
                 $scope.membersList = PivotMetaService.generateMembersList(result.dimensions);
+                $scope.determineTimeDisability($scope.added);
                 $scope.addedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
                 $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
 
                 $scope.loadPivotTable($scope.selectedScenarioElement, result.view);
             });
-        },
-        deleteView = function(cubeId, viewId) {
+        };
+
+        $scope.deleteView = function(cubeId, viewId) {
             ManageAnalysisViewsService.deleteView(viewId, cubeId).then(function() {
                 $scope.viewsList = _.reject($scope.viewsList, function(view) { return view.id === viewId; });
                 $scope.draftView = false;
@@ -62,7 +65,7 @@ angular.module('ThreeSixtyOneView')
             }
         };
 
-                // save the changes in the current view
+        // save the changes in the current view
         $scope.saveView = function() {
             if($scope.draftView) {
                 var originalViewName = $scope.viewData.name.substring(8);
@@ -74,8 +77,9 @@ angular.module('ThreeSixtyOneView')
                 PivotMetaService.updateView($scope.cubeId, $scope.viewData).then(function(view) {
                     $scope.viewData = view;
                     $scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
+                    $scope.determineTimeDisability($scope.added);
                 });
-                deleteView($scope.cubeId, draftViewId);
+                $scope.deleteView($scope.cubeId, draftViewId);
             }
         };
 
@@ -114,12 +118,13 @@ angular.module('ThreeSixtyOneView')
                     });
 
                     if(viewId !== draftId) {
-                        deleteView($scope.cubeId, draftId);
+                        $scope.deleteView($scope.cubeId, draftId);
                     }
                 }
 
                 $scope.viewData = view;
                 $scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
+                $scope.determineTimeDisability($scope.added);
                 $scope.membersList = PivotMetaService.generateMembersList($scope.dimensions);
                 $scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
                 $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, view);
@@ -129,12 +134,49 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.createView = function(cubeId, view) {
+            view.id = null;
             return ManageAnalysisViewsService.createView(view, cubeId).then(function(view) {
                 $scope.viewData = angular.copy(view);
                 $scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
+                $scope.determineTimeDisability($scope.added);
                 $scope.viewsList.unshift(view);
                 $scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
                 return view;
+            });
+        };
+
+        $scope.renameView = function(cubeId, view) { // rename the view
+            ManageAnalysisViewsService.renameView(view.id, cubeId, view.name).then(function(response) {
+                _.each($scope.viewsList, function(item) {
+                    if(item.id === response.id) {
+                        item.name = response.name;
+                    }
+                });
+            });
+        };
+
+        $scope.isViewDraft = function(draft) {
+            if(typeof draft === 'undefined') {
+                return $scope.draftView;
+            } else {
+                $scope.draftView = draft;
+            }
+        };
+
+        $scope.determineTimeDisability = function(added) {
+            var timeDimensionId = 0;
+
+            _.each($scope.dimensions, function(dimension) {
+                if(dimension.type === 'TimeDimension') {
+                    timeDimensionId = dimension.id;
+                }
+            });
+
+            $scope.timeDisabled = false;
+            _.each(added, function(item, key) {
+                if($scope.membersList[timeDimensionId][key] && added[key]) {
+                    $scope.timeDisabled = true;
+                }
             });
         };
 

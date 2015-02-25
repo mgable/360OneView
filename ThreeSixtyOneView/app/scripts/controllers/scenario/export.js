@@ -7,6 +7,7 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 			$scope.addedExportFilters = {}; // contains the added filter values for the export view
 			$scope.categorizedExportValue = []; // categorized filter values based on selected filters for the export tab
 			$scope.exportAddedDimensions = {}; // contains the added dimensions for the export view
+			$scope.isExportInProgress = false;
 
 			var unwatchViewData = $scope.$watch('viewData', function() {
 				$scope.setupExportView();
@@ -97,7 +98,7 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 		$scope.filtersModal = function(category) {
 			var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
 				{cat: category, addedFilters: $scope.addedExportFilters, viewData: $scope.exportViewData.rows, dimensions: $scope.dimensions},
-				{windowSize: 'lg', windowClass: 'filtersSelectionModal'});
+				{windowSize: 'lg', windowClass: 'filters-modal'});
 
 			dialog.result.then(function(data) {
 				$scope.addedExportFilters = data;

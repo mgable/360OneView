@@ -1,24 +1,26 @@
-<div class="modal-header">
-	<h4 class="element-modal-title" id="myModalLabel">{{selectedScenarioElement.cubeMeta.label}}</h4>
-	<h3>Copy &amp; Replace</h3>
-</div>
-<div class="element-copy-modal-body" data-ms-id="analysisElementCopy">
-	<form name="elementCopy" class="element-copy-form" novalidate>
-		<div class="element-copy-name">
-			<label>
-				<span class="element-copy-label">Name:</span>
-				<input type="text" name="elementName" placeholder="Enter Name" ng-model="newElement.name" required>
-			</label>
+<div data-ms-id="analysisElementCopy">
+	<div class="header">
+		<h4 class="title">{{selectedScenarioElement.cubeMeta.label}}</h4>
+		<h3 class="subtitle">Copy &amp; Replace</h3>
+	</div>
+	<div class="body">
+		<div class="content">
+			<form name="elementCopy" class="main-content" novalidate>
+				<div class="name">
+					<label>Name:
+						<input type="text" name="elementName" placeholder="Enter Name" ng-model="newElement.name" required>
+					</label>
+				</div>
+				<div class="description">
+					<label>Description:
+						<input type="text" name="elementDescription" placeholder="Enter Description" ng-model="newElement.description" required>
+					</label>
+				</div>
+			</form>
 		</div>
-		<div class="element-copy-description">
-			<label>
-				<span class="element-copy-label">Description:</span>
-				<input type="text" name="elementDescription" placeholder="Enter Description" ng-model="newElement.description" required>
-			</label>
+		<div class="action-buttons">
+			<ms-button type="cancel" action="cancelCopyFile()" label="Cancel" data-dismiss="modal"></ms-button>
+			<ms-button type="submit" action="copyFile()" label="Replace" data-dismiss="modal" ng-disabled="elementCopy.$invalid"></ms-button>
 		</div>
-	</form>
-	<div class="element-file-buttons">
-		<ms-button type="cancel" action="cancelCopyFile()" label="Cancel" data-dismiss="modal"></ms-button>
-		<ms-button type="submit" action="copyFile()" label="Replace" data-dismiss="modal" ng-disabled="elementCopy.$invalid"></ms-button>
 	</div>
 </div>

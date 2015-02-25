@@ -2,33 +2,38 @@
 
 'use strict';
 
-angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$timeout", "$q", "PivotService", function($scope, $timeout, $q, PivotService) {
+angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$timeout", "$q", "PivotService", "CONFIG", function($scope, $timeout, $q, PivotService, CONFIG) {
             var sheet = {},
                 spread = {},
+                pivotTableConfig = CONFIG.view.PivotTable,
+                rowCnt = 0,
+                rowHeaderCnt = 0,
+                colCnt = 0,
+                colHeaderCnt = 0,
                 setDefaultWidth = function(){
                     // set default column width and height
-                    var maxW = 250,
-                        minW = 120,
-                        canvasW = $('#pivotTablevp').width(),
-                        calcW = (canvasW / $scope.colCnt);
+                    var maxWidth = pivotTableConfig.size.maxColumnWidth,
+                        minWidth = pivotTableConfig.size.minColumnWidth,
+                        canvasWidth = $('#pivotTablevp').width(),
+                        calculatedWidth = (canvasWidth / colCnt);
 
-                    if (calcW > minW && calcW < maxW) {
-                        sheet.defaults.colWidth = calcW;
-                    } else if (calcW <= minW) {
-                        sheet.defaults.colWidth = minW;
+                    if (calculatedWidth > minWidth && calculatedWidth < maxWidth) {
+                        sheet.defaults.colWidth = calculatedWidth;
+                    } else if (calculatedWidth <= minWidth) {
+                        sheet.defaults.colWidth = minWidth;
                     } else {
-                        sheet.defaults.colWidth = maxW;
+                        sheet.defaults.colWidth = maxWidth;
                     }
                 },
                 setBackgroundAndBorderColor = function(){
                     // set selection background and border color
-                    sheet.selectionBackColor("rgba(229, 229, 229, 0.3)");
-                    sheet.selectionBorderColor("#CCCCCC");
+                    sheet.selectionBackColor(pivotTableConfig.color.msSelectionColor);
+                    sheet.selectionBorderColor(pivotTableConfig.color.msMediumLightGray);
                 },
                 setFrozenLinePositionAndColor = function(){
                     // set frozenline position and color
-                    sheet.setFrozenRowCount($scope.rowHeaderCnt);
-                    sheet.setFrozenColumnCount($scope.colHeaderCnt);
+                    sheet.setFrozenRowCount(rowHeaderCnt);
+                    sheet.setFrozenColumnCount(colHeaderCnt);
                     sheet.frozenlineColor("transparent");
                 },
                 hideGrid = function(){
@@ -37,48 +42,45 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                 addDefaultStyles = function(){
                     var spreadjs = $.wijmo.wijspread,
                         style = sheet.getDefaultStyle();
-                    style.borderLeft = new spreadjs.LineBorder("#fff", $.wijmo.wijspread.LineStyle.empty);
-                    style.borderTop = new spreadjs.LineBorder("#e5e5e5", $.wijmo.wijspread.LineStyle.thin);
-                    style.borderRight = new spreadjs.LineBorder("#fff", $.wijmo.wijspread.LineStyle.empty);
-                    style.borderBottom = new spreadjs.LineBorder("#e5e5e5", $.wijmo.wijspread.LineStyle.thin);
+                    style.borderLeft = new spreadjs.LineBorder(pivotTableConfig.color.msPureWhite, $.wijmo.wijspread.LineStyle.empty);
+                    style.borderTop = new spreadjs.LineBorder(pivotTableConfig.color.msLightGray, $.wijmo.wijspread.LineStyle.thin);
+                    style.borderRight = new spreadjs.LineBorder(pivotTableConfig.color.msPureWhite, $.wijmo.wijspread.LineStyle.empty);
+                    style.borderBottom = new spreadjs.LineBorder(pivotTableConfig.color.msLightGray, $.wijmo.wijspread.LineStyle.thin);
                 },
                 addColumnStyle = function(){
-                    for (var j = 0; j < $scope.colCnt; j++) {
+                    for (var j = 0; j < colCnt; j++) {
                         var column = sheet.getColumn(j);
                         column.vAlign($.wijmo.wijspread.VerticalAlign.center).textIndent(1);
-                        if (j < $scope.colHeaderCnt) {
-                            column.formatter("0").font("14px proxima-nova").foreColor("#333");
+                        if (j < colHeaderCnt) {
+                            column.formatter("0").font(pivotTableConfig.font.headerFontStyle).foreColor(pivotTableConfig.color.msBlack);
                             column.wordWrap(true);
-                        } else {
-                            // column.formatter("#,###");
                         }
                     }
                 },
                 addRowStyle = function(formatObject){
-                    for (var i = 0; i < $scope.rowCnt; i++) {
+                    for (var i = 0; i < rowCnt; i++) {
                         var row = sheet.getRow(i);
-                            sheet.setRowHeight(i, 40, $.wijmo.wijspread.SheetArea.viewport);
-                        if (i < $scope.rowHeaderCnt) {
-                            if (i === $scope.rowHeaderCnt - 1) {
-                                row.borderBottom(new $.wijmo.wijspread.LineBorder("#CCC", $.wijmo.wijspread.LineStyle.thick));
+                        sheet.setRowHeight(i, pivotTableConfig.size.rowHeight, $.wijmo.wijspread.SheetArea.viewport);
+                        if (i < rowHeaderCnt) {
+                            if (i === rowHeaderCnt - 1) {
+                                row.borderBottom(new $.wijmo.wijspread.LineBorder(pivotTableConfig.color.msMediumLightGray, $.wijmo.wijspread.LineStyle.thick));
                             }
-                            row.formatter("0").font("11px proxima-nova").foreColor("#888");
+                            row.formatter("0").font(pivotTableConfig.font.cellFontStyle).foreColor(pivotTableConfig.color.msMediumGray);
                             row.hAlign($.wijmo.wijspread.HorizontalAlign.center);
                             row.wordWrap(true);
                         } else {
-                            for (var j = $scope.colHeaderCnt; j < $scope.colCnt; j++) {
-                                // sheet.getCell(i, j).font("14px proxima-nova").foreColor("#333").locked(false);
+                            for (var j = colHeaderCnt; j < colCnt; j++) {
                                 if(sheet.getCell(i, j).value() === null) {
-                                    sheet.getCell(i, j).backColor("#EEE").locked(false);
+                                    sheet.getCell(i, j).backColor(pivotTableConfig.color.msLightGray).locked(false);
                                 } else {
-                                    sheet.getCell(i, j).font("14px proxima-nova").foreColor("#333").locked(false).formatter(formatObject[i][j].currency + formatObject[i][j].format);
+                                    sheet.getCell(i, j).font(pivotTableConfig.font.headerFontStyle).foreColor(pivotTableConfig.color.msBlack).locked(false).formatter(formatObject[i][j].currency + formatObject[i][j].format);
                                 }
                             }
                         }
                     }
                 },
                 createRowSpan = function (level, min, max) {
-                    if (level > $scope.rowHeaderCnt) {
+                    if (level > rowHeaderCnt) {
                         return;
                     }
                     var rowSpan = {},
@@ -101,15 +103,15 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                         sheet.addSpan(level, min, 1, span);
                         var rMin = min,
                             rMax = min + span;
-                        for(var i = 0; i < $scope.rowHeaderCnt; i++) {
-                            sheet.getCell(i, min).borderLeft(new $.wijmo.wijspread.LineBorder("#e5e5e5", $.wijmo.wijspread.LineStyle.thin));
+                        for(var i = 0; i < rowHeaderCnt; i++) {
+                            sheet.getCell(i, min).borderLeft(new $.wijmo.wijspread.LineBorder(pivotTableConfig.color.msLightGray, $.wijmo.wijspread.LineStyle.thin));
                         }
                         createRowSpan(level + 1, rMin, rMax - 1);
                         min += span;
                     });
                 },
                 createColSpan = function (level, min, max) {
-                    if (level > $scope.colHeaderCnt) {
+                    if (level > colHeaderCnt) {
                         return;
                     }
                     var colSpan = {},
@@ -134,8 +136,8 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                         sheet.getCell(min, level).vAlign($.wijmo.wijspread.VerticalAlign.top);
                         var cMin = min,
                             cMax = min + span;
-                        for(var j = 0; j < $scope.colHeaderCnt; j++) {
-                            sheet.getCell(min, j).borderTop(new $.wijmo.wijspread.LineBorder("#e5e5e5", $.wijmo.wijspread.LineStyle.thin));
+                        for(var j = 0; j < colHeaderCnt; j++) {
+                            sheet.getCell(min, j).borderTop(new $.wijmo.wijspread.LineBorder(pivotTableConfig.color.msLightGray, $.wijmo.wijspread.LineStyle.thin));
                         }
                         createColSpan(level + 1, cMin, cMax - 1);
                         min += span;
@@ -144,8 +146,8 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                 addSpan = function  () {
                     // row span
                     var l = 0;
-                    createRowSpan(l, $scope.colHeaderCnt, $scope.colCnt);
-                    createColSpan(l, $scope.rowHeaderCnt, $scope.rowCnt);
+                    createRowSpan(l, colHeaderCnt, colCnt);
+                    createColSpan(l, rowHeaderCnt, rowCnt);
                 },
                 formatSheet = function (formatObject) {
                     sheet.isPaintSuspended(true);
@@ -163,18 +165,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                 },
                 cellValueChanged = function(dirtyCell) {
                     // if the cell was empty, do not allow change and revert back to empty
-                    if(dirtyCell.oldValue === null) {
-                        sheet.setValue(dirtyCell.row, dirtyCell.col, dirtyCell.oldValue);
-                        return;
-                    }
-
-                    // if old and new values are the same, then don't do anything
-                    if(Math.round(dirtyCell.oldValue) === Math.round(dirtyCell.newValue)) {
-                        return;
-                    }
-
-                    // if the new value is not a number, discard the change and put the old value in place
-                    if(!angular.isNumber(dirtyCell.newValue) || Number(dirtyCell.newValue) < 0) {
+                    if(dirtyCell.oldValue === null || !angular.isNumber(dirtyCell.newValue) || Number(dirtyCell.newValue) < 0) {
                         sheet.setValue(dirtyCell.row, dirtyCell.col, dirtyCell.oldValue);
                         return;
                     }
@@ -183,7 +174,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
 
                     var cellObject = false;
 
-                    _.each($scope.pivotTableObject[dirtyCell.row - $scope.rowHeaderCnt], function(column) {
+                    _.each($scope.pivotTableObject[dirtyCell.row - rowHeaderCnt], function(column) {
                         var match = true;
                         if(!cellObject) {
                             _.each(column.key.value.coordinates.columnAddresses, function(columnAddress, columnAddressIndex) {
@@ -200,9 +191,9 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
                     cellObject.oldvalue = dirtyCell.oldValue;
                     cellObject.newvalue = dirtyCell.newValue;
 
-                    sheet.getCell(dirtyCell.row, dirtyCell.col).backColor("#EEE").locked(true);
+                    sheet.getCell(dirtyCell.row, dirtyCell.col).backColor(pivotTableConfig.color.msLightGray).locked(true);
                     PivotService.updateCell($scope.selectedScenarioElement.id, $scope.viewData.id, cellObject).then(function() {
-                        sheet.getCell(dirtyCell.row, dirtyCell.col).backColor("#FFF").locked(false);
+                        sheet.getCell(dirtyCell.row, dirtyCell.col).backColor(pivotTableConfig.color.msPureWhite).locked(false);
                     });
                 };
 
@@ -264,12 +255,10 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
 
                 if(!_.isEqual(_data_, $scope.data)) {
                     $scope.data = _data_ || {};
-                    $scope.rowCnt = $scope.data.length;
-                    $scope.rowHeaderCnt = numRows;// || 2;
-                    $scope.rowDataCnt = $scope.rowCnt - $scope.rowHeaderCnt;
-                    $scope.colCnt = _.keys($scope.data[0]).length;
-                    $scope.colHeaderCnt = numCols;// || 2;
-                    $scope.colDataCnt = $scope.colCnt - $scope.colHeaderCnt;
+                    rowCnt = $scope.data.length;
+                    rowHeaderCnt = numRows;// || 2;
+                    colCnt = _.keys($scope.data[0]).length;
+                    colHeaderCnt = numCols;// || 2;
 
                     sheet.reset();
                     $timeout(function() {

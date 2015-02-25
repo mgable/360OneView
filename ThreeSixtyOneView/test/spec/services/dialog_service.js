@@ -25,7 +25,7 @@ describe('Dialog Services:', function() {
         it("should create a 'create project' dialog box", function() {
             DialogService.create('project');
             expect(dialogs.create).toHaveBeenCalledWith('views/modal/simple_input.tpl.html', 'ProjectCreateCtrl', {}, {
-                size: 'sm'
+                windowClass: 'lightbox form-lightbox'
             });
         });
 

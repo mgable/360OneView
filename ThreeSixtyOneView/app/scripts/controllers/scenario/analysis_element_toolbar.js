@@ -62,7 +62,7 @@ angular.module('ThreeSixtyOneView')
         $scope.openScenarioElementCopyModal = function(scenarioId, selectedScenarioElement) {
             var dialog = DialogService.openLightbox('views/modal/scenario_analysis_element_copy.tpl.html', 'ScenarioAnalysisElementCopyCtrl',
                 {selectedScenarioElement: selectedScenarioElement},
-                {windowSize: 'lg', windowClass: 'scenarioAnalysisElementCopy'});
+                {windowSize: 'lg', windowClass: 'form-lightbox'});
 
             dialog.result.then(function(data) {
                 copyAndReplaceAnalysisElementForCube($scope.scenario.id, $scope.cubeId, selectedScenarioElement.id, data);

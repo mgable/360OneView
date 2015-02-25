@@ -4,13 +4,13 @@ angular.module('ThreeSixtyOneView.services')
     .service('DialogService', ["dialogs", function(dialogs) {
         this.create = function() {
             dialogs.create('views/modal/simple_input.tpl.html', 'ProjectCreateCtrl', {}, {
-                size: 'sm'
+                windowClass: 'lightbox form-lightbox'
             });
         };
 
         this.trayCopy = function(item){
             dialogs.create('views/modal/simple_input.tpl.html', 'ScenarioCopyCtrl', item, {
-                size: 'sm'
+                windowClass: 'lightbox form-lightbox'
             });
         };
 
@@ -18,7 +18,7 @@ angular.module('ThreeSixtyOneView.services')
             dialogs.create('views/modal/scenario_create.tpl.html','ScenarioCreateCtrl',{
                 project: _project_,
                 scenarios: _scenarios_
-            },{size:'md', windowClass: 'lightbox'});
+            },{size:'md', windowClass: 'lightbox form-lightbox'});
         };
 
         this.openLightbox = function(templateAddress, controllerName, sharedObjects, options) {

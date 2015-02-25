@@ -1,19 +1,20 @@
 @import "variables";
+@import "new_variables";
 
 .scenario-calculation {
     margin: 55px auto;
     width: 330px;
     height: 590px;
     text-align: center;
-    .scenario-calculation-title {
+    .title {
         margin-bottom: 10px;
         font-size: 26px;
         i {
             font-size: 20px;
-            color: #f45724;
+            color: $ms-mediumRed;
         }
     }
-    .scenario-calculation-description {
+    .description {
         text-align: center;
         text-justify: inter-word;
     }
@@ -26,55 +27,64 @@
             font-style: normal;
         }
         .progress-bar-danger {
-            background-color: #f45724;
+            background-color: $ms-mediumRed;
         }
         .progress-bar-success {
-            background-color: #5cb85c;
+            background-color: $ms-mediumGreen;
         }
     }
-    ul.scenario-calculation-list {
+    ul.list {
         text-align: left;
         li {
             margin: 10px 0 10px 90px;
             color: #808080;
             &.completed {
                 color: #333;
-                span.numberCircle {
-                    background-color: #5cb85c;
+                span.number-circle {
+                    background-color: $ms-mediumGreen;
                 }
-                i.checkmark {
-                    color: #5cb85c;
+                i.fa-check {
+                    color: $ms-mediumGreen;
+                }
+                i.fa-failed {
+                    color: $ms-mediumRed;
                 }
             }
-            span.error {
-                color: #f45724;
-            }
-            span.numberCircle {
+            span.number-circle {
                 display: inline-block;
                 margin-right: 10px;
                 border-radius: 50%;
                 width: 22px;
                 height: 22px;
                 padding: 4px;
-                background: #bfbfbf;
-                color: #fff;
+                background: $ms-mediumLightGray;
+                color: $ms-pureWhite;
                 text-align: center;
                 font-size: 14px;
                 line-height: 14px;
             }
         }
     }
-    .scenario-calculation-btn-group {
+    .action-buttons {
         margin-top: 20px;
-        .btn-calculate {
-            font-size: 14px;
-            text-transform: uppercase;
-            background-color: #d9d9d9;
-            &:hover, &:active {
-                background-color: #cdcdcd;
-                color: #333;
+        .col-sm-6 {
+            padding: 0;
+            &:first-child {
+                padding-right: 5px;
+            }
+            &:last-child {
+                padding-left: 5px;
+            }
+            .ms-btn-cancel {
+                font-size: 14px;
+                color: $ms-black;
+                text-transform: uppercase;
+                background-color: $lightgray;
+                &:hover, &:active {
+                    color: $ms-black;
+                    background-color: $ms-mediumLightGray;
+                }
             }
         }
-        .sm-padding { padding: 5px; }
     }
 }

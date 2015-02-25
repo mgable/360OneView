@@ -33,6 +33,7 @@
 			.body {
 				.content {
 					.main-content {
+						width: 800px;
 						background-color: $ms-pureWhite;
 						border: 1px solid $ms-mediumLightGray;
 
@@ -172,6 +173,50 @@
 					.dot-circle {
 						display: inline;
 					}
+				}
+			}
+		}
+	}
+}
+
+.form-lightbox {
+	.modal-dialog > .modal-content {
+		width: 800px;
+
+		.body > .content {
+			/*border: 1px solid $ms-lightGray;*/
+			
+			.main-content {
+				background-color: transparent;
+				padding: 20px 20px;
+				width: 600px;
+				margin: 10px auto;
+				border: 0;
+
+				label {
+					font-size: 16px;
+					display: block;
+					font-weight: normal;
+					color: $ms-black;
+					padding: 0;
+					text-align: left;
+				}
+
+				input {
+					font-size: 16px;
+					height: 30px;
+					width: 100%;
+					margin-bottom: 15px;
+					margin-top: 5px;
+					font-weight: normal;
+					display: block;
+					padding: 5px 10px;
+				}
+
+				.ng-dirty.ng-invalid {
+					background-color: $ms-lightRed;
+					border: 1px solid $ms-red;
+					color: $ms-red;
 				}
 			}
 		}
