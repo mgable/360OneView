@@ -138,7 +138,7 @@ xdescribe('Scenario Page: ', function() {
 			specs.selectedAnalysisElement.click();
 			specs.analysisElements.get(1).click();
 			specs.replaceButton.click();
-			specs.analysisElementFileList.last().element(by.css('.element-file-name')).getText().then(function(fileName){
+			specs.analysisElementFileList.last().element(by.css('.list-box .item-name')).getText().then(function(fileName){
 				file = fileName;
 				specs.analysisElementFileList.last().click();
 				specs.replaceSubmitButton.click();
@@ -150,7 +150,7 @@ xdescribe('Scenario Page: ', function() {
 				specs.selectedAnalysisElement.click();
 				specs.analysisElements.get(1).click();
 				specs.replaceButton.click();
-				specs.analysisElementFileList.first().element(by.css('.element-file-name')).getText().then(function(fileName){
+				specs.analysisElementFileList.first().element(by.css('.list-box .item-name')).getText().then(function(fileName){
 					file = fileName;
 					specs.analysisElementFileList.first().click();
 					specs.replaceSubmitButton.click();

@@ -7,7 +7,7 @@
 	background-color: white;
 	height: 28px;
 	display: inline-block;
-	margin-right: 5px;
+	margin-right: 10px;
 	vertical-align: top;
 	border-radius: 0;
 
@@ -48,6 +48,16 @@
 	.dropdown-menu {
 		width: 350px;
 		left: -120px;
+	}
+
+	&.locked {
+		.dimension-label {
+			color: $ms-darkGray;
+
+			&:hover {
+				cursor: url(https://ssl.gstatic.com/ui/v1/icons/mail/images/2/openhand.cur) 6 0, move !important;
+			}
+		}
 	}
 }
 

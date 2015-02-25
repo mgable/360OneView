@@ -10,10 +10,10 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/draggable_dimension.tpl.html',
-    "<div class=\"draggable-item dropdown\" data-as-sortable-item>\n" +
+    "<div class=\"draggable-item dropdown\" data-as-sortable-item ng-class=\"{locked: !!lockedDimensions[item.level.label]}\">\n" +
     "\t<div data-as-sortable-item-handle>\n" +
     "\t\t<span class=\"drag-handle\" title=\"Reorder\"><icon type=\"reorder\"></icon></span>\n" +
-    "\t\t<span class=\"dropdown-toggle clickable dimension-label\">{{item.level.label.toLowerCase()}}</span>\n" +
+    "\t\t<span class=\"dropdown-toggle clickable dimension-label\" ng-click=\"clickedItem = item.level.label\">{{item.level.label}}</span>\n" +
     "\t\t<span ng-hide=\"!!lockedDimensions[item.level.label]\" class=\"action-icon clickable\" title=\"Remove\" ng-click=\"delete($index)\"><icon type=\"remove\"></icon></span>\n" +
     "\t\t<span ng-show=\"!!lockedDimensions[item.level.label]\" class=\"action-icon\" title=\"This dimension cannot be removed, because a filter has been applied.\"><icon type=\"info-circle\"></icon></span>\n" +
     "\t</div>\n" +
@@ -278,71 +278,75 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/modal/scenario_analysis_element_copy.tpl.html',
-    "<div class=\"header\">\n" +
-    "\t<h4 class=\"title\">{{selectedScenarioElement.cubeMeta.label}}</h4>\n" +
-    "\t<h3 class=\"subtitle\">Copy &amp; Replace</h3>\n" +
-    "</div>\n" +
-    "<div class=\"body\">\n" +
-    "\t<div class=\"content\">\n" +
-    "\t\t<form name=\"elementCopy\" class=\"main-content\" novalidate>\n" +
-    "\t\t\t<div class=\"name\">\n" +
-    "\t\t\t\t<label>Name:\n" +
-    "\t\t\t\t\t<input type=\"text\" name=\"elementName\" placeholder=\"Enter Name\" ng-model=\"newElement.name\" required>\n" +
-    "\t\t\t\t</label>\n" +
-    "\t\t\t</div>\n" +
-    "\t\t\t<div class=\"description\">\n" +
-    "\t\t\t\t<label>Description:\n" +
-    "\t\t\t\t\t<input type=\"text\" name=\"elementDescription\" placeholder=\"Enter Description\" ng-model=\"newElement.description\" required>\n" +
-    "\t\t\t\t</label>\n" +
-    "\t\t\t</div>\n" +
-    "\t\t</form>\n" +
+    "<div data-ms-id=\"analysisElementCopy\">\n" +
+    "\t<div class=\"header\">\n" +
+    "\t\t<h4 class=\"title\">{{selectedScenarioElement.cubeMeta.label}}</h4>\n" +
+    "\t\t<h3 class=\"subtitle\">Copy &amp; Replace</h3>\n" +
     "\t</div>\n" +
-    "\t<div class=\"action-buttons\">\n" +
-    "\t\t<ms-button type=\"cancel\" action=\"cancelCopyFile()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\n" +
-    "\t\t<ms-button type=\"submit\" action=\"copyFile()\" label=\"Replace\" data-dismiss=\"modal\" ng-disabled=\"elementCopy.$invalid\"></ms-button>\n" +
+    "\t<div class=\"body\">\n" +
+    "\t\t<div class=\"content\">\n" +
+    "\t\t\t<form name=\"elementCopy\" class=\"main-content\" novalidate>\n" +
+    "\t\t\t\t<div class=\"name\">\n" +
+    "\t\t\t\t\t<label>Name:\n" +
+    "\t\t\t\t\t\t<input type=\"text\" name=\"elementName\" placeholder=\"Enter Name\" ng-model=\"newElement.name\" required>\n" +
+    "\t\t\t\t\t</label>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t\t<div class=\"description\">\n" +
+    "\t\t\t\t\t<label>Description:\n" +
+    "\t\t\t\t\t\t<input type=\"text\" name=\"elementDescription\" placeholder=\"Enter Description\" ng-model=\"newElement.description\" required>\n" +
+    "\t\t\t\t\t</label>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</form>\n" +
+    "\t\t</div>\n" +
+    "\t\t<div class=\"action-buttons\">\n" +
+    "\t\t\t<ms-button type=\"cancel\" action=\"cancelCopyFile()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\n" +
+    "\t\t\t<ms-button type=\"submit\" action=\"copyFile()\" label=\"Replace\" data-dismiss=\"modal\" ng-disabled=\"elementCopy.$invalid\"></ms-button>\n" +
+    "\t\t</div>\n" +
     "\t</div>\n" +
     "</div>"
   );
 
 
   $templateCache.put('views/modal/scenario_analysis_element_files.tpl.html',
-    "<div class=\"header\">\n" +
-    "\t<h4 class=\"title\">{{selectedScenarioElement.cubeMeta.label}}</h4>\n" +
-    "\t<h3 class=\"subtitle\">Select A New File</h3>\n" +
-    "</div>\n" +
-    "<div class=\"body\">\n" +
-    "\t<div class=\"content\">\n" +
-    "\t\t<div class=\"main-content\">\n" +
-    "\t\t\t<div class=\"toolbar\">\n" +
-    "\t\t\t\t<div class=\"dropdown-box\">\n" +
-    "\t\t\t\t\t<div class=\"dropdown ng-hide\">\n" +
-    "\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\">{{elementTypeItems[currentElementType]}}<icon type=\"caret-down\"></icon></div>\n" +
-    "\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{selectedScenarioElement.id}}\" radio=\"true\">\n" +
-    "\t\t\t\t            <li ng-repeat=\"item in elementTypeItems\" ng-click=\"changeElementType($index)\" class=\"menu-item\" ms-link=\"{{$index}}\">{{item}}</li>\n" +
-    "\t\t\t\t        </ul>\n" +
+    "<div data-ms-id=\"analysisElementReplace\">\n" +
+    "\t<div class=\"header\">\n" +
+    "\t\t<h4 class=\"title\">{{selectedScenarioElement.cubeMeta.label}}</h4>\n" +
+    "\t\t<h3 class=\"subtitle\">Select A New File</h3>\n" +
+    "\t</div>\n" +
+    "\t<div class=\"body\">\n" +
+    "\t\t<div class=\"content\">\n" +
+    "\t\t\t<div class=\"main-content\">\n" +
+    "\t\t\t\t<div class=\"toolbar\">\n" +
+    "\t\t\t\t\t<div class=\"dropdown-box\">\n" +
+    "\t\t\t\t\t\t<div class=\"dropdown ng-hide\">\n" +
+    "\t\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\">{{elementTypeItems[currentElementType]}}<icon type=\"caret-down\"></icon></div>\n" +
+    "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{selectedScenarioElement.id}}\" radio=\"true\">\n" +
+    "\t\t\t\t\t            <li ng-repeat=\"item in elementTypeItems\" ng-click=\"changeElementType($index)\" class=\"menu-item\" ms-link=\"{{$index}}\">{{item}}</li>\n" +
+    "\t\t\t\t\t        </ul>\n" +
+    "\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t<div class=\"search-box\">\n" +
+    "\t\t\t\t\t\t<icon type=\"search\"></icon>\n" +
+    "\t\t\t\t\t\t<input type=\"text\" ng-model=\"searchTerm.name\" placeholder=\"Search\">\n" +
     "\t\t\t\t\t</div>\n" +
     "\t\t\t\t</div>\n" +
-    "\t\t\t\t<div class=\"search-box\">\n" +
-    "\t\t\t\t\t<icon type=\"search\"></icon>\n" +
-    "\t\t\t\t\t<input type=\"text\" ng-model=\"searchTerm.name\" placeholder=\"Search\">\n" +
-    "\t\t\t\t</div>\n" +
-    "\t\t\t</div>\n" +
-    "\t\t\t<div class=\"list-box\">\n" +
-    "\t\t\t\t<div ng-repeat=\"file in fileList | filter:searchTerm | orderBy:'auditInfo.lastUpdatedOn':true\" class=\"item clickable\" ng-class=\"{'selected': file.id === currentFile.id}\" ng-click=\"currentFile.id = file.id\">\n" +
-    "\t\t\t\t\t<div class=\"item-name text-holder\"><icon type=\"circle-o\" cname=\"circle\"></icon><icon type=\"dot-circle-o\" cname=\"dot-circle\"></icon>{{file.name}}</div>\n" +
-    "\t\t\t\t\t<div class=\"item-meta\">\n" +
-    "\t\t\t\t\t\t<span ng-if=\"e2e\" class=\"item-date\">{{file.auditInfo.lastUpdatedOn}}</span>\n" +
-    "\t\t\t\t\t\t<span ng-if=\"!e2e\" class=\"item-date\">{{file.auditInfo.lastUpdatedOn | timeago}}</span>\n" +
-    "\t\t\t\t\t\t<span class=\"item-owner\">{{file.auditInfo.lastUpdatedBy.name}}</span>\n" +
+    "\t\t\t\t<div class=\"list-box\">\n" +
+    "\t\t\t\t\t<div ng-repeat=\"file in fileList | filter:searchTerm | orderBy:'auditInfo.lastUpdatedOn':true\" class=\"item clickable\" ng-class=\"{'selected': file.id === currentFile.id}\" ng-click=\"currentFile.id = file.id\">\n" +
+    "\t\t\t\t\t\t<div class=\"item-name text-holder\"><icon type=\"circle-o\" cname=\"circle\"></icon><icon type=\"dot-circle-o\" cname=\"dot-circle\"></icon>{{file.name}}</div>\n" +
+    "\t\t\t\t\t\t<div class=\"item-meta\">\n" +
+    "\t\t\t\t\t\t\t<span ng-if=\"e2e\" class=\"item-date\">{{file.auditInfo.lastUpdatedOn}}</span>\n" +
+    "\t\t\t\t\t\t\t<span ng-if=\"!e2e\" class=\"item-date\">{{file.auditInfo.lastUpdatedOn | timeago}}</span>\n" +
+    "\t\t\t\t\t\t\t<span class=\"item-owner\">{{file.auditInfo.lastUpdatedBy.name}}</span>\n" +
+    "\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t<div class=\"item-description\">{{file.description}}</div>\n" +
     "\t\t\t\t\t</div>\n" +
-    "\t\t\t\t\t<div class=\"item-description\">{{file.description}}</div>\n" +
     "\t\t\t\t</div>\n" +
     "\t\t\t</div>\n" +
     "\t\t</div>\n" +
-    "\t</div>\n" +
-    "\t<div class=\"action-buttons\">\n" +
-    "\t\t<ms-button type=\"cancel\" action=\"cancelChangeFile()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\n" +
-    "\t\t<ms-button type=\"submit\" action=\"changeFile()\" label=\"Replace\" data-dismiss=\"modal\"></ms-button>\n" +
+    "\t\t<div class=\"action-buttons\">\n" +
+    "\t\t\t<ms-button type=\"cancel\" action=\"cancelChangeFile()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\n" +
+    "\t\t\t<ms-button type=\"submit\" action=\"changeFile()\" label=\"Replace\" data-dismiss=\"modal\"></ms-button>\n" +
+    "\t\t</div>\n" +
     "\t</div>\n" +
     "</div>"
   );
@@ -427,22 +431,24 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/modal/simple_input.tpl.html',
-    "<div class=\"header\">\n" +
-    "\t<h4 class=\"title\">{{modalProperties.title}}</h4>\n" +
-    "</div>\n" +
-    "<div class=\"body\" ui-keypress=\"{13: 'submit(item.title, $event)'}\">\n" +
-    "\t<div class=\"content\">\n" +
-    "\t\t<form class=\"main-content\" name=\"nameDialog\" novalidate role=\"form\">\n" +
-    "\t\t\t<div class=\"form-group input-group-lg\" ng-class=\"{true: 'has-error'}[nameDialog.username.$dirty && nameDialog.username.$invalid]\">\n" +
-    "\t\t\t\t<label class=\"control-label\" for=\"inputField\">{{modalProperties.field}}:\n" +
-    "\t\t\t\t\t<input type=\"text\" class=\"form-control\" id=\"inputField\" ng-model=\"item.title\" focus required ng-maxlength=\"{{inputRestrictions.maximumCharacterLimit}}\" ng-minlength=\"{{inputRestrictions.minimumCharacterLimit}}\" ng-pattern='inputRestrictions.characterRestrictions'/>\n" +
-    "\t\t\t\t</label>\n" +
-    "\t\t\t</div>\n" +
-    "\t\t</form>\n" +
+    "<div data-ms-id=\"simpleModal\">\n" +
+    "\t<div class=\"header\">\n" +
+    "\t\t<h4 class=\"title\">{{modalProperties.title}}</h4>\n" +
     "\t</div>\n" +
-    "\t<div class=\"action-buttons\">\n" +
-    "\t\t<ms-button type=\"cancel\" action=\"close($event)\" label=\"Cancel\"></ms-button>\n" +
-    "\t\t<ms-button type=\"submit\" action=\"submit(item.title)\" label=\"{{modalProperties.button}}\" ui-keypress=\"{13: 'submit(item.title, $event)'}\" data-ms-id=\"modalSubmit\" ng-disabled=\"nameDialog.$invalid\"></ms-button>\n" +
+    "\t<div class=\"body\" ui-keypress=\"{13: 'submit(item.title, $event)'}\">\n" +
+    "\t\t<div class=\"content\">\n" +
+    "\t\t\t<form class=\"main-content\" name=\"nameDialog\" novalidate role=\"form\">\n" +
+    "\t\t\t\t<div class=\"form-group input-group-lg\" ng-class=\"{true: 'has-error'}[nameDialog.username.$dirty && nameDialog.username.$invalid]\">\n" +
+    "\t\t\t\t\t<label class=\"control-label\" for=\"inputField\">{{modalProperties.field}}:\n" +
+    "\t\t\t\t\t\t<input type=\"text\" class=\"form-control\" id=\"inputField\" ng-model=\"item.title\" focus required ng-maxlength=\"{{inputRestrictions.maximumCharacterLimit}}\" ng-minlength=\"{{inputRestrictions.minimumCharacterLimit}}\" ng-pattern='inputRestrictions.characterRestrictions'/>\n" +
+    "\t\t\t\t\t</label>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</form>\n" +
+    "\t\t</div>\n" +
+    "\t\t<div class=\"action-buttons\">\n" +
+    "\t\t\t<ms-button type=\"cancel\" action=\"close($event)\" label=\"Cancel\"></ms-button>\n" +
+    "\t\t\t<ms-button type=\"submit\" action=\"submit(item.title)\" label=\"{{modalProperties.button}}\" ui-keypress=\"{13: 'submit(item.title, $event)'}\" data-ms-id=\"modalSubmit\" ng-disabled=\"nameDialog.$invalid\"></ms-button>\n" +
+    "\t\t</div>\n" +
     "\t</div>\n" +
     "</div>"
   );

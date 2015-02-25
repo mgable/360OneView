@@ -245,6 +245,10 @@
 
 				.filter-values {
 					color: $blue;
+
+					&:hover {
+						text-decoration: underline;
+					}
 				}
 			}
 		}
