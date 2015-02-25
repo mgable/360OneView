@@ -20,6 +20,7 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     noop: "noop",
     // Scenario editor and results
     scenarioElementChange: "PivotBuilderCtrl:loadCube",
+    pivotTableStatusChange: "ScenarioCtrl:pivotTableStatusChange",
     // ERRORS
     noDataReceived: "ErrorService:noDataReceived",
     serverError: "ErrorService:serverError",

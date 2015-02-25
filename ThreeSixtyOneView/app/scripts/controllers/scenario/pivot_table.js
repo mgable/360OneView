@@ -2,7 +2,7 @@
 
 'use strict';
 
-angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$timeout", "$q", "PivotService", "CONFIG", function($scope, $timeout, $q, PivotService, CONFIG) {
+angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$rootScope", "$timeout", "$q", "PivotService", "CONFIG", "EVENTS", function($scope, $rootScope, $timeout, $q, PivotService, CONFIG, EVENTS) {
 			var sheet = {},
 				spread = {},
 				pivotTableConfig = CONFIG.view.PivotTable,
@@ -10,6 +10,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
 				rowHeaderCnt = 0,
 				colCnt = 0,
 				colHeaderCnt = 0,
+				savingCellsCount = 0,
 				setDefaultWidth = function(){
 					// set default column width and height
 					var maxWidth = pivotTableConfig.size.maxColumnWidth,
@@ -192,8 +193,13 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
 					cellObject.newvalue = dirtyCell.newValue;
 
 					sheet.getCell(dirtyCell.row, dirtyCell.col).backColor(pivotTableConfig.color.msLightGray).locked(true);
+					$rootScope.$broadcast(EVENTS.pivotTableStatusChange, CONFIG.application.models.PivotServiceModel.pivotDataStatus.saving);
+					savingCellsCount++;
 					PivotService.updateCell($scope.selectedScenarioElement.id, $scope.viewData.id, cellObject).then(function() {
 						sheet.getCell(dirtyCell.row, dirtyCell.col).backColor(pivotTableConfig.color.msPureWhite).locked(false);
+						if(--savingCellsCount == 0) {
+							$rootScope.$broadcast(EVENTS.pivotTableStatusChange, CONFIG.application.models.PivotServiceModel.pivotDataStatus.saved);
+						}
 					});
 				};
 
@@ -254,6 +260,11 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
 			$scope.spread.updateSheet = function(_data_, numRows, numCols, formatObject) {
 				if(_data_ !== '') {
 					$scope.spread.sheet.loading = false;
+					if(typeof _data_ === 'undefined') {
+						$rootScope.$broadcast(EVENTS.pivotTableStatusChange, CONFIG.application.models.PivotServiceModel.pivotDataStatus.empty);
+					} else {
+						$rootScope.$broadcast(EVENTS.pivotTableStatusChange, CONFIG.application.models.PivotServiceModel.pivotDataStatus.loaded);
+					}
 				}
 
 				if(!_.isEqual(_data_, $scope.data)) {
