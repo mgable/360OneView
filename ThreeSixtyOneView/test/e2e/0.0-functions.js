@@ -14,7 +14,9 @@ var specs = require('./0.0-specs.js'),
 			return JSON.parse(fs.readFileSync(filename, {encoding: 'utf8'}));
 		},
 		deleteProjectInfo: function(){
-			fs.unlinkSync(filename);
+			try{
+				fs.unlinkSync(filename);
+			}catch(e){console.info(filename + " does not exist");}
 		},
 		testInputRestrictions: function(input, submit){
 			_.each(specs.inputRestrictions, function(restrictedCharacter){

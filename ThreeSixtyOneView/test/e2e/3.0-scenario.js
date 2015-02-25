@@ -162,4 +162,21 @@ xdescribe('Scenario Page: ', function() {
 			})
 		});
 	});
+
+	describe("editor tabs", function(){
+		it("should have three tabs", function(){
+			expect(specs.editorTabs.count()).toBe(3);
+		});
+
+		it("should toggle expand and collapse when tab is clicked", function(){
+			funcs.hasClass(specs.pivotBuilderTab, "hidden").then(function(state){
+				specs.editorTabs.get(0).click();
+				expect(funcs.hasClass(specs.pivotBuilderTab, "hidden")).toBe(!state)
+				specs.editorTabs.get(0).click();
+				expect(funcs.hasClass(specs.pivotBuilderTab, "hidden")).toBe(state)
+			});
+			
+		});
+
+	})
 });

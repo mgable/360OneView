@@ -60,6 +60,8 @@ var coreSpecs = require('./0.0-specs.js'),
 		projectsBreadcrumb: "ALL PROJECTS", 
 		statusClass: ".status i",
 		titleClass: ".title a",
+		inProgressClass: "fa-in_progress",
+		failedClass: "fa-failed",
 
 		items: "item in getData()",
 		itemCount: "span[data-ms-id='itemCount']",

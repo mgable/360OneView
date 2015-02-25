@@ -22,6 +22,9 @@ var coreSpecs = require('./0.0-specs.js'),
 	replaceCancelButton = analysisElementReplace + " .ms-btn-cancel",
 	copyAndReplaceField = "newElement.name",
 	copyAndReplaceDescriptionField = "newElement.description",
+	editorTabs = ".nav-tabs li",
+	editorTabContent = "tab in tabs",
+	pivotBuilderTab = "#pivotBuilder",
 
 	assumedData = { "cubes":
 			['Marketing Plan',
@@ -58,7 +61,9 @@ var coreSpecs = require('./0.0-specs.js'),
 		submitButton: element(by.css(submitButton)),
 		copyAndReplaceCubeName: element(by.css(copyAndReplaceCubeName)),
 		replaceSubmitButton: element(by.css(replaceSubmitButton)),
-		replaceCancelButton: element(by.css(replaceCancelButton))
+		replaceCancelButton: element(by.css(replaceCancelButton)),
+		editorTabs: element.all(by.css(editorTabs)),
+		pivotBuilderTab: element(by.css(pivotBuilderTab))
 	};
 
 _.extend(data, coreSpecs);

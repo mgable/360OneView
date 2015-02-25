@@ -24,7 +24,7 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
             if(AnalyticCalculationsService.isInProgress($scope.scenarioState.message)) {
                 $scope.progressValue = 0;
                 $scope.step = 0;
-                $scope.errorMsg = "";
+                $scope.errorMessage = "";
                 runProgress();
             } else if (AnalyticCalculationsService.isSuccess($scope.scenarioState.message)) {
                 $state.go("Scenario.results");
@@ -63,7 +63,7 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
                 $state.go("Scenario.results");
             } else if (AnalyticCalculationsService.isFailed($scope.scenarioState.message)) {
                 stopProgress();
-                $scope.errorMsg = calcStatesData.additionalInfo.message;
+                $scope.errorMessage = calcStatesData.additionalInfo.message;
             }
         },
         // start the progress
@@ -86,10 +86,10 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         addIcons = function(data) {
             _.each(data, function(v, k) {
                 if (k === $scope.step) {
-                    if ($scope.scenarioState.message === 'FAILED') {
+                    if (AnalyticCalculationsService.isFailed($scope.scenarioState.message)) {
                         v.iconType = 'failed';
                         v.iconText = 'Error';
-                    } else if ($scope.scenarioState.message === 'in_progress') {
+                    } else if (AnalyticCalculationsService.isInProgress($scope.scenarioState.message)) {
                         v.iconType = 'in_progress';
                         v.iconText = '';
                     }
