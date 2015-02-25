@@ -3,6 +3,10 @@
 @import "new_variables";
 
 .dropdown {
+	.dropdown-toggle {
+		cursor: pointer;
+	}
+	
 	.dropdown-menu {
 		top: 30px;
 		border-radius: 0;
