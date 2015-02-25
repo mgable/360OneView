@@ -5,15 +5,14 @@ var specs = require('./3.0-scenario_specs.js'),
 	_ = require('underscore'),
 	projectInfo = funcs.readProjectInfo();
 
-
-beforeEach(
-	function(){
-		browser.driver.manage().window().setSize(1280, 1024);
-		browser.get(projectInfo.results.url);
-	}
-);
-
 xdescribe("results", function(){
+
+	beforeEach(
+		function(){
+			browser.driver.manage().window().setSize(1280, 1024);
+			browser.get(projectInfo.results.url);
+		}
+	);
 	
 	it("should have an enabled editor button", function(){
 		expect(funcs.hasClass(specs.editButton, "disabled")).toBeFalsy();

@@ -9,6 +9,8 @@ var specs = require('./0.0-specs.js'),
 		saveProjectInfo: function(obj){
 			var data = JSON.stringify(obj);
 			fs.writeFileSync(filename, data);
+			console.info("writing");
+			console.info(data);
 		},
 		readProjectInfo: function(){
 			return JSON.parse(fs.readFileSync(filename, {encoding: 'utf8'}));

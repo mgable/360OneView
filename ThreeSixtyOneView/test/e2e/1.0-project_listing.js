@@ -1,11 +1,8 @@
 "use strict";
 
 var specs = require('./1.0-project_listing_specs.js'),
-	funcs = require('./1.0-project_listing_functions.js');
-
-
-funcs.deleteProjectInfo();
-
+	funcs = require('./1.0-project_listing_functions.js'),
+	projectInfo = {};
 
 describe('Project Listing Page: ', function() {
 	beforeEach(
@@ -329,8 +326,10 @@ describe('Project Listing Page: ', function() {
 			browser.waitForAngular();
 
 			browser.getLocationAbsUrl().then(function(url){
+				var projectId = url.match(/\w{32}/)[0];
 				expect(url).toContain("#/dashboard/");
-				funcs.saveProjectInfo({"project": {"url": url, "title": testFileName}});
+				projectInfo = {"project": {"url": url, "id": projectId, "title": testFileName}};
+				funcs.saveProjectInfo(projectInfo);
 			});
 
 			browser.get(funcs.getProjectUrl());
@@ -372,6 +371,9 @@ describe('Project Listing Page: ', function() {
 			first = funcs.getFirstItemTitle();
 			first.getText().then(function(name){
 				expect(name).toEqual(newName);
+				projectInfo.project.title = name;
+				funcs.deleteProjectInfo();
+				funcs.saveProjectInfo(projectInfo);
 			});
 		});
 

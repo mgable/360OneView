@@ -3,14 +3,22 @@
 var specs = require('./1.0-project_listing_specs.js'),
 	funcs = require('./1.0-project_listing_functions.js'),
 	_ = require('underscore'),
-	projectInfo = funcs.readProjectInfo();
+	projectInfo,
+	dashboardUrl,
+	projectId;
 
-	var dashboardUrl = projectInfo.project.url,
-		projectId;
-	// TEMP data - remove in production
-	//var dashboardUrl, projectId = "333c1b413f0930cea4051d98e5928a0f", dashboardUrl = funcs.getDashboardUrl(projectId);
+describe('test setup', function(){
+	it("should set up the tests", function(){
+		projectInfo = funcs.readProjectInfo();
+		console.info("Project Dashboard");
+		console.info(projectInfo);
 
-xdescribe('Project Dashboard', function() {
+		dashboardUrl = projectInfo.project.url,
+		projectId = projectInfo.project.id;
+	});
+});
+
+describe('Project Dashboard', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
@@ -18,7 +26,8 @@ xdescribe('Project Dashboard', function() {
 	);
 
 	describe("Scenario List", function(){
-		var testScenarionNameFirst = "My FIRST new test scenario title - " + Date.now(),
+		var testFileName = "My New Test Project- " + Date.now(),
+			testScenarionNameFirst = "My FIRST new test scenario title - " + Date.now(),
 			testScenarionNameSecond = "My SECOND new test scenario title - " + Date.now(),
 			testScenarionDescription = "My new test scenario description.",
 
@@ -215,7 +224,7 @@ xdescribe('Project Dashboard', function() {
 			});
 		});
 
-		xdescribe("Filter functions: ", function(){
+		describe("Filter functions: ", function(){
 
 			it("should filter by favorite", function(){
 				var startItemCount = funcs.getItemCount();
@@ -238,7 +247,7 @@ xdescribe('Project Dashboard', function() {
 			});
 		});
 
-		xdescribe("Edit functions: ", function(){
+		describe("Edit functions: ", function(){
 			var first,
 				newName = "My Renamed Scenario - " + Date.now(),
 				newDescription = "My new Description - " + Date.now();
@@ -288,13 +297,13 @@ xdescribe('Project Dashboard', function() {
 			});
 		})
 
-		xdescribe("Breadcrumbs: ", function(){
+		describe("Breadcrumbs: ", function(){
 			it("should have the correct label", function(){
-				expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + testFileName.toUpperCase());
+				expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + projectInfo.project.title.toUpperCase());
 			});
 		});
 
-		xdescribe("Change base scenario: ", function(){
+		describe("Change base scenario: ", function(){
 
 			it("should change the base scenario", function(){
 				var scenarios, scenario;
@@ -306,7 +315,7 @@ xdescribe('Project Dashboard', function() {
 				browser.waitForAngular();
 				scenarios = element.all(by.repeater("scenarios in scenarioList")).first().element(by.css('a'));
 				scenarios.click();
-				scenario = element.all(by.repeater("scenario in scenarios.data")).first().element(by.css('.scenario-title'));
+				scenario = element.all(by.repeater("scenario in scenarios.data")).first().element(by.css("span[data-ms-id='scenario-title']"));
 				browser.waitForAngular();
 				scenario.click();
 
@@ -325,7 +334,7 @@ xdescribe('Project Dashboard', function() {
 			});
 		});
 
-		xdescribe("Scenario Elements: ", function(){
+		describe("Scenario Elements: ", function(){
 			var scenarioElements = "element in selectedItem.scenarioElements",
 				scenarioEditScenarioElements = "div[data-ms-id='ScenarioEdit.analysisElements'] .dropdown-toggle",
 				allScenarioElements = element.all(by.repeater(scenarioElements)),
@@ -359,7 +368,7 @@ xdescribe('Project Dashboard', function() {
 		});
 	});
 
-	xdescribe("Edit controls on master project's master scenario", function(){
+	describe("Edit controls on master project's master scenario", function(){
 		beforeEach(
 			function(){
 				browser.driver.manage().window().setSize(1280, 1024);

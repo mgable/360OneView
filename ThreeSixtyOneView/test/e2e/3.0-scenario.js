@@ -3,52 +3,45 @@
 var specs = require('./3.0-scenario_specs.js'),
 	funcs = require('./3.0-scenario_functions.js'),
 	_ = require('underscore'),
-	projectInfo = funcs.readProjectInfo();
-
-var customMatchers = {
-		arrayElementContains:  function(expected){
-
-	        var self = this, regEx = new RegExp(expected), deferred = protractor.promise.defer(), result = false;
-
-			_.each(self.actual, function(key){
-				if (regEx.test(key)){
-					result = true;
-				}
-			});
-
-			if (result) {
-	      		deferred.fulfill(true);
-	    	} else {
-	      		deferred.reject(self.actual + ' did not contain ' + expected);
-	    	}
-	        return deferred.promise;
-	    }
-	},
+	projectInfo,
+	scenarioUrl,
+	projectId,
 	analysisElementFileName = "My New Analysis Element File " + Date.now(),
 	analysisElementFileDescription = "My New Description";
 
 
 beforeEach(function(){
-    this.addMatchers(customMatchers);
+    this.addMatchers(specs.customMatchers);
 });
 
-xdescribe('Scenario Page: ', function() {
+describe('test setup: ', function() {
+	it("should set up the tests", function(){
+		projectInfo = funcs.readProjectInfo();
+		console.info("Scenario page");
+		console.info(projectInfo);
+		scenarioUrl = projectInfo.scenario.url;
+		console.info("scenario url is " + scenarioUrl);
+		projectId = projectInfo.project.id;
+	});
+});
+
+describe('Scenario Page: ', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);
-			browser.get(projectInfo.scenario.url);
+			browser.get(scenarioUrl);
 		}
 	);
 
-	xdescribe("Current working scenario", function(){
+	describe("Current working scenario", function(){
 		it("should read the correct scenario from the file system", function(){
 			browser.getLocationAbsUrl().then(function(url){
-				expect(url).toEqual(scenario.url);
+				expect(url).toEqual(projectInfo.scenario.url);
 			});
 		});
 	});
 
-	xdescribe("initial state of navigation buttons", function(){
+	describe("initial state of navigation buttons", function(){
 		it("should have the edit button enabled", function(){
 			expect(funcs.hasClass(specs.editButton, 'disabled')).toBe(false);
 		});
@@ -60,7 +53,7 @@ xdescribe('Scenario Page: ', function() {
 		});
 	});
 
-	xdescribe("analysis element toolbar", function(){
+	describe("analysis element toolbar", function(){
 		it("should have thirteen analysis elements", function(){
 			expect(specs.analysisElements.count()).toBe(specs.assumedData.cubes.length);
 		});
@@ -177,6 +170,5 @@ xdescribe('Scenario Page: ', function() {
 			});
 			
 		});
-
-	})
+	});
 });

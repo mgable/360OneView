@@ -404,7 +404,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t\t\t\t\t\t\t<span ng-show=\"showRow(scenario)\"><icon type=\"check-circle\" cname=\"ok-sign\"></icon></span>\n" +
     "\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t\t<div class=\"col-md-11\">\n" +
-    "\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\">{{scenario.title}}</span>\n" +
+    "\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-title\">{{scenario.title}}</span>\n" +
     "\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t</div>\n" +
