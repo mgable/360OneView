@@ -1,11 +1,13 @@
 <div class="scenario-calculation">
 
-    <div class="title">
-        <icon type="{{currentStateTitle.icon}}"></icon>&nbsp;{{currentStateTitle.description}}
-    </div>
-    <p class="description" ng-if="scenarioState.message === 'FAILED'">{{errorMsg}}</p>
     <div class="row">
-        <progressbar class="progress-striped active" max="100" value="progressValue" type="{{progressbarType}}"><i>{{progressValue | number:0}}%</i></progressbar>
+        <div class="title">
+            <icon type="{{currentStateTitle.icon}}"></icon>&nbsp;{{currentStateTitle.description}}
+        </div>
+        <p class="description" ng-if="scenarioState.message === 'FAILED'">{{errorMessage}}</p>
+    </div>
+    <div class="row">
+        <progressbar class="progress-striped active" max="100" value="progressValue" type="{{progressbarType}}"><i ng-if="progressValue !== 0">{{progressValue | number:0}}%</i></progressbar>
     </div>
     <div class="row">
         <ul class="list">
@@ -24,4 +26,5 @@
             <ms-button type="cancel" class="btn-block" action="retry()" label="try again"></ms-button>
         </div>
     </div>
+
 </div>
