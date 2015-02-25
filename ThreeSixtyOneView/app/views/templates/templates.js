@@ -494,49 +494,53 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/modal/scenario_analysis_element_copy.tpl.html',
-    "<div class=\"header\">\r" +
+    "<div data-ms-id=\"analysisElementCopy\">\r" +
     "\n" +
-    "\t<h4 class=\"title\">{{selectedScenarioElement.cubeMeta.label}}</h4>\r" +
+    "\t<div class=\"header\">\r" +
     "\n" +
-    "\t<h3 class=\"subtitle\">Copy &amp; Replace</h3>\r" +
+    "\t\t<h4 class=\"title\">{{selectedScenarioElement.cubeMeta.label}}</h4>\r" +
     "\n" +
-    "</div>\r" +
-    "\n" +
-    "<div class=\"body\">\r" +
-    "\n" +
-    "\t<div class=\"content\">\r" +
-    "\n" +
-    "\t\t<form name=\"elementCopy\" class=\"main-content\" novalidate>\r" +
-    "\n" +
-    "\t\t\t<div class=\"name\">\r" +
-    "\n" +
-    "\t\t\t\t<label>Name:\r" +
-    "\n" +
-    "\t\t\t\t\t<input type=\"text\" name=\"elementName\" placeholder=\"Enter Name\" ng-model=\"newElement.name\" required>\r" +
-    "\n" +
-    "\t\t\t\t</label>\r" +
-    "\n" +
-    "\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t<div class=\"description\">\r" +
-    "\n" +
-    "\t\t\t\t<label>Description:\r" +
-    "\n" +
-    "\t\t\t\t\t<input type=\"text\" name=\"elementDescription\" placeholder=\"Enter Description\" ng-model=\"newElement.description\" required>\r" +
-    "\n" +
-    "\t\t\t\t</label>\r" +
-    "\n" +
-    "\t\t\t</div>\r" +
-    "\n" +
-    "\t\t</form>\r" +
+    "\t\t<h3 class=\"subtitle\">Copy &amp; Replace</h3>\r" +
     "\n" +
     "\t</div>\r" +
     "\n" +
-    "\t<div class=\"action-buttons\">\r" +
+    "\t<div class=\"body\">\r" +
     "\n" +
-    "\t\t<ms-button type=\"cancel\" action=\"cancelCopyFile()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\r" +
+    "\t\t<div class=\"content\">\r" +
     "\n" +
-    "\t\t<ms-button type=\"submit\" action=\"copyFile()\" label=\"Replace\" data-dismiss=\"modal\" ng-disabled=\"elementCopy.$invalid\"></ms-button>\r" +
+    "\t\t\t<form name=\"elementCopy\" class=\"main-content\" novalidate>\r" +
+    "\n" +
+    "\t\t\t\t<div class=\"name\">\r" +
+    "\n" +
+    "\t\t\t\t\t<label>Name:\r" +
+    "\n" +
+    "\t\t\t\t\t\t<input type=\"text\" name=\"elementName\" placeholder=\"Enter Name\" ng-model=\"newElement.name\" required>\r" +
+    "\n" +
+    "\t\t\t\t\t</label>\r" +
+    "\n" +
+    "\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t<div class=\"description\">\r" +
+    "\n" +
+    "\t\t\t\t\t<label>Description:\r" +
+    "\n" +
+    "\t\t\t\t\t\t<input type=\"text\" name=\"elementDescription\" placeholder=\"Enter Description\" ng-model=\"newElement.description\" required>\r" +
+    "\n" +
+    "\t\t\t\t\t</label>\r" +
+    "\n" +
+    "\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t</form>\r" +
+    "\n" +
+    "\t\t</div>\r" +
+    "\n" +
+    "\t\t<div class=\"action-buttons\">\r" +
+    "\n" +
+    "\t\t\t<ms-button type=\"cancel\" action=\"cancelCopyFile()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\r" +
+    "\n" +
+    "\t\t\t<ms-button type=\"submit\" action=\"copyFile()\" label=\"Replace\" data-dismiss=\"modal\" ng-disabled=\"elementCopy.$invalid\"></ms-button>\r" +
+    "\n" +
+    "\t\t</div>\r" +
     "\n" +
     "\t</div>\r" +
     "\n" +
@@ -545,65 +549,69 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/modal/scenario_analysis_element_files.tpl.html',
-    "<div class=\"header\">\r" +
+    "<div data-ms-id=\"analysisElementReplace\">\r" +
     "\n" +
-    "\t<h4 class=\"title\">{{selectedScenarioElement.cubeMeta.label}}</h4>\r" +
+    "\t<div class=\"header\">\r" +
     "\n" +
-    "\t<h3 class=\"subtitle\">Select A New File</h3>\r" +
+    "\t\t<h4 class=\"title\">{{selectedScenarioElement.cubeMeta.label}}</h4>\r" +
     "\n" +
-    "</div>\r" +
+    "\t\t<h3 class=\"subtitle\">Select A New File</h3>\r" +
     "\n" +
-    "<div class=\"body\">\r" +
+    "\t</div>\r" +
     "\n" +
-    "\t<div class=\"content\">\r" +
+    "\t<div class=\"body\">\r" +
     "\n" +
-    "\t\t<div class=\"main-content\">\r" +
+    "\t\t<div class=\"content\">\r" +
     "\n" +
-    "\t\t\t<div class=\"toolbar\">\r" +
+    "\t\t\t<div class=\"main-content\">\r" +
     "\n" +
-    "\t\t\t\t<div class=\"dropdown-box\">\r" +
+    "\t\t\t\t<div class=\"toolbar\">\r" +
     "\n" +
-    "\t\t\t\t\t<div class=\"dropdown ng-hide\">\r" +
+    "\t\t\t\t\t<div class=\"dropdown-box\">\r" +
     "\n" +
-    "\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\">{{elementTypeItems[currentElementType]}}<icon type=\"caret-down\"></icon></div>\r" +
+    "\t\t\t\t\t\t<div class=\"dropdown ng-hide\">\r" +
     "\n" +
-    "\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{selectedScenarioElement.id}}\" radio=\"true\">\r" +
+    "\t\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\">{{elementTypeItems[currentElementType]}}<icon type=\"caret-down\"></icon></div>\r" +
     "\n" +
-    "\t\t\t\t            <li ng-repeat=\"item in elementTypeItems\" ng-click=\"changeElementType($index)\" class=\"menu-item\" ms-link=\"{{$index}}\">{{item}}</li>\r" +
+    "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{selectedScenarioElement.id}}\" radio=\"true\">\r" +
     "\n" +
-    "\t\t\t\t        </ul>\r" +
+    "\t\t\t\t\t            <li ng-repeat=\"item in elementTypeItems\" ng-click=\"changeElementType($index)\" class=\"menu-item\" ms-link=\"{{$index}}\">{{item}}</li>\r" +
+    "\n" +
+    "\t\t\t\t\t        </ul>\r" +
+    "\n" +
+    "\t\t\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t\t<div class=\"search-box\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t<icon type=\"search\"></icon>\r" +
+    "\n" +
+    "\t\t\t\t\t\t<input type=\"text\" ng-model=\"searchTerm.name\" placeholder=\"Search\">\r" +
     "\n" +
     "\t\t\t\t\t</div>\r" +
     "\n" +
     "\t\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t\t<div class=\"search-box\">\r" +
+    "\t\t\t\t<div class=\"list-box\">\r" +
     "\n" +
-    "\t\t\t\t\t<icon type=\"search\"></icon>\r" +
+    "\t\t\t\t\t<div ng-repeat=\"file in fileList | filter:searchTerm | orderBy:'auditInfo.lastUpdatedOn':true\" class=\"item clickable\" ng-class=\"{'selected': file.id === currentFile.id}\" ng-click=\"currentFile.id = file.id\">\r" +
     "\n" +
-    "\t\t\t\t\t<input type=\"text\" ng-model=\"searchTerm.name\" placeholder=\"Search\">\r" +
+    "\t\t\t\t\t\t<div class=\"item-name text-holder\"><icon type=\"circle-o\" cname=\"circle\"></icon><icon type=\"dot-circle-o\" cname=\"dot-circle\"></icon>{{file.name}}</div>\r" +
     "\n" +
-    "\t\t\t\t</div>\r" +
+    "\t\t\t\t\t\t<div class=\"item-meta\">\r" +
     "\n" +
-    "\t\t\t</div>\r" +
+    "\t\t\t\t\t\t\t<span ng-if=\"e2e\" class=\"item-date\">{{file.auditInfo.lastUpdatedOn}}</span>\r" +
     "\n" +
-    "\t\t\t<div class=\"list-box\">\r" +
+    "\t\t\t\t\t\t\t<span ng-if=\"!e2e\" class=\"item-date\">{{file.auditInfo.lastUpdatedOn | timeago}}</span>\r" +
     "\n" +
-    "\t\t\t\t<div ng-repeat=\"file in fileList | filter:searchTerm | orderBy:'auditInfo.lastUpdatedOn':true\" class=\"item clickable\" ng-class=\"{'selected': file.id === currentFile.id}\" ng-click=\"currentFile.id = file.id\">\r" +
+    "\t\t\t\t\t\t\t<span class=\"item-owner\">{{file.auditInfo.lastUpdatedBy.name}}</span>\r" +
     "\n" +
-    "\t\t\t\t\t<div class=\"item-name text-holder\"><icon type=\"circle-o\" cname=\"circle\"></icon><icon type=\"dot-circle-o\" cname=\"dot-circle\"></icon>{{file.name}}</div>\r" +
+    "\t\t\t\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t\t\t<div class=\"item-meta\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t<span ng-if=\"e2e\" class=\"item-date\">{{file.auditInfo.lastUpdatedOn}}</span>\r" +
-    "\n" +
-    "\t\t\t\t\t\t<span ng-if=\"!e2e\" class=\"item-date\">{{file.auditInfo.lastUpdatedOn | timeago}}</span>\r" +
-    "\n" +
-    "\t\t\t\t\t\t<span class=\"item-owner\">{{file.auditInfo.lastUpdatedBy.name}}</span>\r" +
+    "\t\t\t\t\t\t<div class=\"item-description\">{{file.description}}</div>\r" +
     "\n" +
     "\t\t\t\t\t</div>\r" +
-    "\n" +
-    "\t\t\t\t\t<div class=\"item-description\">{{file.description}}</div>\r" +
     "\n" +
     "\t\t\t\t</div>\r" +
     "\n" +
@@ -611,13 +619,13 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t</div>\r" +
     "\n" +
-    "\t</div>\r" +
+    "\t\t<div class=\"action-buttons\">\r" +
     "\n" +
-    "\t<div class=\"action-buttons\">\r" +
+    "\t\t\t<ms-button type=\"cancel\" action=\"cancelChangeFile()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\r" +
     "\n" +
-    "\t\t<ms-button type=\"cancel\" action=\"cancelChangeFile()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"submit\" action=\"changeFile()\" label=\"Replace\" data-dismiss=\"modal\"></ms-button>\r" +
     "\n" +
-    "\t\t<ms-button type=\"submit\" action=\"changeFile()\" label=\"Replace\" data-dismiss=\"modal\"></ms-button>\r" +
+    "\t\t</div>\r" +
     "\n" +
     "\t</div>\r" +
     "\n" +
@@ -778,37 +786,41 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/modal/simple_input.tpl.html',
-    "<div class=\"header\">\r" +
+    "<div data-ms-id=\"simpleModal\">\r" +
     "\n" +
-    "\t<h4 class=\"title\">{{modalProperties.title}}</h4>\r" +
+    "\t<div class=\"header\">\r" +
     "\n" +
-    "</div>\r" +
-    "\n" +
-    "<div class=\"body\" ui-keypress=\"{13: 'submit(item.title, $event)'}\">\r" +
-    "\n" +
-    "\t<div class=\"content\">\r" +
-    "\n" +
-    "\t\t<form class=\"main-content\" name=\"nameDialog\" novalidate role=\"form\">\r" +
-    "\n" +
-    "\t\t\t<div class=\"form-group input-group-lg\" ng-class=\"{true: 'has-error'}[nameDialog.username.$dirty && nameDialog.username.$invalid]\">\r" +
-    "\n" +
-    "\t\t\t\t<label class=\"control-label\" for=\"inputField\">{{modalProperties.field}}:\r" +
-    "\n" +
-    "\t\t\t\t\t<input type=\"text\" class=\"form-control\" id=\"inputField\" ng-model=\"item.title\" focus required ng-maxlength=\"{{inputRestrictions.maximumCharacterLimit}}\" ng-minlength=\"{{inputRestrictions.minimumCharacterLimit}}\" ng-pattern='inputRestrictions.characterRestrictions'/>\r" +
-    "\n" +
-    "\t\t\t\t</label>\r" +
-    "\n" +
-    "\t\t\t</div>\r" +
-    "\n" +
-    "\t\t</form>\r" +
+    "\t\t<h4 class=\"title\">{{modalProperties.title}}</h4>\r" +
     "\n" +
     "\t</div>\r" +
     "\n" +
-    "\t<div class=\"action-buttons\">\r" +
+    "\t<div class=\"body\" ui-keypress=\"{13: 'submit(item.title, $event)'}\">\r" +
     "\n" +
-    "\t\t<ms-button type=\"cancel\" action=\"close($event)\" label=\"Cancel\"></ms-button>\r" +
+    "\t\t<div class=\"content\">\r" +
     "\n" +
-    "\t\t<ms-button type=\"submit\" action=\"submit(item.title)\" label=\"{{modalProperties.button}}\" ui-keypress=\"{13: 'submit(item.title, $event)'}\" data-ms-id=\"modalSubmit\" ng-disabled=\"nameDialog.$invalid\"></ms-button>\r" +
+    "\t\t\t<form class=\"main-content\" name=\"nameDialog\" novalidate role=\"form\">\r" +
+    "\n" +
+    "\t\t\t\t<div class=\"form-group input-group-lg\" ng-class=\"{true: 'has-error'}[nameDialog.username.$dirty && nameDialog.username.$invalid]\">\r" +
+    "\n" +
+    "\t\t\t\t\t<label class=\"control-label\" for=\"inputField\">{{modalProperties.field}}:\r" +
+    "\n" +
+    "\t\t\t\t\t\t<input type=\"text\" class=\"form-control\" id=\"inputField\" ng-model=\"item.title\" focus required ng-maxlength=\"{{inputRestrictions.maximumCharacterLimit}}\" ng-minlength=\"{{inputRestrictions.minimumCharacterLimit}}\" ng-pattern='inputRestrictions.characterRestrictions'/>\r" +
+    "\n" +
+    "\t\t\t\t\t</label>\r" +
+    "\n" +
+    "\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t</form>\r" +
+    "\n" +
+    "\t\t</div>\r" +
+    "\n" +
+    "\t\t<div class=\"action-buttons\">\r" +
+    "\n" +
+    "\t\t\t<ms-button type=\"cancel\" action=\"close($event)\" label=\"Cancel\"></ms-button>\r" +
+    "\n" +
+    "\t\t\t<ms-button type=\"submit\" action=\"submit(item.title)\" label=\"{{modalProperties.button}}\" ui-keypress=\"{13: 'submit(item.title, $event)'}\" data-ms-id=\"modalSubmit\" ng-disabled=\"nameDialog.$invalid\"></ms-button>\r" +
+    "\n" +
+    "\t\t</div>\r" +
     "\n" +
     "\t</div>\r" +
     "\n" +
