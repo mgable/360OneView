@@ -7,16 +7,16 @@
 					<thead>
 						<tr ng-model="spendData.header">
 							<th>{{spendData.header.title}}</th>
-							<th>{{spendData.header.total | nrFormat}}</th>
-							<th class="spend-{{spendData.header.direction}}">{{addSign(spendData.header.direction)}}{{spendData.header.incremental | nrFormat}}</th>
+							<th>{{spendData.header.currency}}{{spendData.header.total | nrFormat}}</th>
+							<th class="spend-{{spendData.header.direction}}">{{addSign(spendData.header.direction)}}{{spendData.header.currency}}{{spendData.header.incremental | nrFormat}}</th>
 							<th class="spend-{{spendData.header.direction}}">{{addSign(spendData.header.direction)}}{{spendData.header.percent | percentage}}</th>
 						</tr>
 					</thead>
 					<tbody ng-repeat="spendDatumBody in spendData.body">
 						<tr ng-repeat="spendDatumRow in spendDatumBody.children">
 							<td>{{spendDatumRow.title}}</td>
-							<td>{{spendDatumRow.total | nrFormat}}</td>
-							<td class="spend-{{spendDatumRow.direction}}">{{addSign(spendDatumRow.direction)}}{{spendDatumRow.incremental | nrFormat}}</td>
+							<td>{{spendDatumRow.currency}}{{spendDatumRow.total | nrFormat}}</td>
+							<td class="spend-{{spendDatumRow.direction}}">{{addSign(spendDatumRow.direction)}}{{spendDatumRow.currency}}{{spendDatumRow.incremental | nrFormat}}</td>
 							<td class="spend-{{spendDatumRow.direction}}">{{addSign(spendDatumRow.direction)}}{{spendDatumRow.percent | percentage}}</td>
 						</tr>
 					</tbody>
