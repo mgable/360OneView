@@ -74,7 +74,9 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ro
 								if(sheet.getCell(i, j).value() === null) {
 									sheet.getCell(i, j).backColor(pivotTableConfig.color.msLightGray).locked(false);
 								} else {
-									sheet.getCell(i, j).font(pivotTableConfig.font.headerFontStyle).foreColor(pivotTableConfig.color.msBlack).locked(false).formatter(formatObject[i][j].currency + formatObject[i][j].format);
+									if(!!formatObject[i][j]) {
+										sheet.getCell(i, j).font(pivotTableConfig.font.headerFontStyle).foreColor(pivotTableConfig.color.msBlack).locked(false).formatter(formatObject[i][j].currency + formatObject[i][j].format);
+									}
 								}
 							}
 						}
