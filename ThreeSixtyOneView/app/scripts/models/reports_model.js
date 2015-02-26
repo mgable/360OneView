@@ -10,11 +10,15 @@ angular.module('ThreeSixtyOneView.services')
 				_.each(cell, function(row) {
 					if(!!row[0].key.value.coordinates.measure) {
 						reportTree[cellIndex] = reportTree[cellIndex] || {};
-						reportTree[cellIndex][row[0].key.value.coordinates.measure.label] = row[0].value.value;
+						reportTree[cellIndex][row[0].key.value.coordinates.measure.label] = reportTree[cellIndex][row[0].key.value.coordinates.measure.label] || {};
+						reportTree[cellIndex][row[0].key.value.coordinates.measure.label].value = row[0].value.value;
+						reportTree[cellIndex][row[0].key.value.coordinates.measure.label].currency = row[0].format.currency;
 					} else {
 						_.each(row[0].key.value.coordinates.rowAddresses[0].cellValue.specification.members, function(member) {
 							reportTree[cellIndex] = reportTree[cellIndex] || {};
-							reportTree[cellIndex][member.label] = row[0].value.value;
+							reportTree[cellIndex][member.label] = reportTree[cellIndex][member.label] || {};
+							reportTree[cellIndex][member.label].value = row[0].value.value;
+							reportTree[cellIndex][member.label].currency = row[0].format.currency;
 						});
 					}
 				});
