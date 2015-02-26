@@ -109,6 +109,7 @@ angular.module('ThreeSixtyOneView')
 
         // load a view from the backend
         $scope.loadView = function(cubeId, viewId) {
+            $rootScope.$broadcast(EVENTS.pivotViewChange, {});
             ManageAnalysisViewsService.getView(viewId, cubeId).then(function(view) {
                 // remove the draft view if one exists and is not selected
                 if($scope.draftView) {

@@ -41,8 +41,10 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		$scope.setScenarioElement = function(element) {
-			$scope.$broadcast(EVENTS.scenarioElementChange, element.cubeMeta);
+			$rootScope.$broadcast(EVENTS.scenarioElementChange, element.cubeMeta);
+			$rootScope.$broadcast(EVENTS.pivotViewChange, {});
 			$rootScope.$broadcast(EVENTS.pivotTableStatusChange, CONFIG.application.models.PivotServiceModel.pivotDataStatus.loading);
+
 			$scope.selectedScenarioElement = element;
 			$scope.cubeId = element.cubeMeta.id;
 			$scope.selectedScenarioElementsFile = element.name;
