@@ -16,7 +16,7 @@ angular.module('ThreeSixtyOneView')
             $scope.pivotTableData = '';
 
             // this is how pivotbuilder and pivottable communicate
-            $scope.spread = {sheet: {}};
+            $scope.spread = {sheet: {loading: true}};
 
             initiateModel($scope.selectedScenarioElement.cubeMeta);
         },

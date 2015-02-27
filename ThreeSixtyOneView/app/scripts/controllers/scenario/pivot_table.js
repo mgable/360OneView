@@ -265,11 +265,16 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ro
 			$scope.spread.updateSheet = function(_data_, numRows, numCols, formatObject) {
 				if(_data_ !== '') {
 					$scope.spread.sheet.loading = false;
+					$scope.spread.sheet.empty = false;
 					if(typeof _data_ === 'undefined') {
 						$rootScope.$broadcast(EVENTS.pivotTableStatusChange, CONFIG.application.models.PivotServiceModel.pivotDataStatus.empty);
 					} else {
 						$rootScope.$broadcast(EVENTS.pivotTableStatusChange, CONFIG.application.models.PivotServiceModel.pivotDataStatus.loaded);
 					}
+				}
+
+				if (_.isEmpty(_data_) && !$scope.spread.sheet.loading) {
+					$scope.spread.sheet.empty = true;
 				}
 
 				if(!_.isEqual(_data_, $scope.data)) {

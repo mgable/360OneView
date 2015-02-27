@@ -1,6 +1,6 @@
 <div>
     <div class="pivot-table-container">
-        <wij-spread id="pivotTable" class="pivot-table"
+        <wij-spread id="pivotTable" class="pivot-table" ng-hide="spread.sheet.empty"
             newtabvisible           = "false"
             tabstripvisible         = "false"
             allowUserResize         = "false"
@@ -36,5 +36,6 @@
               </div>
             </div>
         </div>
+        <div class="empty-message" ng-show="spread.sheet.empty">No data for selected filters.</div>
     </div>
 </div>
