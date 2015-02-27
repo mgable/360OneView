@@ -49,10 +49,10 @@ angular.module('ThreeSixtyOneView')
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
         var findBaseScenario = function(scenario){
-                return _.find(scenario.data, function(obj){return (/PRELOADED SIMULATION/).test(obj.title);});
+                return _.find(scenario.data, function(obj){return (/simulation/i).test(obj.type);});
             },
             getMasterProject = function(projects){
-                return _.findWhere(projects, {"title": "MASTER PROJECT"});
+                return _.findWhere(projects, {"isMaster": true});
             },
             sortScenarios = function(scenarios){
                 var scenarioList = scenarios;
@@ -84,7 +84,8 @@ angular.module('ThreeSixtyOneView')
                     $scope.scenario.referenceScenario.name  = baseScenario.title;
                     selectedBaseScenario = $scope.masterProjectReferenceScenario ;
                 });
-            },selectedBaseScenario;
+            },
+            selectedBaseScenario;
 
         $scope.showBaseScenario = function() {
             $scope.showFields = false;
