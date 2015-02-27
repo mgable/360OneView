@@ -88,13 +88,13 @@
             </tab-heading>
             <ng-include src="'views/includes/scenario/editor/import.tpl.html'" ng-controller="importCtrl"></ng-include>
         </tab>
-        <tab expand-collapse-control="#exportBody">
+        <tab expand-collapse-control="#exportBody" ng-controller="exportCtrl">
             <tab-heading>
                 <div class="header" ng-click="setupExportView()" id="exportHeader">
                     <icon type="upload"></icon>&nbsp;Export
                 </div>
             </tab-heading>
-            <ng-include src="'views/includes/scenario/editor/export.tpl.html'" ng-controller="exportCtrl"></ng-include>
+            <ng-include src="'views/includes/scenario/editor/export.tpl.html'"></ng-include>
         </tab>
     </tabset>
 </div>
