@@ -3,10 +3,10 @@
 		<div class="tabs-holder">
 			<ul ms-link-group radio="true" selected-item="{{location}}">
 				<li data-ms-id="scenario.edit.button" ms-link="/edit" ui-sref="Scenario.edit" ng-class="{disabled: scenarioState.message === scenarioStates.IN_PROGRESS.message || scenarioState.message === scenarioStates.FAILED.message}">
-					<a><icon type="pencil"></icon> Editor</a>
+					<a><icon type="pencil"></icon>Editor</a>
 				</li>
 				<li data-ms-id="scenario.results.button" ms-link="/results" ng-click="gotoResults()" ng-class="{disabled: scenarioState.message === scenarioStates.NOT_CALCULATED.message || scenarioState.message === scenarioStates.FAILED.message}">
-					<a><icon type="check-square-o"></icon> Results</a>
+					<a><icon type="check-square-o"></icon>Results</a>
 
 				</li>
 			</ul>

@@ -191,10 +191,10 @@
 	display: block !important;  /* Required for animation */
 
 	-webkit-animation-name: fadeOut;
-	-webkit-animation-duration: 2s;
+	-webkit-animation-duration: 1s;
 	-webkit-animation-timing-function: linear;
 	animation-name: fadeOut;
-	animation-duration: 2s;
+	animation-duration: 1s;
 	animation-timing-function: linear;
 }
 .buttons.ng-hide-remove {
@@ -203,11 +203,11 @@
 	opacity: 0;
 
 	-webkit-animation-name: buttonSlideDown;
-	-webkit-animation-duration: 1.0s;
-	-webkit-animation-delay: 2s;
+	-webkit-animation-duration: 0.5s;
+	-webkit-animation-delay: 1s;
 	animation-name: buttonSlideDown;
-	animation-duration: 1.0s;
-	animation-delay: 2s;
+	animation-duration: 0.5s;
+	animation-delay: 1s;
 }
 /*** INITIAL INPUT FIELDS sliding up and down ***/
 /* Delay on remove should be length of .radios add (below) */
@@ -215,10 +215,10 @@
 	display: block !important;  /* Required for animation */
 
 	-webkit-animation-name: hideInputs;
-	-webkit-animation-duration: 2.0s;
+	-webkit-animation-duration: 1s;
 	-webkit-animation-timing-function: ease;
 	animation-name: hideInputs;
-	animation-duration: 2.0s;
+	animation-duration: 1s;
 	animation-timing-function: ease;
 }
 .inputGroup.ng-hide-remove {
@@ -226,12 +226,12 @@
 	max-height: 0px;
 
 	-webkit-animation-name: showInputs;
-	-webkit-animation-duration: 2s;
-	-webkit-animation-delay: 1.5s;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-delay: 0.75s;
 	-webkit-animation-timing-function: ease;
 	animation-name: showInputs;
-	animation-duration: 2s;
-	animation-delay: 1.5s;
+	animation-duration: 1s;
+	animation-delay: 0.75s;
 	animation-timing-function: ease;
 }
 /*** Showing the BASE SCENARIO OPTIONS ***/
@@ -242,12 +242,12 @@
 	overflow: hidden;
 
 	-webkit-animation-name: showScenarios;
-	-webkit-animation-duration: 2s;
-	-webkit-animation-delay: 2s;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-delay: 1s;
 	-webkit-animation-timing-function: ease;
 	animation-name: showScenarios;
-	animation-duration: 2s;
-	animation-delay: 2s;
+	animation-duration: 1s;
+	animation-delay: 1s;
 	animation-timing-function: ease;
 }
 .radios.ng-hide-add {
@@ -255,10 +255,10 @@
 	display: block !important; /* Required for animation */
 
 	-webkit-animation-name: hideScenarios;
-	-webkit-animation-duration: 1.5s;
+	-webkit-animation-duration: 0.75s;
 	-webkit-animation-timing-function: ease;
 	animation-name: hideScenarios;
-	animation-duration: 1.5s;
+	animation-duration: 0.75s;
 	animation-timing-function: ease;
 }
 /*** Base Scenario filter animations ***/
@@ -266,18 +266,18 @@
 	opacity: 0;
 	max-height: 0;
 
-	-webkit-animation: slideDown 0.5s;
-	animation: slideDown 0.5s;
+	-webkit-animation: slideDown 0.25s;
+	animation: slideDown 0.25s;
 }
 .scenarioRepeatGroup.ng-move {
 	overflow: hidden;
-	-webkit-animation: slideUp 0.5s;
-	animation: slideUp 0.5s;
+	-webkit-animation: slideUp 0.25s;
+	animation: slideUp 0.25s;
 }
 .scenarioRepeatGroup.ng-leave {
 	overflow: hidden;
-	-webkit-animation: slideUp 0.5s;
-	animation: slideUp 0.5s;
+	-webkit-animation: slideUp 0.25s;
+	animation: slideUp 0.25s;
 }
 
 
