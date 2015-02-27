@@ -3,7 +3,7 @@
         <span class="dropdown-toggle">
             {{selectedScenarioElement.cubeMeta.label}}<icon type="caret-down"></icon>
         </span>
-        <span ng-hide="isHiddenElement(selectedScenarioElement)">
+        <span ng-hide="isHiddenElement(selectedScenarioElement)" data-ms-id="ScenarioEdit.copyReplaceElementHolder">
             <span class="filename"><icon type="file-text-o"></icon>{{selectedScenarioElementsFile}}</span>
             <span data-ms-id="ScenarioEdit.replaceElement" ng-click="openScenarioElementFileModal(scenario.id, selectedScenarioElement, e2e)" class="filename-option clickable"><icon type="folder-open-o"></icon>Replace</span>
             <span data-ms-id="ScenarioEdit.copyElement" ng-click="openScenarioElementCopyModal(scenario.id, selectedScenarioElement)" class="filename-option clickable"><icon type="folder-open-o"></icon>Copy &amp; Replace</span>
