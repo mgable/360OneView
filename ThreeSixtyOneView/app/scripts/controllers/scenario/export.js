@@ -75,12 +75,14 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 		$scope.deleteItem = function(index) {
 			$scope.exportAddedDimensions[$scope.exportViewData.rows[index].level.label] = false;
 			$scope.exportViewData.rows.splice(index, 1);
+			$scope.lockLastItem($scope.exportAddedDimensions, false);
 		};
 
 		$scope.addItem = function(item) {
 			var newItem = {dimension:{id:item.dimensionId},hierarchy:{id:-1},level:{id:item.levelId, label:item.label}};
 			$scope.exportViewData.rows.push(newItem);
 			$scope.exportAddedDimensions[item.label] = true;
+			$scope.lockLastItem($scope.exportAddedDimensions, false);
 		};
 
 		$scope.replaceItem = function(selected, priorLabel) {
@@ -130,6 +132,22 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 					$scope.lockedDimensions[level.label] = true;
 				}
 			});
+			$scope.lockLastItem($scope.exportAddedDimensions, true);
+		};
+
+		// lock (disable remove) if there is only one item remaining
+		$scope.lockLastItem = function(addedDimensions, filtersRestrictionsChecked) {
+			var addedItems = [];
+			_.each(addedDimensions, function(value, key) {
+				if(value) {
+					addedItems.push(key);
+				}
+			});
+			if(addedItems.length === 1) {
+				$scope.lockedDimensions[addedItems[0]] = true;
+			} else if(!filtersRestrictionsChecked) {
+				$scope.getLockedDimensions($scope.dimensions, $scope.membersList, $scope.categorizedExportValue);
+			}
 		};
 
 		// start the export process
