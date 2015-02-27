@@ -49,6 +49,7 @@ angular.module('ThreeSixtyOneView')
                 return null;
             }
 
+            $scope.filterSearch.label = '';
             $scope.selectedFilter.cat = category;
             $scope.selectedFilter.selFil = $scope.chooseViewBy(category.members, false);
 

@@ -51,7 +51,10 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ro
 				addColumnStyle = function(){
 					for (var j = 0; j < colCnt; j++) {
 						var column = sheet.getColumn(j);
-						column.vAlign($.wijmo.wijspread.VerticalAlign.center).textIndent(1);
+						column.vAlign($.wijmo.wijspread.VerticalAlign.center);
+						column.shrinkToFit(true);
+						// column.textIndent(1);
+						column.width(sheet.defaults.colWidth);
 						if (j < colHeaderCnt) {
 							column.formatter("0").font(pivotTableConfig.font.headerFontStyle).foreColor(pivotTableConfig.color.msBlack);
 							column.wordWrap(true);
@@ -74,7 +77,9 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ro
 								if(sheet.getCell(i, j).value() === null) {
 									sheet.getCell(i, j).backColor(pivotTableConfig.color.msLightGray).locked(false);
 								} else {
-									sheet.getCell(i, j).font(pivotTableConfig.font.headerFontStyle).foreColor(pivotTableConfig.color.msBlack).locked(false).formatter(formatObject[i][j].currency + formatObject[i][j].format);
+									if(!!formatObject[i][j]) {
+										sheet.getCell(i, j).font(pivotTableConfig.font.headerFontStyle).foreColor(pivotTableConfig.color.msBlack).locked(false).formatter(formatObject[i][j].currency + formatObject[i][j].format);
+									}
 								}
 							}
 						}
