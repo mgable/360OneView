@@ -107,6 +107,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         }
         $scope.kpiCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.kpiAddedFilters, $scope.kpiDimensions, $scope.kpiView);
 
+        $scope.isViewLoaded = true;
+
         getKPISummary();
     },
     // get spend summary data through API
@@ -253,6 +255,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         // view scope variables
         $scope.saveAs = false;
         $scope.isSynced = true;
+        $scope.isViewLoaded = false;
 
         // spend view scope variables
         $scope.spendAdded = {};
@@ -389,7 +392,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     };
     // save the changes in spend and kpi view
     $scope.saveView = function() {
-        if($scope.draftView) {
+        if($scope.draftView && $scope.isViewLoaded) {
             var originalViewName = $scope.spendViewData.name.substring(8);
             var originalViewId = _.find($scope.spendViewsList, function(_view) { return originalViewName === _view.name; }).id;
             var draftViewId = $scope.spendViewData.id;
