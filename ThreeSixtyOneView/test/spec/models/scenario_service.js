@@ -35,12 +35,12 @@ describe('Service: ScenarioService', function () {
      var deferred = $q.defer();
     deferred.resolve(data);
     spyOn(ScenarioService, "get").and.returnValue(deferred.promise);
-    spyOn(ProjectsService, "getProjects").and.returnValue([{id:"123", title:"title"}]);
+    spyOn(ProjectsService, "getProjects").and.returnValue([{id:"123", title:"title", isMaster: true}]);
 
     $rootScope.$apply(function(){
       ScenarioService.getAll().then(function(response){
         expect(ProjectsService.getProjects).toHaveBeenCalled();
-        expect(response).toEqual([{title:'title', data:data}]);
+        expect(response).toEqual([{title:'title', data:data, isMaster: true }]);
       });
     });
     
