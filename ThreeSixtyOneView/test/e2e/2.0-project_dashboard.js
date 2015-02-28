@@ -7,7 +7,7 @@ var specs = require('./1.0-project_listing_specs.js'),
 	dashboardUrl,
 	projectId;
 
-describe('test setup', function(){
+xdescribe('test setup', function(){
 	it("should set up the tests", function(){
 		projectInfo = funcs.readProjectInfo();
 		console.info("Project Dashboard");
@@ -18,7 +18,7 @@ describe('test setup', function(){
 	});
 });
 
-describe('Project Dashboard', function() {
+xdescribe('Project Dashboard', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);

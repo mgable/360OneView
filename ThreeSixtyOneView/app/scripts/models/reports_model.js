@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-  .factory('ReportsModel', ["$location", "Resource", "CONFIG", "SERVER", function ReportsModel($location, Resource, CONFIG, SERVER) {
-	var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.reports),
+  .factory('ReportsModel', ["$location", "Resource", "CONFIG", "ServerService", function ReportsModel($location, Resource, CONFIG, ServerService) {
+	var resource = new Resource(ServerService.get($location.host())  + CONFIG.application.api.reports),
 		transformResponse = function(data) {
 			var reportTree = [];
 

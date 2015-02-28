@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-  .factory('MetaDataModel', ["$location", "Resource", "CONFIG", "SERVER", function MetaDataModel($location, Resource, CONFIG, SERVER) {
-	var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.cube),
+  .factory('MetaDataModel', ["$location", "Resource", "CONFIG", "ServerService", function MetaDataModel($location, Resource, CONFIG, ServerService) {
+	var resource = new Resource(ServerService.get($location.host())  + CONFIG.application.api.cube),
 	 transformResponse = function(data) {
 		var i, j, k, leafNode, newMember, dimensions = [], response = JSON.parse(data);
 		

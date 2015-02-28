@@ -14,7 +14,7 @@ beforeEach(function(){
     this.addMatchers(specs.customMatchers);
 });
 
-describe('test setup: ', function() {
+xdescribe('test setup: ', function() {
 	it("should set up the tests", function(){
 		projectInfo = funcs.readProjectInfo();
 		console.info("Scenario page");
@@ -25,7 +25,7 @@ describe('test setup: ', function() {
 	});
 });
 
-describe('Scenario Page: ', function() {
+xdescribe('Scenario Page: ', function() {
 	beforeEach(
 		function(){
 			browser.driver.manage().window().setSize(1280, 1024);

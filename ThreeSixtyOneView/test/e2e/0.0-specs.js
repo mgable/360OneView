@@ -1,9 +1,12 @@
 "use strict";
 
-var _ = require('underscore'),
+var servers = require('./servers.js'),
+	_ = require('underscore'),
 	simulate = "span[data-ms-id='scenario.simulate.button']",
+	clientServer = servers.getServer(browser.params.client.toLowerCase()),
 
 	data = {
+		server: "server=" + clientServer,
 		inputRestrictions: ["\\", "\/", ":", "?", "*", "\"", ">", "<", "|"], //\\\/\?\:\*"><|
 		minimumCharacters: "xx",
 		maximumCharacters: "Bacon ipsum dolor amet spare ribs drumstick short loin capicola boudin kielbasa. Ham hock chuck jowl swine, pork beef ribs turducken shoulder short ribs landjaeger. Beef turkey jowl tongue filet mignon cow spare ribs kielbasa drumstick ham hock jerky capxx",
@@ -29,4 +32,7 @@ var _ = require('underscore'),
 		}
 	};
 
+console.info("Pulling data from "+ clientServer);
+
 module.exports = data;
+	

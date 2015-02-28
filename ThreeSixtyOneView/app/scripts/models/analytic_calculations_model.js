@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-    .factory('AnalyticCalculationsModel', ["$location", "Resource", "CONFIG", "SERVER", "$q", "$http", function AnalyticCalculationsModel($location, Resource, CONFIG, SERVER, $q, $http) {
+    .factory('AnalyticCalculationsModel', ["$location", "Resource", "CONFIG", "ServerService", "$q", "$http", function AnalyticCalculationsModel($location, Resource, CONFIG, ServerService, $q, $http) {
 
-        var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.scenarioAnalytics),
+        var resource = new Resource(ServerService.get($location.host()) + CONFIG.application.api.scenarioAnalytics),
             transformResponse = function(data) {
                 if(!_.has(data, 'errorMessage')) {
                     angular.forEach(data.runningStates, function(value, index) {
