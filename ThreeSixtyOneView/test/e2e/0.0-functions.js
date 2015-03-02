@@ -32,6 +32,11 @@ var specs = require('./0.0-specs.js'),
 		        return classes.split(' ').indexOf(cls) !== -1;
 		    });
 		},
+		getClass: function(element){
+			return element.getAttribute('class').then(function(classes){
+				return classes;
+			})
+		},
 		testMinAndMaxNameLength: function(input, submit){
 			input.clear();
 			input.sendKeys("x");
@@ -55,6 +60,11 @@ var specs = require('./0.0-specs.js'),
 		hoverAndClick: function(button){
 			browser.actions().mouseMove(button).perform();
 			button.click();
+		},
+		getProjectId: function(url){
+			console.info("the url is");
+			console.info(url);
+			return url.match(/\w{32}/)[0];
 		}
 	};
 
