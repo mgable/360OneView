@@ -25,14 +25,16 @@ describe('Dialog Services:', function() {
         it("should create a 'create project' dialog box", function() {
             DialogService.create('project');
             expect(dialogs.create).toHaveBeenCalledWith('views/modal/simple_input.tpl.html', 'ProjectCreateCtrl', {}, {
-                windowClass: 'lightbox form-lightbox'
+                windowClass: 'lightbox form-lightbox',
+                backdrop: 'static'
             });
         });
 
         it("should create a 'copy project' dialog box", function() {
             DialogService.trayCopy("foo");
             expect(dialogs.create).toHaveBeenCalledWith('views/modal/simple_input.tpl.html', 'ScenarioCopyCtrl', "foo", {
-                windowClass: 'lightbox form-lightbox'
+                windowClass: 'lightbox form-lightbox',
+                backdrop: 'static'
             });
         });
 

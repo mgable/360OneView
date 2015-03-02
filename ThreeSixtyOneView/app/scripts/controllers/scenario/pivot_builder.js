@@ -189,5 +189,9 @@ angular.module('ThreeSixtyOneView')
 			$scope.$apply($scope.cancelSaveAs);
 		});
 
+		$scope.$on(EVENTS.pivotViewChange, function(){
+			$scope.cancelSaveAs();
+		});
+
 		init();
 	}]);

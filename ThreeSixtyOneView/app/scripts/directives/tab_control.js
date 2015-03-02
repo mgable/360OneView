@@ -53,10 +53,10 @@ angular.module('ThreeSixtyOneView.directives').directive("tabsControl", ["$rootS
             }
         };
     }])
-    .directive("collapseControl", [function() {
+    .directive("collapseControl", ['$injector', function($injector) {
         return {
             restrict: "A",
-            require: "^tabsControl",
+            require: "^?tabsControl",
             link: function(scope, element, attrs, ctrl) {
                 element.on('click', function(){
                     ctrl.closeAll();

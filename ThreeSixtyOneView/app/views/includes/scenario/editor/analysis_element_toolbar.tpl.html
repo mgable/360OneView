@@ -3,18 +3,20 @@
         <span class="dropdown-toggle">
             {{selectedScenarioElement.cubeMeta.label}}<icon type="caret-down"></icon>
         </span>
-        <span class="copy-replace-holder" ng-hide="isHiddenElement(selectedScenarioElement)">
-            <span class="dropdown-filename"><icon type="file-text-o"></icon>{{selectedScenarioElementsFile}}</span>
-            <span data-ms-id="ScenarioEdit.replaceElement" ng-click="openScenarioElementFileModal(scenario.id, selectedScenarioElement, e2e)" class="filename-option"><icon type="folder-open-o"></icon>Replace</span>
-            <span data-ms-id="ScenarioEdit.copyElement" ng-click="openScenarioElementCopyModal(scenario.id, selectedScenarioElement)" class="filename-option"><icon type="folder-open-o"></icon>Copy &amp; Replace</span>
+        <span ng-hide="isHiddenElement(selectedScenarioElement)" data-ms-id="ScenarioEdit.copyReplaceElementHolder">
+            <span class="filename"><icon type="file-text-o"></icon>{{selectedScenarioElementsFile}}</span>
+            <span data-ms-id="ScenarioEdit.replaceElement" ng-click="openScenarioElementFileModal(scenario.id, selectedScenarioElement, e2e)" class="filename-option clickable"><icon type="folder-open-o"></icon>Replace</span>
+            <span data-ms-id="ScenarioEdit.copyElement" ng-click="openScenarioElementCopyModal(scenario.id, selectedScenarioElement)" class="filename-option clickable"><icon type="folder-open-o"></icon>Copy &amp; Replace</span>
         </span>
         <ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenarioElement.cubeMeta.id}}" radio="true">
             <div ng-repeat="(groupLabel, group) in getGroupedScenarioElements()">
                 <div class="group-title">{{groupLabel}}</div>
-                <li ng-repeat="element in group | orderBy:'cubeMeta.label'" ms-link="{{element.cubeMeta.id}}" ng-click="setScenarioElement(element)">
+                <li class="menu-item" ng-repeat="element in group | orderBy:'cubeMeta.label'" ms-link="{{element.cubeMeta.id}}" ng-click="setScenarioElement(element)">
                     <span class="clickable">{{element.cubeMeta.label}}</span>
                 </li>
             </div>
         </ul>
     </div>
 </div>
+
+<div class="save-status">{{pivotTableSaveStatus}}</div>

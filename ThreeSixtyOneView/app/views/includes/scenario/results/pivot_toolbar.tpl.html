@@ -12,7 +12,7 @@
 					<div class="toolbar">
                         <div class="save-menu">
                             <div class="dropdown">
-                                <span class="ms-button clickable" ng-click="saveView()" >
+                                <span class="ms-button" ng-click="saveView()" ng-class="{'clickable': isViewLoaded}">
                                     <icon type="save"></icon>Save View
                                 </span>
                                 <span class="dropdown-toggle dropdown-button clickable">

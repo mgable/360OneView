@@ -3,8 +3,8 @@
 
 'use strict';
 angular.module('ThreeSixtyOneView')
-.controller("scenarioEditorCtrl", ["$scope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService", "AnalyticCalculationsService", "CONFIG",
-    function($scope, $timeout, Project, Scenario, ScenarioAnalysisElements, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService, AnalyticCalculationsService, CONFIG) {
+.controller("scenarioEditorCtrl", ["$scope", "$rootScope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService", "AnalyticCalculationsService", "CONFIG",
+    function($scope, $rootScope, $timeout, Project, Scenario, ScenarioAnalysisElements, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService, AnalyticCalculationsService, CONFIG) {
 
         var init = function() {
             $scope.draftView = false;
@@ -16,7 +16,7 @@ angular.module('ThreeSixtyOneView')
             $scope.pivotTableData = '';
 
             // this is how pivotbuilder and pivottable communicate
-            $scope.spread = {sheet: {}};
+            $scope.spread = {sheet: {loading: true}};
 
             initiateModel($scope.selectedScenarioElement.cubeMeta);
         },
@@ -87,6 +87,7 @@ angular.module('ThreeSixtyOneView')
             if(!!$scope.spread.updateSheet) {
                 $scope.spread.sheet.loading = true;
                 $scope.spread.updateSheet('');
+                $rootScope.$broadcast(EVENTS.pivotTableStatusChange, CONFIG.application.models.PivotServiceModel.pivotDataStatus.loading);
                 PivotService.getSlice(element.id, view.id).then(function(response) {
                     var numCols = view.columns.length,
                         numRows = view.rows.length;
@@ -108,6 +109,7 @@ angular.module('ThreeSixtyOneView')
 
         // load a view from the backend
         $scope.loadView = function(cubeId, viewId) {
+            $rootScope.$broadcast(EVENTS.pivotViewChange, {});
             ManageAnalysisViewsService.getView(viewId, cubeId).then(function(view) {
                 // remove the draft view if one exists and is not selected
                 if($scope.draftView) {

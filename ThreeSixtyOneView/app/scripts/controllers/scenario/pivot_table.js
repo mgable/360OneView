@@ -2,7 +2,7 @@
 
 'use strict';
 
-angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$timeout", "$q", "PivotService", "CONFIG", function($scope, $timeout, $q, PivotService, CONFIG) {
+angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$rootScope", "$timeout", "$q", "PivotService", "CONFIG", "EVENTS", function($scope, $rootScope, $timeout, $q, PivotService, CONFIG, EVENTS) {
 			var sheet = {},
 				spread = {},
 				pivotTableConfig = CONFIG.view.PivotTable,
@@ -10,6 +10,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
 				rowHeaderCnt = 0,
 				colCnt = 0,
 				colHeaderCnt = 0,
+				savingCellsCount = 0,
 				setDefaultWidth = function(){
 					// set default column width and height
 					var maxWidth = pivotTableConfig.size.maxColumnWidth,
@@ -50,7 +51,10 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
 				addColumnStyle = function(){
 					for (var j = 0; j < colCnt; j++) {
 						var column = sheet.getColumn(j);
-						column.vAlign($.wijmo.wijspread.VerticalAlign.center).textIndent(1);
+						column.vAlign($.wijmo.wijspread.VerticalAlign.center);
+						column.shrinkToFit(true);
+						// column.textIndent(1);
+						column.width(sheet.defaults.colWidth);
 						if (j < colHeaderCnt) {
 							column.formatter("0").font(pivotTableConfig.font.headerFontStyle).foreColor(pivotTableConfig.color.msBlack);
 							column.wordWrap(true);
@@ -73,7 +77,9 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
 								if(sheet.getCell(i, j).value() === null) {
 									sheet.getCell(i, j).backColor(pivotTableConfig.color.msLightGray).locked(false);
 								} else {
-									sheet.getCell(i, j).font(pivotTableConfig.font.headerFontStyle).foreColor(pivotTableConfig.color.msBlack).locked(false).formatter(formatObject[i][j].currency + formatObject[i][j].format);
+									if(!!formatObject[i][j]) {
+										sheet.getCell(i, j).font(pivotTableConfig.font.headerFontStyle).foreColor(pivotTableConfig.color.msBlack).locked(false).formatter(formatObject[i][j].currency + formatObject[i][j].format);
+									}
 								}
 							}
 						}
@@ -192,8 +198,13 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
 					cellObject.newvalue = dirtyCell.newValue;
 
 					sheet.getCell(dirtyCell.row, dirtyCell.col).backColor(pivotTableConfig.color.msLightGray).locked(true);
+					$rootScope.$broadcast(EVENTS.pivotTableStatusChange, CONFIG.application.models.PivotServiceModel.pivotDataStatus.saving);
+					savingCellsCount++;
 					PivotService.updateCell($scope.selectedScenarioElement.id, $scope.viewData.id, cellObject).then(function() {
 						sheet.getCell(dirtyCell.row, dirtyCell.col).backColor(pivotTableConfig.color.msPureWhite).locked(false);
+						if(--savingCellsCount == 0) {
+							$rootScope.$broadcast(EVENTS.pivotTableStatusChange, CONFIG.application.models.PivotServiceModel.pivotDataStatus.saved);
+						}
 					});
 				};
 
@@ -254,6 +265,16 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ti
 			$scope.spread.updateSheet = function(_data_, numRows, numCols, formatObject) {
 				if(_data_ !== '') {
 					$scope.spread.sheet.loading = false;
+					$scope.spread.sheet.empty = false;
+					if(typeof _data_ === 'undefined') {
+						$rootScope.$broadcast(EVENTS.pivotTableStatusChange, CONFIG.application.models.PivotServiceModel.pivotDataStatus.empty);
+					} else {
+						$rootScope.$broadcast(EVENTS.pivotTableStatusChange, CONFIG.application.models.PivotServiceModel.pivotDataStatus.loaded);
+					}
+				}
+
+				if (_.isEmpty(_data_) && !$scope.spread.sheet.loading) {
+					$scope.spread.sheet.empty = true;
 				}
 
 				if(!_.isEqual(_data_, $scope.data)) {

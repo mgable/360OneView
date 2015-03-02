@@ -146,6 +146,15 @@ angular.module('ThreeSixtyOneView.config')
                             "code": 201
                         }
                     }
+                },
+                "PivotServiceModel": {
+                    "pivotDataStatus": {
+                        "saved": {"status": "Data saved successfully."},
+                        "saving": {"status": "Saving data ..."},
+                        "loaded": {"status": "Data loaded successfully."},
+                        "loading": {"status": "Loading data ..."},
+                        "empty": {"status": "No data for selected filters."}
+                    }
                 }
             },
             "inputRestrictions": {

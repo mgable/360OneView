@@ -1,4 +1,4 @@
-'use strict';
+ 'use strict';
 
 /**
 * @ngdoc function
@@ -87,7 +87,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             var kpiSummaryDatum = {};
             kpiSummaryDatum.id = i+1;
             kpiSummaryDatum.title=v[0];
-            kpiSummaryDatum.total=v[1];
+            kpiSummaryDatum.total=v[1].value;
+            kpiSummaryDatum.currency=v[1].currency;
             kpiSummaryData.push(kpiSummaryDatum);
         });
         return kpiSummaryData;
@@ -105,6 +106,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             copyFilters($scope.spendAddedFilters, $scope.kpiAddedFilters);
         }
         $scope.kpiCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.kpiAddedFilters, $scope.kpiDimensions, $scope.kpiView);
+
+        $scope.isViewLoaded = true;
 
         getKPISummary();
     },
@@ -126,13 +129,14 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         var spendData = {};
         spendData.header = {};
         spendData.header.title = 'Total Spend';
-        spendData.header.total = _spendSummaryData[0].TOUCHPOINT;
-        var tmpSpendHeaderIncremental = _spendSummaryData[0].TOUCHPOINT - _spendComparedSummaryData[0].TOUCHPOINT;
+        spendData.header.total = _spendSummaryData[0].TOUCHPOINT.value;
+        spendData.header.currency = _spendSummaryData[0].TOUCHPOINT.currency;
+        var tmpSpendHeaderIncremental = _spendSummaryData[0].TOUCHPOINT.value - _spendComparedSummaryData[0].TOUCHPOINT.value;
         spendData.header.incremental = Math.abs(tmpSpendHeaderIncremental);
         if(spendData.header.incremental < 1) {
            spendData.header.incremental = 0;
         }
-        spendData.header.percent = _spendComparedSummaryData[0].TOUCHPOINT !== 0 ? spendData.header.incremental / _spendComparedSummaryData[0].TOUCHPOINT : 0;
+        spendData.header.percent = _spendComparedSummaryData[0].TOUCHPOINT.value !== 0 ? spendData.header.incremental / _spendComparedSummaryData[0].TOUCHPOINT.value : 0;
         if (spendData.header.incremental !== 0) {
             if (tmpSpendHeaderIncremental >= 0) {
                 spendData.header.direction = "increase";
@@ -153,6 +157,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 spendDatumChild.id = 0;
                 spendDatumChild.title = '';
                 spendDatumChild.total = '';
+                spendDatumChild.currency = '';
                 spendDatumChild.incremental = '';
                 spendDatumChild.percent = '';
                 spendDatumChild.direction = '';
@@ -161,13 +166,14 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                     spendDatumChild = {};
                     spendDatumChild.id = i1+1;
                     spendDatumChild.title = v1[0];
-                    spendDatumChild.total = v1[1];
-                    var tmpSpendDatumChildIncremental = v1[1] - _.pairs(_spendComparedSummaryData[i])[i1][1];
+                    spendDatumChild.total = v1[1].value;
+                    spendDatumChild.currency = v1[1].currency;
+                    var tmpSpendDatumChildIncremental = v1[1].value - _.pairs(_spendComparedSummaryData[i])[i1][1].value;
                     spendDatumChild.incremental = Math.abs(tmpSpendDatumChildIncremental);
                     if(Math.abs(spendDatumChild.incremental) < 1) {
                        spendDatumChild.incremental = 0;
                     }
-                    spendDatumChild.percent = _.pairs(_spendComparedSummaryData[i])[i1][1] !== 0 ? spendDatumChild.incremental / _.pairs(_spendComparedSummaryData[i])[i1][1] : 0;
+                    spendDatumChild.percent = _.pairs(_spendComparedSummaryData[i])[i1][1].value !== 0 ? spendDatumChild.incremental / _.pairs(_spendComparedSummaryData[i])[i1][1].value : 0;
                     if (spendDatumChild.incremental !== 0) {
                         if (tmpSpendDatumChildIncremental >= 0) {
                             spendDatumChild.direction = "increase";
@@ -178,8 +184,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                         spendDatumChild.direction = "increase";
                     }
                     spendDatumChild.chart = {};
-                    spendDatumChild.chart.results = _spendSummaryData[0].TOUCHPOINT !== 0 ? parseFloat((v1[1] / _spendSummaryData[0].TOUCHPOINT) * 100).toFixed(1) : 0;
-                    spendDatumChild.chart.compared = _spendComparedSummaryData[0].TOUCHPOINT !== 0 ? parseFloat((_.pairs(_spendComparedSummaryData[i])[i1][1] / _spendComparedSummaryData[0].TOUCHPOINT) * 100).toFixed(1) : 0;
+                    spendDatumChild.chart.results = _spendSummaryData[0].TOUCHPOINT.value !== 0 ? parseFloat((v1[1].value / _spendSummaryData[0].TOUCHPOINT.value) * 100).toFixed(1) : 0;
+                    spendDatumChild.chart.compared = _spendComparedSummaryData[0].TOUCHPOINT.value !== 0 ? parseFloat((_.pairs(_spendComparedSummaryData[i])[i1][1].value / _spendComparedSummaryData[0].TOUCHPOINT.value) * 100).toFixed(1) : 0;
                     spendDatum.children.push(spendDatumChild);
                 });
                 spendData.body.push(spendDatum);
@@ -249,6 +255,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         // view scope variables
         $scope.saveAs = false;
         $scope.isSynced = true;
+        $scope.isViewLoaded = false;
 
         // spend view scope variables
         $scope.spendAdded = {};
@@ -385,7 +392,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     };
     // save the changes in spend and kpi view
     $scope.saveView = function() {
-        if($scope.draftView) {
+        if($scope.draftView && $scope.isViewLoaded) {
             var originalViewName = $scope.spendViewData.name.substring(8);
             var originalViewId = _.find($scope.spendViewsList, function(_view) { return originalViewName === _view.name; }).id;
             var draftViewId = $scope.spendViewData.id;
