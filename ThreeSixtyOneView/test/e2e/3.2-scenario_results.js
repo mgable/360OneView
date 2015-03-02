@@ -7,9 +7,9 @@ var specs = require('./3.0-scenario_specs.js'),
 	resultsUrl,
 	projectId;
 
-if(!browser.params.test || browser.params.test === 32){
+if(!browser.params.tests || browser.params.test === 32){
 
-	describe("executing results tests", function(){
+	xdescribe("executing results tests", function(){
 		console.info("executing results tests");
 		it("should set up the tests", function(){
 			console.info("results page tests");
@@ -19,7 +19,7 @@ if(!browser.params.test || browser.params.test === 32){
 		});
 	});
 
-	describe("results", function(){
+	xdescribe("results", function(){
 
 		beforeEach(
 			function(){

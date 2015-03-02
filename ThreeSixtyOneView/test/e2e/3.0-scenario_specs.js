@@ -44,8 +44,8 @@ var coreSpecs = require('./0.0-specs.js'),
 		'defaultSelectedAnalysisElement': 'Marketing Plan'
 	},
 
-
 	data = {
+		scenarioUrl: '#/scenario/:projectId/:scenarioId/edit/',
 		assumedData: assumedData,
 		editButton: element(by.css(edit)),
 		resultsButton: element(by.css(results)),

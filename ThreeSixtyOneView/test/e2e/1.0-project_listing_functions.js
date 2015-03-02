@@ -37,7 +37,7 @@ var coreFunctions = require('./0.0-functions.js'),
 			return browser.params.path + specs.projectUrl;
 		},
 		getDashboardUrl: function(id){
-			return this.getDashboardAbsoluteUrl(id) + specs.testQuery + "&" + specs.server;;
+			return this.getDashboardAbsoluteUrl(id) + specs.testQuery + "&" + specs.server;
 		},
 		getDashboardAbsoluteUrl: function(id){
 			return browser.params.path + specs.dashboardUrl.replace(/:id/, id );

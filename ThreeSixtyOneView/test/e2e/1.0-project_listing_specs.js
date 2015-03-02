@@ -48,7 +48,6 @@ var coreSpecs = require('./0.0-specs.js'),
 	modalCancel = "div[data-ms-id='simpleModal'] button.ms-btn-cancel",
 	data = { 
 		masterProjectClass: ".master",
-		testQuery: "?e2e=true",
 		projectUrl: "#/projects",
 		dashboardUrl: '#/dashboard/:id',
 		activeSelectionClass: "active",

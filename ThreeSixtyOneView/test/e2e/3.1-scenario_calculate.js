@@ -7,9 +7,9 @@ var specs = require('./3.1-scenario_calculate_specs.js'),
 	scenarioUrl,
 	projectId;
 
-if(!browser.params.test || browser.params.test === 31){
+if(!browser.params.tests || browser.params.test === 31){
 
-	describe("executing calculate tests", function(){
+	xdescribe("executing calculate tests", function(){
 		console.info("executing calculate tests");
 		it("should set up the tests", function(){
 			console.info("results page tests:");
@@ -25,7 +25,7 @@ if(!browser.params.test || browser.params.test === 31){
 		}
 	);
 
-	describe("calculations Page:", function(){
+	xdescribe("calculations Page:", function(){
 		var calculatingScenario, currentStatus = null;
 
 		it("should find the scenario in the items list", function(){

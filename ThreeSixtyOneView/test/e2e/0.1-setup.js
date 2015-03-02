@@ -8,15 +8,16 @@ var specs = require('./1.0-project_listing_specs.js'),
 	allData = {};
 
 	console.info("the tests to run are:");
+	console.info(browser.params);
 	console.info(browser.params.test || "all");
 
-if(!browser.params.test || browser.params.test === "setup"){
+if(!browser.params.tests || browser.params.test === "setup"){
 
-	describe("executing setup", function(){
+	xdescribe("executing setup", function(){
 		console.info("executing setup");
 	});
 
-	describe("finding project types", function(){
+	xdescribe("finding project types", function(){
 		beforeEach(
 			function(){
 				browser.driver.manage().window().setSize(1280, 1024);

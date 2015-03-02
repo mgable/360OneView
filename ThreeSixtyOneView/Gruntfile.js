@@ -501,8 +501,7 @@ module.exports = function(grunt) {
                         params: {
                             path: "/",
                             client: grunt.option("client") || 'ford',
-                            test: grunt.option("test") || false
-
+                            tests: grunt.option("tests")
                         }
                     } // Target-specific arguments
                 }

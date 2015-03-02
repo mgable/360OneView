@@ -7,6 +7,7 @@ var servers = require('./servers.js'),
 
 	data = {
 		server: "server=" + clientServer,
+		testQuery: "?e2e=true",
 		inputRestrictions: ["\\", "\/", ":", "?", "*", "\"", ">", "<", "|"], //\\\/\?\:\*"><|
 		minimumCharacters: "xx",
 		maximumCharacters: "Bacon ipsum dolor amet spare ribs drumstick short loin capicola boudin kielbasa. Ham hock chuck jowl swine, pork beef ribs turducken shoulder short ribs landjaeger. Beef turkey jowl tongue filet mignon cow spare ribs kielbasa drumstick ham hock jerky capxx",
