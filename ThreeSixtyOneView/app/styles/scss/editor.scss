@@ -68,20 +68,21 @@
 		font-size: 17px;
 		height: 31px;
 		padding: 3px 5px;
-		width: 300px;
 		border: 0;
+		float: left;
 		color: $ms-black;
-		&:hover {
+		.fa-eye {
+			color: $ms-darkGray;
+			vertical-align: top;
+			margin-top: 3px;
+			margin-right: 5px;
+		}
+		&:hover  {
 			color: $ms-blue;
-			i {
+			.fa-eye {
+				cursor: pointer;
 				color: $ms-blue;
 			}
-		}
-
-		i {
-			vertical-align: top;
-			margin-top: 5px;
-			margin-right: 5px;
 		}
 
 		.text {
@@ -90,29 +91,20 @@
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
+			&:hover {
+				cursor: pointer;
+			}
 		}
 
-		.saveAsBox {
-			display: inline-block;
-			width: 250px;
-			border: 1px solid $ms-blue;
-			background-color: white;
+	}
 
+	.saveAsBox {
+		form {
+			width: 286px;
+			margin: 4px 0 0 0;
 			input {
-				width: 195px;
-				height: 24px;
-				border: 0;
-				outline: 0;
-
-				&:hover {
-					color: $ms-black;
-				}
-
-				i {
-					color: $ms-blue;
-				}
+				width: 195px
 			}
-
 		}
 	}
 

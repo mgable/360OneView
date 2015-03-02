@@ -3,8 +3,8 @@
 
 'use strict';
 
-angular.module('ThreeSixtyOneView.services').factory('ScenarioModel', ["$location", "$rootScope", "$timeout", "Resource", "CONFIG", "SERVER", "EVENTS", function($location, $rootScope, $timeout, Resource, CONFIG, SERVER, EVENTS){
-    var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.scenarios),
+angular.module('ThreeSixtyOneView.services').factory('ScenarioModel', ["$location", "$rootScope", "$timeout", "Resource", "CONFIG", "ServerService", "EVENTS", function($location, $rootScope, $timeout, Resource, CONFIG, ServerService, EVENTS){
+    var resource = new Resource(ServerService.get($location.host()) + CONFIG.application.api.scenarios),
     responseTranslator = CONFIG.application.models.ScenarioModel.responseTranslator,
     requestTranslator = CONFIG.application.models.ScenarioModel.requestTranslator,
     config = {};

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-  .factory('PivotModel', ["$location", "Resource", "CONFIG", "SERVER", function ($location, Resource, CONFIG, SERVER) {
-	var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.pivotdata),
+  .factory('PivotModel', ["$location", "Resource", "CONFIG", "ServerService", function ($location, Resource, CONFIG, ServerService) {
+	var resource = new Resource(ServerService.get($location.host())  + CONFIG.application.api.pivotdata),
 		pivotTable,
 		// contains styling and formatting information
 		helperObject,

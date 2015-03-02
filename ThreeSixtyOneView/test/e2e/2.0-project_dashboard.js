@@ -7,6 +7,7 @@ var specs = require('./1.0-project_listing_specs.js'),
 	dashboardUrl,
 	projectId;
 
+
 if(!browser.params.test || browser.params.test === 2){
 
 	describe("executing dashboard tests", function(){
@@ -398,5 +399,4 @@ if(!browser.params.test || browser.params.test === 2){
 			});
 		});
 	});
-
 }

@@ -2,6 +2,7 @@
   "name": "ThreeSixtyOneView",
   "version": "0.0.0",
   "dependencies": {
+    "q": "^1.2.0",
     "underscore": "1.6.0"
   }
 }

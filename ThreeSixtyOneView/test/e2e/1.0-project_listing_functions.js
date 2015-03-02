@@ -31,13 +31,13 @@ var coreFunctions = require('./0.0-functions.js'),
 			specs.filterByItemButton.click();
 		},
 		getProjectUrl: function(){
-			return this.getProjectAbsoluteUrl() + specs.testQuery;
+			return this.getProjectAbsoluteUrl() + specs.testQuery + "&" + specs.server;
 		},
 		getProjectAbsoluteUrl: function(){
 			return browser.params.path + specs.projectUrl;
 		},
 		getDashboardUrl: function(id){
-			return this.getDashboardAbsoluteUrl(id) + specs.testQuery;
+			return this.getDashboardAbsoluteUrl(id) + specs.testQuery + "&" + specs.server;;
 		},
 		getDashboardAbsoluteUrl: function(id){
 			return browser.params.path + specs.dashboardUrl.replace(/:id/, id );
