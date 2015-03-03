@@ -116,7 +116,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/member.tpl.html',
     "<div class=\"list-subcategory\" ng-class=\"{'list-item': !hasMembers()}\">\r" +
     "\n" +
-    "\t<span class=\"expand-handle clickable\" ng-if=\"hasMembers()\" ng-click=\"expanded[member.label] = !expanded[member.label]\">\r" +
+    "\t<span class=\"expand-handle clickable\" ng-if=\"hasMembers()\" ng-click=\"toggleCollapse()\">\r" +
     "\n" +
     "\t\t<icon type=\"caret-right\" cname=\"{{setToggleStyle(member)}}\"></icon>\r" +
     "\n" +

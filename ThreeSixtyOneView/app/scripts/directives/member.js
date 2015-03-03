@@ -21,7 +21,6 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 		},
 		templateUrl: 'views/directives/member.tpl.html',
 		link: function(scope, element) {
-
 			var modifyItems = function(member, add) {
 				if(member.members.length > 0) {
 					for(var i = 0; i < member.members.length; i++) {
@@ -55,6 +54,7 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 			};
 
 			scope.expanded = scope.expanded || {};
+			scope.isAllExpanded = scope.expandall.label === '';
 
 			scope.toggleMember = function(member) {
 				var item = checkedItems(member);
@@ -86,8 +86,14 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 				return scope.member.members.length > 0;
 			};
 
+			scope.toggleCollapse = function() {
+				scope.expanded[scope.member.label] = !scope.expanded[scope.member.label];
+				scope.isAllExpanded = !scope.isAllExpanded;
+				return scope.expanded[scope.member.label];
+			};
+
 			scope.setToggleStyle = function(member) {
-				return (!!scope.expanded[member.label] || scope.expandall.label !== '') ? 'fa-rotate-90':'';
+				return (!scope.isAllExpanded) ? 'fa-rotate-90':'';
 			};
 
 			scope.isAllSelected = function(member) {
@@ -96,7 +102,7 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 			};
 
 			if(scope.member.members.length > 0) {
-				$compile('<div class="list-category" ng-class="{collapsed: !expanded[member.label] && expandall.label === \'\'}"><member ng-repeat="child in member.members | orderBy:\'label\':false" member="child" filters="filters" category="category" expanded="expanded" expandall="expandall" updater="updaterFunction(index, addedFilters)" dimensionindex="dimensionindex"></member></div>')(scope, function(cloned) {
+				$compile('<div class="list-category" ng-class="{collapsed: isAllExpanded}"><member ng-repeat="child in member.members | orderBy:\'label\':false" member="child" filters="filters" category="category" expanded="expanded" expandall="expandall" updater="updaterFunction(index, addedFilters)" dimensionindex="dimensionindex"></member></div>')(scope, function(cloned) {
 					element.after(cloned);
 				});
 			}
