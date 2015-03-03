@@ -247,7 +247,7 @@ angular.module('ThreeSixtyOneView.config')
             },
             "PivotTable": {
                 "size": {
-                    "minColumnWidth": 120,
+                    "minColumnWidth": 150,
                     "maxColumnWidth": 250,
                     "rowHeight": 40
                 },
