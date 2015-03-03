@@ -7,9 +7,9 @@
                     <div class="text" ng-hide="saveAs" title="{{viewData.name}}">{{viewData.name}}</div>
                 </div>
                 <div class="saveAsBox" ng-show="saveAs">
-                    <form name="saveView" novalidate>
+                    <form name="newViewName" novalidate>
                         <input type="text" ng-pattern="CONFIG.application.inputRestrictions.characterRestrictions" required ng-maxlength="256" ng-minlength="2" ng-model="saveAsName" ui-keydown="{'esc': 'cancelSaveAs()', 'enter': 'submitSaveAs()'}">
-                        <button class="btn btn-xs submit" ng-click="submitSaveAs($event)" ng-disabled="(saveView.$dirty && saveView.$invalid) || saveView.$pristine"><icon type="check"></icon></button>
+                        <button class="btn btn-xs submit" ng-click="submitSaveAs($event)" ng-disabled="(newViewName.$dirty && newViewName.$invalid) || newViewName.$pristine"><icon type="check"></icon></button>
                         <button class="btn btn-xs cancel" ng-click="cancelSaveAs($event)"><icon type="remove"></icon></button>
                     </form>
                 </div>
