@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportResourceService', '$timeout', 'DialogService', 'PivotMetaService', 'CONFIG',
+angular.module('ThreeSixtyOneView').controller('ExportCtrl', ['$scope', 'ExportResourceService', '$timeout', 'DialogService', 'PivotMetaService', 'CONFIG',
 	function($scope, ExportResourceService, $timeout, DialogService, PivotMetaService, CONFIG) {
 		var init = function() {
 			$scope.exportViewData = {}; // contains the view data modified for export tab
