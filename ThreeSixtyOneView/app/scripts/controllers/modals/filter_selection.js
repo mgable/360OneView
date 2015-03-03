@@ -7,7 +7,7 @@ angular.module('ThreeSixtyOneView')
 
 		var init = function() {
 			$scope.selectedFilter = {};
-			$scope.selectedFilter.dimension = data.cat;
+			$scope.selectedFilter.dimension = data.dimension;
 			$scope.addedFilter = data.addedFilters;
 			$scope.e2e = data.e2e;
 

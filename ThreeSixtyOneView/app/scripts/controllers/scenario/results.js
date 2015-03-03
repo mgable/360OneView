@@ -503,7 +503,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     // open/dismiss filters selection modal
     $scope.spendFiltersModal = function(category) {
         var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
-            {cat: category, addedFilters: $scope.spendAddedFilters, viewData: $scope.spendViewData.rows.concat($scope.spendViewData.columns), dimensions: $scope.spendDimensions},
+            {dimension: category, addedFilters: $scope.spendAddedFilters, viewData: $scope.spendViewData.rows.concat($scope.spendViewData.columns), dimensions: $scope.spendDimensions},
             {windowSize: 'lg', windowClass: 'filters-modal'});
 
         dialog.result.then(function(data) {
@@ -516,7 +516,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     // open/dismiss filters selection modal
     $scope.kpiFiltersModal = function(category) {
         var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
-            {cat: category, addedFilters: $scope.kpiAddedFilters, viewData: $scope.kpiViewData, dimensions: $scope.kpiDimensions},
+            {dimension: category, addedFilters: $scope.kpiAddedFilters, viewData: $scope.kpiViewData, dimensions: $scope.kpiDimensions},
             {windowSize: 'lg', windowClass: 'filters-modal'});
 
         dialog.result.then(function(data) {
