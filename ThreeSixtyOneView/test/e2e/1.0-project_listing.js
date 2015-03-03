@@ -4,7 +4,7 @@ var specs = require('./1.0-project_listing_specs.js'),
 	funcs = require('./1.0-project_listing_functions.js'),
 	projectInfo = {};
 
-if(!browser.params.tests || browser.params.test === 1){
+if(!browser.params.tests || browser.params.tests === 1){
 
 
 	describe("executing listing tests", function(){

@@ -466,7 +466,9 @@ module.exports = function(grunt) {
                     args: {
                         baseUrl: "http://360-ui-qa.marketshare.com:8080",
                         params: {
-                            path: "/360/index.html"
+                            path: "/360/index.html",
+                            client: grunt.option("client") || 'ford',
+                            tests: grunt.option("tests")
                         }
                     } // Target-specific arguments
                 }
@@ -477,7 +479,9 @@ module.exports = function(grunt) {
                     args: {
                         baseUrl: "http://360-ui-prototype.marketshare.com",
                         params: {
-                            path: "/index.html"
+                            path: "/index.html",
+                            client: grunt.option("client") || 'ford',
+                            tests: grunt.option("tests")
                         }
                     } // Target-specific arguments
                 }
@@ -488,7 +492,9 @@ module.exports = function(grunt) {
                     args: {
                         baseUrl: "http://360-ui-dev.marketshare.com:8080",
                         params: {
-                            path: "/360/index.html"
+                            path: "/360/index.html",
+                            client: grunt.option("client") || 'ford',
+                            tests: grunt.option("tests")
                         }
                     } // Target-specific arguments
                 }
