@@ -1,2 +1,2 @@
 angular.module('ThreeSixtyOneView.config')
-	.constant('SERVER', window.Marketshare.SERVERS);
+	.value('SERVER', window.Marketshare.SERVERS);

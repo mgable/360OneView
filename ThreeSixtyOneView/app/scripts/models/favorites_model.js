@@ -2,8 +2,8 @@
 /* jshint unused:false */
 'use strict';
 
-angular.module('ThreeSixtyOneView.services').factory('FavoritesModel', ["$timeout", "$location", "Resource", "CONFIG", "SERVER", function($timeout, $location, Resource, CONFIG, SERVER){
-        var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.favorites),
+angular.module('ThreeSixtyOneView.services').factory('FavoritesModel', ["$timeout", "$location", "Resource", "CONFIG", "ServerService", function($timeout, $location, Resource, CONFIG, ServerService){
+        var resource = new Resource(ServerService.get($location.host())  + CONFIG.application.api.favorites),
         transformResponse = function(_data_){
             if (_data_){
                 var data = mapIt(JSON.parse(_data_), "id", "uuid");

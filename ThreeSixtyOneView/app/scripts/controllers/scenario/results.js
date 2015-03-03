@@ -129,14 +129,14 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         var spendData = {};
         spendData.header = {};
         spendData.header.title = 'Total Spend';
-        spendData.header.total = _spendSummaryData[0].TOUCHPOINT.value;
-        spendData.header.currency = _spendSummaryData[0].TOUCHPOINT.currency;
-        var tmpSpendHeaderIncremental = _spendSummaryData[0].TOUCHPOINT.value - _spendComparedSummaryData[0].TOUCHPOINT.value;
+        spendData.header.total = _.values(_spendSummaryData[0])[0].value;
+        spendData.header.currency = _.values(_spendSummaryData[0])[0].currency;
+        var tmpSpendHeaderIncremental = _.values(_spendSummaryData[0])[0].value - _.values(_spendComparedSummaryData[0])[0].value;
         spendData.header.incremental = Math.abs(tmpSpendHeaderIncremental);
         if(spendData.header.incremental < 1) {
            spendData.header.incremental = 0;
         }
-        spendData.header.percent = _spendComparedSummaryData[0].TOUCHPOINT.value !== 0 ? spendData.header.incremental / _spendComparedSummaryData[0].TOUCHPOINT.value : 0;
+        spendData.header.percent = _.values(_spendComparedSummaryData[0])[0].value !== 0 ? spendData.header.incremental / _.values(_spendComparedSummaryData[0])[0].value : 0;
         if (spendData.header.incremental !== 0) {
             if (tmpSpendHeaderIncremental >= 0) {
                 spendData.header.direction = "increase";
@@ -184,8 +184,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                         spendDatumChild.direction = "increase";
                     }
                     spendDatumChild.chart = {};
-                    spendDatumChild.chart.results = _spendSummaryData[0].TOUCHPOINT.value !== 0 ? parseFloat((v1[1].value / _spendSummaryData[0].TOUCHPOINT.value) * 100).toFixed(1) : 0;
-                    spendDatumChild.chart.compared = _spendComparedSummaryData[0].TOUCHPOINT.value !== 0 ? parseFloat((_.pairs(_spendComparedSummaryData[i])[i1][1].value / _spendComparedSummaryData[0].TOUCHPOINT.value) * 100).toFixed(1) : 0;
+                    spendDatumChild.chart.results = _.values(_spendSummaryData[0])[0].value !== 0 ? parseFloat((v1[1].value / _.values(_spendSummaryData[0])[0].value) * 100).toFixed(1) : 0;
+                    spendDatumChild.chart.compared = _.values(_spendComparedSummaryData[0])[0].value !== 0 ? parseFloat((_.pairs(_spendComparedSummaryData[i])[i1][1].value / _.values(_spendComparedSummaryData[0])[0].value) * 100).toFixed(1) : 0;
                     spendDatum.children.push(spendDatumChild);
                 });
                 spendData.body.push(spendDatum);
