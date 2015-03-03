@@ -9,7 +9,7 @@ angular.module('ThreeSixtyOneView.services')
 				_.each(newView.filters, function(filter) {
 					filter.id = null;
 				});
-				return newView
+				return newView;
 			};
 
 		MyPivotviewModel = new Model();

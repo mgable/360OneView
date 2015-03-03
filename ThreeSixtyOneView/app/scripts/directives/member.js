@@ -92,7 +92,7 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 				return scope.expanded[scope.member.label];
 			};
 
-			scope.setToggleStyle = function(member) {
+			scope.setToggleStyle = function() {
 				return (!scope.isAllExpanded) ? 'fa-rotate-90':'';
 			};
 
