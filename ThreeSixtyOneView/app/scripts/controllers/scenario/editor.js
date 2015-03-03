@@ -12,7 +12,6 @@ angular.module('ThreeSixtyOneView')
 			$scope.added = {};
 			$scope.addedFilters = {};
 			$scope.categorizedValue = [];
-			$scope.viewData = {name: 'Loading ...'};
 			$scope.pivotTableData = '';
 
 			// this is how pivotbuilder and pivottable communicate
@@ -21,6 +20,7 @@ angular.module('ThreeSixtyOneView')
 			initiateModel($scope.selectedScenarioElement.cubeMeta);
 		},
 		initiateModel = function(cubeMeta) {
+			$scope.viewData = {name: 'Loading ...'};
 			PivotMetaService.initModel(cubeMeta).then(function(result) {
 				var foundView = _.find(result.viewsList, function(view){ return view.id === result.view.id; });
 				if (foundView) {
@@ -109,6 +109,7 @@ angular.module('ThreeSixtyOneView')
 
 		// load a view from the backend
 		$scope.loadView = function(cubeId, viewId) {
+			$scope.viewData = {name: 'Loading ...'};
 			$rootScope.$broadcast(EVENTS.pivotViewChange, {});
 			ManageAnalysisViewsService.getView(viewId, cubeId).then(function(view) {
 				// remove the draft view if one exists and is not selected

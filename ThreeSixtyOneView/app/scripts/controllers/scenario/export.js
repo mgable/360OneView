@@ -65,11 +65,13 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 		progressPromise;
 
 		$scope.setupExportView = function() {
-			$scope.exportViewData = angular.copy($scope.viewData);
-			$scope.exportViewData.rows = $scope.viewData.rows.concat($scope.viewData.columns);
-			$scope.exportViewData.columns = [];
-			$scope.exportAddedDimensions = angular.copy($scope.added);
-			setupExportViewFilters();
+			if($scope.viewData.filters) {
+				$scope.exportViewData = angular.copy($scope.viewData);
+				$scope.exportViewData.rows = $scope.viewData.rows.concat($scope.viewData.columns);
+				$scope.exportViewData.columns = [];
+				$scope.exportAddedDimensions = angular.copy($scope.added);
+				setupExportViewFilters();
+			}
 		};
 
 		$scope.deleteItem = function(index) {
