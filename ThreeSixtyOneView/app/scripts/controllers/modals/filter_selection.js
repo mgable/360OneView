@@ -9,8 +9,6 @@ angular.module('ThreeSixtyOneView')
 			$scope.selectedFilter = {};
 			$scope.selectedFilter.dimension = data.cat;
 			$scope.addedFilter = data.addedFilters;
-			$scope.dimensions = data.dimensions;
-			$scope.viewData = data.viewData;
 			$scope.e2e = data.e2e;
 
 			$scope.categorizedValue = [];
@@ -29,6 +27,8 @@ angular.module('ThreeSixtyOneView')
 			$scope.chooseFilter($scope.selectedFilter.dimension, $scope.selectedDimensionIndex, false);
 			getWindowHeight(data.dimensions, function() {});
 		},
+		dimensions = data.dimensions,
+		viewData = data.viewData,
 		getWindowHeight = function(){
 			var w = angular.element($window);
 			$scope.getWindowDimensions = function () {
@@ -37,64 +37,61 @@ angular.module('ThreeSixtyOneView')
 					'w': w[0].innerWidth
 				};
 			};
-			$scope.$watch($scope.getWindowDimensions, function (newValue) {
+			var heightWatcher = $scope.$watch($scope.getWindowDimensions, function (newValue) {
 				$scope.windowHeight = newValue.h;
 				$scope.windowWidth = newValue.w;
 
 			}, true);
 
+			$scope.$on('$destroy', function() {
+				heightWatcher();
+				w.unbind('resize');
+			});
+
 			w.bind('resize', function () {
 				$scope.$apply();
 			});
+		},
+		// choose the view based on added levels in the column/row
+		chooseViewBy = function(levels, index) {
+			var levelIndex = angular.isNumber(index) ? index : 0;
+			if(!angular.isNumber(index)) {
+				_.each(levels, function(level, index) {
+					_.each(viewData, function(item) {
+						if(level.label === item.level.label) {
+							levelIndex = index;
+						}
+					});
+				});
+			}
+			$scope.searchFilters(levels[levelIndex], $scope.filterSearch);
+			return levels[levelIndex];
 		};
 
 		// open the filters modal for the selected filter
 		$scope.chooseFilter = function(dimension, dimensionIndex, levelIndex) {
-			console.log('chooseFilter');
 			if(angular.isNumber(levelIndex)) {
-				$scope.selectedFilter.selFil = $scope.chooseViewBy(dimension.members, levelIndex);
+				$scope.selectedFilter.level = chooseViewBy(dimension.members, levelIndex);
 			} else {
 				$scope.selectedDimensionIndex = dimensionIndex;
 
 				$scope.filterSearch.label = '';
 				$scope.selectedFilter.dimension = dimension;
-				$scope.selectedFilter.selFil = $scope.chooseViewBy(dimension.members, false);
+				$scope.selectedFilter.level = chooseViewBy(dimension.members, false);
 			}
 		};
 
 		// choose a filter based on the passed name
 		$scope.chooseFilterByName = function(name) {
-			_.each($scope.dimensions, function(dimension, index) {
+			_.each(dimensions, function(dimension, index) {
 				if(dimension.label === name) {
 					$scope.chooseFilter(dimension, index, false);
 				}
 			});
 		};
 
-		// choose the view based on added items in the column/row
-		$scope.chooseViewBy = function(items, index) {
-			console.log('chooseViewBy');
-			if(angular.isNumber(index)) {
-				$scope.searchFilters(items[index], $scope.filterSearch);
-				return items[index];
-			}
-
-			for(var i = 0; i < items.length; i++) {
-				for(var j = 0; j < $scope.viewData.length; j++) {
-					if(items[i].label === $scope.viewData[j].level.label) {
-						$scope.searchFilters(items[i], $scope.filterSearch);
-						return items[i];
-					}
-				}
-			}
-
-			$scope.searchFilters(items[0], $scope.filterSearch);
-			return items[0];
-		};
-
 		// cancel the made changes to the filter
 		$scope.cancel = function() {
-			// $scope.filterSearch = {label: ''};
 			$scope.filterCollapse = {};
 			$modalInstance.dismiss('canceled');
 		};
@@ -105,9 +102,8 @@ angular.module('ThreeSixtyOneView')
 				return null;
 			}
 
-			var searchResults = {};
-
-			var treeSearch = function(tree, searchLabel, initial) {
+			var searchResults = {},
+				treeSearch = function(tree, searchLabel, initial) {
 				var output = null;
 
 				if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1 && !initial) {
@@ -146,7 +142,6 @@ angular.module('ThreeSixtyOneView')
 
 		// count number of selected and total filters
 		$scope.countFilters = function(object, _addedFilter) {
-			console.log('countFilters');
 			var output = {
 				selected: 0,
 				total: 0
@@ -185,18 +180,15 @@ angular.module('ThreeSixtyOneView')
 
 		// handle select/deselect of visible/invisible filter search values
 		$scope.selectFilters = function(category, visible, add) {
-			console.log('selectFilters');
-			var i = 0,
-				val;
+			var item;
 
 			var getFilters = function(list) {
-				var output = [],
-					i = 0;
+				var output = [];
 
 				if(list.members.length > 0) {
-					for(i = 0; i < list.members.length; i++) {
-						output = output.concat(getFilters(list.members[i]));
-					}
+					_.each(list.members, function(member) {
+						output = output.concat(getFilters(member));
+					});
 				} else {
 					return [list.label];
 				}
@@ -207,13 +199,13 @@ angular.module('ThreeSixtyOneView')
 			var list = getFilters($scope.searchResults);
 
 			if(visible) {
-				for(i = 0; i < list.length; i++) {
-					$scope.addedFilter[category][list[i]] = add;
-				}
+				_.each(list, function(item) {
+					$scope.addedFilter[category][item] = add;
+				});
 			} else {
-				for(val in $scope.addedFilter[category]) {
-					if($scope.addedFilter[category][val] && list.indexOf(val) === -1) {
-						$scope.addedFilter[category][val] = add;
+				for(item in $scope.addedFilter[category]) {
+					if($scope.addedFilter[category][item] && list.indexOf(item) === -1) {
+						$scope.addedFilter[category][item] = add;
 					}
 				}
 			}
@@ -226,21 +218,20 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		$scope.categorizeValuesCount = function(_index, addedFilter) {
-			console.log('categorizeValuesCount');
-			var index, output = PivotMetaService.getCategorizeValues($scope.dimensions[_index], addedFilter);
+			var index, output = PivotMetaService.getCategorizeValues(dimensions[_index], addedFilter);
 			$scope.categorizedValue[_index] = output;
 
 			// add empty category to the empty items list and show error
 			if(output.selected === 0) {
-				index = $scope.emptyFiltersList.indexOf($scope.dimensions[_index].label);
+				index = $scope.emptyFiltersList.indexOf(dimensions[_index].label);
 				if(index < 0) {
-					$scope.emptyFiltersList.push($scope.dimensions[_index].label);
+					$scope.emptyFiltersList.push(dimensions[_index].label);
 				}
 				$scope.noFilterSelected = true;
 			}
 			// check if any item is selected from an empty list, remove it
 			if($scope.noFilterSelected && output.selected > 0) {
-				index = $scope.emptyFiltersList.indexOf($scope.dimensions[_index].label);
+				index = $scope.emptyFiltersList.indexOf(dimensions[_index].label);
 				if(index > -1) {
 					$scope.emptyFiltersList.splice(index, 1);
 					if($scope.emptyFiltersList.length < 1) {
@@ -254,7 +245,7 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		$scope.getDimensions = function() {
-			return $scope.dimensions;
+			return dimensions;
 		};
 
 		$scope.allFiltersSelected = function(filterValues) {

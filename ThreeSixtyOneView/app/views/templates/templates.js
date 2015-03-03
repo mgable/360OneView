@@ -403,11 +403,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t<div class=\"dropdown-toggle\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t{{selectedFilter.selFil.label}}<icon type=\"caret-down\"></icon>\r" +
+    "\t\t\t\t\t\t\t{{selectedFilter.level.label}}<icon type=\"caret-down\"></icon>\r" +
     "\n" +
     "\t\t\t\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t\t\t\t<div class=\"dropdown-menu\" ms-link-group radio=\"true\" selected-item=\"{{selectedFilter.selFil.label}}\">\r" +
+    "\t\t\t\t\t\t<div class=\"dropdown-menu\" ms-link-group radio=\"true\" selected-item=\"{{selectedFilter.level.label}}\">\r" +
     "\n" +
     "\t\t\t\t\t\t\t<div ng-repeat=\"item in selectedFilter.dimension.members\" class=\"menu-item\" ms-link=\"{{item.label}}\" ng-click=\"chooseFilter(selectedFilter.dimension, selectedDimensionIndex, $index)\">\r" +
     "\n" +
@@ -421,11 +421,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t\t<div class=\"search-box\" ng-show=\"selectedFilter.selFil\">\r" +
+    "\t\t\t\t<div class=\"search-box\" ng-show=\"selectedFilter.level\">\r" +
     "\n" +
     "\t\t\t\t\t<icon type=\"filter\"></icon>\r" +
     "\n" +
-    "\t\t\t\t\t<input type=\"text\" placeholder=\"Filter List\" ng-model=\"filterSearch.label\" ng-keyup=\"searchFilters(selectedFilter.selFil, filterSearch)\">\r" +
+    "\t\t\t\t\t<input type=\"text\" placeholder=\"Filter List\" ng-model=\"filterSearch.label\" ng-keyup=\"searchFilters(selectedFilter.level, filterSearch)\">\r" +
     "\n" +
     "\t\t\t\t</div>\r" +
     "\n" +
