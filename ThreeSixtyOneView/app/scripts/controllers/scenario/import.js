@@ -29,21 +29,26 @@ angular.module('ThreeSixtyOneView')
 			$scope.statusMessage = 'Uploading file ...';
 
 			ImportResourceService.uploadFile($scope.selectedScenarioElement.id, $scope.selectedFile).then(function(response) {
-				if(response.status === importModel.uploadStates.success.message) {
-					$scope.statusMessage = importModel.uploadStates.success.description;
-					$timeout(function() {
-						$scope.checkStatus();
-					}, 1000);
-				} else if (response.status === importModel.uploadStates.empty.message) {
-					$scope.statusMessage = importModel.uploadStates.empty.description;
-					$scope.cancelButtonLabel = 'Reset';
-					$scope.isImportFailed = true;
-				} else if (response.status === importModel.uploadStates.fail.message) {
-					$scope.statusMessage = importModel.uploadStates.fail.description;
-					$scope.isImportFailed = true;
-					$scope.cancelButtonLabel = 'Reset';
-				} else {
-					console.log(response);
+				switch(response.status) {
+					case importModel.uploadStates.success.message:
+						$scope.statusMessage = importModel.uploadStates.success.description;
+						$timeout(function() {
+							$scope.checkStatus();
+						}, 1000);
+						break;
+					case importModel.uploadStates.empty.message:
+						$scope.statusMessage = importModel.uploadStates.empty.description;
+						$scope.cancelButtonLabel = 'Reset';
+						$scope.isImportFailed = true;
+						break;
+					case importModel.uploadStates.fail.message:
+						$scope.statusMessage = importModel.uploadStates.fail.description;
+						$scope.isImportFailed = true;
+						break;
+					default:
+						console.log(response);
+						break;
+
 				}
 			});
 		};
@@ -51,24 +56,30 @@ angular.module('ThreeSixtyOneView')
 		$scope.checkStatus = function() {
 			if($scope.isImportStarted && !$scope.isImportCompleted) {
 				ImportResourceService.checkStatus($scope.selectedScenarioElement.id).then(function(response) {
-					if(response.status === importModel.importStates.success.message) {
-						$scope.statusMessage = importModel.importStates.success.description;
-						$scope.isImportCompleted = true;
-						$scope.cancelButtonLabel = 'Reset';
-						$scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
-						return;
-					} else if(response.status === importModel.importStates.init.message) {
-						$scope.statusMessage = importModel.importStates.init.description;
-					} else if(response.status === importModel.importStates.inprogress.message) {
-						$scope.statusMessage = importModel.importStates.inprogress.description;
-					} else if (response.status === importModel.importStates.fail.message) {
-						$scope.statusMessage = importModel.importStates.fail.description;
-						$scope.cancelButtonLabel = 'Reset';
-						$scope.isImportFailed = true;
-						return;
-					} else {
-						console.log(response);
+					switch(response.status) {
+						case importModel.importStates.success.message:
+							$scope.statusMessage = importModel.importStates.success.description;
+							$scope.isImportCompleted = true;
+							$scope.cancelButtonLabel = 'Reset';
+							$scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
+							return;
+							break;
+						case importModel.importStates.init.message:
+							$scope.statusMessage = importModel.importStates.init.description;
+							break;
+						case importModel.importStates.inprogress.message:
+							$scope.statusMessage = importModel.importStates.inprogress.description;
+							break;
+						case importModel.importStates.fail.message:
+							$scope.statusMessage = importModel.importStates.fail.description;
+							$scope.cancelButtonLabel = 'Reset';
+							$scope.isImportFailed = true;
+							return;
+							break;
+						default:
+							console.log(response);
 					}
+
 					$scope.statusPromise = $timeout(function() {
 						$scope.checkStatus();
 					}, 2000);

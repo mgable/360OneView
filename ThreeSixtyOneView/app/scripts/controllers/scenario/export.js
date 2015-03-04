@@ -35,26 +35,31 @@ angular.module('ThreeSixtyOneView').controller('ExportCtrl', ['$scope', 'ExportR
 			}
 		}, trackProgress = function() {
 			ExportResourceService.checkStatus($scope.exportElementId).then(function(response) {
-				if(response.status === exportModel.processingStates.init.message) {
-					$scope.statusMessage = exportModel.processingStates.init.description;
-				} else if(response.status === exportModel.processingStates.complete.message) {
-					$scope.isDownloadReady = true;
-					$scope.statusMessage = exportModel.processingStates.complete.description;
-					$scope.downloadFile();
-				} else if(response.status === exportModel.processingStates.download.message) {
-					$scope.statusMessage = exportModel.processingStates.download.description;
-					$scope.isDownloadCompleted = true;
-					$scope.cancelExport();
-					return;
-				} else if(response.status === exportModel.processingStates.fail.message) {
-					$scope.statusMessage = exportModel.processingStates.fail.description;
-					$scope.isExportFailed = true;
-					$scope.cancelExport();
-					return;
-				} else if(response.status === exportModel.processingStates.inprogress.message) {
-					$scope.statusMessage = exportModel.processingStates.inprogress.description;
-				} else {
-					console.log(response);
+				switch(response.status) {
+					case exportModel.processingStates.init.message:
+						$scope.statusMessage = exportModel.processingStates.init.description;
+						break;
+					case exportModel.processingStates.complete.message:
+						$scope.isDownloadReady = true;
+						$scope.statusMessage = exportModel.processingStates.complete.description;
+						$scope.downloadFile();
+						break;
+					case exportModel.processingStates.download.message:
+						$scope.statusMessage = exportModel.processingStates.download.description;
+						$scope.isDownloadCompleted = true;
+						$scope.cancelExport();
+						return;
+						break;
+					case exportModel.processingStates.fail.message:
+						$scope.statusMessage = exportModel.processingStates.fail.description;
+						$scope.isExportFailed = true;
+						$scope.cancelExport();
+						return;
+					case exportModel.processingStates.inprogress.message:
+						$scope.statusMessage = exportModel.processingStates.inprogress.description;
+						break;
+					default:
+						console.log(response);
 				}
 				
 				progressPromise = $timeout(function() {
