@@ -219,13 +219,13 @@
 				if(list.length < 1) { // if no items in the list create an empty view
 					return self.createEmptyView(dimensions, cubeMeta, false).then(function(view) {
 						list.unshift(view);
-						return {viewsList: list, view: view, dimensions: dimensions};
+						return {viewsList: list, viewData: view, dimensions: dimensions};
 					});
 				} else { // if there are views in the list, load the default/draft view
 					var viewId = self.findDefaultView(list);
 
 					return ManageAnalysisViewsService.getView(viewId, cubeMeta.id).then(function(view) {
-						var result = {viewsList: list, view: view, dimensions: dimensions};
+						var result = {viewsList: list, viewData: view, dimensions: dimensions};
 						return result;
 					});
 				}

@@ -7,10 +7,15 @@ angular.module('ThreeSixtyOneView')
 	function($scope, $rootScope, $timeout, Project, Scenario, ScenarioAnalysisElements, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService, AnalyticCalculationsService, CONFIG) {
 
 		var init = function() {
+			// determines if the current view is a draft view
 			$scope.draftView = false;
+			// determines if adding time dimensions in rows and columns is disabled
 			$scope.timeDisabled = false;
+			// added items in rows and columns
 			$scope.added = {};
+			// added filters
 			$scope.addedFilters = {};
+			// added filters in categorized format
 			$scope.categorizedValue = [];
 			$scope.pivotTableData = '';
 
@@ -22,23 +27,21 @@ angular.module('ThreeSixtyOneView')
 		initiateModel = function(cubeMeta) {
 			$scope.viewData = {name: 'Loading ...'};
 			PivotMetaService.initModel(cubeMeta).then(function(result) {
-				var foundView = _.find(result.viewsList, function(view){ return view.id === result.view.id; });
+				var foundView = _.find(result.viewsList, function(view){ return view.id === result.viewData.id; });
 				if (foundView) {
 					$scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
 				}
-				$scope.viewsList = result.viewsList;
-				$scope.viewData = result.view;
-				// $scope.viewDataExport = result.view.rows.concat(result.view.columns);
-				$scope.viewName = result.view.name;
-				$scope.dimensions = result.dimensions;
 
-				$scope.added = PivotMetaService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
+				angular.extend($scope, result);
+				$scope.viewName = result.viewData.name;
+
+				$scope.added = PivotMetaService.setUpAddedLevels(result.viewData.columns.concat(result.viewData.rows));
 				$scope.membersList = PivotMetaService.generateMembersList(result.dimensions);
 				$scope.determineTimeDisability($scope.added);
-				$scope.addedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
-				$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.view);
+				$scope.addedFilters = PivotMetaService.getAddedFilters(result.viewData.filters, result.dimensions);
+				$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.viewData);
 
-				$scope.loadPivotTable($scope.selectedScenarioElement, result.view);
+				$scope.loadPivotTable($scope.selectedScenarioElement, result.viewData);
 			});
 		};
 
@@ -68,9 +71,9 @@ angular.module('ThreeSixtyOneView')
 		// save the changes in the current view
 		$scope.saveView = function() {
 			if($scope.draftView) {
-				var originalViewName = $scope.viewData.name.substring(8);
-				var originalViewId = _.find($scope.viewsList, function(view) { return originalViewName === view.name; }).id;
-				var draftViewId = $scope.viewData.id;
+				var originalViewName = $scope.viewData.name.substring(8),
+					originalViewId = _.find($scope.viewsList, function(view) { return originalViewName === view.name; }).id,
+					draftViewId = $scope.viewData.id;
 
 				$scope.viewData.name = originalViewName;
 				$scope.viewData.id = originalViewId;
@@ -114,13 +117,7 @@ angular.module('ThreeSixtyOneView')
 			ManageAnalysisViewsService.getView(viewId, cubeId).then(function(view) {
 				// remove the draft view if one exists and is not selected
 				if($scope.draftView) {
-					var draftId;
-
-					_.each($scope.viewsList, function(listItem) {
-						if(listItem.name.substring(0, 8) === 'Draft - ') {
-							draftId = listItem.id;
-						}
-					});
+					var draftId = _.find($scope.viewsList, function(view) {return view.name.substring(0,8) === 'Draft - ';}).id;
 
 					if(viewId !== draftId) {
 						$scope.deleteView($scope.cubeId, draftId);

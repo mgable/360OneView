@@ -197,20 +197,20 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     // initiate spend view, get kpi cube, get spend summary and kpi summary,
     initiateSpendModel = function(cubeMeta) {
         PivotMetaService.initModel(cubeMeta).then(function(result) {
-            var foundView = _.find(result.viewsList, function(view){ return view.id === result.view.id; });
+            var foundView = _.find(result.viewsList, function(view){ return view.id === result.viewData.id; });
             if (foundView) {
                 $scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
             }
-            $scope.spendViewId = result.view.id;
+            $scope.spendViewId = result.viewData.id;
             $scope.spendViewsList = result.viewsList;
-            $scope.spendViewData = result.view;
-            $scope.spendViewName = result.view.name;
+            $scope.spendViewData = result.viewData;
+            $scope.spendViewName = result.viewData.name;
             $scope.spendDimensions = result.dimensions;
 
-            $scope.spendAdded = PivotMetaService.setUpAddedLevels(result.view.columns.concat(result.view.rows));
+            $scope.spendAdded = PivotMetaService.setUpAddedLevels(result.viewData.columns.concat(result.viewData.rows));
             $scope.spendMembersList = PivotMetaService.generateMembersList(result.dimensions);
-            $scope.spendAddedFilters = PivotMetaService.getAddedFilters(result.view.filters, result.dimensions);
-            $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, result.dimensions, result.view);
+            $scope.spendAddedFilters = PivotMetaService.getAddedFilters(result.viewData.filters, result.dimensions);
+            $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, result.dimensions, result.viewData);
 
             // spend summary
             getSpendSummary();

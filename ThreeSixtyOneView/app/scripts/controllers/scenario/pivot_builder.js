@@ -166,6 +166,10 @@ angular.module('ThreeSixtyOneView')
 			$scope.heightChanged();
 		};
 
+		$scope.allValuesSelected = function(values) {
+			return values.selected < values.total;
+		};
+
 		// get comma separated labels for filter values
 		$scope.getFormattedLabels = function(labels) {
 			return labels.join(', ');

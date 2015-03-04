@@ -69,8 +69,8 @@
                         <div class="list">
                             <div ng-repeat="dimension in getDimensions()" class="filter-category clickable" ng-click="filtersModal(dimension)" ng-if="addedFilters[dimension.label]" tooltip-placement="left" tooltip="{{getFormattedLabels(categorizedValue[$index].label)}}">
                                 <div class="filter-label">{{dimension.label}}<span class="filter-stats">({{categorizedValue[$index].selected}}/{{categorizedValue[$index].total}})</span></div>
-                                <div class="filter-values text-holder" ng-show="categorizedValue[$index].selected < categorizedValue[$index].total">{{getFormattedLabels(categorizedValue[$index].label)}}</div>
-                                <div class="filter-values text-holder" ng-hide="categorizedValue[$index].selected < categorizedValue[$index].total">All</div>
+                                <div class="filter-values text-holder" ng-show="allValuesSelected(categorizedValue[$index])">{{getFormattedLabels(categorizedValue[$index].label)}}</div>
+                                <div class="filter-values text-holder" ng-hide="allValuesSelected(categorizedValue[$index])">All</div>
                             </div>
                         </div>
                     </div>
