@@ -55,6 +55,7 @@ angular.module('ThreeSixtyOneView').controller('ExportCtrl', ['$scope', 'ExportR
 						$scope.isExportFailed = true;
 						$scope.cancelExport();
 						return;
+					case exportModel.processingStates.notfound.message:
 					case exportModel.processingStates.inprogress.message:
 						$scope.statusMessage = exportModel.processingStates.inprogress.description;
 						break;

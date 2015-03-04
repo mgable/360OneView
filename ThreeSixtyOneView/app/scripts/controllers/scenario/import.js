@@ -67,6 +67,7 @@ angular.module('ThreeSixtyOneView')
 						case importModel.importStates.init.message:
 							$scope.statusMessage = importModel.importStates.init.description;
 							break;
+						case importModel.importStates.notfoundd.message:
 						case importModel.importStates.inprogress.message:
 							$scope.statusMessage = importModel.importStates.inprogress.description;
 							break;
