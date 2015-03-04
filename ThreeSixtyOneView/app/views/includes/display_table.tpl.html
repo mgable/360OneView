@@ -9,7 +9,7 @@
 			<th><ms-dropdown reverse=true is-active=true msid="column_2"></ms-dropdown></th>
 		</thead>
 		<tbody>
-			<tr ng-repeat="item in getData()" ng-class="{active: isActiveItem(item)}" ng-click="selectItem(item)"> 
+			<tr ng-repeat="item in getData()" ng-class="{active: isActiveItem(item)}" ng-click="selectItem(item)">
 				<td ng-class="{master: item.isMaster}">
 					<div class="text-holder favorites-holder">
 						<span class="favorites"><a ng-class="{favorite:isFavorite(item.id)}" ng-click="toggleFavorite($event, item)">&nbsp;</a></span>

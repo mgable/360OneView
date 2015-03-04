@@ -5,7 +5,7 @@
 
 // View controllers
 angular.module('ThreeSixtyOneView')
-.controller("ScenarioListingCtrl", ["$scope", "$controller", "Project", "Scenarios", "ScenarioService", "EVENTS", "DialogService", "ManageScenariosService", "Status", function($scope,  $controller, Project, Scenarios, ScenarioService, EVENTS, DialogService, ManageScenariosService, Status) {
+.controller("ScenarioListingCtrl", ["$scope", "$rootScope", "$controller", "Project", "Scenarios", "ScenarioService", "EVENTS", "DialogService", "ManageScenariosService", "Status", function($scope, $rootScope, $controller, Project, Scenarios, ScenarioService, EVENTS, DialogService, ManageScenariosService, Status) {
 
         // Inherit from base class
         angular.extend(this, $controller('ListingViewCtrl', {$scope: $scope}));
@@ -14,9 +14,12 @@ angular.module('ThreeSixtyOneView')
         var init = function(){
             $scope.init(Scenarios, getProject);
 
-            $scope.project = Project;
-            addStatusToScenarios(Scenarios, Status);
+            $scope.project = Project
+            $rootScope.$on('broadcastStates', function(event, response) {
+                addStatusToScenarios(Scenarios, response);
+            });
             $scope.scenarios = Scenarios;
+            console.log('scenarios: ', $scope.scenarios);
 
             $scope.hasAlerts = Scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
 
@@ -30,7 +33,7 @@ angular.module('ThreeSixtyOneView')
         },
         addStatusToScenarios = function(scenarios, statuses){
             _.each(scenarios, function(k,i){
-                _.extend(k, _.omit(statuses[i], 'id'));
+                _.extend(k, _.omit(statuses[i], 'scenarioId'));
             });
         },
         getProject = function(){
