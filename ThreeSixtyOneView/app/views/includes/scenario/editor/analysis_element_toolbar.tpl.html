@@ -11,7 +11,7 @@
         <ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenarioElement.cubeMeta.id}}" radio="true">
             <div ng-repeat="(groupLabel, group) in getGroupedScenarioElements()">
                 <div class="group-title">{{groupLabel}}</div>
-                <li class="menu-item" ng-repeat="element in group | orderBy:'cubeMeta.label'" ms-link="{{element.cubeMeta.id}}" ng-click="setScenarioElement(element)">
+                <li class="menu-item" ng-repeat="element in group | orderBy:'cubeMeta.label'" ms-link="{{element.cubeMeta.id}}" ng-click="setScenarioElement(element, true)">
                     <span class="clickable">{{element.cubeMeta.label}}</span>
                 </li>
             </div>

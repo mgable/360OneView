@@ -1,249 +1,271 @@
-/* global _ */
-
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .controller('FilterSelectionCtrl', ["$scope", "$window", "$rootScope", "$modalInstance", "$controller", "data", "CONFIG", "PivotMetaService",
-    function($scope, $window, $rootScope, $modalInstance, $controller, data, CONFIG, PivotMetaService) {
-        angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+	.controller('FilterSelectionCtrl', ["$scope", "$window", "$rootScope", "$modalInstance", "$controller", "data", "CONFIG", "PivotMetaService",
+	function($scope, $window, $rootScope, $modalInstance, $controller, data, CONFIG, PivotMetaService) {
+		angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
-        var init = function() {
-            $scope.selectedFilter = {};
-            $scope.selectedFilter.cat = data.cat;
-            $scope.addedFilter = data.addedFilters;
-            $scope.dimensions = data.dimensions;
-            $scope.viewData = data.viewData;
-            $scope.e2e = data.e2e;
+		var init = function() {
+			$scope.selectedFilter = {};
+			$scope.selectedFilter.dimension = data.dimension;
+			$scope.addedFilter = data.addedFilters;
+			$scope.e2e = data.e2e;
 
-            $scope.categorizedValue = [];
-            $scope.filterSearch = {label: ''};
-            $scope.emptyFiltersList = [];
-            $scope.noFilterSelected = false;
+			$scope.categorizedValue = [];
+			$scope.filterSearch = {label: ''};
+			$scope.emptyFiltersList = [];
+			$scope.noFilterSelected = false;
+			$scope.selectedDimensionIndex = 0;
 
-            $scope.chooseFilter($scope.selectedFilter.cat, false, false);
-            getWindowHeight();
-        },
-        getWindowHeight = function(){
-            var w = angular.element($window);
-            $scope.getWindowDimensions = function () {
-                return {
-                    'h': w[0].innerHeight,
-                    'w': w[0].innerWidth
-                };
-            };
-            $scope.$watch($scope.getWindowDimensions, function (newValue) {
-                $scope.windowHeight = newValue.h;
-                $scope.windowWidth = newValue.w;
+			_.each(data.dimensions, function(dimension, index) {
+				$scope.categorizeValuesCount(index, $scope.addedFilter[dimension.label]);
+				if($scope.selectedFilter.dimension.label === dimension.label) {
+					$scope.selectedDimensionIndex = index;
+				}
+			});
 
-            }, true);
+			$scope.chooseFilter($scope.selectedFilter.dimension, $scope.selectedDimensionIndex, false);
+			getWindowHeight(data.dimensions, function() {});
+		},
+		dimensions = data.dimensions,
+		viewData = data.viewData,
+		getWindowHeight = function(){
+			var w = angular.element($window);
+			$scope.getWindowDimensions = function () {
+				return {
+					'h': w[0].innerHeight,
+					'w': w[0].innerWidth
+				};
+			};
+			var heightWatcher = $scope.$watch($scope.getWindowDimensions, function (newValue) {
+				$scope.windowHeight = newValue.h;
+				$scope.windowWidth = newValue.w;
 
-            w.bind('resize', function () {
-                $scope.$apply();
-            });
-        };
+			}, true);
 
-        // open the filters modal for the selected filter
-        $scope.chooseFilter = function(category, newSelection, index) {
-            if(angular.isNumber(index)) {
-                $scope.selectedFilter.selFil = $scope.chooseViewBy(category.members, index);
-                return null;
-            }
+			$scope.$on('$destroy', function() {
+				heightWatcher();
+				w.unbind('resize');
+			});
 
-            $scope.filterSearch.label = '';
-            $scope.selectedFilter.cat = category;
-            $scope.selectedFilter.selFil = $scope.chooseViewBy(category.members, false);
+			w.bind('resize', function () {
+				$scope.$apply();
+			});
+		},
+		// choose the view based on added levels in the column/row
+		chooseViewBy = function(levels, index) {
+			var levelIndex = angular.isNumber(index) ? index : 0;
+			if(!angular.isNumber(index)) {
+				_.each(levels, function(level, index) {
+					_.each(viewData, function(item) {
+						if(level.label === item.level.label) {
+							levelIndex = index;
+						}
+					});
+				});
+			}
+			$scope.searchFilters(levels[levelIndex], $scope.filterSearch);
+			return levels[levelIndex];
+		};
 
-            if(newSelection) {
-                $scope.cancelChangeFilter();
-            }
-        };
+		// open the filters modal for the selected filter
+		$scope.chooseFilter = function(dimension, dimensionIndex, levelIndex) {
+			if(angular.isNumber(levelIndex)) {
+				$scope.selectedFilter.level = chooseViewBy(dimension.members, levelIndex);
+			} else {
+				$scope.selectedDimensionIndex = dimensionIndex;
 
-        // choose a filter based on the passed name
-        $scope.chooseFilterByName = function(name) {
-            var i;
+				$scope.filterSearch.label = '';
+				$scope.selectedFilter.dimension = dimension;
+				$scope.selectedFilter.level = chooseViewBy(dimension.members, false);
+			}
+		};
 
-            for(i = 0; i < $scope.dimensions.length; i++) {
-                if($scope.dimensions[i].label === name) {
-                    $scope.chooseFilter($scope.dimensions[i], false, false);
-                    return null;
-                }
-            }
-        };
+		// choose a filter based on the passed name
+		$scope.chooseFilterByName = function(name) {
+			_.each(dimensions, function(dimension, index) {
+				if(dimension.label === name) {
+					$scope.chooseFilter(dimension, index, false);
+				}
+			});
+		};
 
-        // choose the view based on added items in the column/row
-        $scope.chooseViewBy = function(items, index) {
-            if(angular.isNumber(index)) {
-                $scope.searchFilters(items[index], $scope.filterSearch);
-                return items[index];
-            }
+		// cancel the made changes to the filter
+		$scope.cancel = function() {
+			$scope.filterCollapse = {};
+			$modalInstance.dismiss('canceled');
+		};
 
-            for(var i = 0; i < items.length; i++) {
-                for(var j = 0; j < $scope.viewData.length; j++) {
-                    if(items[i].label === $scope.viewData[j].level.label) {
-                        $scope.searchFilters(items[i], $scope.filterSearch);
-                        return items[i];
-                    }
-                }
-            }
+		// search filter values
+		$scope.searchFilters = function(obj, search) {
+			if(!obj) {
+				return null;
+			}
 
-            $scope.searchFilters(items[0], $scope.filterSearch);
-            return items[0];
-        };
+			var searchResults = {},
+				treeSearch = function(tree, searchLabel, initial) {
+				var output = null;
 
-        // cancel the made changes to the filter
-        $scope.cancelChangeFilter = function() {
-            // $scope.filterSearch = {label: ''};
-            $scope.filterCollapse = {};
-            $modalInstance.dismiss('canceled');
-        };
+				if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1 && !initial) {
+					return tree;
+				}
 
-        // search filter values
-        $scope.searchFilters = function(obj, search) {
-            if(!obj) {
-                return null;
-            }
+				if(tree.members.length > 0) {
+					for(var i = 0; i < tree.members.length; i++) {
+						var results = treeSearch(tree.members[i], searchLabel, false);
+						if(!!results && !!results.members) {
+							if(!output) {
+								output = {
+									label: tree.label,
+									members: []
+								};
+							}
+							output.members.push(results);
+						}
+					}
+				} else {
+					if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1) {
+						return tree;
+					} else {
+						return null;
+					}
+				}
 
-            var searchResults = {};
+				return output;
+			};
 
-            var treeSearch = function(tree, searchLabel, initial) {
-                var output = null;
+			searchResults = treeSearch(obj, search.label, true);
 
-                if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1 && !initial) {
-                    return tree;
-                }
+			$scope.searchResults = searchResults;
+			$scope.countFilters(searchResults, $scope.addedFilter);
+		};
 
-                if(tree.members.length > 0) {
-                    for(var i = 0; i < tree.members.length; i++) {
-                        var results = treeSearch(tree.members[i], searchLabel, false);
-                        if(!!results && !!results.members) {
-                            if(!output) {
-                                output = {
-                                    label: tree.label,
-                                    members: []
-                                };
-                            }
-                            output.members.push(results);
-                        }
-                    }
-                } else {
-                    if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1) {
-                        return tree;
-                    } else {
-                        return null;
-                    }
-                }
+		// count number of selected and total filters
+		$scope.countFilters = function(object, _addedFilter) {
+			var output = {
+				selected: 0,
+				total: 0
+			};
 
-                return output;
-            };
+			if(!object) {
+				$scope.filterCount = output;
+				return output;
+			}
+			var treeCount = function(tree) {
+				var output = {
+					selected: 0,
+					total: 0
+				};
 
-            searchResults = treeSearch(obj, search.label, true);
+				if(tree.members.length > 0) {
+					for(var i = 0; i < tree.members.length; i++) {
+						var results = treeCount(tree.members[i]);
+						output.selected += results.selected;
+						output.total += results.total;
+					}
+				} else {
+					if(_addedFilter[$scope.selectedFilter.dimension.label][tree.label]) {
+						output.selected++;
+					}
+					output.total++;
+				}
+				return output;
+			};
 
-            $scope.searchResults = searchResults;
-            $scope.countFilters(searchResults, $scope.addedFilter);
-        };
+			output = treeCount(object);
 
-        // count number of selected and total filters
-        $scope.countFilters = function(object, _addedFilter) {
-            var output = {
-                selected: 0,
-                total: 0
-            };
+			$scope.filterCount = output;
+			return output;
+		};
 
-            if(!object) {
-                $scope.filterCount = output;
-                return output;
-            }
-            var treeCount = function(tree) {
-                var output = {
-                    selected: 0,
-                    total: 0
-                };
+		// handle select/deselect of visible/invisible filter search values
+		$scope.selectFilters = function(category, visible, add) {
+			var item;
 
-                if(tree.members.length > 0) {
-                    for(var i = 0; i < tree.members.length; i++) {
-                        var results = treeCount(tree.members[i]);
-                        output.selected += results.selected;
-                        output.total += results.total;
-                    }
-                } else {
-                    if(_addedFilter[$scope.selectedFilter.cat.label][tree.label]) {
-                        output.selected++;
-                    }
-                    output.total++;
-                }
-                return output;
-            };
+			var getFilters = function(list) {
+				var output = [];
 
-            output = treeCount(object);
+				if(list.members.length > 0) {
+					_.each(list.members, function(member) {
+						output = output.concat(getFilters(member));
+					});
+				} else {
+					return [list.label];
+				}
 
-            $scope.filterCount = output;
-            return output;
-        };
+				return output;
+			};
 
-        // handle select/deselect of visible/invisible filter search values
-        $scope.selectFilters = function(category, visible, add) {
-            var i = 0,
-                val;
+			var list = getFilters($scope.searchResults);
 
-            var getFilters = function(list) {
-                var output = [],
-                    i = 0;
+			if(visible) {
+				_.each(list, function(item) {
+					$scope.addedFilter[category][item] = add;
+				});
+			} else {
+				for(item in $scope.addedFilter[category]) {
+					if($scope.addedFilter[category][item] && list.indexOf(item) === -1) {
+						$scope.addedFilter[category][item] = add;
+					}
+				}
+			}
+			$scope.categorizeValuesCount($scope.selectedDimensionIndex, $scope.addedFilter[category]);
+		};
 
-                if(list.members.length > 0) {
-                    for(i = 0; i < list.members.length; i++) {
-                        output = output.concat(getFilters(list.members[i]));
-                    }
-                } else {
-                    return [list.label];
-                }
+		// make the temporary changes in the filters
+		$scope.submit = function() {
+			$modalInstance.close($scope.addedFilter);
+		};
 
-                return output;
-            };
+		$scope.categorizeValuesCount = function(_index, addedFilter) {
+			var index, output = PivotMetaService.getCategorizeValues(dimensions[_index], addedFilter);
+			$scope.categorizedValue[_index] = output;
 
-            var list = getFilters($scope.searchResults);
+			// add empty category to the empty items list and show error
+			if(output.selected === 0) {
+				index = $scope.emptyFiltersList.indexOf(dimensions[_index].label);
+				if(index < 0) {
+					$scope.emptyFiltersList.push(dimensions[_index].label);
+				}
+				$scope.noFilterSelected = true;
+			}
+			// check if any item is selected from an empty list, remove it
+			if($scope.noFilterSelected && output.selected > 0) {
+				index = $scope.emptyFiltersList.indexOf(dimensions[_index].label);
+				if(index > -1) {
+					$scope.emptyFiltersList.splice(index, 1);
+					if($scope.emptyFiltersList.length < 1) {
+						$scope.noFilterSelected = false;
+					}
+				}
+			}
 
-            if(visible) {
-                for(i = 0; i < list.length; i++) {
-                    $scope.addedFilter[category][list[i]] = add;
-                }
-            } else {
-                for(val in $scope.addedFilter[category]) {
-                    if($scope.addedFilter[category][val] && list.indexOf(val) === -1) {
-                        $scope.addedFilter[category][val] = add;
-                    }
-                }
-            }
-        };
+			$scope.countFilters($scope.searchResults, $scope.addedFilter);
+			return output;
+		};
 
-        // make the temporary changes in the filters
-        $scope.changeFilter = function() {
-            $modalInstance.close($scope.addedFilter);
-        };
+		$scope.getDimensions = function() {
+			return dimensions;
+		};
 
-        $scope.categorizeValuesCount = function(_index, addedFilter) {
-            var index, output = PivotMetaService.getCategorizeValues($scope.dimensions[_index], addedFilter);
-            $scope.categorizedValue[_index] = output;
+		$scope.allFiltersSelected = function(filterValues) {
+			return filterValues.selected < filterValues.total;
+		};
 
-            // add empty category to the empty items list and show error
-            if(output.selected === 0) {
-                index = $scope.emptyFiltersList.indexOf($scope.dimensions[_index].label);
-                if(index < 0) {
-                    $scope.emptyFiltersList.push($scope.dimensions[_index].label);
-                }
-                $scope.noFilterSelected = true;
-            }
-            // check if any item is selected from an empty list, remove it
-            if($scope.noFilterSelected && output.selected > 0) {
-                index = $scope.emptyFiltersList.indexOf($scope.dimensions[_index].label);
-                if(index > -1) {
-                    $scope.emptyFiltersList.splice(index, 1);
-                    if($scope.emptyFiltersList.length < 1) {
-                        $scope.noFilterSelected = false;
-                    }
-                }
-            }
-            return output;
-        };
+		$scope.getValuesList = function(filterValues) {
+			if(!!filterValues) {
+				return filterValues.label.join(', ');
+			}
+			return '';
+		};
 
-        init();
-    }]);
+		$scope.getEmptyFiltersList = function() {
+			return $scope.emptyFiltersList;
+		};
+
+		$scope.getListHeight = function() {
+			return ($scope.windowHeight - 250) + 'px';
+		};
+
+		init();
+	}]);

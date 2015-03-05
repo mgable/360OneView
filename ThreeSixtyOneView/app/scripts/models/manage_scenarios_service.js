@@ -32,22 +32,32 @@ angular.module('ThreeSixtyOneView.services')
 		};
 
 		this.getAnalysisElementByCubeName = function(scenarioId, cubeName) {
-			var additionalPath = "analysis-element?cubeName=" + cubeName;
-			return this.resource.get({"id": scenarioId}, {}, additionalPath).then(function(response){
+			var additionalPath = 'analysis-element',
+				config = {
+					params: {
+						cubeName: cubeName
+					}
+				};
+			return this.resource.get({'id': scenarioId}, config, additionalPath).then(function(response){
 				return response;
 			});
 		};
 
 		this.replaceAnalysisElementForCube = function(scenarioId, cubeId, analysisElementId) {
 			var additionalPath = "cube/:cubeId/analysis-element";
-			return this.resource.put({"id": analysisElementId}, {}, {id: scenarioId, cubeId: cubeId}, additionalPath).then(function (response) {
+			return this.resource.put({'id': analysisElementId}, {}, {id: scenarioId, cubeId: cubeId}, additionalPath).then(function (response) {
 				return response;
 			});
 		};
 
 		this.copyAndReplaceAnalysisElementForCube = function(scenarioId, cubeId, sourceElementId, analysisElement) {
-			var additionalPath = "cube/:cubeId/analysis-element?source=" + sourceElementId;
-			return this.resource.post(analysisElement, {}, {id: scenarioId, cubeId: cubeId}, additionalPath).then(function (response) {
+			var additionalPath = 'cube/:cubeId/analysis-element',
+				config = {
+					params: {
+						source: sourceElementId
+					}
+				};
+			return this.resource.post(analysisElement, config, {id: scenarioId, cubeId: cubeId}, additionalPath).then(function (response) {
 				return response;
 			});
 		};

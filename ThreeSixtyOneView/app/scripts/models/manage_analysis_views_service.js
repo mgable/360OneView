@@ -2,7 +2,15 @@
 
 angular.module('ThreeSixtyOneView.services')
   .service('ManageAnalysisViewsService', ["$q", "$rootScope", "EVENTS", "Model", "ManageAnalysisViewsModel", function ManageAnalysisViewsService($q, $rootScope, EVENTS, Model, ManageAnalysisViewsModel) {
-		var MyPivotviewModel, mypivotview;
+		var MyPivotviewModel, mypivotview,
+			// view and filter ids should be null when creating a new view
+			resetView = function(newView) {
+				newView.id = null;
+				_.each(newView.filters, function(filter) {
+					filter.id = null;
+				});
+				return newView;
+			};
 
 		MyPivotviewModel = new Model();
 		angular.extend(this, MyPivotviewModel.prototype);
@@ -10,12 +18,6 @@ angular.module('ThreeSixtyOneView.services')
 		angular.extend(this, mypivotview);
 
 		//this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
-
-		this.getDefaultView = function(views, cubeId){
-			// this logic will change
-			var viewId = views[0].id;
-			return this.resource.get({viewId: viewId, cubeId: cubeId});
-		};
 
 		this.getViewsList = function(cubeId) {
 			return this.resource.get({cubeId: cubeId}, this.config, '').then(function (response) {
@@ -30,22 +32,20 @@ angular.module('ThreeSixtyOneView.services')
 		};
 
 		this.getViewRelatedBy = function(viewId, cubeId) {
-			var additionalPath = '?relatedByView=' + viewId;
-			return this.get({cubeId: cubeId}, this.config, additionalPath).then(function (response) {
+			return this.get({cubeId: cubeId}, {params: {relatedByView: viewId}}).then(function (response) {
 				return response;
 			});
 		};
 
 		this.createView = function(newView, cubeId, relatedByView) {
-			var additionalPath = !!relatedByView ? '?relatedByView=' + relatedByView : '';
+			var config = {};
+			if(!!relatedByView) {
+				config.params = {
+					relatedByView: relatedByView
+				};
+			}
 
-			// view and filter ids should be null when creating a new view
-			newView.id = null;
-			_.each(newView.filters, function(filter) {
-				filter.id = null;
-			});
-
-			return this.resource.post(newView, this.config, {cubeId: cubeId}, additionalPath).then(function (response) {
+			return this.resource.post(resetView(newView), config, {cubeId: cubeId}).then(function (response) {
 				return response;
 			});
 		};

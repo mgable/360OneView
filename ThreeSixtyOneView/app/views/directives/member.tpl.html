@@ -1,5 +1,5 @@
 <div class="list-subcategory" ng-class="{'list-item': !hasMembers()}">
-	<span class="expand-handle clickable" ng-if="hasMembers()" ng-click="expanded[member.label] = !expanded[member.label]">
+	<span class="expand-handle clickable" ng-if="hasMembers()" ng-click="toggleCollapse()">
 		<icon type="caret-right" cname="{{setToggleStyle(member)}}"></icon>
 	</span> 
 	<label class="clickable" ng-class="{'all-selected': isAllSelected(member)}" ng-click="toggleMember(member)">

@@ -2,7 +2,7 @@
 
 'use strict';
 
-angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$rootScope", "$timeout", "$q", "PivotService", "CONFIG", "EVENTS", function($scope, $rootScope, $timeout, $q, PivotService, CONFIG, EVENTS) {
+angular.module("ThreeSixtyOneView").controller("PivotTableCtrl", ["$scope", "$rootScope", "$timeout", "$q", "PivotService", "CONFIG", "EVENTS", function($scope, $rootScope, $timeout, $q, PivotService, CONFIG, EVENTS) {
 			var sheet = {},
 				spread = {},
 				pivotTableConfig = CONFIG.view.PivotTable,
@@ -77,7 +77,7 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ro
 								if(sheet.getCell(i, j).value() === null) {
 									sheet.getCell(i, j).backColor(pivotTableConfig.color.msLightGray).locked(false);
 								} else {
-									if(!!formatObject[i][j]) {
+									if(!!formatObject && !!formatObject[i][j]) {
 										sheet.getCell(i, j).font(pivotTableConfig.font.headerFontStyle).foreColor(pivotTableConfig.color.msBlack).locked(false).formatter(formatObject[i][j].currency + formatObject[i][j].format);
 									}
 								}
@@ -225,8 +225,8 @@ angular.module("ThreeSixtyOneView").controller("pivotTableCtrl", ["$scope", "$ro
 					sheet.autoGenerateColumns = true;
 					sheet.clipBoardOptions($.wijmo.wijspread.ClipboardPasteOptions.Values);
 
-					// $scope.pivotTableData is located in ScenarioCtrl
-					$scope.spread.updateSheet($scope.pivotTableData);
+					// initially clear the pivot table
+					$scope.spread.updateSheet('');
 
 					// find the cells that has been changed and request save in the backend
 					spread.bind($.wijmo.wijspread.Events.ValueChanged, function (event, data) {
