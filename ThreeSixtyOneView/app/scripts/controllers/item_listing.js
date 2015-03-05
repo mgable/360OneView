@@ -17,8 +17,8 @@ angular.module('ThreeSixtyOneView')
             $scope.project = Project
             $rootScope.$on('broadcastStates', function(event, response) {
                 addStatusToScenarios(Scenarios, response);
+                $scope.scenarios = Scenarios;
             });
-            $scope.scenarios = Scenarios;
 
             $scope.hasAlerts = Scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
 
@@ -34,7 +34,7 @@ angular.module('ThreeSixtyOneView')
             _.each(scenarios, function(scenarioValue) {
                 _.each(statuses, function(statusValue) {
                     if(statusValue.scenarioId === scenarioValue.id) {
-                        _.extend(scenarioValue, _.omit(statusValue, 'scenarioId'))
+                        _.extend(scenarioValue, _.omit(statusValue, ['id', 'scenarioId']));
                     }
                 });
             });
