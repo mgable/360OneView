@@ -40,7 +40,7 @@ angular.module('ThreeSixtyOneView.services')
             },
             getAllInprogressStates = function(myStatesArray) {
                 return _.filter(myStatesArray, function(v) {
-                    return v.message === scenarioStates.IN_PROGRESS.message;
+                    return v.currentState.message === scenarioStates.IN_PROGRESS.message;
                 });
             },
             startBroadcastScenariosStates = function(myInprogressArray) {
@@ -52,6 +52,7 @@ angular.module('ThreeSixtyOneView.services')
                 bradcastTimer = null;
             };
 
+        this.getScenarioState = getScenarioState;
         this.startPull = function(myScenarioArray) {
             statesArray = [];
             getAllScenariosStates(myScenarioArray).then(function(response) {
@@ -65,11 +66,14 @@ angular.module('ThreeSixtyOneView.services')
                         getAllScenariosStates(_.pluck(inprogressArray, 'scenarioId')).then(function(response) {
                             statesArray = response;
                             inprogressArray = getAllInprogressStates(statesArray);
-                            if (_.isEmpty(inprogressArray)) {
-                                startBroadcastScenariosStates(statesArray);
-                                stopBroadcastScenarioStates();
+                            if(!_.isEmpty(_.difference(statesArray, inprogressArray))) {
+                                startBroadcastScenariosStates(_.difference(statesArray, inprogressArray));
                             } else {
-                                startBroadcastScenariosStates(inprogressArray);
+                                if (_.isEmpty(inprogressArray)) {
+                                    stopBroadcastScenarioStates();
+                                } else {
+                                    startBroadcastScenariosStates(inprogressArray);
+                                }
                             }
                         });
                     }, CONFIG.view.ScenarioCalculate.timerInterval);

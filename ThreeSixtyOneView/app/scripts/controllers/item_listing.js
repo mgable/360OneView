@@ -19,7 +19,6 @@ angular.module('ThreeSixtyOneView')
                 addStatusToScenarios(Scenarios, response);
             });
             $scope.scenarios = Scenarios;
-            console.log('scenarios: ', $scope.scenarios);
 
             $scope.hasAlerts = Scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
 
@@ -32,8 +31,12 @@ angular.module('ThreeSixtyOneView')
             }
         },
         addStatusToScenarios = function(scenarios, statuses){
-            _.each(scenarios, function(k,i){
-                _.extend(k, _.omit(statuses[i], 'scenarioId'));
+            _.each(scenarios, function(scenarioValue) {
+                _.each(statuses, function(statusValue) {
+                    if(statusValue.scenarioId === scenarioValue.id) {
+                        _.extend(scenarioValue, _.omit(statusValue, 'scenarioId'))
+                    }
+                });
             });
         },
         getProject = function(){
