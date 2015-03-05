@@ -26,18 +26,18 @@
 				<div class="dropdown-box">
 					<div class="clickable dropdown">
 						<div class="dropdown-toggle">
-							{{selectedFilter.selFil.label}}<icon type="caret-down"></icon>
+							{{selectedFilter.level.label}}<icon type="caret-down"></icon>
 						</div>
-						<div class="dropdown-menu" ms-link-group radio="true" selected-item="{{selectedFilter.selFil.label}}">
+						<div class="dropdown-menu" ms-link-group radio="true" selected-item="{{selectedFilter.level.label}}">
 							<div ng-repeat="item in selectedFilter.dimension.members" class="menu-item" ms-link="{{item.label}}" ng-click="chooseFilter(selectedFilter.dimension, selectedDimensionIndex, $index)">
 								{{item.label}}
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="search-box" ng-show="selectedFilter.selFil">
+				<div class="search-box" ng-show="selectedFilter.level">
 					<icon type="filter"></icon>
-					<input type="text" placeholder="Filter List" ng-model="filterSearch.label" ng-keyup="searchFilters(selectedFilter.selFil, filterSearch)">
+					<input type="text" placeholder="Filter List" ng-model="filterSearch.label" ng-keyup="searchFilters(selectedFilter.level, filterSearch)">
 				</div>
 			</div>
 			<div class="selection-tools">

@@ -16,7 +16,7 @@ angular.module('ThreeSixtyOneView')
 			$scope.groupedScenarioElements = getGroupedScenarioElements();
 
 			// either load the element selected in scenario listing page or TOUCHPOINT related element if none selected
-			$scope.setScenarioElement(!!parseInt($state.params.scenarioElementId) ? getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) : getScenarioElementByCubeName($scope.scenarioElements, 'TOUCHPOINT'));
+			$scope.setScenarioElement(!!parseInt($state.params.scenarioElementId) ? getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) : getScenarioElementByCubeName($scope.scenarioElements, 'TOUCHPOINT'), true);
 
 			$scope.getlocation();
 			$scope.scenarioState = ScenarioStatesService.getScenarioState(Calculate.currentState);
@@ -39,15 +39,18 @@ angular.module('ThreeSixtyOneView')
 			return  _.groupBy($scope.scenarioElements, function(element) {return element.group;});
 		};
 
-		$scope.setScenarioElement = function(element) {
-			$rootScope.$broadcast(EVENTS.scenarioElementChange, element.cubeMeta);
-			$rootScope.$broadcast(EVENTS.pivotViewChange, {});
+		$scope.setScenarioElement = function(element, cubeChanged) {
+			if(cubeChanged) {
+				$rootScope.$broadcast(EVENTS.scenarioElementChange, element.cubeMeta);
+				$rootScope.$broadcast(EVENTS.pivotViewChange, {});
+				
+				$scope.cubeId = element.cubeMeta.id;
+				$scope.groupedScenarioElements = getGroupedScenarioElements();
+			}
 			$rootScope.$broadcast(EVENTS.pivotTableStatusChange, CONFIG.application.models.PivotServiceModel.pivotDataStatus.loading);
 
 			$scope.selectedScenarioElement = element;
-			$scope.cubeId = element.cubeMeta.id;
 			$scope.selectedScenarioElementsFile = element.name;
-			$scope.groupedScenarioElements = getGroupedScenarioElements();
 		};
 
 		$scope.setState = function(state){

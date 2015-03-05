@@ -22,7 +22,7 @@ angular.module('ThreeSixtyOneView')
                         $scope.scenarioElements.splice(index, 1, newElement);
                     }
                 });
-                $scope.setScenarioElement(newElement);
+                $scope.setScenarioElement(newElement, false);
                 $scope.groupedScenarioElements = getGroupedScenarioElements();
                 $scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
             },

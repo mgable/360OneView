@@ -107,6 +107,11 @@ angular.module('ThreeSixtyOneView.config')
                             "message": "FAILED",
                             "description": "Processing the uploaded file failed, please try again.",
                             "code": 400
+                        },
+                        "notfound": {
+                            "message": "IMPORT_REQUEST_NOT_FOUND",
+                            "description": "Import request was not found.",
+                            "code": 201 // for now the code is changed to 201 in the back-end
                         }
                     },
                     "acceptedFileType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -144,6 +149,11 @@ angular.module('ThreeSixtyOneView.config')
                             "message": "DOWNLOADED",
                             "description": "File downloaded successfully.",
                             "code": 201
+                        },
+                        "notfound": {
+                            "message": "EXPORT_REQUEST_NOT_FOUND",
+                            "description": "Export request was not found.",
+                            "code": 201 // for now the code is changed to 201 in the back-end
                         }
                     }
                 },
@@ -247,7 +257,7 @@ angular.module('ThreeSixtyOneView.config')
             },
             "PivotTable": {
                 "size": {
-                    "minColumnWidth": 120,
+                    "minColumnWidth": 150,
                     "maxColumnWidth": 250,
                     "rowHeight": 40
                 },

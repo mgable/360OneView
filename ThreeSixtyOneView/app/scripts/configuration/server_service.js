@@ -8,5 +8,5 @@ angular.module('ThreeSixtyOneView.services').service("ServerService",['SERVER', 
       }
 
       return SERVER[instance];
-    }
+    };
 }]);

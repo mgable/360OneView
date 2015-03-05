@@ -12,14 +12,14 @@ angular.module('ThreeSixtyOneView.services').service("ServerService",['SERVER', 
 			return cache[instance];
 		} else if (server){
 			console.info("caching new server");
-			cache[instance] = server
+			cache[instance] = server;
 			return server;
-		};
+		}
 
 		return SERVER[instance];
 	};
 
-    this.clearCache = function(){
-    	cache = {};
-    };
+	this.clearCache = function(){
+		cache = {};
+	};
 }]);
