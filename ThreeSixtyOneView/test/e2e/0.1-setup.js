@@ -7,9 +7,9 @@ var specs = require('./1.0-project_listing_specs.js'),
 	projectInfo = {},
 	allData = {};
 
-	console.info("the tests to run are:");
-	console.info(browser.params);
-	console.info(browser.params.test || "all");
+
+	console.info("The tests to be run are:");
+	console.info(browser.params.tests || "all");
 
 if(!browser.params.tests || browser.params.test === "setup"){
 
@@ -30,41 +30,37 @@ if(!browser.params.tests || browser.params.test === "setup"){
 				projectId, 
 				project,
 				promises = [],
+				lookingFor = ['failed'], //, 'successful'
 				promise;
-			//projects.each(function(project){
-			for (var i = 0, limit = 1; i < limit; i++){
+			
+			for (var i = 0, limit = 5; i < limit; i++){
 				project = projects.get(i);
-				promise = project.getAttribute('data-ms-id').then(function(projectId){
-					console.info("the project id is");
-					console.info(projectId);
+				promise = project.getAttribute('data-ms-id').then(function(_projectId_){
+					projectId =_projectId_;
 					allData[projectId] = {};
-					project.click();
+				});
 
-					var scenarios = funcs.getItems();
-					scenarios.each(function(scenario){
-						var obj = {};
-						scenario.element(by.css('.title a')).getText().then(function(title){
-							console.info("the title is");
-							console.info(title);
-							obj.title = title;
+				promises.push(promise);
+				project.click();
 
-							funcs.getClass(scenario.element(by.css(specs.statusClass))).then(function(classes){
-								console.info("the status is");
-								console.info(classes);
-								obj.status = classes;
-								scenario.element(by.css('.title a')).getAttribute('data-ms-id').then(function(id){
-									console.info("the scenario id is ");
-									allData[projectId][id] = obj
-									console.info(id);
-								});
+				var scenarios = funcs.getItems();	
+				promise = scenarios.each(function(scenario){
+					var obj = {};
+					scenario.element(by.css('.title a')).getText().then(function(title){
+						obj.title = title;
+						funcs.getClass(scenario.element(by.css(specs.statusClass))).then(function(classes){
+							obj.status = classes.match(/(\w+)/g)[2];
+							//lookingFor = _.reject(lookingFor, function(item){ return item === obj.status })
+							scenario.element(by.css('.title a')).getAttribute('data-ms-id').then(function(id){
+								allData[projectId][id] = obj
 							});
 						});
 					});
 				});
+
 				promises.push(promise);
 				browser.get(funcs.getProjectUrl());
-			}
-			//});
+			};
 
 			Q.all(promises).done(function(){
 				console.info("allData- XXXXXXXXXXXXXXXXX");
