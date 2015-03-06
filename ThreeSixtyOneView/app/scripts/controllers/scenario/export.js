@@ -131,15 +131,34 @@ angular.module('ThreeSixtyOneView').controller('ExportCtrl', ['$scope', 'ExportR
 		// get dimensions that cannot be removed due to filters applied on them
 		$scope.getLockedDimensions = function(dimensions, membersList, filters) {
 			$scope.lockedDimensions = {};
+
 			_.each(dimensions, function(dimension, dimensionIndex) {
+				var filteredLevel,
+					highestLevelAdded,
+					sameHierarchyItems = 0;
+
 				if(filters[dimensionIndex].selected < filters[dimensionIndex].total) {
-					var level = _.findWhere(dimension.members, {levelId: membersList[dimension.id][filters[dimensionIndex].label[0]].levelId});
-					if(!$scope.exportAddedDimensions[level.label]) {
-						$scope.addItem(level);
+					_.each(dimension.members, function(level) {
+						if(level.levelId === membersList[dimension.id][filters[dimensionIndex].label[0]].levelId) {
+							filteredLevel = level;
+						}
+						if(!!filteredLevel && level.hierarchyId === filteredLevel.hierarchyId && $scope.exportAddedDimensions[level.label]) {
+							sameHierarchyItems++;
+							if(!highestLevelAdded) {
+								highestLevelAdded = level;
+							}
+						}
+					});
+
+					if(sameHierarchyItems === 0) {
+						$scope.addItem(filteredLevel);
+						$scope.lockedDimensions[filteredLevel.label] = true;
+					} else if(sameHierarchyItems === 1) {
+						$scope.lockedDimensions[highestLevelAdded.label] = true;
 					}
-					$scope.lockedDimensions[level.label] = true;
 				}
 			});
+			
 			$scope.lockLastItem($scope.exportAddedDimensions, true);
 		};
 
