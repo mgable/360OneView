@@ -53,6 +53,7 @@ angular.module('ThreeSixtyOneView.services')
             };
 
         this.getScenarioState = getScenarioState;
+        this.stopPull = stopBroadcastScenarioStates;
         this.startPull = function(myScenarioArray) {
             statesArray = [];
             getAllScenariosStates(myScenarioArray).then(function(response) {
@@ -81,7 +82,7 @@ angular.module('ThreeSixtyOneView.services')
             });
         };
 
-        $rootScope.$on('$locationChangeStart', function(event, newPath) {
+        $rootScope.$on('$locationChangeSuccess', function(event, next, current) {
             stopBroadcastScenarioStates();
         });
 

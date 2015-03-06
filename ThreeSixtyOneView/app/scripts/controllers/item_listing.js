@@ -141,7 +141,7 @@ angular.module('ThreeSixtyOneView')
         });
 
         init();
-    }]).controller("ListingViewCtrl", ["$scope", "$rootScope", "$state", "SortAndFilterService", "DialogService", "GotoService", "CONFIG", "EVENTS", "FavoritesService", "$stateParams", function($scope, $rootScope, $state, SortAndFilterService, DialogService, GotoService, CONFIG, EVENTS, FavoritesService, $stateParams){
+    }]).controller("ListingViewCtrl", ["$scope", "$rootScope", "$state", "SortAndFilterService", "DialogService", "GotoService", "CONFIG", "EVENTS", "FavoritesService", "$stateParams", "AnalyticCalculationsService", function($scope, $rootScope, $state, SortAndFilterService, DialogService, GotoService, CONFIG, EVENTS, FavoritesService, $stateParams, AnalyticCalculationsService){
 
         var selectFirstItem = function(){
                 var firstItem = SortAndFilterService.getData()[0];
@@ -190,6 +190,7 @@ angular.module('ThreeSixtyOneView')
             if (evt && evt.stopPropagation){ evt.stopPropagation(); }
             switch(where){
                 case "gotoScenarioEdit": GotoService.scenarioEdit($scope.getProject().id, item.id, id); break;
+                case "gotoScenarioCalculate": GotoService.scenarioCalculate($scope.getProject().id, item.id); break;
                 case "gotoDashboard": GotoService.dashboard(item.id); break;
                 case "gotoProjects": GotoService.projects(); break;
                 case "gotoBaseScenario" : GotoService.baseScenario(item, id); break;
@@ -249,6 +250,18 @@ angular.module('ThreeSixtyOneView')
          $scope.action = function(action, data){
             if(action){
                 $rootScope.$broadcast(EVENTS[action], action, data);
+            }
+        };
+
+        $scope.gotoScenarioCalculate = function(action, item) {
+            if(!_.has(item, 'isMaster')) {
+                if(AnalyticCalculationsService.isInProgress(item.currentState.message) || AnalyticCalculationsService.isFailed(item.currentState.message)) {
+                    return 'gotoScenarioCalculate';
+                } else {
+                    return action;
+                }
+            } else {
+                return action;
             }
         };
 
