@@ -2,9 +2,13 @@
 
 angular.module('ThreeSixtyOneView.services')
 	.service('GotoService', ["$state", function Goto($state) {
-	
+
 	this.scenarioEdit = function (projectId, scenarioId, scenarioElementId){
 		$state.go("Scenario.edit", {"projectId": projectId, "scenarioId": scenarioId, "scenarioElementId": scenarioElementId});
+	};
+
+	this.scenarioCalculate = function (projectId, scenarioId){
+		$state.go("Scenario.calculate", {"projectId": projectId, "scenarioId": scenarioId});
 	};
 
 	this.dashboard = function(projectId){
@@ -14,7 +18,7 @@ angular.module('ThreeSixtyOneView.services')
 	this.projects = function(){
 		$state.go("ProjectManager");
 	};
-		
+
 	this.scenarioCreate = function(projectId){
 		$state.go("ScenarioCreate", {"projectId": projectId});
 	};

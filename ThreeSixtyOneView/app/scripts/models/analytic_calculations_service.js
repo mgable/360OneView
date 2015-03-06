@@ -23,7 +23,8 @@ angular.module('ThreeSixtyOneView.services')
 				_.each(scenarios, function(k){
 					_.extend(k.currentState, getScenarioState(k.currentState));
 				});
-			};
+			},
+
 
 		MyScenarioCalculate = new Model();
 		angular.extend(this, MyScenarioCalculate.prototype);
@@ -79,6 +80,18 @@ angular.module('ThreeSixtyOneView.services')
 
 			return $q.all(promises).then(function(response){
 				setScenarioState(response);
+				return response;
+			});
+		};
+
+		this.getAllStatesById = function(myScenarioArray){
+			var promises = [];
+
+			_.each(myScenarioArray, function(v){
+				promises.push(self.get(v));
+			});
+
+			return $q.all(promises).then(function(response){
 				return response;
 			});
 		};
