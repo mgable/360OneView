@@ -50,7 +50,6 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
                 if (v.message === currentState.message) { setState = k; }
             });
             $scope.setState(setState);
-            console.log(setState, $scope.scenarioState);
             $scope.step = getCurrentStateIndex(calcStatesData);
             $scope.progressValue = stepValue * $scope.step;
             getCurrentStateTitle();

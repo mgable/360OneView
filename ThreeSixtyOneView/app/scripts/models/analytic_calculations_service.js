@@ -2,38 +2,15 @@
 
 angular.module('ThreeSixtyOneView.services')
 	.service('AnalyticCalculationsService', ["Model", "AnalyticCalculationsModel", "$q", "CONFIG", function (Model, AnalyticCalculationsModel, $q, CONFIG) {
-		var MyScenarioCalculate, myCalculate, self = this,
-			scenarioStates = CONFIG.application.models.ScenarioAnalytics.states,
-			getScenarioState = function(currentStateObj){
-				var state;
-				if (currentStateObj.completed === true){
-					if (currentStateObj.name === scenarioStates.FAILED.message){
-						state = scenarioStates.FAILED;
-					} else if (currentStateObj.name === scenarioStates.SUCCESS.message){
-						state = scenarioStates.SUCCESS;
-					}
-				} else if (currentStateObj.name === scenarioStates.NOT_CALCULATED.message){
-					state = scenarioStates.NOT_CALCULATED;
-				} else {
-					state = scenarioStates.IN_PROGRESS;
-				}
-				return state;
-			},
-			setScenarioState = function(scenarios){
-				_.each(scenarios, function(k){
-					_.extend(k.currentState, getScenarioState(k.currentState));
-				});
-			},
-
+		var MyScenarioCalculate,
+			myCalculate,
+			self = this,
+			scenarioStates = CONFIG.application.models.ScenarioAnalytics.states;
 
 		MyScenarioCalculate = new Model();
 		angular.extend(this, MyScenarioCalculate.prototype);
 		myCalculate = new MyScenarioCalculate(AnalyticCalculationsModel);
 		angular.extend(this, myCalculate);
-
-		//this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
-
-		this.getScenarioState = getScenarioState;
 
 		this.isInProgress = function(state){
 			return state === scenarioStates.IN_PROGRESS.message;
@@ -69,19 +46,6 @@ angular.module('ThreeSixtyOneView.services')
 					return response;
 				});
 			}
-		};
-
-		this.getAllScenarioStatus = function(scenarios){
-			var promises = [];
-
-			_.each(scenarios, function(k){
-				promises.push(self.get(k.id));
-			});
-
-			return $q.all(promises).then(function(response){
-				setScenarioState(response);
-				return response;
-			});
 		};
 
 		this.getAllStatesById = function(myScenarioArray){
