@@ -45,7 +45,7 @@ angular.module('ThreeSixtyOneView.services')
             },
             startBroadcastScenariosStates = function(myInprogressArray) {
                 console.log('broadcast scenarios: ', myInprogressArray);
-                $rootScope.$broadcast('broadcastStates', myInprogressArray);
+                $rootScope.$broadcast(EVENTS.broadcastStates, myInprogressArray);
             },
             stopBroadcastScenarioStates = function() {
                 $interval.cancel(bradcastTimer);
@@ -82,7 +82,7 @@ angular.module('ThreeSixtyOneView.services')
             });
         };
 
-        $rootScope.$on('$locationChangeSuccess', function(event, next, current) {
+        $rootScope.$on('$locationChangeSuccess', function() {
             stopBroadcastScenarioStates();
         });
 
