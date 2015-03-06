@@ -10,7 +10,7 @@ describe('Controllers: ', function() {
 
     var data, ctrl, deferred, scenarios, signature ;
 
-    var apiElements = ['this', 'getProject', 'init', 'getDetails', 'goto', 'showDetails', 'isActiveItem', 'getData', 'isMasterProjectScenario', 'getSorter', 'getCount', 'setFilter', 'create', 'toggleFavorite', 'isFavorite', 'action']
+    var apiElements = ['this', 'gotoScenarioCalculate', 'getProject', 'init', 'getDetails', 'goto', 'showDetails', 'isActiveItem', 'getData', 'isMasterProjectScenario', 'getSorter', 'getCount', 'setFilter', 'create', 'toggleFavorite', 'isFavorite', 'action']
 
     beforeEach(module('ThreeSixtyOneView', 'ThreeSixtyOneView.services'));
 
@@ -41,7 +41,7 @@ describe('Controllers: ', function() {
             event = {
                 stopPropagation: jasmine.createSpy('event.stopPropagation'),
             };
-            
+
             spyOn(scope, "$on");
             spyOn(ScenarioService, "get").and.returnValue(deferred.promise);
             spyOn(FavoritesService, "toggleFavorite");
@@ -132,7 +132,7 @@ describe('Controllers: ', function() {
 
             $state.current.name = "Dashboard";
             signature = apiElements.concat(['gotoBaseScenario', 'selectItem', 'gotoScenarioCreate', 'isScenarioTitleUnique', 'CONFIG', 'data', 'selectedItem', 'trayActions', 'project', 'scenarios', 'hasAlerts']);
-            
+
             spyOn(scope, "$on");
             spyOn(SortAndFilterService, "filter");
             spyOn(SortAndFilterService, "init");
@@ -208,6 +208,22 @@ describe('Controllers: ', function() {
             expect(scope.$on).toHaveBeenCalledWith(EVENTS.gotoScenarioCreate, jasmine.any(Function));
             expect(scope.$on).toHaveBeenCalledWith(EVENTS.copyScenario, jasmine.any(Function));
             expect(scope.$on).toHaveBeenCalledWith(EVENTS.renameScenario, jasmine.any(Function));
+            expect(scope.$on).toHaveBeenCalledWith(EVENTS.broadcastStates, jasmine.any(Function));
+        });
+
+        it("should route a scenario by its status", function(){
+            var action = "foo",
+            item1 = {isMaster: true, currentState: {message: "in_progress"}},
+            item2 = {currentState: {message: CONFIG.application.models.ScenarioAnalytics.states.IN_PROGRESS.message}},
+            item3 = {currentState: {message: CONFIG.application.models.ScenarioAnalytics.states.FAILED.message}},
+            item4 =  {currentState: {message: CONFIG.application.models.ScenarioAnalytics.states.NOT_CALCULATED.message}},
+            item5 =  {currentState: {message: CONFIG.application.models.ScenarioAnalytics.states.SUCCESS.message}};
+
+            expect(scope.gotoScenarioCalculate(action, item1)).toBe(action);
+            expect(scope.gotoScenarioCalculate(action, item2)).toBe('gotoScenarioCalculate');
+            expect(scope.gotoScenarioCalculate(action, item3)).toBe('gotoScenarioCalculate');
+            expect(scope.gotoScenarioCalculate(action, item4)).toBe(action);
+            expect(scope.gotoScenarioCalculate(action, item5)).toBe(action);
         });
 
 

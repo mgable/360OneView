@@ -15,10 +15,7 @@ angular.module('ThreeSixtyOneView')
             $scope.init(Scenarios, getProject);
 
             $scope.project = Project;
-            $scope.$on('broadcastStates', function(event, response) {
-                addStatusToScenarios(Scenarios, response);
-                $scope.scenarios = Scenarios;
-            });
+            $scope.scenarios = Scenarios;
 
             $scope.hasAlerts = Scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
 
@@ -94,6 +91,11 @@ angular.module('ThreeSixtyOneView')
             ScenarioService.getProjectIdByScenarioId(scenario.id).then(function(project){
                  ScenarioService.edit(scenario, project.uuid);
             });
+        });
+
+        $scope.$on(EVENTS.broadcastStates, function($event, response) {
+            addStatusToScenarios(Scenarios, response);
+            $scope.scenarios = Scenarios;
         });
 
         init();
