@@ -5,7 +5,7 @@
 
 // View controllers
 angular.module('ThreeSixtyOneView')
-.controller("ScenarioListingCtrl", ["$scope", "$controller", "Project", "Scenarios", "ScenarioService", "EVENTS", "DialogService", "ManageScenariosService", "Status", function($scope,  $controller, Project, Scenarios, ScenarioService, EVENTS, DialogService, ManageScenariosService, Status) {
+.controller("ScenarioListingCtrl", ["$scope", "$rootScope", "$controller", "Project", "Scenarios", "ScenarioService", "EVENTS", "DialogService", "ManageScenariosService", "Status", function($scope, $rootScope, $controller, Project, Scenarios, ScenarioService, EVENTS, DialogService, ManageScenariosService, Status) {
 
         // Inherit from base class
         angular.extend(this, $controller('ListingViewCtrl', {$scope: $scope}));
@@ -15,8 +15,10 @@ angular.module('ThreeSixtyOneView')
             $scope.init(Scenarios, getProject);
 
             $scope.project = Project;
-            addStatusToScenarios(Scenarios, Status);
-            $scope.scenarios = Scenarios;
+            $scope.$on('broadcastStates', function(event, response) {
+                addStatusToScenarios(Scenarios, response);
+                $scope.scenarios = Scenarios;
+            });
 
             $scope.hasAlerts = Scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
 
@@ -29,8 +31,12 @@ angular.module('ThreeSixtyOneView')
             }
         },
         addStatusToScenarios = function(scenarios, statuses){
-            _.each(scenarios, function(k,i){
-                _.extend(k, _.omit(statuses[i], 'id'));
+            _.each(scenarios, function(scenarioValue) {
+                _.each(statuses, function(statusValue) {
+                    if(statusValue.scenarioId === scenarioValue.id) {
+                        _.extend(scenarioValue, _.omit(statusValue, ['id', 'scenarioId']));
+                    }
+                });
             });
         },
         getProject = function(){
@@ -135,7 +141,7 @@ angular.module('ThreeSixtyOneView')
         });
 
         init();
-    }]).controller("ListingViewCtrl", ["$scope", "$rootScope", "$state", "SortAndFilterService", "DialogService", "GotoService", "CONFIG", "EVENTS", "FavoritesService", "$stateParams", function($scope, $rootScope, $state, SortAndFilterService, DialogService, GotoService, CONFIG, EVENTS, FavoritesService, $stateParams){
+    }]).controller("ListingViewCtrl", ["$scope", "$rootScope", "$state", "SortAndFilterService", "DialogService", "GotoService", "CONFIG", "EVENTS", "FavoritesService", "$stateParams", "AnalyticCalculationsService", function($scope, $rootScope, $state, SortAndFilterService, DialogService, GotoService, CONFIG, EVENTS, FavoritesService, $stateParams, AnalyticCalculationsService){
 
         var selectFirstItem = function(){
                 var firstItem = SortAndFilterService.getData()[0];
@@ -184,6 +190,7 @@ angular.module('ThreeSixtyOneView')
             if (evt && evt.stopPropagation){ evt.stopPropagation(); }
             switch(where){
                 case "gotoScenarioEdit": GotoService.scenarioEdit($scope.getProject().id, item.id, id); break;
+                case "gotoScenarioCalculate": GotoService.scenarioCalculate($scope.getProject().id, item.id); break;
                 case "gotoDashboard": GotoService.dashboard(item.id); break;
                 case "gotoProjects": GotoService.projects(); break;
                 case "gotoBaseScenario" : GotoService.baseScenario(item, id); break;
@@ -243,6 +250,18 @@ angular.module('ThreeSixtyOneView')
          $scope.action = function(action, data){
             if(action){
                 $rootScope.$broadcast(EVENTS[action], action, data);
+            }
+        };
+
+        $scope.gotoScenarioCalculate = function(action, item) {
+            if(!_.has(item, 'isMaster')) {
+                if(AnalyticCalculationsService.isInProgress(item.currentState.message) || AnalyticCalculationsService.isFailed(item.currentState.message)) {
+                    return 'gotoScenarioCalculate';
+                } else {
+                    return action;
+                }
+            } else {
+                return action;
             }
         };
 

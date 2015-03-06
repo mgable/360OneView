@@ -23,7 +23,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
         'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);},
         'Favorites': function(FavoritesService, $stateParams){return FavoritesService.getFavoritesScenarios($stateParams.projectId);},
-        'Status': function(AnalyticCalculationsService, Scenarios){return AnalyticCalculationsService.getAllScenarioStatus(Scenarios);}
+        'Status': function(ScenarioStatesService, Scenarios){return ScenarioStatesService.startPull(_.pluck(Scenarios, 'id'));}
       },
       breadcrumb: "<li><a goto='projects'>All Projects</a></li><li>{{project.title}}</li>"
     })
@@ -74,8 +74,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
     .state("Scenario.calculate", {
         url: "/calculate",
         resolve: {
-          'Calculate': function(AnalyticCalculationsService, $stateParams){return AnalyticCalculationsService.get($stateParams.scenarioId);},
-          'submitCalculate': function(AnalyticCalculationsService, $stateParams, Calculate){return AnalyticCalculationsService.startCalculation(Calculate, $stateParams.scenarioId);}
+          'Status': function(AnalyticCalculationsService, $stateParams){return AnalyticCalculationsService.get($stateParams.scenarioId);},
         },
         views: {
           'calculate': {
