@@ -42,8 +42,8 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         // initiate the model
         getCalcStatesData = function(response) {
             runningStates = response.runningStates;
-            var currentState = ScenarioStatesService.getScenarioState(response.currentState),
-                setState;
+            currentState = ScenarioStatesService.getScenarioState(response.currentState);
+            var setState;
             _.each(scenarioStates, function(v, k) {
                 if (v.message === currentState.message) { setState = k; }
             });
@@ -66,8 +66,7 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         },
         // change progressbar color based on states
         getProgressbarType = function() {
-            var type = AnalyticCalculationsService.isFailed($scope.scenarioState.message) ? 'danger' : 'success';
-            $scope.progressbarType = type;
+            $scope.progressbarType = AnalyticCalculationsService.isFailed($scope.scenarioState.message) ? 'danger' : 'success';
         },
         // add icons to state list
         addIcons = function(data) {
@@ -107,7 +106,6 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
     // go to the edit page
     $scope.gotoEdit = function() {
         ScenarioStatesService.stopPull();
-        $scope.setState('NOT_CALCULATED');
         $state.go("Scenario.edit");
     };
     // style complated state
