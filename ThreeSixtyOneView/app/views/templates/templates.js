@@ -12,6 +12,38 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
+  $templateCache.put('views/directives/dimension_filter.tpl.html',
+    "<div class=\"filter-category clickable\" ng-click=\"callAction(dimension)\">\r" +
+    "\n" +
+    "\t<span title=\"{{getFormattedLabels(categorizedValues.label)}}\">\r" +
+    "\n" +
+    "\t\t<div class=\"filter-label\">\r" +
+    "\n" +
+    "\t\t\t{{dimension.label}}\r" +
+    "\n" +
+    "\t\t\t<span class=\"filter-stats\">({{categorizedValues.selected}}/{{categorizedValues.total}})</span>\r" +
+    "\n" +
+    "\t\t</div>\r" +
+    "\n" +
+    "\t\t<div class=\"filter-values text-holder\" ng-show=\"allValuesSelected(categorizedValues)\">\r" +
+    "\n" +
+    "\t\t\t{{getFormattedLabels(categorizedValues.label)}}\r" +
+    "\n" +
+    "\t\t</div>\r" +
+    "\n" +
+    "\t\t<div class=\"filter-values text-holder\" ng-hide=\"allValuesSelected(categorizedValues)\">\r" +
+    "\n" +
+    "\t\t\tAll\r" +
+    "\n" +
+    "\t\t</div>\r" +
+    "\n" +
+    "\t</span>\r" +
+    "\n" +
+    "</div>\r" +
+    "\n"
+  );
+
+
   $templateCache.put('views/directives/draggable_dimension.tpl.html',
     "<div class=\"draggable-item dropdown\" data-as-sortable-item ng-class=\"{locked: !!lockedDimensions[item.level.label]}\">\r" +
     "\n" +

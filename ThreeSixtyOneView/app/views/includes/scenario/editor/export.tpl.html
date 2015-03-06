@@ -13,11 +13,7 @@
 		   <div class="filters-list dimensions-list">
 				<div class="title">Filters</div>
 				<div class="list">
-					<div ng-repeat="cat in getDimensions()" class="filter-category clickable" ng-click="filtersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="addedExportFilters[cat.label]">
-						<div class="filter-label">{{cat.label}}<span class="filter-stats">({{categorizedExportValue[$index].selected}}/{{categorizedExportValue[$index].total}})</span></div>
-						<div class="filter-values text-holder" ng-show="categorizedExportValue[$index].selected < categorizedExportValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{categorizedExportValue[$index].label.join(', ')}}">{{categorizedExportValue[$index].label.join(', ')}}</div>
-						<div class="filter-values text-holder" ng-hide="categorizedExportValue[$index].selected < categorizedExportValue[$index].total" title="{{categorizedExportValue[$index].label.join(', ')}}">All</div>
-					</div>
+					<dimension-filter ng-repeat="dimension in getDimensions()" ng-if="addedExportFilters[dimension.label]" dimension="dimension" categorized-values="categorizedExportValue[$index]" action="filtersModal(dimension)"></dimension-filter>
 				</div>
 			</div>
 		</div>
