@@ -15,7 +15,7 @@ angular.module('ThreeSixtyOneView')
             $scope.init(Scenarios, getProject);
 
             $scope.project = Project;
-            $rootScope.$on('broadcastStates', function(event, response) {
+            $scope.$on('broadcastStates', function(event, response) {
                 addStatusToScenarios(Scenarios, response);
                 $scope.scenarios = Scenarios;
             });

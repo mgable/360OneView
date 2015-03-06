@@ -13,7 +13,6 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
     var stepLength = CONFIG.view.ScenarioCalculate.stateLength,
         stepValue = 100 / stepLength,
         scenarioStates = CONFIG.application.models.ScenarioAnalytics.states,
-        calcStatesData = {},
         runningStates = {},
         currentState = {},
 
@@ -21,7 +20,7 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         init = function() {
             AnalyticCalculationsService.startCalculation(Status, Scenario.id);
             ScenarioStatesService.startPull([Scenario.id]);
-            $rootScope.$on('broadcastStates', function(event, response) {
+            $scope.$on('broadcastStates', function(event, response) {
                 getCalcStatesData(response[0]);
                 if(AnalyticCalculationsService.isInProgress($scope.scenarioState.message)) {
                     $scope.progressValue = 0;
@@ -42,28 +41,27 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         },
         // initiate the model
         getCalcStatesData = function(response) {
-            calcStatesData = response;
-            runningStates = calcStatesData.runningStates;
-            var currentState = ScenarioStatesService.getScenarioState(calcStatesData.currentState),
+            runningStates = response.runningStates;
+            var currentState = ScenarioStatesService.getScenarioState(response.currentState),
                 setState;
             _.each(scenarioStates, function(v, k) {
                 if (v.message === currentState.message) { setState = k; }
             });
             $scope.setState(setState);
-            $scope.step = getCurrentStateIndex(calcStatesData);
+            $scope.step = getCurrentStateIndex(response);
             $scope.progressValue = stepValue * $scope.step;
             getCurrentStateTitle();
             getProgressbarType();
             runningStates = addIcons(runningStates);
-            updateCalcStatesData();
+            updateCalcStatesData(response);
         },
         // update states data
-        updateCalcStatesData = function(_data) {
+        updateCalcStatesData = function(response) {
             if (AnalyticCalculationsService.isSuccess($scope.scenarioState.message)) {
                 $state.go("Scenario.results");
             } else if (AnalyticCalculationsService.isFailed($scope.scenarioState.message)) {
                 ScenarioStatesService.stopPull();
-                $scope.errorMessage = calcStatesData.additionalInfo.message;
+                $scope.errorMessage = response.additionalInfo.message;
             }
         },
         // change progressbar color based on states
