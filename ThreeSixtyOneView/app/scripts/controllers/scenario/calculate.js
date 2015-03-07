@@ -22,18 +22,6 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
             //     ScenarioStatesService.startPull([Scenario.id]);
             // });
             ScenarioStatesService.startPull([Scenario.id]);
-            $scope.$on('broadcastStates', function(event, response) {
-                getCalcStatesData(response[0]);
-                $scope.disableSimulateBtn(false);
-                if(AnalyticCalculationsService.isInProgress($scope.scenarioState.message)) {
-                    $scope.progressValue = 0;
-                    $scope.step = 0;
-                    $scope.errorMessage = "";
-                    $scope.disableSimulateBtn(true);
-                } else if (AnalyticCalculationsService.isSuccess($scope.scenarioState.message)) {
-                    $state.go("Scenario.results");
-                }
-            });
         },
         // get the current index for status
         getCurrentStateIndex = function(_data) {
@@ -104,8 +92,9 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
     // reset the progress
     $scope.retry = function() {
         ScenarioStatesService.stopPull();
-        $scope.setState('IN_PROGRESS');
-        init();
+        AnalyticCalculationsService.post(Scenario.id).then(function() {
+            init();
+        });
     };
     // go to the edit page
     $scope.gotoEdit = function() {
@@ -116,6 +105,19 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
     $scope.styleState = function(index) {
         return $scope.step >= index ? true : false;
     };
+
+    $scope.$on('broadcastStates', function(event, response) {
+        getCalcStatesData(response[0]);
+        $scope.disableSimulateBtn(false);
+        if(AnalyticCalculationsService.isInProgress($scope.scenarioState.message)) {
+            $scope.progressValue = 0;
+            $scope.step = 0;
+            $scope.errorMessage = "";
+            $scope.disableSimulateBtn(true);
+        } else if (AnalyticCalculationsService.isSuccess($scope.scenarioState.message)) {
+            $state.go("Scenario.results");
+        }
+    });
 
     // fire off init function
     init();
