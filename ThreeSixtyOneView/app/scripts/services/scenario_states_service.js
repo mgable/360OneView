@@ -44,7 +44,6 @@ angular.module('ThreeSixtyOneView.services')
                 });
             },
             startBroadcastScenariosStates = function(myInprogressArray) {
-                console.log('broadcast scenarios: ', myInprogressArray);
                 $rootScope.$broadcast(EVENTS.broadcastStates, myInprogressArray);
             },
             stopBroadcastScenarioStates = function() {

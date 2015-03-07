@@ -2,7 +2,7 @@
 	<div class="toggle-header">
 		<div class="tabs-holder">
 			<ul ms-link-group radio="true" selected-item="{{location}}">
-				<li data-ms-id="scenario.edit.button" ms-link="/edit" ui-sref="Scenario.edit" ng-class="{disabled: scenarioState.message === scenarioStates.IN_PROGRESS.message || scenarioState.message === scenarioStates.FAILED.message}">
+				<li data-ms-id="scenario.edit.button" ms-link="/edit" ui-sref="Scenario.edit" ng-class="{xdisabled: scenarioState.message === scenarioStates.IN_PROGRESS.message || scenarioState.message === scenarioStates.FAILED.message}">
 					<a><icon type="pencil"></icon>Editor</a>
 				</li>
 				<li data-ms-id="scenario.results.button" ms-link="/results" ng-click="gotoResults()" ng-class="{disabled: scenarioState.message === scenarioStates.NOT_CALCULATED.message || scenarioState.message === scenarioStates.FAILED.message}">
@@ -12,8 +12,7 @@
 			</ul>
 		</div>
 		<div class="button-holder">
-			<!-- in ng-class disabled is removed for now to have simulate activated all the time, after api support, this should be fixed -->
-			<span data-ms-id="scenario.simulate.button" ui-sref="Scenario.calculate" ng-click="setState('IN_PROGRESS')" ng-class="{xdisabled: disableSimulateBtn()}"><icon type="tachometer"></icon>simulate</span>
+			<span data-ms-id="scenario.simulate.button" ui-sref="Scenario.calculate" ng-click="setState('IN_PROGRESS')" ng-class="{disabled: disableSimulateBtn()}"><icon type="tachometer"></icon>simulate</span>
 		</div>
 	</div>
 
