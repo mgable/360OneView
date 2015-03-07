@@ -75,6 +75,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
         url: "/calculate",
         resolve: {
           'Status': function(AnalyticCalculationsService, $stateParams){return AnalyticCalculationsService.get($stateParams.scenarioId);},
+          'SubmitCalculate': function(AnalyticCalculationsService, $stateParams, Status) {return AnalyticCalculationsService.startCalculation(Status, $stateParams.scenarioId);}
         },
         views: {
           'calculate': {

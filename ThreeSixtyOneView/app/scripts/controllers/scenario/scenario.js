@@ -9,6 +9,7 @@ angular.module('ThreeSixtyOneView')
 		var init = function() {
 			$scope.project = Project;
 			$scope.scenario = Scenario;
+			$scope.simulateButtonDisabled = false;
 
 			$scope.pivotTableSaveStatus = '';
 
@@ -76,12 +77,11 @@ angular.module('ThreeSixtyOneView')
 			}
 		};
 
-		$scope.disableSimulateBtn = function() {
-			if($scope.location === '/edit') {
-				return ($scope.scenarioState.message === $scope.scenarioStates.IN_PROGRESS.message || $scope.scenarioState.message === $scope.scenarioStates.SUCCESS.message) ? true : false;
-			} else {
-				return true;
+		$scope.disableSimulateBtn = function(state) {
+			if(!!state) {
+				$scope.simulateButtonDisabled = state;
 			}
+			return $scope.simulateButtonDisabled;
 		};
 
 		$scope.$on(EVENTS.pivotTableStatusChange, function(event, data) {
