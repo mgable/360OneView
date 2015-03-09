@@ -458,7 +458,10 @@ module.exports = function(grunt) {
             options: {
                 keepAlive: true, // If false, the grunt process stops when the test fails.
                 noColor: false, // If true, protractor will not use colors in its output.
-                args: {}
+                args: {
+                        client: grunt.option("client") || 'ford',
+                        tests: grunt.option("tests")
+                    }
             },
             qa: {   // Grunt requires at least one target to run so you can simply put 'all: {}' here too.
                 options: {
@@ -466,7 +469,9 @@ module.exports = function(grunt) {
                     args: {
                         baseUrl: "http://360-ui-qa.marketshare.com:8080",
                         params: {
-                            path: "/360/index.html"
+                            path: "/360/index.html",
+                            client: '<%= protractor.options.args.client %>',
+                            tests: '<%= protractor.options.args.tests %>'
                         }
                     } // Target-specific arguments
                 }
@@ -477,7 +482,9 @@ module.exports = function(grunt) {
                     args: {
                         baseUrl: "http://360-ui-prototype.marketshare.com",
                         params: {
-                            path: "/index.html"
+                            path: "/index.html",
+                            client: '<%= protractor.options.args.client %>',
+                            tests: '<%= protractor.options.args.tests %>'
                         }
                     } // Target-specific arguments
                 }
@@ -488,7 +495,10 @@ module.exports = function(grunt) {
                     args: {
                         baseUrl: "http://360-ui-dev.marketshare.com:8080",
                         params: {
-                            path: "/360/index.html"
+                            path: "/360/index.html",
+                            client: '<%= protractor.options.args.client %>',
+                            tests: '<%= protractor.options.args.tests %>'
+
                         }
                     } // Target-specific arguments
                 }
@@ -500,8 +510,8 @@ module.exports = function(grunt) {
                         baseUrl: "http://127.0.0.1:9001",
                         params: {
                             path: "/",
-                            client: grunt.option("client") || 'ford',
-                            tests: grunt.option("tests")
+                            client: '<%= protractor.options.args.client %>',
+                            tests: '<%= protractor.options.args.tests %>'
                         }
                     } // Target-specific arguments
                 }
