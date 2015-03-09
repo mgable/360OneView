@@ -2,15 +2,16 @@
 
 var specs = require('./1.0-project_listing_specs.js'),
 	funcs = require('./1.0-project_listing_functions.js'),
-	projectInfo = {};
+	projectInfo = {},
+	testName = {title: "Project Listing", id: 1};
 
-if(!browser.params.tests || browser.params.tests === 1){
+if(funcs.runTheseTests(testName)){
 
 
-	describe("executing listing tests", function(){
-		console.info("executing listing tests");
+	describe("executing " + testName.title, function(){
+		console.info("executing " + testName.title);
 		it("should set up the tests", function(){
-			console.info("Project Listing Tests:");
+			console.info(testName.title + " Tests: ");
 		});
 
 	})

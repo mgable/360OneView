@@ -5,19 +5,20 @@ var specs = require('./1.0-project_listing_specs.js'),
 	_ = require('underscore'),
 	projectInfo,
 	dashboardUrl,
-	projectId;
+	projectId
+	testName = {title: "Project Dashboard", id: 2};
 
+if(funcs.runTheseTests(testName)){
 
-if(!browser.params.tests || browser.params.tests === 2){
-
-	describe("executing dashboard tests", function(){
-		console.info("executing dashboard tests");
+	describe("executing " + testName.title, function(){
+		console.info("executing " + testName.title);
 		it("should set up the tests", function(){
-			console.info("Project Dashboard Tests:");
+			console.info(testName.title + " Tests: ");
 			projectInfo = funcs.readProjectInfo();
 			projectId = projectInfo.project.id,
 			dashboardUrl = funcs.getDashboardUrl(projectId);
 		});
+
 	})
 
 	describe('Project Dashboard', function() {

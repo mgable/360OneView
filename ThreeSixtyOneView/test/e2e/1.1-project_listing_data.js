@@ -8,7 +8,7 @@ var specs = require('./1.0-project_listing_specs.js'),
 if(!browser.params.tests || browser.params.tests === 11){
 
 
-	xdescribe("executing listing tests", function(){
+	describe("executing listing tests", function(){
 		console.info("executing listing DATA tests");
 		it("should set up the tests", function(){
 			console.info("Project Listing DATA Tests:");
@@ -16,7 +16,7 @@ if(!browser.params.tests || browser.params.tests === 11){
 
 	})
 
-	xdescribe('Project Listing Page Data : ', function() {
+	describe('Project Listing Page Data : ', function() {
 		beforeEach(
 			function(){
 				browser.driver.manage().window().setSize(1280, 1024);

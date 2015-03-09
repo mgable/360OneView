@@ -5,21 +5,22 @@ var specs = require('./3.0-scenario_specs.js'),
 	_ = require('underscore'),
 	projectInfo,
 	resultsUrl,
-	projectId;
+	projectId
+	testName = {title: "Results", id: 32};
 
-if(!browser.params.tests || browser.params.tests === 32){
+if(funcs.runTheseTests(testName)){
 
-	xdescribe("executing results tests", function(){
-		console.info("executing results tests");
+	describe("executing " + testName.title, function(){
+		console.info("executing " + testName.title);
 		it("should set up the tests", function(){
-			console.info("results page tests");
+			console.info(testName.title + " Tests: ");
 			projectInfo = funcs.readProjectInfo();
 			resultsUrl = projectInfo.results.url;
 			projectId = projectInfo.project.id;
 		});
 	});
 
-	xdescribe("results", function(){
+	describe("results", function(){
 
 		beforeEach(
 			function(){

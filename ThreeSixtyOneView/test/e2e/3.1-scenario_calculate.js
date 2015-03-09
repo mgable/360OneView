@@ -8,14 +8,15 @@ var specs = require('./3.1-scenario_calculate_specs.js'),
 	scenarioUrl,
 	calculateUrl,
 	projectId,
-	scenarioId;
+	scenarioId,
+	testName = {title: "Caclulate", id: 31};
 
-if(!browser.params.tests || browser.params.tests === 31){
+if(funcs.runTheseTests(testName)){
 
-	describe("executing calculate tests", function(){
-		console.info("executing calculate tests");
+	describe("executing " + testName.title, function(){
+		console.info("executing " + testName.title);
 		it("should set up the tests", function(){
-			console.info("calculate page tests:");
+			console.info(testName.title + " Tests: ");
 			projectInfo = funcs.readProjectInfo();
 			projectId = projectInfo.project.id;
 			scenarioId = projectInfo.scenario.id;

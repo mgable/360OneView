@@ -9,12 +9,13 @@ var specs = require('./3.0-scenario_specs.js'),
 	scenarioId,
 	analysisElementFileName = "My New Analysis Element File " + Date.now(),
 	analysisElementFileDescription = "My New Description";
+	testName = {title: "Scenario", id: 3};
 
-if(!browser.params.tests || browser.params.tests === 3){
-	describe("executing scenario tests", function(){
-		console.info("executing scenrio tests");
+if(funcs.runTheseTests(testName)){
+
+	describe("executing " + testName.title, function(){
+		console.info("executing " + testName.title);
 		it("should set up the tests", function(){
-			console.info("Scenario Tests:");
 			projectInfo = funcs.readProjectInfo();
 			projectId = projectInfo.project.id;
 			scenarioId = projectInfo.scenario.id;
