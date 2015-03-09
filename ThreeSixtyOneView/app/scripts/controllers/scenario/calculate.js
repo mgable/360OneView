@@ -24,12 +24,12 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
             ScenarioStatesService.startPull([Scenario.id]);
             $scope.$on('broadcastStates', function(event, response) {
                 getCalcStatesData(response[0]);
-                $scope.disableSimulateBtn(false);
+                $scope.disableSimulateButton(false);
                 if(AnalyticCalculationsService.isInProgress($scope.scenarioState.message)) {
                     $scope.progressValue = 0;
                     $scope.step = 0;
                     $scope.errorMessage = "";
-                    $scope.disableSimulateBtn(true);
+                    $scope.disableSimulateButton(true);
                 } else if (AnalyticCalculationsService.isSuccess($scope.scenarioState.message)) {
                     $state.go("Scenario.results");
                 }

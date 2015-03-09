@@ -12,7 +12,7 @@
 	<div class="button-group">
 		<ms-button type="cancel" action="resetUploadForm()" label="Close" ng-hide="isImportStarted" collapse-control target-area="#importBody" header="#importHeader"></ms-button>
 		<ms-button type="cancel" action="resetUploadForm()" label="{{cancelButtonLabel}}" ng-hide="!isImportStarted" class="ng-hide"></ms-button>
-		<ms-button type="submit" action="startUpload()" label="Import" ng-disabled="!isFileSelected || isFileInvalid || isImportStarted" ng-hide="isImportStarted"></ms-button>
+		<ms-button type="submit" action="startUpload()" label="Import" ng-disabled="!isFileSelected || isFileInvalid || isImportStarted || readOnlyMode" ng-hide="isImportStarted"></ms-button>
 	</div>
 	<div ng-show="isImportStarted" class="status-container">
 		<div ng-hide="isImportCompleted || isImportFailed">
@@ -20,6 +20,9 @@
 		</div>
 		<div ng-show="isImportCompleted" class="message success"><icon type="thumbs-o-up"></icon>You successfully imported {{selectedFileName}}</div>
 		<div ng-show="isImportFailed" class="message error"><icon type="thumbs-o-down"></icon>{{statusMessage}}</div>
+	</div>
+	<div ng-show="readOnlyMode" class="status-container">
+		<div class="message error"><icon type="lock"></icon>You cannot import files while simulation is running.</div>
 	</div>
 	<div class="collapse-handle">
 		<span class="clickable" collapse-control target-area="#importBody" header="#importHeader">
