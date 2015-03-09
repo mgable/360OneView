@@ -7,7 +7,7 @@ var specs = require('./3.1-scenario_calculate_specs.js'),
 	scenarioUrl,
 	projectId;
 
-if(!browser.params.tests || browser.params.test === 31){
+if(!browser.params.tests || browser.params.tests === 31){
 
 	xdescribe("executing calculate tests", function(){
 		console.info("executing calculate tests");
