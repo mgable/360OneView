@@ -5,13 +5,13 @@ var clients = {
 	},
 
 	data = {
-	getServer: function(client){
-		if(client && clients[client]){
-			return clients[client];
-		} else {
-			return null;
+		getServer: function(client){
+			if(client && clients[client]){
+				return clients[client];
+			} else {
+				return null;
+			}
 		}
-	}
-};
+	};
 
 module.exports = data;

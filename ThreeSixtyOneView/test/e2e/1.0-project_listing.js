@@ -4,7 +4,7 @@ var specs = require('./1.0-project_listing_specs.js'),
 	funcs = require('./1.0-project_listing_functions.js'),
 	projectInfo = {};
 
-if(!browser.params.tests || browser.params.test === 1){
+if(!browser.params.tests || browser.params.tests === 1){
 
 
 	describe("executing listing tests", function(){
@@ -74,7 +74,7 @@ if(!browser.params.tests || browser.params.test === 1){
 				var itemTitle = funcs.getFirstItemTitle(),
 					selectedItemTitle = funcs.getSelectedItemTitle();
 
-					expect(itemTitle.getText()).toBe(selectedItemTitle.getText());
+				expect(itemTitle.getText()).toBe(selectedItemTitle.getText());
 			});
 
 			it("should put the selected item in the tray", function(){
@@ -104,7 +104,7 @@ if(!browser.params.tests || browser.params.test === 1){
 			});
 		});
 
-		describe("Sort: ", function(){
+		xdescribe("Sort: ", function(){
 			it("should switch between ordering by name, modified last and created on", function(){
 				var itemTitles,
 					itemModifiedOn,
@@ -204,7 +204,7 @@ if(!browser.params.tests || browser.params.test === 1){
 			});
 		});
 
-		describe("Favorites: ", function(){
+		xdescribe("Favorites: ", function(){
 			var masterProject = funcs.getMasterProjectItem(),
 				masterProjectFavorite = masterProject.element(by.css(specs.favoriteClassHolder));
 
@@ -268,7 +268,7 @@ if(!browser.params.tests || browser.params.test === 1){
 			});
 		});
 
-		describe("Filters: ", function(){
+		xdescribe("Filters: ", function(){
 			it ("should toggle the filter menu dropdown", function(){
 				expect(funcs.hasClass(specs.filterDropdown, 'hide')).toBe(true);
 				specs.filterByButton.click();
@@ -317,14 +317,14 @@ if(!browser.params.tests || browser.params.test === 1){
 			});
 		});
 
-		describe("Search: ", function(){
+		xdescribe("Search: ", function(){
 			it("should search", function(){
 				funcs.enterSearch(specs.masterProject)
 				expect(funcs.getItems().count()).toBe(1);
 			});
 		});
 
-		describe("Create project: ", function(){
+		xdescribe("Create project: ", function(){
 			var firstItemTitle,
 				testFileName = "My New Test Project- " + Date.now();
 
@@ -367,7 +367,7 @@ if(!browser.params.tests || browser.params.test === 1){
 			});
 		});
 
-		describe("rename functions:", function(){
+		xdescribe("rename functions:", function(){
 			var first,
 				newName = "My Renamed Project - " + Date.now();
 
@@ -452,7 +452,7 @@ if(!browser.params.tests || browser.params.test === 1){
 			});
 		});	
 
-		describe("edit description: ", function(){
+		xdescribe("edit description: ", function(){
 			var first,
 				newDescription = "This is my new description - " + Date.now();
 
@@ -497,7 +497,7 @@ if(!browser.params.tests || browser.params.test === 1){
 			});
 		});
 
-		describe("Page actions: ", function(){
+		xdescribe("Page actions: ", function(){
 			it("should prevent the master project from being edited", function(){
 				funcs.selectMasterProject();
 				expect(specs.renameButton.isPresent()).toBe(false);
@@ -525,7 +525,7 @@ if(!browser.params.tests || browser.params.test === 1){
 			});
 		});
 
-		describe("Page attributes: ", function(){
+		xdescribe("Page attributes: ", function(){
 			it('should have a title', function() {
 				expect(browser.getTitle()).toEqual(specs.pageTitle);
 			});
