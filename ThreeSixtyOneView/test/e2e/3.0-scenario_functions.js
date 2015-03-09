@@ -8,6 +8,12 @@ data = {
 	selectSecondCube: function(){
 		specs.selectedAnalysisElement.click();
 		specs.analysisElements.get(1).click();
+	},
+	getScenarioUrl: function(projectId, scenarioId){
+		return this.getScenarioAbsoluteUrl(projectId, scenarioId) + specs.testQuery + "&" + specs.server;
+	},
+	getScenarioAbsoluteUrl: function(projectId, scenarioId){
+		return browser.params.path + specs.scenarioUrl.replace(/:projectId/, projectId).replace(/:scenarioId/, scenarioId);
 	}
 };
 

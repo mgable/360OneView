@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportResourceService', '$timeout', 'DialogService', 'PivotMetaService', 'CONFIG',
+angular.module('ThreeSixtyOneView').controller('ExportCtrl', ['$scope', 'ExportResourceService', '$timeout', 'DialogService', 'PivotMetaService', 'CONFIG',
 	function($scope, ExportResourceService, $timeout, DialogService, PivotMetaService, CONFIG) {
 		var init = function() {
 			$scope.exportViewData = {}; // contains the view data modified for export tab
@@ -35,26 +35,32 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 			}
 		}, trackProgress = function() {
 			ExportResourceService.checkStatus($scope.exportElementId).then(function(response) {
-				if(response.status === exportModel.processingStates.init.message) {
-					$scope.statusMessage = exportModel.processingStates.init.description;
-				} else if(response.status === exportModel.processingStates.complete.message) {
-					$scope.isDownloadReady = true;
-					$scope.statusMessage = exportModel.processingStates.complete.description;
-					$scope.downloadFile();
-				} else if(response.status === exportModel.processingStates.download.message) {
-					$scope.statusMessage = exportModel.processingStates.download.description;
-					$scope.isDownloadCompleted = true;
-					$scope.cancelExport();
-					return;
-				} else if(response.status === exportModel.processingStates.fail.message) {
-					$scope.statusMessage = exportModel.processingStates.fail.description;
-					$scope.isExportFailed = true;
-					$scope.cancelExport();
-					return;
-				} else if(response.status === exportModel.processingStates.inprogress.message) {
-					$scope.statusMessage = exportModel.processingStates.inprogress.description;
-				} else {
-					console.log(response);
+				switch(response.status) {
+					case exportModel.processingStates.init.message:
+						$scope.statusMessage = exportModel.processingStates.init.description;
+						break;
+					case exportModel.processingStates.complete.message:
+						$scope.isDownloadReady = true;
+						$scope.statusMessage = exportModel.processingStates.complete.description;
+						$scope.downloadFile();
+						break;
+					case exportModel.processingStates.download.message:
+						$scope.statusMessage = exportModel.processingStates.download.description;
+						$scope.isDownloadCompleted = true;
+						$scope.cancelExport();
+						return;
+						break;
+					case exportModel.processingStates.fail.message:
+						$scope.statusMessage = exportModel.processingStates.fail.description;
+						$scope.isExportFailed = true;
+						$scope.cancelExport();
+						return;
+					case exportModel.processingStates.notfound.message:
+					case exportModel.processingStates.inprogress.message:
+						$scope.statusMessage = exportModel.processingStates.inprogress.description;
+						break;
+					default:
+						console.log(response);
 				}
 				
 				progressPromise = $timeout(function() {
@@ -65,22 +71,26 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 		progressPromise;
 
 		$scope.setupExportView = function() {
-			$scope.exportViewData = angular.copy($scope.viewData);
-			$scope.exportViewData.rows = $scope.viewData.rows.concat($scope.viewData.columns);
-			$scope.exportViewData.columns = [];
-			$scope.exportAddedDimensions = angular.copy($scope.added);
-			setupExportViewFilters();
+			if($scope.viewData.filters) {
+				$scope.exportViewData = angular.copy($scope.viewData);
+				$scope.exportViewData.rows = $scope.viewData.rows.concat($scope.viewData.columns);
+				$scope.exportViewData.columns = [];
+				$scope.exportAddedDimensions = angular.copy($scope.added);
+				setupExportViewFilters();
+			}
 		};
 
 		$scope.deleteItem = function(index) {
 			$scope.exportAddedDimensions[$scope.exportViewData.rows[index].level.label] = false;
 			$scope.exportViewData.rows.splice(index, 1);
+			$scope.lockLastItem($scope.exportAddedDimensions, false);
 		};
 
 		$scope.addItem = function(item) {
 			var newItem = {dimension:{id:item.dimensionId},hierarchy:{id:-1},level:{id:item.levelId, label:item.label}};
 			$scope.exportViewData.rows.push(newItem);
 			$scope.exportAddedDimensions[item.label] = true;
+			$scope.lockLastItem($scope.exportAddedDimensions, false);
 		};
 
 		$scope.replaceItem = function(selected, priorLabel) {
@@ -97,7 +107,7 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 		// open/dismiss filters selection modal
 		$scope.filtersModal = function(category) {
 			var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
-				{cat: category, addedFilters: $scope.addedExportFilters, viewData: $scope.exportViewData.rows, dimensions: $scope.dimensions},
+				{dimension: category, addedFilters: $scope.addedExportFilters, viewData: $scope.exportViewData.rows, dimensions: $scope.dimensions},
 				{windowSize: 'lg', windowClass: 'filters-modal'});
 
 			dialog.result.then(function(data) {
@@ -121,15 +131,50 @@ angular.module('ThreeSixtyOneView').controller('exportCtrl', ['$scope', 'ExportR
 		// get dimensions that cannot be removed due to filters applied on them
 		$scope.getLockedDimensions = function(dimensions, membersList, filters) {
 			$scope.lockedDimensions = {};
+
 			_.each(dimensions, function(dimension, dimensionIndex) {
+				var filteredLevel,
+					highestLevelAdded,
+					sameHierarchyItems = 0;
+
 				if(filters[dimensionIndex].selected < filters[dimensionIndex].total) {
-					var level = _.findWhere(dimension.members, {levelId: membersList[dimension.id][filters[dimensionIndex].label[0]].levelId});
-					if(!$scope.exportAddedDimensions[level.label]) {
-						$scope.addItem(level);
+					_.each(dimension.members, function(level) {
+						if(level.levelId === membersList[dimension.id][filters[dimensionIndex].label[0]].levelId) {
+							filteredLevel = level;
+						}
+						if(!!filteredLevel && level.hierarchyId === filteredLevel.hierarchyId && $scope.exportAddedDimensions[level.label]) {
+							sameHierarchyItems++;
+							if(!highestLevelAdded) {
+								highestLevelAdded = level;
+							}
+						}
+					});
+
+					if(sameHierarchyItems === 0) {
+						$scope.addItem(filteredLevel);
+						$scope.lockedDimensions[filteredLevel.label] = true;
+					} else if(sameHierarchyItems === 1) {
+						$scope.lockedDimensions[highestLevelAdded.label] = true;
 					}
-					$scope.lockedDimensions[level.label] = true;
 				}
 			});
+			
+			$scope.lockLastItem($scope.exportAddedDimensions, true);
+		};
+
+		// lock (disable remove) if there is only one item remaining
+		$scope.lockLastItem = function(addedDimensions, filtersRestrictionsChecked) {
+			var addedItems = [];
+			_.each(addedDimensions, function(value, key) {
+				if(value) {
+					addedItems.push(key);
+				}
+			});
+			if(addedItems.length === 1) {
+				$scope.lockedDimensions[addedItems[0]] = true;
+			} else if(!filtersRestrictionsChecked) {
+				$scope.getLockedDimensions($scope.dimensions, $scope.membersList, $scope.categorizedExportValue);
+			}
 		};
 
 		// start the export process

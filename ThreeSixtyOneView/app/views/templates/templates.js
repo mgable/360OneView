@@ -12,6 +12,38 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
+  $templateCache.put('views/directives/dimension_filter.tpl.html',
+    "<div class=\"filter-category clickable\" ng-click=\"callAction(dimension)\">\r" +
+    "\n" +
+    "\t<span title=\"{{getFormattedLabels(categorizedValues.label)}}\">\r" +
+    "\n" +
+    "\t\t<div class=\"filter-label\">\r" +
+    "\n" +
+    "\t\t\t{{dimension.label}}\r" +
+    "\n" +
+    "\t\t\t<span class=\"filter-stats\">({{categorizedValues.selected}}/{{categorizedValues.total}})</span>\r" +
+    "\n" +
+    "\t\t</div>\r" +
+    "\n" +
+    "\t\t<div class=\"filter-values text-holder\" ng-show=\"allValuesSelected(categorizedValues)\">\r" +
+    "\n" +
+    "\t\t\t{{getFormattedLabels(categorizedValues.label)}}\r" +
+    "\n" +
+    "\t\t</div>\r" +
+    "\n" +
+    "\t\t<div class=\"filter-values text-holder\" ng-hide=\"allValuesSelected(categorizedValues)\">\r" +
+    "\n" +
+    "\t\t\tAll\r" +
+    "\n" +
+    "\t\t</div>\r" +
+    "\n" +
+    "\t</span>\r" +
+    "\n" +
+    "</div>\r" +
+    "\n"
+  );
+
+
   $templateCache.put('views/directives/draggable_dimension.tpl.html',
     "<div class=\"draggable-item dropdown\" data-as-sortable-item ng-class=\"{locked: !!lockedDimensions[item.level.label]}\">\r" +
     "\n" +
@@ -116,7 +148,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/member.tpl.html',
     "<div class=\"list-subcategory\" ng-class=\"{'list-item': !hasMembers()}\">\r" +
     "\n" +
-    "\t<span class=\"expand-handle clickable\" ng-if=\"hasMembers()\" ng-click=\"expanded[member.label] = !expanded[member.label]\">\r" +
+    "\t<span class=\"expand-handle clickable\" ng-if=\"hasMembers()\" ng-click=\"toggleCollapse()\">\r" +
     "\n" +
     "\t\t<icon type=\"caret-right\" cname=\"{{setToggleStyle(member)}}\"></icon>\r" +
     "\n" +
@@ -357,17 +389,17 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<div class=\"side-menu\">\r" +
     "\n" +
-    "\t\t<div class=\"menu-item clickable\" ng-repeat=\"cat in dimensions\" ng-click=\"chooseFilter(cat, false, false)\" ng-class=\"{active: cat.label == selectedFilter.cat.label}\">\r" +
+    "\t\t<div class=\"menu-item clickable\" ng-repeat=\"dimension in getDimensions()\" ng-click=\"chooseFilter(dimension, $index, false)\" ng-class=\"{active: dimension.label == selectedFilter.dimension.label}\">\r" +
     "\n" +
-    "\t\t\t<div>{{cat.label}}\r" +
+    "\t\t\t<div>{{dimension.label}}\r" +
     "\n" +
-    "\t\t\t\t<span>({{categorizeValuesCount($index, addedFilter[cat.label]).selected}}/{{categorizedValue[$index].total}})</span>\r" +
+    "\t\t\t\t<span>({{categorizedValue[$index].selected}}/{{categorizedValue[$index].total}})</span>\r" +
     "\n" +
     "\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t<div ng-show=\"categorizedValue[$index].selected < categorizedValue[$index].total\" class=\"values text-holder\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{{categorizedValue[$index].label.join(', ')}}\">{{categorizedValue[$index].label.join(', ')}}</div>\r" +
+    "\t\t\t<div ng-show=\"allFiltersSelected(categorizedValue[$index])\" class=\"values text-holder\" tooltip-placement=\"left\" tooltip=\"{{getValuesList(categorizedValue[$index])}}\">{{getValuesList(categorizedValue[$index])}}</div>\r" +
     "\n" +
-    "\t\t\t<div ng-hide=\"categorizedValue[$index].selected < categorizedValue[$index].total\" class=\"values text-holder\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{{categorizedValue[$index].label.join(', ')}}\">All</div>\r" +
+    "\t\t\t<div ng-hide=\"allFiltersSelected(categorizedValue[$index])\" class=\"values text-holder\" tooltip-placement=\"left\" tooltip=\"{{getValuesList(categorizedValue[$index])}}\">All</div>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
@@ -381,7 +413,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t<icon type=\"warning\"></icon>Please select at least one item from the following filter<span ng-if=\"emptyFiltersList.length > 1\">s</span>\r" +
     "\n" +
-    "\t\t\t\t: <span ng-repeat=\"missing in emptyFiltersList\">\r" +
+    "\t\t\t\t: <span ng-repeat=\"missing in getEmptyFiltersList()\">\r" +
     "\n" +
     "\t\t\t\t\t<span class=\"underline clickable\" ng-click=\"chooseFilterByName(missing)\">{{missing}}</span>\r" +
     "\n" +
@@ -403,15 +435,15 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t<div class=\"dropdown-toggle\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t{{selectedFilter.selFil.label.toLowerCase()}}<icon type=\"caret-down\"></icon>\r" +
+    "\t\t\t\t\t\t\t{{selectedFilter.level.label}}<icon type=\"caret-down\"></icon>\r" +
     "\n" +
     "\t\t\t\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t\t\t\t<div class=\"dropdown-menu\" ms-link-group radio=\"true\" selected-item=\"{{selectedFilter.selFil.label}}\">\r" +
+    "\t\t\t\t\t\t<div class=\"dropdown-menu\" ms-link-group radio=\"true\" selected-item=\"{{selectedFilter.level.label}}\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<div ng-repeat=\"item in selectedFilter.cat.members\" class=\"menu-item clickable\" ms-link=\"{{item.label}}\" ng-click=\"chooseFilter(selectedFilter.cat, false, $index)\">\r" +
+    "\t\t\t\t\t\t\t<div ng-repeat=\"item in selectedFilter.dimension.members\" class=\"menu-item\" ms-link=\"{{item.label}}\" ng-click=\"chooseFilter(selectedFilter.dimension, selectedDimensionIndex, $index)\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t{{item.label.toLowerCase()}}\r" +
+    "\t\t\t\t\t\t\t\t{{item.label}}\r" +
     "\n" +
     "\t\t\t\t\t\t\t</div>\r" +
     "\n" +
@@ -421,11 +453,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t\t<div class=\"search-box\" ng-show=\"selectedFilter.selFil\">\r" +
+    "\t\t\t\t<div class=\"search-box\" ng-show=\"selectedFilter.level\">\r" +
     "\n" +
     "\t\t\t\t\t<icon type=\"filter\"></icon>\r" +
     "\n" +
-    "\t\t\t\t\t<input type=\"text\" placeholder=\"Filter List\" ng-model=\"filterSearch.label\" ng-keyup=\"searchFilters(selectedFilter.selFil, filterSearch)\">\r" +
+    "\t\t\t\t\t<input type=\"text\" placeholder=\"Filter List\" ng-model=\"filterSearch.label\" ng-keyup=\"searchFilters(selectedFilter.level, filterSearch)\">\r" +
     "\n" +
     "\t\t\t\t</div>\r" +
     "\n" +
@@ -435,25 +467,25 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t<div class=\"dropdown\">\r" +
     "\n" +
-    "\t\t\t\t\t<div class=\"static-button\" ng-hide=\"filterCount.total === 0\">\r" +
+    "\t\t\t\t\t<div class=\"static-button clickable\" ng-hide=\"filterCount.total === 0\">\r" +
     "\n" +
-    "\t\t\t\t\t\t<div class=\"selection-toggle clickable\" ng-show=\"filterCount.selected === 0\" ng-click=\"selectFilters(selectedFilter.cat.label, true, true);\"><icon type=\"square-o\"></icon></div>\r" +
+    "\t\t\t\t\t\t<div class=\"selection-toggle\" ng-show=\"filterCount.selected === 0\" ng-click=\"selectFilters(selectedFilter.dimension.label, true, true);\"><icon type=\"square-o\"></icon></div>\r" +
     "\n" +
-    "\t\t\t\t\t\t<div class=\"selection-toggle clickable blue\" ng-show=\"filterCount.selected === filterCount.total\" ng-click=\"selectFilters(selectedFilter.cat.label, true, false);\"><icon type=\"check-square\"></icon></div>\r" +
+    "\t\t\t\t\t\t<div class=\"selection-toggle blue\" ng-show=\"filterCount.selected === filterCount.total\" ng-click=\"selectFilters(selectedFilter.dimension.label, true, false);\"><icon type=\"check-square\"></icon></div>\r" +
     "\n" +
-    "\t\t\t\t\t\t<div class=\"selection-toggle clickable blue\" ng-show=\"filterCount.selected % filterCount.total > 0.01\" ng-click=\"selectFilters(selectedFilter.cat.label, true, true);\"><icon type=\"minus-square\"></icon></div>\r" +
+    "\t\t\t\t\t\t<div class=\"selection-toggle blue\" ng-show=\"filterCount.selected % filterCount.total > 0.01\" ng-click=\"selectFilters(selectedFilter.dimension.label, true, true);\"><icon type=\"minus-square\"></icon></div>\r" +
     "\n" +
-    "\t\t\t\t\t\t<div class=\"clickable dropdown-toggle\"><icon type=\"caret-down\"></icon></div>\r" +
+    "\t\t\t\t\t\t<div class=\"dropdown-toggle\"><icon type=\"caret-down\"></icon></div>\r" +
     "\n" +
     "\t\t\t\t\t</div>\r" +
     "\n" +
     "\t\t\t\t\t<div class=\"dropdown-menu\">\r" +
     "\n" +
-    "\t\t\t\t\t\t<div class=\"menu-item\" ng-click=\"selectFilters(selectedFilter.cat.label, true, true);\">Select All Visible</div>\r" +
+    "\t\t\t\t\t\t<div class=\"menu-item\" ng-click=\"selectFilters(selectedFilter.dimension.label, true, true);\">Select All Visible</div>\r" +
     "\n" +
-    "\t\t\t\t\t\t<div class=\"menu-item\" ng-click=\"selectFilters(selectedFilter.cat.label, true, false);\">Deselect All Visible</div>\r" +
+    "\t\t\t\t\t\t<div class=\"menu-item\" ng-click=\"selectFilters(selectedFilter.dimension.label, true, false);\">Deselect All Visible</div>\r" +
     "\n" +
-    "\t\t\t\t\t\t<div class=\"menu-item\" ng-click=\"selectFilters(selectedFilter.cat.label, false, false);\">Deselect All Not Visible</div>\r" +
+    "\t\t\t\t\t\t<div class=\"menu-item\" ng-click=\"selectFilters(selectedFilter.dimension.label, false, false);\">Deselect All Not Visible</div>\r" +
     "\n" +
     "\t\t\t\t\t</div>\r" +
     "\n" +
@@ -461,17 +493,17 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t<div class=\"stat\" ng-hide=\"filterCount.total === 0\">\r" +
     "\n" +
-    "\t\t\t\t\t({{countFilters(searchResults, addedFilter).selected}}/{{countFilters(searchResults, addedFilter).total}})\r" +
+    "\t\t\t\t\t({{filterCount.selected}}/{{filterCount.total}})\r" +
     "\n" +
     "\t\t\t\t</div>\r" +
     "\n" +
     "\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t<div class=\"list-box\" ng-style=\"{height: (windowHeight - 270) + 'px'}\">\r" +
+    "\t\t\t<div class=\"list-box\" ng-style=\"{height: getListHeight()}\">\r" +
     "\n" +
     "\t\t\t\t<div class=\"list\" ng-if=\"searchResults.members\">\r" +
     "\n" +
-    "\t\t\t\t\t<member ng-repeat=\"member in searchResults.members | orderBy:'label'\" member=\"member\" filters=\"addedFilter\" category=\"{label: selectedFilter.cat.label}\"  expanded=\"expanded\" expandall=\"filterSearch\"></member>\r" +
+    "\t\t\t\t\t<member ng-repeat=\"member in searchResults.members | orderBy:'label'\" member=\"member\" filters=\"addedFilter\" category=\"{label: selectedFilter.dimension.label}\"  expanded=\"expanded\" expandall=\"filterSearch\" updater=\"categorizeValuesCount(index, addedFilters)\" dimensionindex=\"selectedDimensionIndex\"></member>\r" +
     "\n" +
     "\t\t\t\t</div>\r" +
     "\n" +
@@ -481,9 +513,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<div class=\"action-buttons\">\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"cancel\" action=\"cancelChangeFilter()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"cancel\" action=\"cancel()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"submit\" action=\"changeFilter()\" label=\"Apply\" data-dismiss=\"modal\" ng-disabled=\"noFilterSelected\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"submit\" action=\"submit()\" label=\"Apply\" data-dismiss=\"modal\" ng-disabled=\"noFilterSelected\"></ms-button>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
@@ -736,7 +768,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\t\t\t<div class=\"col-md-11\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\">{{scenario.title}}</span>\r" +
+    "\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-title\">{{scenario.title}}</span>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t</div>\r" +
     "\n" +
@@ -762,7 +794,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<ms-button type=\"cancel\" action=\"close()\" label=\"Cancel\" data-ms-id=\"ScenarioCreate.cancel\"></ms-button>\r" +
     "\n" +
-    "\t\t<ms-button type=\"submit\" action=\"submit(scenario)\" label=\"Continue\" ng-disabled=\"ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList\" data-ms-id=\"ScenarioCreate.submit\"></ms-button>\r" +
+    "\t\t<ms-button type=\"submit\" action=\"submit(scenario)\" label=\"Select\" ng-disabled=\"ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList\" data-ms-id=\"ScenarioCreate.submit\"></ms-button>\r" +
     "\n" +
     "\t\t<span ng-hide=\"scenarioList\" class=\"loaderHolder\">\r" +
     "\n" +

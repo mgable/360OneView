@@ -54,17 +54,17 @@ angular.module('ThreeSixtyOneView.services')
 			results = [];
 
 			angular.forEach(projects, function(v,k,o){
-				ids.push(_.pick(v, 'id', 'title'));
+				ids.push(_.pick(v, 'id', 'title', 'isMaster'));
 			});
 
 			angular.forEach(ids, function(v,k,o){
-				promises.push({title: v.title, promise: this.get(v.id)});
+				promises.push({title: v.title, isMaster: v.isMaster, promise: this.get(v.id)});
 			}, this);
 
 			return $q.all(_.pluck(promises, "promise")).then(function(response){
 				angular.forEach(response, function(v,k,o){
 					if (v.length){
-						results.push({title:promises[k].title, data: v});
+						results.push({title:promises[k].title, isMaster: promises[k].isMaster, data: v});
 					}
 				});
 				return results;

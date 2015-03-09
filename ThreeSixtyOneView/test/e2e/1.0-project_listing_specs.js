@@ -1,6 +1,9 @@
 "use strict";
 
-var breadcrumb = "ol.breadcrumb",
+var coreSpecs = require('./0.0-specs.js'),
+	_ = require('underscore'),
+
+	breadcrumb = "ol.breadcrumb",
 	filterBy = "h4[data-ms-id='filterBy']",
 	filterByFavorites = "li[data-ms-id='Favorites']",
 	filterByItem = ".filterDropdown li:first-child",
@@ -45,7 +48,6 @@ var breadcrumb = "ol.breadcrumb",
 	modalCancel = "div[data-ms-id='simpleModal'] button.ms-btn-cancel",
 	data = { 
 		masterProjectClass: ".master",
-		testQuery: "?e2e=true",
 		projectUrl: "#/projects",
 		dashboardUrl: '#/dashboard/:id',
 		activeSelectionClass: "active",
@@ -55,6 +57,10 @@ var breadcrumb = "ol.breadcrumb",
 		masterProject: "master project",
 		pageTitle: "360 One View",
 		projectsBreadcrumb: "ALL PROJECTS", 
+		statusClass: ".status i",
+		titleClass: ".title a",
+		inProgressClass: "fa-in_progress",
+		failedClass: "fa-failed",
 
 		items: "item in getData()",
 		itemCount: "span[data-ms-id='itemCount']",
@@ -93,5 +99,7 @@ var breadcrumb = "ol.breadcrumb",
 		textAreaHolder: element(by.css(textAreaParent)),
 		inlineEditSubmitButton: element(by.css(inlineEditSubmit))
 	};
+
+_.extend(data, coreSpecs);
 
 module.exports = data;

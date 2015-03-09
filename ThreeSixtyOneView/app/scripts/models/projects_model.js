@@ -3,9 +3,9 @@
 
 'use strict';
 
-angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout", "$rootScope", "$location", "Resource", "CONFIG", "SERVER", "EVENTS", "Model", function($timeout, $rootScope, $location, Resource, CONFIG, SERVER, EVENTS, Model){
+angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout", "$rootScope", "$location", "Resource", "CONFIG", "ServerService", "EVENTS", "Model", function($timeout, $rootScope, $location, Resource, CONFIG, ServerService, EVENTS, Model){
 
-    var resource = new Resource(SERVER[$location.host()] + CONFIG.application.api.projects),
+    var resource = new Resource(ServerService.get($location.host()) + CONFIG.application.api.projects),
     responseTranslator = CONFIG.application.models.ProjectsModel.responseTranslator,
     requestTranslator = CONFIG.application.models.ProjectsModel.requestTranslator;
 

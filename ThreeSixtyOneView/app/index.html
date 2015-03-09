@@ -8,7 +8,8 @@
 		<meta charset="utf-8">
 		<title>360 One View</title>
 		<meta name="description" content="MarketShare Application">
-		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+		<link rel="shortcut icon" href="./favicon.ico" />
+
 		<!-- build:css styles/vendor.css -->
 		<!-- bower:css -->
 		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
@@ -72,7 +73,14 @@
         <script src="scripts/configuration/event_configuration.js"></script>
         <script src="scripts/configuration/misc_configuration.js"></script>
         <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/modals.js"></script>
+        <script src="scripts/controllers/modals/all_views.js"></script>
+        <script src="scripts/controllers/modals/filter_selection.js"></script>
+        <script src="scripts/controllers/modals/modal_base.js"></script>
+        <script src="scripts/controllers/modals/project_create.js"></script>
+        <script src="scripts/controllers/modals/scenario_analysis_element_copy.js"></script>
+        <script src="scripts/controllers/modals/scenario_analysis_element_files.js"></script>
+        <script src="scripts/controllers/modals/scenario_copy.js"></script>
+        <script src="scripts/controllers/modals/scenario_create.js"></script>
         <script src="scripts/controllers/item_listing.js"></script>
         <script src="scripts/controllers/scenario/scenario.js"></script>
         <script src="scripts/controllers/scenario/editor.js"></script>
@@ -85,13 +93,13 @@
         <script src="scripts/controllers/scenario/results.js"></script>
         <script src="scripts/directives/bindonce.js"></script>
         <script src="scripts/directives/breadcrumb.js"></script>
+        <script src="scripts/directives/dimension_filter.js"></script>
         <script src="scripts/directives/draggable_dimension.js"></script>
-        <script src="scripts/directives/tab_control.js"></script>
         <script src="scripts/directives/focus.js"></script>
         <script src="scripts/directives/icon.js"></script>
-        <script src="scripts/directives/ms_button.js"></script>
         <script src="scripts/directives/inline_edit.js"></script>
         <script src="scripts/directives/member.js"></script>
+        <script src="scripts/directives/ms_button.js"></script>
         <script src="scripts/directives/ms_dropdown.js"></script>
         <script src="scripts/directives/ms_filter_dropdown.js"></script>
         <script src="scripts/directives/ms_filter_input.js"></script>
@@ -100,8 +108,8 @@
         <script src="scripts/directives/single_click.js"></script>
         <script src="scripts/directives/sorting_options.js"></script>
         <script src="scripts/directives/sortable_columns.js"></script>
-        <script src="scripts/directives/focus.js"></script>
         <script src="scripts/directives/sorter.js"></script>
+        <script src="scripts/directives/tab_control.js"></script>
         <script src="scripts/directives/validator.js"></script>
         <script src="scripts/directives/d3/bar_chart.js"></script>
         <script src="scripts/directives/d3/line_chart.js"></script>
@@ -114,6 +122,8 @@
         <script src="scripts/services/pivot_meta_service.js"></script>
         <script src="scripts/services/resource.js"></script>
         <script src="scripts/services/sort_and_filter_service.js"></script>
+        <script src="scripts/services/server_service.js"></script>
+        <script src="scripts/services/scenario_states_service.js"></script>
         <script src="views/templates/templates.js"></script>
         <script src="scripts/models/analytic_calculations_model.js"></script>
         <script src="scripts/models/analytic_calculations_service.js"></script>
@@ -147,13 +157,19 @@
         <!-- End Inspectlet Embed Code -->
 
         <script>
-            // Web fonts key for http://*.markeshare.com
-            // //use.typekit.net/zyk1snl.js
-            // Web fonts key for http://localhost
-            // //use.typekit.net/zyk1snl.js
-            // Web fonts key for http://127.0.0.1
-            // //use.typekit.net/zyk1snl.js
-            var src = document.location.host.indexOf("marketshare") > -1 ? "//use.typekit.net/zyk1snl.js" : "//use.typekit.net/zer1wrp.js"
+            var url = "//use.typekit.net/##.js",
+                domain_map = {
+                    "127.0.0.1": "zer1wrp",
+                    "marketshare": "zyk1snl",
+                    "amazonaws": "mug5rbu"
+                }, 
+                src,
+                re = /(\w+)(?=\.com\b)|(127.0.0.1)/;
+
+            try {
+                src = url.replace(/##/, domain_map[document.location.host.match(re)[0]]);
+            }catch(e){}
+
             $.getScript(src, function(){
                 try{Typekit.load();}catch(e){}
             });

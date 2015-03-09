@@ -6,15 +6,19 @@ var specs = require('./0.0-specs.js'),
 	filename = "./test/e2e/project.json",
 
 	data = {
-		saveProjectInfo: function(url, project, scenario){
-			var data = JSON.stringify({url: url, project: project, scenario: scenario});
+		saveProjectInfo: function(obj){
+			var data = JSON.stringify(obj);
 			fs.writeFileSync(filename, data);
+			console.info("writing");
+			console.info(data);
 		},
 		readProjectInfo: function(){
 			return JSON.parse(fs.readFileSync(filename, {encoding: 'utf8'}));
 		},
 		deleteProjectInfo: function(){
-			fs.unlinkSync(filename);
+			try{
+				fs.unlinkSync(filename);
+			}catch(e){console.info(filename + " does not exist");}
 		},
 		testInputRestrictions: function(input, submit){
 			_.each(specs.inputRestrictions, function(restrictedCharacter){
@@ -27,6 +31,11 @@ var specs = require('./0.0-specs.js'),
 		    return element.getAttribute('class').then(function (classes) {
 		        return classes.split(' ').indexOf(cls) !== -1;
 		    });
+		},
+		getClass: function(element){
+			return element.getAttribute('class').then(function(classes){
+				return classes;
+			})
 		},
 		testMinAndMaxNameLength: function(input, submit){
 			input.clear();
@@ -51,6 +60,11 @@ var specs = require('./0.0-specs.js'),
 		hoverAndClick: function(button){
 			browser.actions().mouseMove(button).perform();
 			button.click();
+		},
+		getProjectId: function(url){
+			console.info("the url is");
+			console.info(url);
+			return url.match(/\w{32}/)[0];
 		}
 	};
 

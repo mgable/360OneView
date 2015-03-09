@@ -49,7 +49,7 @@
 										<span ng-show="showRow(scenario)"><icon type="check-circle" cname="ok-sign"></icon></span>
 									</div>
 									<div class="col-md-11">
-										<span class="clickable">{{scenario.title}}</span>
+										<span class="clickable" data-ms-id="scenario-title">{{scenario.title}}</span>
 									</div>
 								</div>
 							</div>
@@ -62,7 +62,7 @@
 	</div>
 	<div class="action-buttons" ng-show="showFields">
 		<ms-button type="cancel" action="close()" label="Cancel" data-ms-id="ScenarioCreate.cancel"></ms-button>
-		<ms-button type="submit" action="submit(scenario)" label="Continue" ng-disabled="ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList" data-ms-id="ScenarioCreate.submit"></ms-button>
+		<ms-button type="submit" action="submit(scenario)" label="Select" ng-disabled="ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList" data-ms-id="ScenarioCreate.submit"></ms-button>
 		<span ng-hide="scenarioList" class="loaderHolder">
 			<span class="loading"></span>Loading scenarios
 		</span>

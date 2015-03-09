@@ -12,7 +12,6 @@ angular.module('ThreeSixtyOneView')
 	var init = function() {
 			$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
 			$scope.saveAs = false;
-			$scope.rename = false;
 
 			// loads the pivot table after page was initially loaded from the results tab
 			if(!!$scope.viewData.id && $scope.pivotTableData === '') {
@@ -34,9 +33,10 @@ angular.module('ThreeSixtyOneView')
 				},
 				containment: '#dragDropArea'
 			};
-		};
+		},
+		rename = false;
 
-		// delete an item from column/row
+		// $added contains added levels in rows/columns and is coming from parent controller
 		$scope.deleteItem =  function(index, element) {
 			$scope.added[$scope.viewData[element][index].level.label] = false;
 			$scope.viewData[element].splice(index, 1);
@@ -44,7 +44,6 @@ angular.module('ThreeSixtyOneView')
 			$scope.saveDraftView();
 		};
 
-		// add item to row/column
 		$scope.addItem = function(item, element) {
 			var newItem = {dimension:{id:item.dimensionId},hierarchy:{id:-1},level:{id:item.levelId, label:item.label}};
 			$scope.viewData[element].push(newItem);
@@ -53,15 +52,15 @@ angular.module('ThreeSixtyOneView')
 			$scope.saveDraftView();
 		};
 
-		// replace the draggable item on the screen
 		$scope.replaceItem = function(selected, priorLabel, element) {
+			var match, newItem, index;
 			$scope.added[priorLabel] = false;
 			$scope.added[selected.label] = true;
 			$scope.determineTimeDisability($scope.added);
-			var match = _.find($scope.viewData[element], function(item) { return item.level.label === priorLabel; });
+			match = _.find($scope.viewData[element], function(item) { return item.level.label === priorLabel; });
 			if (match) {
-				var newItem = {dimension:{id:selected.dimensionId},hierarchy:{id:-1},level:{id:selected.levelId, label:selected.label}};
-	            var index = _.indexOf($scope.viewData[element], match);
+				newItem = {dimension:{id:selected.dimensionId},hierarchy:{id:-1},level:{id:selected.levelId, label:selected.label}};
+	            index = _.indexOf($scope.viewData[element], match);
 	            $scope.viewData[element].splice(index, 1, newItem);
 	        }
 
@@ -71,29 +70,24 @@ angular.module('ThreeSixtyOneView')
 		// open/dismiss filters selection modal
 		$scope.filtersModal = function(category) {
 			var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
-				{cat: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData.rows.concat($scope.viewData.columns), dimensions: $scope.dimensions},
+				{dimension: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData.rows.concat($scope.viewData.columns), dimensions: $scope.dimensions},
 				{windowSize: 'lg', windowClass: 'filters-modal'});
 
 			dialog.result.then(function(data) {
 				$scope.updateFilterValues(data);
-
 				$scope.saveDraftView();
 			});
 		};
 
 		// returns list of all the views in the current cube
-		// DUPE
 		$scope.getViewsList = function() {
 			return $scope.viewsList;
 		};
 
-		// get list of the dimensions in the current cube
 		$scope.getDimensions = function() {
 			return $scope.dimensions;
 		};
 
-		// open the modal for the list of all views
-		//DUPE
 		$scope.openAllViewsModal = function() {
 			var dialog = DialogService.openLightbox('views/modal/all_views.tpl.html', 'AllViewsCtrl',
 				{viewsList: $scope.viewsList, selectedViewId: $scope.viewData.id, e2e: $scope.e2e},
@@ -109,43 +103,40 @@ angular.module('ThreeSixtyOneView')
 			return $scope.pivotBuilderItems;
 		};
 
-		// returns items in a view element
 		$scope.getViewData = function(element) {
 			return $scope.viewData[element];
 		};
 
 		// reset the view to the last saved state
-		// DUPE
 		$scope.revertView = function() {
+			var originalViewName, originalViewId;
 			if($scope.isViewDraft()) {
-				var originalViewName = $scope.viewData.name.substring(8),
-					originalViewId = _.find($scope.viewsList, function(view) { return originalViewName === view.name; }).id;
+				originalViewName = $scope.viewData.name.substring(8);
+				originalViewId = _.find($scope.viewsList, function(view) { return originalViewName === view.name; }).id;
 
 				// load view automatically deletes draft view if a non-draft is loaded
 				$scope.loadView($scope.cubeId, originalViewId);
 			}
 		};
 
-		// start save as process
-		$scope.startSaveAs = function() {
-			$scope.saveAsName = $scope.viewData.name;
+		$scope.startSaveAs = function(name) {
+			$scope.saveAsName = name;
 			$scope.saveAs = true;
-			$scope.rename = false;
+			rename = false;
 		};
 
-		// submit save as process
 		$scope.submitSaveAs = function(evt) {
 			if (evt){
 				evt.stopPropagation();
 			}
 			$scope.viewData.name = $scope.saveAsName;
 
-			if ($scope.rename) { // if submitting
+			if (rename) {
 				if ($scope.isViewDraft()) {
 					$scope.isViewDraft(false);
 				}
 				$scope.renameView($scope.cubeId, $scope.viewData);
-			} else if (!$scope.rename) {
+			} else if (!rename) {
 				if ($scope.isViewDraft()) {
 					$scope.deleteView($scope.cubeId, $scope.viewData.id);
 				}
@@ -155,20 +146,18 @@ angular.module('ThreeSixtyOneView')
 			$scope.cancelSaveAs();
 		};
 
-		// cancel the save as process
 		$scope.cancelSaveAs = function(evt) {
 			if (evt && evt.stopPropagation){
 				evt.stopPropagation();
 			}
-			$scope.rename = false;
+			rename = false;
 			$scope.saveAs = false;
 		};
 
-		// start the rename process
 		$scope.startRename = function() {
 			$scope.saveAsName = $scope.viewData.name;
 			$scope.saveAs = true;
-			$scope.rename = true;
+			rename = true;
 		};
 
 		// show table/filters section and update height for pivot table
@@ -187,6 +176,10 @@ angular.module('ThreeSixtyOneView')
 
 		$scope.$on(EVENTS.tabClosed, function(){
 			$scope.$apply($scope.cancelSaveAs);
+		});
+
+		$scope.$on(EVENTS.pivotViewChange, function(){
+			$scope.cancelSaveAs();
 		});
 
 		init();

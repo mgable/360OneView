@@ -499,7 +499,9 @@ module.exports = function(grunt) {
                     args: {
                         baseUrl: "http://127.0.0.1:9001",
                         params: {
-                            path: "/"
+                            path: "/",
+                            client: grunt.option("client") || 'ford',
+                            tests: grunt.option("tests")
                         }
                     } // Target-specific arguments
                 }

@@ -5,7 +5,7 @@
 
 // View controllers
 angular.module('ThreeSixtyOneView')
-    .controller("MainCtrl", ["$scope", "$location", "ErrorService", "CONFIG", function($scope, $location, ErrorService, CONFIG) {
+    .controller("MainCtrl", ["$scope", "$location", "ErrorService", "CONFIG", "ServerService", "ScenarioStatesService", function($scope, $location, ErrorService, CONFIG, ServerService, ScenarioStatesService) {
         // Error service surfaced here
         // For unit testing only;
         $scope.ErrorService = ErrorService;
@@ -15,6 +15,8 @@ angular.module('ThreeSixtyOneView')
         if ($location.search().e2e === "true"){
             $scope.e2e = true;
         }
+
+        console.info(ServerService.get('server'));
 
         // convenience methods
         $scope.console = function console(msg) {

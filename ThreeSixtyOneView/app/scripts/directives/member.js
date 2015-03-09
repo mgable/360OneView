@@ -15,11 +15,12 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 			filters: '=', // <object> {touchpoint:{}, nameplate: {}, Region: {}, Time: {}, KPI: {}} summation of all members
 			category: '=', // <object> {label: <filter dimention>} currently selected filter dimension (time, touchpoint, region, nameplate)
 			expanded: '=', // empty || <object> {<filter dimenstion>: true, <filter dimenstion>: true} all expanded filters
-			expandall: '=' // <object> {label: <search text> } object containing search text
+			expandall: '=', // <object> {label: <search text> } object containing search text
+			updater: '&', // <function> that should be called to updated selected filters values and counts
+			dimensionindex: '=' // <number> index of the selected dimension
 		},
 		templateUrl: 'views/directives/member.tpl.html',
 		link: function(scope, element) {
-
 			var modifyItems = function(member, add) {
 				if(member.members.length > 0) {
 					for(var i = 0; i < member.members.length; i++) {
@@ -48,7 +49,12 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 				return output;
 			};
 
+			scope.updaterFunction = function(index, addedFilters) {
+				scope.updater({index: index, addedFilters: addedFilters});
+			};
+
 			scope.expanded = scope.expanded || {};
+			scope.isAllExpanded = scope.expandall.label === '';
 
 			scope.toggleMember = function(member) {
 				var item = checkedItems(member);
@@ -58,6 +64,8 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 				} else {
 					modifyItems(member, false);
 				}
+
+				scope.updaterFunction(scope.dimensionindex, scope.filters[scope.category.label]);
 			};
 
 			scope.determineStyle = function(member){
@@ -78,8 +86,14 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 				return scope.member.members.length > 0;
 			};
 
-			scope.setToggleStyle = function(member) {
-				return (!!scope.expanded[member.label] || scope.expandall.label !== '') ? 'fa-rotate-90':'';
+			scope.toggleCollapse = function() {
+				scope.expanded[scope.member.label] = !scope.expanded[scope.member.label];
+				scope.isAllExpanded = !scope.isAllExpanded;
+				return scope.expanded[scope.member.label];
+			};
+
+			scope.setToggleStyle = function() {
+				return (!scope.isAllExpanded) ? 'fa-rotate-90':'';
 			};
 
 			scope.isAllSelected = function(member) {
@@ -88,7 +102,7 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 			};
 
 			if(scope.member.members.length > 0) {
-				$compile('<div class="list-category" ng-class="{collapsed: !expanded[member.label] && expandall.label === \'\'}"><member ng-repeat="child in member.members | orderBy:\'label\':false" member="child" filters="filters" category="category" expanded="expanded" expandall="expandall"></member></div>')(scope, function(cloned) {
+				$compile('<div class="list-category" ng-class="{collapsed: isAllExpanded}"><member ng-repeat="child in member.members | orderBy:\'label\':false" member="child" filters="filters" category="category" expanded="expanded" expandall="expandall" updater="updaterFunction(index, addedFilters)" dimensionindex="dimensionindex"></member></div>')(scope, function(cloned) {
 					element.after(cloned);
 				});
 			}

@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-  .factory('ExportResourceModel', ["$location", "Resource", "CONFIG", "SERVER", function ($location, Resource, CONFIG, SERVER) {
-    var resource = new Resource(SERVER[$location.host()]  + CONFIG.application.api.exportResource);
+.factory('ExportResourceModel', ["$location", "Resource", "CONFIG", "ServerService", function ($location, Resource, CONFIG, ServerService) {
+	var resource = new Resource(ServerService.get($location.host())  + CONFIG.application.api.exportResource);
 
-    return {
-        resource: resource,
-        config: {}
-    };
+	return {
+		resource: resource,
+		config: {}
+	};
 }]);

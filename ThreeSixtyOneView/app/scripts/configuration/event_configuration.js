@@ -20,6 +20,8 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     noop: "noop",
     // Scenario editor and results
     scenarioElementChange: "PivotBuilderCtrl:loadCube",
+    pivotTableStatusChange: "ScenarioCtrl:pivotTableStatusChange",
+    pivotViewChange: "PivotBuilderCtrl:pivotViewChange",
     // ERRORS
     noDataReceived: "ErrorService:noDataReceived",
     serverError: "ErrorService:serverError",
@@ -27,5 +29,7 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     // TEST
     test: "test",
     // PIVOT TABLE
-    heightChanged: "heightChanged"
+    heightChanged: "heightChanged",
+    // BROADCAST STATES
+    broadcastStates: "broadcastStates"
 });

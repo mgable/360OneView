@@ -15,12 +15,12 @@
 		var currentDimension;
 		var addedFilters = {};
 
-		var findTree = function(_label, _dimension, _add) {
+		var findSelectedFilters = function(_label, _dimension, _add) {
 			var add, output = {};
 			add = _add || (_dimension.label === _label);
 
 			_.each(_dimension.members, function(member) {
-				output = angular.extend(output, findTree(_label, member, add));
+				output = angular.extend(output, findSelectedFilters(_label, member, add));
 			});
 
 			if(_dimension.members.length === 0 && add) {
@@ -39,10 +39,10 @@
 			});
 
 			if(filter.value.specification.type === 'All') {
-				angular.extend(addedFilters[filter.scope.dimension.label], findTree(filter.scope.level.label, currentDimension, false));
+				angular.extend(addedFilters[filter.scope.dimension.label], findSelectedFilters(filter.scope.level.label, currentDimension, false));
 			} else {
 				_.each(filter.value.specification.members, function(member) {
-					angular.extend(addedFilters[filter.scope.dimension.label], findTree(member.label, currentDimension, false));
+					angular.extend(addedFilters[filter.scope.dimension.label], findSelectedFilters(member.label, currentDimension, false));
 				});
 			}
 		});
@@ -135,9 +135,9 @@
 	this.generateCategorizeValueStructure = function(addedFilters, dimensions, viewData) {
 		if(!_.isEmpty(viewData)) {
 			var categorizedValue = [];
-			for(var i = 0; i < dimensions.length; i++) {
-				categorizedValue[i] = this.getCategorizeValues(dimensions[i], addedFilters[dimensions[i].label]);
-			}
+			_.each(dimensions, function(dimension, index) {
+				categorizedValue[index] = self.getCategorizeValues(dimension, addedFilters[dimension.label]);
+			});
 			return categorizedValue;
 		}
 	};
@@ -219,13 +219,13 @@
 				if(list.length < 1) { // if no items in the list create an empty view
 					return self.createEmptyView(dimensions, cubeMeta, false).then(function(view) {
 						list.unshift(view);
-						return {viewsList: list, view: view, dimensions: dimensions};
+						return {viewsList: list, viewData: view, dimensions: dimensions};
 					});
 				} else { // if there are views in the list, load the default/draft view
 					var viewId = self.findDefaultView(list);
 
 					return ManageAnalysisViewsService.getView(viewId, cubeMeta.id).then(function(view) {
-						var result = {viewsList: list, view: view, dimensions: dimensions};
+						var result = {viewsList: list, viewData: view, dimensions: dimensions};
 						return result;
 					});
 				}
