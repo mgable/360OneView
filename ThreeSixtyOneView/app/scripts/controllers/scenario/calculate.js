@@ -7,28 +7,21 @@
 * # ScenarioCalculationCtrl
 * Controller of the threeSixtOneViewApp
 */
-angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$scope', '$interval', '$timeout', 'AnalyticCalculationsService', 'Calculate', 'submitCalculate', 'Scenario', 'CONFIG', '$location', '$rootScope', '$state',
-    function ($scope, $interval, $timeout, AnalyticCalculationsService, Calculate, submitCalculate, Scenario, CONFIG, $location, $rootScope, $state) {
+angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$scope', '$interval', '$timeout', 'AnalyticCalculationsService', 'Status', 'Scenario', 'CONFIG', '$location', '$rootScope', '$state', 'EVENTS', 'ScenarioStatesService',
+    function ($scope, $interval, $timeout, AnalyticCalculationsService, Status, Scenario, CONFIG, $location, $rootScope, $state, EVENTS, ScenarioStatesService) {
 
     var stepLength = CONFIG.view.ScenarioCalculate.stateLength,
         stepValue = 100 / stepLength,
         scenarioStates = CONFIG.application.models.ScenarioAnalytics.states,
-        calcStatesData = {},
         runningStates = {},
         currentState = {},
-        stopTimer = {},
 
         // init function
         init = function() {
-            getCalcStatesData();
-            if(AnalyticCalculationsService.isInProgress($scope.scenarioState.message)) {
-                $scope.progressValue = 0;
-                $scope.step = 0;
-                $scope.errorMessage = "";
-                runProgress();
-            } else if (AnalyticCalculationsService.isSuccess($scope.scenarioState.message)) {
-                $state.go("Scenario.results");
-            }
+            // AnalyticCalculationsService.startCalculation(Status, Scenario.id).then(function() {
+            //     ScenarioStatesService.startPull([Scenario.id]);
+            // });
+            ScenarioStatesService.startPull([Scenario.id]);
         },
         // get the current index for status
         getCurrentStateIndex = function(_data) {
@@ -39,48 +32,33 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
             }
         },
         // initiate the model
-        getCalcStatesData = function() {
-            AnalyticCalculationsService.get(Scenario.id).then(function(data) {
-                calcStatesData = data;
-                runningStates = calcStatesData.runningStates;
-                var currentState = AnalyticCalculationsService.getScenarioState(calcStatesData.currentState),
-                    setState;
-                _.each(scenarioStates, function(v, k) {
-                    if (v.message === currentState.message) { setState = k; }
-                });
-                $scope.setState(setState);
-                $scope.step = getCurrentStateIndex(calcStatesData);
-                $scope.progressValue = stepValue * $scope.step;
-                getCurrentStateTitle();
-                getProgressbarType();
-                runningStates = addIcons(runningStates);
-                updateCalcStatesData();
+        getCalcStatesData = function(response) {
+            runningStates = response.runningStates;
+            currentState = ScenarioStatesService.getScenarioState(response.currentState);
+            var setState;
+            _.each(scenarioStates, function(v, k) {
+                if (v.message === currentState.message) { setState = k; }
             });
+            $scope.setState(setState);
+            $scope.step = getCurrentStateIndex(response);
+            $scope.progressValue = stepValue * $scope.step;
+            getCurrentStateTitle();
+            getProgressbarType();
+            runningStates = addIcons(runningStates);
+            updateCalcStatesData(response);
         },
         // update states data
-        updateCalcStatesData = function(_data) {
+        updateCalcStatesData = function(response) {
             if (AnalyticCalculationsService.isSuccess($scope.scenarioState.message)) {
                 $state.go("Scenario.results");
             } else if (AnalyticCalculationsService.isFailed($scope.scenarioState.message)) {
-                stopProgress();
-                $scope.errorMessage = calcStatesData.additionalInfo.message;
+                ScenarioStatesService.stopPull();
+                $scope.errorMessage = response.additionalInfo.message;
             }
-        },
-        // start the progress
-        runProgress = function() {
-            stopTimer = $interval(function(){
-                getCalcStatesData();
-            }, CONFIG.view.ScenarioCalculate.timerInterval);
-        },
-        // stop the progress
-        stopProgress = function() {
-            $interval.cancel(stopTimer);
-            stopTimer = null;
         },
         // change progressbar color based on states
         getProgressbarType = function() {
-            var type = AnalyticCalculationsService.isFailed($scope.scenarioState.message) ? 'danger' : 'success';
-            $scope.progressbarType = type;
+            $scope.progressbarType = AnalyticCalculationsService.isFailed($scope.scenarioState.message) ? 'danger' : 'success';
         },
         // add icons to state list
         addIcons = function(data) {
@@ -113,29 +91,31 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
     };
     // reset the progress
     $scope.retry = function() {
-        stopProgress();
-        $scope.setState('NOT_CALCULATED');
+        ScenarioStatesService.stopPull();
         AnalyticCalculationsService.post(Scenario.id).then(function() {
-            $scope.setState('IN_PROGRESS');
             init();
         });
     };
     // go to the edit page
     $scope.gotoEdit = function() {
-        stopProgress();
-        $scope.setState('NOT_CALCULATED');
+        ScenarioStatesService.stopPull();
         $state.go("Scenario.edit");
     };
     // style complated state
     $scope.styleState = function(index) {
         return $scope.step >= index ? true : false;
-    }
-    // whenever leave calculate page, stop progress
-    $rootScope.$on('$locationChangeStart', function(event, newPath) {
-        var currentPath = newPath,
-            re = /calculate$/;
-        if (!re.test(currentPath)) {
-            stopProgress();
+    };
+
+    $scope.$on('broadcastStates', function(event, response) {
+        getCalcStatesData(response[0]);
+        $scope.disableSimulateBtn(false);
+        if(AnalyticCalculationsService.isInProgress($scope.scenarioState.message)) {
+            $scope.progressValue = 0;
+            $scope.step = 0;
+            $scope.errorMessage = "";
+            $scope.disableSimulateBtn(true);
+        } else if (AnalyticCalculationsService.isSuccess($scope.scenarioState.message)) {
+            $state.go("Scenario.results");
         }
     });
 

@@ -3,12 +3,13 @@
 
 'use strict';
 angular.module('ThreeSixtyOneView')
-.controller("ScenarioCtrl", ["$scope", "$rootScope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService", "AnalyticCalculationsService", "CONFIG",
-	function($scope, $rootScope, $timeout, Project, Scenario, ScenarioAnalysisElements, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService, AnalyticCalculationsService, CONFIG) {
+.controller("ScenarioCtrl", ["$scope", "$rootScope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService", "AnalyticCalculationsService", "CONFIG", "ScenarioStatesService",
+	function($scope, $rootScope, $timeout, Project, Scenario, ScenarioAnalysisElements, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService, AnalyticCalculationsService, CONFIG, ScenarioStatesService) {
 
 		var init = function() {
 			$scope.project = Project;
 			$scope.scenario = Scenario;
+			$scope.simulateButtonDisabled = false;
 
 			$scope.pivotTableSaveStatus = '';
 
@@ -19,8 +20,7 @@ angular.module('ThreeSixtyOneView')
 			$scope.setScenarioElement(!!parseInt($state.params.scenarioElementId) ? getScenarioElementById($scope.scenarioElements, parseInt($state.params.scenarioElementId)) : getScenarioElementByCubeName($scope.scenarioElements, 'TOUCHPOINT'), true);
 
 			$scope.getlocation();
-
-			$scope.scenarioState = AnalyticCalculationsService.getScenarioState(Calculate.currentState);
+			$scope.scenarioState = ScenarioStatesService.getScenarioState(Calculate.currentState);
 			$scope.scenarioStates = CONFIG.application.models.ScenarioAnalytics.states;
 
 			setView($scope.scenarioState);
@@ -77,12 +77,11 @@ angular.module('ThreeSixtyOneView')
 			}
 		};
 
-		$scope.disableSimulateBtn = function() {
-			if($scope.location === '/edit') {
-				return ($scope.scenarioState.message === $scope.scenarioStates.IN_PROGRESS.message || $scope.scenarioState.message === $scope.scenarioStates.SUCCESS.message) ? true : false;
-			} else {
-				return true;
+		$scope.disableSimulateBtn = function(state) {
+			if(!!state) {
+				$scope.simulateButtonDisabled = state;
 			}
+			return $scope.simulateButtonDisabled;
 		};
 
 		$scope.$on(EVENTS.pivotTableStatusChange, function(event, data) {
