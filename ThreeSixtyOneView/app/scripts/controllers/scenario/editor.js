@@ -3,8 +3,8 @@
 
 'use strict';
 angular.module('ThreeSixtyOneView')
-.controller("ScenarioEditorCtrl", ["$scope", "$rootScope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService", "AnalyticCalculationsService", "CONFIG",
-	function($scope, $rootScope, $timeout, Project, Scenario, ScenarioAnalysisElements, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService, AnalyticCalculationsService, CONFIG) {
+.controller("ScenarioEditorCtrl", ["$scope", "$rootScope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService", "AnalyticCalculationsService", "ScenarioStatesService", "CONFIG",
+	function($scope, $rootScope, $timeout, Project, Scenario, ScenarioAnalysisElements, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService, AnalyticCalculationsService, ScenarioStatesService, CONFIG) {
 
 		var init = function() {
 			// determines if the current view is a draft view
@@ -18,6 +18,10 @@ angular.module('ThreeSixtyOneView')
 			// added filters in categorized format
 			$scope.categorizedValue = [];
 			$scope.pivotTableData = '';
+
+			$scope.readOnlyMode = false;
+
+			ScenarioStatesService.startPull([Scenario.id]);
 
 			// this is how pivotbuilder and pivottable communicate
 			$scope.spread = {sheet: {loading: true}};
@@ -182,8 +186,34 @@ angular.module('ThreeSixtyOneView')
 			});
 		};
 
+		$scope.determineReadOnlyMode = function(currentState) {
+			var states = CONFIG.application.models.ScenarioAnalytics.states;
+
+			if(states.IN_PROGRESS.message === currentState) {
+				if(!$scope.readOnlyMode) {
+					$scope.readOnlyMode = true;
+					$scope.disableSimulateButton(true);
+					if(!!$scope.spread.setReadOnly) {
+						$scope.spread.setReadOnly(true);
+					}
+				}
+			} else {
+				if($scope.readOnlyMode) {
+					$scope.readOnlyMode = false;
+					$scope.disableSimulateButton(false);
+					if(!!$scope.spread.setReadOnly) {
+						$scope.spread.setReadOnly(false);
+					}
+				}
+			}
+		};
+
 		$scope.$on(EVENTS.scenarioElementChange, function(evt, cubeMeta) {
 			initiateModel(cubeMeta);
+		});
+
+		$scope.$on(EVENTS.broadcastStates, function($event, response) {
+			$scope.determineReadOnlyMode(response[0].currentState.message);
 		});
 
 		init();

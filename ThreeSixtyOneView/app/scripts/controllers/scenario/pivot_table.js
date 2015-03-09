@@ -166,6 +166,7 @@ angular.module("ThreeSixtyOneView").controller("PivotTableCtrl", ["$scope", "$ro
 					addDefaultStyles();
 					addColumnStyle();
 					addRowStyle(formatObject);
+					$scope.spread.setReadOnly($scope.readOnlyMode);
 
 					sheet.isPaintSuspended(false);
 				},
@@ -288,6 +289,18 @@ angular.module("ThreeSixtyOneView").controller("PivotTableCtrl", ["$scope", "$ro
 					$timeout(function() {
 						formatSheet(formatObject);
 					});
+				}
+			};
+
+			$scope.spread.setReadOnly = function(readonly) {
+				for (var i = rowHeaderCnt; i < rowCnt; i++) {
+					for (var j = colHeaderCnt; j < colCnt; j++) {
+						if(sheet.getCell(i, j).value() === null) {
+							sheet.getCell(i, j).locked(readonly);
+						} else {
+							sheet.getCell(i, j).locked(readonly);
+						}
+					}
 				}
 			};
 

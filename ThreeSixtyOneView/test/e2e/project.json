@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"project":{"url":"http://127.0.0.1:9001/#/dashboard/fb9f2fecc4b1308cb4f6643f4d54d008","id":"fb9f2fecc4b1308cb4f6643f4d54d008","title":"My Renamed Project - 1425405935713"},"scenario":{"url":"http://127.0.0.1:9001/#/scenario/fb9f2fecc4b1308cb4f6643f4d54d008/120/edit/","id":"120","title":"My Renamed Scenario - 1425341349370"},"calculate":{"url":"http://127.0.0.1:9001/#/scenario/fb9f2fecc4b1308cb4f6643f4d54d008/120/calculate"}}
+=======
+{"project":{"url":"http://360-ui-prototype.marketshare.com/index.html#/dashboard/93137489303b3ca48adea92adc25ab7e","id":"93137489303b3ca48adea92adc25ab7e","title":"My Renamed Project - 1425925480141"},"scenario":{"url":"http://360-ui-prototype.marketshare.com/index.html#/scenario/93137489303b3ca48adea92adc25ab7e/280/edit/","id":"280","title":"My FIRST new test scenario title - 1425925480181"}}
+>>>>>>> develop

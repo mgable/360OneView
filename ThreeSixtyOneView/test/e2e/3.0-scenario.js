@@ -55,9 +55,15 @@ if(!browser.params.tests || browser.params.tests === 3){
 		});
 
 		describe("analysis element toolbar", function(){
+<<<<<<< HEAD
 			it("should have analysis elements", function(){
 				expect(specs.analysisElements.count()).toBeGreaterThan(0);
 			});
+=======
+			// it("should have thirteen analysis elements", function(){
+			// 	expect(specs.analysisElements.count()).toBe(specs.assumedData.cubes.length);
+			// });
+>>>>>>> develop
 
 			it("should have 'marketing plan' selected", function(){
 				specs.selectedAnalysisElement.getText().then(function(selected){
@@ -65,6 +71,7 @@ if(!browser.params.tests || browser.params.tests === 3){
 				});
 			});
 
+<<<<<<< HEAD
 			it("should allow the user to select a new cube", function(){
 				specs.analysisElements.each(function(element){
 					specs.selectedAnalysisElement.click();
@@ -174,6 +181,98 @@ if(!browser.params.tests || browser.params.tests === 3){
 					});
 				});
 			});
+=======
+			// it("should allow the user to select a new cube", function(){
+			// 	var index = 0;
+			// 	specs.analysisElements.each(function(element){
+			// 		specs.selectedAnalysisElement.click();
+			// 		element.click();
+			// 		specs.selectedAnalysisElement.getText().then(function(selected){
+			// 			expect(selected).toEqual(specs.assumedData.cubes[index++]);
+			// 		});
+			// 	});
+			// });
+
+			it("should not allow the analysis element to be replaced or copied on the Marketing Plan", function(){
+				expect(funcs.hasClass(specs.copyAndReplaceCube, "ng-hide")).toBeTruthy();
+			});
+
+			// it("should allow the analysis element to be replaced or copied for all others", function(){
+			// 	var index = 0;
+			// 	specs.analysisElements.each(function(element){
+			// 		specs.selectedAnalysisElement.click();
+			// 		element.click();
+			// 		if (index > 0) {
+			// 			expect(funcs.hasClass(specs.copyAndReplaceCube, "ng-hide")).toBeFalsy();
+			// 		}
+			// 		index++;
+			// 	});
+			// });
+
+			// it("should have a default analysis element file", function(){
+			// 	var index = 0;
+			// 	specs.analysisElements.each(function(element){
+			// 		specs.selectedAnalysisElement.click();
+			// 		element.click();
+			// 		if (index > 0) {
+			// 			specs.replaceButton.click();
+			// 			expect(specs.analysisElementFileList.count()).toBeGreaterThan(0);
+			// 			specs.analysisElementFileList.getText().then(function(fileList){
+			// 				expect(fileList).arrayElementContains(specs.assumedData.preloadedAnalysisElement);
+			// 				specs.replaceCancelButton.click();
+			// 			});
+						
+			// 		}
+			// 		browser.waitForAngular();
+			// 		index++;
+			// 	});
+			// });
+
+			// it("should copy and replace the analysis element file", function(){
+			// 	funcs.selectSecondCube();
+			// 	specs.copyButton.click();
+			// 	expect(specs.submitButton.getAttribute("disabled")).toBeTruthy();
+			// 	specs.copyAndReplaceNameField.clear();
+			// 	specs.copyAndReplaceNameField.sendKeys(analysisElementFileName);
+			// 	expect(specs.submitButton.getAttribute("disabled")).toBeTruthy();
+			// 	specs.copyAndReplaceDescriptionField.sendKeys(analysisElementFileDescription);
+			// 	browser.waitForAngular();
+			// 	expect(specs.submitButton.getAttribute("disabled")).toBeFalsy();
+			// 	specs.submitButton.click();
+			// 	specs.copyAndReplaceCubeName.getText().then(function(fileName){
+			// 		expect(fileName).toEqual(analysisElementFileName);
+			// 	});
+			// });
+
+			// it("should replace the analysis element file", function(){
+			// 	var file;
+			// 	specs.selectedAnalysisElement.click();
+			// 	specs.analysisElements.get(1).click();
+			// 	specs.replaceButton.click();
+			// 	specs.analysisElementFileList.last().element(by.css('.list-box .item-name')).getText().then(function(fileName){
+			// 		file = fileName;
+			// 		specs.analysisElementFileList.last().click();
+			// 		specs.replaceSubmitButton.click();
+			// 		browser.waitForAngular();
+			// 		specs.copyAndReplaceCubeName.getText().then(function(fileName){
+			// 			expect(fileName).toEqual(file);
+			// 		});
+
+			// 		specs.selectedAnalysisElement.click();
+			// 		specs.analysisElements.get(1).click();
+			// 		specs.replaceButton.click();
+			// 		specs.analysisElementFileList.first().element(by.css('.list-box .item-name')).getText().then(function(fileName){
+			// 			file = fileName;
+			// 			specs.analysisElementFileList.first().click();
+			// 			specs.replaceSubmitButton.click();
+			// 			browser.waitForAngular();
+			// 			specs.copyAndReplaceCubeName.getText().then(function(fileName){
+			// 			expect(fileName).toEqual(file);
+			// 		});
+			// 		})
+			// 	})
+			// });
+>>>>>>> develop
 		});
 
 		describe("editor tabs", function(){

@@ -74,7 +74,7 @@ if(!browser.params.tests || browser.params.tests === 1){
 				var itemTitle = funcs.getFirstItemTitle(),
 					selectedItemTitle = funcs.getSelectedItemTitle();
 
-					expect(itemTitle.getText()).toBe(selectedItemTitle.getText());
+				expect(itemTitle.getText()).toBe(selectedItemTitle.getText());
 			});
 
 			it("should put the selected item in the tray", function(){

@@ -5,7 +5,7 @@
 
 // View controllers
 angular.module('ThreeSixtyOneView')
-    .controller("MainCtrl", ["$scope", "$location", "ErrorService", "CONFIG", "ServerService", function($scope, $location, ErrorService, CONFIG, ServerService) {
+    .controller("MainCtrl", ["$scope", "$location", "ErrorService", "CONFIG", "ServerService", "ScenarioStatesService", function($scope, $location, ErrorService, CONFIG, ServerService, ScenarioStatesService) {
         // Error service surfaced here
         // For unit testing only;
         $scope.ErrorService = ErrorService;
