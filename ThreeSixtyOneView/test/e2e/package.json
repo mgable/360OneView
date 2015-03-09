@@ -2,7 +2,9 @@
   "name": "ThreeSixtyOneView",
   "version": "0.0.0",
   "dependencies": {
+    "http": "0.0.0",
     "q": "^1.2.0",
+    "request": "^2.53.0",
     "underscore": "1.6.0"
   }
 }

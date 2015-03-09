@@ -8,7 +8,7 @@ var specs = require('./1.0-project_listing_specs.js'),
 	projectId;
 
 
-if(!browser.params.tests || browser.params.test === 2){
+if(!browser.params.tests || browser.params.tests === 2){
 
 	describe("executing dashboard tests", function(){
 		console.info("executing dashboard tests");

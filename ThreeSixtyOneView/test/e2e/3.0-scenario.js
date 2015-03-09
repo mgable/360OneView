@@ -10,7 +10,7 @@ var specs = require('./3.0-scenario_specs.js'),
 	analysisElementFileName = "My New Analysis Element File " + Date.now(),
 	analysisElementFileDescription = "My New Description";
 
-if(!browser.params.tests || browser.params.test === 3){
+if(!browser.params.tests || browser.params.tests === 3){
 	describe("executing scenario tests", function(){
 		console.info("executing scenrio tests");
 		it("should set up the tests", function(){
