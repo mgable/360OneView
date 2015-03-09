@@ -456,7 +456,7 @@ module.exports = function(grunt) {
 
         protractor: {
             options: {
-                keepAlive: true, // If false, the grunt process stops when the test fails.
+                keepAlive: false, // If false, the grunt process stops when the test fails.
                 noColor: false, // If true, protractor will not use colors in its output.
                 args: {
                         client: grunt.option("client") || 'ford',

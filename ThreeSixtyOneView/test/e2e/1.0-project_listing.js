@@ -104,7 +104,7 @@ if(!browser.params.tests || browser.params.tests === 1){
 			});
 		});
 
-		xdescribe("Sort: ", function(){
+		describe("Sort: ", function(){
 			it("should switch between ordering by name, modified last and created on", function(){
 				var itemTitles,
 					itemModifiedOn,
@@ -204,7 +204,7 @@ if(!browser.params.tests || browser.params.tests === 1){
 			});
 		});
 
-		xdescribe("Favorites: ", function(){
+		describe("Favorites: ", function(){
 			var masterProject = funcs.getMasterProjectItem(),
 				masterProjectFavorite = masterProject.element(by.css(specs.favoriteClassHolder));
 
@@ -268,7 +268,7 @@ if(!browser.params.tests || browser.params.tests === 1){
 			});
 		});
 
-		xdescribe("Filters: ", function(){
+		describe("Filters: ", function(){
 			it ("should toggle the filter menu dropdown", function(){
 				expect(funcs.hasClass(specs.filterDropdown, 'hide')).toBe(true);
 				specs.filterByButton.click();
@@ -317,14 +317,14 @@ if(!browser.params.tests || browser.params.tests === 1){
 			});
 		});
 
-		xdescribe("Search: ", function(){
+		describe("Search: ", function(){
 			it("should search", function(){
 				funcs.enterSearch(specs.masterProject)
 				expect(funcs.getItems().count()).toBe(1);
 			});
 		});
 
-		xdescribe("Create project: ", function(){
+		describe("Create project: ", function(){
 			var firstItemTitle,
 				testFileName = "My New Test Project- " + Date.now();
 
@@ -367,7 +367,7 @@ if(!browser.params.tests || browser.params.tests === 1){
 			});
 		});
 
-		xdescribe("rename functions:", function(){
+		describe("rename functions:", function(){
 			var first,
 				newName = "My Renamed Project - " + Date.now();
 
@@ -452,7 +452,7 @@ if(!browser.params.tests || browser.params.tests === 1){
 			});
 		});	
 
-		xdescribe("edit description: ", function(){
+		describe("edit description: ", function(){
 			var first,
 				newDescription = "This is my new description - " + Date.now();
 
@@ -497,7 +497,7 @@ if(!browser.params.tests || browser.params.tests === 1){
 			});
 		});
 
-		xdescribe("Page actions: ", function(){
+		describe("Page actions: ", function(){
 			it("should prevent the master project from being edited", function(){
 				funcs.selectMasterProject();
 				expect(specs.renameButton.isPresent()).toBe(false);
@@ -525,7 +525,7 @@ if(!browser.params.tests || browser.params.tests === 1){
 			});
 		});
 
-		xdescribe("Page attributes: ", function(){
+		describe("Page attributes: ", function(){
 			it('should have a title', function() {
 				expect(browser.getTitle()).toEqual(specs.pageTitle);
 			});
