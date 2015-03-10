@@ -6,7 +6,7 @@ var specs = require('./0.0-specs.js'),
 	filename = "./test/e2e/project.json",
 	//request = require('request'),
 	http = require('http'),
-	cache, 
+	cache = {}, 
 	prepTestArray = function(){
 		if(typeof browser.params.tests === "number"){
 			console.info("making array");
@@ -31,42 +31,35 @@ var specs = require('./0.0-specs.js'),
 			console.info("writing");
 			console.info(data);
 		},
+		getScenarioUrl: function (uuid) { return specs.scenarios.replace(/:uuid/, uuid)},
 		readProjectInfo: function(){
 			return JSON.parse(fs.readFileSync(filename, {encoding: 'utf8'}));
 		},
-		deleteProjectInfo: function(){
-			try{
-				fs.unlinkSync(filename);
-			}catch(e){console.info(filename + " does not exist");}
+		sortProjectsByDate: function(data){
+			data.sort(function(a,b){
+			    var first = new Date(a.auditInfo.lastUpdatedOn),
+			        second = new Date(b.auditInfo.lastUpdatedOn);
+				return second - first;
+			});
+			return data;
 		},
-		getRawData_ProjectsUrl: function(){
-			return specs.domain + specs.projects;
-		},
-		getRawData_projects: function(bustCache){
+		get: function(options, type){
 			var defer = protractor.promise.defer(),
-				options = {
-					host: "ec2-54-205-7-240.compute-1.amazonaws.com",
-					port: "8080",
-					method: "GET",
-					path: "/rubix/v1/project"
-				},
 				callback = function(response) {
 				  var str = '';
-
-				  //another chunk of data has been recieved, so append it to `str`
 				  response.on('data', function (chunk) {
 				    str += chunk;
 				  });
 
-				  //the whole response has been recieved, so we just print it out here
 				  response.on('end', function () {
-				  	cache = JSON.parse(str);
-				    defer.fulfill(cache);
+				  	cache[type] = JSON.parse(str);
+				    defer.fulfill(cache[type]);
+
 				  });
 				};
 
-			if (cache){
-				defer.fulfill(cache);
+			if (cache[type]){
+				defer.fulfill(cache[type]);
 				console.info("getting from cache");
 			} else {
 				http.request(options, callback).end();
@@ -74,6 +67,35 @@ var specs = require('./0.0-specs.js'),
 			}
 
 			return defer.promise;
+		},
+		deleteProjectInfo: function(){
+			try{
+				fs.unlinkSync(filename);
+			}catch(e){console.info(filename + " does not exist");}
+		},
+		getRawData_scenarios: function(uuid){
+			var options = {
+					host: specs.domain,
+					port: specs.port,
+					method: "GET",
+					path: this.getScenarioUrl(uuid)
+				};
+
+			return this.get(options, uuid)
+		},
+		getRawData_ProjectsUrl: function(){
+			return "http:// " + specs.domain + specs.projects;
+		},
+		getRawData_projects: function(bustCache){
+			var options = {
+					host: specs.domain,
+					port: specs.port,
+					method: "GET",
+					path: specs.projects
+				};
+
+			return this.get(options, "projects")
+				
 		},
 		testInputRestrictions: function(input, submit){
 			_.each(specs.inputRestrictions, function(restrictedCharacter){

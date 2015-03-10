@@ -79,7 +79,7 @@ var coreFunctions = require('./0.0-functions.js'),
 			return element.all(by.repeater(specs.items)).last();
 		},
 		getScenarios: function(){
-			return element.all(by.repeater(specs.scenarios));
+			return element.all(by.repeater(specs.scenariosElement));
 		},
 		getFirstScenario: function(){
 			var allScenarios = element.all(by.repeater(specs.scenarios)),

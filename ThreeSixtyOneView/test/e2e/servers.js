@@ -1,7 +1,13 @@
 "use strict";
 var clients = {
-		"ford": 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8080',
-		"hilton": 'http://ec2-54-91-240-179.compute-1.amazonaws.com:8081'
+		"ford": {
+			"url": 'ec2-54-205-7-240.compute-1.amazonaws.com',
+			"port": '8080'
+		},
+		"hilton": {
+			"url": 'ec2-54-91-240-179.compute-1.amazonaws.com',
+			"port": '8081'
+		}
 	},
 
 	data = {

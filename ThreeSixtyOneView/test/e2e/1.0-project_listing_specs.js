@@ -66,7 +66,7 @@ var coreSpecs = require('./0.0-specs.js'),
 		items: "item in getData()",
 		itemCount: "span[data-ms-id='itemCount']",
 		selectedItemTitle: inlineRename  + " span.title",
-		scenarios: "scenario in selectedItem.scenarios",
+		scenariosElement: "scenario in selectedItem.scenarios",
 
 		scenarioCreateModal: element(by.css(scenarioCreateModal)),
 		column_2SortOptionsButton: element(by.css(column_2SortOptions)),
@@ -99,7 +99,7 @@ var coreSpecs = require('./0.0-specs.js'),
 		editDescriptionButton: element(by.css(editDescription)),
 		inlineEditCancelButton: element(by.css(inlineEditCancel)),
 		textAreaHolder: element(by.css(textAreaParent)),
-		inlineEditSubmitButton: element(by.css(inlineEditSubmit))
+		inlineEditSubmitButton: element(by.css(inlineEditSubmit)),
 	};
 
 _.extend(data, coreSpecs);
