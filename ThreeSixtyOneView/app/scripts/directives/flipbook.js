@@ -18,7 +18,8 @@ angular.module('ThreeSixtyOneView.directives')
         	basePath = attrs.basepath,
         	callback = attrs.callback,
 	        setView = function(i){
-	        	scope.view = basePath + "/" + views[i].url;
+	        	scope.view = views[i];
+	        	scope.url = basePath + "/" + views[i].url;
 	        	scope.label = views[i].buttonLabel || scope.DIRECTION;
 	        },
 	        init = function(){

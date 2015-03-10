@@ -3,8 +3,8 @@
 
 	<div ng-controller="ScenarioTemplatesViewsCtrl">
 		<flipbook data={{CONFIG.view.ScenarioTemplates.workflow}} basePath="views/includes/scenario_templates" callback="done">
-			hey
-				<ng-include src="view"></ng-include>
+			hey {{view.label}}
+				<ng-include src="url"></ng-include>
 		</flipbook>
 	</div>
 </div>

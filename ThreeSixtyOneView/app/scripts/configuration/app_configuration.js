@@ -275,7 +275,12 @@ angular.module('ThreeSixtyOneView.config')
                 }
             },
             "ScenarioTemplates": {
-                "workflow" : [{url: "name_and_describe.tpl.html"}, {url: "choose_dimensions.tpl.html"}, {url: "choose_defaults.tpl.html"}, {url: "review.tpl.html", buttonLabel: "DONE"}]
+                "workflow" : [
+                    {url: "name_and_describe.tpl.html", label: "Name & Describe"}, 
+                    {url: "choose_dimensions.tpl.html", label: "Choose Dimensions"}, 
+                    {url: "choose_defaults.tpl.html", label: "Choose Defaults"}, 
+                    {url: "review.tpl.html", buttonLabel: "DONE", label: "Review"}
+                ]
             }
         },
         "client": {
