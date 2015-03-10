@@ -1,22 +1,18 @@
 'use strict';
 
-describe('Controller: ModelScenarioTemplatesServiceCtrl', function () {
+describe('Service: ScenarioTemplatesService', function () {
 
-  // load the controller's module
-  beforeEach(module('ThreeSixtyOneView'));
+// load the controller's module
+	beforeEach(module('ThreeSixtyOneView.services'));
 
-  var ModelScenarioTemplatesServiceCtrl,
-    scope;
+	var ScenarioTemplatesService;
 
-  // Initialize the controller and a mock scope
-  beforeEach(inject(function ($controller, $rootScope) {
-    scope = $rootScope.$new();
-    ModelScenarioTemplatesServiceCtrl = $controller('ModelScenarioTemplatesServiceCtrl', {
-      $scope: scope
-    });
-  }));
+	// Initialize the controller and a mock scope
+	beforeEach(inject(function ($rootScope, _ScenarioTemplatesService_) {
+		ScenarioTemplatesService = _ScenarioTemplatesService_;
+	}));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
-  });
+	it('resource service should be extended to the current scope', function () {
+		expect(ScenarioTemplatesService.resource).toBeDefined();
+	});
 });
