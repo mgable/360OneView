@@ -273,6 +273,14 @@ angular.module('ThreeSixtyOneView.config')
                     "headerFontStyle": "14px proxima-nova, arial, sans-serif",
                     "cellFontStyle": "14px proxima-nova, arial, sans-serif"
                 }
+            },
+            "ScenarioTemplates": {
+                "workflow" : [
+                    {url: "name_and_describe.tpl.html", label: "Name & Describe"}, 
+                    {url: "choose_dimensions.tpl.html", label: "Choose Dimensions"}, 
+                    {url: "choose_defaults.tpl.html", label: "Choose Defaults"}, 
+                    {url: "review.tpl.html", buttonLabel: "DONE", label: "Review"}
+                ]
             }
         },
         "client": {

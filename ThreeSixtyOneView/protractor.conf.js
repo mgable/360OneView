@@ -5,6 +5,7 @@ exports.config = {
     'browserName': 'chrome'
   },
   framework: 'jasmine',
+  allScriptsTimeout: 60000,
   jasmineNodeOpts: {
     defaultTimeoutInterval: 360000,
     includeStackTrace: false

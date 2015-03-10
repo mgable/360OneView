@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc service
- * @name threeSixtOneViewApp.PivotMetaService
+ * @name ThreeSixtyOneView.PivotMetaService
  * @description
  * # PivotMetaService
- * Service in the threeSixtOneViewApp.
+ * Service in the ThreeSixtyOneView.
  */
  angular.module('ThreeSixtyOneView.services')
  .service('PivotMetaService', ['MetaDataService', 'ManageAnalysisViewsService', function PivotMetaService(MetaDataService, ManageAnalysisViewsService) {

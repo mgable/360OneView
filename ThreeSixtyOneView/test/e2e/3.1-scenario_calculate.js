@@ -1,21 +1,28 @@
 "use strict";
 
 var specs = require('./3.1-scenario_calculate_specs.js'),
-	funcs = require('./1.0-project_listing_functions.js'),
+	funcs = require('./3.0-scenario_functions.js'),
 	_ = require('underscore'),
 	projectInfo,
+	dashboardUrl,
 	scenarioUrl,
-	projectId;
+	calculateUrl,
+	projectId,
+	scenarioId,
+	testName = {title: "Caclulate", id: 31};
 
-if(!browser.params.tests || browser.params.tests === 31){
+if(funcs.runTheseTests(testName)){
 
-	xdescribe("executing calculate tests", function(){
-		console.info("executing calculate tests");
+	describe("executing " + testName.title, function(){
+		console.info("executing " + testName.title);
 		it("should set up the tests", function(){
-			console.info("results page tests:");
+			console.info(testName.title + " Tests: ");
 			projectInfo = funcs.readProjectInfo();
-			scenarioUrl = projectInfo.scenario.url;
 			projectId = projectInfo.project.id;
+			scenarioId = projectInfo.scenario.id;
+			scenarioUrl = funcs.getScenarioUrl(projectId,scenarioId);
+			dashboardUrl = funcs.getDashboardUrl(projectId);
+			calculateUrl = funcs.getCalculateUrl(projectId,scenarioId);
 		});
 	})
 
@@ -25,11 +32,11 @@ if(!browser.params.tests || browser.params.tests === 31){
 		}
 	);
 
-	xdescribe("calculations Page:", function(){
+	describe("calculations Page:", function(){
 		var calculatingScenario, currentStatus = null;
 
 		it("should find the scenario in the items list", function(){
-			browser.get(projectInfo.project.url);
+			browser.get(dashboardUrl);
 			var items = funcs.getItems();
 			items.each(function(item){
 				item.element(by.css(specs.titleClass)).getText().then(function(title){
@@ -41,118 +48,113 @@ if(!browser.params.tests || browser.params.tests === 31){
 		});
 
 		it("should calculate a scenario", function(){
-			browser.get(projectInfo.scenario.url);
+			browser.get(scenarioUrl);
 			specs.simulateButton.click();
 			browser.waitForAngular();
 			browser.getLocationAbsUrl().then(function(url){
 				expect(url).toContain("/calculate");
 				_.extend(projectInfo,  {"calculate": {"url": url}});
-				funcs.saveProjectInfo();
+				funcs.saveProjectInfo(projectInfo);
 			});
 		});
 
+		// xit("should set the calculation states correctly", function(){
+		// 	console.info("should set the calculation states correctly");
+		// 	browser.get(calculateUrl);
 
-		it("should set the calculation states correctly", function(){
-			console.info("should set the calculation states correctly");
-			browser.get(projectInfo.calculate.url);
+		// 	specs.states.each(function(state){
+		// 		state.getText().then(console.info)
+		// 		browser.wait(function(){
+		// 			var deferred = protractor.promise.defer();
+		// 			deferred.fulfill(funcs.hasClass(state, "completed"));
+		// 			return deferred.promise;
+		// 		});
+		// 		expect(funcs.hasClass(state, "completed")).toBe(true);
+		// 	});
 
-			specs.states.each(function(state){
-				state.getText().then(console.info)
-				browser.wait(function(){
-					var deferred = protractor.promise.defer();
-					deferred.fulfill(funcs.hasClass(state, "completed"));
-					return deferred.promise;
-				});
-				expect(funcs.hasClass(state, "completed")).toBe(true);
-			});
-
-			browser.getLocationAbsUrl().then(function(url){
-				expect(url).toContain("/results");
-				_.extend(projectInfo, {"results": {"url": url}});
-				funcs.saveProjectInfo(projectInfo);
-			});
-		});	
+		// 	browser.getLocationAbsUrl().then(function(url){
+		// 		expect(url).toContain("/results");
+		// 		_.extend(projectInfo, {"results": {"url": url}});
+		// 		funcs.saveProjectInfo(projectInfo);
+		// 	});
+		// });	
 
 		it("should set the scenarios status to 'in process'", function(){
-			browser.get(projectInfo.project.url);
+			browser.get(dashboardUrl);
 			var status = calculatingScenario.element(by.css(specs.statusClass));
 			expect(funcs.hasClass(status, specs.inProgressClass)).toBe(true);
 		});
 
 		it("should click through to the calculate page when the scenario is 'in progress'", function(){
-			browser.get(projectInfo.project.url);
+			browser.get(dashboardUrl);
 			var calculatingScenarioButton = calculatingScenario.element(by.css(specs.titleClass));
 			calculatingScenarioButton.click();
 			browser.waitForAngular();
 			setTimeout(function(){
 				browser.getLocationAbsUrl().then(function(url){
-					funcs.saveProjectInfo(projectInfo);
+					expect(url).toContain("/calculate")
 				});
 			}, 2000);
 		});
 
 		it("should disabled the 'simulate' button when a scenario is 'in progress'", function(){
-			browser.get(projectInfo.calculate.url);
+			browser.get(calculateUrl);
 			expect(funcs.hasClass(specs.simulateButton, 'disabled')).toBeTruthy();
 		});
 
-		it("should enabled the results button for a calculated scenario", function(){});
-
-		it("should redirect to the results page when finished", function(){
-			var status = specs.status;
-			browser.get(projectInfo.calculate.url);
-			browser.wait(function(){
-				var deferred = protractor.promise.defer();
-				browser.getLocationAbsUrl().then(function(url){
-					var failed = false;
-					status.getText().then(function(text){
-						if (/Failed/.test(text)){
-							failed = true;
-						}
-						
-						deferred.fulfill(url !== projectInfo.calculate.url || failed);
-					});
-				});
-
-				return deferred.promise;
-			});
-			
-			browser.getLocationAbsUrl().then(function(url){
-				if (url === projectInfo.calculate.url){
-					status.getText().then(function(text){
-						if (/Failed/.test(text)){
-							console.info("calculation failed");
-							currentStatus = "failed";
-							browser.get(projectInfo.project.url);
-							var status = calculatingScenario.element(by.css(specs.statusClass));
-							expect(funcs.hasClass(status, specs.failedClass)).toBe(true);
-						}
-					})
-				} else {
-					expect(url).toContain("/calculate")
-				}
-			});
+		it("should disbaled the 'editor' button when a scenario is 'in progress'", function(){
+			browser.get(calculateUrl);
+			expect(funcs.hasClass(specs.editButton, 'disabled')).toBeTruthy();
 		});
 
-		it("should display the action buttons on calculation failure", function(){
-			if( currentStatus === "failed"){
-				browser.get(projectInfo.calculate.url);
-				expect(element(by.css('.btn-calculate')).isPresent()).toBeTruthy();
-				expect(funcs.hasClass(specs.simulateButton, "disabled")).toBeTruthy();
-				expect(funcs.hasClass(specs.editButton, "disabled")).toBeTruthy();
-				expect(specs.failureMessage.isPresent()).toBeTruthy();
-			} else {
-				console.info("calulation success - skipping failure tests");
-			}
-		});
+		// xit("should enabled the results button for a calculated scenario", function(){});
 
-		// it("should wait forever", function(){
-		// 	browser.get(projectInfo.calculate.url);
+		// xit("should redirect to the results page when finished", function(){
+		// 	var status = specs.status;
+		// 	browser.get(calculateUrl);
 		// 	browser.wait(function(){
 		// 		var deferred = protractor.promise.defer();
-		// 		deferred.fulfill(false);
+		// 		browser.getLocationAbsUrl().then(function(url){
+		// 			var failed = false;
+		// 			status.getText().then(function(text){
+		// 				if (/Failed/.test(text)){
+		// 					failed = true;
+		// 				}
+						
+		// 				deferred.fulfill(url !== projectInfo.calculate.url || failed);
+		// 			});
+		// 		});
+
 		// 		return deferred.promise;
-		// 	})
+		// 	});
+			
+		// 	browser.getLocationAbsUrl().then(function(url){
+		// 		if (url === projectInfo.calculate.url){
+		// 			status.getText().then(function(text){
+		// 				if (/Failed/.test(text)){
+		// 					console.info("calculation failed");
+		// 					currentStatus = "failed";
+		// 					browser.get(projectInfo.project.url);
+		// 					var status = calculatingScenario.element(by.css(specs.statusClass));
+		// 					expect(funcs.hasClass(status, specs.failedClass)).toBe(true);
+		// 				}
+		// 			})
+		// 		} else {
+		// 			expect(url).toContain("/calculate")
+		// 		}
+		// 	});
+		// });
+
+		// xit("should display the action buttons on calculation failure", function(){
+		// 	if( currentStatus === "failed"){
+		// 		browser.get(calculateUrl);
+		// 		expect(element(by.css('.btn-calculate')).isPresent()).toBeTruthy();
+		// 		expect(funcs.hasClass(specs.simulateButton, "disabled")).toBeTruthy();
+		// 		expect(funcs.hasClass(specs.editButton, "disabled")).toBeTruthy();
+		// 		expect(specs.failureMessage.isPresent()).toBeTruthy();
+		// 	} else {
+		// 		console.info("calulation success - skipping failure tests");
+		// 	}
 		// });
 	});
 }

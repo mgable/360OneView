@@ -7,7 +7,24 @@ var specs = require('./0.0-specs.js'),
 	//request = require('request'),
 	http = require('http'),
 	cache, 
+	prepTestArray = function(){
+		if(typeof browser.params.tests === "number"){
+			console.info("making array");
+			return browser.params.tests.toString(10);
+		}
+		return browser.params.tests;
+	},
+	testsArray = prepTestArray(browser.params.tests).split(/\b/),
+	
 	data = {
+		runTheseTests: function(testObj){
+			if (!browser.params.tests || _.find(testObj, function(id){
+				  return _.contains(testsArray, id.toString(10));
+			}) ){
+				return true;
+			}
+			return false;
+		},
 		saveProjectInfo: function(obj){
 			var data = JSON.stringify(obj);
 			fs.writeFileSync(filename, data);

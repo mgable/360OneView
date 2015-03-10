@@ -2,10 +2,10 @@
 
 /**
 * @ngdoc function
-* @name threeSixtOneViewApp.controller:ScenarioCalculationCtrl
+* @name ThreeSixtyOneView.controller:ScenarioCalculationCtrl
 * @description
 * # ScenarioCalculationCtrl
-* Controller of the threeSixtOneViewApp
+* Controller of the ThreeSixtyOneView
 */
 angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$scope', '$interval', '$timeout', 'AnalyticCalculationsService', 'Status', 'Scenario', 'CONFIG', '$location', '$rootScope', '$state', 'EVENTS', 'ScenarioStatesService',
     function ($scope, $interval, $timeout, AnalyticCalculationsService, Status, Scenario, CONFIG, $location, $rootScope, $state, EVENTS, ScenarioStatesService) {
