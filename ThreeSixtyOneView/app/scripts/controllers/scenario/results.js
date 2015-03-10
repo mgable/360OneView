@@ -2,10 +2,10 @@
 
 /**
 * @ngdoc function
-* @name threeSixtOneViewApp.controller:scenarioResultCtrl
+* @name ThreeSixtyOneView.controller:scenarioResultCtrl
 * @description
 * # scenarioResultCtrl
-* Controller of the threeSixtOneViewApp
+* Controller of the ThreeSixtyOneView
 */
 angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     ['$scope', 'Scenario', 'Scenarios', 'ScenarioAnalysisElements', 'ManageAnalysisViewsService', 'ManageScenariosService', 'MetaDataService', 'DialogService', 'PivotMetaService', 'ReportsService', function ($scope, Scenario, Scenarios, ScenarioAnalysisElements, ManageAnalysisViewsService, ManageScenariosService, MetaDataService, DialogService, PivotMetaService, ReportsService) {

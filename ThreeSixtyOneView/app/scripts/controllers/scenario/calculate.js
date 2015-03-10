@@ -2,10 +2,10 @@
 
 /**
 * @ngdoc function
-* @name threeSixtOneViewApp.controller:ScenarioCalculationCtrl
+* @name ThreeSixtyOneView.controller:ScenarioCalculationCtrl
 * @description
 * # ScenarioCalculationCtrl
-* Controller of the threeSixtOneViewApp
+* Controller of the ThreeSixtyOneView
 */
 angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$scope', '$interval', '$timeout', 'AnalyticCalculationsService', 'Status', 'Scenario', 'CONFIG', '$location', '$rootScope', '$state', 'EVENTS', 'ScenarioStatesService',
     function ($scope, $interval, $timeout, AnalyticCalculationsService, Status, Scenario, CONFIG, $location, $rootScope, $state, EVENTS, ScenarioStatesService) {
@@ -108,12 +108,12 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
 
     $scope.$on('broadcastStates', function(event, response) {
         getCalcStatesData(response[0]);
-        $scope.disableSimulateBtn(false);
+        $scope.disableSimulateButton(false);
         if(AnalyticCalculationsService.isInProgress($scope.scenarioState.message)) {
             $scope.progressValue = 0;
             $scope.step = 0;
             $scope.errorMessage = "";
-            $scope.disableSimulateBtn(true);
+            $scope.disableSimulateButton(true);
         } else if (AnalyticCalculationsService.isSuccess($scope.scenarioState.message)) {
             $state.go("Scenario.results");
         }

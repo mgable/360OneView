@@ -26,26 +26,13 @@ var coreSpecs = require('./0.0-specs.js'),
 	editorTabContent = "tab in tabs",
 	pivotBuilderTab = "#pivotBuilder",
 
-	assumedData = { "cubes":
-			['Marketing Plan',
-			'Competitive Incentive (PNVS) Spend',
-			'Competitive Intent',
-			'Competitive Marketshare',
-			'Competitive Product Lifecycle',
-			'Competitive Vehicle Price',
-			'Floating Base',
-			'GQV',
-			'Incentives',
-			'Macroeconomics',
-			'Product Lifecycle',
-			'Vehicle Price',
-			'Web Traffic'],
-		'preloadedAnalysisElement': 'PRELOADED SIMULATION',
+	assumedData = { 
 		'defaultSelectedAnalysisElement': 'Marketing Plan'
 	},
 
 	data = {
 		scenarioUrl: '#/scenario/:projectId/:scenarioId/edit/',
+		calculateUrl: '#/scenario/:projectId/:scenarioId/calculate',
 		assumedData: assumedData,
 		editButton: element(by.css(edit)),
 		resultsButton: element(by.css(results)),

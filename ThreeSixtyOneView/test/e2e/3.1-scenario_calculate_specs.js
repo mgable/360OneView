@@ -11,7 +11,8 @@ var specs = require('./1.0-project_listing_specs.js'),
 	data = {
 		status: element(by.css(status)),
 		failureMessage: element(by.css(failureMessage)),
-		states: element.all(by.repeater(states))
+		states: element.all(by.repeater(states)),
+		calculateUrl: "#/scenario/:projectId/:scenarioId/calculate"
 	};
 
 _.extend(data, coreSpecs, specs);

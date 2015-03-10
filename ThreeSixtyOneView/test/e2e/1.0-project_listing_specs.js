@@ -37,6 +37,7 @@ var coreSpecs = require('./0.0-specs.js'),
 	inlineEditCancel = inlineEdit + " .cancel",
 	inlineEditSubmit = inlineEdit + " .submit",
 	textAreaParent = inlineEdit + " .edit",
+	scenarioCreateModal = "div[data-ms-id='scenarioCreateModal']",
 
 	// tray
 	trayCopy = "//button[@data-ms-id='trayActions.copy']",
@@ -67,6 +68,7 @@ var coreSpecs = require('./0.0-specs.js'),
 		selectedItemTitle: inlineRename  + " span.title",
 		scenarios: "scenario in selectedItem.scenarios",
 
+		scenarioCreateModal: element(by.css(scenarioCreateModal)),
 		column_2SortOptionsButton: element(by.css(column_2SortOptions)),
 		column_1SortButton: element(by.css(column_1Sort)),
 		column_1LabelField: element(by.css(column_1Label)),

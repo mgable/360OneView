@@ -19,6 +19,8 @@ angular.module('ThreeSixtyOneView')
 			$scope.categorizedValue = [];
 			$scope.pivotTableData = '';
 
+			$scope.readOnlyMode = false;
+
 			ScenarioStatesService.startPull([Scenario.id]);
 
 			// this is how pivotbuilder and pivottable communicate
@@ -186,12 +188,23 @@ angular.module('ThreeSixtyOneView')
 
 		$scope.determineReadOnlyMode = function(currentState) {
 			var states = CONFIG.application.models.ScenarioAnalytics.states;
+
 			if(states.IN_PROGRESS.message === currentState) {
-				$scope.readOnlyMode = true;
-				$scope.disableSimulateBtn(true);
+				if(!$scope.readOnlyMode) {
+					$scope.readOnlyMode = true;
+					$scope.disableSimulateButton(true);
+					if(!!$scope.spread.setReadOnly) {
+						$scope.spread.setReadOnly(true);
+					}
+				}
 			} else {
-				$scope.readOnlyMode = false;
-				$scope.disableSimulateBtn(false);
+				if($scope.readOnlyMode) {
+					$scope.readOnlyMode = false;
+					$scope.disableSimulateButton(false);
+					if(!!$scope.spread.setReadOnly) {
+						$scope.spread.setReadOnly(false);
+					}
+				}
 			}
 		};
 

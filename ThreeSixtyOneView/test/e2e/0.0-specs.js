@@ -7,6 +7,8 @@ var servers = require('./servers.js'),
 
 	data = {
 		server: "server=" + clientServer,
+		domain: clientServer,
+		projects: "/rubix/v1/project",
 		testQuery: "?e2e=true",
 		inputRestrictions: ["\\", "\/", ":", "?", "*", "\"", ">", "<", "|"], //\\\/\?\:\*"><|
 		minimumCharacters: "xx",

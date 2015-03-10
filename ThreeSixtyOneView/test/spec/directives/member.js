@@ -3,7 +3,7 @@
 xdescribe('Directive: member', function () {
 
   // load the directive's module
-  beforeEach(module('threeSixtOneViewApp'));
+  beforeEach(module('ThreeSixtyOneView'));
 
   var element,
     scope;

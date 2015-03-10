@@ -77,7 +77,7 @@ angular.module('ThreeSixtyOneView')
 			}
 		};
 
-		$scope.disableSimulateBtn = function(state) {
+		$scope.disableSimulateButton = function(state) {
 			if(!!state) {
 				$scope.simulateButtonDisabled = state;
 			}
