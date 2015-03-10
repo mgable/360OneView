@@ -1,6 +1,6 @@
 'use strict';
 
-xdescribe('Directive: member', function () {
+describe('Directive: flipbook', function () {
 
   // load the directive's module
   beforeEach(module('ThreeSixtyOneView'));
@@ -12,9 +12,9 @@ xdescribe('Directive: member', function () {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<member></member>');
+  xit('should make hidden element visible', inject(function ($compile) {
+    element = angular.element('<flipbook></flipbook>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the member directive');
+    expect(element.text()).toBe('this is the flipbook directive');
   }));
 });

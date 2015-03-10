@@ -5,7 +5,7 @@ var specs = require('./3.0-scenario_specs.js'),
 	_ = require('underscore'),
 	projectInfo,
 	resultsUrl,
-	projectId
+	projectId,
 	testName = {title: "Results", id: 32};
 
 if(funcs.runTheseTests(testName)){

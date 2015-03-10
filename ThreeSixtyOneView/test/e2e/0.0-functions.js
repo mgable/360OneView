@@ -7,7 +7,15 @@ var specs = require('./0.0-specs.js'),
 	//request = require('request'),
 	http = require('http'),
 	cache, 
-	testsArray = browser.params.tests.split(/\b/)
+	prepTestArray = function(){
+		if(typeof browser.params.tests === "number"){
+			console.info("making array");
+			return browser.params.tests.toString(10);
+		}
+		return browser.params.tests;
+	},
+	testsArray = prepTestArray(browser.params.tests).split(/\b/),
+	
 	data = {
 		runTheseTests: function(testObj){
 			if (!browser.params.tests || _.find(testObj, function(id){

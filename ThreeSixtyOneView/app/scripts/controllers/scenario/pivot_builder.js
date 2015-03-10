@@ -2,10 +2,10 @@
 
 /**
 * @ngdoc function
-* @name threeSixtOneViewApp.controller:PivotbuilderctrlCtrl
+* @name ThreeSixtyOneView.controller:PivotbuilderctrlCtrl
 * @description
 * # PivotbuilderctrlCtrl
-* Controller of the threeSixtOneViewApp
+* Controller of the ThreeSixtyOneView
 */
 angular.module('ThreeSixtyOneView')
 	.controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, $q, DialogService) {
