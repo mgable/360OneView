@@ -240,7 +240,7 @@ angular.module("ThreeSixtyOneView").controller("PivotTableCtrl", ["$scope", "$ro
 						if(sheet.hasPendingChanges(row, col)) {
 							var dirtyDataArray = sheet.getDirtyCells(row, col);
 							if (dirtyDataArray.length > 0) {
-								if(!!dirtyDataArray[0].newValue && Number(dirtyDataArray[0].oldValue) >= 0 && Number(dirtyDataArray[0].newValue) >= 0) {
+								if(angular.isNumber(dirtyDataArray[0].oldValue) && angular.isNumber(dirtyDataArray[0].newValue) && Number(dirtyDataArray[0].oldValue) >= 0 && Number(dirtyDataArray[0].newValue) >= 0) {
 									cellValueChanged(dirtyDataArray[0]);
 								} else if(Number(dirtyDataArray[0].newValue) < 0 || !angular.isNumber(dirtyDataArray[0].newValue)) {
 									sheet.setValue(dirtyDataArray[0].row, dirtyDataArray[0].col, dirtyDataArray[0].oldValue);
