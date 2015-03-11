@@ -1,18 +1,47 @@
 'use strict';
 
-describe('Service: ScenarioTemplatesService', function () {
+describe('Service: ImportResourceService', function () {
 
-// load the controller's module
+	var ImportResourceService, ExportResourceModel, backend, importUrl;
+
+	// load the controller's module
 	beforeEach(module('ThreeSixtyOneView.services'));
 
-	var ScenarioTemplatesService;
+	// setup backend
+	beforeEach(inject(function(SERVER, CONFIG, $httpBackend) {
+		importUrl = SERVER.server + CONFIG.application.api.importResource;
+		importUrl = importUrl.replace(/:elementId/, elementId);
+		backend = $httpBackend;
 
-	// Initialize the controller and a mock scope
-	beforeEach(inject(function ($rootScope, _ScenarioTemplatesService_) {
-		ScenarioTemplatesService = _ScenarioTemplatesService_;
+		backend.when('POST', importUrl + '/upload', new FormData()).respond({'status': 'IMPORT_REQUEST_ACCEPTED'});
+		backend.when('GET', importUrl + '/status').respond({'status': 'COMPLETED'});
 	}));
 
+	// Initialize the controller and a mock scope
+	beforeEach(inject(function (_ImportResourceService_, _ImportResourceModel_, $httpBackend) {
+		ImportResourceService = _ImportResourceService_;
+		ExportResourceModel = _ImportResourceModel_;
+	}));
+
+	afterEach(function() {
+		backend.verifyNoOutstandingExpectation();
+	});
+
 	it('resource service should be extended to the current scope', function () {
-		expect(ScenarioTemplatesService.resource).toBeDefined();
+		expect(ImportResourceService.resource).toBeDefined();
+	});
+
+	it('check the import status', function() {
+		ImportResourceService.uploadFile(elementId, 'testFile').then(function(response) {
+			expect(response.status).toBe('IMPORT_REQUEST_ACCEPTED');
+		});
+		backend.flush();
+	});
+
+	it('check the import status', function() {
+		ImportResourceService.checkStatus(elementId).then(function(response) {
+			expect(response.status).toBe('COMPLETED');
+		});
+		backend.flush();
 	});
 });
