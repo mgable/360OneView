@@ -5,6 +5,7 @@ var servers = require('./servers.js'),
 	simulate = "span[data-ms-id='scenario.simulate.button']",
 	clientServer = servers.getServer(browser.params.client.toLowerCase()),
 	projects = "/rubix/v1/project",
+	scenarioStatus = '/rubix/v1/analytics/scenario/:id/calculate',
 
 	data = {
 		server: "server=http://" + clientServer.url + ":" + clientServer.port,
@@ -12,6 +13,7 @@ var servers = require('./servers.js'),
 		port:  clientServer.port,
 		projects: projects, 
 		scenarios: projects + "/:uuid/scenario",
+		scenarioStatus: scenarioStatus,
 		testQuery: "?e2e=true",
 		inputRestrictions: ["\\", "\/", ":", "?", "*", "\"", ">", "<", "|"], //\\\/\?\:\*"><|
 		minimumCharacters: "xx",

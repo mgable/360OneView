@@ -3,13 +3,13 @@
 var specs = require('./0.0-specs.js'),
 	_ = require('underscore'),
 	fs = require('fs'),
-	filename = "./test/e2e/project.json",
-	//request = require('request'),
+	projectFileName = "./test/e2e/project.json",
+	projectsFileName = "./test/e2e/projects.json",
+	cacheFileName = "./test/e2e/cache.json",
 	http = require('http'),
 	cache = {}, 
 	prepTestArray = function(){
 		if(typeof browser.params.tests === "number"){
-			console.info("making array");
 			return browser.params.tests.toString(10);
 		}
 		return browser.params.tests;
@@ -26,13 +26,34 @@ var specs = require('./0.0-specs.js'),
 			return false;
 		},
 		saveProjectInfo: function(obj){
-			var data = JSON.stringify(obj);
-			fs.writeFileSync(filename, data);
-			console.info("writing");
-			console.info(data);
+			this.saveInfo(projectFileName, obj)
 		},
-		getScenarioUrl: function (uuid) { return specs.scenarios.replace(/:uuid/, uuid)},
+		saveProjectsInfo:function(obj){
+			this.saveInfo(projectsFileName, obj)
+		},
+		saveCache: function(){
+			this.saveInfo(cacheFileName, cache);
+		},
+		saveInfo: function(fileName, obj){
+			var data = JSON.stringify(obj);
+			fs.writeFileSync(fileName, data);
+		},
+		getCache: function(){
+			return this.readInfo(cacheFileName);
+		},
+		getScenarioUrl: function (uuid) { 
+			return specs.scenarios.replace(/:uuid/, uuid);
+		},
+		getScenarioStatusUrl: function(id){
+			return specs.scenarioStatus.replace(/:id/, id);
+		},
 		readProjectInfo: function(){
+			return this.readInfo(projectFileName);
+		},
+		readProjectsInfo: function(){
+			return this.readInfo(projectsFileName);
+		},
+		readInfo: function(filename){
 			return JSON.parse(fs.readFileSync(filename, {encoding: 'utf8'}));
 		},
 		sortProjectsByDate: function(data){
@@ -70,8 +91,18 @@ var specs = require('./0.0-specs.js'),
 		},
 		deleteProjectInfo: function(){
 			try{
-				fs.unlinkSync(filename);
-			}catch(e){console.info(filename + " does not exist");}
+				fs.unlinkSync(projectsFileName);
+			}catch(e){console.info(projectsFileName + " does not exist");}
+		},
+		getRawData_scenarioStatus: function(id){
+			var options = {
+				host: specs.domain,
+				port: specs.port,
+				method: "GET",
+				path: this.getScenarioStatusUrl(id)
+			};
+
+			return this.get(options, id);
 		},
 		getRawData_scenarios: function(uuid){
 			var options = {
@@ -139,9 +170,16 @@ var specs = require('./0.0-specs.js'),
 			button.click();
 		},
 		getProjectId: function(url){
-			console.info("the url is");
-			console.info(url);
 			return url.match(/\w{32}/)[0];
+		},
+		getFormatedDate: function(date){
+			var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+			  d = new Date(date),
+			  curr_month = d.getMonth(),
+			  curr_day = d.getDate(),
+			  curr_year = d.getFullYear();
+
+			 return months[curr_month] + " " + curr_day + ", " + curr_year;
 		}
 	};
 

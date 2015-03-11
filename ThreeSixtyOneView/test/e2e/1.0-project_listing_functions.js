@@ -15,13 +15,6 @@ var coreFunctions = require('./0.0-functions.js'),
 		enterSearch: function(searchTerm){
 			specs.searchInputField.sendKeys(searchTerm);
 		},
-		testInputRestrictions: function(input, submit){
-			_.each(specs.inputRestrictions, function(restrictedCharacter){
-				input.clear();
-				input.sendKeys(specs.minimumCharacters + restrictedCharacter);
-				expect(submit.getAttribute('disabled')).toBeTruthy();
-			});
-		},
 		filterByFavorites: function(){
 			specs.filterByButton.click();
 			specs.filterByfavoritesButton.click();
@@ -82,7 +75,7 @@ var coreFunctions = require('./0.0-functions.js'),
 			return element.all(by.repeater(specs.scenariosElement));
 		},
 		getFirstScenario: function(){
-			var allScenarios = element.all(by.repeater(specs.scenarios)),
+			var allScenarios = element.all(by.repeater(specs.scenariosElement)),
 				firstScenarioElement = allScenarios.first().element(by.css("span"));
 			return firstScenarioElement;
 		}

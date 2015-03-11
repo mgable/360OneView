@@ -1,1 +1,7 @@
-{"project":{"url":"http://127.0.0.1:9001/#/dashboard/98f95384659535c5903d98ed56fcf7d0","id":"98f95384659535c5903d98ed56fcf7d0","title":"My Renamed Project - 1425933239169"},"scenario":{"url":"http://127.0.0.1:9001/#/scenario/98f95384659535c5903d98ed56fcf7d0/146/edit/","id":"146","title":"My FIRST new test scenario title - 1425933239237"}}
+{
+  "project": {
+    "url": "http://127.0.0.1:9001/#/dashboard/bb48e52a0cbd36869a6364152a8e9fc4",
+    "id": "bb48e52a0cbd36869a6364152a8e9fc4",
+    "title": "My Renamed Project - 1426118490264"
+  }
+}

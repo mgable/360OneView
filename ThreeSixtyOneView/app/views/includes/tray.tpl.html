@@ -29,11 +29,11 @@
 		</div>
 		<span ng-if="selectedItem.createdBy">
 			<p class="ms-label">Created By</p>
-			 <p class="name">{{selectedItem.createdBy}},&nbsp;{{selectedItem.createdOn | date}}</p>
+			 <p class="name" data-ms-id="tray.createdBy">{{selectedItem.createdBy}},&nbsp;{{selectedItem.createdOn | date}}</p>
 		</span>
-		<span ng-if="selectedItem.modifiedBy">
+		<span ng-if="selectedItem.modifiedBy" >
 			 <p class="ms-label">Modified by</p>
-			 <p class="name">{{selectedItem.modifiedBy}},&nbsp;{{selectedItem.modifiedOn | date}}</p>
+			 <p class="name" data-ms-id="tray.modifiedBy">{{selectedItem.modifiedBy}},&nbsp;{{selectedItem.modifiedOn | date}}</p>
 		</span>
 	</div>
 

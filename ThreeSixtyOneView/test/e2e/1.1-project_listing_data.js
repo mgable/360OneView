@@ -3,15 +3,17 @@
 var specs = require('./1.0-project_listing_specs.js'),
 	funcs = require('./1.0-project_listing_functions.js'),
 	_ = require ("underscore"),
-	projectInfo = {};
+	projectInfo = {},
+	testName = {title: "Project Listing DATA", id: 11};
 
-if(!browser.params.tests || browser.params.tests === 11){
+
+if(funcs.runTheseTests(testName)){
 
 
-	describe("executing listing tests", function(){
-		console.info("executing listing DATA tests");
+	describe("executing " + testName.title, function(){
+		console.info("executing " + testName.title);
 		it("should set up the tests", function(){
-			console.info("Project Listing DATA Tests:");
+			console.info(testName.title + " Tests: ");
 		});
 
 	})
@@ -24,12 +26,12 @@ if(!browser.params.tests || browser.params.tests === 11){
 			}
 		);
 
-		xit("should have the correct number of projects", function(){
+		it("should have the correct number of projects", function(){
 			var flow = protractor.promise.controlFlow(),
 				projects;
 
 			flow.await(funcs.getRawData_projects().then(function(data){
-				projects = data
+				projects = data;
 			})).then(function(){
 				funcs.getItems().count().then(function(count){
 					expect(count).toBe(projects.length);
@@ -37,7 +39,7 @@ if(!browser.params.tests || browser.params.tests === 11){
 			});
 		});
 
-		xit("should have the correct projects", function(){
+		it("should have the correct projects", function(){
 			var flow = protractor.promise.controlFlow(),
 				projects
 
@@ -52,7 +54,7 @@ if(!browser.params.tests || browser.params.tests === 11){
 			});
 		});
 
-		xit("should list the correct scenarios associated with a project", function(){
+		it("should list the correct scenarios associated with a project", function(){
 			var items = funcs.getItems(),
 				flow = protractor.promise.controlFlow(),
 				projects,
@@ -96,6 +98,8 @@ if(!browser.params.tests || browser.params.tests === 11){
 
 			flow.await(funcs.getRawData_projects().then(function(p){
 				projects = funcs.sortProjectsByDate(p);
+				funcs.saveProjectsInfo(projects);
+				funcs.saveCache();
 			})).then(function(){
 				items.each(function(item){
 					item.element(by.css(specs.titleClass)).getAttribute("data-ms-id").then(function(dataMsId){
@@ -113,6 +117,25 @@ if(!browser.params.tests || browser.params.tests === 11){
 									}
 								});
 							};
+						});
+
+						specs.trayCreatedBy.getText().then(function(createdBy){
+							var matches = createdBy.match(/^([^,]+)[, ]*(.+)$/),
+								creator = matches[1],
+								dateCreated = matches[2];
+							
+							expect(creator).toEqual(project.auditInfo.createdBy.name);
+							expect(dateCreated).toEqual(funcs.getFormatedDate(project.auditInfo.createdOn));
+
+						});
+
+						specs.trayModifiedBy.getText().then(function(modifiedOn){
+							var matches = modifiedOn.match(/^([^,]+)[, ]*(.+)$/),
+								creator = matches[1],
+								dateCreated = matches[2];
+							
+							expect(creator).toEqual(project.auditInfo.lastUpdatedBy.name);
+							expect(dateCreated).toEqual(funcs.getFormatedDate(project.auditInfo.lastUpdatedOn));
 						});
 					});
 				});
