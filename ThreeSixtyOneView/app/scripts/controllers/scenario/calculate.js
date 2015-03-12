@@ -28,7 +28,8 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
             if (AnalyticCalculationsService.isSuccess($scope.scenarioState.message)) {
                 return CONFIG.view.ScenarioCalculate.stateLength;
             } else {
-                return _.indexOf(_.pluck(_data.runningStates, 'completed'), false);
+                var step = _.indexOf(_.pluck(_data.runningStates, 'completed'), false);
+                return step === -1 ? 0 : step;
             }
         },
         // initiate the model
