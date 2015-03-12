@@ -9,7 +9,7 @@
 	}
 
 	.file {
-		width: 450px;
+		max-width: 600px;
 		padding: 4px 6px;
 		display: inline-block;
 		background: white;
@@ -59,7 +59,7 @@
 
 	.status-container {
 		display: inline-block;
-		max-width: 700px;
+		max-width: 750px;
 
 		i {
 			margin-right: 5px;
