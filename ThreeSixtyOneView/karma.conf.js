@@ -21,7 +21,6 @@ module.exports = function(config) {
             'app/bower_components/angular-animate/angular-animate.js',
             'app/bower_components/angular-ui-router/release/angular-ui-router.js',
             'app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-            'app/bower_components/underscore/underscore.js',
             'app/bower_components/angular-translate/angular-translate.js',
             'app/bower_components/angular-ui-utils/ui-utils.js',
             'app/bower_components/ng-sortable/dist/ng-sortable.js',
