@@ -19,7 +19,7 @@ describe('Service: ExportResourceService', function () {
 	}));
 
 	// Initialize the controller and a mock scope
-	beforeEach(inject(function (_ExportResourceService_, _ExportResourceModel_, $httpBackend) {
+	beforeEach(inject(function (_ExportResourceService_, _ExportResourceModel_) {
 		ExportResourceService = _ExportResourceService_;
 		ExportResourceModel = _ExportResourceModel_;
 	}));
