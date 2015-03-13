@@ -412,9 +412,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t<div ng-show=\"allFiltersSelected(categorizedValue[$index])\" class=\"values text-holder\" tooltip-placement=\"left\" tooltip=\"{{getValuesList(categorizedValue[$index])}}\">{{getValuesList(categorizedValue[$index])}}</div>\r" +
+    "\t\t\t<div ng-show=\"allFiltersSelected(categorizedValue[$index])\" class=\"values text-holder\" tooltip-placement=\"bottom\" tooltip=\"{{getValuesList(categorizedValue[$index])}}\">{{getValuesList(categorizedValue[$index])}}</div>\r" +
     "\n" +
-    "\t\t\t<div ng-hide=\"allFiltersSelected(categorizedValue[$index])\" class=\"values text-holder\" tooltip-placement=\"left\" tooltip=\"{{getValuesList(categorizedValue[$index])}}\">All</div>\r" +
+    "\t\t\t<div ng-hide=\"allFiltersSelected(categorizedValue[$index])\" class=\"values text-holder\" tooltip-placement=\"bottom\" tooltip=\"{{getValuesList(categorizedValue[$index])}}\">All</div>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
@@ -622,9 +622,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{selectedScenarioElement.id}}\" radio=\"true\">\r" +
     "\n" +
-    "\t\t\t\t\t            <li ng-repeat=\"item in elementTypeItems\" ng-click=\"changeElementType($index)\" class=\"menu-item\" ms-link=\"{{$index}}\">{{item}}</li>\r" +
+    "\t\t\t\t\t\t\t\t<li ng-repeat=\"item in elementTypeItems\" ng-click=\"changeElementType($index)\" class=\"menu-item\" ms-link=\"{{$index}}\">{{item}}</li>\r" +
     "\n" +
-    "\t\t\t\t\t        </ul>\r" +
+    "\t\t\t\t\t\t\t</ul>\r" +
     "\n" +
     "\t\t\t\t\t\t</div>\r" +
     "\n" +
