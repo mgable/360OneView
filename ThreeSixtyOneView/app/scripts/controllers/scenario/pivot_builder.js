@@ -8,7 +8,7 @@
 * Controller of the ThreeSixtyOneView
 */
 angular.module('ThreeSixtyOneView')
-	.controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', '$q', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, $q, DialogService) {
+	.controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, DialogService) {
 	var init = function() {
 			$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
 			$scope.saveAs = false;

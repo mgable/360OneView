@@ -18,9 +18,9 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
 
         // init function
         init = function() {
-            // AnalyticCalculationsService.startCalculation(Status, Scenario.id).then(function() {
-            //     ScenarioStatesService.startPull([Scenario.id]);
-            // });
+            $scope.progressValue = 0;
+            $scope.step = 0;
+            $scope.errorMessage = "";
             ScenarioStatesService.startPull([Scenario.id]);
         },
         // get the current index for status
@@ -110,9 +110,6 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         getCalcStatesData(response[0]);
         $scope.disableSimulateButton(false);
         if(AnalyticCalculationsService.isInProgress($scope.scenarioState.message)) {
-            $scope.progressValue = 0;
-            $scope.step = 0;
-            $scope.errorMessage = "";
             $scope.disableSimulateButton(true);
         } else if (AnalyticCalculationsService.isSuccess($scope.scenarioState.message)) {
             $state.go("Scenario.results");

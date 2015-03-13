@@ -78,7 +78,7 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		$scope.disableSimulateButton = function(state) {
-			if(!!state) {
+			if(!_.isUndefined(state)) {
 				$scope.simulateButtonDisabled = state;
 			}
 			return $scope.simulateButtonDisabled;
