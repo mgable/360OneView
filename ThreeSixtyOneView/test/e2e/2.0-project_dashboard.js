@@ -209,6 +209,7 @@ if(funcs.runTheseTests(testName)){
 			describe("Copy Scenario Functions", function(){
 				it("should not allow the copy to have no name", function(){
 					specs.trayCopyButton.click()
+					specs.modalInputField.clear();
 					expect(specs.modalSubmitButton.getAttribute("disabled")).toBeTruthy();
 				});
 

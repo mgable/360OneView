@@ -5,8 +5,8 @@
         </span>
         <span ng-hide="isHiddenElement(selectedScenarioElement)" data-ms-id="ScenarioEdit.copyReplaceElementHolder">
             <span class="filename"><icon type="file-text-o"></icon>{{selectedScenarioElementsFile}}</span>
-            <span data-ms-id="ScenarioEdit.replaceElement" ng-click="openScenarioElementFileModal(scenario.id, selectedScenarioElement, e2e)" class="filename-option clickable"><icon type="folder-open-o"></icon>Replace</span>
-            <span data-ms-id="ScenarioEdit.copyElement" ng-click="openScenarioElementCopyModal(scenario.id, selectedScenarioElement)" class="filename-option clickable"><icon type="folder-open-o"></icon>Copy &amp; Replace</span>
+            <span data-ms-id="ScenarioEdit.replaceElement" ng-click="openScenarioElementFileModal(scenario.id, selectedScenarioElement, e2e)" class="filename-option clickable" ng-class="{disabled: readOnlyMode}"><icon type="folder-open-o"></icon>Replace</span>
+            <span data-ms-id="ScenarioEdit.copyElement" ng-click="openScenarioElementCopyModal(scenario.id, selectedScenarioElement)" class="filename-option clickable"><icon type="folder-open-o" ng-class="{disabled: readOnlyMode}"></icon>Copy &amp; Replace</span>
         </span>
         <ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenarioElement.cubeMeta.id}}" radio="true">
             <div ng-repeat="(groupLabel, group) in getGroupedScenarioElements()">

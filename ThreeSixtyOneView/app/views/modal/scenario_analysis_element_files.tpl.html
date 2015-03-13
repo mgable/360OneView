@@ -11,8 +11,8 @@
 						<div class="dropdown ng-hide">
 							<div class="dropdown-toggle clickable">{{elementTypeItems[currentElementType]}}<icon type="caret-down"></icon></div>
 							<ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenarioElement.id}}" radio="true">
-					            <li ng-repeat="item in elementTypeItems" ng-click="changeElementType($index)" class="menu-item" ms-link="{{$index}}">{{item}}</li>
-					        </ul>
+								<li ng-repeat="item in elementTypeItems" ng-click="changeElementType($index)" class="menu-item" ms-link="{{$index}}">{{item}}</li>
+							</ul>
 						</div>
 					</div>
 					<div class="search-box">
@@ -22,7 +22,9 @@
 				</div>
 				<div class="list-box">
 					<div ng-repeat="file in fileList | filter:searchTerm | orderBy:'auditInfo.lastUpdatedOn':true" class="item clickable" ng-class="{'selected': file.id === currentFile.id}" ng-click="currentFile.id = file.id">
-						<div class="item-name text-holder"><icon type="circle-o" cname="circle"></icon><icon type="dot-circle-o" cname="dot-circle"></icon>{{file.name}}</div>
+						<div class="item-name text-holder">
+							<icon type="circle-o" cname="circle"></icon><icon type="dot-circle-o" cname="dot-circle"></icon>{{file.name}}
+						</div>
 						<div class="item-meta">
 							<span ng-if="e2e" class="item-date">{{file.auditInfo.lastUpdatedOn}}</span>
 							<span ng-if="!e2e" class="item-date">{{file.auditInfo.lastUpdatedOn | timeago}}</span>
@@ -30,6 +32,7 @@
 						</div>
 						<div class="item-description">{{file.description}}</div>
 					</div>
+					<div ng-hide="isListLoaded" class="status-message"><icon type="refresh" class="fa-spin"></icon>Loading data ...</div>
 				</div>
 			</div>
 		</div>
