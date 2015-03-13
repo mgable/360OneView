@@ -77,6 +77,8 @@ angular.module('ThreeSixtyOneView')
 
         $scope.$on(EVENTS.copyScenario, function(evt, scenario){
             scenario.description = scenario.description || "";
+            scenario.referenceScenario.id = scenario.id;
+            scenario.referenceScenario.name = scenario.title;
             delete scenario.id;
             ScenarioService.create(getProject(), scenario).then(function(response){
                 $scope.goto(evt, 'gotoScenarioEdit', response);

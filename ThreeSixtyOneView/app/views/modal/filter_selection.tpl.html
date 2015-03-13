@@ -7,8 +7,8 @@
 			<div>{{dimension.label}}
 				<span>({{categorizedValue[$index].selected}}/{{categorizedValue[$index].total}})</span>
 			</div>
-			<div ng-show="allFiltersSelected(categorizedValue[$index])" class="values text-holder" tooltip-placement="left" tooltip="{{getValuesList(categorizedValue[$index])}}">{{getValuesList(categorizedValue[$index])}}</div>
-			<div ng-hide="allFiltersSelected(categorizedValue[$index])" class="values text-holder" tooltip-placement="left" tooltip="{{getValuesList(categorizedValue[$index])}}">All</div>
+			<div ng-show="allFiltersSelected(categorizedValue[$index])" class="values text-holder" tooltip-placement="bottom" tooltip="{{getValuesList(categorizedValue[$index])}}">{{getValuesList(categorizedValue[$index])}}</div>
+			<div ng-hide="allFiltersSelected(categorizedValue[$index])" class="values text-holder" tooltip-placement="bottom" tooltip="{{getValuesList(categorizedValue[$index])}}">All</div>
 		</div>
 	</div>
 	<div class="content">
