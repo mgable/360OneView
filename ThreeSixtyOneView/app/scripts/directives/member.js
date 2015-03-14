@@ -27,7 +27,7 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 						modifyItems(member.members[i], add);
 					}
 				} else {
-					scope.filters[scope.category.label][member.label] = add;
+					scope.filters[scope.category.label][member.id + ',' + member.label] = add;
 				}
 			},
 			checkedItems = function(member) {
@@ -41,7 +41,7 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 					}
 				} else {
 					output.total++;
-					if(!!scope.filters[scope.category.label][member.label]) {
+					if(!!scope.filters[scope.category.label][member.id + ',' + member.label]) {
 						output.checked++;
 					}
 				}

@@ -15,16 +15,16 @@
 		var currentDimension;
 		var addedFilters = {};
 
-		var findSelectedFilters = function(_label, _dimension, _add) {
+		var findSelectedFilters = function(_member, _dimension, _add) {
 			var add, output = {};
-			add = _add || (_dimension.label === _label);
+			add = _add || (_dimension.label === _member.label);
 
 			_.each(_dimension.members, function(member) {
-				output = angular.extend(output, findSelectedFilters(_label, member, add));
+				output = angular.extend(output, findSelectedFilters(_member, member, add));
 			});
 
 			if(_dimension.members.length === 0 && add) {
-				output[_dimension.label] = true;
+				output[_dimension.id + ',' + _dimension.label] = true;
 			}
 
 			return output;
@@ -39,10 +39,10 @@
 			});
 
 			if(filter.value.specification.type === 'All') {
-				angular.extend(addedFilters[filter.scope.dimension.label], findSelectedFilters(filter.scope.level.label, currentDimension, false));
+				angular.extend(addedFilters[filter.scope.dimension.label], findSelectedFilters(filter.scope.level, currentDimension, false));
 			} else {
 				_.each(filter.value.specification.members, function(member) {
-					angular.extend(addedFilters[filter.scope.dimension.label], findSelectedFilters(member.label, currentDimension, false));
+					angular.extend(addedFilters[filter.scope.dimension.label], findSelectedFilters(member, currentDimension, false));
 				});
 			}
 		});
@@ -57,6 +57,7 @@
 		var countValues = function(category) {
 			var output = {
 				label: [],
+				id: [],
 				selected: 0,
 				total: 0
 			};
@@ -72,15 +73,17 @@
 						return false;
 					} else if(tempResult.selected === tempResult.total) {
 						output.label.push(category.members[j].label);
+						output.id.push(category.members[j].id);
 						output.selected++;
 					}
 					output.total++;
 				}
 
 			} else {
-				if(items[category.label]) {
+				if(items[category.id + ',' + category.label]) {
 					output.selected = 1;
 					output.label.push(category.label);
+					output.id.push(category.id);
 				}
 				output.total = 1;
 			}
@@ -109,7 +112,7 @@
 			hierarchyId = _hierarchyId || branch.hierarchyId || null;
 			levelId = _levelId || branch.levelId || null;
 
-			output[branch.label] = {
+			output[branch.id + ',' + branch.label] = {
 				id: branch.id,
 				dimensionId: _dimensionId,
 				hierarchyId: hierarchyId,
@@ -249,7 +252,7 @@
 		_.each(dimensions, function(dimension, dimensionIndex) {
 			var dimensionId = dimension.id,
 				values = self.getCategorizeValues(dimension, addedFilters[dimension.label]),
-				level = _.findWhere(dimension.members, {levelId: membersList[dimensionId][values.label[0]].levelId}),
+				level = _.findWhere(dimension.members, {levelId: membersList[dimensionId][values.id[0] + ',' + values.label[0]].levelId}),
 				newFilter = {
 					id: viewFilters[dimensionIndex].id,
 					value: {
@@ -278,11 +281,11 @@
 			} else {
 				newFilter.value.specification.type = 'Absolute';
 				newFilter.value.specification.members = [];
-				_.each(values.label, function(item) {
+				_.each(values.label, function(item, index) {
 					newFilter.value.specification.members.push({
-						id: membersList[dimensionId][item].id,
-						name: membersList[dimensionId][item].name,
-						label: membersList[dimensionId][item].label
+						id: membersList[dimensionId][values.id[index] + ',' + item].id,
+						name: membersList[dimensionId][values.id[index] + ',' + item].name,
+						label: membersList[dimensionId][values.id[index] + ',' + item].label
 					});
 				});
 			}

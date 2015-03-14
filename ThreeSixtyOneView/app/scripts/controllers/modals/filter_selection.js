@@ -164,7 +164,7 @@ angular.module('ThreeSixtyOneView')
 						output.total += results.total;
 					}
 				} else {
-					if(_addedFilter[$scope.selectedFilter.dimension.label][tree.label]) {
+					if(_addedFilter[$scope.selectedFilter.dimension.label][tree.id + ',' + tree.label]) {
 						output.selected++;
 					}
 					output.total++;
@@ -190,7 +190,7 @@ angular.module('ThreeSixtyOneView')
 						output = output.concat(getFilters(member));
 					});
 				} else {
-					return [list.label];
+					return [list.id + ',' + list.label];
 				}
 
 				return output;

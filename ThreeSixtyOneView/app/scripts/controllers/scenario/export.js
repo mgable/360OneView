@@ -139,7 +139,7 @@ angular.module('ThreeSixtyOneView').controller('ExportCtrl', ['$scope', 'ExportR
 
 				if(filters[dimensionIndex].selected < filters[dimensionIndex].total) {
 					_.each(dimension.members, function(level) {
-						if(level.levelId === membersList[dimension.id][filters[dimensionIndex].label[0]].levelId) {
+						if(level.levelId === membersList[dimension.id][filters[dimensionIndex].id[0] + ',' + filters[dimensionIndex].label[0]].levelId) {
 							filteredLevel = level;
 						}
 						if(!!filteredLevel && level.hierarchyId === filteredLevel.hierarchyId && $scope.exportAddedDimensions[level.label]) {
