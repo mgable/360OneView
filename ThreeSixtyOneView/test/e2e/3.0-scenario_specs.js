@@ -25,6 +25,7 @@ var coreSpecs = require('./0.0-specs.js'),
 	editorTabs = ".nav-tabs li",
 	editorTabContent = "tab in tabs",
 	pivotBuilderTab = "#pivotBuilder",
+	viewName = "viewData.name", 
 
 	assumedData = { 
 		'defaultSelectedAnalysisElement': 'Marketing Plan'
@@ -36,7 +37,7 @@ var coreSpecs = require('./0.0-specs.js'),
 		assumedData: assumedData,
 		editButton: element(by.css(edit)),
 		resultsButton: element(by.css(results)),
-		analysisElements: element.all(by.repeater(analysisElements)),
+		cubes: element.all(by.repeater(analysisElements)),
 		selectedAnalysisElement: element(by.css(selectedAnalysisElement)),
 		copyAndReplaceCube: element(by.css(copyAndReplaceCube)),
 		replaceButton: element(by.css(replaceButton)),
@@ -50,7 +51,8 @@ var coreSpecs = require('./0.0-specs.js'),
 		replaceSubmitButton: element(by.css(replaceSubmitButton)),
 		replaceCancelButton: element(by.css(replaceCancelButton)),
 		editorTabs: element.all(by.css(editorTabs)),
-		pivotBuilderTab: element(by.css(pivotBuilderTab))
+		pivotBuilderTab: element(by.css(pivotBuilderTab)),
+		viewName: element(by.binding(viewName))
 	};
 
 _.extend(data, coreSpecs);

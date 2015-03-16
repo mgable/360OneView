@@ -36,7 +36,7 @@ if(funcs.runTheseTests(testName)){
 			});
 
 
-			xdescribe("Create functions: ", function(){
+			describe("Create functions: ", function(){
 				it("should have no scenarios at time of creation", function(){
 					var items = funcs.getItems(),
 						itemCount = funcs.getItemCount();
@@ -227,7 +227,7 @@ if(funcs.runTheseTests(testName)){
 			});
 
 
-			xdescribe("Filter functions: ", function(){
+			describe("Filter functions: ", function(){
 
 				it("should filter by favorite", function(){
 					var startItemCount = funcs.getItemCount();
@@ -250,7 +250,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			xdescribe("Edit functions: ", function(){
+			describe("Edit functions: ", function(){
 				var first,
 					newName = "My Renamed Scenario - " + Date.now(),
 					newDescription = "My new Description - " + Date.now();
@@ -300,13 +300,13 @@ if(funcs.runTheseTests(testName)){
 				});
 			})
 
-			xdescribe("Breadcrumbs: ", function(){
+			describe("Breadcrumbs: ", function(){
 				it("should have the correct label", function(){
 					expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + projectInfo.project.title.toUpperCase());
 				});
 			});
 
-			xdescribe("Change base scenario: ", function(){
+			describe("Change base scenario: ", function(){
 
 				it("should change the base scenario", function(){
 					var scenarios, scenario;
@@ -337,7 +337,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			xdescribe("Scenario Elements: ", function(){
+			describe("Scenario Elements: ", function(){
 				// var scenarioElements = "element in selectedItem.scenarioElements",
 				// 	scenarioEditScenarioElements = "div[data-ms-id='ScenarioEdit.analysisElements'] .dropdown-toggle",
 				// 	allScenarioElements = element.all(by.repeater(scenarioElements)),
@@ -371,7 +371,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		xdescribe("Edit controls on master project's master scenario", function(){
+		describe("Edit controls on master project's master scenario", function(){
 			beforeEach(
 				function(){
 					browser.driver.manage().window().setSize(1280, 1024);

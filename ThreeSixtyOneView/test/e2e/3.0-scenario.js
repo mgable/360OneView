@@ -19,8 +19,7 @@ if(funcs.runTheseTests(testName)){
 			projectInfo = funcs.readProjectInfo();
 			projectId = projectInfo.project.id;
 			scenarioId = projectInfo.scenario.id;
-			scenarioUrl = funcs.getScenarioUrl(projectId, scenarioId);
-			console.info("this");
+			scenarioUrl = funcs.getScenarioEditUrl(projectId, scenarioId);
 			console.info(scenarioUrl);
 		});
 	});
@@ -57,22 +56,20 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		describe("analysis element toolbar", function(){
-			xit("should have analysis elements", function(){
-				expect(specs.analysisElements.count()).toBeGreaterThan(0);
+		xdescribe("analysis element toolbar", function(){
+			it("should have analysis elements", function(){
+				expect(specs.cubes.count()).toBeGreaterThan(0);
 			});
-			// it("should have thirteen analysis elements", function(){
-			// 	expect(specs.analysisElements.count()).toBe(specs.assumedData.cubes.length);
-			// });
 
-			xit("should have 'marketing plan' selected", function(){
+
+			it("should have 'marketing plan' selected", function(){
 				specs.selectedAnalysisElement.getText().then(function(selected){
 					expect(selected).toBe(specs.assumedData.defaultSelectedAnalysisElement);
 				});
 			});
 
-			xit("should allow the user to select a new cube", function(){
-				specs.analysisElements.each(function(element){
+			it("should allow the user to select a new cube", function(){
+				specs.cubes.each(function(element){
 					specs.selectedAnalysisElement.click();
 					element.click();
 					specs.selectedAnalysisElement.getText().then(function(selected){
@@ -81,8 +78,8 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			xit("should not allow the analysis element to be replaced or copied on the Marketing Plan", function(){
-				specs.analysisElements.each(function(element){
+			it("should not allow the analysis element to be replaced or copied on the Marketing Plan", function(){
+				specs.cubes.each(function(element){
 					specs.selectedAnalysisElement.click();
 					element.click();
 					specs.selectedAnalysisElement.getText().then(function(text){
@@ -95,8 +92,8 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			xit("should have a default analysis element file", function(){
-				specs.analysisElements.each(function(element){
+			it("should have a default analysis element file", function(){
+				specs.cubes.each(function(element){
 					specs.selectedAnalysisElement.click();
 					element.click();
 					specs.selectedAnalysisElement.getText().then(function(text){
@@ -117,9 +114,9 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			xit("should copy and replace the analysis element file", function(){
+			it("should copy and replace the analysis element file", function(){
 				var done = false;
-				specs.analysisElements.each(function(element){
+				specs.cubes.each(function(element){
 					specs.selectedAnalysisElement.click();
 					element.click();
 					specs.selectedAnalysisElement.getText().then(function(text){
@@ -144,11 +141,11 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			xit("should replace the analysis element file", function(){
+			it("should replace the analysis element file", function(){
 				var file,
 					done = false;
 
-				specs.analysisElements.each(function(element){
+				specs.cubes.each(function(element){
 					specs.selectedAnalysisElement.click();
 					element.click();
 					specs.selectedAnalysisElement.getText().then(function(text){
@@ -179,20 +176,9 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			// it("should allow the user to select a new cube", function(){
-			// 	var index = 0;
-			// 	specs.analysisElements.each(function(element){
-			// 		specs.selectedAnalysisElement.click();
-			// 		element.click();
-			// 		specs.selectedAnalysisElement.getText().then(function(selected){
-			// 			expect(selected).toEqual(specs.assumedData.cubes[index++]);
-			// 		});
-			// 	});
-			// });
-
-			xit("should not allow the analysis element to be replaced or copied on the Marketing Plan", function(){
+			it("should not allow the analysis element to be replaced or copied on the Marketing Plan", function(){
 				var done = false;
-				specs.analysisElements.each(function(element){
+				specs.cubes.each(function(element){
 					specs.selectedAnalysisElement.click();
 					element.click();
 					specs.selectedAnalysisElement.getText().then(function(text){
@@ -205,7 +191,7 @@ if(funcs.runTheseTests(testName)){
 			});
 
 			it("should allow the analysis element to be replaced or copied for all others", function(){
-				specs.analysisElements.each(function(element){
+				specs.cubes.each(function(element){
 					specs.selectedAnalysisElement.click();
 					element.click();
 					specs.selectedAnalysisElement.getText().then(function(text){
@@ -215,70 +201,6 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 			});
-
-			// it("should have a default analysis element file", function(){
-			// 	var index = 0;
-			// 	specs.analysisElements.each(function(element){
-			// 		specs.selectedAnalysisElement.click();
-			// 		element.click();
-			// 		if (index > 0) {
-			// 			specs.replaceButton.click();
-			// 			expect(specs.analysisElementFileList.count()).toBeGreaterThan(0);
-			// 			specs.analysisElementFileList.getText().then(function(fileList){
-			// 				expect(fileList).arrayElementContains(specs.assumedData.preloadedAnalysisElement);
-			// 				specs.replaceCancelButton.click();
-			// 			});
-						
-			// 		}
-			// 		browser.waitForAngular();
-			// 		index++;
-			// 	});
-			// });
-
-			// it("should copy and replace the analysis element file", function(){
-			// 	funcs.selectSecondCube();
-			// 	specs.copyButton.click();
-			// 	expect(specs.submitButton.getAttribute("disabled")).toBeTruthy();
-			// 	specs.copyAndReplaceNameField.clear();
-			// 	specs.copyAndReplaceNameField.sendKeys(analysisElementFileName);
-			// 	expect(specs.submitButton.getAttribute("disabled")).toBeTruthy();
-			// 	specs.copyAndReplaceDescriptionField.sendKeys(analysisElementFileDescription);
-			// 	browser.waitForAngular();
-			// 	expect(specs.submitButton.getAttribute("disabled")).toBeFalsy();
-			// 	specs.submitButton.click();
-			// 	specs.copyAndReplaceCubeName.getText().then(function(fileName){
-			// 		expect(fileName).toEqual(analysisElementFileName);
-			// 	});
-			// });
-
-			// it("should replace the analysis element file", function(){
-			// 	var file;
-			// 	specs.selectedAnalysisElement.click();
-			// 	specs.analysisElements.get(1).click();
-			// 	specs.replaceButton.click();
-			// 	specs.analysisElementFileList.last().element(by.css('.list-box .item-name')).getText().then(function(fileName){
-			// 		file = fileName;
-			// 		specs.analysisElementFileList.last().click();
-			// 		specs.replaceSubmitButton.click();
-			// 		browser.waitForAngular();
-			// 		specs.copyAndReplaceCubeName.getText().then(function(fileName){
-			// 			expect(fileName).toEqual(file);
-			// 		});
-
-			// 		specs.selectedAnalysisElement.click();
-			// 		specs.analysisElements.get(1).click();
-			// 		specs.replaceButton.click();
-			// 		specs.analysisElementFileList.first().element(by.css('.list-box .item-name')).getText().then(function(fileName){
-			// 			file = fileName;
-			// 			specs.analysisElementFileList.first().click();
-			// 			specs.replaceSubmitButton.click();
-			// 			browser.waitForAngular();
-			// 			specs.copyAndReplaceCubeName.getText().then(function(fileName){
-			// 			expect(fileName).toEqual(file);
-			// 		});
-			// 		})
-			// 	})
-			// });
 		});
 
 		xdescribe("editor tabs", function(){
@@ -294,6 +216,22 @@ if(funcs.runTheseTests(testName)){
 					expect(funcs.hasClass(specs.pivotBuilderTab, "hidden")).toBe(state)
 				});
 				
+			});
+		});
+
+		describe("scenario editor", function(){
+			it("should load the default view for each cube", function(){
+				specs.cubes.each(function(element){
+					specs.selectedAnalysisElement.click();
+					element.click();
+					specs.viewName.getText().then(function(name){
+
+						specs.selectedAnalysisElement.getText().then(function(title){
+							expect(name).toEqual("Default " + title + " view");
+						});
+
+					});
+				});
 			});
 		});
 	});
