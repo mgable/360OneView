@@ -4,11 +4,19 @@ var servers = require('./servers.js'),
 	_ = require('underscore'),
 	simulate = "span[data-ms-id='scenario.simulate.button']",
 	clientServer = servers.getServer(browser.params.client.toLowerCase()),
+	projects = "/rubix/v1/project",
+	scenario = "/:uuid/scenario",
+	analysisElements = "/rubix/v1/scenario/:id/analysis-element",
+	scenarioStatus = '/rubix/v1/analytics/scenario/:id/calculate',
 
 	data = {
-		server: "server=" + clientServer,
-		domain: clientServer,
-		projects: "/rubix/v1/project",
+		server: "server=http://" + clientServer.url + ":" + clientServer.port,
+		domain: clientServer.url,
+		port:  clientServer.port,
+		projects: projects, 
+		scenarios: projects + scenario,
+		scenarioStatus: scenarioStatus,
+		analysisElements: analysisElements,
 		testQuery: "?e2e=true",
 		inputRestrictions: ["\\", "\/", ":", "?", "*", "\"", ">", "<", "|"], //\\\/\?\:\*"><|
 		minimumCharacters: "xx",
@@ -35,7 +43,7 @@ var servers = require('./servers.js'),
 		}
 	};
 
-console.info("Pulling data from "+ clientServer);
+console.info("Pulling data from " + data.domain + ":" + data.port);
 
 module.exports = data;
 	

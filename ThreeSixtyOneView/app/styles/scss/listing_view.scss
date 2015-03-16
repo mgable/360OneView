@@ -210,7 +210,7 @@
 						width: 100%;
 					}
 					.name {
-						text-transform: capitalize;
+						// text-transform: capitalize;
 					}
 				}
 				&.relatedItems {
@@ -236,7 +236,7 @@
 							span {
 								word-break: break-all;
 								cursor: pointer;
-								text-transform: capitalize;
+								// text-transform: capitalize;
 								color: $ms-lightBlue;
 
 								&:hover {

@@ -41,6 +41,8 @@ var coreSpecs = require('./0.0-specs.js'),
 
 	// tray
 	trayCopy = "//button[@data-ms-id='trayActions.copy']",
+	trayCreatedBy = "p[data-ms-id='tray.createdBy']",
+	trayModifiedBy = "p[data-ms-id='tray.modifiedBy']",
 
 	// simple modal - create project or scenario
 	create = "button[data-ms-id='createButton']",
@@ -62,11 +64,12 @@ var coreSpecs = require('./0.0-specs.js'),
 		titleClass: ".title a",
 		inProgressClass: "fa-in_progress",
 		failedClass: "fa-failed",
+		successfulClass: "fa-successful",
 
 		items: "item in getData()",
 		itemCount: "span[data-ms-id='itemCount']",
 		selectedItemTitle: inlineRename  + " span.title",
-		scenarios: "scenario in selectedItem.scenarios",
+		scenariosElement: "scenario in selectedItem.scenarios",
 
 		scenarioCreateModal: element(by.css(scenarioCreateModal)),
 		column_2SortOptionsButton: element(by.css(column_2SortOptions)),
@@ -99,7 +102,9 @@ var coreSpecs = require('./0.0-specs.js'),
 		editDescriptionButton: element(by.css(editDescription)),
 		inlineEditCancelButton: element(by.css(inlineEditCancel)),
 		textAreaHolder: element(by.css(textAreaParent)),
-		inlineEditSubmitButton: element(by.css(inlineEditSubmit))
+		inlineEditSubmitButton: element(by.css(inlineEditSubmit)),
+		trayCreatedBy: element(by.css(trayCreatedBy)),
+		trayModifiedBy: element(by.css(trayModifiedBy))
 	};
 
 _.extend(data, coreSpecs);

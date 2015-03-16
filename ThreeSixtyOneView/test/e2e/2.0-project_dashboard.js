@@ -17,6 +17,7 @@ if(funcs.runTheseTests(testName)){
 			projectInfo = funcs.readProjectInfo();
 			projectId = projectInfo.project.id,
 			dashboardUrl = funcs.getDashboardUrl(projectId);
+			console.info(dashboardUrl);
 		});
 
 	})
@@ -29,44 +30,13 @@ if(funcs.runTheseTests(testName)){
 		);
 
 		describe("Scenario List", function(){
-			var testFileName = "My New Test Project- " + Date.now(),
-				testScenarionNameFirst = "My FIRST new test scenario title - " + Date.now(),
-				testScenarionNameSecond = "My SECOND new test scenario title - " + Date.now(),
-				testScenarionDescription = "My new test scenario description.",
-
-				noScenarios = "a[data-ms-id='noScenariosAlert']", 
-				name = "scenario.title",
-				description = "//input[@data-ms-id='ScenarioCreate.inputDescription']",
-				baseScenario = "//label[@data-ms-id='ScenarioCreate.inputBaseScenario']",
-				submit = "//button[@data-ms-id='ScenarioCreate.submit']",
-				cancel = "//button[@data-ms-id='ScenarioCreate.cancel']",
-
-				confirmBaseScenario = "//button[@data-ms-id='ScenarioCreate.confirmBaseScenario']",
-				cancelBaseScenario = "//button[@data-ms-id='ScenarioCreate.cancelBaseScenario']",
-				baseScenarioInput = "scenario.referenceScenario.name",
-				scenarioBaseScenario = "//a[@data-ms-id='ScenarioListing:baseScenario']",
-
-				noScenariosAlert = element(by.css(noScenarios)),
-				scenarioBaseScenarioElement = element(by.xpath(scenarioBaseScenario )),
-				baseScenarioInputField = element(by.model(baseScenarioInput)),
-
-				inputName = element(by.model(name)),
-				inputDescription = element(by.xpath(description)),
-				inputbaseScenario = element(by.xpath(baseScenario)),
-				submitButton = element(by.xpath(submit)),
-				cancelButton = element(by.xpath(cancel)),
-				confirmBaseScenarioButton = element(by.xpath(confirmBaseScenario)),
-				cancelBaseScenarioButton = element(by.xpath(cancelBaseScenario));
 
 			beforeEach(function(){
 				browser.get(dashboardUrl);
 			});
 
 
-			describe("Create functions: ", function(){
-				var baseScenario = "scenario.referenceScenario.name",
-					baseScenarioInputField = element(by.model(baseScenario));
-
+			xdescribe("Create functions: ", function(){
 				it("should have no scenarios at time of creation", function(){
 					var items = funcs.getItems(),
 						itemCount = funcs.getItemCount();
@@ -87,35 +57,35 @@ if(funcs.runTheseTests(testName)){
 				});
 			
 				it("should display the create scenario alert", function(){
-					expect(noScenariosAlert.isPresent()).toBe(true);
+					expect(specs.noScenariosAlert.isPresent()).toBe(true);
 				});
 
 				it("should not allow a new scenario to be created without a name", function(){
 					specs.createButton.click();
 					browser.waitForAngular();
-					expect(submitButton.isEnabled()).toBe(false);
+					expect(specs.submitButton.isEnabled()).toBe(false);
 				});
 
 				it("should allow a new scenario to be created with a name but no description", function(){
 					specs.createButton.click();
 					browser.waitForAngular();
-					expect(submitButton.isEnabled()).toBe(false);
-					inputName.sendKeys("New " + testScenarionNameFirst);
-					expect(submitButton.isEnabled()).toBe(true);
+					expect(specs.submitButton.isEnabled()).toBe(false);
+					specs.inputName.sendKeys("New " + specs.testScenarionNameFirst);
+					expect(specs.submitButton.isEnabled()).toBe(true);
 				});
 
 				it("should restrict which characters can be used in a name", function(){
 					specs.createButton.click();
 					browser.waitForAngular();
 
-					funcs.testInputRestrictions(inputName, submitButton);
+					funcs.testInputRestrictions(specs.inputName, specs.submitButton);
 				});
 
 				it("should not allow names less than two characters or more than 256 characters", function(){
 					specs.createButton.click();
 					browser.waitForAngular();
 
-					funcs.testMinAndMaxNameLength(inputName, submitButton);
+					funcs.testMinAndMaxNameLength(specs.inputName, specs.submitButton);
 				});
 
 				it("should not allow the base reference scenario to be edited", function(){
@@ -123,7 +93,7 @@ if(funcs.runTheseTests(testName)){
 					specs.createButton.click();
 					browser.waitForAngular();
 
-					baseScenarioInputField.getAttribute("readonly").then(function(attributeValue){
+					specs.baseScenarioInputField.getAttribute("readonly").then(function(attributeValue){
 						expect(attributeValue).toEqual('true');
 					});
 				});
@@ -131,11 +101,11 @@ if(funcs.runTheseTests(testName)){
 				it("should keep the same base scenario on confirm if a new scenario has not been selected", function(){
 					specs.createButton.click();
 					browser.waitForAngular();
-					baseScenarioInputField.getAttribute("value").then(function(text){
-						baseScenarioInputField.click();
+					specs.baseScenarioInputField.getAttribute("value").then(function(text){
+						specs.baseScenarioInputField.click();
 						browser.waitForAngular();
-						confirmBaseScenarioButton.click();
-						baseScenarioInputField.getAttribute("value").then(function(newText){
+						specs.confirmBaseScenarioButton.click();
+						specs.baseScenarioInputField.getAttribute("value").then(function(newText){
 							expect(text).toEqual(newText);
 						});
 					});
@@ -153,13 +123,13 @@ if(funcs.runTheseTests(testName)){
 					specs.createButton.click();
 					browser.waitForAngular();
 					expect(specs.scenarioCreateModal.isPresent()).toBe(true);
-					inputName.sendKeys(testScenarionNameFirst);
-					inputDescription.sendKeys(testScenarionDescription);
-					submitButton.click();
+					specs.inputName.sendKeys(specs.testScenarionNameFirst);
+					specs.inputDescription.sendKeys(specs.testScenarionDescription);
+					specs.submitButton.click();
 					browser.waitForAngular();
 					browser.getLocationAbsUrl().then(function(url){
 						var scenarioId = url.match(/\d+(?=\/edit)/)[0];
-						funcs.saveProjectInfo(_.extend(projectInfo, {scenario: {url: url, id: scenarioId, title: testScenarionNameFirst,}}));
+						funcs.saveProjectInfo(_.extend(projectInfo, {scenario: {url: url, id: scenarioId, title: specs.testScenarionNameFirst,}}));
 						expect(url).toContain("#/scenario/");
 					});
 					browser.get(dashboardUrl);
@@ -173,9 +143,9 @@ if(funcs.runTheseTests(testName)){
 					// 	expect(parseInt(count)).toBe(1);
 					// });
 
-					expect(noScenariosAlert.isPresent()).toBe(false);
+					expect(specs.noScenariosAlert.isPresent()).toBe(false);
 					title.getText().then(function(text){
-						expect(text).toBe(testScenarionNameFirst);
+						expect(text).toBe(specs.testScenarionNameFirst);
 					})
 				});
 
@@ -187,9 +157,9 @@ if(funcs.runTheseTests(testName)){
 				it("should not allow a duplicate scenario name", function(){
 					specs.createButton.click();
 					browser.waitForAngular();
-					expect(submitButton.isEnabled()).toBe(false);
-					inputName.sendKeys(testScenarionNameFirst);
-					expect(submitButton.isEnabled()).toBe(false);
+					expect(specs.submitButton.isEnabled()).toBe(false);
+					specs.inputName.sendKeys(specs.testScenarionNameFirst);
+					expect(specs.submitButton.isEnabled()).toBe(false);
 				});
 
 				it("should copy a scenario", function(){
@@ -207,7 +177,7 @@ if(funcs.runTheseTests(testName)){
 							specs.modalInputField.getAttribute("value").then(function(inputText){
 								expect("COPY -- " + scenarioTitle).toEqual(inputText);
 								specs.modalInputField.clear();
-								specs.modalInputField.sendKeys(testScenarionNameSecond);
+								specs.modalInputField.sendKeys(specs.testScenarionNameSecond);
 
 								specs.modalSubmitButton.click();
 								browser.waitForAngular();
@@ -236,7 +206,28 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			describe("Filter functions: ", function(){
+			describe("Copy Scenario Functions", function(){
+				it("should not allow the copy to have no name", function(){
+					specs.trayCopyButton.click()
+					specs.modalInputField.clear();
+					expect(specs.modalSubmitButton.getAttribute("disabled")).toBeTruthy();
+				});
+
+				it("should should respect limits on name length", function(){
+					specs.trayCopyButton.click();
+					browser.waitForAngular();
+					funcs.testMinAndMaxNameLength(specs.modalInputField, specs.modalSubmitButton);
+				});
+
+				it("should should restrict which characters can be used in a name", function(){
+					specs.trayCopyButton.click();
+					browser.waitForAngular();
+					funcs.testInputRestrictions(specs.modalInputField, specs.modalSubmitButton);
+				});
+			});
+
+
+			xdescribe("Filter functions: ", function(){
 
 				it("should filter by favorite", function(){
 					var startItemCount = funcs.getItemCount();
@@ -259,7 +250,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			describe("Edit functions: ", function(){
+			xdescribe("Edit functions: ", function(){
 				var first,
 					newName = "My Renamed Scenario - " + Date.now(),
 					newDescription = "My new Description - " + Date.now();
@@ -309,21 +300,21 @@ if(funcs.runTheseTests(testName)){
 				});
 			})
 
-			describe("Breadcrumbs: ", function(){
+			xdescribe("Breadcrumbs: ", function(){
 				it("should have the correct label", function(){
 					expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + projectInfo.project.title.toUpperCase());
 				});
 			});
 
-			describe("Change base scenario: ", function(){
+			xdescribe("Change base scenario: ", function(){
 
 				it("should change the base scenario", function(){
 					var scenarios, scenario;
 
 					specs.createButton.click();
 					browser.waitForAngular();
-					inputName.sendKeys("New " + testScenarionNameSecond);
-					inputbaseScenario.click();
+					specs.inputName.sendKeys("New " + specs.testScenarionNameSecond);
+					specs.inputbaseScenario.click();
 					browser.waitForAngular();
 					scenarios = element.all(by.repeater("scenarios in scenarioList")).first().element(by.css('a'));
 					scenarios.click();
@@ -332,47 +323,47 @@ if(funcs.runTheseTests(testName)){
 					scenario.click();
 
 					scenario.getText().then(function(scenarioText){
-						confirmBaseScenarioButton.click();
-						baseScenarioInputField.getAttribute("value").then(function(baseScenarioText){
+						specs.confirmBaseScenarioButton.click();
+						specs.baseScenarioInputField.getAttribute("value").then(function(baseScenarioText){
 							expect(scenarioText).toEqual(baseScenarioText);
-							submitButton.click();
+							specs.submitButton.click();
 							browser.waitForAngular();
 							expect(browser.getLocationAbsUrl()).toContain("#/scenario/");
 							browser.get(dashboardUrl);
 							browser.waitForAngular();
-							expect(scenarioBaseScenarioElement.getText()).toEqual(scenarioText);
+							expect(specs.scenarioBaseScenarioElement.getText()).toEqual(scenarioText);
 						});
 					});
 				});
 			});
 
-			describe("Scenario Elements: ", function(){
-				var scenarioElements = "element in selectedItem.scenarioElements",
-					scenarioEditScenarioElements = "div[data-ms-id='ScenarioEdit.analysisElements'] .dropdown-toggle",
-					allScenarioElements = element.all(by.repeater(scenarioElements)),
-					firstScenarioElementName = allScenarioElements.first().element(by.css(".element-name")),
-					firstScenarioElementTitle = allScenarioElements.first().element(by.css(".element-title")),
-					lastScenarioElementName =   allScenarioElements.last().element(by.css(".element-name")),
-					lastScenarioElementTitle =   allScenarioElements.last().element(by.css(".element-title")),
-					selectedScenarioElement = element(by.css(scenarioEditScenarioElements));
+			xdescribe("Scenario Elements: ", function(){
+				// var scenarioElements = "element in selectedItem.scenarioElements",
+				// 	scenarioEditScenarioElements = "div[data-ms-id='ScenarioEdit.analysisElements'] .dropdown-toggle",
+				// 	allScenarioElements = element.all(by.repeater(scenarioElements)),
+				// 	firstScenarioElementName = allScenarioElements.first().element(by.css(".element-name")),
+				// 	firstScenarioElementTitle = allScenarioElements.first().element(by.css(".element-title")),
+				// 	lastScenarioElementName =   allScenarioElements.last().element(by.css(".element-name")),
+				// 	lastScenarioElementTitle =   allScenarioElements.last().element(by.css(".element-title")),
+				// 	selectedScenarioElement = element(by.css(scenarioEditScenarioElements));
 
 				it("should click through to scenario edit with the correct scenario element selected", function(){
-					firstScenarioElementTitle.getText().then(function(titleInTray){
-						firstScenarioElementName.click();
+					specs.firstScenarioElementTitle.getText().then(function(titleInTray){
+						specs.firstScenarioElementName.click();
 						browser.waitForAngular();
 						expect(browser.getLocationAbsUrl()).toContain("#/scenario/" + projectId);
-						selectedScenarioElement.getText().then(function(titleInScenarioEdit){
+						specs.selectedScenarioElement.getText().then(function(titleInScenarioEdit){
 							expect(titleInTray).toBe(titleInScenarioEdit);
 						});
 					});
 
 					browser.get(dashboardUrl);
 
-					lastScenarioElementTitle.getText().then(function(titleInTray){
-						lastScenarioElementName.click();
+					specs.lastScenarioElementTitle.getText().then(function(titleInTray){
+						specs.lastScenarioElementName.click();
 						browser.waitForAngular();
 						expect(browser.getLocationAbsUrl()).toContain("#/scenario/" + projectId);
-						selectedScenarioElement.getText().then(function(titleInScenarioEdit){
+						specs.selectedScenarioElement.getText().then(function(titleInScenarioEdit){
 							expect(titleInTray).toBe(titleInScenarioEdit);
 						});
 					});
@@ -380,7 +371,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		describe("Edit controls on master project's master scenario", function(){
+		xdescribe("Edit controls on master project's master scenario", function(){
 			beforeEach(
 				function(){
 					browser.driver.manage().window().setSize(1280, 1024);
