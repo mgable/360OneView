@@ -35,7 +35,7 @@ if(funcs.runTheseTests(testName)){
 			}
 		);
 
-		it("should have the correct number of scenarios", function(){
+		xit("should have the correct number of scenarios", function(){
 			funcs.getItemCount().getText().then(function(count){
 				expect(count).toEqual(cache[project.uuid].length.toString(10));
 			});
@@ -45,7 +45,7 @@ if(funcs.runTheseTests(testName)){
 			})
 		});
 
-		it("should have the correct scenarios", function(){
+		xit("should have the correct scenarios", function(){
 			var index = 0,
 				sortedScenarios = funcs.sortProjectsByDate(cache[project.uuid]);
 
@@ -57,9 +57,11 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		it("should have the correct statuses", function(){
-			var currentStatus;
-			funcs.getItems().each(function(item){
+		xit("should have the correct statuses", function(){
+			var currentStatus,
+				items = funcs.getItems();
+
+			items.each(function(item){
 				item.element(by.css(specs.titleClass)).getAttribute('data-ms-id').then(function(id){
 					item.element(by.css(specs.statusClass)).getAttribute("class").then(function(status){
 						var matches = status.match(/fa\W*fa-(.+)/);
@@ -79,9 +81,8 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		it("should have the correct description", function(){
-			var flow = protractor.promise.controlFlow(),
-				items = funcs.getItems(),
+		xit("should have the correct description", function(){
+			var items = funcs.getItems(),
 				index = 0,
 				sortedScenarios = funcs.sortProjectsByDate(cache[project.uuid]);
 
@@ -97,14 +98,14 @@ if(funcs.runTheseTests(testName)){
 						});
 					} else {
 						expect(sortedScenarios[index].description).not.toBeDefined();
+						index++;
 					}
 				});
 			});
 		});
 
-		it("should have the correct created by data", function(){
-			var flow = protractor.promise.controlFlow(),
-				items = funcs.getItems(),
+		xit("should have the correct created by data", function(){
+			var items = funcs.getItems(),
 				index = 0,
 				sortedScenarios = funcs.sortProjectsByDate(cache[project.uuid]);
 
@@ -125,15 +126,14 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		it("should have the correct modified by data", function(){
-			var flow = protractor.promise.controlFlow(),
-				items = funcs.getItems(),
+		xit("should have the correct modified by data", function(){
+			var items = funcs.getItems(),
 				index = 0,
 				sortedScenarios = funcs.sortProjectsByDate(cache[project.uuid]);
 
 			items.each(function(item){
-					item.click();
-					browser.waitForAngular();
+				item.click();
+				browser.waitForAngular();
 
 				specs.trayModifiedBy.getText().then(function(modifiedOn){
 					var matches = modifiedOn.match(/^([^,]+)[, ]*(.+)$/),
@@ -148,26 +148,51 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		it("should have the correct base scenario", function(){
-			var flow = protractor.promise.controlFlow(),
-				items = funcs.getItems(),
+		xit("should have the correct base scenario", function(){
+			var items = funcs.getItems(),
 				index = 0,
 				sortedScenarios = funcs.sortProjectsByDate(cache[project.uuid]);
 
 			items.each(function(item){
-					item.click();
-					browser.waitForAngular();
+				item.click();
+				browser.waitForAngular();
 
-				specs.trayModifiedBy.getText().then(function(modifiedOn){
-					var matches = modifiedOn.match(/^([^,]+)[, ]*(.+)$/),
-						creator = matches[1],
-						dateCreated = matches[2];
-					
-					expect(creator).toEqual(sortedScenarios[index].auditInfo.lastUpdatedBy.name);
-					expect(dateCreated).toEqual(funcs.getFormatedDate(sortedScenarios[index].auditInfo.lastUpdatedOn));
+				specs.scenarioBaseScenarioElement.getText().then(function(baseScenarioTitle){
+					expect(baseScenarioTitle).toEqual(sortedScenarios[index].referenceScenario.name);
 					index++;
 				});
+			});
+		});
 
+		it("should have the correct analysis elements", function(done){
+			var items = funcs.getItems();
+			items.each(function(item){
+				item.click();
+				browser.waitForAngular();
+
+				item.element(by.css(specs.titleClass)).getAttribute('data-ms-id').then(function(id){
+
+					flow.await(funcs.getRawData_analysisElements(id).then(
+						function(analysisElements){
+							console.info(analysisElements);
+							//done();
+							// var scenario = _.findWhere(cache[project.uuid], {id: parseInt(id)});
+							// scenario.analysisElements = analysisElements;
+
+							// specs.allScenarioElements.each(function(el){
+							// 	el.element(by.css(specs.elementName)).getText().then(function(name){
+							// 		el.element(by.css(specs.elementTitle)).getText().then(function(title){
+							// 			console.info(name, title);
+							// 			done()
+							// 		});
+							// 	});
+							// });
+						}
+					)).then(function(){
+						funcs.saveInfo("./test/e2e/cache.json", cache);
+					});
+
+				});
 			});
 		});
 	});

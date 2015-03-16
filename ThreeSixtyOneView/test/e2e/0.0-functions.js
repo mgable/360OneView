@@ -47,6 +47,9 @@ var specs = require('./0.0-specs.js'),
 		getScenarioStatusUrl: function(id){
 			return specs.scenarioStatus.replace(/:id/, id);
 		},
+		getAnalysisElementUrl: function(id){
+			return specs.analysisElements.replace(/:id/, id);
+		},
 		readProjectInfo: function(){
 			return this.readInfo(projectFileName);
 		},
@@ -112,7 +115,7 @@ var specs = require('./0.0-specs.js'),
 					path: this.getScenarioUrl(uuid)
 				};
 
-			return this.get(options, uuid)
+			return this.get(options, uuid);
 		},
 		getRawData_ProjectsUrl: function(){
 			return "http:// " + specs.domain + specs.projects;
@@ -125,8 +128,18 @@ var specs = require('./0.0-specs.js'),
 					path: specs.projects
 				};
 
-			return this.get(options, "projects")
+			return this.get(options, "projects");
 				
+		},
+		getRawData_analysisElements: function(id){
+			var options = {
+					host: specs.domain,
+					port: specs.port,
+					method: "GET",
+					path: this.getAnalysisElementUrl(id)
+				};
+
+			return this.get(options, "scenarioID_" + id);
 		},
 		testInputRestrictions: function(input, submit){
 			_.each(specs.inputRestrictions, function(restrictedCharacter){

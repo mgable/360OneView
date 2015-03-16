@@ -9,8 +9,15 @@ var noScenarios = "a[data-ms-id='noScenariosAlert']",
 	cancelBaseScenario = "button[data-ms-id='ScenarioCreate.cancelBaseScenario']",
 	baseScenarioInput = "scenario.referenceScenario.name",
 	scenarioBaseScenario = "a[data-ms-id='ScenarioListing:baseScenario']",
+	elementName = ".element-name",
+	elementTitle = ".element-title",
+
+	scenarioElements = "element in selectedItem.scenarioElements",
+	scenarioEditScenarioElements = "div[data-ms-id='ScenarioEdit.analysisElements'] .dropdown-toggle",
 
 	data = {
+		elementName: elementName,
+		elementTitle: elementTitle,
 		testScenarionNameFirst: "My FIRST new test scenario title - " + Date.now(),
 		testScenarionNameSecond: "My SECOND new test scenario title - " + Date.now(),
 		testScenarionDescription: "My new test scenario description.",
@@ -26,6 +33,13 @@ var noScenarios = "a[data-ms-id='noScenariosAlert']",
 		cancelButton: element(by.css(cancel)),
 		confirmBaseScenarioButton: element(by.css(confirmBaseScenario)),
 		cancelBaseScenarioButton: element(by.css(cancelBaseScenario)),
+
+		allScenarioElements: element.all(by.repeater(scenarioElements)),
+		firstScenarioElementName: element.all(by.repeater(scenarioElements)).first().element(by.css(elementName)),
+		firstScenarioElementTitle: element.all(by.repeater(scenarioElements)).first().element(by.css(elementTitle)),
+		lastScenarioElementName: element.all(by.repeater(scenarioElements)).last().element(by.css(elementName)),
+		lastScenarioElementTitle: element.all(by.repeater(scenarioElements)).last().element(by.css(elementTitle)),
+		selectedScenarioElement: element(by.css(scenarioEditScenarioElements))
 	};
 
 module.exports = data;

@@ -338,32 +338,32 @@ if(funcs.runTheseTests(testName)){
 			});
 
 			xdescribe("Scenario Elements: ", function(){
-				var scenarioElements = "element in selectedItem.scenarioElements",
-					scenarioEditScenarioElements = "div[data-ms-id='ScenarioEdit.analysisElements'] .dropdown-toggle",
-					allScenarioElements = element.all(by.repeater(scenarioElements)),
-					firstScenarioElementName = allScenarioElements.first().element(by.css(".element-name")),
-					firstScenarioElementTitle = allScenarioElements.first().element(by.css(".element-title")),
-					lastScenarioElementName =   allScenarioElements.last().element(by.css(".element-name")),
-					lastScenarioElementTitle =   allScenarioElements.last().element(by.css(".element-title")),
-					selectedScenarioElement = element(by.css(scenarioEditScenarioElements));
+				// var scenarioElements = "element in selectedItem.scenarioElements",
+				// 	scenarioEditScenarioElements = "div[data-ms-id='ScenarioEdit.analysisElements'] .dropdown-toggle",
+				// 	allScenarioElements = element.all(by.repeater(scenarioElements)),
+				// 	firstScenarioElementName = allScenarioElements.first().element(by.css(".element-name")),
+				// 	firstScenarioElementTitle = allScenarioElements.first().element(by.css(".element-title")),
+				// 	lastScenarioElementName =   allScenarioElements.last().element(by.css(".element-name")),
+				// 	lastScenarioElementTitle =   allScenarioElements.last().element(by.css(".element-title")),
+				// 	selectedScenarioElement = element(by.css(scenarioEditScenarioElements));
 
 				it("should click through to scenario edit with the correct scenario element selected", function(){
-					firstScenarioElementTitle.getText().then(function(titleInTray){
-						firstScenarioElementName.click();
+					specs.firstScenarioElementTitle.getText().then(function(titleInTray){
+						specs.firstScenarioElementName.click();
 						browser.waitForAngular();
 						expect(browser.getLocationAbsUrl()).toContain("#/scenario/" + projectId);
-						selectedScenarioElement.getText().then(function(titleInScenarioEdit){
+						specs.selectedScenarioElement.getText().then(function(titleInScenarioEdit){
 							expect(titleInTray).toBe(titleInScenarioEdit);
 						});
 					});
 
 					browser.get(dashboardUrl);
 
-					lastScenarioElementTitle.getText().then(function(titleInTray){
-						lastScenarioElementName.click();
+					specs.lastScenarioElementTitle.getText().then(function(titleInTray){
+						specs.lastScenarioElementName.click();
 						browser.waitForAngular();
 						expect(browser.getLocationAbsUrl()).toContain("#/scenario/" + projectId);
-						selectedScenarioElement.getText().then(function(titleInScenarioEdit){
+						specs.selectedScenarioElement.getText().then(function(titleInScenarioEdit){
 							expect(titleInTray).toBe(titleInScenarioEdit);
 						});
 					});
