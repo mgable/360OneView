@@ -164,35 +164,53 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		it("should have the correct analysis elements", function(done){
+		it("should have the correct analysis elements", function(){
 			var items = funcs.getItems();
 			items.each(function(item){
 				item.click();
 				browser.waitForAngular();
 
 				item.element(by.css(specs.titleClass)).getAttribute('data-ms-id').then(function(id){
+					var scenario = {};
 
 					flow.await(funcs.getRawData_analysisElements(id).then(
 						function(analysisElements){
-							console.info(analysisElements);
-							//done();
-							// var scenario = _.findWhere(cache[project.uuid], {id: parseInt(id)});
-							// scenario.analysisElements = analysisElements;
+							var groupedAnalysisElements = _.groupBy(analysisElements, 'group'),
+								ae = _.flatten([groupedAnalysisElements["Marketing Plan"], groupedAnalysisElements["Non-Marketing Drivers"].sort(
+									function(a,b){
+										if (a.cubeMeta.label > b.cubeMeta.label){
+											return 1;
+										} else if (a.cubeMeta.label < b.cubeMeta.label){
+											return -1;
+										} else {
+											return 0;
+										}
+									}
+								)]);
 
-							// specs.allScenarioElements.each(function(el){
-							// 	el.element(by.css(specs.elementName)).getText().then(function(name){
-							// 		el.element(by.css(specs.elementTitle)).getText().then(function(title){
-							// 			console.info(name, title);
-							// 			done()
-							// 		});
-							// 	});
-							// });
+							scenario[id] = _.findWhere(cache[project.uuid], {id: parseInt(id)});
+							scenario[id].analysisElements = ae;
 						}
 					)).then(function(){
+						var index = 0;
+						specs.allScenarioElements.each(function(el){
+
+							el.element(by.css(specs.elementName)).getText().then(function(name){
+								el.element(by.css(specs.elementTitle)).getText().then(function(title){
+									expect(title).toEqual(scenario[id].analysisElements[index].cubeMeta.label);
+									expect(name).toEqual(scenario[id].analysisElements[index].name)
+									index++;
+								});
+							});
+
+						});
+
+						console.info("DONE!!!!");
 						funcs.saveInfo("./test/e2e/cache.json", cache);
 					});
 
 				});
+
 			});
 		});
 	});
