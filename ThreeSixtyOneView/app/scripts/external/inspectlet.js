@@ -14,7 +14,7 @@ __insp.push(['wid', 930668447]);
 	// User ID
 	console.log(location.hostname);
 	switch(location.host) {
-		case "127.0.0.1" : 
+		case "127.0.0.1":
 			// ID IP Address
 			__insp.push(['identify', "Development"]);
 			// Tag User Session
