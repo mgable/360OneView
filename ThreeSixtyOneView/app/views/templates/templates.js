@@ -775,11 +775,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\t</accordion-group>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<accordion-group ng-repeat=\"scenarios in scenarioList | filterProjects : searchText\">\r" +
+    "\t\t\t\t\t\t\t<accordion-group ng-repeat=\"project in scenarioList | filterProjects: searchText\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<accordion-heading>{{scenarios.title}} Project</accordion-heading>\r" +
+    "\t\t\t\t\t\t\t\t<accordion-heading>{{project.title}} Project</accordion-heading>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<div ng-repeat=\"scenario in scenarios.data\">\r" +
+    "\t\t\t\t\t\t\t\t<div ng-repeat=\"scenario in getScenarios(project, searchText)\">\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t<div class=\"row\" ng-click=\"setScenario(scenario)\">\r" +
     "\n" +
@@ -817,7 +817,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<ms-button type=\"cancel\" action=\"close()\" label=\"Cancel\" data-ms-id=\"ScenarioCreate.cancel\"></ms-button>\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"submit\" action=\"submit(scenario)\" label=\"Select\" ng-disabled=\"ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList\" data-ms-id=\"ScenarioCreate.submit\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"submit\" action=\"submit(scenario)\" label=\"Continue\" ng-disabled=\"ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList\" data-ms-id=\"ScenarioCreate.submit\"></ms-button>\r" +
     "\n" +
     "\t\t\t<span ng-hide=\"scenarioList\" class=\"loaderHolder\">\r" +
     "\n" +
@@ -831,7 +831,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<ms-button type=\"cancel\" action=\"cancel()\" label=\"Cancel\" data-ms-id=\"ScenarioCreate.cancelBaseScenario\"></ms-button>\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"submit\" action=\"confirm()\" label=\"Continue\" data-ms-id=\"ScenarioCreate.confirmBaseScenario\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"submit\" action=\"confirm()\" label=\"Select\" data-ms-id=\"ScenarioCreate.confirmBaseScenario\"></ms-button>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +

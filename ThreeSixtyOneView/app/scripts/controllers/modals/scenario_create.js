@@ -3,7 +3,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .controller('ScenarioCreateCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", "GotoService", function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS, GotoService) {
+    .controller('ScenarioCreateCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", "GotoService", '$filter', function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS, GotoService, $filter) {
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
         var findBaseScenario = function(scenario){
@@ -50,6 +50,17 @@ angular.module('ThreeSixtyOneView')
 
         $scope.setScenario = function(item){
             selectedBaseScenario = item;
+        };
+
+        $scope.getScenarios = function(project, searchTerm) {
+            var searchTerm = searchTerm || '',
+                regExp = new RegExp(searchTerm.toLowerCase(), "g");
+
+            if(regExp.test(project.title.toLowerCase())) {
+                return project.data;
+            } else {
+                return $filter('filter')(project.data, {title: searchTerm});
+            }
         };
 
         $scope.showRow = function(row){

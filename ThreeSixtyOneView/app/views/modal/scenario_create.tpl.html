@@ -42,9 +42,9 @@
 									</div>
 								</div>
 							</accordion-group>
-							<accordion-group ng-repeat="scenarios in scenarioList | filterProjects : searchText">
-								<accordion-heading>{{scenarios.title}} Project</accordion-heading>
-								<div ng-repeat="scenario in scenarios.data">
+							<accordion-group ng-repeat="project in scenarioList | filterProjects: searchText">
+								<accordion-heading>{{project.title}} Project</accordion-heading>
+								<div ng-repeat="scenario in getScenarios(project, searchText)">
 									<div class="row" ng-click="setScenario(scenario)">
 										<div class="col-md-1">
 											<span ng-show="showRow(scenario)"><icon type="check-circle" cname="ok-sign"></icon></span>
@@ -63,14 +63,14 @@
 		</div>
 		<div class="action-buttons" ng-show="showFields">
 			<ms-button type="cancel" action="close()" label="Cancel" data-ms-id="ScenarioCreate.cancel"></ms-button>
-			<ms-button type="submit" action="submit(scenario)" label="Select" ng-disabled="ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList" data-ms-id="ScenarioCreate.submit"></ms-button>
+			<ms-button type="submit" action="submit(scenario)" label="Continue" ng-disabled="ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList" data-ms-id="ScenarioCreate.submit"></ms-button>
 			<span ng-hide="scenarioList" class="loaderHolder">
 				<span class="loading"></span>Loading scenarios
 			</span>
 		</div>
 		<div class="action-buttons" ng-hide="showFields">
 			<ms-button type="cancel" action="cancel()" label="Cancel" data-ms-id="ScenarioCreate.cancelBaseScenario"></ms-button>
-			<ms-button type="submit" action="confirm()" label="Continue" data-ms-id="ScenarioCreate.confirmBaseScenario"></ms-button>
+			<ms-button type="submit" action="confirm()" label="Select" data-ms-id="ScenarioCreate.confirmBaseScenario"></ms-button>
 		</div>
 	</div>
 </div>
