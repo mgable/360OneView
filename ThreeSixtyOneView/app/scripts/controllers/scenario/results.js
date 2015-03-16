@@ -516,7 +516,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     // open/dismiss filters selection modal
     $scope.kpiFiltersModal = function(category) {
         var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
-            {dimension: category, addedFilters: $scope.kpiAddedFilters, viewData: $scope.kpiViewData, dimensions: $scope.kpiDimensions},
+            {dimension: category, addedFilters: $scope.kpiAddedFilters, viewData: $scope.kpiViewData.rows.concat($scope.kpiViewData.columns), dimensions: $scope.kpiDimensions},
             {windowSize: 'lg', windowClass: 'filters-modal'});
 
         dialog.result.then(function(data) {
