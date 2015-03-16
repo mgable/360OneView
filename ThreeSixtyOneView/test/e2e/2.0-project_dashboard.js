@@ -316,9 +316,9 @@ if(funcs.runTheseTests(testName)){
 					specs.inputName.sendKeys("New " + specs.testScenarionNameSecond);
 					specs.inputbaseScenario.click();
 					browser.waitForAngular();
-					scenarios = element.all(by.repeater("scenarios in scenarioList")).first().element(by.css('a'));
+					scenarios = element.all(by.repeater("project in scenarioList")).first().element(by.css('a'));
 					scenarios.click();
-					scenario = element.all(by.repeater("scenario in scenarios.data")).first().element(by.css("span[data-ms-id='scenario-title']"));
+					scenario = element.all(by.repeater("scenario in getScenarios(project, searchText)")).first().element(by.css("span[data-ms-id='scenario-title']"));
 					browser.waitForAngular();
 					scenario.click();
 
