@@ -64,7 +64,7 @@
 		<div class="action-buttons" ng-show="showFields">
 			<ms-button type="cancel" action="close()" label="Cancel" data-ms-id="ScenarioCreate.cancel"></ms-button>
 			<ms-button type="submit" action="submit(scenario)" label="Continue" ng-disabled="ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList" data-ms-id="ScenarioCreate.submit"></ms-button>
-			<span ng-hide="scenarioList" class="loaderHolder">
+			<span ng-show="loadingScenarios" class="loaderHolder">
 				<span class="loading"></span>Loading scenarios
 			</span>
 		</div>

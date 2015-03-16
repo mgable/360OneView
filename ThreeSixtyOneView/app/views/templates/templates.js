@@ -819,7 +819,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<ms-button type=\"submit\" action=\"submit(scenario)\" label=\"Continue\" ng-disabled=\"ScenarioCreate.$invalid || ScenarioCreate.$pristine || !scenarioList\" data-ms-id=\"ScenarioCreate.submit\"></ms-button>\r" +
     "\n" +
-    "\t\t\t<span ng-hide=\"scenarioList\" class=\"loaderHolder\">\r" +
+    "\t\t\t<span ng-show=\"loadingScenarios\" class=\"loaderHolder\">\r" +
     "\n" +
     "\t\t\t\t<span class=\"loading\"></span>Loading scenarios\r" +
     "\n" +

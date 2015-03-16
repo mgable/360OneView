@@ -31,8 +31,10 @@ angular.module('ThreeSixtyOneView')
                 $scope.project = data.project;
                 $scope.scenarios = data.scenarios;
                 $scope.scenario = angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
+                $scope.loadingScenarios = true;
 
                 ScenarioService.getAll().then(function(response){
+                    $scope.loadingScenarios = false;
                     var baseScenario;
                     $scope.masterProject = getMasterProject(response);
                     baseScenario = findBaseScenario($scope.masterProject);
