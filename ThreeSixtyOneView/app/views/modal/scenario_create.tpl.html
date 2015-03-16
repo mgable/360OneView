@@ -31,7 +31,7 @@
 						</div>
 
 						<accordion close-others="false">
-							<accordion-group is-open="true">
+							<accordion-group is-open="true" ng-hide="hideMasterProject(masterProject.title, masterProjectReferenceScenario.title, searchText)">
 								<accordion-heading>{{masterProject.title}}</accordion-heading>
 								<div class="row" ng-click="setScenario(masterProjectReferenceScenario)">
 									<div class="col-md-1">

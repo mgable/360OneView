@@ -753,7 +753,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t<accordion close-others=\"false\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<accordion-group is-open=\"true\">\r" +
+    "\t\t\t\t\t\t\t<accordion-group is-open=\"true\" ng-hide=\"hideMasterProject(masterProject.title, masterProjectReferenceScenario.title, searchText)\">\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t<accordion-heading>{{masterProject.title}}</accordion-heading>\r" +
     "\n" +

@@ -63,6 +63,14 @@ angular.module('ThreeSixtyOneView')
             }
         };
 
+        $scope.hideMasterProject = function(projectTitle, scenarioTitle, searchTerm) {
+            if(!searchTerm || searchTerm.length === 0) {
+                return false;
+            }
+
+            return projectTitle.toLowerCase().indexOf(searchTerm) === -1 && scenarioTitle.toLowerCase().indexOf(searchTerm) === -1;
+        };
+
         $scope.showRow = function(row){
             return row === selectedBaseScenario;
         };
