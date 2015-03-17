@@ -3,7 +3,7 @@
 var coreSpecs = require('./0.0-specs.js'),
 	_ = require('underscore'),
 
-// globals
+	newViewName = "My New Test View " + Date.now(),
 	edit = "li[data-ms-id='scenario.edit.button']",
 	results = "li[data-ms-id='scenario.results.button']",
 	analysisElementsDropdown = "div[data-ms-id='ScenarioEdit.analysisElements']",
@@ -30,9 +30,13 @@ var coreSpecs = require('./0.0-specs.js'),
 	viewSaveAsButton = ['.menu-item', 'Save As'],
 	viewRenameButton = ['.menu-item', 'Rename'],
 	viewRevertButton = ['.menu-item', 'Revert'],
+	allViewsButton = ['.menu-item', 'All Views'],
 	saveAsBox = ".saveAsBox",
 	saveAsNameField = "saveAsName",
 	saveAsSubmitButton = ".saveAsBox .submit",
+
+	recentViews = "view in getViewsList()",
+	recentViewsDropDown = "#pivotBuilder .recent-items .dropdown-toggle",
 
 	draggableDimensions = "item in getViewData(pivotBuilderItem.name)",
 
@@ -41,6 +45,7 @@ var coreSpecs = require('./0.0-specs.js'),
 	},
 
 	data = {
+		newViewName: newViewName, 
 		scenarioUrl: '#/scenario/:projectId/:scenarioId/edit/',
 		calculateUrl: '#/scenario/:projectId/:scenarioId/calculate',
 		assumedData: assumedData,
@@ -65,10 +70,13 @@ var coreSpecs = require('./0.0-specs.js'),
 		viewDropDown: element(by.css(viewDropDown)),
 		viewRevertButton: element(by.cssContainingText(viewRevertButton[0], viewRevertButton[1])),
 		viewSaveAsButton: element(by.cssContainingText(viewSaveAsButton[0], viewSaveAsButton[1])),
+		allViewsButton: element(by.cssContainingText(allViewsButton[0], allViewsButton[1])),
 		saveAsNameField: element(by.model(saveAsNameField)),
 		saveAsBox: element(by.css(saveAsBox)),
 		saveAsSubmitButton: element(by.css(saveAsSubmitButton)),
-		draggableDimensions: element.all(by.repeater(draggableDimensions))
+		draggableDimensions: element.all(by.repeater(draggableDimensions)),
+		recentViews: element.all(by.repeater(recentViews)),
+		recentViewsDropDown: element(by.css(recentViewsDropDown))
 	};
 
 _.extend(data, coreSpecs);

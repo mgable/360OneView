@@ -6,6 +6,7 @@ var specs = require('./1.0-project_listing_specs.js'),
 	projectInfo,
 	dashboardUrl,
 	projectId,
+	hasScenarios,
 	testName = {title: "Project Dashboard", id: 2};
 
 if(funcs.runTheseTests(testName)){
@@ -17,6 +18,7 @@ if(funcs.runTheseTests(testName)){
 			projectInfo = funcs.readProjectInfo();
 			projectId = projectInfo.project.id,
 			dashboardUrl = funcs.getDashboardUrl(projectId);
+			hasScenarios = !!projectInfo.scenario;
 			console.info(dashboardUrl);
 		});
 
@@ -36,30 +38,49 @@ if(funcs.runTheseTests(testName)){
 			});
 
 
-			describe("Create functions: ", function(){
+			describe("Inital state", function(){
 				it("should have no scenarios at time of creation", function(){
-					var items = funcs.getItems(),
-						itemCount = funcs.getItemCount();
-					expect(items.count()).toEqual(0);
-					itemCount.getText().then(function(count){
-						expect(parseInt(count)).toEqual(0);
-					});
+					if(! hasScenarios){
+						var items = funcs.getItems(),
+							itemCount = funcs.getItemCount();
+						expect(items.count()).toEqual(0);
+						itemCount.getText().then(function(count){
+							expect(parseInt(count)).toEqual(0);
+						});
+					} else {
+						console.error("The projects has scenarios. \"should have no scenarios at time of creation\" test skipped");
+					}
 				});
 
 				it("should not enabled the rename, copy or edit buttons", function(){
-					expect(specs.trayCopyButton.isPresent()).toBeFalsy();
-					expect(specs.renameButton.isPresent()).toBeFalsy();
-					expect(specs.editDescriptionButton.isPresent()).toBeFalsy();
+					if(! hasScenarios){
+						expect(specs.trayCopyButton.isPresent()).toBeFalsy();
+						expect(specs.renameButton.isPresent()).toBeFalsy();
+						expect(specs.editDescriptionButton.isPresent()).toBeFalsy();
+					} else {
+						console.error("The projects has scenarios. \"should not enabled the rename, copy or edit buttons\" test skipped");
+					}
 				});
 
 				it("should enable the create button", function(){
-					expect(specs.createButton.getAttribute("disabled")).toBeFalsy();
+					if(! hasScenarios){
+						expect(specs.createButton.getAttribute("disabled")).toBeFalsy();
+					} else {
+						console.error("The projects has scenarios. \"should enable the create button\" test skipped");
+					}
 				});
 			
 				it("should display the create scenario alert", function(){
-					expect(specs.noScenariosAlert.isPresent()).toBe(true);
+					if(! hasScenarios){
+						expect(specs.noScenariosAlert.isPresent()).toBe(true);
+					} else {
+						console.error("The projects has scenarios. \"should display the create scenario alert\" test skipped");
+					}
 				});
+				
+			});
 
+			describe("Create functions: ", function(){
 				it("should not allow a new scenario to be created without a name", function(){
 					specs.createButton.click();
 					browser.waitForAngular();
@@ -226,7 +247,6 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-
 			describe("Filter functions: ", function(){
 
 				it("should filter by favorite", function(){
@@ -338,14 +358,6 @@ if(funcs.runTheseTests(testName)){
 			});
 
 			describe("Scenario Elements: ", function(){
-				// var scenarioElements = "element in selectedItem.scenarioElements",
-				// 	scenarioEditScenarioElements = "div[data-ms-id='ScenarioEdit.analysisElements'] .dropdown-toggle",
-				// 	allScenarioElements = element.all(by.repeater(scenarioElements)),
-				// 	firstScenarioElementName = allScenarioElements.first().element(by.css(".element-name")),
-				// 	firstScenarioElementTitle = allScenarioElements.first().element(by.css(".element-title")),
-				// 	lastScenarioElementName =   allScenarioElements.last().element(by.css(".element-name")),
-				// 	lastScenarioElementTitle =   allScenarioElements.last().element(by.css(".element-title")),
-				// 	selectedScenarioElement = element(by.css(scenarioEditScenarioElements));
 
 				it("should click through to scenario edit with the correct scenario element selected", function(){
 					specs.firstScenarioElementTitle.getText().then(function(titleInTray){

@@ -236,7 +236,57 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				it("should save a default view if the view is changed and not saved", function(){
+				it("should save a view", function(){});
+
+				xit("should have at least one view in the recent views dropdown but no more than five", function(){
+					specs.recentViewsDropDown.click();
+					specs.recentViews.count().then(function(count){
+						expect(count).toBeGreaterThan(0);
+						expect(count).toBeLessThan(6);
+					});
+				});
+
+				xit("should open the 'All Views' model", function(){
+					expect(element(by.css('div.modal')).isPresent()).toBeFalsy();
+					specs.recentViewsDropDown.click();
+					specs.allViewsButton.click();
+					expect(element(by.css('div.modal')).isPresent()).toBeTruthy();
+					specs.recentViews.count().then(function(count){
+						expect(count).toBeGreaterThan(0);
+					});
+				});
+
+				it("should change the view from the 'all views' modal", function(){
+					var currentViewName, selectedIndex = null, newViewName
+					specs.viewName.getText().then(function(name){
+						currentViewName = name;
+						specs.recentViewsDropDown.click();
+						specs.allViewsButton.click();
+						specs.recentViews.each(function(el, index){
+							el.getText().then(function(text){
+								if(text){
+									el.element(by.css(".item-name")).getText().then(function(title){
+										if (title !== currentViewName && selectedIndex === null){
+											selectedIndex = index;
+											newViewName = title;
+										}
+									});
+								}
+							});
+						}).then(function(){
+							specs.recentViews.get(selectedIndex).click();
+							element(by.css('div.modal .ms-btn-submit')).click();
+							browser.waitForAngular();
+							specs.viewName.getText().then(function(name){
+								expect(name).toEqual(newViewName)
+							});
+						})
+					});
+				});
+
+				it("should rename a view", function(){});
+
+				xit("should save a default view if the view is changed and not saved", function(){
 					var currentViewName, newViewName;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
@@ -254,7 +304,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				it("should revert a draft view", function(){
+				xit("should revert a draft view", function(){
 					var currentViewName, newViewName;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
@@ -277,7 +327,18 @@ if(funcs.runTheseTests(testName)){
 					expect(funcs.hasClass(specs.saveAsBox, "ng-hide")).toBeFalsy();
 				});
 
-				xit("should save as view as a new name", function(){});
+				xit("should save as view with a new name", function(){
+					specs.viewDropDown.click();
+					specs.viewSaveAsButton.click();
+					specs.saveAsNameField.clear();
+					specs.saveAsNameField.sendKeys(specs.newViewName);
+					specs.saveAsSubmitButton.click();
+					browser.waitForAngular();
+					specs.recentViewsDropDown.click();
+					specs.recentViews.get(0).getText().then(function(view){
+						expect(view).toEqual(specs.newViewName)
+					});
+				});
 
 				xit("should respect name limitations", function(){
 					specs.viewDropDown.click();
