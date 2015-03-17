@@ -16,6 +16,7 @@ angular.module('ThreeSixtyOneView.services')
 					name: response.dimensions[i].name,
 					label: response.dimensions[i].label,
 					type: response.dimensions[i].type,
+					aggregatable: response.dimensions[i].aggregatable,
 					members: []
 				};
 

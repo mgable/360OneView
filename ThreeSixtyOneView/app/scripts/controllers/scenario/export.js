@@ -31,7 +31,7 @@ angular.module('ThreeSixtyOneView').controller('ExportCtrl', ['$scope', 'ExportR
 				$scope.addedExportFilters = angular.copy($scope.addedFilters);
 				$scope.exportViewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedFilters, $scope.membersList, $scope.exportViewData.filters);
 				$scope.categorizedExportValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.exportViewData);
-				$scope.getLockedDimensions($scope.dimensions, $scope.membersList, $scope.categorizedExportValue);
+				getLockedDimensions($scope.dimensions, $scope.membersList, $scope.categorizedExportValue);
 			}
 		}, trackProgress = function() {
 			ExportResourceService.checkStatus($scope.exportElementId).then(function(response) {
@@ -68,68 +68,9 @@ angular.module('ThreeSixtyOneView').controller('ExportCtrl', ['$scope', 'ExportR
 				}, 2000);
 			});
 		}, exportModel = CONFIG.application.models.ExportModel,
-		progressPromise;
-
-		$scope.setupExportView = function() {
-			if($scope.viewData.filters) {
-				$scope.exportViewData = angular.copy($scope.viewData);
-				$scope.exportViewData.rows = $scope.viewData.rows.concat($scope.viewData.columns);
-				$scope.exportViewData.columns = [];
-				$scope.exportAddedDimensions = angular.copy($scope.added);
-				setupExportViewFilters();
-			}
-		};
-
-		$scope.deleteItem = function(index) {
-			$scope.exportAddedDimensions[$scope.exportViewData.rows[index].level.label] = false;
-			$scope.exportViewData.rows.splice(index, 1);
-			$scope.lockLastItem($scope.exportAddedDimensions, false);
-		};
-
-		$scope.addItem = function(item) {
-			var newItem = {dimension:{id:item.dimensionId},hierarchy:{id:-1},level:{id:item.levelId, label:item.label}};
-			$scope.exportViewData.rows.push(newItem);
-			$scope.exportAddedDimensions[item.label] = true;
-			$scope.lockLastItem($scope.exportAddedDimensions, false);
-		};
-
-		$scope.replaceItem = function(selected, priorLabel) {
-			$scope.exportAddedDimensions[priorLabel] = false;
-			$scope.exportAddedDimensions[selected.label] = true;
-			var match = _.find($scope.exportViewData.rows, function(item) { return item.level.label.toLowerCase() === priorLabel.toLowerCase(); });
-			if (match) {
-				var newItem = {dimension:{id:selected.dimensionId},hierarchy:{id:-1},level:{id:selected.levelId, label:selected.label}};
-				var index = _.indexOf($scope.exportViewData.rows, match);
-				$scope.exportViewData.rows.splice(index, 1, newItem);
-			}
-		};
-
-		// open/dismiss filters selection modal
-		$scope.filtersModal = function(category) {
-			var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
-				{dimension: category, addedFilters: $scope.addedExportFilters, viewData: $scope.exportViewData.rows, dimensions: $scope.dimensions},
-				{windowSize: 'lg', windowClass: 'filters-modal'});
-
-			dialog.result.then(function(data) {
-				$scope.addedExportFilters = data;
-				$scope.exportViewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedExportFilters, $scope.membersList, $scope.exportViewData.filters);
-				$scope.categorizedExportValue = PivotMetaService.generateCategorizeValueStructure($scope.addedExportFilters, $scope.dimensions, $scope.exportViewData);
-				$scope.getLockedDimensions($scope.dimensions, $scope.membersList, $scope.categorizedExportValue);
-			});
-		};
-
-		// get list of the dimensions in the current cube
-		$scope.getDimensions = function() {
-			return $scope.dimensions;
-		};
-
-		// get all added rows and columns in the current view
-		$scope.getExportViewDataRows = function() {
-			return $scope.exportViewData.rows;
-		};
-
+		progressPromise,
 		// get dimensions that cannot be removed due to filters applied on them
-		$scope.getLockedDimensions = function(dimensions, membersList, filters) {
+		getLockedDimensions = function(dimensions, membersList, filters) {
 			$scope.lockedDimensions = {};
 
 			_.each(dimensions, function(dimension, dimensionIndex) {
@@ -159,11 +100,10 @@ angular.module('ThreeSixtyOneView').controller('ExportCtrl', ['$scope', 'ExportR
 				}
 			});
 			
-			$scope.lockLastItem($scope.exportAddedDimensions, true);
-		};
-
+			lockLastItem($scope.exportAddedDimensions, true);
+		},
 		// lock (disable remove) if there is only one item remaining
-		$scope.lockLastItem = function(addedDimensions, filtersRestrictionsChecked) {
+		lockLastItem = function(addedDimensions, filtersRestrictionsChecked) {
 			var addedItems = [];
 			_.each(addedDimensions, function(value, key) {
 				if(value) {
@@ -173,8 +113,66 @@ angular.module('ThreeSixtyOneView').controller('ExportCtrl', ['$scope', 'ExportR
 			if(addedItems.length === 1) {
 				$scope.lockedDimensions[addedItems[0]] = true;
 			} else if(!filtersRestrictionsChecked) {
-				$scope.getLockedDimensions($scope.dimensions, $scope.membersList, $scope.categorizedExportValue);
+				getLockedDimensions($scope.dimensions, $scope.membersList, $scope.categorizedExportValue);
 			}
+		};
+
+		$scope.setupExportView = function() {
+			if($scope.viewData.filters) {
+				$scope.exportViewData = angular.copy($scope.viewData);
+				$scope.exportViewData.rows = $scope.viewData.rows.concat($scope.viewData.columns);
+				$scope.exportViewData.columns = [];
+				$scope.exportAddedDimensions = angular.copy($scope.added);
+				setupExportViewFilters();
+			}
+		};
+
+		$scope.deleteItem = function(index) {
+			$scope.exportAddedDimensions[$scope.exportViewData.rows[index].level.label] = false;
+			$scope.exportViewData.rows.splice(index, 1);
+			lockLastItem($scope.exportAddedDimensions, false);
+		};
+
+		$scope.addItem = function(item) {
+			var newItem = {dimension:{id:item.dimensionId},hierarchy:{id:-1},level:{id:item.levelId, label:item.label}};
+			$scope.exportViewData.rows.push(newItem);
+			$scope.exportAddedDimensions[item.label] = true;
+			lockLastItem($scope.exportAddedDimensions, false);
+		};
+
+		$scope.replaceItem = function(selected, priorLabel) {
+			$scope.exportAddedDimensions[priorLabel] = false;
+			$scope.exportAddedDimensions[selected.label] = true;
+			var match = _.find($scope.exportViewData.rows, function(item) { return item.level.label.toLowerCase() === priorLabel.toLowerCase(); });
+			if (match) {
+				var newItem = {dimension:{id:selected.dimensionId},hierarchy:{id:-1},level:{id:selected.levelId, label:selected.label}};
+				var index = _.indexOf($scope.exportViewData.rows, match);
+				$scope.exportViewData.rows.splice(index, 1, newItem);
+			}
+		};
+
+		// open/dismiss filters selection modal
+		$scope.filtersModal = function(category) {
+			var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
+				{dimension: category, addedFilters: $scope.addedExportFilters, viewData: $scope.exportViewData.rows, dimensions: $scope.dimensions},
+				{windowSize: 'lg', windowClass: 'filters-modal'});
+
+			dialog.result.then(function(data) {
+				$scope.addedExportFilters = data;
+				$scope.exportViewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedExportFilters, $scope.membersList, $scope.exportViewData.filters);
+				$scope.categorizedExportValue = PivotMetaService.generateCategorizeValueStructure($scope.addedExportFilters, $scope.dimensions, $scope.exportViewData);
+				getLockedDimensions($scope.dimensions, $scope.membersList, $scope.categorizedExportValue);
+			});
+		};
+
+		// get list of the dimensions in the current cube
+		$scope.getDimensions = function() {
+			return $scope.dimensions;
+		};
+
+		// get all added rows and columns in the current view
+		$scope.getExportViewDataRows = function() {
+			return $scope.exportViewData.rows;
 		};
 
 		// start the export process
