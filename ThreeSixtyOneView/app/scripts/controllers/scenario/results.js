@@ -50,6 +50,38 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             }
         });
     },
+    // initalte the kpi view
+    initiateKPIModel = function() {
+        $scope.kpiViewId = $scope.kpiView.id;
+        $scope.kpiViewData = $scope.kpiView;
+        $scope.kpiViewName = $scope.kpiView.name;
+
+        $scope.kpiAdded = PivotMetaService.setUpAddedLevels($scope.kpiView.columns.concat($scope.kpiView.rows));
+        $scope.kpiMembersList = PivotMetaService.generateMembersList($scope.kpiDimensions);
+        $scope.kpiAddedFilters = PivotMetaService.getAddedFilters($scope.kpiView.filters, $scope.kpiDimensions);
+        if ($scope.isSynced) {
+            copyFilters($scope.spendAddedFilters, $scope.kpiAddedFilters);
+        }
+        $scope.kpiCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.kpiAddedFilters, $scope.kpiDimensions, $scope.kpiView);
+
+        $scope.isViewLoaded = true;
+
+        getKPISummary();
+    },
+    // transform kpi summary data
+    transformKPISummaryData = function(_KPISummaryData) {
+        var tmpKPISummaryData = _.pairs(_KPISummaryData[0]).slice(0,5);
+        var kpiSummaryData = [];
+        _.each(tmpKPISummaryData, function(v,i){
+            var kpiSummaryDatum = {};
+            kpiSummaryDatum.id = i+1;
+            kpiSummaryDatum.title=v[0];
+            kpiSummaryDatum.total=v[1].value;
+            kpiSummaryDatum.currency=v[1].currency;
+            kpiSummaryData.push(kpiSummaryDatum);
+        });
+        return kpiSummaryData;
+    },
     // get kpi summary data
     getKPISummary = function() {
         ReportsService.getSummary($scope.kpiElementId, $scope.kpiViewId).then(function(_KPISummaryData) {
@@ -78,38 +110,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 });
             });
         });
-    },
-    // transform kpi summary data
-    transformKPISummaryData = function(_KPISummaryData) {
-        var tmpKPISummaryData = _.pairs(_KPISummaryData[0]).slice(0,5);
-        var kpiSummaryData = [];
-        _.each(tmpKPISummaryData, function(v,i){
-            var kpiSummaryDatum = {};
-            kpiSummaryDatum.id = i+1;
-            kpiSummaryDatum.title=v[0];
-            kpiSummaryDatum.total=v[1].value;
-            kpiSummaryDatum.currency=v[1].currency;
-            kpiSummaryData.push(kpiSummaryDatum);
-        });
-        return kpiSummaryData;
-    },
-    // initalte the kpi view
-    initiateKPIModel = function() {
-        $scope.kpiViewId = $scope.kpiView.id;
-        $scope.kpiViewData = $scope.kpiView;
-        $scope.kpiViewName = $scope.kpiView.name;
-
-        $scope.kpiAdded = PivotMetaService.setUpAddedLevels($scope.kpiView.columns.concat($scope.kpiView.rows));
-        $scope.kpiMembersList = PivotMetaService.generateMembersList($scope.kpiDimensions);
-        $scope.kpiAddedFilters = PivotMetaService.getAddedFilters($scope.kpiView.filters, $scope.kpiDimensions);
-        if ($scope.isSynced) {
-            copyFilters($scope.spendAddedFilters, $scope.kpiAddedFilters);
-        }
-        $scope.kpiCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.kpiAddedFilters, $scope.kpiDimensions, $scope.kpiView);
-
-        $scope.isViewLoaded = true;
-
-        getKPISummary();
     },
     // get spend summary data through API
     getSpendSummary= function() {
@@ -369,6 +369,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             var originalViewId = _.find($scope.spendViewsList, function(_view) { return originalViewName === _view.name; }).id;
 
             // load view automatically deletes draft view if a non-draft is loaded
+            $scope.isSynced = true;
             $scope.loadView($scope.spendCubeId, originalViewId);
         }
     };
