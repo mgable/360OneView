@@ -25,6 +25,16 @@ var coreSpecs = require('./0.0-specs.js'),
 	editorTabs = ".nav-tabs li",
 	editorTabContent = "tab in tabs",
 	pivotBuilderTab = "#pivotBuilder",
+	viewName = "viewData.name", 
+	viewDropDown = "#pivotBuilder .save-menu .dropdown-toggle",
+	viewSaveAsButton = ['.menu-item', 'Save As'],
+	viewRenameButton = ['.menu-item', 'Rename'],
+	viewRevertButton = ['.menu-item', 'Revert'],
+	saveAsBox = ".saveAsBox",
+	saveAsNameField = "saveAsName",
+	saveAsSubmitButton = ".saveAsBox .submit",
+
+	draggableDimensions = "item in getViewData(pivotBuilderItem.name)",
 
 	assumedData = { 
 		'defaultSelectedAnalysisElement': 'Marketing Plan'
@@ -36,7 +46,7 @@ var coreSpecs = require('./0.0-specs.js'),
 		assumedData: assumedData,
 		editButton: element(by.css(edit)),
 		resultsButton: element(by.css(results)),
-		analysisElements: element.all(by.repeater(analysisElements)),
+		cubes: element.all(by.repeater(analysisElements)),
 		selectedAnalysisElement: element(by.css(selectedAnalysisElement)),
 		copyAndReplaceCube: element(by.css(copyAndReplaceCube)),
 		replaceButton: element(by.css(replaceButton)),
@@ -50,7 +60,15 @@ var coreSpecs = require('./0.0-specs.js'),
 		replaceSubmitButton: element(by.css(replaceSubmitButton)),
 		replaceCancelButton: element(by.css(replaceCancelButton)),
 		editorTabs: element.all(by.css(editorTabs)),
-		pivotBuilderTab: element(by.css(pivotBuilderTab))
+		pivotBuilderTab: element(by.css(pivotBuilderTab)),
+		viewName: element(by.binding(viewName)),
+		viewDropDown: element(by.css(viewDropDown)),
+		viewRevertButton: element(by.cssContainingText(viewRevertButton[0], viewRevertButton[1])),
+		viewSaveAsButton: element(by.cssContainingText(viewSaveAsButton[0], viewSaveAsButton[1])),
+		saveAsNameField: element(by.model(saveAsNameField)),
+		saveAsBox: element(by.css(saveAsBox)),
+		saveAsSubmitButton: element(by.css(saveAsSubmitButton)),
+		draggableDimensions: element.all(by.repeater(draggableDimensions))
 	};
 
 _.extend(data, coreSpecs);
