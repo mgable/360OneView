@@ -18,20 +18,6 @@ angular.module('ThreeSixtyOneView.services')
 			});
 		};
 
-		this.getMembers = function(cubeId){
-			var additionalPath = "members";
-			return mymetadata.get({id:cubeId}, additionalPath).then(function(response){
-				return response;
-			});
-		};
-
-		this.getViewByMembers = function(cubeId, dimensionId, hierarchyId){
-			var additionalPath =  "dimension/:dimensionId/hierarchy/:hierarchyId/members";
-			return mymetadata.get({id: cubeId, dimensionId:dimensionId, hierarchyId:hierarchyId}, additionalPath).then(function(response){
-				return response;
-			});
-		};
-
 		this.getLevelMembers = function(cubeId, dimensionId, hierarchyId, levelId, children) {
 			var additionalPath =  "dimension/:dimensionId/hierarchy/:hierarchyId/level/:levelId/members?children=" + children;
 

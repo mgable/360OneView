@@ -3,7 +3,7 @@
 angular.module('ThreeSixtyOneView.services')
   .factory('MetaDataModel', ["$location", "Resource", "CONFIG", "ServerService", function MetaDataModel($location, Resource, CONFIG, ServerService) {
 	var resource = new Resource(ServerService.get($location.host())  + CONFIG.application.api.cube),
-	 transformResponse = function(data) {
+	transformResponse = function(data) {
 		var i, j, k, leafNode, newMember, dimensions = [], response = JSON.parse(data);
 		
 		if (response) {
@@ -35,7 +35,6 @@ angular.module('ThreeSixtyOneView.services')
 							members: []
 						};
 						
-						// if(response.dimensions[i].hierarchies[j].levels[k].id !== response.dimensions[i].hierarchies[j].id) {
 						if(k === response.dimensions[i].hierarchies[j].levels.length - 1) {
 							if(!leafNode) {
 								newMember.leafLevel = true;

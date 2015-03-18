@@ -4,6 +4,9 @@ var scenarioId = 10,
 	cubeId = 3,
 	cubeName = 'CMP Intent',
 	elementId = 23,
+	dimensionId = 1,
+	hierarchyId = 4,
+	levelId = 5,
 	sampleView = {
 		"id": 1,
 		"name": "Default Marketing Plan view",
@@ -345,4 +348,45 @@ var scenarioId = 10,
 				}
 			}
 		}
-	];
+	],
+	cubeMeta = '{"id": 3,"name": "CMP Intent","label": "Competitive Intent","dimensions": [{"type": "MeasureDimension","id": 1,"name": "VAR_DIM","label": "VARIABLE","hierarchies": [{"id": 4,"name": "Competitive Intent","label": "Competitive Intent","levels": [{"name": "VAR_ID","id": 5,"label": "Competitive Intent","ragged": false}]}],"aggregatable": true},{"type": "StandardDimension","id": 2,"name": "PROD_DIM","label": "PRODUCT","hierarchies": [{"id": 16,"name": "Nameplate Category","label": "Nameplate Category","levels": [{"name": "ATTR1_ID","id": 2,"label": "Nameplate Category","ragged": false},{"name": "PROD_ID","id": 1,"label": "Nameplate","ragged": false}]}]},{"type": "TimeDimension","id": 4,"name": "TIME_DIM","label": "TIME","hierarchies": [{"id": 18,"name": "YEAR","label": "YEAR","levels": [{"name": "YEAR","id": 1,"label": "YEAR","ragged": false},{"name": "HALF YEARLY","id": 2,"label": "HALF YEARLY","ragged": false},{"name": "QUARTER","id": 4,"label": "QUARTER","ragged": false},{"name": "MONTH","id": 5,"label": "MONTH","ragged": false}]}]}],"measures": [{"id": 3,"name": "CMP Intent","label": "CMP Intent"}]}',
+	levelMembers = {
+		"type": "HierarchicalMemberData",
+		"dimension": {
+			"id": 1,
+			"name": "VAR_DIM",
+			"label": "VARIABLE"
+		},
+		"hierarchy": {
+			"id": 4,
+			"name": "Competitive Intent",
+			"label": "Competitive Intent"
+		},
+		"members": [
+			{
+				"id": 113,
+				"name": "BT_FAV_CP3_PCT",
+				"label": "Favorable Opinion - Competitor 3",
+				"members": [],
+				"visible": true,
+				"na": false
+			},
+			{
+				"id": 111,
+				"name": "BT_FAV_CP2_PCT",
+				"label": "Favorable Opinion - Competitor 2",
+				"members": [],
+				"visible": true,
+				"na": false
+			},
+			{
+				"id": 109,
+				"name": "BT_FAV_CP1_PCT",
+				"label": "Favorable Opinion - Competitor 1",
+				"members": [],
+				"visible": true,
+				"na": false
+			}
+		]
+	},
+	cubeScenarioElements = '[{"id":22,"name":"Competitive Intent - November 15 2015 Preloaded Simulation vFinal","description":"Non-Marketing Drivers - November 15 2015 Preloaded Simulation vFinal ( 124 )","group":"Non-Marketing Drivers","cubeMeta":{"id":3,"name":"CMP Intent","label":"Competitive Intent"},"auditInfo":{"lastUpdatedOn":"2015-03-09T10:10:50.964Z","lastUpdatedBy":{"uuid":"system","name":"me"}}},{"id":8,"name":"Competitive Intent - August 15 2015 PRELOADED CURRENT PLAN vACP","description":"Non-Marketing Drivers - August 15 2015 PRELOADED CURRENT PLAN vACP ( 1 )","group":"Non-Marketing Drivers","cubeMeta":{"id":3,"name":"CMP Intent","label":"Competitive Intent"},"auditInfo":{"lastUpdatedOn":"2015-03-09T10:10:40.478Z","lastUpdatedBy":{"uuid":"system","name":"me"}}}]';
