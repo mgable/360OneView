@@ -7,25 +7,21 @@ angular.module('ThreeSixtyOneView')
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
         var init = function() {
-            $scope.viewsList = data.viewsList;
             $scope.e2e = data.e2e;
-
-            $scope.elementTypeItems = ['All', 'By Me', 'Favorite'];
-            $scope.currentElementType = 0;
 
             $scope.selectedView = {
                 id: data.selectedViewId
             };
-        };
+        },
+        viewsList = data.viewsList;
 
-        // change element type
-        $scope.changeElementType = function(type) {
-            $scope.currentElementType = type;
+        $scope.getViewsList = function(){
+            return viewsList;
         };
 
         // cancel the changes and dismiss the modal
         $scope.cancelChangeView = function() {
-            $scope.viewsList = [];
+            viewsList = [];
             $modalInstance.dismiss('canceled');
         };
 
