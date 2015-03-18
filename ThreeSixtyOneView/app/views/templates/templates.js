@@ -171,7 +171,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t<span ng-if=\"test\">{{item.modifiedOn}}</span>\n" +
     "\t</span> \n" +
     "\t<span ng-switch-when=\"Modified By\" bind-once>{{item.modifiedBy}}</span> \n" +
-    "\t<span ng-switch-when=\"Type\" bind-once>{{item.type}}</span> \n" +
+    "\t<span ng-switch-when=\"Type\" bind-once>{{item.template.type}}</span> \n" +
     "\t<span ng-switch-when=\"Creator\" bind-once>{{item.createdBy}}</span> \n" +
     "\t<span ng-switch-when=\"Created Date\" bind-once>\n" +
     "\t\t<span ng-if=\"!test\" bind-once>{{item.createdOn | date: 'longDate' }}</span>\n" +
@@ -183,7 +183,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/sorting_options.tpl.html',
-    "<div data-ms-id=\"{{id}}\" class=\"{{label}} heading\" ng-class=\"{'active': SortAndFilterService.isActive(label)}\">\n" +
+    "<div data-ms-id=\"{{id}}\" class=\"{{label | normalize}} heading\" ng-class=\"{'active': SortAndFilterService.isActive(label)}\">\n" +
     "\t<a ng-click=\"sort($event, label)\" ng-bind=\"display\"></a>&nbsp;\n" +
     "</div> "
   );

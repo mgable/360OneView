@@ -1,11 +1,15 @@
 <div class="display-table" sorter>
 	<table class="table table-hover">
 		<colgroup>
-		    <col width="490">
-		    <col width="315">
+		    <col width="360"></col>
+		    <col width="180"></col>
+		    <col width="180"></col>
+		    <col width="180"></col>
 		</colgroup>
 		<thead>
 			<th><sorting-options label="title" display="Name" msid="column_1"></sorting-options></th>
+			<th><sorting-options label="template.name" display="Template" msid="column_3"></sorting-options></th>
+			<th><sorting-options label="template.type" display="Scenario Type" msid="column_3"></sorting-options></th>
 			<th><ms-dropdown reverse=true is-active=true msid="column_2"></ms-dropdown></th>
 		</thead>
 		<tbody>
@@ -22,6 +26,12 @@
                     	</span>
                     	<span class="status"><icon type="{{item.currentState.icon}}"></icon></span>
                 	</div>
+				</td>
+				<td ng-click="showDetails(item)">
+					<div class="text-holder"><span class="template">{{item.template.name}}</span></div>
+				</td>
+				<td ng-click="showDetails(item)">
+					<div class="text-holder"><span class="type">{{item.template.type}}</span></div>
 				</td>
 				<td ng-click="showDetails(item)">
 					<sortable-columns item=item display-by="getSorter('column_2')" test="e2e"></sortable-columns>

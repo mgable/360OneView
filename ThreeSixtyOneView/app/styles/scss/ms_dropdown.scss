@@ -7,7 +7,7 @@
 	display: block;
 	.ms-select-list {
 		display:inline-block;
-		border:1px solid $blue;
+		border:1px solid $ms-blue;
 		margin-top: 10px;
 		padding: 20px;
 		min-width:195px;
@@ -23,8 +23,8 @@
 		content: "";
 		width: 15px;
 		height: 15px;
-		border-top: 1px solid $blue;
-		border-left: 1px solid $blue;
+		border-top: 1px solid $ms-blue;
+		border-left: 1px solid $ms-blue;
 		background-color: $select-list;
 		border-radius: 3px 0;
 		position: absolute;
@@ -49,14 +49,14 @@
 		}
 	}
 	.ms-label {
-		font-size: 13px;
+		font-size: 14px;
 		cursor: pointer;
 		margin:0;
 		font-weight:bold;
 		min-width: 100px;
 		white-space: nowrap;
 		text-transform: uppercase;
-		color:$label;
+		color:$ms-black;
 		.toggle {
 			color: $label;
 		}
@@ -66,9 +66,9 @@
 	}
 
 	.ms-label.active  .status{
-		color: $highlight;
+		color: $ms-orange;
 		font-weight: bold;
-		font-size: 13px;
+		font-size: 14px;
 	}
 
 	.sort-order {
