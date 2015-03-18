@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .controller('ImportCtrl', ['$scope', '$interval', 'ImportResourceService', '$timeout', 'CONFIG', function($scope, $interval, ImportResourceService, $timeout, CONFIG) {
+    .controller('ImportCtrl', ['$scope', 'ImportResourceService', '$timeout', 'CONFIG', function($scope, ImportResourceService, $timeout, CONFIG) {
 		var init = function() {
 			$scope.resetUploadForm();
 		},	importModel = CONFIG.application.models.ImportModel;

@@ -2,7 +2,7 @@
 
 'use strict';
 
-angular.module("ThreeSixtyOneView").controller("PivotTableCtrl", ["$scope", "$rootScope", "$timeout", "$q", "PivotService", "CONFIG", "EVENTS", function($scope, $rootScope, $timeout, $q, PivotService, CONFIG, EVENTS) {
+angular.module("ThreeSixtyOneView").controller("PivotTableCtrl", ["$scope", "$rootScope", "$timeout", "PivotService", "CONFIG", "EVENTS", function($scope, $rootScope, $timeout, PivotService, CONFIG, EVENTS) {
 			var sheet = {},
 				spread = {},
 				pivotTableConfig = CONFIG.view.PivotTable,
