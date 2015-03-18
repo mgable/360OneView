@@ -1,6 +1,9 @@
 "use strict";
 
-var elementId = 23,
+var scenarioId = 10,
+	cubeId = 3,
+	cubeName = 'CMP Intent',
+	elementId = 23,
 	sampleView = {
 		"id": 1,
 		"name": "Default Marketing Plan view",
@@ -178,4 +181,168 @@ var elementId = 23,
 			}
 		}
 		]
-	}
+	},
+	scenarioElement = {
+		"id": 22,
+		"name": "Competitive Intent - November 15 2015 Preloaded Simulation vFinal",
+		"description": "Non-Marketing Drivers - November 15 2015 Preloaded Simulation vFinal ( 124 )",
+		"group": "Non-Marketing Drivers",
+		"cubeMeta": {
+			"id": 3,
+			"name": "CMP Intent",
+			"label": "Competitive Intent"
+		},
+		"auditInfo": {
+			"lastUpdatedOn": "2015-03-09T10:10:50.964Z",
+			"lastUpdatedBy": {
+				"uuid": "system",
+				"name": "me"
+			}
+		}
+	},
+	scenarioElementModified = {
+		"id": 42,
+		"name": "Test scenario element name",
+		"description": "Test description",
+		"group": "Non-Marketing Drivers",
+		"cubeMeta": {
+			"id": 3,
+			"name": "CMP Intent",
+			"label": "Competitive Intent"
+		},
+		"auditInfo": {
+			"lastUpdatedOn": "2015-03-09T10:10:50.964Z",
+			"lastUpdatedBy": {
+				"uuid": "system",
+				"name": "me"
+			}
+		}
+	},
+	scenarioElements = [
+		{
+			"id": 21,
+			"name": "Competitive Incentive (PNVS) Spend - November 15 2015 Preloaded Simulation vFinal",
+			"description": "Non-Marketing Drivers - November 15 2015 Preloaded Simulation vFinal ( 124 )",
+			"group": "Non-Marketing Drivers",
+			"cubeMeta": {
+				"id": 2,
+				"name": "CMP Incentive Spend",
+				"label": "Competitive Incentive (PNVS) Spend"
+			},
+			"auditInfo": {
+				"lastUpdatedOn": "2015-03-09T10:10:49.194Z",
+				"lastUpdatedBy": {
+					"uuid": "system",
+					"name": "me"
+				}
+			}
+		},
+		{
+			"id": 22,
+			"name": "Competitive Intent - November 15 2015 Preloaded Simulation vFinal",
+			"description": "Non-Marketing Drivers - November 15 2015 Preloaded Simulation vFinal ( 124 )",
+			"group": "Non-Marketing Drivers",
+			"cubeMeta": {
+				"id": 3,
+				"name": "CMP Intent",
+				"label": "Competitive Intent"
+			},
+			"auditInfo": {
+				"lastUpdatedOn": "2015-03-09T10:10:50.964Z",
+				"lastUpdatedBy": {
+					"uuid": "system",
+					"name": "me"
+				}
+			}
+		},
+		{
+			"id": 23,
+			"name": "Competitive Marketshare - November 15 2015 Preloaded Simulation vFinal",
+			"description": "Non-Marketing Drivers - November 15 2015 Preloaded Simulation vFinal ( 124 )",
+			"group": "Non-Marketing Drivers",
+			"cubeMeta": {
+				"id": 4,
+				"name": "CMP Marketshare",
+				"label": "Competitive Marketshare"
+			},
+			"auditInfo": {
+				"lastUpdatedOn": "2015-03-09T10:10:51.038Z",
+				"lastUpdatedBy": {
+					"uuid": "system",
+					"name": "me"
+				}
+			}
+		},
+		{
+			"id": 24,
+			"name": "Competitive Product Lifecycle - November 15 2015 Preloaded Simulation vFinal",
+			"description": "Non-Marketing Drivers - November 15 2015 Preloaded Simulation vFinal ( 124 )",
+			"group": "Non-Marketing Drivers",
+			"cubeMeta": {
+				"id": 5,
+				"name": "CMP Product Lifecycle",
+				"label": "Competitive Product Lifecycle"
+			},
+			"auditInfo": {
+				"lastUpdatedOn": "2015-03-09T10:10:52.866Z",
+				"lastUpdatedBy": {
+					"uuid": "system",
+					"name": "me"
+				}
+			}
+		},
+		{
+			"id": 26,
+			"name": "GQV - November 15 2015 Preloaded Simulation vFinal",
+			"description": "Non-Marketing Drivers - November 15 2015 Preloaded Simulation vFinal ( 124 )",
+			"group": "Non-Marketing Drivers",
+			"cubeMeta": {
+				"id": 8,
+				"name": "GQV",
+				"label": "GQV"
+			},
+			"auditInfo": {
+				"lastUpdatedOn": "2015-03-09T10:10:54.091Z",
+				"lastUpdatedBy": {
+					"uuid": "system",
+					"name": "me"
+				}
+			}
+		},
+		{
+			"id": 29,
+			"name": "Product Lifecycle - November 15 2015 Preloaded Simulation vFinal",
+			"description": "Non-Marketing Drivers - November 15 2015 Preloaded Simulation vFinal ( 124 )",
+			"group": "Non-Marketing Drivers",
+			"cubeMeta": {
+				"id": 11,
+				"name": "Product Lifecycle",
+				"label": "Product Lifecycle"
+			},
+			"auditInfo": {
+				"lastUpdatedOn": "2015-03-09T10:10:54.322Z",
+				"lastUpdatedBy": {
+					"uuid": "system",
+					"name": "me"
+				}
+			}
+		},
+		{
+			"id": 149,
+			"name": "Marketing Plan - Calculation Test 34",
+			"description": "Marketing Plan- Calculation Test 34 ( 48 )",
+			"group": "Marketing Plan",
+			"cubeMeta": {
+				"id": 1,
+				"name": "TOUCHPOINT",
+				"label": "Marketing Plan"
+			},
+			"auditInfo": {
+				"lastUpdatedOn": "2015-03-13T19:46:40.618Z",
+				"lastUpdatedBy": {
+					"uuid": "UUID-1",
+					"name": "me"
+				}
+			}
+		}
+	];
