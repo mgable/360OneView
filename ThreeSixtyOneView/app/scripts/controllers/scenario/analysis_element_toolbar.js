@@ -69,12 +69,6 @@ angular.module('ThreeSixtyOneView')
             });
         };
 
-        $scope.copyAndReplaceAnalysisElementForCube = function(scenarioId, cubeId, sourceElementId, newElementData) {
-            ManageScenariosService.copyAndReplaceAnalysisElementForCube(scenarioId, cubeId, sourceElementId, newElementData).then(function(element){
-                replaceScenarioElement(element);
-            });
-        };
-
         init();
 
     }]);

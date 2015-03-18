@@ -30,8 +30,6 @@ angular.module('ThreeSixtyOneView.directives')
 
 					if(isSelected(item.label)) {
 						return true; // if item has been added, it should be disabled in the list
-					// } else if {
-					// 	d
 					} else {
 						if(dimension.type === 'TimeDimension' && $scope.timeDisabled) {
 							if((!!currentItem && currentItem.dimension.id === dimension.id) || !!added) {
