@@ -1,0 +1,61 @@
+@import "variables";
+@import "new_variables";
+
+.ms-checkbox {
+    position: relative;
+    margin: 5px 10px 0 0 !important;
+    cursor: pointer;
+    &:before {
+        // @include transition(all .3s ease-in-out);
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+        content: "";
+        position: absolute;
+        left: 0;
+        z-index: 1;
+        width: 15px;
+        height: 15px;
+        border: 1px solid $active;
+    }
+    &:after {
+        content: "";
+        position: absolute;
+        top: rem(-2);
+        left: 0;
+        width: 15px;
+        height: 15px;
+        background: $ms-pureWhite;
+        cursor: pointer;
+    }
+    &:checked {
+        &:before {
+            // @include transform(rotate(-45deg));
+            -webkit-transform: rotate(-45deg);
+            -moz-transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg);
+            -o-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+            height: 8px;
+            border-color: $active;
+            border-top-style: none;
+            border-right-style: none;
+        }
+    }
+    &:indeterminate {
+        &:before {
+            // @include transform(rotate(-45deg));
+            -webkit-transform: height;
+            -moz-transform: height;
+            -ms-transform: height;
+            -o-transform: height;
+            transform: height;
+            height: 1px;
+            margin-top: 7.5px;
+            border-color: $active;
+            border-top-style: none;
+            border-right-style: none;
+        }
+    }
+
+}

@@ -15,7 +15,7 @@ angular.module('ThreeSixtyOneView.directives')
             scope: {
                 childrenCheckboxes: '='
             },
-            template: '<input type="checkbox" ng-model="parentCheckbox" ng-change="changeParentCheckbox()">',
+            template: '<input type="checkbox" ng-model="parentCheckbox" ng-change="changeParentCheckbox()" class="ms-checkbox">',
             controller: function($scope, $element) {
 
                 $scope.changeParentCheckbox = function() {

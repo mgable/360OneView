@@ -20,8 +20,8 @@
 						<div class="parent-checkbox">
 							<ms-tristates-checkbox children-checkboxes="spendDimension.children"></ms-tristates-checkbox>&nbsp;{{spendDimension.label}}
 						</div>
-						<div ng-repeat="item in spendDimension.children" ng-class="{selected: item.isSelected}" class="children-checkbox">
-				  			<input type="checkbox" ng-model="item.isSelected">&nbsp;{{item.label}}
+						<div ng-repeat="item in spendDimension.children" ng-if="spendDimension.children.length > 1" ng-class="{selected: item.isSelected}" class="children-checkbox">
+				  			<input type="checkbox" ng-model="item.isSelected" class="ms-checkbox">&nbsp;{{item.label}}
 						</div>
 					</div>
 					<div class="dimensionFilter">
@@ -39,7 +39,7 @@
 							<div ng-repeat="item in kpiDimensionsList">
 								<div ng-if="$index % 3 == 0" class="clearfix"></div>
 								<div class="col-md-4 children-checkbox" ng-class="{selected: item.isSelected}">
-			  						<input type="checkbox" ng-model="item.isSelected" ng-disabled="item.isLocked">&nbsp;{{item.label}}
+			  						<input type="checkbox" ng-model="item.isSelected" ng-disabled="item.isLocked" class="ms-checkbox">&nbsp;{{item.label}}
 			  						<icon type="lock" ng-if="item.isLocked" class="pull-right"></icon>
 								</div>
 							</div>

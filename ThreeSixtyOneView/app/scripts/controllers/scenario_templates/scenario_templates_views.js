@@ -46,6 +46,12 @@ angular.module('ThreeSixtyOneView')
                     {isSelected: false, label: "Weekly"},
                     {isSelected: true, label: "daily"}
                 ]
+            }, {
+                id: 5,
+                label: "ONE CHILDREN",
+                children: [
+                    {isSelected: true, label: "ONE CHILDREN"},
+                ]
             }
         ];
         $scope.kpiDimensionsList = [
