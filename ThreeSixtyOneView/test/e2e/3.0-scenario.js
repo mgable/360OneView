@@ -222,7 +222,7 @@ if(funcs.runTheseTests(testName)){
 		describe("scenario editor", function(){
 
 			describe ("views", function(){
-				xit("should load the default view for each cube", function(){
+				it("should load the default view for each cube", function(){
 					specs.cubes.each(function(element){
 						specs.selectedAnalysisElement.click();
 						element.click();
@@ -236,9 +236,45 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				it("should save a view", function(){});
+				it("should save a view", function(){
+					var currentViewName, selectedIndex = null;
+					specs.viewName.getText().then(function(name){
+						currentViewName = name;
+						specs.addDimensionsButton.click();
+						specs.dimensions.each(function(el, index){
+							var holder = el.element(by.css('span'));
 
-				xit("should have at least one view in the recent views dropdown but no more than five", function(){
+							funcs.hasClass(holder, "disabled").then(function(isDisabled){
+								holder.getText().then(function(text){
+									if(isDisabled !== true && text !== "" && selectedIndex === null){
+										selectedIndex = index;
+										console.info('the selected index is ' + index);
+									}
+								});
+							});
+						}).then(
+							function(){
+								var inDraftMode = false;
+								specs.dimensions.get(selectedIndex).click();
+								browser.waitForAngular();
+								if(!specs.draftRegEx.test(currentViewName)){
+									specs.viewName.getText().then(function(name){
+										expect(name).toEqual(specs.draftText + currentViewName)
+									})
+								} else {
+									inDraftMode = true
+									console.info("view is alreay in draft mode");
+								}
+								specs.saveButton.click();
+								specs.viewName.getText().then(function(name){
+									expect(name).toEqual(inDraftMode ? currentViewName.replace(specs.draftRegEx, "") : currentViewName)
+								})
+							}
+						);
+					});
+				});
+
+				it("should have at least one view in the recent views dropdown but no more than five", function(){
 					specs.recentViewsDropDown.click();
 					specs.recentViews.count().then(function(count){
 						expect(count).toBeGreaterThan(0);
@@ -246,7 +282,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should open the 'All Views' model", function(){
+				it("should open the 'All Views' model", function(){
 					expect(element(by.css('div.modal')).isPresent()).toBeFalsy();
 					specs.recentViewsDropDown.click();
 					specs.allViewsButton.click();
@@ -257,7 +293,7 @@ if(funcs.runTheseTests(testName)){
 				});
 
 				it("should change the view from the 'all views' modal", function(){
-					var currentViewName, selectedIndex = null, newViewName
+					var currentViewName, selectedIndex = null, newViewName;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
 						specs.recentViewsDropDown.click();
@@ -284,13 +320,13 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				it("should rename a view", function(){});
+				xit("should rename a view", function(){});
 
-				xit("should save a default view if the view is changed and not saved", function(){
+				it("should save a default view if the view is changed and not saved", function(){
 					var currentViewName, newViewName;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
-						newViewName = /^Draft - /.test(currentViewName) ? currentViewName : "Draft - " + currentViewName
+						newViewName = specs.draftRegEx.test(currentViewName) ? currentViewName : specs.draftText + currentViewName
 						specs.draggableDimensions.get(0).element(by.css(".action-icon")).click();
 						browser.waitForAngular();
 						specs.viewName.getText().then(function(name){
@@ -304,30 +340,64 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should revert a draft view", function(){
-					var currentViewName, newViewName;
+				it("should revert a draft view", function(){
+					var currentViewName, newViewName, selectedIndex = null;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
-						if ( /^Draft - /.test(currentViewName)) {
-							newViewName = currentViewName.replace("Draft - ", "");
+						if (specs.draftRegEx.test(currentViewName)) {
+							newViewName = currentViewName.replace(specs.draftText, "");
 							specs.viewDropDown.click();
 							specs.viewRevertButton.click();
 							browser.waitForAngular();
 							specs.viewName.getText().then(function(name){
 								expect(name).toEqual(newViewName);
 							})
+						} else {
+							console.info("view not in draft mode");
+							specs.addDimensionsButton.click();
+							specs.dimensions.each(function(el, index){
+								var holder = el.element(by.css('span'));
+
+								funcs.hasClass(holder, "disabled").then(function(isDisabled){
+									holder.getText().then(function(text){
+										if(isDisabled !== true && text !== "" && selectedIndex === null){
+											selectedIndex = index;
+											console.info('the selected index is ' + index);
+										}
+									});
+								});
+							}).then(
+								function(){
+									specs.dimensions.get(selectedIndex).click();
+									browser.waitForAngular();
+
+									specs.viewName.getText().then(function(name){
+										console.info("now we are in draft mode");
+										expect(name).toEqual(specs.draftText + currentViewName)
+									})
+									
+									specs.viewDropDown.click();
+									specs.viewRevertButton.click();
+									browser.waitForAngular();
+
+									specs.viewName.getText().then(function(name){
+										console.info("now we are NOT in draft mode");
+										expect(name).toEqual(currentViewName)
+									})
+								}
+							);
 						}
 					});
 				});
 
-				xit("should open the save as view inline field", function(){
+				it("should open the save as view inline field", function(){
 					expect(funcs.hasClass(specs.saveAsBox, "ng-hide")).toBeTruthy();
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 					expect(funcs.hasClass(specs.saveAsBox, "ng-hide")).toBeFalsy();
 				});
 
-				xit("should save as view with a new name", function(){
+				it("should save as view with a new name", function(){
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 					specs.saveAsNameField.clear();
@@ -340,14 +410,14 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should respect name limitations", function(){
+				it("should respect name limitations", function(){
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 
 					funcs.testInputRestrictions(specs.saveAsNameField, specs.saveAsSubmitButton);
 				});
 
-				xit("should respect name length limitations", function(){
+				it("should respect name length limitations", function(){
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 

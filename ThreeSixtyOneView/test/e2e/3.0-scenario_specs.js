@@ -31,6 +31,7 @@ var coreSpecs = require('./0.0-specs.js'),
 	viewRenameButton = ['.menu-item', 'Rename'],
 	viewRevertButton = ['.menu-item', 'Revert'],
 	allViewsButton = ['.menu-item', 'All Views'],
+	saveButton = ['.ms-button', 'Save View'],
 	saveAsBox = ".saveAsBox",
 	saveAsNameField = "saveAsName",
 	saveAsSubmitButton = ".saveAsBox .submit",
@@ -38,14 +39,21 @@ var coreSpecs = require('./0.0-specs.js'),
 	recentViews = "view in getViewsList()",
 	recentViewsDropDown = "#pivotBuilder .recent-items .dropdown-toggle",
 
+	dimensions = "menuItem in dimension.members",
+	addDimensionsButton =  [".add-label", "Add"], 
+
 	draggableDimensions = "item in getViewData(pivotBuilderItem.name)",
 
 	assumedData = { 
 		'defaultSelectedAnalysisElement': 'Marketing Plan'
 	},
+	draftText = "Draft - ",
+	draftRegEx = new RegExp("^" + draftText),
 
 	data = {
 		newViewName: newViewName, 
+		draftRegEx: draftRegEx,
+		draftText: draftText,
 		scenarioUrl: '#/scenario/:projectId/:scenarioId/edit/',
 		calculateUrl: '#/scenario/:projectId/:scenarioId/calculate',
 		assumedData: assumedData,
@@ -76,7 +84,10 @@ var coreSpecs = require('./0.0-specs.js'),
 		saveAsSubmitButton: element(by.css(saveAsSubmitButton)),
 		draggableDimensions: element.all(by.repeater(draggableDimensions)),
 		recentViews: element.all(by.repeater(recentViews)),
-		recentViewsDropDown: element(by.css(recentViewsDropDown))
+		recentViewsDropDown: element(by.css(recentViewsDropDown)),
+		dimensions: element.all(by.repeater(dimensions)),
+		saveButton: element(by.cssContainingText(saveButton[0], saveButton[1])),
+		addDimensionsButton: element.all(by.cssContainingText(addDimensionsButton[0], addDimensionsButton[1])).get(0)
 	};
 
 _.extend(data, coreSpecs);
