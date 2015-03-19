@@ -3,8 +3,8 @@
 
 'use strict';
 angular.module('ThreeSixtyOneView')
-.controller("ScenarioEditorCtrl", ["$scope", "$rootScope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "$state", "EVENTS", "ManageScenariosService", "DialogService", "PivotMetaService", "Calculate", "PivotService", "ManageAnalysisViewsService", "AnalyticCalculationsService", "ScenarioStatesService", "CONFIG",
-	function($scope, $rootScope, $timeout, Project, Scenario, ScenarioAnalysisElements, $state, EVENTS, ManageScenariosService, DialogService, PivotMetaService, Calculate, PivotService, ManageAnalysisViewsService, AnalyticCalculationsService, ScenarioStatesService, CONFIG) {
+.controller("ScenarioEditorCtrl", ["$scope", "$rootScope", "Scenario", "EVENTS", "PivotMetaService", "PivotService", "ManageAnalysisViewsService", "ScenarioStatesService", "CONFIG",
+	function($scope, $rootScope, Scenario, EVENTS, PivotMetaService, PivotService, ManageAnalysisViewsService, ScenarioStatesService, CONFIG) {
 
 		var init = function() {
 			// determines if the current view is a draft view
@@ -44,6 +44,8 @@ angular.module('ThreeSixtyOneView')
 				$scope.determineTimeDisability($scope.added);
 				$scope.addedFilters = PivotMetaService.getAddedFilters(result.viewData.filters, result.dimensions);
 				$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, result.dimensions, result.viewData);
+
+				$scope.lockVariableDimension($scope.added);
 
 				$scope.loadPivotTable($scope.selectedScenarioElement, result.viewData);
 			});
@@ -135,6 +137,8 @@ angular.module('ThreeSixtyOneView')
 				$scope.addedFilters = PivotMetaService.getAddedFilters(view.filters, $scope.dimensions);
 				$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, view);
 
+				$scope.lockVariableDimension($scope.added);
+
 				$scope.loadPivotTable($scope.selectedScenarioElement, view);
 			});
 		};
@@ -184,6 +188,31 @@ angular.module('ThreeSixtyOneView')
 					$scope.timeDisabled = true;
 				}
 			});
+		};
+
+		// locks the last variable item in rows/columns if its aggregatable type is false
+		$scope.lockVariableDimension = function(addedItems) {
+			var variableDimension = _.find($scope.dimensions, function(dimension) {
+				return dimension.hasOwnProperty('aggregatable') && dimension.aggregatable === false;
+			}),
+			addedVariableMembers = [];
+
+			$scope.lockedDimensions = {};
+
+			if(variableDimension) {
+				_.each(variableDimension.members, function(member) {
+					if(addedItems[member.label]) {
+						addedVariableMembers.push(member.label);
+					}
+				});
+			}
+
+			if(addedVariableMembers.length === 1) {
+				$scope.isVariableDimensionLocked = true;
+				$scope.lockedDimensions[addedVariableMembers[0]] = true;
+			} else {
+				$scope.isVariableDimensionLocked = false;
+			}
 		};
 
 		$scope.determineReadOnlyMode = function(currentState) {

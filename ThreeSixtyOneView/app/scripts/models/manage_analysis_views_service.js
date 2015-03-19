@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-  .service('ManageAnalysisViewsService', ["$q", "$rootScope", "EVENTS", "Model", "ManageAnalysisViewsModel", function ManageAnalysisViewsService($q, $rootScope, EVENTS, Model, ManageAnalysisViewsModel) {
+  .service('ManageAnalysisViewsService', ["Model", "ManageAnalysisViewsModel", function ManageAnalysisViewsService(Model, ManageAnalysisViewsModel) {
 		var MyPivotviewModel, mypivotview,
 			// view and filter ids should be null when creating a new view
 			resetView = function(newView) {

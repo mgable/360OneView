@@ -42,6 +42,7 @@ angular.module('ThreeSixtyOneView')
 			$scope.viewData[element].splice(index, 1);
 			$scope.determineTimeDisability($scope.added);
 			$scope.saveDraftView();
+			$scope.lockVariableDimension($scope.added);
 		};
 
 		$scope.addItem = function(item, element) {
@@ -50,6 +51,7 @@ angular.module('ThreeSixtyOneView')
 			$scope.added[item.label] = true;
 			$scope.determineTimeDisability($scope.added);
 			$scope.saveDraftView();
+			$scope.lockVariableDimension($scope.added);
 		};
 
 		$scope.replaceItem = function(selected, priorLabel, element) {
@@ -65,6 +67,7 @@ angular.module('ThreeSixtyOneView')
 	        }
 
 			$scope.saveDraftView();
+			$scope.lockVariableDimension($scope.added);
 		};
 
 		// open/dismiss filters selection modal

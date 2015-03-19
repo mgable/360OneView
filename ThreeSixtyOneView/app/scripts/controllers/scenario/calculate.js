@@ -7,8 +7,8 @@
 * # ScenarioCalculationCtrl
 * Controller of the ThreeSixtyOneView
 */
-angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$scope', '$interval', '$timeout', 'AnalyticCalculationsService', 'Status', 'Scenario', 'CONFIG', '$location', '$rootScope', '$state', 'EVENTS', 'ScenarioStatesService',
-    function ($scope, $interval, $timeout, AnalyticCalculationsService, Status, Scenario, CONFIG, $location, $rootScope, $state, EVENTS, ScenarioStatesService) {
+angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$scope', 'AnalyticCalculationsService', 'Scenario', 'CONFIG', '$state', 'ScenarioStatesService',
+    function ($scope, AnalyticCalculationsService, Scenario, CONFIG, $state, ScenarioStatesService) {
 
     var stepLength = CONFIG.view.ScenarioCalculate.stateLength,
         stepValue = 100 / stepLength,

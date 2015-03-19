@@ -85,4 +85,51 @@
 			}
 		}
 	}
+
+    .chooseDimensions {
+        .dimensionContainer {
+            margin: 0 auto;
+            width: 1000px;
+            .dimensionCard {
+                box-sizing: border-box;
+                position: relative;
+                background-color: $ms-pureWhite;
+                padding: 10px;
+                margin: 0 auto 20px;
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+                border-radius: 2px;
+                text-transform: capitalize;
+                .dimensionCheckbox {
+                    overflow: auto;
+                    height: 128px;
+                    input[type=checkbox] { cursor: pointer; }
+                    .selected {
+                        color: $active;
+                        font-weight: 700;
+                    }
+                    .children-checkbox {
+                        padding-left: 20px;
+                    }
+                }
+                .dimensionFilter {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    height: 37px;
+                    width: 100%;
+                    padding: 10px;
+                    border-top: 1px solid $lightgray;
+                    color: $active;
+                }
+            }
+            .spendDimensionCard {
+                width: 200px;
+                height: 185px;
+            }
+            .kpiDimensionCard {
+                height: 116px;
+                margin: 0 52px;
+            }
+        }
+    }
 }

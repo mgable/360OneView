@@ -8,3 +8,6 @@ bower_components
 *.zip
 *.7z
 *.map
+test/e2e/cache.json
+test/e2e/project.json
+test/e2e/projects.json
