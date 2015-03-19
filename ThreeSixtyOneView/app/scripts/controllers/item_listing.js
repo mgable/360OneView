@@ -51,10 +51,10 @@ angular.module('ThreeSixtyOneView')
         $scope.selectItem = function(item){
             // the return is for unit tests, it does nothing in the UI
             $scope.showDetails(item);
-            // return $scope.getDetails(item, getScenarioElements).then(function(data){
-            //     item.scenarioElements = data;
-            //     $scope.showDetails(item);
-            // });
+            return $scope.getDetails(item, getScenarioElements).then(function(data){
+                item.scenarioElements = data;
+                $scope.showDetails(item);
+            });
         };
 
         $scope.gotoScenarioCreate = function(){
