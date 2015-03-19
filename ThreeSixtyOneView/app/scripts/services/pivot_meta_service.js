@@ -253,6 +253,7 @@
 	this.initModel = function(cubeMeta) {
 		return MetaDataService.buildDimensionsTree(cubeMeta.id).then(function(dimensions) {
 			return  ManageAnalysisViewsService.getViewsList(cubeMeta.id).then(function(list) {
+				list = _.sortBy(list, function(item){return item.auditInfo.createdOn;}).reverse();
 				if(list.length < 1) { // if no items in the list create an empty view
 					return self.createEmptyView(dimensions, cubeMeta, false).then(function(view) {
 						list.unshift(view);
