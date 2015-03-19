@@ -331,9 +331,13 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     };
     // load spend view and render kpi view
     $scope.loadView = function(cubeId, viewId) {
+        var oldViewId = $scope.spendViewData.id;
         $scope.isViewLoaded = false;
         $scope.spendViewData = {name: 'Loading ...'};
         ManageAnalysisViewsService.getView(viewId, cubeId).then(function(view) {
+            if(!!oldViewId && !$scope.draftView) {
+                ManageAnalysisViewsService.defaultView(cubeId, oldViewId, false);
+            }
             if($scope.draftView) {
                 var draftId = _.find($scope.spendViewsList, function(view) {return view.name.substring(0,8) === 'Draft - ';}).id;
                 if(viewId !== draftId) {
@@ -425,6 +429,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         if(!$scope.draftView) {
             $scope.draftView = true;
             var spendDraftView = angular.copy($scope.spendViewData);
+            ManageAnalysisViewsService.defaultView($scope.spendCubeId, $scope.spendViewData.id, false);
             spendDraftView.name = 'Draft - ' + spendDraftView.name;
             $scope.createView($scope.spendCubeId, spendDraftView, 'spend').then(function(response) {
                 // console.info('create spend draft view: ', response);
