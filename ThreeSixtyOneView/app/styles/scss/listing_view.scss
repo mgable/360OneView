@@ -76,6 +76,12 @@
 						a {
 							color: inherit;
 						}
+
+						.title {
+							display: inline-block;
+							max-width: 365px;
+						}
+
 						.favorites {
 							display: inline-block;
 							margin-top: 2px;
