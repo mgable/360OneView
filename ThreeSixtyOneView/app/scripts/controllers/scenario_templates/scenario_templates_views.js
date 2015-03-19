@@ -56,49 +56,20 @@ angular.module('ThreeSixtyOneView')
                         {isSelected: true, label: "ONE CHILDREN"},
                     ]
             }],
-            kpiDimensionsList: [
-            {
+            kpiDimensionsList: [{
                 id: 1,
-                label: "Revenue",
-                isSelected: true,
-                isLocked: true
-                }, {
-                    id: 2,
-                    label: "Sales",
-                    isSelected: false,
-                    isLocked: false
-                }, {
-                    id: 3,
-                    label: "Total Incentives",
-                    isSelected: true,
-                    isLocked: false
-                }, {
-                    id: 4,
-                    label: "KPIs 4",
-                    isSelected: true,
-                    isLocked: true
-                }, {
-                    id: 5,
-                    label: "KPIs 5",
-                    isSelected: true,
-                    isLocked: false
-                }, {
-                    id: 6,
-                    label: "KPIs 6",
-                    isSelected: false,
-                    isLocked: false
-                }, {
-                    id: 7,
-                    label: "KPIs 7",
-                    isSelected: false,
-                    isLocked: false
-                }, {
-                    id: 8,
-                    label: "KPIs 8",
-                    isSelected: true,
-                    isLocked: false
-                }
-            ]
+                label: "KPIs",
+                children: [
+                    { id: 1, label: "Revenue", isSelected: true, isLocked: true },
+                    { id: 2, label: "Sales", isSelected: false, isLocked: false },
+                    { id: 3, label: "Total Incentives", isSelected: true, isLocked: false },
+                    { id: 4, label: "KPIs 4", isSelected: true, isLocked: true },
+                    { id: 5, label: "KPIs 5", isSelected: true, isLocked: false },
+                    { id: 6, label: "KPIs 6", isSelected: false, isLocked: false },
+                    { id: 7, label: "KPIs 7", isSelected: false, isLocked: false },
+                    { id: 8, label: "KPIs 8", isSelected: true, isLocked: false }
+                ]
+            }]
         };
         return dimensionsData;
     });
