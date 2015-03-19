@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-.service('ImportResourceService', ["$q", "$rootScope", "EVENTS", "Model", "ImportResourceModel", function ($q, $rootScope, EVENTS, Model, ImportResourceModel) {
+.service('ImportResourceService', ["Model", "ImportResourceModel", function (Model, ImportResourceModel) {
 	var MyImportModel, myView;
 
 	MyImportModel = new Model();

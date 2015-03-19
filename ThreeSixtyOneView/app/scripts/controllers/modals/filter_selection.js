@@ -106,11 +106,11 @@ angular.module('ThreeSixtyOneView')
 				treeSearch = function(tree, searchLabel, initial) {
 				var output = null;
 
-				if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1 && !initial) {
+				if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1 && !initial && !tree.na) {
 					return tree;
 				}
 
-				if(tree.members.length > 0) {
+				if(tree.members.length > 0 && !tree.na) {
 					for(var i = 0; i < tree.members.length; i++) {
 						var results = treeSearch(tree.members[i], searchLabel, false);
 						if(!!results && !!results.members) {
@@ -124,7 +124,7 @@ angular.module('ThreeSixtyOneView')
 						}
 					}
 				} else {
-					if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1) {
+					if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1 && !tree.na) {
 						return tree;
 					} else {
 						return null;

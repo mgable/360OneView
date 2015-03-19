@@ -9,13 +9,31 @@
  */
  angular.module('ThreeSixtyOneView.services')
  .service('PivotMetaService', ['MetaDataService', 'ManageAnalysisViewsService', function PivotMetaService(MetaDataService, ManageAnalysisViewsService) {
-	var self = this;
+	var self = this,
+		findNAMembers = function(dimension) {
+			var output = [];
+
+			if(dimension.members.length > 0) {
+				_.each(dimension.members, function(member) {
+					if(member.members.length > 0 && member.na) {
+						output.push(member);
+					}
+					output = output.concat(findNAMembers(member));
+				});
+			} else {
+				if(dimension.na) {
+					output.push(dimension);
+				}
+			}
+
+			return output;
+		};
 	// create the temporary filter object from the view data
 	this.getAddedFilters = function(filters, dimensions) {
-		var currentDimension;
-		var addedFilters = {};
-
-		var findSelectedFilters = function(_member, _dimension, _add) {
+		var currentDimension,
+			addedFilters = {},
+			NAMembers = [],
+			findSelectedFilters = function(_member, _dimension, _add) {
 			var add, output = {};
 			add = _add || (_dimension.label === _member.label);
 
@@ -45,6 +63,13 @@
 					angular.extend(addedFilters[filter.scope.dimension.label], findSelectedFilters(member, currentDimension, false));
 				});
 			}
+
+			NAMembers = findNAMembers(currentDimension.members[0]);
+			_.each(NAMembers, function(NAMember) {
+				if(NAMember.members.length === 0) {
+					angular.extend(addedFilters[filter.scope.dimension.label], findSelectedFilters(NAMember, NAMember, true));
+				}
+			});
 		});
 
 		return addedFilters;
@@ -71,15 +96,24 @@
 						return false;
 					} else if(tempResult.selected > 0 && tempResult.selected !== tempResult.total) {
 						return false;
-					} else if(tempResult.selected === tempResult.total) {
+					} else if(tempResult.selected === tempResult.total && tempResult.total > 0) {
 						output.label.push(category.members[j].label);
 						output.id.push(category.members[j].id);
 						output.selected++;
 					}
-					output.total++;
+
+					// does not increase total for NA members
+					if(tempResult.total > 0) {
+						output.total++;
+					}
 				}
 
 			} else {
+				if(category.na) {
+					// return both selected and total as zero if category is NA
+					// this way they will be eliminated from the counting
+					return output;
+				}
 				if(items[category.id + ',' + category.label]) {
 					output.selected = 1;
 					output.label.push(category.label);
@@ -219,6 +253,7 @@
 	this.initModel = function(cubeMeta) {
 		return MetaDataService.buildDimensionsTree(cubeMeta.id).then(function(dimensions) {
 			return  ManageAnalysisViewsService.getViewsList(cubeMeta.id).then(function(list) {
+				list = _.sortBy(list, function(item){return item.auditInfo.createdOn;}).reverse();
 				if(list.length < 1) { // if no items in the list create an empty view
 					return self.createEmptyView(dimensions, cubeMeta, false).then(function(view) {
 						list.unshift(view);
@@ -247,7 +282,7 @@
 	};
 
 	this.updateFilters = function(dimensions, addedFilters, membersList, viewFilters) { // update view filters based on the user selections
-		var filters = [], self = this;
+		var filters = [], self = this, NAMembers, NAMember;
 
 		_.each(dimensions, function(dimension, dimensionIndex) {
 			var dimensionId = dimension.id,
@@ -275,6 +310,8 @@
 					}
 				};
 
+			NAMembers = findNAMembers(dimension.members[0]);
+
 			if(values.selected === values.total) {
 				newFilter.value.specification.type = 'All';
 				newFilter.scope.level.id = dimension.members[0].id;
@@ -288,6 +325,18 @@
 						label: membersList[dimensionId][values.id[index] + ',' + item].label
 					});
 				});
+
+				// manually add NA members, if available
+				if(NAMembers.length > 0) {
+					NAMember = _.find(NAMembers, function(member) {
+						return membersList[dimensionId][member.id + ',' + member.label].levelId === newFilter.scope.level.id;
+					});
+					newFilter.value.specification.members.push({
+						id: NAMember.id,
+						name: NAMember.name,
+						label: NAMember.label
+					});
+				}
 			}
 
 			filters.push(newFilter);

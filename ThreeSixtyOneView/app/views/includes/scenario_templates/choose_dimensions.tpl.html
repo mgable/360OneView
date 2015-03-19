@@ -1,18 +1,55 @@
-<div class="chooseDimensions">
-	<h1>Tell us more about your scenario template</h1></br>
-	<h2>please choose the time granularity for this template</h2>
-	<form name="timeGranularity">
-		<input type="radio" >  Weekly <br/>
-		<input type="radio" > Monthly <br/>
-		<input type="radio" > Quarterly <br/>
-		<input type="radio" > Yearly <br/>
-	</form>
-	<p>Got it!</p></br>
-	<h2>Now, choose your dimensions &amp; KPIs</h2>
-	<p>The dimensions &amp; KPIs selected will be available for scenario planning.</p>
-
-	<div>
-		{{dimensions}}
+<div class="scenarioTemplates right-column">
+	<div class="header">
+		Tell us more about your scenario template
+	</div>
+	<div class="prompt">
+		<span>Please choose the time granularity for this template</span>
+		<form>
+			<input type="radio" name="granularity" id="radio1" />        
+        	<label for="radio1">
+	            <span class="fa-stack">
+	                <i class="fa fa-circle-o fa-stack-1x"></i>
+	                <i class="fa fa-dot-circle-o fa-stack-1x"></i>
+	            </span>
+	            Weekly
+        	</label>
+			<input type="radio" name="granularity" id="radio2" />
+			<label for="radio2">
+	            <span class="fa-stack">
+	                <i class="fa fa-circle-o fa-stack-1x"></i>
+	                <i class="fa fa-dot-circle-o fa-stack-1x"></i>
+	            </span>
+	            Weekly
+        	</label>
+			<input type="radio" name="granularity" id="radio3" />
+			<label for="radio3">
+	            <span class="fa-stack">
+	                <i class="fa fa-circle-o fa-stack-1x"></i>
+	                <i class="fa fa-dot-circle-o fa-stack-1x"></i>
+	            </span>
+	            Quartly
+        	</label>
+			<input type="radio" name="granularity" id="radio4" />
+			<label for="radio4">
+	            <span class="fa-stack">
+	                <i class="fa fa-circle-o fa-stack-1x"></i>
+	                <i class="fa fa-dot-circle-o fa-stack-1x"></i>
+	            </span>
+	            Yearly
+        	</label>
+		</form>
+	</div>
+	<div class="confirmation">
+		Got it!
+	</div>
+	<div class="prompt">
+		Now, choose your dimensions &amp; KPIs
+		<div class="confirmation">
+			The dimensions &amp; KPIs selected will be available for scenario planning.
+		</div>
+	</div>
+	
+	<div class="dimensions">
 		<div class="row dimensionContainer">
 			<div class="col-md-4" ng-repeat="spendDimension in spendDimensionsList">
 				<div class="dimensionCard spendDimensionCard">
@@ -48,9 +85,4 @@
 				</div>
 			</div>
 		</div>
-	</div>
-
-	<div>
-		{{KPIs}}
-	</div>
 <div>

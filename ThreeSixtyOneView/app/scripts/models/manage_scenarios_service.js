@@ -11,15 +11,9 @@ angular.module('ThreeSixtyOneView.services')
 
 		//this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
-		this.get = function(id) {
+		this.get = function(scenarioId) {
 			var additionalPath = "analysis-element";
-			return this.resource.get({"id": id}, this.config, additionalPath).then(function(response) {
-				return response;
-			});
-		};
-
-		this.getAnalysisElementByScenario = function (scenarioId) {
-			return this.resource.get({"id": scenarioId}, {}).then(function(response) {
+			return this.resource.get({"id": scenarioId}, this.config, additionalPath).then(function(response) {
 				return response;
 			});
 		};

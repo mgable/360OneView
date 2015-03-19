@@ -159,10 +159,6 @@ if(funcs.runTheseTests(testName)){
 					var items = funcs.getItems(),
 						itemCount = funcs.getItemCount(),
 						title = funcs.getFirstItemTitle();
-					// expect(items.count()).toBe(1);
-					// itemCount.getText().then(function(count){
-					// 	expect(parseInt(count)).toBe(1);
-					// });
 
 					expect(specs.noScenariosAlert.isPresent()).toBe(false);
 					title.getText().then(function(text){
@@ -217,7 +213,7 @@ if(funcs.runTheseTests(testName)){
 				});
 
 				it("should search scenarios", function(){
-					funcs.enterSearch('FIRST');
+					funcs.enterSearch(specs.testScenarionNameFirst);
 					expect(funcs.getItems().count()).toBe(1);
 				});
 

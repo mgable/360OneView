@@ -25,6 +25,8 @@ var coreSpecs = require('./0.0-specs.js'),
 	editorTabs = ".nav-tabs li",
 	editorTabContent = "tab in tabs",
 	pivotBuilderTab = "#pivotBuilder",
+	importTab = "#importBody",
+	exportTab = "#exportBody",
 	viewName = "viewData.name", 
 	viewDropDown = "#pivotBuilder .save-menu .dropdown-toggle",
 	viewSaveAsButton = ['.menu-item', 'Save As'],
@@ -35,6 +37,7 @@ var coreSpecs = require('./0.0-specs.js'),
 	saveAsBox = ".saveAsBox",
 	saveAsNameField = "saveAsName",
 	saveAsSubmitButton = ".saveAsBox .submit",
+	collapseHandle = ".collapse-handle span", 
 
 	recentViews = "view in getViewsList()",
 	recentViewsDropDown = "#pivotBuilder .recent-items .dropdown-toggle",
@@ -43,6 +46,7 @@ var coreSpecs = require('./0.0-specs.js'),
 	addDimensionsButton =  [".add-label", "Add"], 
 
 	draggableDimensions = "item in getViewData(pivotBuilderItem.name)",
+	columnDimensionsClass = ".dimensions-list",
 
 	assumedData = { 
 		'defaultSelectedAnalysisElement': 'Marketing Plan'
@@ -74,11 +78,14 @@ var coreSpecs = require('./0.0-specs.js'),
 		replaceCancelButton: element(by.css(replaceCancelButton)),
 		editorTabs: element.all(by.css(editorTabs)),
 		pivotBuilderTab: element(by.css(pivotBuilderTab)),
+		importTab: element(by.css(importTab)),
+		exportTab: element(by.css(exportTab)),
 		viewName: element(by.binding(viewName)),
 		viewDropDown: element(by.css(viewDropDown)),
 		viewRevertButton: element(by.cssContainingText(viewRevertButton[0], viewRevertButton[1])),
 		viewSaveAsButton: element(by.cssContainingText(viewSaveAsButton[0], viewSaveAsButton[1])),
 		allViewsButton: element(by.cssContainingText(allViewsButton[0], allViewsButton[1])),
+		viewRenameButton: element(by.cssContainingText(viewRenameButton[0], viewRenameButton[1])),
 		saveAsNameField: element(by.model(saveAsNameField)),
 		saveAsBox: element(by.css(saveAsBox)),
 		saveAsSubmitButton: element(by.css(saveAsSubmitButton)),
@@ -87,7 +94,10 @@ var coreSpecs = require('./0.0-specs.js'),
 		recentViewsDropDown: element(by.css(recentViewsDropDown)),
 		dimensions: element.all(by.repeater(dimensions)),
 		saveButton: element(by.cssContainingText(saveButton[0], saveButton[1])),
-		addDimensionsButton: element.all(by.cssContainingText(addDimensionsButton[0], addDimensionsButton[1])).get(0)
+		addDimensionsButton: element.all(by.cssContainingText(addDimensionsButton[0], addDimensionsButton[1])).get(0),
+		collapseHandle: element(by.css(collapseHandle)),
+		columnDimensions: element.all(by.css(columnDimensionsClass)).get(0).all(by.repeater(draggableDimensions)),
+		rowDimensions: element.all(by.css(columnDimensionsClass)).get(1).all(by.repeater(draggableDimensions))
 	};
 
 _.extend(data, coreSpecs);
