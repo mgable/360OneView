@@ -13,7 +13,7 @@ describe('Service: ExportResourceService', function () {
 		exportUrl = exportUrl.replace(/:elementId/, elementId);
 		backend = $httpBackend;
 
-		backend.when('POST', exportUrl, sampleView).respond({'status': 'EXPORT_REQUEST_ACCEPTED'});
+		backend.when('POST', exportUrl, views[views.length - 1]).respond({'status': 'EXPORT_REQUEST_ACCEPTED'});
 		backend.when('GET', exportUrl + '/status').respond({'status': 'COMPLETED'});
 		backend.when('GET', exportUrl + '/download').respond(exportUrl + '/download');
 	}));
@@ -33,7 +33,7 @@ describe('Service: ExportResourceService', function () {
 	});
 
 	it('request an export', function() {
-		ExportResourceService.requestExport(elementId, sampleView).then(function(response) {
+		ExportResourceService.requestExport(elementId, views[views.length - 1]).then(function(response) {
 			expect(response.status).toBe('EXPORT_REQUEST_ACCEPTED');
 		});
 		backend.flush();
