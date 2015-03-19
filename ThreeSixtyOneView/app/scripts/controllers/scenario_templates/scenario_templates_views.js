@@ -8,8 +8,8 @@
  * Controller of the ThreeSixtyOneView
  */
 angular.module('ThreeSixtyOneView')
-    .controller('ScenarioTemplatesViewsCtrl', function ($scope) {
+    .controller('ScenarioTemplatesViewsCtrl', ['$scope', function($scope) {
         $scope.done = function(){
         	console.info("done!!!!!");
         };
-    });
+    }]);
