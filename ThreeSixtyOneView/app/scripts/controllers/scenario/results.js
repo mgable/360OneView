@@ -311,7 +311,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     // open the modal for the list of all views
     $scope.openAllComparedViewsModal = function() {
         var dialog = DialogService.openLightbox('views/modal/all_views.tpl.html', 'AllViewsCtrl',
-            {viewsList: $scope.viewsList, selectedViewId: $scope.selectedView.id, e2e: $scope.e2e},
+            {viewsList: $scope.viewsList, selectedViewId: $scope.selectedView.id, e2e: $scope.e2e, subTitle: 'Scenario'},
             {windowSize: 'lg', windowClass: 'list-lightbox'});
 
         dialog.result.then(function(replacedComparedViewId) {
