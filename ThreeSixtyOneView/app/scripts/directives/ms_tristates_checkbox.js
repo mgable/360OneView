@@ -8,52 +8,57 @@
  */
 
 angular.module('ThreeSixtyOneView.directives')
-    .directive('msTristatesCheckbox', function () {
+    .directive('msTristatesCheckbox', function() {
         return {
-            replace: true,
-            restrict: 'E',
-            scope: {
-                childrenCheckboxes: '='
-            },
-            template: '<input type="checkbox" ng-model="parentCheckbox" ng-change="changeParentCheckbox()" class="ms-checkbox">',
-            controller: function($scope, $element) {
+            scope: true,
+            require: '?ngModel',
+            link: function(scope, element, attrs, modelCtrl) {
+                var childList = attrs.childList;
+                var property = attrs.property;
 
-                $scope.changeParentCheckbox = function() {
-                    if ($scope.parentCheckbox) {
-                        angular.forEach($scope.childrenCheckboxes, function(checkbox, index) {
-                            if (checkbox.isLocked !== true) {
-                                checkbox.isSelected = true;
+                // Bind the onChange event to update children
+                element.bind('change', function() {
+                    scope.$apply(function() {
+                        var isChecked = element.prop('checked');
+
+                        // Set each child's selected property to the checkbox's checked property
+                        angular.forEach(scope.$eval(childList), function(child) {
+                            if (child['isLocked'] !== true) {
+                                child[property] = isChecked;
                             }
                         });
-                    } else {
-                        angular.forEach($scope.childrenCheckboxes, function(checkbox, index) {
-                            if (checkbox.isLocked !== true) {
-                                checkbox.isSelected = false
-                            }
-                        });
-                    }
-                };
-
-                $scope.$watch('childrenCheckboxes', function() {
-                    var setAll = true,
-                        clearAll = true;
-                    angular.forEach($scope.childrenCheckboxes, function(checkbox, index) {
-                        checkbox.isSelected ? clearAll = false : setAll = false;
                     });
-                    if (setAll) {
-                      $scope.parentCheckbox = true;
-                      $element.prop('indeterminate', false);
-                    }
-                    else if (clearAll) {
-                      $scope.parentCheckbox = false;
-                      $element.prop('indeterminate', false);
-                    }
-                    else {
-                      $scope.parentCheckbox = false;
-                      $element.prop('indeterminate', true);
+                });
+
+                // Watch the children for changes
+                scope.$watch(childList, function(newValue) {
+                    var hasChecked = false;
+                    var hasUnchecked = false;
+
+                    // Loop through the children
+                    angular.forEach(newValue, function(child) {
+                        if (child[property]) {
+                            hasChecked = true;
+                        } else {
+                            hasUnchecked = true;
+                        }
+                    });
+
+                    // Determine which state to put the checkbox in
+                    if (hasChecked && hasUnchecked) {
+                        element.prop('checked', false);
+                        element.prop('indeterminate', true);
+                        if (modelCtrl) {
+                            modelCtrl.$setViewValue(false);
+                        }
+                    } else {
+                        element.prop('checked', hasChecked);
+                        element.prop('indeterminate', false);
+                        if (modelCtrl) {
+                            modelCtrl.$setViewValue(hasChecked);
+                        }
                     }
                 }, true);
-
             }
         };
     });

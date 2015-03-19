@@ -17,8 +17,8 @@
 			<div class="col-md-4" ng-repeat="spendDimension in spendDimensionsList">
 				<div class="dimensionCard spendDimensionCard">
 					<div class="dimensionCheckbox">
-						<div class="parent-checkbox">
-							<ms-tristates-checkbox children-checkboxes="spendDimension.children"></ms-tristates-checkbox>&nbsp;{{spendDimension.label}}
+						<div class="parent-checkbox" ng-class="{selected: spendDimension.allChecked}">
+							<input type="checkbox" ms-tristates-checkbox child-list="spendDimension.children" property="isSelected" ng-model="spendDimension.allChecked"  class="ms-checkbox">&nbsp;{{spendDimension.label}}
 						</div>
 						<div ng-repeat="item in spendDimension.children" ng-if="spendDimension.children.length > 1" ng-class="{selected: item.isSelected}" class="children-checkbox">
 				  			<input type="checkbox" ng-model="item.isSelected" class="ms-checkbox">&nbsp;{{item.label}}
@@ -32,8 +32,8 @@
 			<div class="col-md-12">
 				<div class="dimensionCard kpiDimensionCard">
 					<div class="dimensionCheckbox">
-						<div class="parent-checkbox">
-							<ms-tristates-checkbox children-checkboxes="kpiDimensionsList"></ms-tristates-checkbox>&nbsp;KPIs
+						<div class="parent-checkbox" ng-class="{selected: kpiDimensionsList.allChecked}">
+							<input type="checkbox" ms-tristates-checkbox child-list="kpiDimensionsList" property="isSelected" ng-model="kpiDimensionsList.allChecked"  class="ms-checkbox">&nbsp;KPIs
 						</div>
 						<div class="row no-margin">
 							<div ng-repeat="item in kpiDimensionsList">

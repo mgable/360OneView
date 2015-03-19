@@ -8,6 +8,7 @@ angular.module('ThreeSixtyOneView')
 
         var init = function() {
             $scope.e2e = data.e2e;
+            $scope.subTitle = data.subTitle || 'View';
 
             $scope.selectedView = {
                 id: data.selectedViewId
