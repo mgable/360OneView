@@ -203,26 +203,61 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		xdescribe("editor tabs", function(){
-			it("should have three tabs", function(){
-				expect(specs.editorTabs.count()).toBe(3);
-			});
-
-			it("should toggle expand and collapse when tab is clicked", function(){
-				funcs.hasClass(specs.pivotBuilderTab, "hidden").then(function(state){
-					specs.editorTabs.get(0).click();
-					expect(funcs.hasClass(specs.pivotBuilderTab, "hidden")).toBe(!state)
-					specs.editorTabs.get(0).click();
-					expect(funcs.hasClass(specs.pivotBuilderTab, "hidden")).toBe(state)
-				});
-				
-			});
-		});
-
 		describe("scenario editor", function(){
 
+			xdescribe("open and close", function(){
+				it("should expand and collapse the editor", function(){
+					var isHidden;
+					funcs.hasClass(specs.pivotBuilderTab, "hidden").then(function(state){
+						isHidden = state;
+						specs.collapseHandle.click(); //close
+						funcs.hasClass(specs.pivotBuilderTab, "hidden").then(function(state){
+							expect(state).toEqual(!isHidden);
+							specs.editorTabs.get(0).click(); //open
+							funcs.hasClass(specs.pivotBuilderTab, "hidden").then(function(state){
+								expect(state).toEqual(isHidden);
+								specs.editorTabs.get(0).click(); //close
+								funcs.hasClass(specs.pivotBuilderTab, "hidden").then(function(state){
+									expect(state).toEqual(!isHidden);
+								})
+							})
+						})
+					})
+
+				});
+			})
+
+			xdescribe("tabs", function(){
+				it("should have three tabs", function(){
+					expect(specs.editorTabs.count()).toBe(3);
+				});
+
+				it("should toggle expand and collapse when tab is clicked", function(){
+					funcs.hasClass(specs.pivotBuilderTab, "hidden").then(function(state){
+						specs.editorTabs.get(0).click();
+						expect(funcs.hasClass(specs.pivotBuilderTab, "hidden")).toBe(!state)
+						specs.editorTabs.get(0).click();
+						expect(funcs.hasClass(specs.pivotBuilderTab, "hidden")).toBe(state)
+					});
+
+					funcs.hasClass(specs.importTab, "hidden").then(function(state){
+						specs.editorTabs.get(1).click();
+						expect(funcs.hasClass(specs.importTab, "hidden")).toBe(!state)
+						specs.editorTabs.get(1).click();
+						expect(funcs.hasClass(specs.importTab, "hidden")).toBe(state)
+					});
+
+					funcs.hasClass(specs.exportTab, "hidden").then(function(state){
+						specs.editorTabs.get(2).click();
+						expect(funcs.hasClass(specs.exportTab, "hidden")).toBe(!state)
+						specs.editorTabs.get(2).click();
+						expect(funcs.hasClass(specs.exportTab, "hidden")).toBe(state)
+					});
+				});
+			});
+
 			describe ("views", function(){
-				it("should load the default view for each cube", function(){
+				xit("should load the default view for each cube", function(){
 					specs.cubes.each(function(element){
 						specs.selectedAnalysisElement.click();
 						element.click();
@@ -236,7 +271,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				it("should save a view", function(){
+				xit("should save a view", function(){
 					var currentViewName, selectedIndex = null;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
@@ -274,7 +309,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				it("should have at least one view in the recent views dropdown but no more than five", function(){
+				xit("should have at least one view in the recent views dropdown but no more than five", function(){
 					specs.recentViewsDropDown.click();
 					specs.recentViews.count().then(function(count){
 						expect(count).toBeGreaterThan(0);
@@ -282,7 +317,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				it("should open the 'All Views' model", function(){
+				xit("should open the 'All Views' model", function(){
 					expect(element(by.css('div.modal')).isPresent()).toBeFalsy();
 					specs.recentViewsDropDown.click();
 					specs.allViewsButton.click();
@@ -292,7 +327,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				it("should change the view from the 'all views' modal", function(){
+				xit("should change the view from the 'all views' modal", function(){
 					var currentViewName, selectedIndex = null, newViewName;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
@@ -320,9 +355,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should rename a view", function(){});
-
-				it("should save a default view if the view is changed and not saved", function(){
+				xit("should save a default view if the view is changed and not saved", function(){
 					var currentViewName, newViewName;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
@@ -341,7 +374,7 @@ if(funcs.runTheseTests(testName)){
 				});
 
 				it("should revert a draft view", function(){
-					var currentViewName, newViewName, selectedIndex = null;
+					var currentViewName, newViewName;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
 						if (specs.draftRegEx.test(currentViewName)) {
@@ -355,20 +388,9 @@ if(funcs.runTheseTests(testName)){
 						} else {
 							console.info("view not in draft mode");
 							specs.addDimensionsButton.click();
-							specs.dimensions.each(function(el, index){
-								var holder = el.element(by.css('span'));
-
-								funcs.hasClass(holder, "disabled").then(function(isDisabled){
-									holder.getText().then(function(text){
-										if(isDisabled !== true && text !== "" && selectedIndex === null){
-											selectedIndex = index;
-											console.info('the selected index is ' + index);
-										}
-									});
-								});
-							}).then(
-								function(){
-									specs.dimensions.get(selectedIndex).click();
+							funcs.addDimension(
+								function(index){
+									specs.dimensions.get(index).click();
 									browser.waitForAngular();
 
 									specs.viewName.getText().then(function(name){
@@ -390,14 +412,14 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				it("should open the save as view inline field", function(){
+				xit("should open the save as view inline field", function(){
 					expect(funcs.hasClass(specs.saveAsBox, "ng-hide")).toBeTruthy();
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 					expect(funcs.hasClass(specs.saveAsBox, "ng-hide")).toBeFalsy();
 				});
 
-				it("should save as view with a new name", function(){
+				xit("should save as view with a new name", function(){
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 					specs.saveAsNameField.clear();
@@ -410,21 +432,68 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				it("should respect name limitations", function(){
+				xit("should rename a view", function(){
+					var currentViewName, newViewName = "My New View " + Date.now();
+					specs.viewName.getText().then(function(name){
+						currentViewName = name;
+						specs.viewDropDown.click();
+						specs.viewRenameButton.click();
+						specs.saveAsNameField.clear();
+						specs.saveAsNameField.sendKeys(newViewName);
+						specs.saveAsSubmitButton.click();
+						specs.viewName.getText().then(function(name){
+							expect(name).toEqual(newViewName);
+							browser.get(scenarioUrl);
+							specs.viewName.getText().then(function(name){
+								expect(name).toEqual(newViewName);
+							})
+						})
+					});
+				});
+
+				xit("should respect name limitations", function(){
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 
 					funcs.testInputRestrictions(specs.saveAsNameField, specs.saveAsSubmitButton);
 				});
 
-				it("should respect name length limitations", function(){
+				xit("should respect name length limitations", function(){
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 
 					funcs.testMinAndMaxNameLength(specs.saveAsNameField, specs.saveAsSubmitButton);
 				});
-
 			});
+
+			xdescribe("dimensions and filters", function(){
+				xit("should toggle between filter and dimension view", function(){});
+
+				it("should add a column", function(){
+					var currentCount;
+					specs.columnDimensions.count().then(function(count){
+						currentCount = count;
+
+						// console.info("the number of column dimensions is");
+						// console.info(count);
+					});
+				});
+
+				// it("should remove a column", function(){});
+
+				// it("should add a row", function(){
+				// 	specs.rowDimensions.count().then(function(count){
+				// 		console.info("the number of column dimensions is");
+				// 		console.info(count);
+				// 	});
+				// });
+
+				// it("should remove a row", function(){});
+
+				// it("should drag and drop a dimension", function(){});
+
+				// it("should redefine a dimension", function(){});
+			})
 
 		});
 	});
