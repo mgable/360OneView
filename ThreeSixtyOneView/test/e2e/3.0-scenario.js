@@ -36,7 +36,7 @@ if(funcs.runTheseTests(testName)){
 			}
 		);
 
-		xdescribe("Current working scenario", function(){
+		describe("Current working scenario", function(){
 			it("should read the correct scenario from the file system", function(){
 				browser.getLocationAbsUrl().then(function(url){
 					expect(url).toContain(projectInfo.scenario.url);
@@ -44,7 +44,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		xdescribe("initial state of navigation buttons", function(){
+		describe("initial state of navigation buttons", function(){
 			it("should have the edit button enabled", function(){
 				expect(funcs.hasClass(specs.editButton, 'disabled')).toBe(false);
 			});
@@ -56,7 +56,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		xdescribe("analysis element toolbar", function(){
+		describe("analysis element toolbar", function(){
 			it("should have analysis elements", function(){
 				expect(specs.cubes.count()).toBeGreaterThan(0);
 			});
@@ -205,7 +205,7 @@ if(funcs.runTheseTests(testName)){
 
 		describe("scenario editor", function(){
 
-			xdescribe("open and close", function(){
+			describe("open and close", function(){
 				it("should expand and collapse the editor", function(){
 					var isHidden;
 					funcs.hasClass(specs.pivotBuilderTab, "hidden").then(function(state){
@@ -227,7 +227,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			})
 
-			xdescribe("tabs", function(){
+			describe("tabs", function(){
 				it("should have three tabs", function(){
 					expect(specs.editorTabs.count()).toBe(3);
 				});
@@ -257,7 +257,7 @@ if(funcs.runTheseTests(testName)){
 			});
 
 			describe ("views", function(){
-				xit("should load the default view for each cube", function(){
+				it("should load the default view for each cube", function(){
 					specs.cubes.each(function(element){
 						specs.selectedAnalysisElement.click();
 						element.click();
@@ -271,7 +271,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should save a view", function(){
+				it("should save a view", function(){
 					var currentViewName, selectedIndex = null;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
@@ -309,7 +309,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should have at least one view in the recent views dropdown but no more than five", function(){
+				it("should have at least one view in the recent views dropdown but no more than five", function(){
 					specs.recentViewsDropDown.click();
 					specs.recentViews.count().then(function(count){
 						expect(count).toBeGreaterThan(0);
@@ -317,7 +317,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should open the 'All Views' model", function(){
+				it("should open the 'All Views' model", function(){
 					expect(element(by.css('div.modal')).isPresent()).toBeFalsy();
 					specs.recentViewsDropDown.click();
 					specs.allViewsButton.click();
@@ -327,7 +327,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should change the view from the 'all views' modal", function(){
+				it("should change the view from the 'all views' modal", function(){
 					var currentViewName, selectedIndex = null, newViewName;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
@@ -355,7 +355,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should save a default view if the view is changed and not saved", function(){
+				it("should save a default view if the view is changed and not saved", function(){
 					var currentViewName, newViewName;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
@@ -412,14 +412,14 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should open the save as view inline field", function(){
+				it("should open the save as view inline field", function(){
 					expect(funcs.hasClass(specs.saveAsBox, "ng-hide")).toBeTruthy();
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 					expect(funcs.hasClass(specs.saveAsBox, "ng-hide")).toBeFalsy();
 				});
 
-				xit("should save as view with a new name", function(){
+				it("should save as view with a new name", function(){
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 					specs.saveAsNameField.clear();
@@ -432,7 +432,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should rename a view", function(){
+				it("should rename a view", function(){
 					var currentViewName, newViewName = "My New View " + Date.now();
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
@@ -451,14 +451,14 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should respect name limitations", function(){
+				it("should respect name limitations", function(){
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 
 					funcs.testInputRestrictions(specs.saveAsNameField, specs.saveAsSubmitButton);
 				});
 
-				xit("should respect name length limitations", function(){
+				it("should respect name length limitations", function(){
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 
@@ -466,8 +466,8 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			xdescribe("dimensions and filters", function(){
-				xit("should toggle between filter and dimension view", function(){});
+			describe("dimensions and filters", function(){
+				it("should toggle between filter and dimension view", function(){});
 
 				it("should add a column", function(){
 					var currentCount;
