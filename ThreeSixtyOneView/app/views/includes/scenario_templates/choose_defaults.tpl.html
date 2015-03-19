@@ -1,33 +1,41 @@
-<div>
-	<h1>Just one final step!</h1></br>
-	<h2>What's the default view of your template?</h2>
-	<p>This will apply anytime a user first opens a scenario using this template. Users will be able to create their own views once the template is created</p></br>
+<div class="scenarioTemplates right-column">
+	<div class="header">
+        Just one final step!
+    </div>
+	<div class="prompt">
+        What's the default view of your template?
+        <div class="confirmation">
+            This will apply anytime a user first opens a scenario using this template. Users will be able to create their own views once the template is created
+        </div>
+    </div>
 
 	<div>
 		{{defaultViewSelection}}
 	</div>
 
-	<h2>What historical period would you like to use measure marketing performance?</h2>
-	<p>You will be able to change this when doing scenario planning.</p>
-
-	<div class="row">
-        <div class="col-md-2">
-        	<p>From</p>
-            <p class="input-group">
-              <input type="text" class="date-picker" />
-            </p>
-        </div>
-        <div>
-        	<p>-</p>
-        </div>
-        <div class="col-md-2">
-        	<p>To</p>
-            <p class="input-group">
-              <input type="text" class="date-picker" />
-            </p>
+	<div class="prompt">
+        What historical period would you like to use measure marketing performance?
+        <div class="confirmation">
+            You will be able to change this when doing scenario planning.
         </div>
     </div>
 
-    <div>{{graph}}</div>
+	<div class="row">
+        <div class="col-md-3">
+        	<div>From</div>
+            <input type="text" class="date-picker" />
+        </div>
+        <div class="col-md-1">
+        	<span>-</span>
+        </div>
+        <div class="col-md-3">
+        	<div>To</div>
+            <input type="text" class="date-picker" />
+        </div>
+    </div>
+
+    <div class="graph">
+        {{graph}}
+    </div>
 
 <div>
