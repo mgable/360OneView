@@ -49,21 +49,7 @@
 		</div>
 	</div>
 	
-<div class="chooseDimensions">
-	<h1>Tell us more about your scenario template</h1></br>
-	<h2>please choose the time granularity for this template</h2>
-	<form name="timeGranularity">
-		<input type="radio" >  Weekly <br/>
-		<input type="radio" > Monthly <br/>
-		<input type="radio" > Quarterly <br/>
-		<input type="radio" > Yearly <br/>
-	</form>
-	<p>Got it!</p></br>
-	<h2>Now, choose your dimensions &amp; KPIs</h2>
-	<p>The dimensions &amp; KPIs selected will be available for scenario planning.</p>
-
 	<div class="dimensions">
-		{{dimensions}}
 		<div class="row dimensionContainer">
 			<div class="col-md-4" ng-repeat="spendDimension in spendDimensionsList">
 				<div class="dimensionCard spendDimensionCard">
@@ -99,9 +85,4 @@
 				</div>
 			</div>
 		</div>
-	</div>
-
-	<div class="kpis">
-		{{KPIs}}
-	</div>
 <div>
