@@ -237,11 +237,15 @@
 
 	// find the default (or draft if exists) view from views list
 	this.findDefaultView = function(list) {
-		var viewId = list[0].id;
+		var viewId = list[0].id,
+			draftView = false;
 
 		// check for draft views
 		_.each(list, function(item) {
 			if(item.name.substring(0, 8) === 'Draft - ') {// || item.isDefault) {
+				viewId = item.id;
+				draftView = true;
+			} else if(!draftView && item.isDefault) {
 				viewId = item.id;
 			}
 		});
