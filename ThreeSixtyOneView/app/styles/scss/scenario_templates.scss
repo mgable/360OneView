@@ -4,50 +4,130 @@
 
 .scenarioTemplates {
 	background-color: $ms-pureWhite;
-    .chooseDimensions {
-        .dimensionContainer {
-            margin: 0 auto;
-            width: 1000px;
-            .dimensionCard {
-                box-sizing: border-box;
-                position: relative;
-                background-color: $ms-pureWhite;
-                padding: 10px;
-                margin: 0 auto 20px;
-                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
-                border-radius: 2px;
-                text-transform: capitalize;
-                .dimensionCheckbox {
-                    overflow: auto;
-                    height: 128px;
-                    input[type=checkbox] { cursor: pointer; }
-                    .selected {
-                        color: $active;
-                        font-weight: 700;
-                    }
-                    .children-checkbox {
-                        padding-left: 20px;
-                    }
-                }
-                .dimensionFilter {
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    height: 37px;
-                    width: 100%;
-                    padding: 10px;
-                    border-top: 1px solid $lightgray;
+	color: $ms-black;
+	.right-column {
+		max-width: 700px;
+		padding: 15px 0 0 30px;
+		margin: 0 0 25px 0;
+		div.header {
+			font-size: 38px;
+			font-weight: lighter;
+		}
+		div.prompt {
+			font-size: 24px;
+			margin: 15px 0 0 0;
+			& > span {
+				margin: 15px 0 0 0;
+				display: block;
+				line-height: 40px;
+			}
+			input {
+				&[type="text"] {
+					width: 100%;
+					border-style: solid;
+					border-width: 1px;
+					border-color: $ms-lightGray;
+					border-radius: 3px;
+				}
+				&[type="radio"] {
+					display: none;
+
+					& + label .fa-circle-o, &:checked + label .fa-dot-circle-o {
+						display: inline;
+					}
+					& + label .fa-dot-circle-o, &:checked + label .fa-circle-o {
+						display: none;
+					}
+					&:checked + label {
+						color: $ms-blue;
+						font-weight: bold;
+					}
+				}
+			}
+
+			label {
+				font-weight: normal;
+				font-size: 16px;
+				padding: 0 20px 0 0;
+
+				.fa-circle-o {
+					color: $ms-mediumGray;
+				}
+				.fa-stack {
+					width: 15px;
+				}
+			}
+
+			.confirmation {
+				margin: 0 0 25px 0;
+			}
+		}
+		div.confirmation, span.confirmation{
+			color: $ms-mediumGray;
+			font-size: 16px;
+			margin: 25px 0 0 0;
+		}
+		div.review-field {
+			font-size: 20px;
+		}
+		div.button-container {}
+
+		div.dimensions {}
+		div.kpis {}
+
+		div.graph {}
+
+		.row {
+			.col-md-1 {
+				width: 20px;
+				padding: 20px 0 0 10px;
+				text-align: center;
+			}
+		}
+	}
+
+    .dimensionContainer {
+        margin: 0 auto;
+        width: 1000px;
+        .dimensionCard {
+            box-sizing: border-box;
+            position: relative;
+            background-color: $ms-pureWhite;
+            padding: 10px;
+            margin: 0 auto 20px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+            border-radius: 2px;
+            text-transform: capitalize;
+            .dimensionCheckbox {
+                overflow: auto;
+                height: 128px;
+                input[type=checkbox] { cursor: pointer; }
+                .selected {
                     color: $active;
+                    font-weight: 700;
+                }
+                .children-checkbox {
+                    padding-left: 20px;
                 }
             }
-            .spendDimensionCard {
-                width: 200px;
-                height: 185px;
+            .dimensionFilter {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                height: 37px;
+                width: 100%;
+                padding: 10px;
+                border-top: 1px solid $lightgray;
+                color: $active;
             }
-            .kpiDimensionCard {
-                height: 116px;
-                margin: 0 52px;
-            }
+        }
+        .spendDimensionCard {
+            width: 200px;
+            height: 185px;
+        }
+        .kpiDimensionCard {
+            height: 116px;
+            margin: 0 52px;
         }
     }
 }
