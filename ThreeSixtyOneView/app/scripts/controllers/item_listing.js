@@ -24,7 +24,7 @@ angular.module('ThreeSixtyOneView')
             }
 
             if ($scope.selectedItem) {
-                $scope.getScenarioElements($scope.selectedItem.id);
+                getScenarioElements($scope.selectedItem.id);
             }
         },
         addStatusToScenarios = function(scenarios, statuses){
@@ -50,6 +50,7 @@ angular.module('ThreeSixtyOneView')
         // Click handler interface
         $scope.selectItem = function(item){
             // the return is for unit tests, it does nothing in the UI
+            $scope.showDetails(item);
             return $scope.getDetails(item, getScenarioElements).then(function(data){
                 item.scenarioElements = data;
                 $scope.showDetails(item);

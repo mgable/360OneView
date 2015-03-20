@@ -18,7 +18,7 @@ describe('Directives:', function() {
             scope.item = {
                 modifiedOn: new Date(),
                 createdBy: "me",
-                type: "foo",
+                template: {type: "foo"},
                 modifiedBy: "you"
             };
             element = angular.element('<sortable-columns item="item" display-by="displayBy">');

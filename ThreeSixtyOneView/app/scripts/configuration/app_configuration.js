@@ -27,7 +27,7 @@ angular.module('ThreeSixtyOneView.config')
                 },
                 "ScenarioModel": {
                     // want: get
-                    "responseTranslator": {"referenceScenario": "referenceScenario", "title": "name", "id": "id", "description": "description", "type":"prediction.type", "createdBy":"auditInfo.createdBy.name", "createdOn": "auditInfo.createdOn", "modifiedBy":"auditInfo.lastUpdatedBy.name", "modifiedOn":"auditInfo.lastUpdatedOn"},
+                    "responseTranslator": {"referenceScenario": "referenceScenario", "template": "template", "title": "name", "id": "id", "description": "description", "type":"prediction.type", "createdBy":"auditInfo.createdBy.name", "createdOn": "auditInfo.createdOn", "modifiedBy":"auditInfo.lastUpdatedBy.name", "modifiedOn":"auditInfo.lastUpdatedOn"},
                     "requestTranslator": {"id": "id", "name":"title", "referenceScenario": "referenceScenario", "description": "description", "prediction.type": "type"},
                     "newScenario": {"title" : "", "description": "","referenceScenario": {"id": "", "name": ""}, "type": "Simulation"}
                 },
@@ -179,7 +179,7 @@ angular.module('ThreeSixtyOneView.config')
                 "reverse": true,
                 "favoriteType": "scenario",
                 "nameClickAction": "gotoScenarioEdit",
-                "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
+                "alertSrc": "views/includes/display/no_scenarios_alert.tpl.html",
                 "displayActionsCreate": "gotoScenarioCreate",
                 "renameAction": "renameScenario",
                 "editAction": "editScenario",
