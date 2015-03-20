@@ -5,7 +5,7 @@
 	<div class="prompt">
 		<span>Please choose the time granularity for this template</span>
 		<form>
-			<input type="radio" name="granularity" id="radio1" />        
+			<input type="radio" name="granularity" id="radio1" />
         	<label for="radio1">
 	            <span class="fa-stack">
 	                <i class="fa fa-circle-o fa-stack-1x"></i>
@@ -48,41 +48,4 @@
 			The dimensions &amp; KPIs selected will be available for scenario planning.
 		</div>
 	</div>
-	
-	<div class="dimensions">
-		<div class="row dimensionContainer">
-			<div class="col-md-4" ng-repeat="spendDimension in spendDimensionsList">
-				<div class="dimensionCard spendDimensionCard">
-					<div class="dimensionCheckbox">
-						<div class="parent-checkbox">
-							<ms-tristates-checkbox children-checkboxes="spendDimension.children"></ms-tristates-checkbox>&nbsp;{{spendDimension.label}}
-						</div>
-						<div ng-repeat="item in spendDimension.children" ng-class="{selected: item.isSelected}" class="children-checkbox">
-				  			<input type="checkbox" ng-model="item.isSelected">&nbsp;{{item.label}}
-						</div>
-					</div>
-					<div class="dimensionFilter">
-						<span><icon type="filter"></icon>&nbsp;All</span>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-12">
-				<div class="dimensionCard kpiDimensionCard">
-					<div class="dimensionCheckbox">
-						<div class="parent-checkbox">
-							<ms-tristates-checkbox children-checkboxes="kpiDimensionsList"></ms-tristates-checkbox>&nbsp;KPIs
-						</div>
-						<div class="row no-margin">
-							<div ng-repeat="item in kpiDimensionsList">
-								<div ng-if="$index % 3 == 0" class="clearfix"></div>
-								<div class="col-md-4 children-checkbox" ng-class="{selected: item.isSelected}">
-			  						<input type="checkbox" ng-model="item.isSelected" ng-disabled="item.isLocked">&nbsp;{{item.label}}
-			  						<icon type="lock" ng-if="item.isLocked" class="pull-right"></icon>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 <div>

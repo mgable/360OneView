@@ -1,22 +1,22 @@
 <div class="scenario-type-dropdown" data-ms-id="ScenarioEdit.analysisElements" ng-controller="AnalysisElementCtrl">
-    <div class="dropdown">
-        <span class="dropdown-toggle">
-            {{selectedScenarioElement.cubeMeta.label}}<icon type="caret-down"></icon>
-        </span>
-        <span ng-hide="isHiddenElement(selectedScenarioElement)" data-ms-id="ScenarioEdit.copyReplaceElementHolder">
-            <span class="filename"><icon type="file-text-o"></icon>{{selectedScenarioElementsFile}}</span>
-            <span data-ms-id="ScenarioEdit.replaceElement" ng-click="openScenarioElementFileModal(scenario.id, selectedScenarioElement, e2e)" class="filename-option clickable" ng-class="{disabled: readOnlyMode}"><icon type="folder-open-o"></icon>Replace</span>
-            <span data-ms-id="ScenarioEdit.copyElement" ng-click="openScenarioElementCopyModal(scenario.id, selectedScenarioElement)" class="filename-option clickable" ng-class="{disabled: readOnlyMode}"><icon type="folder-open-o"></icon>Copy &amp; Replace</span>
-        </span>
-        <ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenarioElement.cubeMeta.id}}" radio="true">
-            <div ng-repeat="(groupLabel, group) in getGroupedScenarioElements()">
-                <div class="group-title">{{groupLabel}}</div>
-                <li class="menu-item" ng-repeat="element in group | orderBy:'cubeMeta.label'" ms-link="{{element.cubeMeta.id}}" ng-click="setScenarioElement(element, true)">
-                    <span class="clickable">{{element.cubeMeta.label}}</span>
-                </li>
-            </div>
-        </ul>
-    </div>
+	<div class="dropdown">
+		<span class="dropdown-toggle">
+			{{selectedScenarioElement.cubeMeta.label}}<icon type="caret-down"></icon>
+		</span>
+		<span ng-hide="isHiddenElement(selectedScenarioElement)" data-ms-id="ScenarioEdit.copyReplaceElementHolder">
+			<span class="filename text-holder" title="{{selectedScenarioElementsFile}}"><icon type="file-text-o"></icon>{{selectedScenarioElementsFile}}</span>
+			<span data-ms-id="ScenarioEdit.replaceElement" ng-click="openScenarioElementFileModal(scenario.id, selectedScenarioElement, e2e)" class="filename-option clickable" ng-class="{disabled: readOnlyMode}"><icon type="folder-open-o"></icon>Replace</span>
+			<span data-ms-id="ScenarioEdit.copyElement" ng-click="openScenarioElementCopyModal(scenario.id, selectedScenarioElement)" class="filename-option clickable" ng-class="{disabled: readOnlyMode}"><icon type="folder-open-o"></icon>Copy &amp; Replace</span>
+		</span>
+		<ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenarioElement.cubeMeta.id}}" radio="true">
+			<div ng-repeat="(groupLabel, group) in getGroupedScenarioElements()">
+				<div class="group-title">{{groupLabel}}</div>
+				<li class="menu-item" ng-repeat="element in group | orderBy:'cubeMeta.label'" ms-link="{{element.cubeMeta.id}}" ng-click="setScenarioElement(element, true)">
+					<span class="clickable">{{element.cubeMeta.label}}</span>
+				</li>
+			</div>
+		</ul>
+	</div>
 </div>
 
 <div class="save-status">{{pivotTableSaveStatus}}</div>

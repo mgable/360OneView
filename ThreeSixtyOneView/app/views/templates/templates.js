@@ -192,7 +192,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/modal/all_views.tpl.html',
     "<div class=\"header\">\n" +
     "\t<h4 class=\"title\">{{selectedScenarioElement.cubeMeta.label}}</h4>\n" +
-    "\t<h3 class=\"subtitle\">Select A View</h3>\n" +
+    "\t<h3 class=\"subtitle\">Select A {{subTitle}}</h3>\n" +
     "</div>\n" +
     "<div class=\"body\">\n" +
     "\t<div class=\"content\">\n" +
