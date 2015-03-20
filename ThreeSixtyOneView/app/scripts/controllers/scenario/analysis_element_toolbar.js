@@ -50,7 +50,7 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.openScenarioElementFileModal = function(scenarioId, selectedScenarioElement, e2e) {
-            var dialog = DialogService.openLightbox('views/modal/scenario_analysis_element_files.tpl.html', 'ScenarioAnalysisElementFilesCtrl',
+            var dialog = DialogService.openLightbox('views/modal/ms_list_lightbox.tpl.html', 'ScenarioAnalysisElementFilesCtrl',
                 {selectedScenarioElement: selectedScenarioElement, e2e: e2e},
                 {windowSize: 'lg', windowClass: 'list-lightbox'});
 

@@ -92,7 +92,7 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		$scope.openAllViewsModal = function() {
-			var dialog = DialogService.openLightbox('views/modal/all_views.tpl.html', 'AllViewsCtrl',
+			var dialog = DialogService.openLightbox('views/modal/ms_list_lightbox.tpl.html', 'AllViewsCtrl',
 				{viewsList: $scope.viewsList, selectedViewId: $scope.viewData.id, e2e: $scope.e2e},
 				{windowSize: 'lg', windowClass: 'list-lightbox'});
 
