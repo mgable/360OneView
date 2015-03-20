@@ -179,7 +179,7 @@ angular.module('ThreeSixtyOneView.config')
                 "reverse": true,
                 "favoriteType": "scenario",
                 "nameClickAction": "gotoScenarioEdit",
-                "alertSrc": "views/includes/no_scenarios_alert.tpl.html",
+                "alertSrc": "views/includes/display/no_scenarios_alert.tpl.html",
                 "displayActionsCreate": "gotoScenarioCreate",
                 "renameAction": "renameScenario",
                 "editAction": "editScenario",
