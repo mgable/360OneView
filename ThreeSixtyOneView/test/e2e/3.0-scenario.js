@@ -56,19 +56,19 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		describe("analysis element toolbar", function(){
-			it("should have analysis elements", function(){
+		xdescribe("analysis element toolbar", function(){
+			xit("should have analysis elements", function(){
 				expect(specs.cubes.count()).toBeGreaterThan(0);
 			});
 
 
-			it("should have 'marketing plan' selected", function(){
+			xit("should have 'marketing plan' selected", function(){
 				specs.selectedAnalysisElement.getText().then(function(selected){
 					expect(selected).toBe(specs.assumedData.defaultSelectedAnalysisElement);
 				});
 			});
 
-			it("should allow the user to select a new cube", function(){
+			xit("should allow the user to select a new cube", function(){
 				specs.cubes.each(function(element){
 					specs.selectedAnalysisElement.click();
 					element.click();
@@ -78,7 +78,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			it("should not allow the analysis element to be replaced or copied on the Marketing Plan", function(){
+			xit("should not allow the analysis element to be replaced or copied on the Marketing Plan", function(){
 				specs.cubes.each(function(element){
 					specs.selectedAnalysisElement.click();
 					element.click();
@@ -92,7 +92,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			it("should have a default analysis element file", function(){
+			xit("should have a default analysis element file", function(){
 				specs.cubes.each(function(element){
 					specs.selectedAnalysisElement.click();
 					element.click();
@@ -114,7 +114,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			it("should copy and replace the analysis element file", function(){
+			xit("should copy and replace the analysis element file", function(){
 				var done = false;
 				specs.cubes.each(function(element){
 					specs.selectedAnalysisElement.click();
@@ -141,7 +141,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			it("should replace the analysis element file", function(){
+			xit("should replace the analysis element file", function(){
 				var file,
 					done = false;
 
@@ -176,7 +176,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			it("should not allow the analysis element to be replaced or copied on the Marketing Plan", function(){
+			xit("should not allow the analysis element to be replaced or copied on the Marketing Plan", function(){
 				var done = false;
 				specs.cubes.each(function(element){
 					specs.selectedAnalysisElement.click();
@@ -190,7 +190,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			it("should allow the analysis element to be replaced or copied for all others", function(){
+			xit("should allow the analysis element to be replaced or copied for all others", function(){
 				specs.cubes.each(function(element){
 					specs.selectedAnalysisElement.click();
 					element.click();
@@ -203,7 +203,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		xdescribe("scenario editor", function(){
+		describe("scenario editor", function(){
 
 			xdescribe("open and close", function(){
 				it("should expand and collapse the editor", function(){
@@ -256,7 +256,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			describe ("views", function(){
+			xdescribe ("views", function(){
 				xit("should load the default view for each cube", function(){
 					specs.cubes.each(function(element){
 						specs.selectedAnalysisElement.click();
@@ -314,7 +314,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should change the view from the 'all views' modal", function(){
+				it("should change the view from the 'all views' modal", function(){
 					var currentViewName, selectedIndex = null, newViewName;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
@@ -453,9 +453,24 @@ if(funcs.runTheseTests(testName)){
 			});
 
 			describe("dimensions and filters", function(){
-				xit("should toggle between filter and dimension view", function(){});
+				xit("should toggle between filter and dimension view", function(){
+					expect(funcs.hasClass(specs.toggleTable, "selected")).toBeTruthy();
+					expect(funcs.hasClass(specs.toggleFilters, "selected")).toBeFalsy();
+					expect(funcs.hasClass(specs.dimensionsArea, 'ng-hide')).toBeFalsy();
+					expect(funcs.hasClass(specs.filterArea, 'ng-hide')).toBeTruthy();
+					specs.toggleFilters.click();
+					expect(funcs.hasClass(specs.toggleTable, "selected")).toBeFalsy();
+					expect(funcs.hasClass(specs.toggleFilters, "selected")).toBeTruthy();
+					expect(funcs.hasClass(specs.dimensionsArea, 'ng-hide')).toBeTruthy();
+					expect(funcs.hasClass(specs.filterArea, 'ng-hide')).toBeFalsy();
+					specs.toggleTable.click();
+					expect(funcs.hasClass(specs.toggleTable, "selected")).toBeTruthy();
+					expect(funcs.hasClass(specs.toggleFilters, "selected")).toBeFalsy();
+					expect(funcs.hasClass(specs.dimensionsArea, 'ng-hide')).toBeFalsy();
+					expect(funcs.hasClass(specs.filterArea, 'ng-hide')).toBeTruthy();
+				});
 
-				it("should add a column", function(){
+				xit("should add a column", function(){
 					var currentCount;
 					specs.columnDimensions.count().then(function(count){
 						currentCount = count;
@@ -500,7 +515,7 @@ if(funcs.runTheseTests(testName)){
 
 				// it("should remove a column", function(){});
 
-				it("should add a row", function(){
+				xit("should add a row", function(){
 					var currentCount;
 					specs.rowDimensions.count().then(function(count){
 						currentCount = count;
@@ -517,13 +532,19 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				// it("should remove a row", function(){});
-
-				// it("should drag and drop a dimension", function(){});
+				xit("should remove a row", function(){
+					var currentCount;
+					specs.rowDimensions.count().then(function(count){
+						currentCount = count;
+						specs.rowDimensions.get(count - 1).element(by.css(".action-icon")).click();
+						specs.rowDimensions.count().then(function(count){
+							expect(count).toEqual(currentCount - 1);
+						});
+					});
+				});
 
 				// it("should redefine a dimension", function(){});
 			})
-
 		});
 	});
 }

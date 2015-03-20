@@ -13,7 +13,7 @@ var coreSpecs = require('./0.0-specs.js'),
 	copyAndReplaceCubeName = copyAndReplaceCube + " .filename",
 	replaceButton = "span[data-ms-id='ScenarioEdit.replaceElement']",
 	copyButton = "span[data-ms-id='ScenarioEdit.copyElement']",
-	analysisElementFileList = "file in fileList",
+	analysisElementFileList = "item in getList()",
 	analysisElementReplace = "div[data-ms-id='analysisElementReplace']",
 	analysisElementCopy = "div[data-ms-id='analysisElementCopy']", 
 	cancelButton = analysisElementCopy + " .ms-btn-cancel",
@@ -39,11 +39,15 @@ var coreSpecs = require('./0.0-specs.js'),
 	saveAsSubmitButton = ".saveAsBox .submit",
 	collapseHandle = ".collapse-handle span", 
 
-	recentViews = "view in getViewsList()",
+	recentViews = "item in getList()",
 	recentViewsDropDown = "#pivotBuilder .recent-items .dropdown-toggle",
+	tableFilterToggle = ".toggle-switch .switch",
 
-	dimensions = "dimension in getDimensions()",
+	//dimensions = "dimension in getDimensions()",
+	dimensions =  "menuItem in dimension.members",
 	addDimensionsButton =  [".add-label", "Add"], 
+	dimensionsArea = "#dragDropArea",
+	filterArea = ".filters-list",
 
 	draggableDimensions = "item in getViewData(pivotBuilderItem.name)",
 	columnDimensionsClass = ".dimensions-list",
@@ -99,7 +103,11 @@ var coreSpecs = require('./0.0-specs.js'),
 		addRowDimensionsButton: element.all(by.cssContainingText(addDimensionsButton[0], addDimensionsButton[1])).get(1),
 		collapseHandle: element(by.css(collapseHandle)),
 		columnDimensions: element.all(by.css(columnDimensionsClass)).get(0).all(by.repeater(draggableDimensions)),
-		rowDimensions: element.all(by.css(columnDimensionsClass)).get(1).all(by.repeater(draggableDimensions))
+		rowDimensions: element.all(by.css(columnDimensionsClass)).get(1).all(by.repeater(draggableDimensions)),
+		toggleTable: element.all(by.css(tableFilterToggle)).get(0),
+		toggleFilters: element.all(by.css(tableFilterToggle)).get(1),
+		dimensionsArea: element(by.css(dimensionsArea)),
+		filterArea: element.all(by.css(filterArea)).get(0)
 	};
 
 _.extend(data, coreSpecs);
