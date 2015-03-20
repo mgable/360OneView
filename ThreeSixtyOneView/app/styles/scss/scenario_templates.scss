@@ -88,7 +88,6 @@
 
     .dimensionContainer {
         margin: 0 auto;
-        width: 1000px;
         .dimensionCard {
             box-sizing: border-box;
             position: relative;
@@ -104,6 +103,7 @@
                 input[type=checkbox] { cursor: pointer; }
                 .selected {
                     color: $active;
+                    font-weight: 700;
                 }
                 .children-checkbox {
                     padding-left: 20px;
@@ -117,9 +117,12 @@
                 width: 100%;
                 padding: 10px;
                 border-top: 1px solid $lightgray;
+                overflow: hidden;
+                text-overflow: ellipsis;
                 color: $active;
                 span {
                     cursor: pointer;
+                    white-space: nowrap;
                     &:hover {
                         text-decoration: underline;
                     }
@@ -132,7 +135,6 @@
         }
         .kpiDimensionCard {
             height: 116px;
-            margin: 0 52px;
         }
     }
 }

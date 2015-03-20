@@ -10,10 +10,15 @@
 angular.module('ThreeSixtyOneView')
     .controller('ScenarioTemplatesViewsCtrl', ['$scope', 'dimensionsData', function($scope, dimensionsData) {
         $scope.done = function(){
-        	console.info("done!!!!!");
+            console.info("done!!!!!");
         };
         $scope.spendDimensionsList = dimensionsData.spendDimensionsList;
         $scope.kpiDimensionsList = dimensionsData.kpiDimensionsList;
+        $scope.getFilterArray = function(dimension) {
+            var dimensionLength = dimension.children.length,
+                filterArray = _.pluck(_.filter(dimension.children, function(dimension) { return dimension.isSelected === true; }), 'label');
+            return (filterArray.length === dimensionLength) ? 'All' : filterArray.join();
+        }
     }]).factory('dimensionsData', function() {
         var dimensionsData = {
             spendDimensionsList: [{
