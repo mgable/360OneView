@@ -36,7 +36,7 @@ if(funcs.runTheseTests(testName)){
 			}
 		);
 
-		describe("Current working scenario", function(){
+		xdescribe("Current working scenario", function(){
 			it("should read the correct scenario from the file system", function(){
 				browser.getLocationAbsUrl().then(function(url){
 					expect(url).toContain(projectInfo.scenario.url);
@@ -44,7 +44,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		describe("initial state of navigation buttons", function(){
+		xdescribe("initial state of navigation buttons", function(){
 			it("should have the edit button enabled", function(){
 				expect(funcs.hasClass(specs.editButton, 'disabled')).toBe(false);
 			});
@@ -203,9 +203,9 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		describe("scenario editor", function(){
+		xdescribe("scenario editor", function(){
 
-			describe("open and close", function(){
+			xdescribe("open and close", function(){
 				it("should expand and collapse the editor", function(){
 					var isHidden;
 					funcs.hasClass(specs.pivotBuilderTab, "hidden").then(function(state){
@@ -227,7 +227,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			})
 
-			describe("tabs", function(){
+			xdescribe("tabs", function(){
 				it("should have three tabs", function(){
 					expect(specs.editorTabs.count()).toBe(3);
 				});
@@ -257,7 +257,7 @@ if(funcs.runTheseTests(testName)){
 			});
 
 			describe ("views", function(){
-				it("should load the default view for each cube", function(){
+				xit("should load the default view for each cube", function(){
 					specs.cubes.each(function(element){
 						specs.selectedAnalysisElement.click();
 						element.click();
@@ -271,45 +271,32 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				it("should save a view", function(){
-					var currentViewName, selectedIndex = null;
+				xit("should save a view", function(){
+					var currentViewName;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
-						specs.addDimensionsButton.click();
-						specs.dimensions.each(function(el, index){
-							var holder = el.element(by.css('span'));
-
-							funcs.hasClass(holder, "disabled").then(function(isDisabled){
-								holder.getText().then(function(text){
-									if(isDisabled !== true && text !== "" && selectedIndex === null){
-										selectedIndex = index;
-										console.info('the selected index is ' + index);
-									}
-								});
-							});
-						}).then(
-							function(){
-								var inDraftMode = false;
-								specs.dimensions.get(selectedIndex).click();
-								browser.waitForAngular();
-								if(!specs.draftRegEx.test(currentViewName)){
-									specs.viewName.getText().then(function(name){
-										expect(name).toEqual(specs.draftText + currentViewName)
-									})
-								} else {
-									inDraftMode = true
-									console.info("view is alreay in draft mode");
-								}
-								specs.saveButton.click();
+						specs.addColumnDimensionsButton.click();
+						funcs.addDimension(function(index){
+							var inDraftMode = false;
+							specs.dimensions.get(index).click();
+							browser.waitForAngular();
+							if(!specs.draftRegEx.test(currentViewName)){
 								specs.viewName.getText().then(function(name){
-									expect(name).toEqual(inDraftMode ? currentViewName.replace(specs.draftRegEx, "") : currentViewName)
+									expect(name).toEqual(specs.draftText + currentViewName)
 								})
+							} else {
+								inDraftMode = true
+								console.info("view is alreay in draft mode");
 							}
-						);
+							specs.saveButton.click();
+							specs.viewName.getText().then(function(name){
+								expect(name).toEqual(inDraftMode ? currentViewName.replace(specs.draftRegEx, "") : currentViewName );
+							});
+						});
 					});
 				});
 
-				it("should have at least one view in the recent views dropdown but no more than five", function(){
+				xit("should have at least one view in the recent views dropdown but no more than five", function(){
 					specs.recentViewsDropDown.click();
 					specs.recentViews.count().then(function(count){
 						expect(count).toBeGreaterThan(0);
@@ -317,7 +304,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				it("should open the 'All Views' model", function(){
+				xit("should open the 'All Views' model", function(){
 					expect(element(by.css('div.modal')).isPresent()).toBeFalsy();
 					specs.recentViewsDropDown.click();
 					specs.allViewsButton.click();
@@ -327,7 +314,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				it("should change the view from the 'all views' modal", function(){
+				xit("should change the view from the 'all views' modal", function(){
 					var currentViewName, selectedIndex = null, newViewName;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
@@ -355,7 +342,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				it("should save a default view if the view is changed and not saved", function(){
+				xit("should save a default view if the view is changed and not saved", function(){
 					var currentViewName, newViewName;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
@@ -373,7 +360,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				it("should revert a draft view", function(){
+				xit("should revert a draft view", function(){
 					var currentViewName, newViewName;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
@@ -387,7 +374,6 @@ if(funcs.runTheseTests(testName)){
 							})
 						} else {
 							console.info("view not in draft mode");
-							specs.addDimensionsButton.click();
 							funcs.addDimension(
 								function(index){
 									specs.dimensions.get(index).click();
@@ -412,14 +398,14 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				it("should open the save as view inline field", function(){
+				xit("should open the save as view inline field", function(){
 					expect(funcs.hasClass(specs.saveAsBox, "ng-hide")).toBeTruthy();
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 					expect(funcs.hasClass(specs.saveAsBox, "ng-hide")).toBeFalsy();
 				});
 
-				it("should save as view with a new name", function(){
+				xit("should save as view with a new name", function(){
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 					specs.saveAsNameField.clear();
@@ -432,7 +418,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				it("should rename a view", function(){
+				xit("should rename a view", function(){
 					var currentViewName, newViewName = "My New View " + Date.now();
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
@@ -451,14 +437,14 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				it("should respect name limitations", function(){
+				xit("should respect name limitations", function(){
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 
 					funcs.testInputRestrictions(specs.saveAsNameField, specs.saveAsSubmitButton);
 				});
 
-				it("should respect name length limitations", function(){
+				xit("should respect name length limitations", function(){
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 
@@ -467,26 +453,69 @@ if(funcs.runTheseTests(testName)){
 			});
 
 			describe("dimensions and filters", function(){
-				it("should toggle between filter and dimension view", function(){});
+				xit("should toggle between filter and dimension view", function(){});
 
 				it("should add a column", function(){
 					var currentCount;
 					specs.columnDimensions.count().then(function(count){
 						currentCount = count;
 
-						// console.info("the number of column dimensions is");
-						// console.info(count);
+						specs.addColumnDimensionsButton.click();
+						funcs.addDimension(function(index){
+							specs.dimensions.get(index).click();
+							browser.waitForAngular();
+							specs.columnDimensions.count().then(function(newCount){
+								expect(newCount).toEqual(currentCount + 1);
+							});
+						});
+
 					});
 				});
 
+				xit("should remove a column", function(){
+					var currentCount;
+					specs.columnDimensions.count().then(function(count){
+						currentCount = count;
+						specs.columnDimensions.get(count - 1).element(by.css(".action-icon")).click();
+						specs.columnDimensions.count().then(function(count){
+							expect(count).toEqual(currentCount - 1);
+						});
+					});
+				});
+
+				// I can nt get this to work
+				// it("should drag", function(){
+				// 	//browser.driver.actions().dragAndDrop(specs.columnDimensions.get(1), specs.copyAndReplaceCube).perform();
+				// 	browser.actions()
+				// 	.mouseMove(specs.columnDimensions.get(1).element(by.css('.drag-handle')), {x:400, y:400})
+				// 	.mouseDown()
+				// 	.mouseMove(specs.rowDimensions.get(0).getWebElement(), {x:400, y:400})
+				// 	.mouseUp()
+				// 	//.mouseMove(specs.rowDimensions.get(0).element(by.css('.drag-handle')), )
+				// 	//.mouseUp().
+				// 	///.dragAndDrop(specs.rowDimensions.get(0).getWebElement(), {x:400, y:400})
+				// 	.perform();
+				// 	browser.pause();
+				// });
+
 				// it("should remove a column", function(){});
 
-				// it("should add a row", function(){
-				// 	specs.rowDimensions.count().then(function(count){
-				// 		console.info("the number of column dimensions is");
-				// 		console.info(count);
-				// 	});
-				// });
+				it("should add a row", function(){
+					var currentCount;
+					specs.rowDimensions.count().then(function(count){
+						currentCount = count;
+
+						specs.addRowDimensionsButton.click();
+						funcs.addDimension(function(index){
+							specs.dimensions.get(index).click();
+							browser.waitForAngular();
+							specs.rowDimensions.count().then(function(newCount){
+								expect(newCount).toEqual(currentCount + 1);
+							});
+						});
+
+					});
+				});
 
 				// it("should remove a row", function(){});
 
