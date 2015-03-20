@@ -2,35 +2,42 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .controller('AllViewsCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "data",
-    function($scope, $controller, $modalInstance, CONFIG, data) {
-        angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+.controller('AllViewsCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "data",
+function($scope, $controller, $modalInstance, CONFIG, data) {
+	angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
-        var init = function() {
-            $scope.e2e = data.e2e;
-            $scope.subTitle = data.subTitle || 'View';
+	var init = function() {
+		$scope.e2e = data.e2e;
 
-            $scope.selectedView = {
-                id: data.selectedViewId
-            };
-        },
-        viewsList = data.viewsList;
+		$scope.subtitle = 'Select A ' + (data.subTitle || 'View');
+		$scope.isDropdownHidden = true;
+		$scope.cancelButtonLabel = 'Cancel';
+		$scope.submitButtonLabel = 'Replace';
+		$scope.dateProperty = 'createdOn';
+		$scope.ownerProperty = 'createdBy';
+		$scope.isListLoaded = true;
 
-        $scope.getViewsList = function(){
-            return viewsList;
-        };
+		$scope.currentItem = {
+			id: data.selectedViewId
+		};
+	},
+	viewsList = data.viewsList;
 
-        // cancel the changes and dismiss the modal
-        $scope.cancelChangeView = function() {
-            viewsList = [];
-            $modalInstance.dismiss('canceled');
-        };
+	$scope.getList = function(){
+		return viewsList;
+	};
 
-        // pass back the selected file and dismiss the modal
-        $scope.changeView = function() {
-            var newViewId = $scope.selectedView.id;
-            $modalInstance.close(newViewId);
-        };
+	// cancel the changes and dismiss the modal
+	$scope.cancel = function() {
+		viewsList = [];
+		$modalInstance.dismiss('canceled');
+	};
 
-        init();
-    }]);
+	// pass back the selected file and dismiss the modal
+	$scope.submit = function() {
+		var newViewId = $scope.currentItem.id;
+		$modalInstance.close(newViewId);
+	};
+
+	init();
+}]);

@@ -14,8 +14,17 @@ angular.module('ThreeSixtyOneView')
 			$scope.currentElementType = 0;
 
 			$scope.selectedScenarioElement = data.selectedScenarioElement;
-			$scope.currentFile = {id: data.selectedScenarioElement.id};
+			$scope.currentItem = {id: data.selectedScenarioElement.id};
 			$scope.e2e = data.e2e;
+
+			$scope.testHandleName = 'analysisElementReplace';
+			$scope.title = $scope.selectedScenarioElement.cubeMeta.label;
+			$scope.subtitle = 'Select A New File';
+			$scope.isDropdownHidden = true;
+			$scope.cancelButtonLabel = 'Cancel';
+			$scope.submitButtonLabel = 'Replace';
+			$scope.dateProperty = 'lastUpdatedOn';
+			$scope.ownerProperty = 'lastUpdatedBy';
 
 			$scope.isListLoaded = false;
 
@@ -25,21 +34,25 @@ angular.module('ThreeSixtyOneView')
 			});
 		};
 
+		$scope.getList = function() {
+			return $scope.fileList;
+		};
+
 		// change element type
 		$scope.changeElementType = function(type) {
 			$scope.currentElementType = type;
 		};
 
 		// cancel the changes and dismiss the modal
-		$scope.cancelChangeFile = function() {
+		$scope.cancel = function() {
 			$scope.fileList = [];
 			$modalInstance.dismiss('canceled');
 		};
 
 		// pass back the selected file and dismiss the modal
-		$scope.changeFile = function() {
+		$scope.submit = function() {
 			var newFile = _.find($scope.fileList, function(file) {
-				return file.id === $scope.currentFile.id;
+				return file.id === $scope.currentItem.id;
 			});
 			$modalInstance.close(newFile);
 		};
