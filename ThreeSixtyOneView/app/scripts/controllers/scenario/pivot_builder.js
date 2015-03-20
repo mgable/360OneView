@@ -8,7 +8,7 @@
 * Controller of the ThreeSixtyOneView
 */
 angular.module('ThreeSixtyOneView')
-	.controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', 'DialogService', function ($scope, $rootScope, EVENTS, $timeout, DialogService) {
+	.controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', 'DialogService', 'ManageAnalysisViewsService', function ($scope, $rootScope, EVENTS, $timeout, DialogService, ManageAnalysisViewsService) {
 	var init = function() {
 			$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
 			$scope.saveAs = false;
@@ -129,21 +129,28 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		$scope.submitSaveAs = function(evt) {
+			var oldViewId = $scope.viewData.id,
+				newView;
+
 			if (evt){
 				evt.stopPropagation();
 			}
-			$scope.viewData.name = $scope.saveAsName;
 
 			if (rename) {
+				$scope.viewData.name = $scope.saveAsName;
 				if ($scope.isViewDraft()) {
 					$scope.isViewDraft(false);
 				}
 				$scope.renameView($scope.cubeId, $scope.viewData);
 			} else if (!rename) {
+				newView = angular.copy($scope.viewData);
+				newView.name = $scope.saveAsName;
 				if ($scope.isViewDraft()) {
 					$scope.deleteView($scope.cubeId, $scope.viewData.id);
+				} else {
+					ManageAnalysisViewsService.defaultView($scope.cubeId, oldViewId, false);
 				}
-				$scope.createView($scope.cubeId, $scope.viewData);
+				$scope.createView($scope.cubeId, newView);
 			}
 
 			$scope.cancelSaveAs();

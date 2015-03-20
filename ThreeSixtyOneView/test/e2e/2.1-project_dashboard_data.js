@@ -35,7 +35,7 @@ if(funcs.runTheseTests(testName)){
 			}
 		);
 
-		xit("should have the correct number of scenarios", function(){
+		it("should have the correct number of scenarios", function(){
 			funcs.getItemCount().getText().then(function(count){
 				expect(count).toEqual(cache[project.uuid].length.toString(10));
 			});
@@ -45,7 +45,7 @@ if(funcs.runTheseTests(testName)){
 			})
 		});
 
-		xit("should have the correct scenarios", function(){
+		it("should have the correct scenarios", function(){
 			var index = 0,
 				sortedScenarios = funcs.sortProjectsByDate(cache[project.uuid]);
 
@@ -57,7 +57,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		xit("should have the correct statuses", function(){
+		it("should have the correct statuses", function(){
 			var currentStatus,
 				items = funcs.getItems();
 
@@ -81,7 +81,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		xit("should have the correct description", function(){
+		it("should have the correct description", function(){
 			var items = funcs.getItems(),
 				index = 0,
 				sortedScenarios = funcs.sortProjectsByDate(cache[project.uuid]);
@@ -104,7 +104,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		xit("should have the correct created by data", function(){
+		it("should have the correct created by data", function(){
 			var items = funcs.getItems(),
 				index = 0,
 				sortedScenarios = funcs.sortProjectsByDate(cache[project.uuid]);
@@ -126,7 +126,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		xit("should have the correct modified by data", function(){
+		it("should have the correct modified by data", function(){
 			var items = funcs.getItems(),
 				index = 0,
 				sortedScenarios = funcs.sortProjectsByDate(cache[project.uuid]);
@@ -148,7 +148,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		xit("should have the correct base scenario", function(){
+		it("should have the correct base scenario", function(){
 			var items = funcs.getItems(),
 				index = 0,
 				sortedScenarios = funcs.sortProjectsByDate(cache[project.uuid]);

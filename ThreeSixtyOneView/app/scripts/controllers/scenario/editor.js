@@ -61,6 +61,7 @@ angular.module('ThreeSixtyOneView')
 		// save the draft view
 		$scope.saveDraftView = function() {
 			if(!$scope.draftView) {
+				ManageAnalysisViewsService.defaultView($scope.cubeId, $scope.viewData.id, false);
 				$scope.draftView = true;
 				var draftView = angular.copy($scope.viewData);
 				draftView.name = 'Draft - ' + draftView.name;
@@ -118,9 +119,14 @@ angular.module('ThreeSixtyOneView')
 
 		// load a view from the backend
 		$scope.loadView = function(cubeId, viewId) {
+			var oldViewId = $scope.viewData.id;
 			$scope.viewData = {name: 'Loading ...'};
 			$rootScope.$broadcast(EVENTS.pivotViewChange, {});
 			ManageAnalysisViewsService.getView(viewId, cubeId).then(function(view) {
+				//undefault the previous view
+				if(!!oldViewId && !$scope.draftView) {
+					ManageAnalysisViewsService.defaultView(cubeId, oldViewId, false);
+				}
 				// remove the draft view if one exists and is not selected
 				if($scope.draftView) {
 					var draftId = _.find($scope.viewsList, function(view) {return view.name.substring(0,8) === 'Draft - ';}).id;

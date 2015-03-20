@@ -2,7 +2,7 @@
 
 angular.module('ThreeSixtyOneView.services')
   .service('ManageAnalysisViewsService', ["Model", "ManageAnalysisViewsModel", function ManageAnalysisViewsService(Model, ManageAnalysisViewsModel) {
-		var MyPivotviewModel, mypivotview,
+		var MyPivotviewModel, mypivotview, self = this,
 			// view and filter ids should be null when creating a new view
 			resetView = function(newView) {
 				newView.id = null;
@@ -27,6 +27,9 @@ angular.module('ThreeSixtyOneView.services')
 
 		this.getView = function(viewId, cubeId) {
 			return this.resource.get({viewId: viewId, cubeId: cubeId}, this.config, '').then(function (response) {
+				// make the view default
+				response.isDefault = true;
+				self.updateView(response, cubeId);
 				return response;
 			});
 		};
@@ -44,6 +47,8 @@ angular.module('ThreeSixtyOneView.services')
 					relatedByView: relatedByView
 				};
 			}
+
+			newView.isDefault = true;
 
 			return this.resource.post(resetView(newView), config, {cubeId: cubeId}).then(function (response) {
 				return response;
@@ -65,6 +70,13 @@ angular.module('ThreeSixtyOneView.services')
 		this.deleteView = function(viewId, cubeId) {
 			return this.resource.delete('', this.config, {viewId: viewId, cubeId: cubeId}, '').then(function (response) {
 				return response;
+			});
+		};
+
+		this.defaultView = function(cubeId, viewId, isDefault) {
+			self.getView(viewId, cubeId).then(function(view) {
+				view.isDefault = isDefault;
+				self.updateView(view, cubeId);
 			});
 		};
 

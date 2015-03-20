@@ -76,6 +76,12 @@
 						a {
 							color: inherit;
 						}
+
+						.title {
+							display: inline-block;
+							max-width: 365px;
+						}
+
 						.favorites {
 							display: inline-block;
 							margin-top: 2px;
@@ -106,13 +112,14 @@
 					}
 				}
 				thead {
-					.title.active a{
+					.heading.active a{
 						color: $ms-orange;
 						font-weight: bold;
 					}
 					th {
 						border: 0 none;
 						border-bottom:1px solid $ms-mediumGray;
+						line-height: normal;
 						a {
 							color: $ms-black;
 							text-decoration: none;
