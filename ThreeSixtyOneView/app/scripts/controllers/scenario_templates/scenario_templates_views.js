@@ -8,8 +8,19 @@
  * Controller of the ThreeSixtyOneView
  */
 angular.module('ThreeSixtyOneView')
-    .controller('ScenarioTemplatesViewsCtrl', ['$scope', function($scope) {
-        $scope.done = function(){
-        	console.info("done!!!!!");
-        };
-    }]);
+	.controller('ScenarioTemplatesViewsCtrl', ['$scope', 'MetaDataService', function($scope, MetaDataService) {
+		var init = function() {
+			$scope.template = {
+				name: '',
+				description: '',
+				type: 'Action'
+			};
+
+			MetaDataService.getCubes($scope.template.type).then(function(cubes) {
+				$scope.touchpointCube = _.find(cubes, function(cube) {
+					return cube.name === 'TOUCHPOINT';
+				});
+			});
+		};
+		init();
+	}]);

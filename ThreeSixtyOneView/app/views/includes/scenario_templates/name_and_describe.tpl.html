@@ -1,12 +1,12 @@
 <div class="scenarioTemplates right-column">
 	<div class="header">
-		Now let's create your {{Action}} scenario template
+		Now let's create your {{template.type}} scenario template
 	</div>
 	<div class="prompt">
 		<span>What's the template name?</span>
-		<input type="text" name="templateName" required>
+		<input type="text" name="templateName" ng-model="template.name" required placeholder="Enter scenario template name">
 		<span>Do you want to add a description?</span>
-		<input type="text" name="templateDescription" required>
+		<input type="text" name="templateDescription" ng-model="template.description" required placeholder="Enter scenario template description">
 	</div>
 	<div class="confirmation">
 		Thanks for all that info.
