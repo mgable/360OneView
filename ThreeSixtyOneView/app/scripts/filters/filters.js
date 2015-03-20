@@ -79,17 +79,26 @@ angular.module('ThreeSixtyOneView.filters')
 	}])
 	.filter('capitalize', [function() {
 		return function(input) {
-			return input.substring(0, 1).toUpperCase() + input.substring(1);
+			if (typeof input === "string") {
+				return input.substring(0, 1).toUpperCase() + input.substring(1);
+			}
+			return input;
 		};
 	}])
 	.filter('unCamelCase', [function() {
 		return function(input) {
-			return input.replace(/([a-z\d])([A-Z\d])/g, '$1 $2');
+			if (typeof input === "string") {
+				return input.replace(/([a-z\d])([A-Z\d])/g, '$1 $2');
+			}
+			return input;
 		};
 	}])
 	.filter('normalize', [function() {
 		return function(input) {
-			return input.replace(/\s/g, '').toLowerCase();
+			if (typeof input === "string") {
+				return input.replace(/[\s\W]/g, '').toLowerCase();
+			}
+			return input;
 		};
 	}])
 	.filter('timeago', [function() {

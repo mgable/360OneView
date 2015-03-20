@@ -1,13 +1,14 @@
 <div class="listingView">
 	<div class="row alert-area">
-		<ng-include src="'views/includes/display.tpl.html'"></ng-include>
+		<ng-include src="'views/includes/display/display.tpl.html'"></ng-include>
 	</div>
 	<div class="row display-area">
-		<div class="display">
-			<ng-include src="'views/includes/display_table.tpl.html'"></ng-include>
+		<div class="display" ng-switch="{{!!scenarios}}">
+			<div ng-switch-when="true"><ng-include src="'views/includes/display/display_table_scenarios.tpl.html'"></ng-include></div>
+			<div ng-switch-default><ng-include src="'views/includes/display/display_table_projects.tpl.html'"></ng-include></div>
 		</div>
 		<div class="tray">
-			<ng-include src="'views/includes/tray.tpl.html'"></ng-include>
+			<ng-include src="'views/includes/display/tray.tpl.html'"></ng-include>
 		</div>
 	</div>
 </div>
