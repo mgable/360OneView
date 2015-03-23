@@ -8,7 +8,8 @@
 				</span>
 			</span>
 		</div>
-		<ul class="button-group" ng-show="CONFIG.trayButtons" ng-if="selectedItem">
+		
+		<ul class="button-group" ng-show="CONFIG.trayButtons.length > 0" ng-if="selectedItem">
 			<li class="button-holder" ng-repeat="button in CONFIG.trayButtons">
 				<button class="pull-left btn btn-default" ng-disabled="selectedItem.isMaster || !selectedItem" ng-click="action(button.action, selectedItem)" data-ms-id="trayActions.copy">
 					<icon type="{{button.icon}}"></icon>&nbsp;{{button.label}}
