@@ -8,20 +8,49 @@
  * Controller of the ThreeSixtyOneView
  */
 angular.module('ThreeSixtyOneView')
-.controller('ScenarioTemplatesViewsCtrl', ['$scope', 'MetaDataService', 'dimensionsData', function($scope, MetaDataService, dimensionsData) {
+.controller('ScenarioTemplatesViewsCtrl', ['$scope', 'MetaDataService', 'PivotMetaService', 'dimensionsData', function($scope, MetaDataService, PivotMetaService, dimensionsData) {
 		var init = function() {
 			$scope.template = {
 				name: '',
 				description: '',
 				type: 'Action'
 			};
-
-			MetaDataService.getCubes($scope.template.type).then(function(cubes) {
-				$scope.cubes = cubes;
+			// render spend dimensions cards
+			var spendCubeParams = $scope.template.type,
+				spendCubeName = 'TOUCHPOINT',
+				spendCubeType = 'spend';
+				getCubeAndBuildDimensions(spendCubeType, spendCubeName, spendCubeParams);
+			// render kpi dimensions cards
+			// var kpiCubeParams = ['simulation', null, undefined, undefined, false].join(),
+			// 	kpiCubeName = 'OUTCOME',
+			// 	kpiCubeType = 'kpi';
+			// 	getCubeAndBuildDimensions(kpiCubeType, kpiCubeName, kpiCubeParams);
+		},
+		getCubeAndBuildDimensions = function(cubeType, cubeName, cubeParams) {
+			MetaDataService.getCubes(cubeParams).then(function(cubes) {
+				var cubeId = _.find(cubes, function(v) { return v.name === cubeName }).id;
+				MetaDataService.buildDimensionsTree(cubeId).then(function(dimension) {
+					$scope[cubeType + 'DimensionsList'] = getFirstLevelDimesnsion(dimension);
+        		});
 			});
+		},
+		getFirstLevelDimesnsion = function(dimension) {
+			var dimensionsList = [];
+			_.each(dimension, function(v, k) {
+				var dimension = {};
+					dimension.id = v.id;
+					dimension.label = v.label;
+					dimension.isSelected = v.isSelected || true;
+					dimension.children = [];
+					_.each(v.members, function(v1) {
+						v1.isSelected = v1.isSelected || true;
+						dimension.children.push(_.pick(v1, 'id', 'label', 'isSelected'))
+					});
+					dimensionsList.push(dimension);
+			});
+			return dimensionsList;
 		};
 		init();
-		$scope.spendDimensionsList = dimensionsData.spendDimensionsList;
 		$scope.kpiDimensionsList = dimensionsData.kpiDimensionsList;
 		$scope.getFilterArray = function(dimension) {
 			var dimensionLength = dimension.children.length,
@@ -30,46 +59,6 @@ angular.module('ThreeSixtyOneView')
 		}
 	}]).factory('dimensionsData', function() {
 		var dimensionsData = {
-			spendDimensionsList: [{
-				id: 1,
-				label: "VARIABLE",
-				children: [
-					{isSelected: true, label: "National/Local"},
-					{isSelected: true, label: "Brand/Nameplate"},
-					{isSelected: false, label: "Touchpoint"}
-				]
-				}, {
-					id: 2,
-					label: "PRODUCT",
-					children: [
-						{isSelected: false, label: "Nameplate"},
-						{isSelected: false, label: "Nameplate Category"}
-					]
-				}, {
-					id: 3,
-					label: "GEO",
-					children: [
-						{isSelected: true, label: "Region"},
-						{isSelected: true, label: "city"}
-					]
-				}, {
-					id: 4,
-					label: "YEAR",
-					children: [
-						{isSelected: true, label: "Year"},
-						{isSelected: false, label: "Half Year"},
-						{isSelected: false, label: "Quarter"},
-						{isSelected: true, label: "Month"},
-						{isSelected: false, label: "Weekly"},
-						{isSelected: true, label: "daily"}
-					]
-				}, {
-					id: 5,
-					label: "ONE CHILDREN",
-					children: [
-						{isSelected: true, label: "ONE CHILDREN"},
-					]
-			}],
 			kpiDimensionsList: [{
 				id: 1,
 				label: "KPIs",

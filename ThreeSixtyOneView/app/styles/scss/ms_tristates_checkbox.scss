@@ -16,7 +16,7 @@
         z-index: 1;
         width: 15px;
         height: 15px;
-        border: 1px solid $active;
+        border: 1px solid $ms-black;
     }
     &:after {
         content: "";
@@ -37,7 +37,7 @@
             -o-transform: rotate(-45deg);
             transform: rotate(-45deg);
             height: 8px;
-            border-color: $active;
+            border-color: $ms-blue;
             border-top-style: none;
             border-right-style: none;
         }
@@ -52,7 +52,7 @@
             transform: height;
             height: 1px;
             margin-top: 7.5px;
-            border-color: $active;
+            border-color: $ms-blue;
             border-top-style: none;
             border-right-style: none;
         }
