@@ -15,40 +15,61 @@ angular.module('ThreeSixtyOneView')
 				description: '',
 				type: 'Action'
 			};
+
 			// render spend dimensions cards
 			var spendCubeParams = $scope.template.type,
 				spendCubeName = 'TOUCHPOINT',
 				spendCubeType = 'spend';
-				getCubeAndBuildDimensions(spendCubeType, spendCubeName, spendCubeParams);
+			getDimensionsList(spendCubeType, spendCubeName, spendCubeParams);
+
 			// render kpi dimensions cards
-			// var kpiCubeParams = ['simulation', null, undefined, undefined, false].join(),
-			// 	kpiCubeName = 'OUTCOME',
-			// 	kpiCubeType = 'kpi';
-			// 	getCubeAndBuildDimensions(kpiCubeType, kpiCubeName, kpiCubeParams);
+			var kpiCubeParams = ['simulation', null, undefined, undefined, false].join(),
+				kpiCubeName = 'OUTCOME',
+				kpiCubeType = 'kpi';
+			// getDimensionsList(kpiCubeType, kpiCubeName, kpiCubeParams);
 		},
-		getCubeAndBuildDimensions = function(cubeType, cubeName, cubeParams) {
-			MetaDataService.getCubes(cubeParams).then(function(cubes) {
-				var cubeId = _.find(cubes, function(v) { return v.name === cubeName }).id;
-				MetaDataService.buildDimensionsTree(cubeId).then(function(dimension) {
-					$scope[cubeType + 'DimensionsList'] = getFirstLevelDimesnsion(dimension);
-        		});
-			});
-		},
-		getFirstLevelDimesnsion = function(dimension) {
-			var dimensionsList = [];
-			_.each(dimension, function(v, k) {
-				var dimension = {};
-					dimension.id = v.id;
-					dimension.label = v.label;
-					dimension.isSelected = v.isSelected || true;
-					dimension.children = [];
-					_.each(v.members, function(v1) {
-						v1.isSelected = v1.isSelected || true;
-						dimension.children.push(_.pick(v1, 'id', 'label', 'isSelected'))
-					});
-					dimensionsList.push(dimension);
-			});
-			return dimensionsList;
+		getDimensionsList = function(cubeType, cubeName, cubeParams) {
+			var getCubeId = function(cubeName, cubeParams) {
+				return MetaDataService
+							.getCubes(cubeParams)
+							.then(function(cubes) {
+								$scope[cubeType+'Cubes'] = cubes;
+								return cubes.length !== 0 ? _.find(cubes, function(v) { return v.name === cubeName }).id : 1;
+							});
+			},
+			buildDimensions = function(cubeId) {
+				return MetaDataService
+							.buildDimensionsTree(cubeId)
+							.then(function(dimension) {
+								$scope[cubeType+'Dimensions'] = dimension;
+								return dimension;
+	    					});
+			},
+			getFirstLevelDimesnsion = function(dimension) {
+				var dimensionsList = [];
+				_.each(dimension, function(v, k) {
+					var dimension = {};
+						dimension.id = v.id;
+						dimension.label = v.label;
+						dimension.isSelected = v.isSelected || true;
+						dimension.children = [];
+						_.each(v.members, function(v1) {
+							v1.isSelected = v1.isSelected || true;
+							dimension.children.push(_.pick(v1, 'id', 'label', 'isSelected'))
+						});
+						dimensionsList.push(dimension);
+				});
+				$scope[cubeType+'DimensionsList'] = dimensionsList;
+				return dimensionsList;
+			};
+
+			getCubeId(cubeName, cubeParams)
+				.then(buildDimensions)
+				.then(getFirstLevelDimesnsion);
+
+			$scope[cubeType+'Cubes'] = null;
+			$scope[cubeType+'Dimensions'] = null;
+			$scope[cubeType+'DimensionsList'] = null;
 		};
 		init();
 		$scope.kpiDimensionsList = dimensionsData.kpiDimensionsList;
