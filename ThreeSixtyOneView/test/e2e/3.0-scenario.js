@@ -272,40 +272,27 @@ if(funcs.runTheseTests(testName)){
 				});
 
 				it("should save a view", function(){
-					var currentViewName, selectedIndex = null;
+					var currentViewName;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
-						specs.addDimensionsButton.click();
-						specs.dimensions.each(function(el, index){
-							var holder = el.element(by.css('span'));
-
-							funcs.hasClass(holder, "disabled").then(function(isDisabled){
-								holder.getText().then(function(text){
-									if(isDisabled !== true && text !== "" && selectedIndex === null){
-										selectedIndex = index;
-										console.info('the selected index is ' + index);
-									}
-								});
-							});
-						}).then(
-							function(){
-								var inDraftMode = false;
-								specs.dimensions.get(selectedIndex).click();
-								browser.waitForAngular();
-								if(!specs.draftRegEx.test(currentViewName)){
-									specs.viewName.getText().then(function(name){
-										expect(name).toEqual(specs.draftText + currentViewName)
-									})
-								} else {
-									inDraftMode = true
-									console.info("view is alreay in draft mode");
-								}
-								specs.saveButton.click();
+						specs.addColumnDimensionsButton.click();
+						funcs.addDimension(function(index){
+							var inDraftMode = false;
+							specs.dimensions.get(index).click();
+							browser.waitForAngular();
+							if(!specs.draftRegEx.test(currentViewName)){
 								specs.viewName.getText().then(function(name){
-									expect(name).toEqual(inDraftMode ? currentViewName.replace(specs.draftRegEx, "") : currentViewName)
+									expect(name).toEqual(specs.draftText + currentViewName)
 								})
+							} else {
+								inDraftMode = true
+								console.info("view is alreay in draft mode");
 							}
-						);
+							specs.saveButton.click();
+							specs.viewName.getText().then(function(name){
+								expect(name).toEqual(inDraftMode ? currentViewName.replace(specs.draftRegEx, "") : currentViewName );
+							});
+						});
 					});
 				});
 
@@ -333,19 +320,21 @@ if(funcs.runTheseTests(testName)){
 						currentViewName = name;
 						specs.recentViewsDropDown.click();
 						specs.allViewsButton.click();
-						specs.recentViews.each(function(el, index){
+						specs.recentViewsModal.each(function(el, index){
 							el.getText().then(function(text){
 								if(text){
+									console.info(text);
 									el.element(by.css(".item-name")).getText().then(function(title){
 										if (title !== currentViewName && selectedIndex === null){
 											selectedIndex = index;
 											newViewName = title;
+											console.info(newViewName);
 										}
 									});
 								}
 							});
 						}).then(function(){
-							specs.recentViews.get(selectedIndex).click();
+							specs.recentViewsModal.get(selectedIndex).click();
 							element(by.css('div.modal .ms-btn-submit')).click();
 							browser.waitForAngular();
 							specs.viewName.getText().then(function(name){
@@ -387,7 +376,6 @@ if(funcs.runTheseTests(testName)){
 							})
 						} else {
 							console.info("view not in draft mode");
-							specs.addDimensionsButton.click();
 							funcs.addDimension(
 								function(index){
 									specs.dimensions.get(index).click();
@@ -467,34 +455,98 @@ if(funcs.runTheseTests(testName)){
 			});
 
 			describe("dimensions and filters", function(){
-				it("should toggle between filter and dimension view", function(){});
+				it("should toggle between filter and dimension view", function(){
+					expect(funcs.hasClass(specs.toggleTable, "selected")).toBeTruthy();
+					expect(funcs.hasClass(specs.toggleFilters, "selected")).toBeFalsy();
+					expect(funcs.hasClass(specs.dimensionsArea, 'ng-hide')).toBeFalsy();
+					expect(funcs.hasClass(specs.filterArea, 'ng-hide')).toBeTruthy();
+					specs.toggleFilters.click();
+					expect(funcs.hasClass(specs.toggleTable, "selected")).toBeFalsy();
+					expect(funcs.hasClass(specs.toggleFilters, "selected")).toBeTruthy();
+					expect(funcs.hasClass(specs.dimensionsArea, 'ng-hide')).toBeTruthy();
+					expect(funcs.hasClass(specs.filterArea, 'ng-hide')).toBeFalsy();
+					specs.toggleTable.click();
+					expect(funcs.hasClass(specs.toggleTable, "selected")).toBeTruthy();
+					expect(funcs.hasClass(specs.toggleFilters, "selected")).toBeFalsy();
+					expect(funcs.hasClass(specs.dimensionsArea, 'ng-hide')).toBeFalsy();
+					expect(funcs.hasClass(specs.filterArea, 'ng-hide')).toBeTruthy();
+				});
 
 				it("should add a column", function(){
 					var currentCount;
 					specs.columnDimensions.count().then(function(count){
 						currentCount = count;
 
-						// console.info("the number of column dimensions is");
-						// console.info(count);
+						specs.addColumnDimensionsButton.click();
+						funcs.addDimension(function(index){
+							specs.dimensions.get(index).click();
+							browser.waitForAngular();
+							specs.columnDimensions.count().then(function(newCount){
+								expect(newCount).toEqual(currentCount + 1);
+							});
+						});
+
 					});
 				});
 
-				// it("should remove a column", function(){});
+				it("should remove a column", function(){
+					var currentCount;
+					specs.columnDimensions.count().then(function(count){
+						currentCount = count;
+						specs.columnDimensions.get(count - 1).element(by.css(".action-icon")).click();
+						specs.columnDimensions.count().then(function(count){
+							expect(count).toEqual(currentCount - 1);
+						});
+					});
+				});
 
-				// it("should add a row", function(){
-				// 	specs.rowDimensions.count().then(function(count){
-				// 		console.info("the number of column dimensions is");
-				// 		console.info(count);
-				// 	});
+				// I can nt get this to work
+				// it("should drag", function(){
+				// 	//browser.driver.actions().dragAndDrop(specs.columnDimensions.get(1), specs.copyAndReplaceCube).perform();
+				// 	browser.actions()
+				// 	.mouseMove(specs.columnDimensions.get(1).element(by.css('.drag-handle')), {x:400, y:400})
+				// 	.mouseDown()
+				// 	.mouseMove(specs.rowDimensions.get(0).getWebElement(), {x:400, y:400})
+				// 	.mouseUp()
+				// 	//.mouseMove(specs.rowDimensions.get(0).element(by.css('.drag-handle')), )
+				// 	//.mouseUp().
+				// 	///.dragAndDrop(specs.rowDimensions.get(0).getWebElement(), {x:400, y:400})
+				// 	.perform();
+				// 	browser.pause();
 				// });
 
-				// it("should remove a row", function(){});
+				// it("should remove a column", function(){});
 
-				// it("should drag and drop a dimension", function(){});
+				it("should add a row", function(){
+					var currentCount;
+					specs.rowDimensions.count().then(function(count){
+						currentCount = count;
+
+						specs.addRowDimensionsButton.click();
+						funcs.addDimension(function(index){
+							specs.dimensions.get(index).click();
+							browser.waitForAngular();
+							specs.rowDimensions.count().then(function(newCount){
+								expect(newCount).toEqual(currentCount + 1);
+							});
+						});
+
+					});
+				});
+
+				it("should remove a row", function(){
+					var currentCount;
+					specs.rowDimensions.count().then(function(count){
+						currentCount = count;
+						specs.rowDimensions.get(count - 1).element(by.css(".action-icon")).click();
+						specs.rowDimensions.count().then(function(count){
+							expect(count).toEqual(currentCount - 1);
+						});
+					});
+				});
 
 				// it("should redefine a dimension", function(){});
 			})
-
 		});
 	});
 }

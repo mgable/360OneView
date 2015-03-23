@@ -151,7 +151,7 @@ if(funcs.runTheseTests(testName)){
 					browser.getLocationAbsUrl().then(function(url){
 						var scenarioId = url.match(/\d+(?=\/edit)/)[0];
 						funcs.saveProjectInfo(_.extend(projectInfo, {scenario: {url: url, id: scenarioId, title: specs.testScenarionNameFirst,}}));
-						expect(url).toContain("#/scenario/");
+						expect(url).toContain(specs.scenarioRoot + projectId + "/" + scenarioId );
 					});
 					browser.get(dashboardUrl);
 					browser.waitForAngular();
@@ -167,6 +167,7 @@ if(funcs.runTheseTests(testName)){
 				});
 
 				it("should have a status of 'not calculated'", function(){
+					browser.sleep(1000);
 					var status = funcs.getFirstItem().element(by.css(specs.statusClass));
 					expect(funcs.hasClass(status, "fa-not_calculated")).toBe(true);
 				});
@@ -198,7 +199,7 @@ if(funcs.runTheseTests(testName)){
 
 								specs.modalSubmitButton.click();
 								browser.waitForAngular();
-								expect(browser.getLocationAbsUrl()).toContain("#/scenario/");
+								expect(browser.getLocationAbsUrl()).toContain(specs.scenarioRoot);
 								browser.get(dashboardUrl);
 								browser.waitForAngular();
 								expect(items.count()).toEqual(numberOfScenarios + 1);
@@ -344,7 +345,7 @@ if(funcs.runTheseTests(testName)){
 							expect(scenarioText).toEqual(baseScenarioText);
 							specs.submitButton.click();
 							browser.waitForAngular();
-							expect(browser.getLocationAbsUrl()).toContain("#/scenario/");
+							expect(browser.getLocationAbsUrl()).toContain(specs.scenarioRoot);
 							browser.get(dashboardUrl);
 							browser.waitForAngular();
 							expect(specs.scenarioBaseScenarioElement.getText()).toEqual(scenarioText);
@@ -359,7 +360,7 @@ if(funcs.runTheseTests(testName)){
 					specs.firstScenarioElementTitle.getText().then(function(titleInTray){
 						specs.firstScenarioElementName.click();
 						browser.waitForAngular();
-						expect(browser.getLocationAbsUrl()).toContain("#/scenario/" + projectId);
+						expect(browser.getLocationAbsUrl()).toContain(specs.scenarioRoot + projectId);
 						specs.selectedScenarioElement.getText().then(function(titleInScenarioEdit){
 							expect(titleInTray).toBe(titleInScenarioEdit);
 						});
@@ -370,7 +371,7 @@ if(funcs.runTheseTests(testName)){
 					specs.lastScenarioElementTitle.getText().then(function(titleInTray){
 						specs.lastScenarioElementName.click();
 						browser.waitForAngular();
-						expect(browser.getLocationAbsUrl()).toContain("#/scenario/" + projectId);
+						expect(browser.getLocationAbsUrl()).toContain(specs.scenarioRoot + projectId);
 						specs.selectedScenarioElement.getText().then(function(titleInScenarioEdit){
 							expect(titleInTray).toBe(titleInScenarioEdit);
 						});

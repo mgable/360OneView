@@ -7,7 +7,6 @@ window.Marketshare.SERVERS = {
 		'server': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8080',
 		'127.0.0.1': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8080',
 		'localhost': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8080',
-
 		// scenario templates
 		// 'server': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8081',
 		// '127.0.0.1': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8081',

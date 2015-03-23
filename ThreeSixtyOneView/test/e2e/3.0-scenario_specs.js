@@ -13,7 +13,7 @@ var coreSpecs = require('./0.0-specs.js'),
 	copyAndReplaceCubeName = copyAndReplaceCube + " .filename",
 	replaceButton = "span[data-ms-id='ScenarioEdit.replaceElement']",
 	copyButton = "span[data-ms-id='ScenarioEdit.copyElement']",
-	analysisElementFileList = "file in fileList",
+	analysisElementFileList = "item in getList()",
 	analysisElementReplace = "div[data-ms-id='analysisElementReplace']",
 	analysisElementCopy = "div[data-ms-id='analysisElementCopy']", 
 	cancelButton = analysisElementCopy + " .ms-btn-cancel",
@@ -39,11 +39,17 @@ var coreSpecs = require('./0.0-specs.js'),
 	saveAsSubmitButton = ".saveAsBox .submit",
 	collapseHandle = ".collapse-handle span", 
 
+	// drop down menu
 	recentViews = "view in getViewsList()",
 	recentViewsDropDown = "#pivotBuilder .recent-items .dropdown-toggle",
+	tableFilterToggle = ".toggle-switch .switch",
+	recentViewsModal = "item in getList()",
 
-	dimensions = "menuItem in dimension.members",
+	dimensions = "dimension in getDimensions()",
+	//dimensions =  "menuItem in dimension.members",
 	addDimensionsButton =  [".add-label", "Add"], 
+	dimensionsArea = "#dragDropArea",
+	filterArea = ".filters-list",
 
 	draggableDimensions = "item in getViewData(pivotBuilderItem.name)",
 	columnDimensionsClass = ".dimensions-list",
@@ -94,10 +100,17 @@ var coreSpecs = require('./0.0-specs.js'),
 		recentViewsDropDown: element(by.css(recentViewsDropDown)),
 		dimensions: element.all(by.repeater(dimensions)),
 		saveButton: element(by.cssContainingText(saveButton[0], saveButton[1])),
-		addDimensionsButton: element.all(by.cssContainingText(addDimensionsButton[0], addDimensionsButton[1])).get(0),
+		addDimensionsButton: element.all(by.cssContainingText(addDimensionsButton[0], addDimensionsButton[1])),
+		addColumnDimensionsButton: element.all(by.cssContainingText(addDimensionsButton[0], addDimensionsButton[1])).get(0),
+		addRowDimensionsButton: element.all(by.cssContainingText(addDimensionsButton[0], addDimensionsButton[1])).get(1),
 		collapseHandle: element(by.css(collapseHandle)),
 		columnDimensions: element.all(by.css(columnDimensionsClass)).get(0).all(by.repeater(draggableDimensions)),
-		rowDimensions: element.all(by.css(columnDimensionsClass)).get(1).all(by.repeater(draggableDimensions))
+		rowDimensions: element.all(by.css(columnDimensionsClass)).get(1).all(by.repeater(draggableDimensions)),
+		toggleTable: element.all(by.css(tableFilterToggle)).get(0),
+		toggleFilters: element.all(by.css(tableFilterToggle)).get(1),
+		dimensionsArea: element(by.css(dimensionsArea)),
+		filterArea: element.all(by.css(filterArea)).get(0),
+		recentViewsModal: element.all(by.repeater(recentViewsModal))
 	};
 
 _.extend(data, coreSpecs);
