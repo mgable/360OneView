@@ -39,7 +39,7 @@ data = {
 				callback.call(null, selectedIndex);
 			}
 		);
-	}
+	},
 };
 
 _.extend(data, coreFunctions);

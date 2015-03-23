@@ -1,6 +1,7 @@
 @import "variables";
 @import "new_variables";
 
+
 .listingView {
 	background-color: $ms-pureWhite;
 	margin: 0 20px;
@@ -79,12 +80,13 @@
 
 						.title {
 							display: inline-block;
-							max-width: 365px;
+							vertical-align: bottom;
+							max-width: 245px;
+							@extend .hide-overflow;
 						}
 
 						.favorites {
 							display: inline-block;
-							margin-top: 2px;
 							padding: 0px 5px;
 							a {
 							  font-family: "font awesome";
