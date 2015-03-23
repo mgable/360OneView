@@ -36,7 +36,7 @@ if(funcs.runTheseTests(testName)){
 			}
 		);
 
-		describe("Current working scenario", function(){
+		xdescribe("Current working scenario", function(){
 			it("should read the correct scenario from the file system", function(){
 				browser.getLocationAbsUrl().then(function(url){
 					expect(url).toContain(projectInfo.scenario.url);
@@ -44,7 +44,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		describe("initial state of navigation buttons", function(){
+		xdescribe("initial state of navigation buttons", function(){
 			it("should have the edit button enabled", function(){
 				expect(funcs.hasClass(specs.editButton, 'disabled')).toBe(false);
 			});
@@ -56,7 +56,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		describe("analysis element toolbar", function(){
+		xdescribe("analysis element toolbar", function(){
 			it("should have analysis elements", function(){
 				expect(specs.cubes.count()).toBeGreaterThan(0);
 			});
@@ -205,7 +205,7 @@ if(funcs.runTheseTests(testName)){
 
 		describe("scenario editor", function(){
 
-			describe("open and close", function(){
+			xdescribe("open and close", function(){
 				it("should expand and collapse the editor", function(){
 					var isHidden;
 					funcs.hasClass(specs.pivotBuilderTab, "hidden").then(function(state){
@@ -227,7 +227,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			})
 
-			describe("tabs", function(){
+			xdescribe("tabs", function(){
 				it("should have three tabs", function(){
 					expect(specs.editorTabs.count()).toBe(3);
 				});
@@ -256,7 +256,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			describe ("views", function(){
+			xdescribe ("views", function(){
 				it("should load the default view for each cube", function(){
 					specs.cubes.each(function(element){
 						specs.selectedAnalysisElement.click();
@@ -478,8 +478,8 @@ if(funcs.runTheseTests(testName)){
 						currentCount = count;
 
 						specs.addColumnDimensionsButton.click();
-						funcs.addDimension(function(index){
-							specs.dimensions.get(index).click();
+						funcs.addDimension(function(dimension){
+							dimension.click();
 							browser.waitForAngular();
 							specs.columnDimensions.count().then(function(newCount){
 								expect(newCount).toEqual(currentCount + 1);
@@ -500,7 +500,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				// I can nt get this to work
+				// I can't get this to work
 				// it("should drag", function(){
 				// 	//browser.driver.actions().dragAndDrop(specs.columnDimensions.get(1), specs.copyAndReplaceCube).perform();
 				// 	browser.actions()
@@ -515,16 +515,14 @@ if(funcs.runTheseTests(testName)){
 				// 	browser.pause();
 				// });
 
-				// it("should remove a column", function(){});
-
 				it("should add a row", function(){
 					var currentCount;
 					specs.rowDimensions.count().then(function(count){
 						currentCount = count;
 
 						specs.addRowDimensionsButton.click();
-						funcs.addDimension(function(index){
-							specs.dimensions.get(index).click();
+						funcs.addDimension(function(dimension){
+							dimension.click();
 							browser.waitForAngular();
 							specs.rowDimensions.count().then(function(newCount){
 								expect(newCount).toEqual(currentCount + 1);
@@ -545,8 +543,26 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				// it("should redefine a dimension", function(){});
-			})
+				it("should redefine a dimension", function(){
+					specs.rowDimensions.count().then(function(count){
+						if (count){
+							var currentIndex = count - 1;
+							specs.rowDimensions.get(currentIndex).getText().then(function(oldlabel){
+								specs.rowDimensions.get(currentIndex).click();
+								funcs.addDimension(function(dimension){
+									dimension.getText().then(function(targetlabel){
+										dimension.click();
+										browser.waitForAngular();
+										specs.rowDimensions.get(currentIndex).getText().then(function(newlabel){
+											expect(newlabel).toEqual(targetlabel);
+										})
+									});
+								});
+							});
+						};
+					});
+				});
+			});
 		});
 	});
 }
