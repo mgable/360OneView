@@ -26,7 +26,7 @@ angular.module('ThreeSixtyOneView.directives')
 				setView(index);
 			};
 
-			scope.DIRECTION = "forward";
+			scope.DIRECTION = "NEXT";
 
 			scope.forward = function(){
 				if (index  === totalViews - 1){

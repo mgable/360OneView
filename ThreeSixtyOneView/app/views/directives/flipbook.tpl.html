@@ -1,3 +1,11 @@
-<div class="flipbook">
-	<div ng-transclude></div><button class="btn btn-default btn-sm" ng-click="backward()" ng-disabled="isDisabled()">back</button>&nbsp;<button class="btn btn-default btn-sm" ng-click="forward()" ng-disabled="isDisabled(DIRECTION)">{{label}}</button>
+<div class="flipbook scenarioTemplates right-column">
+	<div ng-transclude></div>
+	<div class="button-container">
+		<ms-button type="cancel" label="Cancel" action=""></ms-button>
+		<span class="right">
+			<ms-button type="cancel" label="Back" action="backward()" ng-disabled="isDisabled()"></ms-button>
+			&nbsp;
+			<ms-button type="submit" label="{{label}}" action="forward()" ng-disabled="isDisabled(DIRECTION)"></ms-button>
+		</span>
+	</div>
 </div>
