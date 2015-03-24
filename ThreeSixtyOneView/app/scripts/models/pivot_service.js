@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-  .service('PivotService', ["$q", "$rootScope", "EVENTS", "Model", "PivotModel", function ($q, $rootScope, EVENTS, Model, PivotModel) {
+  .service('PivotService', ["Model", "PivotModel", function (Model, PivotModel) {
 		var MyPivotDataModel, mypivotdata;
 
 		MyPivotDataModel = new Model();
