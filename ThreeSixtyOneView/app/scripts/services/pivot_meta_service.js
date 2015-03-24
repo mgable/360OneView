@@ -76,33 +76,37 @@
 		return addedFilters;
 	};
 
-	this.addAllFilters = function(dimension) {
+	this.addAllFilters = function(dimensions) {
 		var addedFilters = {},
 			NAMembers = [];
 
-		addedFilters.scope = {
-			dimension: {
-				id: dimension.id,
-				name: dimension.name,
-				label: dimension.label
-			},
-			hierarchy: {
-				id: -1
-			},
-			level: {
-				id: dimension.members[0].id,
-				name: dimension.members[0].name,
-				label: dimension.members[0].label
-			}
-		};
+		_.each(dimensions, function(dimension) {
+			addedFilters[dimension.label] = {};
+			
+			addedFilters[dimension.label].scope = {
+				dimension: {
+					id: dimension.id,
+					name: dimension.name,
+					label: dimension.label
+				},
+				hierarchy: {
+					id: -1
+				},
+				level: {
+					id: dimension.members[0].id,
+					name: dimension.members[0].name,
+					label: dimension.members[0].label
+				}
+			};
 
-		angular.extend(addedFilters, findSelectedFilters(dimension, dimension, false));
+			angular.extend(addedFilters[dimension.label], findSelectedFilters(dimension, dimension, false));
 
-		NAMembers = findNAMembers(dimension.members[0]);
-		_.each(NAMembers, function(NAMember) {
-			if(NAMember.members.length === 0) {
-				angular.extend(addedFilters, findSelectedFilters(NAMember, NAMember, true));
-			}
+			NAMembers = findNAMembers(dimension.members[0]);
+			_.each(NAMembers, function(NAMember) {
+				if(NAMember.members.length === 0) {
+					angular.extend(addedFilters[dimension.label], findSelectedFilters(NAMember, NAMember, true));
+				}
+			});
 		});
 
 		return addedFilters;
