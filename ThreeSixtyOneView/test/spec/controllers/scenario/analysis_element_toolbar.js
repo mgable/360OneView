@@ -9,7 +9,7 @@ var scope,
     ctrl,
     testData = [{"group": "bar"}, {"group": "foo"}],
     sortedTestData = { "bar" : [ { "group" : 'bar' } ], "foo" : [ { "group" : 'foo' } ] },
-    signature = ['this', 'isHiddenElement', 'getGroupedScenarioElements', 'openScenarioElementFileModal', 'openScenarioElementCopyModal', 'copyAndReplaceAnalysisElementForCube', 'groupedScenarioElements', 'scenarioElements'];
+    signature = ['this', 'isHiddenElement', 'getGroupedScenarioElements', 'openScenarioElementFileModal', 'openScenarioElementCopyModal', 'copyAndReplaceAnalysisElementForCube', 'groupedScenarioElements', 'scenarioElements','isHiddenElement','getGroupedScenarioElements','openScenarioElementFileModal','openScenarioElementCopyModal','groupedScenarioElements'];
 
 describe("AnalysisElementCtrl: ", function(){
     beforeEach(inject(function($rootScope, $controller) {
