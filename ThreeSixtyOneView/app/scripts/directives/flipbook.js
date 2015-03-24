@@ -42,7 +42,7 @@ angular.module('ThreeSixtyOneView.directives')
 			};
 
 			scope.isDisabled = function(direction){
-				console.info(index, totalViews);
+				// console.info(index, totalViews);
 				if (direction === scope.DIRECTION){
 					return index >= totalViews;
 				} else {

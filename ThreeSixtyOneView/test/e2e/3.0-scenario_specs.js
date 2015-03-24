@@ -39,12 +39,14 @@ var coreSpecs = require('./0.0-specs.js'),
 	saveAsSubmitButton = ".saveAsBox .submit",
 	collapseHandle = ".collapse-handle span", 
 
-	recentViews = "item in getList()",
+	// drop down menu
+	recentViews = "view in getViewsList()",
 	recentViewsDropDown = "#pivotBuilder .recent-items .dropdown-toggle",
 	tableFilterToggle = ".toggle-switch .switch",
+	recentViewsModal = "item in getList()",
 
-	//dimensions = "dimension in getDimensions()",
-	dimensions =  "menuItem in dimension.members",
+	dimensions = "dimension in getDimensions()",
+	//dimensions =  "menuItem in dimension.members",
 	addDimensionsButton =  [".add-label", "Add"], 
 	dimensionsArea = "#dragDropArea",
 	filterArea = ".filters-list",
@@ -107,7 +109,8 @@ var coreSpecs = require('./0.0-specs.js'),
 		toggleTable: element.all(by.css(tableFilterToggle)).get(0),
 		toggleFilters: element.all(by.css(tableFilterToggle)).get(1),
 		dimensionsArea: element(by.css(dimensionsArea)),
-		filterArea: element.all(by.css(filterArea)).get(0)
+		filterArea: element.all(by.css(filterArea)).get(0),
+		recentViewsModal: element.all(by.repeater(recentViewsModal))
 	};
 
 _.extend(data, coreSpecs);

@@ -3,7 +3,8 @@
 var specs = require('./1.0-project_listing_specs.js'),
 	funcs = require('./1.0-project_listing_functions.js'),
 	projectInfo = {},
-	testName = {title: "Project Listing", id: 1};
+	testName = {title: "Project Listing", id: 1},
+	projectId;
 
 if(funcs.runTheseTests(testName)){
 
@@ -67,7 +68,7 @@ if(funcs.runTheseTests(testName)){
 				var itemTitle = funcs.getFirstItemTitle();
 				itemTitle.getAttribute(specs.itemUUID).then(function(id){
 					itemTitle.click();
-					expect(browser.getLocationAbsUrl()).toContain(funcs.getDashboardAbsoluteUrl(id));
+					expect(browser.getLocationAbsUrl()).toContain(specs.dashboardRoot + id);
 				});
 			});
 
@@ -338,8 +339,8 @@ if(funcs.runTheseTests(testName)){
 				browser.waitForAngular();
 
 				browser.getLocationAbsUrl().then(function(url){
-					var projectId = funcs.getProjectId(url);
-					expect(url).toContain("#/dashboard/");
+					projectId = funcs.getProjectId(url);
+					expect(url).toContain(specs.dashboardRoot + projectId);
 					projectInfo = {"project": {"url": url, "id": projectId, "title": testFileName}};
 					funcs.saveProjectInfo(projectInfo);
 				});
@@ -522,7 +523,7 @@ if(funcs.runTheseTests(testName)){
 				scenario.click();
 				browser.waitForAngular();
 
-				expect(browser.getLocationAbsUrl()).toContain("#/scenario");
+				expect(browser.getLocationAbsUrl()).toContain(specs.scenarioRoot);
 			});
 		});
 

@@ -57,12 +57,12 @@
 						<div class="parent-checkbox" ng-class="{selected: spendDimension.allChecked}">
 							<input type="checkbox" ms-tristates-checkbox child-list="spendDimension.children" property="isSelected" ng-model="spendDimension.allChecked"  class="ms-checkbox">&nbsp;{{spendDimension.label}}
 						</div>
-						<div ng-repeat="item in spendDimension.children" ng-if="spendDimension.children.length > 1" ng-class="{selected: item.isSelected}" class="children-checkbox">
+						<div ng-repeat="item in spendDimension.children" ng-if="spendDimension.children.length > 1" ng-class="{selected: item.isSelected}" class="children-checkbox" | orderBy:item.id>
 				  			<input type="checkbox" ng-model="item.isSelected" class="ms-checkbox">&nbsp;{{item.label}}
 						</div>
 					</div>
 					<div class="dimensionFilter">
-						<span title="{{getFilterArray(spendDimension)}}"><icon type="filter"></icon>&nbsp;{{getFilterArray(spendDimension)}}</span>
+						<span title="{{getFilterArray(spendDimension)}}" ng-class="{selected: getFilterArray(spendDimension).length}"><icon type="filter"></icon>&nbsp;{{getFilterArray(spendDimension)}}</span>
 					</div>&nbsp;
 				</div>
 			</div>

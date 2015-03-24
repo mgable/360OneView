@@ -22,9 +22,9 @@ describe('Directive: validator', function () {
   }));
 
   it('should test for unique input', inject(function () {
-    expect(scope.theForm.theName.$error.isUnique).toBe(true);
+    expect(scope.theForm.theName.$error.isUnique).toBeTruthy();
     scope.$apply(function(){scope.name = "abx";});
-    expect(scope.theForm.theName.$error.isUnique).toBe(false);
+    expect(scope.theForm.theName.$error.isUnique).toBeFalsy();
   }));
 
 

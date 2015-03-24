@@ -20,7 +20,7 @@ if(funcs.runTheseTests(testName)){
 			console.info(testName.title + " Tests: ");
 			cache = funcs.getCache();
 			projects = funcs.sortProjectsByDate(cache.projects);
-			project = projects[2],
+			project = projects[0],
 			dashboardUrl = funcs.getDashboardUrl(project.uuid);
 		});
 	})
