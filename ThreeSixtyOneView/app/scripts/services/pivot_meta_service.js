@@ -27,13 +27,8 @@
 			}
 
 			return output;
-		};
-	// create the temporary filter object from the view data
-	this.getAddedFilters = function(filters, dimensions) {
-		var currentDimension,
-			addedFilters = {},
-			NAMembers = [],
-			findSelectedFilters = function(_member, _dimension, _add) {
+		},
+		findSelectedFilters = function(_member, _dimension, _add) {
 			var add, output = {};
 			add = _add || (_dimension.label === _member.label);
 
@@ -47,6 +42,12 @@
 
 			return output;
 		};
+
+	// create the temporary filter object from the view data
+	this.getAddedFilters = function(filters, dimensions) {
+		var currentDimension,
+			addedFilters = {},
+			NAMembers = [];
 
 		_.each(filters, function(filter) {
 			addedFilters[filter.scope.dimension.label] = {};
@@ -70,6 +71,38 @@
 					angular.extend(addedFilters[filter.scope.dimension.label], findSelectedFilters(NAMember, NAMember, true));
 				}
 			});
+		});
+
+		return addedFilters;
+	};
+
+	this.addAllFilters = function(dimension) {
+		var addedFilters = {},
+			NAMembers = [];
+
+		addedFilters.scope = {
+			dimension: {
+				id: dimension.id,
+				name: dimension.name,
+				label: dimension.label
+			},
+			hierarchy: {
+				id: -1
+			},
+			level: {
+				id: dimension.members[0].id,
+				name: dimension.members[0].name,
+				label: dimension.members[0].label
+			}
+		};
+
+		angular.extend(addedFilters, findSelectedFilters(dimension, dimension, false));
+
+		NAMembers = findNAMembers(dimension.members[0]);
+		_.each(NAMembers, function(NAMember) {
+			if(NAMember.members.length === 0) {
+				angular.extend(addedFilters, findSelectedFilters(NAMember, NAMember, true));
+			}
 		});
 
 		return addedFilters;
