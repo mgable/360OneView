@@ -51,26 +51,26 @@
 
 	<div class="dimensions">
 		<div class="row dimensionContainer">
-			<div class="col-md-4" ng-repeat="spendDimension in spendDimensionsList">
+			<div class="col-md-4" ng-repeat="spendDimension in spendDimensions">
 				<div class="dimensionCard spendDimensionCard">
 					<div class="dimensionCheckbox">
-						<div class="parent-checkbox" ng-class="{selected: spendDimension.allChecked}">
-							<input type="checkbox" ms-tristates-checkbox child-list="spendDimension.children" property="isSelected" ng-model="spendDimension.allChecked"  class="ms-checkbox">&nbsp;{{spendDimension.label}}
+						<div class="parent-checkbox" ng-class="{selected: spendDimension.isSelected}">
+							<input type="checkbox" ms-tristates-checkbox child-list="spendDimension.members" property="isSelected" ng-model="spendDimension.isSelected"  class="ms-checkbox">&nbsp;{{spendDimension.label}}
 						</div>
-						<div ng-repeat="item in spendDimension.children" ng-if="spendDimension.children.length > 1" ng-class="{selected: item.isSelected}" class="children-checkbox" | orderBy:item.id>
+						<div ng-repeat="item in spendDimension.members" ng-if="spendDimension.members.length > 1" ng-class="{selected: item.isSelected}" class="children-checkbox" | orderBy:item.id>
 				  			<input type="checkbox" ng-model="item.isSelected" class="ms-checkbox">&nbsp;{{item.label}}
 						</div>
 					</div>
 					<div class="dimensionFilter">
-						<span title="{{getFilterArray(spendDimension)}}" ng-class="{selected: getFilterArray(spendDimension).length}"><icon type="filter"></icon>&nbsp;{{getFilterArray(spendDimension)}}</span>
-					</div>&nbsp;
+						<span title="{{getFilterArray(spendDimension)}}" ng-class="{selected: getFilterArray(spendDimension).length}"><icon type="filter"></icon>&nbsp;<a ng-click="filtersModal(spendDimension)">{{getFilterArray(spendDimension)}}</a></span>
+					</div>
 				</div>
 			</div>
 			<div class="col-md-12" ng-repeat="kpiDimension in kpiDimensionsList">
 				<div class="dimensionCard kpiDimensionCard">
 					<div class="dimensionCheckbox">
-						<div class="parent-checkbox" ng-class="{selected: kpiDimension.allChecked}">
-							<input type="checkbox" ms-tristates-checkbox child-list="kpiDimension.children" property="isSelected" ng-model="kpiDimension.allChecked" class="ms-checkbox">&nbsp;KPIs
+						<div class="parent-checkbox" ng-class="{selected: kpiDimension.isSelected}">
+							<input type="checkbox" ms-tristates-checkbox child-list="kpiDimension.children" property="isSelected" ng-model="kpiDimension.isSelected" class="ms-checkbox">&nbsp;KPIs
 						</div>
 						<div class="row no-margin">
 							<div ng-repeat="item in kpiDimension.children">

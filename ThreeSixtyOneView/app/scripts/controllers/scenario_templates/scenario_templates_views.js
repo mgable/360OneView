@@ -8,7 +8,7 @@
  * Controller of the ThreeSixtyOneView
  */
 angular.module('ThreeSixtyOneView')
-.controller('ScenarioTemplatesViewsCtrl', ['$scope', 'MetaDataService', 'PivotMetaService', 'dimensionsData', function($scope, MetaDataService, PivotMetaService, dimensionsData) {
+.controller('ScenarioTemplatesViewsCtrl', ['$scope', 'MetaDataService', 'PivotMetaService', 'DialogService', 'dimensionsData', function($scope, MetaDataService, PivotMetaService, DialogService, dimensionsData) {
 		var init = function() {
 			$scope.template = {
 				name: '',
@@ -20,15 +20,9 @@ angular.module('ThreeSixtyOneView')
 			var spendCubeParams = $scope.template.type,
 				spendCubeName = 'TOUCHPOINT',
 				spendCubeType = 'spend';
-			getDimensionsList(spendCubeType, spendCubeName, spendCubeParams);
-
-			// render kpi dimensions cards
-			var kpiCubeParams = ['simulation', null, undefined, undefined, false].join(),
-				kpiCubeName = 'OUTCOME',
-				kpiCubeType = 'kpi';
-			// getDimensionsList(kpiCubeType, kpiCubeName, kpiCubeParams);
+			getDimensions(spendCubeType, spendCubeName, spendCubeParams);
 		},
-		getDimensionsList = function(cubeType, cubeName, cubeParams) {
+		getDimensions = function(cubeType, cubeName, cubeParams) {
 			var getCubeId = function(cubeName, cubeParams) {
 				return MetaDataService
 							.getCubes(cubeParams)
@@ -45,39 +39,46 @@ angular.module('ThreeSixtyOneView')
 								return dimension;
 	    					});
 			},
-			getFirstLevelDimesnsion = function(dimension) {
-				var dimensionsList = [];
+			addSelectedValue = function(dimension) {
 				_.each(dimension, function(v, k) {
-					var dimension = {};
-						dimension.id = v.id;
-						dimension.label = v.label;
-						dimension.isSelected = v.isSelected || true;
-						dimension.children = [];
-						_.each(v.members, function(v1) {
-							v1.isSelected = v1.isSelected || true;
-							dimension.children.push(_.pick(v1, 'id', 'label', 'isSelected'))
-						});
-						dimensionsList.push(dimension);
+					_.each(v.members, function(v1) {
+						v1.isSelected = v1.isSelected || true;
+					});
 				});
-				$scope[cubeType+'DimensionsList'] = dimensionsList;
-				return dimensionsList;
+				$scope[cubeType+'Dimensions'] = dimension;
+				return dimension;
 			};
 
 			getCubeId(cubeName, cubeParams)
 				.then(buildDimensions)
-				.then(getFirstLevelDimesnsion);
-
-			$scope[cubeType+'Cubes'] = null;
-			$scope[cubeType+'Dimensions'] = null;
-			$scope[cubeType+'DimensionsList'] = null;
+				.then(addSelectedValue);
+		},
+		getFilteredDimensions = function(dimension) {
+			return _.filter(angular.copy(dimension), function(v) {
+				v.members = _.filter(v.members, function(v1) {
+					return v1.isSelected === true;
+				});
+				return v.isSelected === true;
+			});
 		};
 		init();
+
 		$scope.kpiDimensionsList = dimensionsData.kpiDimensionsList;
 		$scope.getFilterArray = function(dimension) {
-			var dimensionLength = dimension.children.length,
-				filterArray = _.pluck(_.filter(dimension.children, function(dimension) { return dimension.isSelected === true; }), 'label');
+			var dimensionLength = dimension.members.length,
+				filterArray = _.pluck(_.filter(dimension.members, function(dimension) { return dimension.isSelected === true; }), 'label');
 			return (filterArray.length === dimensionLength) ? 'All' : filterArray.join();
-		}
+		};
+		$scope.filtersModal = function(category) {
+			var filteredDimensions = getFilteredDimensions($scope.spendDimensions);
+			console.log('filtered dimensions: ', filteredDimensions);
+			var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
+				{dimension: category, addedFilters: PivotMetaService.addAllFilters(filteredDimensions), viewData: {}, dimensions: filteredDimensions},
+				{windowSize: 'lg', windowClass: 'filters-modal'});
+
+			dialog.result.then(function(data) {
+			});
+		};
 	}]).factory('dimensionsData', function() {
 		var dimensionsData = {
 			kpiDimensionsList: [{
