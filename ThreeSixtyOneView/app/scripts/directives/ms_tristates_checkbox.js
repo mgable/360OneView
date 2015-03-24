@@ -49,7 +49,7 @@ angular.module('ThreeSixtyOneView.directives')
                         element.prop('checked', false);
                         element.prop('indeterminate', true);
                         if (modelCtrl) {
-                            modelCtrl.$setViewValue(false);
+                            modelCtrl.$setViewValue(true);
                         }
                     } else {
                         element.prop('checked', hasChecked);
