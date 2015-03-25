@@ -410,13 +410,10 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 $scope.spendViewData = view;
                 $scope.spendAdded = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
                 // update kpi view
-                ManageAnalysisViewsService.getViewRelatedBy($scope.spendViewData.id, $scope.kpiCubeId).then(function(_KPIView) {
-                    $scope.kpiView = _KPIView;
-                    PivotMetaService.updateView($scope.kpiCubeId, $scope.kpiView).then(function(view) {
-                        // console.info('save kpi view: ', view);
-                        $scope.kpiViewData = view;
-                        $scope.kpiAdded = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
-                    });
+                PivotMetaService.updateView($scope.kpiCubeId, $scope.kpiView).then(function(view) {
+                    // console.info('save kpi view: ', view);
+                    $scope.kpiViewData = view;
+                    $scope.kpiAdded = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
                 });
             });
             // delete spend draft View

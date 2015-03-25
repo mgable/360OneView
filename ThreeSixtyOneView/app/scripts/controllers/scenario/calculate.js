@@ -110,6 +110,7 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
     };
 
     $scope.$on('broadcastStates', function(event, response) {
+        $state.go("Scenario.results");
         getCalcStatesData(response[0]);
         $scope.disableSimulateButton(false);
         if(AnalyticCalculationsService.isInProgress($scope.scenarioState.message)) {
