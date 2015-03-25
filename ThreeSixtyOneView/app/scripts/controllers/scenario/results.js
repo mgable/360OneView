@@ -101,14 +101,15 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     // copy synced spend filters to kpi filters
     copyFilters = function(srcFilters, destFilters) {
         syncedDimensions = [];
-        for (var key in destFilters) {
-            if(key !== 'VARIABLE') {
-                if(destFilters.hasOwnProperty(key) && srcFilters.hasOwnProperty(key)) {
-                    destFilters[key] = srcFilters[key];
+        _.each(destFilters, function(v, k) {
+            if (k !== 'VARIABLE') {
+                if (_.has(destFilters, k) && _.has(srcFilters, k)) {
+                    destFilters[k] = srcFilters[k];
+                    syncedDimensions.push(k);
                 }
-                syncedDimensions.push(key);
             }
-        }
+        })
+        return syncedDimensions;
     },
 
     // get kpi summary data
@@ -410,14 +411,14 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 $scope.spendViewData = view;
                 $scope.spendAdded = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
                 // update kpi view
-                ManageAnalysisViewsService.getViewRelatedBy($scope.spendViewData.id, $scope.kpiCubeId).then(function(_KPIView) {
-                    $scope.kpiView = _KPIView;
-                    PivotMetaService.updateView($scope.kpiCubeId, $scope.kpiView).then(function(view) {
+                ManageAnalysisViewsService.getViewRelatedBy($scope.spendViewData.id, $scope.kpiCubeId).then(function(orikpiView) {
+                    _.extend($scope.kpiViewData, _.omit(orikpiView, 'filters'));
+                    PivotMetaService.updateView($scope.kpiCubeId, $scope.kpiViewData).then(function(view) {
                         // console.info('save kpi view: ', view);
                         $scope.kpiViewData = view;
                         $scope.kpiAdded = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
                     });
-                });
+                })
             });
             // delete spend draft View
             $scope.deleteView($scope.spendCubeId, draftViewId);

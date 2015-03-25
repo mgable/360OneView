@@ -252,8 +252,7 @@ angular.module('ThreeSixtyOneView.config')
                 }
             },
             "ScenarioCalculate": {
-                "timerInterval": 10000,
-                "stateLength": 7
+                "timerInterval": 10000
             },
             "PivotTable": {
                 "size": {
