@@ -14,6 +14,7 @@ describe('Service: PivotService', function () {
 		backend = $httpBackend;
 
 		backend.when('GET', pivotUrl + '/slice').respond(pivotSlice);
+		backend.when('POST', pivotUrl + '/updateCell', JSON.parse(cellValue)).respond(JSON.parse(cellValue));
 		// backend.when('POST', pivotUrl.substr(0, pivotUrl.search(/:viewId/) - 1) + '?relatedByView=' + viewId, newView).respond(views[views.length - 1]);
 	}));
 
@@ -37,7 +38,15 @@ describe('Service: PivotService', function () {
 		});
 
 		it('should get pivot slice', function() {
-			PivotService.getSlice(elementId, viewId);
+			PivotService.getSlice(elementId, viewId).then(function(response) {
+				expect(response).toEqual(JSON.parse(pivotSliceTransformed));
+			});
+		});
+
+		it('should update the pivot table', function() {
+			PivotService.updateCell(elementId, viewId, JSON.parse(cellValue)).then(function(response) {
+				expect(response).toEqual(JSON.parse(cellValue));
+			});
 		});
 	});
 
