@@ -145,6 +145,7 @@ angular.module('ThreeSixtyOneView')
 			} else if (!rename) {
 				newView = angular.copy($scope.viewData);
 				newView.name = $scope.saveAsName;
+				newView.isDraft = false;
 				if ($scope.isViewDraft()) {
 					$scope.deleteView($scope.cubeId, $scope.viewData.id);
 				} else {
