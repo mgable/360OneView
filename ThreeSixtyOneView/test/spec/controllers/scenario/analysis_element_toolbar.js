@@ -37,10 +37,5 @@ describe("AnalysisElementCtrl: ", function(){
      		expect(scope.isHiddenElement({'group': 'foo'})).toBe(false);
      		expect(scope.isHiddenElement({'group': 'Marketing Plan'})).toBe(true);
      	});
-
-        // $scope.getGroupedScenarioElements
-        it("should return the 'groupedScenarioElements'", function(){
-        	expect(scope.getGroupedScenarioElements()).toEqual(sortedTestData);
-        });
     })
 });
