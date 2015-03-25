@@ -33,7 +33,7 @@ angular.module('ThreeSixtyOneView')
 			PivotMetaService.initModel(cubeMeta).then(function(result) {
 				var foundView = _.find(result.viewsList, function(view){ return view.id === result.viewData.id; });
 				if (foundView) {
-					$scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
+					$scope.draftView = foundView.isDraft;
 				}
 
 				angular.extend($scope, result);
@@ -65,6 +65,7 @@ angular.module('ThreeSixtyOneView')
 				$scope.draftView = true;
 				var draftView = angular.copy($scope.viewData);
 				draftView.name = 'Draft - ' + draftView.name;
+				draftView.isDraft = true;
 				$scope.createView($scope.cubeId, draftView).then(function() {
 					$scope.loadPivotTable($scope.selectedScenarioElement, $scope.viewData);
 				});
@@ -84,6 +85,7 @@ angular.module('ThreeSixtyOneView')
 
 				$scope.viewData.name = originalViewName;
 				$scope.viewData.id = originalViewId;
+				$scope.viewData.isDraft = false;
 				PivotMetaService.updateView($scope.cubeId, $scope.viewData).then(function(view) {
 					$scope.viewData = view;
 					$scope.added = PivotMetaService.setUpAddedLevels(view.columns.concat(view.rows));
@@ -162,7 +164,9 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		$scope.renameView = function(cubeId, view) { // rename the view
-			ManageAnalysisViewsService.renameView(view.id, cubeId, view.name).then(function(response) {
+			ManageAnalysisViewsService.renameView(view.id, cubeId, view).then(function(response) {
+				view.isDraft = false;
+				$scope.draftView = false;
 				_.each($scope.viewsList, function(item) {
 					if(item.id === response.id) {
 						item.name = response.name;

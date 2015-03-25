@@ -225,6 +225,7 @@
 			newView = {
 				name: 'Default ' + cubeMeta.label + ' view',
 				isDefault: true,
+				isDraft: false,
 				columns: columns,
 				rows: rows,
 				filters: []
@@ -279,7 +280,8 @@
 
 		// check for draft views
 		_.each(list, function(item) {
-			if(item.name.substring(0, 8) === 'Draft - ') {// || item.isDefault) {
+			// if(item.name.substring(0, 8) === 'Draft - ') {
+			if(item.isDraft) {
 				viewId = item.id;
 				draftView = true;
 			} else if(!draftView && item.isDefault) {
@@ -287,7 +289,7 @@
 			}
 		});
 
-			return viewId;
+		return viewId;
 	};
 
 	// initialize the dimensions, views list, and the default view

@@ -61,8 +61,10 @@ angular.module('ThreeSixtyOneView.services')
 			});
 		};
 
-		this.renameView = function(viewId, cubeId, newName) {
-			return this.resource.put({name: newName}, this.config, {viewId: viewId, cubeId: cubeId}, 'name').then(function (response) {
+		this.renameView = function(viewId, cubeId, view) {
+			return this.resource.put({name: view.name}, this.config, {viewId: viewId, cubeId: cubeId}, 'name').then(function (response) {
+				view.isDraft = false;
+				self.updateView(view, cubeId);
 				return response;
 			});
 		};
