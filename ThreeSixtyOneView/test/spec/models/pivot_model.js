@@ -15,4 +15,10 @@ describe('Service: PivotModel', function () {
 	it('resource service should be extended to the current scope', function () {
 		expect(PivotModel.resource).toBeDefined();
 	});
+
+	it('transform response for the pivot table slice call', function() {
+		var transformedResponse = PivotModel.pivotConfig.transformResponse(pivotSlice);
+
+		expect(transformedResponse).toEqual(JSON.parse(pivotSliceTransformed));
+	});
 });
