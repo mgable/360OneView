@@ -10,21 +10,22 @@
         -webkit-transition: all 0.3s ease-in-out;
         -moz-transition: all 0.3s ease-in-out;
         transition: all 0.3s ease-in-out;
+        top: 1px;
         content: "";
         position: absolute;
         left: 0;
         z-index: 1;
-        width: 15px;
-        height: 15px;
-        border: 1px solid $active;
+        width: 13px;
+        height: 13px;
+        border: 1px solid $ms-black;
     }
     &:after {
         content: "";
         position: absolute;
-        top: rem(-2);
+        top: 0;
         left: 0;
-        width: 15px;
-        height: 15px;
+        width: 13px;
+        height: 13px;
         background: $ms-pureWhite;
         cursor: pointer;
     }
@@ -37,7 +38,7 @@
             -o-transform: rotate(-45deg);
             transform: rotate(-45deg);
             height: 8px;
-            border-color: $active;
+            border-color: $ms-blue;
             border-top-style: none;
             border-right-style: none;
         }
@@ -51,8 +52,8 @@
             -o-transform: height;
             transform: height;
             height: 1px;
-            margin-top: 7.5px;
-            border-color: $active;
+            margin-top: 6.5px;
+            border-color: $ms-blue;
             border-top-style: none;
             border-right-style: none;
         }

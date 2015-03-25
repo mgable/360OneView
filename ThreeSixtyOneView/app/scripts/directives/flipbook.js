@@ -26,7 +26,7 @@ angular.module('ThreeSixtyOneView.directives')
 				setView(index);
 			};
 
-			scope.DIRECTION = "forward";
+			scope.DIRECTION = "NEXT";
 
 			scope.forward = function(){
 				if (index  === totalViews - 1){
@@ -42,7 +42,7 @@ angular.module('ThreeSixtyOneView.directives')
 			};
 
 			scope.isDisabled = function(direction){
-				console.info(index, totalViews);
+				// console.info(index, totalViews);
 				if (direction === scope.DIRECTION){
 					return index >= totalViews;
 				} else {

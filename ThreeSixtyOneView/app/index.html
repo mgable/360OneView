@@ -21,27 +21,29 @@
 		<link rel="stylesheet" href="styles/ms_main.css" />
 		<!-- endbuild -->
 
-        <link rel="stylesheet" href="styles/vendor/jquery.wijmo.wijspread.3.20143.14.css" />
-        <link rel="stylesheet" href="styles/vendor/theme.css" />
+		<link rel="stylesheet" href="styles/vendor/jquery.wijmo.wijspread.3.20143.14.css" />
+		<link rel="stylesheet" href="styles/vendor/theme.css" />
 
-        <script src="scripts/external/servers.js"></script>
+		<script src="scripts/external/servers.js"></script>
 
 	</head>
 	<body ng-app="ThreeSixtyOneView" ng-controller="MainCtrl">
 		<!--[if lt IE 9]>
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
-		<div class="cap" ng-include src="'views/includes/navigation.tpl.html'"></div>
+		<div class="wrapper">
+			<div class="cap" ng-include src="'views/includes/navigation.tpl.html'"></div>
 
-		<div class="app">
-			<div ui-view></div>
-		</div> <!-- end app -->
+			<div class="app">
+				<div ui-view></div>
+			</div> <!-- end app -->
 
-        <div class="footer" ng-include src="'views/includes/footer.tpl.html'"></div>
-        <!--[if lt IE 9]>
-            <script src="bower_components/es5-shim/es5-shim.js"></script>
-            <script src="bower_components/json3/lib/json3.min.js"></script>
-        <![endif]-->
+			<div class="footer" ng-include src="'views/includes/footer.tpl.html'"></div>
+		</div>
+		<!--[if lt IE 9]>
+			<script src="bower_components/es5-shim/es5-shim.js"></script>
+			<script src="bower_components/json3/lib/json3.min.js"></script>
+		<![endif]-->
 
 		<!-- build:js scripts/vendor.js -->
 		<!-- bower:js -->
@@ -62,9 +64,9 @@
 		<!-- endbower -->
 		<!-- endbuild -->
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/app.js"></script>
-        <script src="scripts/vendor/jquery.wijmo.wijspread.all.min.js"></script>
+		<!-- build:js({.tmp,app}) scripts/scripts.js -->
+		<script src="scripts/app.js"></script>
+		<script src="scripts/vendor/jquery.wijmo.wijspread.all.min.js"></script>
 		<script src="scripts/vendor/angular.wijmo.wijspread.3.20142.11.js"></script>
         <script src="scripts/vendor/dialogs.js"></script>
         <script src="scripts/configuration/server_configuration.js"></script>
@@ -157,30 +159,30 @@
         <script src="scripts/controllers/modals/scenario_templates.js"></script>
         <!-- endbuild -->
 
-        <!-- Qualaroo for marketshare.com -->
-        <!-- Paste this code right after the <body> tag on every page of your site. -->
-        <!-- <script type="text/javascript" src="scripts/external/qualaroo.js"></script> -->
-        <!-- Begin Inspectlet Embed Code -->
-        <script type="text/javascript" src="scripts/external/inspectlet.js" id="inspectletjs"></script>
-        <!-- End Inspectlet Embed Code -->
+		<!-- Qualaroo for marketshare.com -->
+		<!-- Paste this code right after the <body> tag on every page of your site. -->
+		<!-- <script type="text/javascript" src="scripts/external/qualaroo.js"></script> -->
+		<!-- Begin Inspectlet Embed Code -->
+		<script type="text/javascript" src="scripts/external/inspectlet.js" id="inspectletjs"></script>
+		<!-- End Inspectlet Embed Code -->
 
-        <script>
-            var url = "//use.typekit.net/##.js",
-                domain_map = {
-                    "127.0.0.1": "zer1wrp",
-                    "marketshare": "zyk1snl",
-                    "amazonaws": "mug5rbu"
-                },
-                src,
-                re = /(\w+)(?=\.com\b)|(127.0.0.1)/;
+		<script>
+			var url = "//use.typekit.net/##.js",
+				domain_map = {
+					"127.0.0.1": "zer1wrp",
+					"marketshare": "zyk1snl",
+					"amazonaws": "mug5rbu"
+				},
+				src,
+				re = /(\w+)(?=\.com\b)|(127.0.0.1)/;
 
-            try {
-                src = url.replace(/##/, domain_map[document.location.host.match(re)[0]]);
-            }catch(e){}
+			try {
+				src = url.replace(/##/, domain_map[document.location.host.match(re)[0]]);
+			}catch(e){}
 
-            $.getScript(src, function(){
-                try{Typekit.load();}catch(e){}
-            });
-        </script>
-    </body>
+			$.getScript(src, function(){
+				try{Typekit.load();}catch(e){}
+			});
+		</script>
+	</body>
 </html>

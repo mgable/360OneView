@@ -41,8 +41,16 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/flipbook.tpl.html',
-    "<div class=\"flipbook\">\n" +
-    "\t<div ng-transclude></div><button class=\"btn btn-default btn-sm\" ng-click=\"backward()\" ng-disabled=\"isDisabled()\">back</button>&nbsp;<button class=\"btn btn-default btn-sm\" ng-click=\"forward()\" ng-disabled=\"isDisabled(DIRECTION)\">{{label}}</button>\n" +
+    "<div class=\"flipbook scenarioTemplates right-column\">\n" +
+    "\t<div ng-transclude></div>\n" +
+    "\t<div class=\"button-container\">\n" +
+    "\t\t<ms-button type=\"cancel\" label=\"Cancel\" action=\"\"></ms-button>\n" +
+    "\t\t<span class=\"right\">\n" +
+    "\t\t\t<ms-button type=\"cancel\" label=\"Back\" action=\"backward()\" ng-disabled=\"isDisabled()\"></ms-button>\n" +
+    "\t\t\t&nbsp;\n" +
+    "\t\t\t<ms-button type=\"submit\" label=\"{{label}}\" action=\"forward()\" ng-disabled=\"isDisabled(DIRECTION)\"></ms-button>\n" +
+    "\t\t</span>\n" +
+    "\t</div>\n" +
     "</div>"
   );
 

@@ -1,41 +1,41 @@
-<div class="scenarioTemplates right-column">
+<div class="scenarioTemplates" ng-controller="ScenarioTemplatesDefaultsCtrl">
 	<div class="header">
-        Just one final step!
-    </div>
+		Just one final step!
+	</div>
 	<div class="prompt">
-        What's the default view of your template?
-        <div class="confirmation">
-            This will apply anytime a user first opens a scenario using this template. Users will be able to create their own views once the template is created
-        </div>
-    </div>
+		What's the default view of your template?
+		<div class="confirmation">
+			This will apply anytime a user first opens a scenario using this template. Users will be able to create their own views once the template is created
+		</div>
+	</div>
 
 	<div>
 		{{defaultViewSelection}}
 	</div>
 
 	<div class="prompt">
-        What historical period would you like to use measure marketing performance?
-        <div class="confirmation">
-            You will be able to change this when doing scenario planning.
-        </div>
-    </div>
+		What historical period would you like to use measure marketing performance?
+		<div class="confirmation">
+			You will be able to change this when doing scenario planning.
+		</div>
+	</div>
 
 	<div class="row">
-        <div class="col-md-3">
-        	<div>From</div>
-            <input type="text" class="date-picker" />
-        </div>
-        <div class="col-md-1">
-        	<span>-</span>
-        </div>
-        <div class="col-md-3">
-        	<div>To</div>
-            <input type="text" class="date-picker" />
-        </div>
-    </div>
+		<div class="col-md-3">
+			<div>From</div>
+			<input type="text" class="date-picker" datepicker-popup="{{dateFormat}}" ng-model="fromDate" ng-click="isFromDateOpen = !isFromDateOpen" is-open="isFromDateOpen" max-date="toDate" show-button-bar="false" datepicker-options datepicker-mode='month' ng-required="true"/>
+		</div>
+		<div class="col-md-1">
+			<span>-</span>
+		</div>
+		<div class="col-md-3">
+			<div>To</div>
+			<input type="text" class="date-picker" datepicker-popup="{{dateFormat}}" ng-model="toDate" ng-click="isToDateOpen = !isToDateOpen" is-open="isToDateOpen" min-date="fromDate" show-button-bar="false" datepicker-options ng-required="true"/>
+		</div>
+	</div>
 
-    <div class="graph">
-        {{graph}}
-    </div>
+	<div class="graph">
+		{{graph}}
+	</div>
 
 <div>

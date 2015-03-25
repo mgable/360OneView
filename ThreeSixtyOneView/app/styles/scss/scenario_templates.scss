@@ -7,7 +7,7 @@
 	color: $ms-black;
 	.right-column {
 		max-width: 700px;
-		padding: 15px 0 0 30px;
+		padding: 15px 0 15px 30px;
 		margin: 0 0 25px 0;
 		div.header {
 			font-size: 38px;
@@ -49,13 +49,16 @@
 				font-weight: normal;
 				font-size: 16px;
 				padding: 0 20px 0 0;
+                span {
+                    cursor: pointer;
+    				.fa-circle-o {
+    					color: $ms-mediumGray;
+    				}
+    				.fa-stack {
+    					width: 15px;
+    				}
+                }
 
-				.fa-circle-o {
-					color: $ms-mediumGray;
-				}
-				.fa-stack {
-					width: 15px;
-				}
 			}
 
 			.confirmation {
@@ -77,6 +80,12 @@
 				text-align: center;
 			}
 		}
+		div.button-container {
+			margin: 15px 0 0 0;
+			span.right{
+				float: right;
+			}
+		}
 	}
 
     .dimensionContainer {
@@ -89,14 +98,16 @@
             margin: 0 auto 20px;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
             border-radius: 2px;
-            text-transform: capitalize;
             .dimensionCheckbox {
                 overflow: auto;
                 height: 128px;
                 input[type=checkbox] { cursor: pointer; }
                 .selected {
-                    color: $active;
+                    color: $ms-blue;
                     font-weight: 700;
+                }
+                .parent-checkbox {
+                    padding: 0 0 10px 0;
                 }
                 .children-checkbox {
                     padding-left: 20px;
@@ -112,12 +123,17 @@
                 border-top: 1px solid $lightgray;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                color: $active;
                 span {
                     cursor: pointer;
                     white-space: nowrap;
                     &:hover {
                         text-decoration: underline;
+                    }
+                    &.selected {
+                        color: $ms-blue;
+                    }
+                    i {
+                        margin-right: 10px;
                     }
                 }
             }
@@ -125,9 +141,6 @@
         .spendDimensionCard {
             width: 200px;
             height: 185px;
-        }
-        .kpiDimensionCard {
-            height: 116px;
         }
     }
 }
