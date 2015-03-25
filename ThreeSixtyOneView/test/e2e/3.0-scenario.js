@@ -36,7 +36,7 @@ if(funcs.runTheseTests(testName)){
 			}
 		);
 
-		describe("Current working scenario", function(){
+		xdescribe("Current working scenario", function(){
 			it("should read the correct scenario from the file system", function(){
 				browser.getLocationAbsUrl().then(function(url){
 					expect(url).toContain(projectInfo.scenario.url);
@@ -44,7 +44,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		describe("initial state of navigation buttons", function(){
+		xdescribe("initial state of navigation buttons", function(){
 			it("should have the edit button enabled", function(){
 				expect(funcs.hasClass(specs.editButton, 'disabled')).toBe(false);
 			});
@@ -56,7 +56,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		describe("analysis element toolbar", function(){
+		xdescribe("analysis element toolbar", function(){
 			it("should have analysis elements", function(){
 				expect(specs.cubes.count()).toBeGreaterThan(0);
 			});
@@ -205,7 +205,7 @@ if(funcs.runTheseTests(testName)){
 
 		describe("scenario editor", function(){
 
-			describe("open and close", function(){
+			xdescribe("open and close", function(){
 				it("should expand and collapse the editor", function(){
 					var isHidden;
 					funcs.hasClass(specs.pivotBuilderTab, "hidden").then(function(state){
@@ -227,7 +227,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			})
 
-			describe("tabs", function(){
+			xdescribe("tabs", function(){
 				it("should have three tabs", function(){
 					expect(specs.editorTabs.count()).toBe(3);
 				});
@@ -256,7 +256,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			describe ("views", function(){
+			xdescribe ("views", function(){
 				it("should load the default view for each cube", function(){
 					specs.cubes.each(function(element){
 						specs.selectedAnalysisElement.click();
@@ -454,7 +454,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			describe("dimensions and filters", function(){
+			xdescribe("dimensions", function(){
 				it("should toggle between filter and dimension view", function(){
 					expect(funcs.hasClass(specs.toggleTable, "selected")).toBeTruthy();
 					expect(funcs.hasClass(specs.toggleFilters, "selected")).toBeFalsy();
@@ -478,8 +478,8 @@ if(funcs.runTheseTests(testName)){
 						currentCount = count;
 
 						specs.addColumnDimensionsButton.click();
-						funcs.addDimension(function(index){
-							specs.dimensions.get(index).click();
+						funcs.addDimension(function(dimension){
+							dimension.click();
 							browser.waitForAngular();
 							specs.columnDimensions.count().then(function(newCount){
 								expect(newCount).toEqual(currentCount + 1);
@@ -500,7 +500,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				// I can nt get this to work
+				// I can't get this to work
 				// it("should drag", function(){
 				// 	//browser.driver.actions().dragAndDrop(specs.columnDimensions.get(1), specs.copyAndReplaceCube).perform();
 				// 	browser.actions()
@@ -515,16 +515,14 @@ if(funcs.runTheseTests(testName)){
 				// 	browser.pause();
 				// });
 
-				// it("should remove a column", function(){});
-
 				it("should add a row", function(){
 					var currentCount;
 					specs.rowDimensions.count().then(function(count){
 						currentCount = count;
 
 						specs.addRowDimensionsButton.click();
-						funcs.addDimension(function(index){
-							specs.dimensions.get(index).click();
+						funcs.addDimension(function(dimension){
+							dimension.click();
 							browser.waitForAngular();
 							specs.rowDimensions.count().then(function(newCount){
 								expect(newCount).toEqual(currentCount + 1);
@@ -545,8 +543,209 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				// it("should redefine a dimension", function(){});
-			})
+				it("should redefine a dimension", function(){
+					specs.rowDimensions.count().then(function(count){
+						if (count){
+							var currentIndex = count - 1;
+							specs.rowDimensions.get(currentIndex).getText().then(function(oldlabel){
+								specs.rowDimensions.get(currentIndex).click();
+								funcs.addDimension(function(dimension){
+									dimension.getText().then(function(targetlabel){
+										dimension.click();
+										browser.waitForAngular();
+										specs.rowDimensions.get(currentIndex).getText().then(function(newlabel){
+											expect(newlabel).toEqual(targetlabel);
+										})
+									});
+								});
+							});
+						};
+					});
+				});
+			});
+
+			describe("filters", function(){
+				var filterCount;
+
+				beforeEach(function(){
+					
+				});
+
+				xit("should have filter dimensions", function(){
+					specs.toggleFilters.click();
+
+					specs.filters.count().then(function(count){
+						filterCount = count;
+						expect(count).toBeGreaterThan(0);
+					});
+				});
+
+				xit("should open the add filters modal", function(){
+					funcs.openFiltersModal();
+
+					expect(element(by.css(specs.filterModal)).isPresent()).toBe(true);
+				});
+
+				describe("modal", function(){
+					xit("should have all dimensions in the side menu", function(){
+						funcs.openFiltersModal();
+
+						specs.filterSideMenu.count().then(function(count){
+							expect(count).toEqual(filterCount);
+						});
+					});
+
+					xit("should highlight the first dimension in the side menu", function(){
+						funcs.openFiltersModal();
+						var activeSelection = specs.filterSideMenu.get(0);
+						expect(funcs.hasClass(activeSelection, "active")).toBeTruthy();
+					});
+
+					xit("should change the dimension displayed when the side menu item is clicked", function(){
+						var currentSelection, lastSelection;
+
+						funcs.openFiltersModal();
+						specs.filterSideMenu.each(function(menuItem, index){
+							menuItem.click();
+							expect(funcs.hasClass(menuItem, "active")).toBeTruthy();
+
+							specs.filterlevelDropdown.getText().then(function(selection){
+								lastSelection = index ? currentSelection : null;
+								currentSelection = selection;
+								if (lastSelection){
+									expect(lastSelection).not.toBe(currentSelection);
+								};
+							});
+						});
+					});
+
+					xit("should change the data when the member is changed", function(){
+						funcs.openFiltersModal();
+						specs.filterSideMenu.each(function(menuItem){
+							menuItem.click();
+							specs.filterlevelDropdown.click();
+
+							specs.filterLevelList.count().then(function(count){
+								var currentSelection, lastSelection;
+								if(count > 1){
+									specs.filterLevelList.each(function(item, index){
+										item.click();
+										element(by.css(".list-box")).getText().then(function(text){
+											lastSelection = index ? currentSelection : null;
+											currentSelection = text;
+											if (lastSelection){
+												expect(lastSelection).not.toBe(currentSelection);
+											};
+											specs.filterlevelDropdown.click();
+										});
+									});
+								}
+							});
+						});
+					});
+
+					xit("should search the filter list", function(){
+						var total;
+						funcs.openFiltersModal();
+
+						specs.filterSelectionList.count().then(function(count){
+							total = count;
+							expect(total).toBeGreaterThan(0);
+							specs.filterSelectionList.get(0).element(by.binding("member.label")).getText().then(function(text){
+								specs.filterSeachField.sendKeys(text);
+								specs.filterSelectionList.count().then(function(count){
+									expect(count).toEqual(1);
+									specs.filterSeachField.clear();
+									specs.filterSeachField.sendKeys(" ");
+									specs.filterSelectionList.count().then(function(ncount){
+										expect(ncount).toEqual(total);
+									})
+								});
+							});
+						});
+					});
+
+					xit("should toggle open and close the member", function(){
+						funcs.openFiltersModal();
+						specs.filterSelectionList.each(function(selected, index){
+
+							var handle = selected.element(by.css(".expand-handle")),
+								content = element.all(by.css(".list-category")).get(index);
+
+							handle.isDisplayed().then(function(isPresent){
+								selected.getText().then(function(name){
+									console.info(name);
+									if (isPresent){
+										content.getText().then(function(text){
+											expect(text).toBeFalsy();
+										})
+										expect(funcs.hasClass(content, "collapsed")).toBeTruthy();
+										handle.click();
+										expect(funcs.hasClass(content, "collapsed")).toBeFalsy();
+										content.getText().then(function(text){
+											expect(text).toBeTruthy();
+										});
+										handle.click();
+										expect(funcs.hasClass(content, "collapsed")).toBeTruthy();
+										content.getText().then(function(text){
+											expect(text).toBeFalsy();
+										})
+									} else {
+										console.info("has NO handle");
+									}
+								});
+							});							
+						})
+					});
+
+					it("should display the correct selection icon", function(){
+						var isSelected;
+						funcs.openFiltersModal();
+						specs.filterSelectionList.get(0).then(function(selected){
+							var selectedItem = selected.element(by.css("label i"));
+
+							funcs.hasClass(selectedItem, "fa-check-square").then(function(hasClass){
+								console.info("the class is " + hasClass);
+								isSelected = hasClass;
+
+								if(!isSelected){
+									funcs.hasClass(selectedItem, "fa-square-o").then(function(hasClass){
+										expect(hasClass).toBeTruthy();
+									})
+								};
+
+								selectedItem.click();
+
+								funcs.hasClass(selectedItem, "fa-check-square").then(function(hasClass){
+									console.info("the class is " + hasClass);
+									expect(hasClass).not.toBe(isSelected);
+
+									if(!hasClass){
+										funcs.hasClass(selectedItem, "fa-square-o").then(function(hasClass){
+											expect(hasClass).toBeTruthy();
+										})
+									};
+
+									selectedItem.click();
+
+									funcs.hasClass(selectedItem, "fa-check-square").then(function(hasClass){
+										console.info("the class is " + hasClass);
+										isSelected = hasClass;
+
+										if(!isSelected){
+											funcs.hasClass(selectedItem, "fa-square-o").then(function(hasClass){
+												expect(hasClass).toBeTruthy();
+											})
+										};
+									});
+								});
+							});
+						});
+					});
+
+					xit("should show the correct selection count", function(){});
+				});
+			});
 		});
 	});
 }

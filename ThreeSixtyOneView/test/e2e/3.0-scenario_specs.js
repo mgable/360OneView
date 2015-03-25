@@ -50,6 +50,11 @@ var coreSpecs = require('./0.0-specs.js'),
 	addDimensionsButton =  [".add-label", "Add"], 
 	dimensionsArea = "#dragDropArea",
 	filterArea = ".filters-list",
+	filterModal = "div[data-ms-id='filterModal']",
+	filterSelectionList = "member in searchResults.members",
+	filterLevelList = "item in selectedFilter.dimension.members",
+	filterlevelDropdown = "selectedFilter.level.label",
+	filterSeachField = "filterSearch.label",
 
 	draggableDimensions = "item in getViewData(pivotBuilderItem.name)",
 	columnDimensionsClass = ".dimensions-list",
@@ -61,9 +66,13 @@ var coreSpecs = require('./0.0-specs.js'),
 	draftRegEx = new RegExp("^" + draftText),
 
 	data = {
+		dimensionsRepeater: dimensions,
+		filterLevelListRepeater: filterLevelList,
+		filterSelectionListRepeater: filterSelectionList,
 		newViewName: newViewName, 
 		draftRegEx: draftRegEx,
 		draftText: draftText,
+		filterModal: filterModal, 
 		scenarioUrl: '#/scenario/:projectId/:scenarioId/edit/',
 		calculateUrl: '#/scenario/:projectId/:scenarioId/calculate',
 		assumedData: assumedData,
@@ -110,7 +119,13 @@ var coreSpecs = require('./0.0-specs.js'),
 		toggleFilters: element.all(by.css(tableFilterToggle)).get(1),
 		dimensionsArea: element(by.css(dimensionsArea)),
 		filterArea: element.all(by.css(filterArea)).get(0),
-		recentViewsModal: element.all(by.repeater(recentViewsModal))
+		recentViewsModal: element.all(by.repeater(recentViewsModal)),
+		filters: element.all(by.css(filterArea)).get(0).all(by.repeater(dimensions)),
+		filterSideMenu: element(by.css(filterModal)).element(by.css(".side-menu")).all(by.repeater(dimensions)),
+		filterSelectionList: element.all(by.repeater(filterSelectionList)),
+		filterLevelList: element.all(by.repeater(filterLevelList)),
+		filterlevelDropdown: element(by.binding(filterlevelDropdown)),
+		filterSeachField: element(by.model(filterSeachField))
 	};
 
 _.extend(data, coreSpecs);

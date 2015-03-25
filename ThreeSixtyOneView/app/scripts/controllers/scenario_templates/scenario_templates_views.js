@@ -10,11 +10,8 @@
 angular.module('ThreeSixtyOneView')
 .controller('ScenarioTemplatesViewsCtrl', ['$scope', 'MetaDataService', 'PivotMetaService', 'DialogService', 'dimensionsData', function($scope, MetaDataService, PivotMetaService, DialogService, dimensionsData) {
 		var init = function() {
-			$scope.template = {
-				name: '',
-				description: '',
-				type: 'Action'
-			};
+			$scope.template = { name: '', description: '', type: 'Action' };
+			$scope.granularities = ['Weekly', 'Monthly', 'Quarterly', 'Yearly'];
 
 			// render spend dimensions cards
 			var spendCubeParams = $scope.template.type,
@@ -63,7 +60,6 @@ angular.module('ThreeSixtyOneView')
 		};
 		init();
 
-		$scope.kpiDimensionsList = dimensionsData.kpiDimensionsList;
 		$scope.getFilterArray = function(dimension) {
 			var dimensionLength = dimension.members.length,
 				filterArray = _.pluck(_.filter(dimension.members, function(dimension) { return dimension.isSelected === true; }), 'label');
@@ -71,14 +67,15 @@ angular.module('ThreeSixtyOneView')
 		};
 		$scope.filtersModal = function(category) {
 			var filteredDimensions = getFilteredDimensions($scope.spendDimensions);
-			console.log('filtered dimensions: ', filteredDimensions);
+			$scope.addedFilters = PivotMetaService.addAllFilters(filteredDimensions);
 			var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
-				{dimension: category, addedFilters: PivotMetaService.addAllFilters(filteredDimensions), viewData: {}, dimensions: filteredDimensions},
+				{dimension: _.find(filteredDimensions, function(v) { return category.id === v.id;}), addedFilters: $scope.addedFilters, viewData: {}, dimensions: filteredDimensions},
 				{windowSize: 'lg', windowClass: 'filters-modal'});
 
 			dialog.result.then(function(data) {
 			});
 		};
+		$scope.kpiDimensionsList = dimensionsData.kpiDimensionsList;
 	}]).factory('dimensionsData', function() {
 		var dimensionsData = {
 			kpiDimensionsList: [{

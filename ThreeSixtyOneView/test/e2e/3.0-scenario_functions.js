@@ -24,22 +24,29 @@ data = {
 	addDimension: function(callback){
 		var selectedIndex = null;
 		specs.dimensions.each(function(el, index){
-			var holder = el.element(by.css('span'));
 
-			coreFunctions.hasClass(holder, "disabled").then(function(isDisabled){
-				holder.getText().then(function(text){
-					if(isDisabled !== true && text !== "" && selectedIndex === null){
-						selectedIndex = index;
-						console.info('the selected index is ' + index);
-					}
+			el.all(by.repeater("menuItem in dimension.members")).each(function(dimension){
+				var holder = dimension.element(by.css('span'));
+				coreFunctions.hasClass(holder, "disabled").then(function(isDisabled){
+					holder.getText().then(function(text){
+						if(isDisabled !== true && text !== "" && selectedIndex === null){
+							selectedIndex = holder;
+							console.info('the selected index is ' + index);
+						}
+					});
 				});
-			});
+			})
+			
 		}).then(
 			function() {
 				callback.call(null, selectedIndex);
 			}
 		);
 	},
+	openFiltersModal: function(){
+		specs.toggleFilters.click();
+		specs.filters.get(0).click();
+	}
 };
 
 _.extend(data, coreFunctions);
