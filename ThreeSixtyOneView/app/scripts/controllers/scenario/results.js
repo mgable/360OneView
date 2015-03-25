@@ -77,8 +77,9 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         PivotMetaService.initModel(cubeMeta).then(function(result) {
             var foundView = _.find(result.viewsList, function(view){ return view.id === result.viewData.id; });
             if (foundView) {
-                $scope.draftView = foundView.name.substring(0, 8) === 'Draft - ';
+                $scope.draftView = foundView.isDraft;
             }
+            angular.extend($scope, result);
             $scope.spendViewId = result.viewData.id;
             $scope.spendViewsList = result.viewsList;
             $scope.spendViewData = result.viewData;
@@ -267,6 +268,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     init = function() {
 
         $scope.saveAs = false;
+        $scope.draftView = false;
         $scope.isSynced = true;
         $scope.isViewLoaded = false;
 
@@ -404,6 +406,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
 
             $scope.spendViewData.name = originalViewName;
             $scope.spendViewData.id = originalViewId;
+            $scope.spendViewData.isDraft = false;
 
             // update spend view
             PivotMetaService.updateView($scope.spendCubeId, $scope.spendViewData).then(function(view) {
@@ -413,6 +416,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 // update kpi view
                 ManageAnalysisViewsService.getViewRelatedBy($scope.spendViewData.id, $scope.kpiCubeId).then(function(orikpiView) {
                     _.extend($scope.kpiViewData, _.omit(orikpiView, 'filters'));
+                    $scope.kpiViewData.isDraft = false;
                     PivotMetaService.updateView($scope.kpiCubeId, $scope.kpiViewData).then(function(view) {
                         // console.info('save kpi view: ', view);
                         $scope.kpiViewData = view;
@@ -432,6 +436,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             var spendDraftView = angular.copy($scope.spendViewData);
             ManageAnalysisViewsService.defaultView($scope.spendCubeId, $scope.spendViewData.id, false);
             spendDraftView.name = 'Draft - ' + spendDraftView.name;
+            spendDraftView.isDraft = true;
             $scope.createView($scope.spendCubeId, spendDraftView, 'spend').then(function(response) {
                 // console.info('create spend draft view: ', response);
                 getSpendSummary();
@@ -443,6 +448,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 }
                 var kpiDraftView = angular.copy($scope.kpiViewData);
                 kpiDraftView.name = 'Draft - ' + kpiDraftView.name;
+                kpiDraftView.isDraft = true;
                 $scope.createView($scope.kpiCubeId, kpiDraftView, 'kpi').then(function(response) {
                     // console.info('create kpi draft view: ', response);
                     getKPISummary($scope.spendViewId);
@@ -466,31 +472,18 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         }
     };
     // open/dismiss filters selection modal
-    $scope.spendFiltersModal = function(category) {
+    $scope.filtersModal = function(type, category) {
         var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
-            {dimension: category, addedFilters: $scope.spendAddedFilters, viewData: $scope.spendViewData.rows.concat($scope.spendViewData.columns), dimensions: $scope.spendDimensions},
+            {dimension: category, addedFilters: $scope[type+'AddedFilters'], viewData: $scope[type+'ViewData'].rows.concat($scope[type+'ViewData'].columns), dimensions: $scope[type+'Dimensions']},
             {windowSize: 'lg', windowClass: 'filters-modal'});
 
         dialog.result.then(function(data) {
-            $scope.spendAddedFilters = data;
-            $scope.spendViewData.filters = PivotMetaService.updateFilters($scope.spendDimensions, $scope.spendAddedFilters, $scope.spendMembersList, $scope.spendViewData.filters);
-            $scope.spendCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.spendAddedFilters, $scope.spendDimensions, $scope.spendViewData);
+            $scope[type+'AddedFilters'] = data;
+            $scope[type+'ViewData'].filters = PivotMetaService.updateFilters($scope[type+'Dimensions'], $scope[type+'AddedFilters'], $scope[type+'MembersList'], $scope[type+'ViewData'].filters);
+            $scope[type+'CategorizedValue'] = PivotMetaService.generateCategorizeValueStructure($scope[type+'AddedFilters'], $scope[type+'Dimensions'], $scope[type+'ViewData']);
             $scope.saveDraftView();
         });
-    };
-    // open/dismiss filters selection modal
-    $scope.kpiFiltersModal = function(category) {
-        var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
-            {dimension: category, addedFilters: $scope.kpiAddedFilters, viewData: $scope.kpiViewData.rows.concat($scope.kpiViewData.columns), dimensions: $scope.kpiDimensions},
-            {windowSize: 'lg', windowClass: 'filters-modal'});
-
-        dialog.result.then(function(data) {
-            $scope.kpiAddedFilters = data;
-            $scope.kpiViewData.filters = PivotMetaService.updateFilters($scope.kpiDimensions, $scope.kpiAddedFilters, $scope.kpiMembersList, $scope.kpiViewData.filters);
-            $scope.kpiCategorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.kpiAddedFilters, $scope.kpiDimensions, $scope.kpiViewData);
-            $scope.saveDraftView();
-        });
-    };
+    }
     // add sign to KPI summary
     $scope.addSign = function(direction) {
         if (direction === 'increase') {
