@@ -11,7 +11,7 @@ angular.module('ThreeSixtyOneView')
 .controller('ScenarioTemplatesDefaultsCtrl', ['$scope', '$filter', 'datepickerConfig', function ($scope, $filter, datepickerConfig) {
 
 	var init = function() {
-		$scope.dateFormat = 'yyyy-MM-dd';
+		$scope.dateFormat = 'yyyy-MM-dd Week (ww)';
 		$scope.fromDate = new Date();
 		$scope.toDate = new Date();
 
