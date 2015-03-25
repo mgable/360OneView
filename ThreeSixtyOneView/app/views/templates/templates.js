@@ -190,75 +190,77 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/modal/filter_selection.tpl.html',
-    "<div class=\"header\">\n" +
-    "\t<h4 class=\"title\">Filters</h4>\n" +
-    "</div>\n" +
-    "<div class=\"body\">\n" +
-    "\t<div class=\"side-menu\">\n" +
-    "\t\t<div class=\"menu-item clickable\" ng-repeat=\"dimension in getDimensions()\" ng-click=\"chooseFilter(dimension, $index, false)\" ng-class=\"{active: dimension.label == selectedFilter.dimension.label}\">\n" +
-    "\t\t\t<div>{{dimension.label}}\n" +
-    "\t\t\t\t<span>({{categorizedValue[$index].selected}}/{{categorizedValue[$index].total}})</span>\n" +
-    "\t\t\t</div>\n" +
-    "\t\t\t<div ng-show=\"allFiltersSelected(categorizedValue[$index])\" class=\"values text-holder\" tooltip-placement=\"bottom\" tooltip=\"{{getValuesList(categorizedValue[$index])}}\">{{getValuesList(categorizedValue[$index])}}</div>\n" +
-    "\t\t\t<div ng-hide=\"allFiltersSelected(categorizedValue[$index])\" class=\"values text-holder\" tooltip-placement=\"bottom\" tooltip=\"{{getValuesList(categorizedValue[$index])}}\">All</div>\n" +
-    "\t\t</div>\n" +
+    "<div data-ms-id=\"filterModal\">\n" +
+    "\t<div class=\"header\">\n" +
+    "\t\t<h4 class=\"title\">Filters</h4>\n" +
     "\t</div>\n" +
-    "\t<div class=\"content\">\n" +
-    "\t\t<div class=\"alert\" role=\"alert\" ng-class=\"{transparent: !noFilterSelected}\">\n" +
-    "\t\t\t<div>\n" +
-    "\t\t\t\t<icon type=\"warning\"></icon>Please select at least one item from the following filter<span ng-if=\"emptyFiltersList.length > 1\">s</span>\n" +
-    "\t\t\t\t: <span ng-repeat=\"missing in getEmptyFiltersList()\">\n" +
-    "\t\t\t\t\t<span class=\"underline clickable\" ng-click=\"chooseFilterByName(missing)\">{{missing}}</span>\n" +
-    "\t\t\t\t\t<span ng-if=\"!$last\">, </span>\n" +
-    "\t\t\t\t</span>\n" +
+    "\t<div class=\"body\">\n" +
+    "\t\t<div class=\"side-menu\">\n" +
+    "\t\t\t<div class=\"menu-item clickable\" ng-repeat=\"dimension in getDimensions()\" ng-click=\"chooseFilter(dimension, $index, false)\" ng-class=\"{active: dimension.label == selectedFilter.dimension.label}\">\n" +
+    "\t\t\t\t<div>{{dimension.label}}\n" +
+    "\t\t\t\t\t<span>({{categorizedValue[$index].selected}}/{{categorizedValue[$index].total}})</span>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t\t<div ng-show=\"allFiltersSelected(categorizedValue[$index])\" class=\"values text-holder\" tooltip-placement=\"bottom\" tooltip=\"{{getValuesList(categorizedValue[$index])}}\">{{getValuesList(categorizedValue[$index])}}</div>\n" +
+    "\t\t\t\t<div ng-hide=\"allFiltersSelected(categorizedValue[$index])\" class=\"values text-holder\" tooltip-placement=\"bottom\" tooltip=\"{{getValuesList(categorizedValue[$index])}}\">All</div>\n" +
     "\t\t\t</div>\n" +
     "\t\t</div>\n" +
-    "\t\t<div class=\"main-content\">\n" +
-    "\t\t\t<div class=\"toolbar\">\n" +
-    "\t\t\t\t<div class=\"dropdown-box\">\n" +
-    "\t\t\t\t\t<div class=\"clickable dropdown\">\n" +
-    "\t\t\t\t\t\t<div class=\"dropdown-toggle\">\n" +
-    "\t\t\t\t\t\t\t{{selectedFilter.level.label}}<icon type=\"caret-down\"></icon>\n" +
-    "\t\t\t\t\t\t</div>\n" +
-    "\t\t\t\t\t\t<div class=\"dropdown-menu\" ms-link-group radio=\"true\" selected-item=\"{{selectedFilter.level.label}}\">\n" +
-    "\t\t\t\t\t\t\t<div ng-repeat=\"item in selectedFilter.dimension.members\" class=\"menu-item\" ms-link=\"{{item.label}}\" ng-click=\"chooseFilter(selectedFilter.dimension, selectedDimensionIndex, $index)\">\n" +
-    "\t\t\t\t\t\t\t\t{{item.label}}\n" +
+    "\t\t<div class=\"content\">\n" +
+    "\t\t\t<div class=\"alert\" role=\"alert\" ng-class=\"{transparent: !noFilterSelected}\">\n" +
+    "\t\t\t\t<div>\n" +
+    "\t\t\t\t\t<icon type=\"warning\"></icon>Please select at least one item from the following filter<span ng-if=\"emptyFiltersList.length > 1\">s</span>\n" +
+    "\t\t\t\t\t: <span ng-repeat=\"missing in getEmptyFiltersList()\">\n" +
+    "\t\t\t\t\t\t<span class=\"underline clickable\" ng-click=\"chooseFilterByName(missing)\">{{missing}}</span>\n" +
+    "\t\t\t\t\t\t<span ng-if=\"!$last\">, </span>\n" +
+    "\t\t\t\t\t</span>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\t\t\t<div class=\"main-content\">\n" +
+    "\t\t\t\t<div class=\"toolbar\">\n" +
+    "\t\t\t\t\t<div class=\"dropdown-box\">\n" +
+    "\t\t\t\t\t\t<div class=\"clickable dropdown\">\n" +
+    "\t\t\t\t\t\t\t<div class=\"dropdown-toggle\">\n" +
+    "\t\t\t\t\t\t\t\t{{selectedFilter.level.label}}<icon type=\"caret-down\"></icon>\n" +
+    "\t\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t\t<div class=\"dropdown-menu\" ms-link-group radio=\"true\" selected-item=\"{{selectedFilter.level.label}}\">\n" +
+    "\t\t\t\t\t\t\t\t<div ng-repeat=\"item in selectedFilter.dimension.members\" class=\"menu-item\" ms-link=\"{{item.label}}\" ng-click=\"chooseFilter(selectedFilter.dimension, selectedDimensionIndex, $index)\">\n" +
+    "\t\t\t\t\t\t\t\t\t{{item.label}}\n" +
+    "\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t</div>\n" +
-    "\t\t\t\t</div>\n" +
-    "\t\t\t\t<div class=\"search-box\" ng-show=\"selectedFilter.level\">\n" +
-    "\t\t\t\t\t<icon type=\"filter\"></icon>\n" +
-    "\t\t\t\t\t<input type=\"text\" placeholder=\"Filter List\" ng-model=\"filterSearch.label\" ng-keyup=\"searchFilters(selectedFilter.level, filterSearch)\">\n" +
-    "\t\t\t\t</div>\n" +
-    "\t\t\t</div>\n" +
-    "\t\t\t<div class=\"selection-tools\">\n" +
-    "\t\t\t\t<div class=\"dropdown\">\n" +
-    "\t\t\t\t\t<div class=\"static-button clickable\" ng-hide=\"filterCount.total === 0\">\n" +
-    "\t\t\t\t\t\t<div class=\"selection-toggle\" ng-show=\"filterCount.selected === 0\" ng-click=\"selectFilters(selectedFilter.dimension.label, true, true);\"><icon type=\"square-o\"></icon></div>\n" +
-    "\t\t\t\t\t\t<div class=\"selection-toggle blue\" ng-show=\"filterCount.selected === filterCount.total\" ng-click=\"selectFilters(selectedFilter.dimension.label, true, false);\"><icon type=\"check-square\"></icon></div>\n" +
-    "\t\t\t\t\t\t<div class=\"selection-toggle blue\" ng-show=\"filterCount.selected % filterCount.total > 0.01\" ng-click=\"selectFilters(selectedFilter.dimension.label, true, true);\"><icon type=\"minus-square\"></icon></div>\n" +
-    "\t\t\t\t\t\t<div class=\"dropdown-toggle\"><icon type=\"caret-down\"></icon></div>\n" +
-    "\t\t\t\t\t</div>\n" +
-    "\t\t\t\t\t<div class=\"dropdown-menu\">\n" +
-    "\t\t\t\t\t\t<div class=\"menu-item\" ng-click=\"selectFilters(selectedFilter.dimension.label, true, true);\">Select All Visible</div>\n" +
-    "\t\t\t\t\t\t<div class=\"menu-item\" ng-click=\"selectFilters(selectedFilter.dimension.label, true, false);\">Deselect All Visible</div>\n" +
-    "\t\t\t\t\t\t<div class=\"menu-item\" ng-click=\"selectFilters(selectedFilter.dimension.label, false, false);\">Deselect All Not Visible</div>\n" +
+    "\t\t\t\t\t<div class=\"search-box\" ng-show=\"selectedFilter.level\">\n" +
+    "\t\t\t\t\t\t<icon type=\"filter\"></icon>\n" +
+    "\t\t\t\t\t\t<input type=\"text\" placeholder=\"Filter List\" ng-model=\"filterSearch.label\" ng-keyup=\"searchFilters(selectedFilter.level, filterSearch)\">\n" +
     "\t\t\t\t\t</div>\n" +
     "\t\t\t\t</div>\n" +
-    "\t\t\t\t<div class=\"stat\" ng-hide=\"filterCount.total === 0\">\n" +
-    "\t\t\t\t\t({{filterCount.selected}}/{{filterCount.total}})\n" +
+    "\t\t\t\t<div class=\"selection-tools\">\n" +
+    "\t\t\t\t\t<div class=\"dropdown\">\n" +
+    "\t\t\t\t\t\t<div class=\"static-button clickable\" ng-hide=\"filterCount.total === 0\">\n" +
+    "\t\t\t\t\t\t\t<div class=\"selection-toggle\" ng-show=\"filterCount.selected === 0\" ng-click=\"selectFilters(selectedFilter.dimension.label, true, true);\"><icon type=\"square-o\"></icon></div>\n" +
+    "\t\t\t\t\t\t\t<div class=\"selection-toggle blue\" ng-show=\"filterCount.selected === filterCount.total\" ng-click=\"selectFilters(selectedFilter.dimension.label, true, false);\"><icon type=\"check-square\"></icon></div>\n" +
+    "\t\t\t\t\t\t\t<div class=\"selection-toggle blue\" ng-show=\"filterCount.selected % filterCount.total > 0.01\" ng-click=\"selectFilters(selectedFilter.dimension.label, true, true);\"><icon type=\"minus-square\"></icon></div>\n" +
+    "\t\t\t\t\t\t\t<div class=\"dropdown-toggle\"><icon type=\"caret-down\"></icon></div>\n" +
+    "\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t<div class=\"dropdown-menu\">\n" +
+    "\t\t\t\t\t\t\t<div class=\"menu-item\" ng-click=\"selectFilters(selectedFilter.dimension.label, true, true);\">Select All Visible</div>\n" +
+    "\t\t\t\t\t\t\t<div class=\"menu-item\" ng-click=\"selectFilters(selectedFilter.dimension.label, true, false);\">Deselect All Visible</div>\n" +
+    "\t\t\t\t\t\t\t<div class=\"menu-item\" ng-click=\"selectFilters(selectedFilter.dimension.label, false, false);\">Deselect All Not Visible</div>\n" +
+    "\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t<div class=\"stat\" ng-hide=\"filterCount.total === 0\">\n" +
+    "\t\t\t\t\t\t({{filterCount.selected}}/{{filterCount.total}})\n" +
+    "\t\t\t\t\t</div>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t\t<div class=\"list-box\" ng-style=\"{height: getListHeight()}\">\n" +
+    "\t\t\t\t\t<div class=\"list\" ng-if=\"searchResults.members\">\n" +
+    "\t\t\t\t\t\t<member ng-repeat=\"member in searchResults.members | orderBy:'label'\" member=\"member\" filters=\"addedFilter\" category=\"{label: selectedFilter.dimension.label}\"  expanded=\"expanded\" expandall=\"filterSearch\" updater=\"categorizeValuesCount(index, addedFilters)\" dimensionindex=\"selectedDimensionIndex\"></member>\n" +
+    "\t\t\t\t\t</div>\n" +
     "\t\t\t\t</div>\n" +
     "\t\t\t</div>\n" +
-    "\t\t\t<div class=\"list-box\" ng-style=\"{height: getListHeight()}\">\n" +
-    "\t\t\t\t<div class=\"list\" ng-if=\"searchResults.members\">\n" +
-    "\t\t\t\t\t<member ng-repeat=\"member in searchResults.members | orderBy:'label'\" member=\"member\" filters=\"addedFilter\" category=\"{label: selectedFilter.dimension.label}\"  expanded=\"expanded\" expandall=\"filterSearch\" updater=\"categorizeValuesCount(index, addedFilters)\" dimensionindex=\"selectedDimensionIndex\"></member>\n" +
-    "\t\t\t\t</div>\n" +
+    "\t\t\t<div class=\"action-buttons\">\n" +
+    "\t\t\t\t<ms-button type=\"cancel\" action=\"cancel()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\n" +
+    "\t\t\t\t<ms-button type=\"submit\" action=\"submit()\" label=\"Apply\" data-dismiss=\"modal\" ng-disabled=\"noFilterSelected\"></ms-button>\n" +
     "\t\t\t</div>\n" +
-    "\t\t</div>\n" +
-    "\t\t<div class=\"action-buttons\">\n" +
-    "\t\t\t<ms-button type=\"cancel\" action=\"cancel()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\n" +
-    "\t\t\t<ms-button type=\"submit\" action=\"submit()\" label=\"Apply\" data-dismiss=\"modal\" ng-disabled=\"noFilterSelected\"></ms-button>\n" +
     "\t\t</div>\n" +
     "\t</div>\n" +
     "</div>"

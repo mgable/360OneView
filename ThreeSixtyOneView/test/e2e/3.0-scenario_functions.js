@@ -43,6 +43,10 @@ data = {
 			}
 		);
 	},
+	openFiltersModal: function(){
+		specs.toggleFilters.click();
+		specs.filters.get(0).click();
+	}
 };
 
 _.extend(data, coreFunctions);
