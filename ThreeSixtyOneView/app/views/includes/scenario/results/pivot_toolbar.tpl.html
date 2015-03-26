@@ -46,27 +46,19 @@
                         </div>
 					</div>
 
-					<div class="dimensions-list filters-list">
-						<div class="title">Spend Filters</div>
-						<div class="list">
-							<div ng-repeat="cat in spendDimensions" class="filter-category clickable" ng-click="spendFiltersModal(cat)" data-toggle="modal" data-target="#filterModal"  ng-if="spendAddedFilters[cat.label]">
-								<div class="filter-label">{{cat.label}} <span class="filter-stats">({{spendCategorizedValue[$index].selected}}/{{spendCategorizedValue[$index].total}})</span></div>
-								<div class="filter-values text-holder" ng-show="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{spendCategorizedValue[$index].label.join(', ')}}">{{spendCategorizedValue[$index].label.join(', ')}}</div>
-								<div class="filter-values text-holder" ng-hide="spendCategorizedValue[$index].selected < spendCategorizedValue[$index].total" title="{{spendCategorizedValue[$index].label.join(', ')}}">All</div>
-							</div>
-						</div>
-					</div>
+                    <div class="dimensions-list filters-list">
+                        <div class="title">Spend Filters</div>
+                        <div class="list">
+                            <dimension-filter ng-repeat="dimension in spendDimensions" ng-if="spendAddedFilters[dimension.label]" dimension="dimension" categorized-values="spendCategorizedValue[$index]" action="filtersModal('spend', dimension)"></dimension-filter>
+                        </div>
+                    </div>
 
-					<div class="dimensions-list filters-list">
-						<div class="title">KPI Filters</div>
-						<div class="list">
-							<div ng-repeat="cat in kpiDimensions" class="filter-category" ng-class="{'clickable': !isSynced || !isInSyncedDimensions(cat), 'disabled': isSynced && isInSyncedDimensions(cat)}" ng-click="kpiFiltersModal(cat)" data-toggle="modal" data-target="#filterModal" ng-if="kpiAddedFilters[cat.label]">
-								<div class="filter-label">{{cat.label}} <span class="filter-stats">({{kpiCategorizedValue[$index].selected}}/{{kpiCategorizedValue[$index].total}})</span></div>
-								<div class="filter-values text-holder" ng-show="kpiCategorizedValue[$index].selected < kpiCategorizedValue[$index].total" data-toggle="tooltip" data-placement="bottom" title="{{kpiCategorizedValue[$index].label.join(', ')}}">{{kpiCategorizedValue[$index].label.join(', ')}}</div>
-								<div class="filter-values text-holder" ng-hide="kpiCategorizedValue[$index].selected < kpiCategorizedValue[$index].total" title="{{kpiCategorizedValue[$index].label.join(', ')}}">All</div>
-							</div>
-						</div>
-					</div>
+                    <div class="dimensions-list filters-list">
+                        <div class="title">KPI Filters</div>
+                        <div class="list">
+                            <dimension-filter ng-repeat="dimension in kpiDimensions" ng-if="kpiAddedFilters[dimension.label]" dimension="dimension" categorized-values="kpiCategorizedValue[$index]" action="filtersModal('kpi', dimension)" ng-class="{'clickable': !isSynced || !isInSyncedDimensions(dimension), 'disabled': isSynced && isInSyncedDimensions(dimension)}"></dimension-filter>
+                        </div>
+                    </div>
 
                     <div class="collapse-handle">
                         <span class="clickable" collapse-control target-area="#results-toolbar-container">

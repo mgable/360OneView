@@ -7,17 +7,19 @@
 * # ScenarioCalculationCtrl
 * Controller of the ThreeSixtyOneView
 */
-angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$scope', 'AnalyticCalculationsService', 'Scenario', 'CONFIG', '$state', 'ScenarioStatesService',
-    function ($scope, AnalyticCalculationsService, Scenario, CONFIG, $state, ScenarioStatesService) {
+angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$scope', 'AnalyticCalculationsService', 'Scenario', 'CONFIG', '$state', 'ScenarioStatesService', 'Status',
+    function ($scope, AnalyticCalculationsService, Scenario, CONFIG, $state, ScenarioStatesService, Status) {
 
-    var stepLength = CONFIG.view.ScenarioCalculate.stateLength,
-        stepValue = 100 / stepLength,
+    var stepLength,
+        stepValue,
         scenarioStates = CONFIG.application.models.ScenarioAnalytics.states,
         runningStates = {},
         currentState = {},
 
         // init function
         init = function() {
+            stepLength = Status.runningStates.length;
+            stepValue = 100 / stepLength;
             $scope.progressValue = 0;
             $scope.step = 0;
             $scope.errorMessage = "";
@@ -26,7 +28,7 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         // get the current index for status
         getCurrentStateIndex = function(_data) {
             if (AnalyticCalculationsService.isSuccess($scope.scenarioState.message)) {
-                return CONFIG.view.ScenarioCalculate.stateLength;
+                return stepLength;
             } else {
                 var step = _.indexOf(_.pluck(_data.runningStates, 'completed'), false);
                 return step === -1 ? 0 : step;
