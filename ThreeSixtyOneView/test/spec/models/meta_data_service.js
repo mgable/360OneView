@@ -16,6 +16,15 @@ describe('Service: MetaDataService', function () {
 		backend.when('GET', metaDataUrl + '/meta').respond(cubeMeta);
 		backend.when('GET', metaDataUrl + '/dimension/' + dimensionId + '/hierarchy/' + hierarchyId + '/level/' + levelId + '/members?children=true').respond(levelMembers);
 		backend.when('GET', metaDataUrl + '/analysis-element').respond(JSON.parse(cubeScenarioElements));
+		backend.when('GET', metaDataUrl.replace(/\/3/, '') + '?editable=true&globals=false&prediction=' + cubeType).respond(JSON.parse(cubesList));
+		_.each(JSON.parse(cubeMeta).dimensions, function(dimension) {
+			_.each(dimension.hierarchies, function(hierarchy) {
+				_.each(hierarchy.levels, function(level) {
+					backend.when('GET', metaDataUrl + '/dimension/' + dimension.id + '/hierarchy/' + hierarchy.id + '/level/' + level.id + '/members?children=true')
+						.respond(JSON.parse(allLevelMembers)[dimension.id + ',' + hierarchy.id + ',' + level.id]);
+				})
+			});
+		});
 	}));
 
 	// Initialize the services
@@ -49,11 +58,22 @@ describe('Service: MetaDataService', function () {
 			});
 		});
 
+		it('build the dimension tree', function() {
+			MetaDataService.buildDimensionsTree(cubeId).then(function(response) {
+				expect(response).toEqual(JSON.parse(dimensionTree));
+			});
+		});
+
 		it('get scenario analysis elements for a cube', function() {
 			MetaDataService.getCubeAnalysisElements(cubeId).then(function(response) {
 				expect(response).toEqual(JSON.parse(cubeScenarioElements));
 			});
 		});
-	});
 
+		it('get list of cubes', function() {
+			MetaDataService.getCubes(cubeType).then(function(response) {
+				expect(response).toEqual(JSON.parse(cubesList));
+			});
+		});
+	});
 });
