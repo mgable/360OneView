@@ -66,23 +66,69 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/flipbook.tpl.html',
-    "<div class=\"flipbook scenarioTemplates right-column\">\r" +
+    "<div class=\"flipbook row scenarioTemplates\">\r" +
     "\n" +
-    "\t<div ng-transclude></div>\r" +
+    "\t<div class=\"col-md-3 left-column\">\r" +
     "\n" +
-    "\t<div class=\"button-container\">\r" +
+    "\t\t<div class=\"product-banner\">\r" +
     "\n" +
-    "\t\t<ms-button type=\"cancel\" label=\"Cancel\" action=\"\"></ms-button>\r" +
+    "\t\t\t<div class=\"ms-logo\"></div>\r" +
     "\n" +
-    "\t\t<span class=\"right\">\r" +
+    "\t\t\t&nbsp;Action {{type}}\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"cancel\" label=\"Back\" action=\"backward()\" ng-disabled=\"isDisabled()\"></ms-button>\r" +
+    "\t\t</div>\r" +
     "\n" +
-    "\t\t\t&nbsp;\r" +
+    "\t\t<div class=\"template-steps-header\">\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"submit\" label=\"{{label}}\" action=\"forward()\" ng-disabled=\"isDisabled(DIRECTION)\"></ms-button>\r" +
+    "\t\t\tCreate a Scenario Template\r" +
     "\n" +
-    "\t\t</span>\r" +
+    "\t\t</div>\r" +
+    "\n" +
+    "\t\t<div class=\"template-steps\">\r" +
+    "\n" +
+    "\t\t\t{{data}}\r" +
+    "\n" +
+    "\t\t\t<ul>\r" +
+    "\n" +
+    "\t\t\t\t<li><icon type=\"circle-o\"></icon>&nbsp;Name &amp; Describe</li>\r" +
+    "\n" +
+    "\t\t\t\t<li class=\"pipe-line\">|</li>\r" +
+    "\n" +
+    "\t\t\t\t<li><icon type=\"circle-o\"></icon>&nbsp;Choose Dimensions</li>\r" +
+    "\n" +
+    "\t\t\t\t<li class=\"pipe-line\">|</li>\r" +
+    "\n" +
+    "\t\t\t\t<li><icon type=\"circle-o\"></icon>&nbsp;Choose Defaults</li>\r" +
+    "\n" +
+    "\t\t\t\t<li class=\"pipe-line\">|</li>\r" +
+    "\n" +
+    "\t\t\t\t<li><icon type=\"circle-o\"></icon>&nbsp;Review</li>\r" +
+    "\n" +
+    "\t\t\t</ul>\r" +
+    "\n" +
+    "\t\t</div>\r" +
+    "\n" +
+    "\t</div>\r" +
+    "\n" +
+    "\t<div class=\"col-md-9 right-column\">\r" +
+    "\n" +
+    "\t\t<div ng-transclude></div>\r" +
+    "\n" +
+    "\t\t<div class=\"button-container\">\r" +
+    "\n" +
+    "\t\t\t<ms-button type=\"cancel\" label=\"Cancel\" action=\"\"></ms-button>\r" +
+    "\n" +
+    "\t\t\t<span class=\"right\">\r" +
+    "\n" +
+    "\t\t\t\t<ms-button type=\"cancel\" label=\"Back\" action=\"backward()\" ng-disabled=\"isDisabled()\"></ms-button>\r" +
+    "\n" +
+    "\t\t\t\t&nbsp;\r" +
+    "\n" +
+    "\t\t\t\t<ms-button type=\"submit\" label=\"{{label}}\" action=\"forward()\" ng-disabled=\"isDisabled(DIRECTION)\"></ms-button>\r" +
+    "\n" +
+    "\t\t\t</span>\r" +
+    "\n" +
+    "\t\t</div>\r" +
     "\n" +
     "\t</div>\r" +
     "\n" +
@@ -717,9 +763,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<div class=\"action-buttons\">\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"cancel\" action=\"cancelCopyFile()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"cancel\" action=\"cancel()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"submit\" action=\"copyFile()\" label=\"Replace\" data-dismiss=\"modal\" ng-disabled=\"elementCopy.$invalid\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"submit\" action=\"submit()\" label=\"Replace\" data-dismiss=\"modal\" ng-disabled=\"elementCopy.$invalid\"></ms-button>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +

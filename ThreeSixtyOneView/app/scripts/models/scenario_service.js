@@ -16,16 +16,18 @@ angular.module('ThreeSixtyOneView.services')
 
 		this.myScenarios = myScenarios;
 
-		this.get = function (projectId, scenarioId){
+		this.get = function (projectId){
 			return this.resource.get({"id": projectId}, this.config).then(function(response){
 				self.data = response;
-				if(scenarioId) {
-					return _.findWhere(response, {id: parseInt(scenarioId,10)});
-				} else {
-					return response;
-				}
+				return response;
 			});
 		};
+
+		this.find = function(scenarios, id){
+			return _.find(scenarios, function(scenario){
+				return scenario.id === parseInt(id, 10);
+			})
+		}
 
 		this.rename = function(scenario, projectId){
 			var additionalPath = "name";

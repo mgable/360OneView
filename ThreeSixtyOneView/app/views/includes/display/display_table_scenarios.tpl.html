@@ -15,10 +15,10 @@
 		<tbody>
 			<tr ng-repeat="item in getData()" ng-class="{active: isActiveItem(item)}" ng-click="selectItem(item)">
 				<td ng-class="{master: item.isMaster}">
-					<div class="text-holder favorites-holder">
-						<span class="favorites"><a ng-class="{favorite:isFavorite(item.id)}" ng-click="toggleFavorite($event, item)">&nbsp;</a></span>
-					</div>
 					<div class="text-holder">
+						<span class="favorites-holder">
+							<span class="favorites"><a ng-class="{favorite:isFavorite(item.id)}" ng-click="toggleFavorite($event, item)">&nbsp;</a></span>
+						</span>
                     	<span class="title">
 	                        <a ng-if="!e2e" class="default" ng-click="goto($event, gotoScenarioCalculate(CONFIG.nameClickAction, item), item)">{{item.title}}</a>
 	                        <a ng-if="e2e" data-ms-id="{{item.id}}" class="default" ng-click="goto($event, gotoScenarioCalculate(CONFIG.nameClickAction, item), item)">{{item.title}}</a>
@@ -28,10 +28,10 @@
                 	</div>
 				</td>
 				<td ng-click="showDetails(item)">
-					<div class="text-holder"><span class="template">{{item.template.name}}</span></div>
+					<div class="text-holder {{item.template.type | lowercase}}"><span class="template">{{item.template.name}}</span></div>
 				</td>
 				<td ng-click="showDetails(item)">
-					<div class="text-holder"><span class="type">{{item.template.type}}</span></div>
+					<div class="text-holder"><span class="type">{{item.type}}</span></div>
 				</td>
 				<td ng-click="showDetails(item)">
 					<sortable-columns item=item display-by="getSorter('column_2')" test="e2e"></sortable-columns>

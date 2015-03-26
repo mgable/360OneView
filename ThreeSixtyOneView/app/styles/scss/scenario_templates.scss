@@ -5,13 +5,54 @@
 .scenarioTemplates {
 	background-color: $ms-pureWhite;
 	color: $ms-black;
+	.left-column {
+		height: 100%;
+		padding: 0;
+		background-color: $ms-lightGray;
+		border-right: 1px solid $ms-mediumLightGray;
+		.product-banner {
+			padding: 20px;
+			background-color: $ms-actionGreen;
+			color: $ms-pureWhite;
+			font-size: 38px;
+			.ms-logo {
+				width: 35px;
+				height: 35px;
+				background-image: url(../images/ms-logo-01.png);
+				background-repeat: no-repeat;
+				float: left;
+				margin: 5px 0 0 65px;
+			}
+		}
+		div {
+			font-size: 18px;
+			&.template-steps-header{
+				margin: 15px 0;
+				padding: 5px 0;
+				background-color: $ms-mediumLightGray;
+				color: $ms-orange;
+				text-align: center;
+				font-weight: bold;
+			}
+			&.template-steps {
+				padding: 0 0 0 80px;
+				color: $ms-mediumGray;
+				line-height: 21px;
+				.pipe-line{
+					padding: 0 0 0 3px;
+					font-size: 40px;
+					font-weight: $lightFontWeight;
+				}
+			}
+		}
+	}
 	.right-column {
 		max-width: 700px;
 		padding: 15px 0 15px 30px;
 		margin: 0 0 25px 0;
 		div.header {
 			font-size: 38px;
-			font-weight: lighter;
+			font-weight: $lightFontWeight;
 		}
 		div.prompt {
 			font-size: 24px;
@@ -104,7 +145,7 @@
                 input[type=checkbox] { cursor: pointer; }
                 .selected {
                     color: $ms-blue;
-                    font-weight: 700;
+                    font-weight: bold;
                 }
                 .parent-checkbox {
                     padding: 0 0 10px 0;
@@ -126,7 +167,7 @@
                 height: 37px;
                 width: 100%;
                 padding: 10px;
-                border-top: 1px solid $lightgray;
+                border-top: 1px solid $ms-lightGray;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 span {

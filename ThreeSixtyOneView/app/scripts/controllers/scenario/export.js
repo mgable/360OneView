@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('ThreeSixtyOneView').controller('ExportCtrl', ['$scope', 'ExportResourceService', '$timeout', 'DialogService', 'PivotMetaService', 'CONFIG',
-	function($scope, ExportResourceService, $timeout, DialogService, PivotMetaService, CONFIG) {
+angular.module('ThreeSixtyOneView').controller('ExportCtrl', ['$scope', 'ExportResourceService', '$timeout', 'DialogService', 'PivotMetaService', 'CONFIG', 'PivotViewService',
+	function($scope, ExportResourceService, $timeout, DialogService, PivotMetaService, CONFIG, PivotViewService) {
 		var init = function() {
 			$scope.exportViewData = {}; // contains the view data modified for export tab
 			$scope.addedExportFilters = {}; // contains the added filter values for the export view
@@ -128,27 +128,15 @@ angular.module('ThreeSixtyOneView').controller('ExportCtrl', ['$scope', 'ExportR
 		};
 
 		$scope.deleteItem = function(index) {
-			$scope.exportAddedDimensions[$scope.exportViewData.rows[index].level.label] = false;
-			$scope.exportViewData.rows.splice(index, 1);
-			lockLastItem($scope.exportAddedDimensions, false);
+			PivotViewService.deleteItem($scope.exportViewData, $scope.exportAddedDimensions, index, 'rows', [lockLastItem]);
 		};
 
 		$scope.addItem = function(item) {
-			var newItem = {dimension:{id:item.dimensionId},hierarchy:{id:-1},level:{id:item.levelId, label:item.label}};
-			$scope.exportViewData.rows.push(newItem);
-			$scope.exportAddedDimensions[item.label] = true;
-			lockLastItem($scope.exportAddedDimensions, false);
+			PivotViewService.addItem($scope.exportViewData, $scope.exportAddedDimensions, item, 'rows', [lockLastItem]);
 		};
 
 		$scope.replaceItem = function(selected, priorLabel) {
-			$scope.exportAddedDimensions[priorLabel] = false;
-			$scope.exportAddedDimensions[selected.label] = true;
-			var match = _.find($scope.exportViewData.rows, function(item) { return item.level.label.toLowerCase() === priorLabel.toLowerCase(); });
-			if (match) {
-				var newItem = {dimension:{id:selected.dimensionId},hierarchy:{id:-1},level:{id:selected.levelId, label:selected.label}};
-				var index = _.indexOf($scope.exportViewData.rows, match);
-				$scope.exportViewData.rows.splice(index, 1, newItem);
-			}
+			PivotViewService.replaceItem($scope.exportViewData, $scope.exportAddedDimensions, selected, priorLabel, 'rows', []);
 		};
 
 		// open/dismiss filters selection modal
