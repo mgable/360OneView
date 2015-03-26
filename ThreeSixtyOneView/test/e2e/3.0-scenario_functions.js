@@ -22,15 +22,16 @@ data = {
 		return browser.params.path + specs.calculateUrl.replace(/:projectId/, projectId).replace(/:scenarioId/, scenarioId);
 	}, 
 	addDimension: function(callback){
-		var selectedIndex = null;
+		var selectedItem = null;
 		specs.dimensions.each(function(el, index){
 
 			el.all(by.repeater("menuItem in dimension.members")).each(function(dimension){
 				var holder = dimension.element(by.css('span'));
 				coreFunctions.hasClass(holder, "disabled").then(function(isDisabled){
 					holder.getText().then(function(text){
-						if(isDisabled !== true && text !== "" && selectedIndex === null){
-							selectedIndex = holder;
+						if(isDisabled !== true && text !== "" && selectedItem === null){
+							selectedItem = holder;
+							console.info("the selected items is " + text);
 							console.info('the selected index is ' + index);
 						}
 					});
@@ -39,7 +40,7 @@ data = {
 			
 		}).then(
 			function() {
-				callback.call(null, selectedIndex);
+				callback.call(null, selectedItem);
 			}
 		);
 	},
