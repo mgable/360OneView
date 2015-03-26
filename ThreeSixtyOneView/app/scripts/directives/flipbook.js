@@ -13,10 +13,11 @@ angular.module('ThreeSixtyOneView.directives')
 		restrict: 'E',
 		transclude: true,
 		link: function (scope, element, attrs) {
-			var views = JSON.parse(attrs.data || '[{"buttonLabel":"foo"}]'), index = 0,
+			var views = JSON.parse(attrs.data), index = 0,
 			totalViews = views.length,
 			basePath = attrs.basepath,
 			callback = attrs.callback,
+			data = attrs.data,
 			setView = function(i){
 				scope.view = views[i];
 				scope.url = basePath + "/" + views[i].url;
@@ -27,6 +28,8 @@ angular.module('ThreeSixtyOneView.directives')
 			};
 
 			scope.DIRECTION = "NEXT";
+
+			scope.data = data;
 
 			scope.forward = function(){
 				if (index  === totalViews - 1){
