@@ -28,13 +28,15 @@ body {
 	position: relative;
 
 	.app {
-		margin: 65px auto 20px;
-		width: calc(100% - 40px);
+		// margin: 65px auto 20px;
+		// padding-bottom: 70px;
 		//height: calc(100% - 160px);
+		width: calc(100% - 40px);
 		box-sizing: content-box;
 		max-width: $app_max_width;
 		min-width: $app_min_width;
-		padding-bottom: 70px;
+		margin: 0 auto;
+		padding: 65px 0 80px;
 	}
 
 	.footer {
