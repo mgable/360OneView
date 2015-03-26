@@ -19,6 +19,7 @@ describe('Directive: breadcrumb', function () {
     deferred.resolve(data);
     spyOn(ProjectsService, "getProjectItemById").and.returnValue(data);
     spyOn(ScenarioService, "get").and.returnValue(deferred.promise);
+    spyOn(ScenarioService, "find").and.returnValue(data);
     $rootScope = _$rootScope_;
     $state = _$state_;
     $stateParams = _$stateParams_;
