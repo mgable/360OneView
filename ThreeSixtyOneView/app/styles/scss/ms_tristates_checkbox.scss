@@ -1,62 +1,47 @@
 @import "variables";
 @import "new_variables";
-
+$icon-size:14px;
 .ms-checkbox {
-    position: relative;
-    margin: 5px 10px 0 0 !important;
-    cursor: pointer;
-    &:before {
-        // @include transition(all .3s ease-in-out);
-        -webkit-transition: all 0.3s ease-in-out;
-        -moz-transition: all 0.3s ease-in-out;
-        transition: all 0.3s ease-in-out;
-        top: 1px;
-        content: "";
-        position: absolute;
-        left: 0;
-        z-index: 1;
-        width: 13px;
-        height: 13px;
-        border: 1px solid $ms-black;
-    }
-    &:after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 13px;
-        height: 13px;
-        background: $ms-pureWhite;
+    label {
+        display: block;
+        position: relative;
+        line-height: $icon-size;
+        font-weight: normal;
         cursor: pointer;
     }
-    &:checked {
-        &:before {
-            // @include transform(rotate(-45deg));
-            -webkit-transform: rotate(-45deg);
-            -moz-transform: rotate(-45deg);
-            -ms-transform: rotate(-45deg);
-            -o-transform: rotate(-45deg);
-            transform: rotate(-45deg);
-            height: 8px;
-            border-color: $ms-blue;
-            border-top-style: none;
-            border-right-style: none;
-        }
+    label:last-of-type {
+        margin-right: 1rem;
     }
-    &:indeterminate {
-        &:before {
-            // @include transform(rotate(-45deg));
-            -webkit-transform: height;
-            -moz-transform: height;
-            -ms-transform: height;
-            -o-transform: height;
-            transform: height;
-            height: 1px;
-            margin-top: 6.5px;
-            border-color: $ms-blue;
-            border-top-style: none;
-            border-right-style: none;
-        }
+    label i {
+        display: inline-block;
+        height: $icon-size;
+        position: relative;
+        font-style: normal;
     }
-
+    label span {
+        display: inline-block;
+        line-height: $icon-size;
+    }
+    input[type="checkbox"] {
+        display: none;
+    }
+    input[type="checkbox"] + i:before {
+        font-family: 'FontAwesome';
+        font-size: $icon-size;
+        height: $icon-size;
+        width: $icon-size;
+        display: inline-block;
+    }
+    input[type="checkbox"] + i:before {
+        content: "\f096";
+    }
+    input[type="checkbox"]:checked + i:before {
+        content: "\f14a";
+    }
+    input[type="checkbox"]:indeterminate + i:before {
+        content: "\f147";
+    }
+    input[type="checkbox"]:checked + i + span, input[type="checkbox"]:checked + i:before {
+        color: $ms-blue;
+    }
 }

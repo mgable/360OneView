@@ -42,7 +42,7 @@ angular.module('ThreeSixtyOneView.services')
 						_member.members = response[count++].members;
 					});
 				});
-				
+
 				return dimensions;
 			});
 		});
@@ -71,7 +71,7 @@ angular.module('ThreeSixtyOneView.services')
 			config.params.replaceable = replaceable;
 		}
 
-		return this.resource.get({}, config, '').then(function(cubes) {
+		return self.resource.get({}, config, '').then(function(cubes) {
 			return cubes;
 		});
 	};
