@@ -3,7 +3,6 @@
 angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise("/projects");
-    __insp.push(["virtualPage"]);
 
     $stateProvider
     .state('ScenarioTemplates', {

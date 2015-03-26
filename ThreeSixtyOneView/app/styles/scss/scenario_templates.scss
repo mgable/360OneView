@@ -2,8 +2,6 @@
 @import "variables";
 @import "new_variables";
 
-$ms-actionGreen: #01a951;
-
 .scenarioTemplates {
 	background-color: $ms-pureWhite;
 	color: $ms-black;
@@ -43,7 +41,7 @@ $ms-actionGreen: #01a951;
 				.pipe-line{
 					padding: 0 0 0 3px;
 					font-size: 40px;
-					font-weight: lighter;
+					font-weight: $lightFontWeight;
 				}
 			}
 		}
@@ -54,7 +52,7 @@ $ms-actionGreen: #01a951;
 		margin: 0 0 25px 0;
 		div.header {
 			font-size: 38px;
-			font-weight: lighter;
+			font-weight: $lightFontWeight;
 		}
 		div.prompt {
 			font-size: 24px;
@@ -147,7 +145,7 @@ $ms-actionGreen: #01a951;
                 input[type=checkbox] { cursor: pointer; }
                 .selected {
                     color: $ms-blue;
-                    font-weight: 700;
+                    font-weight: bold;
                 }
                 .parent-checkbox {
                     padding: 0 0 10px 0;
@@ -163,7 +161,7 @@ $ms-actionGreen: #01a951;
                 height: 37px;
                 width: 100%;
                 padding: 10px;
-                border-top: 1px solid $lightgray;
+                border-top: 1px solid $ms-lightGray;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 span {
