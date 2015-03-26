@@ -11,11 +11,11 @@
 		<tbody>
 			<tr ng-repeat="item in getData()" ng-class="{active: isActiveItem(item)}" ng-click="selectItem(item)">
 				<td ng-class="{master: item.isMaster}">
-					<div class="text-holder favorites-holder">
-						<span class="favorites"><a ng-class="{favorite:isFavorite(item.id)}" ng-click="toggleFavorite($event, item)">&nbsp;</a></span>
-					</div>
 					<div class="text-holder">
-                    	<span class="title text-holder">
+						<span class="favorites-holder">
+							<span class="favorites"><a ng-class="{favorite:isFavorite(item.id)}" ng-click="toggleFavorite($event, item)">&nbsp;</a></span>
+						</span>
+                    	<span class="title">
 	                        <a ng-if="!e2e" class="default" ng-click="goto($event, gotoScenarioCalculate(CONFIG.nameClickAction, item), item)">{{item.title}}</a>
 	                        <a ng-if="e2e" data-ms-id="{{item.id}}" class="default" ng-click="goto($event, gotoScenarioCalculate(CONFIG.nameClickAction, item), item)">{{item.title}}</a>
 	                        &nbsp;<icon ng-if="item.isMaster" type="marketshare"></icon>
