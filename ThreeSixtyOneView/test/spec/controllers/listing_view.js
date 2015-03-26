@@ -122,7 +122,7 @@ describe('Controllers: ', function() {
 
     describe("Scenario Listing CTRL", function(){
         beforeEach(inject(function(_SortAndFilterService_, ManageScenariosService, _FavoritesService_) {
-            scenarios = [{title:"foo"}, {title: "bar"}, {title: "foobar"}];
+            scenarios = [{title:"foo", id: 1}, {title: "bar", id: 2}, {title: "foobar", id: 3}];
             data = {id:"123", title:"title", description: "description", isMaster:false};
             deferred = $q.defer();
             deferred.resolve(data);
@@ -144,9 +144,7 @@ describe('Controllers: ', function() {
                 stopPropagation: jasmine.createSpy('event.stopPropagation'),
             };
 
-            $httpBackend.expectGET(SERVER + "/rubix/v1/project").respond({});
-            $httpBackend.expectGET(SERVER + "/rubix/v1/favorite/project").respond({});
-            $httpBackend.expectGET("views/projects.tpl.html").respond({});
+            $httpBackend.whenGET(/.*/).respond({});
 
             ctrl = $controller('ScenarioListingCtrl', {
                 $scope: scope,

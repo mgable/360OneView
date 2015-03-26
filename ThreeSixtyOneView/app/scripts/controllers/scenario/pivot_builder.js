@@ -8,7 +8,8 @@
 * Controller of the ThreeSixtyOneView
 */
 angular.module('ThreeSixtyOneView')
-	.controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', '$timeout', 'DialogService', 'ManageAnalysisViewsService', function ($scope, $rootScope, EVENTS, $timeout, DialogService, ManageAnalysisViewsService) {
+	.controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', 'DialogService', 'ManageAnalysisViewsService', 'PivotViewService',
+		function ($scope, $rootScope, EVENTS, DialogService, ManageAnalysisViewsService, PivotViewService) {
 	var init = function() {
 			$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
 			$scope.saveAs = false;
@@ -38,36 +39,18 @@ angular.module('ThreeSixtyOneView')
 
 		// $added contains added levels in rows/columns and is coming from parent controller
 		$scope.deleteItem =  function(index, element) {
-			$scope.added[$scope.viewData[element][index].level.label] = false;
-			$scope.viewData[element].splice(index, 1);
-			$scope.determineTimeDisability($scope.added);
-			$scope.saveDraftView();
-			$scope.lockVariableDimension($scope.added);
+			PivotViewService.deleteItem($scope.viewData, $scope.added, index, element,
+				[$scope.determineTimeDisability, $scope.saveDraftView, $scope.lockVariableDimension]);
 		};
 
 		$scope.addItem = function(item, element) {
-			var newItem = {dimension:{id:item.dimensionId},hierarchy:{id:-1},level:{id:item.levelId, label:item.label}};
-			$scope.viewData[element].push(newItem);
-			$scope.added[item.label] = true;
-			$scope.determineTimeDisability($scope.added);
-			$scope.saveDraftView();
-			$scope.lockVariableDimension($scope.added);
+			PivotViewService.addItem($scope.viewData, $scope.added, item, element,
+				[$scope.determineTimeDisability, $scope.saveDraftView, $scope.lockVariableDimension]);
 		};
 
 		$scope.replaceItem = function(selected, priorLabel, element) {
-			var match, newItem, index;
-			$scope.added[priorLabel] = false;
-			$scope.added[selected.label] = true;
-			$scope.determineTimeDisability($scope.added);
-			match = _.find($scope.viewData[element], function(item) { return item.level.label === priorLabel; });
-			if (match) {
-				newItem = {dimension:{id:selected.dimensionId},hierarchy:{id:-1},level:{id:selected.levelId, label:selected.label}};
-	            index = _.indexOf($scope.viewData[element], match);
-	            $scope.viewData[element].splice(index, 1, newItem);
-	        }
-
-			$scope.saveDraftView();
-			$scope.lockVariableDimension($scope.added);
+			PivotViewService.replaceItem($scope.viewData, $scope.added, selected, priorLabel, element,
+				[$scope.determineTimeDisability, $scope.saveDraftView, $scope.lockVariableDimension]);
 		};
 
 		// open/dismiss filters selection modal
@@ -174,16 +157,16 @@ angular.module('ThreeSixtyOneView')
 		// show table/filters section and update height for pivot table
 		$scope.showTable = function(filtersVisible){
 			$scope.isFiltersVisible = filtersVisible;
-			$scope.heightChanged();
+			// $scope.heightChanged();
 		};
 
 		// get height of the pivot table builder and broadcast is as an event for adjusting pivot table height
-		$scope.heightChanged = function() {
-			$timeout(function() {
-				$scope.pivotBuilderHeight = angular.element.find('#pivotBuilder')[0].offsetHeight;
-				$rootScope.$broadcast(EVENTS.heightChanged, $scope.pivotBuilderHeight);
-	        }, 400);
-		};
+		// $scope.heightChanged = function() {
+		// 	$timeout(function() {
+		// 		$scope.pivotBuilderHeight = angular.element.find('#pivotBuilder')[0].offsetHeight;
+		// 		$rootScope.$broadcast(EVENTS.heightChanged, $scope.pivotBuilderHeight);
+	 //        }, 400);
+		// };
 
 		$scope.$on(EVENTS.tabClosed, function(){
 			$scope.$apply($scope.cancelSaveAs);

@@ -67,6 +67,9 @@
 					}
 
 					.text-holder {
+						&.strategy {
+							background-color: $ms-green;
+						}
 						&.favorites-holder {
 							width:25px;
 						}
@@ -74,6 +77,7 @@
 						float: left;
 						max-width:400px;
 						margin-right: 10px;
+						padding: 3px;
 						a {
 							color: inherit;
 						}
@@ -127,6 +131,7 @@
 							text-decoration: none;
 							font-weight: bold;
 							text-transform: uppercase;
+							white-space: nowrap;
 						}
 					}
 				}
@@ -218,8 +223,12 @@
 						word-wrap: break-word;
 						width: 100%;
 					}
-					.name {
-						// text-transform: capitalize;
+					.text-holder {
+						.template.strategy {
+							padding: 3px;
+							display: inline-block;
+							background-color: $ms-green;
+						}
 					}
 				}
 				&.relatedItems {
