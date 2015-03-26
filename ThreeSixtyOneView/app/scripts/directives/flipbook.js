@@ -18,6 +18,7 @@ angular.module('ThreeSixtyOneView.directives')
 			basePath = attrs.basepath,
 			callback = attrs.callback,
 			data = attrs.data,
+			type = attrs.type,
 			setView = function(i){
 				scope.view = views[i];
 				scope.url = basePath + "/" + views[i].url;
@@ -30,6 +31,7 @@ angular.module('ThreeSixtyOneView.directives')
 			scope.DIRECTION = "NEXT";
 
 			scope.data = data;
+			scope.type = type;
 
 			scope.forward = function(){
 				if (index  === totalViews - 1){

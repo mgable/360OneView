@@ -42,17 +42,16 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
   $templateCache.put('views/directives/flipbook.tpl.html',
     "<div class=\"flipbook row scenarioTemplates\">\n" +
-    "\n" +
-    "\t{{data}}xxxxx\n" +
     "\t<div class=\"col-md-3 left-column\">\n" +
     "\t\t<div class=\"product-banner\">\n" +
     "\t\t\t<div class=\"ms-logo\"></div>\n" +
-    "\t\t\t&nbsp;Action\n" +
+    "\t\t\t&nbsp;Action {{type}}\n" +
     "\t\t</div>\n" +
     "\t\t<div class=\"template-steps-header\">\n" +
     "\t\t\tCreate a Scenario Template\n" +
     "\t\t</div>\n" +
     "\t\t<div class=\"template-steps\">\n" +
+    "\t\t\t{{data}}\n" +
     "\t\t\t<ul>\n" +
     "\t\t\t\t<li><icon type=\"circle-o\"></icon>&nbsp;Name &amp; Describe</li>\n" +
     "\t\t\t\t<li class=\"pipe-line\">|</li>\n" +
@@ -369,8 +368,8 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t</form>\n" +
     "\t\t</div>\n" +
     "\t\t<div class=\"action-buttons\">\n" +
-    "\t\t\t<ms-button type=\"cancel\" action=\"cancelCopyFile()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\n" +
-    "\t\t\t<ms-button type=\"submit\" action=\"copyFile()\" label=\"Replace\" data-dismiss=\"modal\" ng-disabled=\"elementCopy.$invalid\"></ms-button>\n" +
+    "\t\t\t<ms-button type=\"cancel\" action=\"cancel()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\n" +
+    "\t\t\t<ms-button type=\"submit\" action=\"submit()\" label=\"Replace\" data-dismiss=\"modal\" ng-disabled=\"elementCopy.$invalid\"></ms-button>\n" +
     "\t\t</div>\n" +
     "\t</div>\n" +
     "</div>"
