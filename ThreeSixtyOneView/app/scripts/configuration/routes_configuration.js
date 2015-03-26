@@ -10,10 +10,6 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
       url: "/scenariotemplates",
       templateUrl: "views/scenario_templates.tpl.html",
       controller: "ScenarioTemplatesCtrl",
-      // resolve: {
-      //   'Projects': function(ProjectsService){return ProjectsService.get();},
-      //   'Favorites': function(FavoritesService){return FavoritesService.get("project");}
-      // },
       breadcrumb: "<li>Scenario Templates</li>"
     })
     .state('ProjectManager', {
@@ -55,7 +51,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
       resolve: {
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
         'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);},
-        'Scenario': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId, $stateParams.scenarioId);},
+        'Scenario': function(ScenarioService, Scenarios, $stateParams){return ScenarioService.find(Scenarios, $stateParams.scenarioId);},
         'ScenarioAnalysisElements': function(ManageScenariosService, $stateParams){return ManageScenariosService.get($stateParams.scenarioId);},
         'Calculate': function(AnalyticCalculationsService, $stateParams){return AnalyticCalculationsService.get($stateParams.scenarioId);}
       },

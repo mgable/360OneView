@@ -22,8 +22,8 @@ angular.module('ThreeSixtyOneView.directives')
 				scope.project = $stateParams.projectId ? ProjectsService.getProjectItemById($stateParams.projectId) : "";
 
 				if ($stateParams.scenarioId){
-					 ScenarioService.get($stateParams.projectId,$stateParams.scenarioId).then(function(response){
-						scope.scenario = response;
+					 ScenarioService.get($stateParams.projectId).then(function(scenarios){
+					 	scope.scenario = ScenarioService.find(scenarios, $stateParams.scenarioId);
 						breadcrumbs = $sce.trustAsHtml($interpolate($state.current.breadcrumb)(scope));
 						scope.breadcrumbs = breadcrumbs;
 					 });
