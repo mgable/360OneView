@@ -66,7 +66,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/flipbook.tpl.html',
-    "<div class=\"flipbook row scenarioTemplates\">\r" +
+    "<div class=\"flipbook\">\r" +
     "\n" +
     "\t<div class=\"col-md-3 left-column\">\r" +
     "\n" +
@@ -74,7 +74,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<div class=\"ms-logo\"></div>\r" +
     "\n" +
-    "\t\t\t&nbsp;Action\r" +
+    "\t\t\t&nbsp;{{type}}\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
@@ -88,19 +88,15 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<ul>\r" +
     "\n" +
-    "\t\t\t\t<li><icon type=\"circle-o\"></icon>&nbsp;Name &amp; Describe</li>\r" +
+    "\t\t\t\t<li ng-repeat=\"data in data\">\r" +
     "\n" +
-    "\t\t\t\t<li class=\"pipe-line\">|</li>\r" +
+    "\t\t\t\t\t<icon type=\"circle-o\"></icon>\r" +
     "\n" +
-    "\t\t\t\t<li><icon type=\"circle-o\"></icon>&nbsp;Choose Dimensions</li>\r" +
+    "\t\t\t\t\t\t&nbsp;{{data.title}}\r" +
     "\n" +
-    "\t\t\t\t<li class=\"pipe-line\">|</li>\r" +
+    "\t\t\t\t\t<div ng-if=\"data.next\" class=\"pipe-line\">|</div>\r" +
     "\n" +
-    "\t\t\t\t<li><icon type=\"circle-o\"></icon>&nbsp;Choose Defaults</li>\r" +
-    "\n" +
-    "\t\t\t\t<li class=\"pipe-line\">|</li>\r" +
-    "\n" +
-    "\t\t\t\t<li><icon type=\"circle-o\"></icon>&nbsp;Review</li>\r" +
+    "\t\t\t\t</li>\r" +
     "\n" +
     "\t\t\t</ul>\r" +
     "\n" +
@@ -114,7 +110,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<div class=\"button-container\">\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"cancel\" label=\"Cancel\" action=\"\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"cancel\" label=\"Cancel\" action=\"cancel\"></ms-button>\r" +
     "\n" +
     "\t\t\t<span class=\"right\">\r" +
     "\n" +

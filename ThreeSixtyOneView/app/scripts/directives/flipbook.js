@@ -28,6 +28,15 @@ angular.module('ThreeSixtyOneView.directives')
 
 			scope.DIRECTION = "NEXT";
 
+			scope.type = "Action";
+
+			scope.data = [
+				{title: "Name & Describe", next: true},
+				{title: "Choose Dimensions", next: true},
+				{title: "Choose Defaults", next: true},
+				{title: "Review", next: false}
+			];
+
 			scope.forward = function(){
 				if (index  === totalViews - 1){
 					scope[callback]();
