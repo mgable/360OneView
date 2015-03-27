@@ -11,8 +11,8 @@
 			<ul>
 				<li ng-repeat="data in data">
 					<icon type="circle-o"></icon>
-						&nbsp;{{data.title}}
-					<div ng-if="data.next" class="pipe-line">|</div>
+						&nbsp;{{data.label}}
+					<div ng-if="!data.buttonLabel" class="pipe-line">|</div>
 				</li>
 			</ul>
 		</div>

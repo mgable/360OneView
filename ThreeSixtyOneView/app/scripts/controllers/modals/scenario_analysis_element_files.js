@@ -7,9 +7,6 @@ function($scope, $controller, $modalInstance, CONFIG, data, MetaDataService) {
 	angular.extend(this, $controller('ListLightboxBaseCtrl', {$scope: $scope, $controller: $controller, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
 	var init = function() {
-		$scope.elementTypeItems = ['All', 'By Me', 'Favorite'];
-		$scope.currentElementType = 0;
-
 		$scope.selectedScenarioElement = data.selectedScenarioElement;
 		$scope.currentItem = {id: data.selectedScenarioElement.id};
 		$scope.e2e = data.e2e;
@@ -23,11 +20,6 @@ function($scope, $controller, $modalInstance, CONFIG, data, MetaDataService) {
 			$scope.list = response;
 			$scope.isListLoaded = true;
 		});
-	};
-
-	// change element type
-	$scope.changeElementType = function(type) {
-		$scope.currentElementType = type;
 	};
 
 	// pass back the selected file and dismiss the modal

@@ -17,12 +17,12 @@ angular.module('ThreeSixtyOneView')
         };
 
         // cancel the changes and dismiss the modal
-        $scope.cancelCopyFile = function() {
+        $scope.cancel = function() {
             $modalInstance.dismiss('canceled');
         };
 
         // pass back the selected file and dismiss the modal
-        $scope.copyFile = function() {
+        $scope.submit = function() {
             $modalInstance.close($scope.newElement);
         };
 
