@@ -10,7 +10,18 @@
 	</div>
 
 	<div>
-		{{defaultViewSelection}}
+		<div id="dragDropArea" ng-hide="isFiltersVisible">
+			<div ng-repeat="pivotBuilderItem in getPivotBuilderItems()" class="dimensions-list">
+				<div class="title">{{pivotBuilderItem.label}}</div>
+				<div class="list" data-as-sortable="dragOptions" ng-model="viewData[pivotBuilderItem.name]" tabindex="-1">
+					<div class="" data-as-sortable-item style="display:inline-block;width:5px;height:26px;vertical-align:top;margin:0;" ng-if="isDragging">
+						<span data-as-sortable-item-handle></span>
+					</div>
+					<draggable-dimension ng-repeat="item in getViewData(pivotBuilderItem.name)" row-or-col="{{pivotBuilderItem.name}}" template="draggable_dimension"></draggable-dimension>
+					<draggable-dimension row-or-col="{{pivotBuilderItem.name}}" template="add_dimension_button" ng-hide="isDragging"></draggable-dimension>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<div class="prompt">
