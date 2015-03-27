@@ -216,8 +216,7 @@
 		}
 	};
 
-	// create an empty view with no rows and columns and ALL for filters
-	this.createEmptyView = function(dimensions, cubeMeta, spendViewId) {
+	this.formEmptyView = function(dimensions, cubeMeta) {
 		var newColumn = {dimension:{id:dimensions[dimensions.length-1].dimensionId},hierarchy:{id:-1},level:{id:dimensions[dimensions.length-1].members[0].levelId}},
 			newRow = {dimension:{id:dimensions[0].dimensionId},hierarchy:{id:-1},level:{id:dimensions[0].members[dimensions[0].members.length-1].levelId}},
 			columns = [],
@@ -257,6 +256,13 @@
 				};
 			}
 		});
+
+		return newView;
+	};
+
+	// create an empty view with no rows and columns and ALL for filters
+	this.createEmptyView = function(dimensions, cubeMeta, spendViewId) {
+		var newView = self.formEmptyView(dimensions, cubeMeta);
 
 		return ManageAnalysisViewsService.createView(newView, cubeMeta.id, spendViewId).then(function(view) {
 			return view;
