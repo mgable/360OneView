@@ -41,6 +41,33 @@
 			}
 
 			return output;
+		},
+		getDefaultViewRow = function(dimensions) {
+			return {
+				dimension: {id:dimensions[0].dimensionId
+				},
+				hierarchy: {
+					id: -1
+				},
+				level: {
+					id: dimensions[0].members[dimensions[0].members.length-1].levelId,
+					label: dimensions[0].members[dimensions[0].members.length-1].label
+				}
+			};
+		},
+		getDefaultViewColumn = function(dimensions) {
+			return {
+				dimension: {
+					id: dimensions[dimensions.length-1].dimensionId
+				},
+				hierarchy: {
+					id: -1
+				},
+				level: {
+					id: dimensions[dimensions.length-1].members[0].levelId,
+					label: dimensions[dimensions.length-1].members[0].label
+				}
+			};
 		};
 
 	// create the temporary filter object from the view data
@@ -217,8 +244,8 @@
 	};
 
 	this.formEmptyView = function(dimensions, cubeMeta) {
-		var newColumn = {dimension:{id:dimensions[dimensions.length-1].dimensionId},hierarchy:{id:-1},level:{id:dimensions[dimensions.length-1].members[0].levelId}},
-			newRow = {dimension:{id:dimensions[0].dimensionId},hierarchy:{id:-1},level:{id:dimensions[0].members[dimensions[0].members.length-1].levelId}},
+		var newColumn = getDefaultViewColumn(dimensions),
+			newRow = getDefaultViewRow(dimensions),
 			columns = [],
 			rows = [],
 			newView = {
@@ -392,5 +419,26 @@
 		});
 
 		return filters;
+	};
+
+	this.determineTimeDisability = function(dimensions, added, membersList) {
+		var timeDimensionId = 0,
+			timeDisabled = false,
+			TimeDimension;
+
+		_.each(dimensions, function(dimension) {
+			if(dimension.type === 'TimeDimension') {
+				timeDimensionId = dimension.id;
+				TimeDimension = dimension;
+			}
+		});
+
+		_.each(TimeDimension.members, function(member) {
+			if(added[member.label]) {
+				timeDisabled = true;
+			}
+		});
+
+		return timeDisabled;
 	};
 }]);

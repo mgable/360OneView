@@ -184,20 +184,7 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		$scope.determineTimeDisability = function(added) {
-			var timeDimensionId = 0;
-
-			_.each($scope.dimensions, function(dimension) {
-				if(dimension.type === 'TimeDimension') {
-					timeDimensionId = dimension.id;
-				}
-			});
-
-			$scope.timeDisabled = false;
-			_.each(added, function(item, key) {
-				if($scope.membersList[timeDimensionId][key] && added[key]) {
-					$scope.timeDisabled = true;
-				}
-			});
+			$scope.timeDisabled = PivotMetaService.determineTimeDisability($scope.dimensions, added, $scope.membersList)
 		};
 
 		// locks the last variable item in rows/columns if its aggregatable type is false
