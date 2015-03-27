@@ -30,40 +30,11 @@
 	<div class="dimensions">
 		<div class="row dimensionContainer">
 			<div class="col-md-4" ng-repeat="spendDimension in spendDimensions">
-				<div class="dimensionCard spendDimensionCard">
-					<div class="dimensionCheckbox">
-						<div class="parent-checkbox" ng-class="{selected: spendDimension.isSelected}">
-							<input type="checkbox" class="ms-checkbox" ms-tristates-checkbox child-list="spendDimension.members" property="isSelected" ng-model="spendDimension.isSelected">{{spendDimension.label}}
-						</div>
-						<div class="children-checkbox" ng-repeat="item in spendDimension.members" ng-class="{selected: item.isSelected}" | orderBy:item.id>
-				  			<input type="checkbox" class="ms-checkbox" ng-model="item.isSelected">{{item.label}}
-						</div>
-					</div>
-					<div class="dimensionFilter">
-						<span title="{{getFilterArray(spendDimension)}}" ng-class="{selected: getFilterArray(spendDimension).length}">
-							<icon type="filter"></icon>
-							<a ng-click="filtersModal(spendDimension)">{{getFilterArray(spendDimension)}}</a>
-						</span>
-					</div>
-				</div>
+				<ms-dimension-card dimension-data="spendDimension" all-dimensions-data="spendDimensions" dimension-type="spend"></ms-dimension-card>
 			</div>
-			<div ng-repeat="kpiDimension in kpiDimensionsList" class="col-md-12">
-				<div class="dimensionCard kpiDimensionCard">
-					<div class="dimensionCheckbox">
-						<div class="parent-checkbox" ng-class="{selected: kpiDimension.isSelected}">
-							<input type="checkbox" class="ms-checkbox" ms-tristates-checkbox child-list="kpiDimension.children" property="isSelected" ng-model="kpiDimension.isSelected">KPIs
-						</div>
-						<div class="row no-margin">
-							<div ng-repeat="item in kpiDimension.children">
-								<div class="clearfix" ng-if="$index % 3 == 0"></div>
-								<div class="col-md-4 children-checkbox" ng-class="{selected: item.isSelected}">
-			  						<input type="checkbox" class="ms-checkbox" ng-model="item.isSelected" ng-disabled="item.isLocked">{{item.label}}
-			  						<icon type="lock" class="pull-right" ng-if="item.isLocked"></icon>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+			<div class="col-md-12">
+				<ms-dimension-card all-dimensions-data="kpiDimensions" dimension-type="kpi"></ms-dimension-card>
 			</div>
 		</div>
+	</div>
 <div>

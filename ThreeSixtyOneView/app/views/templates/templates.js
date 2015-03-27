@@ -66,7 +66,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/flipbook.tpl.html',
-    "<div class=\"flipbook row scenarioTemplates\">\r" +
+    "<div class=\"flipbook\">\r" +
     "\n" +
     "\t<div class=\"col-md-3 left-column\">\r" +
     "\n" +
@@ -74,7 +74,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<div class=\"ms-logo\"></div>\r" +
     "\n" +
-    "\t\t\t&nbsp;Action\r" +
+    "\t\t\t&nbsp;{{type}}\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
@@ -88,19 +88,15 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<ul>\r" +
     "\n" +
-    "\t\t\t\t<li><icon type=\"circle-o\"></icon>&nbsp;Name &amp; Describe</li>\r" +
+    "\t\t\t\t<li ng-repeat=\"data in data\">\r" +
     "\n" +
-    "\t\t\t\t<li class=\"pipe-line\">|</li>\r" +
+    "\t\t\t\t\t<icon type=\"circle-o\"></icon>\r" +
     "\n" +
-    "\t\t\t\t<li><icon type=\"circle-o\"></icon>&nbsp;Choose Dimensions</li>\r" +
+    "\t\t\t\t\t\t&nbsp;{{data.label}}\r" +
     "\n" +
-    "\t\t\t\t<li class=\"pipe-line\">|</li>\r" +
+    "\t\t\t\t\t<div ng-if=\"!data.buttonLabel\" class=\"pipe-line\">|</div>\r" +
     "\n" +
-    "\t\t\t\t<li><icon type=\"circle-o\"></icon>&nbsp;Choose Defaults</li>\r" +
-    "\n" +
-    "\t\t\t\t<li class=\"pipe-line\">|</li>\r" +
-    "\n" +
-    "\t\t\t\t<li><icon type=\"circle-o\"></icon>&nbsp;Review</li>\r" +
+    "\t\t\t\t</li>\r" +
     "\n" +
     "\t\t\t</ul>\r" +
     "\n" +
@@ -114,7 +110,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<div class=\"button-container\">\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"cancel\" label=\"Cancel\" action=\"\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"cancel\" label=\"Cancel\" action=\"cancel\"></ms-button>\r" +
     "\n" +
     "\t\t\t<span class=\"right\">\r" +
     "\n" +
@@ -323,6 +319,92 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t<icon type=\"filter\"></icon>\r" +
     "\n" +
     "\t<input type=\"text\" class=\"search-input\" ng-model=\"SortAndFilterService.searchText\" ng-change=\"SortAndFilterService.filter()\" placeholder=\"Filter List\" ng-maxlength=\"1000\" />&nbsp;\r" +
+    "\n" +
+    "</div>"
+  );
+
+
+  $templateCache.put('views/directives/ms_kpi_dimension_card.tpl.html',
+    "<div class=\"dimensionCard kpiDimensionCard\">\r" +
+    "\n" +
+    "    <div class=\"dimensionCheckbox\">\r" +
+    "\n" +
+    "        <div class=\"parent-checkbox ms-checkbox no-select\" ng-class=\"{selected: dimensionData.isSelected}\">\r" +
+    "\n" +
+    "            <label>\r" +
+    "\n" +
+    "                <input type=\"checkbox\" ms-tristates-checkbox child-list=\"allDimensionsData\" property=\"isSelected\" ng-model=\"allDimensionsData.isSelected\"><i></i><span>KPIs</span>\r" +
+    "\n" +
+    "            </label>\r" +
+    "\n" +
+    "        </div>\r" +
+    "\n" +
+    "        <div class=\"row no-margin\">\r" +
+    "\n" +
+    "            <div ng-repeat=\"item in allDimensionsData\">\r" +
+    "\n" +
+    "                <div class=\"clearfix\" ng-if=\"$index % 3 == 0\"></div>\r" +
+    "\n" +
+    "                <div class=\"col-md-4 children-checkbox ms-checkbox no-select\" ng-class=\"{selected: item.isSelected}\">\r" +
+    "\n" +
+    "                    <label>\r" +
+    "\n" +
+    "                        <input type=\"checkbox\" ng-model=\"item.isSelected\" ng-disabled=\"item.isLocked\"><i></i><span>{{item.label}}</span>\r" +
+    "\n" +
+    "                    </label>\r" +
+    "\n" +
+    "                    <icon type=\"lock\" class=\"pull-right\" ng-if=\"item.isLocked\"></icon>\r" +
+    "\n" +
+    "                </div>\r" +
+    "\n" +
+    "            </div>\r" +
+    "\n" +
+    "        </div>\r" +
+    "\n" +
+    "    </div>\r" +
+    "\n" +
+    "</div>"
+  );
+
+
+  $templateCache.put('views/directives/ms_spend_dimension_card.tpl.html',
+    "<div class=\"dimensionCard spendDimensionCard\">\r" +
+    "\n" +
+    "    <div class=\"dimensionCheckbox\">\r" +
+    "\n" +
+    "        <div class=\"parent-checkbox ms-checkbox no-select\" ng-class=\"{selected: dimensionData.isSelected}\">\r" +
+    "\n" +
+    "            <label>\r" +
+    "\n" +
+    "                <input type=\"checkbox\" ms-tristates-checkbox child-list=\"dimensionData.members\" property=\"isSelected\" ng-model=\"dimensionData.isSelected\"><i></i><span>{{dimensionData.label}}</span>\r" +
+    "\n" +
+    "            </label>\r" +
+    "\n" +
+    "        </div>\r" +
+    "\n" +
+    "        <div class=\"children-checkbox ms-checkbox no-select\" ng-repeat=\"item in dimensionData.members\" ng-class=\"{selected: item.isSelected}\" | orderBy:item.id>\r" +
+    "\n" +
+    "            <label>\r" +
+    "\n" +
+    "                <input type=\"checkbox\" ng-model=\"item.isSelected\"><i></i><span>{{item.label}}</span>\r" +
+    "\n" +
+    "            </label>\r" +
+    "\n" +
+    "        </div>\r" +
+    "\n" +
+    "    </div>\r" +
+    "\n" +
+    "    <div class=\"dimensionFilter\">\r" +
+    "\n" +
+    "        <span title=\"{{getFilterArray(dimensionData)}}\" ng-class=\"{selected: getFilterArray(dimensionData).length}\">\r" +
+    "\n" +
+    "            <icon type=\"filter\"></icon>\r" +
+    "\n" +
+    "            <a ng-click=\"filtersModal(dimensionData)\">{{getFilterArray(dimensionData)}}</a>\r" +
+    "\n" +
+    "        </span>\r" +
+    "\n" +
+    "    </div>\r" +
     "\n" +
     "</div>"
   );
@@ -659,9 +741,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<div class=\"action-buttons\">\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"cancel\" action=\"cancelCopyFile()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"cancel\" action=\"cancel()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"submit\" action=\"copyFile()\" label=\"Replace\" data-dismiss=\"modal\" ng-disabled=\"elementCopy.$invalid\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"submit\" action=\"submit()\" label=\"Replace\" data-dismiss=\"modal\" ng-disabled=\"elementCopy.$invalid\"></ms-button>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +

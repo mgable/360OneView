@@ -1,0 +1,20 @@
+<div class="dimensionCard spendDimensionCard">
+    <div class="dimensionCheckbox">
+        <div class="parent-checkbox ms-checkbox no-select" ng-class="{selected: dimensionData.isSelected}">
+            <label>
+                <input type="checkbox" ms-tristates-checkbox child-list="dimensionData.members" property="isSelected" ng-model="dimensionData.isSelected"><i></i><span>{{dimensionData.label}}</span>
+            </label>
+        </div>
+        <div class="children-checkbox ms-checkbox no-select" ng-repeat="item in dimensionData.members" ng-class="{selected: item.isSelected}" | orderBy:item.id>
+            <label>
+                <input type="checkbox" ng-model="item.isSelected"><i></i><span>{{item.label}}</span>
+            </label>
+        </div>
+    </div>
+    <div class="dimensionFilter">
+        <span title="{{getFilterArray(dimensionData)}}" ng-class="{selected: getFilterArray(dimensionData).length}">
+            <icon type="filter"></icon>
+            <a ng-click="filtersModal(dimensionData)">{{getFilterArray(dimensionData)}}</a>
+        </span>
+    </div>
+</div>

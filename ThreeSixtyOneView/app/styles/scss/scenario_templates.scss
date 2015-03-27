@@ -148,10 +148,16 @@
                     font-weight: bold;
                 }
                 .parent-checkbox {
-                    padding: 0 0 10px 0;
+                    margin-bottom: 10px;
                 }
                 .children-checkbox {
                     padding-left: 20px;
+                    label {
+                        span {
+                            text-transform: lowercase;
+                            &:first-letter { text-transform: uppercase; }
+                        }
+                    }
                 }
             }
             .dimensionFilter {
@@ -167,6 +173,7 @@
                 span {
                     cursor: pointer;
                     white-space: nowrap;
+                    line-height: 14px;
                     &:hover {
                         text-decoration: underline;
                     }
@@ -182,6 +189,9 @@
         .spendDimensionCard {
             width: 200px;
             height: 185px;
+        }
+        .kpiDimensionCard {
+            height: 100px;
         }
     }
 }

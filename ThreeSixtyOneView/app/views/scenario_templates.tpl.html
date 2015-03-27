@@ -1,9 +1,6 @@
-<div class="scenarioTemplates">
-	<p>This is the scenario_templates.tpl.html view.</p>
-
+<div class="scenarioTemplates row">
 	<div ng-controller="ScenarioTemplatesViewsCtrl">
-		<flipbook data={{CONFIG.view.ScenarioTemplates.workflow}} basePath="views/includes/scenario_templates" callback="done">
-			hey {{view.label}}
+		<flipbook data={{CONFIG.view.ScenarioTemplates.workflow}} type="Action" basePath="views/includes/scenario_templates" callback="done">
 				<ng-include src="url"></ng-include>
 		</flipbook>
 	</div>
