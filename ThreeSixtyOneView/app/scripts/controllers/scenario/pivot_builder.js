@@ -157,16 +157,7 @@ angular.module('ThreeSixtyOneView')
 		// show table/filters section and update height for pivot table
 		$scope.showTable = function(filtersVisible){
 			$scope.isFiltersVisible = filtersVisible;
-			// $scope.heightChanged();
 		};
-
-		// get height of the pivot table builder and broadcast is as an event for adjusting pivot table height
-		// $scope.heightChanged = function() {
-		// 	$timeout(function() {
-		// 		$scope.pivotBuilderHeight = angular.element.find('#pivotBuilder')[0].offsetHeight;
-		// 		$rootScope.$broadcast(EVENTS.heightChanged, $scope.pivotBuilderHeight);
-	 //        }, 400);
-		// };
 
 		$scope.$on(EVENTS.tabClosed, function(){
 			$scope.$apply($scope.cancelSaveAs);
