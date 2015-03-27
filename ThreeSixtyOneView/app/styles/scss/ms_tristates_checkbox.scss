@@ -2,6 +2,7 @@
 @import "new_variables";
 $icon-size:14px;
 .ms-checkbox {
+    margin-bottom: 8px;
     label {
         display: block;
         position: relative;
@@ -9,10 +10,8 @@ $icon-size:14px;
         font-weight: normal;
         cursor: pointer;
     }
-    label:last-of-type {
-        margin-right: 1rem;
-    }
     label i {
+        margin-right: 5px;
         display: inline-block;
         height: $icon-size;
         position: relative;

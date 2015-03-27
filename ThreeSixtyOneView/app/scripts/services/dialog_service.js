@@ -35,4 +35,21 @@ angular.module('ThreeSixtyOneView.services')
             dialogs.notify(header,msg);
         };
 
+        this.filtersModal = function(dimension, addedFilters, viewData, dimensions, callback) {
+            var dialog = this.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl', {
+                dimension: dimension || {},
+                addedFilters: addedFilters || {},
+                viewData: viewData || {},
+                dimensions: dimensions || {},
+                callback: callback || function(){}
+            }, {
+                windowSize: 'lg',
+                windowClass: 'filters-modal'
+            });
+
+            dialog.result.then(function(data) {
+                callback.call(null, data);
+            });
+        };
+
     }]);

@@ -29,6 +29,9 @@ angular.module('ThreeSixtyOneView.directives')
                         });
                         return v.isSelected === true;
                     });
+                },
+                filtersModalCallback = function(data) {
+                    console.info('filtered data: ', data);
                 };
 
                 scope.getFilterArray = function(dimension) {
@@ -39,22 +42,11 @@ angular.module('ThreeSixtyOneView.directives')
                     return (filterArray.length === dimensionLength) ? 'All' : filterArray.join();
                 };
 
-                scope.filtersModal = function(dimensionData) {
-                    var filteredDimensions = getFilteredDimensions(scope.allDimensionsData),
-                        addedFilters = PivotMetaService.addAllFilters(filteredDimensions);
-                    var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl', {
-                        dimension: _.find(filteredDimensions, function(v) {
-                            return dimensionData.id === v.id;
-                        }),
-                        addedFilters: addedFilters,
-                        viewData: {},
-                        dimensions: filteredDimensions
-                    }, {
-                        windowSize: 'lg',
-                        windowClass: 'filters-modal'
-                    });
-
-                    dialog.result.then(function(data) {});
+                scope.dimensions = getFilteredDimensions(scope.allDimensionsData);
+                scope.addedFilters = PivotMetaService.addAllFilters(scope.dimensions);
+                scope.filtersModal = function(category) {
+                    var dimension = _.find(scope.dimensions, function(v) { return category.id === v.id; });
+                    DialogService.filtersModal(dimension, scope.addedFilters, scope.viewData, scope.dimensions, filtersModalCallback);
                 };
 
             }
