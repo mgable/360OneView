@@ -262,9 +262,9 @@
 		_.each(dimensions, function(dimension) {
 			newView.filters.push({
 				scope: {
-					dimension: {id: dimension.id},
+					dimension: {id: dimension.id, label: dimension.label},
 					hierarchy: {id: dimension.members[0].hierarchyId},
-					level: {id: dimension.members[0].levelId}
+					level: {id: dimension.members[0].levelId, label: dimension.members[0].label}
 				},
 				value: {
 					specification: {type: 'All'}
@@ -278,7 +278,8 @@
 				newView.filters[newView.filters.length-1].value.specification = {
 					type: 'Absolute',
 					members: [{
-						id: currentYear.id
+						id: currentYear.id,
+						label: currentYear.label
 					}]
 				};
 			}

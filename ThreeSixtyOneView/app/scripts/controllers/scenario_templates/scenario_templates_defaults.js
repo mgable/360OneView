@@ -19,6 +19,8 @@ angular.module('ThreeSixtyOneView')
 				$scope.dimensions = dimensions;
 				$scope.viewData = PivotMetaService.formEmptyView(dimensions, {label: ''});
 				$scope.added = PivotMetaService.setUpAddedLevels($scope.viewData.rows.concat($scope.viewData.columns));
+				$scope.addedFilters = PivotMetaService.getAddedFilters($scope.viewData.filters, dimensions);
+				$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, dimensions, $scope.viewData);
 				determineTimeDisability($scope.added);
 			});
 

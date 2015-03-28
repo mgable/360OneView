@@ -9,8 +9,8 @@
 		</div>
 	</div>
 
-	<div>
-		<div id="dragDropArea" ng-hide="isFiltersVisible">
+	<div class="editor">
+		<div id="dragDropArea">
 			<div ng-repeat="pivotBuilderItem in getPivotBuilderItems()" class="dimensions-list">
 				<div class="title">{{pivotBuilderItem.label}}</div>
 				<div class="list" data-as-sortable="dragOptions" ng-model="viewData[pivotBuilderItem.name]" tabindex="-1">
@@ -20,6 +20,13 @@
 					<draggable-dimension ng-repeat="item in getViewData(pivotBuilderItem.name)" row-or-col="{{pivotBuilderItem.name}}" template="draggable_dimension"></draggable-dimension>
 					<draggable-dimension row-or-col="{{pivotBuilderItem.name}}" template="add_dimension_button" ng-hide="isDragging"></draggable-dimension>
 				</div>
+			</div>
+		</div>
+
+		<div class="dimensions-list filters-list">
+			<div class="title">Filters</div>
+			<div class="list">
+				<dimension-filter ng-repeat="dimension in getDimensions()" ng-if="addedFilters[dimension.label]" dimension="dimension" categorized-values="categorizedValue[$index]" action="filtersModal(dimension)"></dimension-filter>
 			</div>
 		</div>
 	</div>
