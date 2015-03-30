@@ -84,7 +84,7 @@ describe('Directives:', function() {
             expect(sortAndFilterSpy.calls.count()).toEqual(3);
             expect(sortAndFilterSpy.calls.argsFor(0)).toEqual(["reverse", false, false]);
             expect(sortAndFilterSpy.calls.argsFor(1)).toEqual(["reset", "", false]);
-            expect(sortAndFilterSpy.calls.argsFor(2)).toEqual(["orderBy", "modifiedOn", true]);
+            expect(sortAndFilterSpy.calls.argsFor(2)).toEqual(["orderBy", "auditInfo.lastUpdatedOn", true]);
             expect(sortAndFilterSpySetSorter).toHaveBeenCalledWith("column_2", "Last Modified");
         });
 

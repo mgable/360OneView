@@ -7,7 +7,7 @@ angular.module('ThreeSixtyOneView')
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
         var findBaseScenario = function(scenario){
-                return _.find(scenario.data, function(obj){return (/simulation/i).test(obj.type);});
+                return _.find(scenario.data, function(obj){return (/simulation/i).test(obj.prediction.type);});
             },
             getMasterProject = function(projects){
                 return _.findWhere(projects, {"isMaster": true});
@@ -40,9 +40,19 @@ angular.module('ThreeSixtyOneView')
                     baseScenario = findBaseScenario($scope.masterProject);
                     $scope.scenarioList = sortScenarios(response);
                     $scope.masterProjectReferenceScenario = $scope.masterProject.data[0];
+
+                    console.info(baseScenario);
+
+
+
                     $scope.scenario.referenceScenario.id  = baseScenario.id;
-                    $scope.scenario.referenceScenario.name  = baseScenario.title;
-                    selectedBaseScenario = $scope.masterProjectReferenceScenario ;
+                    $scope.scenario.referenceScenario.name  = baseScenario.name;
+                    $scope.scenario.referenceScenario.type  = baseScenario.type;
+                    $scope.scenario.template  = baseScenario.template;
+                    $scope.scenario.prediction  = baseScenario.prediction;
+                    $scope.scenario.type = baseScenario.type;
+
+                    selectedBaseScenario = $scope.masterProjectReferenceScenario;
                 });
             },selectedBaseScenario;
 
@@ -58,10 +68,10 @@ angular.module('ThreeSixtyOneView')
             var searchTerm = searchTerm || '',
                 regExp = new RegExp(searchTerm.toLowerCase(), "g");
 
-            if(regExp.test(project.title.toLowerCase())) {
+            if(regExp.test(project.name.toLowerCase())) {
                 return project.data;
             } else {
-                return $filter('filter')(project.data, {title: searchTerm});
+                return $filter('filter')(project.data, {name: searchTerm});
             }
         };
 
@@ -77,13 +87,13 @@ angular.module('ThreeSixtyOneView')
             return row === selectedBaseScenario;
         };
 
-        $scope.isScenarioTitleUnique = function(scenarioTitle) {
-            return ! _.findWhere($scope.scenarios, {title:scenarioTitle});
+        $scope.isScenarioTitleUnique = function(scenarioName) {
+            return ! _.findWhere($scope.scenarios, {name:scenarioName});
         };
 
         $scope.confirm = function(){
             $scope.scenario.referenceScenario.id = selectedBaseScenario.id;
-            $scope.scenario.referenceScenario.name = selectedBaseScenario.title;
+            $scope.scenario.referenceScenario.name = selectedBaseScenario.name;
             $scope.showFields = true;
         };
 
@@ -91,16 +101,16 @@ angular.module('ThreeSixtyOneView')
             $scope.showFields = true;
         };
 
-        $scope.submit = function(_scenario_){
+        $scope.submit = function(scenario){
             $scope.close();
-            ScenarioService.create($scope.project, _scenario_).then(function(response){
-                GotoService.scenarioEdit($scope.project.id, response.id);
+            ScenarioService.create($scope.project.uuid, scenario).then(function(response){
+                GotoService.scenarioEdit($scope.project.uuid, response.id);
             });
         };
 
         $scope.$on(EVENTS.updateBaseScenario, function(event, data){
             $scope.scenario.referenceScenario.id = data.id;
-            $scope.scenario.referenceScenario.name = data.title;
+            $scope.scenario.referenceScenario.name = data.name;
         });
 
         init();

@@ -2,7 +2,7 @@
 	<div class="details">
 		<div class="clearfix title-holder">
 			<span ng-switch="selectedItem.isMaster || ! selectedItem">
-				<span ng-switch-when="true" class="title"><icon ng-if="selectedItem.isMaster" type="marketshare"></icon>&nbsp;{{selectedItem.title}}</span>
+				<span ng-switch-when="true" class="title"><icon ng-if="selectedItem.isMaster" type="marketshare"></icon>&nbsp;{{selectedItem.name}}</span>
 				<span ng-switch-default>
 					<inline-edit template="inline_rename" test="e2e" submitAction="CONFIG.renameAction" item="selectedItem" comparison-model="isScenarioTitleUnique"></inline-edit>
 				</span>
@@ -28,13 +28,13 @@
 				</span>
 			</span>
 		</div>
-		<span ng-if="selectedItem.createdBy">
+		<span ng-if="selectedItem.auditInfo.createdBy">
 			<p class="ms-label">Created By</p>
-			 <p class="name" data-ms-id="tray.createdBy">{{selectedItem.createdBy}},&nbsp;{{selectedItem.createdOn | date}}</p>
+			 <p class="name" data-ms-id="tray.createdBy">{{selectedItem.auditInfo.createdBy.name}},&nbsp;{{selectedItem.auditInfo.createdOn | date}}</p>
 		</span>
-		<span ng-if="selectedItem.modifiedBy" >
+		<span ng-if="selectedItem.auditInfo.lastUpdatedBy" >
 			 <p class="ms-label">Modified by</p>
-			 <p class="name" data-ms-id="tray.modifiedBy">{{selectedItem.modifiedBy}},&nbsp;{{selectedItem.modifiedOn | date}}</p>
+			 <p class="name" data-ms-id="tray.modifiedBy">{{selectedItem.auditInfo.lastUpdatedBy.name}},&nbsp;{{selectedItem.auditInfo.lastUpdatedOn | date}}</p>
 		</span>
 	</div>
 
@@ -50,7 +50,7 @@
 			<p class='field-label'>Total&nbsp;<span>{{selectedItem.scenarios.length}}</span>&nbsp;scenarios</p>
 			<div class="item-holder" >
 				<div class="item" ng-repeat="scenario in selectedItem.scenarios">
-					<span ng-click="goto($event, 'gotoScenarioEdit', scenario)">{{scenario.title}}</span>
+					<span ng-click="goto($event, 'gotoScenarioEdit', scenario)">{{scenario.name}}</span>
 				</div>
 			</div>
 		</div>

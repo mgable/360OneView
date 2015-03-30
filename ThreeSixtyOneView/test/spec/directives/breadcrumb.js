@@ -14,7 +14,7 @@ describe('Directive: breadcrumb', function () {
   }));
 
   beforeEach(inject(function (_$rootScope_, ProjectsService, $q, $compile, ScenarioService, _$state_, _$stateParams_, GotoService) {
-    data = {title: "new title", description: "new description", id: 12345};
+    data = {name: "new title", description: "new description", id: 12345};
     deferred = $q.defer();
     deferred.resolve(data);
     spyOn(ProjectsService, "getProjectItemById").and.returnValue(data);

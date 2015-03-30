@@ -26,7 +26,7 @@ describe('Directives:', function() {
             $rootScope = _$rootScope_;
             scope = $rootScope.$new();
             scope.item = {};
-            scope.item.title = "the title";
+            scope.item.name = "the title";
             scope.submitaction = "renameProject";
             EVENTS = _EVENTS_;
             element = angular.element('<inline-edit template="inline_rename" item=item submitAction=submitaction></inline-edit>');
@@ -40,9 +40,9 @@ describe('Directives:', function() {
 
         it('should correctly set the title', function() {
             var title = element.find(".noEdit .title");
-            expect(title.text()).toBe(scope.item.title);
+            expect(title.text()).toBe(scope.item.name);
             title = element.find("input");
-            expect(title.val()).toEqual(scope.item.title);
+            expect(title.val()).toEqual(scope.item.name);
         });
 
         it('should hide the input field on start', function() {

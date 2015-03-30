@@ -12,7 +12,7 @@ angular.module('ThreeSixtyOneView.services')
         myScenarios = new MyScenarioModel(ScenarioModel);
         angular.extend(this, myScenarios);
 
-        this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
+        //this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
 		this.myScenarios = myScenarios;
 
@@ -55,18 +55,20 @@ angular.module('ThreeSixtyOneView.services')
 			ids = [],
 			results = [];
 
+			console.info(projects);
+
 			angular.forEach(projects, function(v,k,o){
-				ids.push(_.pick(v, 'id', 'title', 'isMaster'));
+				ids.push(_.pick(v, 'uuid', 'name', 'isMaster'));
 			});
 
 			angular.forEach(ids, function(v,k,o){
-				promises.push({title: v.title, isMaster: v.isMaster, promise: this.get(v.id)});
+				promises.push({name: v.name, isMaster: v.isMaster, promise: this.get(v.uuid)});
 			}, this);
 
 			return $q.all(_.pluck(promises, "promise")).then(function(response){
 				angular.forEach(response, function(v,k,o){
 					if (v.length){
-						results.push({title:promises[k].title, isMaster: promises[k].isMaster, data: v});
+						results.push({name:promises[k].name, isMaster: promises[k].isMaster, data: v});
 					}
 				});
 				return results;

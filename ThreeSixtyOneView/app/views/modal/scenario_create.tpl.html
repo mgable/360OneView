@@ -7,9 +7,9 @@
 			<form class="main-content scenario-create" name="ScenarioCreate" id="ScenarioCreate" novalidate>
 				<div class="inputGroup" ng-show="showFields">
 					<label>Enter Scenario Name
-						<input type="text" focus placeholder="Enter Scenario Name" required ng-maxlength="256" ng-minlength="2" ng-pattern='inputRestrictions.characterRestrictions' validator="isScenarioTitleUnique" error-type="isUnique" ng-model="scenario.title" data-ms-id="ScenarioCreate.inputName"/>
+						<input type="text" focus placeholder="Enter Scenario Name" required ng-maxlength="256" ng-minlength="2" ng-pattern='inputRestrictions.characterRestrictions' validator="isScenarioTitleUnique" error-type="isUnique" ng-model="scenario.name" data-ms-id="ScenarioCreate.inputName"/>
 						<div class="alert alert-danger" ng-show="ScenarioCreate.$error.isUnique" role="alert">
-							The scenario name &quot;{{scenario.title}}&quot; has been taken. Please choose another name.
+							The scenario name &quot;{{scenario.name}&quot; has been taken. Please choose another name.
 						</div>
 					</label>
 					<label>Enter Description (Optional)
@@ -31,26 +31,26 @@
 						</div>
 
 						<accordion close-others="false">
-							<accordion-group is-open="true" ng-hide="hideMasterProject(masterProject.title, masterProjectReferenceScenario.title, searchText)">
-								<accordion-heading>{{masterProject.title}}</accordion-heading>
+							<accordion-group is-open="true" ng-hide="hideMasterProject(masterProject.name, masterProjectReferenceScenario.name, searchText)">
+								<accordion-heading>{{masterProject.name}}</accordion-heading>
 								<div class="row" ng-click="setScenario(masterProjectReferenceScenario)">
 									<div class="col-md-1">
 										<span><icon type="check-circle" cname="ok-sign" ng-show="showRow(masterProjectReferenceScenario)"></icon></span>
 									</div>
 									<div class="col-md-11">
-										<span>{{masterProjectReferenceScenario.title}}</span>
+										<span>{{masterProjectReferenceScenario.name}}</span>
 									</div>
 								</div>
 							</accordion-group>
 							<accordion-group ng-repeat="project in scenarioList | filterProjects: searchText">
-								<accordion-heading>{{project.title}} Project</accordion-heading>
+								<accordion-heading>{{project.name}} Project</accordion-heading>
 								<div ng-repeat="scenario in getScenarios(project, searchText)">
 									<div class="row" ng-click="setScenario(scenario)">
 										<div class="col-md-1">
 											<span ng-show="showRow(scenario)"><icon type="check-circle" cname="ok-sign"></icon></span>
 										</div>
 										<div class="col-md-11">
-											<span class="clickable" data-ms-id="scenario-title">{{scenario.title}}</span>
+											<span class="clickable" data-ms-id="scenario-title">{{scenario.name}}</span>
 										</div>
 									</div>
 								</div>

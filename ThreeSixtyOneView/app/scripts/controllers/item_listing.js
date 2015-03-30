@@ -7,7 +7,6 @@
 angular.module('ThreeSixtyOneView')
 .controller("ScenarioListingCtrl", ["$scope", "$rootScope", "$controller", "Project", "Scenarios", "ScenarioService", "EVENTS", "DialogService", "ManageScenariosService", "ScenarioStatesService", function($scope, $rootScope, $controller, Project, Scenarios, ScenarioService, EVENTS, DialogService, ManageScenariosService, ScenarioStatesService) {
 
-
         // Inherit from base class
         angular.extend(this, $controller('ListingViewCtrl', {$scope: $scope}));
 
@@ -54,9 +53,8 @@ angular.module('ThreeSixtyOneView')
         $scope.selectItem = function(item){
             // the return is for unit tests, it does nothing in the UI
             $scope.showDetails(item);
-            return $scope.getDetails(item, getScenarioElements).then(function(data){
+            return $scope.getDetails(item.id, getScenarioElements).then(function(data){
                 item.scenarioElements = data;
-                $scope.showDetails(item);
             });
         };
 
@@ -114,7 +112,7 @@ angular.module('ThreeSixtyOneView')
             $scope.init(Projects, getProject);
             // the master project is always a favorite and not in the favorite REST call (yet?)
             var master = _.find(Projects, function(elem){return elem.isMaster;});
-            if (master) { FavoritesService.addFavorite(master.id, $scope.CONFIG.favoriteType); }
+            if (master) { FavoritesService.addFavorite(master.uuid, $scope.CONFIG.favoriteType); }
         },
         getScenarios = function(id){
             return ScenarioService.get(id);
@@ -127,9 +125,9 @@ angular.module('ThreeSixtyOneView')
         // click handler interface
         $scope.selectItem = function(item){
             // the return is for unit tests, it does nothing in the UI
-            return $scope.getDetails(item, getScenarios).then(function(data){
+            $scope.showDetails(item);
+            return $scope.getDetails(item.uuid, getScenarios).then(function(data){
                 item.scenarios = data;
-                $scope.showDetails(item);
             });
         };
 
@@ -140,9 +138,9 @@ angular.module('ThreeSixtyOneView')
         });
 
         // create project API call
-        $scope.$on(EVENTS.createProject, function(evt, title){
+        $scope.$on(EVENTS.createProject, function(evt, name){
             var newProject = angular.copy(CONFIG.application.models.ProjectsModel.newProject);
-            newProject.title = title;
+            newProject.name = name;
             ProjectsService.create(newProject).then(function(response){
                 GotoService.dashboard(response.id);
             });
@@ -156,7 +154,10 @@ angular.module('ThreeSixtyOneView')
                 if(firstItem){
                     $scope.selectItem(firstItem);
                 }
-            };
+            },
+            getUuid = function(project){
+                return project.uuid;
+            }
 
         $scope.init = function(_data_, fn){
             var currentView = CONFIG.view[$state.current.name],
@@ -188,8 +189,8 @@ angular.module('ThreeSixtyOneView')
             selectFirstItem();
         };
 
-        $scope.getDetails = function(item, model){
-            return model(item.id).then(function(response){
+        $scope.getDetails = function(id, model){
+            return model(id).then(function(response){
                 return response;
             });
         };
@@ -197,9 +198,9 @@ angular.module('ThreeSixtyOneView')
         $scope.goto = function(evt, where, item, id){
             if (evt && evt.stopPropagation){ evt.stopPropagation(); }
             switch(where){
-                case "gotoScenarioEdit": GotoService.scenarioEdit($scope.getProject().id, item.id, id); break;
-                case "gotoScenarioCalculate": GotoService.scenarioCalculate($scope.getProject().id, item.id); break;
-                case "gotoDashboard": GotoService.dashboard(item.id); break;
+                case "gotoScenarioEdit": GotoService.scenarioEdit(getUuid($scope.getProject()), item.id, id); break;
+                case "gotoScenarioCalculate": GotoService.scenarioCalculate(getUuid($scope.getProject()), item.id); break;
+                case "gotoDashboard": GotoService.dashboard(item.uuid); break;
                 case "gotoProjects": GotoService.projects(); break;
                 case "gotoBaseScenario" : GotoService.baseScenario(item, id); break;
             }
@@ -243,7 +244,7 @@ angular.module('ThreeSixtyOneView')
         $scope.toggleFavorite = function(evt, item){
             evt.stopPropagation();
             if (!item.isMaster) {
-                FavoritesService.toggleFavorite(item.id, $scope.CONFIG.favoriteType);
+                FavoritesService.toggleFavorite(item.uuid, $scope.CONFIG.favoriteType);
                 SortAndFilterService.filter();
                 selectFirstItem();
             }

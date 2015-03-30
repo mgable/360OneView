@@ -5,8 +5,8 @@
 
 angular.module('ThreeSixtyOneView.services').factory('ScenarioModel', ["$location", "$rootScope", "$timeout", "Resource", "CONFIG", "ServerService", "EVENTS", function($location, $rootScope, $timeout, Resource, CONFIG, ServerService, EVENTS){
     var resource = new Resource(ServerService.get($location.host()) + CONFIG.application.api.scenarios),
-    responseTranslator = CONFIG.application.models.ScenarioModel.responseTranslator,
-    requestTranslator = CONFIG.application.models.ScenarioModel.requestTranslator,
+    // responseTranslator = CONFIG.application.models.ScenarioModel.responseTranslator,
+    // requestTranslator = CONFIG.application.models.ScenarioModel.requestTranslator,
     config = {};
 
     // surface data for unit tests
@@ -14,12 +14,12 @@ angular.module('ThreeSixtyOneView.services').factory('ScenarioModel', ["$locatio
     this.config = config;
 
     return {
-        responseTranslator: responseTranslator,
-        requestTranslator: requestTranslator,
+        // responseTranslator: responseTranslator,
+        // requestTranslator: requestTranslator,
         resource: resource,
         data: [],
-        create: function(_project_, _scenario_){
-            return resource.create(_scenario_, this.config, {id:_project_.id}).then(function(response){
+        create: function(projectUuid, scenario){
+            return resource.create(scenario, this.config, {id: projectUuid}).then(function(response){
                 return response;
             });
         },
