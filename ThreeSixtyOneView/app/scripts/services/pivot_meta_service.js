@@ -422,7 +422,7 @@
 		return filters;
 	};
 
-	this.determineTimeDisability = function(dimensions, added, membersList) {
+	this.determineTimeDisability = function(dimensions, added) {
 		var timeDimensionId = 0,
 			timeDisabled = false,
 			TimeDimension;

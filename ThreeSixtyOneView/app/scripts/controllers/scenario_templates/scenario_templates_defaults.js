@@ -8,8 +8,8 @@
  * Controller of the ThreeSixtyOneView
  */
 angular.module('ThreeSixtyOneView')
-.controller('ScenarioTemplatesDefaultsCtrl', ['$scope', 'PivotMetaService', 'PivotViewService', 'datepickerConfig', 'MetaDataService',
-	function ($scope, PivotMetaService, PivotViewService, datepickerConfig, MetaDataService) {
+.controller('ScenarioTemplatesDefaultsCtrl', ['$scope', 'PivotMetaService', 'PivotViewService', 'datepickerConfig', 'MetaDataService', 'DialogService',
+	function ($scope, PivotMetaService, PivotViewService, datepickerConfig, MetaDataService, DialogService) {
 
 	var init = function() {
 			$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
@@ -20,6 +20,7 @@ angular.module('ThreeSixtyOneView')
 				$scope.viewData = PivotMetaService.formEmptyView(dimensions, {label: ''});
 				$scope.added = PivotMetaService.setUpAddedLevels($scope.viewData.rows.concat($scope.viewData.columns));
 				$scope.addedFilters = PivotMetaService.getAddedFilters($scope.viewData.filters, dimensions);
+				$scope.membersList = PivotMetaService.generateMembersList(dimensions);
 				$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, dimensions, $scope.viewData);
 				determineTimeDisability($scope.added);
 			});
@@ -53,7 +54,7 @@ angular.module('ThreeSixtyOneView')
 			datepickerConfig.startingDay = 1;
 		},
 		determineTimeDisability = function(added) {
-			$scope.timeDisabled = PivotMetaService.determineTimeDisability($scope.dimensions, added, $scope.membersList);
+			$scope.timeDisabled = PivotMetaService.determineTimeDisability($scope.dimensions, added);
 		};
 
 	// returns element titles in the view: rows and columns
@@ -84,6 +85,18 @@ angular.module('ThreeSixtyOneView')
 	$scope.replaceItem = function(selected, priorLabel, element) {
 		PivotViewService.replaceItem($scope.viewData, $scope.added, selected, priorLabel, element, [determineTimeDisability]);
 	};
+
+	$scope.filtersModal = function(category) {
+			var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
+				{dimension: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData.rows.concat($scope.viewData.columns), dimensions: $scope.dimensions},
+				{windowSize: 'lg', windowClass: 'filters-modal'});
+
+			dialog.result.then(function(newFilterData) {
+				$scope.addedFilters = newFilterData;
+				$scope.viewData.filters = PivotMetaService.updateFilters($scope.dimensions, newFilterData, $scope.membersList, $scope.viewData.filters);
+				$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure(newFilterData, $scope.dimensions, $scope.viewData);
+			});
+		};
 
 	init();
 }]);
