@@ -90,9 +90,31 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t<li ng-repeat=\"data in data\">\r" +
     "\n" +
-    "\t\t\t\t\t<icon type=\"circle-o\"></icon>\r" +
+    "\t\t\t\t\t<span class=\"currentView\" ng-if=\"$index === isCurrentView(data.label)\"> \r" +
     "\n" +
-    "\t\t\t\t\t\t&nbsp;{{data.label}}\r" +
+    "\t\t\t\t\t\t<span class=\"icon-stack\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t<icon type=\"circle\"></icon>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t<icon type=\"circle-o\"></icon>\r" +
+    "\n" +
+    "\t\t\t\t\t\t</span>\r" +
+    "\n" +
+    "\t\t\t\t\t\t{{data.label}}\r" +
+    "\n" +
+    "\t\t\t\t\t</span>\r" +
+    "\n" +
+    "\t\t\t\t\t<span ng-if=\"$index > isCurrentView(data.label)\"> \r" +
+    "\n" +
+    "\t\t\t\t\t\t<icon type=\"circle-o\"></icon>&nbsp;{{data.label}}\r" +
+    "\n" +
+    "\t\t\t\t\t</span>\r" +
+    "\n" +
+    "\t\t\t\t\t<span ng-if=\"$index < isCurrentView(data.label)\"> \r" +
+    "\n" +
+    "\t\t\t\t\t\t<icon type=\"circle\"></icon>&nbsp;{{data.label}}\r" +
+    "\n" +
+    "\t\t\t\t\t</span>\r" +
     "\n" +
     "\t\t\t\t\t<div ng-if=\"!data.buttonLabel\" class=\"pipe-line\">|</div>\r" +
     "\n" +
