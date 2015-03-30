@@ -46,8 +46,11 @@ angular.module('ThreeSixtyOneView.directives')
 				setView(--index >= 0 ? index : ++index);
 			};
 
+			scope.isCurrentView = function(id){
+				return id === views[index].label;
+			}
+
 			scope.isDisabled = function(direction){
-				// console.info(index, totalViews);
 				if (direction === scope.DIRECTION){
 					return index >= totalViews;
 				} else {

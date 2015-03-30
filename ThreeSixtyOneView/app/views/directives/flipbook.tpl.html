@@ -10,10 +10,12 @@
 		<div class="template-steps">
 			<ul>
 				<li ng-repeat="data in data">
+					{{isCurrentView(data.label)}}
 					<icon type="circle-o"></icon>
 						&nbsp;{{data.label}}
 					<div ng-if="!data.buttonLabel" class="pipe-line">|</div>
 				</li>
+
 			</ul>
 		</div>
 	</div>
