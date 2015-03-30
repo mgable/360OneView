@@ -8,7 +8,7 @@
  * Controller of the ThreeSixtyOneView
  */
 angular.module('ThreeSixtyOneView')
-.controller('ScenarioTemplatesDefaultsCtrl', ['$scope', 'PivotMetaService', 'PivotViewService', 'datepickerConfig', 'MetaDataService', 'DialogService',
+.controller('ScenarioTemplatesChooseDefaultsCtrl', ['$scope', 'PivotMetaService', 'PivotViewService', 'datepickerConfig', 'MetaDataService', 'DialogService',
 	function ($scope, PivotMetaService, PivotViewService, datepickerConfig, MetaDataService, DialogService) {
 
 	var init = function() {
@@ -87,16 +87,14 @@ angular.module('ThreeSixtyOneView')
 	};
 
 	$scope.filtersModal = function(category) {
-			var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
-				{dimension: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData.rows.concat($scope.viewData.columns), dimensions: $scope.dimensions},
-				{windowSize: 'lg', windowClass: 'filters-modal'});
-
-			dialog.result.then(function(newFilterData) {
-				$scope.addedFilters = newFilterData;
-				$scope.viewData.filters = PivotMetaService.updateFilters($scope.dimensions, newFilterData, $scope.membersList, $scope.viewData.filters);
-				$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure(newFilterData, $scope.dimensions, $scope.viewData);
-			});
+		var filtersModalCallback = function(newFilterData) {
+			$scope.addedFilters = newFilterData;
+			$scope.viewData.filters = PivotMetaService.updateFilters($scope.dimensions, newFilterData, $scope.membersList, $scope.viewData.filters);
+			$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure(newFilterData, $scope.dimensions, $scope.viewData);
 		};
+
+		DialogService.filtersModal(category, $scope.addedFilters, $scope.viewData.rows.concat($scope.viewData.columns), $scope.dimensions, filtersModalCallback);
+	};
 
 	init();
 }]);

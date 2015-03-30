@@ -55,14 +55,12 @@ angular.module('ThreeSixtyOneView')
 
 		// open/dismiss filters selection modal
 		$scope.filtersModal = function(category) {
-			var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
-				{dimension: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData.rows.concat($scope.viewData.columns), dimensions: $scope.dimensions},
-				{windowSize: 'lg', windowClass: 'filters-modal'});
-
-			dialog.result.then(function(data) {
-				$scope.updateFilterValues(data);
+			var filtersModalCallback = function(newFilterData) {
+				$scope.updateFilterValues(newFilterData);
 				$scope.saveDraftView();
-			});
+			};
+
+			DialogService.filtersModal(category, $scope.addedFilters, $scope.viewData.rows.concat($scope.viewData.columns), $scope.dimensions, filtersModalCallback);
 		};
 
 		// returns list of all the views in the current cube
