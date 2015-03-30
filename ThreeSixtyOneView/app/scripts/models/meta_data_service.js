@@ -19,9 +19,14 @@ angular.module('ThreeSixtyOneView.services')
 	};
 
 	this.getLevelMembers = function(cubeId, dimensionId, hierarchyId, levelId, children) {
-		var additionalPath =  'dimension/:dimensionId/hierarchy/:hierarchyId/level/:levelId/members?children=' + children;
+		var additionalPath =  'dimension/:dimensionId/hierarchy/:hierarchyId/level/:levelId/members',
+			config = {
+			params: {
+					children: children
+				}
+			};
 
-		return mymetadata.get({id: cubeId, dimensionId:dimensionId, hierarchyId:hierarchyId, levelId:levelId}, additionalPath).then(function(response) {
+		return this.resource.get({id: cubeId, dimensionId:dimensionId, hierarchyId:hierarchyId, levelId:levelId}, config, additionalPath).then(function(response) {
 			return response;
 		});
 	};
@@ -42,7 +47,7 @@ angular.module('ThreeSixtyOneView.services')
 						_member.members = response[count++].members;
 					});
 				});
-				
+
 				return dimensions;
 			});
 		});
@@ -50,7 +55,7 @@ angular.module('ThreeSixtyOneView.services')
 
 	this.getCubeAnalysisElements = function(cubeId) {
 		var additionalPath = 'analysis-element';
-		return mymetadata.get({id:cubeId}, additionalPath).then(function(response){
+		return this.resource.get({id:cubeId}, {}, additionalPath).then(function(response){
 			return response;
 		});
 	};
@@ -71,7 +76,7 @@ angular.module('ThreeSixtyOneView.services')
 			config.params.replaceable = replaceable;
 		}
 
-		return this.resource.get({}, config, '').then(function(cubes) {
+		return self.resource.get({}, config, '').then(function(cubes) {
 			return cubes;
 		});
 	};

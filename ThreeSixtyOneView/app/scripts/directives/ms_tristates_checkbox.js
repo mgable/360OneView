@@ -10,11 +10,11 @@
 angular.module('ThreeSixtyOneView.directives')
     .directive('msTristatesCheckbox', function() {
         return {
-            scope: true,
+            restrict: 'A',
             require: '?ngModel',
             link: function(scope, element, attrs, modelCtrl) {
-                var childList = attrs.childList;
-                var property = attrs.property;
+                var childList = attrs.childList,
+                    property = attrs.property;
 
                 // Bind the onChange event to update children
                 element.bind('change', function() {
@@ -32,16 +32,12 @@ angular.module('ThreeSixtyOneView.directives')
 
                 // Watch the children for changes
                 scope.$watch(childList, function(newValue) {
-                    var hasChecked = false;
-                    var hasUnchecked = false;
+                    var hasChecked = false,
+                        hasUnchecked = false;
 
                     // Loop through the children
                     angular.forEach(newValue, function(child) {
-                        if (child[property]) {
-                            hasChecked = true;
-                        } else {
-                            hasUnchecked = true;
-                        }
+                        child[property] ? hasChecked = true : hasUnchecked = true;
                     });
 
                     // Determine which state to put the checkbox in

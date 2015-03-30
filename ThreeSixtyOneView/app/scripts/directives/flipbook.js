@@ -17,7 +17,7 @@ angular.module('ThreeSixtyOneView.directives')
 			totalViews = views.length,
 			basePath = attrs.basepath,
 			callback = attrs.callback,
-			data = attrs.data,
+			data = views,
 			type = attrs.type,
 			setView = function(i){
 				scope.view = views[i];
