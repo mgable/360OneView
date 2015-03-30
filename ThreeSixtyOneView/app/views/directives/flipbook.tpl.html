@@ -9,22 +9,11 @@
 		</div>
 		<div class="template-steps">
 			<ul>
-<<<<<<< HEAD
-				<li><icon type="circle-o"></icon>&nbsp;Name &amp; Describe</li>
-				{{isCurrentView("Name &amp; Describe")}}
-				<li class="pipe-line">|</li>
-				<li><icon type="circle-o"></icon>&nbsp;Choose Dimensions</li>
-				<li class="pipe-line">|</li>
-				<li><icon type="circle-o"></icon>&nbsp;Choose Defaults</li>
-				<li class="pipe-line">|</li>
-				<li><icon type="circle-o"></icon>&nbsp;Review</li>
-=======
 				<li ng-repeat="data in data">
 					<icon type="circle-o"></icon>
 						&nbsp;{{data.label}}
 					<div ng-if="!data.buttonLabel" class="pipe-line">|</div>
 				</li>
->>>>>>> 2f744882a23d6d3494e6e771440ee9eab25234e4
 			</ul>
 		</div>
 	</div>
