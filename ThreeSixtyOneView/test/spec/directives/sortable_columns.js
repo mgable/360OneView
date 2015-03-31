@@ -16,10 +16,12 @@ describe('Directives:', function() {
         beforeEach(inject(function($rootScope, $compile, $httpBackend){
             scope = $rootScope.$new();
             scope.item = {
-                modifiedOn: new Date(),
-                createdBy: "me",
+                auditInfo : { 
+                    lastUpdatedOn: new Date(),
+                    createdBy: {name: "me"},
+                    lastUpdatedBy: {name: "you"}
+                },
                 template: {type: "foo"},
-                modifiedBy: "you"
             };
             element = angular.element('<sortable-columns item="item" display-by="displayBy">');
         }));

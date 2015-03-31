@@ -2,16 +2,16 @@
 	<span ng-transclude></span>
 
 	<span class="noEdit" ng-hide="isActive" ng-click="action()">
-		<span class="title">{{item.title}}</span>&nbsp;
+		<span class="title">{{item.name}}</span>&nbsp;
 		<span class="action"><icon type="pencil" cname="icon"></icon></span>
 	</span>
 
     <span class="edit" ng-show="isActive">
     	<!-- validator -->
-    	<input ng-if="comparisonModel" type="text" class="title" ng-model="item.title" required ng-maxlength="256" validator="comparisonModel" error-type="foo" ng-minlength="2" ng-pattern='inputRestrictions.characterRestrictions' tabindex="1"/>
+    	<input ng-if="comparisonModel" type="text" class="title" ng-model="item.name" required ng-maxlength="256" validator="comparisonModel" error-type="foo" ng-minlength="2" ng-pattern='inputRestrictions.characterRestrictions' tabindex="1"/>
 
     	<!-- no vaildator -->
-    	<input ng-if="!comparisonModel" type="text" class="title" ng-model="item.title" required ng-maxlength="256" ng-minlength="2" ng-pattern='inputRestrictions.characterRestrictions' tabindex="1"/>
+    	<input ng-if="!comparisonModel" type="text" class="title" ng-model="item.name" required ng-maxlength="256" ng-minlength="2" ng-pattern='inputRestrictions.characterRestrictions' tabindex="1"/>
 
     	<button class="submit btn btn-default btn-sm" ng-click="submit(item)" ng-disabled="(form.$dirty && form.$invalid) || form.$pristine"><icon type="check"></icon></button>&nbsp;
     	<button class="cancel btn btn-default btn-sm" ng-click="cancel()"><icon type="times"></icon></button>

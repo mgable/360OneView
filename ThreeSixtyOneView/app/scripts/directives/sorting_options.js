@@ -11,7 +11,7 @@ angular.module('ThreeSixtyOneView.directives')
             require: "^sorter",
             link: function($scope, $element, $attrs, ctrl) {
                 $scope.label = $attrs.label;
-                $scope.display = $attrs.display;
+                $scope.value = $attrs.value;
                 $scope.id = $attrs.msid;
                 $scope.reverse = false;
                 $scope.SortAndFilterService = SortAndFilterService;
