@@ -629,6 +629,37 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
+  $templateCache.put('views/modal/module_pick.tpl.html',
+    "<div data-ms-id=\"simpleModal\">\r" +
+    "\n" +
+    "\t<div class=\"header\">\r" +
+    "\n" +
+    "\t\t\r" +
+    "\n" +
+    "\t</div>\r" +
+    "\n" +
+    "\t<div class=\"body\">\r" +
+    "\n" +
+    "\t\t<div class=\"content\">\r" +
+    "\n" +
+    "\t\t\t\r" +
+    "\n" +
+    "\t\t</div>\r" +
+    "\n" +
+    "\t\t<div class=\"action-buttons\">\r" +
+    "\n" +
+    "\t\t\t<ms-button type=\"cancel\" action=\"close($event)\" label=\"Cancel\"></ms-button>\r" +
+    "\n" +
+    "\t\t\t<ms-button type=\"submit\" action=\"submit(item.title)\" label=\"Start\" data-ms-id=\"modalSubmit\" ng-disabled=\"nameDialog.$invalid\"></ms-button>\r" +
+    "\n" +
+    "\t\t</div>\r" +
+    "\n" +
+    "\t</div>\r" +
+    "\n" +
+    "</div>"
+  );
+
+
   $templateCache.put('views/modal/ms_list_lightbox.tpl.html',
     "<div data-ms-id=\"{{testHandleName}}\">\r" +
     "\n" +
