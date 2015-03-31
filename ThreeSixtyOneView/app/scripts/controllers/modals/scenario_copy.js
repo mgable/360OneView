@@ -7,7 +7,7 @@ angular.module('ThreeSixtyOneView')
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
         $scope.item = data;
-        $scope.item.title = "COPY -- " + $scope.item.title;
+        $scope.item.name = "COPY -- " + $scope.item.name;
         $scope.modalProperties = {
             title: "Copy a Scenario",
             field: "Name",
@@ -15,9 +15,9 @@ angular.module('ThreeSixtyOneView')
             icon: "files-o"
         };
 
-         $scope.submit = function(title, evt){
+         $scope.submit = function(name, evt){
             if (evt) { evt.preventDefault(); }
-            $scope.item.title = title;
+            $scope.item.name = name;
             $rootScope.$broadcast(EVENTS.copyScenario, $scope.item);
             $modalInstance.dismiss('create');
          };

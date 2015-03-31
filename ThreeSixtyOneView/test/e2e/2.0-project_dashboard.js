@@ -16,7 +16,7 @@ if(funcs.runTheseTests(testName)){
 		it("should set up the tests", function(){
 			console.info(testName.title + " Tests: ");
 			projectInfo = funcs.readProjectInfo();
-			projectId = projectInfo.project.id,
+			projectId = projectInfo.project.uuid,
 			dashboardUrl = funcs.getDashboardUrl(projectId);
 			hasScenarios = !!projectInfo.scenario;
 			console.info(dashboardUrl);
@@ -319,7 +319,7 @@ if(funcs.runTheseTests(testName)){
 
 			describe("Breadcrumbs: ", function(){
 				it("should have the correct label", function(){
-					expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + projectInfo.project.title.toUpperCase());
+					expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + projectInfo.project.name.toUpperCase());
 				});
 			});
 

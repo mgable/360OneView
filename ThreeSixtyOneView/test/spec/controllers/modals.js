@@ -90,7 +90,7 @@ describe('Controllers: Modals: ', function() {
         it("should call the Scenario Model with the name of the new scenario", function() {
             scope.submit("xyz");
             expect(modalInstance.dismiss).toHaveBeenCalledWith('create');
-            expect(eventSpy).toHaveBeenCalledWith(EVENTS.copyScenario, {foo: "bar", title: "xyz"});
+            expect(eventSpy).toHaveBeenCalledWith(EVENTS.copyScenario, {foo: "bar", name: "xyz"});
         });
     });
 });

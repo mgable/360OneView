@@ -2,7 +2,7 @@
 
 var specs = require('./1.0-project_listing_specs.js'),
 	moreSpecs = require("./2.0-project_dashboard_specs.js"),
-	funcs = require('./1.0-project_listing_functions.js'),
+	funcs = require('./2.0-project_dashboard_functions.js'),
 	_ = require ("underscore"),
 	cache,
 	projects = [],
@@ -46,18 +46,21 @@ if(funcs.runTheseTests(testName)){
 		});
 
 		it("should have the correct scenarios", function(){
-			var index = 0,
-				sortedScenarios = funcs.sortProjectsByDate(cache[project.uuid]);
+			var sortedScenarios = funcs.sortProjectsByDate(cache[project.uuid]);
 
-			funcs.getAllItemTitles().each(function(item){
+				console.info(sortedScenarios[11]);
+
+			funcs.getAllScenarioNames().each(function(item, index){
 				item.getText().then(function(title){
+					console.info(index);
+					console.info("title: " + title);
+					console.info("sorted: " + sortedScenarios[index].name);
 					expect(title).toBe(sortedScenarios[index].name);
-					index++;
 				});	
 			});
 		});
 
-		it("should have the correct statuses", function(){
+		xit("should have the correct statuses", function(){
 			var currentStatus,
 				items = funcs.getItems();
 
@@ -81,7 +84,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		it("should have the correct description", function(){
+		xit("should have the correct description", function(){
 			var items = funcs.getItems(),
 				index = 0,
 				sortedScenarios = funcs.sortProjectsByDate(cache[project.uuid]);
@@ -104,7 +107,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		it("should have the correct created by data", function(){
+		xit("should have the correct created by data", function(){
 			var items = funcs.getItems(),
 				index = 0,
 				sortedScenarios = funcs.sortProjectsByDate(cache[project.uuid]);
@@ -126,7 +129,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		it("should have the correct modified by data", function(){
+		xit("should have the correct modified by data", function(){
 			var items = funcs.getItems(),
 				index = 0,
 				sortedScenarios = funcs.sortProjectsByDate(cache[project.uuid]);
@@ -148,7 +151,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		it("should have the correct base scenario", function(){
+		xit("should have the correct base scenario", function(){
 			var items = funcs.getItems(),
 				index = 0,
 				sortedScenarios = funcs.sortProjectsByDate(cache[project.uuid]);
@@ -164,7 +167,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		it("should have the correct analysis elements", function(){
+		xit("should have the correct analysis elements", function(){
 			var items = funcs.getItems();
 			items.each(function(item){
 				item.click();

@@ -12,7 +12,7 @@ angular.module('ThreeSixtyOneView.services')
         myScenarios = new MyScenarioModel(ScenarioModel);
         angular.extend(this, myScenarios);
 
-        //this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
+        this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
 		this.myScenarios = myScenarios;
 

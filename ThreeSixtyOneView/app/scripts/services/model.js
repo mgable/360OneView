@@ -94,6 +94,7 @@ angular.module("ThreeSixtyOneView.services")
 			},
 			translateResponse: function (response, responseTranslator){
 				var results, data;
+
 				try {
 					data = JSON.parse(response);
 				}
@@ -102,16 +103,21 @@ angular.module("ThreeSixtyOneView.services")
 					return;
 				}
 
-				if (_.isArray(data)){
-					results = [];
-					_.each(data, function(e,i,a){
-						results.push(this.translateObj(e, responseTranslator));
-					}, this);
-				} else if (_.isObject(data)){
-					return this.translateObj(data, responseTranslator);
-				}
+				if (data && responseTranslator) {
 
-				return results;
+					if (_.isArray(data)){
+						results = [];
+						_.each(data, function(e,i,a){
+							results.push(this.translateObj(e, responseTranslator));
+						}, this);
+					} else if (_.isObject(data)){
+						return this.translateObj(data, responseTranslator);
+					}
+
+					return results;
+				} else {
+					return data
+				}
 			},
 			makeConfig: function(which, responseTranslator, requestTranslator){
 				return {

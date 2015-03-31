@@ -122,8 +122,8 @@ describe('Controllers: ', function() {
 
     describe("Scenario Listing CTRL", function(){
         beforeEach(inject(function(_SortAndFilterService_, ManageScenariosService, _FavoritesService_) {
-            scenarios = [{title:"foo", id: 1}, {title: "bar", id: 2}, {title: "foobar", id: 3}];
-            data = {id:"123", title:"title", description: "description", isMaster:false};
+            scenarios = [{name:"foo", id: 1}, {name: "bar", id: 2}, {name: "foobar", id: 3}];
+            data = {id:"123", name:"title", description: "description", isMaster:false};
             deferred = $q.defer();
             deferred.resolve(data);
 
