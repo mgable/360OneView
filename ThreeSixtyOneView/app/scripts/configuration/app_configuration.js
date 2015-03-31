@@ -275,7 +275,11 @@ angular.module('ThreeSixtyOneView.config')
                 }
             },
             "ScenarioTemplates": {
-                "workflow" : [
+                "types": {
+                    "action": {"name": "action", "label": "Action"},
+                    "strategy": {"name": "strategy", "label": "Strategy"}
+                },
+                "workflow": [
                     {url: "name_and_describe.tpl.html", label: "Name & Describe", id:0},
                     {url: "choose_dimensions.tpl.html", label: "Choose Dimensions", id:1},
                     {url: "choose_defaults.tpl.html", label: "Choose Defaults", id:2},

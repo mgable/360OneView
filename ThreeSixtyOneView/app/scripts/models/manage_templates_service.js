@@ -10,7 +10,7 @@ angular.module('ThreeSixtyOneView.services')
 	angular.extend(this, mymanagetemplatesdata);
 
 	this.getAll = function() {
-		this.resource.get({}, {}, '').then(function(response) {
+		return this.resource.get({}, {}, '').then(function(response) {
 			return response;
 		});
 	};
