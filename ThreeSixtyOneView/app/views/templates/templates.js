@@ -331,11 +331,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "    <div class=\"dimensionFilter\">\r" +
     "\n" +
-    "        <span title=\"{{getFilterArray(dimensionData)}}\" ng-class=\"{selected: getFilterArray(dimensionData).length}\">\r" +
+    "        <span title=\"{{getDimensionCardLabel(dimensionData)}}\" ng-class=\"{selected: getDimensionCardLabel(dimensionData).length}\">\r" +
     "\n" +
     "            <icon type=\"filter\"></icon>\r" +
     "\n" +
-    "            <a ng-click=\"filtersModal(dimensionData)\">{{getFilterArray(dimensionData)}}</a>\r" +
+    "            <a ng-click=\"filtersModal(dimensionData)\">{{getDimensionCardLabel(dimensionData)}}</a>\r" +
     "\n" +
     "        </span>\r" +
     "\n" +
