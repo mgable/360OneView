@@ -42,11 +42,11 @@ angular.module('ThreeSixtyOneView.directives')
                     return (filterArray.length === dimensionLength) ? 'All' : filterArray.join();
                 };
 
-                scope.dimensions = getFilteredDimensions(scope.allDimensionsData);
-                scope.addedFilters = PivotMetaService.addAllFilters(scope.dimensions);
                 scope.filtersModal = function(category) {
-                    var dimension = _.find(scope.dimensions, function(v) { return category.id === v.id; });
-                    DialogService.filtersModal(dimension, scope.addedFilters, scope.viewData, scope.dimensions, filtersModalCallback);
+                    var dimensions = getFilteredDimensions(scope.allDimensionsData),
+                        addedFilters = PivotMetaService.addAllFilters(dimensions),
+                        dimension = _.find(dimensions, function(v) { return category.id === v.id; });
+                    DialogService.filtersModal(dimension, addedFilters, undefined, dimensions, filtersModalCallback);
                 };
 
             }
