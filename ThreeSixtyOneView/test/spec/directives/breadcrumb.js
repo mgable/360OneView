@@ -38,7 +38,7 @@ describe('Directive: breadcrumb', function () {
     expect(element.text()).toBe('All Projects');
   }));
 
-  xit("should render Dashboard", inject(function($compile){
+  it("should render Dashboard", inject(function($compile){
     var state = "Dashboard",
     config = $state.get(state);
     $state.current.breadcrumb = config.breadcrumb;

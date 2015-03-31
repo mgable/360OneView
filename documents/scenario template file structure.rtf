@@ -1,0 +1,54 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww17200\viewh12560\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 app	\
+	scripts\
+		controllers\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 			scenario_templates\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 				scenario_templates.js  <- page controller\
+					- marshals all page data\
+					- view controller\
+						1. dialog box(s)\
+						2. action template workflow\
+						3. strategy template workflow\
+			\
+				scenario_templates_views.js  <- views controller\
+					- captures form data\
+					- formats page data for specific views\
+				**
+\i view_n
+\i0 .js <- view controller \
+					- view specific behavior\
+			modal\
+				scenario_templates.js\
+			model	\
+				scenario_templates_service.js\
+				scenario_templates_model.js\
+		directives\
+			flipbook.js\
+	styles\
+		scss\
+			scenario_templates.tpl.html\
+	views\
+		scenario_templates.tpl.html <- page view\
+		directives\
+			flipbook.tpl.html\
+		modal\
+			scenario_template.tpl.html\
+		includes\
+			scenario_templates\
+				**
+\i view_n
+\i0 .tpl.html\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 				**
+\i view_n
+\i0 .tpl.html\
+				**
+\i view_n
+\i0 .tpl.html}

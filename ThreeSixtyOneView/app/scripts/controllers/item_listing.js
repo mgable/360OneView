@@ -142,7 +142,7 @@ angular.module('ThreeSixtyOneView')
             var newProject = angular.copy(CONFIG.application.models.ProjectsModel.newProject);
             newProject.name = name;
             ProjectsService.create(newProject).then(function(response){
-                GotoService.dashboard(response.id);
+                GotoService.dashboard(response.uuid);
             });
         });
 

@@ -47,7 +47,7 @@ angular.module('ThreeSixtyOneView.directives')
 			};
 
 			scope.isCurrentView = function(id){
-				return id === views[index].label;
+				return id = views[index].id;
 			}
 
 			scope.isDisabled = function(direction){

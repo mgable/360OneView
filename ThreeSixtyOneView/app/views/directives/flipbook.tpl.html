@@ -10,12 +10,21 @@
 		<div class="template-steps">
 			<ul>
 				<li ng-repeat="data in data">
-					{{isCurrentView(data.label)}}
-					<icon type="circle-o"></icon>
-						&nbsp;{{data.label}}
+					<span class="currentView" ng-if="$index === isCurrentView(data.label)"> 
+						<span class="icon-stack">
+							<icon type="circle"></icon>
+							<icon type="circle-o"></icon>
+						</span>
+						{{data.label}}
+					</span>
+					<span ng-if="$index > isCurrentView(data.label)"> 
+						<icon type="circle-o"></icon>&nbsp;{{data.label}}
+					</span>
+					<span ng-if="$index < isCurrentView(data.label)"> 
+						<icon type="circle"></icon>&nbsp;{{data.label}}
+					</span>
 					<div ng-if="!data.buttonLabel" class="pipe-line">|</div>
 				</li>
-
 			</ul>
 		</div>
 	</div>

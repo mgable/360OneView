@@ -13,15 +13,15 @@ describe('Services:', function() {
             data: [{
                 title: "m",
                 type: "A",
-                id: 1
+                uuid: 1
             }, {
                 title: "a",
                 type: "A",
-                id: 2
+                uuid: 2
             }, {
                 title: "z",
                 type: "B",
-                id: 3
+                uuid: 3
             }],
             orderBy: "",
             reverse: false,
@@ -112,7 +112,7 @@ describe('Services:', function() {
                 filter: "isFavorite"
             }, true);
             var filtered = _.filter(config.data, function(item) {
-                return item.id.toString() === "2";
+                return item.uuid.toString() === "2";
             });
             expect(SortAndFilterService.getData()).toEqual(filtered);
         });

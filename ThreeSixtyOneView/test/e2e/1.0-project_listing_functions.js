@@ -42,22 +42,22 @@ var coreFunctions = require('./0.0-functions.js'),
 			return element(by.css(specs.itemCount));
 		},
 		getFirstItemTitle: function(){
-			return element.all(by.repeater(specs.items).column('title')).first();
+			return element.all(by.repeater(specs.items).column('name')).first();
 		},
 		getLastItemTitle: function(){
-			return element.all(by.repeater(specs.items).column('title')).last();
+			return element.all(by.repeater(specs.items).column('name')).last();
 		},
 		getSelectedItemTitle: function(){
 			return element(by.css(specs.selectedItemTitle));
 		},
 		getAllItemTitles: function(){
-			return element.all(by.repeater(specs.items).column('title'));
+			return element.all(by.repeater(specs.items).column('name'));
 		},
 		getAllItemModifiedOn: function(){
-			return element.all(by.repeater(specs.items).column('modifiedOn'));
+			return element.all(by.repeater(specs.items).column('auditInfo.lastUpdatedOn'));
 		},
 		getAllItemCreatedOn: function(){
-			return element.all(by.repeater(specs.items).column('createdOn'));
+			return element.all(by.repeater(specs.items).column('auditInfo.createdOn'));
 		},
 		getFavorites: function(){
 			return element.all(by.css(specs.favoriteClassHolder));
