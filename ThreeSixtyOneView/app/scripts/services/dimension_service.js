@@ -9,9 +9,6 @@
  */
  angular.module('ThreeSixtyOneView.services')
     .service('DimensionService', function DimensionService() {
-
-        var self = this;
-
         this.getSelectedDimensions = function(dimensions) {
             return _.filter(angular.copy(dimensions), function(v) {
                 v.members = _.filter(v.members, function(v1) {
@@ -25,7 +22,7 @@
             var labelsArray = [];
             _.each(dimensions, function(v) {
                 if (v.isSelected) {
-                    var filtered = _.filter(v.members, function(v1) { return v1.isSelected === true }),
+                    var filtered = _.filter(v.members, function(v1) { return v1.isSelected === true; }),
                         childrenLabelsArray;
                     if (0 < filtered.length && filtered.length < v.members.length) {
                         childrenLabelsArray = '(' + _.pluck(filtered, 'label').join() + ')';

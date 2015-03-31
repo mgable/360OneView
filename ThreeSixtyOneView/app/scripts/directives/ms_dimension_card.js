@@ -20,7 +20,7 @@ angular.module('ThreeSixtyOneView.directives')
             templateUrl: function(elem, attrs){
                 return "views/directives/ms_" + attrs.dimensionType + "_dimension_card.tpl.html";
             },
-            link: function(scope, element, attrs) {
+            link: function(scope) {
 
                 var filtersModalCallback = function(data) {
                     console.info('filtered data: ', data);

@@ -9,8 +9,6 @@
  */
 angular.module('ThreeSixtyOneView.services')
 .service('PivotViewService', [function PivotViewService() {
-	var self = this;
-	
 	this.deleteItem = function(viewData, added, index, element, callbacks) {
 		added[viewData[element][index].level.label] = false;
 		viewData[element].splice(index, 1);

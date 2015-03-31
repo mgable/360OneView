@@ -24,10 +24,10 @@ angular.module('ThreeSixtyOneView.services')
 		};
 
 		this.find = function(scenarios, id){
-			return _.find(scenarios, function(scenario){
+			return _.find(scenarios, function(scenario) {
 				return scenario.id === parseInt(id, 10);
-			})
-		}
+			});
+		};
 
 		this.rename = function(scenario, projectId){
 			var additionalPath = "name";
