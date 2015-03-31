@@ -65,93 +65,6 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
-  $templateCache.put('views/directives/flipbook.tpl.html',
-    "<div class=\"flipbook\">\r" +
-    "\n" +
-    "\t<div class=\"col-md-3 left-column\">\r" +
-    "\n" +
-    "\t\t<div class=\"product-banner\">\r" +
-    "\n" +
-    "\t\t\t<div class=\"ms-logo\"></div>\r" +
-    "\n" +
-    "\t\t\t&nbsp;{{type}}\r" +
-    "\n" +
-    "\t\t</div>\r" +
-    "\n" +
-    "\t\t<div class=\"template-steps-header\">\r" +
-    "\n" +
-    "\t\t\tCreate a Scenario Template\r" +
-    "\n" +
-    "\t\t</div>\r" +
-    "\n" +
-    "\t\t<div class=\"template-steps\">\r" +
-    "\n" +
-    "\t\t\t<ul>\r" +
-    "\n" +
-    "\t\t\t\t<li ng-repeat=\"data in data\">\r" +
-    "\n" +
-    "\t\t\t\t\t<span class=\"currentView\" ng-if=\"$index === isCurrentView(data.label)\"> \r" +
-    "\n" +
-    "\t\t\t\t\t\t<span class=\"icon-stack\">\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t<icon type=\"circle\"></icon>\r" +
-    "\n" +
-    "\t\t\t\t\t\t\t<icon type=\"circle-o\"></icon>\r" +
-    "\n" +
-    "\t\t\t\t\t\t</span>\r" +
-    "\n" +
-    "\t\t\t\t\t\t{{data.label}}\r" +
-    "\n" +
-    "\t\t\t\t\t</span>\r" +
-    "\n" +
-    "\t\t\t\t\t<span ng-if=\"$index > isCurrentView(data.label)\"> \r" +
-    "\n" +
-    "\t\t\t\t\t\t<icon type=\"circle-o\"></icon>&nbsp;{{data.label}}\r" +
-    "\n" +
-    "\t\t\t\t\t</span>\r" +
-    "\n" +
-    "\t\t\t\t\t<span ng-if=\"$index < isCurrentView(data.label)\"> \r" +
-    "\n" +
-    "\t\t\t\t\t\t<icon type=\"circle\"></icon>&nbsp;{{data.label}}\r" +
-    "\n" +
-    "\t\t\t\t\t</span>\r" +
-    "\n" +
-    "\t\t\t\t\t<div ng-if=\"!data.buttonLabel\" class=\"pipe-line\">|</div>\r" +
-    "\n" +
-    "\t\t\t\t</li>\r" +
-    "\n" +
-    "\t\t\t</ul>\r" +
-    "\n" +
-    "\t\t</div>\r" +
-    "\n" +
-    "\t</div>\r" +
-    "\n" +
-    "\t<div class=\"col-md-9 right-column\">\r" +
-    "\n" +
-    "\t\t<div ng-transclude></div>\r" +
-    "\n" +
-    "\t\t<div class=\"button-container\">\r" +
-    "\n" +
-    "\t\t\t<ms-button type=\"cancel\" label=\"Cancel\" action=\"cancel\"></ms-button>\r" +
-    "\n" +
-    "\t\t\t<span class=\"right\">\r" +
-    "\n" +
-    "\t\t\t\t<ms-button type=\"cancel\" label=\"Back\" action=\"backward()\" ng-disabled=\"isDisabled()\"></ms-button>\r" +
-    "\n" +
-    "\t\t\t\t&nbsp;\r" +
-    "\n" +
-    "\t\t\t\t<ms-button type=\"submit\" label=\"{{label}}\" action=\"forward()\" ng-disabled=\"isDisabled(DIRECTION)\"></ms-button>\r" +
-    "\n" +
-    "\t\t\t</span>\r" +
-    "\n" +
-    "\t\t</div>\r" +
-    "\n" +
-    "\t</div>\r" +
-    "\n" +
-    "</div>"
-  );
-
-
   $templateCache.put('views/directives/inline_description.tpl.html',
     "<form class=\"inlineDescription\" name=\"form\" data-ms-id=\"inlineDescription\">\r" +
     "\n" +
@@ -435,6 +348,93 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   $templateCache.put('views/directives/scenario_templates.tpl.html',
     "<p>This is the directives/scenario_templates.tpl view.</p>\r" +
     "\n"
+  );
+
+
+  $templateCache.put('views/directives/scenario_templates_navigation.tpl.html',
+    "<div class=\"flipbook\">\r" +
+    "\n" +
+    "\t<div class=\"col-md-3 left-column\">\r" +
+    "\n" +
+    "\t\t<div class=\"product-banner\">\r" +
+    "\n" +
+    "\t\t\t<div class=\"ms-logo\"></div>\r" +
+    "\n" +
+    "\t\t\t&nbsp;{{type}}\r" +
+    "\n" +
+    "\t\t</div>\r" +
+    "\n" +
+    "\t\t<div class=\"template-steps-header\">\r" +
+    "\n" +
+    "\t\t\tCreate a Scenario Template\r" +
+    "\n" +
+    "\t\t</div>\r" +
+    "\n" +
+    "\t\t<div class=\"template-steps\">\r" +
+    "\n" +
+    "\t\t\t<ul>\r" +
+    "\n" +
+    "\t\t\t\t<li ng-repeat=\"data in data\">\r" +
+    "\n" +
+    "\t\t\t\t\t<span class=\"currentView\" ng-if=\"$index === isCurrentView(data.label)\"> \r" +
+    "\n" +
+    "\t\t\t\t\t\t<span class=\"icon-stack\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t<icon type=\"circle\"></icon>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t<icon type=\"circle-o\"></icon>\r" +
+    "\n" +
+    "\t\t\t\t\t\t</span>\r" +
+    "\n" +
+    "\t\t\t\t\t\t{{data.label}}\r" +
+    "\n" +
+    "\t\t\t\t\t</span>\r" +
+    "\n" +
+    "\t\t\t\t\t<span ng-if=\"$index > isCurrentView(data.label)\"> \r" +
+    "\n" +
+    "\t\t\t\t\t\t<icon type=\"circle-o\"></icon>&nbsp;{{data.label}}\r" +
+    "\n" +
+    "\t\t\t\t\t</span>\r" +
+    "\n" +
+    "\t\t\t\t\t<span ng-if=\"$index < isCurrentView(data.label)\"> \r" +
+    "\n" +
+    "\t\t\t\t\t\t<icon type=\"circle\"></icon>&nbsp;{{data.label}}\r" +
+    "\n" +
+    "\t\t\t\t\t</span>\r" +
+    "\n" +
+    "\t\t\t\t\t<div ng-if=\"!data.buttonLabel\" class=\"pipe-line\">|</div>\r" +
+    "\n" +
+    "\t\t\t\t</li>\r" +
+    "\n" +
+    "\t\t\t</ul>\r" +
+    "\n" +
+    "\t\t</div>\r" +
+    "\n" +
+    "\t</div>\r" +
+    "\n" +
+    "\t<div class=\"col-md-9 right-column\">\r" +
+    "\n" +
+    "\t\t<div ng-transclude></div>\r" +
+    "\n" +
+    "\t\t<div class=\"button-container\">\r" +
+    "\n" +
+    "\t\t\t<ms-button type=\"cancel\" label=\"Cancel\" action=\"cancel\"></ms-button>\r" +
+    "\n" +
+    "\t\t\t<span class=\"right\">\r" +
+    "\n" +
+    "\t\t\t\t<ms-button type=\"cancel\" label=\"Back\" action=\"backward()\" ng-disabled=\"isDisabled()\"></ms-button>\r" +
+    "\n" +
+    "\t\t\t\t&nbsp;\r" +
+    "\n" +
+    "\t\t\t\t<ms-button type=\"submit\" label=\"{{label}}\" action=\"forward()\" ng-disabled=\"isDisabled(DIRECTION)\"></ms-button>\r" +
+    "\n" +
+    "\t\t\t</span>\r" +
+    "\n" +
+    "\t\t</div>\r" +
+    "\n" +
+    "\t</div>\r" +
+    "\n" +
+    "</div>"
   );
 
 

@@ -9,7 +9,9 @@
 angular.module('ThreeSixtyOneView.directives')
 .directive('flipbook', function () {
 	return {
-		templateUrl: "views/directives/flipbook.tpl.html" ,
+		templateUrl: function(element, attrs) {
+            return attrs.templateUrl;
+        },
 		restrict: 'E',
 		transclude: true,
 		link: function (scope, element, attrs) {
