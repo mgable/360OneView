@@ -41,7 +41,20 @@
 				.pipe-line{
 					padding: 0 0 0 3px;
 					font-size: 40px;
-					font-weight: $lightFontWeight;
+					font-weight: normal;
+				}
+			}
+			.currentView {
+				color: $ms-orange;
+				line-height: 20px;
+				i {
+					position: absolute;
+				}
+				.icon-stack {
+					padding: 0 20px 0 0;
+					.fa-circle {
+						color: lighten($ms-orange, 25%);
+					}
 				}
 			}
 		}
@@ -52,7 +65,7 @@
 		margin: 0 0 25px 0;
 		div.header {
 			font-size: 38px;
-			font-weight: $lightFontWeight;
+			font-weight: normal;
 		}
 		div.prompt {
 			font-size: 24px;

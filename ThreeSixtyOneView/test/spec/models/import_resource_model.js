@@ -1,18 +1,18 @@
 'use strict';
 
-describe('Service: ScenarioTemplatesModel', function () {
+describe('Service: ImportResourceModel', function () {
 
 	// load the controller's module
 	beforeEach(module('ThreeSixtyOneView.services'));
 
-	var ScenarioTemplatesModel;
+	var ImportResourceModel;
 
 	// Initialize the controller and a mock scope
-	beforeEach(inject(function ($rootScope, _ScenarioTemplatesModel_) {
-		ScenarioTemplatesModel = _ScenarioTemplatesModel_;
+	beforeEach(inject(function ($rootScope, _ImportResourceModel_) {
+		ImportResourceModel = _ImportResourceModel_;
 	}));
 
 	it('resource service should be extended to the current scope', function () {
-		expect(ScenarioTemplatesModel.resource).toBeDefined();
+		expect(ImportResourceModel.resource).toBeDefined();
 	});
 });

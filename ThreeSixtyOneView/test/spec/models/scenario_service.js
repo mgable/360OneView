@@ -27,20 +27,20 @@ describe('Service: ScenarioService', function () {
     var deferred = $q.defer();
     deferred.resolve(data);
     var spy = spyOn(ScenarioService.resource, "get").and.returnValue(deferred.promise);
-    ScenarioService.get("123", "345");
-    expect(spy).toHaveBeenCalledWith({id: "123"}, {transformResponse: jasmine.any(Function), transformRequest: jasmine.any(Function)});
+    ScenarioService.get("123");
+    expect(spy).toHaveBeenCalledWith({id: "123"}, ScenarioService .config);
   });
 
   it('should get all scenarios', function(){
      var deferred = $q.defer();
     deferred.resolve(data);
     spyOn(ScenarioService, "get").and.returnValue(deferred.promise);
-    spyOn(ProjectsService, "getProjects").and.returnValue([{id:"123", title:"title", isMaster: true}]);
+    spyOn(ProjectsService, "getProjects").and.returnValue([{id:"123", name:"title", isMaster: true}]);
 
     $rootScope.$apply(function(){
       ScenarioService.getAll().then(function(response){
         expect(ProjectsService.getProjects).toHaveBeenCalled();
-        expect(response).toEqual([{title:'title', data:data, isMaster: true }]);
+        expect(response).toEqual([{name: 'title', data:data, isMaster: true }]);
       });
     });
     

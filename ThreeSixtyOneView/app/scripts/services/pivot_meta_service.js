@@ -41,6 +41,33 @@
 			}
 
 			return output;
+		},
+		getDefaultViewRow = function(dimensions) {
+			return {
+				dimension: {id:dimensions[0].dimensionId
+				},
+				hierarchy: {
+					id: -1
+				},
+				level: {
+					id: dimensions[0].members[dimensions[0].members.length-1].levelId,
+					label: dimensions[0].members[dimensions[0].members.length-1].label
+				}
+			};
+		},
+		getDefaultViewColumn = function(dimensions) {
+			return {
+				dimension: {
+					id: dimensions[dimensions.length-1].dimensionId
+				},
+				hierarchy: {
+					id: -1
+				},
+				level: {
+					id: dimensions[dimensions.length-1].members[0].levelId,
+					label: dimensions[dimensions.length-1].members[0].label
+				}
+			};
 		};
 
 	// create the temporary filter object from the view data
@@ -216,10 +243,9 @@
 		}
 	};
 
-	// create an empty view with no rows and columns and ALL for filters
-	this.createEmptyView = function(dimensions, cubeMeta, spendViewId) {
-		var newColumn = {dimension:{id:dimensions[dimensions.length-1].dimensionId},hierarchy:{id:-1},level:{id:dimensions[dimensions.length-1].members[0].levelId}},
-			newRow = {dimension:{id:dimensions[0].dimensionId},hierarchy:{id:-1},level:{id:dimensions[0].members[dimensions[0].members.length-1].levelId}},
+	this.formEmptyView = function(dimensions, cubeMeta) {
+		var newColumn = getDefaultViewColumn(dimensions),
+			newRow = getDefaultViewRow(dimensions),
 			columns = [],
 			rows = [],
 			newView = {
@@ -236,9 +262,9 @@
 		_.each(dimensions, function(dimension) {
 			newView.filters.push({
 				scope: {
-					dimension: {id: dimension.id},
+					dimension: {id: dimension.id, label: dimension.label},
 					hierarchy: {id: dimension.members[0].hierarchyId},
-					level: {id: dimension.members[0].levelId}
+					level: {id: dimension.members[0].levelId, label: dimension.members[0].label}
 				},
 				value: {
 					specification: {type: 'All'}
@@ -252,11 +278,19 @@
 				newView.filters[newView.filters.length-1].value.specification = {
 					type: 'Absolute',
 					members: [{
-						id: currentYear.id
+						id: currentYear.id,
+						label: currentYear.label
 					}]
 				};
 			}
 		});
+
+		return newView;
+	};
+
+	// create an empty view with no rows and columns and ALL for filters
+	this.createEmptyView = function(dimensions, cubeMeta, spendViewId) {
+		var newView = self.formEmptyView(dimensions, cubeMeta);
 
 		return ManageAnalysisViewsService.createView(newView, cubeMeta.id, spendViewId).then(function(view) {
 			return view;
@@ -386,5 +420,26 @@
 		});
 
 		return filters;
+	};
+
+	this.determineTimeDisability = function(dimensions, added) {
+		var timeDimensionId = 0,
+			timeDisabled = false,
+			TimeDimension;
+
+		_.each(dimensions, function(dimension) {
+			if(dimension.type === 'TimeDimension') {
+				timeDimensionId = dimension.id;
+				TimeDimension = dimension;
+			}
+		});
+
+		_.each(TimeDimension.members, function(member) {
+			if(added[member.label]) {
+				timeDisabled = true;
+			}
+		});
+
+		return timeDisabled;
 	};
 }]);

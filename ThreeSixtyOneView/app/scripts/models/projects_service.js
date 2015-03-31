@@ -11,7 +11,7 @@ angular.module('ThreeSixtyOneView.services')
 		myprojects = new MyProjectModel(ProjectsModel);
 		angular.extend(this, myprojects);
 
-		this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
+		// this.setConfig(this.makeConfig(this, this.responseTranslator, this.requestTranslator));
 
 		this.getProjectItemById = function(_id_){
 			if (this.data.length === 0){
@@ -21,7 +21,7 @@ angular.module('ThreeSixtyOneView.services')
 				});
 				
 			}
-			var item = _.findWhere(this.data, {id:_id_});
+			var item = _.findWhere(this.data, {uuid:_id_});
 			if (item) {
 				return item;
 			} else {
@@ -34,7 +34,7 @@ angular.module('ThreeSixtyOneView.services')
 		};
 
 		this.rename = function(data){
-			var obj = (_.pick(data, 'title', 'description', 'id'));
+			var obj = (_.pick(data, 'name', 'description', 'uuid'));
 			if (typeof obj.description === "undefined"){
 				obj.description = "";
 			}

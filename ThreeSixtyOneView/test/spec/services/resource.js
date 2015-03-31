@@ -6,25 +6,22 @@ describe('Service: Resource', function() {
     beforeEach(module('ThreeSixtyOneView'));
 
     // instantiate service
-    var Resource, $http, getSpy, putSpy, deleteSpy, postSpy, resource, $rootScope, $httpBackend, SERVER, CONFIG, url;
+    var Resource, $http, resource, $rootScope, $httpBackend, SERVER, CONFIG, url;
     beforeEach(inject(function(_Resource_, _$http_, _$rootScope_, _$httpBackend_, _SERVER_, _CONFIG_) {
         Resource = _Resource_;
         $http = _$http_;
         $rootScope = _$rootScope_;
         $httpBackend = _$httpBackend_;
-        getSpy = spyOn($http, "get").and.callThrough();
-        putSpy = spyOn($http, "put").and.callThrough();
-        deleteSpy = spyOn($http, "delete").and.callThrough();
-        postSpy = spyOn($http, "post").and.callThrough();
         SERVER = _SERVER_;
         CONFIG = _CONFIG_;
         url = SERVER.server + CONFIG.application.api.projects;
         resource = new Resource(url);
 
-        $httpBackend.expectGET(url).respond({
-            "doesnot": "matter"
-        });
-
+        $httpBackend.when('GET', url).respond({"doesnot": "matter"});
+        $httpBackend.when('POST', url).respond({"doesnot": "matter"});
+        $httpBackend.when('POST', SERVER.server + CONFIG.application.api.scenarios.replace(/:id/, 12345)).respond({"doesnot": "matter"});
+        $httpBackend.when('PUT', url).respond({"doesnot": "matter"});
+        $httpBackend.when('DELETE', url + '?id=12345').respond({"doesnot": "matter"});
     }));
 
     it('should be defined', function() {
@@ -33,13 +30,12 @@ describe('Service: Resource', function() {
 
     it('should properly "GET"', function() {
         resource.get();
-        expect(getSpy).toHaveBeenCalledWith(url,{method:"get", url: url});
+        $httpBackend.flush();
     });
 
   
     it('should properly "POST"', function() {
         resource.create();
-        expect(postSpy).not.toHaveBeenCalled();
 
         var obj = {
             name: 'title',
@@ -47,12 +43,11 @@ describe('Service: Resource', function() {
             isMaster: false,
             parentId: ''
         };
-
         resource.create(obj);
-        expect(postSpy).toHaveBeenCalledWith(url,obj, {method:'post', url:url, data:obj});
+        $httpBackend.flush();
     });
 
-    it('should "POST" with an id', function(){
+    it('should "POST" with an id', function() {
         var scenarioUrl = SERVER.server + CONFIG.application.api.scenarios,
         resource = new Resource(scenarioUrl),
         obj = {
@@ -64,11 +59,11 @@ describe('Service: Resource', function() {
         id = {"id": "12345"};
         var url = scenarioUrl.replace(/:id/, id.id);
         resource.create(obj, {}, id);
-        expect(postSpy).toHaveBeenCalledWith(url, obj, {method:'post', url:url, data:obj});
+        $httpBackend.flush();
     });
 
-    it('should properly "PUT"', function(){
-         var obj = {params: {
+    it('should properly "PUT"', function() {
+        var obj = {params: {
                 name: 'title',
                 description: "description",
                 isMaster: false,
@@ -76,7 +71,16 @@ describe('Service: Resource', function() {
             }
         };
         resource.put(obj);
-        expect(putSpy).toHaveBeenCalledWith(url,obj, {method:'put', url:url, data:obj});
+        $httpBackend.flush();
+    });
+
+    it('should properly "DELETE"', function() {
+        var obj = {params: {
+                id: 12345
+            }
+        };
+        resource.delete(obj);
+        $httpBackend.flush();
     });
 
 });

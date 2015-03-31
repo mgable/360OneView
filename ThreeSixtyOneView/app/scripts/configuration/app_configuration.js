@@ -15,21 +15,22 @@ angular.module('ThreeSixtyOneView.config')
                 "scenarioAnalytics": "/rubix/v1/analytics/scenario/:id/calculate",
                 "importResource": "/rubix/v1/import/analysis-element/:elementId",
                 "exportResource": "/rubix/v1/export/analysis-element/:elementId",
-                "reports": "/rubix/v1/reports/analysis-element/:elementId/analysis-view/:viewId/summary"
+                "reports": "/rubix/v1/reports/analysis-element/:elementId/analysis-view/:viewId/summary",
+                "template": "/rubix/v1/template"
             },
             "models": {
                 "ProjectsModel": {
                     // want: get
-                    "responseTranslator": {"isMaster": "isMaster", "id" : "uuid", "title": "name", "description": "description", "createdBy": "auditInfo.createdBy.name", "createdOn":"auditInfo.createdOn", "modifiedBy":"auditInfo.lastUpdatedBy.name", "modifiedOn": "auditInfo.lastUpdatedOn"},
+                    //"responseTranslator": {"isMaster": "isMaster", "id" : "uuid", "title": "name", "description": "description", "createdBy": "auditInfo.createdBy.name", "createdOn":"auditInfo.createdOn", "modifiedBy":"auditInfo.lastUpdatedBy.name", "modifiedOn": "auditInfo.lastUpdatedOn"},
                     // want: get
-                    "requestTranslator": {"uuid" : "id", "name": "title", "description": "description", "isMaster": "isMaster"},
-                    "newProject": {"title": "","description" : "", "isMaster": false}
+                    //"requestTranslator": {"uuid" : "id", "name": "title", "description": "description", "isMaster": "isMaster"},
+                    "newProject": {"name": "","description" : "", "isMaster": false}
                 },
                 "ScenarioModel": {
                     // want: get
-                    "responseTranslator": {"referenceScenario": "referenceScenario", "template": "template", "title": "name", "id": "id", "description": "description", "type":"prediction.type", "createdBy":"auditInfo.createdBy.name", "createdOn": "auditInfo.createdOn", "modifiedBy":"auditInfo.lastUpdatedBy.name", "modifiedOn":"auditInfo.lastUpdatedOn"},
-                    "requestTranslator": {"id": "id", "name":"title", "referenceScenario": "referenceScenario", "description": "description", "prediction.type": "type"},
-                    "newScenario": {"title" : "", "description": "","referenceScenario": {"id": "", "name": ""}, "type": "Simulation"}
+                    //"responseTranslator": {"referenceScenario": "referenceScenario", "template": "template", "title": "name", "id": "id", "description": "description", "type":"prediction.type", "createdBy":"auditInfo.createdBy.name", "createdOn": "auditInfo.createdOn", "modifiedBy":"auditInfo.lastUpdatedBy.name", "modifiedOn":"auditInfo.lastUpdatedOn"},
+                    //"requestTranslator": {"id": "id", "name":"title", "referenceScenario": "referenceScenario", "description": "description", "prediction.type": "type"},
+                    "newScenario": {"name" : "", "description": "","referenceScenario": {"id": "", "name": ""}, "type": "Simulation"}
                 },
                 "MetaDataModel" : {
                     "responseTranslator": "",
@@ -175,7 +176,7 @@ angular.module('ThreeSixtyOneView.config')
         },
         "view": {
             "Dashboard": {
-                "orderBy": 'modifiedOn',
+                "orderBy": 'auditInfo.lastUpdatedOn',
                 "reverse": true,
                 "favoriteType": "scenario",
                 "nameClickAction": "gotoScenarioEdit",
@@ -205,7 +206,7 @@ angular.module('ThreeSixtyOneView.config')
                 "sortMenu": {
                     "displayColumns": [{
                         "label": "Last Modified",
-                        "filter": "modifiedOn"
+                        "filter": "auditInfo.lastUpdatedOn"
                     },
                     // {
                     //     "label": "Type",
@@ -213,12 +214,12 @@ angular.module('ThreeSixtyOneView.config')
                     // },
                     {
                         "label": "Created Date",
-                        "filter": "createdOn"
+                        "filter": "auditInfo.createdOn"
                     }]
                 },
             },
             "ProjectManager": {
-                "orderBy": 'modifiedOn',
+                "orderBy": 'auditInfo.lastUpdatedOn',
                 "reverse": true,
                 "favoriteType": "project",
                 "nameClickAction": 'gotoDashboard',
@@ -243,11 +244,11 @@ angular.module('ThreeSixtyOneView.config')
                 "sortMenu": {
                     "displayColumns": [{
                         "label": "Last Modified",
-                        "filter": "modifiedOn"
+                        "filter": "auditInfo.lastUpdatedOn"
                     },
                     {
                         "label": "Created Date",
-                        "filter": "createdOn"
+                        "filter": "auditInfo.createdOn"
                     }]
                 }
             },
@@ -275,10 +276,10 @@ angular.module('ThreeSixtyOneView.config')
             },
             "ScenarioTemplates": {
                 "workflow" : [
-                    {url: "name_and_describe.tpl.html", label: "Name & Describe"},
-                    {url: "choose_dimensions.tpl.html", label: "Choose Dimensions"},
-                    {url: "choose_defaults.tpl.html", label: "Choose Defaults"},
-                    {url: "review.tpl.html", buttonLabel: "DONE", label: "Review"}
+                    {url: "name_and_describe.tpl.html", label: "Name & Describe", id:0},
+                    {url: "choose_dimensions.tpl.html", label: "Choose Dimensions", id:1},
+                    {url: "choose_defaults.tpl.html", label: "Choose Defaults", id:2},
+                    {url: "review.tpl.html", buttonLabel: "DONE", label: "Review", id:3}
                 ]
             }
         },

@@ -9,7 +9,9 @@
 angular.module('ThreeSixtyOneView.directives')
 .directive('flipbook', function () {
 	return {
-		templateUrl: "views/directives/flipbook.tpl.html" ,
+		templateUrl: function(element, attrs) {
+            return attrs.templateUrl;
+        },
 		restrict: 'E',
 		transclude: true,
 		link: function (scope, element, attrs) {
@@ -46,8 +48,11 @@ angular.module('ThreeSixtyOneView.directives')
 				setView(--index >= 0 ? index : ++index);
 			};
 
+			scope.isCurrentView = function(id){
+				return id = views[index].id;
+			}
+
 			scope.isDisabled = function(direction){
-				// console.info(index, totalViews);
 				if (direction === scope.DIRECTION){
 					return index >= totalViews;
 				} else {

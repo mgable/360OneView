@@ -8,9 +8,9 @@
 * Controller of the ThreeSixtyOneView
 */
 angular.module('ThreeSixtyOneView')
-	.controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', 'DialogService', 'ManageAnalysisViewsService', 'PivotViewService',
-		function ($scope, $rootScope, EVENTS, DialogService, ManageAnalysisViewsService, PivotViewService) {
-	var init = function() {
+.controller('PivotBuilderCtrl', ['$scope', '$rootScope', 'EVENTS', 'DialogService', 'ManageAnalysisViewsService', 'PivotViewService',
+	function ($scope, $rootScope, EVENTS, DialogService, ManageAnalysisViewsService, PivotViewService) {
+		var init = function() {
 			$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
 			$scope.saveAs = false;
 
@@ -55,14 +55,12 @@ angular.module('ThreeSixtyOneView')
 
 		// open/dismiss filters selection modal
 		$scope.filtersModal = function(category) {
-			var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
-				{dimension: category, addedFilters: $scope.addedFilters, viewData: $scope.viewData.rows.concat($scope.viewData.columns), dimensions: $scope.dimensions},
-				{windowSize: 'lg', windowClass: 'filters-modal'});
-
-			dialog.result.then(function(data) {
-				$scope.updateFilterValues(data);
+			var filtersModalCallback = function(newFilterData) {
+				$scope.updateFilterValues(newFilterData);
 				$scope.saveDraftView();
-			});
+			};
+
+			DialogService.filtersModal(category, $scope.addedFilters, $scope.viewData.rows.concat($scope.viewData.columns), $scope.dimensions, filtersModalCallback);
 		};
 
 		// returns list of all the views in the current cube
@@ -157,16 +155,7 @@ angular.module('ThreeSixtyOneView')
 		// show table/filters section and update height for pivot table
 		$scope.showTable = function(filtersVisible){
 			$scope.isFiltersVisible = filtersVisible;
-			// $scope.heightChanged();
 		};
-
-		// get height of the pivot table builder and broadcast is as an event for adjusting pivot table height
-		// $scope.heightChanged = function() {
-		// 	$timeout(function() {
-		// 		$scope.pivotBuilderHeight = angular.element.find('#pivotBuilder')[0].offsetHeight;
-		// 		$rootScope.$broadcast(EVENTS.heightChanged, $scope.pivotBuilderHeight);
-	 //        }, 400);
-		// };
 
 		$scope.$on(EVENTS.tabClosed, function(){
 			$scope.$apply($scope.cancelSaveAs);

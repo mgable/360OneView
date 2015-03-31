@@ -141,16 +141,14 @@ angular.module('ThreeSixtyOneView').controller('ExportCtrl', ['$scope', 'ExportR
 
 		// open/dismiss filters selection modal
 		$scope.filtersModal = function(category) {
-			var dialog = DialogService.openLightbox('views/modal/filter_selection.tpl.html', 'FilterSelectionCtrl',
-				{dimension: category, addedFilters: $scope.addedExportFilters, viewData: $scope.exportViewData.rows, dimensions: $scope.dimensions},
-				{windowSize: 'lg', windowClass: 'filters-modal'});
-
-			dialog.result.then(function(data) {
-				$scope.addedExportFilters = data;
+			var filtersModalCallback = function(newFilterData) {
+				$scope.addedExportFilters = newFilterData;
 				$scope.exportViewData.filters = PivotMetaService.updateFilters($scope.dimensions, $scope.addedExportFilters, $scope.membersList, $scope.exportViewData.filters);
 				$scope.categorizedExportValue = PivotMetaService.generateCategorizeValueStructure($scope.addedExportFilters, $scope.dimensions, $scope.exportViewData);
 				getLockedDimensions($scope.dimensions, $scope.membersList, $scope.categorizedExportValue);
-			});
+			};
+
+			DialogService.filtersModal(category, $scope.addedExportFilters, $scope.exportViewData.rows, $scope.dimensions, filtersModalCallback);
 		};
 
 		// get list of the dimensions in the current cube

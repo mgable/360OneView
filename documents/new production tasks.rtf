@@ -1,0 +1,124 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww13200\viewh14280\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 For both the Pivot table builder and the pivot table itself the following tickets need to be created. Assign the pivot table builder tickets to Behrooz. Assign the table tickets to Chengchang.
+\b \
+\
+
+\b0 (For both Behrooz and Chengchang)
+\b \
+Story: Clean up View (html and css) for production\
+	
+\b0 Description:\
+	1) Not effectively using cascading style sheets (- "pbViewConfMenuSel bold clickable\'94)\
+	2) no logic in templates (simple boolean checking is ok)\
+	3) no magic numbers / strings (move to app config)\
+	4) use readable names, no abbreviations (do not worry about magnification)\
+	5) use existing directives (icon, inline-edit)\
+	6) remove multiple ids - only use ID\'92s for javascript\
+	7) remove non-existent directives  \'93ng-clicks\'94, \'93ng-indetermine\'94\
+	8) ID versus class names - only use ID\'92s for javascript\
+	9) remove all modals code and use dialog service\
+	10) clean up data-dash attributes; remove or consolidate \'93toggleq\'94, \'93targetq\'94, \'93toggle1\'94, \'93target1\'94\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 (For both Behrooz and Chengchang)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 Story: Clean up Controllers (js) for production\
+	
+\b0 Description:\
+	1) move everything to its correct location (filters go with filters, modal with modals, etc)\
+	2) use magnification notation\
+	3) write comments (documentation) for all functions / controllers / directives / filters / services\
+	4) clean up unused artifacts "$scope.dragOptions, undo"\
+	5) Write consistently using functional methods\
+	6) use underscorejs where ever possible - filer objToArr\
+	7) clean up all js hint issues\
+\
+	We are a team\
+	- write readable code\
+	- use shared resources\
+	- strive to abstract your code\
+	- use underscorejs wherever possible\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 (For both Behrooz and Chengchang)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 Story: Code Review Controller
+\b0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 (For Behrooz only)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 Story: Integrate REST services into Pivot Table Builder - Pivot Views:
+\b0 \
+	Description:\
+	Add the following REST services\
+	\
+	{\field{\*\fldinst{HYPERLINK "https://jira.marketshare.com/confluence/display/360EN/Analysis+Views"}}{\fldrslt https://jira.marketshare.com/confluence/display/360EN/Analysis+Views}}\
+	Get all views - this is started and the data is already available to the controller\
+	Get Default View - this is started and the data is already available to the controller\
+	Save a view - not started\
+	Update view - not started\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 (For Behrooz only)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 Story: Integrate REST services into Pivot Table Builder - Analysis Element:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b0 \cf0 	Description:\
+	Add the following REST services\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 	{\field{\*\fldinst{HYPERLINK "https://jira.marketshare.com/confluence/display/360EN/Analysis+Element"}}{\fldrslt https://jira.marketshare.com/confluence/display/360EN/Analysis+Element}}\
+	Replace Scenario element\
+	Copy and replace scenario element\
+	Get all scenario elements\
+	Get singe scenario element\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 (For Behrooz only)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 Story: Integrate REST services into Pivot Table Builder - Applicable Dimensions:
+\b0 \
+	Description:\
+	Add the following REST services\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 	\
+	{\field{\*\fldinst{HYPERLINK "https://jira.marketshare.com/confluence/display/360EN/Applicable+Dimension"}}{\fldrslt https://jira.marketshare.com/confluence/display/360EN/Applicable+Dimension}}\
+	Get applicable dimensions\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 (For Behrooz only)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 Story: Integrate REST services into Pivot Table Builder - Dimension Members:
+\b0 \
+	Description:\
+	Add the following REST services\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 	\
+	{\field{\*\fldinst{HYPERLINK "https://jira.marketshare.com/confluence/display/360EN/Dimension+Members"}}{\fldrslt https://jira.marketshare.com/confluence/display/360EN/Dimension+Members}}\
+	Get dimension members \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 (For both Behrooz and Chengchang)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 Story: Write unit test for controllers (Jasmine / Karma)
+\b0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 (For both Behrooz and Chengchang)\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\b \cf0 Story: Write E2E tests for view  (Protractor)}

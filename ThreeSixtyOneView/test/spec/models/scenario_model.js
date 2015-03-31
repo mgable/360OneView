@@ -33,7 +33,7 @@ describe('Service: ScenarioModel', function () {
 
   it("should create a scenario", function(){
     var resourceSpy = spyOn(ScenarioModel.resource, "create").and.callThrough();
-    ScenarioModel.create({id:"123"}, newScenario);
+    ScenarioModel.create("123", newScenario);
     expect(resourceSpy).toHaveBeenCalledWith(newScenario, ScenarioModel.config, {id:"123"});
   });
 

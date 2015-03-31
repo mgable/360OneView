@@ -30,7 +30,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
         'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);},
         'Favorites': function(FavoritesService, $stateParams){return FavoritesService.getFavoritesScenarios($stateParams.projectId);},
       },
-      breadcrumb: "<li><a goto='projects'>All Projects</a></li><li>{{project.title}}</li>"
+      breadcrumb: "<li><a goto='projects'>All Projects</a></li><li>{{project.name}}</li>"
     })
     .state('ScenarioCreate', {
       url: "/scenarioCreate/:projectId",
@@ -40,7 +40,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
         'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);},
         'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);}
       },
-      breadcrumb: "<li><a goto='projects'>All Projects</a></li><li>{{project.title}} &gt; Create Scenario</li>"
+      breadcrumb: "<li><a goto='projects'>All Projects</a></li><li>{{project.name}} &gt; Create Scenario</li>"
     })
     .state('Scenario', {
       abstract: true,
@@ -54,7 +54,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
         'ScenarioAnalysisElements': function(ManageScenariosService, $stateParams){return ManageScenariosService.get($stateParams.scenarioId);},
         'Calculate': function(AnalyticCalculationsService, $stateParams){return AnalyticCalculationsService.get($stateParams.scenarioId);}
       },
-      breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.id}}'>{{project.title}}</a></li><li>{{scenario.title || scenario.name}}</li>"
+      breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.uuid}}'>{{project.name}}</a></li><li>{{scenario.title || scenario.name}}</li>"
     })
     .state("Scenario.edit", {
         url: "/edit/:scenarioElementId",
@@ -64,7 +64,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
             templateUrl: "views/includes/scenario/editor.tpl.html"
           }
         },
-        breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.id}}'>{{project.title}}</a></li><li>{{scenario.title || scenario.name}}</li>"
+        breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.uuid}}'>{{project.name}}</a></li><li>{{scenario.title || scenario.name}}</li>"
     })
     .state("Scenario.results", {
       url: "/results",
@@ -74,7 +74,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
           templateUrl: "views/includes/scenario/results.tpl.html"
         }
       },
-      breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.id}}'>{{project.title}}</a></li><li>{{scenario.title || scenario.name}}</li>"
+      breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.uuid}}'>{{project.name}}</a></li><li>{{scenario.title || scenario.name}}</li>"
     })
     .state("Scenario.calculate", {
         url: "/calculate",
@@ -88,6 +88,6 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
             templateUrl: "views/includes/scenario/calculate.tpl.html"
           }
         },
-        breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.id}}'>{{project.title}}</a></li><li>{{scenario.title || scenario.name}}</li>"
+        breadcrumb: "<li><a goto='projects'>All Projects</a></li><li><a goto='dashboard' params='{{project.uuid}}'>{{project.name}}</a></li><li>{{scenario.title || scenario.name}}</li>"
     });
 }]);
