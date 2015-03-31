@@ -1,0 +1,80 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue233;}
+\margl1440\margr1440\vieww12260\viewh14620\viewkind0
+\deftab720
+\pard\pardeftab720
+
+\f0\fs24 \cf0 As we move to make prototype code into production code I am seeing several practices which need to be called out.\
+\
+1) If it clicks and does not have an href attribute, the element should be a <button>. If it does have an href attribute (or any other hyperlink style of attribute) use an <a> tag. Do not use any other element.\
+\
+2) use only the simplest of logic in templates:\
+	GOOD:\
+		ng-click="saveView()"\'a0\
+		ng-class="\{pbSaveDropSelected: viewSaveMenu\}"\
+		ng-keyup="renameAction($event)"\
+\
+	NOT SO GOOD:\
+		ng-click="heightChanged(); filterSection = true;"\
+\
+	UNACCEPTABLE:\
+		ng-show="checkedItems(member).checked/checkedItems(member).total % 1 > 0"\
+		cname="\{\{(!!expanded[member.label] || expandall.label !== \\'\\') ? \\'fa-rotate-90\\':\\'\\'\}\}"\
+		ng-click="heightChanged(); pbShow ? startSaveAs() : (pbShow = true)"\
+\
+3) Be aware directives, filters and services are in their own modules.\
+	directive module is 'ThreeSixtyOneView.directives'\
+	service module is \'93'ThreeSixtyOneView.services\'94\
+	configuration module is \'93'ThreeSixtyOneView.config\'94\
+	filters module is \'91ThreeSixtyOneView.filters'\
+\
+Not putting the controller in the correct module will cause all kinds of difficulties with unit testing.\
+\
+4) All controllers, filters, directives, services will need unit tests. The original author should write these tests. 
+\i The test should be written once the code is in production.
+\i0  Please note unit test will influence the way you write your code. Please review Jasmine ( {\field{\*\fldinst{HYPERLINK "http://jasmine.github.io/2.0/introduction.html"}}{\fldrslt \cf2 \ul \ulc2 http://jasmine.github.io/2.0/introduction.html}} ) and the current unit tests in /tests/spec for more information.\
+\
+5) All views will need to have e2e tests. The original author of the view should write the tests. 
+\i These tests should be written before the production code is written.\
+\
+
+\i0 6) for more complex logic in templates, write accessor functions:\
+	NOT GOOD:\
+		ng-repeat="item in pbData.viewData[pivotBuilderItem.name]" \
+		ng-mouseleave="addPopUp[pivotBuilderItem.name] = false"\
+\
+	GOOD:\
+		ng-repeat=\'93row in getRows(item.name)\'94;\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 		ng-mouseleave=\'93closePopup()\'94;\
+\
+7) separate button action from button state\
+	NOT GOOD:\
+		ng-click=\'93doButtonAction();setButtonState()\'94\
+		\
+	GOOD:\
+		<button ng-click=\'93doButtonAction()\'94 ms-link=\'93filter\'94> \
+		(button state is controlled through a directive, not a scope function)\
+	\
+8) Always name functions, classes, etc from the domain problem not the implementation details\
+	NOT GOOD:\
+		heightChanged()\
+		popUpLocSet()\
+\
+	GOOD:\
+		openDrawer();\
+		positionPopup()\
+9) Always use the icon directive for icons\
+	NO:\
+		<i class=\'93fa fa-pencil\'94></i>\
+	\
+	YES:\
+		<icon type=\'93pencil\'94></i>\
+\
+\
+\
+\
+\
+\
+}
