@@ -89,7 +89,7 @@ if(funcs.runTheseTests(testName)){
 						funcs.getItems().each(function(el) {
 							if (counter++ < limit) {
 								el.click();
-								var itemTitle = el.element(by.binding('title')),
+								var itemTitle = el.element(by.binding('name')),
 									selectedItemTitle = funcs.getSelectedItemTitle();
 								itemTitle.getText().then(function(title){
 									if (title.toLowerCase() !== specs.masterProject) {
@@ -114,7 +114,11 @@ if(funcs.runTheseTests(testName)){
 
 				specs.column_1SortButton.click();
 				itemTitles = funcs.getAllItemTitles();
-				expect(itemTitles.first().getText()).toBeLessThan(itemTitles.last().getText());
+				itemTitles.first().getText().then(function(firstTitle){
+					itemTitles.last().getText().then(function(secondTitle){
+						expect(firstTitle.toLowerCase()).toBeLessThan(secondTitle.toLowerCase());
+					});
+				})
 				expect(funcs.hasClass(specs.column_1LabelField, specs.activeSelectionClass)).toBe(true);
 				expect(funcs.hasClass(specs.column_2LabelField, specs.activeSelectionClass)).toBe(false);
 
@@ -341,7 +345,7 @@ if(funcs.runTheseTests(testName)){
 				browser.getLocationAbsUrl().then(function(url){
 					projectId = funcs.getProjectId(url);
 					expect(url).toContain(specs.dashboardRoot + projectId);
-					projectInfo = {"project": {"url": url, "id": projectId, "title": testFileName}};
+					projectInfo = {"project": {"url": url, "uuid": projectId, "name": testFileName}};
 					funcs.saveProjectInfo(projectInfo);
 				});
 
@@ -384,7 +388,7 @@ if(funcs.runTheseTests(testName)){
 				first = funcs.getFirstItemTitle();
 				first.getText().then(function(name){
 					expect(name).toEqual(newName);
-					projectInfo.project.title = name;
+					projectInfo.project.name = name;
 					funcs.deleteProjectInfo();
 					funcs.saveProjectInfo(projectInfo);
 				});

@@ -20,16 +20,16 @@ angular.module('ThreeSixtyOneView.config')
             "models": {
                 "ProjectsModel": {
                     // want: get
-                    "responseTranslator": {"isMaster": "isMaster", "id" : "uuid", "title": "name", "description": "description", "createdBy": "auditInfo.createdBy.name", "createdOn":"auditInfo.createdOn", "modifiedBy":"auditInfo.lastUpdatedBy.name", "modifiedOn": "auditInfo.lastUpdatedOn"},
+                    //"responseTranslator": {"isMaster": "isMaster", "id" : "uuid", "title": "name", "description": "description", "createdBy": "auditInfo.createdBy.name", "createdOn":"auditInfo.createdOn", "modifiedBy":"auditInfo.lastUpdatedBy.name", "modifiedOn": "auditInfo.lastUpdatedOn"},
                     // want: get
-                    "requestTranslator": {"uuid" : "id", "name": "title", "description": "description", "isMaster": "isMaster"},
-                    "newProject": {"title": "","description" : "", "isMaster": false}
+                    //"requestTranslator": {"uuid" : "id", "name": "title", "description": "description", "isMaster": "isMaster"},
+                    "newProject": {"name": "","description" : "", "isMaster": false}
                 },
                 "ScenarioModel": {
                     // want: get
-                    "responseTranslator": {"referenceScenario": "referenceScenario", "template": "template", "title": "name", "id": "id", "description": "description", "type":"prediction.type", "createdBy":"auditInfo.createdBy.name", "createdOn": "auditInfo.createdOn", "modifiedBy":"auditInfo.lastUpdatedBy.name", "modifiedOn":"auditInfo.lastUpdatedOn"},
-                    "requestTranslator": {"id": "id", "name":"title", "referenceScenario": "referenceScenario", "description": "description", "prediction.type": "type"},
-                    "newScenario": {"title" : "", "description": "","referenceScenario": {"id": "", "name": ""}, "type": "Simulation"}
+                    //"responseTranslator": {"referenceScenario": "referenceScenario", "template": "template", "title": "name", "id": "id", "description": "description", "type":"prediction.type", "createdBy":"auditInfo.createdBy.name", "createdOn": "auditInfo.createdOn", "modifiedBy":"auditInfo.lastUpdatedBy.name", "modifiedOn":"auditInfo.lastUpdatedOn"},
+                    //"requestTranslator": {"id": "id", "name":"title", "referenceScenario": "referenceScenario", "description": "description", "prediction.type": "type"},
+                    "newScenario": {"name" : "", "description": "","referenceScenario": {"id": "", "name": ""}, "type": "Simulation"}
                 },
                 "MetaDataModel" : {
                     "responseTranslator": "",
@@ -175,7 +175,7 @@ angular.module('ThreeSixtyOneView.config')
         },
         "view": {
             "Dashboard": {
-                "orderBy": 'modifiedOn',
+                "orderBy": 'auditInfo.lastUpdatedOn',
                 "reverse": true,
                 "favoriteType": "scenario",
                 "nameClickAction": "gotoScenarioEdit",
@@ -205,7 +205,7 @@ angular.module('ThreeSixtyOneView.config')
                 "sortMenu": {
                     "displayColumns": [{
                         "label": "Last Modified",
-                        "filter": "modifiedOn"
+                        "filter": "auditInfo.lastUpdatedOn"
                     },
                     // {
                     //     "label": "Type",
@@ -213,12 +213,12 @@ angular.module('ThreeSixtyOneView.config')
                     // },
                     {
                         "label": "Created Date",
-                        "filter": "createdOn"
+                        "filter": "auditInfo.createdOn"
                     }]
                 },
             },
             "ProjectManager": {
-                "orderBy": 'modifiedOn',
+                "orderBy": 'auditInfo.lastUpdatedOn',
                 "reverse": true,
                 "favoriteType": "project",
                 "nameClickAction": 'gotoDashboard',
@@ -243,11 +243,11 @@ angular.module('ThreeSixtyOneView.config')
                 "sortMenu": {
                     "displayColumns": [{
                         "label": "Last Modified",
-                        "filter": "modifiedOn"
+                        "filter": "auditInfo.lastUpdatedOn"
                     },
                     {
                         "label": "Created Date",
-                        "filter": "createdOn"
+                        "filter": "auditInfo.createdOn"
                     }]
                 }
             },

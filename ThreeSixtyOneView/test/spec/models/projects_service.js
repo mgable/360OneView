@@ -11,7 +11,7 @@ describe('Service: ProjectsService', function () {
   beforeEach(inject(function (_ProjectsService_, _ProjectsModel_) {
     ProjectsService = _ProjectsService_;
     ProjectsModel = _ProjectsModel_;
-    data = [{title: "a", id: "1", description:"this is a"},{title: "b", id: "2"},{title: "c", id: "3", description:"this is c"}];
+    data = [{name: "a", uuid: "1", description:"this is a"},{name: "b", uuid: "2"},{name: "c", uuid: "3", description:"this is c"}];
   }));
 
   it('should exist and define an API', function () {
@@ -26,7 +26,7 @@ describe('Service: ProjectsService', function () {
     expect(ProjectsService.getProjects()).toBe(data);
   });
 
-  it ("should get project item by id", function(){
+  it ("should get project item by uuid", function(){
     ProjectsService.data = data;
     expect(ProjectsService.getProjectItemById("1")).toEqual(data[0]);
     expect(ProjectsService.getProjectItemById("2")).toEqual(data[1]);
@@ -38,7 +38,7 @@ describe('Service: ProjectsService', function () {
     ProjectsService.rename(data[0]);
     expect(resourceSpy).toHaveBeenCalledWith(data[0]);
     ProjectsService.rename(data[1]);
-    expect(resourceSpy).toHaveBeenCalledWith({title: "b", id: "2", description: ""});
+    expect(resourceSpy).toHaveBeenCalledWith({name: "b", uuid: "2", description: ""});
   });
 
 });

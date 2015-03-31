@@ -28,7 +28,7 @@ describe('Controllers: ', function() {
 
     describe("Project Listing CTRL", function(){
         beforeEach(inject(function(_FavoritesService_, _SortAndFilterService_, _ScenarioService_) {
-            data = [{id:"123", title:"title", isMaster:false},{id:"234", title:"title", isMaster:false},{id:"456", title:"title master", isMaster:true}];
+            data = [{uuid:"123", title:"title", isMaster:false},{uuid:"234", title:"title", isMaster:false},{uuid:"456", title:"title master", isMaster:true}];
             deferred = $q.defer();
             deferred.resolve(data);
 
@@ -103,10 +103,10 @@ describe('Controllers: ', function() {
 
         //API
         it("should toggle favorites", function(){
-            var data = {id: "123"};
+            var data = {uuid: "123"};
             scope.toggleFavorite(event, data);
             expect(event.stopPropagation).toHaveBeenCalled();
-            expect(FavoritesService.toggleFavorite).toHaveBeenCalledWith(data.id, "project");
+            expect(FavoritesService.toggleFavorite).toHaveBeenCalledWith(data.uuid, "project");
             expect(SortAndFilterService.filter).toHaveBeenCalled();
         });
 
@@ -171,10 +171,10 @@ describe('Controllers: ', function() {
 
         //API
         it("should toggle favorites", function(){
-            var data = {id: "123"};
+            var data = {uuid: "123"};
             scope.toggleFavorite(event, data);
             expect(event.stopPropagation).toHaveBeenCalled();
-            expect(FavoritesService.toggleFavorite).toHaveBeenCalledWith(data.id, "scenario");
+            expect(FavoritesService.toggleFavorite).toHaveBeenCalledWith(data.uuid, "scenario");
             expect(SortAndFilterService.filter).toHaveBeenCalled();
         });
 
@@ -242,10 +242,10 @@ describe('Controllers: ', function() {
     describe("Listing View CTRL", function(){
 
         beforeEach(inject(function(_SortAndFilterService_, _GotoService_) {
-            data = {id:"123", title:"title", description: "description", isMaster:false};
+            data = {uuid:"123", title:"title", description: "description", isMaster:false};
             deferred = $q.defer();
             deferred.resolve(data);
-            scope.getProject = function(){return {id: '123'};};
+            scope.getProject = function(){return {uuid: '123'};};
             signature = apiElements;
 
             SortAndFilterService = _SortAndFilterService_;
@@ -285,7 +285,7 @@ describe('Controllers: ', function() {
             var id = '123', data = {id:id};
             scope.goto(event, "gotoScenarioEdit", data, id);
             expect(GotoService.scenarioEdit).toHaveBeenCalledWith(id, id, id);
-            scope.goto(event, "gotoDashboard", data);
+            scope.goto(event, "gotoDashboard", {uuid:id});
             expect(GotoService.dashboard).toHaveBeenCalledWith(id);
             scope.goto(event, "gotoProjects");
             expect(GotoService.projects).toHaveBeenCalled();

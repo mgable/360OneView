@@ -193,7 +193,7 @@ angular.module('ThreeSixtyOneView.services')
             temp = filterFilter(temp, activeFilters);
             temp = filterFilter(temp, filterBy);
             temp = filterFilter(temp, {
-                title: searchText
+                name: searchText
             });
             temp = $filter('orderBy')(temp, this.getOrderBy(), this.getReverse());
             temp = filterPipline(temp);

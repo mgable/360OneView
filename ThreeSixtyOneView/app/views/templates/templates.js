@@ -96,7 +96,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<div class=\"edit\" ng-show=\"isActive\">\r" +
     "\n" +
-    "\t\t<textarea ng-maxlength=\"256\" ng-pattern='/^[^\\\\\\/\\?\\:\\*\"><|]+$/' ng-model=\"item.description\" ng-class=\"{'active': isActive}\" class=\"description inputTarget\"></textarea>\r" +
+    "\t\t<textarea ng-maxlength=\"256\" ng-model=\"item.description\" ng-class=\"{'active': isActive}\" class=\"description inputTarget\"></textarea>\r" +
     "\n" +
     "\t</div>\r" +
     "\n" +
@@ -113,7 +113,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<span class=\"noEdit\" ng-hide=\"isActive\" ng-click=\"action()\">\r" +
     "\n" +
-    "\t\t<span class=\"title\">{{item.title}}</span>&nbsp;\r" +
+    "\t\t<span class=\"title\">{{item.name}}</span>&nbsp;\r" +
     "\n" +
     "\t\t<span class=\"action\"><icon type=\"pencil\" cname=\"icon\"></icon></span>\r" +
     "\n" +
@@ -125,13 +125,13 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "    \t<!-- validator -->\r" +
     "\n" +
-    "    \t<input ng-if=\"comparisonModel\" type=\"text\" class=\"title\" ng-model=\"item.title\" required ng-maxlength=\"256\" validator=\"comparisonModel\" error-type=\"foo\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\"/>\r" +
+    "    \t<input ng-if=\"comparisonModel\" type=\"text\" class=\"title\" ng-model=\"item.name\" required ng-maxlength=\"256\" validator=\"comparisonModel\" error-type=\"foo\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\"/>\r" +
     "\n" +
     "\r" +
     "\n" +
     "    \t<!-- no vaildator -->\r" +
     "\n" +
-    "    \t<input ng-if=\"!comparisonModel\" type=\"text\" class=\"title\" ng-model=\"item.title\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\"/>\r" +
+    "    \t<input ng-if=\"!comparisonModel\" type=\"text\" class=\"title\" ng-model=\"item.name\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' tabindex=\"1\"/>\r" +
     "\n" +
     "\r" +
     "\n" +
@@ -443,23 +443,23 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<span ng-switch-when=\"Last Modified\">\r" +
     "\n" +
-    "\t\t<span ng-if=\"!test\" bind-once>{{item.modifiedOn | timeago }}</span>\r" +
+    "\t\t<span ng-if=\"!test\" bind-once>{{item.auditInfo.lastUpdatedOn | timeago }}</span>\r" +
     "\n" +
-    "\t\t<span ng-if=\"test\">{{item.modifiedOn}}</span>\r" +
+    "\t\t<span ng-if=\"test\">{{item.auditInfo.lastUpdatedOn}}</span>\r" +
     "\n" +
     "\t</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Modified By\" bind-once>{{item.modifiedBy}}</span> \r" +
+    "\t<span ng-switch-when=\"Modified By\" bind-once>{{item.auditInfo.lastUpdatedBy.name}}</span> \r" +
     "\n" +
     "\t<span ng-switch-when=\"Type\" bind-once>{{item.template.type}}</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Creator\" bind-once>{{item.createdBy}}</span> \r" +
+    "\t<span ng-switch-when=\"Creator\" bind-once>{{item.auditInfo.createdBy.name}}</span> \r" +
     "\n" +
     "\t<span ng-switch-when=\"Created Date\" bind-once>\r" +
     "\n" +
-    "\t\t<span ng-if=\"!test\" bind-once>{{item.createdOn | date: 'longDate' }}</span>\r" +
+    "\t\t<span ng-if=\"!test\" bind-once>{{item.auditInfo.createdOn | date: 'longDate' }}</span>\r" +
     "\n" +
-    "\t\t<span ng-if=\"test\">{{item.createdOn}}</span>\r" +
+    "\t\t<span ng-if=\"test\">{{item.auditInfo.createdOn}}</span>\r" +
     "\n" +
     "\t</span> \r" +
     "\n" +
@@ -470,9 +470,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/sorting_options.tpl.html',
-    "<div data-ms-id=\"{{id}}\" class=\"{{label | normalize}} heading\" ng-class=\"{'active': SortAndFilterService.isActive(label)}\">\r" +
+    "<div data-ms-id=\"{{id}}\" class=\"{{label | normalize}} heading\" ng-class=\"{'active': SortAndFilterService.isActive(value)}\">\r" +
     "\n" +
-    "\t<a ng-click=\"sort($event, label)\" ng-bind=\"display\"></a>&nbsp;\r" +
+    "\t<a ng-click=\"sort($event, value)\" ng-bind=\"label\"></a>&nbsp;\r" +
     "\n" +
     "</div> "
   );
@@ -794,11 +794,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t<label>Enter Scenario Name\r" +
     "\n" +
-    "\t\t\t\t\t\t<input type=\"text\" focus placeholder=\"Enter Scenario Name\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' validator=\"isScenarioTitleUnique\" error-type=\"isUnique\" ng-model=\"scenario.title\" data-ms-id=\"ScenarioCreate.inputName\"/>\r" +
+    "\t\t\t\t\t\t<input type=\"text\" focus placeholder=\"Enter Scenario Name\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' validator=\"isScenarioTitleUnique\" error-type=\"isUnique\" ng-model=\"scenario.name\" data-ms-id=\"ScenarioCreate.inputName\"/>\r" +
     "\n" +
     "\t\t\t\t\t\t<div class=\"alert alert-danger\" ng-show=\"ScenarioCreate.$error.isUnique\" role=\"alert\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\tThe scenario name &quot;{{scenario.title}}&quot; has been taken. Please choose another name.\r" +
+    "\t\t\t\t\t\t\tThe scenario name &quot;{{scenario.name}&quot; has been taken. Please choose another name.\r" +
     "\n" +
     "\t\t\t\t\t\t</div>\r" +
     "\n" +
@@ -842,9 +842,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t<accordion close-others=\"false\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<accordion-group is-open=\"true\" ng-hide=\"hideMasterProject(masterProject.title, masterProjectReferenceScenario.title, searchText)\">\r" +
+    "\t\t\t\t\t\t\t<accordion-group is-open=\"true\" ng-hide=\"hideMasterProject(masterProject.name, masterProjectReferenceScenario.name, searchText)\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<accordion-heading>{{masterProject.title}}</accordion-heading>\r" +
+    "\t\t\t\t\t\t\t\t<accordion-heading>{{masterProject.name}}</accordion-heading>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t<div class=\"row\" ng-click=\"setScenario(masterProjectReferenceScenario)\">\r" +
     "\n" +
@@ -856,7 +856,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\t\t\t<div class=\"col-md-11\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t\t<span>{{masterProjectReferenceScenario.title}}</span>\r" +
+    "\t\t\t\t\t\t\t\t\t\t<span>{{masterProjectReferenceScenario.name}}</span>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t</div>\r" +
     "\n" +
@@ -866,7 +866,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\t<accordion-group ng-repeat=\"project in scenarioList | filterProjects: searchText\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<accordion-heading>{{project.title}} Project</accordion-heading>\r" +
+    "\t\t\t\t\t\t\t\t<accordion-heading>{{project.name}} Project</accordion-heading>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t<div ng-repeat=\"scenario in getScenarios(project, searchText)\">\r" +
     "\n" +
@@ -880,7 +880,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-11\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-title\">{{scenario.title}}</span>\r" +
+    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-title\">{{scenario.name}}</span>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\r" +
     "\n" +
