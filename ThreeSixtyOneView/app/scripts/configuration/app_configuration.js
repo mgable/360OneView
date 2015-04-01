@@ -280,10 +280,10 @@ angular.module('ThreeSixtyOneView.config')
                     "strategy": {"name": "strategy", "label": "Strategy"}
                 },
                 "workflow": [
-                    {url: "name_and_describe.tpl.html", label: "Name & Describe", id:0},
-                    {url: "choose_dimensions.tpl.html", label: "Choose Dimensions", id:1},
-                    {url: "choose_defaults.tpl.html", label: "Choose Defaults", id:2},
-                    {url: "review.tpl.html", buttonLabel: "DONE", label: "Review", id:3}
+                    {url: "name_and_describe.tpl.html", label: "Name & Describe"},
+                    {url: "choose_dimensions.tpl.html", label: "Choose Dimensions"},
+                    {url: "choose_defaults.tpl.html", label: "Choose Defaults"},
+                    {url: "review.tpl.html", buttonLabel: "DONE", label: "Review"}
                 ]
             }
         },
