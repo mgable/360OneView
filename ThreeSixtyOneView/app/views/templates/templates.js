@@ -360,7 +360,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<div class=\"ms-logo\"></div>\r" +
     "\n" +
-    "\t\t\t&nbsp;{{type}}\r" +
+    "\t\t\t&nbsp;{{type.label}}\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +

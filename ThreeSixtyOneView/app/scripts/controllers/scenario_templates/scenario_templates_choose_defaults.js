@@ -27,10 +27,8 @@ angular.module('ThreeSixtyOneView')
 
 			$scope.dragOptions = {
 				itemMoved: function() {
-					// $scope.saveDraftView();
 				},
 				orderChanged: function() {
-					// $scope.saveDraftView();
 				},
 				dragStart: function() {
 					$scope.isDragging = true;
@@ -97,7 +95,7 @@ angular.module('ThreeSixtyOneView')
 	};
 
 	$scope.$on(EVENTS.moveForward, function() {
-		console.log('ScenarioTemplatesChooseDefaultsCtrl');
+		$scope.setDefaultView($scope.viewData);
 	});
 
 	init();

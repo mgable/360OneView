@@ -30,6 +30,10 @@ angular.module('ThreeSixtyOneView')
 			$scope.defaultView = {};
 		};
 
+		$scope.setDefaultView = function(view) {
+			$scope.defaultView = view;
+		};
+
 		$scope.createTemplate = function() {
 			console.log('create template');
 			console.log($scope.template);

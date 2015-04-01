@@ -28,7 +28,6 @@ angular.module('ThreeSixtyOneView.directives')
 				init = function() {
 					scope.DIRECTION = "NEXT";
 					scope.views = views;
-					scope.type = type;
 					scope.currentViewIndex = 0;
 
 					setView(scope.currentViewIndex);
