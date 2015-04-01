@@ -8,7 +8,7 @@
  * Controller of the ThreeSixtyOneView
  */
 angular.module('ThreeSixtyOneView')
-.controller('ChooseDimensionsCtrl', ['$scope', 'MetaDataService', function($scope, MetaDataService) {
+    .controller('ChooseDimensionsCtrl', ['$scope', 'MetaDataService', 'DimensionService', function($scope, MetaDataService, DimensionService) {
         var init = function() {
             $scope.template = { name: '', description: '', type: 'Action' };
             $scope.times = ['Weekly', 'Monthly', 'Quarterly', 'Yearly'];
@@ -26,41 +26,24 @@ angular.module('ThreeSixtyOneView')
                 kpiCubeType = 'kpi';
             getDimensions(kpiCubeType, kpiCubeName, kpiCubeParams);
         },
-        getFilteredList = function(dimension) {
-            var labelsArray = [];
-            _.each(dimension, function(v) {
-                if (v.isSelected) {
-                    var filtered = _.filter(v.members, function(v1) { return v1.isSelected === true }),
-                        childrenLabelsArray;
-                    if (0 < filtered.length && filtered.length < v.members.length) {
-                        childrenLabelsArray = '(' + _.pluck(filtered, 'label').join() + ')';
-                    } else {
-                        childrenLabelsArray = '';
-                    }
-                    labelsArray.push(v.label + childrenLabelsArray);
-                }
-            });
-            return labelsArray.join();
-        },
-
         getDimensions = function(cubeType, cubeName, cubeParams) {
             var getCubeId = function(cubeName, cubeParams) {
                 return MetaDataService
-                            .getCubes.apply(this, cubeParams)
-                            .then(function(cubes) {
-                                $scope[cubeType+'Cubes'] = cubes;
-                                return cubes.length !== 0 ? _.find(cubes, function(v) { return v.name === cubeName }).id : 1;
-                            });
+                    .getCubes.apply(this, cubeParams)
+                    .then(function(cubes) {
+                        $scope[cubeType+'Cubes'] = cubes;
+                        return cubes.length !== 0 ? _.find(cubes, function(v) { return v.name === cubeName }).id : 1;
+                    });
             },
             buildDimensions = function(cubeId) {
                 return MetaDataService
-                            .buildDimensionsTree(cubeId)
-                            .then(function(dimension) {
-                                // filter time dimension
-                                // dimension = _.filter(dimension, function(v) { return v.label !== 'TIME' });
-                                $scope[cubeType+'Dimensions'] = dimension;
-                                return dimension;
-                            });
+                    .buildDimensionsTree(cubeId)
+                    .then(function(dimension) {
+                        $scope[cubeType+'TimeDimension'] = _.find(dimension, function(v) { return v.label === 'TIME' });
+                        dimension = _.reject(dimension, function(v) { return v.label === 'TIME' });
+                        $scope[cubeType+'Dimensions'] = dimension;
+                        return dimension;
+                    });
             },
             addSelectedValue = function(dimension) {
                 _.each(dimension, function(v, k) {
@@ -79,8 +62,9 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.$watch('[spendDimensions, kpiDimensions, selectedTime]', function (newValue, oldValue) {
-            $scope.spendDimensionList = getFilteredList(newValue[0]);
-            $scope.kpiDimensionList = getFilteredList(newValue[1]);
+            $scope.spendDimensionList = DimensionService.generateDimensionsLabels(newValue[0]);
+            $scope.kpiDimensionList = DimensionService.generateDimensionsLabels(newValue[1]);
+            $scope.timeDimensionList = '(' + _.pluck(DimensionService.switchTimeDimension($scope.spendTimeDimension, newValue[2]), 'label').join() + ')';
         }, true);
 
         init();

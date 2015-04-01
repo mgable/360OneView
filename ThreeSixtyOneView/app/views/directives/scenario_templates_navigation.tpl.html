@@ -9,21 +9,19 @@
 		</div>
 		<div class="template-steps">
 			<ul>
-				<li ng-repeat="data in data">
-					<span class="currentView" ng-if="$index === isCurrentView(data.label)"> 
+				<li ng-repeat="view in views">
+					<span class="currentView" ng-if="isCurrentView($index)"> 
 						<span class="icon-stack">
 							<icon type="circle"></icon>
 							<icon type="circle-o"></icon>
 						</span>
-						{{data.label}}
 					</span>
-					<span ng-if="$index > isCurrentView(data.label)"> 
-						<icon type="circle-o"></icon>&nbsp;{{data.label}}
+					<span ng-if="!isCurrentView($index)"> 
+						<icon ng-if="$index > currentViewIndex" type="circle-o"></icon>
+						<icon ng-if="$index < currentViewIndex" type="circle"></icon>
 					</span>
-					<span ng-if="$index < isCurrentView(data.label)"> 
-						<icon type="circle"></icon>&nbsp;{{data.label}}
-					</span>
-					<div ng-if="!data.buttonLabel" class="pipe-line">|</div>
+					&nbsp;{{view.label}}
+					<div ng-if="!view.buttonLabel" class="pipe-line">|</div>
 				</li>
 			</ul>
 		</div>

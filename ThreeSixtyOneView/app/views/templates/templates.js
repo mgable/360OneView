@@ -331,11 +331,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "    <div class=\"dimensionFilter\">\r" +
     "\n" +
-    "        <span title=\"{{getFilterArray(dimensionData)}}\" ng-class=\"{selected: getFilterArray(dimensionData).length}\">\r" +
+    "        <span title=\"{{getDimensionCardLabel(dimensionData)}}\" ng-class=\"{selected: getDimensionCardLabel(dimensionData).length}\">\r" +
     "\n" +
     "            <icon type=\"filter\"></icon>\r" +
     "\n" +
-    "            <a ng-click=\"filtersModal(dimensionData)\">{{getFilterArray(dimensionData)}}</a>\r" +
+    "            <a ng-click=\"filtersModal(dimensionData)\">{{getDimensionCardLabel(dimensionData)}}</a>\r" +
     "\n" +
     "        </span>\r" +
     "\n" +
@@ -374,9 +374,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<ul>\r" +
     "\n" +
-    "\t\t\t\t<li ng-repeat=\"data in data\">\r" +
+    "\t\t\t\t<li ng-repeat=\"view in views\">\r" +
     "\n" +
-    "\t\t\t\t\t<span class=\"currentView\" ng-if=\"$index === isCurrentView(data.label)\"> \r" +
+    "\t\t\t\t\t<span class=\"currentView\" ng-if=\"isCurrentView($index)\"> \r" +
     "\n" +
     "\t\t\t\t\t\t<span class=\"icon-stack\">\r" +
     "\n" +
@@ -386,23 +386,19 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t</span>\r" +
     "\n" +
-    "\t\t\t\t\t\t{{data.label}}\r" +
+    "\t\t\t\t\t</span>\r" +
+    "\n" +
+    "\t\t\t\t\t<span ng-if=\"!isCurrentView($index)\"> \r" +
+    "\n" +
+    "\t\t\t\t\t\t<icon ng-if=\"$index > currentViewIndex\" type=\"circle-o\"></icon>\r" +
+    "\n" +
+    "\t\t\t\t\t\t<icon ng-if=\"$index < currentViewIndex\" type=\"circle\"></icon>\r" +
     "\n" +
     "\t\t\t\t\t</span>\r" +
     "\n" +
-    "\t\t\t\t\t<span ng-if=\"$index > isCurrentView(data.label)\"> \r" +
+    "\t\t\t\t\t&nbsp;{{view.label}}\r" +
     "\n" +
-    "\t\t\t\t\t\t<icon type=\"circle-o\"></icon>&nbsp;{{data.label}}\r" +
-    "\n" +
-    "\t\t\t\t\t</span>\r" +
-    "\n" +
-    "\t\t\t\t\t<span ng-if=\"$index < isCurrentView(data.label)\"> \r" +
-    "\n" +
-    "\t\t\t\t\t\t<icon type=\"circle\"></icon>&nbsp;{{data.label}}\r" +
-    "\n" +
-    "\t\t\t\t\t</span>\r" +
-    "\n" +
-    "\t\t\t\t\t<div ng-if=\"!data.buttonLabel\" class=\"pipe-line\">|</div>\r" +
+    "\t\t\t\t\t<div ng-if=\"!view.buttonLabel\" class=\"pipe-line\">|</div>\r" +
     "\n" +
     "\t\t\t\t</li>\r" +
     "\n" +

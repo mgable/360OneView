@@ -10,53 +10,55 @@ angular.module('ThreeSixtyOneView.directives')
 .directive('flipbook', function () {
 	return {
 		templateUrl: function(element, attrs) {
-            return attrs.templateUrl;
-        },
+			return attrs.templateUrl;
+		},
 		restrict: 'E',
 		transclude: true,
 		link: function (scope, element, attrs) {
-			var views = JSON.parse(attrs.data), index = 0,
-			totalViews = views.length,
-			basePath = attrs.basepath,
-			callback = attrs.callback,
-			data = views,
-			type = attrs.type,
-			setView = function(i){
-				scope.view = views[i];
-				scope.url = basePath + "/" + views[i].url;
-				scope.label = views[i].buttonLabel || scope.DIRECTION;
-			},
-			init = function(){
-				setView(index);
-			};
+			var views = JSON.parse(attrs.workflow),
+				totalViews = views.length,
+				basePath = attrs.basepath,
+				callback = attrs.callback,
+				type = attrs.type,
+				setView = function(i) {
+					scope.view = views[i];
+					scope.url = basePath + "/" + views[i].url;
+					scope.label = views[i].buttonLabel || scope.DIRECTION;
+				},
+				init = function() {
+					scope.DIRECTION = "NEXT";
+					scope.views = views;
+					scope.type = type;
+					scope.currentViewIndex = 0;
 
-			scope.DIRECTION = "NEXT";
+					setView(scope.currentViewIndex);
+				};
 
-			scope.data = data;
-			scope.type = type;
 
 			scope.forward = function(){
-				if (index  === totalViews - 1){
+				if (scope.currentViewIndex  === totalViews - 1) {
 					scope[callback]();
-					index = totalViews;
+					scope.currentViewIndex = totalViews;
 				} else {
-					setView(++index < totalViews ? index : --index);
+					setView(++scope.currentViewIndex < totalViews ? scope.currentViewIndex : --scope.currentViewIndex);
 				}
 			};
 
-			scope.backward = function(){
-				setView(--index >= 0 ? index : ++index);
+			scope.backward = function() {
+				setView(--scope.currentViewIndex >= 0 ? scope.currentViewIndex : ++scope.currentViewIndex);
 			};
 
-			scope.isCurrentView = function(id){
-				return id = views[index].id;
-			}
+			scope.isCurrentView = function(index) {
+				return index === scope.currentViewIndex;
+			};
 
-			scope.isDisabled = function(direction){
-				if (direction === scope.DIRECTION){
-					return index >= totalViews;
+			scope.isView
+
+			scope.isDisabled = function(direction) {
+				if (direction === scope.DIRECTION) {
+					return scope.currentViewIndex >= totalViews;
 				} else {
-					return index <= 0;
+					return scope.currentViewIndex <= 0;
 				}
 			};
 

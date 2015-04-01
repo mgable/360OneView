@@ -9,7 +9,7 @@ angular.module('ThreeSixtyOneView')
 	function($scope, $location, ErrorService, CONFIG, ServerService, ScenarioStatesService, $state, ManageTemplatesService) {
 		var init = function() {
 			ManageTemplatesService.getAll().then(function(response) {
-				if(response.length === 2) {
+				if(response.length === 0) {
 					$state.go("ScenarioTemplates");
 				}
 			});

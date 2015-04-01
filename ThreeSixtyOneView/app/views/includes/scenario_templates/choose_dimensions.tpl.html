@@ -5,7 +5,7 @@
 	<div class="prompt">
 		<span>Please choose the time granularity for this template</span>
 		<form>
-		<pre>{{selectedTime}}</pre>
+		<pre>{{selectedTime}} - {{timeDimensionList}}</pre>
 			<span ng-repeat="time in times">
 				<input type="radio" id="radio{{$index}}" name="selectedTime" value="{{time}}" ng-model="$parent.selectedTime">
 	        	<label for="radio{{$index}}">

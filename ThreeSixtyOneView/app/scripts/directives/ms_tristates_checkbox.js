@@ -23,7 +23,7 @@ angular.module('ThreeSixtyOneView.directives')
 
                         // Set each child's selected property to the checkbox's checked property
                         angular.forEach(scope.$eval(childList), function(child) {
-                            if (child['isLocked'] !== true) {
+                            if (child.isLocked !== true) {
                                 child[property] = isChecked;
                             }
                         });

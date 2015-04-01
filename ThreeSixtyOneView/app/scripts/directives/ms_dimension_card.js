@@ -9,7 +9,7 @@
  */
 
 angular.module('ThreeSixtyOneView.directives')
-    .directive('msDimensionCard', ['PivotMetaService', 'DialogService', function(PivotMetaService, DialogService) {
+    .directive('msDimensionCard', ['PivotMetaService', 'DialogService', 'DimensionService', function(PivotMetaService, DialogService, DimensionService) {
         return {
             restrict: "AE",
             replace: true,
@@ -20,21 +20,13 @@ angular.module('ThreeSixtyOneView.directives')
             templateUrl: function(elem, attrs){
                 return "views/directives/ms_" + attrs.dimensionType + "_dimension_card.tpl.html";
             },
-            link: function(scope, element, attrs) {
+            link: function(scope) {
 
-                var getFilteredDimensions = function(dimension) {
-                    return _.filter(angular.copy(dimension), function(v) {
-                        v.members = _.filter(v.members, function(v1) {
-                            return v1.isSelected === true;
-                        });
-                        return v.isSelected === true;
-                    });
-                },
-                filtersModalCallback = function(data) {
+                var filtersModalCallback = function(data) {
                     console.info('filtered data: ', data);
                 };
 
-                scope.getFilterArray = function(dimension) {
+                scope.getDimensionCardLabel = function(dimension) {
                     var dimensionLength = dimension.members.length,
                         filterArray = _.pluck(_.filter(dimension.members, function(dimension) {
                             return dimension.isSelected === true;
@@ -43,7 +35,7 @@ angular.module('ThreeSixtyOneView.directives')
                 };
 
                 scope.filtersModal = function(category) {
-                    var dimensions = getFilteredDimensions(scope.allDimensionsData),
+                    var dimensions = DimensionService.getSelectedDimensions(scope.allDimensionsData),
                         addedFilters = PivotMetaService.addAllFilters(dimensions),
                         dimension = _.find(dimensions, function(v) { return category.id === v.id; });
                     DialogService.filtersModal(dimension, addedFilters, undefined, dimensions, filtersModalCallback);
