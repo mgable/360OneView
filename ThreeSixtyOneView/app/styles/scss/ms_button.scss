@@ -1,5 +1,6 @@
 /* Standard Button Styles */
 @import "variables";
+@import "new_variables";
 
 .ms-btn-submit {
 	color: white;
@@ -35,5 +36,40 @@
 	&.ms-btn-cancel[disabled],
 	fieldset[disabled] .ms-btn-cancel {
 	  	background-color: #808080;
+	}
+}
+
+.ms-btn-action {
+	//@include drop-shadow(0px,1px,2px,1px,0.5);
+	color: $ms-actionGreen;
+	background-color: $ms-pureWhite;
+	border-top: 0;
+	border-right: 1px solid $ms-mediumLightGray;
+	border-bottom: 2px solid $ms-mediumLightGray;
+	border-left: 1px solid $ms-lightGray;
+	border-radius: 0;
+	padding: 10px 30px 10px 70px;
+	font-size: 38px;
+	background-image: url(../images/ms-logo-action.png);
+	background-repeat: no-repeat;
+	background-position: 17% center;
+
+	&.ms-btn-action:hover{
+		color: $ms-pureWhite;
+		background-color: $ms-mediumLightGray;
+		border-right-color: $ms-mediumLightGray;
+		border-bottom-color: $ms-mediumLightGray;
+		border-left-color: $ms-lightGray;
+		background-image: url(../images/ms-logo-01.png);
+	}
+
+	&.ms-btn-action:focus {
+		outline: none;
+		color: $ms-pureWhite;
+		background-color: $ms-actionGreen;
+		border-right-color: $ms-actionGreen;
+		border-bottom-color: $ms-actionGreen;
+		border-left-color: $ms-actionGreen;
+		background-image: url(../images/ms-logo-01.png);
 	}
 }

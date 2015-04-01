@@ -630,11 +630,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/modal/module_pick.tpl.html',
-    "<div data-ms-id=\"simpleModal\">\r" +
+    "<div class=\"scenarioTemplates light-box\" data-ms-id=\"simpleModal\">\r" +
     "\n" +
     "\t<div class=\"header\">\r" +
     "\n" +
-    "\t\t\r" +
+    "\t\tHello!\r" +
     "\n" +
     "\t</div>\r" +
     "\n" +
@@ -642,11 +642,19 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<div class=\"content\">\r" +
     "\n" +
-    "\t\t\t\r" +
+    "\t\t\tWhat type of Scenario Template would you like to create?\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
-    "\t\t<div class=\"action-buttons\">\r" +
+    "\t\t<div class=\"type-buttons\">\r" +
+    "\n" +
+    "\t\t\t<ms-button type=\"action\" action=\"\" label=\"Action\"></ms-button>\r" +
+    "\n" +
+    "\t\t\t<ms-button type=\"cancel\" action=\"\" label=\"Strategy\"></ms-button>\r" +
+    "\n" +
+    "\t\t</div>\r" +
+    "\n" +
+    "\t\t<div class=\"form-buttons\">\r" +
     "\n" +
     "\t\t\t<ms-button type=\"cancel\" action=\"close($event)\" label=\"Cancel\"></ms-button>\r" +
     "\n" +

@@ -3,7 +3,7 @@
 @import "new_variables";
 
 .scenarioTemplates {
-	background-color: $ms-pureWhite;
+	//background-color: $ms-pureWhite;
 	color: $ms-black;
 	.left-column {
 		height: 100%;
@@ -206,5 +206,23 @@
         .kpiDimensionCard {
             height: 100px;
         }
+    }
+    &.light-box{
+    	background: none;
+    	font-size: 32px;
+    	text-align: center;
+    	.header {
+    	}
+    	.body {
+    		.content {
+    			font-size: 24px;
+    		}
+    		.type-buttons {
+
+    		}
+    		.form-buttons{
+
+    		}
+    	}
     }
 }
