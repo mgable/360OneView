@@ -43,29 +43,37 @@
 			return output;
 		},
 		getDefaultViewRow = function(dimensions) {
+			var timeDimension = _.find(dimensions, function(dimension) {
+				return dimension.type === 'TimeDimension';
+			});
+
 			return {
-				dimension: {id:dimensions[0].dimensionId
+				dimension: {id:timeDimension.dimensionId
 				},
 				hierarchy: {
 					id: -1
 				},
 				level: {
-					id: dimensions[0].members[dimensions[0].members.length-1].levelId,
-					label: dimensions[0].members[dimensions[0].members.length-1].label
+					id: timeDimension.members[0].levelId,
+					label: timeDimension.members[0].label
 				}
 			};
 		},
 		getDefaultViewColumn = function(dimensions) {
+			var measureDimension = _.find(dimensions, function(dimension) {
+				return dimension.type === 'MeasureDimension';
+			});
+
 			return {
 				dimension: {
-					id: dimensions[dimensions.length-1].dimensionId
+					id: measureDimension.dimensionId
 				},
 				hierarchy: {
 					id: -1
 				},
 				level: {
-					id: dimensions[dimensions.length-1].members[0].levelId,
-					label: dimensions[dimensions.length-1].members[0].label
+					id: measureDimension.members[0].levelId,
+					label: measureDimension.members[0].label
 				}
 			};
 		};
