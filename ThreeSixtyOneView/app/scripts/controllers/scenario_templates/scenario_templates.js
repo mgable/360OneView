@@ -9,6 +9,7 @@ angular.module('ThreeSixtyOneView')
 			if(typeof $scope.type === 'undefined') {
 				openModulePickDialog();
 			} else {
+				initializeTemplate($scope.type);
 				$scope.isFlipbookVisible = true;
 			}
 		}, openModulePickDialog = function() {
@@ -19,6 +20,21 @@ angular.module('ThreeSixtyOneView')
 			modulePickDialog.result.then(function(data) {
 				console.log(data);
 			});
+		}, initializeTemplate = function(type) {
+			$scope.template = {
+				name: '',
+				description: '',
+				cubes: []
+			};
+
+			$scope.defaultView = {};
+		};
+
+		$scope.createTemplate = function() {
+			console.log('create template');
+			console.log($scope.template);
+			console.log('create default view');
+			console.log($scope.defaultView);
 		};
 
 		init();

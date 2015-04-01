@@ -8,8 +8,8 @@
  * Controller of the ThreeSixtyOneView
  */
 angular.module('ThreeSixtyOneView')
-.controller('ScenarioTemplatesChooseDefaultsCtrl', ['$scope', 'PivotMetaService', 'PivotViewService', 'datepickerConfig', 'MetaDataService', 'DialogService',
-	function ($scope, PivotMetaService, PivotViewService, datepickerConfig, MetaDataService, DialogService) {
+.controller('ScenarioTemplatesChooseDefaultsCtrl', ['$scope', 'PivotMetaService', 'PivotViewService', 'datepickerConfig', 'MetaDataService', 'DialogService', 'EVENTS',
+	function ($scope, PivotMetaService, PivotViewService, datepickerConfig, MetaDataService, DialogService, EVENTS) {
 
 	var init = function() {
 			$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
