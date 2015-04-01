@@ -7,7 +7,7 @@
 * # flipbook
 */
 angular.module('ThreeSixtyOneView.directives')
-.directive('flipbook', function () {
+.directive('flipbook', ['EVENTS', function (EVENTS) {
 	return {
 		templateUrl: function(element, attrs) {
 			return attrs.templateUrl;
@@ -41,6 +41,7 @@ angular.module('ThreeSixtyOneView.directives')
 					scope.currentViewIndex = totalViews;
 				} else {
 					setView(++scope.currentViewIndex < totalViews ? scope.currentViewIndex : --scope.currentViewIndex);
+					scope.$broadcast(EVENTS.moveForward ,{});
 				}
 			};
 
@@ -65,4 +66,4 @@ angular.module('ThreeSixtyOneView.directives')
 			init();
 		}
 	};
-});
+}]);

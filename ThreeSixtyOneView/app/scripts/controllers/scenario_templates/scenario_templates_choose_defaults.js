@@ -96,5 +96,9 @@ angular.module('ThreeSixtyOneView')
 		DialogService.filtersModal(category, $scope.addedFilters, $scope.viewData.rows.concat($scope.viewData.columns), $scope.dimensions, filtersModalCallback);
 	};
 
+	$scope.$on(EVENTS.moveForward, function() {
+		console.log('ScenarioTemplatesChooseDefaultsCtrl');
+	});
+
 	init();
 }]);

@@ -10,7 +10,6 @@
 angular.module('ThreeSixtyOneView')
 .controller('ScenarioTemplatesViewsCtrl', ['$scope', 'MetaDataService', function($scope, MetaDataService) {
 	var init = function() {
-		$scope.template = { name: '', description: '', type: 'Action' };
 	};
 
 	init();

@@ -386,6 +386,8 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t</span>\r" +
     "\n" +
+    "\t\t\t\t\t\t&nbsp;{{view.label}}\r" +
+    "\n" +
     "\t\t\t\t\t</span>\r" +
     "\n" +
     "\t\t\t\t\t<span ng-if=\"!isCurrentView($index)\"> \r" +
@@ -394,9 +396,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t<icon ng-if=\"$index < currentViewIndex\" type=\"circle\"></icon>\r" +
     "\n" +
-    "\t\t\t\t\t</span>\r" +
+    "\t\t\t\t\t\t&nbsp;{{view.label}}\r" +
     "\n" +
-    "\t\t\t\t\t&nbsp;{{view.label}}\r" +
+    "\t\t\t\t\t</span>\r" +
     "\n" +
     "\t\t\t\t\t<div ng-if=\"!view.buttonLabel\" class=\"pipe-line\">|</div>\r" +
     "\n" +
@@ -644,9 +646,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<div class=\"type-buttons\">\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"ms-action\" action=\"item.title='action'\" label=\"Action\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"ms-action\" action=\"\" label=\"Action\"></ms-button>\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"ms-strategy\" action=\"item.title='strategy'\" label=\"Strategy\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"ms-strategy\" action=\"\" label=\"Strategy\"></ms-button>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
