@@ -276,7 +276,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "        <div class=\"row no-margin\">\r" +
     "\n" +
-    "            <div ng-repeat=\"item in allDimensionsData\">\r" +
+    "            <div ng-repeat=\"item in allDimensionsData | orderBy:id\">\r" +
     "\n" +
     "                <div class=\"clearfix\" ng-if=\"$index % 3 == 0\"></div>\r" +
     "\n" +
@@ -303,7 +303,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/ms_spend_dimension_card.tpl.html',
-    "<div class=\"dimensionCard spendDimensionCard\">\r" +
+    "<div class=\"dimensionCard spendDimensionCard\" ng-class=\"{fixedHeight: templateType !== 'Action'}\">\r" +
     "\n" +
     "    <div class=\"dimensionCheckbox\">\r" +
     "\n" +
@@ -317,7 +317,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "        </div>\r" +
     "\n" +
-    "        <div class=\"children-checkbox ms-checkbox no-select\" ng-repeat=\"item in dimensionData.members\" ng-class=\"{selected: item.isSelected}\" | orderBy:item.id>\r" +
+    "        <div class=\"children-checkbox ms-checkbox no-select\" ng-repeat=\"item in dimensionData.members\" ng-class=\"{selected: item.isSelected}\" ng-if=\"templateType !== 'Action'\">\r" +
     "\n" +
     "            <label>\r" +
     "\n" +
@@ -329,7 +329,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "    </div>\r" +
     "\n" +
-    "    <div class=\"dimensionFilter\">\r" +
+    "    <div class=\"dimensionFilter\" ng-if=\"dimensionData.isSelected\">\r" +
     "\n" +
     "        <span title=\"{{getDimensionCardLabel(dimensionData)}}\" ng-class=\"{selected: getDimensionCardLabel(dimensionData).length}\">\r" +
     "\n" +
@@ -644,9 +644,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<div class=\"type-buttons\">\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"ms-action\" action=\"item.title='action'\" label=\"Action\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"ms-action\" action=\"\" label=\"Action\"></ms-button>\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"ms-strategy\" action=\"item.title='strategy'\" label=\"Strategy\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"ms-strategy\" action=\"\" label=\"Strategy\"></ms-button>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +

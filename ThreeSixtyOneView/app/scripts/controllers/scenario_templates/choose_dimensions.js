@@ -13,18 +13,10 @@ angular.module('ThreeSixtyOneView')
             $scope.template = { name: '', description: '', type: 'Action' };
             $scope.times = ['Weekly', 'Monthly', 'Quarterly', 'Yearly'];
             $scope.selectedTime = 'Weekly';
-
             // render spend dimensions cards
-            var spendCubeParams = [$scope.template.type],
-                spendCubeName = 'TOUCHPOINT',
-                spendCubeType = 'spend';
-            getDimensions(spendCubeType, spendCubeName, spendCubeParams);
-
+            getDimensions('spend', 'TOUCHPOINT', [$scope.template.type]);
             // render kpi dimension card
-            var kpiCubeParams = ['simulation', undefined, undefined, false, false],
-                kpiCubeName = 'OUTCOME',
-                kpiCubeType = 'kpi';
-            getDimensions(kpiCubeType, kpiCubeName, kpiCubeParams);
+            getDimensions('kpi', 'OUTCOME', ['simulation', undefined, undefined, false, false]);
         },
         getDimensions = function(cubeType, cubeName, cubeParams) {
             var getCubeId = function(cubeName, cubeParams) {
@@ -67,7 +59,7 @@ angular.module('ThreeSixtyOneView')
             $scope.timeDimensionList = '(' + _.pluck(DimensionService.switchTimeDimension($scope.spendTimeDimension, newValue[2]), 'label').join() + ')';
         }, true);
 
-        init();
 
+        init();
 
     }]);
