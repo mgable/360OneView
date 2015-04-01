@@ -9,6 +9,7 @@ angular.module('ThreeSixtyOneView')
 
 		var init = function() {
 			$scope.modules = data.modules;
+			console.log($scope.modules);
 		};
 
 		$scope.submit = function(){

@@ -644,9 +644,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<div class=\"type-buttons\">\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"action\" action=\"\" label=\"Action\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"ms-action\" action=\"\" label=\"Action\"></ms-button>\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"cancel\" action=\"\" label=\"Strategy\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"ms-strategy\" action=\"\" label=\"Strategy\"></ms-button>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
@@ -654,7 +654,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<ms-button type=\"cancel\" action=\"close($event)\" label=\"Cancel\"></ms-button>\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"submit\" action=\"submit(item.title)\" label=\"Start\" data-ms-id=\"modalSubmit\" ng-disabled=\"nameDialog.$invalid\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"submit\" action=\"submit(item.title)\" label=\"START\" data-ms-id=\"modalSubmit\" ng-disabled=\"nameDialog.$invalid\"></ms-button>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
