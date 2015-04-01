@@ -8,8 +8,8 @@
  * Controller of the ThreeSixtyOneView
  */
 angular.module('ThreeSixtyOneView')
-.controller('ScenarioTemplatesChooseDefaultsCtrl', ['$scope', 'PivotMetaService', 'PivotViewService', 'datepickerConfig', 'MetaDataService', 'DialogService',
-	function ($scope, PivotMetaService, PivotViewService, datepickerConfig, MetaDataService, DialogService) {
+.controller('ScenarioTemplatesChooseDefaultsCtrl', ['$scope', 'PivotMetaService', 'PivotViewService', 'datepickerConfig', 'MetaDataService', 'DialogService', 'EVENTS',
+	function ($scope, PivotMetaService, PivotViewService, datepickerConfig, MetaDataService, DialogService, EVENTS) {
 
 	var init = function() {
 			$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
@@ -27,10 +27,8 @@ angular.module('ThreeSixtyOneView')
 
 			$scope.dragOptions = {
 				itemMoved: function() {
-					// $scope.saveDraftView();
 				},
 				orderChanged: function() {
-					// $scope.saveDraftView();
 				},
 				dragStart: function() {
 					$scope.isDragging = true;
@@ -95,6 +93,10 @@ angular.module('ThreeSixtyOneView')
 
 		DialogService.filtersModal(category, $scope.addedFilters, $scope.viewData.rows.concat($scope.viewData.columns), $scope.dimensions, filtersModalCallback);
 	};
+
+	$scope.$on(EVENTS.moveForward, function() {
+		$scope.setDefaultView($scope.viewData);
+	});
 
 	init();
 }]);

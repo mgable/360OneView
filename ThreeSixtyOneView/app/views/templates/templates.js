@@ -360,7 +360,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<div class=\"ms-logo\"></div>\r" +
     "\n" +
-    "\t\t\t&nbsp;{{type}}\r" +
+    "\t\t\t&nbsp;{{type.label}}\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
@@ -386,6 +386,8 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t</span>\r" +
     "\n" +
+    "\t\t\t\t\t\t&nbsp;{{view.label}}\r" +
+    "\n" +
     "\t\t\t\t\t</span>\r" +
     "\n" +
     "\t\t\t\t\t<span ng-if=\"!isCurrentView($index)\"> \r" +
@@ -394,9 +396,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t<icon ng-if=\"$index < currentViewIndex\" type=\"circle\"></icon>\r" +
     "\n" +
-    "\t\t\t\t\t</span>\r" +
+    "\t\t\t\t\t\t&nbsp;{{view.label}}\r" +
     "\n" +
-    "\t\t\t\t\t&nbsp;{{view.label}}\r" +
+    "\t\t\t\t\t</span>\r" +
     "\n" +
     "\t\t\t\t\t<div ng-if=\"!view.buttonLabel\" class=\"pipe-line\">|</div>\r" +
     "\n" +

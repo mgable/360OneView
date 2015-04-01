@@ -23,8 +23,6 @@ angular.module('ThreeSixtyOneView.directives')
             },
             link: function(scope) {
 
-                console.log(scope.templateType);
-
                 var filtersModalCallback = function(data) {
                     console.info('filtered data: ', data);
                 };

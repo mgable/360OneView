@@ -5,7 +5,6 @@
 	<div class="prompt">
 		<span>Please choose the time granularity for this template</span>
 		<form>
-		<pre>{{selectedTime}} - {{timeDimensionList}}</pre>
 			<span ng-repeat="time in times">
 				<input type="radio" id="radio{{$index}}" name="selectedTime" value="{{time}}" ng-model="$parent.selectedTime">
 	        	<label for="radio{{$index}}">
@@ -30,15 +29,13 @@
 
 	<div class="dimensions">
 		<div class="row dimensionContainer">
-			<pre>{{spendDimensionList}}</pre>
 			<div class="col-md-4" ng-repeat="spendDimension in spendDimensions | orderBy:id">
-				<ms-dimension-card dimension-data="spendDimension" all-dimensions-data="spendDimensions" dimension-type="spend" template-type="type"></ms-dimension-card>
+				<ms-dimension-card dimension-data="spendDimension" all-dimensions-data="spendDimensions" dimension-type="spend" template-type="type.label"></ms-dimension-card>
 			</div>
 		</div>
 		<div class="row dimensionContainer">
-			<pre>{{kpiDimensionList}}</pre>
 			<div class="col-md-12">
-				<ms-dimension-card all-dimensions-data="kpiDimensions" dimension-type="kpi" template-type="type"></ms-dimension-card>
+				<ms-dimension-card all-dimensions-data="kpiDimensions" dimension-type="kpi" template-type="type.label"></ms-dimension-card>
 			</div>
 		</div>
 	</div>

@@ -2,7 +2,7 @@
 	<div class="col-md-3 left-column">
 		<div class="product-banner">
 			<div class="ms-logo"></div>
-			&nbsp;{{type}}
+			&nbsp;{{type.label}}
 		</div>
 		<div class="template-steps-header">
 			Create a Scenario Template
@@ -15,12 +15,13 @@
 							<icon type="circle"></icon>
 							<icon type="circle-o"></icon>
 						</span>
+						&nbsp;{{view.label}}
 					</span>
 					<span ng-if="!isCurrentView($index)"> 
 						<icon ng-if="$index > currentViewIndex" type="circle-o"></icon>
 						<icon ng-if="$index < currentViewIndex" type="circle"></icon>
+						&nbsp;{{view.label}}
 					</span>
-					&nbsp;{{view.label}}
 					<div ng-if="!view.buttonLabel" class="pipe-line">|</div>
 				</li>
 			</ul>

@@ -31,5 +31,7 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     // PIVOT TABLE
     heightChanged: "heightChanged",
     // BROADCAST STATES
-    broadcastStates: "broadcastStates"
+    broadcastStates: "broadcastStates",
+    // FLIPBOOK
+    moveForward: 'moveForward'
 });

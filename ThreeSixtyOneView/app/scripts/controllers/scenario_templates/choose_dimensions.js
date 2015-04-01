@@ -8,14 +8,13 @@
  * Controller of the ThreeSixtyOneView
  */
 angular.module('ThreeSixtyOneView')
-    .controller('ChooseDimensionsCtrl', ['$scope', 'MetaDataService', 'DimensionService', function($scope, MetaDataService, DimensionService) {
+    .controller('ChooseDimensionsCtrl', ['$scope', 'MetaDataService', 'DimensionService', 'EVENTS',  function($scope, MetaDataService, DimensionService, EVENTS) {
         var init = function() {
             $scope.template = { name: '', description: '', type: 'Action' };
             $scope.times = ['Weekly', 'Monthly', 'Quarterly', 'Yearly'];
             $scope.selectedTime = 'Weekly';
-            // render spend dimensions cards
+
             getDimensions('spend', 'TOUCHPOINT', [$scope.template.type]);
-            // render kpi dimension card
             getDimensions('kpi', 'OUTCOME', ['simulation', undefined, undefined, false, false]);
         },
         getDimensions = function(cubeType, cubeName, cubeParams) {
@@ -48,18 +47,27 @@ angular.module('ThreeSixtyOneView')
                 return dimension;
             };
 
-            getCubeId(cubeName, cubeParams)
-                .then(buildDimensions)
-                .then(addSelectedValue);
-        };
+			getCubeId(cubeName, cubeParams)
+				.then(buildDimensions)
+				.then(addSelectedValue);
+		};
 
-        $scope.$watch('[spendDimensions, kpiDimensions, selectedTime]', function (newValue, oldValue) {
-            $scope.spendDimensionList = DimensionService.generateDimensionsLabels(newValue[0]);
-            $scope.kpiDimensionList = DimensionService.generateDimensionsLabels(newValue[1]);
-            $scope.timeDimensionList = '(' + _.pluck(DimensionService.switchTimeDimension($scope.spendTimeDimension, newValue[2]), 'label').join() + ')';
-        }, true);
+		$scope.$on(EVENTS.moveForward, function() {
+            var cubes = [],
+                filteredSpendDimensions,
+                filteredSpendTimeDimension,
+                filteredKpiDimensions,
+                filteredKpiTimeDimension;
 
+            filteredSpendTimeDimension = DimensionService.switchTimeDimension($scope.spendTimeDimension, $scope.selectedTime);
+            filteredSpendDimensions = _.union(DimensionService.getSelectedDimensions($scope.spendDimensions), filteredSpendTimeDimension);
+            cubes.push(filteredSpendDimensions);
+            filteredKpiTimeDimension = DimensionService.switchTimeDimension($scope.spendTimeDimension, $scope.selectedTime);
+            filteredKpiDimensions = _.union(DimensionService.getSelectedDimensions($scope.spendDimensions), filteredKpiTimeDimension);
+            cubes.push(filteredKpiDimensions);
+            console.log('cubes: ', cubes);
+		});
 
-        init();
+		init();
 
-    }]);
+	}]);

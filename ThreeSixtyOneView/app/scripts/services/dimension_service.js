@@ -10,12 +10,14 @@
  angular.module('ThreeSixtyOneView.services')
     .service('DimensionService', function DimensionService() {
         this.getSelectedDimensions = function(dimensions) {
-            return _.filter(angular.copy(dimensions), function(v) {
-                v.members = _.filter(v.members, function(v1) {
-                    return v1.isSelected === true;
+            if (_.isArray(dimensions)) {
+                return _.filter(angular.copy(dimensions), function(v) {
+                    v.members = _.filter(v.members, function(v1) {
+                        return v1.isSelected === true;
+                    });
+                    return v.isSelected === true;
                 });
-                return v.isSelected === true;
-            });
+            }
         };
 
         this.generateDimensionsLabels = function(dimensions) {
@@ -37,20 +39,20 @@
 
         this.switchTimeDimension = function(timeDimension, time) {
             if(!_.isUndefined(timeDimension)) {
-                var tmpTimeDimension = [];
+                var tmpTimeDimension = angular.copy(timeDimension);
                 switch (time)
                 {
                     case "Weekly":
-                        tmpTimeDimension = timeDimension.members.slice(4,5);
+                        tmpTimeDimension.members = tmpTimeDimension.members.slice(4,5);
                         break;
                     case "Monthly":
-                        tmpTimeDimension = timeDimension.members.slice(3,5);
+                        tmpTimeDimension.members = tmpTimeDimension.members.slice(3,5);
                         break;
                     case "Quarterly":
-                        tmpTimeDimension = timeDimension.members.slice(2,5);
+                        tmpTimeDimension.members = tmpTimeDimension.members.slice(2,5);
                         break;
                     default:
-                        tmpTimeDimension = timeDimension.members;
+                        tmpTimeDimension.members = tmpTimeDimension.members;
                         break;
                 }
                 return tmpTimeDimension;
