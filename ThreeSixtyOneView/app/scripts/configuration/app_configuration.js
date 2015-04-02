@@ -29,7 +29,7 @@ angular.module('ThreeSixtyOneView.config')
                 "ScenarioModel": {
                     // want: get
                     //"responseTranslator": {"referenceScenario": "referenceScenario", "template": "template", "title": "name", "id": "id", "description": "description", "type":"prediction.type", "createdBy":"auditInfo.createdBy.name", "createdOn": "auditInfo.createdOn", "modifiedBy":"auditInfo.lastUpdatedBy.name", "modifiedOn":"auditInfo.lastUpdatedOn"},
-                    "responseTranslator": null, 
+                    "responseTranslator": null,
                     "requestTranslator": {"id": "id", "name":"name", "referenceScenario": "referenceScenario", "description": "description", "prediction": "prediction", "type": "type", "template": "template"},
                     "newScenario": {"name" : "", "description": "", "referenceScenario": {"id": "", "name": ""}, "predition" : {"type": "Simulation"}}
                 },
@@ -285,6 +285,9 @@ angular.module('ThreeSixtyOneView.config')
                     {url: "choose_dimensions.tpl.html", label: "Choose Dimensions"},
                     {url: "choose_defaults.tpl.html", label: "Choose Defaults"},
                     {url: "review.tpl.html", buttonLabel: "DONE", label: "Review"}
+                ],
+                "times": [
+                    'Weekly', 'Monthly', 'Quarterly', 'Yearly'
                 ]
             }
         },
