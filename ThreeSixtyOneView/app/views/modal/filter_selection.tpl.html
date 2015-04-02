@@ -25,11 +25,11 @@
 			<div class="main-content">
 				<div class="toolbar">
 					<div class="dropdown-box">
-						<div class="clickable dropdown">
-							<div class="dropdown-toggle">
-								{{selectedFilter.level.label}}<icon type="caret-down"></icon>
+						<div class="dropdown">
+							<div class="dropdown-toggle" ng-class="{disabled: isDimensionSignleMembered(selectedFilter.dimension), clickable: !isDimensionSignleMembered(selectedFilter.dimension)}">
+								{{selectedFilter.level.label}}<icon ng-if="selectedFilter.dimension.members.length > 1" type="caret-down"></icon>
 							</div>
-							<div class="dropdown-menu" ms-link-group radio="true" selected-item="{{selectedFilter.level.label}}">
+							<div class="dropdown-menu clickable" ms-link-group radio="true" selected-item="{{selectedFilter.level.label}}">
 								<div ng-repeat="item in selectedFilter.dimension.members" class="menu-item" ms-link="{{item.label}}" ng-click="chooseFilter(selectedFilter.dimension, selectedDimensionIndex, $index)">
 									{{item.label}}
 								</div>
