@@ -646,9 +646,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<div class=\"type-buttons\">\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"ms-action\" action=\"\" label=\"Action\"></ms-button>\r" +
-    "\n" +
-    "\t\t\t<ms-button type=\"ms-strategy\" action=\"\" label=\"Strategy\"></ms-button>\r" +
+    "\t\t\t<ms-button ng-repeat=\"module in modules\" type=\"ms-{{module.name}}\" action=\"\" label=\"{{module.label}}\"></ms-button>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
