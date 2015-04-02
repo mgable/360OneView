@@ -646,7 +646,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<div class=\"type-buttons\">\r" +
     "\n" +
-    "\t\t\t<ms-button ng-repeat=\"module in modules\" type=\"ms-{{module.name}}\" action=\"\" label=\"{{module.label}}\"></ms-button>\r" +
+    "\t\t\t<ms-button ng-repeat=\"module in modules\" type=\"ms-{{module.name}}\" action=\"select(module)\" label=\"{{module.label}}\"></ms-button>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
@@ -654,7 +654,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<ms-button type=\"cancel\" action=\"close($event)\" label=\"Cancel\"></ms-button>\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"submit\" action=\"submit(item.title)\" label=\"START\" data-ms-id=\"modalSubmit\" ng-disabled=\"nameDialog.$invalid\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"submit\" action=\"submit()\" label=\"START\" data-ms-id=\"modalSubmit\" ng-disabled=\"nameDialog.$invalid\"></ms-button>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
@@ -966,7 +966,19 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/modal/scenario_templates.tpl.html',
-    "<p>This is the modal/scenario_templates.tpl view.</p>\r" +
+    "<div class=\"scenarioTemplates row\">\r" +
+    "\n" +
+    "\t<div ng-controller=\"ScenarioTemplatesViewsCtrl\">\r" +
+    "\n" +
+    "\t\t<flipbook workflow={{CONFIG.view.ScenarioTemplates.workflow}} type=\"{{currentType.label}}\" template-url=\"views/directives/scenario_templates_navigation.tpl.html\" basePath=\"views/includes/scenario_templates\" callback=\"createTemplate\">\r" +
+    "\n" +
+    "\t\t\t\t<ng-include src=\"url\"></ng-include>\r" +
+    "\n" +
+    "\t\t</flipbook>\r" +
+    "\n" +
+    "\t</div>\r" +
+    "\n" +
+    "</div>\r" +
     "\n"
   );
 
