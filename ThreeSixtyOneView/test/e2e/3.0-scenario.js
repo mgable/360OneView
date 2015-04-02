@@ -17,7 +17,7 @@ if(funcs.runTheseTests(testName)){
 		console.info("executing " + testName.title);
 		it("should set up the tests", function(){
 			projectInfo = funcs.readProjectInfo();
-			projectId = projectInfo.project.id;
+			projectId = projectInfo.project.uuid;
 			scenarioId = projectInfo.scenario.id;
 			scenarioUrl = funcs.getScenarioEditUrl(projectId, scenarioId);
 			console.info(scenarioUrl);
@@ -37,7 +37,7 @@ if(funcs.runTheseTests(testName)){
 		);
 
 		describe("current working scenario", function(){
-			xit("should read the correct scenario from the file system", function(){
+			it("should read the correct scenario from the file system", function(){
 				browser.getLocationAbsUrl().then(function(url){
 					expect(url).toContain(projectInfo.scenario.url);
 				});
@@ -45,30 +45,30 @@ if(funcs.runTheseTests(testName)){
 		});
 
 		describe("initial state of navigation buttons", function(){
-			xit("should have the edit button enabled", function(){
+			it("should have the edit button enabled", function(){
 				expect(funcs.hasClass(specs.editButton, 'disabled')).toBe(false);
 			});
-			xit("should have the results button disabled", function(){
+			it("should have the results button disabled", function(){
 				expect(funcs.hasClass(specs.resultsButton, 'disabled')).toBe(true);
 			});
-			xit("should have the simulate button enabled", function(){
+			it("should have the simulate button enabled", function(){
 				expect(funcs.hasClass(specs.simulateButton, 'disabled')).toBe(false);
 			});
 		});
 
 		describe("analysis element toolbar", function(){
-			xit("should have analysis elements", function(){
+			it("should have analysis elements", function(){
 				expect(specs.cubes.count()).toBeGreaterThan(0);
 			});
 
 
-			xit("should have 'marketing plan' selected", function(){
+			it("should have 'marketing plan' selected", function(){
 				specs.selectedAnalysisElement.getText().then(function(selected){
 					expect(selected).toBe(specs.assumedData.defaultSelectedAnalysisElement);
 				});
 			});
 
-			xit("should allow the user to select a new cube", function(){
+			it("should allow the user to select a new cube", function(){
 				specs.cubes.each(function(element){
 					specs.selectedAnalysisElement.click();
 					element.click();
@@ -78,7 +78,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			xit("should not allow the analysis element to be replaced or copied on the Marketing Plan", function(){
+			it("should not allow the analysis element to be replaced or copied on the Marketing Plan", function(){
 				specs.cubes.each(function(element){
 					specs.selectedAnalysisElement.click();
 					element.click();
@@ -92,7 +92,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			xit("should have a default analysis element file", function(){
+			it("should have a default analysis element file", function(){
 				specs.cubes.each(function(element){
 					specs.selectedAnalysisElement.click();
 					element.click();
@@ -142,7 +142,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			xit("should replace the analysis element file", function(){
+			it("should replace the analysis element file", function(){
 				var file,
 					done = false;
 
@@ -177,7 +177,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			xit("should not allow the analysis element to be replaced or copied on the Marketing Plan", function(){
+			it("should not allow the analysis element to be replaced or copied on the Marketing Plan", function(){
 				var done = false;
 				specs.cubes.each(function(element){
 					specs.selectedAnalysisElement.click();
@@ -191,7 +191,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			xit("should allow the analysis element to be replaced or copied for all others", function(){
+			it("should allow the analysis element to be replaced or copied for all others", function(){
 				specs.cubes.each(function(element){
 					specs.selectedAnalysisElement.click();
 					element.click();
@@ -207,7 +207,7 @@ if(funcs.runTheseTests(testName)){
 		describe("scenario editor", function(){
 
 			describe("open and close", function(){
-				xit("should expand and collapse the editor", function(){
+				it("should expand and collapse the editor", function(){
 					var isHidden;
 					funcs.hasClass(specs.pivotBuilderTab, "hidden").then(function(state){
 						isHidden = state;
@@ -229,11 +229,11 @@ if(funcs.runTheseTests(testName)){
 			})
 
 			describe("tabs", function(){
-				xit("should have three tabs", function(){
+				it("should have three tabs", function(){
 					expect(specs.editorTabs.count()).toBe(3);
 				});
 
-				xit("should toggle expand and collapse when tab is clicked", function(){
+				it("should toggle expand and collapse when tab is clicked", function(){
 					funcs.hasClass(specs.pivotBuilderTab, "hidden").then(function(state){
 						specs.editorTabs.get(0).click();
 						expect(funcs.hasClass(specs.pivotBuilderTab, "hidden")).toBe(!state)
@@ -258,7 +258,7 @@ if(funcs.runTheseTests(testName)){
 			});
 
 			describe ("views", function(){
-				xit("should load the default view for each cube", function(){
+				it("should load the default view for each cube", function(){
 					specs.cubes.each(function(element){
 						specs.selectedAnalysisElement.click();
 						element.click();
@@ -272,7 +272,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should save a view", function(){
+				it("should save a view", function(){
 					var currentViewName;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
@@ -297,7 +297,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should have at least one view in the recent views dropdown but no more than five", function(){
+				it("should have at least one view in the recent views dropdown but no more than five", function(){
 					specs.recentViewsDropDown.click();
 					specs.recentViews.count().then(function(count){
 						expect(count).toBeGreaterThan(0);
@@ -305,7 +305,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should open the 'All Views' model", function(){
+				it("should open the 'All Views' model", function(){
 					expect(element(by.css('div.modal')).isPresent()).toBeFalsy();
 					specs.recentViewsDropDown.click();
 					specs.allViewsButton.click();
@@ -315,7 +315,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should change the view from the 'all views' modal", function(){
+				it("should change the view from the 'all views' modal", function(){
 					var currentViewName, selectedIndex = null, newViewName;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
@@ -345,7 +345,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should save a default view if the view is changed and not saved", function(){
+				it("should save a default view if the view is changed and not saved", function(){
 					var currentViewName, newViewName;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
@@ -363,7 +363,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should revert a draft view", function(){
+				it("should revert a draft view", function(){
 					var currentViewName, newViewName;
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
@@ -401,14 +401,14 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should open the save as view inline field", function(){
+				it("should open the save as view inline field", function(){
 					expect(funcs.hasClass(specs.saveAsBox, "ng-hide")).toBeTruthy();
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 					expect(funcs.hasClass(specs.saveAsBox, "ng-hide")).toBeFalsy();
 				});
 
-				xit("should save as view with a new name", function(){
+				it("should save as view with a new name", function(){
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 					specs.saveAsNameField.clear();
@@ -421,7 +421,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should rename a view", function(){
+				it("should rename a view", function(){
 					var currentViewName, newViewName = "My New View " + Date.now();
 					specs.viewName.getText().then(function(name){
 						currentViewName = name;
@@ -440,14 +440,14 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should respect name limitations", function(){
+				it("should respect name limitations", function(){
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 
 					funcs.testInputRestrictions(specs.saveAsNameField, specs.saveAsSubmitButton);
 				});
 
-				xit("should respect name length limitations", function(){
+				it("should respect name length limitations", function(){
 					specs.viewDropDown.click();
 					specs.viewSaveAsButton.click();
 
@@ -456,7 +456,7 @@ if(funcs.runTheseTests(testName)){
 			});
 
 			describe("dimensions", function(){
-				xit("should toggle between filter and dimension view", function(){
+				it("should toggle between filter and dimension view", function(){
 					expect(funcs.hasClass(specs.toggleTable, "selected")).toBeTruthy();
 					expect(funcs.hasClass(specs.toggleFilters, "selected")).toBeFalsy();
 					expect(funcs.hasClass(specs.dimensionsArea, 'ng-hide')).toBeFalsy();
@@ -473,7 +473,7 @@ if(funcs.runTheseTests(testName)){
 					expect(funcs.hasClass(specs.filterArea, 'ng-hide')).toBeTruthy();
 				});
 
-				xit("should add a column", function(){
+				it("should add a column", function(){
 					var currentCount;
 					specs.columnDimensions.count().then(function(count){
 						currentCount = count;
@@ -490,7 +490,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should remove a column", function(){
+				it("should remove a column", function(){
 					var currentCount;
 					specs.columnDimensions.count().then(function(count){
 						currentCount = count;
@@ -502,7 +502,7 @@ if(funcs.runTheseTests(testName)){
 				});
 
 				// I can't get this to work
-				// xit("should drag", function(){
+				// it("should drag", function(){
 				// 	//browser.driver.actions().dragAndDrop(specs.columnDimensions.get(1), specs.copyAndReplaceCube).perform();
 				// 	browser.actions()
 				// 	.mouseMove(specs.columnDimensions.get(1).element(by.css('.drag-handle')), {x:400, y:400})
@@ -516,7 +516,7 @@ if(funcs.runTheseTests(testName)){
 				// 	browser.pause();
 				// });
 
-				xit("should add a row", function(){
+				it("should add a row", function(){
 					var currentCount;
 					specs.rowDimensions.count().then(function(count){
 						currentCount = count;
@@ -533,7 +533,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should remove a row", function(){
+				it("should remove a row", function(){
 					var currentCount;
 					specs.rowDimensions.count().then(function(count){
 						currentCount = count;
@@ -544,7 +544,7 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should redefine a dimension", function(){
+				it("should redefine a dimension", function(){
 					specs.rowDimensions.count().then(function(count){
 						if (count){
 							var currentIndex = count - 1;
@@ -568,7 +568,7 @@ if(funcs.runTheseTests(testName)){
 			describe("filters", function(){
 				var filterCount;
 
-				xit("should have filter dimensions", function(){
+				it("should have filter dimensions", function(){
 					specs.toggleFilters.click();
 
 					specs.filters.count().then(function(count){
@@ -578,14 +578,14 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				xit("should open the add filters modal", function(){
+				it("should open the add filters modal", function(){
 					funcs.openFiltersModal();
 
 					expect(element(by.css(specs.filterModal)).isPresent()).toBe(true);
 				});
 
 				describe("modal", function(){
-					xit("should have all dimensions in the side menu", function(){
+					it("should have all dimensions in the side menu", function(){
 						funcs.openFiltersModal();
 
 						specs.filterSideMenu.count().then(function(count){
@@ -593,13 +593,13 @@ if(funcs.runTheseTests(testName)){
 						});
 					});
 
-					xit("should highlight the first dimension in the side menu", function(){
+					it("should highlight the first dimension in the side menu", function(){
 						funcs.openFiltersModal();
 						var activeSelection = specs.filterSideMenu.get(0);
 						expect(funcs.hasClass(activeSelection, "active")).toBeTruthy();
 					});
 
-					xit("should change the dimension displayed when the side menu item is clicked", function(){
+					it("should change the dimension displayed when the side menu item is clicked", function(){
 						var currentSelection, lastSelection;
 
 						funcs.openFiltersModal();
@@ -617,7 +617,7 @@ if(funcs.runTheseTests(testName)){
 						});
 					});
 
-					xit("should change the data when the member is changed", function(){
+					it("should change the data when the member is changed", function(){
 						funcs.openFiltersModal();
 						specs.filterSideMenu.each(function(menuItem){
 							menuItem.click();
@@ -642,7 +642,7 @@ if(funcs.runTheseTests(testName)){
 						});
 					});
 
-					xit("should search the filter list", function(){
+					it("should search the filter list", function(){
 						var total;
 						funcs.openFiltersModal();
 
@@ -663,7 +663,7 @@ if(funcs.runTheseTests(testName)){
 						});
 					});
 
-					xit("should toggle open and close the member", function(){
+					it("should toggle open and close the member", function(){
 						funcs.openFiltersModal();
 						specs.filterSelectionList.each(function(selected, index){
 
@@ -696,7 +696,7 @@ if(funcs.runTheseTests(testName)){
 						})
 					});
 
-					xit("should display the correct selection icon", function(){
+					it("should display the correct selection icon", function(){
 						var isSelected;
 						funcs.openFiltersModal();
 						specs.filterSelectionList.get(0).then(function(selected){
@@ -741,7 +741,7 @@ if(funcs.runTheseTests(testName)){
 						});
 					});
 
-					xit("should show the correct selection count", function(){});
+					it("should show the correct selection count", function(){});
 				});
 			});
 		});

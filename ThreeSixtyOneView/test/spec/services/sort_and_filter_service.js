@@ -63,7 +63,7 @@ describe('Services:', function() {
         it("should sort correctly", function() {
             SortAndFilterService.setFilter("orderBy", "title", true);
             var sorted = _.sortBy(config.data, "title");
-            expect(SortAndFilterService.getData()).toMatch({data:sorted});
+            expect(SortAndFilterService.getData()).toEqual(sorted);
             SortAndFilterService.setFilter("reverse", true, true);
             expect(SortAndFilterService.getData()).toEqual(sorted.reverse());
         });
