@@ -5,11 +5,14 @@ angular.module('ThreeSixtyOneView')
 	function ($scope, $state, DialogService, CONFIG) {
 		var init = function() {
 			$scope.isFlipbookVisible = false;
-			$scope.type = CONFIG.view.ScenarioTemplates.types[$state.params.type];
-			if(typeof $scope.type === 'undefined') {
+			$scope.currentType = _.find(CONFIG.view.ScenarioTemplates.types, function(type) {
+				return type.name === $state.params.type;
+			});
+			//CONFIG.view.ScenarioTemplates.types[$state.params.type];
+			if(typeof $scope.currentType === 'undefined') {
 				openModulePickDialog();
 			} else {
-				initializeTemplate($scope.type);
+				initializeTemplate($scope.currentType);
 				$scope.isFlipbookVisible = true;
 			}
 		}, openModulePickDialog = function() {
