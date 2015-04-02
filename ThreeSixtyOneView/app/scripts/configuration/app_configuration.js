@@ -285,6 +285,9 @@ angular.module('ThreeSixtyOneView.config')
 					{url: "choose_dimensions.tpl.html", label: "Choose Dimensions"},
 					{url: "choose_defaults.tpl.html", label: "Choose Defaults"},
 					{url: "review.tpl.html", buttonLabel: "DONE", label: "Review"}
+				],
+				"times": [
+					'Weekly', 'Monthly', 'Quarterly', 'Yearly'
 				]
 			}
 		},
