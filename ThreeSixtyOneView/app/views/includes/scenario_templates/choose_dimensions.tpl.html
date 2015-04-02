@@ -1,18 +1,18 @@
-<div class="scenarioTemplates">
+<div class="scenarioTemplates" ng-controller="ChooseDimensionsCtrl">
 	<div class="header">
 		Tell us more about your scenario template
 	</div>
 	<div class="prompt">
 		<span>Please choose the time granularity for this template</span>
 		<form>
-			<span ng-repeat="granularity in granularities">
-				<input type="radio" name="granularity" id="radio{{$index}}" />
+			<span ng-repeat="time in times">
+				<input type="radio" id="radio{{$index}}" name="selectedTime" value="{{time}}" ng-model="$parent.selectedTime">
 	        	<label for="radio{{$index}}">
 		            <span>
 		            	<icon type="circle-o"></icon>
 		            	<icon type="dot-circle-o"></icon>
 		            </span>
-		            {{granularity}}
+		            {{time}}
 	        	</label>
 			</span>
 		</form>
@@ -29,11 +29,13 @@
 
 	<div class="dimensions">
 		<div class="row dimensionContainer">
-			<div class="col-md-4" ng-repeat="spendDimension in spendDimensions">
-				<ms-dimension-card dimension-data="spendDimension" all-dimensions-data="spendDimensions" dimension-type="spend"></ms-dimension-card>
+			<div class="col-md-4" ng-repeat="spendDimension in spendDimensions | orderBy:id">
+				<ms-dimension-card dimension-data="spendDimension" all-dimensions-data="spendDimensions" dimension-type="spend" template-type="type.label"></ms-dimension-card>
 			</div>
+		</div>
+		<div class="row dimensionContainer">
 			<div class="col-md-12">
-				<ms-dimension-card all-dimensions-data="kpiDimensions" dimension-type="kpi"></ms-dimension-card>
+				<ms-dimension-card all-dimensions-data="kpiDimensions" dimension-type="kpi" template-type="type.label"></ms-dimension-card>
 			</div>
 		</div>
 	</div>

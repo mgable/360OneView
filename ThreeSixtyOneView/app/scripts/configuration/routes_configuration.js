@@ -6,7 +6,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
 
     $stateProvider
     .state('ScenarioTemplates', {
-      url: "/scenariotemplates",
+      url: "/scenariotemplates/:type",
       templateUrl: "views/scenario_templates.tpl.html",
       controller: "ScenarioTemplatesCtrl",
       breadcrumb: "<li>Scenario Templates</li>"

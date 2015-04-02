@@ -154,7 +154,7 @@ angular.module('ThreeSixtyOneView')
             },
             getUuid = function(project){
                 return project.uuid;
-            }
+            };
 
         $scope.init = function(_data_, fn){
             var currentView = CONFIG.view[$state.current.name],

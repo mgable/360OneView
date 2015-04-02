@@ -1,5 +1,6 @@
 /* Standard Button Styles */
 @import "variables";
+@import "new_variables";
 
 .ms-btn-submit {
 	color: white;
@@ -36,4 +37,12 @@
 	fieldset[disabled] .ms-btn-cancel {
 	  	background-color: #808080;
 	}
+}
+
+.ms-btn-ms-action {
+	@include product-btn("ms-action", $ms-actionGreen, "ms-logo-action.png");
+}
+
+.ms-btn-ms-strategy {
+	@include product-btn("ms-strategy", $ms-strategyBlue, "ms-logo-strategy.png");
 }

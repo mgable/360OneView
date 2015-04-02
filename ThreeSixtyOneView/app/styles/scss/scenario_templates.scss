@@ -46,6 +46,7 @@
 			}
 			.currentView {
 				color: $ms-orange;
+				line-height: 20px;
 				i {
 					position: absolute;
 				}
@@ -81,6 +82,7 @@
 					border-width: 1px;
 					border-color: $ms-lightGray;
 					border-radius: 3px;
+                    padding: 0 10px;
 				}
 				&[type="radio"] {
 					display: none;
@@ -153,7 +155,7 @@
             border-radius: 2px;
             .dimensionCheckbox {
                 overflow: auto;
-                height: 128px;
+                // height: 128px;
                 input[type=checkbox] { cursor: pointer; }
                 .selected {
                     color: $ms-blue;
@@ -200,10 +202,35 @@
         }
         .spendDimensionCard {
             width: 200px;
-            height: 185px;
+            min-height: 80px;
+            &.fixedHeight {
+                height: 185px;
+            }
         }
         .kpiDimensionCard {
-            height: 100px;
+            min-height: 100px;
         }
+    }
+    &.light-box{
+    	background: none;
+    	font-size: 32px;
+    	text-align: center;
+    	.header {
+    		margin: 200px 0 0 0;
+    	}
+    	.body {
+    		.content {
+    			margin: 30px 0;
+    			font-size: 24px;
+    		}
+    		.type-buttons {
+    			button {
+    				margin: 0 20px 0 0;
+    			}
+    		}
+    		.form-buttons{
+    			margin: 20px 0 0 0;
+    		}
+    	}
     }
 }

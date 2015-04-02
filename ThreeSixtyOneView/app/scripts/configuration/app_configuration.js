@@ -15,7 +15,8 @@ angular.module('ThreeSixtyOneView.config')
                 "scenarioAnalytics": "/rubix/v1/analytics/scenario/:id/calculate",
                 "importResource": "/rubix/v1/import/analysis-element/:elementId",
                 "exportResource": "/rubix/v1/export/analysis-element/:elementId",
-                "reports": "/rubix/v1/reports/analysis-element/:elementId/analysis-view/:viewId/summary"
+                "reports": "/rubix/v1/reports/analysis-element/:elementId/analysis-view/:viewId/summary",
+                "template": "/rubix/v1/template"
             },
             "models": {
                 "ProjectsModel": {
@@ -275,11 +276,15 @@ angular.module('ThreeSixtyOneView.config')
                 }
             },
             "ScenarioTemplates": {
-                "workflow" : [
-                    {url: "name_and_describe.tpl.html", label: "Name & Describe", id: 0},
-                    {url: "choose_dimensions.tpl.html", label: "Choose Dimensions",id: 1},
-                    {url: "choose_defaults.tpl.html", label: "Choose Defaults", id: 2},
-                    {url: "review.tpl.html", buttonLabel: "DONE", label: "Review", id: 3}
+                "types": [
+                    {"name": "action", "label": "Action"},
+                    {"name": "strategy", "label": "Strategy"}
+                ],
+                "workflow": [
+                    {url: "name_and_describe.tpl.html", label: "Name & Describe"},
+                    {url: "choose_dimensions.tpl.html", label: "Choose Dimensions"},
+                    {url: "choose_defaults.tpl.html", label: "Choose Defaults"},
+                    {url: "review.tpl.html", buttonLabel: "DONE", label: "Review"}
                 ]
             }
         },

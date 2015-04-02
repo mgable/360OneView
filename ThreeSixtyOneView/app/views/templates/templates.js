@@ -40,52 +40,6 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
-  $templateCache.put('views/directives/flipbook.tpl.html',
-    "<div class=\"flipbook\">\n" +
-    "\t<div class=\"col-md-3 left-column\">\n" +
-    "\t\t<div class=\"product-banner\">\n" +
-    "\t\t\t<div class=\"ms-logo\"></div>\n" +
-    "\t\t\t&nbsp;{{type}}\n" +
-    "\t\t</div>\n" +
-    "\t\t<div class=\"template-steps-header\">\n" +
-    "\t\t\tCreate a Scenario Template\n" +
-    "\t\t</div>\n" +
-    "\t\t<div class=\"template-steps\">\n" +
-    "\t\t\t<ul>\n" +
-    "\t\t\t\t<li ng-repeat=\"data in data\">\n" +
-    "\t\t\t\t\t<span class=\"currentView\" ng-if=\"$index === isCurrentView(data.label)\"> \n" +
-    "\t\t\t\t\t\t<span class=\"icon-stack\">\n" +
-    "\t\t\t\t\t\t\t<icon type=\"circle\"></icon>\n" +
-    "\t\t\t\t\t\t\t<icon type=\"circle-o\"></icon>\n" +
-    "\t\t\t\t\t\t</span>\n" +
-    "\t\t\t\t\t\t{{data.label}}\n" +
-    "\t\t\t\t\t</span>\n" +
-    "\t\t\t\t\t<span ng-if=\"$index > isCurrentView(data.label)\"> \n" +
-    "\t\t\t\t\t\t<icon type=\"circle-o\"></icon>&nbsp;{{data.label}}\n" +
-    "\t\t\t\t\t</span>\n" +
-    "\t\t\t\t\t<span ng-if=\"$index < isCurrentView(data.label)\"> \n" +
-    "\t\t\t\t\t\t<icon type=\"circle\"></icon>&nbsp;{{data.label}}\n" +
-    "\t\t\t\t\t</span>\n" +
-    "\t\t\t\t\t<div ng-if=\"!data.buttonLabel\" class=\"pipe-line\">|</div>\n" +
-    "\t\t\t\t</li>\n" +
-    "\t\t\t</ul>\n" +
-    "\t\t</div>\n" +
-    "\t</div>\n" +
-    "\t<div class=\"col-md-9 right-column\">\n" +
-    "\t\t<div ng-transclude></div>\n" +
-    "\t\t<div class=\"button-container\">\n" +
-    "\t\t\t<ms-button type=\"cancel\" label=\"Cancel\" action=\"cancel\"></ms-button>\n" +
-    "\t\t\t<span class=\"right\">\n" +
-    "\t\t\t\t<ms-button type=\"cancel\" label=\"Back\" action=\"backward()\" ng-disabled=\"isDisabled()\"></ms-button>\n" +
-    "\t\t\t\t&nbsp;\n" +
-    "\t\t\t\t<ms-button type=\"submit\" label=\"{{label}}\" action=\"forward()\" ng-disabled=\"isDisabled(DIRECTION)\"></ms-button>\n" +
-    "\t\t\t</span>\n" +
-    "\t\t</div>\n" +
-    "\t</div>\n" +
-    "</div>"
-  );
-
-
   $templateCache.put('views/directives/inline_description.tpl.html',
     "<form class=\"inlineDescription\" name=\"form\" data-ms-id=\"inlineDescription\">\n" +
     "\t<ng-transclude></ng-transclude>\n" +
@@ -207,7 +161,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "            </label>\n" +
     "        </div>\n" +
     "        <div class=\"row no-margin\">\n" +
-    "            <div ng-repeat=\"item in allDimensionsData\">\n" +
+    "            <div ng-repeat=\"item in allDimensionsData | orderBy:id\">\n" +
     "                <div class=\"clearfix\" ng-if=\"$index % 3 == 0\"></div>\n" +
     "                <div class=\"col-md-4 children-checkbox ms-checkbox no-select\" ng-class=\"{selected: item.isSelected}\">\n" +
     "                    <label>\n" +
@@ -223,23 +177,23 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/ms_spend_dimension_card.tpl.html',
-    "<div class=\"dimensionCard spendDimensionCard\">\n" +
+    "<div class=\"dimensionCard spendDimensionCard\" ng-class=\"{fixedHeight: templateType !== 'Action'}\">\n" +
     "    <div class=\"dimensionCheckbox\">\n" +
     "        <div class=\"parent-checkbox ms-checkbox no-select\" ng-class=\"{selected: dimensionData.isSelected}\">\n" +
     "            <label>\n" +
     "                <input type=\"checkbox\" ms-tristates-checkbox child-list=\"dimensionData.members\" property=\"isSelected\" ng-model=\"dimensionData.isSelected\"><i></i><span>{{dimensionData.label}}</span>\n" +
     "            </label>\n" +
     "        </div>\n" +
-    "        <div class=\"children-checkbox ms-checkbox no-select\" ng-repeat=\"item in dimensionData.members\" ng-class=\"{selected: item.isSelected}\" | orderBy:item.id>\n" +
+    "        <div class=\"children-checkbox ms-checkbox no-select\" ng-repeat=\"item in dimensionData.members\" ng-class=\"{selected: item.isSelected}\" ng-if=\"templateType !== 'Action'\">\n" +
     "            <label>\n" +
     "                <input type=\"checkbox\" ng-model=\"item.isSelected\"><i></i><span>{{item.label}}</span>\n" +
     "            </label>\n" +
     "        </div>\n" +
     "    </div>\n" +
-    "    <div class=\"dimensionFilter\">\n" +
-    "        <span title=\"{{getFilterArray(dimensionData)}}\" ng-class=\"{selected: getFilterArray(dimensionData).length}\">\n" +
+    "    <div class=\"dimensionFilter\" ng-if=\"dimensionData.isSelected\">\n" +
+    "        <span title=\"{{getDimensionCardLabel(dimensionData)}}\" ng-class=\"{selected: getDimensionCardLabel(dimensionData).length}\">\n" +
     "            <icon type=\"filter\"></icon>\n" +
-    "            <a ng-click=\"filtersModal(dimensionData)\">{{getFilterArray(dimensionData)}}</a>\n" +
+    "            <a ng-click=\"filtersModal(dimensionData)\">{{getDimensionCardLabel(dimensionData)}}</a>\n" +
     "        </span>\n" +
     "    </div>\n" +
     "</div>"
@@ -248,6 +202,51 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
   $templateCache.put('views/directives/scenario_templates.tpl.html',
     "<p>This is the directives/scenario_templates.tpl view.</p>\n"
+  );
+
+
+  $templateCache.put('views/directives/scenario_templates_navigation.tpl.html',
+    "<div class=\"flipbook\">\n" +
+    "\t<div class=\"col-md-3 left-column\">\n" +
+    "\t\t<div class=\"product-banner\">\n" +
+    "\t\t\t<div class=\"ms-logo\"></div>\n" +
+    "\t\t\t&nbsp;{{type.label}}\n" +
+    "\t\t</div>\n" +
+    "\t\t<div class=\"template-steps-header\">\n" +
+    "\t\t\tCreate a Scenario Template\n" +
+    "\t\t</div>\n" +
+    "\t\t<div class=\"template-steps\">\n" +
+    "\t\t\t<ul>\n" +
+    "\t\t\t\t<li ng-repeat=\"view in views\">\n" +
+    "\t\t\t\t\t<span class=\"currentView\" ng-if=\"isCurrentView($index)\"> \n" +
+    "\t\t\t\t\t\t<span class=\"icon-stack\">\n" +
+    "\t\t\t\t\t\t\t<icon type=\"circle\"></icon>\n" +
+    "\t\t\t\t\t\t\t<icon type=\"circle-o\"></icon>\n" +
+    "\t\t\t\t\t\t</span>\n" +
+    "\t\t\t\t\t\t&nbsp;{{view.label}}\n" +
+    "\t\t\t\t\t</span>\n" +
+    "\t\t\t\t\t<span ng-if=\"!isCurrentView($index)\"> \n" +
+    "\t\t\t\t\t\t<icon ng-if=\"$index > currentViewIndex\" type=\"circle-o\"></icon>\n" +
+    "\t\t\t\t\t\t<icon ng-if=\"$index < currentViewIndex\" type=\"circle\"></icon>\n" +
+    "\t\t\t\t\t\t&nbsp;{{view.label}}\n" +
+    "\t\t\t\t\t</span>\n" +
+    "\t\t\t\t\t<div ng-if=\"!view.buttonLabel\" class=\"pipe-line\">|</div>\n" +
+    "\t\t\t\t</li>\n" +
+    "\t\t\t</ul>\n" +
+    "\t\t</div>\n" +
+    "\t</div>\n" +
+    "\t<div class=\"col-md-9 right-column\">\n" +
+    "\t\t<div ng-transclude></div>\n" +
+    "\t\t<div class=\"button-container\">\n" +
+    "\t\t\t<ms-button type=\"cancel\" label=\"Cancel\" action=\"cancel\"></ms-button>\n" +
+    "\t\t\t<span class=\"right\">\n" +
+    "\t\t\t\t<ms-button type=\"cancel\" label=\"Back\" action=\"backward()\" ng-disabled=\"isDisabled()\"></ms-button>\n" +
+    "\t\t\t\t&nbsp;\n" +
+    "\t\t\t\t<ms-button type=\"submit\" label=\"{{label}}\" action=\"forward()\" ng-disabled=\"isDisabled(DIRECTION)\"></ms-button>\n" +
+    "\t\t\t</span>\n" +
+    "\t\t</div>\n" +
+    "\t</div>\n" +
+    "</div>"
   );
 
 
@@ -348,6 +347,27 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t<ms-button type=\"cancel\" action=\"cancel()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\n" +
     "\t\t\t\t<ms-button type=\"submit\" action=\"submit()\" label=\"Apply\" data-dismiss=\"modal\" ng-disabled=\"noFilterSelected\"></ms-button>\n" +
     "\t\t\t</div>\n" +
+    "\t\t</div>\n" +
+    "\t</div>\n" +
+    "</div>"
+  );
+
+
+  $templateCache.put('views/modal/module_pick.tpl.html',
+    "<div class=\"scenarioTemplates light-box\" data-ms-id=\"simpleModal\">\n" +
+    "\t<div class=\"header\">\n" +
+    "\t\tHello!\n" +
+    "\t</div>\n" +
+    "\t<div class=\"body\">\n" +
+    "\t\t<div class=\"content\">\n" +
+    "\t\t\tWhat type of Scenario Template would you like to create?\n" +
+    "\t\t</div>\n" +
+    "\t\t<div class=\"type-buttons\">\n" +
+    "\t\t\t<ms-button ng-repeat=\"module in modules\" type=\"ms-{{module.name}}\" action=\"\" label=\"{{module.label}}\"></ms-button>\n" +
+    "\t\t</div>\n" +
+    "\t\t<div class=\"form-buttons\">\n" +
+    "\t\t\t<ms-button type=\"cancel\" action=\"close($event)\" label=\"Cancel\"></ms-button>\n" +
+    "\t\t\t<ms-button type=\"submit\" action=\"submit(item.title)\" label=\"START\" data-ms-id=\"modalSubmit\" ng-disabled=\"nameDialog.$invalid\"></ms-button>\n" +
     "\t\t</div>\n" +
     "\t</div>\n" +
     "</div>"

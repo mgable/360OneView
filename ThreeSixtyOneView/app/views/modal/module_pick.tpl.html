@@ -1,0 +1,17 @@
+<div class="scenarioTemplates light-box" data-ms-id="simpleModal">
+	<div class="header">
+		Hello!
+	</div>
+	<div class="body">
+		<div class="content">
+			What type of Scenario Template would you like to create?
+		</div>
+		<div class="type-buttons">
+			<ms-button ng-repeat="module in modules" type="ms-{{module.name}}" action="" label="{{module.label}}"></ms-button>
+		</div>
+		<div class="form-buttons">
+			<ms-button type="cancel" action="close($event)" label="Cancel"></ms-button>
+			<ms-button type="submit" action="submit(item.title)" label="START" data-ms-id="modalSubmit" ng-disabled="nameDialog.$invalid"></ms-button>
+		</div>
+	</div>
+</div>
