@@ -25,11 +25,11 @@ angular.module('ThreeSixtyOneView')
 			});
 
 			$scope.chooseFilter($scope.selectedFilter.dimension, $scope.selectedDimensionIndex, false);
-			getWindowHeight(data.dimensions, function() {});
+			getWindowHeight();
 		},
 		dimensions = data.dimensions,
 		viewData = data.viewData,
-		getWindowHeight = function(){
+		getWindowHeight = function() {
 			var w = angular.element($window);
 			$scope.getWindowDimensions = function () {
 				return {
