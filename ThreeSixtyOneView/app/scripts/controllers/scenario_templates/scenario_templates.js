@@ -8,20 +8,9 @@ angular.module('ThreeSixtyOneView')
 				return type.name === $state.params.type;
 			});
 
-			if(typeof $scope.currentType === 'undefined') {
-				// $scope.openModulePickDialog();
-			} else {
-				initializeTemplate($scope.currentType);
+			if(typeof $scope.currentType !== 'undefined') {
 				openScenarioTemplatesCreateModal($scope.currentType);
 			}
-		}, initializeTemplate = function(type) {
-			$scope.template = {
-				name: '',
-				description: '',
-				cubes: []
-			};
-
-			$scope.defaultView = {};
 		}, openScenarioTemplatesCreateModal = function(type) {
 			var dialog = DialogService.openLightbox('views/modal/scenario_templates.tpl.html', 'ScenarioTemplatesCreateCtrl',
 				{templateType: type},
@@ -29,7 +18,11 @@ angular.module('ThreeSixtyOneView')
 
 			dialog.result.then(function(data) {
 				console.log(data);
+				createTemplate(data);
 			});
+		}, createTemplate = function(data) {
+			console.log('create template');
+			console.log('create default view');
 		};
 
 		$scope.openModulePickDialog = function() {
@@ -42,16 +35,7 @@ angular.module('ThreeSixtyOneView')
 			});
 		};
 
-		$scope.setDefaultView = function(view) {
-			$scope.defaultView = view;
-		};
-
-		$scope.createTemplate = function() {
-			console.log('create template');
-			console.log($scope.template);
-			console.log('create default view');
-			console.log($scope.defaultView);
-		};
+		
 
 		init();
 	}]);

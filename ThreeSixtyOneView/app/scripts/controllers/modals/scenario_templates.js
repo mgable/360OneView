@@ -8,6 +8,24 @@ function($scope, $controller, $modalInstance, CONFIG, data) {
 	var init = function() {
 		$scope.CONFIG = CONFIG;
 		$scope.currentType = data.templateType;
+
+		initializeTemplate($scope.currentType);
+	}, initializeTemplate = function(type) {
+		$scope.template = {
+			name: '',
+			description: '',
+			cubes: []
+		};
+
+		$scope.defaultView = {};
+	};
+
+	$scope.setDefaultView = function(view) {
+		$scope.defaultView = view;
+	};
+
+	$scope.cancel = function() {
+		$modalInstance.dismiss();
 	};
 
 	// pass back the selected file and dismiss the modal

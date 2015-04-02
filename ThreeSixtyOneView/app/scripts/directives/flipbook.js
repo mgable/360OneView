@@ -18,7 +18,8 @@ angular.module('ThreeSixtyOneView.directives')
 			var views = JSON.parse(attrs.workflow),
 				totalViews = views.length,
 				basePath = attrs.basepath,
-				callback = attrs.callback,
+				submitCallback = attrs.submitCallback,
+				cancelCallback = attrs.cancelCallback,
 				setView = function(i) {
 					scope.view = views[i];
 					scope.url = basePath + "/" + views[i].url;
@@ -35,7 +36,7 @@ angular.module('ThreeSixtyOneView.directives')
 
 			scope.forward = function(){
 				if (scope.currentViewIndex  === totalViews - 1) {
-					scope[callback]();
+					scope[submitCallback]();
 					scope.currentViewIndex = totalViews;
 				} else {
 					setView(++scope.currentViewIndex < totalViews ? scope.currentViewIndex : --scope.currentViewIndex);
@@ -45,6 +46,10 @@ angular.module('ThreeSixtyOneView.directives')
 
 			scope.backward = function() {
 				setView(--scope.currentViewIndex >= 0 ? scope.currentViewIndex : ++scope.currentViewIndex);
+			};
+
+			scope.dismiss = function() {
+				scope[cancelCallback]();
 			};
 
 			scope.isCurrentView = function(index) {

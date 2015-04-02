@@ -1,6 +1,6 @@
 <div class="scenarioTemplates row">
 	<div ng-controller="ScenarioTemplatesViewsCtrl">
-		<flipbook workflow={{CONFIG.view.ScenarioTemplates.workflow}} type="{{currentType.label}}" template-url="views/directives/scenario_templates_navigation.tpl.html" basePath="views/includes/scenario_templates" callback="createTemplate">
+		<flipbook workflow={{CONFIG.view.ScenarioTemplates.workflow}} type="{{currentType.label}}" template-url="views/directives/scenario_templates_navigation.tpl.html" basePath="views/includes/scenario_templates" submit-callback="submit" cancel-callback="cancel">
 				<ng-include src="url"></ng-include>
 		</flipbook>
 	</div>

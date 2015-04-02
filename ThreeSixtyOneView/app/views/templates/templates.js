@@ -416,7 +416,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<div class=\"button-container\">\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"cancel\" label=\"Cancel\" action=\"cancel\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"cancel\" label=\"Cancel\" action=\"dismiss()\"></ms-button>\r" +
     "\n" +
     "\t\t\t<span class=\"right\">\r" +
     "\n" +
@@ -970,7 +970,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<div ng-controller=\"ScenarioTemplatesViewsCtrl\">\r" +
     "\n" +
-    "\t\t<flipbook workflow={{CONFIG.view.ScenarioTemplates.workflow}} type=\"{{currentType.label}}\" template-url=\"views/directives/scenario_templates_navigation.tpl.html\" basePath=\"views/includes/scenario_templates\" callback=\"createTemplate\">\r" +
+    "\t\t<flipbook workflow={{CONFIG.view.ScenarioTemplates.workflow}} type=\"{{currentType.label}}\" template-url=\"views/directives/scenario_templates_navigation.tpl.html\" basePath=\"views/includes/scenario_templates\" submit-callback=\"submit\" cancel-callback=\"cancel\">\r" +
     "\n" +
     "\t\t\t\t<ng-include src=\"url\"></ng-include>\r" +
     "\n" +
