@@ -15,7 +15,8 @@ angular.module('ThreeSixtyOneView.directives')
             replace: true,
             scope: {
                 dimensionData: '=',
-                allDimensionsData: '='
+                allDimensionsData: '=',
+                templateType: '='
             },
             templateUrl: function(elem, attrs){
                 return "views/directives/ms_" + attrs.dimensionType + "_dimension_card.tpl.html";

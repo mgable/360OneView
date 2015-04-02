@@ -6,7 +6,7 @@
             </label>
         </div>
         <div class="row no-margin">
-            <div ng-repeat="item in allDimensionsData">
+            <div ng-repeat="item in allDimensionsData | orderBy:id">
                 <div class="clearfix" ng-if="$index % 3 == 0"></div>
                 <div class="col-md-4 children-checkbox ms-checkbox no-select" ng-class="{selected: item.isSelected}">
                     <label>
