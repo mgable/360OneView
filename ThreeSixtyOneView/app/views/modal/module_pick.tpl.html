@@ -7,8 +7,7 @@
 			What type of Scenario Template would you like to create?
 		</div>
 		<div class="type-buttons">
-			<ms-button type="ms-action" action="" label="Action"></ms-button>
-			<ms-button type="ms-strategy" action="" label="Strategy"></ms-button>
+			<ms-button ng-repeat="module in modules" type="ms-{{module.name}}" action="" label="{{module.label}}"></ms-button>
 		</div>
 		<div class="form-buttons">
 			<ms-button type="cancel" action="close($event)" label="Cancel"></ms-button>
