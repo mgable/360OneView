@@ -42,7 +42,9 @@ describe('Routes tests: ', function() {
             var state = "Scenario.results",
             config = $state.get(state);
             expect(config.name).toBe(state);
-            expect(config.views).toMatch({'results': {'templateUrl': "views/includes/scenario_results.tpl.html"}});
+            console.info(config.views);
+            expect(config.views.result.controller).toEqual('scenarioResultsCtrl');
+            expect(config.views.result.templateUrl).toEqual('views/includes/scenario/results.tpl.html');
         });
 
         it ("should have a scenario create state", function(){
