@@ -62,8 +62,8 @@ angular.module('ThreeSixtyOneView')
             DialogService.openCreateScenario(Project, Scenarios);
         };
 
-        $scope.isScenarioTitleUnique = function(scenario) {
-            return ! _.findWhere($scope.scenarios, {title: scenario});
+        $scope.isScenarioTitleUnique = function(scenarioName) {
+            return ! _.findWhere($scope.scenarios, {name: scenarioName});
         };
 
         $scope.gotoBaseScenario = function(scenario){
@@ -78,17 +78,14 @@ angular.module('ThreeSixtyOneView')
         });
 
         $scope.$on(EVENTS.copyScenario, function(evt, scenario){
-            scenario.description = scenario.description || "";
-            scenario.referenceScenario.id = scenario.id;
-            scenario.referenceScenario.name = scenario.title;
             delete scenario.id;
-            ScenarioService.create(getProject(), scenario).then(function(response){
+            ScenarioService.create(getProject().uuid, scenario).then(function(response){
                 $scope.goto(evt, 'gotoScenarioEdit', response);
             });
         });
 
         $scope.$on(EVENTS.renameScenario, function(evt, scenario){
-            ScenarioService.rename(scenario, getProject().id);
+            ScenarioService.rename(scenario, getProject().uuid);
         });
 
         $scope.$on(EVENTS.editScenario, function($event, scenario){

@@ -11,8 +11,10 @@ var servers = require('./servers.js'),
 	dashboardRoot = "dashboard/",
 	scenarioRoot = "scenario/",
 	projectRoot = 'projects',
+	items = "item in getData()",
 
 	data = {
+		items: items,
 		server: "server=http://" + clientServer.url + ":" + clientServer.port,
 		domain: clientServer.url,
 		port:  clientServer.port,

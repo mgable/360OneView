@@ -66,7 +66,7 @@ var coreSpecs = require('./0.0-specs.js'),
 		failedClass: "fa-failed",
 		successfulClass: "fa-successful",
 
-		items: "item in getData()",
+		// items: "item in getData()",
 		itemCount: "span[data-ms-id='itemCount']",
 		selectedItemTitle: inlineRename  + " span.title",
 		scenariosElement: "scenario in selectedItem.scenarios",

@@ -29,8 +29,9 @@ angular.module('ThreeSixtyOneView.config')
                 "ScenarioModel": {
                     // want: get
                     //"responseTranslator": {"referenceScenario": "referenceScenario", "template": "template", "title": "name", "id": "id", "description": "description", "type":"prediction.type", "createdBy":"auditInfo.createdBy.name", "createdOn": "auditInfo.createdOn", "modifiedBy":"auditInfo.lastUpdatedBy.name", "modifiedOn":"auditInfo.lastUpdatedOn"},
-                    //"requestTranslator": {"id": "id", "name":"title", "referenceScenario": "referenceScenario", "description": "description", "prediction.type": "type"},
-                    "newScenario": {"name" : "", "description": "","referenceScenario": {"id": "", "name": ""}, "type": "Simulation"}
+                    "responseTranslator": null, 
+                    "requestTranslator": {"id": "id", "name":"name", "referenceScenario": "referenceScenario", "description": "description", "prediction": "prediction", "type": "type", "template": "template"},
+                    "newScenario": {"name" : "", "description": "", "referenceScenario": {"id": "", "name": ""}, "predition" : {"type": "Simulation"}}
                 },
                 "MetaDataModel" : {
                     "responseTranslator": "",

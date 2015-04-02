@@ -980,7 +980,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t</div>\r" +
     "\n" +
-    "\t<div class=\"body\" ui-keypress=\"{13: 'submit(item.title, $event)'}\">\r" +
+    "\t<div class=\"body\" ui-keypress=\"{13: 'submit(item.name, $event)'}\">\r" +
     "\n" +
     "\t\t<div class=\"content\">\r" +
     "\n" +
@@ -990,7 +990,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t<label class=\"control-label\" for=\"inputField\">{{modalProperties.field}}:\r" +
     "\n" +
-    "\t\t\t\t\t\t<input type=\"text\" class=\"form-control\" id=\"inputField\" ng-model=\"item.title\" focus required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions'/>\r" +
+    "\t\t\t\t\t\t<input type=\"text\" class=\"form-control\" id=\"inputField\" ng-model=\"item.name\" focus required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions'/>\r" +
     "\n" +
     "\t\t\t\t\t</label>\r" +
     "\n" +
@@ -1004,7 +1004,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<ms-button type=\"cancel\" action=\"close($event)\" label=\"Cancel\"></ms-button>\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"submit\" action=\"submit(item.title)\" label=\"{{modalProperties.button}}\" ui-keypress=\"{13: 'submit(item.title, $event)'}\" data-ms-id=\"modalSubmit\" ng-disabled=\"nameDialog.$invalid\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"submit\" action=\"submit(item.name)\" label=\"{{modalProperties.button}}\" ui-keypress=\"{13: 'submit(item.name, $event)'}\" data-ms-id=\"modalSubmit\" ng-disabled=\"nameDialog.$invalid\"></ms-button>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +

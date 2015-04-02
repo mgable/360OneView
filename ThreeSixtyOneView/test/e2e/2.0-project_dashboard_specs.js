@@ -1,6 +1,9 @@
 "use strict";
-var noScenarios = "a[data-ms-id='noScenariosAlert']", 
-	title = "scenario.title",
+
+var coreSpecs = require("./0.0-specs.js"), 
+	_ = require("underscore"),
+	noScenarios = "a[data-ms-id='noScenariosAlert']", 
+	title = "scenario.name",
 	description = "input[data-ms-id='ScenarioCreate.inputDescription']",
 	baseScenario = "label[data-ms-id='ScenarioCreate.inputBaseScenario']",
 	submit = "button[data-ms-id='ScenarioCreate.submit']",
@@ -41,5 +44,7 @@ var noScenarios = "a[data-ms-id='noScenariosAlert']",
 		lastScenarioElementTitle: element.all(by.repeater(scenarioElements)).last().element(by.css(elementTitle)),
 		selectedScenarioElement: element(by.css(scenarioEditScenarioElements))
 	};
+
+_.extend (data, coreSpecs);
 
 module.exports = data;

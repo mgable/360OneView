@@ -48,7 +48,7 @@ angular.module('ThreeSixtyOneView.directives')
 
                 $scope.cancel = function() {
                     if($scope.isActive){
-                        $scope.item.title = tempItem.title;
+                        $scope.item.name = tempItem.name;
                         $scope.item.description = tempItem.description;
                         $scope.form.$setPristine();
                         $scope.isActive = false;
