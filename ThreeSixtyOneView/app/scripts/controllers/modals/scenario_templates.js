@@ -8,6 +8,7 @@ function($scope, $controller, $modalInstance, CONFIG, data) {
 	var init = function() {
 		$scope.CONFIG = CONFIG;
 		$scope.currentType = data.templateType;
+		$scope.scenarioTemplates = data.scenarioTemplates;
 
 		initializeTemplate($scope.currentType);
 	}, initializeTemplate = function(type) {

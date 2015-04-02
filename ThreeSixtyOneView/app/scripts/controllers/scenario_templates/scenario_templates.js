@@ -13,7 +13,7 @@ angular.module('ThreeSixtyOneView')
 			}
 		}, openScenarioTemplatesCreateModal = function(type) {
 			var dialog = DialogService.openLightbox('views/modal/scenario_templates.tpl.html', 'ScenarioTemplatesCreateCtrl',
-				{templateType: type},
+				{templateType: type, scenarioTemplates: $scope.scenarioTemplates},
 				{windowSize: 'lg', windowClass: 'scenario_templates'});
 
 			dialog.result.then(function(data) {
