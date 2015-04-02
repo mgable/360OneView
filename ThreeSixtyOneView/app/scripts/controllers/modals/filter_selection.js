@@ -267,5 +267,9 @@ angular.module('ThreeSixtyOneView')
 			return ($scope.windowHeight - 250) + 'px';
 		};
 
+		$scope.isDimensionSignleMembered = function(dimension) {
+			return dimension.members.length === 1;
+		};
+
 		init();
 	}]);

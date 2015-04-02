@@ -531,15 +531,15 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t<div class=\"dropdown-box\">\r" +
     "\n" +
-    "\t\t\t\t\t\t<div class=\"clickable dropdown\">\r" +
+    "\t\t\t\t\t\t<div class=\"dropdown\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<div class=\"dropdown-toggle\">\r" +
+    "\t\t\t\t\t\t\t<div class=\"dropdown-toggle\" ng-class=\"{disabled: isDimensionSignleMembered(selectedFilter.dimension), clickable: !isDimensionSignleMembered(selectedFilter.dimension)}\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t{{selectedFilter.level.label}}<icon type=\"caret-down\"></icon>\r" +
+    "\t\t\t\t\t\t\t\t{{selectedFilter.level.label}}<icon ng-if=\"selectedFilter.dimension.members.length > 1\" type=\"caret-down\"></icon>\r" +
     "\n" +
     "\t\t\t\t\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<div class=\"dropdown-menu\" ms-link-group radio=\"true\" selected-item=\"{{selectedFilter.level.label}}\">\r" +
+    "\t\t\t\t\t\t\t<div class=\"dropdown-menu clickable\" ms-link-group radio=\"true\" selected-item=\"{{selectedFilter.level.label}}\">\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t<div ng-repeat=\"item in selectedFilter.dimension.members\" class=\"menu-item\" ms-link=\"{{item.label}}\" ng-click=\"chooseFilter(selectedFilter.dimension, selectedDimensionIndex, $index)\">\r" +
     "\n" +
