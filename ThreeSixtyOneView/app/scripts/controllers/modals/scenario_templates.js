@@ -18,11 +18,27 @@ function($scope, $controller, $modalInstance, CONFIG, data) {
 			cubes: []
 		};
 
+		$scope.timeGranularity = '';
+
+		$scope.performancePeriod = {
+			from: null,
+			to: null
+		};
+
 		$scope.defaultView = {};
+	};
+
+	$scope.setTimeGranularity = function(time) {
+		$scope.timeGranularity = time;
 	};
 
 	$scope.setDefaultView = function(view) {
 		$scope.defaultView = view;
+	};
+
+	$scope.setPerformancePeriod = function(fromDate, toDate) {
+		$scope.performancePeriod.from = fromDate;
+		$scope.performancePeriod.to = toDate;
 	};
 
 	$scope.cancel = function() {

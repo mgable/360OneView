@@ -28,7 +28,7 @@ angular.module('ThreeSixtyOneView')
                 return MetaDataService
                     .buildDimensionsTree(cubeId)
                     .then(function(dimension) {
-                        $scope.timeDimension = _.find(dimension, function(v) { return v.label === 'TIME' });
+                        $scope.timeDimension = _.find(dimension, function(v) { return v.type === 'TimeDimension' });
                         $scope.times = _.pluck($scope.timeDimension.members, 'label');
                         $scope.selectedTime = $scope.times[0];
 
@@ -62,6 +62,7 @@ angular.module('ThreeSixtyOneView')
 
             $scope.timeDimension.members = _.filter($scope.timeDimension.members, function(v) { return v.label === $scope.selectedTime; });
             filteredTimeDimension = $scope.timeDimension;
+            $scope.setTimeGranularity($scope.selectedTime);
             filteredSpendDimensions = _.union(DimensionService.getSelectedDimensions($scope.spendDimensions), filteredTimeDimension);
             filteredKpiDimensions = _.union(DimensionService.getSelectedDimensions($scope.spendDimensions), filteredTimeDimension);
             cubes.push([filteredSpendDimensions, filteredKpiDimensions]);
