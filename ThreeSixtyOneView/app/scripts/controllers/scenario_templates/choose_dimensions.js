@@ -8,13 +8,12 @@
  * Controller of the ThreeSixtyOneView
  */
 angular.module('ThreeSixtyOneView')
-    .controller('ChooseDimensionsCtrl', ['$scope', 'MetaDataService', 'DimensionService', 'EVENTS', 'CONFIG', function($scope, MetaDataService, DimensionService, EVENTS, CONFIG) {
-        var init = function() {
-            $scope.times = CONFIG.view.ScenarioTemplates.times;
-            $scope.selectedTime = $scope.times[0];
-
-            getDimensions('spend', 'TOUCHPOINT', [$scope.currentType.label]);
-            getDimensions('kpi', 'OUTCOME', ['simulation', undefined, undefined, false, false]);
+    .controller('ChooseDimensionsCtrl', ['$scope', 'MetaDataService', 'DimensionService', 'EVENTS', function($scope, MetaDataService, DimensionService, EVENTS) {
+        var scenarioTemplateId,
+        init = function() {
+            scenarioTemplateId = _.find($scope.scenarioTemplates, function(v) {  return v.type === $scope.currentType.label; }).id
+            getDimensions('spend', 'TOUCHPOINT', ['simulation', scenarioTemplateId, undefined, false, true]);
+            getDimensions('kpi', 'OUTCOME', ['simulation', scenarioTemplateId, undefined, false, false]);
         },
         getDimensions = function(cubeType, cubeName, cubeParams) {
             var getCubeId = function(cubeName, cubeParams) {
@@ -29,7 +28,10 @@ angular.module('ThreeSixtyOneView')
                 return MetaDataService
                     .buildDimensionsTree(cubeId)
                     .then(function(dimension) {
-                        $scope[cubeType+'TimeDimension'] = _.find(dimension, function(v) { return v.label === 'TIME' });
+                        $scope.timeDimension = _.find(dimension, function(v) { return v.label === 'TIME' });
+                        $scope.times = _.pluck($scope.timeDimension.members, 'label');
+                        $scope.selectedTime = $scope.times[0];
+
                         dimension = _.reject(dimension, function(v) { return v.label === 'TIME' });
                         $scope[cubeType+'Dimensions'] = dimension;
                         return dimension;
@@ -58,7 +60,8 @@ angular.module('ThreeSixtyOneView')
                 filteredSpendDimensions,
                 filteredKpiDimensions;
 
-            filteredTimeDimension = DimensionService.switchTimeDimension($scope.spendTimeDimension, $scope.selectedTime);
+            $scope.timeDimension.members = _.filter($scope.timeDimension.members, function(v) { return v.label === $scope.selectedTime; });
+            filteredTimeDimension = $scope.timeDimension;
             filteredSpendDimensions = _.union(DimensionService.getSelectedDimensions($scope.spendDimensions), filteredTimeDimension);
             filteredKpiDimensions = _.union(DimensionService.getSelectedDimensions($scope.spendDimensions), filteredTimeDimension);
             cubes.push([filteredSpendDimensions, filteredKpiDimensions]);
