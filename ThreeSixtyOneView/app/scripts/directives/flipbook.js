@@ -7,7 +7,7 @@
 * # flipbook
 */
 angular.module('ThreeSixtyOneView.directives')
-.directive('flipbook', ['EVENTS', function (EVENTS) {
+.directive('flipbook', ['EVENTS', '$window', function (EVENTS, $window) {
 	return {
 		templateUrl: function(element, attrs) {
 			return attrs.templateUrl;
@@ -24,12 +24,34 @@ angular.module('ThreeSixtyOneView.directives')
 					scope.view = views[i];
 					scope.url = basePath + "/" + views[i].url;
 					scope.label = views[i].buttonLabel || scope.DIRECTION;
-				},
-				init = function() {
+				}, getWindowHeight = function() {
+					var w = angular.element($window);
+					scope.getWindowDimensions = function () {
+						return {
+							'h': w[0].innerHeight,
+							'w': w[0].innerWidth
+						};
+					};
+					var heightWatcher = scope.$watch(scope.getWindowDimensions, function (newValue) {
+						scope.windowHeight = newValue.h;
+						scope.windowWidth = newValue.w;
+
+					}, true);
+
+					scope.$on('$destroy', function() {
+						heightWatcher();
+						w.unbind('resize');
+					});
+
+					w.bind('resize', function () {
+						scope.$apply();
+					});
+				}, init = function() {
 					scope.DIRECTION = "NEXT";
 					scope.views = views;
 					scope.currentViewIndex = 0;
 
+					getWindowHeight();
 					setView(scope.currentViewIndex);
 				};
 
@@ -54,6 +76,10 @@ angular.module('ThreeSixtyOneView.directives')
 
 			scope.isCurrentView = function(index) {
 				return index === scope.currentViewIndex;
+			};
+
+			scope.getHeight = function() {
+				return (scope.windowHeight - 150) + 'px';
 			};
 
 			scope.isDisabled = function(direction) {

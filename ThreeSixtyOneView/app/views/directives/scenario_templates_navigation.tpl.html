@@ -28,7 +28,7 @@
 		</div>
 	</div>
 	<div class="col-md-9 right-column">
-		<div ng-transclude></div>
+		<div ng-style="{height: getHeight()}" style="overflow: auto;" ng-transclude></div>
 		<div class="button-container">
 			<ms-button type="cancel" label="Cancel" action="dismiss()"></ms-button>
 			<span class="right">
