@@ -35,7 +35,7 @@ angular.module("ThreeSixtyOneView.services")
 			translateObj({“id”: ”uuid”}, {uuid: 12345, description: "foobar"} ) returns {id: 12345}
 			translateObj({“id”: ”uuid”, "description": description}, {uuid: 12345, description: "foobar"} ) returns {id: 12345, description: "foobar"}
 			translateObj({auditInfo: { createdBy: { name: “fred}}}, {“createdBy” : ”auditInfo.createdBy.name"}) returns {createdBy :” fred”}
-			translateObj({createdBy: ”fred”}, {“auditInfo.createdBy.name” : ”createdBy"}) returns {auditInfo: { createdBy: { name: “fred}}}	
+			translateObj({createdBy: ”fred”}, {“auditInfo.createdBy.name” : ”createdBy"}) returns {auditInfo: { createdBy: { name: “fred}}}
 			*/
 			translateObj: function(data, translator){
 				var result = {}, self = this,
@@ -116,7 +116,7 @@ angular.module("ThreeSixtyOneView.services")
 
 					return results;
 				} else {
-					return data
+					return data;
 				}
 			},
 			makeConfig: function(which, responseTranslator, requestTranslator){
