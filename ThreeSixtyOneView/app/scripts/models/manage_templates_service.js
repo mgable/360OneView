@@ -14,4 +14,10 @@ angular.module('ThreeSixtyOneView.services')
 			return response;
 		});
 	};
+
+	this.get = function(templateId) {
+		return this.resource.get({templateId: templateId}, {}, '').then(function(response) {
+			return response;
+		});
+	};
 }]);

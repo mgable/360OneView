@@ -6,9 +6,16 @@
 		<div class="content">
 			What type of Scenario Template would you like to create?
 		</div>
-		<div class="type-buttons">
-			<ms-button ng-repeat="module in modules" type="ms-{{module.name}}" action="select(module)" label="{{module.label}}"></ms-button>
-		</div>
+		<form>
+			<ul class="type-buttons">
+				<li class="ms-{{module.name}}" ng-repeat="module in modules" ng-click="select(module)">
+					<input type="radio" id="radio{{$index}}" name="selectModule" />
+					<label class="animated fadeIn" for="radio{{$index}}">
+						{{module.label}}
+					</label>
+				</li>
+			</ul>
+		</form>
 		<div class="form-buttons">
 			<ms-button type="cancel" action="close($event)" label="Cancel"></ms-button>
 			<ms-button type="submit" action="submit()" label="START" data-ms-id="modalSubmit" ng-disabled="nameDialog.$invalid"></ms-button>

@@ -44,47 +44,68 @@ $body_font_size: 14px;
 
 // Mixins
 @mixin product-btn($btn-type, $color, $logo-image) {
-	width: 230px;
-	text-align: center;
-	color: $color;
-	background-color: $ms-pureWhite;
-	border-top: 0;
-	border-right: 1px solid $ms-mediumLightGray;
-	border-bottom: 2px solid $ms-mediumLightGray;
-	border-left: 1px solid $ms-lightGray;
-	border-radius: 0;
-	font-size: 38px;
-	background-image: url(../images/#{$logo-image});
-	background-repeat: no-repeat;
-	@if $btn-type == "ms-strategy" { 
+	input[type="radio"] {
+		display: none;
+		&:checked + label {
+		    color: $ms-pureWhite;
+		    background-image: url(../images/ms-logo-01.png);
+		    background-color: $color;
+		    border-right-color: $color;
+		    border-bottom-color: $color;
+		    border-left-color: $color;
+		    outline: none;
+
+		    &.animated { 
+				-webkit-animation-duration: 0.5s; 
+				animation-duration: 0.5s; 
+				-webkit-animation-fill-mode: both; 
+				animation-fill-mode: both; 
+			} 
+
+			@-webkit-keyframes fadeIn { 
+				0% {opacity: 0;}
+				100% {opacity: 1;} 
+			} 
+			@keyframes fadeIn { 
+				0% {opacity: 0;}
+				100% {opacity: 1;} 
+			} 
+			&.fadeIn { 
+				-webkit-animation-name: fadeIn; 
+				animation-name: fadeIn; 
+			}
+		}
+	}
+	label {
+		width: 230px;
+		text-align: center;
+		color: $color;
+		font-size: 38px;
+		background-color: $ms-pureWhite;
+		border-top: 0;
+		border-right: 1px solid $ms-mediumLightGray;
+		border-bottom: 2px solid $ms-mediumLightGray;
+		border-left: 1px solid $ms-lightGray;
+		border-radius: 0;
+		background-image: url(../images/#{$logo-image});
+		background-repeat: no-repeat;
+		@if $btn-type == "ms-strategy" { 
 		background-position: 25px center; 
 		padding: 10px 0px 10px 40px;
-	}
-	@if $btn-type == "ms-action" { 
-		background-position: 40px center; 
-		padding: 10px 0px 10px 45px;
-	}
+		}
+		@if $btn-type == "ms-action" { 
+			background-position: 40px center; 
+			padding: 10px 0px 10px 45px;
+		}
 
-	&.ms-btn-#{$btn-type}:hover,
-	&.ms-btn-#{$btn-type}:focus,
-	&.ms-btn-#{$btn-type}:active {
-	    color: $ms-pureWhite;
-	    background-image: url(../images/ms-logo-01.png);
-	}
-
-	&.ms-btn-#{$btn-type}:hover {
-	    background-color: $ms-mediumLightGray;
-	    border-right-color: $ms-mediumLightGray;
-	    border-bottom-color: $ms-mediumLightGray;
-	    border-left-color: $ms-lightGray;
-	}
-
-	&.ms-btn-#{$btn-type}:focus,
-	&.ms-btn-#{$btn-type}:active {
-	    background-color: $color;
-	    border-right-color: $color;
-	    border-bottom-color: $color;
-	    border-left-color: $color;
-	    outline: none;
+		&:hover {
+			cursor: pointer;
+			color: $ms-pureWhite;
+		    background-image: url(../images/ms-logo-01.png);
+		    background-color: $ms-mediumLightGray;
+		    border-right-color: $ms-mediumLightGray;
+		    border-bottom-color: $ms-mediumLightGray;
+		    border-left-color: $ms-lightGray;
+		}
 	}
 }

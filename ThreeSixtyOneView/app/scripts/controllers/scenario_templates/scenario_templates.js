@@ -11,18 +11,20 @@ angular.module('ThreeSixtyOneView')
 			if(typeof $scope.currentType !== 'undefined') {
 				openScenarioTemplatesCreateModal($scope.currentType);
 			}
-		}, openScenarioTemplatesCreateModal = function(type) {
-			var dialog = DialogService.openLightbox('views/modal/scenario_templates.tpl.html', 'ScenarioTemplatesCreateCtrl',
-				{templateType: type, scenarioTemplates: $scope.scenarioTemplates},
-				{windowSize: 'lg', windowClass: 'scenario_templates'});
+		}, openScenarioTemplatesCreateModal = function(type, templates) {
+			var scenarioTemplates = templates,
+				dialog = DialogService.openLightbox('views/modal/scenario_templates.tpl.html', 'ScenarioTemplatesCreateCtrl',
+					{templateType: type, scenarioTemplates: $scope.scenarioTemplates},
+					{windowSize: 'lg', windowClass: 'scenario_templates'}
+				);
 
 			dialog.result.then(function(data) {
-				console.log(data);
 				createTemplate(data);
 			});
 		}, createTemplate = function(data) {
 			console.log('create template');
 			console.log('create default view');
+			console.log(data);
 		};
 
 		$scope.openModulePickDialog = function() {
