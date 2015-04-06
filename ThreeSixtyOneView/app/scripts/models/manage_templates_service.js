@@ -9,8 +9,15 @@ angular.module('ThreeSixtyOneView.services')
 	mymanagetemplatesdata = new MyManageTemplatesModel(ManageTemplatesModel);
 	angular.extend(this, mymanagetemplatesdata);
 
-	this.getAll = function() {
-		return this.resource.get({}, {}, '').then(function(response) {
+	this.getAll = function(type) {
+		var config = {
+			params: {}
+		};
+		if(!!type) {
+			config.params.type = type;
+		}
+
+		return this.resource.get({}, config, '').then(function(response) {
 			return response;
 		});
 	};
