@@ -16,7 +16,7 @@ angular.module('ThreeSixtyOneView.config')
 				"importResource": "/rubix/v1/import/analysis-element/:elementId",
 				"exportResource": "/rubix/v1/export/analysis-element/:elementId",
 				"reports": "/rubix/v1/reports/analysis-element/:elementId/analysis-view/:viewId/summary",
-				"template": "/rubix/v1/template"
+				"template": "/rubix/v1/template/:templateId"
 			},
 			"models": {
 				"ProjectsModel": {
