@@ -96,6 +96,7 @@ angular.module('ThreeSixtyOneView')
 
 	$scope.$on(EVENTS.moveForward, function() {
 		$scope.setDefaultView($scope.viewData);
+		$scope.setPerformancePeriod($scope.fromDate, $scope.toDate);
 	});
 
 	init();

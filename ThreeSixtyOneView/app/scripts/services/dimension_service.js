@@ -37,26 +37,4 @@
             return labelsArray.join();
         };
 
-        this.switchTimeDimension = function(timeDimension, time) {
-            if(!_.isUndefined(timeDimension)) {
-                var tmpTimeDimension = angular.copy(timeDimension);
-                switch (time)
-                {
-                    case "Weekly":
-                        tmpTimeDimension.members = tmpTimeDimension.members.slice(4,5);
-                        break;
-                    case "Monthly":
-                        tmpTimeDimension.members = tmpTimeDimension.members.slice(3,5);
-                        break;
-                    case "Quarterly":
-                        tmpTimeDimension.members = tmpTimeDimension.members.slice(2,5);
-                        break;
-                    default:
-                        tmpTimeDimension.members = tmpTimeDimension.members;
-                        break;
-                }
-                return tmpTimeDimension;
-            }
-        };
-
 });

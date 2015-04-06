@@ -1,17 +1,54 @@
 'use strict';
 
-/**
- * @ngdoc function
- * @name ThreeSixtyOneView.controller:ModalScenarioTemplatesCtrl
- * @description
- * # ModalScenarioTemplatesCtrl
- * Controller of the ThreeSixtyOneView
- */
 angular.module('ThreeSixtyOneView')
-  .controller('ModalScenarioTemplatesCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+.controller('ScenarioTemplatesCreateCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "data",
+function($scope, $controller, $modalInstance, CONFIG, data) {
+	angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $controller: $controller, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+
+	var init = function() {
+		$scope.CONFIG = CONFIG;
+		$scope.currentType = data.templateType;
+		$scope.scenarioTemplates = data.scenarioTemplates;
+
+		initializeTemplate($scope.currentType);
+	}, initializeTemplate = function(type) {
+		$scope.template = {
+			name: '',
+			description: '',
+			cubes: []
+		};
+
+		$scope.timeGranularity = '';
+
+		$scope.performancePeriod = {
+			from: null,
+			to: null
+		};
+
+		$scope.defaultView = {};
+	};
+
+	$scope.setTimeGranularity = function(time) {
+		$scope.timeGranularity = time;
+	};
+
+	$scope.setDefaultView = function(view) {
+		$scope.defaultView = view;
+	};
+
+	$scope.setPerformancePeriod = function(fromDate, toDate) {
+		$scope.performancePeriod.from = fromDate;
+		$scope.performancePeriod.to = toDate;
+	};
+
+	$scope.cancel = function() {
+		$modalInstance.dismiss();
+	};
+
+	// pass back the selected file and dismiss the modal
+	$scope.submit = function() {
+		$modalInstance.close({response:'response'});
+	};
+
+	init();
+}]);

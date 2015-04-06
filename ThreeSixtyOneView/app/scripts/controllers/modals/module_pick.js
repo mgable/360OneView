@@ -11,8 +11,12 @@ angular.module('ThreeSixtyOneView')
 			$scope.modules = data.modules;
 		};
 
-		$scope.submit = function(){
-			$modalInstance.dismiss('start');
+		$scope.select = function(module) {
+			$scope.selectedModule = module;
+		};
+
+		$scope.submit = function() {
+			$modalInstance.close({selectedModule: $scope.selectedModule});
 		};
 
 		init();

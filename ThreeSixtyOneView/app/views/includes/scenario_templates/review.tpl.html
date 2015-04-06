@@ -17,7 +17,7 @@
 	</div>
 	<div class="review-field">
 		<div class="confirmation">Time Granularity</div>
-		<div>Placeholder{{timeGranularity}}</div>
+		<div>{{timeGranularity}}</div>
 	</div>
 	<div class="review-field">
 		<div class="confirmation">Dimensions</div>
@@ -29,6 +29,6 @@
 	</div>
 	<div class="review-field">
 		<div class="confirmation">Default Marketing Performance Period</div>
-		<div>Placeholder{{date-picker}}</div>
+		<div>{{performancePeriod.from | date:'yyyy-MM-dd (Week ww)'}} - {{performancePeriod.to | date:'yyyy-MM-dd (Week ww)'}}</div>
 	</div>
 <div>
