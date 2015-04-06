@@ -10,9 +10,6 @@ angular.module('ThreeSixtyOneView')
 		var init = function() {
 			ManageTemplatesService.getAll().then(function(response) {
 				$scope.scenarioTemplates = response;
-				if(response.length === 0) {
-					$state.go("ScenarioTemplates");
-				}
 			});
 		};
 		// Error service surfaced here

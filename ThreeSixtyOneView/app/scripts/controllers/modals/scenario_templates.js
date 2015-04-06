@@ -1,14 +1,20 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-.controller('ScenarioTemplatesCreateCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "data",
-function($scope, $controller, $modalInstance, CONFIG, data) {
+.controller('ScenarioTemplatesCreateCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "data", 'ManageTemplatesService',
+function($scope, $controller, $modalInstance, CONFIG, data, ManageTemplatesService) {
 	angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $controller: $controller, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
 	var init = function() {
 		$scope.CONFIG = CONFIG;
 		$scope.currentType = data.templateType;
 		$scope.scenarioTemplates = data.scenarioTemplates;
+
+		if(!$scope.scenarioTemplates) {
+			ManageTemplatesService.getAll().then(function(response) {
+				$scope.scenarioTemplates = response;
+			});
+		}
 
 		initializeTemplate($scope.currentType);
 	}, initializeTemplate = function(type) {
