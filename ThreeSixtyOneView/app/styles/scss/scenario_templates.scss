@@ -3,9 +3,10 @@
 @import "new_variables";
 
 .scenarioTemplates {
-	background-color: $ms-pureWhite;
+	background-color: transparent;
 	color: $ms-black;
 	&.start-box {
+		background-color: $ms-pureWhite;
 		width: 700px;
 		margin: 50px auto;
 		padding: 30px;
