@@ -5,23 +5,43 @@
 .scenarioTemplates {
 	background-color: $ms-pureWhite;
 	color: $ms-black;
+	&.start-box {
+		width: 700px;
+		margin: 50px auto;
+		padding: 30px;
+		text-align: center;
+		div {
+			margin: 30px 0;
+			font-size: 24px;
+			&.header {
+				margin: 0 0 30px 0;
+				font-size: 36px;
+			}
+		}
+	}
 	.left-column {
 		height: 100%;
 		padding: 0;
 		background-color: $ms-lightGray;
 		border-right: 1px solid $ms-mediumLightGray;
 		.product-banner {
-			padding: 20px;
-			background-color: $ms-actionGreen;
+			padding: 20px 0;
 			color: $ms-pureWhite;
 			font-size: 38px;
+			&.Action {
+				padding: 20px 0 20px 15px;
+				background-color: $ms-actionGreen;
+			}
+			&.Strategy {
+				background-color: $ms-strategyBlue
+			}
 			.ms-logo {
 				width: 35px;
 				height: 35px;
 				background-image: url(../images/ms-logo-01.png);
 				background-repeat: no-repeat;
 				float: left;
-				margin: 5px 0 0 65px;
+				margin: 5px 0 0 50px;
 			}
 		}
 		div {
@@ -35,7 +55,7 @@
 				font-weight: bold;
 			}
 			&.template-steps {
-				padding: 0 0 0 80px;
+				padding: 0 0 0 50px;
 				color: $ms-mediumGray;
 				line-height: 21px;
 				.pipe-line{
@@ -60,8 +80,7 @@
 		}
 	}
 	.right-column {
-		max-width: 700px;
-		padding: 15px 0 15px 30px;
+		padding: 15px 30px;
 		margin: 0 0 25px 0;
 		div.header {
 			font-size: 38px;
@@ -224,9 +243,20 @@
     			font-size: 24px;
     		}
     		.type-buttons {
-    			button {
-    				margin: 0 20px 0 0;
+    			li {
+    				display: inline;
+					list-style-type: none;
+					padding-right: 20px;
     			}
+    			label {
+    				font-weight: normal;
+    			}
+    			.ms-action {
+    				@include product-btn("ms-action", $ms-actionGreen, "ms-logo-action.png");
+				}
+				.ms-strategy{
+					@include product-btn("ms-strategy", $ms-strategyBlue, "ms-logo-strategy.png");
+				}
     		}
     		.form-buttons{
     			margin: 20px 0 0 0;

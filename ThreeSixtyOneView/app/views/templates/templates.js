@@ -356,7 +356,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<div class=\"col-md-3 left-column\">\r" +
     "\n" +
-    "\t\t<div class=\"product-banner\">\r" +
+    "\t\t<div class=\"product-banner {{currentType.label}}\">\r" +
     "\n" +
     "\t\t\t<div class=\"ms-logo\"></div>\r" +
     "\n" +
@@ -644,11 +644,25 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t</div>\r" +
     "\n" +
-    "\t\t<div class=\"type-buttons\">\r" +
+    "\t\t<form>\r" +
     "\n" +
-    "\t\t\t<ms-button ng-repeat=\"module in modules\" type=\"ms-{{module.name}}\" action=\"select(module)\" label=\"{{module.label}}\"></ms-button>\r" +
+    "\t\t\t<ul class=\"type-buttons\">\r" +
     "\n" +
-    "\t\t</div>\r" +
+    "\t\t\t\t<li class=\"ms-{{module.name}}\" ng-repeat=\"module in modules\" ng-click=\"select(module)\">\r" +
+    "\n" +
+    "\t\t\t\t\t<input type=\"radio\" id=\"radio{{$index}}\" name=\"selectModule\" />\r" +
+    "\n" +
+    "\t\t\t\t\t<label class=\"animated fadeIn\" for=\"radio{{$index}}\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t{{module.label}}\r" +
+    "\n" +
+    "\t\t\t\t\t</label>\r" +
+    "\n" +
+    "\t\t\t\t</li>\r" +
+    "\n" +
+    "\t\t\t</ul>\r" +
+    "\n" +
+    "\t\t</form>\r" +
     "\n" +
     "\t\t<div class=\"form-buttons\">\r" +
     "\n" +
