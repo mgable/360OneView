@@ -8,17 +8,14 @@ var specs = require('./1.0-project_listing_specs.js'),
 
 if(funcs.runTheseTests(testName)){
 
-
 	describe("executing " + testName.title, function(){
 		console.info("executing " + testName.title);
 		it("should set up the tests", function(){
 			console.info(testName.title + " Tests: ");
 			expect(true).toBe(true);
-			expect(true).toBe(false);
+			//expect(true).toBe(false);
 		});
 
-	})
+	});
+};
 
-
-
-}
