@@ -4,12 +4,7 @@ var specs = require('./1.0-project_listing_specs.js'),
 	funcs = require('./1.0-project_listing_functions.js'),
 	projectInfo = {},
 	testName = {title: "tests", id: "test"},
-	projectId,
-	myReporter = {
-		jasmineStarted: function(suiteInfo) {
-			console.log('Running suite with ' + suiteInfo.totalSpecsDefined);
-		}
-	};
+	projectId;
 
 if(funcs.runTheseTests(testName)){
 
@@ -21,8 +16,6 @@ if(funcs.runTheseTests(testName)){
 			expect(true).toBe(true);
 			expect(true).toBe(false);
 		});
-
-		jasmine.getEnv().addReporter(myReporter);
 
 	})
 

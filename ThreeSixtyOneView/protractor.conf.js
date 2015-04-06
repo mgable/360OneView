@@ -9,5 +9,9 @@ exports.config = {
   jasmineNodeOpts: {
     defaultTimeoutInterval: 360000,
     includeStackTrace: false
-  }
+  },
+  onPrepare: function() {
+      var reports = require('jasmine-reporters');
+      jasmine.getEnv().addReporter(new reports.JUnitXmlReporter({'savePath': "./reports"}));
+    }
 };
