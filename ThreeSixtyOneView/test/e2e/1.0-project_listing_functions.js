@@ -15,6 +15,9 @@ var coreFunctions = require('./0.0-functions.js'),
 		enterSearch: function(searchTerm){
 			specs.searchInputField.sendKeys(searchTerm);
 		},
+		clearSearch: function(){
+			specs.searchInputField.clear();
+		},
 		filterByFavorites: function(){
 			specs.filterByButton.click();
 			specs.filterByfavoritesButton.click();

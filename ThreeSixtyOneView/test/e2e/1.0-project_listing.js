@@ -8,13 +8,11 @@ var specs = require('./1.0-project_listing_specs.js'),
 
 if(funcs.runTheseTests(testName)){
 
-
 	describe("Executing " + testName.title, function(){
 		console.info("executing " + testName.title);
 		it("should set up the tests", function(){
 			console.info(testName.title + " Tests: ");
 		});
-
 	})
 
 	describe('Project Listing Page: ', function() {
@@ -25,13 +23,9 @@ if(funcs.runTheseTests(testName)){
 			}
 		);
 
-		describe("Sorter: ", function(){
+		describe("Display: ", function(){
 			it("should have at least one project", function(){
 				expect(funcs.getItems().count()).toBeGreaterThan(0);
-			});
-
-			it("should have a single master project", function(){
-				expect(funcs.getMasterProjectItem().isPresent()).toBeTruthy();
 			});
 
 			it("should have an active selection", function(){
@@ -39,7 +33,14 @@ if(funcs.runTheseTests(testName)){
 				expect(funcs.hasClass(firstItem, specs.activeSelectionClass)).toBeTruthy();
 			});
 
-			it("should show the number of projects", function(){
+			it("should have a selected item", function(){
+				var itemTitle = funcs.getFirstItemTitle(),
+					selectedItemTitle = funcs.getSelectedItemTitle();
+
+				expect(itemTitle.getText()).toBe(selectedItemTitle.getText());
+			});
+
+			it("should show the project cout", function(){
 				var itemCount = funcs.getItemCount();
 				itemCount.getText().then(function(count){
 					funcs.getItems().count().then(function(totalCount){
@@ -48,7 +49,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			it("should change the active selection on click", function(){
+			it("should change the active selection when a project is clicked", function(){
 				var first = funcs.getItems().first(),
 					last = funcs.getItems().last();
 
@@ -62,21 +63,6 @@ if(funcs.runTheseTests(testName)){
 				first.click();
 				expect(funcs.hasClass(first, specs.activeSelectionClass)).toBe(true);
 				expect(funcs.hasClass(last, specs.activeSelectionClass)).toBe(false);
-			});
-
-			it("should redirect to Project Dashboard when a project is clicked", function(){
-				var itemTitle = funcs.getFirstItemTitle();
-				itemTitle.getAttribute(specs.itemUUID).then(function(id){
-					itemTitle.click();
-					expect(browser.getLocationAbsUrl()).toContain(specs.dashboardRoot + id);
-				});
-			});
-
-			it("should have the active item in the tray", function(){
-				var itemTitle = funcs.getFirstItemTitle(),
-					selectedItemTitle = funcs.getSelectedItemTitle();
-
-				expect(itemTitle.getText()).toBe(selectedItemTitle.getText());
 			});
 
 			it("should put the selected item in the tray", function(){
@@ -102,11 +88,34 @@ if(funcs.runTheseTests(testName)){
 						});
 					});
 				});
-				
+			});
+
+			it("should redirect to Project Dashboard when a project is clicked", function(){
+				var itemTitle = funcs.getFirstItemTitle();
+				itemTitle.getAttribute(specs.itemUUID).then(function(id){
+					itemTitle.click();
+					expect(browser.getLocationAbsUrl()).toContain(specs.dashboardRoot + id);
+				});
+			});
+
+			it("should redirect to Scenario Edit page when a scenario name is clicked", function(){
+				var scenario;
+
+				funcs.selectMasterProject();
+				scenario = funcs.getFirstScenario();
+
+				scenario.click();
+				browser.waitForAngular();
+
+				expect(browser.getLocationAbsUrl()).toContain(specs.scenarioRoot);
 			});
 		});
 
 		describe("Sort: ", function(){
+			it("should highlight the inital sort field", function(){
+				expect(funcs.hasClass(specs.column_2LabelField, specs.activeSelectionClass)).toBe(false);
+			})
+
 			it("should switch between ordering by name, modified last and created on", function(){
 				var itemTitles,
 					itemModifiedOn,
@@ -211,19 +220,6 @@ if(funcs.runTheseTests(testName)){
 		});
 
 		describe("Favorites: ", function(){
-			var masterProject = funcs.getMasterProjectItem(),
-				masterProjectFavorite = masterProject.element(by.css(specs.favoriteClassHolder));
-
-			it("should favorite the master project", function(){
-				expect(funcs.hasClass(masterProjectFavorite, specs.favoriteClass)).toBeTruthy();
-			});
-
-			it("should not allow the Master project to be unfavorited", function(){
-				expect(funcs.hasClass(masterProjectFavorite, specs.favoriteClass)).toBe(true);
-				masterProjectFavorite.click();
-				expect(funcs.hasClass(masterProjectFavorite, specs.favoriteClass)).toBe(true);
-			});
-
 			it("should toggle favorite", function(){
 				var firstFavoriteItem = funcs.getFavorites().first(),
 					isFavorite;
@@ -248,33 +244,9 @@ if(funcs.runTheseTests(testName)){
 					expect(funcs.hasClass(firstFavoriteItem, specs.favoriteClass)).not.toBe(isFavorite);
 				});
 			});
-
-			it("should update the tray when favorites are filtered", function(){
-				var firstFavoriteItem = funcs.getFavorites().first(),
-					isFavorite;
-					
-				funcs.hasClass(firstFavoriteItem, specs.favoriteClass).then(function(favorite){
-					isFavorite = favorite;
-					if (! isFavorite){
-						firstFavoriteItem.click();
-					};
-				});
-
-				specs.filterByButton.click();
-				specs.filterByfavoritesButton.click();
-
-				var itemTitle = funcs.getFirstItemTitle(),
-					selectedItemTitle = funcs.getSelectedItemTitle();
-
-				itemTitle.getText().then(function(title){
-					selectedItemTitle.getText().then(function(selectedTitle){
-						expect(title).toEqual(selectedTitle);
-					});
-				});
-			});
 		});
 
-		xdescribe("Filters: ", function(){
+		describe("Filters: ", function(){
 			it ("should toggle the filter menu dropdown", function(){
 				expect(funcs.hasClass(specs.filterDropdown, 'hide')).toBe(true);
 				specs.filterByButton.click();
@@ -282,8 +254,6 @@ if(funcs.runTheseTests(testName)){
 			});
 
 			it("should filter by favorite", function(){
-				var startItemCount = funcs.getItemCount();
-
 				funcs.filterByFavorites();
 
 				funcs.getItems().count().then(function(itemCount){
@@ -291,6 +261,10 @@ if(funcs.runTheseTests(testName)){
 						expect(itemCount).toBe(favoriteCount);
 					});
 				});
+			});
+
+			it("should filter by project", function(){
+				var startItemCount = funcs.getItemCount();
 
 				funcs.filterByItem();
 
@@ -301,7 +275,7 @@ if(funcs.runTheseTests(testName)){
 				});	
 			});
 
-			it("should update the tray when favorites are filtered", function(){
+			it("should update the selected item when favorites are filtered", function(){
 				var lastItem = funcs.getFavorites().last();
 				funcs.hasClass(lastItem, specs.favoriteClass).then(function(isFavorite){
 					if(!isFavorite){
@@ -321,44 +295,96 @@ if(funcs.runTheseTests(testName)){
 
 				});
 			});
-		});
 
-		xdescribe("Search: ", function(){
-			it("should search", function(){
-				funcs.enterSearch(specs.masterProject)
-				expect(funcs.getItems().count()).toBe(1);
+			it("should update the project count when filtering is applied", function(){
+				funcs.filterByFavorites();
+
+				funcs.getItemCount().getText().then(function(itemCount){
+					funcs.getFavorites().count().then(function(favoriteCount){
+						expect(itemCount).toBe(favoriteCount.toString());
+					});
+				});
+
+				funcs.filterByItem();
+
+				funcs.getItemCount().getText().then(function(count){
+					funcs.getItems().count().then(function(itemCount){
+						expect(count).toBe(itemCount.toString());
+					});
+				});	
 			});
 		});
 
-		xdescribe("Create project: ", function(){
+		describe("Search: ", function(){
+			it("should search for a project", function(){
+				funcs.enterSearch(specs.masterProject);
+				expect(funcs.getItems().count()).toEqual(1);
+			});
+
+			it("should update the project count", function(){
+				funcs.enterSearch(specs.masterProject);
+				funcs.getItems().count().then(function(itemCount){
+					expect(itemCount).toEqual(1);
+				});
+			});
+
+			it("should clear the search when the field is cleared", function(){
+				var startItemCount = funcs.getItemCount();
+
+				funcs.enterSearch(specs.masterProject);
+
+				funcs.getItems().count().then(function(itemCount){
+					expect(itemCount).toEqual(1);
+				});
+
+				funcs.clearSearch();
+
+				funcs.getItems().count().then(function(itemCount){
+					startItemCount.getText().then(function(text){
+						expect(itemCount).toEqual(parseInt(text,10));
+					});
+				});
+			});
+		});
+
+		describe("Create: ", function(){
 			var firstItemTitle,
 				testFileName = "My New Test Project- " + Date.now();
 
 			it("should create a project", function(){
-				specs.createButton.click();
-				browser.waitForAngular();
+				funcs.getItemCount().getText().then(function(count){
+					specs.createButton.click();
+					browser.waitForAngular();
 
-				specs.modalInputField.sendKeys(testFileName);
-				specs.modalSubmitButton.click();
-				browser.waitForAngular();
+					specs.modalInputField.sendKeys(testFileName);
+					specs.modalSubmitButton.click();
+					browser.waitForAngular();
 
-				browser.getLocationAbsUrl().then(function(url){
-					projectId = funcs.getProjectId(url);
-					expect(url).toContain(specs.dashboardRoot + projectId);
-					projectInfo = {"project": {"url": url, "uuid": projectId, "name": testFileName}};
-					funcs.saveProjectInfo(projectInfo);
-				});
+					browser.getLocationAbsUrl().then(function(url){
+						projectId = funcs.getProjectId(url);
+						expect(url).toContain(specs.dashboardRoot + projectId);
+						projectInfo = {"project": {"url": url, "uuid": projectId, "name": testFileName}};
+						funcs.saveProjectInfo(projectInfo);
+					});
 
-				browser.get(funcs.getProjectUrl());
-				browser.waitForAngular();
-				firstItemTitle = funcs.getFirstItemTitle();
-				firstItemTitle.getText(function(title){
-					expect(title).toBe(testFileName);
-					
+					browser.get(funcs.getProjectUrl());
+					browser.waitForAngular();
+					firstItemTitle = funcs.getFirstItemTitle();
+					firstItemTitle.getText(function(title){
+						expect(title).toBe(testFileName);
+					});
+
+					funcs.getItems().count().then(function(itemCount){
+						expect(itemCount).toBe(+count + 1);
+					});
 				});
 			});
 
-			it("should not allow a project to be created with no name", function(){
+			it("should update the project count", function(){
+				// checked in above test
+			});
+
+			it("should prevent a project being created with with no name", function(){
 				specs.createButton.click();
 				browser.waitForAngular();
 
@@ -373,7 +399,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		xdescribe("rename functions:", function(){
+		describe("Rename: ", function(){
 			var first,
 				newName = "My Renamed Project - " + Date.now();
 
@@ -394,7 +420,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			it("should not submit if the title has not been changed", function(){
+			it("should not submit if the name has not been mdoified", function(){
 				funcs.hoverAndClick(specs.renameButton);
 
 				expect(specs.inlineSubmitButton.getAttribute('disabled')).toBeTruthy();
@@ -402,7 +428,7 @@ if(funcs.runTheseTests(testName)){
 				expect(specs.inlineSubmitButton.getAttribute('disabled')).toBeFalsy();
 			});
 
-			it("should unhide the input field when action is clicked", function(){
+			it("should activate the name field when action is clicked", function(){
 				expect(funcs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(true);
 
 				funcs.hoverAndClick(specs.renameButton);
@@ -410,7 +436,7 @@ if(funcs.runTheseTests(testName)){
 				expect(funcs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(false);
 			});
 
-			it("should reset if the selectedItem is changed", function(){
+			it("should reset if the selected item is changed", function(){
 				funcs.hoverAndClick(specs.renameButton);
 
 				expect(funcs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(false);
@@ -427,7 +453,7 @@ if(funcs.runTheseTests(testName)){
 				expect(funcs.hasClass(specs.inputFieldHolder, "ng-hide")).toBe(true);
 			});
 
-			it("should reset the selectedItem if the rename is cancelled", function(){
+			it("should reset the selected item if the rename is cancelled", function(){
 				funcs.hoverAndClick(specs.renameButton);
 
 				var currentName = specs.inputField.getAttribute('value');
@@ -458,43 +484,43 @@ if(funcs.runTheseTests(testName)){
 			});
 		});	
 
-		xdescribe("edit description: ", function(){
+		describe("Edit: ", function(){
 			var first,
-				newxdescription = "This is my new xdescription - " + Date.now();
+				newDescription = "This is my new description - " + Date.now();
 
-			it("should edit a xdescription", function(){
-				funcs.hoverAndClick(specs.editxdescriptionButton);
+			it("should edit a description", function(){
+				funcs.hoverAndClick(specs.editDescriptionButton);
 
 				specs.textAreaField.clear();
-				specs.textAreaField.sendKeys(newxdescription);
+				specs.textAreaField.sendKeys(newDescription);
 
 				specs.inlineEditSubmitButton.click();
 				browser.waitForAngular();
 				browser.get(funcs.getProjectUrl());
 
-				specs.inlineEditField.getText().then(function(currentxdescription){
-					expect(newxdescription).toBe(currentxdescription);
+				specs.inlineEditField.getText().then(function(currentDescription){
+					expect(newDescription).toBe(currentDescription);
 				});
 			});
 
-			it("should not submit if the xdescription has not been changed", function(){
-				funcs.hoverAndClick(specs.editxdescriptionButton);
+			it("should not submit if the description has not been modified", function(){
+				funcs.hoverAndClick(specs.editDescriptionButton);
 
 				expect(specs.inlineEditSubmitButton.getAttribute('disabled')).toBeTruthy();
-				specs.textAreaField.sendKeys(newxdescription);
+				specs.textAreaField.sendKeys(newDescription);
 				expect(specs.inlineEditSubmitButton.getAttribute('disabled')).toBeFalsy();
 			});
 
-			it("should unhide the textarea when action is clicked", function(){
+			it("should activate the textarea when action is clicked", function(){
 				expect(funcs.hasClass(specs.textAreaHolder, "ng-hide")).toBe(true);
 
-				funcs.hoverAndClick(specs.editxdescriptionButton);
+				funcs.hoverAndClick(specs.editDescriptionButton);
 
 				expect(funcs.hasClass(specs.textAreaHolder, "ng-hide")).toBe(false);
 			});
 
-			it("should reset if the selectedItem is changed", function(){
-				funcs.hoverAndClick(specs.editxdescriptionButton);
+			it("should reset if the selected item is changed", function(){
+				funcs.hoverAndClick(specs.editDescriptionButton);
 
 				expect(funcs.hasClass(specs.textAreaHolder, "ng-hide")).toBe(false);
 				first = funcs.getFirstItem();
@@ -503,7 +529,14 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		xdescribe("Page actions: ", function(){
+		describe("Master Project: ", function(){
+			var masterProject = funcs.getMasterProjectItem(),
+				masterProjectFavorite = masterProject.element(by.css(specs.favoriteClassHolder));
+
+			it("should have a single master project", function(){
+				expect(funcs.getMasterProjectItem().isPresent()).toBeTruthy();
+			});
+
 			it("should prevent the master project from being edited", function(){
 				funcs.selectMasterProject();
 				expect(specs.renameButton.isPresent()).toBe(false);
@@ -518,20 +551,18 @@ if(funcs.runTheseTests(testName)){
 				expect(scenarios.count()).toBe(1);
 			});
 
-			it("should click through to the scenario edit page from the scenario listings in the tray", function(){
-				var scenario;
+			it("should favorite the master project", function(){
+				expect(funcs.hasClass(masterProjectFavorite, specs.favoriteClass)).toBeTruthy();
+			});
 
-				funcs.selectMasterProject();
-				scenario = funcs.getFirstScenario();
-
-				scenario.click();
-				browser.waitForAngular();
-
-				expect(browser.getLocationAbsUrl()).toContain(specs.scenarioRoot);
+			it("should not allow the Master project to be unfavorited", function(){
+				expect(funcs.hasClass(masterProjectFavorite, specs.favoriteClass)).toBe(true);
+				masterProjectFavorite.click();
+				expect(funcs.hasClass(masterProjectFavorite, specs.favoriteClass)).toBe(true);
 			});
 		});
 
-		xdescribe("Page attributes: ", function(){
+		describe("Page: ", function(){
 			it('should have a title', function() {
 				expect(browser.getTitle()).toEqual(specs.pageTitle);
 			});
