@@ -1,23 +1,11 @@
 Executing Project Listing functional tests: 
 	 should set up the tests
 Project Listing Page: 
-Sorter: 
-	 should have at least one project
-	 should have a single master project
-	 should have an active selection
-	 should show the number of projects
-	 should change the active selection on click
-	 should redirect to Project Dashboard when a project is clicked
-	 should have the active item in the tray
-	 should put the selected item in the tray
-Sort: 
-	 should switch between ordering by name modified last and created on
-	 should order by name
-	 should order by last modified
-	 should order by created date
-Favorites: 
-	 should favorite the master project
-	 should not allow the Master project to be unfavorited
-	 should toggle favorite
-	 should save the favorite
-	 should update the tray when favorites are filtered
+Filters: 
+	 should toggle the filter menu dropdown
+	 should filter by favorite
+	 should filter by project
+	 should update the selected item when favorites are filtered
+	 should update the project count when filtering is applied
+Create: 
+	 should create a project
