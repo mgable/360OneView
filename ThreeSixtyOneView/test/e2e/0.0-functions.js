@@ -36,6 +36,8 @@ var specs = require('./0.0-specs.js'),
 		},
 		saveInfo: function(fileName, obj){
 			var data = JSON.stringify(obj);
+			console.info("writing to " + fileName);
+			console.info(data);
 			fs.writeFileSync(fileName, data);
 		},
 		getCache: function(){

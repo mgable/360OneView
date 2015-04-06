@@ -3,13 +3,13 @@
 var specs = require('./1.0-project_listing_specs.js'),
 	funcs = require('./1.0-project_listing_functions.js'),
 	projectInfo = {},
-	testName = {title: "Project Listing", id: 1},
+	testName = {title: "Project Listing functional tests: ", id: 1},
 	projectId;
 
 if(funcs.runTheseTests(testName)){
 
 
-	describe("executing " + testName.title, function(){
+	describe("Executing " + testName.title, function(){
 		console.info("executing " + testName.title);
 		it("should set up the tests", function(){
 			console.info(testName.title + " Tests: ");
@@ -274,7 +274,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		describe("Filters: ", function(){
+		xdescribe("Filters: ", function(){
 			it ("should toggle the filter menu dropdown", function(){
 				expect(funcs.hasClass(specs.filterDropdown, 'hide')).toBe(true);
 				specs.filterByButton.click();
@@ -323,14 +323,14 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		describe("Search: ", function(){
+		xdescribe("Search: ", function(){
 			it("should search", function(){
 				funcs.enterSearch(specs.masterProject)
 				expect(funcs.getItems().count()).toBe(1);
 			});
 		});
 
-		describe("Create project: ", function(){
+		xdescribe("Create project: ", function(){
 			var firstItemTitle,
 				testFileName = "My New Test Project- " + Date.now();
 
@@ -373,7 +373,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		describe("rename functions:", function(){
+		xdescribe("rename functions:", function(){
 			var first,
 				newName = "My Renamed Project - " + Date.now();
 
@@ -458,43 +458,43 @@ if(funcs.runTheseTests(testName)){
 			});
 		});	
 
-		describe("edit description: ", function(){
+		xdescribe("edit description: ", function(){
 			var first,
-				newDescription = "This is my new description - " + Date.now();
+				newxdescription = "This is my new xdescription - " + Date.now();
 
-			it("should edit a description", function(){
-				funcs.hoverAndClick(specs.editDescriptionButton);
+			it("should edit a xdescription", function(){
+				funcs.hoverAndClick(specs.editxdescriptionButton);
 
 				specs.textAreaField.clear();
-				specs.textAreaField.sendKeys(newDescription);
+				specs.textAreaField.sendKeys(newxdescription);
 
 				specs.inlineEditSubmitButton.click();
 				browser.waitForAngular();
 				browser.get(funcs.getProjectUrl());
 
-				specs.inlineEditField.getText().then(function(currentDescription){
-					expect(newDescription).toBe(currentDescription);
+				specs.inlineEditField.getText().then(function(currentxdescription){
+					expect(newxdescription).toBe(currentxdescription);
 				});
 			});
 
-			it("should not submit if the description has not been changed", function(){
-				funcs.hoverAndClick(specs.editDescriptionButton);
+			it("should not submit if the xdescription has not been changed", function(){
+				funcs.hoverAndClick(specs.editxdescriptionButton);
 
 				expect(specs.inlineEditSubmitButton.getAttribute('disabled')).toBeTruthy();
-				specs.textAreaField.sendKeys(newDescription);
+				specs.textAreaField.sendKeys(newxdescription);
 				expect(specs.inlineEditSubmitButton.getAttribute('disabled')).toBeFalsy();
 			});
 
 			it("should unhide the textarea when action is clicked", function(){
 				expect(funcs.hasClass(specs.textAreaHolder, "ng-hide")).toBe(true);
 
-				funcs.hoverAndClick(specs.editDescriptionButton);
+				funcs.hoverAndClick(specs.editxdescriptionButton);
 
 				expect(funcs.hasClass(specs.textAreaHolder, "ng-hide")).toBe(false);
 			});
 
 			it("should reset if the selectedItem is changed", function(){
-				funcs.hoverAndClick(specs.editDescriptionButton);
+				funcs.hoverAndClick(specs.editxdescriptionButton);
 
 				expect(funcs.hasClass(specs.textAreaHolder, "ng-hide")).toBe(false);
 				first = funcs.getFirstItem();
@@ -503,7 +503,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		describe("Page actions: ", function(){
+		xdescribe("Page actions: ", function(){
 			it("should prevent the master project from being edited", function(){
 				funcs.selectMasterProject();
 				expect(specs.renameButton.isPresent()).toBe(false);
@@ -531,7 +531,7 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		describe("Page attributes: ", function(){
+		xdescribe("Page attributes: ", function(){
 			it('should have a title', function() {
 				expect(browser.getTitle()).toEqual(specs.pageTitle);
 			});

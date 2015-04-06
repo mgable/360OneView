@@ -37,7 +37,11 @@ angular.module('ThreeSixtyOneView.directives')
 
                     // Loop through the children
                     angular.forEach(newValue, function(child) {
-                        child[property] ? hasChecked = true : hasUnchecked = true;
+                        if (child[property]) {
+                            hasChecked = true;
+                        } else {
+                            hasUnchecked = true;
+                        }
                     });
 
                     // Determine which state to put the checkbox in

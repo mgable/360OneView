@@ -1,0 +1,270 @@
+[4mRunning "newer:jshint" (newer) task[24m
+
+[4mRunning "newer:jshint:all" (newer) task[24m
+
+[4mRunning "jshint:all" (jshint) task[24m
+
+✔ No problems
+
+
+[4mRunning "newer-postrun:jshint:all:1:/Users/jjohnson/code/ms360uiux/ThreeSixtyOneView/node_modules/grunt-newer/.cache" (newer-postrun) task[24m
+
+[4mRunning "newer:jshint:test" (newer) task[24m
+
+[4mRunning "jshint:test" (jshint) task[24m
+
+test/spec/controllers/listing_view.js
+  line 13   col 259  Missing semicolon.
+  line 196  col 15   Missing semicolon.
+  line 327  col 80   Missing semicolon.
+  line 68   col 23   'getAPI' is not defined.
+  line 164  col 23   'getAPI' is not defined.
+  line 279  col 23   'getAPI' is not defined.
+
+test/spec/controllers/main.js
+  line 31   col 23   'getAPI' is not defined.
+
+test/spec/controllers/modals.js
+  line 5    col 73   'projectSpy' is defined but never used.
+  line 5    col 79   'data' is defined but never used.
+  line 5    col 86   'event' is defined but never used.
+  line 1    col 17   'xit' is defined but never used.
+
+test/spec/directives/breadcrumb.js
+  line 9    col 56   'state' is defined but never used.
+  line 9    col 94   'GotoService' is defined but never used.
+  line 1    col 17   'xit' is defined but never used.
+
+test/spec/directives/display_actions.js
+  line 5    col 1    'xdescribe' is not defined.
+
+test/spec/directives/flipbook.js
+  line 15   col 3    'xit' is not defined.
+
+test/spec/directives/focus.js
+  line 13   col 29   'customMatchers' is not defined.
+
+test/spec/directives/inline_edit.js
+  line 17   col 19   Trailing whitespace.
+
+test/spec/directives/member.js
+  line 3    col 1    'xdescribe' is not defined.
+
+test/spec/directives/sortable_columns.js
+  line 19   col 30   Trailing whitespace.
+
+test/spec/directives/validator.js
+  line 17   col 16   '_' is not defined.
+  line 11   col 9    'ctrl' is defined but never used.
+  line 1    col 28   'xit' is defined but never used.
+  line 1    col 28   'xdescribe' is defined but never used.
+
+test/spec/models/export_resource_service.js
+  line 13   col 53   'elementId' is not defined.
+  line 16   col 41   'views' is not defined.
+  line 16   col 47   'views' is not defined.
+  line 36   col 45   'elementId' is not defined.
+  line 36   col 56   'views' is not defined.
+  line 36   col 62   'views' is not defined.
+  line 43   col 43   'elementId' is not defined.
+  line 50   col 44   'elementId' is not defined.
+
+test/spec/models/favorites_model.js
+  line 37   col 5    'xit' is not defined.
+
+test/spec/models/import_resource_service.js
+  line 13   col 53   'elementId' is not defined.
+  line 35   col 42   'elementId' is not defined.
+  line 42   col 43   'elementId' is not defined.
+
+test/spec/models/manage_analysis_views_service.js
+  line 53   col 97   Missing semicolon.
+  line 13   col 76   'cubeId' is not defined.
+  line 15   col 32   'views' is not defined.
+  line 15   col 38   'views' is not defined.
+  line 18   col 117  'views' is not defined.
+  line 19   col 71   'viewId' is not defined.
+  line 19   col 88   'views' is not defined.
+  line 19   col 94   'views' is not defined.
+  line 20   col 130  'viewId' is not defined.
+  line 20   col 146  'views' is not defined.
+  line 20   col 152  'views' is not defined.
+  line 21   col 127  'views' is not defined.
+  line 21   col 133  'views' is not defined.
+  line 22   col 131  'viewId' is not defined.
+  line 22   col 156  'views' is not defined.
+  line 22   col 162  'views' is not defined.
+  line 23   col 71   'viewId' is not defined.
+  line 23   col 97   'views' is not defined.
+  line 23   col 103  'views' is not defined.
+  line 46   col 53   'cubeId' is not defined.
+  line 47   col 42   'views' is not defined.
+  line 51   col 9    'xit' is not defined.
+  line 52   col 48   'viewId' is not defined.
+  line 52   col 56   'cubeId' is not defined.
+  line 53   col 42   '_' is not defined.
+  line 53   col 49   'views' is not defined.
+  line 53   col 91   'viewId' is not defined.
+  line 57   col 9    'xit' is not defined.
+  line 58   col 67   'viewId' is not defined.
+  line 59   col 57   'viewId' is not defined.
+  line 59   col 65   'cubeId' is not defined.
+  line 60   col 42   'views' is not defined.
+  line 60   col 48   'views' is not defined.
+  line 65   col 40   'views' is not defined.
+  line 65   col 46   'views' is not defined.
+  line 67   col 60   'cubeId' is not defined.
+  line 68   col 42   'views' is not defined.
+  line 68   col 48   'views' is not defined.
+  line 74   col 40   'views' is not defined.
+  line 74   col 46   'views' is not defined.
+  line 76   col 60   'cubeId' is not defined.
+  line 76   col 68   'viewId' is not defined.
+  line 77   col 42   'views' is not defined.
+  line 77   col 48   'views' is not defined.
+
+test/spec/models/manage_scenarios_service.js
+  line 13   col 64   'scenarioId' is not defined.
+  line 16   col 79   'scenarioElements' is not defined.
+  line 17   col 87   'cubeName' is not defined.
+  line 17   col 123  'scenarioElement' is not defined.
+  line 18   col 61   'cubeId' is not defined.
+  line 18   col 99   'scenarioElement' is not defined.
+  line 19   col 61   'cubeId' is not defined.
+  line 19   col 96   'scenarioElement' is not defined.
+  line 19   col 125  'scenarioElement' is not defined.
+  line 20   col 62   'cubeId' is not defined.
+  line 20   col 106  'scenarioElement' is not defined.
+  line 21   col 20   'scenarioElementModified' is not defined.
+  line 21   col 63   'scenarioElementModified' is not defined.
+  line 21   col 109  'scenarioElementModified' is not defined.
+  line 44   col 40   'scenarioId' is not defined.
+  line 45   col 42   'scenarioElements' is not defined.
+  line 50   col 72   'scenarioId' is not defined.
+  line 50   col 84   'cubeId' is not defined.
+  line 51   col 42   'scenarioElement' is not defined.
+  line 56   col 65   'scenarioId' is not defined.
+  line 56   col 77   'cubeName' is not defined.
+  line 57   col 42   'scenarioElement' is not defined.
+  line 62   col 66   'scenarioId' is not defined.
+  line 62   col 78   'cubeId' is not defined.
+  line 62   col 86   'scenarioElement' is not defined.
+  line 63   col 42   'scenarioElement' is not defined.
+  line 68   col 73   'scenarioId' is not defined.
+  line 68   col 85   'cubeId' is not defined.
+  line 68   col 93   'scenarioElement' is not defined.
+  line 68   col 120  'scenarioElementModified' is not defined.
+  line 68   col 163  'scenarioElementModified' is not defined.
+  line 69   col 42   'scenarioElementModified' is not defined.
+
+test/spec/models/meta_data_model.js
+  line 20   col 79   'cubeMeta' is not defined.
+
+test/spec/models/meta_data_service.js
+  line 25   col 19   Missing semicolon.
+  line 13   col 50   'cubeId' is not defined.
+  line 16   col 60   'cubeMeta' is not defined.
+  line 17   col 59   'dimensionId' is not defined.
+  line 17   col 89   'hierarchyId' is not defined.
+  line 17   col 115  'levelId' is not defined.
+  line 17   col 159  'levelMembers' is not defined.
+  line 18   col 83   'cubeScenarioElements' is not defined.
+  line 19   col 107  'cubeType' is not defined.
+  line 19   col 136  'cubesList' is not defined.
+  line 20   col 9    '_' is not defined.
+  line 20   col 27   'cubeMeta' is not defined.
+  line 21   col 13   '_' is not defined.
+  line 22   col 17   '_' is not defined.
+  line 24   col 45   'allLevelMembers' is not defined.
+  line 50   col 37   'cubeId' is not defined.
+  line 51   col 85   'cubeMeta' is not defined.
+  line 56   col 45   'cubeId' is not defined.
+  line 56   col 53   'dimensionId' is not defined.
+  line 56   col 66   'hierarchyId' is not defined.
+  line 56   col 79   'levelId' is not defined.
+  line 57   col 42   'levelMembers' is not defined.
+  line 62   col 49   'cubeId' is not defined.
+  line 63   col 53   'dimensionTree' is not defined.
+  line 68   col 53   'cubeId' is not defined.
+  line 69   col 53   'cubeScenarioElements' is not defined.
+  line 74   col 38   'cubeType' is not defined.
+  line 75   col 53   'cubesList' is not defined.
+
+test/spec/models/pivot_model.js
+  line 20   col 76   'pivotSlice' is not defined.
+  line 22   col 56   'pivotSliceTransformed' is not defined.
+
+test/spec/models/pivot_service.js
+  line 13   col 51   'elementId' is not defined.
+  line 13   col 81   'viewId' is not defined.
+  line 16   col 58   'pivotSlice' is not defined.
+  line 17   col 67   'cellValue' is not defined.
+  line 17   col 98   'cellValue' is not defined.
+  line 41   col 35   'elementId' is not defined.
+  line 41   col 46   'viewId' is not defined.
+  line 42   col 53   'pivotSliceTransformed' is not defined.
+  line 47   col 37   'elementId' is not defined.
+  line 47   col 48   'viewId' is not defined.
+  line 47   col 67   'cellValue' is not defined.
+  line 48   col 53   'cellValue' is not defined.
+
+test/spec/models/projects_service.js
+  line 1    col 17   'xit' is defined but never used.
+
+test/spec/scenario.shared.objects.js
+  line 3    col 15   'scenarioId' is defined but never used.
+  line 4    col 11   'cubeId' is defined but never used.
+  line 5    col 13   'cubeName' is defined but never used.
+  line 6    col 13   'cubeType' is defined but never used.
+  line 7    col 14   'elementId' is defined but never used.
+  line 8    col 16   'dimensionId' is defined but never used.
+  line 9    col 16   'hierarchyId' is defined but never used.
+  line 10   col 12   'levelId' is defined but never used.
+  line 11   col 11   'viewId' is defined but never used.
+  line 12   col 10   'views' is defined but never used.
+  line 26   col 20   'scenarioElement' is defined but never used.
+  line 44   col 28   'scenarioElementModified' is defined but never used.
+  line 62   col 21   'scenarioElements' is defined but never used.
+  line 190  col 13   'cubeMeta' is defined but never used.
+  line 191  col 17   'levelMembers' is defined but never used.
+  line 230  col 25   'cubeScenarioElements' is defined but never used.
+  line 231  col 15   'pivotSlice' is defined but never used.
+  line 232  col 26   'pivotSliceTransformed' is defined but never used.
+  line 233  col 14   'cellValue' is defined but never used.
+  line 234  col 14   'cubesList' is defined but never used.
+  line 235  col 18   'dimensionTree' is defined but never used.
+  line 236  col 20   'allLevelMembers' is defined but never used.
+
+test/spec/services/model.js
+  line 15   col 17   A constructor name should start with an uppercase letter.
+  line 10   col 44   'resource' is defined but never used.
+  line 1    col 28   'xit' is defined but never used.
+  line 1    col 28   'xdescribe' is defined but never used.
+
+test/spec/services/resource.js
+  line 60   col 16   'url' is defined but never used.
+
+test/spec/unit.test.specs.js
+  line 32   col 22   Unnecessary semicolon.
+  line 5    col 9    '_' is not defined.
+  line 5    col 16   '_' is not defined.
+  line 6    col 18   '_' is not defined.
+  line 19   col 50   '_' is not defined.
+  line 3    col 12   'getAPI' is defined but never used.
+  line 16   col 62   'customEquilityTesters' is defined but never used.
+  line 16   col 39   'util' is defined but never used.
+  line 38   col 59   'customEquilityTesters' is defined but never used.
+  line 38   col 36   'util' is defined but never used.
+  line 40   col 52   'expected' is defined but never used.
+
+✖ 194 problems
+
+[33mWarning: Task "jshint:test" failed. Use --force to continue.[39m
+
+[31mAborted due to warnings.[39m
+
+
+Execution Time (2015-04-03 21:28:27 UTC)
+jshint:all   837ms  ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 54%
+jshint:test  689ms  ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 44%
+Total 1.6s
