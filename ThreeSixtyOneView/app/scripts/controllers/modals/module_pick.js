@@ -9,10 +9,15 @@ angular.module('ThreeSixtyOneView')
 
 		var init = function() {
 			$scope.modules = data.modules;
+			$scope.selectedModule = false;
 		};
 
 		$scope.select = function(module) {
 			$scope.selectedModule = module;
+		};
+
+		$scope.isModuleSelected = function() {
+			return !!$scope.selectedModule;
 		};
 
 		$scope.submit = function() {
