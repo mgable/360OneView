@@ -12,6 +12,7 @@ describe('Service: ManageTemplatesService', function () {
 		backend = $httpBackend;
 
 		backend.when('GET', manageTemplatesUrl.replace(/\/:templateId/,'')).respond(JSON.parse(scenarioTemplates));
+		backend.when('GET', manageTemplatesUrl.replace(/\/:templateId/,'') + '?type=' + templateType).respond(JSON.parse(scenarioTemplates));
 		backend.when('GET', manageTemplatesUrl.replace(/:templateId/, templateId)).respond(JSON.parse(scenarioTemplates)[0]);
 	}));
 
@@ -35,6 +36,12 @@ describe('Service: ManageTemplatesService', function () {
 
 		it('get list of all scenario templates', function() {
 			ManageTemplatesService.getAll().then(function(response) {
+				expect(response).toEqual(JSON.parse(scenarioTemplates));
+			});
+		});
+
+		it('get list of all scenario templates with a specific type', function() {
+			ManageTemplatesService.getAll(templateType).then(function(response) {
 				expect(response).toEqual(JSON.parse(scenarioTemplates));
 			});
 		});

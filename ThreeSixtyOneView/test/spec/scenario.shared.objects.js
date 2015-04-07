@@ -1,6 +1,7 @@
 "use strict";
 
 var templateId = 1,
+	templateType = 'Strategy',
 	scenarioId = 10,
 	cubeId = 3,
 	cubeName = 'CMP Intent',
