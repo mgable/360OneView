@@ -412,7 +412,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<div class=\"col-md-9 right-column\">\r" +
     "\n" +
-    "\t\t<div class=\"content-container\" ng-style=\"{height: getHeight()}\" ng-transclude></div>\r" +
+    "\t\t<div class=\"content-container\" ng-transclude></div>\r" +
     "\n" +
     "\t\t<div class=\"button-container\">\r" +
     "\n" +
