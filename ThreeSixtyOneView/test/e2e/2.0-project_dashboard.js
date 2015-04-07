@@ -7,11 +7,11 @@ var specs = require('./1.0-project_listing_specs.js'),
 	dashboardUrl,
 	projectId,
 	hasScenarios,
-	testName = {title: "Project Dashboard", id: 2};
+	testName = {title: "Project Dashboard functional tests", id: 2};
 
 if(funcs.runTheseTests(testName)){
 
-	describe("executing " + testName.title, function(){
+	describe("Executing " + testName.title, function(){
 		console.info("executing " + testName.title);
 		it("should set up the tests", function(){
 			console.info(testName.title + " Tests: ");
@@ -21,24 +21,23 @@ if(funcs.runTheseTests(testName)){
 			hasScenarios = !!projectInfo.scenario;
 			console.info(dashboardUrl);
 		});
+	});
 
-	})
-
-	describe('Project Dashboard', function() {
+	describe('Project Dashboard: ', function() {
 		beforeEach(
 			function(){
 				browser.driver.manage().window().setSize(1280, 1024);
 			}
 		);
 
-		describe("Scenario List", function(){
+		describe("Scenario Listing: ", function(){
+			beforeEach(
+				function(){
+					browser.get(dashboardUrl);
+				}
+			);
 
-			beforeEach(function(){
-				browser.get(dashboardUrl);
-			});
-
-
-			describe("Inital state", function(){
+			describe("Inital state: ", function(){
 				it("should have no scenarios at time of creation", function(){
 					if(! hasScenarios){
 						var items = funcs.getItems(),
@@ -52,23 +51,17 @@ if(funcs.runTheseTests(testName)){
 					}
 				});
 
-				it("should not enabled the rename, copy or edit buttons", function(){
+				it("should not enabled the rename, create, copy or edit buttons", function(){
 					if(! hasScenarios){
 						expect(specs.trayCopyButton.isPresent()).toBeFalsy();
 						expect(specs.renameButton.isPresent()).toBeFalsy();
 						expect(specs.editDescriptionButton.isPresent()).toBeFalsy();
+						expect(specs.createButton.getAttribute("disabled")).toBeFalsy();
 					} else {
 						console.error("The projects has scenarios. \"should not enabled the rename, copy or edit buttons\" test skipped");
 					}
 				});
-
-				it("should enable the create button", function(){
-					if(! hasScenarios){
-						expect(specs.createButton.getAttribute("disabled")).toBeFalsy();
-					} else {
-						console.error("The projects has scenarios. \"should enable the create button\" test skipped");
-					}
-				});
+				;
 			
 				it("should display the create scenario alert", function(){
 					if(! hasScenarios){
@@ -77,10 +70,9 @@ if(funcs.runTheseTests(testName)){
 						console.error("The projects has scenarios. \"should display the create scenario alert\" test skipped");
 					}
 				});
-				
 			});
 
-			describe("Create functions: ", function(){
+			describe("Create: ", function(){
 				it("should not allow a new scenario to be created without a name", function(){
 					specs.createButton.click();
 					browser.waitForAngular();
@@ -110,7 +102,6 @@ if(funcs.runTheseTests(testName)){
 				});
 
 				it("should not allow the base reference scenario to be edited", function(){
-
 					specs.createButton.click();
 					browser.waitForAngular();
 
@@ -132,15 +123,14 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-
 				it("should open the create new scenario dialog", function(){
 					specs.createButton.click();
 					browser.waitForAngular();
 					expect(specs.scenarioCreateModal.isPresent()).toBe(true);
-				})
+				});
 
 				// scenario needs to exist for this to work
-				it("should open the create new scenario dialog box and create a new scenario", function(){
+				it("should create a new scenario", function(){
 					specs.createButton.click();
 					browser.waitForAngular();
 					expect(specs.scenarioCreateModal.isPresent()).toBe(true);
@@ -179,7 +169,16 @@ if(funcs.runTheseTests(testName)){
 					specs.inputName.sendKeys(specs.testScenarionNameFirst);
 					expect(specs.submitButton.isEnabled()).toBe(false);
 				});
+			});
 
+			describe("Search: ", function(){
+				it("should search scenarios", function(){
+					funcs.enterSearch(specs.testScenarionNameFirst);
+					expect(funcs.getItems().count()).toBe(1);
+				});
+			});
+
+			describe("Copy: ", function(){
 				it("should copy a scenario", function(){
 					var scenarioTitle = funcs.getFirstItemTitle(),
 						scenario = funcs.getFirstItem(),
@@ -213,18 +212,6 @@ if(funcs.runTheseTests(testName)){
 					});
 				});
 
-				it("should search scenarios", function(){
-					funcs.enterSearch(specs.testScenarionNameFirst);
-					expect(funcs.getItems().count()).toBe(1);
-				});
-
-				it("should have an active selection", function(){
-					var first = funcs.getFirstItem();
-					expect(funcs.hasClass(first, specs.activeSelectionClass)).toEqual(true);
-				});
-			});
-
-			describe("Copy Scenario Functions", function(){
 				it("should not allow the copy to have no name", function(){
 					specs.trayCopyButton.click()
 					specs.modalInputField.clear();
@@ -244,11 +231,9 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			describe("Filter functions: ", function(){
+			describe("Filter: ", function(){
 
 				it("should filter by favorite", function(){
-					var startItemCount = funcs.getItemCount();
-
 					funcs.filterByFavorites();
 
 					funcs.getItems().count().then(function(itemCount){
@@ -256,7 +241,12 @@ if(funcs.runTheseTests(testName)){
 							expect(itemCount).toBe(favoriteCount);
 						});
 					});
+				});
 
+				it("should filter by item", function(){
+					var startItemCount = funcs.getItemCount();
+
+					funcs.filterByFavorites();
 					funcs.filterByItem();
 
 					startItemCount.getText().then(function(count){
@@ -267,7 +257,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			describe("Edit functions: ", function(){
+			describe("Edit: ", function(){
 				var first,
 					newName = "My Renamed Scenario - " + Date.now(),
 					newDescription = "My new Description - " + Date.now();
@@ -285,6 +275,16 @@ if(funcs.runTheseTests(testName)){
 					first.getText().then(function(name){
 						expect(name).toEqual(newName);
 					});
+				});
+
+				it("should respect input restrictions", function(){
+					funcs.hoverAndClick(specs.renameButton);
+					funcs.testInputRestrictions(specs.inputField, specs.inlineSubmitButton);
+				});
+
+				it("should not allow names less than two characters or more than 256 characters", function(){
+					funcs.hoverAndClick(specs.renameButton);
+					funcs.testMinAndMaxNameLength(specs.inputField, specs.inlineSubmitButton);
 				});
 
 				it("should only allow unique names", function(){
@@ -315,15 +315,17 @@ if(funcs.runTheseTests(testName)){
 						expect(newDescription).toEqual(description);
 					});
 				});
-			})
-
-			describe("Breadcrumbs: ", function(){
-				it("should have the correct label", function(){
-					expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + projectInfo.project.name.toUpperCase());
-				});
 			});
 
-			describe("Change base scenario: ", function(){
+			describe("Page: ", function(){
+				it("should have an active selection", function(){
+					var first = funcs.getFirstItem();
+					expect(funcs.hasClass(first, specs.activeSelectionClass)).toEqual(true);
+				});
+				
+				it("should have the correct breadcrumb label", function(){
+					expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + projectInfo.project.name.toUpperCase());
+				});
 
 				it("should change the base scenario", function(){
 					var scenarios, scenario;
@@ -352,9 +354,6 @@ if(funcs.runTheseTests(testName)){
 						});
 					});
 				});
-			});
-
-			describe("Scenario Elements: ", function(){
 
 				it("should click through to scenario edit with the correct scenario element selected", function(){
 					specs.firstScenarioElementTitle.getText().then(function(titleInTray){
@@ -380,15 +379,14 @@ if(funcs.runTheseTests(testName)){
 			});
 		});
 
-		describe("Edit controls on master project's master scenario", function(){
+		describe("Plan of Record: ", function(){
 			beforeEach(
 				function(){
-					browser.driver.manage().window().setSize(1280, 1024);
 					browser.get(funcs.getProjectUrl());
 				}
 			);
 
-			it('should not allow the scenario to be edited', function(){
+			it('should not be editable', function(){
 				var masterProject;
 				funcs.selectMasterProject();
 				masterProject = funcs.getFirstItemTitle();

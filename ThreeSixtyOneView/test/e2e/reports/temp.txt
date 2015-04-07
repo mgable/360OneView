@@ -1,11 +1,12 @@
-Executing Project Listing functional tests: 
+executing Scenario
 	 should set up the tests
-Project Listing Page: 
-Filters: 
-	 should toggle the filter menu dropdown
-	 should filter by favorite
-	 should filter by project
-	 should update the selected item when favorites are filtered
-	 should update the project count when filtering is applied
-Create: 
-	 should create a project
+Scenario Page: 
+current working scenario
+	 should read the correct scenario from the file system
+initial state of navigation buttons
+	 should have the edit button enabled
+	 should have the results button disabled
+	 should have the simulate button enabled
+analysis element toolbar
+	 should have analysis elements
+	 should have marketing plan selected
