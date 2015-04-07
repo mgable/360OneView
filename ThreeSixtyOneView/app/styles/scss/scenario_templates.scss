@@ -95,7 +95,7 @@
         .content-container {
             overflow-y: auto;
             overflow-x: hidden;
-            height: calc(100% - 60px);
+            @include vendor(height, calc(100% - 60px));
             .scenarioTemplates { margin-top: 0; }
             .header {
                 font-size: 38px;

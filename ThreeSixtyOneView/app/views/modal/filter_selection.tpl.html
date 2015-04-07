@@ -59,7 +59,7 @@
 						({{filterCount.selected}}/{{filterCount.total}})
 					</div>
 				</div>
-				<div class="list-box" ng-style="{height: getListHeight()}">
+				<div class="list-box">
 					<div class="list" ng-if="searchResults.members">
 						<member ng-repeat="member in searchResults.members | orderBy:'label'" member="member" filters="addedFilter" category="{label: selectedFilter.dimension.label}"  expanded="expanded" expandall="filterSearch" updater="categorizeValuesCount(index, addedFilters)" dimensionindex="selectedDimensionIndex"></member>
 					</div>

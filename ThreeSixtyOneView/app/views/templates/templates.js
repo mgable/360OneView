@@ -599,7 +599,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t\t<div class=\"list-box\" ng-style=\"{height: getListHeight()}\">\r" +
+    "\t\t\t\t<div class=\"list-box\">\r" +
     "\n" +
     "\t\t\t\t\t<div class=\"list\" ng-if=\"searchResults.members\">\r" +
     "\n" +
