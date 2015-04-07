@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-.controller('ScenarioTemplatesCreateCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "data", 'ManageTemplatesService',
-function($scope, $controller, $modalInstance, CONFIG, data, ManageTemplatesService) {
+.controller('ScenarioTemplatesCreateCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "data", 'ManageTemplatesService', 'DimensionService',
+function($scope, $controller, $modalInstance, CONFIG, data, ManageTemplatesService, DimensionService) {
 	angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $controller: $controller, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
 	var init = function() {
@@ -25,6 +25,8 @@ function($scope, $controller, $modalInstance, CONFIG, data, ManageTemplatesServi
 		};
 
 		$scope.timeGranularity = '';
+		$scope.spendDimensionsLabels = '';
+		$scope.kpiDimensionsLabels = '';
 
 		$scope.performancePeriod = {
 			from: null,
@@ -46,6 +48,10 @@ function($scope, $controller, $modalInstance, CONFIG, data, ManageTemplatesServi
 		$scope.performancePeriod.from = fromDate;
 		$scope.performancePeriod.to = toDate;
 	};
+
+	$scope.setDimensionLabels = function(dimension, type) {
+		$scope[type+'DimensionsLabels'] = DimensionService.generateDimensionsLabels(dimension);
+	}
 
 	$scope.cancel = function() {
 		$modalInstance.dismiss();

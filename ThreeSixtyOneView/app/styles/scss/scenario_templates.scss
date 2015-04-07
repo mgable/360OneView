@@ -159,7 +159,12 @@
                 font-size: 16px;
                 margin: 25px 0 0 0;
             }
-            .review-field { font-size: 20px; }
+            .review-field {
+                font-size: 20px;
+                .ng-binding {
+                    text-transform: lowercase;
+                }
+            }
             .row {
                 .col-md-1 {
                     width: 20px;

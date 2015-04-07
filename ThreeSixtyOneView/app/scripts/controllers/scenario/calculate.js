@@ -18,8 +18,6 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
 
         // init function
         init = function() {
-            stepLength = Status.runningStates.length;
-            stepValue = 100 / stepLength;
             $scope.progressValue = 0;
             $scope.step = 0;
             $scope.errorMessage = "";
@@ -36,6 +34,10 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         },
         // initiate the model
         getCalcStatesData = function(response) {
+            if (_.isUndefined(stepLength)) {
+                stepLength = response.runningStates.length;
+                stepValue = 100 / stepLength;
+            }
             runningStates = response.runningStates;
             currentState = ScenarioStatesService.getScenarioState(response.currentState);
             var setState;

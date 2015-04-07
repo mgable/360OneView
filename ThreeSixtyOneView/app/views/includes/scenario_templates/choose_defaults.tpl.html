@@ -31,14 +31,14 @@
 		</div>
 	</div>
 
-	<div class="prompt">
+	<div class="prompt" ng-if="currentType.label !== 'Strategy'">
 		What historical period would you like to use measure marketing performance?
 		<div class="confirmation">
 			You will be able to change this when doing scenario planning.
 		</div>
 	</div>
 
-	<div class="row">
+	<div class="row" ng-if="currentType.label !== 'Strategy'">
 		<div class="col-md-3">
 			<div>From</div>
 			<span class="date-picker clickable" datepicker-popup="{{dateFormat}}" ng-model="fromDate" ng-click="isFromDateOpen = !isFromDateOpen" is-open="isFromDateOpen" max-date="toDate" show-button-bar="false" datepicker-options datepicker-mode='month'>{{fromDate | date:'yyyy-MM-dd Week (ww)'}}</span>
@@ -50,10 +50,6 @@
 			<div>To</div>
 			<span class="date-picker clickable" datepicker-popup="{{dateFormat}}" ng-model="toDate" ng-click="isToDateOpen = !isToDateOpen" is-open="isToDateOpen" min-date="fromDate" show-button-bar="false" datepicker-options>{{toDate | date:'yyyy-MM-dd Week (ww)'}}</span>
 		</div>
-	</div>
-
-	<div class="graph">
-		{{graph}}
 	</div>
 
 <div>

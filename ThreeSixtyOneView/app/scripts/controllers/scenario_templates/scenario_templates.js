@@ -37,7 +37,7 @@ angular.module('ThreeSixtyOneView')
 			});
 		};
 
-		
+
 
 		init();
 	}]);
