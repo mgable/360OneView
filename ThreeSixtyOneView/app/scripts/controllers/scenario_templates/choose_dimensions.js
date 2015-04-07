@@ -30,7 +30,6 @@ angular.module('ThreeSixtyOneView')
                     .then(function(dimension) {
                         $scope.timeDimension = _.find(dimension, function(v) { return v.type === 'TimeDimension' });
                         $scope.times = _.pluck($scope.timeDimension.members, 'label');
-                        $scope.selectedTime = $scope.times[0];
 
                         dimension = _.reject(dimension, function(v) { return v.label === 'TIME' });
                         $scope[cubeType+'Dimensions'] = dimension;

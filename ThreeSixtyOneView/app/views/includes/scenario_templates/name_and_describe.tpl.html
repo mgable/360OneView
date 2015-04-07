@@ -3,12 +3,16 @@
 		Now let's create your {{currentType.label}} scenario template
 	</div>
 	<div class="prompt">
-		<span>What's the template name?</span>
-		<input type="text" name="templateName" ng-model="template.name" required placeholder="Enter scenario template name">
-		<span>Do you want to add a description?</span>
-		<input type="text" name="templateDescription" ng-model="template.description" required placeholder="Enter scenario template description">
+		<div>
+			<span>What's the template name?</span>
+			<input type="text" name="templateName" ng-model="template.name" required placeholder="Enter scenario template name">
+		</div>
+		<div class="reveal animated fadeIn" ng-show="template.name">
+			<span>Do you want to add a description?</span>
+			<input type="text" name="templateDescription" ng-model="template.description" required placeholder="Enter scenario template description">
+		</div>
 	</div>
-	<div class="confirmation">
+	<div class="confirmation reveal animated fadeIn" ng-show="template.name && template.description">
 		Thanks for all that info.
 	</div>
 <div>

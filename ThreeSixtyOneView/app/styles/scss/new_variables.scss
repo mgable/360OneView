@@ -43,10 +43,43 @@ $body_font_size: 14px;
 }
 
 // Mixins
+@mixin reveal-animation() {
+	&.animated { 
+		-webkit-animation-duration: 0.5s; 
+		animation-duration: 0.5s; 
+		-webkit-animation-fill-mode: both; 
+		animation-fill-mode: both; 
+	} 
+
+	&.delay {
+		-webkit-animation-delay: 0.3s;
+    	animation-delay: 0.3s;
+	}
+
+	&.delay-long {
+		-webkit-animation-delay: 0.8s;
+    	animation-delay: 0.8s;
+	}
+
+	@-webkit-keyframes fadeIn { 
+		0% {opacity: 0;}
+		100% {opacity: 1;} 
+	} 
+	@keyframes fadeIn { 
+		0% {opacity: 0;}
+		100% {opacity: 1;} 
+	} 
+	&.fadeIn { 
+		-webkit-animation-name: fadeIn; 
+		animation-name: fadeIn; 
+	}
+}
+
 @mixin product-btn($btn-type, $color, $logo-image) {
 	input[type="radio"] {
 		display: none;
 		&:checked + label {
+			@include reveal-animation();
 		    color: $ms-pureWhite;
 		    background-image: url(../images/ms-logo-01.png);
 		    background-color: $color;
@@ -54,26 +87,6 @@ $body_font_size: 14px;
 		    border-bottom-color: $color;
 		    border-left-color: $color;
 		    outline: none;
-
-		    &.animated { 
-				-webkit-animation-duration: 0.5s; 
-				animation-duration: 0.5s; 
-				-webkit-animation-fill-mode: both; 
-				animation-fill-mode: both; 
-			} 
-
-			@-webkit-keyframes fadeIn { 
-				0% {opacity: 0;}
-				100% {opacity: 1;} 
-			} 
-			@keyframes fadeIn { 
-				0% {opacity: 0;}
-				100% {opacity: 1;} 
-			} 
-			&.fadeIn { 
-				-webkit-animation-name: fadeIn; 
-				animation-name: fadeIn; 
-			}
 		}
 	}
 	label {
