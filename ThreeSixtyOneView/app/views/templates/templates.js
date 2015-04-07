@@ -331,11 +331,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "    <div class=\"dimensionFilter\" ng-if=\"dimensionData.isSelected\">\r" +
     "\n" +
-    "        <span title=\"{{getDimensionCardLabel(dimensionData)}}\" ng-class=\"{selected: getDimensionCardLabel(dimensionData).length}\">\r" +
+    "        <span title=\"{{getDimensionCardLabel(dimensionData)}}\" ng-class=\"{selected: getDimensionCardLabel(dimensionData).length}\" ng-click=\"filtersModal(dimensionData)\">\r" +
     "\n" +
     "            <icon type=\"filter\"></icon>\r" +
     "\n" +
-    "            <a ng-click=\"filtersModal(dimensionData)\">{{getDimensionCardLabel(dimensionData)}}</a>\r" +
+    "            <span>{{getDimensionCardLabel(dimensionData)}}</span>\r" +
     "\n" +
     "        </span>\r" +
     "\n" +
@@ -376,7 +376,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t<li ng-repeat=\"view in views\">\r" +
     "\n" +
-    "\t\t\t\t\t<span class=\"currentView\" ng-if=\"isCurrentView($index)\"> \r" +
+    "\t\t\t\t\t<span class=\"currentView\" ng-if=\"isCurrentView($index)\">\r" +
     "\n" +
     "\t\t\t\t\t\t<span class=\"icon-stack\">\r" +
     "\n" +
@@ -390,7 +390,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t</span>\r" +
     "\n" +
-    "\t\t\t\t\t<span ng-if=\"!isCurrentView($index)\"> \r" +
+    "\t\t\t\t\t<span ng-if=\"!isCurrentView($index)\">\r" +
     "\n" +
     "\t\t\t\t\t\t<icon ng-if=\"$index > currentViewIndex\" type=\"circle-o\"></icon>\r" +
     "\n" +
@@ -412,7 +412,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<div class=\"col-md-9 right-column\">\r" +
     "\n" +
-    "\t\t<div ng-style=\"{height: getHeight()}\" style=\"overflow: auto;\" ng-transclude></div>\r" +
+    "\t\t<div class=\"content-container\" ng-style=\"{height: getHeight()}\" ng-transclude></div>\r" +
     "\n" +
     "\t\t<div class=\"button-container\">\r" +
     "\n" +
