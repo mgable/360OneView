@@ -79,7 +79,7 @@ angular.module('ThreeSixtyOneView.directives')
 			};
 
 			scope.getHeight = function() {
-				return (scope.windowHeight - 150) + 'px';
+				return (scope.windowHeight - 100) + 'px';
 			};
 
 			scope.isDisabled = function(direction) {

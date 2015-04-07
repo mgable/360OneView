@@ -12,8 +12,8 @@ angular.module('ThreeSixtyOneView')
         var scenarioTemplateId,
         init = function() {
             scenarioTemplateId = _.find($scope.scenarioTemplates, function(v) {  return v.type === $scope.currentType.label; }).id
-            getDimensions('spend', 'TOUCHPOINT', ['simulation', scenarioTemplateId, undefined, false, true]);
-            getDimensions('kpi', 'OUTCOME', ['simulation', scenarioTemplateId, undefined, false, false]);
+            getDimensions('spend', 'Marketing Plan', ['simulation', scenarioTemplateId, undefined, false, true]);
+            getDimensions('kpi', 'KPI', ['simulation', scenarioTemplateId, undefined, false, false]);
         },
         getDimensions = function(cubeType, cubeName, cubeParams) {
             var getCubeId = function(cubeName, cubeParams) {
@@ -21,7 +21,7 @@ angular.module('ThreeSixtyOneView')
                     .getCubes.apply(this, cubeParams)
                     .then(function(cubes) {
                         $scope[cubeType+'Cubes'] = cubes;
-                        return cubes.length !== 0 ? _.find(cubes, function(v) { return v.name === cubeName }).id : 1;
+                        return _.find(cubes, function(v) { return v['label'].indexOf(cubeName) !== -1 }).id;
                     });
             },
             buildDimensions = function(cubeId) {

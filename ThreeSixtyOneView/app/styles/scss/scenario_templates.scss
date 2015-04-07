@@ -5,18 +5,22 @@
 .scenarioTemplates {
 	background-color: transparent;
 	color: $ms-black;
+    margin-top: -50px;
 	&.start-box {
 		background-color: $ms-pureWhite;
-		width: 700px;
+		width: 540px;
+        widows: 265px;
 		margin: 50px auto;
-		padding: 30px;
-		text-align: center;
+		padding: 40px 45px;
+        text-align: center;
 		div {
 			margin: 30px 0;
 			font-size: 24px;
-			&.header {
-				margin: 0 0 30px 0;
-				font-size: 36px;
+            text-align: left;
+            &.header {
+                text-align: center;
+                margin: 0 0 30px 0;
+                font-size: 36px;
 			}
 		}
 	}
@@ -83,80 +87,89 @@
 	.right-column {
 		padding: 15px 30px;
 		margin: 0 0 25px 0;
-		div.header {
-			font-size: 38px;
-			font-weight: normal;
-		}
-		div.prompt {
-			font-size: 24px;
-			margin: 15px 0 0 0;
-			& > span {
-				margin: 15px 0 0 0;
-				display: block;
-				line-height: 40px;
-			}
-			input {
-				&[type="text"] {
-					width: 100%;
-					border-style: solid;
-					border-width: 1px;
-					border-color: $ms-lightGray;
-					border-radius: 3px;
-                    padding: 0 10px;
-				}
-				&[type="radio"] {
-					display: none;
+        max-width: 800px;
+        .content-container {
+            overflow-y: auto;
+            overflow-x: hidden;
+            .scenarioTemplates { margin-top: 0; }
+            .header {
+                font-size: 38px;
+                font-weight: normal;
+            }
+            .prompt {
+                font-size: 24px;
+                margin: 15px 0 0 0;
+                & > span {
+                    margin: 15px 0 0 0;
+                    display: block;
+                    line-height: 40px;
+                }
+                input {
+                    &[type="text"] {
+                        width: 100%;
+                        border-style: solid;
+                        border-width: 1px;
+                        border-color: $ms-lightGray;
+                        border-radius: 3px;
+                        padding: 0 10px;
+                    }
+                    &[type="radio"] {
+                        display: none;
 
-					& + label .fa-circle-o, &:checked + label .fa-dot-circle-o {
-						display: inline;
-					}
-					& + label .fa-dot-circle-o, &:checked + label .fa-circle-o {
-						display: none;
-					}
-					&:checked + label {
-						color: $ms-blue;
-						font-weight: bold;
-					}
-				}
-			}
-
-			label {
-				font-weight: normal;
-				font-size: 16px;
-				padding: 0 20px 0 0;
-                span {
-                    cursor: pointer;
-    				.fa-circle-o {
-    					color: $ms-mediumGray;
-    				}
-    				.fa-stack {
-    					width: 15px;
-    				}
+                        & + label .fa-circle-o, &:checked + label .fa-dot-circle-o {
+                            display: inline;
+                        }
+                        & + label .fa-dot-circle-o, &:checked + label .fa-circle-o {
+                            display: none;
+                        }
+                        &:checked + label {
+                            color: $ms-blue;
+                            font-weight: bold;
+                        }
+                    }
                 }
 
-			}
+                label {
+                    font-weight: normal;
+                    font-size: 16px;
+                    padding: 0 20px 0 0;
+                    span {
+                        cursor: pointer;
+                        .fa-circle-o {
+                            color: $ms-mediumGray;
+                        }
+                        .fa-stack {
+                            width: 15px;
+                        }
+                    }
 
-			.confirmation {
-				margin: 0 0 25px 0;
-			}
-		}
-		div.confirmation, span.confirmation{
-			color: $ms-mediumGray;
-			font-size: 16px;
-			margin: 25px 0 0 0;
-		}
-		div.review-field {
-			font-size: 20px;
-		}
-		.row {
-			.col-md-1 {
-				width: 20px;
-				padding: 20px 0 0 10px;
-				text-align: center;
-			}
-		}
-		div.button-container {
-			margin: 15px 0 0 0;
+                }
+
+                .confirmation {
+                    margin: 0 0 25px 0;
+                }
+            }
+            .editor {
+                .list {
+                    width: 80%;
+                }
+            }
+            .confirmation, span.confirmation{
+                color: $ms-mediumGray;
+                font-size: 16px;
+                margin: 25px 0 0 0;
+            }
+            .review-field { font-size: 20px; }
+            .row {
+                .col-md-1 {
+                    width: 20px;
+                    padding: 20px 0 0 10px;
+                    text-align: center;
+                }
+            }
+        }
+		.button-container {
+			margin: 20px 20px 0 0;
 			span.right{
 				float: right;
 			}
@@ -164,18 +177,20 @@
 	}
 
     .dimensionContainer {
-        margin: 0 auto;
+        margin: 0;
+        [class*="col-md"] {
+            padding: 0 20px 0 2px;
+        }
         .dimensionCard {
             box-sizing: border-box;
             position: relative;
             background-color: $ms-pureWhite;
-            padding: 10px;
             margin: 0 auto 20px;
+            padding: 10px;
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
             border-radius: 2px;
             .dimensionCheckbox {
                 overflow: auto;
-                // height: 128px;
                 input[type=checkbox] { cursor: pointer; }
                 .selected {
                     color: $ms-blue;
@@ -221,7 +236,6 @@
             }
         }
         .spendDimensionCard {
-            width: 200px;
             min-height: 80px;
             &.fixedHeight {
                 height: 185px;

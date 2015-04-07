@@ -12,9 +12,9 @@
         </div>
     </div>
     <div class="dimensionFilter" ng-if="dimensionData.isSelected">
-        <span title="{{getDimensionCardLabel(dimensionData)}}" ng-class="{selected: getDimensionCardLabel(dimensionData).length}">
+        <span title="{{getDimensionCardLabel(dimensionData)}}" ng-class="{selected: getDimensionCardLabel(dimensionData).length}" ng-click="filtersModal(dimensionData)">
             <icon type="filter"></icon>
-            <a ng-click="filtersModal(dimensionData)">{{getDimensionCardLabel(dimensionData)}}</a>
+            <span>{{getDimensionCardLabel(dimensionData)}}</span>
         </span>
     </div>
 </div>

@@ -10,14 +10,14 @@
 		<div class="template-steps">
 			<ul>
 				<li ng-repeat="view in views">
-					<span class="currentView" ng-if="isCurrentView($index)"> 
+					<span class="currentView" ng-if="isCurrentView($index)">
 						<span class="icon-stack">
 							<icon type="circle"></icon>
 							<icon type="circle-o"></icon>
 						</span>
 						&nbsp;{{view.label}}
 					</span>
-					<span ng-if="!isCurrentView($index)"> 
+					<span ng-if="!isCurrentView($index)">
 						<icon ng-if="$index > currentViewIndex" type="circle-o"></icon>
 						<icon ng-if="$index < currentViewIndex" type="circle"></icon>
 						&nbsp;{{view.label}}
@@ -28,7 +28,7 @@
 		</div>
 	</div>
 	<div class="col-md-9 right-column">
-		<div ng-style="{height: getHeight()}" style="overflow: auto;" ng-transclude></div>
+		<div class="content-container" ng-style="{height: getHeight()}" ng-transclude></div>
 		<div class="button-container">
 			<ms-button type="cancel" label="Cancel" action="dismiss()"></ms-button>
 			<span class="right">
