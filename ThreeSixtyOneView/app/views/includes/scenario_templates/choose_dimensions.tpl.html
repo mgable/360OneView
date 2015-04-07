@@ -17,17 +17,17 @@
 			</span>
 		</form>
 	</div>
-	<div class="confirmation">
+	<div class="confirmation reveal animated fadeIn" ng-show="selectedTime">
 		Got it!
 	</div>
-	<div class="prompt">
+	<div class="prompt reveal animated fadeIn delay" ng-show="selectedTime">
 		Now, choose your dimensions &amp; KPIs
 		<div class="confirmation">
 			The dimensions &amp; KPIs selected will be available for scenario planning.
 		</div>
 	</div>
 
-	<div class="dimensions">
+	<div class="dimensions reveal animated fadeIn delay-long" ng-show="selectedTime">
 		<div class="row dimensionContainer">
 			<div class="col-md-4" ng-repeat="spendDimension in spendDimensions | orderBy:id">
 				<ms-dimension-card dimension-data="spendDimension" all-dimensions-data="spendDimensions" dimension-type="spend" template-type="currentType.label"></ms-dimension-card>

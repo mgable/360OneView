@@ -5,7 +5,8 @@
 
 // View controllers
 angular.module('ThreeSixtyOneView')
-.controller("ScenarioListingCtrl", ["$scope", "$rootScope", "$controller", "Project", "Scenarios", "ScenarioService", "EVENTS", "DialogService", "ManageScenariosService", "ScenarioStatesService", function($scope, $rootScope, $controller, Project, Scenarios, ScenarioService, EVENTS, DialogService, ManageScenariosService, ScenarioStatesService) {
+.controller("ScenarioListingCtrl", ["$scope", "$rootScope", "$controller", "Project", "Scenarios", "ScenarioService", "EVENTS", "DialogService", "ManageScenariosService", "ScenarioStatesService", "$state",
+    function($scope, $rootScope, $controller, Project, Scenarios, ScenarioService, EVENTS, DialogService, ManageScenariosService, ScenarioStatesService, $state) {
 
         // Inherit from base class
         angular.extend(this, $controller('ListingViewCtrl', {$scope: $scope}));
@@ -63,13 +64,17 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.isScenarioTitleUnique = function(scenarioName) {
-            return ! _.findWhere($scope.scenarios, {name: scenarioName});
+            return !_.findWhere($scope.scenarios, {name: scenarioName});
         };
 
         $scope.gotoBaseScenario = function(scenario){
             ScenarioService.getProjectIdByScenarioId(scenario.id).then(function(project){
                 $scope.goto({},"gotoBaseScenario", project.uuid, scenario.id);
             });
+        };
+
+        $scope.createTemplate = function() {
+            $state.go('ScenarioTemplates');
         };
 
         // Event Listeners

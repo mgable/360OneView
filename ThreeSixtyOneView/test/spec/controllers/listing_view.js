@@ -131,7 +131,7 @@ describe('Controllers: ', function() {
             FavoritesService = _FavoritesService_;
 
             $state.current.name = "Dashboard";
-            signature = apiElements.concat(['gotoBaseScenario', 'selectItem', 'gotoScenarioCreate', 'isScenarioTitleUnique', 'CONFIG', 'data', 'selectedItem', 'trayActions', 'project', 'scenarios', 'hasAlerts']);
+            signature = apiElements.concat(['gotoBaseScenario', 'selectItem', 'gotoScenarioCreate', 'isScenarioTitleUnique', 'CONFIG', 'data', 'selectedItem', 'trayActions', 'project', 'scenarios', 'hasAlerts', 'createTemplate']);
 
             spyOn(scope, "$on");
             spyOn(SortAndFilterService, "filter");

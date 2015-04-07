@@ -21,13 +21,13 @@
 	</div>
 	<div class="review-field">
 		<div class="confirmation">Dimensions</div>
-		<div>Placeholder{{dimensions}}</div>
+		<div>{{spendDimensionsLabels}}</div>
 	</div>
 	<div class="review-field">
 		<div class="confirmation">KPIs</div>
-		<div>Placeholder{{KPIs}}</div>
+		<div>{{kpiDimensionsLabels}}</div>
 	</div>
-	<div class="review-field">
+	<div class="review-field" ng-if="currentType.label !== 'Strategy'">
 		<div class="confirmation">Default Marketing Performance Period</div>
 		<div>{{performancePeriod.from | date:'yyyy-MM-dd (Week ww)'}} - {{performancePeriod.to | date:'yyyy-MM-dd (Week ww)'}}</div>
 	</div>

@@ -668,7 +668,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<ms-button type=\"cancel\" action=\"close($event)\" label=\"Cancel\"></ms-button>\r" +
     "\n" +
-    "\t\t\t<ms-button type=\"submit\" action=\"submit()\" label=\"START\" data-ms-id=\"modalSubmit\" ng-disabled=\"nameDialog.$invalid\"></ms-button>\r" +
+    "\t\t\t<ms-button type=\"submit\" action=\"submit()\" label=\"START\" data-ms-id=\"modalSubmit\" ng-disabled=\"!isModuleSelected()\"></ms-button>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +

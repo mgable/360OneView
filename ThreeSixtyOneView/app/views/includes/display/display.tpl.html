@@ -7,6 +7,7 @@
 	<ms-filter-input></ms-filter-input>
 
 	<div class="button-holder">
+		<ms-button type="submit" action="createTemplate()" label="New Template" ng-show="project.isMaster"></ms-button>
 		<ms-button type='submit' action='create(CONFIG.displayActionsCreate)' label='Create' icon='plus' data-ms-id='createButton' ng-disabled="isMasterProjectScenario(selectedItem)"></ms-button>
 	</div>
 </div>

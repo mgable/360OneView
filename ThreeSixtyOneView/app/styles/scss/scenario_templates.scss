@@ -88,6 +88,9 @@
 		padding: 15px 30px;
 		margin: 0 0 25px 0;
         max-width: 800px;
+        .reveal {
+        	@include reveal-animation();
+        }
         .content-container {
             overflow-y: auto;
             overflow-x: hidden;
@@ -96,9 +99,11 @@
                 font-size: 38px;
                 font-weight: normal;
             }
+            
             .prompt {
                 font-size: 24px;
                 margin: 15px 0 0 0;
+                div { margin: 20px 0 0 0; }
                 & > span {
                     margin: 15px 0 0 0;
                     display: block;
@@ -128,6 +133,7 @@
                         }
                     }
                 }
+                
 
                 label {
                     font-weight: normal;
@@ -159,7 +165,12 @@
                 font-size: 16px;
                 margin: 25px 0 0 0;
             }
-            .review-field { font-size: 20px; }
+            .review-field {
+                font-size: 20px;
+                .ng-binding {
+                    text-transform: lowercase;
+                }
+            }
             .row {
                 .col-md-1 {
                     width: 20px;

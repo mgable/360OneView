@@ -18,7 +18,7 @@
 		</form>
 		<div class="form-buttons">
 			<ms-button type="cancel" action="close($event)" label="Cancel"></ms-button>
-			<ms-button type="submit" action="submit()" label="START" data-ms-id="modalSubmit" ng-disabled="nameDialog.$invalid"></ms-button>
+			<ms-button type="submit" action="submit()" label="START" data-ms-id="modalSubmit" ng-disabled="!isModuleSelected()"></ms-button>
 		</div>
 	</div>
 </div>
