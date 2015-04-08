@@ -25,10 +25,6 @@ angular.module('ThreeSixtyOneView')
             if($scope.project.isMaster){
                 setMasterScenario($scope.scenarios[0]);
             }
-
-            if ($scope.selectedItem) {
-                getScenarioElements($scope.selectedItem.id);
-            }
         },
         addStatusToScenarios = function(scenarios, statuses){
             _.each(scenarios, function(scenarioValue) {
@@ -149,7 +145,6 @@ angular.module('ThreeSixtyOneView')
     }]).controller("ListingViewCtrl", ["$scope", "$rootScope", "$state", "SortAndFilterService", "DialogService", "GotoService", "CONFIG", "EVENTS", "FavoritesService", "$stateParams", "AnalyticCalculationsService", function($scope, $rootScope, $state, SortAndFilterService, DialogService, GotoService, CONFIG, EVENTS, FavoritesService, $stateParams, AnalyticCalculationsService){
 
         var selectFirstItem = function(){
-            console.log('here');
                 var firstItem = SortAndFilterService.getData()[0];
                 if(firstItem){
                     $scope.selectItem(firstItem);
