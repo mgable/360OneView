@@ -33,5 +33,6 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     // BROADCAST STATES
     broadcastStates: "broadcastStates",
     // FLIPBOOK
-    moveForward: 'moveForward'
+    moveForward: 'moveForward',
+    scenarioTemplatesAdvance: 'scenarioTemplatesAdvance'
 });

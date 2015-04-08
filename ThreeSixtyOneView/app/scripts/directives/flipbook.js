@@ -20,6 +20,7 @@ angular.module('ThreeSixtyOneView.directives')
 				basePath = attrs.basepath,
 				submitCallback = attrs.submitCallback,
 				cancelCallback = attrs.cancelCallback,
+				enableNext = attrs.enableNext,
 				setView = function(i) {
 					scope.view = views[i];
 					scope.url = basePath + "/" + views[i].url;
@@ -83,12 +84,19 @@ angular.module('ThreeSixtyOneView.directives')
 			};
 
 			scope.isDisabled = function(direction) {
+				if (!enableNext){
+					return true;
+				}
 				if (direction === scope.DIRECTION) {
 					return scope.currentViewIndex >= totalViews;
 				} else {
 					return scope.currentViewIndex <= 0;
 				}
 			};
+
+			attrs.$observe("enableNext", function(){
+				enableNext = attrs.enableNext.bool();
+			});
 
 			init();
 		}

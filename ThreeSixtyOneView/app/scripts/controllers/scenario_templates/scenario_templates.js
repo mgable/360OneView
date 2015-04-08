@@ -60,7 +60,7 @@ angular.module('ThreeSixtyOneView')
 			});
 		};
 
-
+$scope.enableNext = true;
 
 		init();
 	}]);
