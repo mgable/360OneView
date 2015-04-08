@@ -3,8 +3,8 @@
 
 'use strict';
 angular.module('ThreeSixtyOneView')
-.controller("ScenarioEditorCtrl", ["$scope", "$rootScope", "Scenario", "EVENTS", "PivotMetaService", "PivotService", "ManageAnalysisViewsService", "ScenarioStatesService", "CONFIG",
-	function($scope, $rootScope, Scenario, EVENTS, PivotMetaService, PivotService, ManageAnalysisViewsService, ScenarioStatesService, CONFIG) {
+.controller("ScenarioEditorCtrl", ["$scope", "$rootScope", "EVENTS", "PivotMetaService", "PivotService", "ManageAnalysisViewsService", "ScenarioStatesService", "CONFIG",
+	function($scope, $rootScope, EVENTS, PivotMetaService, PivotService, ManageAnalysisViewsService, ScenarioStatesService, CONFIG) {
 
 		var init = function() {
 			// determines if the current view is a draft view
@@ -21,7 +21,7 @@ angular.module('ThreeSixtyOneView')
 
 			$scope.readOnlyMode = false;
 
-			ScenarioStatesService.startPull([Scenario.id]);
+			ScenarioStatesService.startPull([$scope.scenario.id]);
 
 			// this is how pivotbuilder and pivottable communicate
 			$scope.spread = {sheet: {loading: true}};

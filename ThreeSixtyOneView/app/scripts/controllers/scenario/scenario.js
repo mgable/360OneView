@@ -3,12 +3,15 @@
 
 'use strict';
 angular.module('ThreeSixtyOneView')
-.controller("ScenarioCtrl", ["$scope", "$rootScope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "$state", "EVENTS", "Calculate", "AnalyticCalculationsService", "CONFIG", "ScenarioStatesService",
-	function($scope, $rootScope, $timeout, Project, Scenario, ScenarioAnalysisElements, $state, EVENTS, Calculate, AnalyticCalculationsService, CONFIG, ScenarioStatesService) {
+.controller("ScenarioCtrl", ["$scope", "$rootScope", "$timeout", "Project", "ScenarioAnalysisElements", "$state", "EVENTS", "Calculate", "AnalyticCalculationsService", "CONFIG", "ScenarioStatesService",
+	function($scope, $rootScope, $timeout, Project, ScenarioAnalysisElements, $state, EVENTS, Calculate, AnalyticCalculationsService, CONFIG, ScenarioStatesService) {
 
 		var init = function() {
 			$scope.project = Project;
-			$scope.scenario = Scenario;
+			$scope.scenario = {
+				id: $state.params.scenarioId
+			};
+			// $scope.scenario = Scenario;
 			$scope.simulateButtonDisabled = false;
 
 			$scope.pivotTableSaveStatus = '';
