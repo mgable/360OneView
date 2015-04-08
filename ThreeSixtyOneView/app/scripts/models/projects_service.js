@@ -4,7 +4,10 @@
 
 angular.module('ThreeSixtyOneView.services')
 	.service('ProjectsService',  ["$rootScope", "ProjectsModel", "Model", "EVENTS", function ($rootScope, ProjectsModel, Model, EVENTS) {
-		var MyProjectModel, myprojects, self = this;
+		var MyProjectModel, myprojects, self = this,
+			findMasterProject = function(projects) {
+				return _.find(projects, function(project) {return project.isMaster});
+			};
 
 		MyProjectModel = new Model();
 		angular.extend(this, MyProjectModel.prototype);
@@ -46,6 +49,25 @@ angular.module('ThreeSixtyOneView.services')
 			return this.resource.get({}, params).then(function(response){
 				return response[0];
 			});
+		};
+
+		this.getMasterProject = function() {
+			if(self.data.length < 1) {
+				return this.get().then(function(projects) {
+					self.masterProject = findMasterProject(projects);
+					return self.masterProject;
+				});
+			} else {
+				var deferred = self.resource._q.defer();
+				if(!self.masterProject) {
+					self.masterProject = findMasterProject(self.data);
+					deferred.resolve(self.masterProject);
+					return deferred.promise;
+				} else {
+					deferred.resolve(self.masterProject);
+					return deferred.promise;
+				}
+			}
 		};
 
 		$rootScope.$on(EVENTS.renameProject, function($event, data){

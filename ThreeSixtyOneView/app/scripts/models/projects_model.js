@@ -15,7 +15,15 @@ angular.module('ThreeSixtyOneView.services').factory('ProjectsModel', ["$timeout
         // requestTranslator: requestTranslator,
         resource: resource,
         data: [],
+        masterProject: undefined,
         // used for the rename functions
+        get: function () {
+            var self = this;
+            return resource.get().then(function(response) {
+                self.data = response;
+                return response;
+            });
+        },
         put : function(_data_){
             var self = this;
             return resource.put(_data_, this.config).then(function(response){
