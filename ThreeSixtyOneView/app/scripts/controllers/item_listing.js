@@ -112,10 +112,6 @@ angular.module('ThreeSixtyOneView')
 
         var init = function(){
             $scope.init(Projects, getProject);
-            // the master project is always a favorite and not in the favorite REST call (yet?)
-            ProjectsService.getMasterProject().then(function(master) {
-                if (master) { FavoritesService.addFavorite(master.uuid, $scope.CONFIG.favoriteType); }
-            });
         },
         getScenarios = function(id){
             return ScenarioService.get(id);
