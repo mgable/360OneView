@@ -236,7 +236,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t</div>\n" +
     "\t</div>\n" +
     "\t<div class=\"col-md-9 right-column\">\n" +
-    "\t\t<div class=\"content-container\" ng-style=\"{height: getHeight()}\" ng-transclude></div>\n" +
+    "\t\t<div class=\"content-container\" ng-transclude></div>\n" +
     "\t\t<div class=\"button-container\">\n" +
     "\t\t\t<ms-button type=\"cancel\" label=\"Cancel\" action=\"dismiss()\"></ms-button>\n" +
     "\t\t\t<span class=\"right\">\n" +
@@ -337,7 +337,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t\t\t({{filterCount.selected}}/{{filterCount.total}})\n" +
     "\t\t\t\t\t</div>\n" +
     "\t\t\t\t</div>\n" +
-    "\t\t\t\t<div class=\"list-box\" ng-style=\"{height: getListHeight()}\">\n" +
+    "\t\t\t\t<div class=\"list-box\">\n" +
     "\t\t\t\t\t<div class=\"list\" ng-if=\"searchResults.members\">\n" +
     "\t\t\t\t\t\t<member ng-repeat=\"member in searchResults.members | orderBy:'label'\" member=\"member\" filters=\"addedFilter\" category=\"{label: selectedFilter.dimension.label}\"  expanded=\"expanded\" expandall=\"filterSearch\" updater=\"categorizeValuesCount(index, addedFilters)\" dimensionindex=\"selectedDimensionIndex\"></member>\n" +
     "\t\t\t\t\t</div>\n" +

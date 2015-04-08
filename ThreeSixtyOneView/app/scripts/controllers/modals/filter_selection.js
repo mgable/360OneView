@@ -25,33 +25,9 @@ angular.module('ThreeSixtyOneView')
 			});
 
 			$scope.chooseFilter($scope.selectedFilter.dimension, $scope.selectedDimensionIndex, false);
-			getWindowHeight();
 		},
 		dimensions = data.dimensions,
 		viewData = data.viewData,
-		getWindowHeight = function() {
-			var w = angular.element($window);
-			$scope.getWindowDimensions = function () {
-				return {
-					'h': w[0].innerHeight,
-					'w': w[0].innerWidth
-				};
-			};
-			var heightWatcher = $scope.$watch($scope.getWindowDimensions, function (newValue) {
-				$scope.windowHeight = newValue.h;
-				$scope.windowWidth = newValue.w;
-
-			}, true);
-
-			$scope.$on('$destroy', function() {
-				heightWatcher();
-				w.unbind('resize');
-			});
-
-			w.bind('resize', function () {
-				$scope.$apply();
-			});
-		},
 		// choose the view based on added levels in the column/row
 		chooseViewBy = function(levels, index) {
 			var levelIndex = angular.isNumber(index) ? index : 0;
@@ -261,10 +237,6 @@ angular.module('ThreeSixtyOneView')
 
 		$scope.getEmptyFiltersList = function() {
 			return $scope.emptyFiltersList;
-		};
-
-		$scope.getListHeight = function() {
-			return ($scope.windowHeight - 250) + 'px';
 		};
 
 		$scope.isDimensionSignleMembered = function(dimension) {
