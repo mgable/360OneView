@@ -149,6 +149,7 @@ angular.module('ThreeSixtyOneView')
     }]).controller("ListingViewCtrl", ["$scope", "$rootScope", "$state", "SortAndFilterService", "DialogService", "GotoService", "CONFIG", "EVENTS", "FavoritesService", "$stateParams", "AnalyticCalculationsService", function($scope, $rootScope, $state, SortAndFilterService, DialogService, GotoService, CONFIG, EVENTS, FavoritesService, $stateParams, AnalyticCalculationsService){
 
         var selectFirstItem = function(){
+            console.log('here');
                 var firstItem = SortAndFilterService.getData()[0];
                 if(firstItem){
                     $scope.selectItem(firstItem);
@@ -183,9 +184,6 @@ angular.module('ThreeSixtyOneView')
                 filter: filter,
                 reverse: reverse
             });
-
-            // select first time in list
-            selectFirstItem();
         };
 
         $scope.getDetails = function(id, model){
