@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-.controller('ScenarioTemplatesCreateCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "data", 'ManageTemplatesService', 'DimensionService',
-function($scope, $controller, $modalInstance, CONFIG, data, ManageTemplatesService, DimensionService) {
+.controller('ScenarioTemplatesCreateCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "EVENTS", "data", 'ManageTemplatesService', 'DimensionService', function($scope, $controller, $modalInstance, CONFIG, EVENTS, data, ManageTemplatesService, DimensionService) {
 	angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $controller: $controller, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
 	var init = function() {
@@ -61,6 +60,10 @@ function($scope, $controller, $modalInstance, CONFIG, data, ManageTemplatesServi
 	$scope.submit = function() {
 		$modalInstance.close({response:'response'});
 	};
+
+	$scope.$on(EVENTS.scenarioTemplatesAdvance, function(evt, data){
+		$scope.enableNext = data;
+	});
 
 	init();
 }]);

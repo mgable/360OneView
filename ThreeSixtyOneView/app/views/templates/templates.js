@@ -541,11 +541,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
   $templateCache.put('views/modal/scenario_templates.tpl.html',
     "<div class=\"scenarioTemplates row\">\n" +
-    "\t<div ng-controller=\"ScenarioTemplatesViewsCtrl\">\n" +
-    "\t\t<flipbook workflow={{CONFIG.view.ScenarioTemplates.workflow}} type=\"{{currentType.label}}\" template-url=\"views/directives/scenario_templates_navigation.tpl.html\" basePath=\"views/includes/scenario_templates\" submit-callback=\"submit\" cancel-callback=\"cancel\" enable-next=\"{{enableNext}}\">\n" +
-    "\t\t\t\t<ng-include src=\"url\"></ng-include>\n" +
-    "\t\t</flipbook>\n" +
-    "\t</div>\n" +
+    "\t<flipbook workflow={{CONFIG.view.ScenarioTemplates.workflow}} type=\"{{currentType.label}}\" template-url=\"views/directives/scenario_templates_navigation.tpl.html\" basePath=\"views/includes/scenario_templates\" submit-callback=\"submit\" cancel-callback=\"cancel\" enable-next=\"{{enableNext}}\">\n" +
+    "\t\t\t<ng-include src=\"url\"></ng-include>\n" +
+    "\t</flipbook>\n" +
     "</div>\n"
   );
 
