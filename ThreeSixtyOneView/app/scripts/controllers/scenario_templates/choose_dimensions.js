@@ -67,6 +67,14 @@ angular.module('ThreeSixtyOneView')
 
 		});
 
+        $scope.$watch("selectedTime", function(){
+            if ($scope.selectedTime){
+                $scope.$emit(EVENTS.scenarioTemplatesAdvance, true);
+            } else {
+                $scope.$emit(EVENTS.scenarioTemplatesAdvance, false);
+            }
+        });
+
 		init();
 
 	}]);
