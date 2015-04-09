@@ -1,21 +1,16 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-.controller('ScenarioTemplatesCreateCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "EVENTS", "data", 'ManageTemplatesService', 'DimensionService', function($scope, $controller, $modalInstance, CONFIG, EVENTS, data, ManageTemplatesService, DimensionService) {
+.controller('ScenarioTemplatesViewsCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "EVENTS", "data", 'ManageTemplatesService', 'DimensionService', function($scope, $controller, $modalInstance, CONFIG, EVENTS, data, ManageTemplatesService, DimensionService) {
 	angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $controller: $controller, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
 	var init = function() {
 		$scope.CONFIG = CONFIG;
-		$scope.currentType = data.templateType;
-		$scope.scenarioTemplates = data.scenarioTemplates;
+		angular.extend($scope, data);
+		// this sets the following
+		// $scope.templateType, $scope.scenarioTemplates
 
-		if(!$scope.scenarioTemplates) {
-			ManageTemplatesService.getAll().then(function(response) {
-				$scope.scenarioTemplates = response;
-			});
-		}
-
-		initializeTemplate($scope.currentType);
+		initializeTemplate($scope.templateType);
 	}, initializeTemplate = function(type) {
 		$scope.template = {
 			name: '',
@@ -48,8 +43,8 @@ angular.module('ThreeSixtyOneView')
 		$scope.performancePeriod.to = toDate;
 	};
 
-	$scope.setDimensionLabels = function(dimension, type) {
-		$scope[type+'DimensionsLabels'] = DimensionService.generateDimensionsLabels(dimension);
+	$scope.setDimensionsLabel = function(dimensions, type) {
+		$scope[type + 'DimensionsLabel'] = DimensionService.getDimensionsLabel(dimensions);
 	}
 
 	$scope.cancel = function() {
@@ -61,7 +56,7 @@ angular.module('ThreeSixtyOneView')
 		$modalInstance.close({response:'response'});
 	};
 
-	$scope.$on(EVENTS.scenarioTemplatesAdvance, function(evt, data){
+	$scope.$on(EVENTS.flipbookAllowAdvance, function(evt, data){
 		$scope.enableNext = data;
 	});
 

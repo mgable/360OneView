@@ -40,7 +40,7 @@ angular.module('ThreeSixtyOneView.directives')
 					scope.currentViewIndex = totalViews;
 				} else {
 					setView(++scope.currentViewIndex < totalViews ? scope.currentViewIndex : --scope.currentViewIndex);
-					scope.$broadcast(EVENTS.moveForward ,{});
+					scope.$broadcast(EVENTS.flipbookAdvance ,{});
 				}
 			};
 

@@ -8,25 +8,17 @@ angular.module('ThreeSixtyOneView')
 				$scope.onboardingState = false;
 				ManageTemplatesService.getAll().then(function(response) {
 					$scope.scenarioTemplates = response;
-					if(response.length === 0) {
-						$scope.onboardingState = true;
-					} else {
-						$scope.openModulePickDialog();
-					}
+					startWorkflow();
 				});
-				ProjectsService.get().then(function(response) {
-					masterProject = _.find(response, function(elem){return elem.isMaster;});
+				ProjectsService.getMasterProject().then(function(response) {
+					masterProject = response;
 				});
-				$scope.currentType = _.find(CONFIG.view.ScenarioTemplates.types, function(type) {
+				$scope.templateType = _.find(CONFIG.view.ScenarioTemplates.types, function(type) {
 					return type.name === $state.params.type;
 				});
-
-				if(typeof $scope.currentType !== 'undefined') {
-					openScenarioTemplatesCreateModal($scope.currentType);
-				}
 			}, openScenarioTemplatesCreateModal = function(type, templates) {
 				var scenarioTemplates = templates,
-					dialog = DialogService.openLightbox('views/modal/scenario_templates.tpl.html', 'ScenarioTemplatesCreateCtrl',
+					dialog = DialogService.openLightbox('views/modal/scenario_templates.tpl.html', 'ScenarioTemplatesViewsCtrl',
 						{templateType: type, scenarioTemplates: $scope.scenarioTemplates},
 						{windowSize: 'lg', windowClass: 'scenario_templates'}
 					);
@@ -44,10 +36,18 @@ angular.module('ThreeSixtyOneView')
 				console.log(data);
 			}, gotoProject = function(uuid) {
 				$state.go('Dashboard', {projectId: uuid});
+			}, startWorkflow = function() {
+				if(typeof $scope.templateType !== 'undefined') {
+					openScenarioTemplatesCreateModal($scope.templateType);
+				} else if($scope.scenarioTemplates.length === 0) {
+					$scope.onboardingState = true;
+				} else {
+					$scope.openModulePickDialog();
+				}
 			};
 
 		$scope.openModulePickDialog = function() {
-			var modulePickDialog = DialogService.openLightbox('views/modal/module_pick.tpl.html', 'ModulePickCtrl',
+			var modulePickDialog = DialogService.openLightbox('views/modal/select_module.tpl.html', 'SelectModuleCtrl',
 				{modules: CONFIG.view.ScenarioTemplates.types, e2e: $scope.e2e},
 				{windowSize: 'lg', windowClass: 'module_pick'});
 
