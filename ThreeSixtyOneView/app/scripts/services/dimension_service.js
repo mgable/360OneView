@@ -9,32 +9,37 @@
  */
  angular.module('ThreeSixtyOneView.services')
     .service('DimensionService', function DimensionService() {
+
         this.getSelectedDimensions = function(dimensions) {
-            if (_.isArray(dimensions)) {
-                return _.filter(angular.copy(dimensions), function(v) {
-                    v.members = _.filter(v.members, function(v1) {
-                        return v1.isSelected === true;
-                    });
-                    return v.isSelected === true;
-                });
-            }
+            var tmpDimensions = angular.copy(dimensions);
+            return _.filter(tmpDimensions, function(tmpDimension) {
+                tmpDimension.members = _.filter(tmpDimension.members, function(member) { return member.isSelected === true; });
+                return tmpDimension.isSelected === true;
+            });
         };
 
-        this.generateDimensionsLabels = function(dimensions) {
-            var labelsArray = [];
-            _.each(dimensions, function(v) {
-                if (v.isSelected) {
-                    var filtered = _.filter(v.members, function(v1) { return v1.isSelected === true; }),
-                        childrenLabelsArray;
-                    if (0 < filtered.length && filtered.length < v.members.length) {
-                        childrenLabelsArray = '(' + _.pluck(filtered, 'label').join() + ')';
+        this.getSelectedTimeDimension = function(timeDimension, time) {
+            var tmpTimeDimension = angular.copy(timeDimension);
+            tmpTimeDimension.members = _.filter(tmpTimeDimension.members, function(member) { return member.label === time; });
+            return tmpTimeDimension;
+        };
+
+        this.getDimensionsLabel = function(dimensions) {
+            var tmpDimensions = dimensions,
+                dimensionLabel = [];
+            _.each(tmpDimensions, function(tmpDimension) {
+                if (tmpDimension.isSelected) {
+                    var selectedMembers = _.filter(tmpDimension.members, function(member) { return member.isSelected === true; }),
+                        memberLabel = '';
+                    if (0 < selectedMembers.length && selectedMembers.length < tmpDimension.members.length) {
+                        memberLabel = '(' + _.pluck(selectedMembers, 'label').join() + ')';
                     } else {
-                        childrenLabelsArray = '';
+                        memberLabel = '';
                     }
-                    labelsArray.push(v.label + childrenLabelsArray);
+                    dimensionLabel.push(tmpDimension.label + memberLabel);
                 }
             });
-            return labelsArray.join();
+            return dimensionLabel.join(', ');
         };
 
 });
