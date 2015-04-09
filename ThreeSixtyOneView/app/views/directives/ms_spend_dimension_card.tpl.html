@@ -11,7 +11,7 @@
             </label>
         </div>
     </div>
-    <div class="dimensionFilter" ng-if="dimensionData.isSelected">
+    <div class="dimensionFilter hide-overflow" ng-if="dimensionData.isSelected">
         <span title="{{getDimensionCardLabel(dimensionData)}}" ng-class="{selected: getDimensionCardLabel(dimensionData).length}" ng-click="filtersModal(dimensionData)">
             <icon type="filter"></icon>
             <span>{{getDimensionCardLabel(dimensionData)}}</span>
