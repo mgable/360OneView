@@ -94,7 +94,11 @@ angular.module('ThreeSixtyOneView')
 		DialogService.filtersModal(category, $scope.addedFilters, $scope.viewData.rows.concat($scope.viewData.columns), $scope.dimensions, filtersModalCallback);
 	};
 
-	$scope.$on(EVENTS.moveForward, function() {
+	$scope.isDatePickerVisible = function() {
+		return $scope.templateType.label !== 'Strategy';
+	};
+
+	$scope.$on(EVENTS.flipbookAdvance, function() {
 		$scope.setDefaultView($scope.viewData);
 		$scope.setPerformancePeriod($scope.fromDate, $scope.toDate);
 	});

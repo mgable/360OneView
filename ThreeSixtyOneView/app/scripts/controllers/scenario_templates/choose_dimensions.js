@@ -11,7 +11,7 @@ angular.module('ThreeSixtyOneView')
     .controller('ChooseDimensionsCtrl', ['$scope', 'MetaDataService', 'DimensionService', 'EVENTS', function($scope, MetaDataService, DimensionService, EVENTS) {
         var scenarioTemplateId,
         init = function() {
-            scenarioTemplateId = _.find($scope.scenarioTemplates, function(v) {  return v.type === $scope.currentType.label; }).id
+            scenarioTemplateId = _.find($scope.scenarioTemplates, function(v) {  return v.type === $scope.templateType.label; }).id
             getDimensions('spend', 'Marketing Plan', ['simulation', scenarioTemplateId, undefined, false, true]);
             getDimensions('kpi', 'KPI', ['simulation', scenarioTemplateId, undefined, false, false]);
         },
@@ -52,7 +52,7 @@ angular.module('ThreeSixtyOneView')
 				.then(addSelectedValue);
 		};
 
-		$scope.$on(EVENTS.moveForward, function() {
+		$scope.$on(EVENTS.flipbookAdvance, function() {
 
             $scope.setTimeGranularity($scope.selectedTime);
             $scope.setDimensionLabels($scope.spendDimensions, 'spend');
@@ -69,9 +69,9 @@ angular.module('ThreeSixtyOneView')
 
         $scope.$watch("selectedTime", function(){
             if ($scope.selectedTime){
-                $scope.$emit(EVENTS.scenarioTemplatesAdvance, true);
+                $scope.$emit(EVENTS.flipbookAllowAdvance, true);
             } else {
-                $scope.$emit(EVENTS.scenarioTemplatesAdvance, false);
+                $scope.$emit(EVENTS.flipbookAllowAdvance, false);
             }
         });
 

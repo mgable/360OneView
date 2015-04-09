@@ -12,9 +12,9 @@ angular.module('ThreeSixtyOneView')
 
     	$scope.$watch("template.description", function(){
     		if ($scope.template.description && $scope.template.description.length > 0){
-    			$scope.$emit(EVENTS.scenarioTemplatesAdvance, true);
+    			$scope.$emit(EVENTS.flipbookAllowAdvance, true);
     		} else {
-    			$scope.$emit(EVENTS.scenarioTemplatesAdvance, false);
+    			$scope.$emit(EVENTS.flipbookAllowAdvance, false);
     		}
     	});
     }]);

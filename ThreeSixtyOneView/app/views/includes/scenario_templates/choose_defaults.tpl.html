@@ -31,14 +31,14 @@
 		</div>
 	</div>
 
-	<div class="prompt" ng-if="currentType.label !== 'Strategy'">
+	<div class="prompt" ng-if="isDatePickerVisible()">
 		What historical period would you like to use measure marketing performance?
 		<div class="confirmation">
 			You will be able to change this when doing scenario planning.
 		</div>
 	</div>
 
-	<div class="row" ng-if="currentType.label !== 'Strategy'">
+	<div class="row" ng-if="isDatePickerVisible()">
 		<div class="col-md-3">
 			<div>From</div>
 			<span class="date-picker clickable" datepicker-popup="{{dateFormat}}" ng-model="fromDate" ng-click="isFromDateOpen = !isFromDateOpen" is-open="isFromDateOpen" max-date="toDate" show-button-bar="false" datepicker-options datepicker-mode='month'>{{fromDate | date:'yyyy-MM-dd Week (ww)'}}</span>

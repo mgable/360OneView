@@ -30,12 +30,12 @@
 	<div class="dimensions reveal animated fadeIn delay-long" ng-show="selectedTime">
 		<div class="row dimensionContainer">
 			<div class="col-md-4" ng-repeat="spendDimension in spendDimensions | orderBy:id">
-				<ms-dimension-card dimension-data="spendDimension" all-dimensions-data="spendDimensions" dimension-type="spend" template-type="currentType.label"></ms-dimension-card>
+				<ms-dimension-card dimension-data="spendDimension" all-dimensions-data="spendDimensions" dimension-type="spend" template-type="templateType.label"></ms-dimension-card>
 			</div>
 		</div>
 		<div class="row dimensionContainer">
 			<div class="col-md-12">
-				<ms-dimension-card all-dimensions-data="kpiDimensions" dimension-type="kpi" template-type="currentType.label"></ms-dimension-card>
+				<ms-dimension-card all-dimensions-data="kpiDimensions" dimension-type="kpi" template-type="templateType.label"></ms-dimension-card>
 			</div>
 		</div>
 	</div>
