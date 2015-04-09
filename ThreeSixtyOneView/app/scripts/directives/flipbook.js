@@ -57,10 +57,10 @@ angular.module('ThreeSixtyOneView.directives')
 			};
 
 			scope.isDisabled = function(direction) {
-				if (!enableNext){
-					return true;
-				}
 				if (direction === scope.DIRECTION) {
+					if (!enableNext){
+						return true;
+					}
 					return scope.currentViewIndex >= totalViews;
 				} else {
 					return scope.currentViewIndex <= 0;
