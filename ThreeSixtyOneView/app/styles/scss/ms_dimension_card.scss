@@ -1,0 +1,51 @@
+@import "variables";
+@import "new_variables";
+
+.dimensionCard {
+    box-sizing: border-box;
+    position: relative;
+    background-color: $ms-pureWhite;
+    margin: 0 auto 20px;
+    padding: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+    border-radius: 2px;
+    .dimensionCheckbox {
+        overflow: auto;
+        input[type=checkbox] {
+            cursor: pointer;
+        }
+        .selected {
+            color: $ms-blue;
+            font-weight: bold;
+        }
+        .parent-checkbox {
+            margin-bottom: 10px;
+        }
+        .children-checkbox {
+            padding-left: 20px;
+        }
+    }
+    .dimensionFilter {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 37px;
+        width: 100%;
+        padding: 10px;
+        border-top: 1px solid $ms-lightGray;
+        span {
+            cursor: pointer;
+            white-space: nowrap;
+            line-height: 14px;
+            &:hover {
+                text-decoration: underline;
+            }
+            &.selected {
+                color: $ms-blue;
+            }
+            i {
+                margin-right: 10px;
+            }
+        }
+    }
+}

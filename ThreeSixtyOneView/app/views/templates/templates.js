@@ -284,7 +284,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "                    <label>\r" +
     "\n" +
-    "                        <input type=\"checkbox\" ng-model=\"item.isSelected\" ng-disabled=\"item.isLocked\"><i></i><span>{{item.label}}</span>\r" +
+    "                        <input type=\"checkbox\" ng-model=\"item.isSelected\" ng-disabled=\"item.isLocked\"><i></i><span class=\"capitalized\">{{item.label}}</span>\r" +
     "\n" +
     "                    </label>\r" +
     "\n" +
@@ -311,7 +311,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "            <label>\r" +
     "\n" +
-    "                <input type=\"checkbox\" ms-tristates-checkbox child-list=\"dimensionData.members\" property=\"isSelected\" ng-model=\"dimensionData.isSelected\"><i></i><span>{{dimensionData.label}}</span>\r" +
+    "                <input type=\"checkbox\" ms-tristates-checkbox child-list=\"dimensionData.members\" property=\"isSelected\" ng-model=\"dimensionData.isSelected\"><i></i><span class=\"capitalized\">{{dimensionData.label}}</span>\r" +
     "\n" +
     "            </label>\r" +
     "\n" +
@@ -321,7 +321,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "            <label>\r" +
     "\n" +
-    "                <input type=\"checkbox\" ng-model=\"item.isSelected\"><i></i><span>{{item.label}}</span>\r" +
+    "                <input type=\"checkbox\" ng-model=\"item.isSelected\"><i></i><span class=\"capitalized\">{{item.label}}</span>\r" +
     "\n" +
     "            </label>\r" +
     "\n" +
@@ -329,7 +329,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "    </div>\r" +
     "\n" +
-    "    <div class=\"dimensionFilter\" ng-if=\"dimensionData.isSelected\">\r" +
+    "    <div class=\"dimensionFilter hide-overflow\" ng-if=\"dimensionData.isSelected\">\r" +
     "\n" +
     "        <span title=\"{{getDimensionCardLabel(dimensionData)}}\" ng-class=\"{selected: getDimensionCardLabel(dimensionData).length}\" ng-click=\"filtersModal(dimensionData)\">\r" +
     "\n" +
@@ -345,14 +345,8 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
-  $templateCache.put('views/directives/scenario_templates.tpl.html',
-    "<p>This is the directives/scenario_templates.tpl view.</p>\r" +
-    "\n"
-  );
-
-
   $templateCache.put('views/directives/scenario_templates_navigation.tpl.html',
-    "<div class=\"flipbook\">\r" +
+    "<div class=\"scenarioTemplatesNavigation\">\r" +
     "\n" +
     "\t<div class=\"col-md-3 left-column\">\r" +
     "\n" +

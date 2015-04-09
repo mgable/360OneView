@@ -5,22 +5,22 @@
 .scenarioTemplates {
 	background-color: transparent;
 	color: $ms-black;
-    margin-top: -50px;
+	margin-top: -50px;
 	&.start-box {
 		background-color: $ms-pureWhite;
 		width: 540px;
-        widows: 265px;
+		widows: 265px;
 		margin: 50px auto;
 		padding: 40px 45px;
-        text-align: center;
+		text-align: center;
 		div {
 			margin: 30px 0;
 			font-size: 24px;
-            text-align: left;
-            &.header {
-                text-align: center;
-                margin: 0 0 30px 0;
-                font-size: 36px;
+			text-align: left;
+			&.header {
+				text-align: center;
+				margin: 0 0 30px 0;
+				font-size: 36px;
 			}
 		}
 	}
@@ -65,8 +65,10 @@
 				line-height: 21px;
 				.pipe-line{
 					padding: 0 0 0 3px;
-					font-size: 40px;
-					font-weight: normal;
+					font: {
+						size: 40px;
+						weight: normal;
+					}
 				}
 			}
 			.currentView {
@@ -87,100 +89,99 @@
 	.right-column {
 		padding: 15px 30px;
 		margin: 0 0 25px 0;
-        max-width: 800px;
-        height: 100%;
-        .reveal {
-        	@include reveal-animation();
-        }
-        .content-container {
-            overflow-y: auto;
-            overflow-x: hidden;
-            @include vendor(height, calc(100% - 60px));
-            .scenarioTemplates { margin-top: 0; }
-            .header {
-                font-size: 38px;
-                font-weight: normal;
-            }
-            
-            .prompt {
-                font-size: 24px;
-                margin: 15px 0 0 0;
-                div { margin: 20px 0 0 0; }
-                & > span {
-                    margin: 15px 0 0 0;
-                    display: block;
-                    line-height: 40px;
-                }
-                input {
-                    &[type="text"] {
-                        width: 100%;
-                        border-style: solid;
-                        border-width: 1px;
-                        border-color: $ms-lightGray;
-                        border-radius: 3px;
-                        padding: 0 10px;
-                    }
-                    &[type="radio"] {
-                        display: none;
+		max-width: 800px;
+		height: 100%;
+		.reveal {
+			@include reveal-animation();
+		}
+		.content-container {
+			@include vendor(height, calc(100% - 60px));
+			overflow {
+				x: hidden;
+				y: auto;
+			}
+			.header {
+				font: {
+					size: 38px;
+					weight: normal;
+				}
+			}
+			.prompt {
+				font-size: 24px;
+				margin: 15px 0 0 0;
+				div { margin: 20px 0 0 0; }
+				& > span {
+					margin: 15px 0 0 0;
+					display: block;
+					line-height: 40px;
+				}
+				input {
+					&[type="text"] {
+						width: 100%;
+						border {
+							style: solid;
+							width: 1px;
+							color: $ms-lightGray;
+							radius: 3px;
+						}
+						padding: 0 10px;
+					}
+					&[type="radio"] {
+						display: none;
 
-                        & + label .fa-circle-o, &:checked + label .fa-dot-circle-o {
-                            display: inline;
-                        }
-                        & + label .fa-dot-circle-o, &:checked + label .fa-circle-o {
-                            display: none;
-                        }
-                        &:checked + label {
-                            color: $ms-blue;
-                            font-weight: bold;
-                        }
-                    }
-                }
-                
-
-                label {
-                    font-weight: normal;
-                    font-size: 16px;
-                    padding: 0 20px 0 0;
-                    span {
-                        cursor: pointer;
-                        .fa-circle-o {
-                            color: $ms-mediumGray;
-                        }
-                        .fa-stack {
-                            width: 15px;
-                        }
-                    }
-
-                }
-
-                .confirmation {
-                    margin: 0 0 25px 0;
-                }
-            }
-            .editor {
-                .list {
-                    width: 80%;
-                }
-            }
-            .confirmation, span.confirmation{
-                color: $ms-mediumGray;
-                font-size: 16px;
-                margin: 25px 0 0 0;
-            }
-            .review-field {
-                font-size: 20px;
-                .ng-binding {
-                    text-transform: lowercase;
-                }
-            }
-            .row {
-                .col-md-1 {
-                    width: 20px;
-                    padding: 20px 0 0 10px;
-                    text-align: center;
-                }
-            }
-        }
+						& + label .fa-circle-o, &:checked + label .fa-dot-circle-o {
+							display: inline;
+						}
+						& + label .fa-dot-circle-o, &:checked + label .fa-circle-o {
+							display: none;
+						}
+						&:checked + label {
+							color: $ms-blue;
+							font-weight: bold;
+						}
+					}
+				}
+				label {
+					font: {
+						size: 16px;
+						weight: normal;
+					}
+					padding: 0 20px 0 0;
+					span {
+						cursor: pointer;
+						.fa-circle-o {
+							color: $ms-mediumGray;
+						}
+						.fa-stack {
+							width: 15px;
+						}
+					}
+				}
+			}
+			.editor {
+				.list {
+					width: 80%;
+				}
+			}
+			.confirmation, span.confirmation{
+				color: $ms-mediumGray;
+				font-size: 16px;
+				margin: 25px 0 0 0;
+			}
+			.review-field {
+				font-size: 20px;
+				.case-correct{
+					text-transform: lowercase;
+				}
+			}
+			.row {
+				.col-md-1 {
+					width: 20px;
+					padding: 20px 0 0 10px;
+					text-align: center;
+				}
+			}
+		}
 		.button-container {
 			margin: 20px 20px 0 0;
 			span.right{
@@ -188,107 +189,52 @@
 			}
 		}
 	}
-
-    .dimensionContainer {
-        margin: 0;
-        [class*="col-md"] {
-            padding: 0 20px 0 2px;
-        }
-        .dimensionCard {
-            box-sizing: border-box;
-            position: relative;
-            background-color: $ms-pureWhite;
-            margin: 0 auto 20px;
-            padding: 10px;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
-            border-radius: 2px;
-            .dimensionCheckbox {
-                overflow: auto;
-                input[type=checkbox] { cursor: pointer; }
-                .selected {
-                    color: $ms-blue;
-                    font-weight: bold;
-                }
-                .parent-checkbox {
-                    margin-bottom: 10px;
-                }
-                .children-checkbox {
-                    padding-left: 20px;
-                    label {
-                        span {
-                            text-transform: lowercase;
-                            &:first-letter { text-transform: uppercase; }
-                        }
-                    }
-                }
-            }
-            .dimensionFilter {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                height: 37px;
-                width: 100%;
-                padding: 10px;
-                border-top: 1px solid $ms-lightGray;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                span {
-                    cursor: pointer;
-                    white-space: nowrap;
-                    line-height: 14px;
-                    &:hover {
-                        text-decoration: underline;
-                    }
-                    &.selected {
-                        color: $ms-blue;
-                    }
-                    i {
-                        margin-right: 10px;
-                    }
-                }
-            }
-        }
-        .spendDimensionCard {
-            min-height: 80px;
-            &.fixedHeight {
-                height: 185px;
-            }
-        }
-        .kpiDimensionCard {
-            min-height: 100px;
-        }
-    }
-    &.light-box{
-    	background: none;
-    	font-size: 32px;
-    	text-align: center;
-    	.header {
-    		margin: 200px 0 0 0;
-    	}
-    	.body {
-    		.content {
-    			margin: 30px 0;
-    			font-size: 24px;
-    		}
-    		.type-buttons {
-    			li {
-    				display: inline;
+	.dimensionContainer {
+		margin: 0;
+		[class*="col-md"] {
+			padding: 0 20px 0 2px;
+		}
+		.spendDimensionCard {
+			min-height: 80px;
+			&.fixedHeight {
+				height: 185px;
+			}
+		}
+		.kpiDimensionCard {
+			min-height: 100px;
+		}
+	}
+	&.light-box{
+		background: none;
+		font-size: 32px;
+		text-align: center;
+		.header {
+			margin: 200px 0 0 0;
+		}
+		.body {
+			.content {
+				margin: 30px 0;
+				font-size: 24px;
+			}
+			.type-buttons {
+				li {
+					display: inline;
 					list-style-type: none;
 					padding-right: 20px;
-    			}
-    			label {
-    				font-weight: normal;
-    			}
-    			.ms-action {
-    				@include product-btn("ms-action", $ms-actionGreen, "ms-logo-action.png");
+				}
+				label {
+					font-weight: normal;
+				}
+				.ms-action {
+					@include product-btn("ms-action", $ms-actionGreen, "ms-logo-action.png");
 				}
 				.ms-strategy{
 					@include product-btn("ms-strategy", $ms-strategyBlue, "ms-logo-strategy.png");
 				}
-    		}
-    		.form-buttons{
-    			margin: 20px 0 0 0;
-    		}
-    	}
-    }
+			}
+			.form-buttons{
+				margin: 20px 0 0 0;
+			}
+		}
+	}
 }
