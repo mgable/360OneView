@@ -48,8 +48,8 @@ angular.module('ThreeSixtyOneView')
 		$scope.performancePeriod.to = toDate;
 	};
 
-	$scope.setDimensionLabels = function(dimension, type) {
-		$scope[type+'DimensionsLabels'] = DimensionService.generateDimensionsLabels(dimension);
+	$scope.setDimensionsLabel = function(dimensions, type) {
+		$scope[type + 'DimensionsLabel'] = DimensionService.getDimensionsLabel(dimensions);
 	}
 
 	$scope.cancel = function() {
