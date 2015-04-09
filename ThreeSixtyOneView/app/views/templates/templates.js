@@ -284,7 +284,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "                    <label>\r" +
     "\n" +
-    "                        <input type=\"checkbox\" ng-model=\"item.isSelected\" ng-disabled=\"item.isLocked\"><i></i><span>{{item.label}}</span>\r" +
+    "                        <input type=\"checkbox\" ng-model=\"item.isSelected\" ng-disabled=\"item.isLocked\"><i></i><span class=\"capitalized\">{{item.label}}</span>\r" +
     "\n" +
     "                    </label>\r" +
     "\n" +
@@ -311,7 +311,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "            <label>\r" +
     "\n" +
-    "                <input type=\"checkbox\" ms-tristates-checkbox child-list=\"dimensionData.members\" property=\"isSelected\" ng-model=\"dimensionData.isSelected\"><i></i><span>{{dimensionData.label}}</span>\r" +
+    "                <input type=\"checkbox\" ms-tristates-checkbox child-list=\"dimensionData.members\" property=\"isSelected\" ng-model=\"dimensionData.isSelected\"><i></i><span class=\"capitalized\">{{dimensionData.label}}</span>\r" +
     "\n" +
     "            </label>\r" +
     "\n" +
@@ -321,7 +321,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "            <label>\r" +
     "\n" +
-    "                <input type=\"checkbox\" ng-model=\"item.isSelected\"><i></i><span>{{item.label}}</span>\r" +
+    "                <input type=\"checkbox\" ng-model=\"item.isSelected\"><i></i><span class=\"capitalized\">{{item.label}}</span>\r" +
     "\n" +
     "            </label>\r" +
     "\n" +
