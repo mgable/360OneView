@@ -95,11 +95,9 @@
 			@include reveal-animation();
 		}
 		.content-container {
+			overflow-y: auto;
+			overflow-x: hidden;
 			@include vendor(height, calc(100% - 60px));
-			overflow {
-				x: hidden;
-				y: auto;
-			}
 			.header {
 				font: {
 					size: 38px;
