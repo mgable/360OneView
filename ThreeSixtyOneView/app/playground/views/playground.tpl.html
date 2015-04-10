@@ -1,0 +1,29 @@
+<div class="content">
+	<p>Welcome to the playground!</p>
+	<div ng-click="isAdvancedVisible = !isAdvancedVisible; isOptionVisible = false; isSubviewVisible = false">Advanced Options</div>
+
+	<!-- can be a ng-include -->
+	<div class="advanced-menu" ng-show="isAdvancedVisible">
+		<h3>List of advanced options</h3>
+		<ul>
+			<li ng-click="isOptionVisible = !isOptionVisible">Option 1</li>
+			<li ng-click="isOptionVisible = !isOptionVisible">Option 2</li>
+			<li ng-click="isOptionVisible = !isOptionVisible">Option 3</li>
+		</ul>
+	</div>
+
+	<!-- can be a ng-include with a variable source based on the selected option from the menu -->
+	<div class="option-page" ng-show="isOptionVisible">
+		<h3>Option Page</h3>
+		<ul>
+			<li ng-click="isSubviewVisible = !isSubviewVisible">Detailed options</li>
+		</ul>
+		<div ng-click="isOptionVisible = false;">Back</div>
+
+		<!-- can be a ng-include (variable source if there are multiple subviews) -->
+		<div class="option-subview" ng-show="isSubviewVisible">
+			<h3>Subview for option</h3>
+			<span ng-click="isSubviewVisible = false">Back</span>
+		</div>
+	</div>
+</div>

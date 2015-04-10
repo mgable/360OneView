@@ -5,6 +5,12 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
     $urlRouterProvider.otherwise("/projects");
 
     $stateProvider
+    .state('Playground', {
+      url: "/playground",
+      templateUrl: "playground/views/playground.tpl.html",
+      // controller: "PlaygroundCtrl",
+      breadcrumb: "<li>Playground</li>"
+    })
     .state('ScenarioTemplates', {
       url: "/scenariotemplates/:type",
       templateUrl: "views/scenario_templates.tpl.html",

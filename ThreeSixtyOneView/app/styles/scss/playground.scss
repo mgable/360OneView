@@ -1,0 +1,58 @@
+.content {
+	position: relative;
+	background-color: white;
+	width: 1300px;
+	overflow-x: hidden;
+	min-height: 600px;
+
+	.advanced-menu {
+		transition: all linear 0.2s;
+		opacity: 1;
+		border: 1px solid black;
+		position: absolute;
+		right: 0;
+		background: white;
+		width: 150px;
+		z-index: 10;
+		height: 400px;
+
+		&.ng-hide {
+			right: -20%;
+			opacity: 0;
+		}
+	}
+
+	.option-page {
+		background-color: white;
+		transition: all linear 0.2s;
+		position: absolute;
+		opacity: 1;
+		border: 1px solid gray;
+		overflow: hidden;
+		right: 150px;
+		width: 900px;
+		height: 400px;
+
+		&.ng-hide {
+			opacity: 0;
+			right: -400px;
+		}
+
+		.option-subview {
+			background-color: white;
+			transition: all linear 0.2s;
+			position: absolute;
+			opacity: 1;
+			border: 1px solid gray;
+			overflow: hidden;
+			bottom: 0;
+			width: 900px;
+			height: 400px;
+
+			&.ng-hide {
+				opacity: 0;
+				bottom: -100%;
+			}
+		}
+	}
+}
