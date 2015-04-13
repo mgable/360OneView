@@ -1,0 +1,17 @@
+Yeoman is a workflow and productivity tool which greatly increase effiency during development and production.
+
+Yeoman is comprised of three distinct tools. First there is Yo, a scaffolding tool. By using Yo we insure all developers are working with the same tools; and directory and file structure. 
+
+The second tool is Bower, which is used for dependency management, will insure all packages are consistant throughout development and across developers. And since all depenencies are mantained in a single, easily shareable manifest. Updating or swapping out depencies is quick and easy. 
+
+The third tool is Grunt, a task runner. I would highly suggest all developers be running the same development tasks to insure quality code. Those tasks would include running jslint to make sure all javascript is valid and conforms to industry standards. Csslint to do the same for css; html validator for html correctness; and it will run our css preprocessor as well.
+
+Yeoman is also used to make the production build of the app. It minifies and concatenates all js and css; moves files to the correctly location; and optimizes the app for better performance.
+
+At this point in time I see no reason to build our own framework. I suggest using Angularjs. By using Angularjs for the app, we deminish the need to write our own MVC architecture. Many, if on all, the functionality which Devami has written is encompassed in Angular. Views, routes, sessions and ajax support is already baked in. Plus with a huge user base, there are hundreds of avenues of support. Plus the framework is backed by Google which lends it a lot of credibility.
+
+Also recommended is the use of Bootstrap UI for Angular. This will allow us access to all of the premade widgets from Twitter Bootstrap. The more we can use "off the shelf" widgets the less time we need to develop and trouble-shoot them.
+
+There will still be a need for external libraries, most notably charting software and jquery. Also need will be a css preprocess either LESS or SASS.
+
+Most importantly we need to be testing everything. For this I recommend a two pronged approach. Use the combination of Jasmine and Karma for js unit testing and use Selenium for e2e and scenario testing. Because unit testing is already comprised within Angular, it is very easy to implement. Because scenario and e2e testing is much harder to implement, the only real alternative is to use Selemium (if you are not already). Typically it is implmeneted as a part of the build and continious intragation process.
