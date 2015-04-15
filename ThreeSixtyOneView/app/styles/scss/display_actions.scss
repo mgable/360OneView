@@ -4,8 +4,8 @@
 	position: relative;
 	padding: 7px 20px;
 	height: 50px;
-	background-color: $white;
-	box-shadow: 0px 0px 8px $shadow;
+	background-color: $ms-white;
+	box-shadow: 0px 0px 8px $ms-mediumGray;
 
 	.filter-holder {
 		width: 180px;
@@ -16,18 +16,18 @@
 			text-transform: capitalize;
 			cursor: pointer;
 			&:hover {
-				color: $blue;
+				color: $ms-mediumBlue;
 			}
 		}
 		.filterDropdown {
 			position: absolute;
 			top: 45px;
 			left: 5px;
-			border:1px solid $blue;
+			border:1px solid $ms-mediumBlue;
 			margin: 5px 0 0 0;
 			padding:15px;
 			min-width:160px;
-			background-color:$white;
+			background-color:$ms-white;
 			li {
 				padding: 6px 0;
 				margin-bottom: 5px;
@@ -42,15 +42,15 @@
 
 			a {
 				font-size: 18px;
-				color: $black;
+				color: $ms-black;
 				&:hover {
-					color: $blue;
+					color: $ms-mediumBlue;
 					text-decoration: none;
 				}
 			}
 		}
 		.filterToggle {
-	    	font-size: 12px;
+			font-size: 12px;
 			padding: 0 5px;
 		}
 	}
@@ -59,17 +59,17 @@
 		i {
 			position: relative;
 			left: 26px;
-			color: $orange;
+			color: $ms-orange;
 		}
 		.search-input {
 			padding: 6px 8px 6px 30px;
 			margin-top: 2px;
 			width: 200px;
-			border: 1px solid $subtitle;
+			border: 1px solid $ms-mediumGray;
 
 			&:hover,
 			&:focus {
-				border: 1px solid $blue;
+				border: 1px solid $ms-mediumBlue;
 			}
 		}
 	}
@@ -80,14 +80,14 @@
 		button {
 			margin-top: 1px;
 			/*padding: 7px 18px 6px;*/
-			background-color: $orange;
+			background-color: $ms-orange;
 
 
-			color: $white;
+			color: $ms-white;
 			cursor: pointer;
-			box-shadow: 0px 3px 5px $shadow;
+			box-shadow: 0px 3px 5px $ms-mediumGray;
 			&:hover {
-				background-color: darken($orange, 5%);
+				background-color: darken($ms-orange, 5%);
 			}
 			i {
 				font-size: 14px;

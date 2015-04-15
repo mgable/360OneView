@@ -1,17 +1,16 @@
 @import "variables";
-@import "new_variables";
 
 .scenario {
 	margin: 0 20px;
 	padding: 20px;
-	background-color: $purewhite;
+	background-color: $ms-pureWhite;
 
 	.toggle-header {
 		position: relative;
 		padding: 7px 20px;
 		margin: -20px -20px 30px;
 		height: 50px;
-		background-color: #fafafa;
+		background-color: $ms-white;
 		box-shadow: 0px 0px 8px #AAA;
 		z-index: 20;
 		.tabs-holder {
@@ -89,7 +88,7 @@
 					line-height: 35px;
 				}
 				&:hover {
-					background-color: $mediumgray;
+					background-color: $ms-mediumLightGray;
 				}
 			}
 		}
@@ -108,7 +107,7 @@
 				box-shadow: 0px 3px 5px #AAA;
 				text-transform: uppercase;
 				&:hover {
-					background-color: darken($orange, 5%);
+					background-color: darken($ms-orange, 5%);
 				}
 				i {
 					font-size: 16px;
@@ -134,7 +133,7 @@
 			margin:0 0 0 10px;
 			cursor:pointer;
 			&.disabled {
-				color:$disabled;
+				color:$ms-gray;
 			}
 		}
 	}
@@ -212,7 +211,7 @@
 		.tableHolder {
 			width: 100%;
 			.trayHolder {
-				border:1px solid $mediumgray;
+				border:1px solid $ms-mediumLightGray;
 				border-right: 0 none;
 				width: 300px;
 				overflow: hidden;
@@ -237,10 +236,10 @@
 
 		table {
 			thead {
-				background-color:$lightgray;
+				background-color:$ms-lightGray;
 				th {
 					text-transform:uppercase;
-					color: $mouseover;
+					color: $ms-blueGray;
 					font-size:12px;
 				}
 			}

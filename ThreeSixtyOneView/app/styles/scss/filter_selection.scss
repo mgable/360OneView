@@ -1,5 +1,4 @@
 @import "variables";
-@import "new_variables";
 
 .filters-modal {
 	.body {
@@ -46,7 +45,7 @@
 
 			.alert {
 				width: 780px;
-				background-color: $errorRed;
+				background-color: $ms-red;
 				color: white;
 				position: absolute;
 				top: -5px;

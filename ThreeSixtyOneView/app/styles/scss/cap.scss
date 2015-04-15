@@ -1,13 +1,12 @@
 @import "variables";
-@import "new_variables";
 
 .cap {
-    width:100%;
-    background-color: $header-background;
-    height: $cap_height;
-    // position: fixed;
-    // z-index: 1000;
-    // top: 0;
+	width:100%;
+	background-color: $header-background;
+	height: $cap_height;
+	// position: fixed;
+	// z-index: 1000;
+	// top: 0;
 
 	.headerrow {
 		min-width: $content_min_width;
@@ -51,20 +50,20 @@
 			li a.information {
 				width: 110px;
 				padding: 0;
-				color: $gray;
+				color: $ms-gray;
 				line-height: 11px;
 				text-align: center;
 				cursor: pointer;
 				position: relative;
 
-                &:hover {
-                    background-color: inherit;
-                    color: $white;
-                }
-            }
+				&:hover {
+					background-color: inherit;
+					color: $ms-white;
+				}
+			}
 
 			li.active a.information{
-				color: $white;
+				color: $ms-white;
 			}
 		}
 		&.col-xs-3 {
@@ -75,7 +74,7 @@
 	}
 	div {
 		&.headerCenter {
-			color: $gray;
+			color: $ms-gray;
 
 			i {
 				display: inline-block;
@@ -99,9 +98,9 @@
 			}
 			/*.navbar-nav > li:hover,*/
 			.navbar-nav > li.active {
-				background-color: $navbar-active;
-				border-top: 3px solid $navbar-border;
-				color: $white;
+				background-color: $ms-darkBlue;
+				border-top: 3px solid $ms-mediumBlue;
+				color: $ms-white;
 			}
 		}
 		&.headerRight {
@@ -112,56 +111,56 @@
 				min-width: 200px;
 				font-size: 1.0em;
 
-                li {
-                    float: right;
-                    width: 50px;
+				li {
+					float: right;
+					width: 50px;
 
-                    a.information {
-                        width: auto;
-                        padding: 12px;
-                        text-align: center;
-                        font-size: 1.6em;
-                    }
-                    a.piechart {
-                        display: block;
-                        width: auto;
-                        padding: 12px;
-                        text-align: center;
-                    }
-                    div.userStatus {
-                        display: block;
-                        float: right;
-                        position: relative;
-                        top: -9;
-                        right: -3;
-                        padding-top: 1px;
-                        padding-right: 1px;
+					a.information {
+						width: auto;
+						padding: 12px;
+						text-align: center;
+						font-size: 1.6em;
+					}
+					a.piechart {
+						display: block;
+						width: auto;
+						padding: 12px;
+						text-align: center;
+					}
+					div.userStatus {
+						display: block;
+						float: right;
+						position: relative;
+						top: -9;
+						right: -3;
+						padding-top: 1px;
+						padding-right: 1px;
 
-                        height: 14px;
-                        width: 14px;
-                        text-align: center;
-                        border-radius: 50%;
-                        background-color: $orange;
+						height: 14px;
+						width: 14px;
+						text-align: center;
+						border-radius: 50%;
+						background-color: $ms-orange;
 
-                        font-size: 0.5em;
-                        color: $white;
-                    }
-                }
-            }
-        }
-    }
-    div.smallrow {
-        height: 35px;
-        display: block;
-        background-color: $header-smallrow;
-        width: 100%;
+						font-size: 0.5em;
+						color: $ms-white;
+					}
+				}
+			}
+		}
+	}
+	div.smallrow {
+		height: 35px;
+		display: block;
+		background-color: $header-smallrow;
+		width: 100%;
 
 		div.smallLeft {
 			margin: auto;
 			min-width: $app_min_width;
 			padding-top: 8px;
 			padding-left: 15px;
-			color: $white;
+			color: $ms-white;
 			font-size: 1.0em;
 			.breadcrumb {
 				padding:0;
@@ -201,66 +200,66 @@
 				background-repeat: no-repeat;
 				background-position: -188px 0;
 
-                div.colorRow {
-                    height: 2px;
-                    margin-left: 9px;
-                    width: 50%;
-                    position: absolute;
-                    bottom: 0;
+				div.colorRow {
+					height: 2px;
+					margin-left: 9px;
+					width: 50%;
+					position: absolute;
+					bottom: 0;
 
-                    @include linear-gradient-logo($colorcell1,$colorcell2,$colorcell3,$colorcell4,$colorcell5,$colorcell6 );
+					@include linear-gradient-logo($colorcell1,$colorcell2,$colorcell3,$colorcell4,$colorcell5,$colorcell6 );
 
-                }
-            }
-        &.footerCenter {
-            padding: 20px;
+				}
+			}
+		&.footerCenter {
+			padding: 20px;
 
-            ul.navbar-nav {
-                width: 350px;
-                float: none;
-                display: block;
-                font-size: 13px;
-                margin: auto;
-                li {
-                    border-right: 1px solid $gray;
+			ul.navbar-nav {
+				width: 350px;
+				float: none;
+				display: block;
+				font-size: 13px;
+				margin: auto;
+				li {
+					border-right: 1px solid $ms-gray;
 
-                    &:last-child {
-                        border-right: none;
-                    }
+					&:last-child {
+						border-right: none;
+					}
 
-                    a:hover {
-                        background-color: transparent;
-                    }
-                }
+					a:hover {
+						background-color: transparent;
+					}
+				}
 
-                a.information {
-                    width: auto;
-                    padding: 0 15px;
-                    width: 110px;
-					color: $gray;
+				a.information {
+					width: auto;
+					padding: 0 15px;
+					width: 110px;
+					color: $ms-gray;
 					line-height: 11px;
 					text-align: center;
 					cursor: pointer;
 
-                    &:hover {
-                        text-decoration: underline;
-                        color: $gray;
-                    }
-                }
-            }
-        }
-        &.footerRight {
-            padding: 10px 20px 0 0;
-            text-align: right;
+					&:hover {
+						text-decoration: underline;
+						color: $ms-gray;
+					}
+				}
+			}
+		}
+		&.footerRight {
+			padding: 10px 20px 0 0;
+			text-align: right;
 
-            a {
-                color: $gray;
-                i {
-                    font-size: 25px;
-                    margin-right: 5px;
-                    line-height: 17px;
-                }
-            }
-        }
-    }
+			a {
+				color: $ms-gray;
+				i {
+					font-size: 25px;
+					margin-right: 5px;
+					line-height: 17px;
+				}
+			}
+		}
+	}
 }

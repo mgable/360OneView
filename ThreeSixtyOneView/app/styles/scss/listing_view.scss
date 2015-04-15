@@ -1,5 +1,4 @@
 @import "variables";
-@import "new_variables";
 
 
 .listingView {
@@ -7,7 +6,7 @@
 	margin: 0 20px;
 	.row {
 		position: relative;
-    	margin: 0;
+		margin: 0;
 		&.alert-area {
 			z-index: 20;
 		}
@@ -176,34 +175,34 @@
 					margin: 0;
 
 					.button-holder {
-			    		display: inline-block;
+						display: inline-block;
 						margin: 10px 6px 10px 0;
-			    		background-color:transparent;
+						background-color:transparent;
 
-			    		&:last-child {
-			    			margin: 10px 0;
-			    			a {
-			    				padding: 6px 8px;
-				    		}
-			    		}
-			    		button {
-			    			cursor: pointer;
-			    			display: block;
-			    			float: none;
-			    			width: 100%;
-						    padding: 6px 13px;
-						    color: $ms-mediumGray;
-						    text-align: center;
-						    height:32px;
-			    			border: 1px solid $subtitle;
-
-						    &:hover {
-						    	border: 1px solid $blue;
-						    	text-decoration: none;
-						    	color: $black;
-						    }			    
+						&:last-child {
+							margin: 10px 0;
+							a {
+								padding: 6px 8px;
+							}
 						}
-					}		
+						button {
+							cursor: pointer;
+							display: block;
+							float: none;
+							width: 100%;
+							padding: 6px 13px;
+							color: $ms-mediumGray;
+							text-align: center;
+							height:32px;
+							border: 1px solid $ms-mediumGray;
+
+							&:hover {
+								border: 1px solid $ms-mediumBlue;
+								text-decoration: none;
+								color: $ms-black;
+							}
+						}
+					}
 				}
 			}
 			.well {
@@ -263,7 +262,7 @@
 							}
 
 							.element-name {
-								color: $black;
+								color: $ms-black;
 								font-weight: 700;
 								margin-top: 10px;
 								overflow: hidden;

@@ -1,5 +1,4 @@
 @import "variables";
-@import "new_variables";
 
 .ms-dropdown {
 	position:relative;
@@ -14,7 +13,7 @@
 		position:absolute;
 		background-color:white;
 		& > ul:first-of-type{
-			border-bottom: 1px solid $shadow;
+			border-bottom: 1px solid $ms-mediumGray;
     		margin-bottom: 10px;
     		padding-bottom: 3px;
 		}
@@ -25,7 +24,7 @@
 		height: 15px;
 		border-top: 1px solid $ms-blue;
 		border-left: 1px solid $ms-blue;
-		background-color: $select-list;
+		background-color: $ms-pureWhite;
 		border-radius: 3px 0;
 		position: absolute;
 		top: -8px;
@@ -43,7 +42,7 @@
 		li {
 			margin: 0 0 10px;
 			&.list-label {
-				color: $subtitle;
+				color: $ms-mediumGray;
 				font-weight: 500;
 			}
 		}
@@ -58,7 +57,7 @@
 		text-transform: uppercase;
 		color:$ms-black;
 		.toggle {
-			color: $label;
+			color: $ms-mediumGray;
 		}
 		.filter-icon {
 			margin: 0 4px 0 -13px;
@@ -93,7 +92,7 @@
 
 	.ms-item.disabled {
 		cursor: default;
-		color: $black;
+		color: $ms-black;
 		font-weight: 700;
 	}
 
@@ -113,7 +112,7 @@
 
 	.ms-item:hover {
 		cursor: pointer;
-		background-color: $item-hover;
+		background-color: $ms-mediumGray;
 	}
 
 	.ms-item.selected .ms-ok {
