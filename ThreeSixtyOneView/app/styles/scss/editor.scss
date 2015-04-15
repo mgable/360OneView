@@ -1,6 +1,5 @@
 /* Application Styles */
 @import "variables";
-@import "new_variables";
 
 .editor {
 	.tab-content {
@@ -12,7 +11,7 @@
 
 		.collapse-handle {
 			text-align: center;
-			color: $gray;
+			color: $ms-gray;
 			font-size: 12px;
 			margin-top: 10px;
 
@@ -21,7 +20,7 @@
 			}
 
 			&:hover {
-				color: $blue;
+				color: $ms-mediumBlue;
 			}
 		}
 	}
@@ -134,8 +133,8 @@
 			}
 
 			&:hover {
-				border: 1px solid $blue;
-				color: $blue;
+				border: 1px solid $ms-mediumBlue;
+				color: $ms-mediumBlue;
 			}
 		}
 
@@ -186,7 +185,7 @@
 			}
 
 			&:hover {
-				color: $blue;
+				color: $ms-mediumBlue;
 			}
 		}
 
@@ -228,7 +227,7 @@
 				margin-right: 25px;
 
 				.filter-label {
-					color: $darkgray;
+					color: $ms-darkGray;
 
 					.filter-stats {
 						margin-left: 5px;
@@ -236,7 +235,7 @@
 				}
 
 				.filter-values {
-					color: $blue;
+					color: $ms-mediumBlue;
 
 					&:hover {
 						text-decoration: underline;

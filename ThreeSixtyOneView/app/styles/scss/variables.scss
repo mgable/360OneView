@@ -5,46 +5,40 @@ $sprite: "../images/360sprite.png";
 $logo: "../images/logo_pic_sprite.png";
 $users_img: "../images/users_pic_sprite.png";
 
-// // Fonts
-// $sansFontFamily: "proxima-nova", arial, sans-serif;
+// Fonts
+$sansFontFamily: "proxima-nova", arial, sans-serif;
+$body_font_size: 14px;
 
-// action colors
-$mouseover: #8796B4;
-$disabled: gray;
-$active: #295DA8;
-$selected: red;
-$highlight: orange;
-$completed: #0096FF;
-$error: #FF817C;
-$shadow: #AAA;
-$subtitle: #AAA;
-$label: #888;
-$select-list: #fff;
-$item-hover: #bbb;
+// Colors
+$ms-pureBlack: #000;
+$ms-black: #333;
+$ms-pureWhite: #fff;
+$ms-white: #fafafa;
 
-$panel-result: #f4f7f7;
-$arrow-up: #67d878;
-$arrow-down: #ff7e79;
-$panel-selected: #bde4ff;
-$navbar-active: #001b3e;
-$navbar-border: #22508f;
+$ms-blueGray: #8796B4;
+$ms-blue: #3271cd;
+$ms-lightBlue: #428bca;
+$ms-mediumBlue: #295da7;
+$ms-darkBlue: #001b3e;
 
-// color variables
-$black: #333;
-$darkgray: #666666;
-$mediumgray: #cdcdcd;
-$gray: #808080;
-$lightgray: #e9e9e9;
-$lightestgray: #f2f2f2;
-$white: #fafafa;
-$purewhite: #fff;
-$mustard: #f89b26;
-$lightblue: #007fe8;
-$green: green;
-$red: red;
-$errorRed: #CD1F28;
-$orange: #f45724;
-$blue: #295da7;
+$ms-orange: #f45724;
+$ms-gold: #ffa500;
+
+$ms-red: #cd1f28;
+$ms-lightRed: #ff817c;
+
+$ms-green: #449e47;
+$ms-lightGreen: #c7e9c8;
+$ms-mediumGreen: #5cb85c;
+
+$ms-gray: #808080;
+$ms-lightGray: #e6e6e6;
+$ms-mediumGray: #999;
+$ms-mediumLightGray: #cdcdcd;
+$ms-darkGray: #666666;
+
+$ms-actionGreen: #01a951;
+$ms-strategyBlue: #0062A9;
 
 // Marketshare color bar logo
 $colorcell1: #ffde00;
@@ -65,8 +59,22 @@ $app_top_margin: 50px;
 $navigation_min_width: 1024px;
 $content_min_width: 1080px;
 
+// Text styles
+.baseFont {
+  font-size: $body_font_size;
+  color: $ms-black;
+  font-family: $sansFontFamily;
+}
 
-// mixins
+
+.hide-overflow {
+  overflow:hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
+// Mixins
 @mixin drop-shadow($t,$r,$b,$l,$o) {
   -webkit-box-shadow: $t $r $b $l rgba(0,0,0,$o);
   -moz-box-shadow: $t $r $b $l rgba(0,0,0,$o);
@@ -138,5 +146,87 @@ $content_min_width: 1080px;
   }
   @keyframes #{$animationName} {
     @content;
+  }
+}
+
+@mixin reveal-animation($time:0.5) {
+  $delayTime: #{$time / 2}s;
+  $longDelayTime: #{$delayTime / 2}s;
+  &.animated { 
+    -webkit-animation-duration: #{$time}s; 
+    animation-duration: #{$time}s; 
+    -webkit-animation-fill-mode: both; 
+    animation-fill-mode: both; 
+  } 
+
+  &.delay {
+    -webkit-animation-delay: #{$delayTime}s;
+      animation-delay: #{$delayTime}s;
+  }
+
+  &.delay-long {
+    -webkit-animation-delay: #{$longDelayTime}s;
+      animation-delay: #{$longDelayTime}s;
+  }
+
+  @-webkit-keyframes fadeIn { 
+    0% {opacity: 0;}
+    100% {opacity: 1;} 
+  } 
+  @keyframes fadeIn { 
+    0% {opacity: 0;}
+    100% {opacity: 1;} 
+  } 
+  &.fadeIn { 
+    -webkit-animation-name: fadeIn; 
+    animation-name: fadeIn; 
+  }
+}
+
+@mixin product-btn($btn-type, $color, $logo-image) {
+  input[type="radio"] {
+    display: none;
+    &:checked + label {
+      @include reveal-animation();
+        color: $ms-pureWhite;
+        background-image: url(../images/ms-logo-01.png);
+        background-color: $color;
+        border-right-color: $color;
+        border-bottom-color: $color;
+        border-left-color: $color;
+        outline: none;
+    }
+  }
+  label {
+    width: 230px;
+    text-align: center;
+    color: $color;
+    font-size: 38px;
+    background-color: $ms-pureWhite;
+    border-top: 0;
+    border-right: 1px solid $ms-mediumLightGray;
+    border-bottom: 2px solid $ms-mediumLightGray;
+    border-left: 1px solid $ms-lightGray;
+    border-radius: 0;
+    background-image: url(../images/#{$logo-image});
+    background-repeat: no-repeat;
+    @if $btn-type == "ms-strategy" { 
+    background-position: 25px center; 
+    padding: 10px 0px 10px 40px;
+    }
+    @if $btn-type == "ms-action" { 
+      background-position: 40px center; 
+      padding: 10px 0px 10px 45px;
+    }
+
+    &:hover {
+      cursor: pointer;
+      color: $ms-pureWhite;
+        background-image: url(../images/ms-logo-01.png);
+        background-color: $ms-mediumLightGray;
+        border-right-color: $ms-mediumLightGray;
+        border-bottom-color: $ms-mediumLightGray;
+        border-left-color: $ms-lightGray;
+    }
   }
 }

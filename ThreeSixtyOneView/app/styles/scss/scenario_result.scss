@@ -1,5 +1,4 @@
 @import "variables";
-@import "new_variables";
 
 .scenario_results {
     .scenario-type-dropdown {
@@ -32,10 +31,10 @@
         .filter-category {
             &.disabled {
                 .filter-label {
-                    color: $disabled;
+                    color: $ms-gray;
                 }
                 .filter-values {
-                    color: $disabled;
+                    color: $ms-gray;
                 }
             }
         }
