@@ -51,6 +51,7 @@ describe('Controllers: scenario editor CTRL', function() {
 
 		spyOn(ManageAnalysisViewsService, 'deleteView').and.callFake(returnThen);
 		spyOn(ManageAnalysisViewsService, 'getView').and.callFake(returnThen);
+		spyOn(ManageAnalysisViewsService, 'createView').and.callFake(returnThen);
 		spyOn(PivotMetaService, 'determineTimeDisability').and.returnValue(false);
 		spyOn(PivotMetaService, 'getAddedFilters').and.returnValue({value: 'test'});
 		spyOn(PivotMetaService, 'setUpAddedLevels').and.returnValue({value: 'test'});
@@ -93,13 +94,48 @@ describe('Controllers: scenario editor CTRL', function() {
 	it('should load a view', function() {
 		var view = JSON.parse(touchpointView);
 		scope.loadView(cubeId, viewId);
-		expect(ManageAnalysisViewsService.getView).toHaveBeenCalledWith(viewId, cubeId);
 
+		expect(ManageAnalysisViewsService.getView).toHaveBeenCalledWith(viewId, cubeId);
 		expect(scope.viewData).toEqual(view);
 		expect(PivotMetaService.getAddedFilters).toHaveBeenCalledWith(view.filters, scope.dimensions);
 		expect(scope.addedFilters).toEqual({value: 'test'});
 		expect(PivotMetaService.setUpAddedLevels).toHaveBeenCalledWith(view.columns.concat(view.rows));
 		expect(scope.added).toEqual({value: 'test'});
 		expect(scope.timeDisabled).toBeFalsy();
+	});
+
+	it('should delete the draft view when loading another view', function() {
+		var view = JSON.parse(touchpointView),
+			viewsListLength = 0;
+		scope.draftView = true;
+		scope.viewsList = views;
+		scope.viewsList[0].id = 2;
+		scope.viewsList[0].name = 'Draft - test';
+		scope.viewsList[0].isDraft = true;
+		viewsListLength = scope.viewsList.length;
+		scope.loadView(cubeId, viewId);
+
+		expect(scope.viewsList.length).toBe(viewsListLength-1);
+	});
+
+	it('should delete a view', function() {
+		scope.viewsList = views;
+		scope.viewsList[0].id = 9;
+		scope.viewsList[0].name = 'Region By Month';
+		scope.viewsList[0].isDraft = true;
+		scope.deleteView(cubeId, viewId);
+
+		expect(ManageAnalysisViewsService.deleteView).toHaveBeenCalledWith(viewId, cubeId);
+		expect(scope.viewsList).toEqual([]);
+	});
+
+	it('should create a view', function() {
+		var newView = angular.copy(touchpointView),
+			viewsListLength = 0;
+		scope.viewsList = views;
+		viewsListLength = scope.viewsList.length;
+		scope.createView(cubeId, newView);
+
+		expect(scope.viewsList.length).toBe(viewsListLength+1);
 	});
 });
