@@ -106,7 +106,7 @@
 			.prompt {
 				font-size: 24px;
 				margin: 15px 0 0 0;
-				div { margin: 20px 0 0 0; }
+				div { margin: 20px 0; }
 				& > span {
 					margin: 15px 0 0 0;
 					display: block;
@@ -191,7 +191,7 @@
 		[class*="col-md"] {
 			padding: 0 20px 0 2px;
 		}
-		.spendDimensionCard {
+		.standardDimensionCard {
 			min-height: 80px;
 			&.fixedHeight {
 				height: 185px;

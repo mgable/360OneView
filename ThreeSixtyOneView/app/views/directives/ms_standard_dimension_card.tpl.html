@@ -1,0 +1,21 @@
+<div class="dimensionCard standardDimensionCard" ng-class="{fixedHeight: templateType !== 'Action'}">
+    <div class="dimensionCheckbox">
+        <div class="parent-checkbox ms-checkbox no-select" ng-class="{selected: dimensionData.isSelected}">
+            <label>
+                <input type="checkbox" ms-tristates-checkbox child-list="dimensionData.attributes" property="isSelected" ng-model="dimensionData.isSelected"><i></i><span class="capitalized">{{dimensionData.label}}</span>
+            </label>
+        </div>
+        <div class="children-checkbox ms-checkbox no-select" ng-repeat="item in dimensionData.attributes" ng-class="{selected: item.isSelected}" ng-if="templateType !== 'Action'">
+            <label>
+                <input type="checkbox" ng-model="item.isSelected"><i></i><span class="capitalized">{{item.label}}</span>
+            </label>
+        </div>
+    </div>
+    <div class="dimensionFilter hide-overflow" ng-if="dimensionData.isSelected">
+        <!-- <span title="All" ng-class="{selected: dimensionData.isSelected}" ng-click="filtersModal(dimensionData)"> -->
+        <span title="All" ng-class="{selected: dimensionData.isSelected}">
+            <icon type="filter"></icon>
+            <span>All</span>
+        </span>
+    </div>
+</div>

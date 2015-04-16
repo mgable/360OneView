@@ -13,14 +13,14 @@
         this.getSelectedDimensions = function(dimensions) {
             var tmpDimensions = angular.copy(dimensions);
             return _.filter(tmpDimensions, function(tmpDimension) {
-                tmpDimension.members = _.filter(tmpDimension.members, function(member) { return member.isSelected === true; });
+                tmpDimension.attributes = _.filter(tmpDimension.attributes, function(attibute) { return attibute.isSelected === true; });
                 return tmpDimension.isSelected === true;
             });
         };
 
         this.getSelectedTimeDimension = function(timeDimension, time) {
             var tmpTimeDimension = angular.copy(timeDimension);
-            tmpTimeDimension.members = _.filter(tmpTimeDimension.members, function(member) { return member.label === time; });
+            tmpTimeDimension.attributes = _.filter(tmpTimeDimension.attributes, function(attribute) { return attribute.label === time; });
             return tmpTimeDimension;
         };
 
@@ -29,14 +29,14 @@
                 dimensionLabel = [];
             _.each(tmpDimensions, function(tmpDimension) {
                 if (tmpDimension.isSelected) {
-                    var selectedMembers = _.filter(tmpDimension.members, function(member) { return member.isSelected === true; }),
-                        memberLabel = '';
-                    if (0 < selectedMembers.length && selectedMembers.length < tmpDimension.members.length) {
-                        memberLabel = '(' + _.pluck(selectedMembers, 'label').join() + ')';
+                    var selectedAttributes = _.filter(tmpDimension.attributes, function(attribute) { return attribute.isSelected === true; }),
+                        attributeLabel = '';
+                    if (0 < selectedAttributes.length && selectedAttributes.length < tmpDimension.attributes.length) {
+                        attributeLabel = '(' + _.pluck(selectedAttributes, 'label').join() + ')';
                     } else {
-                        memberLabel = '';
+                        attributeLabel = '';
                     }
-                    dimensionLabel.push(tmpDimension.label + memberLabel);
+                    dimensionLabel.push(tmpDimension.label + attributeLabel);
                 }
             });
             return dimensionLabel.join(', ');
