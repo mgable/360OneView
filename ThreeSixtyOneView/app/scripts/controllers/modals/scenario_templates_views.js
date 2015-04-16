@@ -1,22 +1,40 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-.controller('ScenarioTemplatesViewsCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "EVENTS", "data", 'ManageTemplatesService', 'DimensionService', function($scope, $controller, $modalInstance, CONFIG, EVENTS, data, ManageTemplatesService, DimensionService) {
+.controller('ScenarioTemplatesViewsCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "EVENTS", "data", 'ManageTemplatesService', 'DimensionService', 'ManageScenariosService',
+	function($scope, $controller, $modalInstance, CONFIG, EVENTS, data, ManageTemplatesService, DimensionService, ManageScenariosService) {
 	angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $controller: $controller, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
 	var init = function() {
 		$scope.CONFIG = CONFIG;
-		angular.extend($scope, data);
 		// this sets the following
 		// $scope.templateType, $scope.scenarioTemplates
+		angular.extend($scope, data);
+
+		ManageScenariosService.getBase($scope.templateType.label).then(function(baseScenario) {
+			console.log(baseScenario);
+			$scope.baseScenario = baseScenario;
+				ManageTemplatesService.get(baseScenario.template.id, false).then(function(baseTemplate) {
+				console.log(baseTemplate);
+				$scope.baseTemplate = baseTemplate;
+				$scope.template.source.id = baseTemplate.id;
+			});
+		});
 
 		initializeTemplate($scope.templateType);
 	}, initializeTemplate = function(type) {
 		$scope.template = {
-			name: '',
-			description: '',
-			cubes: []
+			name: 'testbk8',
+			description: 'temp',
+			type: $scope.templateType.label,
+			source: {},
+			dimensions: [],
+			kpis: []
 		};
+		
+		// ManageTemplatesService.create($scope.template).then(function(response) {
+		// 	console.log(response);
+		// });
 
 		$scope.timeGranularity = '';
 		$scope.spendDimensionsLabels = '';

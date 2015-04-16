@@ -39,7 +39,6 @@ angular.module('ThreeSixtyOneView.services')
 
 	this.create = function(template) {
 		return this.resource.post(template, {}, {}, '').then(function(response) {
-			console.log(response);
 			return response;
 		});
 	};
