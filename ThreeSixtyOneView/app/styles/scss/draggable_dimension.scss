@@ -1,5 +1,4 @@
 @import "variables";
-@import "new_variables";
 
 .draggable-item {
 	min-width: 50px;
@@ -92,15 +91,14 @@
 	}
 
 	.dimension-category {
-		border-bottom: 1px solid $mediumgray;
-		vertical-align: top;
+		border-bottom: 1px solid $ms-mediumLightGray;
 
 		&:last-child {
 			border-bottom: 0;
 		}
 
 		.category-label {
-			color: $gray;
+			color: $ms-gray;
 			padding-right: 15px;
 			padding-top: 10px;
 		}
