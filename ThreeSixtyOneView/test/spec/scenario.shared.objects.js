@@ -27,6 +27,7 @@ var templateId = 1,
 			}
 		}
 	],
+	touchpointView = '{"id":9,"name":"Region By Month","isDefault":true,"rows":[{"dimension":{"id":4,"name":"TIME_DIM","label":"TIME"},"hierarchy":{"id":-1},"level":{"id":1,"name":"YEAR","label":"YEAR"}}],"columns":[{"dimension":{"id":3,"name":"GEO_DIM","label":"GEO"},"hierarchy":{"id":-1},"level":{"id":2,"name":"ATTR1_ID","label":"Region"}}],"filters":[{"id":4784,"scope":{"dimension":{"id":1,"name":"VAR_DIM","label":"VARIABLE"},"hierarchy":{"id":-1},"level":{"id":3,"name":"ATTR2_ID","label":"Brand/Nameplate"}},"value":{"specification":{"type":"Absolute","members":[{"id":2609,"name":"Nameplate","label":"Nameplate"}]}}},{"id":4785,"scope":{"dimension":{"id":2,"name":"PROD_DIM","label":"PRODUCT"},"hierarchy":{"id":-1},"level":{"id":2,"name":"ATTR1_ID","label":"Nameplate Category"}},"value":{"specification":{"type":"All"}}},{"id":4786,"scope":{"dimension":{"id":3,"name":"GEO_DIM","label":"GEO"},"hierarchy":{"id":-1},"level":{"id":2,"name":"ATTR1_ID","label":"Region"}},"value":{"specification":{"type":"All"}}},{"id":4787,"scope":{"dimension":{"id":4,"name":"TIME_DIM","label":"TIME"},"hierarchy":{"id":-1},"level":{"id":5,"name":"MONTH","label":"MONTH"}},"value":{"specification":{"type":"Absolute","members":[{"id":115,"name":"2015-M03","label":"2015-M03"}]}}}],"auditInfo":{"createdOn":"2015-04-14T09:38:29.075Z","createdBy":{"uuid":"UUID-1","name":"me"}}}',
 	scenarioElement = {
 		"id": 22,
 		"name": "Competitive Intent - November 15 2015 Preloaded Simulation vFinal",
