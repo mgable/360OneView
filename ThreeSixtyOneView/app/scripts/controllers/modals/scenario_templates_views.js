@@ -12,29 +12,25 @@ angular.module('ThreeSixtyOneView')
 		angular.extend($scope, data);
 
 		ManageScenariosService.getBase($scope.templateType.label).then(function(baseScenario) {
-			console.log(baseScenario);
 			$scope.baseScenario = baseScenario;
 				ManageTemplatesService.get(baseScenario.template.id, false).then(function(baseTemplate) {
-				console.log(baseTemplate);
 				$scope.baseTemplate = baseTemplate;
 				$scope.template.source.id = baseTemplate.id;
+				$scope.dimensionsList = baseTemplate.dimensions;
+				$scope.kpisList = baseTemplate.kpis;
 			});
 		});
 
 		initializeTemplate($scope.templateType);
 	}, initializeTemplate = function(type) {
 		$scope.template = {
-			name: 'testbk8',
-			description: 'temp',
+			name: '',
+			description: '',
 			type: $scope.templateType.label,
 			source: {},
 			dimensions: [],
 			kpis: []
 		};
-		
-		// ManageTemplatesService.create($scope.template).then(function(response) {
-		// 	console.log(response);
-		// });
 
 		$scope.timeGranularity = '';
 		$scope.spendDimensionsLabels = '';
@@ -46,6 +42,12 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		$scope.defaultView = {};
+	};
+
+	$scope.createDraftTemplate = function() {
+		ManageTemplatesService.create($scope.template).then(function(response) {
+			$scope.template.id = response.id;
+		});
 	};
 
 	$scope.setTimeGranularity = function(time) {
