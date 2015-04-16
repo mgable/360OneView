@@ -22,8 +22,24 @@ angular.module('ThreeSixtyOneView.services')
 		});
 	};
 
-	this.get = function(templateId) {
-		return this.resource.get({templateId: templateId}, {}, '').then(function(response) {
+	this.get = function(templateId, extended) {
+		var config = {
+			params: {
+				extended: true
+			}
+		};
+		if(typeof extended !== 'undefined') {
+			config.params.extended = extended;
+		}
+
+		return this.resource.get({templateId: templateId}, config, '').then(function(response) {
+			return response;
+		});
+	};
+
+	this.create = function(template) {
+		return this.resource.post(template, {}, {}, '').then(function(response) {
+			console.log(response);
 			return response;
 		});
 	};
