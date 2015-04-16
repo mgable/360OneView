@@ -55,4 +55,16 @@ angular.module('ThreeSixtyOneView.services')
 				return response;
 			});
 		};
+
+		this.getBase = function(type) {
+			var additionalPath = 'base',
+				config = {
+					params: {
+						type: type
+					}
+				};
+			return this.resource.get({}, config, additionalPath).then(function(response) {
+				return response;
+			});
+		};
   }]);
