@@ -13,7 +13,7 @@ describe('Service: ManageTemplatesService', function () {
 
 		backend.when('GET', manageTemplatesUrl.replace(/\/:templateId/,'')).respond(JSON.parse(scenarioTemplates));
 		backend.when('GET', manageTemplatesUrl.replace(/\/:templateId/,'') + '?type=' + templateType).respond(JSON.parse(scenarioTemplates));
-		backend.when('GET', manageTemplatesUrl.replace(/:templateId/, templateId)).respond(JSON.parse(scenarioTemplates)[0]);
+		backend.when('GET', manageTemplatesUrl.replace(/:templateId/, templateId) + '?extended=true').respond(JSON.parse(scenarioTemplates)[0]);
 	}));
 
 	// Initialize the controller and a mock scope
