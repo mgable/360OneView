@@ -52,13 +52,18 @@ describe('Controllers: scenario editor CTRL', function() {
 		spyOn(ManageAnalysisViewsService, 'deleteView').and.callFake(returnThen);
 		spyOn(ManageAnalysisViewsService, 'getView').and.callFake(returnThen);
 		spyOn(ManageAnalysisViewsService, 'createView').and.callFake(returnThen);
+		spyOn(ManageAnalysisViewsService, 'renameView').and.callFake(returnThen);
+		spyOn(ManageAnalysisViewsService, 'defaultView').and.callFake(returnThen);
 		spyOn(PivotMetaService, 'determineTimeDisability').and.returnValue(false);
 		spyOn(PivotMetaService, 'getAddedFilters').and.returnValue({value: 'test'});
 		spyOn(PivotMetaService, 'setUpAddedLevels').and.returnValue({value: 'test'});
+		spyOn(PivotMetaService, 'updateView').and.callFake(returnThen);
 
 		ctrl = $controller('ScenarioEditorCtrl', {
 			$scope: scope
 		});
+
+		scope.viewsList = views;
 	}));
 
 	it('should be defined', function() {
@@ -82,7 +87,6 @@ describe('Controllers: scenario editor CTRL', function() {
 	});
 
 	it('should delete a view', function() {
-		scope.viewsList = views;
 		scope.draftView = true;
 		scope.deleteView(cubeId, viewId);
 
@@ -108,7 +112,6 @@ describe('Controllers: scenario editor CTRL', function() {
 		var view = JSON.parse(touchpointView),
 			viewsListLength = 0;
 		scope.draftView = true;
-		scope.viewsList = views;
 		scope.viewsList[0].id = 2;
 		scope.viewsList[0].name = 'Draft - test';
 		scope.viewsList[0].isDraft = true;
@@ -119,7 +122,6 @@ describe('Controllers: scenario editor CTRL', function() {
 	});
 
 	it('should delete a view', function() {
-		scope.viewsList = views;
 		scope.viewsList[0].id = 9;
 		scope.viewsList[0].name = 'Region By Month';
 		scope.viewsList[0].isDraft = true;
@@ -130,12 +132,50 @@ describe('Controllers: scenario editor CTRL', function() {
 	});
 
 	it('should create a view', function() {
-		var newView = angular.copy(touchpointView),
+		var newView = angular.copy(JSON.parse(touchpointView)),
 			viewsListLength = 0;
-		scope.viewsList = views;
 		viewsListLength = scope.viewsList.length;
 		scope.createView(cubeId, newView);
 
 		expect(scope.viewsList.length).toBe(viewsListLength+1);
 	});
+
+	it('should rename the view', function() {
+		var newView = angular.copy(JSON.parse(touchpointView)),
+			originalViewName = newView.name;
+		newView.name = 'some random name';
+		scope.renameView(cubeId, newView);
+
+		expect(scope.viewsList[0].name).toBe(originalViewName);
+	});
+
+	it('should save draft view when view is not draft', function() {
+		var viewsCount = scope.viewsList.length;
+		scope.draftView = false;
+		scope.saveDraftView();
+
+		expect(scope.draftView).toBeTruthy();
+		expect(ManageAnalysisViewsService.defaultView).toHaveBeenCalled();
+		expect(scope.viewsList.length).toBe(viewsCount+1);
+	});
+
+	it('should save draft view when view is  draft', function() {
+		scope.draftView = true;
+		scope.saveDraftView();
+
+		expect(PivotMetaService.updateView).toHaveBeenCalled();
+	});
+
+	xit('should save a draft view', function() {
+		var draftView = angular.copy(JSON.parse(touchpointView));
+		draftView.name = 'Draft - ' + draftView.name;
+		scope.viewsList.push(draftView);
+		scope.draftView = true;
+		scope.viewData = draftView;
+		scope.saveView();
+
+		expect(PivotMetaService.updateView).toHaveBeenCalled();
+	});
+
+	it('should not save anything when view is not draft', function() {});
 });
