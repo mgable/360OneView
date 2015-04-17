@@ -42,4 +42,16 @@ angular.module('ThreeSixtyOneView.services')
 			return response;
 		});
 	};
+
+	this.update = function(template, commit) {
+		var config = {
+			params: {
+				commit: !!commit
+			}
+		};
+		
+		return this.resource.put(template, config, {templateId: template.id}, '').then(function(response) {
+			return response;
+		});
+	};
 }]);
