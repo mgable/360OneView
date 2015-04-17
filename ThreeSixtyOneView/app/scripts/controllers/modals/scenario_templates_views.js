@@ -75,10 +75,8 @@ angular.module('ThreeSixtyOneView')
 
 	// pass back the selected file and dismiss the modal
 	$scope.submit = function() {
-		console.log($scope.template);
 		ManageTemplatesService.update($scope.template, true).then(function(response) {
-			console.log(response);
-			$modalInstance.close({response: response});
+			$modalInstance.close(response);
 		});
 	};
 
