@@ -45,9 +45,11 @@ angular.module('ThreeSixtyOneView')
 	};
 
 	$scope.createDraftTemplate = function() {
-		ManageTemplatesService.create($scope.template).then(function(response) {
-			$scope.template.id = response.id;
-		});
+		if(typeof $scope.template.id === 'undefined') {
+			ManageTemplatesService.create($scope.template).then(function(response) {
+				$scope.template.id = response.id;
+			});
+		}
 	};
 
 	$scope.setTimeGranularity = function(time) {
@@ -73,7 +75,11 @@ angular.module('ThreeSixtyOneView')
 
 	// pass back the selected file and dismiss the modal
 	$scope.submit = function() {
-		$modalInstance.close({response:'response'});
+		console.log($scope.template);
+		ManageTemplatesService.update($scope.template, true).then(function(response) {
+			console.log(response);
+			$modalInstance.close({response: response});
+		});
 	};
 
 	$scope.$on(EVENTS.flipbookAllowAdvance, function(evt, data){
