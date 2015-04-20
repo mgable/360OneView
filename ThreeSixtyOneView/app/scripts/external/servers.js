@@ -5,7 +5,8 @@ window.Marketshare.SERVERS = {
 		// current domain: service url
 		//Local
 		'server': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8080',
-		'127.0.0.1': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8080',
+		//'127.0.0.1': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8080',
+		'127.0.0.1' : 'http://127.0.0.1:3001',
 		'localhost': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8080',
 		// scenario templates
 		// 'server': 'http://ec2-54-91-240-179.compute-1.amazonaws.com:8081',

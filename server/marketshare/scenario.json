@@ -1,0 +1,125 @@
+[{
+	"id": 3866,
+	"name": "New Scenario Calculation Test Increase Spend",
+	"referenceScenario": {
+		"type": "Strategy",
+		"id": 2,
+		"name": "PRE LOADED SIMULATION",
+		"type": "Strategy"
+	},
+	"prediction": {
+		"type": "Simulation"
+	},
+	"template": {
+		"id": 1,
+		"name": "Strategy Master Scenario Template",
+		"type": "Strategy"
+	},
+	"auditInfo": {
+		"createdOn": "2015-04-16T05:22:21.077Z",
+		"createdBy": {
+			"uuid": "UUID-1",
+			"name": "me"
+		},
+		"lastUpdatedOn": "2015-04-16T05:22:21.077Z",
+		"lastUpdatedBy": {
+			"uuid": "UUID-1",
+			"name": "me"
+		}
+	},
+	"type": "Strategy"
+},
+{
+	"id": 3860,
+	"name": "Scenario 1_1429160550429",
+	"description": "My Sceario#1",
+	"referenceScenario": {
+		"type": "Strategy",
+		"id": 2,
+		"name": "PRE LOADED SIMULATION",
+		"type": "Strategy"
+	},
+	"prediction": {
+		"type": "Simulation"
+	},
+	"template": {
+		"id": 1,
+		"name": "Strategy Master Scenario Template",
+		"type": "Strategy"
+	},
+	"auditInfo": {
+		"createdOn": "2015-04-16T05:02:30.549Z",
+		"createdBy": {
+			"uuid": "UUID-1",
+			"name": "me"
+		},
+		"lastUpdatedOn": "2015-04-16T05:02:30.549Z",
+		"lastUpdatedBy": {
+			"uuid": "UUID-1",
+			"name": "me"
+		}
+	},
+	"type": "Strategy"
+}, {
+	"id": 3861,
+	"name": "Scenario 2_1429160550429",
+	"description": "My Sceario#2",
+	"referenceScenario": {
+		"type": "Strategy",
+		"id": 2,
+		"name": "PRE LOADED SIMULATION",
+		"type": "Strategy"
+	},
+	"prediction": {
+		"type": "Simulation"
+	},
+	"template": {
+		"id": 1,
+		"name": "Strategy Master Scenario Template",
+		"type": "Strategy"
+	},
+	"auditInfo": {
+		"createdOn": "2015-04-16T05:02:32.551Z",
+		"createdBy": {
+			"uuid": "UUID-1",
+			"name": "me"
+		},
+		"lastUpdatedOn": "2015-04-16T05:02:32.551Z",
+		"lastUpdatedBy": {
+			"uuid": "UUID-1",
+			"name": "me"
+		}
+	},
+	"type": "Strategy"
+}, {
+	"id": 3862,
+	"name": "Scenario 3_1429160550429",
+	"description": "My Sceario#3",
+	"referenceScenario": {
+		"type": "Strategy",
+		"id": 2,
+		"name": "PRE LOADED SIMULATION",
+		"type": "Strategy"
+	},
+	"prediction": {
+		"type": "Simulation"
+	},
+	"template": {
+		"id": 1,
+		"name": "Strategy Master Scenario Template",
+		"type": "Strategy"
+	},
+	"auditInfo": {
+		"createdOn": "2015-04-16T05:02:33.916Z",
+		"createdBy": {
+			"uuid": "UUID-1",
+			"name": "me"
+		},
+		"lastUpdatedOn": "2015-04-16T05:02:33.916Z",
+		"lastUpdatedBy": {
+			"uuid": "UUID-1",
+			"name": "me"
+		}
+	},
+	"type": "Strategy"
+}]
