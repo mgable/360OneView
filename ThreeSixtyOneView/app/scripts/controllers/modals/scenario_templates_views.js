@@ -13,11 +13,16 @@ angular.module('ThreeSixtyOneView')
 
 		ManageScenariosService.getBase($scope.templateType.label).then(function(baseScenario) {
 			$scope.baseScenario = baseScenario;
-				ManageTemplatesService.get(baseScenario.template.id, false).then(function(baseTemplate) {
+			ManageTemplatesService.get(baseScenario.template.id, false).then(function(baseTemplate) {
 				$scope.baseTemplate = baseTemplate;
 				$scope.template.source.id = baseTemplate.id;
 				$scope.dimensionsList = baseTemplate.dimensions;
 				$scope.kpisList = baseTemplate.kpis;
+
+				ManageTemplatesService.buildDimensionsTree(baseScenario.template.id).then(function(dimensions) {
+					$scope.dimensions = dimensions;
+					console.log(dimensions);
+				});
 			});
 		});
 
