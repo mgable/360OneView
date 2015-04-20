@@ -1,21 +1,35 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-.controller('ScenarioTemplatesViewsCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "EVENTS", "data", 'ManageTemplatesService', 'DimensionService', function($scope, $controller, $modalInstance, CONFIG, EVENTS, data, ManageTemplatesService, DimensionService) {
+.controller('ScenarioTemplatesViewsCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "EVENTS", "data", 'ManageTemplatesService', 'DimensionService', 'ManageScenariosService',
+	function($scope, $controller, $modalInstance, CONFIG, EVENTS, data, ManageTemplatesService, DimensionService, ManageScenariosService) {
 	angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $controller: $controller, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
 	var init = function() {
 		$scope.CONFIG = CONFIG;
-		angular.extend($scope, data);
 		// this sets the following
 		// $scope.templateType, $scope.scenarioTemplates
+		angular.extend($scope, data);
+
+		ManageScenariosService.getBase($scope.templateType.label).then(function(baseScenario) {
+			$scope.baseScenario = baseScenario;
+				ManageTemplatesService.get(baseScenario.template.id, false).then(function(baseTemplate) {
+				$scope.baseTemplate = baseTemplate;
+				$scope.template.source.id = baseTemplate.id;
+				$scope.dimensionsList = baseTemplate.dimensions;
+				$scope.kpisList = baseTemplate.kpis;
+			});
+		});
 
 		initializeTemplate($scope.templateType);
 	}, initializeTemplate = function(type) {
 		$scope.template = {
 			name: '',
 			description: '',
-			cubes: []
+			type: $scope.templateType.label,
+			source: {},
+			dimensions: [],
+			kpis: []
 		};
 
 		$scope.timeGranularity = '';
@@ -28,6 +42,14 @@ angular.module('ThreeSixtyOneView')
 		};
 
 		$scope.defaultView = {};
+	};
+
+	$scope.createDraftTemplate = function() {
+		if(typeof $scope.template.id === 'undefined') {
+			ManageTemplatesService.create($scope.template).then(function(response) {
+				$scope.template.id = response.id;
+			});
+		}
 	};
 
 	$scope.setTimeGranularity = function(time) {
@@ -48,12 +70,17 @@ angular.module('ThreeSixtyOneView')
 	}
 
 	$scope.cancel = function() {
+		if(!!$scope.template.id) {
+			ManageTemplatesService.delete($scope.template.id);
+		}
 		$modalInstance.dismiss();
 	};
 
 	// pass back the selected file and dismiss the modal
 	$scope.submit = function() {
-		$modalInstance.close({response:'response'});
+		ManageTemplatesService.update($scope.template, true).then(function(response) {
+			$modalInstance.close(response);
+		});
 	};
 
 	$scope.$on(EVENTS.flipbookAllowAdvance, function(evt, data){

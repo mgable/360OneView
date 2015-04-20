@@ -8,9 +8,9 @@ window.Marketshare.SERVERS = {
 		'127.0.0.1': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8080',
 		'localhost': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8080',
 		// scenario templates
-		// 'server': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8081',
-		// '127.0.0.1': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8081',
-		// 'localhost': 'http://ec2-54-205-7-240.compute-1.amazonaws.com:8081',
+		// 'server': 'http://ec2-54-91-240-179.compute-1.amazonaws.com:8081',
+		// '127.0.0.1': 'http://ec2-54-91-240-179.compute-1.amazonaws.com:8081',
+		// 'localhost': 'http://ec2-54-91-240-179.compute-1.amazonaws.com:8081',
 		//QA
 		'ec2-54-91-240-179.compute-1.amazonaws.com': 'http://ec2-54-91-240-179.compute-1.amazonaws.com:8080',
 		'360-ui-qa.marketshare.com': 'http://ec2-54-91-240-179.compute-1.amazonaws.com:8080',

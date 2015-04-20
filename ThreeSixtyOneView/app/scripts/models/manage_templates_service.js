@@ -22,9 +22,46 @@ angular.module('ThreeSixtyOneView.services')
 		});
 	};
 
-	this.get = function(templateId) {
-		return this.resource.get({templateId: templateId}, {}, '').then(function(response) {
+	this.get = function(templateId, extended) {
+		var config = {
+			params: {
+				extended: true
+			}
+		};
+		if(typeof extended !== 'undefined') {
+			config.params.extended = extended;
+		}
+
+		return this.resource.get({templateId: templateId}, config, '').then(function(response) {
 			return response;
 		});
 	};
+
+	this.create = function(template) {
+		return this.resource.post(template, {}, {}, '').then(function(response) {
+			return response;
+		});
+	};
+
+	this.update = function(template, commit) {
+		var config = {
+			params: {
+				commit: !!commit
+			}
+		};
+		
+		return this.resource.put(template, config, {templateId: template.id}, '').then(function(response) {
+			return response;
+		});
+	};
+
+	this.delete = function(templateId) {
+		return this.resource.delete('', {}, {templateId: templateId}, '').then(function(response) {
+			return response;
+		});
+	};
+
+	this.getDimensions = function() {};
+
+	this.getMembers = function(templateId) {};
 }]);

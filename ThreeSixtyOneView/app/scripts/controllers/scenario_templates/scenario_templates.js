@@ -31,9 +31,9 @@ angular.module('ThreeSixtyOneView')
 					}
 				});
 			}, createTemplate = function(data) {
-				console.log('create template');
-				console.log('create default view');
+				console.log('template created');
 				console.log(data);
+				gotoProject(masterProject.uuid);
 			}, gotoProject = function(uuid) {
 				$state.go('Dashboard', {projectId: uuid});
 			}, startWorkflow = function() {

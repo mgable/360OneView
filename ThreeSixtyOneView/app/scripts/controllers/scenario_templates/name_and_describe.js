@@ -17,4 +17,8 @@ angular.module('ThreeSixtyOneView')
     			$scope.$emit(EVENTS.flipbookAllowAdvance, false);
     		}
     	});
+
+    	$scope.$on(EVENTS.flipbookAdvance, function() {
+			$scope.createDraftTemplate();
+		});
     }]);
