@@ -70,6 +70,9 @@ angular.module('ThreeSixtyOneView')
 	}
 
 	$scope.cancel = function() {
+		if(!!$scope.template.id) {
+			ManageTemplatesService.delete($scope.template.id);
+		}
 		$modalInstance.dismiss();
 	};
 

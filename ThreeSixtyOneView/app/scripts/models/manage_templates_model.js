@@ -6,6 +6,7 @@ angular.module('ThreeSixtyOneView.services')
 
 	return {
 		resource: resource,
-		config: {}
+		config: {},
+		dimensions: []
 	};
 }]);
