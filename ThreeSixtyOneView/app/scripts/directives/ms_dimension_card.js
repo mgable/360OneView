@@ -16,30 +16,19 @@ angular.module('ThreeSixtyOneView.directives')
             scope: {
                 dimensionData: '=',
                 allDimensionsData: '=',
-                templateType: '='
+                templateType: '=',
+                filtersModalCallback: '&'
             },
             templateUrl: function(elem, attrs){
                 return "views/directives/ms_" + attrs.dimensionType + "_dimension_card.tpl.html";
             },
             link: function(scope) {
 
-                var filtersModalCallback = function(data) {
-                    console.info('filtered data: ', data);
-                };
-
-                scope.getDimensionCardLabel = function(dimension) {
-                    var dimensionLength = dimension.members.length,
-                        filterArray = _.pluck(_.filter(dimension.members, function(dimension) {
-                            return dimension.isSelected === true;
-                        }), 'label');
-                    return (filterArray.length === dimensionLength) ? 'All' : filterArray.join();
-                };
-
                 scope.filtersModal = function(category) {
                     var dimensions = DimensionService.getSelectedDimensions(scope.allDimensionsData),
                         addedFilters = PivotMetaService.addAllFilters(dimensions),
                         dimension = _.find(dimensions, function(v) { return category.id === v.id; });
-                    DialogService.filtersModal(dimension, addedFilters, undefined, dimensions, filtersModalCallback);
+                    DialogService.filtersModal(dimension, addedFilters, undefined, dimensions, scope.filtersModalCallback);
                 };
 
             }
