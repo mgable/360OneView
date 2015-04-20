@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView.services')
-.service('ManageTemplatesService', ['Model', 'ManageTemplatesModel', function (Model, ManageTemplatesModel) {
-	var MyManageTemplatesModel, mymanagetemplatesdata;
+.service('ManageTemplatesService', ['$q', 'Model', 'ManageTemplatesModel', function ($q, Model, ManageTemplatesModel) {
+	var MyManageTemplatesModel, mymanagetemplatesdata, self = this;
 
 	MyManageTemplatesModel = new Model();
 	angular.extend(this, MyManageTemplatesModel.prototype);
@@ -33,6 +33,12 @@ angular.module('ThreeSixtyOneView.services')
 		}
 
 		return this.resource.get({templateId: templateId}, config, '').then(function(response) {
+			if(response.dimensions) {
+				self.dimensions = self.formDimensions(response.dimensions);
+			}
+			if(response.kpis) {
+				self.kpis = response.kpis;
+			}
 			return response;
 		});
 	};
@@ -57,11 +63,76 @@ angular.module('ThreeSixtyOneView.services')
 
 	this.delete = function(templateId) {
 		return this.resource.delete('', {}, {templateId: templateId}, '').then(function(response) {
+			self.dimensions = [];
+			self.kpis = [];
 			return response;
 		});
 	};
 
-	this.getDimensions = function() {};
+	this.getHierarchy = function(templateId, dimensionId) {
+		var additionalPath = 'dimension/:dimensionId/hierarchy';
+		return this.resource.get({templateId: templateId, dimensionId: dimensionId}, {}, additionalPath).then(function(response) {
+			return response;
+		});
+	};
 
-	this.getMembers = function(templateId) {};
+	this.getMembers = function(templateId, dimensionId, hierarchyId, levelId) {
+		var additionalPath = 'dimension/:dimensionId/hierarchy/:hierarchyId/level/:levelId/members',
+			config = {
+				params: {
+					children: true
+				}
+			};
+		return this.resource.get({templateId: templateId, dimensionId: dimensionId, hierarchyId: hierarchyId, levelId: levelId}, config, additionalPath).then(function(response) {
+			return response;
+		});
+	};
+
+	this.getDimensions = function() {
+		return self.dimensions;
+	};
+
+	this.getKpis = function() {
+		return self.kpis;
+	};
+
+	this.buildHierarchies = function(templateId) {
+		var promises = [];
+
+		_.each(self.dimensions, function(dimension) {
+			promises.push(self.getHierarchy(templateId, dimension.id));
+		});
+
+		return $q.all(promises).then(function(responses) {
+			_.each(responses, function(response, index) {
+				_.each(response, function(hierarchy) {
+					self.formHierarchies(self.dimensions, index, hierarchy);
+				});
+			});
+
+			return self.dimensions;
+		});
+	};
+
+	this.buildDimensionsTree = function(templateId) {
+		var promises = [],
+			count = 0;
+
+		return self.buildHierarchies(templateId).then(function(dimensions) {
+			_.each(self.dimensions, function(dimension) {
+				_.each(dimension.members, function(level) {
+					promises.push(self.getMembers(templateId, level.dimensionId, level.hierarchyId, level.id));
+				});
+			});
+
+			return $q.all(promises).then(function(responses) {
+				_.each(self.dimensions, function(dimension) {
+					_.each(dimension.members, function(level) {
+						level.members = responses[count++].members
+					});
+				});
+				return self.dimensions;
+			});
+		});
+	};
 }]);

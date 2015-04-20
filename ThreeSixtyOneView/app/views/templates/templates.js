@@ -311,13 +311,13 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "            <label>\r" +
     "\n" +
-    "                <input type=\"checkbox\" ms-tristates-checkbox child-list=\"dimensionData.attributes\" property=\"isSelected\" ng-model=\"dimensionData.isSelected\"><i></i><span class=\"capitalized\">{{dimensionData.label}}</span>\r" +
+    "                <input type=\"checkbox\" ms-tristates-checkbox child-list=\"dimensionData.members\" property=\"isSelected\" ng-model=\"dimensionData.isSelected\"><i></i><span class=\"capitalized\">{{dimensionData.label}}</span>\r" +
     "\n" +
     "            </label>\r" +
     "\n" +
     "        </div>\r" +
     "\n" +
-    "        <div class=\"children-checkbox ms-checkbox no-select\" ng-repeat=\"item in dimensionData.attributes\" ng-class=\"{selected: item.isSelected}\" ng-if=\"templateType !== 'Action'\">\r" +
+    "        <div class=\"children-checkbox ms-checkbox no-select\" ng-repeat=\"item in dimensionData.members\" ng-class=\"{selected: item.isSelected}\" ng-if=\"templateType !== 'Action'\">\r" +
     "\n" +
     "            <label>\r" +
     "\n" +
@@ -331,9 +331,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "    <div class=\"dimensionFilter hide-overflow\" ng-if=\"dimensionData.isSelected\">\r" +
     "\n" +
-    "        <!-- <span title=\"All\" ng-class=\"{selected: dimensionData.isSelected}\" ng-click=\"filtersModal(dimensionData)\"> -->\r" +
-    "\n" +
-    "        <span title=\"All\" ng-class=\"{selected: dimensionData.isSelected}\">\r" +
+    "        <span title=\"All\" ng-class=\"{selected: dimensionData.isSelected}\" ng-click=\"filtersModal(dimensionData)\">\r" +
     "\n" +
     "            <icon type=\"filter\"></icon>\r" +
     "\n" +
