@@ -2,7 +2,14 @@
 
 angular.module('ThreeSixtyOneView.services')
 .service('ManageTemplatesService', ['$q', 'Model', 'ManageTemplatesModel', function ($q, Model, ManageTemplatesModel) {
-	var MyManageTemplatesModel, mymanagetemplatesdata, self = this;
+	var MyManageTemplatesModel, mymanagetemplatesdata, self = this,
+		resetView = function(newView) {
+			newView.id = null;
+			_.each(newView.filters, function(filter) {
+				filter.id = null;
+			});
+			return newView;
+		};
 
 	MyManageTemplatesModel = new Model();
 	angular.extend(this, MyManageTemplatesModel.prototype);
@@ -135,4 +142,13 @@ angular.module('ThreeSixtyOneView.services')
 			});
 		});
 	};
+
+	this.createView = function(templateId, newView) {
+			var additionalPath = 'views';
+			newView.isDefault = true;
+
+			return this.resource.post(resetView(newView), {}, {templateId: templateId}, additionalPath).then(function (response) {
+				return response;
+			});
+		};
 }]);

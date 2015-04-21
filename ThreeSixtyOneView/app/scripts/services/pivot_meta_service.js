@@ -63,6 +63,9 @@
 			var measureDimension = _.find(dimensions, function(dimension) {
 				return dimension.type === 'MeasureDimension';
 			});
+			if(!measureDimension) {
+				measureDimension = dimensions[0];
+			}
 
 			return {
 				dimension: {
