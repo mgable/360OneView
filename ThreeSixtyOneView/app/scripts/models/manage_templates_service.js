@@ -144,11 +144,36 @@ angular.module('ThreeSixtyOneView.services')
 	};
 
 	this.createView = function(templateId, newView) {
-			var additionalPath = 'views';
-			newView.isDefault = true;
+		var additionalPath = 'views';
+		newView.isDefault = true;
 
-			return this.resource.post(resetView(newView), {}, {templateId: templateId}, additionalPath).then(function (response) {
-				return response;
-			});
-		};
+		return this.resource.post(resetView(newView), {}, {templateId: templateId}, additionalPath).then(function (response) {
+			return response;
+		});
+	};
+
+	this.getTemplateCubeByName = function(templateId, cubeName) {
+		var additionalPath = 'cube/id',
+			config = {
+				params: {
+					cubeName: cubeName
+				}
+			};
+		return this.resource.get({templateId: templateId}, config, additionalPath).then(function(response) {
+			return response;
+		});
+	};
+
+	this.getTemplateCubesByType = function(templateId, cubeType) {
+		// cubeType could be: Standard, Spend, Outcome
+		var additionalPath = 'cube/ids',
+			config = {
+				params: {
+					type: cubeType
+				}
+			};
+		return this.resource.get({templateId: templateId}, config, additionalPath).then(function(response) {
+			return response;
+		});
+	};
 }]);
