@@ -13,17 +13,11 @@ angular.module('ThreeSixtyOneView')
 
 	var init = function() {
 			$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
-			$scope.dimensions = [];
-			$scope.viewData = {};
-			MetaDataService.buildDimensionsTree(1).then(function(dimensions) {
-				$scope.dimensions = dimensions;
-				$scope.viewData = PivotMetaService.formEmptyView(dimensions, {label: ''});
-				$scope.added = PivotMetaService.setUpAddedLevels($scope.viewData.rows.concat($scope.viewData.columns));
-				$scope.addedFilters = PivotMetaService.getAddedFilters($scope.viewData.filters, dimensions);
-				$scope.membersList = PivotMetaService.generateMembersList(dimensions);
-				$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, dimensions, $scope.viewData);
-				determineTimeDisability($scope.added);
-			});
+			$scope.added = PivotMetaService.setUpAddedLevels($scope.viewData.rows.concat($scope.viewData.columns));
+			$scope.addedFilters = PivotMetaService.getAddedFilters($scope.viewData.filters, $scope.dimensions);
+			$scope.membersList = PivotMetaService.generateMembersList($scope.dimensions);
+			$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.viewData);
+			determineTimeDisability($scope.added);
 
 			$scope.dragOptions = {
 				itemMoved: function() {

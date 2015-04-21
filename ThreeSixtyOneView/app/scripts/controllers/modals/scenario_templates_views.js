@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-.controller('ScenarioTemplatesViewsCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "EVENTS", "data", 'ManageTemplatesService', 'DimensionService', 'ManageScenariosService',
-	function($scope, $controller, $modalInstance, CONFIG, EVENTS, data, ManageTemplatesService, DimensionService, ManageScenariosService) {
+.controller('ScenarioTemplatesViewsCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "EVENTS", "data", 'ManageTemplatesService', 'DimensionService', 'ManageScenariosService', 'PivotMetaService',
+	function($scope, $controller, $modalInstance, CONFIG, EVENTS, data, ManageTemplatesService, DimensionService, ManageScenariosService, PivotMetaService) {
 	angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $controller: $controller, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
 	var init = function() {
@@ -10,6 +10,8 @@ angular.module('ThreeSixtyOneView')
 		// this sets the following
 		// $scope.templateType, $scope.scenarioTemplates
 		angular.extend($scope, data);
+		$scope.dimensions = [];
+		$scope.viewData = {};
 
 		ManageScenariosService.getBase($scope.templateType.label).then(function(baseScenario) {
 			$scope.baseScenario = baseScenario;
@@ -21,7 +23,7 @@ angular.module('ThreeSixtyOneView')
 
 				ManageTemplatesService.buildDimensionsTree(baseScenario.template.id).then(function(dimensions) {
 					$scope.dimensions = dimensions;
-					console.log(dimensions);
+					$scope.viewData = PivotMetaService.formEmptyView(dimensions, {label: ''});
 				});
 			});
 		});
