@@ -47,9 +47,9 @@ angular.module('ThreeSixtyOneView')
             $scope.standardDimensions = _.filter(dimensions, function(dimension) { return dimension.type === 'StandardDimension' });
         };
 
-        $scope.filtersModalCallback = function(newFilterData) {
-            console.log('newFilterData', newFilterData);
-        };
+        $scope.$on(EVENTS.membersSelected, function($event, response) {
+            console.log('newFilterData', response);
+        });
 
 		$scope.$on(EVENTS.flipbookAdvance, function() {
             $scope.setDimensionsLabel($scope.standardDimensions, 'standard');

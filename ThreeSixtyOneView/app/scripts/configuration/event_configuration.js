@@ -34,5 +34,7 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     broadcastStates: "broadcastStates",
     // FLIPBOOK
     flipbookAdvance: 'flipbookAdvance',
-    flipbookAllowAdvance: 'flipbookAllowAdvance'
+    flipbookAllowAdvance: 'flipbookAllowAdvance',
+    // FILTER MEMBERS
+    membersSelected: 'membersSelected'
 });
