@@ -11,7 +11,8 @@ angular.module('ThreeSixtyOneView')
     .controller('ChooseDimensionsCtrl', ['$scope', 'EVENTS', function($scope, EVENTS) {
         var scenarioTemplateId,
         init = function() {
-            $scope.selectedTime = $scope.timeGranularity ? $scope.timeGranularity : '';
+            $scope.selectedTime = !!$scope.timeGranularity ? $scope.timeGranularity : false;
+            $scope.$emit(EVENTS.flipbookAllowAdvance, false);
             buildDimensions($scope.dimensions, $scope.kpisList);
             if (checkIfInitial($scope.dimensions) && checkIfInitial($scope.kpisList)) {
                 addSelectedValue($scope.kpiDimensions);
@@ -47,6 +48,15 @@ angular.module('ThreeSixtyOneView')
             $scope.standardDimensions = _.filter(dimensions, function(dimension) { return dimension.type === 'StandardDimension' });
         };
 
+        $scope.setTimeGranularity = function(time) {
+            $scope.selectedTime = time;
+            if(!!time) {
+                $scope.$emit(EVENTS.flipbookAllowAdvance, true);
+            } else {
+                $scope.$emit(EVENTS.flipbookAllowAdvance, false);
+            }
+        };
+
         $scope.$on(EVENTS.membersSelected, function($event, response) {
             console.log('newFilterData', response);
         });
@@ -56,13 +66,14 @@ angular.module('ThreeSixtyOneView')
             $scope.setDimensionsLabel($scope.kpiDimensions, 'kpi');
 		});
 
-        $scope.$watch("selectedTime", function(){
-            if ($scope.selectedTime){
-                $scope.$emit(EVENTS.flipbookAllowAdvance, true);
-            } else {
-                $scope.$emit(EVENTS.flipbookAllowAdvance, false);
-            }
-        });
+        // $scope.$watch("selectedTime", function(){
+        //     console.log(arguments);
+        //     if ($scope.selectedTime){
+        //         $scope.$emit(EVENTS.flipbookAllowAdvance, true);
+        //     } else {
+        //         $scope.$emit(EVENTS.flipbookAllowAdvance, false);
+        //     }
+        // });
 
 		init();
 
