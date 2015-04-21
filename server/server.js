@@ -22,11 +22,56 @@ app.configure(function() {
 app.options("*", cors());
 
 config.funcs = {
+    startingScenarioId: 10000,
     createProject: function (req){
         var response = _.clone(req.body);
         console.info("creating project");
         response.uuid = crypto.createHash('md5').update(response.name).digest('hex');
 
+        response = this.addAuditInfo(response);
+
+        places["Project listing"].push(response);
+        return response;
+    },
+    renameProject: function(req){
+        var project = this.getProject(req.body.uuid);
+        project.name = req.body.name;
+        project = this.addAuditInfo(project);
+        if (req.body.description){
+            project.description = req.body.description;
+        }
+        return project;
+    },
+    renameScenario: function(req){
+        var scenario = this.getScenario(req.body.id);
+        scenario.name = req.body.name;
+        scenario = this.addAuditInfo(scenario);
+        return scenario;
+    },
+    editScenario: function(req){
+        var scenario = this.getScenario(req.body.id);
+        scenario.description = req.body.description;
+        scenario = this.addAuditInfo(scenario);
+        return scenario;
+    },
+    createScenario: function(req){
+        console.info("creating scenario");
+        var response = _.clone(req.body);
+        response.id = this.startingScenarioId++;
+        response = this.addAuditInfo(response);
+        places["scenarios"].push(response);
+    },
+    getProject: function(uuid){
+        return _.find(places["Project listing"], function(project){
+            return project.uuid == uuid;
+        });
+    },
+    getScenario: function(id){
+        return _.find(places["scenarios"], function(scenario){
+            return scenario.id === id;
+        });
+    },
+    addAuditInfo: function(response){
         response["auditInfo"] = {
           "createdOn": new Date(),
           "createdBy": {
@@ -38,23 +83,8 @@ config.funcs = {
             "uuid": "UUID-1",
             "name": "me"
           }
-        }
-
-        places["Project listing"].push(response);
+        };
         return response;
-    },
-    renameProject: function(req){
-        var project = this.getProject(req.body.uuid);
-        project.name = req.body.name;
-        if (req.body.description){
-            project.description = req.body.description;
-        }
-        return project;
-    },
-    getProject: function(uuid){
-        return _.find(places["Project listing"], function(project){
-            return project.uuid == uuid;
-        });
     }
 }
 

@@ -19,6 +19,18 @@ config.places = [{
     "function": "renameProject"
 },
 {
+    "name": "Rename scenario",
+    "method": "put",
+    "url": "/rubix/v1/project/*/scenario/name",
+    "function": "renameScenario"
+},
+{
+    "name": "Edit scenario",
+    "method": "put",
+    "url": "/rubix/v1/project/*/scenario/description",
+    "function": "editScenario"
+},
+{
     "name": "favorite projects",
     "method": "get",
     "url": "/rubix/v1/favorite/project",
@@ -29,6 +41,12 @@ config.places = [{
     "method": "get",
     "url": "/rubix/v1/project/*/scenario",
     "file": "./marketshare/scenario.json"
+},
+{
+    "name": "Create scenario",
+    "method": "post",
+    "url": "/rubix/v1/project/*/scenario",
+    "function": "createScenario"
 },
 {
     "name": "favorite scenarios",
