@@ -19,7 +19,7 @@ angular.module('ThreeSixtyOneView')
 			$scope.e2e = true;
 		}
 
-		console.info(ServerService.get('server'));
+		console.info(ServerService.get($location.host()));
 
 		// convenience methods
 		$scope.console = function console(msg) {

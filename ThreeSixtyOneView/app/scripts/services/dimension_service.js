@@ -13,7 +13,7 @@
         this.getSelectedDimensions = function(dimensions) {
             var tmpDimensions = angular.copy(dimensions);
             return _.filter(tmpDimensions, function(tmpDimension) {
-                tmpDimension.attributes = _.filter(tmpDimension.attributes, function(attibute) { return attibute.isSelected === true; });
+                tmpDimension.members = _.filter(tmpDimension.members, function(member) { return member.isSelected === true; });
                 return tmpDimension.isSelected === true;
             });
         };
