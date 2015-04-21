@@ -10,13 +10,16 @@ angular.module('ThreeSixtyOneView.directives')
 			replace: true,
 			controller: function($scope, $element, $attrs) {
 				var init = function() {
-					var currentDimension = _.find($scope.dimensions, function(dimension) {
-						return dimension.id === $scope.item.dimension.id;
-					});
+					var currentDimension;
+					$scope.addDimension = $attrs.template === 'add_dimension_button' ? true : false;
+					if(!$scope.addDimension) {
+						currentDimension = _.find($scope.dimensions, function(dimension) {
+							return dimension.id === $scope.item.dimension.id;
+						});
+					}
 					if(currentDimension && currentDimension.hasOwnProperty('aggregatable')) {
 						$scope.aggregatable = currentDimension.aggregatable;
 					}
-					$scope.addDimension = $attrs.template === 'add_dimension_button' ? true : false;
 				},
 				added = !!$attrs.addedValues ? $attrs.addedValues : false,
 				isSelected = function(label) {
