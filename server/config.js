@@ -1,37 +1,55 @@
 var config = {};
 
 config.places = [{
-    "type": "Project listing",
+    "name": "Project listing",
+    "method": "get",
     "url": "/rubix/v1/project",
     "file": "./marketshare/project.json"
 },
 {
-    "type": "favorite projects",
+    "name": "Create project",
+    "method": "post",
+    "url": "/rubix/v1/project",
+    "function": "createProject"
+},
+{
+    "name": "Rename project",
+    "method": "put",
+    "url": "/rubix/v1/project",
+    "function": "renameProject"
+},
+{
+    "name": "favorite projects",
+    "method": "get",
     "url": "/rubix/v1/favorite/project",
     "file": "./marketshare/favorites.json"
 },
 {
-    "type": "scenarios",
+    "name": "scenarios",
+    "method": "get",
     "url": "/rubix/v1/project/*/scenario",
     "file": "./marketshare/scenario.json"
 },
 {
-    "type": "favorite scenarios",
+    "name": "favorite scenarios",
+    "method": "get",
     "url": "/rubix/v1/favorite/project/*/scenario",
     "file": "./marketshare/favorite_scenarios.json"
 },
+// {
+//     "name": "scenario calculate",
+//     "url": "/rubix/v1/analytics/scenario/*/calculate",
+//     "file": "./marketshare/favorite_scenarios.json"
+// },
 {
-    "type": "scenario calculate",
-    "url": "/rubix/v1/analytics/scenario/*/calculate",
-    "file": "./marketshare/favorite_scenarios.json"
-},
-{
-    "type": "analysis elements",
-    "url": "/rubix/v1/analytics/scenario/*",
+    "name": "analysis elements",
+    "method": "get",
+    "url": /^rubix\/v1\/analytics\/scenario\/\d{4}$/,
     "file": "./marketshare/analysis_elements.json"
 },
 {
-    "type": "analysis element",
+    "name": "analysis element",
+    "method": "get",
     "url": "/rubix/v1/scenario/*/analysis-element",
     "file": "./marketshare/analysis_element.json"
 }
