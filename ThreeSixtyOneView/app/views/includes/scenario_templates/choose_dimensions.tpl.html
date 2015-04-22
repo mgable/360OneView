@@ -30,7 +30,7 @@
 	<div class="dimensions reveal animated fadeIn delay-long" ng-show="selectedTime">
 		<div class="row dimensionContainer">
 			<div class="col-md-4" ng-repeat="standardDimension in standardDimensions | orderBy:id">
-				<ms-dimension-card dimension-data="standardDimension" all-dimensions-data="standardDimensions" filters-data="addedFilters" dimension-type="standard" template-type="templateType.label"></ms-dimension-card>
+				<ms-dimension-card dimension-data="standardDimension" all-dimensions-data="standardDimensions" filters-data="addedFilters" dimension-type="standard" template-type="templateType.label" filter-update-callback="updateMembers(addedMembers)"></ms-dimension-card>
 			</div>
 		</div>
 		<div class="row dimensionContainer">

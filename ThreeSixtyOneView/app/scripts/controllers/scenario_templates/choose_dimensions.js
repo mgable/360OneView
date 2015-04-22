@@ -8,15 +8,21 @@
  * Controller of the ThreeSixtyOneView
  */
 angular.module('ThreeSixtyOneView')
-    .controller('ChooseDimensionsCtrl', ['$scope', 'EVENTS', function($scope, EVENTS) {
+    .controller('ChooseDimensionsCtrl', ['$scope', 'EVENTS', 'DimensionService', 'PivotMetaService', function($scope, EVENTS, DimensionService, PivotMetaService) {
         var scenarioTemplateId,
         init = function() {
             $scope.setTime($scope.getTimeGranularity());
-            $scope.addedFilters = {};
+
             buildDimensions($scope.dimensions, $scope.kpisList);
             if (checkIfInitial($scope.dimensions) && checkIfInitial($scope.kpisList)) {
                 addSelectedValue($scope.kpiDimensions);
                 addSelectedValue($scope.standardDimensions);
+            }
+
+            $scope.addedFilters = $scope.getAddedDimensionMembers();
+            if(!$scope.addedFilters) {
+                $scope.addedFilters = PivotMetaService.addAllFilters(DimensionService.getSelectedDimensions($scope.standardDimensions));
+                $scope.setAddedDimensionMembers($scope.addedFilters);
             }
         },
         checkIfInitial = function(dimensions) {
@@ -56,6 +62,11 @@ angular.module('ThreeSixtyOneView')
             } else {
                 $scope.$emit(EVENTS.flipbookAllowAdvance, false);
             }
+        };
+
+        $scope.updateMembers = function(addedMembers) {
+            $scope.addedFilters = addedMembers;
+            $scope.setAddedDimensionMembers(addedMembers);
         };
 
         $scope.$on(EVENTS.membersSelected, function($event, response) {

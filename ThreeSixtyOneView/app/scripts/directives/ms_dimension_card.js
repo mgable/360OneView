@@ -17,7 +17,8 @@ angular.module('ThreeSixtyOneView.directives')
                 dimensionData: '=',
                 allDimensionsData: '=',
                 filtersData: '=',
-                templateType: '@'
+                templateType: '@',
+                filterUpdateCallback: '&'
             },
             templateUrl: function(elem, attrs){
                 return "views/directives/ms_" + attrs.dimensionType + "_dimension_card.tpl.html";
@@ -25,11 +26,10 @@ angular.module('ThreeSixtyOneView.directives')
             link: function(scope) {
                 scope.filtersModal = function(category) {
                     var filteredDimensions = DimensionService.getSelectedDimensions(scope.allDimensionsData),
-                        filtersData = PivotMetaService.addAllFilters(filteredDimensions),
                         filtersModalCallback = function(newFilterData) {
-                            filtersData = newFilterData;
+                            scope.filterUpdateCallback({addedMembers: newFilterData});
                     };
-                    DialogService.filtersModal(category, filtersData, undefined, filteredDimensions, filtersModalCallback);
+                    DialogService.filtersModal(category, scope.filtersData, undefined, filteredDimensions, filtersModalCallback);
                 };
             }
         };

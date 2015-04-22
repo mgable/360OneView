@@ -11,7 +11,6 @@ angular.module('ThreeSixtyOneView')
 		// $scope.templateType, $scope.scenarioTemplates
 		angular.extend($scope, data);
 		$scope.dimensions = [];
-		// $scope.viewData = {};
 
 		ManageScenariosService.getBase($scope.templateType.label).then(function(baseScenario) {
 			$scope.baseScenario = baseScenario;
@@ -48,6 +47,7 @@ angular.module('ThreeSixtyOneView')
 			to: null
 		};
 
+		$scope.addedDimensionMembers = false;
 		$scope.defaultView = {};
 	};
 
@@ -65,6 +65,14 @@ angular.module('ThreeSixtyOneView')
 
 	$scope.setTimeGranularity = function(time) {
 		$scope.timeGranularity = time;
+	};
+
+	$scope.getAddedDimensionMembers = function() {
+		return $scope.addedDimensionMembers;
+	};
+
+	$scope.setAddedDimensionMembers = function(addedMembers) {
+		$scope.addedDimensionMembers = addedMembers;
 	};
 
 	$scope.getDefaultView = function() {
