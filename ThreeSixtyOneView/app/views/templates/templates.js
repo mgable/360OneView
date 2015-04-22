@@ -331,11 +331,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "    <div class=\"dimensionFilter hide-overflow\" ng-if=\"dimensionData.isSelected\">\r" +
     "\n" +
-    "        <span title=\"All\" ng-class=\"{selected: dimensionData.isSelected}\" ng-click=\"filtersModal(dimensionData)\">\r" +
+    "        <span title=\"{{getFormattedLabel(categorizedData)}}\" ng-class=\"{selected: dimensionData.isSelected}\" ng-click=\"filtersModal(dimensionData)\">\r" +
     "\n" +
     "            <icon type=\"filter\"></icon>\r" +
     "\n" +
-    "            <span>All</span>\r" +
+    "            <span>{{getFormattedLabel(categorizedData)}}</span>\r" +
     "\n" +
     "        </span>\r" +
     "\n" +

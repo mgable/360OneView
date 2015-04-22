@@ -17,6 +17,7 @@ angular.module('ThreeSixtyOneView.directives')
                 dimensionData: '=',
                 allDimensionsData: '=',
                 filtersData: '=',
+                categorizedData: '=',
                 templateType: '@',
                 filterUpdateCallback: '&'
             },
@@ -26,10 +27,18 @@ angular.module('ThreeSixtyOneView.directives')
             link: function(scope) {
                 scope.filtersModal = function(category) {
                     var filteredDimensions = DimensionService.getSelectedDimensions(scope.allDimensionsData),
+                        filteredDimension = _.find(filteredDimensions, function(v) { return category.id === v.id; }),
                         filtersModalCallback = function(newFilterData) {
                             scope.filterUpdateCallback({addedMembers: newFilterData});
                     };
-                    DialogService.filtersModal(category, scope.filtersData, undefined, filteredDimensions, filtersModalCallback);
+                    DialogService.filtersModal(filteredDimension, scope.filtersData, scope.viewData, filteredDimensions, filtersModalCallback);
+                };
+                scope.getFormattedLabel = function(categorizedData) {
+                    if (categorizedData.selected < categorizedData.total) {
+                        return categorizedData.label.join(', ');
+                    } else {
+                        return 'All';
+                    }
                 };
             }
         };

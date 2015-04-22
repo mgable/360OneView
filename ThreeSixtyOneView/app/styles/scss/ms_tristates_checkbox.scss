@@ -38,7 +38,7 @@ $icon-size:14px;
         content: "\f14a";
     }
     input[type="checkbox"]:indeterminate + i:before {
-        content: "\f147";
+        content: "\f146";
     }
     input[type="checkbox"]:checked + i + span, input[type="checkbox"]:checked + i:before {
         color: $ms-blue;

@@ -12,9 +12,9 @@
         </div>
     </div>
     <div class="dimensionFilter hide-overflow" ng-if="dimensionData.isSelected">
-        <span title="All" ng-class="{selected: dimensionData.isSelected}" ng-click="filtersModal(dimensionData)">
+        <span title="{{getFormattedLabel(categorizedData)}}" ng-class="{selected: dimensionData.isSelected}" ng-click="filtersModal(dimensionData)">
             <icon type="filter"></icon>
-            <span>All</span>
+            <span>{{getFormattedLabel(categorizedData)}}</span>
         </span>
     </div>
 </div>
