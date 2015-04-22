@@ -66,15 +66,6 @@ angular.module('ThreeSixtyOneView')
             $scope.setDimensionsLabel($scope.kpiDimensions, 'kpi');
 		});
 
-        // $scope.$watch("selectedTime", function(){
-        //     console.log(arguments);
-        //     if ($scope.selectedTime){
-        //         $scope.$emit(EVENTS.flipbookAllowAdvance, true);
-        //     } else {
-        //         $scope.$emit(EVENTS.flipbookAllowAdvance, false);
-        //     }
-        // });
-
 		init();
 
 	}]);

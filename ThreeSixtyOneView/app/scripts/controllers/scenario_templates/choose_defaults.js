@@ -13,6 +13,11 @@ angular.module('ThreeSixtyOneView')
 
 	var init = function() {
 			$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
+			$scope.viewData = $scope.getDefaultView();
+			if(!$scope.viewData.rows) {
+				$scope.viewData = PivotMetaService.formEmptyView($scope.dimensions, {label: 'Touchpoint'});
+			}
+			
 			$scope.added = PivotMetaService.setUpAddedLevels($scope.viewData.rows.concat($scope.viewData.columns));
 			$scope.addedFilters = PivotMetaService.getAddedFilters($scope.viewData.filters, $scope.dimensions);
 			$scope.membersList = PivotMetaService.generateMembersList($scope.dimensions);
