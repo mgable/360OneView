@@ -9,30 +9,28 @@
  */
 
 angular.module('ThreeSixtyOneView.directives')
-    .directive('msDimensionCard', ['$rootScope', 'PivotMetaService', 'DialogService', 'DimensionService', 'EVENTS', function($rootScope, PivotMetaService, DialogService, DimensionService, EVENTS) {
+    .directive('msDimensionCard', ['PivotMetaService', 'DialogService', 'DimensionService', function(PivotMetaService, DialogService, DimensionService) {
         return {
             restrict: "AE",
             replace: true,
             scope: {
                 dimensionData: '=',
                 allDimensionsData: '=',
-                templateType: '='
+                filtersData: '=',
+                templateType: '@'
             },
             templateUrl: function(elem, attrs){
                 return "views/directives/ms_" + attrs.dimensionType + "_dimension_card.tpl.html";
             },
             link: function(scope) {
-
                 scope.filtersModal = function(category) {
-                    var dimensions = DimensionService.getSelectedDimensions(scope.allDimensionsData),
-                        addedFilters = PivotMetaService.addAllFilters(dimensions),
-                        dimension = _.find(dimensions, function(v) { return category.id === v.id; }),
+                    var filteredDimensions = DimensionService.getSelectedDimensions(scope.allDimensionsData),
+                        filtersData = PivotMetaService.addAllFilters(filteredDimensions),
                         filtersModalCallback = function(newFilterData) {
-                            $rootScope.$broadcast(EVENTS.membersSelected, newFilterData);
-                        };
-                    DialogService.filtersModal(dimension, addedFilters, undefined, dimensions, filtersModalCallback);
+                            filtersData = newFilterData;
+                    };
+                    DialogService.filtersModal(category, filtersData, undefined, filteredDimensions, filtersModalCallback);
                 };
-
             }
         };
     }]);

@@ -59,10 +59,6 @@ angular.module('ThreeSixtyOneView')
 		}
 	};
 
-	$scope.setTimeGranularity = function(time) {
-		$scope.timeGranularity = time;
-	};
-
 	$scope.setDefaultView = function(view) {
 		$scope.defaultView = view;
 	};
@@ -89,6 +85,10 @@ angular.module('ThreeSixtyOneView')
 			$modalInstance.close(response);
 		});
 	};
+
+    $scope.$on(EVENTS.selectTime, function(evt, data) {
+        $scope.timeGranularity = data;
+    });
 
 	$scope.$on(EVENTS.flipbookAllowAdvance, function(evt, data){
 		$scope.enableNext = data;
