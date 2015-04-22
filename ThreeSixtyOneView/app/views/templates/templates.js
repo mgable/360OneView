@@ -264,7 +264,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "    <div class=\"dimensionCheckbox\">\r" +
     "\n" +
-    "        <div class=\"parent-checkbox ms-checkbox no-select\" ng-class=\"{selected: dimensionData.isSelected}\">\r" +
+    "        <div class=\"parent-checkbox ms-checkbox no-select\">\r" +
     "\n" +
     "            <label>\r" +
     "\n" +
@@ -280,7 +280,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "                <div class=\"clearfix\" ng-if=\"$index % 3 == 0\"></div>\r" +
     "\n" +
-    "                <div class=\"col-md-4 children-checkbox ms-checkbox no-select\" ng-class=\"{selected: item.isSelected}\">\r" +
+    "                <div class=\"col-md-4 children-checkbox ms-checkbox no-select\">\r" +
     "\n" +
     "                    <label>\r" +
     "\n" +
@@ -307,7 +307,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "    <div class=\"dimensionCheckbox\">\r" +
     "\n" +
-    "        <div class=\"parent-checkbox ms-checkbox no-select\" ng-class=\"{selected: dimensionData.isSelected}\">\r" +
+    "        <div class=\"parent-checkbox ms-checkbox no-select\">\r" +
     "\n" +
     "            <label>\r" +
     "\n" +
@@ -317,7 +317,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "        </div>\r" +
     "\n" +
-    "        <div class=\"children-checkbox ms-checkbox no-select\" ng-repeat=\"item in dimensionData.members\" ng-class=\"{selected: item.isSelected}\" ng-if=\"templateType !== 'Action'\">\r" +
+    "        <div class=\"children-checkbox ms-checkbox no-select\" ng-repeat=\"item in dimensionData.members\" ng-if=\"templateType !== 'Action'\">\r" +
     "\n" +
     "            <label>\r" +
     "\n" +
@@ -331,7 +331,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "    <div class=\"dimensionFilter hide-overflow\" ng-if=\"dimensionData.isSelected\">\r" +
     "\n" +
-    "        <span title=\"{{getFormattedLabel(categorizedData)}}\" ng-class=\"{selected: dimensionData.isSelected}\" ng-click=\"filtersModal(dimensionData)\">\r" +
+    "        <span title=\"{{getFormattedLabel(categorizedData)}}\" ng-click=\"filtersModal(dimensionData)\">\r" +
     "\n" +
     "            <icon type=\"filter\"></icon>\r" +
     "\n" +
