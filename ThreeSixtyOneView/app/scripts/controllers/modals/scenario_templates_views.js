@@ -102,6 +102,10 @@ angular.module('ThreeSixtyOneView')
 		});
 	};
 
+    $scope.$on(EVENTS.selectTime, function(evt, data) {
+        $scope.timeGranularity = data;
+    });
+
 	$scope.$on(EVENTS.flipbookAllowAdvance, function(evt, data){
 		$scope.enableNext = data;
 	});
