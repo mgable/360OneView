@@ -18,20 +18,14 @@
             });
         };
 
-        this.getSelectedTimeDimension = function(timeDimension, time) {
-            var tmpTimeDimension = angular.copy(timeDimension);
-            tmpTimeDimension.attributes = _.filter(tmpTimeDimension.attributes, function(attribute) { return attribute.label === time; });
-            return tmpTimeDimension;
-        };
-
         this.getDimensionsLabel = function(dimensions) {
             var tmpDimensions = dimensions,
                 dimensionLabel = [];
             _.each(tmpDimensions, function(tmpDimension) {
                 if (tmpDimension.isSelected) {
-                    var selectedAttributes = _.filter(tmpDimension.attributes, function(attribute) { return attribute.isSelected === true; }),
+                    var selectedAttributes = _.filter(tmpDimension.members, function(attribute) { return attribute.isSelected === true; }),
                         attributeLabel = '';
-                    if (0 < selectedAttributes.length && selectedAttributes.length < tmpDimension.attributes.length) {
+                    if (0 < selectedAttributes.length && selectedAttributes.length < tmpDimension.members.length) {
                         attributeLabel = '(' + _.pluck(selectedAttributes, 'label').join() + ')';
                     } else {
                         attributeLabel = '';
