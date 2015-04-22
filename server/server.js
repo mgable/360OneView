@@ -23,6 +23,7 @@ app.options("*", cors());
 
 config.funcs = {
     startingScenarioId: 10000,
+    scenarioCache: {},
     createProject: function (req){
         var response = _.clone(req.body);
         console.info("creating project");
@@ -85,10 +86,39 @@ config.funcs = {
           }
         };
         return response;
+    },
+    getScenarios: function(req){
+        var key = req.params[0], 
+            results = [], 
+            scenarios = _.clone(config.scenarios),
+            scenarioCount;
+        if (this.scenarioCache[key]){
+            return this.scenarioCache[key]
+        }
+        scenarioCount = _.random(5);
+
+        for(var i = 0; i < scenarioCount; i++){
+            var index = _.random(scenarios.length - 1),
+                scenario = scenarios.splice(index, 1)[0];
+            results.push(scenario);
+        }
+
+        this.scenarioCache[key] = results;
+        return results;
+    },
+    makeFavoriteProject: function(req){
+        places["favorite projects"].push(req.body);
+    },
+    unfavoriteProject: function(req){
+        places["favorite projects"] = _.reject(places["favorite projects"], function(favorite){
+            return _.isEqual(favorite, req.query);
+        });
     }
 }
 
 function init(config) {
+    config.scenarios  = _.shuffle(loadScenarios("./marketshare/scenario.json"));
+
     for (var i = 0, limit = config.places.length; i < limit; i++) {
         createResponse(i);
     }
@@ -109,6 +139,10 @@ function init(config) {
         } else {
             return config.funcs[place['function']](req);
         }
+    }
+
+    function loadScenarios(scenariosUrl){
+        return readFile(config.baseUrl + scenariosUrl);
     }
 }
 
