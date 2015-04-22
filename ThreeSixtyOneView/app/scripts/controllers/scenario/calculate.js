@@ -7,21 +7,22 @@
 * # ScenarioCalculationCtrl
 * Controller of the ThreeSixtyOneView
 */
-angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$scope', 'AnalyticCalculationsService', 'Scenario', 'CONFIG', '$state', 'ScenarioStatesService', 'Status',
-    function ($scope, AnalyticCalculationsService, Scenario, CONFIG, $state, ScenarioStatesService, Status) {
+angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$scope', 'AnalyticCalculationsService', 'CONFIG', '$state', 'ScenarioStatesService', 'Status',
+    function ($scope, AnalyticCalculationsService, CONFIG, $state, ScenarioStatesService, Status) {
 
     var stepLength,
         stepValue,
         scenarioStates = CONFIG.application.models.ScenarioAnalytics.states,
         runningStates = {},
         currentState = {},
+        scenarioId = $state.params.scenarioId,
 
         // init function
         init = function() {
             $scope.progressValue = 0;
             $scope.step = 0;
             $scope.errorMessage = "";
-            ScenarioStatesService.startPull([Scenario.id]);
+            ScenarioStatesService.startPull([scenarioId]);
         },
         // get the current index for status
         getCurrentStateIndex = function(_data) {
@@ -97,7 +98,7 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
     // reset the progress
     $scope.retry = function() {
         ScenarioStatesService.stopPull();
-        AnalyticCalculationsService.post(Scenario.id).then(function() {
+        AnalyticCalculationsService.post(scenarioId).then(function() {
             init();
         });
     };
