@@ -59,8 +59,11 @@ angular.module('ThreeSixtyOneView')
 		}
 	};
 
+	$scope.getTimeGranularity = function() {
+		return $scope.timeGranularity;
+	};
+
 	$scope.setTimeGranularity = function(time) {
-		console.log(time);
 		$scope.timeGranularity = time;
 	};
 

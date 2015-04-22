@@ -7,7 +7,7 @@
 		<form>
 			<span ng-repeat="time in times">
 				<input type="radio" id="radio{{$index}}" name="selectedTime" ng-value="time" ng-model="selectedTime">
-	        	<label for="radio{{$index}}" ng-click="setTimeGranularity(time)">
+	        	<label for="radio{{$index}}" ng-click="setTime(time)">
 		            <span>
 		            	<icon type="circle-o"></icon>
 		            	<icon type="dot-circle-o"></icon>
