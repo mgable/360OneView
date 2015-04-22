@@ -12,6 +12,7 @@ angular.module('ThreeSixtyOneView')
         var scenarioTemplateId,
         init = function() {
             $scope.selectedTime = $scope.timeGranularity ? $scope.timeGranularity : '';
+            $scope.addedFilters = {};
             buildDimensions($scope.dimensions, $scope.kpisList);
             if (checkIfInitial($scope.dimensions) && checkIfInitial($scope.kpisList)) {
                 addSelectedValue($scope.kpiDimensions);
@@ -44,12 +45,8 @@ angular.module('ThreeSixtyOneView')
             // filter to get kpi dimensions
             $scope.kpiDimensions = kpisList;
             // filter to get standard dimensions
-            $scope.standardDimensions = _.filter(dimensions, function(dimension) { return dimension.type === 'StandardDimension' });
+            $scope.standardDimensions = _.reject(dimensions, function(dimension) { return dimension.type === 'TimeDimension' });
         };
-
-        $scope.$on(EVENTS.membersSelected, function($event, response) {
-            console.log('newFilterData', response);
-        });
 
 		$scope.$on(EVENTS.flipbookAdvance, function() {
             $scope.setDimensionsLabel($scope.standardDimensions, 'standard');
@@ -58,6 +55,7 @@ angular.module('ThreeSixtyOneView')
 
         $scope.$watch("selectedTime", function(){
             if ($scope.selectedTime){
+                $scope.$emit(EVENTS.selectTime, $scope.selectedTime);
                 $scope.$emit(EVENTS.flipbookAllowAdvance, true);
             } else {
                 $scope.$emit(EVENTS.flipbookAllowAdvance, false);

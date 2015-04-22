@@ -2,7 +2,14 @@
 
 angular.module('ThreeSixtyOneView.services')
 .service('ManageTemplatesService', ['$q', 'Model', 'ManageTemplatesModel', function ($q, Model, ManageTemplatesModel) {
-	var MyManageTemplatesModel, mymanagetemplatesdata, self = this;
+	var MyManageTemplatesModel, mymanagetemplatesdata, self = this,
+		resetView = function(newView) {
+			newView.id = null;
+			_.each(newView.filters, function(filter) {
+				filter.id = null;
+			});
+			return newView;
+		};
 
 	MyManageTemplatesModel = new Model();
 	angular.extend(this, MyManageTemplatesModel.prototype);
@@ -133,6 +140,40 @@ angular.module('ThreeSixtyOneView.services')
 				});
 				return self.dimensions;
 			});
+		});
+	};
+
+	this.createView = function(templateId, newView) {
+		var additionalPath = 'views';
+		newView.isDefault = true;
+
+		return this.resource.post(resetView(newView), {}, {templateId: templateId}, additionalPath).then(function (response) {
+			return response;
+		});
+	};
+
+	this.getTemplateCubeByName = function(templateId, cubeName) {
+		var additionalPath = 'cube/id',
+			config = {
+				params: {
+					cubeName: cubeName
+				}
+			};
+		return this.resource.get({templateId: templateId}, config, additionalPath).then(function(response) {
+			return response;
+		});
+	};
+
+	this.getTemplateCubesByType = function(templateId, cubeType) {
+		// cubeType could be: Standard, Spend, Outcome
+		var additionalPath = 'cube/ids',
+			config = {
+				params: {
+					type: cubeType
+				}
+			};
+		return this.resource.get({templateId: templateId}, config, additionalPath).then(function(response) {
+			return response;
 		});
 	};
 }]);
