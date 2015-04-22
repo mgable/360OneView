@@ -11,7 +11,7 @@ angular.module('ThreeSixtyOneView')
     .controller('ChooseDimensionsCtrl', ['$scope', 'EVENTS', function($scope, EVENTS) {
         var scenarioTemplateId,
         init = function() {
-            $scope.selectedTime = $scope.timeGranularity ? $scope.timeGranularity : '';
+            $scope.setTime($scope.getTimeGranularity());
             $scope.addedFilters = {};
             buildDimensions($scope.dimensions, $scope.kpisList);
             if (checkIfInitial($scope.dimensions) && checkIfInitial($scope.kpisList)) {
@@ -48,19 +48,24 @@ angular.module('ThreeSixtyOneView')
             $scope.standardDimensions = _.reject(dimensions, function(dimension) { return dimension.type === 'TimeDimension' });
         };
 
-		$scope.$on(EVENTS.flipbookAdvance, function() {
-            $scope.setDimensionsLabel($scope.standardDimensions, 'standard');
-            $scope.setDimensionsLabel($scope.kpiDimensions, 'kpi');
-		});
-
-        $scope.$watch("selectedTime", function(){
-            if ($scope.selectedTime){
-                $scope.$emit(EVENTS.selectTime, $scope.selectedTime);
+        $scope.setTime = function(time) {
+            $scope.selectedTime = time;
+            $scope.setTimeGranularity(time);
+            if(!!time) {
                 $scope.$emit(EVENTS.flipbookAllowAdvance, true);
             } else {
                 $scope.$emit(EVENTS.flipbookAllowAdvance, false);
             }
+        };
+
+        $scope.$on(EVENTS.membersSelected, function($event, response) {
+            console.log('newFilterData', response);
         });
+
+		$scope.$on(EVENTS.flipbookAdvance, function() {
+            $scope.setDimensionsLabel($scope.standardDimensions, 'standard');
+            $scope.setDimensionsLabel($scope.kpiDimensions, 'kpi');
+		});
 
 		init();
 

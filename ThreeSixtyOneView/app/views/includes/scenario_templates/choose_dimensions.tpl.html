@@ -6,8 +6,8 @@
 		<span>Please choose the time granularity for this template</span>
 		<form>
 			<span ng-repeat="time in times">
-				<input type="radio" id="radio{{$index}}" name="selectedTime" value="{{time}}" ng-model="$parent.selectedTime">
-	        	<label for="radio{{$index}}">
+				<input type="radio" id="radio{{$index}}" name="selectedTime" ng-value="time" ng-model="selectedTime">
+	        	<label for="radio{{$index}}" ng-click="setTime(time)">
 		            <span>
 		            	<icon type="circle-o"></icon>
 		            	<icon type="dot-circle-o"></icon>

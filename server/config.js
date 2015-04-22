@@ -19,6 +19,18 @@ config.places = [{
     "function": "renameProject"
 },
 {
+    "name": "Rename scenario",
+    "method": "put",
+    "url": "/rubix/v1/project/*/scenario/name",
+    "function": "renameScenario"
+},
+{
+    "name": "Edit scenario",
+    "method": "put",
+    "url": "/rubix/v1/project/*/scenario/description",
+    "function": "editScenario"
+},
+{
     "name": "favorite projects",
     "method": "get",
     "url": "/rubix/v1/favorite/project",
@@ -28,7 +40,13 @@ config.places = [{
     "name": "scenarios",
     "method": "get",
     "url": "/rubix/v1/project/*/scenario",
-    "file": "./marketshare/scenario.json"
+    "function": "getScenarios"
+},
+{
+    "name": "Create scenario",
+    "method": "post",
+    "url": "/rubix/v1/project/*/scenario",
+    "function": "createScenario"
 },
 {
     "name": "favorite scenarios",
@@ -36,11 +54,18 @@ config.places = [{
     "url": "/rubix/v1/favorite/project/*/scenario",
     "file": "./marketshare/favorite_scenarios.json"
 },
-// {
-//     "name": "scenario calculate",
-//     "url": "/rubix/v1/analytics/scenario/*/calculate",
-//     "file": "./marketshare/favorite_scenarios.json"
-// },
+{
+    "name": "Make favorite Project",
+    "method": "post",
+    "url": "/rubix/v1/favorite/project",
+    "function": "makeFavoriteProject"
+},
+{
+    "name": "Unfavorite project",
+    "method": "delete",
+    "url": "/rubix/v1/favorite/project",
+    "function": "unfavoriteProject"
+},
 {
     "name": "analysis elements",
     "method": "get",

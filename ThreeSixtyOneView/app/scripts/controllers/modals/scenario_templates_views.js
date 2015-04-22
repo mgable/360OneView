@@ -11,7 +11,7 @@ angular.module('ThreeSixtyOneView')
 		// $scope.templateType, $scope.scenarioTemplates
 		angular.extend($scope, data);
 		$scope.dimensions = [];
-		$scope.viewData = {};
+		// $scope.viewData = {};
 
 		ManageScenariosService.getBase($scope.templateType.label).then(function(baseScenario) {
 			$scope.baseScenario = baseScenario;
@@ -23,7 +23,7 @@ angular.module('ThreeSixtyOneView')
 
 				ManageTemplatesService.buildDimensionsTree(baseScenario.template.id).then(function(dimensions) {
 					$scope.dimensions = dimensions;
-					$scope.viewData = PivotMetaService.formEmptyView(dimensions, {label: 'Touchpoint'});
+					// $scope.viewData = PivotMetaService.formEmptyView(dimensions, {label: 'Touchpoint'});
 				});
 			});
 		});
@@ -39,7 +39,7 @@ angular.module('ThreeSixtyOneView')
 			kpis: []
 		};
 
-		$scope.timeGranularity = '';
+		$scope.timeGranularity = false;
 		$scope.spendDimensionsLabels = '';
 		$scope.kpiDimensionsLabels = '';
 
@@ -58,6 +58,18 @@ angular.module('ThreeSixtyOneView')
 			});
 		}
 	};
+
+	$scope.getTimeGranularity = function() {
+		return $scope.timeGranularity;
+	};
+
+	$scope.setTimeGranularity = function(time) {
+		$scope.timeGranularity = time;
+	};
+
+	$scope.getDefaultView = function() {
+		return $scope.defaultView;
+	}
 
 	$scope.setDefaultView = function(view) {
 		$scope.defaultView = view;
