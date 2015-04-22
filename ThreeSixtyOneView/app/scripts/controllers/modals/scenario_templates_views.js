@@ -23,7 +23,7 @@ angular.module('ThreeSixtyOneView')
 
 				ManageTemplatesService.buildDimensionsTree(baseScenario.template.id).then(function(dimensions) {
 					$scope.dimensions = dimensions;
-					$scope.viewData = PivotMetaService.formEmptyView(dimensions, {label: ''});
+					$scope.viewData = PivotMetaService.formEmptyView(dimensions, {label: 'Touchpoint'});
 				});
 			});
 		});
@@ -81,8 +81,12 @@ angular.module('ThreeSixtyOneView')
 
 	// pass back the selected file and dismiss the modal
 	$scope.submit = function() {
-		ManageTemplatesService.update($scope.template, true).then(function(response) {
-			$modalInstance.close(response);
+		ManageTemplatesService.update($scope.template, true).then(function(templateResponse) {
+			// ManageTemplatesService.createView($scope.template.id, $scope.viewData).then(function(viewResponse) {
+			// 	console.log(templateResponse);
+			// 	console.log(viewResponse);
+			// });
+			$modalInstance.close(templateResponse);
 		});
 	};
 
