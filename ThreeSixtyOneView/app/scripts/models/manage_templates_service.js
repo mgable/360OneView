@@ -58,10 +58,11 @@ angular.module('ThreeSixtyOneView.services')
 
 	this.update = function(template, commit) {
 		var config = {
-			params: {
-				commit: !!commit
-			}
+			params: {}
 		};
+		if(commit === true) {
+			config.params.commit = true;
+		}
 		
 		return this.resource.put(template, config, {templateId: template.id}, '').then(function(response) {
 			return response;
