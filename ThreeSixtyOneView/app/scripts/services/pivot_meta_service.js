@@ -151,7 +151,7 @@
 	};
 
 	// aggregate filter values based on categories
-	this.getCategorizeValues = function(dimension, items) {
+	this.getCategorizeValues = function(dimension, items, attributeIndex) {
 		var i, result;
 
 		var countValues = function(category) {
@@ -199,6 +199,10 @@
 
 			return output;
 		};
+
+		if(typeof attributeIndex !== 'undefined') {
+			return countValues(dimension.members[attributeIndex]);
+		}
 
 		for(i = 0; i < dimension.members.length; i++) {
 			result = countValues(dimension.members[i]);

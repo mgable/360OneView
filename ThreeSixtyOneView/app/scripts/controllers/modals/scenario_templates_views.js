@@ -92,6 +92,45 @@ angular.module('ThreeSixtyOneView')
 		$scope[type + 'DimensionsLabel'] = DimensionService.getDimensionsLabel(dimensions);
 	}
 
+	$scope.setStandardDimensions = function(dimensions, addedMembers) {
+		$scope.template.dimensions = [];
+		_.each(dimensions, function(_dimension) {
+			var dimension = {
+					id: _dimension.id,
+					type: _dimension.type,
+					attributes: []
+				};
+			_.each(_dimension.members,function(_attribute, _attributeIndex) {
+				var attribute = {
+					id: _attribute.id,
+					specification: {}
+				}, members = [],
+				i;
+
+				members = PivotMetaService.getCategorizeValues(_dimension, addedMembers[_dimension.label], _attributeIndex);
+				if(members.selected === members.total) {
+					attribute.specification.type = 'All';
+				} else {
+					attribute.specification.type = 'Include';
+					attribute.specification.members = [];
+					_.each(members.id, function(_id) {
+						attribute.specification.members.push({id: _id});
+					})
+				}
+				dimension.attributes.push(attribute);
+			});
+			$scope.template.dimensions.push(dimension);
+		});
+		ManageTemplatesService.update($scope.template, false);
+	};
+
+	$scope.setKpiDimension = function(kpis) {
+		$scope.template.kpis = [];
+		_.each(kpis, function(kpi) {
+			$scope.template.kpis.push({id: kpi.id});
+		});
+	};
+
 	$scope.cancel = function() {
 		if(!!$scope.template.id) {
 			ManageTemplatesService.delete($scope.template.id);

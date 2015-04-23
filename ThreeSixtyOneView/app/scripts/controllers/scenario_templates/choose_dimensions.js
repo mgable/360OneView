@@ -20,15 +20,11 @@ angular.module('ThreeSixtyOneView')
             }
 
             $scope.addedFilters = $scope.getAddedDimensionMembers();
-            $scope.viewData = $scope.getDefaultView();
-            if(!$scope.viewData.rows) {
-                $scope.viewData = PivotMetaService.formEmptyView($scope.dimensions, {label: 'Touchpoint'});
-            }
             if(!$scope.addedFilters) {
                 $scope.addedFilters = PivotMetaService.addAllFilters(DimensionService.getSelectedDimensions($scope.standardDimensions));
                 $scope.setAddedDimensionMembers($scope.addedFilters);
             }
-            $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.standardDimensions, $scope.viewData);
+            $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.standardDimensions, $scope.addedFilters);
         },
         checkIfInitial = function(dimensions) {
             var initial = true;
@@ -71,13 +67,15 @@ angular.module('ThreeSixtyOneView')
 
         $scope.updateMembers = function(addedMembers) {
             $scope.addedFilters = addedMembers;
-            $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.standardDimensions, $scope.viewData);
+            $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure(addedMembers, $scope.standardDimensions, $scope.addedFilters);
             $scope.setAddedDimensionMembers(addedMembers);
         };
 
 		$scope.$on(EVENTS.flipbookAdvance, function() {
             $scope.setDimensionsLabel($scope.standardDimensions, 'standard');
             $scope.setDimensionsLabel($scope.kpiDimensions, 'kpi');
+            $scope.setStandardDimensions($scope.standardDimensions, $scope.addedFilters);
+            $scope.setKpiDimension($scope.kpiDimensions);
 		});
 
 		init();
