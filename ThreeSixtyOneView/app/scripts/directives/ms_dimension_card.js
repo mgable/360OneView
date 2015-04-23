@@ -18,7 +18,7 @@ angular.module('ThreeSixtyOneView.directives')
                 allDimensionsData: '=',
                 filtersData: '=',
                 categorizedData: '=',
-                templateType: '@',
+                templateType: '=',
                 filterUpdateCallback: '&'
             },
             templateUrl: function(elem, attrs){
