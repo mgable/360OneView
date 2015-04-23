@@ -19,11 +19,12 @@ angular.module('ThreeSixtyOneView')
 				$scope.template.source.id = baseTemplate.id;
 				$scope.dimensionsList = baseTemplate.dimensions;
 				$scope.kpisList = baseTemplate.kpis;
-
-				ManageTemplatesService.buildDimensionsTree(baseScenario.template.id).then(function(dimensions) {
-					$scope.dimensions = dimensions;
-					// $scope.viewData = PivotMetaService.formEmptyView(dimensions, {label: 'Touchpoint'});
-				});
+				DimensionService.getDimensions(baseScenario.template.id);
+				// ManageTemplatesService.buildDimensionsTree(baseScenario.template.id).then(function(dimensions) {
+				// 	$scope.dimensions = dimensions;
+				// 	console.log('scope dimensions:', $scope.dimensions);
+				// 	// $scope.viewData = PivotMetaService.formEmptyView(dimensions, {label: 'Touchpoint'});
+				// });
 			});
 		});
 
@@ -38,6 +39,7 @@ angular.module('ThreeSixtyOneView')
 			kpis: []
 		};
 
+		$scope.dimensionsIsLoaded = false;
 		$scope.timeGranularity = false;
 		$scope.spendDimensionsLabels = '';
 		$scope.kpiDimensionsLabels = '';
@@ -112,6 +114,11 @@ angular.module('ThreeSixtyOneView')
 
     $scope.$on(EVENTS.selectTime, function(evt, data) {
         $scope.timeGranularity = data;
+    });
+
+    $scope.$on(EVENTS.dimensionsIsLoaded, function(evt, data) {
+        $scope.dimensionsIsLoaded = true;
+        $scope.dimensions = data;
     });
 
 	$scope.$on(EVENTS.flipbookAllowAdvance, function(evt, data){

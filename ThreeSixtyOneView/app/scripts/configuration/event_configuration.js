@@ -36,5 +36,7 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     flipbookAdvance: 'flipbookAdvance',
     flipbookAllowAdvance: 'flipbookAllowAdvance',
     // FILTER MEMBERS
-    selectTime: 'selectTime'
+    selectTime: 'selectTime',
+    // LOADING DIMENSIONS
+    dimensionsIsLoaded: 'dimensionsIsLoaded'
 });

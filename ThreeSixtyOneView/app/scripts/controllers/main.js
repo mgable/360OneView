@@ -5,8 +5,8 @@
 
 // View controllers
 angular.module('ThreeSixtyOneView')
-.controller("MainCtrl", ["$scope", "$location", "ErrorService", "CONFIG", "ServerService", "ScenarioStatesService", '$state',
-	function($scope, $location, ErrorService, CONFIG, ServerService, ScenarioStatesService, $state) {
+.controller("MainCtrl", ["$scope", "$location", "ErrorService", "CONFIG", "ServerService", "$state",
+	function($scope, $location, ErrorService, CONFIG, ServerService, $state) {
 		var init = function() {
 		};
 		// Error service surfaced here

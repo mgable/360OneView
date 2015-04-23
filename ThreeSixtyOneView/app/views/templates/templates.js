@@ -420,6 +420,12 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t<ms-button type=\"submit\" label=\"{{label}}\" action=\"forward()\" ng-disabled=\"isDisabled(DIRECTION)\"></ms-button>\r" +
     "\n" +
+    "\t\t\t\t<span ng-show=\"!dimensionsIsLoaded\" class=\"loaderHolder\">\r" +
+    "\n" +
+    "\t\t\t\t\t<span class=\"loading\"></span>Loading Dimensions\r" +
+    "\n" +
+    "\t\t\t\t</span>\r" +
+    "\n" +
     "\t\t\t</span>\r" +
     "\n" +
     "\t\t</div>\r" +

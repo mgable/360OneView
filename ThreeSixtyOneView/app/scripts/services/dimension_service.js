@@ -8,7 +8,23 @@
  * Service in the ThreeSixtyOneView.
  */
  angular.module('ThreeSixtyOneView.services')
-    .service('DimensionService', function DimensionService() {
+    .service('DimensionService', ["$rootScope", "ManageTemplatesService", "EVENTS",
+        function DimensionService($rootScope, ManageTemplatesService, EVENTS) {
+
+        var allDimensions = {};
+
+        this.getDimensions = function(templateId) {
+            if (!_.has(allDimensions, templateId)) {
+                ManageTemplatesService.buildDimensionsTree(templateId).then(function(dimensions) {
+                    allDimensions[templateId] = dimensions;
+                    $rootScope.$broadcast(EVENTS.dimensionsIsLoaded, allDimensions[templateId]);
+                    return allDimensions[templateId];
+                });
+            } else {
+                $rootScope.$broadcast(EVENTS.dimensionsIsLoaded, allDimensions[templateId]);
+                return allDimensions[templateId];
+            }
+        };
 
         this.getSelectedDimensions = function(dimensions) {
             var tmpDimensions = angular.copy(dimensions);
@@ -36,4 +52,4 @@
             return dimensionLabel.join(', ');
         };
 
-});
+}]);

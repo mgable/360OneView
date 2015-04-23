@@ -35,6 +35,9 @@
 				<ms-button type="cancel" label="Back" action="backward()" ng-disabled="isDisabled()"></ms-button>
 				&nbsp;
 				<ms-button type="submit" label="{{label}}" action="forward()" ng-disabled="isDisabled(DIRECTION)"></ms-button>
+				<span ng-show="!dimensionsIsLoaded" class="loaderHolder">
+					<span class="loading"></span>Loading Dimensions
+				</span>
 			</span>
 		</div>
 	</div>
