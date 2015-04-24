@@ -2,13 +2,13 @@
 	<div class="dropdown">
 		<span>Results compared to </span>
 		<span class="dropdown-toggle clickable">
-			{{selectedView.title}}&nbsp;<icon type="caret-down"></icon>
+			{{selectedScenario.title}}&nbsp;<icon type="caret-down"></icon>
 		</span>
 		<ul class="dropdown-menu" ms-link-group selected-item="selectedView.id" radio="true">
-			<li ng-repeat="view in viewsList | orderBy:'-auditInfo.createdOn' | limitTo:5" ms-link="{{view.id}}" class="menu-item" ng-click="loadComparedView(view.id)" title="{{view.title}}">{{view.title}}
+			<li ng-repeat="scenario in scenariosList | orderBy:'-auditInfo.createdOn' | limitTo:5" ms-link="{{scenario.id}}" class="menu-item" ng-click="loadComparedView(scenario.id)" title="{{scenario.title}}">{{scenario.title}}
 			</li>
 			<hr>
-			<li class="menu-item" ng-click="openAllComparedViewsModal()"><icon type="folder-open-o"></icon>All Scenarios</li>
+			<li class="menu-item" ng-click="openAllComparedScenariossModal()"><icon type="folder-open-o"></icon>All Scenarios</li>
 		</ul>
 	</div>
 </div>

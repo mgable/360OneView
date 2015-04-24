@@ -117,7 +117,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     getKPISummary = function() {
         ReportsService.getSummary($scope.kpiElementId, $scope.kpiViewId).then(function(_KPISummaryData) {
             $scope.kpiSummaryData = transformKPISummaryData(_KPISummaryData);
-            ManageScenariosService.getAnalysisElementByCubeName($scope.selectedView.id, 'OUTCOME').then(function(_kpiComparedElementCube) {
+            ManageScenariosService.getAnalysisElementByCubeName($scope.selectedScenario.id, 'OUTCOME').then(function(_kpiComparedElementCube) {
                 $scope.kpiComparedElementId = _kpiComparedElementCube.id;
                 ReportsService.getSummary($scope.kpiComparedElementId, $scope.kpiViewId).then(function(_KPIComparedSummaryData) {
                     $scope.kpiComparedSummaryData = transformKPISummaryData(_KPIComparedSummaryData);
@@ -162,7 +162,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     getSpendSummary= function() {
         ReportsService.getSummary($scope.spendElementId, $scope.spendViewId).then(function(_spendSummaryData) {
             $scope.spendSummaryData = _spendSummaryData;
-            ManageScenariosService.getAnalysisElementByCubeName($scope.selectedView.id, 'TOUCHPOINT').then(function(_spendComparedElementCube) {
+            ManageScenariosService.getAnalysisElementByCubeName($scope.selectedScenario.id, 'TOUCHPOINT').then(function(_spendComparedElementCube) {
                 $scope.spendComparedElementId = _spendComparedElementCube.id;
                 ReportsService.getSummary($scope.spendComparedElementId, $scope.spendViewId).then(function(_spendComparedSummaryData) {
                     $scope.spendComparedSummaryData = _spendComparedSummaryData;
@@ -277,10 +277,10 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         $scope.spendCategorizedValue = [];
         $scope.spendViewData = {name: 'Loading ...'};
 
-        $scope.viewsList = angular.copy(Scenarios);
+        $scope.scenariosList = angular.copy(Scenarios);
         if(_.has(Scenario, 'referenceScenario')) {
-            $scope.viewsList.unshift(Scenario.referenceScenario);
-            _.each($scope.viewsList, function(v) {
+            $scope.scenariosList.unshift(Scenario.referenceScenario);
+            _.each($scope.scenariosList, function(v) {
                 if(!_.has(v, 'title')) {
                     v.title = v.name;
                 } else {
@@ -294,7 +294,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 }
             });
         }
-        $scope.selectedView = $scope.viewsList[0];
+        $scope.selectedScenario = $scope.scenariosList[0];
         $scope.chartData = [];
 
         $scope.spendCubeId = spendCubeMeta.id;
@@ -312,9 +312,9 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         });
     };
     // open the modal for the list of all views
-    $scope.openAllComparedViewsModal = function() {
+    $scope.openAllComparedScenariossModal = function() {
         var dialog = DialogService.openLightbox('views/modal/ms_list_lightbox.tpl.html', 'AllViewsCtrl',
-            {viewsList: $scope.viewsList, selectedViewId: $scope.selectedView.id, e2e: $scope.e2e, subTitle: 'Scenario'},
+            {viewsList: $scope.scenariosList, selectedViewId: $scope.selectedScenario.id, e2e: $scope.e2e, subTitle: 'Scenario'},
             {windowSize: 'lg', windowClass: 'list-lightbox'});
 
         dialog.result.then(function(replacedComparedViewId) {
@@ -363,8 +363,8 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
     };
     // set compared view
     $scope.loadComparedView = function(_viewId) {
-        _.find($scope.viewsList, function(_view) {
-            if(_view.id === _viewId) { $scope.selectedView = _view; }
+        _.find($scope.scenariosList, function(_view) {
+            if(_view.id === _viewId) { $scope.selectedScenario = _view; }
         });
         // get spend summary
         getSpendSummary();

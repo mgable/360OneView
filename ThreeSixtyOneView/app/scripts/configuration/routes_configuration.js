@@ -82,6 +82,10 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
       url: "/results",
       views: {
         'result': {
+          resolve: {
+            'Scenarios': function(ScenarioService, $stateParams){return ScenarioService.get($stateParams.projectId);},
+            'Scenario': function(ScenarioService, Scenarios, $stateParams){return ScenarioService.find(Scenarios, $stateParams.scenarioId);},
+          },
           controller: "scenarioResultsCtrl",
           templateUrl: "views/includes/scenario/results.tpl.html"
         }
