@@ -52,7 +52,7 @@ angular.module('ThreeSixtyOneView')
 
 		$scope.addedDimensionMembers = false;
 		$scope.defaultView = {};
-	};
+	}, timeDimension = false;
 
 	$scope.createDraftTemplate = function() {
 		if(typeof $scope.template.id === 'undefined') {
@@ -67,7 +67,27 @@ angular.module('ThreeSixtyOneView')
 	};
 
 	$scope.setTimeGranularity = function(time) {
+		var i, levelFound = false;
 		$scope.timeGranularity = time;
+
+		if(!!time) {
+			if(!timeDimension) {
+				timeDimension = _.find($scope.dimensions, function(dimension) { return dimension.type === 'TimeDimension' });
+				$scope.filteredTimeDimension = {
+					id: timeDimension.id,
+					label: timeDimension.label,
+					type: timeDimension.type,
+					members: []
+				};
+			}
+			$scope.filteredTimeDimension.members = [];
+			_.each(timeDimension.members, function(level) {
+				levelFound = levelFound || level.label === time;
+				if(levelFound) {
+					$scope.filteredTimeDimension.members.push(level);
+				}
+			});
+		}
 	};
 
 	$scope.getAddedDimensionMembers = function() {
