@@ -26,12 +26,25 @@
             }
         };
 
-        this.getSelectedDimensions = function(dimensions) {
-            var tmpDimensions = angular.copy(dimensions);
-            return _.filter(tmpDimensions, function(tmpDimension) {
-                tmpDimension.members = _.filter(tmpDimension.members, function(member) { return member.isSelected === true; });
-                return tmpDimension.isSelected === true;
+        this.getSelectedDimensions = function(dimensions, schema) {
+            var tmpDimensions = [];
+            _.each(schema, function(_dimension, _dimensionIndex) {
+                var dimension = false;
+                if(_dimension.isSelected) {
+                    dimension = {
+                        id: _dimension.id,
+                        label: _dimension.label,
+                        members: []
+                    };
+                    _.each(_dimension.members, function(_member, _memberIndex) {
+                        if(_member.isSelected) {
+                            dimension.members.push(dimensions[_dimensionIndex].members[_memberIndex]);
+                        }
+                    });
+                    tmpDimensions.push(dimension);
+                }
             });
+            return tmpDimensions;
         };
 
         this.getDimensionsLabel = function(dimensions) {

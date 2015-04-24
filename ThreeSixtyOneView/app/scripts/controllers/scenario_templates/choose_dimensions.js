@@ -13,10 +13,10 @@ angular.module('ThreeSixtyOneView')
         init = function() {
             $scope.setTime($scope.getTimeGranularity());
 
-            buildDimensions($scope.dimensions, $scope.kpisList);
-            if (checkIfInitial($scope.dimensions) && checkIfInitial($scope.kpisList)) {
+            buildDimensions($scope.dimensions, $scope.kpisList, $scope.dimensionsSchema);
+            if (checkIfInitial($scope.dimensionsSchema) && checkIfInitial($scope.kpisList)) {
                 addSelectedValue($scope.kpiDimensions);
-                addSelectedValue($scope.standardDimensions);
+                addSelectedValue($scope.standardDimensionsSchema);
             }
 
             $scope.addedFilters = $scope.getAddedDimensionMembers();
@@ -46,7 +46,7 @@ angular.module('ThreeSixtyOneView')
             });
             return dimensions;
         },
-        buildDimensions = function(dimensions, kpisList) {
+        buildDimensions = function(dimensions, kpisList, dimensionsSchema) {
             // filter to get time dimensions
             $scope.timeDimension = _.find(dimensions, function(dimension) { return dimension.type === 'TimeDimension' });
             $scope.times = _.pluck($scope.timeDimension.members, 'label');
@@ -54,6 +54,7 @@ angular.module('ThreeSixtyOneView')
             $scope.kpiDimensions = kpisList;
             // filter to get standard dimensions
             $scope.standardDimensions = _.reject(dimensions, function(dimension) { return dimension.type === 'TimeDimension' });
+            $scope.standardDimensionsSchema = _.reject(dimensionsSchema, function(dimension) { return dimension.type === 'TimeDimension' });
         };
 
         $scope.setTime = function(time) {

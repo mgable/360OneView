@@ -311,13 +311,13 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "            <label>\r" +
     "\n" +
-    "                <input type=\"checkbox\" ms-tristates-checkbox child-list=\"dimensionData.members\" property=\"isSelected\" ng-model=\"dimensionData.isSelected\"><i></i><span class=\"capitalized\">{{dimensionData.label}}</span>\r" +
+    "                <input type=\"checkbox\" ms-tristates-checkbox child-list=\"dimensionSchema.members\" property=\"isSelected\" ng-model=\"dimensionSchema.isSelected\"><i></i><span class=\"capitalized\">{{dimensionSchema.label}}</span>\r" +
     "\n" +
     "            </label>\r" +
     "\n" +
     "        </div>\r" +
     "\n" +
-    "        <div class=\"children-checkbox ms-checkbox no-select\" ng-repeat=\"item in dimensionData.members\" ng-if=\"templateType !== 'Action'\">\r" +
+    "        <div class=\"children-checkbox ms-checkbox no-select\" ng-repeat=\"item in dimensionSchema.members\" ng-if=\"templateType !== 'Action'\">\r" +
     "\n" +
     "            <label>\r" +
     "\n" +
@@ -329,7 +329,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "    </div>\r" +
     "\n" +
-    "    <div class=\"dimensionFilter hide-overflow\" ng-if=\"dimensionData.isSelected\">\r" +
+    "    <div class=\"dimensionFilter hide-overflow\" ng-if=\"dimensionSchema.isSelected\">\r" +
     "\n" +
     "        <span title=\"{{getFormattedLabel(categorizedData)}}\" ng-click=\"filtersModal(dimensionData)\">\r" +
     "\n" +

@@ -11,6 +11,7 @@ angular.module('ThreeSixtyOneView')
 		// $scope.templateType, $scope.scenarioTemplates
 		angular.extend($scope, data);
 		$scope.dimensions = [];
+		$scope.dimensionsSchema = [];
 
 		ManageScenariosService.getBase($scope.templateType.label).then(function(baseScenario) {
 			$scope.baseScenario = baseScenario;
@@ -158,6 +159,21 @@ angular.module('ThreeSixtyOneView')
     $scope.$on(EVENTS.dimensionsIsLoaded, function(evt, data) {
         $scope.dimensionsIsLoaded = true;
         $scope.dimensions = data;
+        _.each($scope.dimensions, function(_dimension) {
+        	var dimension = {
+        		id: _dimension.id,
+        		label: _dimension.label,
+        		type: _dimension.type,
+        		members: []
+        	};
+        	_.each(_dimension.members, function(_attribute) {
+        		dimension.members.push({
+        			id: _attribute.id,
+        			label: _attribute.label
+        		});
+        	});
+        	$scope.dimensionsSchema.push(dimension);
+        });
     });
 
 	$scope.$on(EVENTS.flipbookAllowAdvance, function(evt, data){

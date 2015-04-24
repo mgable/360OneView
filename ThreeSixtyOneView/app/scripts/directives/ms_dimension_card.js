@@ -19,14 +19,19 @@ angular.module('ThreeSixtyOneView.directives')
                 filtersData: '=',
                 categorizedData: '=',
                 templateType: '=',
-                filterUpdateCallback: '&'
+                filterUpdateCallback: '&',
+                allDimensionsSchema: '=',
+                dimensionIndex: '='
             },
             templateUrl: function(elem, attrs){
                 return "views/directives/ms_" + attrs.dimensionType + "_dimension_card.tpl.html";
             },
             link: function(scope) {
+                if(!!scope.allDimensionsSchema) {
+                    scope.dimensionSchema = scope.allDimensionsSchema[scope.dimensionIndex];
+                }
                 scope.filtersModal = function(category) {
-                    var filteredDimensions = DimensionService.getSelectedDimensions(scope.allDimensionsData),
+                    var filteredDimensions = DimensionService.getSelectedDimensions(scope.allDimensionsData, scope.allDimensionsSchema),
                         filteredDimension = _.find(filteredDimensions, function(v) { return category.id === v.id; }),
                         filtersModalCallback = function(newFilterData) {
                             scope.filterUpdateCallback({addedMembers: newFilterData});
