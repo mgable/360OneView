@@ -22,7 +22,7 @@ angular.module('ThreeSixtyOneView')
             $scope.addedFilters = $scope.getAddedDimensionMembers();
             if(!$scope.addedFilters) {
                 // $scope.addedFilters = PivotMetaService.addAllFilters(DimensionService.getSelectedDimensions($scope.standardDimensions));
-                $scope.addedFilters = PivotMetaService.addAllFilters($scope.standardDimensions);
+                $scope.addedFilters = PivotMetaService.addAllFilters($scope.dimensions);
                 $scope.setAddedDimensionMembers($scope.addedFilters);
             }
             $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.standardDimensions, $scope.addedFilters);
@@ -76,7 +76,7 @@ angular.module('ThreeSixtyOneView')
 		$scope.$on(EVENTS.flipbookAdvance, function() {
             $scope.setDimensionsLabel($scope.standardDimensions, 'standard');
             $scope.setDimensionsLabel($scope.kpiDimensions, 'kpi');
-            $scope.setStandardDimensions($scope.standardDimensions, $scope.addedFilters);
+            $scope.setStandardDimensions($scope.standardDimensions, $scope.standardDimensionsSchema, $scope.addedFilters);
             $scope.setKpiDimension($scope.kpiDimensions);
 		});
 

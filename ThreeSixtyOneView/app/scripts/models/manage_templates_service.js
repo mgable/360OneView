@@ -126,7 +126,7 @@ angular.module('ThreeSixtyOneView.services')
 		var promises = [],
 			count = 0;
 
-		return self.buildHierarchies(templateId).then(function(dimensions) {
+		return self.buildHierarchies(templateId).then(function() {
 			_.each(self.dimensions, function(dimension) {
 				_.each(dimension.members, function(level) {
 					promises.push(self.getMembers(templateId, level.dimensionId, level.hierarchyId, level.id));
@@ -136,7 +136,7 @@ angular.module('ThreeSixtyOneView.services')
 			return $q.all(promises).then(function(responses) {
 				_.each(self.dimensions, function(dimension) {
 					_.each(dimension.members, function(level) {
-						level.members = responses[count++].members
+						level.members = responses[count++].members;
 					});
 				});
 				return self.dimensions;

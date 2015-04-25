@@ -115,22 +115,24 @@ angular.module('ThreeSixtyOneView')
 		$scope[type + 'DimensionsLabel'] = DimensionService.getDimensionsLabel(dimensions);
 	}
 
-	$scope.setStandardDimensions = function(dimensions, addedMembers) {
+	$scope.setStandardDimensions = function(dimensions, dimensionsSchema, addedMembers) {
 		$scope.template.dimensions = [];
-		_.each(dimensions, function(_dimension) {
+		_.each(dimensionsSchema, function(_dimension, _dimensionIndex) {
+			if(!_dimension.isSelected) return;
 			var dimension = {
 					id: _dimension.id,
 					type: _dimension.type,
 					attributes: []
 				};
 			_.each(_dimension.members,function(_attribute, _attributeIndex) {
+				if(!_attribute.isSelected) return;
 				var attribute = {
 					id: _attribute.id,
 					specification: {}
 				}, members = [],
 				i;
 
-				members = PivotMetaService.getCategorizeValues(_dimension, addedMembers[_dimension.label], _attributeIndex);
+				members = PivotMetaService.getCategorizeValues(dimensions[_dimensionIndex], addedMembers[_dimension.label], _attributeIndex);
 				if(members.selected === members.total) {
 					attribute.specification.type = 'All';
 				} else {
@@ -144,12 +146,40 @@ angular.module('ThreeSixtyOneView')
 			});
 			$scope.template.dimensions.push(dimension);
 		});
+		addTimeDimension(addedMembers);
 		ManageTemplatesService.update($scope.template, false);
+	};
+
+	var addTimeDimension = function(addedMembers) {
+		var dimension = {
+			id: $scope.filteredTimeDimension.id,
+			type: $scope.filteredTimeDimension.type,
+			attributes: []
+		};
+		_.each($scope.filteredTimeDimension.members, function(_attribute, _attributeIndex) {
+			var attribute = {
+					id: _attribute.id,
+					specification: {}
+				},
+				members = PivotMetaService.getCategorizeValues($scope.filteredTimeDimension, addedMembers[$scope.filteredTimeDimension.label], _attributeIndex);
+			if(members.selected === members.total) {
+				attribute.specification.type = 'All';
+			} else {
+				attribute.specification.type = 'Include';
+				attribute.specification.members = [];
+				_.each(members.id, function(_id) {
+					attribute.specification.members.push({id: _id});
+				})
+			}
+			dimension.attributes.push(attribute);
+		});
+		$scope.template.dimensions.push(dimension);
 	};
 
 	$scope.setKpiDimension = function(kpis) {
 		$scope.template.kpis = [];
 		_.each(kpis, function(kpi) {
+			if(!kpi.isSelected) return;
 			$scope.template.kpis.push({id: kpi.id});
 		});
 	};
