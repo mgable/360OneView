@@ -47,22 +47,30 @@
             return tmpDimensions;
         };
 
-        this.getDimensionsLabel = function(dimensions) {
-            var tmpDimensions = dimensions,
-                dimensionLabel = [];
-            _.each(tmpDimensions, function(tmpDimension) {
-                if (tmpDimension.isSelected) {
-                    var selectedAttributes = _.filter(tmpDimension.members, function(attribute) { return attribute.isSelected === true; }),
-                        attributeLabel = '';
-                    if (0 < selectedAttributes.length && selectedAttributes.length < tmpDimension.members.length) {
-                        attributeLabel = '(' + _.pluck(selectedAttributes, 'label').join() + ')';
+        this.getSelectedDimensionsLabels = function(dimensions, categorizedValues, type) {
+            var maxMembers = 2,
+                dimensionLabelList = [];
+            _.each(dimensions, function(dimension, index) {
+                var membersLabel = '',
+                    categorizedValue = categorizedValues[index];
+                if (dimension.isSelected) {
+                    if (type === 'kpi') {
+                        dimensionLabelList.push(dimension.label);
                     } else {
-                        attributeLabel = '';
+                        if (categorizedValue.selected < categorizedValue.total) {
+                            if (categorizedValue.label.length < maxMembers) {
+                                membersLabel = '(' + categorizedValue.label.join(', ') + ')';
+                            } else {
+                                membersLabel = '(' + categorizedValue.label.slice(0, maxMembers).join(', ') + '...)';
+                            }
+                        } else {
+                            membersLabel = '';
+                        }
+                        dimensionLabelList.push(dimension.label + membersLabel);
                     }
-                    dimensionLabel.push(tmpDimension.label + attributeLabel);
                 }
             });
-            return dimensionLabel.join(', ');
+            return dimensionLabelList.join(', ');
         };
 
 }]);
