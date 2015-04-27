@@ -211,12 +211,6 @@ angular.module('ThreeSixtyOneView')
             return SortAndFilterService.getData();
         };
 
-        $scope.isMasterProjectScenario = function(item){
-            if (item){
-                return (item.isMaster && $state.current.name === "Dashboard");
-            }
-        };
-
         $scope.getSorter = function(column) {
             return SortAndFilterService.getSorter(column);
         };
