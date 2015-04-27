@@ -13,9 +13,9 @@ angular.module('ThreeSixtyOneView')
                 return _.findWhere(projects, {"isMaster": true});
             },
             sortScenarios = function(scenarios){
-                var scenarioList = scenarios;
+                var scenarioList = scenarios,
                 // remove master project from scenarioList
-                scenarioList.splice(_.indexOf(scenarioList, $scope.masterProject),1);
+                masterProject = scenarioList.splice(_.indexOf(scenarioList, $scope.masterProject),1)[0];
 
                 // bring current project to top of the list
                 angular.forEach(scenarioList, function(k,v){
@@ -23,6 +23,9 @@ angular.module('ThreeSixtyOneView')
                         scenarioList.unshift(scenarioList.splice(v,1)[0]);
                     }
                 });
+
+                // put the master project in first position
+                scenarioList.unshift (masterProject);
 
                 return scenarioList;
             },
@@ -40,10 +43,6 @@ angular.module('ThreeSixtyOneView')
                     baseScenario = findBaseScenario($scope.masterProject);
                     $scope.scenarioList = sortScenarios(response);
                     $scope.masterProjectReferenceScenario = $scope.masterProject.data[0];
-
-                    console.info(baseScenario);
-
-
 
                     $scope.scenario.referenceScenario.id  = baseScenario.id;
                     $scope.scenario.referenceScenario.name  = baseScenario.name;

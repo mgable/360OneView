@@ -24,6 +24,9 @@
 		height: 100%;
 
 		.display-table {
+			&.viewport {
+				max-height: 300px;
+			}
 			table {
 				padding: 20px 8px 5px 8px;
 				width: 100%;

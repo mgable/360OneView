@@ -463,6 +463,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t\t\t</div>\n" +
     "\n" +
     "\t\t\t\t\t\t<accordion close-others=\"false\">\n" +
+    "<!-- \n" +
     "\t\t\t\t\t\t\t<accordion-group is-open=\"true\" ng-hide=\"hideMasterProject(masterProject.name, masterProjectReferenceScenario.name, searchText)\">\n" +
     "\t\t\t\t\t\t\t\t<accordion-heading>{{masterProject.name}}</accordion-heading>\n" +
     "\t\t\t\t\t\t\t\t<div class=\"row\" ng-click=\"setScenario(masterProjectReferenceScenario)\">\n" +
@@ -473,7 +474,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t\t\t\t\t\t\t<span>{{masterProjectReferenceScenario.name}}</span>\n" +
     "\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t</div>\n" +
-    "\t\t\t\t\t\t\t</accordion-group>\n" +
+    "\t\t\t\t\t\t\t</accordion-group> -->\n" +
+    "\n" +
+    "\t\t\t\t\t\t\t\n" +
     "\t\t\t\t\t\t\t<accordion-group ng-repeat=\"project in scenarioList | filterProjects: searchText\">\n" +
     "\t\t\t\t\t\t\t\t<accordion-heading>{{project.name}} Project</accordion-heading>\n" +
     "\t\t\t\t\t\t\t\t<div ng-repeat=\"scenario in getScenarios(project, searchText)\">\n" +

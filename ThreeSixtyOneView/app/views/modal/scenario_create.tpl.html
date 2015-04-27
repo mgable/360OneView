@@ -31,6 +31,7 @@
 						</div>
 
 						<accordion close-others="false">
+<!-- 
 							<accordion-group is-open="true" ng-hide="hideMasterProject(masterProject.name, masterProjectReferenceScenario.name, searchText)">
 								<accordion-heading>{{masterProject.name}}</accordion-heading>
 								<div class="row" ng-click="setScenario(masterProjectReferenceScenario)">
@@ -41,7 +42,9 @@
 										<span>{{masterProjectReferenceScenario.name}}</span>
 									</div>
 								</div>
-							</accordion-group>
+							</accordion-group> -->
+
+							
 							<accordion-group ng-repeat="project in scenarioList | filterProjects: searchText">
 								<accordion-heading>{{project.name}} Project</accordion-heading>
 								<div ng-repeat="scenario in getScenarios(project, searchText)">
