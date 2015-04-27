@@ -21,7 +21,6 @@ angular.module('ThreeSixtyOneView')
 
             $scope.addedFilters = $scope.getAddedDimensionMembers();
             if(!$scope.addedFilters) {
-                // $scope.addedFilters = PivotMetaService.addAllFilters(DimensionService.getSelectedDimensions($scope.standardDimensions));
                 $scope.addedFilters = PivotMetaService.addAllFilters($scope.dimensions);
                 $scope.setAddedDimensionMembers($scope.addedFilters);
             }

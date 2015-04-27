@@ -12,17 +12,15 @@ angular.module('ThreeSixtyOneView')
 	function ($scope, PivotMetaService, PivotViewService, datepickerConfig, MetaDataService, DialogService, EVENTS) {
 
 	var init = function() {
-			$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
-			$scope.viewData = $scope.getDefaultView();
-			if(!$scope.viewData.rows) {
-				$scope.viewData = PivotMetaService.formEmptyView($scope.dimensions, {label: 'Touchpoint'});
+			if(!$scope.spendCubeLoading) {
+				$scope.spendCube = $scope.getSpendCube();
+				initializeDefaultView();
+				$scope.spendCubeLoaded = true;
+			} else {
+				$scope.spendCubeLoaded = false;
+				$scope.spendCube = [];
 			}
-			
-			$scope.added = PivotMetaService.setUpAddedLevels($scope.viewData.rows.concat($scope.viewData.columns));
-			$scope.addedFilters = PivotMetaService.getAddedFilters($scope.viewData.filters, $scope.dimensions);
-			$scope.membersList = PivotMetaService.generateMembersList($scope.dimensions);
-			$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.dimensions, $scope.viewData);
-			determineTimeDisability($scope.added);
+			$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
 
 			$scope.dragOptions = {
 				itemMoved: function() {
@@ -51,7 +49,19 @@ angular.module('ThreeSixtyOneView')
 			datepickerConfig.startingDay = 1;
 		},
 		determineTimeDisability = function(added) {
-			$scope.timeDisabled = PivotMetaService.determineTimeDisability($scope.dimensions, added);
+			$scope.timeDisabled = PivotMetaService.determineTimeDisability($scope.spendCube, added);
+		},
+		initializeDefaultView = function() {
+			$scope.viewData = $scope.getDefaultView();
+			if(!$scope.viewData.rows) {
+				$scope.viewData = PivotMetaService.formEmptyView($scope.spendCube, {label: 'Touchpoint'});
+			}
+			
+			$scope.added = PivotMetaService.setUpAddedLevels($scope.viewData.rows.concat($scope.viewData.columns));
+			$scope.addedFilters = PivotMetaService.getAddedFilters($scope.viewData.filters, $scope.spendCube);
+			$scope.membersList = PivotMetaService.generateMembersList($scope.spendCube);
+			$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.spendCube, $scope.viewData);
+			determineTimeDisability($scope.added);
 		};
 
 	// returns element titles in the view: rows and columns
@@ -68,7 +78,7 @@ angular.module('ThreeSixtyOneView')
 	};
 
 	$scope.getDimensions = function() {
-		return $scope.dimensions;
+		return $scope.spendCube;
 	};
 
 	$scope.deleteItem =  function(index, element) {
@@ -86,11 +96,11 @@ angular.module('ThreeSixtyOneView')
 	$scope.filtersModal = function(category) {
 		var filtersModalCallback = function(newFilterData) {
 			$scope.addedFilters = newFilterData;
-			$scope.viewData.filters = PivotMetaService.updateFilters($scope.dimensions, newFilterData, $scope.membersList, $scope.viewData.filters);
-			$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure(newFilterData, $scope.dimensions, $scope.viewData);
+			$scope.viewData.filters = PivotMetaService.updateFilters($scope.spendCube, newFilterData, $scope.membersList, $scope.viewData.filters);
+			$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure(newFilterData, $scope.spendCube, $scope.viewData);
 		};
 
-		DialogService.filtersModal(category, $scope.addedFilters, $scope.viewData.rows.concat($scope.viewData.columns), $scope.dimensions, filtersModalCallback);
+		DialogService.filtersModal(category, $scope.addedFilters, $scope.viewData.rows.concat($scope.viewData.columns), $scope.spendCube, filtersModalCallback);
 	};
 
 	$scope.isDatePickerVisible = function() {
@@ -100,6 +110,12 @@ angular.module('ThreeSixtyOneView')
 	$scope.$on(EVENTS.flipbookAdvance, function() {
 		$scope.setDefaultView($scope.viewData);
 		$scope.setPerformancePeriod($scope.fromDate, $scope.toDate);
+	});
+
+	$scope.$on(EVENTS.spendCubeIdLoaded, function(event, spendCube) {
+		$scope.spendCube = spendCube;
+		initializeDefaultView();
+		$scope.spendCubeLoaded = true;
 	});
 
 	init();
