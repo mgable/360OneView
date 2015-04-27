@@ -38,5 +38,6 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     // FILTER MEMBERS
     selectTime: 'selectTime',
     // LOADING DIMENSIONS
-    dimensionsIsLoaded: 'dimensionsIsLoaded'
+    dimensionsIsLoaded: 'dimensionsIsLoaded',
+    spendCubeIdLoaded: 'spendCubeIdLoaded'
 });

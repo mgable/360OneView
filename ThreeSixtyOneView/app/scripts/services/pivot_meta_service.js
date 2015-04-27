@@ -42,7 +42,7 @@
 
 			return output;
 		},
-		getDefaultViewRow = function(dimensions) {
+		getDefaultViewColumn = function(dimensions) {
 			var timeDimension = _.find(dimensions, function(dimension) {
 				return dimension.type === 'TimeDimension';
 			});
@@ -59,7 +59,7 @@
 				}
 			};
 		},
-		getDefaultViewColumn = function(dimensions) {
+		getDefaultViewRow = function(dimensions) {
 			var measureDimension = _.find(dimensions, function(dimension) {
 				return dimension.type === 'MeasureDimension';
 			});

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-.controller('ScenarioTemplatesViewsCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "EVENTS", "data", 'ManageTemplatesService', 'DimensionService', 'ManageScenariosService', 'PivotMetaService',
-	function($scope, $controller, $modalInstance, CONFIG, EVENTS, data, ManageTemplatesService, DimensionService, ManageScenariosService, PivotMetaService) {
+.controller('ScenarioTemplatesViewsCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "EVENTS", "data", 'ManageTemplatesService', 'DimensionService', 'ManageScenariosService', 'PivotMetaService', 'MetaDataService',
+	function($scope, $controller, $modalInstance, CONFIG, EVENTS, data, ManageTemplatesService, DimensionService, ManageScenariosService, PivotMetaService, MetaDataService) {
 	angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $controller: $controller, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
 	var init = function() {
@@ -12,6 +12,8 @@ angular.module('ThreeSixtyOneView')
 		angular.extend($scope, data);
 		$scope.dimensions = [];
 		$scope.dimensionsSchema = [];
+		$scope.spendCube = [];
+		$scope.spendCubeLoading = false;
 
 		ManageScenariosService.getBase($scope.templateType.label).then(function(baseScenario) {
 			$scope.baseScenario = baseScenario;
@@ -21,11 +23,6 @@ angular.module('ThreeSixtyOneView')
 				$scope.dimensionsList = baseTemplate.dimensions;
 				$scope.kpisList = baseTemplate.kpis;
 				DimensionService.getDimensions(baseScenario.template.id);
-				// ManageTemplatesService.buildDimensionsTree(baseScenario.template.id).then(function(dimensions) {
-				// 	$scope.dimensions = dimensions;
-				// 	console.log('scope dimensions:', $scope.dimensions);
-				// 	// $scope.viewData = PivotMetaService.formEmptyView(dimensions, {label: 'Touchpoint'});
-				// });
 			});
 		});
 
@@ -98,6 +95,10 @@ angular.module('ThreeSixtyOneView')
 		$scope.addedDimensionMembers = addedMembers;
 	};
 
+	$scope.getSpendCube = function() {
+		return $scope.spendCube;
+	};
+
 	$scope.getDefaultView = function() {
 		return $scope.defaultView;
 	}
@@ -116,6 +117,9 @@ angular.module('ThreeSixtyOneView')
 	}
 
 	$scope.setStandardDimensions = function(dimensions, dimensionsSchema, addedMembers) {
+		$scope.spendCubeLoading = true;
+		// empty the default view if previously created, to avoid conflicts if used dimensions are modified
+		$scope.defaultView = {};
 		$scope.template.dimensions = [];
 		_.each(dimensionsSchema, function(_dimension, _dimensionIndex) {
 			if(!_dimension.isSelected) return;
@@ -147,7 +151,15 @@ angular.module('ThreeSixtyOneView')
 			$scope.template.dimensions.push(dimension);
 		});
 		addTimeDimension(addedMembers);
-		ManageTemplatesService.update($scope.template, false);
+		ManageTemplatesService.update($scope.template, false).then(function(template) {
+			ManageTemplatesService.getTemplateCubesByType(template.id, 'Spend').then(function(cubeId) {
+				MetaDataService.buildDimensionsTree(cubeId[0]).then(function(spendCube) {
+					$scope.spendCube = spendCube;
+					$scope.$broadcast(EVENTS.spendCubeIdLoaded, spendCube);
+					$scope.spendCubeLoading = false;
+				});
+			});
+		});
 	};
 
 	var addTimeDimension = function(addedMembers) {
@@ -194,10 +206,10 @@ angular.module('ThreeSixtyOneView')
 	// pass back the selected file and dismiss the modal
 	$scope.submit = function() {
 		ManageTemplatesService.update($scope.template, true).then(function(templateResponse) {
-			// ManageTemplatesService.createView($scope.template.id, $scope.viewData).then(function(viewResponse) {
-			// 	console.log(templateResponse);
-			// 	console.log(viewResponse);
-			// });
+			console.log(templateResponse);
+			ManageTemplatesService.createView($scope.template.id, $scope.defaultView).then(function(viewResponse) {
+				console.log(viewResponse);
+			});
 			$modalInstance.close(templateResponse);
 		});
 	};
