@@ -113,23 +113,64 @@ config.funcs = {
         places["favorite projects"] = _.reject(places["favorite projects"], function(favorite){
             return _.isEqual(favorite, req.query);
         });
-    }
+    },
+    getMembers: function(req){
+        console.info("loading members");
+        var fileName = "./marketshare/" + req.params.join(".") + ".json";
+        return readFile(fileName);
+    },
+    renameView: function(req){
+        var view = _.find(places["analysis-views"], function(view){
+            return view.id.toString() === req.params[0];
+        });
+        view.name = req.body.name;
+        return view;
+    },
+    calculationStatus: {},
+    getCalculationStatus: function(req, res){
+        var scenarioId = req.params[0].toString();
+        console.info("the senario ID is %s", scenarioId );
+        
+        if (this.calculationStatus[scenarioId]  !== undefined){
+            console.info("%s has been called %s times", scenarioId, this.calculationStatus[scenarioId].count);
+            if (this.calculationStatus[scenarioId].output.currentState.completed === false && this.calculationStatus[scenarioId].count < 7) {
+                this.calculationStatus[scenarioId].output.runningStates[this.calculationStatus[scenarioId].count].completed = true;
+                this.calculationStatus[scenarioId].count++;
+            } else {
+                this.calculationStatus[scenarioId].output.currentState.completed = true;
+                this.calculationStatus[scenarioId].output.currentState.name = "SUCCESSFUL";
+            }
+            return this.calculationStatus[scenarioId].output;
+        } else {
+            res.status(404);
+        }
+    },
+    startCalculation: function(req, res){
+        var scenarioId = req.params[0].toString();
+        console.info("starting calculation of %s", scenarioId);
+        this.calculationStatus[scenarioId] = {count:0, output: _.clone(this.getCalculationsFile)} ;
+        console.info(this.calculationStatus[scenarioId].output);
+        return this.calculationStatus[scenarioId].output;
+    },
+    getCalculationsFile: (function(){
+        return readFile("./marketshare/calculate.json")
+    })()
 }
 
 function init(config) {
     config.scenarios  = _.shuffle(loadScenarios("./marketshare/scenario.json"));
 
-    for (var i = 0, limit = config.places.length; i < limit; i++) {
-        createResponse(i);
-    }
+    _.each(config.places, function(place, index){
+        createResponse(place, index);
+    });
 
-    function createResponse(i) {
-        app[config.places[i].method](config.places[i].url, cors(), function(req, res) {
-            sendResponse(res, loadResponses(config.places[i], req));
+    function createResponse(place, index) {
+        app[place.method](place.url, cors(), function(req, res) {
+            sendResponse(res, loadResponses(place, req, res));
         });
     }
 
-    function loadResponses(place, req){
+    function loadResponses(place, req, res){
         if(place.file){
             if (places[place.name]){
                 return places[place.name]
@@ -137,7 +178,7 @@ function init(config) {
             places[place.name] = readFile(config.baseUrl + place.file);
             return places[place.name];
         } else {
-            return config.funcs[place['function']](req);
+            return config.funcs[place['function']](req, res);
         }
     }
 
@@ -149,7 +190,11 @@ function init(config) {
 init(config);
 
 function readFile(file) {
-    return require(file);
+    try{
+        return require(file);
+    }catch(e){
+        return file + " not found";
+    }
 }
 
 function sendResponse(res, body) {

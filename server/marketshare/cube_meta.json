@@ -1,0 +1,171 @@
+{
+  "id": 1,
+  "name": "TOUCHPOINT",
+  "label": "Marketing Plan",
+  "dimensions": [
+    {
+      "type": "StandardDimension",
+      "id": 2,
+      "name": "PROD_DIM",
+      "label": "PRODUCT",
+      "hierarchies": [
+        {
+          "id": 100,
+          "name": "Hotel",
+          "label": "Hotel",
+          "levels": [
+            {
+              "name": "PROD_ID",
+              "id": 1,
+              "label": "Hotel",
+              "ragged": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "TimeDimension",
+      "id": 6,
+      "name": "TIME_DIM",
+      "label": "TIME",
+      "hierarchies": [
+        {
+          "id": 105,
+          "name": "YEAR",
+          "label": "YEAR",
+          "levels": [
+            {
+              "name": "YEAR",
+              "id": 1,
+              "label": "YEAR",
+              "ragged": false
+            },
+            {
+              "name": "HALF_YEARLY",
+              "id": 2,
+              "label": "HALF YEARLY",
+              "ragged": false
+            },
+            {
+              "name": "QUARTER",
+              "id": 4,
+              "label": "QUARTER",
+              "ragged": false
+            },
+            {
+              "name": "MONTH",
+              "id": 5,
+              "label": "MONTH",
+              "ragged": false
+            },
+            {
+              "name": "WEEK",
+              "id": 6,
+              "label": "WEEK",
+              "ragged": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "StandardDimension",
+      "id": 3,
+      "name": "GEO_DIM",
+      "label": "GEO",
+      "hierarchies": [
+        {
+          "id": 101,
+          "name": "Country",
+          "label": "Country",
+          "levels": [
+            {
+              "name": "GEO_ID",
+              "id": 1,
+              "label": "Country",
+              "ragged": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "MeasureDimension",
+      "id": 1,
+      "name": "VAR_DIM",
+      "label": "VARIABLE",
+      "hierarchies": [
+        {
+          "id": 72,
+          "name": "Media Channel",
+          "label": "Media Channel",
+          "levels": [
+            {
+              "name": "ATTR1_ID",
+              "id": 2,
+              "label": "Media Channel",
+              "ragged": false
+            },
+            {
+              "name": "VAR_ID",
+              "id": 1,
+              "label": "Leaf Touchpoint",
+              "ragged": false
+            }
+          ]
+        }
+      ],
+      "aggregatable": true
+    },
+    {
+      "type": "StandardDimension",
+      "id": 4,
+      "name": "SEG_DIM",
+      "label": "SEGMENT",
+      "hierarchies": [
+        {
+          "id": 102,
+          "name": "Segment",
+          "label": "Segment",
+          "levels": [
+            {
+              "name": "SEG_ID",
+              "id": 1,
+              "label": "Segment",
+              "ragged": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "StandardDimension",
+      "id": 5,
+      "name": "CHNL_DIM",
+      "label": "CHANNEL",
+      "hierarchies": [
+        {
+          "id": 103,
+          "name": "Channel",
+          "label": "Channel",
+          "levels": [
+            {
+              "name": "CHNL_ID",
+              "id": 1,
+              "label": "Channel",
+              "ragged": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "measures": [
+    {
+      "id": 1,
+      "name": "TOUCHPOINT",
+      "label": "TOUCHPOINT"
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "type": "HierarchicalMemberData",
+  "dimension": {
+    "id": 2,
+    "name": "PROD_DIM",
+    "label": "PRODUCT"
+  },
+  "hierarchy": {
+    "id": 100,
+    "name": "Hotel",
+    "label": "Hotel"
+  },
+  "members": [
+    {
+      "id": 1,
+      "name": "All Brands",
+      "label": "All Brands",
+      "members": [],
+      "visible": true,
+      "na": false
+    },
+    {
+      "id": 2,
+      "name": "Conrad",
+      "label": "Conrad",
+      "members": [],
+      "visible": true,
+      "na": false
+    },
+    {
+      "id": 3,
+      "name": "Double Tree",
+      "label": "Double Tree",
+      "members": [],
+      "visible": true,
+      "na": false
+    },
+    {
+      "id": 4,
+      "name": "Embassy Suites",
+      "label": "Embassy Suites",
+      "members": [],
+      "visible": true,
+      "na": false
+    },
+    {
+      "id": 5,
+      "name": "Hilton Garden Inn",
+      "label": "Hilton Garden Inn",
+      "members": [],
+      "visible": true,
+      "na": false
+    },
+    {
+      "id": 6,
+      "name": "Hilton Brand",
+      "label": "Hilton Brand",
+      "members": [],
+      "visible": true,
+      "na": false
+    },
+    {
+      "id": 7,
+      "name": "Home2 Suites",
+      "label": "Home2 Suites",
+      "members": [],
+      "visible": true,
+      "na": false
+    },
+    {
+      "id": 8,
+      "name": "Homewood Suites",
+      "label": "Homewood Suites",
+      "members": [],
+      "visible": true,
+      "na": false
+    },
+    {
+      "id": 9,
+      "name": "Hampton Inn",
+      "label": "Hampton Inn",
+      "members": [],
+      "visible": true,
+      "na": false
+    },
+    {
+      "id": 10,
+      "name": "Waldorf Astoria",
+      "label": "Waldorf Astoria",
+      "members": [],
+      "visible": true,
+      "na": false
+    }
+  ]
+}
