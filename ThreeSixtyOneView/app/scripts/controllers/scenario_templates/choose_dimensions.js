@@ -74,8 +74,8 @@ angular.module('ThreeSixtyOneView')
         };
 
 		$scope.$on(EVENTS.flipbookAdvance, function() {
-            $scope.setDimensionsLabel($scope.standardDimensions, 'standard');
-            $scope.setDimensionsLabel($scope.kpiDimensions, 'kpi');
+            $scope.setDimensionsLabel($scope.standardDimensionsSchema, $scope.categorizedValue, 'standard');
+            $scope.setDimensionsLabel($scope.kpiDimensions, $scope.categorizedValue, 'kpi');
             $scope.setStandardDimensions($scope.standardDimensions, $scope.standardDimensionsSchema, $scope.addedFilters);
             $scope.setKpiDimension($scope.kpiDimensions);
 		});

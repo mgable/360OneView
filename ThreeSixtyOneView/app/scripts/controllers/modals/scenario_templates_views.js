@@ -42,7 +42,7 @@ angular.module('ThreeSixtyOneView')
 
 		$scope.dimensionsIsLoaded = false;
 		$scope.timeGranularity = false;
-		$scope.spendDimensionsLabels = '';
+		$scope.standardDimensionsLabels = '';
 		$scope.kpiDimensionsLabels = '';
 
 		$scope.performancePeriod = {
@@ -111,8 +111,8 @@ angular.module('ThreeSixtyOneView')
 		$scope.performancePeriod.to = toDate;
 	};
 
-	$scope.setDimensionsLabel = function(dimensions, type) {
-		$scope[type + 'DimensionsLabel'] = DimensionService.getDimensionsLabel(dimensions);
+	$scope.setDimensionsLabel = function(dimensions, categorizedValue, type) {
+		$scope[type + 'DimensionsLabel'] = DimensionService.getSelectedDimensionsLabels(dimensions, categorizedValue, type);
 	}
 
 	$scope.setStandardDimensions = function(dimensions, dimensionsSchema, addedMembers) {
