@@ -3,7 +3,8 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .controller('ScenarioCreateCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", "GotoService", '$filter', function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS, GotoService, $filter) {
+    .controller('ScenarioCreateCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", "GotoService", '$filter', 'ManageTemplatesService',
+        function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS, GotoService, $filter, ManageTemplatesService) {
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
         var findBaseScenario = function(scenario){
@@ -29,31 +30,62 @@ angular.module('ThreeSixtyOneView')
 
                 return scenarioList;
             },
-            init = function(){
+            removeInvalidScenarios = function(projects, templateIds) {
+                var output = [];
+
+                _.each(projects, function(_project) {
+                    var project = {
+                        name: _project.name,
+                        isMaster: _project.isMaster,
+                        data: []
+                    }
+                    _.each(_project.data, function(_scenario) {
+                        if(templateIds.indexOf(_scenario.template.id) > -1) {
+                            project.data.push(_scenario);
+                        }
+                    });
+                    if(project.data.length > 0) {
+                        output.push(project);
+                    }
+                });
+
+                console.log(output);
+                return output;
+            },
+            init = function() {
                 $scope.showFields = true;
                 $scope.project = data.project;
                 $scope.scenarios = data.scenarios;
                 $scope.scenario = angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
                 $scope.loadingScenarios = true;
 
-                ScenarioService.getAll().then(function(response){
-                    $scope.loadingScenarios = false;
-                    var baseScenario;
-                    $scope.masterProject = getMasterProject(response);
-                    baseScenario = findBaseScenario($scope.masterProject);
-                    $scope.scenarioList = sortScenarios(response);
-                    $scope.masterProjectReferenceScenario = $scope.masterProject.data[0];
+                ManageTemplatesService.getAll().then(function(templatesList) {
+                    var templateIds = _.pluck(templatesList, 'id');
+                    ScenarioService.getAll().then(function(response){
+                        $scope.loadingScenarios = false;
+                        var baseScenario;
+                        $scope.masterProject = getMasterProject(response);
+                        baseScenario = findBaseScenario($scope.masterProject);
+                        // $scope.scenarioList = sortScenarios(response);
+                        // following filter is added to remove scenarios with master template
+                        $scope.scenarioListUnformatted = sortScenarios(response);
+                        $scope.scenarioList = removeInvalidScenarios($scope.scenarioListUnformatted, templateIds);
 
-                    $scope.scenario.referenceScenario.id  = baseScenario.id;
-                    $scope.scenario.referenceScenario.name  = baseScenario.name;
-                    $scope.scenario.referenceScenario.type  = baseScenario.type;
-                    $scope.scenario.template  = baseScenario.template;
-                    $scope.scenario.prediction  = baseScenario.prediction;
-                    $scope.scenario.type = baseScenario.type;
+                        $scope.masterProjectReferenceScenario = $scope.masterProject.data[0];
 
-                    selectedBaseScenario = $scope.masterProjectReferenceScenario;
+                        $scope.scenario.referenceScenario.id  = baseScenario.id;
+                        $scope.scenario.referenceScenario.name  = baseScenario.name;
+                        $scope.scenario.referenceScenario.type  = baseScenario.type;
+                        $scope.scenario.template  = baseScenario.template;
+                        $scope.scenario.prediction  = baseScenario.prediction;
+                        $scope.scenario.type = baseScenario.type;
+                        $scope.scenario.isPlanOfRecord = false;
+
+                        selectedBaseScenario = $scope.masterProjectReferenceScenario;
+                    });
                 });
-            },selectedBaseScenario;
+            },
+            selectedBaseScenario;
 
         $scope.showBaseScenario = function() {
             $scope.showFields = false;
@@ -93,6 +125,8 @@ angular.module('ThreeSixtyOneView')
         $scope.confirm = function(){
             $scope.scenario.referenceScenario.id = selectedBaseScenario.id;
             $scope.scenario.referenceScenario.name = selectedBaseScenario.name;
+            $scope.scenario.referenceScenario.type = selectedBaseScenario.type;
+            $scope.scenario.template  = selectedBaseScenario.template;
             $scope.showFields = true;
         };
 
