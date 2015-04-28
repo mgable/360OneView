@@ -7,8 +7,8 @@ angular.module('ThreeSixtyOneView')
         function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS, GotoService, $filter, ManageTemplatesService) {
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
-        var findBaseScenario = function(scenario){
-                return _.find(scenario.data, function(obj){return (/simulation/i).test(obj.prediction.type);});
+        var findBaseScenario = function(project, templateIds){
+                return _.find(project.data, function(scenario){return (/simulation/i).test(scenario.prediction.type) && (templateIds.indexOf(scenario.template.id) > -1);});
             },
             getMasterProject = function(projects){
                 return _.findWhere(projects, {"isMaster": true});
@@ -49,7 +49,6 @@ angular.module('ThreeSixtyOneView')
                     }
                 });
 
-                console.log(output);
                 return output;
             },
             init = function() {
@@ -65,7 +64,7 @@ angular.module('ThreeSixtyOneView')
                         $scope.loadingScenarios = false;
                         var baseScenario;
                         $scope.masterProject = getMasterProject(response);
-                        baseScenario = findBaseScenario($scope.masterProject);
+                        baseScenario = findBaseScenario($scope.masterProject, templateIds);
                         // $scope.scenarioList = sortScenarios(response);
                         // following filter is added to remove scenarios with master template
                         $scope.scenarioListUnformatted = sortScenarios(response);
@@ -123,6 +122,7 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.confirm = function(){
+            $scope.scenario.type = selectedBaseScenario.type;
             $scope.scenario.referenceScenario.id = selectedBaseScenario.id;
             $scope.scenario.referenceScenario.name = selectedBaseScenario.name;
             $scope.scenario.referenceScenario.type = selectedBaseScenario.type;
