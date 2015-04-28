@@ -1,11 +1,10 @@
 "use strict";
 
-angular.module('ThreeSixtyOneView').config(function() {
+angular.module('ThreeSixtyOneView').config(function($logProvider) {
     String.prototype.bool = function() {
         return (/^true$/i).test(this);
     };
+    // turn off logging primarily for angular-virtual-scroll
+    $logProvider.debugEnabled(false);
 }).run([function() {
-	// For now, pre-fetch all data
-	// ProjectsService.find();
-    // FavoritesService.find("project");
 }]);

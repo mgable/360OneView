@@ -27,6 +27,8 @@ angular.module('ThreeSixtyOneView.directives')
                 return "views/directives/ms_" + attrs.dimensionType + "_dimension_card.tpl.html";
             },
             link: function(scope) {
+
+                console.info(scope.allDimensionsData);
                 if(!!scope.allDimensionsSchema) {
                     scope.dimensionSchema = scope.allDimensionsSchema[scope.dimensionIndex];
                 }
@@ -35,7 +37,7 @@ angular.module('ThreeSixtyOneView.directives')
                         filteredDimension = _.find(filteredDimensions, function(v) { return category.id === v.id; }),
                         filtersModalCallback = function(newFilterData) {
                             scope.filterUpdateCallback({addedMembers: newFilterData});
-                    };
+                        };
                     DialogService.filtersModal(filteredDimension, scope.filtersData, scope.viewData, filteredDimensions, filtersModalCallback);
                 };
                 scope.getFormattedLabel = function(categorizedData) {
