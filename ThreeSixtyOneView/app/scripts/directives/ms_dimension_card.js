@@ -28,7 +28,6 @@ angular.module('ThreeSixtyOneView.directives')
             },
             link: function(scope) {
 
-                console.info(scope.allDimensionsData);
                 if(!!scope.allDimensionsSchema) {
                     scope.dimensionSchema = scope.allDimensionsSchema[scope.dimensionIndex];
                 }

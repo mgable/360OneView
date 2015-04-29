@@ -19,7 +19,7 @@ angular.module('ThreeSixtyOneView')
 			}, openScenarioTemplatesCreateModal = function(type, templates) {
 				var scenarioTemplates = templates,
 					dialog = DialogService.openLightbox('views/modal/scenario_templates.tpl.html', 'ScenarioTemplatesViewsCtrl',
-						{templateType: type, scenarioTemplates: $scope.scenarioTemplates},
+						{templateType: type, scenarioTemplates: $scope.scenarioTemplates, masterProject: masterProject},
 						{windowSize: 'lg', windowClass: 'scenario_templates'}
 					);
 

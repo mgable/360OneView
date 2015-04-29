@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-.controller('ScenarioTemplatesViewsCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "EVENTS", "data", 'ManageTemplatesService', 'DimensionService', 'ManageScenariosService', 'PivotMetaService', 'MetaDataService',
-	function($scope, $controller, $modalInstance, CONFIG, EVENTS, data, ManageTemplatesService, DimensionService, ManageScenariosService, PivotMetaService, MetaDataService) {
+.controller('ScenarioTemplatesViewsCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "EVENTS", "data", 'ManageTemplatesService', 'DimensionService', 'ManageScenariosService', 'PivotMetaService', 'MetaDataService', 'ScenarioService',
+	function($scope, $controller, $modalInstance, CONFIG, EVENTS, data, ManageTemplatesService, DimensionService, ManageScenariosService, PivotMetaService, MetaDataService, ScenarioService) {
 	angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $controller: $controller, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
 	var init = function() {
 		$scope.CONFIG = CONFIG;
 		// this sets the following
-		// $scope.templateType, $scope.scenarioTemplates
+		// $scope.templateType, $scope.scenarioTemplates, $scope.masterProject
 		angular.extend($scope, data);
 		$scope.dimensions = [];
 		$scope.dimensionsSchema = [];
@@ -27,7 +27,8 @@ angular.module('ThreeSixtyOneView')
 		});
 
 		initializeTemplate($scope.templateType);
-	}, initializeTemplate = function(type) {
+	},
+	initializeTemplate = function(type) {
 		$scope.template = {
 			name: '',
 			description: '',
@@ -49,7 +50,47 @@ angular.module('ThreeSixtyOneView')
 
 		$scope.addedDimensionMembers = false;
 		$scope.defaultView = {};
-	}, timeDimension = false;
+	},
+	timeDimension = false,
+	addTimeDimension = function(addedMembers) {
+		var dimension = {
+			id: $scope.filteredTimeDimension.id,
+			type: $scope.filteredTimeDimension.type,
+			attributes: []
+		};
+		_.each($scope.filteredTimeDimension.members, function(_attribute, _attributeIndex) {
+			var attribute = {
+					id: _attribute.id,
+					specification: {}
+				},
+				members = PivotMetaService.getCategorizeValues($scope.filteredTimeDimension, addedMembers[$scope.filteredTimeDimension.label], _attributeIndex);
+			if(members.selected === members.total) {
+				attribute.specification.type = 'All';
+			} else {
+				attribute.specification.type = 'Include';
+				attribute.specification.members = [];
+				_.each(members.id, function(_id) {
+					attribute.specification.members.push({id: _id});
+				})
+			}
+			dimension.attributes.push(attribute);
+		});
+		$scope.template.dimensions.push(dimension);
+	},
+	makePlanOfRecord = function(template, baseScenario) {
+		var planOfRecord = angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
+		planOfRecord.name = 'Plan of Record';
+		planOfRecord.type = template.type;
+		planOfRecord.isPlanOfRecord = true;
+		planOfRecord.prediction = baseScenario.prediction;
+		planOfRecord.template = template;
+		planOfRecord.referenceScenario = {
+			id: baseScenario.id,
+			name: baseScenario.name,
+			type: baseScenario.type
+		};
+		return planOfRecord;
+	};
 
 	$scope.createDraftTemplate = function() {
 		if(typeof $scope.template.id === 'undefined') {
@@ -162,32 +203,6 @@ angular.module('ThreeSixtyOneView')
 		});
 	};
 
-	var addTimeDimension = function(addedMembers) {
-		var dimension = {
-			id: $scope.filteredTimeDimension.id,
-			type: $scope.filteredTimeDimension.type,
-			attributes: []
-		};
-		_.each($scope.filteredTimeDimension.members, function(_attribute, _attributeIndex) {
-			var attribute = {
-					id: _attribute.id,
-					specification: {}
-				},
-				members = PivotMetaService.getCategorizeValues($scope.filteredTimeDimension, addedMembers[$scope.filteredTimeDimension.label], _attributeIndex);
-			if(members.selected === members.total) {
-				attribute.specification.type = 'All';
-			} else {
-				attribute.specification.type = 'Include';
-				attribute.specification.members = [];
-				_.each(members.id, function(_id) {
-					attribute.specification.members.push({id: _id});
-				})
-			}
-			dimension.attributes.push(attribute);
-		});
-		$scope.template.dimensions.push(dimension);
-	};
-
 	$scope.setKpiDimension = function(kpis) {
 		$scope.template.kpis = [];
 		_.each(kpis, function(kpi) {
@@ -207,10 +222,16 @@ angular.module('ThreeSixtyOneView')
 	$scope.submit = function() {
 		ManageTemplatesService.update($scope.template, true).then(function(templateResponse) {
 			console.log(templateResponse);
+			var planOfRecord = makePlanOfRecord(templateResponse, $scope.baseScenario);
+			console.log(planOfRecord);
 			ManageTemplatesService.createView($scope.template.id, $scope.defaultView).then(function(viewResponse) {
 				console.log(viewResponse);
 			});
-			$modalInstance.close(templateResponse);
+			ScenarioService.create($scope.masterProject.uuid, planOfRecord).then(function(scenario) {
+				console.log(scenario);
+				$modalInstance.close(templateResponse, scenario);
+			});
+
 		});
 	};
 
