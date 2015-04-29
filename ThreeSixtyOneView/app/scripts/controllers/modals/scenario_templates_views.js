@@ -14,6 +14,7 @@ angular.module('ThreeSixtyOneView')
 		$scope.dimensionsSchema = [];
 		$scope.spendCube = [];
 		$scope.spendCubeLoading = false;
+		$scope.modelingPeriod = [];
 
 		ManageScenariosService.getBase($scope.templateType.label).then(function(baseScenario) {
 			$scope.baseScenario = baseScenario;
@@ -209,6 +210,19 @@ angular.module('ThreeSixtyOneView')
 			if(!kpi.isSelected) return;
 			$scope.template.kpis.push({id: kpi.id});
 		});
+	};
+
+	$scope.setModelingPeriod = function() {
+		// if($scope.template.type === 'Action') {
+			ManageScenariosService.getModelingPeriod($scope.filteredTimeDimension.members[0].id).then(function(period) {
+				console.log(period);
+				$scope.modelingPeriod = period;
+			});
+		// }
+	};
+
+	$scope.getModelingPeriod = function() {
+		return $scope.modelingPeriod;
 	};
 
 	$scope.cancel = function() {

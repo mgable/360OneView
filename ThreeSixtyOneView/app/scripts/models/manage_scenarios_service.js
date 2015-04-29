@@ -63,6 +63,20 @@ angular.module('ThreeSixtyOneView.services')
 						type: type
 					}
 				};
+			
+			return this.resource.get({}, config, additionalPath).then(function(response) {
+				return response;
+			});
+		};
+
+		this.getModelingPeriod = function(timeId) {
+			var additionalPath = 'modelling-period',
+				config = {
+					params: {
+						granularity: timeId
+					}
+				};
+
 			return this.resource.get({}, config, additionalPath).then(function(response) {
 				return response;
 			});

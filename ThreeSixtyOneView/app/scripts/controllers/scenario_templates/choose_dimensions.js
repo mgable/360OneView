@@ -77,6 +77,7 @@ angular.module('ThreeSixtyOneView')
             $scope.setDimensionsLabel($scope.kpiDimensions, $scope.categorizedValue, 'kpi');
             $scope.setStandardDimensions($scope.standardDimensions, $scope.standardDimensionsSchema, $scope.addedFilters);
             $scope.setKpiDimension($scope.kpiDimensions);
+            $scope.setModelingPeriod();
 		});
 
 		init();
