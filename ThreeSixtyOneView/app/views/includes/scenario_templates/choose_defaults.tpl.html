@@ -5,7 +5,7 @@
 	<div class="prompt">
 		What's the default view of your template?
 		<div class="confirmation">
-			This will apply anytime a user first opens a scenario using this template. Users will be able to create their own views once the template is created
+			This will apply anytime a user first opens a scenario using this template. Users will be able to create their own views once the template is created.
 		</div>
 	</div>
 
@@ -41,17 +41,30 @@
 		</div>
 	</div>
 
-	<div class="row" ng-if="isDatePickerVisible()">
-		<div class="col-md-3">
+	<div class="modeling-period" ng-if="isDatePickerVisible()">
+		<div class="prompt">
+		What historical period would you like to use to measure marketing performance?
+			<div class="confirmation">
+				You will be able to change this when doing scenario planning.
+			</div>
+		</div>
+		<div class="period-range">
 			<div>From</div>
-			<span class="date-picker clickable" datepicker-popup="{{dateFormat}}" ng-model="fromDate" ng-click="isFromDateOpen = !isFromDateOpen" is-open="isFromDateOpen" max-date="toDate" show-button-bar="false" datepicker-options datepicker-mode='month'>{{fromDate | date:'yyyy-MM-dd Week (ww)'}}</span>
+			<div class="dropdown">
+				<div class="dropdown-toggle">{{fromDate.label}}</div>
+				<ul class="dropdown-menu" ms-link-group selected-item="{{fromDate.id}}" radio="true">
+					<li class="menu-item" ng-repeat="item in modelingPeriod" ms-link="{{item.id}}" ng-hide="item.label > toDate.label" ng-click="setFromDate(item)">{{item.label}}</li>
+				</ul>
+			</div>
 		</div>
-		<div class="col-md-1">
-			<span>-</span>
-		</div>
-		<div class="col-md-3">
+		<div class="period-range">
 			<div>To</div>
-			<span class="date-picker clickable" datepicker-popup="{{dateFormat}}" ng-model="toDate" ng-click="isToDateOpen = !isToDateOpen" is-open="isToDateOpen" min-date="fromDate" show-button-bar="false" datepicker-options>{{toDate | date:'yyyy-MM-dd Week (ww)'}}</span>
+			<div class="dropdown">
+				<div class="dropdown-toggle">{{toDate.label}}</div>
+				<ul class="dropdown-menu" ms-link-group selected-item="{{toDate.id}}" radio="true">
+					<li class="menu-item" ng-repeat="item in modelingPeriod" ms-link="{{item.id}}" ng-hide="item.label < fromDate.label" ng-click="setToDate(item)">{{item.label}}</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 

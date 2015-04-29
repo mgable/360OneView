@@ -212,17 +212,8 @@ angular.module('ThreeSixtyOneView')
 		});
 	};
 
-	$scope.setModelingPeriod = function() {
-		// if($scope.template.type === 'Action') {
-			ManageScenariosService.getModelingPeriod($scope.filteredTimeDimension.members[0].id).then(function(period) {
-				console.log(period);
-				$scope.modelingPeriod = period;
-			});
-		// }
-	};
-
-	$scope.getModelingPeriod = function() {
-		return $scope.modelingPeriod;
+	$scope.getTimeGranularityInfo = function() {
+		return $scope.filteredTimeDimension.members[0];
 	};
 
 	$scope.cancel = function() {

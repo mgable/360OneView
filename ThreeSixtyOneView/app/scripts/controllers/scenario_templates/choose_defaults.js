@@ -8,8 +8,8 @@
  * Controller of the ThreeSixtyOneView
  */
 angular.module('ThreeSixtyOneView')
-.controller('ScenarioTemplatesChooseDefaultsCtrl', ['$scope', 'PivotMetaService', 'PivotViewService', 'datepickerConfig', 'MetaDataService', 'DialogService', 'EVENTS',
-	function ($scope, PivotMetaService, PivotViewService, datepickerConfig, MetaDataService, DialogService, EVENTS) {
+.controller('ScenarioTemplatesChooseDefaultsCtrl', ['$scope', 'PivotMetaService', 'PivotViewService', 'datepickerConfig', 'MetaDataService', 'DialogService', 'ManageScenariosService', 'EVENTS',
+	function ($scope, PivotMetaService, PivotViewService, datepickerConfig, MetaDataService, DialogService, ManageScenariosService, EVENTS) {
 
 	var init = function() {
 			if(!$scope.spendCubeLoading) {
@@ -21,6 +21,7 @@ angular.module('ThreeSixtyOneView')
 				$scope.spendCube = [];
 			}
 			$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
+			$scope.modelingPeriod = [];
 
 			$scope.dragOptions = {
 				itemMoved: function() {
@@ -36,17 +37,7 @@ angular.module('ThreeSixtyOneView')
 				containment: '#dragDropArea'
 			};
 
-			initDatePicker();
-		},
-		initDatePicker = function() {
-			$scope.dateFormat = 'yyyy-MM-dd Week (ww)';
-			$scope.fromDate = new Date();
-			$scope.toDate = new Date();
-
-			// datepicker options
-			datepickerConfig.minDate = '2014-01-02';
-			datepickerConfig.maxDate = '2016-01-01';
-			datepickerConfig.startingDay = 1;
+			setModelingPeriod();
 		},
 		determineTimeDisability = function(added) {
 			$scope.timeDisabled = PivotMetaService.determineTimeDisability($scope.spendCube, added);
@@ -62,15 +53,20 @@ angular.module('ThreeSixtyOneView')
 			$scope.membersList = PivotMetaService.generateMembersList($scope.spendCube);
 			$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.spendCube, $scope.viewData);
 			determineTimeDisability($scope.added);
+		},
+		setModelingPeriod = function() {
+		if($scope.template.type === 'Action') {
+			ManageScenariosService.getModelingPeriod($scope.getTimeGranularityInfo().id).then(function(period) {
+				$scope.modelingPeriod = period;
+				$scope.fromDate = period[0];
+				$scope.toDate = period[period.length - 1];
+			});
+		}
 		};
 
 	// returns element titles in the view: rows and columns
 	$scope.getPivotBuilderItems = function() {
 		return $scope.pivotBuilderItems;
-	};
-
-	$scope.getFormattedDate = function(date) {
-		return $filter('date')(date.getTime(),'yyyy-MM-dd');
 	};
 
 	$scope.getViewData = function(element) {
@@ -104,7 +100,15 @@ angular.module('ThreeSixtyOneView')
 	};
 
 	$scope.isDatePickerVisible = function() {
-		return $scope.templateType.label !== 'Strategy';
+		return $scope.templateType.label === 'Action';
+	};
+
+	$scope.setFromDate = function(period) {
+		$scope.fromDate = period;
+	};
+
+	$scope.setToDate = function(period) {
+		$scope.toDate = period;
 	};
 
 	$scope.$on(EVENTS.flipbookAdvance, function() {

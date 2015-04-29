@@ -178,6 +178,26 @@
 					text-align: center;
 				}
 			}
+			.modeling-period {
+				margin-top: 20px;
+
+				.period-range {
+					display: inline-block;
+					margin-right: 40px;
+
+					.dropdown-toggle {
+						color: $ms-blue;
+
+						&:hover {
+							text-decoration: underline;
+						}
+					}
+
+					.dropdown-menu::before {
+						left: 15%;
+					}
+				}
+			}
 		}
 		.button-container {
 			margin: 20px 20px 0 0;
