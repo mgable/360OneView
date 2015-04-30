@@ -27,6 +27,7 @@ module.exports = function(config) {
             'app/scripts/vendor/dialogs.js',
             'app/scripts/vendor/jquery.wijmo.wijspread.all.min.js',
             'app/scripts/vendor/angular.wijmo.wijspread.min.js',
+            'app/bower_components/angular-virtual-scroll/angular-virtual-scroll.js',
             'app/scripts/*.js',
             'app/scripts/**/*.js',
             'test/spec/**/*.js',

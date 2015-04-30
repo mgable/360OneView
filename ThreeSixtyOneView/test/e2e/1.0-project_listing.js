@@ -113,7 +113,8 @@ if(funcs.runTheseTests(testName)){
 
 		describe("Sort: ", function(){
 			it("should highlight the inital sort field", function(){
-				expect(funcs.hasClass(specs.column_2LabelField, specs.activeSelectionClass)).toBe(false);
+				expect(funcs.hasClass(specs.column_1LabelField, specs.activeSelectionClass)).toBe(false);
+				expect(funcs.hasClass(specs.column_2LabelField, specs.activeSelectionClass)).toBe(true);
 			})
 
 			it("should switch between ordering by name, modified last and created on", function(){
@@ -221,18 +222,20 @@ if(funcs.runTheseTests(testName)){
 
 		describe("Favorites: ", function(){
 			it("should toggle favorite", function(){
-				var firstFavoriteItem = funcs.getFavorites().first(),
+				var firstFavoriteItem = funcs.getFirstItem().element(by.css(specs.favoriteClassHolder)),
 					isFavorite;
 					
 				funcs.hasClass(firstFavoriteItem, specs.favoriteClass).then(function(favorite){
 					isFavorite = favorite;
 					firstFavoriteItem.click();
 					expect(funcs.hasClass(firstFavoriteItem, specs.favoriteClass)).not.toBe(isFavorite);
+					firstFavoriteItem.click();
+					expect(funcs.hasClass(firstFavoriteItem, specs.favoriteClass)).toBe(isFavorite);
 				});
 			});
 
 			it("should save the favorite", function(){
-				var firstFavoriteItem = funcs.getFavorites().first(),
+				var firstFavoriteItem = funcs.getFirstItem().element(by.css(specs.favoriteClassHolder)),
 					isFavorite;
 					
 				funcs.hasClass(firstFavoriteItem, specs.favoriteClass).then(function(favorite){
@@ -240,14 +243,14 @@ if(funcs.runTheseTests(testName)){
 					firstFavoriteItem.click();
 					expect(funcs.hasClass(firstFavoriteItem, specs.favoriteClass)).not.toBe(isFavorite);
 					browser.get(funcs.getProjectUrl());
-					firstFavoriteItem = funcs.getFavorites().first();
+					firstFavoriteItem = funcs.getFirstItem().element(by.css(specs.favoriteClassHolder));
 					expect(funcs.hasClass(firstFavoriteItem, specs.favoriteClass)).not.toBe(isFavorite);
 				});
 			});
 		});
 
 		describe("Filters: ", function(){
-			it ("should toggle the filter menu dropdown", function(){
+			xit("should toggle the filter menu dropdown", function(){
 				expect(funcs.hasClass(specs.filterDropdown, 'hide')).toBe(true);
 				specs.filterByButton.click();
 				expect(funcs.hasClass(specs.filterDropdown, 'hide')).toBe(false);
@@ -263,7 +266,7 @@ if(funcs.runTheseTests(testName)){
 				});
 			});
 
-			it("should filter by project", function(){
+			xit("should filter by project", function(){
 				var startItemCount = funcs.getItemCount();
 
 				funcs.filterByItem();
@@ -276,23 +279,27 @@ if(funcs.runTheseTests(testName)){
 			});
 
 			it("should update the selected item when favorites are filtered", function(){
-				var lastItem = funcs.getFavorites().last();
-				funcs.hasClass(lastItem, specs.favoriteClass).then(function(isFavorite){
-					if(!isFavorite){
-						lastItem.click();
-					}
+				var lastItem = funcs.getFavorites().last(), numberOfFavorites;
+				funcs.getFavorites().count().then(function(count){
+					numberOfFavorites = count;
 
-					funcs.filterByFavorites();
+					funcs.hasClass(lastItem, specs.favoriteClass).then(function(isFavorite){
+						if(!isFavorite){
+							lastItem.click();
+						}
 
-					var firstTitle = funcs.getFirstItemTitle(),
-						slectedItemTitle = funcs.getSelectedItemTitle()
+						funcs.filterByFavorites();
 
-					firstTitle.getText().then(function(title){
-						slectedItemTitle.getText().then(function(secondTitle){
-							expect(title).toEqual(secondTitle);
+						var firstTitle = funcs.getFirstItemTitle(),
+							selectedItemTitle = (count > 1) ? funcs.getSelectedItemTitle() : funcs.getSelectedItemTitle(true);
+
+						firstTitle.getText().then(function(title){
+							selectedItemTitle.getText().then(function(secondTitle){
+								expect(title.trim()).toEqual(secondTitle.trim());
+							});
 						});
-					});
 
+					});
 				});
 			});
 
@@ -540,15 +547,6 @@ if(funcs.runTheseTests(testName)){
 			it("should prevent the master project from being edited", function(){
 				funcs.selectMasterProject();
 				expect(specs.renameButton.isPresent()).toBe(false);
-			});
-
-			it("should have one scenario for the master project", function(){
-				var scenarios;
-
-				funcs.selectMasterProject();
-				scenarios = funcs.getScenarios();
-
-				expect(scenarios.count()).toBe(1);
 			});
 
 			it("should favorite the master project", function(){

@@ -2,7 +2,7 @@
 	<div class="details">
 		<div class="clearfix title-holder">
 			<span ng-switch="selectedItem.isMaster || ! selectedItem">
-				<span ng-switch-when="true" class="title"><icon ng-if="selectedItem.isMaster" type="marketshare"></icon>&nbsp;{{selectedItem.name}}</span>
+				<span ng-switch-when="true" class="title master"><icon ng-if="selectedItem.isMaster" type="marketshare"></icon>&nbsp;{{selectedItem.name}}</span>
 				<span ng-switch-default>
 					<inline-edit template="inline_rename" test="e2e" submitAction="CONFIG.renameAction" item="selectedItem" comparison-model="isScenarioTitleUnique"></inline-edit>
 				</span>
