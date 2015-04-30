@@ -121,10 +121,10 @@ angular.module('ThreeSixtyOneView')
 			}
 			$scope.filteredTimeDimension.members = [];
 			_.each(timeDimension.members, function(level) {
-				levelFound = levelFound || level.label === time;
-				if(levelFound) {
+				if(!levelFound) {
 					$scope.filteredTimeDimension.members.push(level);
 				}
+				levelFound = levelFound || level.label === time;
 			});
 		}
 	};
@@ -213,7 +213,7 @@ angular.module('ThreeSixtyOneView')
 	};
 
 	$scope.getTimeGranularityInfo = function() {
-		return $scope.filteredTimeDimension.members[0];
+		return $scope.filteredTimeDimension.members[$scope.filteredTimeDimension.members - 1];
 	};
 
 	$scope.cancel = function() {
