@@ -14,16 +14,14 @@ angular.module('ThreeSixtyOneView.services')
 
         this.data = [];
 
-        this.removeFavorite = function(itemID, type) {
+        this.removeFavorite = function(itemID) {
             if (_.indexOf(this.data, itemID) > -1) {
                 this.data.splice(_.indexOf(this.data, itemID), 1);
-                this.unFavorite(itemID, type);
             }
         };
 
-        this.addFavorite = function(itemID, type) {
+        this.addFavorite = function(itemID) {
             this.data.push(itemID);
-            this.setAsFavorite(itemID, type);
         };
 
         this.isFavorite = function(_itemID_) {
@@ -32,12 +30,14 @@ angular.module('ThreeSixtyOneView.services')
             return index > -1 ? true : false;
         };
 
-        this.toggleFavorite = function(_itemID_, type) {
-            var itemID = _itemID_.toString();
+        this.toggleFavorite = function(id, type, item) {
+            var itemID = id.toString();
             if (this.isFavorite(itemID)) {
                 this.removeFavorite(itemID, type);
+                this.unFavorite(itemID, type);
             } else {
-                this.addFavorite(itemID, type);
+                this.addFavorite(itemID);
+                this.setAsFavorite(itemID, type, item);
             }
         };
 
