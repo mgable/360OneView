@@ -24,6 +24,7 @@ module.exports = function(config) {
             'app/bower_components/angular-translate/angular-translate.js',
             'app/bower_components/angular-ui-utils/ui-utils.js',
             'app/bower_components/ng-sortable/dist/ng-sortable.js',
+            'app/bower_components/angular-virtual-scroll/angular-virtual-scroll.js',
             'app/scripts/vendor/dialogs.js',
             'app/scripts/vendor/jquery.wijmo.wijspread.all.min.js',
             'app/scripts/vendor/angular.wijmo.wijspread.min.js',

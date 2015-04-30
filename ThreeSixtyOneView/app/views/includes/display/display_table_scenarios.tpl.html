@@ -14,7 +14,7 @@
 				<th><ms-dropdown reverse=true is-active=true msid="column_2"></ms-dropdown></th>
 			</thead>
 			<tbody>
-				<tr sf-virtual-repeat="item in getData()" ng-class="{active: isActiveItem(item)}" ng-click="selectItem(item)">
+				<tr ng-repeat="item in getData()" ng-class="{active: isActiveItem(item)}" ng-click="selectItem(item)">
 					<td ng-class="{master: item.isMaster}">
 						<div class="text-holder">
 							<span class="favorites-holder">
