@@ -213,7 +213,7 @@ angular.module('ThreeSixtyOneView')
 	};
 
 	$scope.getTimeGranularityInfo = function() {
-		return $scope.filteredTimeDimension.members[$scope.filteredTimeDimension.members - 1];
+		return $scope.filteredTimeDimension.members[$scope.filteredTimeDimension.members.length - 1];
 	};
 
 	$scope.cancel = function() {

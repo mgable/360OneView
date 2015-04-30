@@ -5,22 +5,24 @@
 
 // View controllers
 angular.module('ThreeSixtyOneView')
-.controller("ScenarioListingCtrl", ["$scope", "$rootScope", "$controller", "Project", "Scenarios", "ScenarioService", "EVENTS", "DialogService", "ManageScenariosService", "ScenarioStatesService", "$state",
-    function($scope, $rootScope, $controller, Project, Scenarios, ScenarioService, EVENTS, DialogService, ManageScenariosService, ScenarioStatesService, $state) {
+.controller("ScenarioListingCtrl", ["$scope", "$rootScope", "$controller", "Project", "Scenarios", "ScenarioService", "EVENTS", "DialogService", "ManageScenariosService", "ScenarioStatesService", "$state", 'GotoService',
+    function($scope, $rootScope, $controller, Project, Scenarios, ScenarioService, EVENTS, DialogService, ManageScenariosService, ScenarioStatesService, $state, GotoService) {
 
         // Inherit from base class
         angular.extend(this, $controller('ListingViewCtrl', {$scope: $scope}));
 
         // bootstrap all data
-        var init = function(){
-            $scope.init(Scenarios, getProject);
+        var init = function(project, scenarios){
+            console.log(Scenarios);
+            console.log(scenarios);
+            $scope.init(scenarios, getProject);
 
-            $scope.project = Project;
-            $scope.scenarios = Scenarios;
+            $scope.project = project;
+            $scope.scenarios = scenarios;
 
             ScenarioStatesService.startPull(_.pluck($scope.scenarios, 'id'));
 
-            $scope.hasAlerts = Scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
+            $scope.hasAlerts = scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
             $scope.hasAlerts = ($scope.project.isMaster && ScenarioService.isPlanOfRecordCreating()) ? $scope.CONFIG.planOfRecordCreate : $scope.hasAlerts;
 
             // if($scope.project.isMaster){
@@ -57,7 +59,7 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.gotoScenarioCreate = function(){
-            DialogService.openCreateScenario(Project, Scenarios);
+            DialogService.openCreateScenario($scope.project, $scope.scenarios);
         };
 
         $scope.isScenarioTitleUnique = function(scenarioName) {
@@ -97,21 +99,24 @@ angular.module('ThreeSixtyOneView')
         });
 
         $scope.$on(EVENTS.broadcastStates, function($event, response) {
-            addStatusToScenarios(Scenarios, response);
-            $scope.scenarios = Scenarios;
+            addStatusToScenarios($scope.scenarios, response);
+            // $scope.scenarios = Scenarios;
         });
 
         $scope.$on(EVENTS.planOfRecordCreated, function(event, scenario) {
-            console.log(scenario);
             ScenarioService.get($scope.project.uuid).then(function(scenarios) {
+                console.log(scenarios);
                 $scope.hasAlerts = false;
-                $scope.scenarios = scenarios;
-                $scope.init(scenarios, getProject);
-                ScenarioStatesService.startPull(_.pluck($scope.scenarios, 'id'));
+                // $scope.scenarios = scenarios;
+                // $scope.data = scenarios;
+                ScenarioStatesService.stopPull();
+                init($scope.project, scenarios);
+                //ScenarioStatesService.startPull(_.pluck($scope.data, 'id'));
+                // GotoService.dashboard($scope.project.uuid);
             });
         });
 
-        init();
+        init(Project, Scenarios);
     }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "GotoService", "DialogService", "EVENTS", "CONFIG", function($scope, $controller, FavoritesService, ProjectsService, ScenarioService, Projects,  GotoService, DialogService, EVENTS, CONFIG) {
 
         // Inherit from base class
@@ -240,8 +245,9 @@ angular.module('ThreeSixtyOneView')
 
         $scope.toggleFavorite = function(evt, item){
             evt.stopPropagation();
+            var itemId = item.uuid || item.id;
             if (!item.isMaster) {
-                FavoritesService.toggleFavorite(item.uuid, $scope.CONFIG.favoriteType);
+                FavoritesService.toggleFavorite(itemId, $scope.CONFIG.favoriteType);
                 SortAndFilterService.filter();
                 selectFirstItem();
             }

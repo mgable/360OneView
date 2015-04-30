@@ -52,7 +52,9 @@ angular.module('ThreeSixtyOneView.services')
             };
 
         this.getScenarioState = getScenarioState;
+
         this.stopPull = stopBroadcastScenarioStates;
+        
         this.startPull = function(myScenarioArray) {
             statesArray = [];
             getAllScenariosStates(myScenarioArray).then(function(response) {
