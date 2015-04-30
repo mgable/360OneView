@@ -65,6 +65,9 @@
 			});
 			if(!measureDimension) {
 				measureDimension = dimensions[0];
+				if(dimensions[0].type === 'TimeDimension') {
+					measureDimension = dimensions[1];
+				}
 			}
 
 			return {
