@@ -235,7 +235,7 @@ angular.module('ThreeSixtyOneView')
             evt.stopPropagation();
             var itemId = item.uuid || item.id;
             if (!item.isMaster) {
-                FavoritesService.toggleFavorite(itemId, $scope.CONFIG.favoriteType);
+                FavoritesService.toggleFavorite(itemId, $scope.CONFIG.favoriteType, item);
                 SortAndFilterService.filter();
                 selectFirstItem();
             }

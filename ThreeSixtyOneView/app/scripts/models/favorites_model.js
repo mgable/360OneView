@@ -32,6 +32,7 @@ angular.module('ThreeSixtyOneView.services').factory('FavoritesModel', ["$timeou
             setAsFavorite: function(id, type, item) {
                 var params = {};
                 params[type === "project" ? "uuid" : "id"] = id;
+                console.info(id, type, item);
                 if (type !== "project"){
                     params.type = item.type;
                 }
