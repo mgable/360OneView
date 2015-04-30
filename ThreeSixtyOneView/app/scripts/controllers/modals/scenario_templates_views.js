@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-.controller('ScenarioTemplatesViewsCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "EVENTS", "data", 'ManageTemplatesService', 'DimensionService', 'ManageScenariosService', 'PivotMetaService', 'MetaDataService', 'ScenarioService',
-	function($scope, $controller, $modalInstance, CONFIG, EVENTS, data, ManageTemplatesService, DimensionService, ManageScenariosService, PivotMetaService, MetaDataService, ScenarioService) {
+.controller('ScenarioTemplatesViewsCtrl', ['$scope', '$rootScope', '$controller', '$modalInstance', 'CONFIG', 'EVENTS', 'data', 'ManageTemplatesService', 'DimensionService', 'ManageScenariosService', 'PivotMetaService', 'MetaDataService', 'ScenarioService',
+	function($scope, $rootScope, $controller, $modalInstance, CONFIG, EVENTS, data, ManageTemplatesService, DimensionService, ManageScenariosService, PivotMetaService, MetaDataService, ScenarioService) {
 	angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $controller: $controller, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
 	var init = function() {
@@ -234,9 +234,9 @@ angular.module('ThreeSixtyOneView')
 			});
 			ScenarioService.create($scope.masterProject.uuid, planOfRecord).then(function(scenario) {
 				console.log(scenario);
-				$modalInstance.close(templateResponse, scenario);
+				$rootScope.$broadcast(EVENTS.planOfRecordCreated, scenario);
 			});
-
+			$modalInstance.close(templateResponse);
 		});
 	};
 

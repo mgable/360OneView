@@ -182,6 +182,7 @@ angular.module('ThreeSixtyOneView.config')
 				"favoriteType": "scenario",
 				"nameClickAction": "gotoScenarioEdit",
 				"alertSrc": "views/includes/display/no_scenarios_alert.tpl.html",
+				"planOfRecordCreate": "views/includes/display/planofrecord_create_alert.tpl.html",
 				"displayActionsCreate": "gotoScenarioCreate",
 				"renameAction": "renameScenario",
 				"editAction": "editScenario",

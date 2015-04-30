@@ -29,12 +29,14 @@ angular.module('ThreeSixtyOneView')
 			setView($scope.scenarioState);
 		},
 		getScenarioElementById = function(data, id){
-			console.log(data);
-		   return  _.findWhere(data, {id: id});
+			return _.findWhere(data, {id: id});
 		},
 		getScenarioElementByCubeName = function(_data, _name){
-			if(_data.length === 1) return _data[0];
-		    return  _.find(_data, function(element) { return element.cubeMeta.name === _name; });
+			if(_data.length === 1) {
+				return _data[0];
+			} else {
+				return _.find(_data, function(element) { return element.cubeMeta.name === _name; });
+			}
 		},
 		setView = function(currentState){
 			if (AnalyticCalculationsService.isInProgress($scope.scenarioState.message) || AnalyticCalculationsService.isFailed($scope.scenarioState.message)){

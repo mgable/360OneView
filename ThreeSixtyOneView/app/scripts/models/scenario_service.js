@@ -75,4 +75,8 @@ angular.module('ThreeSixtyOneView.services')
 			});
 		};
 
+		this.isPlanOfRecordCreating = function() {
+			return this.planOfRecordCreating;
+		};
+
 	}]);
