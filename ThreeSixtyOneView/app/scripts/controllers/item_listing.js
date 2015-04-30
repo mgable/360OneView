@@ -13,8 +13,6 @@ angular.module('ThreeSixtyOneView')
 
         // bootstrap all data
         var init = function(project, scenarios){
-            console.log(Scenarios);
-            console.log(scenarios);
             $scope.init(scenarios, getProject);
 
             $scope.project = project;
@@ -24,10 +22,6 @@ angular.module('ThreeSixtyOneView')
 
             $scope.hasAlerts = scenarios.length < 1 ? $scope.CONFIG.alertSrc : false;
             $scope.hasAlerts = ($scope.project.isMaster && ScenarioService.isPlanOfRecordCreating()) ? $scope.CONFIG.planOfRecordCreate : $scope.hasAlerts;
-
-            // if($scope.project.isMaster){
-            //     setMasterScenario($scope.scenarios[0]);
-            // }
         },
         addStatusToScenarios = function(scenarios, statuses){
             _.each(scenarios, function(scenarioValue) {
@@ -100,19 +94,13 @@ angular.module('ThreeSixtyOneView')
 
         $scope.$on(EVENTS.broadcastStates, function($event, response) {
             addStatusToScenarios($scope.scenarios, response);
-            // $scope.scenarios = Scenarios;
         });
 
         $scope.$on(EVENTS.planOfRecordCreated, function(event, scenario) {
             ScenarioService.get($scope.project.uuid).then(function(scenarios) {
-                console.log(scenarios);
                 $scope.hasAlerts = false;
-                // $scope.scenarios = scenarios;
-                // $scope.data = scenarios;
                 ScenarioStatesService.stopPull();
                 init($scope.project, scenarios);
-                //ScenarioStatesService.startPull(_.pluck($scope.data, 'id'));
-                // GotoService.dashboard($scope.project.uuid);
             });
         });
 
