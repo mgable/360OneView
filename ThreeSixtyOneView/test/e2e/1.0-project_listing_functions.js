@@ -50,7 +50,10 @@ var coreFunctions = require('./0.0-functions.js'),
 		getLastItemTitle: function(){
 			return element.all(by.repeater(specs.items).column('name')).last();
 		},
-		getSelectedItemTitle: function(){
+		getSelectedItemTitle: function(isMaster){
+			if (isMaster){
+				return element(by.css(specs.selectedMasterProject));
+			}
 			return element(by.css(specs.selectedItemTitle));
 		},
 		getAllItemTitles: function(){
@@ -63,7 +66,7 @@ var coreFunctions = require('./0.0-functions.js'),
 			return element.all(by.repeater(specs.items).column('auditInfo.createdOn'));
 		},
 		getFavorites: function(){
-			return element.all(by.css(specs.favoriteClassHolder));
+			return element.all(by.css(specs.favoriteClass));
 		},
 		getItems: function(){
 			return element.all(by.repeater(specs.items));
