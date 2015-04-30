@@ -5,9 +5,14 @@
 
 // View controllers
 angular.module('ThreeSixtyOneView')
-.controller("MainCtrl", ["$scope", "$location", "ErrorService", "CONFIG", "ServerService", "$state",
-	function($scope, $location, ErrorService, CONFIG, ServerService, $state) {
+.controller("MainCtrl", ["$scope", "$location", "ErrorService", "CONFIG", "ServerService", "ManageTemplatesService", "$state",
+	function($scope, $location, ErrorService, CONFIG, ServerService, ManageTemplatesService, $state) {
 		var init = function() {
+			ManageTemplatesService.getAll().then(function(templates) {
+				if(templates.length === 0) {
+					$state.go('ScenarioTemplates');
+				}
+			});
 		};
 		// Error service surfaced here
 		// For unit testing only;
