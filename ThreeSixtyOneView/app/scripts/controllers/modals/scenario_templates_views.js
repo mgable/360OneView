@@ -90,6 +90,10 @@ angular.module('ThreeSixtyOneView')
 			name: baseScenario.name,
 			type: baseScenario.type
 		};
+		if(template.type === 'Action') {
+			planOfRecord.modellingStartTime = $scope.performancePeriod.from.id;
+			planOfRecord.modellingEndTime = $scope.performancePeriod.to.id;
+		}
 		return planOfRecord;
 	};
 
