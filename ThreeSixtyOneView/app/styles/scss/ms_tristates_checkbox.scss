@@ -3,8 +3,9 @@
 $icon-size:14px;
 .ms-checkbox {
     margin-bottom: 8px;
+    i.ms-checkbox-lock { color: $ms-blue; }
     label {
-        display: block;
+        display: inline-block;
         position: relative;
         line-height: $icon-size;
         font-weight: normal;

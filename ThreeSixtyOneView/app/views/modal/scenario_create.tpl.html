@@ -32,17 +32,17 @@
 
 						<accordion close-others="false">
 						
-							<accordion-group ng-repeat="project in scenarioList | filterProjects: searchText">
+							<accordion-group ng-repeat="project in scenarioList | filterProjects: searchText" is-open="project.open">
 								<accordion-heading>{{project.name}} Project</accordion-heading>
 								<div>
 									<div class="row">
 										<div class="col-md-2">
 											&nbsp;
 										</div>
-										<div class="col-md-5">
+										<div class="col-md-6">
 											<span><strong>Name</strong></span>
 										</div>
-										<div class="col-md-5">
+										<div class="col-md-4">
 											<span><strong>Type</strong></span>
 										</div>
 									</div>
@@ -52,10 +52,10 @@
 										<div class="col-md-2">
 											<span ng-show="showRow(scenario)"><icon type="check-circle" cname="ok-sign"></icon></span>
 										</div>
-										<div class="col-md-5">
+										<div class="col-md-6">
 											<span class="clickable" data-ms-id="scenario-title">{{scenario.name}}</span>
 										</div>
-										<div class="col-md-5">
+										<div class="col-md-4">
 											<span class="clickable" data-ms-id="scenario-title">{{scenario.type}}</span>
 										</div>
 									</div>

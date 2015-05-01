@@ -70,6 +70,9 @@ angular.module('ThreeSixtyOneView')
                         $scope.scenarioListUnformatted = sortScenarios(response);
                         $scope.scenarioList = removeInvalidScenarios($scope.scenarioListUnformatted, templateIds);
 
+                        //set the first scenario to be "open" in the modal accordion
+                        $scope.scenarioList[0].open = true;
+
                         $scope.masterProjectReferenceScenario = $scope.masterProject.data[0];
 
                         $scope.scenario.referenceScenario.id  = baseScenario.id;

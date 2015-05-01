@@ -4,8 +4,8 @@
 		<span class="dropdown-toggle clickable">
 			{{selectedScenario.title}}&nbsp;<icon type="caret-down"></icon>
 		</span>
-		<ul class="dropdown-menu" ms-link-group selected-item="selectedView.id" radio="true">
-			<li ng-repeat="scenario in scenariosList | orderBy:'-auditInfo.createdOn' | limitTo:5" ms-link="{{scenario.id}}" class="menu-item" ng-click="loadComparedView(scenario.id)" title="{{scenario.title}}">{{scenario.title}}
+		<ul class="dropdown-menu" ms-link-group selected-item="selectedScenario.id" radio="true">
+			<li ng-repeat="scenario in scenariosList | orderBy:'-auditInfo.createdOn' | limitTo:5" ms-link="{{scenario.id}}" class="menu-item" ng-click="loadComparedScenarios(scenario.id)" title="{{scenario.title}}">{{scenario.title}}
 			</li>
 			<hr>
 			<li class="menu-item" ng-click="openAllComparedScenariossModal()"><icon type="folder-open-o"></icon>All Scenarios</li>
