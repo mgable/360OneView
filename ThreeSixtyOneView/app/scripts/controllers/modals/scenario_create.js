@@ -73,8 +73,6 @@ angular.module('ThreeSixtyOneView')
                         //set the first scenario to be "open" in the modal accordion
                         $scope.scenarioList[0].open = true;
 
-                        $scope.masterProjectReferenceScenario = $scope.masterProject.data[0];
-
                         $scope.scenario.referenceScenario.id  = baseScenario.id;
                         $scope.scenario.referenceScenario.name  = baseScenario.name;
                         $scope.scenario.referenceScenario.type  = baseScenario.type;
@@ -83,7 +81,7 @@ angular.module('ThreeSixtyOneView')
                         $scope.scenario.type = baseScenario.type;
                         $scope.scenario.isPlanOfRecord = false;
 
-                        selectedBaseScenario = $scope.masterProjectReferenceScenario;
+                        $scope.setScenario($scope.scenario.referenceScenario);
                     });
                 });
             },
@@ -116,8 +114,10 @@ angular.module('ThreeSixtyOneView')
             return projectTitle.toLowerCase().indexOf(searchTerm) === -1 && scenarioTitle.toLowerCase().indexOf(searchTerm) === -1;
         };
 
-        $scope.showRow = function(row){
-            return row === selectedBaseScenario;
+        $scope.showRow = function(item){
+            console.info(item.id);
+            console.info(selectedBaseScenario.id);
+            return item.id === selectedBaseScenario.id;
         };
 
         $scope.isScenarioTitleUnique = function(scenarioName) {

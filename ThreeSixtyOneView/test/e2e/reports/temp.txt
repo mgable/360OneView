@@ -1,56 +1,8 @@
-Executing Project Listing functional tests: 
+Executing Project Dashboard functional tests
 	 should set up the tests
-Project Listing Page: 
-Display: 
-	 should have at least one project
-	 should have an active selection
-	 should have a selected item
-	 should show the project cout
-	 should change the active selection when a project is clicked
-	 should put the selected item in the tray
-	 should redirect to Project Dashboard when a project is clicked
-	 should redirect to Scenario Edit page when a scenario name is clicked
-Sort: 
-	 should highlight the inital sort field
-	 should switch between ordering by name modified last and created on
-	 should order by name
-	 should order by last modified
-	 should order by created date
-Favorites: 
-	 should toggle favorite
-	 should save the favorite
-Filters: 
-	 should filter by favorite
-	 should update the selected item when favorites are filtered
-	 should update the project count when filtering is applied
-Search: 
-	 should search for a project
-	 should update the project count
-	 should clear the search when the field is cleared
-Create: 
-	 should create a project
-	 should update the project count
-	 should prevent a project being created with with no name
-	 should respect input limitations
-Rename: 
-	 should rename a project
-	 should not submit if the name has not been mdoified
-	 should activate the name field when action is clicked
-	 should reset if the selected item is changed
-	 should reset if the rename is cancelled
-	 should reset the selected item if the rename is cancelled
-	 should set form states
-	 should respect input limitations
-Edit: 
-	 should edit a description
-	 should not submit if the description has not been modified
-	 should activate the textarea when action is clicked
-	 should reset if the selected item is changed
-Master Project: 
-	 should have a single master project
-	 should prevent the master project from being edited
-	 should favorite the master project
-	 should not allow the Master project to be unfavorited
+Project Dashboard: 
+Scenario Listing: 
 Page: 
-	 should have a title
-	 should have a breadcrumb
+	 should change the base scenario
+Plan of Record: 
+	 should not be editable

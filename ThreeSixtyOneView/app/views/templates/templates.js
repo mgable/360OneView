@@ -465,30 +465,30 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t\t\t<accordion close-others=\"false\">\n" +
     "\t\t\t\t\t\t\n" +
     "\t\t\t\t\t\t\t<accordion-group ng-repeat=\"project in scenarioList | filterProjects: searchText\" is-open=\"project.open\">\n" +
-    "\t\t\t\t\t\t\t\t<accordion-heading>{{project.name}} Project</accordion-heading>\n" +
+    "\t\t\t\t\t\t\t\t<accordion-heading>{{project.name}}</accordion-heading>\n" +
     "\t\t\t\t\t\t\t\t<div>\n" +
     "\t\t\t\t\t\t\t\t\t<div class=\"row\">\n" +
-    "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-2\">\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-1\">\n" +
     "\t\t\t\t\t\t\t\t\t\t\t&nbsp;\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n" +
     "\t\t\t\t\t\t\t\t\t\t\t<span><strong>Name</strong></span>\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\n" +
-    "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-5\">\n" +
     "\t\t\t\t\t\t\t\t\t\t\t<span><strong>Type</strong></span>\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t<div ng-repeat=\"scenario in getScenarios(project, searchText)\">\n" +
     "\t\t\t\t\t\t\t\t\t<div class=\"row\" ng-click=\"setScenario(scenario)\">\n" +
-    "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-2\">\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-1\">\n" +
     "\t\t\t\t\t\t\t\t\t\t\t<span ng-show=\"showRow(scenario)\"><icon type=\"check-circle\" cname=\"ok-sign\"></icon></span>\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n" +
     "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-title\">{{scenario.name}}</span>\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\n" +
-    "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-title\">{{scenario.type}}</span>\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-5\">\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-type\">{{scenario.type}}</span>\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t</div>\n" +
