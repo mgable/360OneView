@@ -8,7 +8,8 @@
 * Controller of the ThreeSixtyOneView
 */
 angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
-    ['$scope', 'Scenario', 'Scenarios', 'ScenarioAnalysisElements', 'ManageAnalysisViewsService', 'ManageScenariosService', 'MetaDataService', 'DialogService', 'PivotMetaService', 'ReportsService', function ($scope, Scenario, Scenarios, ScenarioAnalysisElements, ManageAnalysisViewsService, ManageScenariosService, MetaDataService, DialogService, PivotMetaService, ReportsService) {
+    ['$scope', 'ScenarioAnalysisElements', 'ManageAnalysisViewsService', 'ManageScenariosService', 'MetaDataService', 'DialogService', 'PivotMetaService', 'ReportsService', 'CONFIG', 'ScenarioStatesService', 'ScenarioService',
+    function ($scope, ScenarioAnalysisElements, ManageAnalysisViewsService, ManageScenariosService, MetaDataService, DialogService, PivotMetaService, ReportsService, CONFIG, ScenarioStatesService, ScenarioService) {
 
     // private variables
     var cnt = 0,
@@ -277,29 +278,53 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         $scope.spendCategorizedValue = [];
         $scope.spendViewData = {name: 'Loading ...'};
 
-        $scope.scenariosList = angular.copy(Scenarios);
-        if(!Scenario.isPlanOfRecord && _.has(Scenario, 'referenceScenario')) {
-            $scope.scenariosList.unshift(Scenario.referenceScenario);
-        }
-        _.each($scope.scenariosList, function(v) {
-            if(!_.has(v, 'title')) {
-                v.title = v.name;
-            } else {
-                v.name = v.title;
-            }
-            if(_.has(v, 'createdBy') && _.has(v, 'createdOn')) {
-                v.auditInfo = {};
-                v.auditInfo.createdBy = {};
-                v.auditInfo.createdOn = v.createdOn;
-                v.auditInfo.createdBy.name = v.createdBy;
-            }
-        });
+        ScenarioService.getAll().then(function(response) {
+            var allScenarios = [];
+            _.each(_.pluck(response, 'data'), function(scenarios) {
+                allScenarios = _.union(allScenarios, scenarios);
+            });
 
-        if (Scenario.isPlanOfRecord) {
-            $scope.selectedScenario = _.find($scope.scenariosList, function(scenario) { return scenario.id === Scenario.id; });
-        } else {
-            $scope.selectedScenario = $scope.scenariosList[0];
-        }
+            // filter scenarios with same scenario tempalte id
+            allScenarios = _.filter(allScenarios, function(scenario) {
+                return scenario.template.id === $scope.scenario.template.id;
+            });
+
+            // filter scenarios with calculation status success
+            ScenarioStatesService.getAllScenariosStates(_.pluck(allScenarios, 'id')).then(function(response) {
+                var scenarioStates = CONFIG.application.models.ScenarioAnalytics.states,
+                    idArray = _.pluck(_.filter(response, function(scenario) {
+                    return scenario.currentState.message === scenarioStates.SUCCESS.message;
+                }), 'scenarioId');
+                allScenarios = _.filter(allScenarios, function(scenario) {
+                    return _.indexOf(idArray, scenario.id) !== -1;
+                });
+            });
+
+            $scope.scenariosList = allScenarios;
+            if(!allScenarios.isPlanOfRecord && _.has(allScenarios, 'referenceScenario')) {
+                $scope.scenariosList.unshift(allScenarios.referenceScenario);
+            }
+            _.each($scope.scenariosList, function(v) {
+                if(!_.has(v, 'title')) {
+                    v.title = v.name;
+                } else {
+                    v.name = v.title;
+                }
+                if(_.has(v, 'createdBy') && _.has(v, 'createdOn')) {
+                    v.auditInfo = {};
+                    v.auditInfo.createdBy = {};
+                    v.auditInfo.createdOn = v.createdOn;
+                    v.auditInfo.createdBy.name = v.createdBy;
+                }
+            });
+
+            if (allScenarios.isPlanOfRecord) {
+                $scope.selectedScenario = _.find($scope.scenariosList, function(scenario) { return scenario.id === allScenarios.id; });
+            } else {
+                $scope.selectedScenario = $scope.scenariosList[0];
+            }
+
+        });
 
         $scope.chartData = [];
         $scope.spendCubeId = spendCubeMeta.id;
@@ -324,7 +349,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             {windowSize: 'lg', windowClass: 'list-lightbox'});
 
         dialog.result.then(function(replacedComparedViewId) {
-            $scope.loadComparedView(replacedComparedViewId);
+            $scope.loadComparedScenarios(replacedComparedViewId);
         });
     };
     // DUPE: returns list of all the views in the current cube
