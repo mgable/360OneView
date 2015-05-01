@@ -22,7 +22,8 @@
 		<div ng-show="isImportFailed" class="message error"><icon type="thumbs-o-down"></icon>{{statusMessage}}</div>
 	</div>
 	<div ng-show="readOnlyMode" class="status-container">
-		<div class="message error"><icon type="lock"></icon>You cannot import files while simulation is running.</div>
+		<div class="message error" ng-hide="scenario.isPlanOfRecord"><icon type="lock"></icon>You cannot import files while simulation is running.</div>
+		<div class="message error" ng-show="scenario.isPlanOfRecord"><icon type="lock"></icon>You cannot modify the plan of record.</div>
 	</div>
 	<div class="collapse-handle">
 		<span class="clickable" collapse-control target-area="#importBody" header="#importHeader">

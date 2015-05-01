@@ -278,26 +278,32 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         $scope.spendViewData = {name: 'Loading ...'};
 
         $scope.scenariosList = angular.copy(Scenarios);
-        if(_.has(Scenario, 'referenceScenario')) {
+        if(!Scenario.isPlanOfRecord && _.has(Scenario, 'referenceScenario')) {
             $scope.scenariosList.unshift(Scenario.referenceScenario);
-            _.each($scope.scenariosList, function(v) {
-                if(!_.has(v, 'title')) {
-                    v.title = v.name;
-                } else {
-                    v.name = v.title;
-                }
-                if(_.has(v, 'createdBy') && _.has(v, 'createdOn')) {
-                    v.auditInfo = {};
-                    v.auditInfo.createdBy = {};
-                    v.auditInfo.createdOn = v.createdOn;
-                    v.auditInfo.createdBy.name = v.createdBy;
-                }
-            });
         }
-        $scope.selectedScenario = $scope.scenariosList[0];
-        $scope.chartData = [];
+        _.each($scope.scenariosList, function(v) {
+            if(!_.has(v, 'title')) {
+                v.title = v.name;
+            } else {
+                v.name = v.title;
+            }
+            if(_.has(v, 'createdBy') && _.has(v, 'createdOn')) {
+                v.auditInfo = {};
+                v.auditInfo.createdBy = {};
+                v.auditInfo.createdOn = v.createdOn;
+                v.auditInfo.createdBy.name = v.createdBy;
+            }
+        });
 
+        if (Scenario.isPlanOfRecord) {
+            $scope.selectedScenario = _.find($scope.scenariosList, function(scenario) { return scenario.id === Scenario.id; });
+        } else {
+            $scope.selectedScenario = $scope.scenariosList[0];
+        }
+
+        $scope.chartData = [];
         $scope.spendCubeId = spendCubeMeta.id;
+
         initiateSpendModel(spendCubeMeta);
     };
 
@@ -362,9 +368,9 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         });
     };
     // set compared view
-    $scope.loadComparedView = function(_viewId) {
-        _.find($scope.scenariosList, function(_view) {
-            if(_view.id === _viewId) { $scope.selectedScenario = _view; }
+    $scope.loadComparedScenarios = function(scenarioId) {
+        _.find($scope.scenariosList, function(scenario) {
+            if(scenario.id === scenarioId) { $scope.selectedScenario = scenario; }
         });
         // get spend summary
         getSpendSummary();

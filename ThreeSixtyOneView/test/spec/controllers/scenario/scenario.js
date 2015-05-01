@@ -35,6 +35,7 @@ describe('Controllers: main scenario CTRL', function() {
 		ctrl = $controller('ScenarioCtrl', {
 			$scope: scope,
 			Project: JSON.parse(project),
+			Scenario: JSON.parse(scenarios)[2],
 			ScenarioAnalysisElements: scenarioElements,
 			Calculate: JSON.parse(calculate)
 		});

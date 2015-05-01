@@ -30,7 +30,7 @@ angular.module('ThreeSixtyOneView.config')
 					// want: get
 					//"responseTranslator": {"referenceScenario": "referenceScenario", "template": "template", "title": "name", "id": "id", "description": "description", "type":"prediction.type", "createdBy":"auditInfo.createdBy.name", "createdOn": "auditInfo.createdOn", "modifiedBy":"auditInfo.lastUpdatedBy.name", "modifiedOn":"auditInfo.lastUpdatedOn"},
 					"responseTranslator": null,
-					"requestTranslator": {"id": "id", "name":"name", "referenceScenario": "referenceScenario", "description": "description", "prediction": "prediction", "type": "type", "template": "template", "isPlanOfRecord": "isPlanOfRecord"},
+					"requestTranslator": {"id": "id", "name":"name", "referenceScenario": "referenceScenario", "description": "description", "prediction": "prediction", "type": "type", "template": "template", "isPlanOfRecord": "isPlanOfRecord", "modellingStartTime": "modellingStartTime", "modellingEndTime": "modellingEndTime"},
 					"newScenario": {"name" : "", "description": "", "referenceScenario": {"id": "", "name": ""}, "prediction" : {"type": "Simulation"}}
 				},
 				"MetaDataModel" : {

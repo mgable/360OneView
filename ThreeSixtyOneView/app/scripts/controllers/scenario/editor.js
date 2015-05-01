@@ -19,7 +19,12 @@ angular.module('ThreeSixtyOneView')
 			$scope.categorizedValue = [];
 			$scope.pivotTableData = '';
 
-			$scope.readOnlyMode = false;
+			// plan of record should be read-only
+			if($scope.scenario.isPlanOfRecord) {
+				$scope.readOnlyMode = true;
+			} else {
+				$scope.readOnlyMode = false;
+			}
 
 			ScenarioStatesService.startPull([$scope.scenario.id]);
 
@@ -225,11 +230,17 @@ angular.module('ThreeSixtyOneView')
 				}
 			} else {
 				if($scope.readOnlyMode) {
-					$scope.readOnlyMode = false;
-					$scope.disableSimulateButton(false);
-					if(!!$scope.spread.setReadOnly) {
-						$scope.spread.setReadOnly(false);
+					if(!$scope.scenario.isPlanOfRecord) {
+						$scope.readOnlyMode = false;
+						if(!!$scope.spread.setReadOnly) {
+							$scope.spread.setReadOnly(false);
+						}
+					} else {
+						if(!!$scope.spread.setReadOnly) {
+							$scope.spread.setReadOnly(true);
+						}
 					}
+					$scope.disableSimulateButton(false);
 				}
 			}
 		};

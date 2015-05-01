@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-.controller('ScenarioTemplatesViewsCtrl', ['$scope', '$rootScope', '$controller', '$modalInstance', 'CONFIG', 'EVENTS', 'data', 'ManageTemplatesService', 'DimensionService', 'ManageScenariosService', 'PivotMetaService', 'MetaDataService', 'ScenarioService',
-	function($scope, $rootScope, $controller, $modalInstance, CONFIG, EVENTS, data, ManageTemplatesService, DimensionService, ManageScenariosService, PivotMetaService, MetaDataService, ScenarioService) {
+.controller('ScenarioTemplatesViewsCtrl', ['$scope', '$rootScope', '$controller', '$modalInstance', 'CONFIG', 'EVENTS', 'data', 'ManageTemplatesService', 'DimensionService', 'ManageScenariosService', 'PivotMetaService', 'MetaDataService', 'ScenarioService', 'AnalyticCalculationsService',
+	function($scope, $rootScope, $controller, $modalInstance, CONFIG, EVENTS, data, ManageTemplatesService, DimensionService, ManageScenariosService, PivotMetaService, MetaDataService, ScenarioService, AnalyticCalculationsService) {
 	angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $controller: $controller, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
 	var init = function() {
@@ -90,6 +90,10 @@ angular.module('ThreeSixtyOneView')
 			name: baseScenario.name,
 			type: baseScenario.type
 		};
+		if(template.type === 'Action') {
+			planOfRecord.modellingStartTime = $scope.performancePeriod.from.id;
+			planOfRecord.modellingEndTime = $scope.performancePeriod.to.id;
+		}
 		return planOfRecord;
 	};
 
@@ -226,15 +230,18 @@ angular.module('ThreeSixtyOneView')
 	// pass back the selected file and dismiss the modal
 	$scope.submit = function() {
 		ManageTemplatesService.update($scope.template, true).then(function(templateResponse) {
-			console.log(templateResponse);
+			console.log('template created', templateResponse);
 			var planOfRecord = makePlanOfRecord(templateResponse, $scope.baseScenario);
 			console.log(planOfRecord);
 			ManageTemplatesService.createView($scope.template.id, $scope.defaultView).then(function(viewResponse) {
-				console.log(viewResponse);
+				console.log('default views created', viewResponse);
 			});
 			ScenarioService.create($scope.masterProject.uuid, planOfRecord).then(function(scenario) {
-				console.log(scenario);
-				$rootScope.$broadcast(EVENTS.planOfRecordCreated, scenario);
+				console.log('plan of record created', scenario);
+				AnalyticCalculationsService.post(scenario.id).then(function(calculate) {
+					console.log('calculation started', calculate);
+					$rootScope.$broadcast(EVENTS.planOfRecordCreated, scenario);
+				});
 			});
 			$modalInstance.close(templateResponse);
 		});
