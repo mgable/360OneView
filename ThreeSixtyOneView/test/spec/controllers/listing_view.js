@@ -104,7 +104,7 @@ describe('Controllers: ', function() {
             var data = {uuid: "123"};
             scope.toggleFavorite(event, data);
             expect(event.stopPropagation).toHaveBeenCalled();
-            expect(FavoritesService.toggleFavorite).toHaveBeenCalledWith(data.uuid, "project");
+            expect(FavoritesService.toggleFavorite).toHaveBeenCalledWith(data.uuid, "project", data);
             expect(SortAndFilterService.filter).toHaveBeenCalled();
         });
 
@@ -172,7 +172,7 @@ describe('Controllers: ', function() {
             var data = {uuid: "123"};
             scope.toggleFavorite(event, data);
             expect(event.stopPropagation).toHaveBeenCalled();
-            expect(FavoritesService.toggleFavorite).toHaveBeenCalledWith(data.uuid, "scenario");
+            expect(FavoritesService.toggleFavorite).toHaveBeenCalledWith(data.uuid, "scenario", data);
             expect(SortAndFilterService.filter).toHaveBeenCalled();
         });
 
