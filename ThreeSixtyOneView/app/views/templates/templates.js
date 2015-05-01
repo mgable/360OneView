@@ -165,9 +165,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "                <div class=\"clearfix\" ng-if=\"$index % 3 == 0\"></div>\n" +
     "                <div class=\"col-md-4 children-checkbox ms-checkbox no-select\">\n" +
     "                    <label>\n" +
-    "                        <input type=\"checkbox\" ng-model=\"item.isSelected\" ng-disabled=\"item.isLocked\"><i></i><span class=\"capitalized\">{{item.label}}</span>\n" +
+    "                        <input type=\"checkbox\" ng-model=\"item.isSelected\" ng-disabled=\"item.required\"><i></i><span class=\"capitalized\">{{item.label}}</span>\n" +
     "                    </label>\n" +
-    "                    <icon type=\"lock\" class=\"pull-right\" ng-if=\"item.isLocked\"></icon>\n" +
+    "                    <icon type=\"lock\" class=\"pull-right ms-checkbox-lock\" ng-if=\"item.required\"></icon>\n" +
     "                </div>\n" +
     "            </div>\n" +
     "        </div>\n" +

@@ -10,9 +10,9 @@
                 <div class="clearfix" ng-if="$index % 3 == 0"></div>
                 <div class="col-md-4 children-checkbox ms-checkbox no-select">
                     <label>
-                        <input type="checkbox" ng-model="item.isSelected" ng-disabled="item.isLocked"><i></i><span class="capitalized">{{item.label}}</span>
+                        <input type="checkbox" ng-model="item.isSelected" ng-disabled="item.required"><i></i><span class="capitalized">{{item.label}}</span>
                     </label>
-                    <icon type="lock" class="pull-right" ng-if="item.isLocked"></icon>
+                    <icon type="lock" class="pull-right ms-checkbox-lock" ng-if="item.required"></icon>
                 </div>
             </div>
         </div>
