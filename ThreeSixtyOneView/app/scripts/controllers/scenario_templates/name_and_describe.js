@@ -21,4 +21,10 @@ angular.module('ThreeSixtyOneView')
     	$scope.$on(EVENTS.flipbookAdvance, function() {
 			$scope.createDraftTemplate();
 		});
+
+        $scope.$on(EVENTS.dimensionsIsLoaded, function() {
+             if ($scope.template.name && $scope.template.name.length > 0){
+                $scope.$emit(EVENTS.flipbookAllowAdvance, true);
+            } 
+        });
     }]);
