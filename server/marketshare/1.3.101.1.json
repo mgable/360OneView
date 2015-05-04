@@ -1,0 +1,31 @@
+{
+  "type": "HierarchicalMemberData",
+  "dimension": {
+    "id": 3,
+    "name": "GEO_DIM",
+    "label": "GEO"
+  },
+  "hierarchy": {
+    "id": 101,
+    "name": "Country",
+    "label": "Country"
+  },
+  "members": [
+    {
+      "id": 1,
+      "name": "All Markets",
+      "label": "All Markets",
+      "members": [],
+      "visible": true,
+      "na": false
+    },
+    {
+      "id": 2,
+      "name": "US",
+      "label": "US",
+      "members": [],
+      "visible": true,
+      "na": false
+    }
+  ]
+}

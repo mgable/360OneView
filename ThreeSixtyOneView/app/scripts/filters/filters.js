@@ -5,6 +5,7 @@
 angular.module('ThreeSixtyOneView.filters')
 	.filter("filterProjects", ['$filter', function($filter) {
 		return function(input, term) {
+			console.info(term);
 			var results = [],
 				regExp;
 
@@ -15,12 +16,12 @@ angular.module('ThreeSixtyOneView.filters')
 			}
 
 			_.each(input, function(project) {
-				if (project.title && regExp) {
-					if (regExp.test(project.title.toLowerCase())) {
+				if (project.name && regExp) {
+					if (regExp.test(project.name.toLowerCase())) {
 						results.push(project);
 					} else {
 						var matchedScenarios = _.filter(project.data, function(scenario) {
-							return regExp.test(scenario.title.toLowerCase());
+							return regExp.test(scenario.name.toLowerCase());
 						});
 						if(matchedScenarios.length > 0) {
 						    results.push(project);

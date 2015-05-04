@@ -42,7 +42,7 @@
 
 			return output;
 		},
-		getDefaultViewRow = function(dimensions) {
+		getDefaultViewColumn = function(dimensions) {
 			var timeDimension = _.find(dimensions, function(dimension) {
 				return dimension.type === 'TimeDimension';
 			});
@@ -59,10 +59,16 @@
 				}
 			};
 		},
-		getDefaultViewColumn = function(dimensions) {
+		getDefaultViewRow = function(dimensions) {
 			var measureDimension = _.find(dimensions, function(dimension) {
 				return dimension.type === 'MeasureDimension';
 			});
+			if(!measureDimension) {
+				measureDimension = dimensions[0];
+				if(dimensions[0].type === 'TimeDimension') {
+					measureDimension = dimensions[1];
+				}
+			}
 
 			return {
 				dimension: {
@@ -148,7 +154,7 @@
 	};
 
 	// aggregate filter values based on categories
-	this.getCategorizeValues = function(dimension, items) {
+	this.getCategorizeValues = function(dimension, items, attributeIndex) {
 		var i, result;
 
 		var countValues = function(category) {
@@ -196,6 +202,10 @@
 
 			return output;
 		};
+
+		if(typeof attributeIndex !== 'undefined') {
+			return countValues(dimension.members[attributeIndex]);
+		}
 
 		for(i = 0; i < dimension.members.length; i++) {
 			result = countValues(dimension.members[i]);

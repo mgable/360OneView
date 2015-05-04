@@ -3,19 +3,20 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .controller('ScenarioCreateCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", "GotoService", '$filter', function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS, GotoService, $filter) {
+    .controller('ScenarioCreateCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", "GotoService", '$filter', 'ManageTemplatesService',
+        function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS, GotoService, $filter, ManageTemplatesService) {
         angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
-        var findBaseScenario = function(scenario){
-                return _.find(scenario.data, function(obj){return (/simulation/i).test(obj.prediction.type);});
+        var findBaseScenario = function(project, templateIds){
+                return _.find(project.data, function(scenario){return (/simulation/i).test(scenario.prediction.type) && (templateIds.indexOf(scenario.template.id) > -1);});
             },
             getMasterProject = function(projects){
                 return _.findWhere(projects, {"isMaster": true});
             },
             sortScenarios = function(scenarios){
-                var scenarioList = scenarios;
+                var scenarioList = scenarios,
                 // remove master project from scenarioList
-                scenarioList.splice(_.indexOf(scenarioList, $scope.masterProject),1);
+                masterProject = scenarioList.splice(_.indexOf(scenarioList, $scope.masterProject),1)[0];
 
                 // bring current project to top of the list
                 angular.forEach(scenarioList, function(k,v){
@@ -24,37 +25,74 @@ angular.module('ThreeSixtyOneView')
                     }
                 });
 
+                // put the master project in first position
+                scenarioList.unshift (masterProject);
+
                 return scenarioList;
             },
-            init = function(){
+            removeInvalidScenarios = function(projects, templateIds) {
+                var output = [];
+
+                _.each(projects, function(_project) {
+                    var project = {
+                        name: _project.name,
+                        isMaster: _project.isMaster,
+                        data: []
+                    }
+                    _.each(_project.data, function(_scenario) {
+                        if(templateIds.indexOf(_scenario.template.id) > -1) {
+                            project.data.push(_scenario);
+                        }
+                    });
+                    if(project.data.length > 0) {
+                        output.push(project);
+                    }
+                });
+
+                return output;
+            },
+            init = function() {
                 $scope.showFields = true;
                 $scope.project = data.project;
                 $scope.scenarios = data.scenarios;
                 $scope.scenario = angular.copy(CONFIG.application.models.ScenarioModel.newScenario);
                 $scope.loadingScenarios = true;
 
-                ScenarioService.getAll().then(function(response){
-                    $scope.loadingScenarios = false;
-                    var baseScenario;
-                    $scope.masterProject = getMasterProject(response);
-                    baseScenario = findBaseScenario($scope.masterProject);
-                    $scope.scenarioList = sortScenarios(response);
-                    $scope.masterProjectReferenceScenario = $scope.masterProject.data[0];
+                ManageTemplatesService.getAll().then(function(templatesList) {
+                    var templateIds = _.pluck(templatesList, 'id');
+                    ScenarioService.getAll().then(function(response){
+                        $scope.loadingScenarios = false;
+                        var baseScenario;
+                        $scope.masterProject = getMasterProject(response);
+                        baseScenario = findBaseScenario($scope.masterProject, templateIds);
+                        // $scope.scenarioList = sortScenarios(response);
+                        // following filter is added to remove scenarios with master template
+                        $scope.scenarioListUnformatted = sortScenarios(response);
+                        $scope.scenarioList = removeInvalidScenarios($scope.scenarioListUnformatted, templateIds);
 
-                    console.info(baseScenario);
+                        //set the first scenario to be "open" in the modal accordion
+                        $scope.scenarioList[0].open = true;
 
+                        $scope.scenario.referenceScenario.id  = baseScenario.id;
+                        $scope.scenario.referenceScenario.name  = baseScenario.name;
+                        $scope.scenario.referenceScenario.type  = baseScenario.type;
+                        $scope.scenario.template  = baseScenario.template;
+                        $scope.scenario.prediction  = baseScenario.prediction;
+                        $scope.scenario.type = baseScenario.type;
+                        $scope.scenario.isPlanOfRecord = false;
+                        if(baseScenario.type === 'Action') {
+                            $scope.scenario.modellingStartTime = baseScenario.modellingStartTime;
+                            $scope.scenario.modellingEndTime = baseScenario.modellingEndTime;
+                        } else {
+                            delete $scope.scenario.modellingStartTime;
+                            delete $scope.scenario.modellingEndTime;
+                        }
 
-
-                    $scope.scenario.referenceScenario.id  = baseScenario.id;
-                    $scope.scenario.referenceScenario.name  = baseScenario.name;
-                    $scope.scenario.referenceScenario.type  = baseScenario.type;
-                    $scope.scenario.template  = baseScenario.template;
-                    $scope.scenario.prediction  = baseScenario.prediction;
-                    $scope.scenario.type = baseScenario.type;
-
-                    selectedBaseScenario = $scope.masterProjectReferenceScenario;
+                        $scope.setScenario($scope.scenario.referenceScenario);
+                    });
                 });
-            },selectedBaseScenario;
+            },
+            selectedBaseScenario;
 
         $scope.showBaseScenario = function() {
             $scope.showFields = false;
@@ -83,8 +121,10 @@ angular.module('ThreeSixtyOneView')
             return projectTitle.toLowerCase().indexOf(searchTerm) === -1 && scenarioTitle.toLowerCase().indexOf(searchTerm) === -1;
         };
 
-        $scope.showRow = function(row){
-            return row === selectedBaseScenario;
+        $scope.showRow = function(item){
+            console.info(item.id);
+            console.info(selectedBaseScenario.id);
+            return item.id === selectedBaseScenario.id;
         };
 
         $scope.isScenarioTitleUnique = function(scenarioName) {
@@ -92,9 +132,19 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.confirm = function(){
+            $scope.scenario.type = selectedBaseScenario.type;
             $scope.scenario.referenceScenario.id = selectedBaseScenario.id;
             $scope.scenario.referenceScenario.name = selectedBaseScenario.name;
+            $scope.scenario.referenceScenario.type = selectedBaseScenario.type;
+            $scope.scenario.template  = selectedBaseScenario.template;
             $scope.showFields = true;
+            if(selectedBaseScenario.type === 'Action') {
+                $scope.scenario.modellingStartTime = selectedBaseScenario.modellingStartTime;
+                $scope.scenario.modellingEndTime = selectedBaseScenario.modellingEndTime;
+            } else {
+                delete $scenario.modellingStartTime;
+                delete $scope.scenario.modellingEndTime;
+            }
         };
 
         $scope.cancel = function(){

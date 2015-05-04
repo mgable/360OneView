@@ -30,8 +30,8 @@ angular.module('ThreeSixtyOneView.config')
 					// want: get
 					//"responseTranslator": {"referenceScenario": "referenceScenario", "template": "template", "title": "name", "id": "id", "description": "description", "type":"prediction.type", "createdBy":"auditInfo.createdBy.name", "createdOn": "auditInfo.createdOn", "modifiedBy":"auditInfo.lastUpdatedBy.name", "modifiedOn":"auditInfo.lastUpdatedOn"},
 					"responseTranslator": null,
-					"requestTranslator": {"id": "id", "name":"name", "referenceScenario": "referenceScenario", "description": "description", "prediction": "prediction", "type": "type", "template": "template"},
-					"newScenario": {"name" : "", "description": "", "referenceScenario": {"id": "", "name": ""}, "predition" : {"type": "Simulation"}}
+					"requestTranslator": {"id": "id", "name":"name", "referenceScenario": "referenceScenario", "description": "description", "prediction": "prediction", "type": "type", "template": "template", "isPlanOfRecord": "isPlanOfRecord", "modellingStartTime": "modellingStartTime", "modellingEndTime": "modellingEndTime"},
+					"newScenario": {"name" : "", "description": "", "referenceScenario": {"id": "", "name": ""}, "prediction" : {"type": "Simulation"}}
 				},
 				"MetaDataModel" : {
 					"responseTranslator": "",
@@ -182,6 +182,7 @@ angular.module('ThreeSixtyOneView.config')
 				"favoriteType": "scenario",
 				"nameClickAction": "gotoScenarioEdit",
 				"alertSrc": "views/includes/display/no_scenarios_alert.tpl.html",
+				"planOfRecordCreate": "views/includes/display/planofrecord_create_alert.tpl.html",
 				"displayActionsCreate": "gotoScenarioCreate",
 				"renameAction": "renameScenario",
 				"editAction": "editScenario",

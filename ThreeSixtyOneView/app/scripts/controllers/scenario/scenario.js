@@ -3,15 +3,13 @@
 
 'use strict';
 angular.module('ThreeSixtyOneView')
-.controller("ScenarioCtrl", ["$scope", "$rootScope", "$timeout", "Project", "ScenarioAnalysisElements", "$state", "EVENTS", "Calculate", "AnalyticCalculationsService", "CONFIG", "ScenarioStatesService",
-	function($scope, $rootScope, $timeout, Project, ScenarioAnalysisElements, $state, EVENTS, Calculate, AnalyticCalculationsService, CONFIG, ScenarioStatesService) {
+.controller("ScenarioCtrl", ["$scope", "$rootScope", "$timeout", "Project", "Scenario", "ScenarioAnalysisElements", "$state", "EVENTS", "Calculate", "AnalyticCalculationsService", "CONFIG", "ScenarioStatesService",
+	function($scope, $rootScope, $timeout, Project, Scenario, ScenarioAnalysisElements, $state, EVENTS, Calculate, AnalyticCalculationsService, CONFIG, ScenarioStatesService) {
 
 		var init = function() {
 			$scope.project = Project;
-			$scope.scenario = {
-				id: $state.params.scenarioId
-			};
-			// $scope.scenario = Scenario;
+			$scope.scenario = Scenario;
+			
 			$scope.simulateButtonDisabled = false;
 
 			$scope.pivotTableSaveStatus = '';
@@ -29,10 +27,14 @@ angular.module('ThreeSixtyOneView')
 			setView($scope.scenarioState);
 		},
 		getScenarioElementById = function(data, id){
-		   return  _.findWhere(data, {id: id});
+			return _.findWhere(data, {id: id});
 		},
 		getScenarioElementByCubeName = function(_data, _name){
-		   return  _.find(_data, function(element) { return element.cubeMeta.name === _name; });
+			if(_data.length === 1) {
+				return _data[0];
+			} else {
+				return _.find(_data, function(element) { return element.cubeMeta.name === _name; });
+			}
 		},
 		setView = function(currentState){
 			if (AnalyticCalculationsService.isInProgress($scope.scenarioState.message) || AnalyticCalculationsService.isFailed($scope.scenarioState.message)){
@@ -85,6 +87,10 @@ angular.module('ThreeSixtyOneView')
 				$scope.simulateButtonDisabled = state;
 			}
 			return $scope.simulateButtonDisabled;
+		};
+
+		$scope.isScenarioStrategy = function() {
+			return $scope.scenario.type === 'Strategy';
 		};
 
 		$scope.$on(EVENTS.pivotTableStatusChange, function(event, data) {

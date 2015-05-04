@@ -29,9 +29,13 @@ angular.module('ThreeSixtyOneView.services').factory('FavoritesModel', ["$timeou
                 transformResponse: function(data){ return transformResponse(data);},
                 transformRequest: function(data){ return JSON.stringify(data);}
             },
-            setAsFavorite: function(id, type) {
+            setAsFavorite: function(id, type, item) {
                 var params = {};
                 params[type === "project" ? "uuid" : "id"] = id;
+                console.info(id, type, item);
+                if (type !== "project"){
+                    params.type = item.type;
+                }
                 this.resource.post(params, this.config, {}, type).then(function(response){
                     return response;
                 });

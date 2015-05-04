@@ -8,22 +8,20 @@
  * Controller of the ThreeSixtyOneView
  */
 angular.module('ThreeSixtyOneView')
-.controller('ScenarioTemplatesChooseDefaultsCtrl', ['$scope', 'PivotMetaService', 'PivotViewService', 'datepickerConfig', 'MetaDataService', 'DialogService', 'EVENTS',
-	function ($scope, PivotMetaService, PivotViewService, datepickerConfig, MetaDataService, DialogService, EVENTS) {
+.controller('ScenarioTemplatesChooseDefaultsCtrl', ['$scope', 'PivotMetaService', 'PivotViewService', 'datepickerConfig', 'MetaDataService', 'DialogService', 'ManageScenariosService', 'EVENTS',
+	function ($scope, PivotMetaService, PivotViewService, datepickerConfig, MetaDataService, DialogService, ManageScenariosService, EVENTS) {
 
 	var init = function() {
+			if(!$scope.spendCubeLoading) {
+				$scope.spendCube = $scope.getSpendCube();
+				initializeDefaultView();
+				$scope.spendCubeLoaded = true;
+			} else {
+				$scope.spendCubeLoaded = false;
+				$scope.spendCube = [];
+			}
 			$scope.pivotBuilderItems = [{name:'columns', label: 'Columns', other: 'rows'}, {name:'rows', label: 'Rows', other: 'columns'}];
-			$scope.dimensions = [];
-			$scope.viewData = {};
-			MetaDataService.buildDimensionsTree(1).then(function(dimensions) {
-				$scope.dimensions = dimensions;
-				$scope.viewData = PivotMetaService.formEmptyView(dimensions, {label: ''});
-				$scope.added = PivotMetaService.setUpAddedLevels($scope.viewData.rows.concat($scope.viewData.columns));
-				$scope.addedFilters = PivotMetaService.getAddedFilters($scope.viewData.filters, dimensions);
-				$scope.membersList = PivotMetaService.generateMembersList(dimensions);
-				$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, dimensions, $scope.viewData);
-				determineTimeDisability($scope.added);
-			});
+			$scope.modelingPeriod = [];
 
 			$scope.dragOptions = {
 				itemMoved: function() {
@@ -39,20 +37,31 @@ angular.module('ThreeSixtyOneView')
 				containment: '#dragDropArea'
 			};
 
-			initDatePicker();
-		},
-		initDatePicker = function() {
-			$scope.dateFormat = 'yyyy-MM-dd Week (ww)';
-			$scope.fromDate = new Date();
-			$scope.toDate = new Date();
-
-			// datepicker options
-			datepickerConfig.minDate = '2014-01-02';
-			datepickerConfig.maxDate = '2016-01-01';
-			datepickerConfig.startingDay = 1;
+			setModelingPeriod();
 		},
 		determineTimeDisability = function(added) {
-			$scope.timeDisabled = PivotMetaService.determineTimeDisability($scope.dimensions, added);
+			$scope.timeDisabled = PivotMetaService.determineTimeDisability($scope.spendCube, added);
+		},
+		initializeDefaultView = function() {
+			$scope.viewData = $scope.getDefaultView();
+			if(!$scope.viewData.rows) {
+				$scope.viewData = PivotMetaService.formEmptyView($scope.spendCube, {label: 'Touchpoint'});
+			}
+			
+			$scope.added = PivotMetaService.setUpAddedLevels($scope.viewData.rows.concat($scope.viewData.columns));
+			$scope.addedFilters = PivotMetaService.getAddedFilters($scope.viewData.filters, $scope.spendCube);
+			$scope.membersList = PivotMetaService.generateMembersList($scope.spendCube);
+			$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.spendCube, $scope.viewData);
+			determineTimeDisability($scope.added);
+		},
+		setModelingPeriod = function() {
+			if($scope.template.type === 'Action') {
+				ManageScenariosService.getModelingPeriod($scope.getTimeGranularityInfo().id).then(function(period) {
+					$scope.modelingPeriod = period;
+					$scope.fromDate = period[0];
+					$scope.toDate = period[period.length - 1];
+				});
+			}
 		};
 
 	// returns element titles in the view: rows and columns
@@ -60,16 +69,12 @@ angular.module('ThreeSixtyOneView')
 		return $scope.pivotBuilderItems;
 	};
 
-	$scope.getFormattedDate = function(date) {
-		return $filter('date')(date.getTime(),'yyyy-MM-dd');
-	};
-
 	$scope.getViewData = function(element) {
 		return $scope.viewData[element];
 	};
 
 	$scope.getDimensions = function() {
-		return $scope.dimensions;
+		return $scope.spendCube;
 	};
 
 	$scope.deleteItem =  function(index, element) {
@@ -87,20 +92,34 @@ angular.module('ThreeSixtyOneView')
 	$scope.filtersModal = function(category) {
 		var filtersModalCallback = function(newFilterData) {
 			$scope.addedFilters = newFilterData;
-			$scope.viewData.filters = PivotMetaService.updateFilters($scope.dimensions, newFilterData, $scope.membersList, $scope.viewData.filters);
-			$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure(newFilterData, $scope.dimensions, $scope.viewData);
+			$scope.viewData.filters = PivotMetaService.updateFilters($scope.spendCube, newFilterData, $scope.membersList, $scope.viewData.filters);
+			$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure(newFilterData, $scope.spendCube, $scope.viewData);
 		};
 
-		DialogService.filtersModal(category, $scope.addedFilters, $scope.viewData.rows.concat($scope.viewData.columns), $scope.dimensions, filtersModalCallback);
+		DialogService.filtersModal(category, $scope.addedFilters, $scope.viewData.rows.concat($scope.viewData.columns), $scope.spendCube, filtersModalCallback);
 	};
 
 	$scope.isDatePickerVisible = function() {
-		return $scope.templateType.label !== 'Strategy';
+		return $scope.templateType.label === 'Action';
+	};
+
+	$scope.setFromDate = function(period) {
+		$scope.fromDate = period;
+	};
+
+	$scope.setToDate = function(period) {
+		$scope.toDate = period;
 	};
 
 	$scope.$on(EVENTS.flipbookAdvance, function() {
 		$scope.setDefaultView($scope.viewData);
 		$scope.setPerformancePeriod($scope.fromDate, $scope.toDate);
+	});
+
+	$scope.$on(EVENTS.spendCubeIdLoaded, function(event, spendCube) {
+		$scope.spendCube = spendCube;
+		initializeDefaultView();
+		$scope.spendCubeLoaded = true;
 	});
 
 	init();

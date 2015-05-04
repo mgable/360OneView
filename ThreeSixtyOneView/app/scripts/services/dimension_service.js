@@ -8,38 +8,69 @@
  * Service in the ThreeSixtyOneView.
  */
  angular.module('ThreeSixtyOneView.services')
-    .service('DimensionService', function DimensionService() {
+    .service('DimensionService', ["$rootScope", "ManageTemplatesService", "EVENTS",
+        function DimensionService($rootScope, ManageTemplatesService, EVENTS) {
 
-        this.getSelectedDimensions = function(dimensions) {
-            var tmpDimensions = angular.copy(dimensions);
-            return _.filter(tmpDimensions, function(tmpDimension) {
-                tmpDimension.attributes = _.filter(tmpDimension.attributes, function(attibute) { return attibute.isSelected === true; });
-                return tmpDimension.isSelected === true;
-            });
+        var allDimensions = {};
+
+        this.getDimensions = function(templateId) {
+            if (!_.has(allDimensions, templateId)) {
+                ManageTemplatesService.buildDimensionsTree(templateId).then(function(dimensions) {
+                    allDimensions[templateId] = dimensions;
+                    $rootScope.$broadcast(EVENTS.dimensionsIsLoaded, allDimensions[templateId]);
+                    return allDimensions[templateId];
+                });
+            } else {
+                $rootScope.$broadcast(EVENTS.dimensionsIsLoaded, allDimensions[templateId]);
+                return allDimensions[templateId];
+            }
         };
 
-        this.getSelectedTimeDimension = function(timeDimension, time) {
-            var tmpTimeDimension = angular.copy(timeDimension);
-            tmpTimeDimension.attributes = _.filter(tmpTimeDimension.attributes, function(attribute) { return attribute.label === time; });
-            return tmpTimeDimension;
-        };
-
-        this.getDimensionsLabel = function(dimensions) {
-            var tmpDimensions = dimensions,
-                dimensionLabel = [];
-            _.each(tmpDimensions, function(tmpDimension) {
-                if (tmpDimension.isSelected) {
-                    var selectedAttributes = _.filter(tmpDimension.attributes, function(attribute) { return attribute.isSelected === true; }),
-                        attributeLabel = '';
-                    if (0 < selectedAttributes.length && selectedAttributes.length < tmpDimension.attributes.length) {
-                        attributeLabel = '(' + _.pluck(selectedAttributes, 'label').join() + ')';
-                    } else {
-                        attributeLabel = '';
-                    }
-                    dimensionLabel.push(tmpDimension.label + attributeLabel);
+        this.getSelectedDimensions = function(dimensions, schema) {
+            var tmpDimensions = [];
+            _.each(schema, function(_dimension, _dimensionIndex) {
+                var dimension = false;
+                if(_dimension.isSelected) {
+                    dimension = {
+                        id: _dimension.id,
+                        label: _dimension.label,
+                        members: []
+                    };
+                    _.each(_dimension.members, function(_member, _memberIndex) {
+                        if(_member.isSelected) {
+                            dimension.members.push(dimensions[_dimensionIndex].members[_memberIndex]);
+                        }
+                    });
+                    tmpDimensions.push(dimension);
                 }
             });
-            return dimensionLabel.join(', ');
+            return tmpDimensions;
         };
 
-});
+        this.getSelectedDimensionsLabels = function(dimensions, categorizedValues, type) {
+            var maxMembers = 2,
+                dimensionLabelList = [];
+            _.each(dimensions, function(dimension, index) {
+                var membersLabel = '',
+                    categorizedValue = categorizedValues[index];
+                if (dimension.isSelected) {
+                    if (type === 'kpi') {
+                        dimensionLabelList.push(dimension.label);
+                    } else {
+                        if (categorizedValue.selected < categorizedValue.total) {
+                            if (categorizedValue.label.length < maxMembers) {
+                                membersLabel = '(' + categorizedValue.label.join(', ') + ')';
+                            } else {
+                                membersLabel = '(' + categorizedValue.label.slice(0, maxMembers).join(', ') + '...)';
+                            }
+                        } else {
+                            membersLabel = '';
+                        }
+                        dimensionLabelList.push(dimension.label + membersLabel);
+                    }
+                }
+            });
+            return dimensionLabelList.join(', ');
+        };
+
+}]);

@@ -1,0 +1,28 @@
+[
+  {
+    "id": 2873,
+    "name": "Default Marketing Plan view",
+    "isDefault": false,
+    "isDraft": false,
+    "auditInfo": {
+      "createdOn": "2015-04-16T05:22:24.417Z",
+      "createdBy": {
+        "uuid": "UUID-1",
+        "name": "me"
+      }
+    }
+  },
+  {
+    "id": 2890,
+    "name": "New Marketing Plan view",
+    "isDefault": true,
+    "isDraft": false,
+    "auditInfo": {
+      "createdOn": "2015-04-23T16:41:03.456Z",
+      "createdBy": {
+        "uuid": "UUID-1",
+        "name": "me"
+      }
+    }
+  }
+]

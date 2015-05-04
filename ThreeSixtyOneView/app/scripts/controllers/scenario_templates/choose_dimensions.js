@@ -8,19 +8,27 @@
  * Controller of the ThreeSixtyOneView
  */
 angular.module('ThreeSixtyOneView')
-    .controller('ChooseDimensionsCtrl', ['$scope', 'MetaDataService', 'DimensionService', 'EVENTS', function($scope, MetaDataService, DimensionService, EVENTS) {
+    .controller('ChooseDimensionsCtrl', ['$scope', 'EVENTS', 'DimensionService', 'PivotMetaService', function($scope, EVENTS, DimensionService, PivotMetaService) {
         var scenarioTemplateId,
         init = function() {
-            $scope.selectedTime = $scope.timeGranularity ? $scope.timeGranularity : '';
-            buildDimensions($scope.dimensionsList, $scope.kpisList);
-            if (checkIfInitial($scope.dimensionsList) && checkIfInitial($scope.kpisList)) {
+            $scope.setTime($scope.getTimeGranularity());
+
+            buildDimensions($scope.dimensions, $scope.kpisList, $scope.dimensionsSchema);
+            if (checkIfInitial($scope.dimensionsSchema) && checkIfInitial($scope.kpisList)) {
                 addSelectedValue($scope.kpiDimensions);
-                addSelectedValue($scope.standardDimensions);
+                addSelectedValue($scope.standardDimensionsSchema);
             }
+
+            $scope.addedFilters = $scope.getAddedDimensionMembers();
+            if(!$scope.addedFilters) {
+                $scope.addedFilters = PivotMetaService.addAllFilters($scope.dimensions);
+                $scope.setAddedDimensionMembers($scope.addedFilters);
+            }
+            $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, $scope.standardDimensions, $scope.addedFilters);
         },
-        checkIfInitial = function(dimensionsList) {
+        checkIfInitial = function(dimensions) {
             var initial = true;
-            _.each(dimensionsList, function(dimension) {
+            _.each(dimensions, function(dimension) {
                 if (dimension.isSelected !== undefined) {
                     initial = false;
                 }
@@ -37,28 +45,39 @@ angular.module('ThreeSixtyOneView')
             });
             return dimensions;
         },
-        buildDimensions = function(dimensionsList, kpisList) {
+        buildDimensions = function(dimensions, kpisList, dimensionsSchema) {
             // filter to get time dimensions
-            $scope.timeDimension = _.find(dimensionsList, function(dimension) { return dimension.type === 'TimeDimension' });
-            $scope.times = _.pluck($scope.timeDimension.attributes, 'label');
+            $scope.timeDimension = _.find(dimensions, function(dimension) { return dimension.type === 'TimeDimension' });
+            $scope.times = _.pluck($scope.timeDimension.members, 'label');
             // filter to get kpi dimensions
             $scope.kpiDimensions = kpisList;
             // filter to get standard dimensions
-            $scope.standardDimensions = _.filter(dimensionsList, function(dimension) { return dimension.type === 'StandardDimension' });
+            $scope.standardDimensions = _.reject(dimensions, function(dimension) { return dimension.type === 'TimeDimension' });
+            $scope.standardDimensionsSchema = _.reject(dimensionsSchema, function(dimension) { return dimension.type === 'TimeDimension' });
         };
 
-		$scope.$on(EVENTS.flipbookAdvance, function() {
-            $scope.setDimensionsLabel($scope.standardDimensions, 'standard');
-            $scope.setDimensionsLabel($scope.kpiDimensions, 'kpi');
-		});
-
-        $scope.$watch("selectedTime", function(){
-            if ($scope.selectedTime){
+        $scope.setTime = function(time) {
+            $scope.selectedTime = time;
+            $scope.setTimeGranularity(time);
+            if(!!time) {
                 $scope.$emit(EVENTS.flipbookAllowAdvance, true);
             } else {
                 $scope.$emit(EVENTS.flipbookAllowAdvance, false);
             }
-        });
+        };
+
+        $scope.updateMembers = function(addedMembers) {
+            $scope.addedFilters = addedMembers;
+            $scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure(addedMembers, $scope.standardDimensions, $scope.addedFilters);
+            $scope.setAddedDimensionMembers(addedMembers);
+        };
+
+		$scope.$on(EVENTS.flipbookAdvance, function() {
+            $scope.setDimensionsLabel($scope.standardDimensionsSchema, $scope.categorizedValue, 'standard');
+            $scope.setDimensionsLabel($scope.kpiDimensions, $scope.categorizedValue, 'kpi');
+            $scope.setStandardDimensions($scope.standardDimensions, $scope.standardDimensionsSchema, $scope.addedFilters);
+            $scope.setKpiDimension($scope.kpiDimensions);
+		});
 
 		init();
 

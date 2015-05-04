@@ -16,32 +16,36 @@ angular.module('ThreeSixtyOneView.directives')
             scope: {
                 dimensionData: '=',
                 allDimensionsData: '=',
-                templateType: '='
+                filtersData: '=',
+                categorizedData: '=',
+                templateType: '=',
+                filterUpdateCallback: '&',
+                allDimensionsSchema: '=',
+                dimensionIndex: '='
             },
             templateUrl: function(elem, attrs){
                 return "views/directives/ms_" + attrs.dimensionType + "_dimension_card.tpl.html";
             },
             link: function(scope) {
 
-                var filtersModalCallback = function(data) {
-                    console.info('filtered data: ', data);
-                };
-
-                scope.getDimensionCardLabel = function(dimension) {
-                    var dimensionLength = dimension.members.length,
-                        filterArray = _.pluck(_.filter(dimension.members, function(dimension) {
-                            return dimension.isSelected === true;
-                        }), 'label');
-                    return (filterArray.length === dimensionLength) ? 'All' : filterArray.join();
-                };
-
+                if(!!scope.allDimensionsSchema) {
+                    scope.dimensionSchema = scope.allDimensionsSchema[scope.dimensionIndex];
+                }
                 scope.filtersModal = function(category) {
-                    var dimensions = DimensionService.getSelectedDimensions(scope.allDimensionsData),
-                        addedFilters = PivotMetaService.addAllFilters(dimensions),
-                        dimension = _.find(dimensions, function(v) { return category.id === v.id; });
-                    DialogService.filtersModal(dimension, addedFilters, undefined, dimensions, filtersModalCallback);
+                    var filteredDimensions = DimensionService.getSelectedDimensions(scope.allDimensionsData, scope.allDimensionsSchema),
+                        filteredDimension = _.find(filteredDimensions, function(v) { return category.id === v.id; }),
+                        filtersModalCallback = function(newFilterData) {
+                            scope.filterUpdateCallback({addedMembers: newFilterData});
+                        };
+                    DialogService.filtersModal(filteredDimension, scope.filtersData, scope.viewData, filteredDimensions, filtersModalCallback);
                 };
-
+                scope.getFormattedLabel = function(categorizedData) {
+                    if (categorizedData.selected < categorizedData.total) {
+                        return categorizedData.label.join(', ');
+                    } else {
+                        return 'All';
+                    }
+                };
             }
         };
     }]);

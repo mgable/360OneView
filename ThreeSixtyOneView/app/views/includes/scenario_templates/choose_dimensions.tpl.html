@@ -6,8 +6,8 @@
 		<span>Please choose the time granularity for this template</span>
 		<form>
 			<span ng-repeat="time in times">
-				<input type="radio" id="radio{{$index}}" name="selectedTime" value="{{time}}" ng-model="$parent.selectedTime" ng-click="setTimeGranularity($parent.selectedTime)">
-	        	<label for="radio{{$index}}">
+				<input type="radio" id="radio{{$index}}" name="selectedTime" ng-value="time" ng-model="selectedTime">
+	        	<label for="radio{{$index}}" ng-click="setTime(time)">
 		            <span>
 		            	<icon type="circle-o"></icon>
 		            	<icon type="dot-circle-o"></icon>
@@ -30,7 +30,7 @@
 	<div class="dimensions reveal animated fadeIn delay-long" ng-show="selectedTime">
 		<div class="row dimensionContainer">
 			<div class="col-md-4" ng-repeat="standardDimension in standardDimensions | orderBy:id">
-				<ms-dimension-card dimension-data="standardDimension" all-dimensions-data="standardDimensions" dimension-type="standard" template-type="templateType.label"></ms-dimension-card>
+				<ms-dimension-card dimension-data="standardDimension" all-dimensions-data="standardDimensions" all-dimensions-schema="standardDimensionsSchema" dimension-index="$index" filters-data="addedFilters" categorized-data="categorizedValue[$index]" dimension-type="standard" template-type="templateType.label" filter-update-callback="updateMembers(addedMembers)"></ms-dimension-card>
 			</div>
 		</div>
 		<div class="row dimensionContainer">

@@ -13,10 +13,6 @@
         input[type=checkbox] {
             cursor: pointer;
         }
-        .selected {
-            color: $ms-blue;
-            font-weight: bold;
-        }
         .parent-checkbox {
             margin-bottom: 10px;
         }
@@ -36,11 +32,9 @@
             cursor: pointer;
             white-space: nowrap;
             line-height: 14px;
+            color: $ms-blue;
             &:hover {
                 text-decoration: underline;
-            }
-            &.selected {
-                color: $ms-blue;
             }
             i {
                 margin-right: 10px;

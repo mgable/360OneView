@@ -22,6 +22,7 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     scenarioElementChange: "PivotBuilderCtrl:loadCube",
     pivotTableStatusChange: "ScenarioCtrl:pivotTableStatusChange",
     pivotViewChange: "PivotBuilderCtrl:pivotViewChange",
+    dimensionsReady: 'dimensionsReady',
     // ERRORS
     noDataReceived: "ErrorService:noDataReceived",
     serverError: "ErrorService:serverError",
@@ -34,5 +35,12 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     broadcastStates: "broadcastStates",
     // FLIPBOOK
     flipbookAdvance: 'flipbookAdvance',
-    flipbookAllowAdvance: 'flipbookAllowAdvance'
+    flipbookAllowAdvance: 'flipbookAllowAdvance',
+    // FILTER MEMBERS
+    selectTime: 'selectTime',
+    // LOADING DIMENSIONS
+    dimensionsIsLoaded: 'dimensionsIsLoaded',
+    spendCubeIdLoaded: 'spendCubeIdLoaded',
+    // PLAN OF RECORD
+    planOfRecordCreated: 'planOfRecordCreated'
 });

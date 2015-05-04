@@ -5,9 +5,14 @@
 
 // View controllers
 angular.module('ThreeSixtyOneView')
-.controller("MainCtrl", ["$scope", "$location", "ErrorService", "CONFIG", "ServerService", "ScenarioStatesService", '$state',
-	function($scope, $location, ErrorService, CONFIG, ServerService, ScenarioStatesService, $state) {
+.controller("MainCtrl", ["$scope", "$location", "ErrorService", "CONFIG", "ServerService", "ManageTemplatesService", "$state",
+	function($scope, $location, ErrorService, CONFIG, ServerService, ManageTemplatesService, $state) {
 		var init = function() {
+			ManageTemplatesService.getAll().then(function(templates) {
+				if(templates.length === 0) {
+					$state.go('ScenarioTemplates');
+				}
+			});
 		};
 		// Error service surfaced here
 		// For unit testing only;
@@ -19,7 +24,7 @@ angular.module('ThreeSixtyOneView')
 			$scope.e2e = true;
 		}
 
-		console.info(ServerService.get('server'));
+		console.info(ServerService.get($location.host()));
 
 		// convenience methods
 		$scope.console = function console(msg) {

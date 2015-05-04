@@ -24,6 +24,10 @@
 		height: 100%;
 
 		.display-table {
+			&.viewport {
+				max-height: 890px;
+				min-height: 117px
+			}
 			table {
 				padding: 20px 8px 5px 8px;
 				width: 100%;
@@ -68,6 +72,9 @@
 					.text-holder {
 						&.strategy {
 							background-color: $ms-green;
+						}
+						&.action {
+							background-color: $ms-lightBlue;
 						}
 						&.favorites-holder {
 							width:25px;

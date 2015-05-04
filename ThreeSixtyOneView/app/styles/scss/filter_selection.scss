@@ -11,6 +11,8 @@
 			background-color: $ms-lightGray;
 			font-size: 16px;
 			padding: 10px 0;
+			@include vendor(max-height, calc(100% - 157px));;
+			overflow: auto;
 
 			.menu-item {
 				padding: 10px 15px;

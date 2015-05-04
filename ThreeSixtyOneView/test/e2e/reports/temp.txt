@@ -1,12 +1,8 @@
-executing Scenario
+Executing Project Dashboard functional tests
 	 should set up the tests
-Scenario Page: 
-current working scenario
-	 should read the correct scenario from the file system
-initial state of navigation buttons
-	 should have the edit button enabled
-	 should have the results button disabled
-	 should have the simulate button enabled
-analysis element toolbar
-	 should have analysis elements
-	 should have marketing plan selected
+Project Dashboard: 
+Scenario Listing: 
+Page: 
+	 should change the base scenario
+Plan of Record: 
+	 should not be editable

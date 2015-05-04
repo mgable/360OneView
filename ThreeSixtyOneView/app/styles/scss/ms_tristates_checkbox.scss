@@ -3,8 +3,9 @@
 $icon-size:14px;
 .ms-checkbox {
     margin-bottom: 8px;
+    i.ms-checkbox-lock { color: $ms-blue; }
     label {
-        display: block;
+        display: inline-block;
         position: relative;
         line-height: $icon-size;
         font-weight: normal;
@@ -38,8 +39,9 @@ $icon-size:14px;
         content: "\f14a";
     }
     input[type="checkbox"]:indeterminate + i:before {
-        content: "\f147";
+        content: "\f146";
     }
+    input[type="checkbox"]:indeterminate + i + span, input[type="checkbox"]:indeterminate + i:before,
     input[type="checkbox"]:checked + i + span, input[type="checkbox"]:checked + i:before {
         color: $ms-blue;
     }

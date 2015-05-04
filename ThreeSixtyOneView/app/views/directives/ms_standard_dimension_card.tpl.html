@@ -1,21 +1,20 @@
 <div class="dimensionCard standardDimensionCard" ng-class="{fixedHeight: templateType !== 'Action'}">
     <div class="dimensionCheckbox">
-        <div class="parent-checkbox ms-checkbox no-select" ng-class="{selected: dimensionData.isSelected}">
+        <div class="parent-checkbox ms-checkbox no-select">
             <label>
-                <input type="checkbox" ms-tristates-checkbox child-list="dimensionData.attributes" property="isSelected" ng-model="dimensionData.isSelected"><i></i><span class="capitalized">{{dimensionData.label}}</span>
+                <input type="checkbox" ms-tristates-checkbox child-list="dimensionSchema.members" property="isSelected" ng-model="dimensionSchema.isSelected"><i></i><span class="capitalized">{{dimensionSchema.label}}</span>
             </label>
         </div>
-        <div class="children-checkbox ms-checkbox no-select" ng-repeat="item in dimensionData.attributes" ng-class="{selected: item.isSelected}" ng-if="templateType !== 'Action'">
+        <div class="children-checkbox ms-checkbox no-select" ng-repeat="item in dimensionSchema.members" ng-if="templateType !== 'Action'">
             <label>
                 <input type="checkbox" ng-model="item.isSelected"><i></i><span class="capitalized">{{item.label}}</span>
             </label>
         </div>
     </div>
-    <div class="dimensionFilter hide-overflow" ng-if="dimensionData.isSelected">
-        <!-- <span title="All" ng-class="{selected: dimensionData.isSelected}" ng-click="filtersModal(dimensionData)"> -->
-        <span title="All" ng-class="{selected: dimensionData.isSelected}">
+    <div class="dimensionFilter hide-overflow" ng-if="dimensionSchema.isSelected">
+        <span title="{{getFormattedLabel(categorizedData)}}" ng-click="filtersModal(dimensionData)">
             <icon type="filter"></icon>
-            <span>All</span>
+            <span>{{getFormattedLabel(categorizedData)}}</span>
         </span>
     </div>
 </div>

@@ -353,9 +353,10 @@ angular.module('dialogs.services',['ui.bootstrap.modal','dialogs.controllers'])
                         size: opts.ws,
                         resolve : {
                             data : function() { 
-                                if(copy)
-                                    return angular.copy(data);
-                                else
+                                // removed to speed up filter selection
+                                // if(copy)
+                                //     return angular.copy(data);
+                                // else
                                     return data;
                             }
                         }

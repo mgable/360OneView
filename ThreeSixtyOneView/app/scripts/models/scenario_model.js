@@ -17,9 +17,17 @@ angular.module('ThreeSixtyOneView.services').factory('ScenarioModel', ["$locatio
         responseTranslator: responseTranslator,
         requestTranslator: requestTranslator,
         resource: resource,
+        planOfRecordCreating: false,
         data: [],
         create: function(projectUuid, scenario){
+            var self = this;
+            if(scenario.isPlanOfRecord) {
+                this.planOfRecordCreating = true;
+            }
             return resource.create(scenario, this.config, {id: projectUuid}).then(function(response){
+                if(scenario.isPlanOfRecord) {
+                    self.planOfRecordCreating = false;
+                }
                 return response;
             });
         },
@@ -37,7 +45,6 @@ angular.module('ThreeSixtyOneView.services').factory('ScenarioModel', ["$locatio
                 });
             });
         }
-
     };
 }]);
 

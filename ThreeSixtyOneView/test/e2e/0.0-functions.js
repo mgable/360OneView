@@ -151,8 +151,9 @@ var specs = require('./0.0-specs.js'),
 			});
 		},
 		hasClass: function (element, cls) {
+			var className = cls.replace(/^\./, "");
 		    return element.getAttribute('class').then(function (classes) {
-		        return classes.split(' ').indexOf(cls) !== -1;
+		        return classes.split(' ').indexOf(className) !== -1;
 		    });
 		},
 		getClass: function(element){
