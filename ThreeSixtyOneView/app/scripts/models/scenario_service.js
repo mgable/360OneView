@@ -55,8 +55,6 @@ angular.module('ThreeSixtyOneView.services')
 			ids = [],
 			results = [];
 
-			console.info(projects);
-
 			angular.forEach(projects, function(v,k,o){
 				ids.push(_.pick(v, 'uuid', 'name', 'isMaster'));
 			});
