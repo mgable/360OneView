@@ -1,20 +1,15 @@
-<div class="CreateRecommendation">
+<div class="CreateRecommendation row">
 	<p>I am create recommendation</p>
 	<p>{{test}}</p>
-
-	<ng-include src="'views/includes/create_recommendation/name_and_describe.tpl.html'"></ng-include>
-
-	<hr>
-
-	<ng-include src="'views/includes/create_recommendation/select.tpl.html'"></ng-include>
-
-	<hr>
-
-	<ng-include src="'views/includes/create_recommendation/define.tpl.html'"></ng-include>
-
-	<hr>
-
-	<ms-button label="cancel"></ms-button>
-
-	<ms-button label="optimize"></ms-button>
+	<div class="col-md-9">
+		<ng-include src="'views/includes/create_recommendation/name_and_describe.tpl.html'"></ng-include>
+		<ng-include src="'views/includes/create_recommendation/select.tpl.html'"></ng-include>
+		<ng-include src="'views/includes/create_recommendation/define.tpl.html'"></ng-include>
+		<hr>
+	</div>
+	<div class="col-md-3"></div>
+	<div>
+		<ms-button label="cancel"></ms-button>
+		<ms-button label="optimize"></ms-button>
+	</div>
 </div>
