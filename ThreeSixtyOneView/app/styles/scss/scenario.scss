@@ -202,6 +202,34 @@
 			}
 		}
 
+		.scenario-modeling-period {
+			.title {
+				display: inline-block;
+				margin-right: 20px;
+			}
+
+			.period-pickers {
+				display: inline-block;
+				
+				.period-range {
+					display: inline-block;
+					margin-right: 20px;
+
+					.subtitle {
+						display: inline-block;
+						margin-right: 10px;
+					}
+
+					.dropdown {
+						.dropdown-toggle {
+							display: inline-block;
+							color: $ms-gray;
+						}
+					}
+				}
+			}
+		}
+
 		.save-status {
 			float: right;
 			margin-top: -40px;

@@ -89,6 +89,10 @@ angular.module('ThreeSixtyOneView')
 			return $scope.simulateButtonDisabled;
 		};
 
+		$scope.isScenarioStrategy = function() {
+			return $scope.scenario.type === 'Strategy';
+		};
+
 		$scope.$on(EVENTS.pivotTableStatusChange, function(event, data) {
 			$scope.pivotTableSaveStatus = data.status;
 		});

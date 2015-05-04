@@ -1,5 +1,5 @@
 <div class="scenario-type-dropdown" data-ms-id="ScenarioEdit.analysisElements" ng-controller="AnalysisElementCtrl">
-	<div class="dropdown">
+	<div class="dropdown" ng-show="isScenarioStrategy()">
 		<span class="dropdown-toggle">
 			{{selectedScenarioElement.cubeMeta.label}}<icon type="caret-down"></icon>
 		</span>
@@ -16,6 +16,29 @@
 				</li>
 			</div>
 		</ul>
+	</div>
+	<div class="scenario-modeling-period" ng-show="!isScenarioStrategy()">
+		<div class="title">Historical performance period</div>
+		<div class="period-pickers">
+			<div class="period-range">
+				<div class="subtitle">From</div>
+				<div class="dropdown">
+					<div class="dropdown-toggle">{{fromDate.label}}</div>
+					<ul class="dropdown-menu" ms-link-group selected-item="{{fromDate.id}}" radio="true">
+						<li class="menu-item" ng-repeat="item in modelingPeriod" ms-link="{{item.id}}" ng-hide="item.label > toDate.label" ng-click="setFromDate(item)">{{item.label}}</li>
+					</ul>
+				</div>
+			</div>
+			<div class="period-range">
+				<div class="subtitle">To</div>
+				<div class="dropdown">
+					<div class="dropdown-toggle">{{toDate.label}}</div>
+					<ul class="dropdown-menu" ms-link-group selected-item="{{toDate.id}}" radio="true">
+						<li class="menu-item" ng-repeat="item in modelingPeriod" ms-link="{{item.id}}" ng-hide="item.label < fromDate.label" ng-click="setToDate(item)">{{item.label}}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 

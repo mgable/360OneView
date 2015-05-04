@@ -55,13 +55,13 @@ angular.module('ThreeSixtyOneView')
 			determineTimeDisability($scope.added);
 		},
 		setModelingPeriod = function() {
-		if($scope.template.type === 'Action') {
-			ManageScenariosService.getModelingPeriod($scope.getTimeGranularityInfo().id).then(function(period) {
-				$scope.modelingPeriod = period;
-				$scope.fromDate = period[0];
-				$scope.toDate = period[period.length - 1];
-			});
-		}
+			if($scope.template.type === 'Action') {
+				ManageScenariosService.getModelingPeriod($scope.getTimeGranularityInfo().id).then(function(period) {
+					$scope.modelingPeriod = period;
+					$scope.fromDate = period[0];
+					$scope.toDate = period[period.length - 1];
+				});
+			}
 		};
 
 	// returns element titles in the view: rows and columns

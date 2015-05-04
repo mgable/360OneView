@@ -79,4 +79,12 @@ angular.module('ThreeSixtyOneView.services')
 			return this.planOfRecordCreating;
 		};
 
+		this.setModelingTime = function(projectId, scenario) {
+			var additionalPath = 'modellingTime';
+			return this.resource.post(scenario, {}, {id: projectId}, additionalPath).then(function(response) {
+				console.log(response);
+				return response;
+			});
+		};
+
 	}]);

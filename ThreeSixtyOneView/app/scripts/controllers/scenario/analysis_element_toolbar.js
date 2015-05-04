@@ -5,7 +5,7 @@
 
 // View controllers
 angular.module('ThreeSixtyOneView')
-	.controller("AnalysisElementCtrl", ["$scope", "DialogService", "ManageScenariosService", function($scope, DialogService, ManageScenariosService) {
+	.controller("AnalysisElementCtrl", ["$scope", 'EVENTS', "DialogService", "ManageScenariosService", 'ScenarioService', function($scope, EVENTS, DialogService, ManageScenariosService, ScenarioService) {
 		// Inherited from parent controller scenario.js
 		// $scope.scenarioElements
 		// $scope.setScenarioElement
@@ -32,6 +32,23 @@ angular.module('ThreeSixtyOneView')
 			copyAndReplaceAnalysisElementForCube = function(scenarioId, cubeId, sourceElementId, newElementData) {
 				ManageScenariosService.copyAndReplaceAnalysisElementForCube(scenarioId, cubeId, sourceElementId, newElementData).then(function(element){
 					replaceScenarioElement(element);
+				});
+			},
+			getModelingPeriod = function(timeLevelId) {
+				if($scope.scenario.type === 'Action') {
+					ManageScenariosService.getModelingPeriod(timeLevelId).then(function(periods) {
+						$scope.modelingPeriod = periods;
+						$scope.fromDate = _.find(periods, function(period) {
+							return period.id === $scope.scenario.modellingStartTime;
+						});
+						$scope.toDate = _.find(periods, function(period) {
+							return period.id === $scope.scenario.modellingEndTime;
+						});
+					});
+				}
+			},updateScenario = function() {
+				ScenarioService.setModelingTime($scope.project.uuid, $scope.scenario).then(function(scenario) {
+					console.log(scenario);
 				});
 			};
 
@@ -64,6 +81,26 @@ angular.module('ThreeSixtyOneView')
 			});
 		};
 
-		init();
+		$scope.setFromDate = function(time) {
+			$scope.fromDate = time;
+			$scope.scenario.modellingStartTime = time.id;
+			updateScenario();
+		};
 
+		$scope.setToDate = function(time) {
+			$scope.toDate = time;
+			$scope.scenario.modellingEndTime = time.id;
+			updateScenario();
+		};
+
+		$scope.$on(EVENTS.dimensionsReady, function(event, dimensions) {
+			var timeDimension, timeLevelId;
+			timeDimension = _.filter(dimensions, function(dimension) {
+				return dimension.type === 'TimeDimension';
+			})[0];
+			timeLevelId = timeDimension.members[timeDimension.members.length - 1].id;
+			getModelingPeriod(5);
+		});
+
+		init();
 	}]);

@@ -22,6 +22,7 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     scenarioElementChange: "PivotBuilderCtrl:loadCube",
     pivotTableStatusChange: "ScenarioCtrl:pivotTableStatusChange",
     pivotViewChange: "PivotBuilderCtrl:pivotViewChange",
+    dimensionsReady: 'dimensionsReady',
     // ERRORS
     noDataReceived: "ErrorService:noDataReceived",
     serverError: "ErrorService:serverError",

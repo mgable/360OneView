@@ -41,6 +41,9 @@ angular.module('ThreeSixtyOneView')
 					$scope.draftView = foundView.isDraft;
 				}
 
+				// broadcast dimension for Action analysis element toolbar
+				$rootScope.$broadcast(EVENTS.dimensionsReady, result.dimensions);
+
 				angular.extend($scope, result);
 				$scope.viewName = result.viewData.name;
 
