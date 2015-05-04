@@ -80,6 +80,13 @@ angular.module('ThreeSixtyOneView')
                         $scope.scenario.prediction  = baseScenario.prediction;
                         $scope.scenario.type = baseScenario.type;
                         $scope.scenario.isPlanOfRecord = false;
+                        if(baseScenario.type === 'Action') {
+                            $scope.scenario.modellingStartTime = baseScenario.modellingStartTime;
+                            $scope.scenario.modellingEndTime = baseScenario.modellingEndTime;
+                        } else {
+                            delete $scope.scenario.modellingStartTime;
+                            delete $scope.scenario.modellingEndTime;
+                        }
 
                         $scope.setScenario($scope.scenario.referenceScenario);
                     });
@@ -131,6 +138,13 @@ angular.module('ThreeSixtyOneView')
             $scope.scenario.referenceScenario.type = selectedBaseScenario.type;
             $scope.scenario.template  = selectedBaseScenario.template;
             $scope.showFields = true;
+            if(selectedBaseScenario.type === 'Action') {
+                $scope.scenario.modellingStartTime = selectedBaseScenario.modellingStartTime;
+                $scope.scenario.modellingEndTime = selectedBaseScenario.modellingEndTime;
+            } else {
+                delete $scenario.modellingStartTime;
+                delete $scope.scenario.modellingEndTime;
+            }
         };
 
         $scope.cancel = function(){
