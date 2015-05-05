@@ -7,10 +7,10 @@ angular.module('ThreeSixtyOneView.directives')
 		restrict: 'A',
 		scope: {
 			comparisonModel: "&validator",
-			errorType: "@"
+			errorType: "="
 		},
 		link: function postLink(scope, element, attrs, ctrl) {
-			
+	
 			var validate = function(viewValue) {
 					if(!viewValue || !scope.comparisonModel){
 

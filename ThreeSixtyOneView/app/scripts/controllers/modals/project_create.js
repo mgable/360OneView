@@ -3,10 +3,11 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-    .controller('ProjectCreateCtrl', ["$scope", "$rootScope", "$controller", "$modalInstance", "CONFIG", "EVENTS", function($scope, $rootScope, $controller, $modalInstance, CONFIG, EVENTS) {
-        angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
-        // var newProject = CONFIG.application.models.ProjectsModel.newProject;
+    .controller('ProjectCreateCtrl', ["data" ,"$scope", "$rootScope", "$controller", "$modalInstance", "EVENTS", function(data, $scope, $rootScope, $controller, $modalInstance, EVENTS) {
 
+        angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, data: data, $modalInstance: $modalInstance}));
+
+        
         $scope.modalProperties = {
             title: "Create a New Project",
             field: "Name",

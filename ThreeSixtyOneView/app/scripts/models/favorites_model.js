@@ -32,7 +32,6 @@ angular.module('ThreeSixtyOneView.services').factory('FavoritesModel', ["$timeou
             setAsFavorite: function(id, type, item) {
                 var params = {};
                 params[type === "project" ? "uuid" : "id"] = id;
-                console.info(id, type, item);
                 if (type !== "project"){
                     params.type = item.type;
                 }
@@ -51,6 +50,7 @@ angular.module('ThreeSixtyOneView.services').factory('FavoritesModel', ["$timeou
             },
             get: function(type){
                 this.unwrap(this.resource.get("", this.config, type));
+                 console.info(this.data);
                 return this.$futureData;
             },
             getFavoritesScenarios: function(projectId){

@@ -7,9 +7,9 @@
 			<form class="main-content scenario-create" name="ScenarioCreate" id="ScenarioCreate" novalidate>
 				<div class="inputGroup" ng-show="showFields">
 					<label>Enter Scenario Name
-						<input type="text" focus placeholder="Enter Scenario Name" required ng-maxlength="256" ng-minlength="2" ng-pattern='inputRestrictions.characterRestrictions' validator="isScenarioTitleUnique" error-type="isUnique" ng-model="scenario.name" data-ms-id="ScenarioCreate.inputName"/>
-						<div class="alert alert-danger" ng-show="ScenarioCreate.$error.isUnique" role="alert">
-							The scenario name &quot;{{scenario.name}}&quot; has been taken. Please choose another name.
+						<input type="text" focus placeholder="Enter Scenario Name" required ng-maxlength="256" ng-minlength="2" ng-pattern='inputRestrictions.characterRestrictions' validator="isScenarioTitleUnique" error-type="'isNotUnique'" ng-model="scenario.name" data-ms-id="ScenarioCreate.inputName"/>
+						<div class="alert alert-danger" role="alert" ng-if="ScenarioCreate.$invalid && ScenarioCreate.$dirty">
+							{{getError(ScenarioCreate.$error)}}
 						</div>
 					</label>
 					<label>Enter Description (Optional)

@@ -792,11 +792,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t<label>Enter Scenario Name\r" +
     "\n" +
-    "\t\t\t\t\t\t<input type=\"text\" focus placeholder=\"Enter Scenario Name\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' validator=\"isScenarioTitleUnique\" error-type=\"isUnique\" ng-model=\"scenario.name\" data-ms-id=\"ScenarioCreate.inputName\"/>\r" +
+    "\t\t\t\t\t\t<input type=\"text\" focus placeholder=\"Enter Scenario Name\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' validator=\"isScenarioTitleUnique\" error-type=\"'isNotUnique'\" ng-model=\"scenario.name\" data-ms-id=\"ScenarioCreate.inputName\"/>\r" +
     "\n" +
-    "\t\t\t\t\t\t<div class=\"alert alert-danger\" ng-show=\"ScenarioCreate.$error.isUnique\" role=\"alert\">\r" +
+    "\t\t\t\t\t\t<div class=\"alert alert-danger\" role=\"alert\" ng-if=\"ScenarioCreate.$invalid && ScenarioCreate.$dirty\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\tThe scenario name &quot;{{scenario.name}}&quot; has been taken. Please choose another name.\r" +
+    "\t\t\t\t\t\t\t{{getError(ScenarioCreate.$error)}}\r" +
     "\n" +
     "\t\t\t\t\t\t</div>\r" +
     "\n" +
@@ -1029,6 +1029,12 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t\t\t<input type=\"text\" class=\"form-control\" id=\"inputField\" ng-model=\"item.name\" focus required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' validator=\"validator\" error-type=\"errorType\"/>\r" +
     "\n" +
     "\t\t\t\t\t</label>\r" +
+    "\n" +
+    "\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t<div class=\"alert alert-danger\" role=\"alert\" ng-if=\"nameDialog.$invalid && nameDialog.$dirty\">\r" +
+    "\n" +
+    "\t\t\t\t\t{{getError(nameDialog.$error)}}\r" +
     "\n" +
     "\t\t\t\t</div>\r" +
     "\n" +
