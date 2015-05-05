@@ -3,9 +3,9 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-.controller("SelectModuleCtrl", ["$scope", "$rootScope", "$controller", "$modalInstance", "data", "CONFIG",
-	function($scope, $rootScope, $controller, $modalInstance, data, CONFIG) {
-		angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+.controller("SelectModuleCtrl", ["$scope", "$rootScope", "$controller", "$modalInstance", "data",
+	function($scope, $rootScope, $controller, $modalInstance, data) {
+		angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, data: data}));
 
 		var init = function() {
 			$scope.modules = data.modules;
