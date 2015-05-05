@@ -5,7 +5,8 @@
 angular.module('ThreeSixtyOneView')
     .controller('ScenarioCreateCtrl', ["$scope", "$modalInstance", "$controller", "data", "ScenarioService", "CONFIG", "EVENTS", "GotoService", '$filter', 'ManageTemplatesService',
         function($scope, $modalInstance, $controller, data, ScenarioService, CONFIG, EVENTS, GotoService, $filter, ManageTemplatesService) {
-        angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+        
+        angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, data: data}));
 
         var findBaseScenario = function(project, templateIds){
                 return _.find(project.data, function(scenario){return (/simulation/i).test(scenario.prediction.type) && (templateIds.indexOf(scenario.template.id) > -1);});
@@ -122,8 +123,6 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.showRow = function(item){
-            console.info(item.id);
-            console.info(selectedBaseScenario.id);
             return item.id === selectedBaseScenario.id;
         };
 

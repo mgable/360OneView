@@ -12,7 +12,7 @@ angular.module('ThreeSixtyOneView.services')
         favs = new model(FavoritesModel);
         angular.extend(this, favs);
 
-        this.data = [];
+        //this.data = [];
 
         this.removeFavorite = function(itemID) {
             if (_.indexOf(this.data, itemID) > -1) {
