@@ -441,7 +441,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t\t<label>Enter Scenario Name\n" +
     "\t\t\t\t\t\t<input type=\"text\" focus placeholder=\"Enter Scenario Name\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' validator=\"isScenarioTitleUnique\" error-type=\"isUnique\" ng-model=\"scenario.name\" data-ms-id=\"ScenarioCreate.inputName\"/>\n" +
     "\t\t\t\t\t\t<div class=\"alert alert-danger\" ng-show=\"ScenarioCreate.$error.isUnique\" role=\"alert\">\n" +
-    "\t\t\t\t\t\t\tThe scenario name &quot;{{scenario.name}&quot; has been taken. Please choose another name.\n" +
+    "\t\t\t\t\t\t\tThe scenario name &quot;{{scenario.name}}&quot; has been taken. Please choose another name.\n" +
     "\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t</label>\n" +
     "\t\t\t\t\t<label>Enter Description (Optional)\n" +
@@ -561,9 +561,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t<div class=\"body\" ui-keypress=\"{13: 'submit(item.name, $event)'}\">\n" +
     "\t\t<div class=\"content\">\n" +
     "\t\t\t<form class=\"main-content\" name=\"nameDialog\" novalidate role=\"form\">\n" +
-    "\t\t\t\t<div class=\"form-group input-group-lg\" ng-class=\"{true: 'has-error'}[nameDialog.username.$dirty && nameDialog.username.$invalid]\">\n" +
+    "\t\t\t\t<div class=\"form-group input-group-lg\" ng-class=\"{'has-error': nameDialog.$invalid}\">\n" +
     "\t\t\t\t\t<label class=\"control-label\" for=\"inputField\">{{modalProperties.field}}:\n" +
-    "\t\t\t\t\t\t<input type=\"text\" class=\"form-control\" id=\"inputField\" ng-model=\"item.name\" focus required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions'/>\n" +
+    "\t\t\t\t\t\t<input type=\"text\" class=\"form-control\" id=\"inputField\" ng-model=\"item.name\" focus required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' validator=\"validator\" error-type=\"errorType\"/>\n" +
     "\t\t\t\t\t</label>\n" +
     "\t\t\t\t</div>\n" +
     "\t\t\t</form>\n" +

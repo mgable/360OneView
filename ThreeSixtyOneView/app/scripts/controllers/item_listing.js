@@ -56,9 +56,9 @@ angular.module('ThreeSixtyOneView')
             DialogService.openCreateScenario($scope.project, $scope.scenarios);
         };
 
-        $scope.isScenarioTitleUnique = function(scenarioName) {
-            return !_.findWhere($scope.scenarios, {name: scenarioName});
-        };
+        // $scope.isScenarioTitleUnique = function(scenarioName) {
+        //     return !_.findWhere($scope.scenarios, {name: scenarioName});
+        // };
 
         $scope.gotoBaseScenario = function(scenario){
             ScenarioService.getProjectIdByScenarioId(scenario.id).then(function(project){
@@ -76,7 +76,9 @@ angular.module('ThreeSixtyOneView')
         });
 
         $scope.$on(EVENTS.copyScenario, function(evt, scenario){
+            // sanaize scenario by deleting id and making sure it has a description
             delete scenario.id;
+            scenario.description = scenario.description || "";
             ScenarioService.create(getProject().uuid, scenario).then(function(response){
                 $scope.goto(evt, 'gotoScenarioEdit', response);
             });
@@ -265,12 +267,18 @@ angular.module('ThreeSixtyOneView')
             }
         };
 
+        $scope.isScenarioTitleUnique = function(scenarioName) {
+            return !_.findWhere($scope.scenarios, {name: scenarioName});
+        };
+
         // tray event listeners
         $scope.$on(EVENTS.filter, function(){
             selectFirstItem();
         });
 
         $scope.$on(EVENTS.trayCopy, function(evt, action, data){
+            data.validator = $scope.isScenarioTitleUnique;
+            data.errorType = "isUnique";
             if (data){
                 DialogService[action](data);
             } else {
