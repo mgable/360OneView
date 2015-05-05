@@ -193,7 +193,7 @@ if(funcs.runTheseTests(testName)){
 						browser.waitForAngular();
 						scenarioTitle.getText().then(function(scenarioTitle){
 							specs.modalInputField.getAttribute("value").then(function(inputText){
-								expect(scenarioTitle).toEqual(inputText);
+								expect("COPY -- " + scenarioTitle).toEqual(inputText);
 								specs.modalInputField.clear();
 								specs.modalInputField.sendKeys(specs.testScenarionNameSecond);
 
