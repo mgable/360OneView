@@ -5,7 +5,7 @@
 angular.module('ThreeSixtyOneView')
     .controller('ScenarioAnalysisElementCopyCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG", "data",
     function($scope, $controller, $modalInstance, CONFIG, data) {
-        angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+        angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG, data: data}));
 
         var init = function() {
             $scope.selectedScenarioElement = data.selectedScenarioElement;

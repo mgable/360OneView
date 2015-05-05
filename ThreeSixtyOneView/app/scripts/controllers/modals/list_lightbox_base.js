@@ -3,8 +3,8 @@
 
 angular.module('ThreeSixtyOneView')
 .controller('ListLightboxBaseCtrl', ["$scope", "$controller", "$modalInstance", "CONFIG",
-function($scope, $controller, $modalInstance, CONFIG, data, MetaDataService) {        
-	angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+function($scope, $controller, $modalInstance, CONFIG, data, MetaDataService) {
+	angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG, data: {}}));
 
 	$scope.list = [];
 	$scope.isListLoaded = false;
