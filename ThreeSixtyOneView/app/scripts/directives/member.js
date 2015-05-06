@@ -6,7 +6,8 @@
  * @description
  * # member
  */
-angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', function($compile) {
+angular.module('ThreeSixtyOneView.directives')
+.directive('member', ['$compile', function($compile) {
 	return {
 		restrict: 'E',
 		replace: true,
@@ -113,49 +114,52 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 	return {
 		restrict: 'AE',
 		transclude: true,
-		template: '<div style="position:relative;">{{list.length}}<ng-transclude></ng-transclude></div>',
+		template: '<div style="position:relative;"><ng-transclude></ng-transclude></div>',
 		link: function(scope, element, attrs) {
 			var itemHeight = 0,
 				viewportHeight = 0,
 				scrollTop = 0,
 				scrolling = false,
-				callbackDelay = 100,
-				displayBuffer = 100,
-				parts = attrs.virtualRepeat.match(/\b([a-z0-9]+)\b/ig),
+				callbackDelay = 75,
+				displayBuffer = 50,
 				list = [],
-				// list = scope[parts[0]][parts[1]],
+				multiLevel = false,
+				heightWatch = angular.noop,
 				init = function() {
-					var scrollerTimeout;
-
-					// scope.virtualRepeat = list.slice(0, 1);
-					scope.$watch(function() {
+					heightWatch = scope.$watch(function() {
 						if(itemHeight === 0 && element.height() > 0) {
 							viewportHeight = element.parent().height();
 							itemHeight = element.height();
 							setHeight(itemHeight, list.length);
-							scrollCallback();
+							updateDOM();
 						}
 					});
 
-
-					element.parent().scroll(function() {
-						if(!scrolling) {
-							scrolling = true;
-							scrollerTimeout = $timeout(scrollCallback, callbackDelay);
-						} else {
-							$timeout.cancel(scrollerTimeout);
-							scrollerTimeout = $timeout(scrollCallback, callbackDelay);
-						}
-					});
 					scope.$watch(attrs.virtualRepeat, function(newValue) {
-						list = newValue;
-						if(itemHeight === 0) {
-							findElementHeight();
-							return;
+						if(multiLevel) {
+							scope.virtualRepeat = newValue;
+						} else {
+							list = newValue;
+							$('.list-box').scrollTop(0);
+
+							if(list[0].members.length > 0) {
+								scope.multiLevelList(true);
+								multiLevel = true;
+								element.parent().off('scroll');
+								element.height(0);
+								heightWatch();
+								scope.virtualRepeat = list;
+							} else {
+								if(itemHeight === 0) {
+									findElementHeight();
+									setScrollEvent();
+								} else {
+									scrollTop = 0;
+									setHeight(itemHeight, list.length, 'watch');
+									updateDOM();
+								}
+							}
 						}
-						setHeight(itemHeight, list.length, 'watch');
-						scrollTop = 0;
-						scrollCallback();
 					});
 				},
 			findElementHeight = function() {
@@ -164,17 +168,30 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 			setHeight = function(itemHeight, numItems) {
 				element.height(itemHeight * numItems);
 			},
-			scrollCallback = function() {
+			updateDOM = function() {
 				var newScrollTop = $('.list-box').scrollTop();
 				scrolling = false;
-				if((newScrollTop < scrollTop + displayBuffer*itemHeight && newScrollTop > scrollTop) && scrollTop > 0) {
-					return;
-				}
+				// if((newScrollTop < scrollTop + displayBuffer*itemHeight && newScrollTop > scrollTop) && scrollTop > 0) {
+				// 	return;
+				// }
 				scrollTop = $('.list-box').scrollTop();
 				var startItem = Math.floor(scrollTop/itemHeight);
 				scope.virtualRepeat = list.slice(startItem, startItem + displayBuffer);
 				$compile('<div style="position:absolute;top:'+scrollTop+'px"><member ng-repeat="member in virtualRepeat" member="member" filters="addedFilter" category="{label: selectedFilter.dimension.label}"  expanded="expanded" expandall="filterSearch" updater="categorizeValuesCount(index, addedFilters)" dimensionindex="selectedDimensionIndex"></member></div>')(scope, function(cloned) {
 					element.children().eq(0).replaceWith(cloned);
+				});
+			},
+			setScrollEvent = function() {
+				var scrollerTimeout;
+
+				element.parent().scroll(function() {
+					if(!scrolling) {
+						scrolling = true;
+						scrollerTimeout = $timeout(updateDOM, callbackDelay);
+					} else {
+						$timeout.cancel(scrollerTimeout);
+						scrollerTimeout = $timeout(updateDOM, callbackDelay);
+					}
 				});
 			};
 

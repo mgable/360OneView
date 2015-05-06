@@ -11,6 +11,7 @@ angular.module('ThreeSixtyOneView')
 			$scope.addedFilter = data.addedFilters;
 			$scope.e2e = data.e2e;
 
+			$scope.isListMultiLevel = false;
 			$scope.categorizedValue = [];
 			$scope.filterSearch = {label: ''};
 			$scope.emptyFiltersList = [];
@@ -241,6 +242,14 @@ angular.module('ThreeSixtyOneView')
 
 		$scope.isDimensionSignleMembered = function(dimension) {
 			return dimension.members.length === 1;
+		};
+
+		$scope.multiLevelList = function(status) {
+			if(typeof status !== 'undefined') {
+				$scope.isListMultiLevel = status;
+			}
+
+			return $scope.isListMultiLevel;
 		};
 
 		init();
