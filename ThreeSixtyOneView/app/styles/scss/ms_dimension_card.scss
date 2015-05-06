@@ -18,6 +18,10 @@
         }
         .children-checkbox {
             padding-left: 20px;
+            &.disabled {
+                cursor: default;
+                color: $ms-gray;
+            }
         }
     }
     .dimensionFilter {

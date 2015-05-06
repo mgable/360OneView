@@ -4,10 +4,11 @@
 
 angular.module('ThreeSixtyOneView')
     .controller("ScenarioCopyCtrl", ["$scope", "$rootScope", "$controller", "$modalInstance", "data", "CONFIG", "EVENTS", function($scope, $rootScope, $controller, $modalInstance, data, CONFIG, EVENTS) {
-        angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+        angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, data: data}));
 
-        $scope.item = data;
+        $scope.item = angular.copy(data);
         $scope.item.name = "COPY -- " + $scope.item.name;
+
         $scope.modalProperties = {
             title: "Copy a Scenario",
             field: "Name",
@@ -21,4 +22,10 @@ angular.module('ThreeSixtyOneView')
             $rootScope.$broadcast(EVENTS.copyScenario, $scope.item);
             $modalInstance.dismiss('create');
          };
+
+        $scope.close = function(evt) {
+            if (evt) { evt.preventDefault(); }
+
+            $modalInstance.dismiss('canceled');
+        };
     }]);

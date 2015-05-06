@@ -280,15 +280,15 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "                <div class=\"clearfix\" ng-if=\"$index % 3 == 0\"></div>\r" +
     "\n" +
-    "                <div class=\"col-md-4 children-checkbox ms-checkbox no-select\">\r" +
+    "                <div class=\"col-md-4 children-checkbox ms-checkbox no-select\" ng-class=\"{'disabled': item.required}\">\r" +
+    "\n" +
+    "                    <icon type=\"lock\" class=\"pull-left ms-checkbox-lock\" ng-if=\"item.required\"></icon>\r" +
     "\n" +
     "                    <label>\r" +
     "\n" +
     "                        <input type=\"checkbox\" ng-model=\"item.isSelected\" ng-disabled=\"item.required\"><i></i><span class=\"capitalized\">{{item.label}}</span>\r" +
     "\n" +
     "                    </label>\r" +
-    "\n" +
-    "                    <icon type=\"lock\" class=\"pull-right ms-checkbox-lock\" ng-if=\"item.required\"></icon>\r" +
     "\n" +
     "                </div>\r" +
     "\n" +
@@ -798,11 +798,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t<label>Enter Scenario Name\r" +
     "\n" +
-    "\t\t\t\t\t\t<input type=\"text\" focus placeholder=\"Enter Scenario Name\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' validator=\"isScenarioTitleUnique\" error-type=\"isUnique\" ng-model=\"scenario.name\" data-ms-id=\"ScenarioCreate.inputName\"/>\r" +
+    "\t\t\t\t\t\t<input type=\"text\" focus placeholder=\"Enter Scenario Name\" required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' validator=\"isScenarioTitleUnique\" error-type=\"'isNotUnique'\" ng-model=\"scenario.name\" data-ms-id=\"ScenarioCreate.inputName\"/>\r" +
     "\n" +
-    "\t\t\t\t\t\t<div class=\"alert alert-danger\" ng-show=\"ScenarioCreate.$error.isUnique\" role=\"alert\">\r" +
+    "\t\t\t\t\t\t<div class=\"alert alert-danger\" role=\"alert\" ng-if=\"ScenarioCreate.$invalid && ScenarioCreate.$dirty\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\tThe scenario name &quot;{{scenario.name}&quot; has been taken. Please choose another name.\r" +
+    "\t\t\t\t\t\t\t{{getError(ScenarioCreate.$error)}}\r" +
     "\n" +
     "\t\t\t\t\t\t</div>\r" +
     "\n" +
@@ -1028,13 +1028,19 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t<form class=\"main-content\" name=\"nameDialog\" novalidate role=\"form\">\r" +
     "\n" +
-    "\t\t\t\t<div class=\"form-group input-group-lg\" ng-class=\"{true: 'has-error'}[nameDialog.username.$dirty && nameDialog.username.$invalid]\">\r" +
+    "\t\t\t\t<div class=\"form-group input-group-lg\" ng-class=\"{'has-error': nameDialog.$invalid}\">\r" +
     "\n" +
     "\t\t\t\t\t<label class=\"control-label\" for=\"inputField\">{{modalProperties.field}}:\r" +
     "\n" +
-    "\t\t\t\t\t\t<input type=\"text\" class=\"form-control\" id=\"inputField\" ng-model=\"item.name\" focus required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions'/>\r" +
+    "\t\t\t\t\t\t<input type=\"text\" class=\"form-control\" id=\"inputField\" ng-model=\"item.name\" focus required ng-maxlength=\"256\" ng-minlength=\"2\" ng-pattern='inputRestrictions.characterRestrictions' validator=\"validator\" error-type=\"errorType\"/>\r" +
     "\n" +
     "\t\t\t\t\t</label>\r" +
+    "\n" +
+    "\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t<div class=\"alert alert-danger\" role=\"alert\" ng-if=\"nameDialog.$invalid && nameDialog.$dirty\">\r" +
+    "\n" +
+    "\t\t\t\t\t{{getError(nameDialog.$error)}}\r" +
     "\n" +
     "\t\t\t\t</div>\r" +
     "\n" +

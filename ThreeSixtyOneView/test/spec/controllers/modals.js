@@ -23,7 +23,8 @@ describe('Controllers: Modals: ', function() {
             ctrl = $controller('ProjectCreateCtrl', {
                 $scope: scope,
                 $modalInstance: modalInstance,
-                modalProperties: modalInstance
+                modalProperties: modalInstance,
+                data: {}
             });
 
         }));

@@ -5,10 +5,13 @@
 	<div class="body" ui-keypress="{13: 'submit(item.name, $event)'}">
 		<div class="content">
 			<form class="main-content" name="nameDialog" novalidate role="form">
-				<div class="form-group input-group-lg" ng-class="{true: 'has-error'}[nameDialog.username.$dirty && nameDialog.username.$invalid]">
+				<div class="form-group input-group-lg" ng-class="{'has-error': nameDialog.$invalid}">
 					<label class="control-label" for="inputField">{{modalProperties.field}}:
-						<input type="text" class="form-control" id="inputField" ng-model="item.name" focus required ng-maxlength="256" ng-minlength="2" ng-pattern='inputRestrictions.characterRestrictions'/>
+						<input type="text" class="form-control" id="inputField" ng-model="item.name" focus required ng-maxlength="256" ng-minlength="2" ng-pattern='inputRestrictions.characterRestrictions' validator="validator" error-type="errorType"/>
 					</label>
+				</div>
+				<div class="alert alert-danger" role="alert" ng-if="nameDialog.$invalid && nameDialog.$dirty">
+					{{getError(nameDialog.$error)}}
 				</div>
 			</form>
 		</div>

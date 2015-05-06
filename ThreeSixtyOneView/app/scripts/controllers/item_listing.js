@@ -56,9 +56,9 @@ angular.module('ThreeSixtyOneView')
             DialogService.openCreateScenario($scope.project, $scope.scenarios);
         };
 
-        $scope.isScenarioTitleUnique = function(scenarioName) {
-            return !_.findWhere($scope.scenarios, {name: scenarioName});
-        };
+        // $scope.isScenarioTitleUnique = function(scenarioName) {
+        //     return !_.findWhere($scope.scenarios, {name: scenarioName});
+        // };
 
         $scope.gotoBaseScenario = function(scenario){
             ScenarioService.getProjectIdByScenarioId(scenario.id).then(function(project){
@@ -76,7 +76,9 @@ angular.module('ThreeSixtyOneView')
         });
 
         $scope.$on(EVENTS.copyScenario, function(evt, scenario){
+            // sanaize scenario by deleting id and making sure it has a description
             delete scenario.id;
+            scenario.description = scenario.description || "";
             ScenarioService.create(getProject().uuid, scenario).then(function(response){
                 $scope.goto(evt, 'gotoScenarioEdit', response);
             });
@@ -105,13 +107,19 @@ angular.module('ThreeSixtyOneView')
         });
 
         init(Project, Scenarios);
-    }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "GotoService", "DialogService", "EVENTS", "CONFIG", function($scope, $controller, FavoritesService, ProjectsService, ScenarioService, Projects,  GotoService, DialogService, EVENTS, CONFIG) {
+    }]).controller("ProjectListingCtrl", ["$scope",  "$controller", "FavoritesService", "ProjectsService", "ScenarioService", "Projects", "GotoService", "DialogService", "EVENTS", "CONFIG", "$timeout", function($scope, $controller, FavoritesService, ProjectsService, ScenarioService, Projects,  GotoService, DialogService, EVENTS, CONFIG, $timeout) {
 
         // Inherit from base class
         angular.extend(this, $controller('ListingViewCtrl', {$scope: $scope}));
 
         var init = function(){
             $scope.init(Projects, getProject);
+            ProjectsService.getMasterProject().then(function(master) {
+                if (master) { 
+                    // add it to even queue to keep it from getting in before the all other favorites 
+                    $timeout(function() {FavoritesService.addFavorite(master.uuid);})
+                }
+            });
         },
         getScenarios = function(id){
             return ScenarioService.get(id);
@@ -227,7 +235,9 @@ angular.module('ThreeSixtyOneView')
             SortAndFilterService.setFilter(type, item, forceFilter);
         };
 
-        $scope.create = function(action, data) {
+        $scope.create = function(action, _data_) {
+            console.info("here!!!!!!");
+            var data = _data_ || {};
             $rootScope.$broadcast(EVENTS[action], data);
         };
 
@@ -247,7 +257,8 @@ angular.module('ThreeSixtyOneView')
 
         // tray button actions
         // NOT inline edit action
-         $scope.action = function(action, data){
+         $scope.action = function(action, _data_){
+            var data = _data_ || {};
             if(action){
                 $rootScope.$broadcast(EVENTS[action], action, data);
             }
@@ -265,12 +276,18 @@ angular.module('ThreeSixtyOneView')
             }
         };
 
+        $scope.isScenarioTitleUnique = function(scenarioName) {
+            return !_.findWhere($scope.scenarios, {name: scenarioName});
+        };
+
         // tray event listeners
         $scope.$on(EVENTS.filter, function(){
             selectFirstItem();
         });
 
         $scope.$on(EVENTS.trayCopy, function(evt, action, data){
+            data.validator = $scope.isScenarioTitleUnique;
+            data.errorType = "isNotUnique";
             if (data){
                 DialogService[action](data);
             } else {

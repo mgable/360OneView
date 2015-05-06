@@ -3,7 +3,7 @@
 angular.module('ThreeSixtyOneView')
 .controller('ScenarioTemplatesViewsCtrl', ['$scope', '$rootScope', '$controller', '$modalInstance', 'CONFIG', 'EVENTS', 'data', 'ManageTemplatesService', 'DimensionService', 'ManageScenariosService', 'PivotMetaService', 'MetaDataService', 'ScenarioService', 'AnalyticCalculationsService',
 	function($scope, $rootScope, $controller, $modalInstance, CONFIG, EVENTS, data, ManageTemplatesService, DimensionService, ManageScenariosService, PivotMetaService, MetaDataService, ScenarioService, AnalyticCalculationsService) {
-	angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $controller: $controller, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+	angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, data: data}));
 
 	var init = function() {
 		$scope.CONFIG = CONFIG;

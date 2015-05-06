@@ -10,21 +10,21 @@
 angular.module('ThreeSixtyOneView')
     .controller('NameAndDescribeCtrl', ["$scope", "EVENTS", function($scope, EVENTS) {
 
-        $scope.$on(EVENTS.dimensionsIsLoaded, function() {
-            if ($scope.template.description && $scope.template.description.length > 0){
+        $scope.$watch("template.name", function(){
+            if ($scope.template.name && $scope.template.name.length > 0 && $scope.dimensionsIsLoaded){
                 $scope.$emit(EVENTS.flipbookAllowAdvance, true);
             } else {
-                $scope.$watch("template.description", function(){
-                    if ($scope.template.description && $scope.template.description.length > 0){
-                        $scope.$emit(EVENTS.flipbookAllowAdvance, true);
-                    } else {
-                        $scope.$emit(EVENTS.flipbookAllowAdvance, false);
-                    }
-                });
+                $scope.$emit(EVENTS.flipbookAllowAdvance, false);
             }
         });
 
     	$scope.$on(EVENTS.flipbookAdvance, function() {
 			$scope.createDraftTemplate();
 		});
+
+        $scope.$on(EVENTS.dimensionsIsLoaded, function() {
+             if ($scope.template.name && $scope.template.name.length > 0){
+                $scope.$emit(EVENTS.flipbookAllowAdvance, true);
+            } 
+        });
     }]);

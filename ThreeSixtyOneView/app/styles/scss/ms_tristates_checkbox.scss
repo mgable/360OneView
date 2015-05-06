@@ -3,7 +3,9 @@
 $icon-size:14px;
 .ms-checkbox {
     margin-bottom: 8px;
-    i.ms-checkbox-lock { color: $ms-blue; }
+    i.ms-checkbox-lock {
+        margin-right: 5px;
+    }
     label {
         display: inline-block;
         position: relative;
@@ -44,5 +46,8 @@ $icon-size:14px;
     input[type="checkbox"]:indeterminate + i + span, input[type="checkbox"]:indeterminate + i:before,
     input[type="checkbox"]:checked + i + span, input[type="checkbox"]:checked + i:before {
         color: $ms-blue;
+    }
+    input[type="checkbox"]:disabled + i + span, input[type="checkbox"]:disabled + i:before {
+        color: $ms-gray;
     }
 }

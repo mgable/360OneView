@@ -3,7 +3,7 @@
 angular.module('ThreeSixtyOneView')
 	.controller('FilterSelectionCtrl', ["$scope", "$window", "$rootScope", "$modalInstance", "$controller", "data", "CONFIG", "PivotMetaService",
 	function($scope, $window, $rootScope, $modalInstance, $controller, data, CONFIG, PivotMetaService) {
-		angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG}));
+		angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG, data: data}));
 
 		var init = function() {
 			$scope.selectedFilter = {};
