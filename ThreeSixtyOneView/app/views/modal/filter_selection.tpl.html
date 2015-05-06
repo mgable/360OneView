@@ -59,10 +59,13 @@
 						({{filterCount.selected}}/{{filterCount.total}})
 					</div>
 				</div>
-				<div class="list-box">
-					<div class="list" ng-if="searchResults.members">
-						<member ng-repeat="member in searchResults.members | orderBy:'label'" member="member" filters="addedFilter" category="{label: selectedFilter.dimension.label}"  expanded="expanded" expandall="filterSearch" updater="categorizeValuesCount(index, addedFilters)" dimensionindex="selectedDimensionIndex"></member>
-					</div>
+				<div class="list-box" style="position: relative;">
+					<!-- <div class="list" ng-if="searchResults.members"> -->
+						<!-- <member ng-repeat="member in searchResults.members | orderBy:'label'" member="member" filters="addedFilter" category="{label: selectedFilter.dimension.label}"  expanded="expanded" expandall="filterSearch" updater="categorizeValuesCount(index, addedFilters)" dimensionindex="selectedDimensionIndex"></member> -->
+						<div class="list" ng-if="searchResults.members" virtual-repeat="searchResults.members" list="searchResults.members">
+							<member ng-repeat="member in virtualRepeat" member="member" filters="addedFilter" category="{label: selectedFilter.dimension.label}"  expanded="expanded" expandall="filterSearch" updater="categorizeValuesCount(index, addedFilters)" dimensionindex="selectedDimensionIndex"></member>
+						</div>
+					<!-- </div> -->
 				</div>
 			</div>
 			<div class="action-buttons">

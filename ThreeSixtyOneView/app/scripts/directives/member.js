@@ -108,4 +108,77 @@ angular.module('ThreeSixtyOneView.directives').directive('member', ['$compile', 
 			}
 		}
 	};
+}])
+.directive('virtualRepeat', ['$compile', '$timeout', function($compile, $timeout) {
+	return {
+		restrict: 'AE',
+		transclude: true,
+		template: '<div style="position:relative;">{{list.length}}<ng-transclude></ng-transclude></div>',
+		link: function(scope, element, attrs) {
+			var itemHeight = 0,
+				viewportHeight = 0,
+				scrollTop = 0,
+				scrolling = false,
+				callbackDelay = 100,
+				displayBuffer = 100,
+				parts = attrs.virtualRepeat.match(/\b([a-z0-9]+)\b/ig),
+				list = [],
+				// list = scope[parts[0]][parts[1]],
+				init = function() {
+					var scrollerTimeout;
+
+					// scope.virtualRepeat = list.slice(0, 1);
+					scope.$watch(function() {
+						if(itemHeight === 0 && element.height() > 0) {
+							viewportHeight = element.parent().height();
+							itemHeight = element.height();
+							setHeight(itemHeight, list.length);
+							scrollCallback();
+						}
+					});
+
+
+					element.parent().scroll(function() {
+						if(!scrolling) {
+							scrolling = true;
+							scrollerTimeout = $timeout(scrollCallback, callbackDelay);
+						} else {
+							$timeout.cancel(scrollerTimeout);
+							scrollerTimeout = $timeout(scrollCallback, callbackDelay);
+						}
+					});
+					scope.$watch(attrs.virtualRepeat, function(newValue) {
+						list = newValue;
+						if(itemHeight === 0) {
+							findElementHeight();
+							return;
+						}
+						setHeight(itemHeight, list.length, 'watch');
+						scrollTop = 0;
+						scrollCallback();
+					});
+				},
+			findElementHeight = function() {
+				scope.virtualRepeat = list.slice(0, 1);
+			},
+			setHeight = function(itemHeight, numItems) {
+				element.height(itemHeight * numItems);
+			},
+			scrollCallback = function() {
+				var newScrollTop = $('.list-box').scrollTop();
+				scrolling = false;
+				if((newScrollTop < scrollTop + displayBuffer*itemHeight && newScrollTop > scrollTop) && scrollTop > 0) {
+					return;
+				}
+				scrollTop = $('.list-box').scrollTop();
+				var startItem = Math.floor(scrollTop/itemHeight);
+				scope.virtualRepeat = list.slice(startItem, startItem + displayBuffer);
+				$compile('<div style="position:absolute;top:'+scrollTop+'px"><member ng-repeat="member in virtualRepeat" member="member" filters="addedFilter" category="{label: selectedFilter.dimension.label}"  expanded="expanded" expandall="filterSearch" updater="categorizeValuesCount(index, addedFilters)" dimensionindex="selectedDimensionIndex"></member></div>')(scope, function(cloned) {
+					element.children().eq(0).replaceWith(cloned);
+				});
+			};
+
+			init();
+		}
+	};
 }]);
