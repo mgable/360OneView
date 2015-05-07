@@ -307,21 +307,25 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "    <div class=\"dimensionCheckbox\">\r" +
     "\n" +
-    "        <div class=\"parent-checkbox ms-checkbox no-select\">\r" +
+    "        <div class=\"parent-checkbox ms-checkbox no-select\" ng-class=\"{'disabled': isMeasure(dimensionSchema)}\">\r" +
+    "\n" +
+    "            <icon type=\"lock\" class=\"pull-left ms-checkbox-lock\" ng-if=\"isMeasure(dimensionSchema)\"></icon>\r" +
     "\n" +
     "            <label>\r" +
     "\n" +
-    "                <input type=\"checkbox\" ms-tristates-checkbox child-list=\"dimensionSchema.members\" property=\"isSelected\" ng-model=\"dimensionSchema.isSelected\"><i></i><span class=\"capitalized\">{{dimensionSchema.label}}</span>\r" +
+    "                <input type=\"checkbox\" ms-tristates-checkbox child-list=\"dimensionSchema.members\" property=\"isSelected\" ng-model=\"dimensionSchema.isSelected\" ng-disabled=\"isMeasure(dimensionSchema)\"><i></i><span class=\"capitalized\">{{dimensionSchema.label}}</span>\r" +
     "\n" +
     "            </label>\r" +
     "\n" +
     "        </div>\r" +
     "\n" +
-    "        <div class=\"children-checkbox ms-checkbox no-select\" ng-repeat=\"item in dimensionSchema.members\" ng-if=\"templateType !== 'Action'\">\r" +
+    "        <div class=\"children-checkbox ms-checkbox no-select\" ng-repeat=\"item in dimensionSchema.members\" ng-if=\"templateType !== 'Action'\" ng-class=\"{'disabled': isMeasure(dimensionSchema)}\">\r" +
+    "\n" +
+    "            <icon type=\"lock\" class=\"pull-left ms-checkbox-lock\" ng-if=\"isMeasure(dimensionSchema)\"></icon>\r" +
     "\n" +
     "            <label>\r" +
     "\n" +
-    "                <input type=\"checkbox\" ng-model=\"item.isSelected\"><i></i><span class=\"capitalized\">{{item.label}}</span>\r" +
+    "                <input type=\"checkbox\" ng-model=\"item.isSelected\" ng-disabled=\"isMeasure(dimensionSchema)\"><i></i><span class=\"capitalized\">{{item.label}}</span>\r" +
     "\n" +
     "            </label>\r" +
     "\n" +

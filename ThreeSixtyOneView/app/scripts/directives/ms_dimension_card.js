@@ -46,6 +46,9 @@ angular.module('ThreeSixtyOneView.directives')
                         return 'All';
                     }
                 };
+                scope.isMeasure = function(dimension) {
+                    return dimension.type === 'MeasureDimension' ? true : false;
+                };
             }
         };
     }]);

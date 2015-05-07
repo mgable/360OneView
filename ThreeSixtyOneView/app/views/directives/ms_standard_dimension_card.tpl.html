@@ -1,13 +1,15 @@
 <div class="dimensionCard standardDimensionCard" ng-class="{fixedHeight: templateType !== 'Action'}">
     <div class="dimensionCheckbox">
-        <div class="parent-checkbox ms-checkbox no-select">
+        <div class="parent-checkbox ms-checkbox no-select" ng-class="{'disabled': isMeasure(dimensionSchema)}">
+            <icon type="lock" class="pull-left ms-checkbox-lock" ng-if="isMeasure(dimensionSchema)"></icon>
             <label>
-                <input type="checkbox" ms-tristates-checkbox child-list="dimensionSchema.members" property="isSelected" ng-model="dimensionSchema.isSelected"><i></i><span class="capitalized">{{dimensionSchema.label}}</span>
+                <input type="checkbox" ms-tristates-checkbox child-list="dimensionSchema.members" property="isSelected" ng-model="dimensionSchema.isSelected" ng-disabled="isMeasure(dimensionSchema)"><i></i><span class="capitalized">{{dimensionSchema.label}}</span>
             </label>
         </div>
-        <div class="children-checkbox ms-checkbox no-select" ng-repeat="item in dimensionSchema.members" ng-if="templateType !== 'Action'">
+        <div class="children-checkbox ms-checkbox no-select" ng-repeat="item in dimensionSchema.members" ng-if="templateType !== 'Action'" ng-class="{'disabled': isMeasure(dimensionSchema)}">
+            <icon type="lock" class="pull-left ms-checkbox-lock" ng-if="isMeasure(dimensionSchema)"></icon>
             <label>
-                <input type="checkbox" ng-model="item.isSelected"><i></i><span class="capitalized">{{item.label}}</span>
+                <input type="checkbox" ng-model="item.isSelected" ng-disabled="isMeasure(dimensionSchema)"><i></i><span class="capitalized">{{item.label}}</span>
             </label>
         </div>
     </div>
