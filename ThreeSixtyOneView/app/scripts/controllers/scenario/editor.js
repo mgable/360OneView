@@ -254,6 +254,7 @@ angular.module('ThreeSixtyOneView')
 
 		$scope.$on(EVENTS.broadcastStates, function($event, response) {
 			$scope.determineReadOnlyMode(response[0].currentState.message);
+			$scope.updateCalculateState(response[0].currentState);
 		});
 
 		init();

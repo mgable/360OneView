@@ -9,7 +9,7 @@ angular.module('ThreeSixtyOneView')
 		var init = function() {
 			$scope.project = Project;
 			$scope.scenario = Scenario;
-			
+
 			$scope.simulateButtonDisabled = false;
 
 			$scope.pivotTableSaveStatus = '';
@@ -49,7 +49,7 @@ angular.module('ThreeSixtyOneView')
 			if(cubeChanged) {
 				$rootScope.$broadcast(EVENTS.scenarioElementChange, element.cubeMeta);
 				$rootScope.$broadcast(EVENTS.pivotViewChange, {});
-				
+
 				$scope.cubeId = element.cubeMeta.id;
 				$scope.groupedScenarioElements = getGroupedScenarioElements();
 			}
@@ -61,6 +61,15 @@ angular.module('ThreeSixtyOneView')
 
 		$scope.setState = function(state){
 			$scope.scenarioState = CONFIG.application.models.ScenarioAnalytics.states[state];
+		};
+
+		$scope.updateCalculateState = function(response) {
+			var currentState = ScenarioStatesService.getScenarioState(response),
+	        	setState;
+            _.each($scope.scenarioStates, function(v, k) {
+                if (v.message === currentState.message) { setState = k; }
+            });
+            $scope.setState(setState);
 		};
 
 		$scope.getlocation = function (){

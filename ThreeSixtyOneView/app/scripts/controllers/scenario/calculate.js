@@ -7,14 +7,12 @@
 * # ScenarioCalculationCtrl
 * Controller of the ThreeSixtyOneView
 */
-angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$scope', 'AnalyticCalculationsService', 'CONFIG', '$state', 'ScenarioStatesService', 'Status',
-    function ($scope, AnalyticCalculationsService, CONFIG, $state, ScenarioStatesService, Status) {
+angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$scope', 'AnalyticCalculationsService', 'CONFIG', '$state', 'ScenarioStatesService',
+    function ($scope, AnalyticCalculationsService, CONFIG, $state, ScenarioStatesService) {
 
     var stepLength,
         stepValue,
-        scenarioStates = CONFIG.application.models.ScenarioAnalytics.states,
         runningStates = {},
-        currentState = {},
         scenarioId = $state.params.scenarioId,
 
         // init function
@@ -39,13 +37,10 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
                 stepLength = response.runningStates.length;
                 stepValue = 100 / stepLength;
             }
+
             runningStates = response.runningStates;
-            currentState = ScenarioStatesService.getScenarioState(response.currentState);
-            var setState;
-            _.each(scenarioStates, function(v, k) {
-                if (v.message === currentState.message) { setState = k; }
-            });
-            $scope.setState(setState);
+            $scope.updateCalculateState(response.currentState);
+
             $scope.step = getCurrentStateIndex(response);
             $scope.progressValue = stepValue * $scope.step;
             getCurrentStateTitle();
@@ -86,7 +81,7 @@ angular.module('ThreeSixtyOneView').controller('ScenarioCalculationCtrl', ['$sco
         },
         // get the current state title
         getCurrentStateTitle = function() {
-            $scope.currentStateTitle = _.find(scenarioStates, function(v){
+            $scope.currentStateTitle = _.find($scope.scenarioStates, function(v){
                 return v.message === $scope.scenarioState.message;
             });
         };
