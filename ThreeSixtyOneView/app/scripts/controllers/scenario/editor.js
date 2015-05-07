@@ -19,13 +19,6 @@ angular.module('ThreeSixtyOneView')
 			$scope.categorizedValue = [];
 			$scope.pivotTableData = '';
 
-			// plan of record should be read-only
-			if($scope.scenario.isPlanOfRecord) {
-				$scope.readOnlyMode = true;
-			} else {
-				$scope.readOnlyMode = false;
-			}
-
 			ScenarioStatesService.startPull([$scope.scenario.id]);
 
 			// this is how pivotbuilder and pivottable communicate
@@ -225,7 +218,7 @@ angular.module('ThreeSixtyOneView')
 
 			if(states.IN_PROGRESS.message === currentState) {
 				if(!$scope.readOnlyMode) {
-					$scope.readOnlyMode = true;
+					$scope.setReadOnlyMode(true);
 					$scope.disableSimulateButton(true);
 					if(!!$scope.spread.setReadOnly) {
 						$scope.spread.setReadOnly(true);
@@ -234,7 +227,7 @@ angular.module('ThreeSixtyOneView')
 			} else {
 				if($scope.readOnlyMode) {
 					if(!$scope.scenario.isPlanOfRecord) {
-						$scope.readOnlyMode = false;
+						$scope.setReadOnlyMode(false);
 						if(!!$scope.spread.setReadOnly) {
 							$scope.spread.setReadOnly(false);
 						}

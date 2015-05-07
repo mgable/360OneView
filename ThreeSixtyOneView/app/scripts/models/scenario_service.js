@@ -80,7 +80,6 @@ angular.module('ThreeSixtyOneView.services')
 		this.setModelingTime = function(projectId, scenario) {
 			var additionalPath = 'modellingTime';
 			return this.resource.post(scenario, {}, {id: projectId}, additionalPath).then(function(response) {
-				console.log(response);
 				return response;
 			});
 		};
