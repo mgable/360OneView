@@ -12,6 +12,13 @@ angular.module('ThreeSixtyOneView')
 
 			$scope.simulateButtonDisabled = false;
 
+			// plan of record should be read-only
+			if($scope.scenario.isPlanOfRecord) {
+				$scope.readOnlyMode = true;
+			} else {
+				$scope.readOnlyMode = false;
+			}
+
 			$scope.pivotTableSaveStatus = '';
 
 			$scope.scenarioElements = ScenarioAnalysisElements;
@@ -89,6 +96,14 @@ angular.module('ThreeSixtyOneView')
 			} else {
 				$state.go("Scenario.results");
 			}
+		};
+
+		$scope.setReadOnlyMode = function(mode) {
+			if(typeof mode !== 'undefined') {
+				$scope.readOnlyMode = mode;
+			}
+
+			return $scope.readOnlyMode;
 		};
 
 		$scope.disableSimulateButton = function(state) {
