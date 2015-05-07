@@ -43,10 +43,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             // save the scenariosList
             $scope.scenariosList = allScenarios;
 
-            // transform the scenariosList structure
-            if(!allScenarios.isPlanOfRecord && _.has(allScenarios, 'referenceScenario')) {
-                $scope.scenariosList.unshift(allScenarios.referenceScenario);
-            }
             _.each($scope.scenariosList, function(v) {
                 if(!_.has(v, 'title')) {
                     v.title = v.name;
@@ -60,10 +56,11 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                     v.auditInfo.createdBy.name = v.createdBy;
                 }
             });
-            if (allScenarios.isPlanOfRecord) {
-                $scope.selectedScenario = _.find($scope.scenariosList, function(scenario) { return scenario.id === allScenarios.id; });
+
+            if ($scope.scenario.isPlanOfRecord) {
+                $scope.selectedScenario = _.find($scope.scenariosList, function(scenario) { return scenario.id === $scope.scenario.id; });
             } else {
-                $scope.selectedScenario = $scope.scenariosList[0];
+                $scope.selectedScenario = _.find($scope.scenariosList, function(scenario) { return scenario.id === $scope.scenario.referenceScenario.id; });
             }
 
         });
@@ -520,19 +517,27 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
             $scope.saveDraftView();
         });
     }
-    // add sign to KPI summary
-    $scope.addSign = function(direction) {
-        if (direction === 'increase') {
-            return '+';
-        } else if (direction === 'decrease') {
-            return '-';
+    // add prefix to incremental numbers
+    $scope.addPrefix = function(direction, incremental, type) {
+        var prefix = {increase: '', decrease: ''};
+        if (type === 'sign') {
+            prefix.increase = '+';
+            prefix.decrease = '-';
+        } else if (type === 'arrow') {
+            prefix.increase = 'arrow-up';
+            prefix.decrease = 'arrow-down';
+        }
+        if (incremental > 0 && !!direction) {
+            if (direction === 'increase') {
+                return prefix.increase;
+            } else if (direction === 'decrease') {
+                return prefix.decrease;
+            } else {
+                return '';
+            }
         } else {
             return '';
         }
-    };
-    // add arrow icon to KPI summary
-    $scope.addArrow = function(direction) {
-        return direction === 'increase' ? 'arrow-up' : 'arrow-down';
     };
     $scope.setToggleSwitch = function(_isSynced) {
         if(_isSynced) {
