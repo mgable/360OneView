@@ -230,16 +230,10 @@ angular.module('ThreeSixtyOneView')
 	// pass back the selected file and dismiss the modal
 	$scope.submit = function() {
 		ManageTemplatesService.update($scope.template, true).then(function(templateResponse) {
-			console.log('template created', templateResponse);
 			var planOfRecord = makePlanOfRecord(templateResponse, $scope.baseScenario);
-			console.log(planOfRecord);
-			ManageTemplatesService.createView($scope.template.id, $scope.defaultView).then(function(viewResponse) {
-				console.log('default views created', viewResponse);
-			});
+			ManageTemplatesService.createView($scope.template.id, $scope.defaultView);//.then(function(viewResponse) {});
 			ScenarioService.create($scope.masterProject.uuid, planOfRecord).then(function(scenario) {
-				console.log('plan of record created', scenario);
 				AnalyticCalculationsService.post(scenario.id).then(function(calculate) {
-					console.log('calculation started', calculate);
 					$rootScope.$broadcast(EVENTS.planOfRecordCreated, scenario);
 				});
 			});
