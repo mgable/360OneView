@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('ThreeSixtyOneView')
-	.controller('FilterSelectionCtrl', ["$scope", "$window", "$rootScope", "$modalInstance", "$controller", "data", "CONFIG", "PivotMetaService",
-	function($scope, $window, $rootScope, $modalInstance, $controller, data, CONFIG, PivotMetaService) {
+	.controller('FilterSelectionCtrl', ["$scope", "$window", "$rootScope", "$modalInstance", "$controller", "data", "CONFIG", "PivotMetaService", '$timeout',
+	function($scope, $window, $rootScope, $modalInstance, $controller, data, CONFIG, PivotMetaService, $timeout) {
 		angular.extend(this, $controller('ModalBaseCtrl', {$scope: $scope, $modalInstance: $modalInstance, CONFIG: CONFIG, data: data}));
 
 		var init = function() {
@@ -29,6 +29,7 @@ angular.module('ThreeSixtyOneView')
 		},
 		dimensions = data.dimensions,
 		viewData = data.viewData,
+		searchTimeoutHandler = false,
 		// choose the view based on added levels in the column/row
 		chooseViewBy = function(levels, index) {
 			var levelIndex = angular.isNumber(index) ? index : 0;
@@ -79,42 +80,52 @@ angular.module('ThreeSixtyOneView')
 				return null;
 			}
 
+			if(!!searchTimeoutHandler) {
+				$timeout.cancel(searchTimeoutHandler);
+				searchTimeoutHandler = false;
+			}
+
 			var searchResults = {},
 				treeSearch = function(tree, searchLabel, initial) {
-				var output = null;
+					var output = null;
 
-				if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1 && !initial && !tree.na) {
-					return tree;
-				}
+					if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1 && !initial && !tree.na) {
+						return tree;
+					}
 
-				if(tree.members.length > 0 && !tree.na) {
-					for(var i = 0; i < tree.members.length; i++) {
-						var results = treeSearch(tree.members[i], searchLabel, false);
-						if(!!results && !!results.members) {
-							if(!output) {
-								output = {
-									label: tree.label,
-									members: []
-								};
+					if(tree.members.length > 0 && !tree.na) {
+						for(var i = 0; i < tree.members.length; i++) {
+							var results = treeSearch(tree.members[i], searchLabel, false);
+							if(!!results && !!results.members) {
+								if(!output) {
+									output = {
+										label: tree.label,
+										members: []
+									};
+								}
+								output.members.push(results);
 							}
-							output.members.push(results);
+						}
+					} else {
+						if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1 && !tree.na) {
+							return tree;
+						} else {
+							return null;
 						}
 					}
-				} else {
-					if(angular.lowercase(tree.label).indexOf(angular.lowercase(searchLabel)) > -1 && !tree.na) {
-						return tree;
-					} else {
-						return null;
-					}
-				}
 
-				return output;
-			};
+					return output;
+				};
 
-			searchResults = treeSearch(obj, search.label, true);
+			searchTimeoutHandler = $timeout(function() {
+				searchResults = treeSearch(obj, search.label, true);
 
-			$scope.searchResults = searchResults;
-			$scope.countFilters(searchResults, $scope.addedFilter);
+				$scope.searchResults = searchResults;
+				$scope.countFilters(searchResults, $scope.addedFilter);
+				
+				searchTimeoutHandler = false;
+			}, 300);
+
 		};
 
 		// count number of selected and total filters
