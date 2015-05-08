@@ -22,9 +22,30 @@ describe('Controller: ScenarioTemplatesCtrl', function () {
 		ManageTemplatesService = _ManageTemplatesService_;
 		ProjectsService = _ProjectsService_;
 
-		$state.current.url = scenarioRoutes[0];
+		var returnThen = function() {
+			return {
+				then: function(callback) {
+					callback(JSON.parse(touchpointView));
+					return this;
+				}
+			};
+		};
+
+		var returnResult = function() {
+			return {
+				result: {
+					then: function(callback) {
+						callback(JSON.parse(touchpointView));
+						return this;
+					}
+				}
+			};
+		};
 
 		spyOn($state, 'go');
+		spyOn(ManageTemplatesService, 'getAll').and.callFake(returnThen);
+		spyOn(ProjectsService, 'getMasterProject').and.callFake(returnThen);
+		// spyOn(DialogService, 'openLightbox').and.callFake(returnResult);
 
 		ctrl = $controller('ScenarioTemplatesCtrl', {
 			$scope: scope
@@ -36,7 +57,19 @@ describe('Controller: ScenarioTemplatesCtrl', function () {
 	});
 
 	it('should have a defined api', function() {
-		// signature = scenarioCtrlSignature;
 		expect(getAPI(scope)).areArraysEqual(scenarioTemplatesCtrlSignature);
+	});
+
+	it('should get list of all templates', function() {
+		expect(ManageTemplatesService.getAll).toHaveBeenCalled();
+	});
+
+	it('should get the master project', function() {
+		expect(ProjectsService.getMasterProject).toHaveBeenCalled();
+	});
+
+	it('should should open the module pick dialog box', function() {
+		scope.openModulePickDialog();
+		expect(ProjectsService.getMasterProject).toHaveBeenCalled();
 	});
 });
