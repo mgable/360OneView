@@ -24,7 +24,7 @@
 				<div class="subtitle">From</div>
 				<div class="dropdown">
 					<div class="dropdown-toggle">{{fromDate.label}}</div>
-					<ul class="dropdown-menu" ms-link-group selected-item="{{fromDate.id}}" radio="true">
+					<ul class="dropdown-menu" ng-if="!readOnlyMode" ms-link-group selected-item="{{fromDate.id}}" radio="true">
 						<li class="menu-item" ng-repeat="item in modelingPeriod" ms-link="{{item.id}}" ng-hide="item.label > toDate.label" ng-click="setFromDate(item)">{{item.label}}</li>
 					</ul>
 				</div>
@@ -33,7 +33,7 @@
 				<div class="subtitle">To</div>
 				<div class="dropdown">
 					<div class="dropdown-toggle">{{toDate.label}}</div>
-					<ul class="dropdown-menu" ms-link-group selected-item="{{toDate.id}}" radio="true">
+					<ul class="dropdown-menu" ng-if="!readOnlyMode" ms-link-group selected-item="{{toDate.id}}" radio="true">
 						<li class="menu-item" ng-repeat="item in modelingPeriod" ms-link="{{item.id}}" ng-hide="item.label < fromDate.label" ng-click="setToDate(item)">{{item.label}}</li>
 					</ul>
 				</div>

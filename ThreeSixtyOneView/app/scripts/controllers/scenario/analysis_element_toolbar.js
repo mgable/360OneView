@@ -46,10 +46,9 @@ angular.module('ThreeSixtyOneView')
 						});
 					});
 				}
-			},updateScenario = function() {
-				ScenarioService.setModelingTime($scope.project.uuid, $scope.scenario).then(function(scenario) {
-					console.log(scenario);
-				});
+			},
+			updateScenario = function() {
+				ScenarioService.setModelingTime($scope.project.uuid, $scope.scenario);//.then(function(scenario) {});
 			};
 
 		// hide scenario copy and replace options if part of the marketing plan
@@ -99,7 +98,7 @@ angular.module('ThreeSixtyOneView')
 				return dimension.type === 'TimeDimension';
 			})[0];
 			timeLevelId = timeDimension.members[timeDimension.members.length - 1].id;
-			getModelingPeriod(5);
+			getModelingPeriod(timeLevelId);
 		});
 
 		init();

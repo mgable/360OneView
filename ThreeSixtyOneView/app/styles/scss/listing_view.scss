@@ -67,14 +67,17 @@
 							weight:bold;
 							size:16px;
 						}
+						.favorites .favorite {
+							cursor: default;
+						}
 					}
 
 					.text-holder {
 						&.strategy {
-							background-color: $ms-green;
+							background-color: $ms-lightBlue;
 						}
 						&.action {
-							background-color: $ms-lightBlue;
+							background-color: $ms-green;
 						}
 						&.favorites-holder {
 							width:25px;

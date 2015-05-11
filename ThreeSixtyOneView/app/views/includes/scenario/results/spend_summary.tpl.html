@@ -2,37 +2,37 @@
 	<div class="results-panel-title">Spend Summary</div>
 	<div class="result-panel-body well">
 		<div class="row">
-			<div class="spend-container col-md-6 col-sm-6 col-xs-6">
+			<div class="spend-container col-md-12 col-sm-12 col-xs-12">
 				<table class="spend-table">
 					<thead>
 						<tr ng-model="spendData.header">
 							<th>{{spendData.header.title}}</th>
 							<th>{{spendData.header.currency}}{{spendData.header.total | nrFormat}}</th>
-							<th class="spend-{{spendData.header.direction}}">{{addSign(spendData.header.direction)}}{{spendData.header.currency}}{{spendData.header.incremental | nrFormat}}</th>
-							<th class="spend-{{spendData.header.direction}}">{{addSign(spendData.header.direction)}}{{spendData.header.percent | percentage}}</th>
+							<th class="spend-{{spendData.header.direction}}">{{addPrefix(spendData.header.direction, spendData.header.incremental, 'sign')}}{{spendData.header.currency}}{{spendData.header.incremental | nrFormat}}</th>
+							<th class="spend-{{spendData.header.direction}}">{{addPrefix(spendData.header.direction, spendData.header.incremental, 'sign')}}{{spendData.header.percent | percentage}}</th>
 						</tr>
 					</thead>
 					<tbody ng-repeat="spendDatumBody in spendData.body">
 						<tr ng-repeat="spendDatumRow in spendDatumBody.children">
 							<td>{{spendDatumRow.title}}</td>
 							<td>{{spendDatumRow.currency}}{{spendDatumRow.total | nrFormat}}</td>
-							<td class="spend-{{spendDatumRow.direction}}">{{addSign(spendDatumRow.direction)}}{{spendDatumRow.currency}}{{spendDatumRow.incremental | nrFormat}}</td>
-							<td class="spend-{{spendDatumRow.direction}}">{{addSign(spendDatumRow.direction)}}{{spendDatumRow.percent | percentage}}</td>
+							<td class="spend-{{spendDatumRow.direction}}">{{addPrefix(spendDatumRow.direction, spendDatumRow.incremental, 'sign')}}{{spendDatumRow.currency}}{{spendDatumRow.incremental | nrFormat}}</td>
+							<td class="spend-{{spendDatumRow.direction}}">{{addPrefix(spendDatumRow.direction, spendDatumRow.incremental, 'sign')}}{{spendDatumRow.percent | percentage}}</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-			<div class="spend-container col-md-6 col-sm-6 col-xs-6">
+			<!-- <div class="spend-container col-md-6 col-sm-6 col-xs-6">
 				<div class="legend">
 					<img src="images/legend.png" alt="legend">
-					<span>{{selectedView.title}} </span>
+					<span>{{selectedScenario.title}} </span>
 				</div>
 				<div class="row">
 					<div class="col-md-6 col-sm-6 col-xs-6 chartContainer" ng-repeat="chartDatum in chartData">
 						<ms-bar-chart chart-data="chartDatum.data"></ms-bar-chart>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>

@@ -59,9 +59,12 @@
 						({{filterCount.selected}}/{{filterCount.total}})
 					</div>
 				</div>
-				<div class="list-box">
-					<div class="list" ng-if="searchResults.members">
+				<div class="list-box" style="position: relative;">
+					<div class="list" ng-if="searchResults.members && multiLevelList()">
 						<member ng-repeat="member in searchResults.members | orderBy:'label'" member="member" filters="addedFilter" category="{label: selectedFilter.dimension.label}"  expanded="expanded" expandall="filterSearch" updater="categorizeValuesCount(index, addedFilters)" dimensionindex="selectedDimensionIndex"></member>
+					</div>
+					<div class="list" ng-if="searchResults.members && !multiLevelList()" virtual-repeat="searchResults.members" list="searchResults.members">
+						<member ng-repeat="member in virtualRepeat" member="member" filters="addedFilter" category="{label: selectedFilter.dimension.label}"  expanded="expanded" expandall="filterSearch" updater="categorizeValuesCount(index, addedFilters)" dimensionindex="selectedDimensionIndex"></member>
 					</div>
 				</div>
 			</div>

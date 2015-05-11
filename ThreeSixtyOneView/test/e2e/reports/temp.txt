@@ -2,7 +2,42 @@ Executing Project Dashboard functional tests
 	 should set up the tests
 Project Dashboard: 
 Scenario Listing: 
+Inital state: 
+	 should have no scenarios at time of creation
+	 should not enabled the rename create copy or edit buttons
+	 should display the create scenario alert
+Create: 
+	 should not allow a new scenario to be created without a name
+	 should allow a new scenario to be created with a name but no description
+	 should restrict which characters can be used in a name
+	 should not allow names less than two characters or more than 256 characters
+	 should not allow the base reference scenario to be edited
+	 should keep the same base scenario on confirm if a new scenario has not been selected
+	 should open the create new scenario dialog
+	 should create a new scenario
+	 should have a status of not calculated
+	 should not allow a duplicate scenario name
+Search: 
+	 should search scenarios
+Copy: 
+	 should copy a scenario
+	 should not allow the copy to have no name
+	 should should respect limits on name length
+	 should should restrict which characters can be used in a name
+Filter: 
+	 should filter by favorite
+	 should filter by item
+Edit: 
+	 should rename a scenario
+	 should respect input restrictions
+	 should not allow names less than two characters or more than 256 characters
+	 should only allow unique names
+	 should edit a description
 Page: 
+	 should have an active selection
+	 should have the correct breadcrumb label
 	 should change the base scenario
+	 should click through to scenario edit with the correct scenario element selected
 Plan of Record: 
 	 should not be editable
+	 should disable the create button

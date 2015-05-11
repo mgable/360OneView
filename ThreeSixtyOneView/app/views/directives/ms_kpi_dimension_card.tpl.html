@@ -8,11 +8,11 @@
         <div class="row no-margin">
             <div ng-repeat="item in allDimensionsData | orderBy:id">
                 <div class="clearfix" ng-if="$index % 3 == 0"></div>
-                <div class="col-md-4 children-checkbox ms-checkbox no-select">
+                <div class="col-md-4 children-checkbox ms-checkbox no-select" ng-class="{'disabled': item.required}">
+                    <icon type="lock" class="pull-left ms-checkbox-lock" ng-if="item.required"></icon>
                     <label>
                         <input type="checkbox" ng-model="item.isSelected" ng-disabled="item.required"><i></i><span class="capitalized">{{item.label}}</span>
                     </label>
-                    <icon type="lock" class="pull-right ms-checkbox-lock" ng-if="item.required"></icon>
                 </div>
             </div>
         </div>

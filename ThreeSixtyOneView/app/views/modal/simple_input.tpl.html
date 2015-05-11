@@ -10,6 +10,9 @@
 						<input type="text" class="form-control" id="inputField" ng-model="item.name" focus required ng-maxlength="256" ng-minlength="2" ng-pattern='inputRestrictions.characterRestrictions' validator="validator" error-type="errorType"/>
 					</label>
 				</div>
+				<div class="alert alert-danger" role="alert" ng-if="nameDialog.$invalid && nameDialog.$dirty">
+					{{getError(nameDialog.$error)}}
+				</div>
 			</form>
 		</div>
 		<div class="action-buttons">
