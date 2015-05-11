@@ -25,19 +25,8 @@ describe('Controller: ScenarioTemplatesCtrl', function () {
 		var returnThen = function() {
 			return {
 				then: function(callback) {
-					callback(JSON.parse(touchpointView));
+					callback(JSON.parse(masterProject));
 					return this;
-				}
-			};
-		};
-
-		var returnResult = function() {
-			return {
-				result: {
-					then: function(callback) {
-						callback(JSON.parse(touchpointView));
-						return this;
-					}
 				}
 			};
 		};
@@ -45,7 +34,7 @@ describe('Controller: ScenarioTemplatesCtrl', function () {
 		spyOn($state, 'go');
 		spyOn(ManageTemplatesService, 'getAll').and.callFake(returnThen);
 		spyOn(ProjectsService, 'getMasterProject').and.callFake(returnThen);
-		// spyOn(DialogService, 'openLightbox').and.callFake(returnResult);
+		spyOn(DialogService, 'openLightbox').and.callThrough();
 
 		ctrl = $controller('ScenarioTemplatesCtrl', {
 			$scope: scope
