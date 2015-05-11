@@ -48,16 +48,34 @@ describe('Controller: ScenarioTemplatesViewsCtrl', function () {
 			};
 		};
 
+		var scenarioPromise = function() {
+			return {
+				then: function(callback) {
+					callback(JSON.parse(scenarios)[0]);
+					return this;
+				}
+			};
+		};
+
 		var modalInstance = {
-            dismiss: jasmine.createSpy('modalInstance.dismiss')
+            dismiss: jasmine.createSpy('modalInstance.dismiss'),
+            close: jasmine.createSpy('modalInstance.close')
         };
 
 		spyOn(ManageScenariosService, 'getBase').and.callFake(baseScenarioPromise);
 		spyOn(ManageTemplatesService, 'get').and.callFake(baseTemplatePromise);
 		spyOn(ManageTemplatesService, 'create').and.callFake(baseTemplatePromise);
+		spyOn(ManageTemplatesService, 'delete').and.callThrough();
+		spyOn(ManageTemplatesService, 'update').and.callFake(baseTemplatePromise);
+		spyOn(ManageTemplatesService, 'createView').and.callThrough();
+		spyOn(ScenarioService, 'create').and.callFake(scenarioPromise);
+		spyOn(AnalyticCalculationsService, 'post').and.callFake(scenarioPromise);
+		spyOn($rootScope, '$broadcast');
+		spyOn($rootScope, '$on');
 
 		ctrl = $controller('ScenarioTemplatesViewsCtrl', {
 			$scope: scope,
+			$rootScope: $rootScope,
 			$modalInstance: modalInstance,
 			data: JSON.parse(scenarioTemplatesViewsCtrlModalData)
 		});
@@ -71,6 +89,12 @@ describe('Controller: ScenarioTemplatesViewsCtrl', function () {
 
 	it('should have a defined api', function() {
 		expect(getAPI(scope)).areArraysEqual(scenarioTemplatesViewsCtrlSignature);
+	});
+
+	it('should set all event listeners', function() {
+		expect(scope.$on).toHaveBeenCalledWith(EVENTS.selectTime, jasmine.any(Function));
+		expect(scope.$on).toHaveBeenCalledWith(EVENTS.dimensionsIsLoaded, jasmine.any(Function));
+		expect(scope.$on).toHaveBeenCalledWith(EVENTS.flipbookAllowAdvance, jasmine.any(Function));
 	});
 
 	it('should create draft template', function() {
@@ -100,5 +124,46 @@ describe('Controller: ScenarioTemplatesViewsCtrl', function () {
 	it('should get added dimension members', function() {
 		scope.setAddedDimensionMembers(JSON.parse(dimensionTree));
 		expect(scope.getAddedDimensionMembers()).toEqual(JSON.parse(dimensionTree));
+	});
+
+	it('should get spend cube', function() {
+		scope.spendCube = JSON.parse(dimensionTree)
+		expect(scope.getSpendCube()).toEqual(JSON.parse(dimensionTree));
+	});
+
+	it('should set the default view',  function() {
+		scope.setDefaultView(JSON.parse(touchpointView));
+		expect(scope.defaultView).toEqual(JSON.parse(touchpointView));
+	});
+
+	it('should get the default view',  function() {
+		scope.defaultView = JSON.parse(touchpointView);
+		expect(scope.getDefaultView()).toEqual(JSON.parse(touchpointView));
+	});
+
+	it('should set the performance period', function() {
+		scope.setPerformancePeriod(10, 12);
+		expect(scope.performancePeriod.from).toBe(10);
+		expect(scope.performancePeriod.to).toBe(12);
+	});
+
+	it('should cancel scenario template creation', function() {
+		scope.cancel();
+		expect(ManageTemplatesService.delete).not.toHaveBeenCalled();
+	});
+
+	it('should cancel scenario template creation and delete draft', function() {
+		scope.template.id = 1;
+		scope.cancel();
+		expect(ManageTemplatesService.delete).toHaveBeenCalled();
+	});
+
+	it('should submit scenario template creation', function() {
+		scope.submit();
+		expect(ManageTemplatesService.update).toHaveBeenCalled();
+		expect(ManageTemplatesService.createView).toHaveBeenCalled();
+		expect(ScenarioService.create).toHaveBeenCalled();
+		expect(AnalyticCalculationsService.post).toHaveBeenCalled();
+		expect($rootScope.$broadcast).toHaveBeenCalled();
 	});
 });
