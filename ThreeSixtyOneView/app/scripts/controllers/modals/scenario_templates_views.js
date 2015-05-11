@@ -16,6 +16,8 @@ angular.module('ThreeSixtyOneView')
 		$scope.spendCubeLoading = false;
 		$scope.modelingPeriod = [];
 
+		initializeTemplate($scope.templateType);
+		
 		ManageScenariosService.getBase($scope.templateType.label).then(function(baseScenario) {
 			$scope.baseScenario = baseScenario;
 			ManageTemplatesService.get(baseScenario.template.id, false).then(function(baseTemplate) {
@@ -26,8 +28,6 @@ angular.module('ThreeSixtyOneView')
 				DimensionService.getDimensions(baseScenario.template.id);
 			});
 		});
-
-		initializeTemplate($scope.templateType);
 	},
 	initializeTemplate = function(type) {
 		$scope.template = {

@@ -30,10 +30,19 @@ describe('Controller: ScenarioTemplatesViewsCtrl', function () {
 
 	beforeEach(inject(function() {
 
-		var returnThen = function() {
+		var baseScenarioPromise = function() {
 			return {
 				then: function(callback) {
-					callback(JSON.parse(masterProject));
+					callback(JSON.parse(baseScenario));
+					return this;
+				}
+			};
+		};
+
+		var baseTemplatePromise = function() {
+			return {
+				then: function(callback) {
+					callback(JSON.parse(baseTemplate));
 					return this;
 				}
 			};
@@ -43,7 +52,9 @@ describe('Controller: ScenarioTemplatesViewsCtrl', function () {
             dismiss: jasmine.createSpy('modalInstance.dismiss')
         };
 
-		// spyOn(ManageTemplatesService, 'getAll').and.callFake(returnThen);
+		spyOn(ManageScenariosService, 'getBase').and.callFake(baseScenarioPromise);
+		spyOn(ManageTemplatesService, 'get').and.callFake(baseTemplatePromise);
+		spyOn(ManageTemplatesService, 'create').and.callFake(baseTemplatePromise);
 
 		ctrl = $controller('ScenarioTemplatesViewsCtrl', {
 			$scope: scope,
@@ -54,9 +65,40 @@ describe('Controller: ScenarioTemplatesViewsCtrl', function () {
 
 	it('should be defined', function() {
 		expect(ctrl).toBeDefined();
+		expect(ManageScenariosService.getBase).toHaveBeenCalled();
+		expect(ManageTemplatesService.get).toHaveBeenCalled();
 	});
 
 	it('should have a defined api', function() {
 		expect(getAPI(scope)).areArraysEqual(scenarioTemplatesViewsCtrlSignature);
+	});
+
+	it('should create draft template', function() {
+		scope.createDraftTemplate();
+		expect(ManageTemplatesService.create).toHaveBeenCalled();
+		expect(scope.template.id).toBe(JSON.parse(baseTemplate).id);
+	});
+
+	it('should set the time granularity', function() {
+		scope.dimensions = JSON.parse(dimensionTree);
+		scope.setTimeGranularity('QUARTER');
+		expect(scope.timeGranularity).toBe('QUARTER');
+		expect(scope.filteredTimeDimension.members.length).toBe(3);
+	});
+
+	it('should get the time granularity', function() {
+		scope.dimensions = JSON.parse(dimensionTree);
+		scope.setTimeGranularity('QUARTER');
+		expect(scope.getTimeGranularity()).toBe('QUARTER');
+	});
+
+	it('should set added dimension members', function() {
+		scope.setAddedDimensionMembers(JSON.parse(dimensionTree));
+		expect(scope.addedDimensionMembers).toEqual(JSON.parse(dimensionTree));
+	});
+
+	it('should get added dimension members', function() {
+		scope.setAddedDimensionMembers(JSON.parse(dimensionTree));
+		expect(scope.getAddedDimensionMembers()).toEqual(JSON.parse(dimensionTree));
 	});
 });
