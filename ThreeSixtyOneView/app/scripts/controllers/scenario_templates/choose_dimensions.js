@@ -8,7 +8,7 @@
  * Controller of the ThreeSixtyOneView
  */
 angular.module('ThreeSixtyOneView')
-    .controller('ChooseDimensionsCtrl', ['$scope', 'EVENTS', 'DimensionService', 'PivotMetaService', function($scope, EVENTS, DimensionService, PivotMetaService) {
+    .controller('ChooseDimensionsCtrl', ['$scope', 'EVENTS', 'PivotMetaService', function($scope, EVENTS, PivotMetaService) {
         var scenarioTemplateId,
         init = function() {
             $scope.setTime($scope.getTimeGranularity());
