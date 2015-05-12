@@ -24,7 +24,9 @@ describe('Controller: ChooseDimensionsCtrl', function () {
         scope.getAddedDimensionMembers = function() {
             return JSON.parse(addedFilters);
         };
-        scope.setTimeGranularity = jasmine.any;
+        scope.setTimeGranularity = function() {
+            return jasmine.any(Array);
+        };
 
         spyOn(scope, "$emit");
 
