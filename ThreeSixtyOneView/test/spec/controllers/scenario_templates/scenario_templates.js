@@ -25,7 +25,7 @@ describe('Controller: ScenarioTemplatesCtrl', function () {
 		var returnThen = function() {
 			return {
 				then: function(callback) {
-					callback(JSON.parse(masterProject));
+					callback(JSON.parse(templateMockData.masterProject));
 					return this;
 				}
 			};
@@ -46,7 +46,7 @@ describe('Controller: ScenarioTemplatesCtrl', function () {
 	});
 
 	it('should have a defined api', function() {
-		expect(getAPI(scope)).areArraysEqual(scenarioTemplatesCtrlSignature);
+		expect(getAPI(scope)).areArraysEqual(templateMockData.scenarioTemplatesCtrlSignature);
 	});
 
 	it('should get list of all templates', function() {

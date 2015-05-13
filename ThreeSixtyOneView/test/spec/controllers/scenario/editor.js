@@ -30,18 +30,18 @@ describe('Controllers: scenario editor CTRL', function() {
 		ManageAnalysisViewsService = _ManageAnalysisViewsService_;
 		ScenarioStatesService = _ScenarioStatesService_;
 
-		$state.current.url = scenarioRoutes[0];
+		$state.current.url = scenarioMockData.scenarioRoutes[0];
 		scope.scenario = {
-			id: scenarioId
+			id: scenarioMockData.scenarioId
 		};
 		scope.selectedScenarioElement = {
-			cubeMeta: JSON.parse(cubeMeta)
+			cubeMeta: JSON.parse(scenarioMockData.cubeMeta)
 		};
 
 		var returnThen = function() {
 			return {
 				then: function(callback) {
-					callback(JSON.parse(touchpointView));
+					callback(JSON.parse(scenarioMockData.touchpointView));
 					return this;
 				}
 			};
@@ -63,7 +63,7 @@ describe('Controllers: scenario editor CTRL', function() {
 			$scope: scope
 		});
 
-		scope.viewsList = views;
+		scope.viewsList = scenarioMockData.views;
 	}));
 
 	it('should be defined', function() {
@@ -71,7 +71,7 @@ describe('Controllers: scenario editor CTRL', function() {
 	});
 
 	it('should have a defined api', function() {
-		signature = editorCtrlSignature;
+		signature = scenarioMockData.editorCtrlSignature;
 		expect(getAPI(scope)).areArraysEqual(signature);
 	});
 
@@ -88,18 +88,18 @@ describe('Controllers: scenario editor CTRL', function() {
 
 	it('should delete a view', function() {
 		scope.draftView = true;
-		scope.deleteView(cubeId, viewId);
+		scope.deleteView(scenarioMockData.cubeId, scenarioMockData.viewId);
 
-		expect(ManageAnalysisViewsService.deleteView).toHaveBeenCalledWith(viewId, cubeId);
+		expect(ManageAnalysisViewsService.deleteView).toHaveBeenCalledWith(scenarioMockData.viewId, scenarioMockData.cubeId);
 		expect(scope.viewsList).toEqual([]);
 		expect(scope.draftView).toBeFalsy();
 	});
 
 	it('should load a view', function() {
-		var view = JSON.parse(touchpointView);
-		scope.loadView(cubeId, viewId);
+		var view = JSON.parse(scenarioMockData.touchpointView);
+		scope.loadView(scenarioMockData.cubeId, scenarioMockData.viewId);
 
-		expect(ManageAnalysisViewsService.getView).toHaveBeenCalledWith(viewId, cubeId);
+		expect(ManageAnalysisViewsService.getView).toHaveBeenCalledWith(scenarioMockData.viewId, scenarioMockData.cubeId);
 		expect(scope.viewData).toEqual(view);
 		expect(PivotMetaService.getAddedFilters).toHaveBeenCalledWith(view.filters, scope.dimensions);
 		expect(scope.addedFilters).toEqual({value: 'test'});
@@ -109,14 +109,14 @@ describe('Controllers: scenario editor CTRL', function() {
 	});
 
 	it('should delete the draft view when loading another view', function() {
-		var view = JSON.parse(touchpointView),
+		var view = JSON.parse(scenarioMockData.touchpointView),
 			viewsListLength = 0;
 		scope.draftView = true;
 		scope.viewsList[0].id = 2;
 		scope.viewsList[0].name = 'Draft - test';
 		scope.viewsList[0].isDraft = true;
 		viewsListLength = scope.viewsList.length;
-		scope.loadView(cubeId, viewId);
+		scope.loadView(scenarioMockData.cubeId, scenarioMockData.viewId);
 
 		expect(scope.viewsList.length).toBe(viewsListLength-1);
 	});
@@ -125,26 +125,26 @@ describe('Controllers: scenario editor CTRL', function() {
 		scope.viewsList[0].id = 9;
 		scope.viewsList[0].name = 'Region By Month';
 		scope.viewsList[0].isDraft = true;
-		scope.deleteView(cubeId, viewId);
+		scope.deleteView(scenarioMockData.cubeId, scenarioMockData.viewId);
 
-		expect(ManageAnalysisViewsService.deleteView).toHaveBeenCalledWith(viewId, cubeId);
+		expect(ManageAnalysisViewsService.deleteView).toHaveBeenCalledWith(scenarioMockData.viewId, scenarioMockData.cubeId);
 		expect(scope.viewsList).toEqual([]);
 	});
 
 	it('should create a view', function() {
-		var newView = angular.copy(JSON.parse(touchpointView)),
+		var newView = angular.copy(JSON.parse(scenarioMockData.touchpointView)),
 			viewsListLength = 0;
 		viewsListLength = scope.viewsList.length;
-		scope.createView(cubeId, newView);
+		scope.createView(scenarioMockData.cubeId, newView);
 
 		expect(scope.viewsList.length).toBe(viewsListLength+1);
 	});
 
 	it('should rename the view', function() {
-		var newView = angular.copy(JSON.parse(touchpointView)),
+		var newView = angular.copy(JSON.parse(scenarioMockData.touchpointView)),
 			originalViewName = newView.name;
 		newView.name = 'some random name';
-		scope.renameView(cubeId, newView);
+		scope.renameView(scenarioMockData.cubeId, newView);
 
 		expect(scope.viewsList[0].name).toBe(originalViewName);
 	});

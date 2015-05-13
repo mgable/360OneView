@@ -17,7 +17,7 @@ describe('Service: MetaDataModel', function () {
 	});
 
 	it('should transform the cube meta to the members tree structure', function() {
-		var transformedRresponse = MetaDataModel.metaConfig.transformResponse(cubeMeta);
+		var transformedRresponse = MetaDataModel.metaConfig.transformResponse(scenarioMockData.cubeMeta);
 		expect(transformedRresponse.length).toBe(3);
 		expect(transformedRresponse[transformedRresponse.length - 1].id).toBeDefined();
 		expect(transformedRresponse[transformedRresponse.length - 1].name).toBeDefined();

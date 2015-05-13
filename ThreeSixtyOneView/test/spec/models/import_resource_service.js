@@ -10,7 +10,7 @@ describe('Service: ImportResourceService', function () {
 	// setup backend
 	beforeEach(inject(function(SERVER, CONFIG, $httpBackend) {
 		importUrl = SERVER.server + CONFIG.application.api.importResource;
-		importUrl = importUrl.replace(/:elementId/, elementId);
+		importUrl = importUrl.replace(/:elementId/, scenarioMockData.elementId);
 		backend = $httpBackend;
 
 		backend.when('POST', importUrl + '/upload', new FormData()).respond({'status': 'IMPORT_REQUEST_ACCEPTED'});
@@ -32,14 +32,14 @@ describe('Service: ImportResourceService', function () {
 	});
 
 	it('check the import status', function() {
-		ImportResourceService.uploadFile(elementId, 'testFile').then(function(response) {
+		ImportResourceService.uploadFile(scenarioMockData.elementId, 'testFile').then(function(response) {
 			expect(response.status).toBe('IMPORT_REQUEST_ACCEPTED');
 		});
 		backend.flush();
 	});
 
 	it('check the import status', function() {
-		ImportResourceService.checkStatus(elementId).then(function(response) {
+		ImportResourceService.checkStatus(scenarioMockData.elementId).then(function(response) {
 			expect(response.status).toBe('COMPLETED');
 		});
 		backend.flush();

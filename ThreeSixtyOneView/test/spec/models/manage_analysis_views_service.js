@@ -10,17 +10,17 @@ describe('Service: ManageAnalysisViewsService', function () {
 	// setup backend
 	beforeEach(inject(function(SERVER, CONFIG, $httpBackend) {
 		manageAnalysisViewsUrl = SERVER.server + CONFIG.application.api.pivotview;
-		manageAnalysisViewsUrl = manageAnalysisViewsUrl.replace(/:cubeId/, cubeId);
+		manageAnalysisViewsUrl = manageAnalysisViewsUrl.replace(/:cubeId/, scenarioMockData.cubeId);
 		backend = $httpBackend;
-		newView = angular.copy(views[views.length - 1]);
+		newView = angular.copy(scenarioMockData.views[scenarioMockData.views.length - 1]);
 		newView.id = null;
 
-		backend.when('GET', manageAnalysisViewsUrl.substr(0, manageAnalysisViewsUrl.search(/:viewId/) - 1)).respond(views);
-		backend.when('GET', manageAnalysisViewsUrl.replace(/:viewId/, viewId)).respond(views[views.length - 1]);
-		backend.when('GET', manageAnalysisViewsUrl.substr(0, manageAnalysisViewsUrl.search(/:viewId/) - 1) + '?relatedByView=' + viewId).respond(views[views.length - 1]);
-		backend.when('POST', manageAnalysisViewsUrl.substr(0, manageAnalysisViewsUrl.search(/:viewId/) - 1), newView).respond(views[views.length - 1]);
-		backend.when('POST', manageAnalysisViewsUrl.substr(0, manageAnalysisViewsUrl.search(/:viewId/) - 1) + '?relatedByView=' + viewId, newView).respond(views[views.length - 1]);
-		backend.when('PUT', manageAnalysisViewsUrl.replace(/:viewId/, viewId), newView).respond(views[views.length - 1]);
+		backend.when('GET', manageAnalysisViewsUrl.substr(0, manageAnalysisViewsUrl.search(/:viewId/) - 1)).respond(scenarioMockData.views);
+		backend.when('GET', manageAnalysisViewsUrl.replace(/:viewId/, scenarioMockData.viewId)).respond(scenarioMockData.views[scenarioMockData.views.length - 1]);
+		backend.when('GET', manageAnalysisViewsUrl.substr(0, manageAnalysisViewsUrl.search(/:viewId/) - 1) + '?relatedByView=' + scenarioMockData.viewId).respond(scenarioMockData.views[scenarioMockData.views.length - 1]);
+		backend.when('POST', manageAnalysisViewsUrl.substr(0, manageAnalysisViewsUrl.search(/:viewId/) - 1), newView).respond(scenarioMockData.views[scenarioMockData.views.length - 1]);
+		backend.when('POST', manageAnalysisViewsUrl.substr(0, manageAnalysisViewsUrl.search(/:viewId/) - 1) + '?relatedByView=' + scenarioMockData.viewId, newView).respond(scenarioMockData.views[scenarioMockData.views.length - 1]);
+		backend.when('PUT', manageAnalysisViewsUrl.replace(/:viewId/, scenarioMockData.viewId), newView).respond(scenarioMockData.views[scenarioMockData.views.length - 1]);
 	}));
 
 	// Initialize the services
@@ -43,38 +43,38 @@ describe('Service: ManageAnalysisViewsService', function () {
 		});
 
 		it('get list of the views in a cube', function() {
-			ManageAnalysisViewsService.getViewsList(cubeId).then(function(response) {
-				expect(response).toEqual(views);
+			ManageAnalysisViewsService.getViewsList(scenarioMockData.cubeId).then(function(response) {
+				expect(response).toEqual(scenarioMockData.views);
 			});
 		});
 
 		xit('get a specific view', function() {
-			ManageAnalysisViewsService.getView(viewId, cubeId).then(function(response) {
-				expect(response).toEqual(_.find(views, function(view) {return view.id === viewId}));
+			ManageAnalysisViewsService.getView(scenarioMockData.viewId, scenarioMockData.cubeId).then(function(response) {
+				expect(response).toEqual(_.find(scenarioMockData.views, function(view) {return view.id === scenarioMockData.viewId}));
 			});
 		});
 
 		xit('get a related by (kpi) view', function() {
-			console.log(manageAnalysisViewsUrl.replace(/:viewId/, viewId));
-			ManageAnalysisViewsService.getViewRelatedBy(viewId, cubeId).then(function(response) {
-				expect(response).toEqual(views[views.length - 1]);
+			console.log(manageAnalysisViewsUrl.replace(/:viewId/, scenarioMockData.viewId));
+			ManageAnalysisViewsService.getViewRelatedBy(scenarioMockData.viewId, scenarioMockData.cubeId).then(function(response) {
+				expect(response).toEqual(scenarioMockData.views[scenarioMockData.views.length - 1]);
 			});
 		});
 
 		it('create a new view', function() {
-			var newView = angular.copy(views[views.length - 1]);
+			var newView = angular.copy(scenarioMockData.views[scenarioMockData.views.length - 1]);
 			newView.id = null;
-			ManageAnalysisViewsService.createView(newView, cubeId).then(function(response) {
-				expect(response).toEqual(views[views.length - 1]);
+			ManageAnalysisViewsService.createView(newView, scenarioMockData.cubeId).then(function(response) {
+				expect(response).toEqual(scenarioMockData.views[scenarioMockData.views.length - 1]);
 				expect(response.id).not.toBeNull();
 			});
 		});
 
 		it('create a new related by view', function() {
-			var newView = angular.copy(views[views.length - 1]);
+			var newView = angular.copy(scenarioMockData.views[scenarioMockData.views.length - 1]);
 			newView.id = null;
-			ManageAnalysisViewsService.createView(newView, cubeId, viewId).then(function(response) {
-				expect(response).toEqual(views[views.length - 1]);
+			ManageAnalysisViewsService.createView(newView, scenarioMockData.cubeId, scenarioMockData.viewId).then(function(response) {
+				expect(response).toEqual(scenarioMockData.views[scenarioMockData.views.length - 1]);
 				expect(response.id).not.toBeNull();
 			});
 		});

@@ -33,7 +33,7 @@ describe('Controller: ScenarioTemplatesViewsCtrl', function () {
 		var baseScenarioPromise = function() {
 			return {
 				then: function(callback) {
-					callback(JSON.parse(baseScenario));
+					callback(JSON.parse(templateMockData.baseScenario));
 					return this;
 				}
 			};
@@ -42,7 +42,7 @@ describe('Controller: ScenarioTemplatesViewsCtrl', function () {
 		var baseTemplatePromise = function() {
 			return {
 				then: function(callback) {
-					callback(JSON.parse(baseTemplate));
+					callback(JSON.parse(templateMockData.baseTemplate));
 					return this;
 				}
 			};
@@ -51,7 +51,7 @@ describe('Controller: ScenarioTemplatesViewsCtrl', function () {
 		var scenarioPromise = function() {
 			return {
 				then: function(callback) {
-					callback(JSON.parse(scenarios)[0]);
+					callback(JSON.parse(scenarioMockData.scenarios)[0]);
 					return this;
 				}
 			};
@@ -77,7 +77,7 @@ describe('Controller: ScenarioTemplatesViewsCtrl', function () {
 			$scope: scope,
 			$rootScope: $rootScope,
 			$modalInstance: modalInstance,
-			data: JSON.parse(scenarioTemplatesViewsCtrlModalData)
+			data: JSON.parse(templateMockData.scenarioTemplatesViewsCtrlModalData)
 		});
 	}));
 
@@ -88,7 +88,7 @@ describe('Controller: ScenarioTemplatesViewsCtrl', function () {
 	});
 
 	it('should have a defined api', function() {
-		expect(getAPI(scope)).areArraysEqual(scenarioTemplatesViewsCtrlSignature);
+		expect(getAPI(scope)).areArraysEqual(templateMockData.scenarioTemplatesViewsCtrlSignature);
 	});
 
 	it('should set all event listeners', function() {
@@ -100,45 +100,45 @@ describe('Controller: ScenarioTemplatesViewsCtrl', function () {
 	it('should create draft template', function() {
 		scope.createDraftTemplate();
 		expect(ManageTemplatesService.create).toHaveBeenCalled();
-		expect(scope.template.id).toBe(JSON.parse(baseTemplate).id);
+		expect(scope.template.id).toBe(JSON.parse(templateMockData.baseTemplate).id);
 	});
 
 	it('should set the time granularity', function() {
-		scope.dimensions = JSON.parse(dimensionTree);
+		scope.dimensions = JSON.parse(scenarioMockData.dimensionTree);
 		scope.setTimeGranularity('QUARTER');
 		expect(scope.timeGranularity).toBe('QUARTER');
 		expect(scope.filteredTimeDimension.members.length).toBe(3);
 	});
 
 	it('should get the time granularity', function() {
-		scope.dimensions = JSON.parse(dimensionTree);
+		scope.dimensions = JSON.parse(scenarioMockData.dimensionTree);
 		scope.setTimeGranularity('QUARTER');
 		expect(scope.getTimeGranularity()).toBe('QUARTER');
 	});
 
 	it('should set added dimension members', function() {
-		scope.setAddedDimensionMembers(JSON.parse(dimensionTree));
-		expect(scope.addedDimensionMembers).toEqual(JSON.parse(dimensionTree));
+		scope.setAddedDimensionMembers(JSON.parse(scenarioMockData.dimensionTree));
+		expect(scope.addedDimensionMembers).toEqual(JSON.parse(scenarioMockData.dimensionTree));
 	});
 
 	it('should get added dimension members', function() {
-		scope.setAddedDimensionMembers(JSON.parse(dimensionTree));
-		expect(scope.getAddedDimensionMembers()).toEqual(JSON.parse(dimensionTree));
+		scope.setAddedDimensionMembers(JSON.parse(scenarioMockData.dimensionTree));
+		expect(scope.getAddedDimensionMembers()).toEqual(JSON.parse(scenarioMockData.dimensionTree));
 	});
 
 	it('should get spend cube', function() {
-		scope.spendCube = JSON.parse(dimensionTree)
-		expect(scope.getSpendCube()).toEqual(JSON.parse(dimensionTree));
+		scope.spendCube = JSON.parse(scenarioMockData.dimensionTree)
+		expect(scope.getSpendCube()).toEqual(JSON.parse(scenarioMockData.dimensionTree));
 	});
 
 	it('should set the default view',  function() {
-		scope.setDefaultView(JSON.parse(touchpointView));
-		expect(scope.defaultView).toEqual(JSON.parse(touchpointView));
+		scope.setDefaultView(JSON.parse(scenarioMockData.touchpointView));
+		expect(scope.defaultView).toEqual(JSON.parse(scenarioMockData.touchpointView));
 	});
 
 	it('should get the default view',  function() {
-		scope.defaultView = JSON.parse(touchpointView);
-		expect(scope.getDefaultView()).toEqual(JSON.parse(touchpointView));
+		scope.defaultView = JSON.parse(scenarioMockData.touchpointView);
+		expect(scope.getDefaultView()).toEqual(JSON.parse(scenarioMockData.touchpointView));
 	});
 
 	it('should set the performance period', function() {

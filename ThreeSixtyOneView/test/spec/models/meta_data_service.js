@@ -10,18 +10,18 @@ describe('Service: MetaDataService', function () {
 	// setup backend
 	beforeEach(inject(function(SERVER, CONFIG, $httpBackend) {
 		metaDataUrl = SERVER.server + CONFIG.application.api.cube;
-		metaDataUrl = metaDataUrl.replace(/:id/, cubeId);
+		metaDataUrl = metaDataUrl.replace(/:id/, scenarioMockData.cubeId);
 		backend = $httpBackend;
 
-		backend.when('GET', metaDataUrl + '/meta').respond(cubeMeta);
-		backend.when('GET', metaDataUrl + '/dimension/' + dimensionId + '/hierarchy/' + hierarchyId + '/level/' + levelId + '/members?children=true').respond(levelMembers);
-		backend.when('GET', metaDataUrl + '/analysis-element').respond(JSON.parse(cubeScenarioElements));
-		backend.when('GET', metaDataUrl.replace(/\/3/, '') + '?editable=true&globals=false&prediction=' + cubeType).respond(JSON.parse(cubesList));
-		_.each(JSON.parse(cubeMeta).dimensions, function(dimension) {
+		backend.when('GET', metaDataUrl + '/meta').respond(scenarioMockData.cubeMeta);
+		backend.when('GET', metaDataUrl + '/dimension/' + scenarioMockData.dimensionId + '/hierarchy/' + scenarioMockData.hierarchyId + '/level/' + scenarioMockData.levelId + '/members?children=true').respond(scenarioMockData.levelMembers);
+		backend.when('GET', metaDataUrl + '/analysis-element').respond(JSON.parse(scenarioMockData.cubeScenarioElements));
+		backend.when('GET', metaDataUrl.replace(/\/3/, '') + '?editable=true&globals=false&prediction=' + scenarioMockData.cubeType).respond(JSON.parse(scenarioMockData.cubesList));
+		_.each(JSON.parse(scenarioMockData.cubeMeta).dimensions, function(dimension) {
 			_.each(dimension.hierarchies, function(hierarchy) {
 				_.each(hierarchy.levels, function(level) {
 					backend.when('GET', metaDataUrl + '/dimension/' + dimension.id + '/hierarchy/' + hierarchy.id + '/level/' + level.id + '/members?children=true')
-						.respond(JSON.parse(allLevelMembers)[dimension.id + ',' + hierarchy.id + ',' + level.id]);
+						.respond(JSON.parse(scenarioMockData.allLevelMembers)[dimension.id + ',' + hierarchy.id + ',' + level.id]);
 				})
 			});
 		});
@@ -47,32 +47,32 @@ describe('Service: MetaDataService', function () {
 		});
 
 		it('get cube meta', function() {
-			MetaDataService.getMeta(cubeId).then(function(response) {
-				expect(response).toEqual(MetaDataModel.metaConfig.transformResponse(cubeMeta));
+			MetaDataService.getMeta(scenarioMockData.cubeId).then(function(response) {
+				expect(response).toEqual(MetaDataModel.metaConfig.transformResponse(scenarioMockData.cubeMeta));
 			});
 		});
 
 		it('get level members', function() {
-			MetaDataService.getLevelMembers(cubeId, dimensionId, hierarchyId, levelId, true).then(function(response) {
-				expect(response).toEqual(levelMembers);
+			MetaDataService.getLevelMembers(scenarioMockData.cubeId, scenarioMockData.dimensionId, scenarioMockData.hierarchyId, scenarioMockData.levelId, true).then(function(response) {
+				expect(response).toEqual(scenarioMockData.levelMembers);
 			});
 		});
 
 		it('build the dimension tree', function() {
-			MetaDataService.buildDimensionsTree(cubeId).then(function(response) {
-				expect(response).toEqual(JSON.parse(dimensionTree));
+			MetaDataService.buildDimensionsTree(scenarioMockData.cubeId).then(function(response) {
+				expect(response).toEqual(JSON.parse(scenarioMockData.dimensionTree));
 			});
 		});
 
 		it('get scenario analysis elements for a cube', function() {
-			MetaDataService.getCubeAnalysisElements(cubeId).then(function(response) {
-				expect(response).toEqual(JSON.parse(cubeScenarioElements));
+			MetaDataService.getCubeAnalysisElements(scenarioMockData.cubeId).then(function(response) {
+				expect(response).toEqual(JSON.parse(scenarioMockData.cubeScenarioElements));
 			});
 		});
 
 		it('get list of cubes', function() {
-			MetaDataService.getCubes(cubeType).then(function(response) {
-				expect(response).toEqual(JSON.parse(cubesList));
+			MetaDataService.getCubes(scenarioMockData.cubeType).then(function(response) {
+				expect(response).toEqual(JSON.parse(scenarioMockData.cubesList));
 			});
 		});
 	});

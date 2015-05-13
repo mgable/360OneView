@@ -11,9 +11,9 @@ describe('Service: ManageTemplatesService', function () {
 		manageTemplatesUrl = SERVER.server + CONFIG.application.api.template;
 		backend = $httpBackend;
 
-		backend.when('GET', manageTemplatesUrl.replace(/\/:templateId/,'')).respond(JSON.parse(scenarioTemplates));
-		backend.when('GET', manageTemplatesUrl.replace(/\/:templateId/,'') + '?type=' + templateType).respond(JSON.parse(scenarioTemplates));
-		backend.when('GET', manageTemplatesUrl.replace(/:templateId/, templateId) + '?extended=true').respond(JSON.parse(scenarioTemplates)[0]);
+		backend.when('GET', manageTemplatesUrl.replace(/\/:templateId/,'')).respond(JSON.parse(scenarioMockData.scenarioTemplates));
+		backend.when('GET', manageTemplatesUrl.replace(/\/:templateId/,'') + '?type=' + scenarioMockData.templateType).respond(JSON.parse(scenarioMockData.scenarioTemplates));
+		backend.when('GET', manageTemplatesUrl.replace(/:templateId/, scenarioMockData.templateId) + '?extended=true').respond(JSON.parse(scenarioMockData.scenarioTemplates)[0]);
 	}));
 
 	// Initialize the controller and a mock scope
@@ -36,19 +36,19 @@ describe('Service: ManageTemplatesService', function () {
 
 		it('get list of all scenario templates', function() {
 			ManageTemplatesService.getAll().then(function(response) {
-				expect(response).toEqual(JSON.parse(scenarioTemplates));
+				expect(response).toEqual(JSON.parse(scenarioMockData.scenarioTemplates));
 			});
 		});
 
 		it('get list of all scenario templates with a specific type', function() {
-			ManageTemplatesService.getAll(templateType).then(function(response) {
-				expect(response).toEqual(JSON.parse(scenarioTemplates));
+			ManageTemplatesService.getAll(scenarioMockData.templateType).then(function(response) {
+				expect(response).toEqual(JSON.parse(scenarioMockData.scenarioTemplates));
 			});
 		});
 
 		it('get a specific scenario template', function() {
-			ManageTemplatesService.get(templateId).then(function(response) {
-				var templates = JSON.parse(scenarioTemplates);
+			ManageTemplatesService.get(scenarioMockData.templateId).then(function(response) {
+				var templates = JSON.parse(scenarioMockData.scenarioTemplates);
 				expect(response).toEqual(templates[0]);
 			});
 		});

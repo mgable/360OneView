@@ -10,10 +10,10 @@ describe('Service: ExportResourceService', function () {
 	// setup backend
 	beforeEach(inject(function(SERVER, CONFIG, $httpBackend) {
 		exportUrl = SERVER.server + CONFIG.application.api.exportResource;
-		exportUrl = exportUrl.replace(/:elementId/, elementId);
+		exportUrl = exportUrl.replace(/:elementId/, scenarioMockData.elementId);
 		backend = $httpBackend;
 
-		backend.when('POST', exportUrl, views[views.length - 1]).respond({'status': 'EXPORT_REQUEST_ACCEPTED'});
+		backend.when('POST', exportUrl, scenarioMockData.views[scenarioMockData.views.length - 1]).respond({'status': 'EXPORT_REQUEST_ACCEPTED'});
 		backend.when('GET', exportUrl + '/status').respond({'status': 'COMPLETED'});
 		backend.when('GET', exportUrl + '/download').respond(exportUrl + '/download');
 	}));
@@ -33,21 +33,21 @@ describe('Service: ExportResourceService', function () {
 	});
 
 	it('request an export', function() {
-		ExportResourceService.requestExport(elementId, views[views.length - 1]).then(function(response) {
+		ExportResourceService.requestExport(scenarioMockData.elementId, scenarioMockData.views[scenarioMockData.views.length - 1]).then(function(response) {
 			expect(response.status).toBe('EXPORT_REQUEST_ACCEPTED');
 		});
 		backend.flush();
 	});
 
 	it('check the export status', function() {
-		ExportResourceService.checkStatus(elementId).then(function(response) {
+		ExportResourceService.checkStatus(scenarioMockData.elementId).then(function(response) {
 			expect(response.status).toBe('COMPLETED');
 		});
 		backend.flush();
 	});
 
 	it('download the file', function() {
-		ExportResourceService.downloadFile(elementId).then(function(response) {
+		ExportResourceService.downloadFile(scenarioMockData.elementId).then(function(response) {
 			expect(response).toBe(exportUrl + '/download');
 		});
 		backend.flush();

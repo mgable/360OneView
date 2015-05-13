@@ -27,7 +27,7 @@ describe('Controller: ScenarioTemplatesChooseDefaultsCtrl', function () {
 		var baseScenarioPromise = function() {
 			return {
 				then: function(callback) {
-					callback(JSON.parse(baseScenario));
+					callback(JSON.parse(templateMockData.baseScenario));
 					return this;
 				}
 			};
@@ -42,12 +42,12 @@ describe('Controller: ScenarioTemplatesChooseDefaultsCtrl', function () {
 
 		// set up methods inherited from the parent controller
 		scope.getSpendCube = function() {
-			return JSON.parse(dimensionTree);
+			return JSON.parse(scenarioMockData.dimensionTree);
 		};
 		scope.getDefaultView = function() {
-			return JSON.parse(touchpointView);
+			return JSON.parse(scenarioMockData.touchpointView);
 		};
-		scope.template = JSON.parse(baseTemplate);
+		scope.template = JSON.parse(templateMockData.baseTemplate);
 		scope.templateType = {label: 'Strategy'};
 
 		ctrl = $controller('ScenarioTemplatesChooseDefaultsCtrl', {
@@ -63,7 +63,7 @@ describe('Controller: ScenarioTemplatesChooseDefaultsCtrl', function () {
 	});
 
 	it('should have a defined api', function() {
-		expect(getAPI(scope)).areArraysEqual(scenarioTemplatesChooseDefaultsCtrlSignature);
+		expect(getAPI(scope)).areArraysEqual(templateMockData.scenarioTemplatesChooseDefaultsCtrlSignature);
 	});
 
 	it('should get pivot builder items', function() {

@@ -27,17 +27,17 @@ describe('Controllers: main scenario CTRL', function() {
 		AnalyticCalculationsService = _AnalyticCalculationsService_;
 		ScenarioStatesService = _ScenarioStatesService_;
 
-		$state.current.url = scenarioRoutes[0];
+		$state.current.url = scenarioMockData.scenarioRoutes[0];
 
 		spyOn(scope, '$on');
 		spyOn($state, 'go');
 
 		ctrl = $controller('ScenarioCtrl', {
 			$scope: scope,
-			Project: JSON.parse(project),
-			Scenario: JSON.parse(scenarios)[2],
-			ScenarioAnalysisElements: scenarioElements,
-			Calculate: JSON.parse(calculate)
+			Project: JSON.parse(scenarioMockData.project),
+			Scenario: JSON.parse(scenarioMockData.scenarios)[2],
+			ScenarioAnalysisElements: scenarioMockData.scenarioElements,
+			Calculate: JSON.parse(scenarioMockData.calculate)
 		});
 	}));
 
@@ -46,7 +46,7 @@ describe('Controllers: main scenario CTRL', function() {
 	});
 
 	it('should have a defined api', function() {
-		signature = scenarioCtrlSignature;
+		signature = scenarioMockData.scenarioCtrlSignature;
 		expect(getAPI(scope)).areArraysEqual(signature);
 	});
 
@@ -61,16 +61,16 @@ describe('Controllers: main scenario CTRL', function() {
 	});
 
 	it('should set scenario element and file when cube is not changed', function() {
-		scope.setScenarioElement(scenarioElement, false);
-		expect(scope.selectedScenarioElement).toEqual(scenarioElement);
-		expect(scope.selectedScenarioElementsFile).toEqual(scenarioElement.name);
+		scope.setScenarioElement(scenarioMockData.scenarioElement, false);
+		expect(scope.selectedScenarioElement).toEqual(scenarioMockData.scenarioElement);
+		expect(scope.selectedScenarioElementsFile).toEqual(scenarioMockData.scenarioElement.name);
 	});
 
 	it('should set scenario element and file when cube is changed', function() {
-		scope.setScenarioElement(scenarioElement, true);
-		expect(scope.cubeId).toBe(scenarioElement.cubeMeta.id);
-		expect(scope.selectedScenarioElement).toEqual(scenarioElement);
-		expect(scope.selectedScenarioElementsFile).toEqual(scenarioElement.name);
+		scope.setScenarioElement(scenarioMockData.scenarioElement, true);
+		expect(scope.cubeId).toBe(scenarioMockData.scenarioElement.cubeMeta.id);
+		expect(scope.selectedScenarioElement).toEqual(scenarioMockData.scenarioElement);
+		expect(scope.selectedScenarioElementsFile).toEqual(scenarioMockData.scenarioElement.name);
 	});
 
 	it('should set scenario state', function() {
@@ -84,13 +84,13 @@ describe('Controllers: main scenario CTRL', function() {
 	});
 
 	it('should get results as location if state is calculate', function() {
-		$state.current.url = scenarioRoutes[1];
+		$state.current.url = scenarioMockData.scenarioRoutes[1];
 		scope.getlocation();
 		expect(scope.location).toBe('/results');
 	});
 
 	it('should get results as location if state is results', function() {
-		$state.current.url = scenarioRoutes[2];
+		$state.current.url = scenarioMockData.scenarioRoutes[2];
 		scope.getlocation();
 		expect(scope.location).toBe('/results');
 	});

@@ -17,8 +17,8 @@ describe('Service: PivotModel', function () {
 	});
 
 	it('transform response for the pivot table slice call', function() {
-		var transformedResponse = PivotModel.pivotConfig.transformResponse(pivotSlice);
+		var transformedResponse = PivotModel.pivotConfig.transformResponse(scenarioMockData.pivotSlice);
 
-		expect(transformedResponse).toEqual(JSON.parse(pivotSliceTransformed));
+		expect(transformedResponse).toEqual(JSON.parse(scenarioMockData.pivotSliceTransformed));
 	});
 });
