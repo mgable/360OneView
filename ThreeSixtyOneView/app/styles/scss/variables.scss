@@ -32,6 +32,7 @@ $ms-lightGreen: #c7e9c8;
 $ms-mediumGreen: #5cb85c;
 
 $ms-gray: #808080;
+$ms-veryLightGray: #f5f5f5;
 $ms-lightGray: #e6e6e6;
 $ms-mediumGray: #999;
 $ms-mediumLightGray: #cdcdcd;
@@ -123,10 +124,10 @@ $content_min_width: 1080px;
   $max: length($animate);
   $animations: '';
   @for $i from 1 through $max {
-    $animations: #{$animations + nth($animate, $i)};
-    @if $i < $max {
-      $animations: #{$animations + ", "};
-    }
+	$animations: #{$animations + nth($animate, $i)};
+	@if $i < $max {
+	  $animations: #{$animations + ", "};
+	}
   }
   -webkit-animation: $animations;
   -moz-animation:    $animations;
@@ -136,16 +137,16 @@ $content_min_width: 1080px;
 
 @mixin keyframes($animationName) {
   @-webkit-keyframes #{$animationName} {
-    @content;
+	@content;
   }
   @-moz-keyframes #{$animationName} {
-    @content;
+	@content;
   }
   @-o-keyframes #{$animationName} {
-    @content;
+	@content;
   }
   @keyframes #{$animationName} {
-    @content;
+	@content;
   }
 }
 
@@ -153,80 +154,113 @@ $content_min_width: 1080px;
   $delayTime: #{$time / 2}s;
   $longDelayTime: #{$delayTime / 2}s;
   &.animated { 
-    -webkit-animation-duration: #{$time}s; 
-    animation-duration: #{$time}s; 
-    -webkit-animation-fill-mode: both; 
-    animation-fill-mode: both; 
+	-webkit-animation-duration: #{$time}s; 
+	animation-duration: #{$time}s; 
+	-webkit-animation-fill-mode: both; 
+	animation-fill-mode: both; 
   } 
 
   &.delay {
-    -webkit-animation-delay: #{$delayTime}s;
-      animation-delay: #{$delayTime}s;
+	-webkit-animation-delay: #{$delayTime}s;
+	  animation-delay: #{$delayTime}s;
   }
 
   &.delay-long {
-    -webkit-animation-delay: #{$longDelayTime}s;
-      animation-delay: #{$longDelayTime}s;
+	-webkit-animation-delay: #{$longDelayTime}s;
+	  animation-delay: #{$longDelayTime}s;
   }
 
   @-webkit-keyframes fadeIn { 
-    0% {opacity: 0;}
-    100% {opacity: 1;} 
+	0% {opacity: 0;}
+	100% {opacity: 1;} 
   } 
   @keyframes fadeIn { 
-    0% {opacity: 0;}
-    100% {opacity: 1;} 
+	0% {opacity: 0;}
+	100% {opacity: 1;} 
   } 
   &.fadeIn { 
-    -webkit-animation-name: fadeIn; 
-    animation-name: fadeIn; 
+	-webkit-animation-name: fadeIn; 
+	animation-name: fadeIn; 
   }
 }
 
 @mixin product-btn($btn-type, $color, $logo-image) {
-  input[type="radio"] {
-    display: none;
-    &:checked + label {
-      @include reveal-animation();
-        color: $ms-pureWhite;
-        background-image: url(../images/ms-logo-01.png);
-        background-color: $color;
-        border-right-color: $color;
-        border-bottom-color: $color;
-        border-left-color: $color;
-        outline: none;
-    }
-  }
-  label {
-    width: 230px;
-    text-align: center;
-    color: $color;
-    font-size: 38px;
-    background-color: $ms-pureWhite;
-    border-top: 0;
-    border-right: 1px solid $ms-mediumLightGray;
-    border-bottom: 2px solid $ms-mediumLightGray;
-    border-left: 1px solid $ms-lightGray;
-    border-radius: 0;
-    background-image: url(../images/#{$logo-image});
-    background-repeat: no-repeat;
-    @if $btn-type == "ms-strategy" { 
-    background-position: 25px center; 
-    padding: 10px 0px 10px 40px;
-    }
-    @if $btn-type == "ms-action" { 
-      background-position: 40px center; 
-      padding: 10px 0px 10px 45px;
-    }
+	input[type="radio"] {
+		display: none;
+		&:checked + label {
+			@include reveal-animation();
+			color: $ms-pureWhite;
+			background-image: url(../images/ms-logo-01.png);
+			background-color: $color;
+			border-right-color: $color;
+			border-bottom-color: $color;
+			border-left-color: $color;
+			outline: none;
+		}
+	}
+	label {
+		width: 230px;
+		text-align: center;
+		color: $color;
+		font-size: 38px;
+		background-color: $ms-pureWhite;
+		border-top: 0;
+		border-right: 1px solid $ms-mediumLightGray;
+		border-bottom: 2px solid $ms-mediumLightGray;
+		border-left: 1px solid $ms-lightGray;
+		border-radius: 0;
+		background-image: url(../images/#{$logo-image});
+		background-repeat: no-repeat;
+		@if $btn-type == "ms-strategy" { 
+			background-position: 25px center; 
+			padding: 10px 0px 10px 40px;
+		}
+		@if $btn-type == "ms-action" { 
+			background-position: 40px center; 
+			padding: 10px 0px 10px 45px;
+		}
 
-    &:hover {
-      cursor: pointer;
-      color: $ms-pureWhite;
-        background-image: url(../images/ms-logo-01.png);
-        background-color: $ms-mediumLightGray;
-        border-right-color: $ms-mediumLightGray;
-        border-bottom-color: $ms-mediumLightGray;
-        border-left-color: $ms-lightGray;
-    }
-  }
+		&:hover {
+			cursor: pointer;
+			color: $ms-pureWhite;
+			background-image: url(../images/ms-logo-01.png);
+			background-color: $ms-mediumLightGray;
+			border-right-color: $ms-mediumLightGray;
+			border-bottom-color: $ms-mediumLightGray;
+			border-left-color: $ms-lightGray;
+		}
+	}
+}
+
+@mixin ms-radio-btn ($color) {
+	input[type="radio"] {
+		display: none;
+		&:checked + label {
+			@include reveal-animation();
+			background-color: $ms-pureWhite;
+			border-color: $color;
+			border: 2px solid $color;
+			color: $color;
+			font-weight: bold;
+			outline: none;
+		}
+	}
+	label {
+		width: 160px;
+		height: 75px;
+		padding: 23px 0 0 0;
+		text-align: center;
+		color: $ms-mediumLightGray;
+		font-size: 18px;
+		font-weight: normal;
+		background-color: $ms-pureWhite;
+		border: 1px solid $ms-lightGray;
+		border-radius: 5px;
+
+		&:hover {
+			cursor: pointer;
+			color: $ms-pureWhite;
+			background-color: $ms-lightGray;
+		}
+	}
 }

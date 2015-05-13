@@ -9,9 +9,9 @@
  */
 angular.module('ThreeSixtyOneView')
   .controller('CreateRecommendationDefineCtrl', function ($scope) {
-    $scope.test = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
+    $scope.kpis = [
+      {label: "Net Bookings"},
+      {label: "Revenue"},
+      {label: "Room Nights"}
     ];
   });

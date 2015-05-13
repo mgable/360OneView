@@ -31,6 +31,11 @@
 		margin-left: 1px;
 		padding: 0 0 2px 15px;
 		font-size: 18px;
+
+		&.right {
+			display: inline;
+			padding: 0 0 2px 25px;
+		}
 	}
 
 	input[type=text] {
@@ -60,17 +65,22 @@
 			width: 206px;
 			border: 1px solid $ms-mediumLightGray;
 			border-top: none;
+
+			&.right {
+				margin: -8px 0 0 75px;
+				width: 150px;
+			}
 		}
 	}
 	//Possible input Mixin END
-	.left-column{
-		padding: 0 40px 0 40px;
-	}
 
-	.right-column {
-		height: 861px;
-		background-color: $ms-lightGray;
-		box-shadow: -2px 0 3px $ms-mediumLightGray;
+	.main {
+		display: table;
+
+		.column-fix {
+		display: table-cell;
+		float: none;
+	}
 	}
 
 	.buttons {
@@ -88,70 +98,141 @@
 		}
 	}
 
-	.Sub-view {
-		margin: 25px 0 0 0;
-
-		svg {
-			text-align: center;
-
-			&.line-stroke {
-				stroke: white;
-				stroke-width: 1px;
-			}
-
-			&.icon {
-				float: left;
-				margin: 0 15px 0 0;
-			}
-			
-			&.budget-block {
-				height: 225px;
-				width: 271px;
-			}
-			&.budget-caret {
-				width: 16px;
-				height: 225px;
-				float: left;
-				padding: 97px 0 0 0;
+	.info {
+			color: $ms-mediumLightGray;
+			font-size: 18px;
+			&.right{
+				float: right;
 			}
 		}
 
-		.budget-column{
-			width: 287px;
-			float: right;
-		}
+	.left-column{
+		padding: 0 40px 0 40px;
+		.sub-view {
+			margin: 25px 0 0 0;
 
-		&.bottom-border {
-			padding: 0 0 25px 0;
-			border: {
-				bottom-style: dotted;
-				width: 2px;
-				color: $ms-mediumLightGray;
+			svg {
+				text-align: center;
+
+				&.line-stroke {
+					stroke: white;
+					stroke-width: 1px;
+				}
+
+				&.icon {
+					float: left;
+					margin: 0 15px 0 0;
+				}
+				
+				&.budget-block {
+					height: 225px;
+					width: 271px;
+				}
+				&.budget-caret {
+					width: 16px;
+					height: 225px;
+					float: left;
+					padding: 97px 0 0 0;
+				}
 			}
-		}
 
-		.prompt {
-			margin: 15px 0 15px 0 ;
-			font-size: 24px;
-		}
-		.prompt-small {
-			margin: 0 0 15px 0
-		}
-		.header {
-			font-size: 35px;
-			line-height: 35px;
-		}
-		.register{
-			margin: 50px 0 0 0;
+			.date-container {
+				width: 536px;
+			}
 
+			.budget-column{
+				width: 287px;
+				float: right;
+			}
+
+			&.bottom-border {
+				padding: 0 0 25px 0;
+				border: {
+					bottom-style: dotted;
+					width: 2px;
+					color: $ms-mediumLightGray;
+				}
+			}
+
+			.prompt {
+				margin: 15px 0 15px 0 ;
+				font-size: 24px;
+			}
+			.prompt-small {
+				margin: 0 0 15px 0
+			}
+			.header {
+				font-size: 35px;
+				line-height: 35px;
+			}
+			.register{
+				margin: 50px 0 0 0;
+			}
 			.filters {
 				margin: 25px 0 50px 0;
 			}
+			.hyphen {
+				font-size: 20px;
+				margin: {
+					top: 32px;
+				}
+				padding: 0 10px;
+			}
+
+			.kpi-buttons {
+				li {
+					display: inline;
+					list-style-type: none;
+					padding-right: 20px;
+				}
+				label {
+					font-weight: normal;
+				}
+				.kpi-btn {
+					@include ms-radio-btn($ms-mediumBlue);
+				}
+			}
 		}
-		.hyphen {
-			text-align: center;
-			font-size: 20px;
-			margin-top: 32px;
+	}
+
+	.right-column {
+		padding: 0 25px 25px;
+		background-color: $ms-veryLightGray;
+		box-shadow: -5px 0px 3px -2px $ms-lightGray;
+		.section {
+			margin: 25px 0 0 0;
+			font-size: 14px;
+			color: $ms-gray;
+			border: {
+				bottom: {
+					style: solid;
+					color: $ms-mediumLightGray;
+					width: 1px;
+				}
+			}
+			&.end {
+				border: none;
+			}
+			a {
+				display: block;
+			}
+			.sub-section {
+				color: $ms-mediumBlue;
+			}
+			.item-container {
+				margin: 10px 0;
+				&.add-link{
+					color: $ms-mediumGray;
+				}
+			}
+			.item {
+				font-size: 18px;
+				color: $ms-mediumBlue;
+			}
+			.constraint-link {
+				margin: 0 0 0 5px;
+			}
+			.field {}
 		}
 	}
 }
