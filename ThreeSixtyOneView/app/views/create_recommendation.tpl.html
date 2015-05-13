@@ -1,11 +1,69 @@
 <div class="CreateRecommendation">
-	<div class="row">
-		<div class="col-md-9 left-column">
+	<div class="row main">
+		<div class="col-md-9 left-column column-fix">
 			<ng-include src="'views/includes/create_recommendation/name_and_describe.tpl.html'"></ng-include>
 			<ng-include src="'views/includes/create_recommendation/select.tpl.html'"></ng-include>
 			<ng-include src="'views/includes/create_recommendation/define.tpl.html'"></ng-include>
 		</div>
-		<div class="col-md-3 right-column"></div>
+		<div class="col-md-3 right-column column-fix">
+			<div class="section">
+				Base Scenario
+				<div class="item-container">
+					<a class="item" href="">Plan of Record</a>
+				</div>
+			</div>
+			<div class="section">
+				<div ng-click="">
+					Constraints
+					<icon type="caret-right" cname="constraint-link"></icon>
+					<icon type="info-circle" cname="info right"></icon>
+				</div>
+				<div class="item-container">
+					<ul>
+						<li ng-repeat="constraint in constraints" ng-click=""><class="item" a href="">{{constraint.label}}</a></li>
+					</ul>
+				</div>
+				<div class="item-container add-link" ng-click="">
+					<icon type="plus-circle"></icon>
+					add
+				</div>
+			</div>
+			<div class="section end" ng-if="isRecommendTypeStrategy">
+				Assumptions
+				<icon type="info-circle" cname="info right"></icon> 
+				<div class="item-container">
+					<ul>
+						<li class="sub-section" ng-repeat="assumption in assumptions" ng-click="">
+							<div class="item-container">
+								{{assumption.field}}:
+								<a class="item" href="">{{assumption.label}}</a>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="section end" ng-if="!isRecommendTypeStrategy">
+				Assumptions
+				<icon type="info-circle" cname="info right"></icon> 
+				<div class="item-container">
+					Historical Performance Period
+					<div class="item-container">
+						<span class="field">Start Date</span>
+						<span>
+							<div class="underlined right">date</div>
+							<div class="underline non-input right"></div>
+						</span>
+					</div>
+					<div class="item-container">
+						<span class="field">End Date</span>
+						<span>
+							<div class="underlined right">date</div>
+							<div class="underline non-input right"></div>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="row buttons">
 		<ms-button type="cancel" label="Cancel"></ms-button>

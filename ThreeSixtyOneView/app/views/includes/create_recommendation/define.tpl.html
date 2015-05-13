@@ -1,4 +1,4 @@
-<div ng-controller="CreateRecommendationDefineCtrl" class="Sub-view bottom-border">
+<div ng-controller="CreateRecommendationDefineCtrl" class="sub-view">
 	<svg class="icon" version="1.1" baseProfile="tiny" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
 	 x="0px" y="0px" viewBox="-273 75 412 412" xml:space="preserve" height="50px" width="50px">
 		<g>
@@ -21,8 +21,24 @@
 	</svg>
 	<div class="header">
 		Define your goals
+		<icon type="info-circle" cname="info"></icon>
 	</div>
 	<div class="sub-header">
 		What KPI do you want to optimize for?
+	</div>
+	<div class="register">
+		<form>
+			<ul class="kpi-buttons">
+				<li class="kpi-btn" ng-repeat="kpi in kpis" ng-click="">
+					<input type="radio" id="radio{{$index}}" name="selectKPI" />
+					<label class="animated fadeIn" for="radio{{$index}}">
+						{{kpi.label}}
+					</label>
+				</li>
+			</ul>
+		</form>
+	</div>
+	<div class="row filters">
+		Filters Section
 	</div>
 </div>
