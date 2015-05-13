@@ -2,8 +2,20 @@
 
 .CreateRecommendation {
 	background-color: $ms-pureWhite;
-	margin: 0 20px;
-	padding: 10px;
+
+	// Bootstrap Overrides
+	.row {
+		margin: {
+			left: 0px;
+			right: 0px;
+		}
+	}
+
+	.col-md-5,
+	.col-md-1 {
+		padding: 0;
+	}
+	// Bootstrap Overrides END
 
 	//Possible input Mixin
 	input:focus {
@@ -45,12 +57,36 @@
 
 		&.non-input {
 			background-color: transparent;
-			width: 237px;
+			width: 206px;
 			border: 1px solid $ms-mediumLightGray;
 			border-top: none;
 		}
 	}
 	//Possible input Mixin END
+	.left-column{
+		padding: 0 40px 0 40px;
+	}
+
+	.right-column {
+		height: 861px;
+		background-color: $ms-lightGray;
+		box-shadow: -2px 0 3px $ms-mediumLightGray;
+	}
+
+	.buttons {
+		text-align: right;
+		padding: 15px 0;
+		border:{
+			top: {
+				style: solid;
+				width: 1px;
+				color: $ms-mediumLightGray;
+			}
+		}
+		.btn {
+			margin: 0 15px 0 0;
+		}
+	}
 
 	.Sub-view {
 		margin: 25px 0 0 0;
@@ -67,8 +103,10 @@
 				float: left;
 				margin: 0 15px 0 0;
 			}
+			
 			&.budget-block {
 				height: 225px;
+				width: 271px;
 			}
 			&.budget-caret {
 				width: 16px;
@@ -76,6 +114,11 @@
 				float: left;
 				padding: 97px 0 0 0;
 			}
+		}
+
+		.budget-column{
+			width: 287px;
+			float: right;
 		}
 
 		&.bottom-border {
@@ -100,16 +143,15 @@
 		}
 		.register{
 			margin: 50px 0 0 0;
+
+			.filters {
+				margin: 25px 0 50px 0;
+			}
 		}
 		.hyphen {
 			text-align: center;
 			font-size: 20px;
 			margin-top: 32px;
-		}
-
-		.col-md-5,
-		.col-md-1 {
-			padding: 0;
 		}
 	}
 }
