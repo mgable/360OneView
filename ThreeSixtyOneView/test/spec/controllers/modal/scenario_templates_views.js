@@ -33,7 +33,7 @@ describe('Controller: ScenarioTemplatesViewsCtrl', function () {
 		var baseScenarioPromise = function() {
 			return {
 				then: function(callback) {
-					callback(JSON.parse(baseScenario));
+					callback(JSON.parse(templateMockData.baseScenario));
 					return this;
 				}
 			};
@@ -42,7 +42,7 @@ describe('Controller: ScenarioTemplatesViewsCtrl', function () {
 		var baseTemplatePromise = function() {
 			return {
 				then: function(callback) {
-					callback(JSON.parse(baseTemplate));
+					callback(JSON.parse(templateMockData.baseTemplate));
 					return this;
 				}
 			};
@@ -77,7 +77,7 @@ describe('Controller: ScenarioTemplatesViewsCtrl', function () {
 			$scope: scope,
 			$rootScope: $rootScope,
 			$modalInstance: modalInstance,
-			data: JSON.parse(scenarioTemplatesViewsCtrlModalData)
+			data: JSON.parse(templateMockData.scenarioTemplatesViewsCtrlModalData)
 		});
 	}));
 
@@ -88,7 +88,7 @@ describe('Controller: ScenarioTemplatesViewsCtrl', function () {
 	});
 
 	it('should have a defined api', function() {
-		expect(getAPI(scope)).areArraysEqual(scenarioTemplatesViewsCtrlSignature);
+		expect(getAPI(scope)).areArraysEqual(templateMockData.scenarioTemplatesViewsCtrlSignature);
 	});
 
 	it('should set all event listeners', function() {
@@ -100,7 +100,7 @@ describe('Controller: ScenarioTemplatesViewsCtrl', function () {
 	it('should create draft template', function() {
 		scope.createDraftTemplate();
 		expect(ManageTemplatesService.create).toHaveBeenCalled();
-		expect(scope.template.id).toBe(JSON.parse(baseTemplate).id);
+		expect(scope.template.id).toBe(JSON.parse(templateMockData.baseTemplate).id);
 	});
 
 	it('should set the time granularity', function() {

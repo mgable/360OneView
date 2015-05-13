@@ -22,7 +22,7 @@ describe('Controller: ChooseDimensionsCtrl', function () {
         scope.getTimeGranularity = function() { return 'QUARTER'; };
         scope.dimensions = JSON.parse(dimensionTree);
         scope.getAddedDimensionMembers = function() {
-            return JSON.parse(addedFilters);
+            return JSON.parse(templateMockData.addedFilters);
         };
         scope.setTimeGranularity = function() {
             return jasmine.any(Array);
@@ -40,7 +40,7 @@ describe('Controller: ChooseDimensionsCtrl', function () {
     });
 
     it('should have a defined api', function() {
-        expect(getAPI(scope)).areArraysEqual(chooseDimensionsCtrlSignature);
+        expect(getAPI(scope)).areArraysEqual(templateMockData.chooseDimensionsCtrlSignature);
     });
 
     it('should emit flipbookAllowAdvance event true when time granularity is selected', function() {
