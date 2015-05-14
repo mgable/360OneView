@@ -14,9 +14,10 @@ function readDirectory(directory){
 				console.info("renaming " + i );
 				fs.renameSync(directoryAndFileName, directoryAndFileName + ".json");
 			}
-		} else {
-			//console.info(i + " is a directory");
+		} else if (stats.isDirectory()){
 			readDirectory(directoryAndFileName);
+		} else {
+			console.info("ignoring " + i);
 		}
 	});
 }
