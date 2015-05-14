@@ -32,7 +32,9 @@
     "it": false,
     "jasmine": false,
     "spyOn": false,
-    "_": false
+    "_": false,
+    "templateMockData": false,
+    "scenarioMockData": false
   }
 }
 

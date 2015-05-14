@@ -14,6 +14,15 @@ describe('Service: ManageTemplatesService', function () {
 		backend.when('GET', manageTemplatesUrl.replace(/\/:templateId/,'')).respond(JSON.parse(scenarioMockData.scenarioTemplates));
 		backend.when('GET', manageTemplatesUrl.replace(/\/:templateId/,'') + '?type=' + scenarioMockData.templateType).respond(JSON.parse(scenarioMockData.scenarioTemplates));
 		backend.when('GET', manageTemplatesUrl.replace(/:templateId/, scenarioMockData.templateId) + '?extended=true').respond(JSON.parse(scenarioMockData.scenarioTemplates)[0]);
+		backend.when('POST', manageTemplatesUrl.replace(/\/:templateId/,'')).respond(JSON.parse(templateMockData.baseTemplate));
+		backend.when('PUT', manageTemplatesUrl.replace(/:templateId/, scenarioMockData.templateId)).respond(JSON.parse(templateMockData.baseTemplate));
+		backend.when('PUT', manageTemplatesUrl.replace(/:templateId/, scenarioMockData.templateId) + '?commit=true').respond(JSON.parse(templateMockData.baseTemplate));
+		backend.when('DELETE', manageTemplatesUrl.replace(/:templateId/, scenarioMockData.templateId)).respond(JSON.parse(templateMockData.baseTemplate));
+		backend.when('POST', manageTemplatesUrl.replace(/:templateId/, scenarioMockData.templateId) + '/views').respond(JSON.parse(scenarioMockData.touchpointView));
+		backend.when('GET', manageTemplatesUrl.replace(/:templateId/, scenarioMockData.templateId) + '/cube/id?cubeName=touchpoint').respond([1]);
+		backend.when('GET', manageTemplatesUrl.replace(/:templateId/, scenarioMockData.templateId) + '/cube/ids?type=Standard').respond([1,2,3]);
+		backend.when('GET', manageTemplatesUrl.replace(/:templateId/, scenarioMockData.templateId) + '/dimension/1/hierarchy').respond([1,2,3]);
+		backend.when('GET', manageTemplatesUrl.replace(/:templateId/, scenarioMockData.templateId) + '/dimension/1/hierarchy/2/level/3/members?children=true').respond([1,2,3]);
 	}));
 
 	// Initialize the controller and a mock scope
@@ -52,5 +61,70 @@ describe('Service: ManageTemplatesService', function () {
 				expect(response).toEqual(templates[0]);
 			});
 		});
+
+		it('should create a draft scenario template', function() {
+			ManageTemplatesService.create(JSON.parse(templateMockData.baseTemplate)).then(function(response) {
+				expect(response).toEqual(JSON.parse(templateMockData.baseTemplate));
+			});
+		});
+
+		it('should update the draft scenario template', function() {
+			ManageTemplatesService.update(JSON.parse(templateMockData.baseTemplate), false).then(function(response) {
+				expect(response).toEqual(JSON.parse(templateMockData.baseTemplate));
+			});
+		});
+
+		it('should commit the changes to the draft scenario template and make it final', function() {
+			ManageTemplatesService.update(JSON.parse(templateMockData.baseTemplate), true).then(function(response) {
+				expect(response).toEqual(JSON.parse(templateMockData.baseTemplate));
+			});
+		});
+
+		it('should delete a draft scenario template', function() {
+			ManageTemplatesService.delete(templateMockData.templateId).then(function() {
+				expect(ManageTemplatesService.kpis).toEqual([]);
+				expect(ManageTemplatesService.dimensions).toEqual([]);
+			});
+		});
+
+		it('should create the default views for the created scenario template', function() {
+			ManageTemplatesService.createView(scenarioMockData.templateId, JSON.parse(scenarioMockData.touchpointView)).then(function(response) {
+				expect(response).toEqual(JSON.parse(scenarioMockData.touchpointView));
+			});
+		});
+
+		it('should get a cube in a scenario template by its name', function() {
+			ManageTemplatesService.getTemplateCubeByName(scenarioMockData.templateId, 'touchpoint').then(function(response) {
+				expect(response).toEqual([1]);
+			});
+		});
+
+		it('should get cubes in a scenario template by their type', function() {
+			ManageTemplatesService.getTemplateCubesByType(scenarioMockData.templateId, 'Standard').then(function(response) {
+				expect(response).toEqual([1,2,3]);
+			});
+		});
+
+		it('should get hierarchies in a dimension in scenario template', function() {
+			ManageTemplatesService.getHierarchy(templateMockData.templateId, 1).then(function(response) {
+				expect(response).toEqual([1,2,3]);
+			});
+		});
+
+		it('should get members in a level in a dimension in scenario template', function() {
+			ManageTemplatesService.getMembers(templateMockData.templateId, 1, 2, 3).then(function(response) {
+				expect(response).toEqual([1,2,3]);
+			});
+		});
+	});
+
+	it('should get the kpis list', function() {
+		ManageTemplatesService.kpis = ['a'];
+		expect(ManageTemplatesService.getKpis()).toEqual(['a']);
+	});
+
+	it('should get the dimensions list', function() {
+		ManageTemplatesService.dimensions = ['a'];
+		expect(ManageTemplatesService.getDimensions()).toEqual(['a']);
 	});
 });
