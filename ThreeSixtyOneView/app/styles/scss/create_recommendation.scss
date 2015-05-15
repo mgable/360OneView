@@ -35,6 +35,11 @@
 		&.right {
 			display: inline;
 			padding: 0 0 2px 25px;
+			&.end {
+				padding: {
+					left: 29px;
+				}
+			}
 		}
 	}
 
@@ -232,7 +237,6 @@
 			.constraint-link {
 				margin: 0 0 0 5px;
 			}
-			.field {}
 		}
 	}
 }
