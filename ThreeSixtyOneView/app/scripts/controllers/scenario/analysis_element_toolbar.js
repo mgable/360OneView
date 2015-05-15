@@ -5,7 +5,8 @@
 
 // View controllers
 angular.module('ThreeSixtyOneView')
-	.controller("AnalysisElementCtrl", ["$scope", 'EVENTS', "DialogService", "ManageScenariosService", 'ScenarioService', function($scope, EVENTS, DialogService, ManageScenariosService, ScenarioService) {
+	.controller("AnalysisElementCtrl", ["$scope", 'EVENTS', "DialogService", "ManageScenariosService", 'ScenarioService',
+	function($scope, EVENTS, DialogService, ManageScenariosService, ScenarioService) {
 		// Inherited from parent controller scenario.js
 		// $scope.scenarioElements
 		// $scope.setScenarioElement
