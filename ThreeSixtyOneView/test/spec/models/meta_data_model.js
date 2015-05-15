@@ -3,7 +3,7 @@
 describe('Service: MetaDataModel', function () {
 
 	// load the controller's module
-	beforeEach(module('ThreeSixtyOneView.services'));
+	beforeEach(module('ThreeSixtyOneView'));
 
 	var MetaDataModel;
 

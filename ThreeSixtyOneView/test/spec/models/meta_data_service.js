@@ -5,7 +5,7 @@ describe('Service: MetaDataService', function () {
 	var MetaDataService, MetaDataModel, backend, metaDataUrl;
 
 	// load the controller's module
-	beforeEach(module('ThreeSixtyOneView.services'));
+	beforeEach(module('ThreeSixtyOneView'));
 
 	// setup backend
 	beforeEach(inject(function(SERVER, CONFIG, $httpBackend) {

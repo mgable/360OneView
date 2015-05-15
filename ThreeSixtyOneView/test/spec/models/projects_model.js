@@ -5,8 +5,7 @@ describe('Service: ProjectModel', function() {
 	var $q, $timeout, $httpBackend, ProjectsService, ProjectsModel, rootScope, projectsUrl, projectData, data, newProject, deferred, EVENTS;
 
 	// load the service's module
-	beforeEach(module('ThreeSixtyOneView.services'));
-	beforeEach(module('ThreeSixtyOneView.config'));
+	beforeEach(module('ThreeSixtyOneView'));
 
 	beforeEach(inject(function(_ProjectsService_, _$q_, $rootScope, _$httpBackend_, $location, _$timeout_, _ProjectsModel_, SERVER, CONFIG, _EVENTS_) {
 		$q = _$q_;

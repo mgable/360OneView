@@ -2,9 +2,7 @@
 
 describe('Services: Favorites Service: ', function() {
 
-    beforeEach(module('ThreeSixtyOneView.services'));
-    beforeEach(module('ThreeSixtyOneView.filters'));
-    beforeEach(module('ThreeSixtyOneView.config'));
+    beforeEach(module('ThreeSixtyOneView'));
 
     var  FavoritesService;
 

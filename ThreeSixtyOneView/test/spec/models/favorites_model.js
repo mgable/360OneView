@@ -5,7 +5,6 @@ describe('Service: FavoritesModel', function() {
 	var FavoritesModel, rootScope, $httpBackend, url, projectUrl, data;
 
 	// load the service's module
-	beforeEach(module('ThreeSixtyOneView.services'));
 	beforeEach(module('ThreeSixtyOneView'));
 
 	beforeEach(inject(function(_$httpBackend_, $location, $rootScope, _FavoritesModel_, SERVER, CONFIG) {

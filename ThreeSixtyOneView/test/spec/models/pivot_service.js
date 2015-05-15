@@ -5,7 +5,7 @@ describe('Service: PivotService', function () {
 	var PivotService, PivotModel, backend, pivotUrl;
 
 	// load the controller's module
-	beforeEach(module('ThreeSixtyOneView.services'));
+	beforeEach(module('ThreeSixtyOneView'));
 
 	// setup backend
 	beforeEach(inject(function(SERVER, CONFIG, $httpBackend) {

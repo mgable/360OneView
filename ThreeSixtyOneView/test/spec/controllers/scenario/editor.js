@@ -10,7 +10,7 @@ describe('Controllers: scenario editor CTRL', function() {
 
 	var ctrl, signature ;
 
-	beforeEach(module('ThreeSixtyOneView', 'ThreeSixtyOneView.services'));
+	beforeEach(module('ThreeSixtyOneView'));
 
 	beforeEach(inject(function(_$httpBackend_, _$rootScope_, _$state_, _$controller_, _$q_, _CONFIG_, _EVENTS_, _SERVER_){
 		$httpBackend = _$httpBackend_;

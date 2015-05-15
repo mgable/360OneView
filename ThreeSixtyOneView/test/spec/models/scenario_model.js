@@ -5,8 +5,7 @@
 describe('Service: ScenarioModel', function () {
 
     // load the service's module
-  beforeEach(module('ThreeSixtyOneView.services'));
-  beforeEach(module('ThreeSixtyOneView.config'));
+  beforeEach(module('ThreeSixtyOneView'));
 
   // instantiate service
   var ScenarioModel, rootScope, data, newScenario, deferred;

@@ -5,7 +5,7 @@ describe('Service: ManageTemplatesService', function () {
 	var ManageTemplatesService, ManageTemplatesModel, backend, manageTemplatesUrl;
 
 	// load the controller's module
-	beforeEach(module('ThreeSixtyOneView.services'));
+	beforeEach(module('ThreeSixtyOneView'));
 
 	beforeEach(inject(function(SERVER, CONFIG, $httpBackend) {
 		manageTemplatesUrl = SERVER.server + CONFIG.application.api.template;
