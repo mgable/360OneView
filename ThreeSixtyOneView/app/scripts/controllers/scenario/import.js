@@ -13,7 +13,6 @@ angular.module('ThreeSixtyOneView')
 				$scope.selectedFileName = $scope.selectedFile.name;
 				$scope.isFileSelected = true;
 				$scope.isFileInvalid = $scope.selectedFile.type.toLowerCase() !== importModel.acceptedFileType;
-
 			} else {
 				$scope.selectedFile = {};
 				$scope.selectedFileName = 'Select a file to import';
