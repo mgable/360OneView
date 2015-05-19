@@ -62,7 +62,7 @@ describe('Directive: breadcrumb', function () {
     element = $compile(element)(scope);
     $rootScope.$broadcast("$stateChangeSuccess");
     scope.$digest();
-    expect(element.text()).toBe('All Projectsnew titlenew title');
+    expect(element.text()).toBe('new titlenew title');
   }));
 
   it("should render scenario create", inject(function($compile){
@@ -89,7 +89,7 @@ describe('Directive: breadcrumb', function () {
     element = $compile(element)(scope);
     $rootScope.$broadcast("$stateChangeSuccess");
     scope.$digest();
-    expect(element.text()).toBe('All Projectsnew titlenew title');
+    expect(element.text()).toBe('new titlenew title');
   }));
 });
 
