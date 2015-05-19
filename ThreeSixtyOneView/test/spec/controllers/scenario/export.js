@@ -26,6 +26,8 @@ describe("ExportCtrl: ExportCtrl", function(){
 		spyOn(PivotViewService, 'addItem').and.callThrough();
 		spyOn(PivotViewService, 'replaceItem').and.callThrough();
 		spyOn(DialogService, 'filtersModal').and.callThrough();
+		spyOn(ExportResourceService, 'requestExport').and.callThrough();
+		spyOn(ExportResourceService, 'downloadFile').and.callThrough();
 	}));
 
 	it('should be defined', function() {
@@ -85,7 +87,30 @@ describe("ExportCtrl: ExportCtrl", function(){
 
 	it('should open the filters modal', function() {
 		scope.filtersModal();
-		
+
 		expect(DialogService.filtersModal).toHaveBeenCalled();
+	});
+
+	it('should request an export process', function() {
+		scope.selectedScenarioElement = {id: 1, name: 'test'};
+		scope.requestExport();
+
+		expect(ExportResourceService.requestExport).toHaveBeenCalled();
+		expect(scope.isExportInProgress).toBeTruthy();
+		expect(scope.isDownloadReady).toBeFalsy();
+	});
+
+	it('should download the exported file', function() {
+		scope.downloadFile();
+
+		expect(ExportResourceService.downloadFile).toHaveBeenCalled();
+	});
+
+	it('should cancel the export process', function() {
+		scope.cancelExport();
+
+		expect(scope.statusMessage).toBe('');
+		expect(scope.isExportInProgress).toBeFalsy();
+		expect(scope.isDownloadReady).toBeFalsy();
 	});
 });
