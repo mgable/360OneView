@@ -18,9 +18,13 @@ function makeData(directory, obj){
 				stats = (fs.statSync(directoryAndFileName));
 			if(stats.isFile()){
 				if(/\.json$/.test(i)){
-					console.info("opening " + directoryAndFileName );
-					//fs.renameSync(directoryAndFileName, directoryAndFileName + ".json");
-					obj[i.replace(".json", "")] = JSON.parse(fs.readFileSync(directoryAndFileName, 'utf8'));
+					if (/\.DS_Store\.json/.test(i)){
+						console.info("deleting %s", directoryAndFileName);
+						fs.unlinkSync(directoryAndFileName);
+					} else {
+						console.info("opening " + directoryAndFileName );
+						obj[i] = JSON.parse(fs.readFileSync(directoryAndFileName, 'utf8'));
+					}
 				}
 			} else if (stats.isDirectory()){
 				obj[i] = {};

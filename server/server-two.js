@@ -1,16 +1,22 @@
 var express = require('express'),
+    bodyParser = require("body-parser"),
     app = express(),
     fs = require('fs'),
     cors = require('cors'),
     _ = require('underscore'),
     config = require('./config'),
     crypto = require('crypto'),
-    cache = {};
+    cache = {},
+    data = JSON.parse(fs.readFileSync("./marketshare/data.json", 'utf8'));
+
+    console.info(data);
 
 app.options("*", cors());
+app.use(bodyParser.json()); 
+
 
 app.get('*', cors(),  function(req, res, next){
-    var responseData = loadResponses(req.url, req, res, next);
+    var responseData = loadResponses(req.url);
     if (responseData){
         sendResponse(res, responseData);
     } else {
@@ -19,17 +25,21 @@ app.get('*', cors(),  function(req, res, next){
     }
 }, set404);
 
+
+
+
 config.funcs = {
-    startingScenarioId: 10000,
+    startingScenarioId: 300,
     scenarioCache: {},
-    createProject: function (req){
+    createProject: function (req, res){
         var response = _.clone(req.body);
         console.info("creating project");
         response.uuid = crypto.createHash('md5').update(response.name).digest('hex');
-
         response = this.addAuditInfo(response);
 
-        //cache["/rubix/v1/project"].push(response);
+        data.rubix.v1["project.json"].push(response);
+        data.rubix.v1.project[response.uuid] = {'scenario.json': []};
+        data.rubix.v1.favorite.project[response.uuid] = {'scenario.json': []};
         return response;
     },
     renameProject: function(req){
@@ -41,14 +51,18 @@ config.funcs = {
         }
         return project;
     },
+    makeAnalysisView: function(req){
+        return req.body;
+    },
     renameScenario: function(req){
-        var scenario = this.getScenario(req.body.id);
+        console.info(req);
+        var scenario = this.getScenario(req.params[0], req.body.id);
         scenario.name = req.body.name;
         scenario = this.addAuditInfo(scenario);
         return scenario;
     },
     editScenario: function(req){
-        var scenario = this.getScenario(req.body.id);
+        var scenario = this.getScenario(req.params[0], req.body.id);
         scenario.description = req.body.description;
         scenario = this.addAuditInfo(scenario);
         return scenario;
@@ -58,16 +72,25 @@ config.funcs = {
         var response = _.clone(req.body);
         response.id = this.startingScenarioId++;
         response = this.addAuditInfo(response);
-        cache["scenarios"].push(response);
+        data.rubix.v1.project[req.params[0]]["scenario.json"].push(response);
+        this.createAnalysisElement(response.id);
+        return response;
+    },
+    createAnalysisElement: function(id){
+        var copyAnalysisElement = data.rubix.v1.scenario['100']['analysis-element.json'];
+        data.rubix.v1.scenario[id] = {'analysis-element.json': copyAnalysisElement};
     },
     getProject: function(uuid){
-        return _.find(cache["Project listing"], function(project){
+        return _.find(data.rubix.v1['project.json'], function(project){
             return project.uuid == uuid;
         });
     },
-    getScenario: function(id){
-        return _.find(cache["scenarios"], function(scenario){
-            return scenario.id === id;
+    // getProjectUuidFromUrl: function(url){
+    //     return url.match(/\w{32}/)[0];
+    // },
+    getScenario: function(projectUuid, scenarioId){
+        return _.find(data.rubix.v1.project[projectUuid]["scenario.json"], function(scenario){
+            return scenario.id === scenarioId;
         });
     },
     addAuditInfo: function(response){
@@ -89,10 +112,10 @@ config.funcs = {
         return [];
     },
     makeFavoriteProject: function(req){
-        cache["favorite projects"].push(req.body);
+        data.rubix.v1.favorite['project.json'].push({uuid: req.body.uuid});
     },
     unfavoriteProject: function(req){
-        cache["favorite projects"] = _.reject(cache["favorite projects"], function(favorite){
+        data.rubix.v1.favorite['project.json'] = _.reject(data.rubix.v1.favorite['project.json'], function(favorite){
             return _.isEqual(favorite, req.query);
         });
     },
@@ -165,19 +188,20 @@ function readFile(file) {
     }
 }
 
-function loadResponses(place, req, res, next){
-    //console.info("loading response for %s", place);
-   // if(cache[place]){
-   //     return cache[place];
-   // } else {
-        var file = readFile(config.baseUrl + req.url);
-        if(file){
-            //cache[place] = file;
-            return file;
-    //     } else {
-    //         //next();
-         }
-    // }
+
+function loadResponses(url){
+  var path = url.replace(/\?.*/, ""),
+    path = path + ".json",
+    objId = _.compact(path.split("/")), objString = "";
+
+  objId.forEach(function(part){
+    objString += "[\'" + part+ "\']"
+  })
+  try {
+    return eval("data" + objString);
+    }catch(e){
+        console.error("data" + objString + " does not exist");
+    }
 }
 
 function set404(req, res, next){
@@ -186,13 +210,10 @@ function set404(req, res, next){
 }
 
 function loadFunctions(place, req, res, next){
-    //console.info("loading " + place.name);
-    console.info("here");
     return config.funcs[place['function']](req, res);
 }
 
 function sendResponse(res, body) {
-    console.info("sending");
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Access-Control-Allow-Methods', 'GET,PUT,OPTIONS,DELETE,POST');
     res.set("Access-Control-Allow-Headers", "X-Requested-With");
