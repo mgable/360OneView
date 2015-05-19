@@ -141,7 +141,7 @@ angular.module('ThreeSixtyOneView')
                 $scope.scenario.modellingStartTime = selectedBaseScenario.modellingStartTime;
                 $scope.scenario.modellingEndTime = selectedBaseScenario.modellingEndTime;
             } else {
-                delete $scenario.modellingStartTime;
+                delete $scope.scenario.modellingStartTime;
                 delete $scope.scenario.modellingEndTime;
             }
         };
