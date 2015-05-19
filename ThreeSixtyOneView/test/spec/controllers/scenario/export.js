@@ -22,7 +22,10 @@ describe("ExportCtrl: ExportCtrl", function(){
 			$scope: scope
 		});
 
-		// spyOn(ImportResourceService, 'uploadFile').and.callThrough();
+		spyOn(PivotViewService, 'deleteItem').and.callThrough();
+		spyOn(PivotViewService, 'addItem').and.callThrough();
+		spyOn(PivotViewService, 'replaceItem').and.callThrough();
+		spyOn(DialogService, 'filtersModal').and.callThrough();
 	}));
 
 	it('should be defined', function() {
@@ -31,5 +34,58 @@ describe("ExportCtrl: ExportCtrl", function(){
 
 	it('should have a defined api', function() {
 		expect(getAPI(scope)).areArraysEqual(signature);
+	});
+
+	it('should set up export view', function() {
+		scope.viewData = JSON.parse(scenarioMockData.touchpointView);
+		scope.setupExportView();
+		var testView = JSON.parse(scenarioMockData.touchpointView);
+		testView.rows = testView.rows.concat(testView.columns);
+		testView.columns = [];
+
+		expect(scope.exportViewData).toEqual(testView);
+	});
+
+	it('should delete a pivot builder item', function() {
+		scope.exportViewData = JSON.parse(scenarioMockData.touchpointView);
+		scope.exportAddedDimensions = {};
+		scope.deleteItem(0);
+
+		expect(PivotViewService.deleteItem).toHaveBeenCalled();
+	});
+
+	it('should add a pivot builder item', function() {
+		scope.exportViewData = JSON.parse(scenarioMockData.touchpointView);
+		scope.exportAddedDimensions = {};
+		scope.lockedDimensions = {};
+		scope.addItem({label: 'test', dimensionId: 1, levelId: 2});
+
+		expect(PivotViewService.addItem).toHaveBeenCalled();
+	});
+
+	it('should replace a pivot builder item', function() {
+		scope.exportViewData = JSON.parse(scenarioMockData.touchpointView);
+		scope.exportAddedDimensions = {};
+		scope.replaceItem({label: 'new label', dimensionId: 1, levelId: 2}, 'old label');
+
+		expect(PivotViewService.replaceItem).toHaveBeenCalled();
+	});
+
+	it('should get the loaded dimensions', function() {
+		scope.dimensions = {a: 'b'};
+
+		expect(scope.getDimensions()).toEqual({a: 'b'});
+	});
+
+	it('should get pivot view rows', function() {
+		scope.exportViewData = JSON.parse(scenarioMockData.touchpointView);
+
+		expect(scope.getExportViewDataRows()).toEqual(JSON.parse(scenarioMockData.touchpointView).rows);
+	});
+
+	it('should open the filters modal', function() {
+		scope.filtersModal();
+		
+		expect(DialogService.filtersModal).toHaveBeenCalled();
 	});
 });
