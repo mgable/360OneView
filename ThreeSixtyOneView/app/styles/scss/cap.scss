@@ -149,36 +149,33 @@
 		}
 	}
 	div.smallrow {
-		height: 35px;
-		display: block;
-		background-color: $header-smallrow;
-		width: 100%;
-
-		div.smallLeft {
-			margin: auto;
-			min-width: $app_min_width;
-			padding-top: 8px;
-			padding-left: 15px;
-			color: $ms-white;
-			font-size: 1.0em;
-			.breadcrumb {
-				padding:0;
-				margin-bottom: 0;
-				background-color: transparent;
-				border-radius: 0;
-				text-transform: uppercase;
-				white-space: nowrap;
-				a {
-					cursor: pointer;
-					&:hover {
-						text-decoration: none;
-					}
+		color: $ms-white;
+		font-size: 34px;
+		line-height: 40px;
+		.breadcrumb {
+			background: transparent;
+			padding: 8px 40px;
+			text-transform: uppercase;
+			white-space: nowrap;
+			a {
+				color: $ms-white;
+				//cursor: pointer;
+				&:hover {
+					text-decoration: none;
 				}
-				li {
-					text-overflow:ellipsis;
-					max-width: 500px;
-					overflow: hidden;
-				}
+			}
+			li {
+				text-overflow:ellipsis;
+				max-width: 500px;
+				overflow: hidden;
+			}
+			.parent {
+				padding-top: 20px;
+				font-size: 14px;
+				line-height: 25px;
+			}
+			.single {
+				padding-top: 30px;
 			}
 		}
 	}
