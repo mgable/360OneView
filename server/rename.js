@@ -1,27 +1,23 @@
-"use strict";
+var fs = require("fs");
+var args = process.argv.slice(2);
 
-var fs = require("fs"),
-	args = process.argv.slice(2);
+readDirectory(args[0]);
 
-	console.info(args);
-	rename(args[0]);
-
-function rename(directory){
-	var foldAndFiles = fs.readdirSync(directory);
-	foldAndFiles.forEach(function(item){
-		var directoryOrFileNamePath = directory + "/" + item,
-			stats = fs.statSync(directoryOrFileNamePath);
-
-		if (stats.isFile()){
-			console.info(item + " is file ");
-			if (!/\.json$/.test(item)){
-				fs.renameSync(directoryOrFileNamePath, directoryOrFileNamePath + ".json")
+function readDirectory(directory){
+	var contents = fs.readdirSync(directory);
+	contents.forEach(function(i){
+		var directoryAndFileName = directory + "/" + i,
+			stats = (fs.statSync(directoryAndFileName));
+		if(stats.isFile()){
+			if(!/\.json$/.test(i)){
+				console.info("renaming " + i );
+				fs.renameSync(directoryAndFileName, directoryAndFileName + ".json");
 			}
 		} else if (stats.isDirectory()){
-			console.info(item + " is dirctory");
-			rename (directoryOrFileNamePath);
+			readDirectory(directoryAndFileName);
 		} else {
-			console.info(item + " is ignored");
+			console.info("ignoring " + i);
 		}
 	});
 }
+
