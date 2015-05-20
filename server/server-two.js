@@ -20,7 +20,7 @@ app.get('*', cors(),  function(req, res, next){
     if (responseData){
         sendResponse(res, responseData);
     } else {
-        console.info("there!!!");
+        console.info("%s not found", req.url);
         next();
     }
 }, set404);
@@ -190,13 +190,14 @@ function readFile(file) {
 
 
 function loadResponses(url){
-  var path = url.replace(/\?children=true/, ""),
-    path = path + ".json",
+  //var path = url.replace(/\?(.*)/, ""),
+    var path = url + ".json",
     objId = _.compact(path.split("/")), objString = "";
 
   objId.forEach(function(part){
-    objString += "[\'" + part+ "\']"
-  })
+    objString += "[\'" + part + "\']"
+  });
+  
   try {
     return eval("data" + objString);
     }catch(e){
