@@ -63,7 +63,7 @@
 					<div class="list" ng-if="searchResults.members && multiLevelList()">
 						<member ng-repeat="member in searchResults.members | orderBy:'label'" member="member" filters="addedFilter" category="{label: selectedFilter.dimension.label}"  expanded="expanded" expandall="filterSearch" updater="categorizeValuesCount(index, addedFilters)" dimensionindex="selectedDimensionIndex"></member>
 					</div>
-					<div class="list" ng-if="searchResults.members && !multiLevelList()" virtual-repeat="searchResults.members" list="searchResults.members">
+					<div class="list" ng-if="searchResults.members && !multiLevelList()" virtual-repeat="searchResults.members" multi-level="multiLevelList">
 						<member ng-repeat="member in virtualRepeat" member="member" filters="addedFilter" category="{label: selectedFilter.dimension.label}"  expanded="expanded" expandall="filterSearch" updater="categorizeValuesCount(index, addedFilters)" dimensionindex="selectedDimensionIndex"></member>
 					</div>
 				</div>

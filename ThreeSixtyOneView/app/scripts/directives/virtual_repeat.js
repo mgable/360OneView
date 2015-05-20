@@ -15,8 +15,10 @@ angular.module('ThreeSixtyOneView.directives')
 				displayBuffer = 50,
 				list = [],
 				multiLevel = false,
+				setMultiLevel = angular.noop,
 				heightWatch = angular.noop,
 				init = function() {
+
 					heightWatch = scope.$watch(function() {
 						if(itemHeight === 0 && element.height() > 0) {
 							viewportHeight = element.parent().height();
@@ -26,15 +28,16 @@ angular.module('ThreeSixtyOneView.directives')
 						}
 					});
 
+					// watch the list for any changes
 					scope.$watch(attrs.virtualRepeat, function(newValue) {
 						if(multiLevel) {
 							scope.virtualRepeat = newValue;
 						} else {
 							list = newValue;
-							$('.list-box').scrollTop(0);
+							element.parent().scrollTop(0);
 
 							if(list[0].members.length > 0) {
-								scope.multiLevelList(true);
+								scope[attrs.multiLevel](true);
 								multiLevel = true;
 								element.parent().off('scroll');
 								element.height(0);
@@ -46,43 +49,42 @@ angular.module('ThreeSixtyOneView.directives')
 									setScrollEvent();
 								} else {
 									scrollTop = 0;
-									setHeight(itemHeight, list.length, 'watch');
+									setHeight(itemHeight, list.length);
 									updateDOM();
 								}
 							}
 						}
 					});
 				},
+			// find height of a single item
 			findElementHeight = function() {
 				scope.virtualRepeat = list.slice(0, 1);
 			},
+			// set height of the element based on single element height and number of items
 			setHeight = function(itemHeight, numItems) {
 				element.height(itemHeight * numItems);
 			},
+			// update the DOM (after scroll or list change)
 			updateDOM = function() {
-				var newScrollTop = $('.list-box').scrollTop();
 				scrolling = false;
-				// if((newScrollTop < scrollTop + displayBuffer*itemHeight && newScrollTop > scrollTop) && scrollTop > 0) {
-				// 	return;
-				// }
-				scrollTop = $('.list-box').scrollTop();
+				scrollTop = element.parent().scrollTop();
 				var startItem = Math.floor(scrollTop/itemHeight);
 				scope.virtualRepeat = list.slice(startItem, startItem + displayBuffer);
 				$compile('<div style="position:absolute;top:'+scrollTop+'px"><member ng-repeat="member in virtualRepeat" member="member" filters="addedFilter" category="{label: selectedFilter.dimension.label}"  expanded="expanded" expandall="filterSearch" updater="categorizeValuesCount(index, addedFilters)" dimensionindex="selectedDimensionIndex"></member></div>')(scope, function(cloned) {
 					element.children().eq(0).replaceWith(cloned);
 				});
 			},
+			// set up the scroll event listener
 			setScrollEvent = function() {
 				var scrollerTimeout;
 
 				element.parent().scroll(function() {
 					if(!scrolling) {
 						scrolling = true;
-						scrollerTimeout = $timeout(updateDOM, callbackDelay);
 					} else {
 						$timeout.cancel(scrollerTimeout);
-						scrollerTimeout = $timeout(updateDOM, callbackDelay);
 					}
+					scrollerTimeout = $timeout(updateDOM, callbackDelay);
 				});
 			};
 
