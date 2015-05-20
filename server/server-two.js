@@ -190,7 +190,7 @@ function readFile(file) {
 
 
 function loadResponses(url){
-  var path = url.replace(/\?.*/, ""),
+  var path = url.replace(/\?children=true/, ""),
     path = path + ".json",
     objId = _.compact(path.split("/")), objString = "";
 
