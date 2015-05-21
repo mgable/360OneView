@@ -325,7 +325,7 @@ if(funcs.runTheseTests(testName)){
 				});
 				
 				it("should have the correct breadcrumb label", function(){
-					expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS" + projectInfo.project.name.toUpperCase());
+					expect(specs.breadcrumbField.getText()).toEqual("ALL PROJECTS\n" + projectInfo.project.name.toUpperCase());
 				});
 
 				it("should change the base scenario", function(){
