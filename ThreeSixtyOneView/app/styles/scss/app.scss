@@ -27,14 +27,11 @@ body {
 	position: relative;
 
 	.app {
-		// margin: 65px auto 20px;
-		// padding-bottom: 70px;
-		//height: calc(100% - 160px);
 		width: calc(100% - 40px);
 		box-sizing: content-box;
 		max-width: $app_max_width;
 		min-width: $app_min_width;
-		margin: 100px auto;
+		margin: 100px auto 0;
 		padding: 0 0 80px;
 	}
 
