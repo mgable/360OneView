@@ -44,6 +44,18 @@ config.places = [
     "function": "unfavoriteProject"
 },
 {
+    "name": "Make favorite Scenario",
+    "method": "post",
+    "url": "/rubix/v1/favorite/scenario",
+    "function": "makeFavoriteScenario"
+},
+{
+    "name": "Un-favorite Scenario",
+    "method": "delete",
+    "url": "/rubix/v1/favorite/scenario",
+    "function": "unFavoriteScenario"
+},
+{
     "name": "make analysis-view",
     "method": "put",
     "url": /^\/rubix\/v1\/cube\/\d{1,4}\/analysis-view\/\d{1,4}$/,

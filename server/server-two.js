@@ -20,7 +20,7 @@ app.get('*', cors(),  function(req, res, next){
     if (responseData){
         sendResponse(res, responseData);
     } else {
-        console.info("there!!!");
+        console.info("%s not found", req.url);
         next();
     }
 }, set404);
@@ -114,10 +114,37 @@ config.funcs = {
     makeFavoriteProject: function(req){
         data.rubix.v1.favorite['project.json'].push({uuid: req.body.uuid});
     },
+    makeFavoriteScenario: function(req, res){
+        console.info("making favorite scenairio");
+        var projectUuid = this.getProjectUuidByScenarioId(req.body.id);
+        console.info(projectUuid);
+        data.rubix.v1.favorite.project[projectUuid]['scenario.json'].push(req.body);
+    },
     unfavoriteProject: function(req){
         data.rubix.v1.favorite['project.json'] = _.reject(data.rubix.v1.favorite['project.json'], function(favorite){
             return _.isEqual(favorite, req.query);
         });
+    },
+    unFavoriteScenario: function(req){
+        console.info("unfavorite scenairio");
+        console.info(req.query);
+        var projectUuid = this.getProjectUuidByScenarioId(req.query.id);
+        console.info(projectUuid);
+        data.rubix.v1.favorite.project[projectUuid]['scenario.json'] = _.reject(data.rubix.v1.favorite.project[projectUuid]['scenario.json'], function(item){
+            return item.id === req.query.id;
+        });
+        console.info( data.rubix.v1.favorite.project[projectUuid]['scenario.json']);
+    },
+    getProjectUuidByScenarioId: function(scenarioId){
+        console.info("looking for %s", scenarioId);
+       
+         var projectUUid =_.compact(_.map(data.rubix.v1.project, function(project, index){
+            var ids =  _.pluck(project['scenario.json'], 'id');
+            if (_.contains(ids, parseInt(scenarioId))){
+                return index;
+            }
+        })).toString();
+        return projectUUid;
     },
     getMembers: function(req){
         console.info("loading members");
@@ -190,13 +217,14 @@ function readFile(file) {
 
 
 function loadResponses(url){
-  var path = url.replace(/\?.*/, ""),
-    path = path + ".json",
+  //var path = url.replace(/\?(.*)/, ""),
+    var path = url + ".json",
     objId = _.compact(path.split("/")), objString = "";
 
   objId.forEach(function(part){
-    objString += "[\'" + part+ "\']"
-  })
+    objString += "[\'" + part + "\']"
+  });
+  
   try {
     return eval("data" + objString);
     }catch(e){

@@ -35,29 +35,36 @@ if(funcs.runTheseTests(testName)){
 			}
 		);
 
-		it("should have the correct number of scenarios", function(){
-			funcs.getItemCount().getText().then(function(count){
-				expect(count).toEqual(cache[project.uuid].length.toString(10));
+		xit("should have the correct number of scenarios", function(){
+			var scenarios;
+			flow.await(funcs.getRawData_scenarios(project.uuid).then(function(data){
+				scenarios = data;
+			})).then(function(){
+				funcs.getItems().count().then(function(count){
+					expect(count).toBe(scenarios.length);
+				});
 			});
-
-			funcs.getItems().count().then(function(count){
-				expect(count).toEqual(cache[project.uuid].length);
-			})
 		});
 
 		it("should have the correct scenarios", function(){
-			var sortedScenarios = funcs.sortProjectsByDate(cache[project.uuid]);
-
-				console.info(sortedScenarios[11]);
-
-			funcs.getAllScenarioNames().each(function(item, index){
-				item.getText().then(function(title){
-					console.info(index);
-					console.info("title: " + title);
-					console.info("sorted: " + sortedScenarios[index].name);
-					expect(title).toBe(sortedScenarios[index].name);
-				});	
+			var scenarios;
+			flow.await(funcs.getRawData_scenarios(project.uuid).then(function(data){
+				scenarios = data;
+			})).then(function(){
+				funcs.getItems().count().then(function(count){
+					var sortedScenarios = funcs.sortProjectsByDate(scenarios);
+					
+					funcs.getAllScenarioNames().each(function(item, index){
+						item.getText().then(function(title){
+							console.info(index);
+							console.info("title: " + title);
+							console.info("sorted: " + sortedScenarios[index].name);
+							expect(title).toBe(sortedScenarios[index].name);
+						});	
+					});
+				});
 			});
+
 		});
 
 		xit("should have the correct statuses", function(){
