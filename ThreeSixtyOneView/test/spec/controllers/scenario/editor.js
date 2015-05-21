@@ -35,8 +35,11 @@ describe('Controllers: scenario editor CTRL', function() {
 			id: scenarioMockData.scenarioId
 		};
 		scope.selectedScenarioElement = {
+			id: 22,
 			cubeMeta: JSON.parse(scenarioMockData.cubeMeta)
 		};
+		scope.setReadOnlyMode = jasmine.any;
+		scope.disableSimulateButton = jasmine.any;
 
 		var returnThen = function() {
 			return {
@@ -48,6 +51,7 @@ describe('Controllers: scenario editor CTRL', function() {
 		};
 
 		spyOn(scope, "$on");
+		spyOn($rootScope, "$broadcast");
 
 		spyOn(ManageAnalysisViewsService, 'deleteView').and.callFake(returnThen);
 		spyOn(ManageAnalysisViewsService, 'getView').and.callFake(returnThen);
@@ -56,8 +60,13 @@ describe('Controllers: scenario editor CTRL', function() {
 		spyOn(ManageAnalysisViewsService, 'defaultView').and.callFake(returnThen);
 		spyOn(PivotMetaService, 'determineTimeDisability').and.returnValue(false);
 		spyOn(PivotMetaService, 'getAddedFilters').and.returnValue({value: 'test'});
-		spyOn(PivotMetaService, 'setUpAddedLevels').and.returnValue({value: 'test'});
+		spyOn(PivotMetaService, 'setUpAddedLevels').and.callThrough();
 		spyOn(PivotMetaService, 'updateView').and.callFake(returnThen);
+		spyOn(PivotMetaService, 'updateFilters').and.callThrough();
+		spyOn(PivotMetaService, 'generateCategorizeValueStructure').and.callThrough();
+		spyOn(PivotService, 'getSlice').and.callThrough();
+		spyOn(scope, 'setReadOnlyMode').and.callThrough();
+		spyOn(scope, 'disableSimulateButton').and.callThrough();
 
 		ctrl = $controller('ScenarioEditorCtrl', {
 			$scope: scope
@@ -95,6 +104,14 @@ describe('Controllers: scenario editor CTRL', function() {
 		expect(scope.draftView).toBeFalsy();
 	});
 
+	it('should update the filter values in the current view', function() {
+		scope.updateFilterValues({a: 'b'});
+
+		expect(scope.addedFilters).toEqual({a: 'b'});
+		expect(PivotMetaService.updateFilters).toHaveBeenCalled();
+		expect(PivotMetaService.generateCategorizeValueStructure).toHaveBeenCalled();
+	});
+
 	it('should load a view', function() {
 		var view = JSON.parse(scenarioMockData.touchpointView);
 		scope.loadView(scenarioMockData.cubeId, scenarioMockData.viewId);
@@ -104,7 +121,7 @@ describe('Controllers: scenario editor CTRL', function() {
 		expect(PivotMetaService.getAddedFilters).toHaveBeenCalledWith(view.filters, scope.dimensions);
 		expect(scope.addedFilters).toEqual({value: 'test'});
 		expect(PivotMetaService.setUpAddedLevels).toHaveBeenCalledWith(view.columns.concat(view.rows));
-		expect(scope.added).toEqual({value: 'test'});
+		expect(scope.added).toEqual({QUARTER: true, Hotel: true});
 		expect(scope.timeDisabled).toBeFalsy();
 	});
 
@@ -166,16 +183,77 @@ describe('Controllers: scenario editor CTRL', function() {
 		expect(PivotMetaService.updateView).toHaveBeenCalled();
 	});
 
-	xit('should save a draft view', function() {
-		var draftView = angular.copy(JSON.parse(touchpointView));
+	it('should save a draft view', function() {
+		var draftView = angular.copy(JSON.parse(scenarioMockData.touchpointView));
 		draftView.name = 'Draft - ' + draftView.name;
-		scope.viewsList.push(draftView);
 		scope.draftView = true;
 		scope.viewData = draftView;
 		scope.saveView();
 
 		expect(PivotMetaService.updateView).toHaveBeenCalled();
+		expect(PivotMetaService.setUpAddedLevels).toHaveBeenCalled();
 	});
 
-	it('should not save anything when view is not draft', function() {});
+	it('should not save anything when view is not draft', function() {
+		scope.draftView = false;
+		scope.saveView();
+
+		expect(PivotMetaService.updateView).not.toHaveBeenCalled();
+		expect(PivotMetaService.setUpAddedLevels).not.toHaveBeenCalled();
+	});
+
+	it('should determine if the current view is draft', function() {
+		scope.isViewDraft(false);
+		expect(scope.draftView).toBeFalsy();
+
+		scope.isViewDraft(true);
+		expect(scope.draftView).toBeTruthy();
+
+		expect(scope.isViewDraft()).toBe(scope.draftView);
+	});
+
+	it('should reload the pivot table', function() {
+		scope.spread = {
+			updateSheet: jasmine.any,
+			sheet: {}
+		};
+		scope.loadPivotTable(scope.selectedScenarioElement, scope.viewData);
+
+		expect(scope.spread.sheet.loading).toBeTruthy();
+		expect(PivotService.getSlice).toHaveBeenCalledWith(scope.selectedScenarioElement.id, scope.viewData.id);
+		expect($rootScope.$broadcast).toHaveBeenCalledWith(EVENTS.pivotTableStatusChange, CONFIG.application.models.PivotServiceModel.pivotDataStatus.loading);
+	});
+
+	it('should set the editor read only when calculation starts', function() {
+		scope.readOnlyMode = false;
+		scope.determineReadOnlyMode('in_progress');
+
+		expect(scope.setReadOnlyMode).toHaveBeenCalledWith(true);
+		expect(scope.disableSimulateButton).toHaveBeenCalledWith(true);
+	});
+
+	it('should not change anything if editor is already in read only mode and calculation is in progress', function() {
+		scope.readOnlyMode = true;
+		scope.determineReadOnlyMode('in_progress');
+		
+		expect(scope.setReadOnlyMode).not.toHaveBeenCalledWith(true);
+		expect(scope.disableSimulateButton).not.toHaveBeenCalledWith(true);
+	});
+
+	it('should remove the read only mode after calculation is done', function() {
+		scope.readOnlyMode = true;
+		scope.determineReadOnlyMode('SUCCESSFUL');
+		
+		expect(scope.setReadOnlyMode).toHaveBeenCalledWith(false);
+		expect(scope.disableSimulateButton).toHaveBeenCalledWith(false);
+	});
+
+	it('should not remove the read only mode after calculation is done in plan of record', function() {
+		scope.scenario.isPlanOfRecord = true;
+		scope.readOnlyMode = true;
+		scope.determineReadOnlyMode('SUCCESSFUL');
+		
+		expect(scope.setReadOnlyMode).not.toHaveBeenCalledWith(false);
+		expect(scope.disableSimulateButton).toHaveBeenCalledWith(false);
+	});
 });

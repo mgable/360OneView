@@ -154,7 +154,11 @@
 		line-height: 40px;
 		.breadcrumb {
 			background: transparent;
-			padding: 8px 40px;
+			padding: 8px 20px;
+			margin: 0 auto;
+			width: calc(100% - 40px);
+			max-width: $app_max_width;
+			min-width: $app_min_width;
 			text-transform: uppercase;
 			white-space: nowrap;
 			a {
@@ -189,6 +193,10 @@
 	// bottom:0;
 	// position: fixed;
 	padding: 0 10px;
+	.footerrow {
+		min-width: $content_min_width;
+		margin: auto 20px;
+	}
 	div {
 		&.footerLeft {
 				height: 50px;

@@ -611,7 +611,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t\t\t<div class=\"list\" ng-if=\"searchResults.members && !multiLevelList()\" virtual-repeat=\"searchResults.members\" list=\"searchResults.members\">\r" +
+    "\t\t\t\t\t<div class=\"list\" ng-if=\"searchResults.members && !multiLevelList()\" virtual-repeat=\"searchResults.members\" multi-level=\"multiLevelList\">\r" +
     "\n" +
     "\t\t\t\t\t\t<member ng-repeat=\"member in virtualRepeat\" member=\"member\" filters=\"addedFilter\" category=\"{label: selectedFilter.dimension.label}\"  expanded=\"expanded\" expandall=\"filterSearch\" updater=\"categorizeValuesCount(index, addedFilters)\" dimensionindex=\"selectedDimensionIndex\"></member>\r" +
     "\n" +
