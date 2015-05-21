@@ -1,4 +1,7 @@
-executing Project Dashboard DATA
+executing Project Listing DATA
 	 should set up the tests
-Project Dashboard Page: 
-	 should have the correct scenarios
+Project Listing Page: 
+	 should have the correct number of projects
+	 should have the correct projects
+	 should list the correct scenarios associated with a project
+	 should have the correct meta data
