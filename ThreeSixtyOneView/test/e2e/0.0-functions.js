@@ -86,10 +86,10 @@ var specs = require('./0.0-specs.js'),
 
 			if (cache[type]){
 				defer.fulfill(cache[type]);
-				console.info("getting from cache");
+				//console.info("getting from cache");
 			} else {
 				http.request(options, callback).end();
-				console.info("getting from source");
+				//console.info("getting from source");
 			}
 
 			return defer.promise;

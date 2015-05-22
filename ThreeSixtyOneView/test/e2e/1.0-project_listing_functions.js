@@ -57,7 +57,7 @@ var coreFunctions = require('./0.0-functions.js'),
 			return element(by.css(specs.selectedItemTitle));
 		},
 		getAllItemTitles: function(){
-			return element.all(by.repeater(specs.items).column('name'));
+			return element.all(by.repeater(specs.items).column('item.name'));
 		},
 		getAllItemModifiedOn: function(){
 			return element.all(by.repeater(specs.items).column('auditInfo.lastUpdatedOn'));
