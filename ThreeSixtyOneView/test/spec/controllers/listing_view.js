@@ -129,7 +129,7 @@ describe('Controllers: ', function() {
             FavoritesService = _FavoritesService_;
 
             $state.current.name = "Dashboard";
-            signature = apiElements.concat(['gotoBaseScenario', 'selectItem', 'gotoScenarioCreate', 'isScenarioTitleUnique', 'CONFIG', 'data', 'selectedItem', 'trayActions', 'project', 'scenarios', 'hasAlerts', 'createTemplate']);
+            signature = apiElements.concat(['gotoBaseScenario', 'selectItem', 'gotoScenarioCreate', 'gotoCreateRecommendation', 'isScenarioTitleUnique', 'CONFIG', 'data', 'selectedItem', 'trayActions', 'project', 'scenarios', 'hasAlerts', 'createTemplate']);
 
             spyOn(scope, "$on");
             spyOn(SortAndFilterService, "filter");
@@ -202,6 +202,7 @@ describe('Controllers: ', function() {
 
         it("should set event listeners", function(){
             expect(scope.$on).toHaveBeenCalledWith(EVENTS.gotoScenarioCreate, jasmine.any(Function));
+            expect(scope.$on).toHaveBeenCalledWith(EVENTS.gotoCreateRecommendation, jasmine.any(Function));
             expect(scope.$on).toHaveBeenCalledWith(EVENTS.copyScenario, jasmine.any(Function));
             expect(scope.$on).toHaveBeenCalledWith(EVENTS.renameScenario, jasmine.any(Function));
             expect(scope.$on).toHaveBeenCalledWith(EVENTS.broadcastStates, jasmine.any(Function));

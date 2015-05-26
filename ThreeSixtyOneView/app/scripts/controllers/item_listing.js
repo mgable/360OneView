@@ -56,6 +56,10 @@ angular.module('ThreeSixtyOneView')
             DialogService.openCreateScenario($scope.project, $scope.scenarios);
         };
 
+        $scope.gotoCreateRecommendation = function(){
+             $state.go('CreateRecommendation');
+        };
+
         // $scope.isScenarioTitleUnique = function(scenarioName) {
         //     return !_.findWhere($scope.scenarios, {name: scenarioName});
         // };
@@ -73,6 +77,10 @@ angular.module('ThreeSixtyOneView')
         // Event Listeners
         $scope.$on(EVENTS.gotoScenarioCreate, function(){
             $scope.gotoScenarioCreate();
+        });
+
+        $scope.$on(EVENTS.gotoCreateRecommendation, function(){
+            $scope.gotoCreateRecommendation();
         });
 
         $scope.$on(EVENTS.copyScenario, function(evt, scenario){
@@ -115,8 +123,8 @@ angular.module('ThreeSixtyOneView')
         var init = function(){
             $scope.init(Projects, getProject);
             ProjectsService.getMasterProject().then(function(master) {
-                if (master) { 
-                    // add it to even queue to keep it from getting in before the all other favorites 
+                if (master) {
+                    // add it to even queue to keep it from getting in before the all other favorites
                     $timeout(function() {FavoritesService.addFavorite(master.uuid);})
                 }
             });

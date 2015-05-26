@@ -26,4 +26,8 @@ angular.module('ThreeSixtyOneView.services')
 	this.baseScenario = function(projectId, scenarioId){
 		$state.go("Scenario.edit", {"projectId": projectId, "scenarioId": scenarioId});
 	};
+
+	this.createRecommendation = function(){
+		$state.go("CreateRecommendation");
+	};
 }]);

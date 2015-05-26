@@ -9,6 +9,7 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     editScenario: 'ScenarioService:edit',
     updateProjects: 'ProjectsService:updateProjects',
     gotoScenarioCreate: 'GotoService:scenarioCreate',
+    gotoCreateRecommendation: 'GotoService:createRecommendation',
     gotoDashboard: 'GotoService:dashboard',
     filter: 'SortAndFilterService:filter',
     getNewProjectTitle: "DialogService:create",

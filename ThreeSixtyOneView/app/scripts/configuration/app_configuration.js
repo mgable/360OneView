@@ -183,7 +183,8 @@ angular.module('ThreeSixtyOneView.config')
 				"nameClickAction": "gotoScenarioEdit",
 				"alertSrc": "views/includes/display/no_scenarios_alert.tpl.html",
 				"planOfRecordCreate": "views/includes/display/planofrecord_create_alert.tpl.html",
-				"displayActionsCreate": "gotoScenarioCreate",
+				"displayActionsCreateSimulation": "gotoScenarioCreate",
+				"displayActionsCreateOptimization": "gotoCreateRecommendation",
 				"renameAction": "renameScenario",
 				"editAction": "editScenario",
 				"trayButtons": [{
