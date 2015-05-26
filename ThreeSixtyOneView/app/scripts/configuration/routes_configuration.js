@@ -9,19 +9,19 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
       url: "/playground",
       templateUrl: "playground/views/playground.tpl.html",
       // controller: "PlaygroundCtrl",
-      breadcrumb: "<li>Playground</li>"
+      breadcrumb: "<li class='single'>Playground</li>"
     })
     .state('CreateRecommendation', {
       url: "/createrecommendation",
       templateUrl: "views/create_recommendation.tpl.html",
       controller: "CreateRecommendationCtrl",
-      breadcrumb: "<li>Create Recommendation</li>"
+      breadcrumb: "<li class='single'>Create Recommendation</li>"
     })
     .state('ScenarioTemplates', {
       url: "/scenariotemplates/:type",
       templateUrl: "views/scenario_templates.tpl.html",
       controller: "ScenarioTemplatesCtrl",
-      breadcrumb: "<li>Scenario Templates</li>"
+      breadcrumb: "<li class='single'>Scenario Templates</li>"
     })
     .state('ProjectManager', {
       url: "/projects",

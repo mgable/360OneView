@@ -55,27 +55,27 @@
 			float: none;
 			display: flex;
 			align-items: center;
-			width: 555px;
 			margin: 0 auto;
 			font-size: 16px;
 			height: 100%;
 
-			li a.information {
-				width: 110px;
+			li a.action {
+				/*width: 120px;*/
+				margin-right: 60px;
 				padding: 0;
 				color: $ms-gray;
 				line-height: 11px;
 				text-align: center;
-				cursor: default;
+				cursor: pointer;
 				position: relative;
 
 				&:hover {
 					background-color: inherit;
-					color:  inherit;
+					color: inherit;
 				}
 			}
 
-			li.active a.information{
+			li.active a.action {
 				color: $ms-white;
 				cursor: pointer;
 			}
@@ -93,8 +93,55 @@
 				display: inline-block;
 				position: relative;
 			}
+			.navbar-nav {
+				float: right;
+			}
 			.navbar-nav > li {
 				margin: auto;
+
+				a.information {
+					width: auto;
+					padding: 12px;
+					text-align: center;
+					font-size: 1.6em;
+					color: $ms-gray;
+
+					&.search {
+						margin-right: 20px;
+					}
+
+					&:hover {
+						background-color: $header-background;
+						color: inherit;
+					}
+				}
+				a.piechart {
+					display: block;
+					width: auto;
+					padding: 12px;
+					text-align: center;
+				}
+				div.userStatus {
+					display: block;
+					float: right;
+					position: relative;
+					top: 15px;
+					right: 5px;
+					height: 14px;
+					width: 14px;
+					text-align: center;
+					border-radius: 50%;
+					background-color: $ms-orange;
+
+					font-size: 0.5em;
+					color: $ms-white;
+
+					.notification {
+						position: absolute;
+						top: -2px;
+						left: 3px;
+					}
+				}
 			}
 			/*.navbar-nav > li:hover,*/
 			.navbar-nav > li.active {
@@ -102,62 +149,20 @@
 				cursor: pointer;
 			}
 		}
-		&.headerRight {
-			padding: 0;
 
-			ul.navbar-nav {
-				float: right;
-				font-size: 1.0em;
-				padding: 0 10px 0 0;
-
-				li {
-					float: right;
-					width: 50px;
-
-					a.information {
-						width: auto;
-						padding: 12px;
-						text-align: center;
-						font-size: 1.6em;
-					}
-					a.piechart {
-						display: block;
-						width: auto;
-						padding: 12px;
-						text-align: center;
-					}
-					div.userStatus {
-						display: block;
-						float: right;
-						position: relative;
-						top: -9;
-						right: -3;
-						padding-top: 1px;
-						padding-right: 1px;
-
-						height: 14px;
-						width: 14px;
-						text-align: center;
-						border-radius: 50%;
-						background-color: $ms-orange;
-
-						font-size: 0.5em;
-						color: $ms-white;
-					}
-				}
-			}
-		}
 	}
 	div.smallrow {
 		color: $ms-white;
 		font-size: 34px;
 		line-height: 40px;
+		font-weight: 100;
+
 		.breadcrumb {
 			background: transparent;
 			padding: 8px 20px;
 			margin: 0 auto;
 			width: calc(100% - 40px);
-			max-width: $app_max_width;
+			/*max-width: $app_max_width;*/
 			min-width: $app_min_width;
 			text-transform: uppercase;
 			white-space: nowrap;
@@ -169,8 +174,8 @@
 				}
 			}
 			li {
-				text-overflow:ellipsis;
-				max-width: 500px;
+				text-overflow: ellipsis;
+				max-width: 50%;
 				overflow: hidden;
 			}
 			.parent {
