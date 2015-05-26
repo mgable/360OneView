@@ -1,7 +1,6 @@
 @import "variables";
 
 .CreateRecommendation {
-	margin: 0 20px;
 	background-color: $ms-pureWhite;
 
 	// Bootstrap Overrides
@@ -20,7 +19,7 @@
 
 	//Possible input Mixin
 	input:focus {
-		outline: none 
+		outline: none
 	}
 
 	input {
@@ -129,7 +128,7 @@
 					float: left;
 					margin: 0 15px 0 0;
 				}
-				
+
 				&.budget-block {
 					height: 225px;
 					width: 271px;

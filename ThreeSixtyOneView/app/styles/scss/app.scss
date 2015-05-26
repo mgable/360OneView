@@ -30,7 +30,7 @@ body {
 	.app {
 		width: calc(100% - 40px);
 		box-sizing: content-box;
-		/*max-width: $app_max_width;*/
+		max-width: $app_max_width;
 		min-width: $app_min_width;
 		margin: 100px auto 0;
 		padding: 0 0 80px;
