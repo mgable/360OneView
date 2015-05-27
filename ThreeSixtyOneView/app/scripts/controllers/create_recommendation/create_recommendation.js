@@ -18,11 +18,11 @@ function ($scope, ScenarioService, ProjectsService, ManageTemplatesService, Meta
 		isOutcomeCubeLoaded = false,
 
 		init = function init() {
-			var newRecommendation = {
+			$scope.newRecommendation = {
 					name: '',
-					description: ''
+					description: '',
+					goal: {}
 				};
-
 			$scope.timeDimension = {};
 			$scope.spendDimensions = [];
 			$scope.kpis = [];
@@ -93,6 +93,11 @@ function ($scope, ScenarioService, ProjectsService, ManageTemplatesService, Meta
 					$scope.kpis = dimension.members[0].members;
 				}
 			});
+
+			// select the first kpi by default
+			$scope.newRecommendation.goal.id = $scope.kpis[0].id;
+			$scope.newRecommendation.goal.name = $scope.kpis[0].name;
+			$scope.newRecommendation.goal.label = $scope.kpis[0].label;
 		};
 
 	init();
