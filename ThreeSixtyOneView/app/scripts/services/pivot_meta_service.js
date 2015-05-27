@@ -46,6 +46,11 @@
 			var timeDimension = _.find(dimensions, function(dimension) {
 				return dimension.type === 'TimeDimension';
 			});
+			if(!timeDimension) {
+				timeDimension = _.find(dimensions, function(dimension) {
+					return dimension.type === 'StandardDimension'
+				});
+			}
 
 			return {
 				dimension: {id:timeDimension.dimensionId
