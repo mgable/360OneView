@@ -29,8 +29,8 @@
 	<div class="register">
 		<form>
 			<ul class="kpi-buttons">
-				<li class="kpi-btn" ng-repeat="kpi in kpis" ng-click="">
-					<input type="radio" id="radio{{$index}}" name="selectKPI" />
+				<li class="kpi-btn" ng-repeat="kpi in kpis" ng-click="selectKpi(kpi)">
+					<input type="radio" id="radio{{$index}}" ng-model="newRecommendation.goal.label" value="{{kpi.label}}" />
 					<label class="animated fadeIn" for="radio{{$index}}">
 						{{kpi.label}}
 					</label>
@@ -38,7 +38,7 @@
 			</ul>
 		</form>
 	</div>
-	<div class="row filters">
+<!-- 	<div class="row filters">
 		Filters Section
-	</div>
+	</div> -->
 </div>
