@@ -56,8 +56,12 @@
 					</span>
 				</div>
 			</div>
-			<div class="row filters">
-				<div ng-repeat="dimension in spendDimensions">{{dimension.label}}</div>				
+			<div class="editor">
+				<div class="filters-list">
+					<div class="list">
+						<dimension-filter ng-repeat="dimension in spendDimensions" ng-if="addedFilters[dimension.label]" dimension="dimension" categorized-values="categorizedValue[$index]" action="filtersModal(dimension)" list-view="true"></dimension-filter>				
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="col-md-5 budget-column">

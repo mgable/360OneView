@@ -8,8 +8,8 @@
  * Controller of the threeSixtOneViewApp
  */
 angular.module('ThreeSixtyOneView')
-.controller('CreateRecommendationCtrl', ['$scope', 'ScenarioService', 'ProjectsService', 'ManageTemplatesService', 'MetaDataService',
-function ($scope, ScenarioService, ProjectsService, ManageTemplatesService, MetaDataService) {
+.controller('CreateRecommendationCtrl', ['$scope', 'EVENTS', 'ScenarioService', 'ProjectsService', 'ManageTemplatesService', 'MetaDataService',
+function ($scope, EVENTS, ScenarioService, ProjectsService, ManageTemplatesService, MetaDataService) {
 	var baseScenario,
 		masterProject,
 		spendDimensions,
@@ -86,6 +86,8 @@ function ($scope, ScenarioService, ProjectsService, ManageTemplatesService, Meta
 					$scope.spendDimensions.push(dimension);
 				}
 			});
+
+			$scope.$broadcast(EVENTS.dimensionsReady, $scope.spendDimensions);
 		},
 		formKpisList = function formKpisList(_outcomeDimensions) {
 			_outcomeDimensions.forEach(function(dimension) {
