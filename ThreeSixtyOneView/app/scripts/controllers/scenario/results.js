@@ -283,37 +283,12 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                     } else {
                         spendDatumChild.direction = "increase";
                     }
-                    spendDatumChild.chart = {};
-                    spendDatumChild.chart.results = _.values(_spendSummaryData[0])[0].value !== 0 ? parseFloat((v1[1].value / _.values(_spendSummaryData[0])[0].value) * 100).toFixed(1) : 0;
-                    spendDatumChild.chart.compared = _.values(_spendComparedSummaryData[0])[0].value !== 0 ? parseFloat((_.pairs(_spendComparedSummaryData[i])[i1][1].value / _.values(_spendComparedSummaryData[0])[0].value) * 100).toFixed(1) : 0;
                     spendDatum.children.push(spendDatumChild);
                 });
                 spendData.body.push(spendDatum);
             }
         });
         $scope.spendData = spendData;
-        getChartData();
-    },
-
-    // get the data for spend summary chart
-    getChartData = function() {
-        var cnt = 0;
-        _.each($scope.spendData.body, function(v) {
-            var chartSubData = {};
-            chartSubData.id = v.id;
-            chartSubData.name = v.category;
-            chartSubData.data = [];
-            _.each(v.children, function(v1) {
-                if (_.has(v1, 'chart')) {
-                    v1.chart.categoryId = v.id;
-                    v1.chart.id = v1.id;
-                    v1.chart.colorId = ++cnt;
-                    v1.chart.category = v1.title;
-                    chartSubData.data.push(v1.chart);
-                }
-            });
-            $scope.chartData.push(chartSubData);
-        });
     },
 
     // init function
@@ -327,7 +302,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         $scope.spendAddedFilters = {};
         $scope.spendCategorizedValue = [];
         $scope.spendViewData = {name: 'Loading ...'};
-        $scope.chartData = [];
 
         getScenariosList();
 
