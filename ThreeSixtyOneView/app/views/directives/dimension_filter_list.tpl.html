@@ -1,0 +1,14 @@
+<div class="filter-category-list clickable" ng-click="callAction(dimension)">
+	<span title="{{getFormattedLabels(categorizedValues.label)}}">
+		<div class="filter-label">
+			{{dimension.label}}
+			<span class="filter-stats">({{categorizedValues.selected}}/{{categorizedValues.total}})</span>
+		</div>
+		<div class="filter-values text-holder" ng-show="allValuesSelected(categorizedValues)">
+			{{getFormattedLabels(categorizedValues.label)}}
+		</div>
+		<div class="filter-values text-holder" ng-hide="allValuesSelected(categorizedValues)">
+			All
+		</div>
+	</span>
+</div>

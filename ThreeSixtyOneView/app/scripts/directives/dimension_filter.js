@@ -16,7 +16,14 @@ angular.module('ThreeSixtyOneView.directives').directive('dimensionFilter', [fun
 			categorizedValues: '=',
 			action: '&'
 		},
-		templateUrl: 'views/directives/dimension_filter.tpl.html',
+		// templateUrl: 'views/directives/dimension_filter.tpl.html',
+		templateUrl: function(element, attrs) {
+			if(attrs.listView) {
+				return 'views/directives/dimension_filter_list.tpl.html';
+			} else {
+				return 'views/directives/dimension_filter.tpl.html';
+			}
+		},
 		link: function(scope) {
 			scope.allValuesSelected = function(values) {
 				return values.selected < values.total;

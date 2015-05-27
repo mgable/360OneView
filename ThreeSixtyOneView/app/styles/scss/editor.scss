@@ -242,6 +242,34 @@
 					}
 				}
 			}
+
+			.filter-category-list {
+				display: block;
+				min-width: 215px;
+				margin: 10px 25px 10px 0;
+				font-size: 16px;
+
+				.filter-label {
+					/*color: $ms-darkGray;*/
+					display: inline-block;
+
+					.filter-stats {
+						margin-left: 0;
+					}
+				}
+
+				.filter-values {
+					color: $ms-mediumBlue;
+					display: inline-block;
+					margin-left: 10px;
+					max-width: 400px;
+					vertical-align: bottom;
+
+					&:hover {
+						text-decoration: underline;
+					}
+				}
+			}
 		}
 	}
 }
