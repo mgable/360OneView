@@ -6,7 +6,7 @@
         font-size: 16px;
         .dropdown-menu {
             color: #333 !important;
-            border-radius: 2px;
+            border-radius: 3px;
         }
         .scenario-selector {
             float: left;
@@ -18,9 +18,13 @@
             float: right;
             margin-right: 30px;
             .dropdown-menu {
-                left: -168px;
+                left: -251px;
                 width: 510px !important;
                 padding: 0;
+                &::before {
+                    background-color: $ms-veryLightGray;
+                    left: 318px;
+                }
                 .header {
                     background-color: $ms-veryLightGray;
                     border-top-left-radius: 2px;
@@ -47,17 +51,60 @@
                         &:hover {
                             background-color: darken($ms-mediumGray, 5%);
                         }
-                        &.save-icon {
-                            top: 28px;
-                            right: 20px;
-                        }
                         &.open-icon {
                             top: 28px;
                             right: 60px;
                         }
+                        &.save-icon {
+                            top:28px;
+                            right: 20px;
+                        }
                         i {
                             color: $ms-white;
                             line-height: 30px;
+                        }
+                    }
+                    .floating-container {
+                        position: absolute;
+                        top: 68px;
+                        right: 20px;
+                        .sub-icon {
+                            position: relative;
+                            margin-bottom: 10px;
+                            cursor: pointer;
+                            border-radius: 50%;
+                            width: 30px;
+                            height: 30px;
+                            i {
+                                color: $ms-white;
+                                line-height: 30px;
+                                right: 9px;
+                                position: absolute;
+                            }
+                            background-color:$ms-orange;
+                            &:hover {
+                                background-color: darken($ms-orange, 5%);
+                                .floating-text {
+                                    transition: opacity 0.4s;
+                                    opacity: 1;
+                                }
+                            }
+                            .floating-text{
+                                opacity: 0;
+                                transition: opacity 0.4s;
+                                position: absolute;
+                                top: 0;
+                                right: 40px;
+                                line-height: 30px;
+                                color:$ms-white;
+                                text-align:right;
+                                min-width: 100px;
+                                .floating-text-BG{
+                                    padding: 5px 10px;
+                                    background-color:rgba(33, 33, 33, 0.8);
+                                    border-radius: 3px;
+                                }
+                            }
                         }
                     }
                 }
@@ -77,7 +124,7 @@
             padding: 0 30px 0 0;
             width: 300px;
             ul.nav-menu {
-                border-radius: 5px;
+                border-radius: 3px;
                 background-color: $ms-white;
                 padding: 10px 0;
                 font-size: 18px;
@@ -95,7 +142,7 @@
             padding: 0;
             width: calc(100% - 300px);
             .results-card {
-                border-radius: 5px;
+                border-radius: 3px;
                 background-color: $ms-white;
                 margin-bottom: 30px;
                 padding: 20px;
