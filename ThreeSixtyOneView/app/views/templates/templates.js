@@ -351,13 +351,13 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "        </div>\r" +
     "\n" +
-    "        <div class=\"children-checkbox ms-checkbox no-select\" ng-repeat=\"item in dimensionSchema.members\" ng-if=\"templateType !== 'Action'\" ng-class=\"{'disabled': isMeasure(dimensionSchema)}\">\r" +
+    "        <div class=\"children-checkbox ms-checkbox no-select\" ng-repeat=\"item in dimensionSchema.members\" ng-if=\"templateType !== 'Action'\" ng-class=\"{'disabled': isEmpty(item, dimensionSchema)}\">\r" +
     "\n" +
-    "            <icon type=\"lock\" class=\"pull-left ms-checkbox-lock\" ng-if=\"isMeasure(dimensionSchema)\"></icon>\r" +
+    "            <icon type=\"lock\" class=\"pull-left ms-checkbox-lock\" ng-if=\"isEmpty(item, dimensionSchema)\"></icon>\r" +
     "\n" +
     "            <label>\r" +
     "\n" +
-    "                <input type=\"checkbox\" ng-model=\"item.isSelected\" ng-disabled=\"isMeasure(dimensionSchema)\"><i></i><span class=\"capitalized\">{{item.label}}</span>\r" +
+    "                <input type=\"checkbox\" ng-model=\"item.isSelected\" ng-disabled=\"isEmpty(item, dimensionSchema)\"><i></i><span class=\"capitalized\">{{item.label}}</span>\r" +
     "\n" +
     "            </label>\r" +
     "\n" +
