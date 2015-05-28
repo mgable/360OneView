@@ -1,121 +1,42 @@
 @import "variables";
 
-.scenario {
-	margin: 0;
-	padding: 20px;
-	background-color: $ms-pureWhite;
+$toggle-btn-radius: 56px;
+$toggle-btn-padding: 8px;
+$circle-btn-radius: $toggle-btn-radius - 2 * $toggle-btn-padding;
 
+.scenario {
 	.toggle-header {
-		position: relative;
-		padding: 7px 20px;
-		margin: -20px -20px 30px;
-		height: 50px;
-		background-color: $ms-white;
-		box-shadow: 0px 0px 8px #AAA;
-		z-index: 20;
-		.tabs-holder {
-			float:left;
-			ul {
-				list-style: none;
+		height: $toggle-btn-radius;
+		border-bottom: 1px solid $ms-darkGray;
+		margin-top: -$toggle-btn-radius;
+		.toggle-btn-group {
+			float: right;
+			.toggle-btn {
 				display: inline-block;
-				margin-bottom: -7px;
-				margin-top: -7px;
-				li {
-					float: left;
-					margin-right: 20px;
-					height: 50px;
-					width: 90px;
-					text-align: center;
+				width: $toggle-btn-radius;
+				height: $toggle-btn-radius;
+				padding: $toggle-btn-padding;
+				.circle-btn {
 					cursor: pointer;
-					-webkit-transition: all 0.4s;
-					transition: all 0.4s;
-					a {
-						text-overflow: ellipsis;
-						white-space: nowrap;
-						text-decoration: none;
-						font-weight: 300;
-						font-size: 19px;
-						line-height: 50px;
-						color: #a9a9a9;
-						-webkit-transition: all 0.4s;
-						transition: all 0.4s;
-						i {
-							font-size: 16px;
-							margin-right: 5px;
+					border-radius: 50%;
+					width: 100%;
+					height: 100%;
+					&.orange {
+						background-color: $ms-orange;
+			  			&:hover {
+							background-color: darken($ms-orange, 5%);
 						}
 					}
-					&:hover {
-						a {
-							color: #333;
-							-webkit-transition: all 0.4s;
-							transition: all 0.4s;
-						}
+					i {
+						display:inline-block;
+					    font-size: 20px;
+					    line-height: $circle-btn-radius;
+					    color:white;
+					    width: $circle-btn-radius;
+					    height: $circle-btn-radius;
+					    text-align: center;
+					    vertical-align: bottom;
 					}
-					&.selected {
-						color: #333;
-						border-bottom: 4px solid #142f55;
-						-webkit-transition: all 0.4s;
-						transition: all 0.4s;
-						a {
-							color: #333;
-							-webkit-transition: all 0.4s;
-							transition: all 0.4s;
-						}
-					}
-				}
-			}
-		}
-		.icon-holder {
-			float: right;
-			margin-right: 15px;
-			span {
-				text-align: center;
-				white-space: nowrap;
-				display: inline-block;
-				width: 38px;
-				height: 35px;
-				background-color: #d9d9d9;
-				margin-top: 1px;
-				border-radius: 5px;
-				color: #a4a4a4;
-				cursor: pointer;
-				-webkit-user-select: none;
-				-moz-user-select: none;
-				-ms-user-select: none;
-				user-select: none;
-				i {
-					font-size: 16px;
-					line-height: 35px;
-				}
-				&:hover {
-					background-color: $ms-mediumLightGray;
-				}
-			}
-		}
-		.button-holder {
-			float: right;
-			span {
-				display: inline-block;
-				margin-top: 1px;
-				padding: 7px 20px 6px;
-				background-color: #f45724;
-				border-radius: 5px;
-				font-size: 1.2em;
-				line-height: 20px;
-				color: white;
-				cursor: pointer;
-				box-shadow: 0px 3px 5px #AAA;
-				text-transform: uppercase;
-				&:hover {
-					background-color: darken($ms-orange, 5%);
-				}
-				i {
-					font-size: 16px;
-					padding-right: 5px;
-				}
-				&.disabled {
-					background-color: #cdcdcd;
-					cursor: not-allowed;
 				}
 			}
 		}
@@ -140,8 +61,8 @@
 	.display {
 		width: 100%;
 
-		.scenario-type-dropdown {
-			margin: 20px 0;
+		.scenario-settings {
+			margin: 20px 0 30px 0;
 
 			.dropdown {
 				display: inline-block;
@@ -161,22 +82,9 @@
 					}
 
 					&::before {
-						left: 50px;
+						// left: 50px;
 					}
 				}
-
-				.dropdown-toggle {
-					color: $ms-orange;
-					font-weight: 700;
-					font-size: 17px;
-
-					i {
-						color: $ms-gray;
-						font-size: 14px;
-						margin-left: 5px;
-					}
-				}
-
 
 				.filename {
 					font-size: 16px;
@@ -210,7 +118,7 @@
 
 			.period-pickers {
 				display: inline-block;
-				
+
 				.period-range {
 					display: inline-block;
 					margin-right: 20px;
@@ -235,7 +143,7 @@
 			margin-top: -40px;
 			color: $ms-mediumGray;
 		}
-		
+
 		.tableHolder {
 			width: 100%;
 			.trayHolder {

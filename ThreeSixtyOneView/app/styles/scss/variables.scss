@@ -153,12 +153,12 @@ $content_min_width: 1080px;
 @mixin reveal-animation($time:0.5) {
   $delayTime: #{$time / 2}s;
   $longDelayTime: #{$delayTime / 2}s;
-  &.animated { 
-	-webkit-animation-duration: #{$time}s; 
-	animation-duration: #{$time}s; 
-	-webkit-animation-fill-mode: both; 
-	animation-fill-mode: both; 
-  } 
+  &.animated {
+	-webkit-animation-duration: #{$time}s;
+	animation-duration: #{$time}s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+  }
 
   &.delay {
 	-webkit-animation-delay: #{$delayTime}s;
@@ -170,17 +170,17 @@ $content_min_width: 1080px;
 	  animation-delay: #{$longDelayTime}s;
   }
 
-  @-webkit-keyframes fadeIn { 
+  @-webkit-keyframes fadeIn {
 	0% {opacity: 0;}
-	100% {opacity: 1;} 
-  } 
-  @keyframes fadeIn { 
+	100% {opacity: 1;}
+  }
+  @keyframes fadeIn {
 	0% {opacity: 0;}
-	100% {opacity: 1;} 
-  } 
-  &.fadeIn { 
-	-webkit-animation-name: fadeIn; 
-	animation-name: fadeIn; 
+	100% {opacity: 1;}
+  }
+  &.fadeIn {
+	-webkit-animation-name: fadeIn;
+	animation-name: fadeIn;
   }
 }
 
@@ -211,12 +211,12 @@ $content_min_width: 1080px;
 		border-radius: 0;
 		background-image: url(../images/#{$logo-image});
 		background-repeat: no-repeat;
-		@if $btn-type == "ms-strategy" { 
-			background-position: 25px center; 
+		@if $btn-type == "ms-strategy" {
+			background-position: 25px center;
 			padding: 10px 0px 10px 40px;
 		}
-		@if $btn-type == "ms-action" { 
-			background-position: 40px center; 
+		@if $btn-type == "ms-action" {
+			background-position: 40px center;
 			padding: 10px 0px 10px 45px;
 		}
 

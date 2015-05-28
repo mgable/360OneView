@@ -1,6 +1,6 @@
-<div class="scenario-type-dropdown">
-	<div class="dropdown">
-		<span>Results compared to </span>
+<section class="scenario-settings row">
+	<div class="dropdown scenario-selector">
+		<icon type="bar-chart"></icon>&nbsp;<span>Compared to</span>
 		<span class="dropdown-toggle clickable">
 			{{selectedScenario.title}}&nbsp;<icon type="caret-down"></icon>
 		</span>
@@ -11,4 +11,31 @@
 			<li class="menu-item" ng-click="openAllComparedScenariossModal()"><icon type="folder-open-o"></icon>All Scenarios</li>
 		</ul>
 	</div>
-</div>
+	<div class="time-selector">
+		<icon type="calendar"></icon>&nbsp;2015 Q3 - 2015 Q4
+	</div>
+	<div class="dropdown filters-selector">
+		<icon type="filter"></icon>&nbsp;
+		<span class="dropdown-toggle clickable">
+			Filters&nbsp;<icon type="caret-down"></icon>
+		</span>
+		<div class="dropdown-menu">
+			<div class="header">
+				<div class="title">
+					<p>Filter view:
+						<span>{{spendViewData.name}}</span>
+					</p>
+				</div>
+				<li class="icon open-icon" ng-click="openAllViewsModal()"><icon type="folder-open-o"></icon></li>
+				<li class="icon save-icon" ng-click="saveView()"><icon type="floppy-o"></icon></li>
+			</div>
+			<div class="content">
+				<div class="filters-list">
+					<div class="list">
+						<dimension-filter ng-repeat="dimension in spendDimensions" ng-if="spendAddedFilters[dimension.label]" dimension="dimension" categorized-values="spendCategorizedValue[$index]" action="filtersModal('spend', dimension)" list-view="true"></dimension-filter>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
