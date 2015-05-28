@@ -33,7 +33,7 @@ body {
 		max-width: $app_max_width;
 		min-width: $app_min_width;
 		margin: 100px auto 0;
-		padding: 0 0 80px;
+		padding: 0 $app_padding 80px;
 	}
 
 	.footer {
