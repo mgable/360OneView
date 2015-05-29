@@ -20,20 +20,21 @@
         <span class="dropdown-toggle clickable">
 			Filters&nbsp;<icon type="caret-down"></icon>
 		</span>
-        <div class="dropdown-menu">
+        <div class="dropdown-menu" ng-click="$event.stopPropagation()">
             <div class="header">
                 <div class="title">
                     <p>Filter view:
                         <span ng-class="{draft: draftView}">{{spendViewData.name}}</span>
                     </p>
                 </div>
-                <li class="icon open-icon" ng-click="openAllViewsModal()">
-                    <ms-button type="cancel" action="" label="" icon="folder-open-o" shape="circle"></ms-button>
+                <li class="icon open-icon">
+                    <ms-button type="cancel" action="openAllViewsModal()" label="" icon="folder-open-o" shape="circle"></ms-button>
                 </li>
                 <li class="icon save-icon">
-                    <ms-button type="cancel" action="" label="" icon="floppy-o" shape="circle"></ms-button>
+                    <ms-button type="cancel" action="toggleIcon=!toggleIcon" label="" icon="floppy-o" shape="circle" ng-show="!toggleIcon"></ms-button>
+                    <ms-button type="cancel" action="toggleIcon=!toggleIcon" label="" icon="times" shape="circle" ng-show="toggleIcon"></ms-button>
                 </li>
-                <ul class="floating-container">
+                <ul class="floating-container" ng-show="toggleIcon">
                     <li class="sub-icon save-sub-icon" ng-click="saveView()">
                         <p class="floating-text"><span class="floating-text-BG">Save</span></p>
                         <ms-button type="submit" action="" label="" icon="floppy-o" shape="circle"></ms-button>
