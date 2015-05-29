@@ -49,6 +49,14 @@ angular.module('ThreeSixtyOneView.directives')
                 scope.isMeasure = function(dimension) {
                     return dimension.type === 'MeasureDimension' ? true : false;
                 };
+                scope.isEmpty = function(item, dimension) {
+                    var memberLength = _.filter(dimension.members, function(member) { return member.isSelected; }).length;
+                    if (dimension.type === 'MeasureDimension') {
+                        if (memberLength === 1 && item.isSelected) {
+                            return true;
+                        } else { return false; }
+                    } else { return false; }
+                };
             }
         };
     }]);
