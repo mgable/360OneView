@@ -12,6 +12,7 @@ angular.module('ThreeSixtyOneView')
 function ($scope, EVENTS, ScenarioService, ProjectsService, ManageTemplatesService, MetaDataService) {
 	var baseScenario,
 		masterProject,
+		spendCubeId,
 		spendDimensions,
 		outcomeDimensions,
 		isSpendCubeLoaded = false,
@@ -50,8 +51,9 @@ function ($scope, EVENTS, ScenarioService, ProjectsService, ManageTemplatesServi
 		getSpendCube = function getSpendCube(templateId) {
 			isSpendCubeLoaded = false;
 
-			ManageTemplatesService.getTemplateCubesByType(templateId, 'Spend').then(function(spendCubeId) {
-				MetaDataService.buildDimensionsTree(spendCubeId[0]).then(function(_spendDimensions) {
+			ManageTemplatesService.getTemplateCubesByType(templateId, 'Spend').then(function(_spendCubeId) {
+				spendCubeId = _spendCubeId[0];
+				MetaDataService.buildDimensionsTree(_spendCubeId[0]).then(function(_spendDimensions) {
 					spendDimensions = _spendDimensions;
 					formSpendDimensions(_spendDimensions);
 
@@ -100,6 +102,14 @@ function ($scope, EVENTS, ScenarioService, ProjectsService, ManageTemplatesServi
 			$scope.newRecommendation.goal.id = $scope.kpis[0].id;
 			$scope.newRecommendation.goal.name = $scope.kpis[0].name;
 			$scope.newRecommendation.goal.label = $scope.kpis[0].label;
+		};
+
+		$scope.getBaseScenario = function() {
+			return baseScenario;
+		};
+
+		$scope.getSpendCubeId = function() {
+			return spendCubeId;
 		};
 
 	init();
