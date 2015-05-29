@@ -1,6 +1,6 @@
 <section class="scenario-settings row">
     <div class="dropdown scenario-selector">
-        <icon type="bar-chart"></icon>&nbsp;<span>Compared to</span>
+        <icon type="bar-chart"></icon>&nbsp;<span>Compared to:</span>
         <span class="dropdown-toggle clickable">
 			{{selectedScenario.title}}&nbsp;<icon type="caret-down"></icon>
 		</span>
@@ -28,19 +28,19 @@
                     </p>
                 </div>
                 <li class="icon open-icon" ng-click="openAllViewsModal()">
-                    <icon type="folder-open-o"></icon>
+                    <ms-button type="cancel" action="" label="" icon="folder-open-o" shape="circle"></ms-button>
                 </li>
                 <li class="icon save-icon">
-                    <icon type="floppy-o"></icon>
+                    <ms-button type="cancel" action="" label="" icon="floppy-o" shape="circle"></ms-button>
                 </li>
                 <ul class="floating-container">
                     <li class="sub-icon save-sub-icon" ng-click="saveView()">
                         <p class="floating-text"><span class="floating-text-BG">Save</span></p>
-                    	<icon type="floppy-o"></icon>
+                        <ms-button type="submit" action="" label="" icon="floppy-o" shape="circle"></ms-button>
                     </li>
                     <li class="sub-icon save-as-sub-icon">
                         <p class="floating-text"><span class="floating-text-BG">Save As</span></p>
-                    	<icon type="floppy-o"></icon>
+                        <ms-button type="submit" action="" label="" icon="floppy-o" shape="circle"></ms-button>
                     </li>
                 </ul>
             </div>

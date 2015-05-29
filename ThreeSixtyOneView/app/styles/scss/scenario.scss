@@ -1,42 +1,18 @@
 @import "variables";
 
-$toggle-btn-radius: 56px;
-$toggle-btn-padding: 8px;
-$circle-btn-radius: $toggle-btn-radius - 2 * $toggle-btn-padding;
-
 .scenario {
 	.toggle-header {
-		height: $toggle-btn-radius;
+		height: 56px;
 		border-bottom: 1px solid $ms-darkGray;
-		margin-top: -$toggle-btn-radius;
+		margin-top: -56px;
 		.toggle-btn-group {
 			float: right;
 			.toggle-btn {
 				display: inline-block;
-				width: $toggle-btn-radius;
-				height: $toggle-btn-radius;
-				padding: $toggle-btn-padding;
-				.circle-btn {
-					cursor: pointer;
-					border-radius: 50%;
-					width: 100%;
-					height: 100%;
-					&.orange {
-						background-color: $ms-orange;
-			  			&:hover {
-							background-color: darken($ms-orange, 5%);
-						}
-					}
-					i {
-						display:inline-block;
-					    font-size: 20px;
-					    line-height: $circle-btn-radius;
-					    color:white;
-					    width: $circle-btn-radius;
-					    height: $circle-btn-radius;
-					    text-align: center;
-					    vertical-align: bottom;
-					}
+				margin: 8px;
+				button {
+				    height: 40px;
+				    width: 40px;
 				}
 			}
 		}

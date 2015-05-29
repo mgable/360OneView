@@ -10,6 +10,11 @@
         }
         .scenario-selector {
             float: left;
+            .dropdown-toggle {
+                margin-left: 5px;
+                font-weight: 700;
+                color: $ms-orange;
+            }
             .dropdown-menu {
                 left: 78px;
             }
@@ -45,14 +50,12 @@
                     }
                     .icon {
                         position: absolute;
-                        cursor: pointer;
-                        border-radius: 50%;
-                        width: 30px;
-                        height: 30px;
-                        background-color:$ms-mediumGray;
-                        text-align: center;
-                        &:hover {
-                            background-color: darken($ms-mediumGray, 5%);
+                        button {
+                            height: 35px;
+                            width: 35px;
+                            i {
+                                font-size: 12px;
+                            }
                         }
                         &.open-icon {
                             top: 28px;
@@ -62,10 +65,7 @@
                             top:28px;
                             right: 20px;
                         }
-                        i {
-                            color: $ms-white;
-                            line-height: 30px;
-                        }
+
                     }
                     .floating-container {
                         position: absolute;
@@ -73,23 +73,18 @@
                         right: 20px;
                         .sub-icon {
                             position: relative;
-                            margin-bottom: 10px;
-                            cursor: pointer;
-                            border-radius: 50%;
-                            width: 30px;
-                            height: 30px;
-                            i {
-                                color: $ms-white;
-                                line-height: 30px;
-                                right: 9px;
-                                position: absolute;
-                            }
-                            background-color:$ms-orange;
+                            margin-bottom: 5px;
                             &:hover {
-                                background-color: darken($ms-orange, 5%);
                                 .floating-text {
                                     transition: opacity 0.4s;
                                     opacity: 1;
+                                }
+                            }
+                            button {
+                                width: 35px;
+                                height: 35px;
+                                i {
+                                    font-size: 12px;
                                 }
                             }
                             .floating-text{
