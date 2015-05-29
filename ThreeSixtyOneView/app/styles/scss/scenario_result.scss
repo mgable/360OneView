@@ -37,6 +37,9 @@
                                 display: block;
                                 font-size: 16px;
                                 font-weight: 700;
+                                &.draft {
+                                    font-style: italic;
+                                }
                             }
                         }
                     }
@@ -110,6 +113,9 @@
                 }
                 .content {
                     padding: 10px 20px;
+                    .filter-values {
+                        max-width: 300px;
+                    }
                 }
             }
         }

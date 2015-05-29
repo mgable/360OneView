@@ -24,7 +24,7 @@
             <div class="header">
                 <div class="title">
                     <p>Filter view:
-                        <span>{{spendViewData.name}}</span>
+                        <span ng-class="{draft: draftView}">{{spendViewData.name}}</span>
                     </p>
                 </div>
                 <li class="icon open-icon" ng-click="openAllViewsModal()">
