@@ -31,8 +31,8 @@
 			<ul class="kpi-buttons">
 				<li class="kpi-btn" ng-repeat="kpi in kpis" ng-click="selectKpi(kpi)">
 					<input type="radio" id="radio{{$index}}" ng-model="newRecommendation.goal.label" value="{{kpi.label}}" />
-					<label class="animated fadeIn" for="radio{{$index}}">
-						{{kpi.label}}
+					<label class="animated fadeIn label-holder" for="radio{{$index}}">
+						<span class="label-text">{{kpi.label}}</span>
 					</label>
 				</li>
 			</ul>
