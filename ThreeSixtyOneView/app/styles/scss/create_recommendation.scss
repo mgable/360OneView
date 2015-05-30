@@ -186,16 +186,23 @@
 			}
 
 			.kpi-buttons {
-				li {
-					display: inline;
-					list-style-type: none;
-					padding-right: 20px;
-				}
-				label {
-					font-weight: normal;
-				}
 				.kpi-btn {
 					@include ms-radio-btn($ms-mediumBlue);
+					display: inline-block;
+					list-style-type: none;
+					padding-right: 20px;
+
+					label {
+						font-weight: normal;
+						vertical-align: top;
+						height: 75px;
+						line-height: 75px;
+
+						.label-text {
+							line-height: normal;
+							vertical-align: middle;
+						}
+					}
 				}
 			}
 		}
