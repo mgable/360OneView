@@ -194,13 +194,12 @@
 
 					label {
 						font-weight: normal;
-						vertical-align: top;
 						height: 75px;
-						line-height: 75px;
+						display: table;
 
 						.label-text {
-							line-height: normal;
 							vertical-align: middle;
+							display: table-cell;
 						}
 					}
 				}
