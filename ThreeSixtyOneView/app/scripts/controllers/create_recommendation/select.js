@@ -33,7 +33,7 @@ function ($scope, $q, EVENTS, PivotMetaService, DialogService, ManageScenariosSe
 				$scope.membersList = PivotMetaService.generateMembersList(spendDimensions);
 				$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, spendDimensions, $scope.viewData);
 				return view;
-			});
+			},function() {alert(arguments);});
 		},
 		getAnalysisElement = function getAnalysisElement(baseScenario, spendCubeId) {
 			return ManageScenariosService.getAnalysisElementByScenarioAndCube(baseScenario.id, spendCubeId).then(function(analysisElement) {
@@ -53,14 +53,13 @@ function ($scope, $q, EVENTS, PivotMetaService, DialogService, ManageScenariosSe
 			}
 
 			$q.all(promises).then(function(responses) {
-				// console.log('analysisElement', responses[0]);
 				console.log('spendView', responses[1]);
 				updateTotalSpend(responses[0].id, responses[1].id);
 			});
 		},
 		updateTotalSpend = function updateTotalSpend(analysisElementId, spendViewId) {
 			ReportsService.getSummary(analysisElementId, spendViewId).then(function(spendSummary) {
-				$scope.totalBudget = spendSummary[0].SPEND.value;
+				$scope.totalBudget = spendSummary[0].Spend.value;
 			});
 		};
 	$scope.getSpendDimensions = function() {
