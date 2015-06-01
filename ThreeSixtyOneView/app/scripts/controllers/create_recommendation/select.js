@@ -33,7 +33,7 @@ function ($scope, $q, EVENTS, PivotMetaService, DialogService, ManageScenariosSe
 				$scope.membersList = PivotMetaService.generateMembersList(spendDimensions);
 				$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, spendDimensions, $scope.viewData);
 				return view;
-			},function() {alert(arguments);});
+			});
 		},
 		getAnalysisElement = function getAnalysisElement(baseScenario, spendCubeId) {
 			return ManageScenariosService.getAnalysisElementByScenarioAndCube(baseScenario.id, spendCubeId).then(function(analysisElement) {
