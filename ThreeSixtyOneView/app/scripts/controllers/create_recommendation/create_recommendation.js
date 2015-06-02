@@ -89,7 +89,7 @@ function ($scope, EVENTS, ScenarioService, ProjectsService, ManageTemplatesServi
 				}
 			});
 
-			$scope.$broadcast(EVENTS.dimensionsReady, $scope.spendDimensions);
+			$scope.$broadcast(EVENTS.dimensionsReady, _spendDimensions);
 		},
 		formKpisList = function formKpisList(_outcomeDimensions) {
 			_outcomeDimensions.forEach(function(dimension) {

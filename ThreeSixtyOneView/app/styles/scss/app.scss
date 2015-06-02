@@ -26,6 +26,7 @@ body {
 	min-height: 100%;
 	position: relative;
 	background-color: $background-shade;
+	min-width: $app_min_width + 2*$app_padding;
 
 	.app {
 		/*width: calc(100% - 40px);*/
