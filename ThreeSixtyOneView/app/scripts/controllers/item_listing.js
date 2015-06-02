@@ -184,6 +184,7 @@ angular.module('ThreeSixtyOneView')
             $scope.data = _data_;
             $scope.selectedItem = null;
             $scope.getProject = fn;
+            $scope.viewAll = false;
 
             // tray variables
             $scope.trayActions = CONFIG.view[$state.current.name].trayActions;

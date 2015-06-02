@@ -60,10 +60,17 @@
 		<div class="relatedItems-holder">
 			<p class="ms-label">Scenario Elements</p>
 			<div class="item-holder" >
-				<div class="item" ng-repeat="element in selectedItem.scenarioElements | orderBy:['group','name']">
+				<div ng-if="viewAll" class="item" ng-repeat="element in selectedItem.scenarioElements | orderBy:['group','name']">
 					<div class="element-title">{{element.cubeMeta.label}}</div>
 					<div class="element-name clickable" ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)">{{element.name}}</div>
 				</div>
+				<div ng-if="!viewAll" class="item" ng-repeat="element in selectedItem.scenarioElements | orderBy:['group','name'] | limitTo: 3">
+					<div class="element-title">{{element.cubeMeta.label}}</div>
+					<div class="element-name clickable" ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)">{{element.name}}</div>
+				</div>
+			</div>
+			<div class="item-expand" ng-if="selectedItem.scenarioElements.length > 3" ng-click="viewAll = !viewAll">
+				<span>View All</span>
 			</div>
 		</div>
 	</div>
