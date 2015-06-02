@@ -221,7 +221,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/ms_dropdown.tpl.html',
-    "<div class=\"ms-dropdown\" id=\"{{id}}\"> \r" +
+    "<div class=\"ms-dropdown\" id=\"{{id}}\">\r" +
     "\n" +
     "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.isActive(id)}\" data-ms-id=\"{{id}}\">\r" +
     "\n" +
@@ -229,9 +229,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<span class=\"toggle\" ng-click=\"toggle()\" data-ms-id=\"column_2SortOptions\"><icon type=\"caret-down\"></icon></span>\r" +
     "\n" +
-    "\t</h6> \r" +
+    "\t</h6>\r" +
     "\n" +
-    "\t<ul class=\"ms-select-list dropdownshadow hide\"> \r" +
+    "\t<ul class=\"ms-select-list dropdownshadow hide\">\r" +
     "\n" +
     "\t\t<li class=\"list-label\">Sort Order</li>\r" +
     "\n" +
@@ -247,11 +247,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<ul>\r" +
     "\n" +
-    "\t\t\t<li class=\"ms-item selectSort\" ng-repeat=\"item in items\" ng-class=\"{disabled:item.label === selectedItem.label}\" ng-click=\"selectSort(item)\" data-ms-id=\"{{item.label}}\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{item.label}}</li>  \r" +
+    "\t\t\t<li class=\"ms-item selectSort\" ng-repeat=\"item in items\" ng-class=\"{disabled:item.label === selectedItem.label}\" ng-click=\"selectSort(item)\" data-ms-id=\"{{item.label}}\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{item.label}}</li>\r" +
     "\n" +
     "\t\t</ul>\r" +
     "\n" +
-    "\t</ul> \r" +
+    "\t</ul>\r" +
     "\n" +
     "</div>"
   );

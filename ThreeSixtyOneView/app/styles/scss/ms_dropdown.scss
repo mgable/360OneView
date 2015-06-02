@@ -91,12 +91,10 @@
 	.ms-item.disabled {
 		cursor: default;
 		color: $ms-black;
-		font-weight: 700;
 	}
 
 	.ms-item.disabled:hover {
 		cursor: default;
-		background-color: inherit;
 	}
 
 	.ms-item.disabled .ms-ok {
@@ -110,7 +108,6 @@
 
 	.ms-item:hover {
 		cursor: pointer;
-		background-color: $ms-mediumGray;
 	}
 
 	.ms-item.selected .ms-ok {
