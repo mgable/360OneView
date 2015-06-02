@@ -8,8 +8,8 @@
  * Controller of the threeSixtOneViewApp
  */
 angular.module('ThreeSixtyOneView')
-.controller('CreateRecommendationCtrl', ['$scope', 'EVENTS', 'ScenarioService', 'ProjectsService', 'ManageTemplatesService', 'MetaDataService',
-function ($scope, EVENTS, ScenarioService, ProjectsService, ManageTemplatesService, MetaDataService) {
+.controller('CreateRecommendationCtrl', ['$scope', '$q', 'EVENTS', 'ScenarioService', 'ProjectsService', 'ManageTemplatesService', 'MetaDataService',
+function ($scope, $q, EVENTS, ScenarioService, ProjectsService, ManageTemplatesService, MetaDataService) {
 	var baseScenario,
 		masterProject,
 		spendCubeId,
@@ -66,11 +66,20 @@ function ($scope, EVENTS, ScenarioService, ProjectsService, ManageTemplatesServi
 			});
 		},
 		getOutcomeCube = function getOutcomeCube(templateId) {
+			var promises = [];
+
 			isOutcomeCubeLoaded = false;
 
+			// get list of KPIs and their required property
+			promises.push(ManageTemplatesService.getKpis(templateId));
+
 			ManageTemplatesService.getTemplateCubesByType(templateId, 'Outcome').then(function(outcomeCubeId) {
-				MetaDataService.buildDimensionsTree(outcomeCubeId[0]).then(function(_outcomeDimensions) {
-					outcomeDimensions = _outcomeDimensions;
+				promises.push(MetaDataService.buildDimensionsTree(outcomeCubeId[0]));
+
+				$q.all(promises).then(function(responses) {
+					$scope.kpis = responses[0];
+					
+					outcomeDimensions = responses[1];
 
 					// kpis list should be formed after both spend and kpi cubes are loaded
 					isOutcomeCubeLoaded = true;
@@ -78,6 +87,7 @@ function ($scope, EVENTS, ScenarioService, ProjectsService, ManageTemplatesServi
 						formKpisList(outcomeDimensions);
 					}
 				});
+
 			});
 		},
 		formSpendDimensions = function formSpendDimensions(_spendDimensions) {
@@ -92,25 +102,37 @@ function ($scope, EVENTS, ScenarioService, ProjectsService, ManageTemplatesServi
 			$scope.$broadcast(EVENTS.dimensionsReady, _spendDimensions);
 		},
 		formKpisList = function formKpisList(_outcomeDimensions) {
-			_outcomeDimensions.forEach(function(dimension) {
-				if(dimension.type === 'MeasureDimension') {
-					$scope.kpis = dimension.members[0].members;
-				}
+			// filter out time, measure, and common standard dimensions with spend cube
+			// _outcomeDimensions.forEach(function(dimension) {
+			// 	if(dimension.type === 'MeasureDimension') {
+			// 		$scope.kpis = dimension.members[0].members;
+			// 	}
+			// });
+
+			var requiredKpis = $scope.kpis.filter(function(kpi) {
+				return kpi.required;
 			});
 
-			// select the first kpi by default
-			$scope.newRecommendation.goal.id = $scope.kpis[0].id;
-			$scope.newRecommendation.goal.name = $scope.kpis[0].name;
-			$scope.newRecommendation.goal.label = $scope.kpis[0].label;
+			if(requiredKpis.length > 0) {
+				// select one of the required kpis by default
+				$scope.newRecommendation.goal.id = requiredKpis[0].id;
+				$scope.newRecommendation.goal.name = requiredKpis[0].name;
+				$scope.newRecommendation.goal.label = requiredKpis[0].label;
+			} else {
+				// select the first kpi by default
+				$scope.newRecommendation.goal.id = $scope.kpis[0].id;
+				$scope.newRecommendation.goal.name = $scope.kpis[0].name;
+				$scope.newRecommendation.goal.label = $scope.kpis[0].label;
+			}
 		};
 
-		$scope.getBaseScenario = function() {
-			return baseScenario;
-		};
+	$scope.getBaseScenario = function() {
+		return baseScenario;
+	};
 
-		$scope.getSpendCubeId = function() {
-			return spendCubeId;
-		};
+	$scope.getSpendCubeId = function() {
+		return spendCubeId;
+	};
 
 	init();
 }]);
