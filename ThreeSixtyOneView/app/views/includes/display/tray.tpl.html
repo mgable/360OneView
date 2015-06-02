@@ -8,10 +8,10 @@
 				</span>
 			</span>
 		</div>
-		
+
 		<ul class="button-group" ng-show="CONFIG.trayButtons.length > 0" ng-if="selectedItem && !project.isMaster">
 			<li class="button-holder" ng-repeat="button in CONFIG.trayButtons">
-				<button class="pull-left btn btn-default" ng-disabled="selectedItem.isMaster || !selectedItem" ng-click="action(button.action, selectedItem)" data-ms-id="trayActions.copy">
+				<button class="pull-left" ng-disabled="selectedItem.isMaster || !selectedItem" ng-click="action(button.action, selectedItem)" data-ms-id="trayActions.copy">
 					<icon type="{{button.icon}}"></icon>&nbsp;{{button.label}}
 				</button>
 			</li>
@@ -61,8 +61,8 @@
 			<p class="ms-label">Scenario Elements</p>
 			<div class="item-holder" >
 				<div class="item" ng-repeat="element in selectedItem.scenarioElements | orderBy:['group','name']">
-					<div class="element-name clickable" ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)">{{element.name}}</div>
 					<div class="element-title">{{element.cubeMeta.label}}</div>
+					<div class="element-name clickable" ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)">{{element.name}}</div>
 				</div>
 			</div>
 		</div>

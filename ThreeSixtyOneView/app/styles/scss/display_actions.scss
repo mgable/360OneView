@@ -4,20 +4,19 @@
 	position: relative;
 	padding: 7px 20px;
 	height: 50px;
-	background-color: $ms-white;
-	box-shadow: 0px 0px 8px $ms-mediumGray;
+	background-color: $ms-mediumLightBlue;
+	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
 
 	.filter-holder {
 		width: 180px;
 		margin-right: 10px;
 		float:left;
 		.title {
+			color: $ms-pureWhite;
 			font-weight: 300;
+			font-size: 19px;
 			text-transform: capitalize;
 			cursor: pointer;
-			&:hover {
-				color: $ms-mediumBlue;
-			}
 		}
 		.filterDropdown {
 			position: absolute;
@@ -55,37 +54,30 @@
 		}
 	}
 	.input-holder {
+		@include vertical-align;
 		float:left;
+		color: $ms-mediumGray;
 		i {
 			position: relative;
 			left: 26px;
-			color: $ms-orange;
 		}
 		.search-input {
 			padding: 6px 8px 6px 30px;
-			margin-top: 2px;
 			width: 200px;
-			border: 1px solid $ms-mediumGray;
-
-			&:hover,
-			&:focus {
-				border: 1px solid $ms-mediumBlue;
-			}
+			border: 0;
+			border-radius: 3px;
 		}
 	}
 	.button-holder {
+		@include vertical-align;
 		float:right;
-		height: 50px;
-		width: auto;
 		button {
-			margin-top: 1px;
-			/*padding: 7px 18px 6px;*/
+			padding: 6px 15px;
+			font-size: 16px;
+			text-transform: uppercase;
 			background-color: $ms-orange;
-
-
 			color: $ms-white;
 			cursor: pointer;
-			box-shadow: 0px 3px 5px $ms-mediumGray;
 			&:hover {
 				background-color: darken($ms-orange, 5%);
 			}
@@ -98,7 +90,7 @@
 			display: inline-block;
 			.dropdown-menu {
 				top: 45px;
-				left: -24px;
+				left: -15px;
 			}
 		}
 	}

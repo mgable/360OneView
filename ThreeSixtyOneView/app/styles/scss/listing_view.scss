@@ -41,15 +41,13 @@
 				}
 				tr {
 					&.active {
-						span {
-							color: $ms-white;
-						}
 						td {
-							background-color:$ms-blue;
+							background-color:$ms-lightGray;
 						}
 					}
 				}
 				td {
+					color: $ms-black;
 					white-space: nowrap;
 					padding: 13px 8px;
 					border-top: 1px solid $ms-lightGray;
@@ -61,7 +59,7 @@
 							cursor: pointer;
 						}
 					}
-					
+
 					&.master {
 						font: {
 							weight:bold;
@@ -73,6 +71,12 @@
 					}
 
 					.text-holder {
+						&.template {
+							padding: 5px 10px;
+							color: $ms-white;
+							text-transform: uppercase;
+							font-size: 12px;
+						}
 						&.strategy {
 							background-color: $ms-lightBlue;
 						}
@@ -86,7 +90,7 @@
 						float: left;
 						max-width:400px;
 						margin-right: 10px;
-						padding: 3px;
+						padding: 5px;
 						a {
 							color: inherit;
 						}
@@ -129,16 +133,16 @@
 				thead {
 					.heading.active a{
 						color: $ms-orange;
-						font-weight: bold;
+						font-weight: 500;
 					}
 					th {
 						border: 0 none;
-						border-bottom:1px solid $ms-mediumGray;
+						border-bottom:1px solid $ms-mediumLightGray;
 						line-height: normal;
 						a {
-							color: $ms-black;
+							color: $ms-gray;
 							text-decoration: none;
-							font-weight: bold;
+							font-weight: 500;
 							text-transform: uppercase;
 							white-space: nowrap;
 						}
@@ -166,50 +170,46 @@
 			.ms-label {
 				margin: 5px 0 2px 0;
 				color: $ms-mediumGray;
-				font-weight: bold;
+				// font-weight: bold;
 				clear:both;
 			}
 			.details {
 				margin:0 0 10px;
 
 				.title-holder {
-					border-bottom: 1px solid $ms-gray;
 
 					.title {
-						font-size:18px;
+						font-size: 20px;
 						max-width: 280px;
 					}
 				}
 				.button-group {
+					border-top: 1px solid $ms-mediumLightGray;
+					border-bottom: 1px solid $ms-mediumLightGray;
 					height: 50px;
 					margin: 0;
 
 					.button-holder {
 						display: inline-block;
-						margin: 10px 6px 10px 0;
+						margin: 0;
 						background-color:transparent;
-
-						&:last-child {
-							margin: 10px 0;
-							a {
-								padding: 6px 8px;
-							}
-						}
+						height: 48px;
 						button {
+							@include vertical-align;
+							background-color: inherit;
 							cursor: pointer;
 							display: block;
 							float: none;
 							width: 100%;
-							padding: 6px 13px;
+							padding: 10px 15px;
 							color: $ms-mediumGray;
 							text-align: center;
-							height:32px;
-							border: 1px solid $ms-mediumGray;
-
+							border: 0;
 							&:hover {
-								border: 1px solid $ms-mediumBlue;
-								text-decoration: none;
-								color: $ms-black;
+								color: #333;
+							}
+							&:focus {
+								outline: 0 !important;
 							}
 						}
 					}
@@ -219,8 +219,8 @@
 				padding: 10px;
 				margin-bottom: 10px;
 				background-color: $ms-pureWhite;
-				@include drop-shadow(1px, 1px, 5px, 0, 0.3);
-				border-radius: 0;
+				// @include drop-shadow(1px, 1px, 5px, 0, 0.3);
+				border-radius: 3px;
 
 				&.meta {
 					.description-label {
@@ -273,8 +273,7 @@
 
 							.element-name {
 								color: $ms-black;
-								font-weight: 700;
-								margin-top: 10px;
+								margin-bottom: 10px;
 								overflow: hidden;
 								white-space: nowrap;
 								text-overflow: ellipsis;
