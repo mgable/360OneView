@@ -21,7 +21,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t{{dimension.label}}\r" +
     "\n" +
-    "\t\t\t<span class=\"filter-stats\">({{categorizedValues.selected}}/{{categorizedValues.total}})</span>\r" +
+    "\t\t\t<span class=\"filter-stats\">({{categorizedValues.selected}}/{{categorizedValues.total}}):</span>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
@@ -53,7 +53,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t{{dimension.label}}\r" +
     "\n" +
-    "\t\t\t<span class=\"filter-stats\">({{categorizedValues.selected}}/{{categorizedValues.total}})</span>\r" +
+    "\t\t\t<span class=\"filter-stats\">({{categorizedValues.selected}}/{{categorizedValues.total}}):</span>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
