@@ -12,7 +12,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
       breadcrumb: "<li class='single'>Playground</li>"
     })
     .state('CreateRecommendation', {
-      url: "/createrecommendation",
+      url: "/createrecommendation/:projectId",
       templateUrl: "views/create_recommendation.tpl.html",
       controller: "CreateRecommendationCtrl",
       breadcrumb: "<li class='single'>Create Recommendation</li>"
