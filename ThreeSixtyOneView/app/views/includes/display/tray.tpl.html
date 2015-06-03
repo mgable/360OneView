@@ -55,7 +55,7 @@
 					<a ng-click="goto($event, 'gotoScenarioEdit', scenario)">{{scenario.name}}</a>
 				</p>
 			</div>
-			<div class="item-expand" ng-if="selectedItem.scenarios.length > 3" ng-click="setLimit()">
+			<div class="item-expand" ng-if="selectedItem.scenarios.length > 3" ng-click="setLimit(3, false)">
 				<span>View {{limitText}}</span>
 			</div>
 		</div>
@@ -70,7 +70,7 @@
 					<p class="element-name hide-overflow clickable"><a ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)">{{element.name}}</a></p>
 				</div>
 			</div>
-			<div class="item-expand" ng-if="selectedItem.scenarioElements.length > 3" ng-click="setLimit()">
+			<div class="item-expand" ng-if="selectedItem.scenarioElements.length > 3" ng-click="setLimit(3, false)">
 				<span>View {{limitText}}</span>
 			</div>
 		</div>

@@ -44,6 +44,17 @@
 					&.active {
 						td {
 							background-color:$ms-lightGray;
+							.text-holder {
+								.favorites {
+									a {
+										&:after { color: $ms-mediumGray; }
+										&:hover {
+											&:after { color: $ms-darkGray; }
+										}
+										&.favorite:after { color: $ms-gold; }
+									}
+								}
+							}
 						}
 					}
 				}
