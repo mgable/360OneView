@@ -16,6 +16,7 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 		spendDimensions,
 		spendView,
 		outcomeDimensions,
+		outcomeSpecificDimensions,
 		isSpendCubeLoaded = false,
 		isOutcomeCubeLoaded = false,
 
@@ -41,7 +42,7 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 		getAllScenarios = function getAllScenarios() {
 			ScenarioService.getAll().then(function(projects) {
 				masterProject = getMasterProject(projects);
-				baseScenario = masterProject.data[masterProject.data.length - 1 - 1];
+				baseScenario = masterProject.data[masterProject.data.length  - 1];
 				getSpendCube(baseScenario.template.id);
 				getOutcomeCube(baseScenario.template.id);
 			});
@@ -61,7 +62,7 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 					// kpis list should be formed after both spend and kpi cubes are loaded
 					isSpendCubeLoaded = true;
 					if(isOutcomeCubeLoaded) {
-						formKpisList(outcomeDimensions);
+						formKpiDimensions(outcomeDimensions);
 					}
 				});
 			});
@@ -85,7 +86,7 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 					// kpis list should be formed after both spend and kpi cubes are loaded
 					isOutcomeCubeLoaded = true;
 					if(isSpendCubeLoaded) {
-						formKpisList(outcomeDimensions);
+						formKpiDimensions(outcomeDimensions);
 					}
 				});
 
@@ -102,15 +103,19 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 
 			$scope.$broadcast(EVENTS.dimensionsReady, _spendDimensions);
 		},
-		formKpisList = function formKpisList(_outcomeDimensions) {
+		formKpiDimensions = function formKpiDimensions(_outcomeDimensions) {
+			var spendDimensionIds = _.pluck(spendDimensions, 'id'),
+				requiredKpis;
+			
+			outcomeSpecificDimensions = [];
 			// filter out time, measure, and common standard dimensions with spend cube
-			// _outcomeDimensions.forEach(function(dimension) {
-			// 	if(dimension.type === 'MeasureDimension') {
-			// 		$scope.kpis = dimension.members[0].members;
-			// 	}
-			// });
+			outcomeDimensions.forEach(function(dimension) {
+				if(dimension.type === 'StandardDimension' && spendDimensionIds.indexOf(dimension.id) < 0) {
+					outcomeSpecificDimensions.push(dimension);
+				}
+			});
 
-			var requiredKpis = $scope.kpis.filter(function(kpi) {
+			requiredKpis = $scope.kpis.filter(function(kpi) {
 				return kpi.required;
 			});
 
