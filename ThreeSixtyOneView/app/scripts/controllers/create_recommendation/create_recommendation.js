@@ -73,7 +73,7 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 			isOutcomeCubeLoaded = false;
 
 			// get list of KPIs and their required property
-			promises.push(ManageTemplatesService.getKpis(templateId));
+			promises.push(ManageTemplatesService.getAllKpis(templateId));
 
 			ManageTemplatesService.getTemplateCubesByType(templateId, 'Outcome').then(function(outcomeCubeId) {
 				promises.push(MetaDataService.buildDimensionsTree(outcomeCubeId[0]));
@@ -130,6 +130,8 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 				$scope.newRecommendation.goal.name = $scope.kpis[0].name;
 				$scope.newRecommendation.goal.label = $scope.kpis[0].label;
 			}
+
+			$scope.$broadcast(EVENTS.outcomeDimensionsReady, outcomeSpecificDimensions);
 		};
 
 	$scope.getBaseScenario = function() {
