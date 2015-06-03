@@ -10,7 +10,7 @@ describe('Controllers: ', function() {
 
     var data, ctrl, deferred, scenarios, signature ;
 
-    var apiElements = ['this', 'isScenarioTitleUnique', 'gotoScenarioCalculate', 'getProject', 'init', 'getDetails', 'goto', 'showDetails', 'isActiveItem', 'getData', 'isMasterProjectScenario', 'getSorter', 'getCount', 'setFilter', 'create', 'toggleFavorite', 'isFavorite', 'action']
+    var apiElements = ['this', 'isScenarioTitleUnique', 'gotoScenarioCalculate', 'getProject', 'init', 'getDetails', 'goto', 'showDetails', 'isActiveItem', 'getData', 'isMasterProjectScenario', 'getSorter', 'getCount', 'setFilter', 'create', 'toggleFavorite', 'isFavorite', 'action', 'setLimit', 'limit']
 
     beforeEach(module('ThreeSixtyOneView', 'ThreeSixtyOneView.services'));
 
