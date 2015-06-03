@@ -59,7 +59,7 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.gotoCreateRecommendation = function(){
-             $state.go('CreateRecommendation');
+             $state.go('CreateRecommendation', {projectId: $scope.project.uuid});
         };
 
         // $scope.isScenarioTitleUnique = function(scenarioName) {

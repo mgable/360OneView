@@ -8,12 +8,13 @@
  * Controller of the threeSixtOneViewApp
  */
 angular.module('ThreeSixtyOneView')
-.controller('CreateRecommendationCtrl', ['$scope', '$q', 'EVENTS', 'ScenarioService', 'ProjectsService', 'ManageTemplatesService', 'MetaDataService',
-function ($scope, $q, EVENTS, ScenarioService, ProjectsService, ManageTemplatesService, MetaDataService) {
+.controller('CreateRecommendationCtrl', ['$scope', '$stateParams', '$q', 'EVENTS', 'ScenarioService', 'ProjectsService', 'ManageTemplatesService', 'MetaDataService', 'ManageAnalysisViewsService', 'GotoService',
+function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, ManageTemplatesService, MetaDataService, ManageAnalysisViewsService, GotoService) {
 	var baseScenario,
 		masterProject,
 		spendCubeId,
 		spendDimensions,
+		spendView,
 		outcomeDimensions,
 		isSpendCubeLoaded = false,
 		isOutcomeCubeLoaded = false,
@@ -132,6 +133,19 @@ function ($scope, $q, EVENTS, ScenarioService, ProjectsService, ManageTemplatesS
 
 	$scope.getSpendCubeId = function() {
 		return spendCubeId;
+	};
+
+	$scope.setSpendView = function(view) {
+		spendView = view;
+	};
+
+	$scope.cancel = function() {
+		// delete the temporary spend view created
+		if(spendView) {
+			ManageAnalysisViewsService.deleteView(spendView.id, spendCubeId);
+		}
+
+		GotoService.dashboard($stateParams.projectId);
 	};
 
 	init();
