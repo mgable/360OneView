@@ -29,6 +29,8 @@ function ($scope, $q, EVENTS, PivotMetaService, DialogService, ManageScenariosSe
 		setUpSpendView = function setUpSpendView(spendDimensions, spendCubeId) {
 			return PivotMetaService.createEmptyView(spendDimensions, {id: spendCubeId, label: 'Recommendation ' + Date.now()}).then(function(view) {
 				$scope.viewData = view;
+				// set the view in the parent controller for removal upon cancellation of the create recommendation workflow
+				$scope.setSpendView(view);
 				$scope.addedFilters = PivotMetaService.getAddedFilters($scope.viewData.filters, spendDimensions);
 				$scope.membersList = PivotMetaService.generateMembersList(spendDimensions);
 				$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, spendDimensions, $scope.viewData);
@@ -53,13 +55,12 @@ function ($scope, $q, EVENTS, PivotMetaService, DialogService, ManageScenariosSe
 			}
 
 			$q.all(promises).then(function(responses) {
-				console.log('spendView', responses[1]);
 				updateTotalSpend(responses[0].id, responses[1].id);
 			});
 		},
 		updateTotalSpend = function updateTotalSpend(analysisElementId, spendViewId) {
 			ReportsService.getSummary(analysisElementId, spendViewId).then(function(spendSummary) {
-				$scope.totalBudget = spendSummary[0].Spend.value;
+				$scope.totalBudget = spendSummary[0].Spend ? spendSummary[0].Spend.value : spendSummary[0].SPEND.value;
 			});
 		};
 	$scope.getSpendDimensions = function() {
@@ -83,7 +84,6 @@ function ($scope, $q, EVENTS, PivotMetaService, DialogService, ManageScenariosSe
 		spendDimensions = dimensions;
 		baseScenario = $scope.getBaseScenario(),
 		spendCubeId = $scope.getSpendCubeId();
-		console.log('cubeId', spendCubeId);
 
 		getTotalSpend(baseScenario, spendCubeId, dimensions);
 	});

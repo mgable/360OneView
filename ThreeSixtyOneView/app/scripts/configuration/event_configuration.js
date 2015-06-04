@@ -43,5 +43,7 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     dimensionsIsLoaded: 'dimensionsIsLoaded',
     spendCubeIdLoaded: 'spendCubeIdLoaded',
     // PLAN OF RECORD
-    planOfRecordCreated: 'planOfRecordCreated'
+    planOfRecordCreated: 'planOfRecordCreated',
+    // CREATE RECOMMENDATION
+    outcomeDimensionsReady: 'outcomeDimensionsReady'
 });

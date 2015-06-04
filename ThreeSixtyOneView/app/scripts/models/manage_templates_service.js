@@ -177,4 +177,12 @@ angular.module('ThreeSixtyOneView.services')
 			return response;
 		});
 	};
+
+	this.getAllKpis = function(templateId) {
+		var additionalPath = 'kpis';
+
+		return this.resource.get({templateId: templateId}, {}, additionalPath).then(function(kpis) {
+			return kpis
+		});
+	};
 }]);

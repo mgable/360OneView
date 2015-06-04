@@ -48,7 +48,7 @@
 			});
 			if(!timeDimension) {
 				timeDimension = _.find(dimensions, function(dimension) {
-					return dimension.type === 'StandardDimension'
+					return dimension.type === 'StandardDimension';
 				});
 			}
 
