@@ -49,7 +49,7 @@
 	            <div class="editor">
 	                <div class="filters-list">
 	                    <div class="list">
-	                        <dimension-filter ng-repeat="dimension in spendDimensions" ng-if="spendAddedFilters[dimension.label]" dimension="dimension" categorized-values="spendCategorizedValue[$index]" action="filtersModal('spend', dimension)" list-view="true"></dimension-filter>
+	                        <dimension-filter ng-repeat="dimension in spendDimensions" ng-if="spendAddedFilters[dimension.label] && dimension.type !== 'TimeDimension'" dimension="dimension" categorized-values="spendCategorizedValue[$index]" action="filtersModal('spend', dimension)" list-view="true"></dimension-filter>
 	                    </div>
 	                </div>
 	            </div>
