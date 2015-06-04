@@ -178,7 +178,7 @@ angular.module('ThreeSixtyOneView.services')
 		});
 	};
 
-	this.getKpis = function(templateId) {
+	this.getAllKpis = function(templateId) {
 		var additionalPath = 'kpis';
 
 		return this.resource.get({templateId: templateId}, {}, additionalPath).then(function(kpis) {
