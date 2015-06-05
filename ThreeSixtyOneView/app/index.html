@@ -32,6 +32,7 @@
 
 	</head>
 	<body ng-app="ThreeSixtyOneView" ng-controller="MainCtrl">
+
 		<!--[if lt IE 9]>
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
@@ -64,6 +65,7 @@
 		<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 		<script src="bower_components/ng-sortable/dist/ng-sortable.js"></script>
 		<script src="bower_components/angular-virtual-scroll/angular-virtual-scroll.min.js"></script>
+		<script src="bower_components/angular-bindonce/bindonce.js"></script>
 		<!-- endbower -->
 		<!-- endbuild -->
 
@@ -72,6 +74,7 @@
 		<script src="scripts/vendor/jquery.wijmo.wijspread.all.min.js"></script>
 		<script src="scripts/vendor/angular.wijmo.wijspread.3.20142.11.js"></script>
 		<script src="scripts/vendor/dialogs.js"></script>
+		<script src="scripts/vendor/ng-performance.js"></script>
 		<script src="scripts/configuration/server_configuration.js"></script>
 		<script src="scripts/configuration/app_configuration.js"></script>
 		<script src="scripts/configuration/routes_configuration.js"></script>
@@ -103,7 +106,6 @@
 		<script src="scripts/controllers/scenario_templates/choose_defaults.js"></script>
 		<script src="scripts/controllers/scenario_templates/choose_dimensions.js"></script>
 		<script src="scripts/controllers/scenario_templates/name_and_describe.js"></script>
-		<script src="scripts/directives/bindonce.js"></script>
 		<script src="scripts/directives/breadcrumb.js"></script>
 		<script src="scripts/directives/dimension_filter.js"></script>
 		<script src="scripts/directives/draggable_dimension.js"></script>
@@ -189,5 +191,6 @@
 				try{Typekit.load();}catch(e){}
 			});
 		</script>
+		<div ng-performance ng-if="e2e"></div>
 	</body>
-</html>
+</html>http://127.0.0.1:9001/#/projects

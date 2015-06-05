@@ -379,6 +379,228 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
+  $templateCache.put('views/directives/ng-performance.tpl.html',
+    "<div>\r" +
+    "\n" +
+    "  <style>\r" +
+    "\n" +
+    "    #perfStats {\r" +
+    "\n" +
+    "      position: fixed;\r" +
+    "\n" +
+    "      right: 0;\r" +
+    "\n" +
+    "      bottom: 15px;\r" +
+    "\n" +
+    "      z-index: 100000;\r" +
+    "\n" +
+    "      background-color: rgba(250, 249, 244, 0.97);\r" +
+    "\n" +
+    "      border: 3px solid #843376;\r" +
+    "\n" +
+    "      border-right: none;\r" +
+    "\n" +
+    "      border-radius: 5px 0 0 5px;\r" +
+    "\n" +
+    "      box-shadow: 0 1px 4px black;\r" +
+    "\n" +
+    "      padding: 0 15px 15px;\r" +
+    "\n" +
+    "      font-size: 0.65em;\r" +
+    "\n" +
+    "    }\r" +
+    "\n" +
+    "    #perfStats h3 {\r" +
+    "\n" +
+    "      margin-bottom: 0;\r" +
+    "\n" +
+    "    }\r" +
+    "\n" +
+    "    #perfStats td:last-child {\r" +
+    "\n" +
+    "      text-align: right;\r" +
+    "\n" +
+    "    }\r" +
+    "\n" +
+    "  </style>\r" +
+    "\n" +
+    "  <div id=\"perfStats\">\r" +
+    "\n" +
+    "    <div id=\"perfStatsPanel\">\r" +
+    "\n" +
+    "      <h3>ANGULAR STATS</h3>\r" +
+    "\n" +
+    "      <table class=\"table table-condensed\">\r" +
+    "\n" +
+    "        <tbody>\r" +
+    "\n" +
+    "        <tr>\r" +
+    "\n" +
+    "          <td>Total Scopes:</td>\r" +
+    "\n" +
+    "          <td><span id=\"scopes\">-</span></td>\r" +
+    "\n" +
+    "        </tr>\r" +
+    "\n" +
+    "        <tr>\r" +
+    "\n" +
+    "          <td>Total Watchers:</td>\r" +
+    "\n" +
+    "          <td><span id=\"watchers\">-</span></td>\r" +
+    "\n" +
+    "        </tr>\r" +
+    "\n" +
+    "        <tr>\r" +
+    "\n" +
+    "          <td>Dirty Checks:</td>\r" +
+    "\n" +
+    "          <td><span id=\"dirty-checks\">-</span></td>\r" +
+    "\n" +
+    "        </tr>\r" +
+    "\n" +
+    "        <tr>\r" +
+    "\n" +
+    "          <td>Digest Cycles:</td>\r" +
+    "\n" +
+    "          <td><span id=\"digest-cycles\">-</span></td>\r" +
+    "\n" +
+    "        </tr>\r" +
+    "\n" +
+    "        <tr>\r" +
+    "\n" +
+    "          <td>Digest Cycle (last):</td>\r" +
+    "\n" +
+    "          <td>\r" +
+    "\n" +
+    "            <span id=\"digest-ms\">-</span> ms<br>\r" +
+    "\n" +
+    "            <span id=\"digest-fps\">-</span> FPS\r" +
+    "\n" +
+    "          </td>\r" +
+    "\n" +
+    "        </tr>\r" +
+    "\n" +
+    "        <tr>\r" +
+    "\n" +
+    "          <td>Digest Cycle (avg):</td>\r" +
+    "\n" +
+    "          <td>\r" +
+    "\n" +
+    "            <span id=\"avg-digest-ms\">-</span> ms<br>\r" +
+    "\n" +
+    "            <span id=\"avg-digest-fps\">-</span> FPS\r" +
+    "\n" +
+    "          </td>\r" +
+    "\n" +
+    "        </tr>\r" +
+    "\n" +
+    "        <tr>\r" +
+    "\n" +
+    "          <td>Digest Cycle (max):</td>\r" +
+    "\n" +
+    "          <td>\r" +
+    "\n" +
+    "            <span id=\"max-digest-ms\">-</span> ms<br>\r" +
+    "\n" +
+    "            <span id=\"max-digest-fps\">-</span> FPS\r" +
+    "\n" +
+    "          </td>\r" +
+    "\n" +
+    "        </tr>\r" +
+    "\n" +
+    "        </tbody>\r" +
+    "\n" +
+    "      </table>\r" +
+    "\n" +
+    "\r" +
+    "\n" +
+    "      <h3>PAGELOAD STATS</h3>\r" +
+    "\n" +
+    "      <table class=\"table table-condensed\">\r" +
+    "\n" +
+    "        <tbody>\r" +
+    "\n" +
+    "        <tr>\r" +
+    "\n" +
+    "          <td>Head Load:</td>\r" +
+    "\n" +
+    "          <td><span id=\"head-load\">-</span> ms</td>\r" +
+    "\n" +
+    "        </tr>\r" +
+    "\n" +
+    "        <tr>\r" +
+    "\n" +
+    "          <td>Body Load:</td>\r" +
+    "\n" +
+    "          <td><span id=\"body-load\">-</span> ms</td>\r" +
+    "\n" +
+    "        </tr>\r" +
+    "\n" +
+    "        <tr>\r" +
+    "\n" +
+    "          <td>Footer Load:</td>\r" +
+    "\n" +
+    "          <td><span id=\"footer-load\">-</span> ms</td>\r" +
+    "\n" +
+    "        </tr>\r" +
+    "\n" +
+    "        <tr>\r" +
+    "\n" +
+    "          <td>Vendor Script Load:</td>\r" +
+    "\n" +
+    "          <td><span id=\"vendor-load\">-</span> ms</td>\r" +
+    "\n" +
+    "        </tr>\r" +
+    "\n" +
+    "        <tr>\r" +
+    "\n" +
+    "          <td>App Load:</td>\r" +
+    "\n" +
+    "          <td><span id=\"app-load\">-</span> ms</td>\r" +
+    "\n" +
+    "        </tr>\r" +
+    "\n" +
+    "        <tr>\r" +
+    "\n" +
+    "          <td>Metrics Load:</td>\r" +
+    "\n" +
+    "          <td><span id=\"metrics-load\">-</span> ms</td>\r" +
+    "\n" +
+    "        </tr>\r" +
+    "\n" +
+    "        <tr>\r" +
+    "\n" +
+    "          <td>Time To End-of-Page:</td>\r" +
+    "\n" +
+    "          <td><span id=\"time-to-eop\">-</span> ms</td>\r" +
+    "\n" +
+    "        </tr>\r" +
+    "\n" +
+    "        <tr>\r" +
+    "\n" +
+    "          <td>Time To Angular:</td>\r" +
+    "\n" +
+    "          <td><span id=\"time-to-ng\">-</span> ms</td>\r" +
+    "\n" +
+    "        </tr>\r" +
+    "\n" +
+    "        </tbody>\r" +
+    "\n" +
+    "      </table>\r" +
+    "\n" +
+    "    </div>\r" +
+    "\n" +
+    "  </div>\r" +
+    "\n" +
+    "</div>\r" +
+    "\n" +
+    "\r" +
+    "\n" +
+    "\r" +
+    "\n"
+  );
+
+
   $templateCache.put('views/directives/scenario_templates_navigation.tpl.html',
     "<div class=\"scenarioTemplatesNavigation\">\r" +
     "\n" +
@@ -471,27 +693,27 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/sortable_columns.tpl.html',
-    "<div ng-switch on=\"displayBy\" class=\"text-holder\"> \r" +
+    "<div bindonce ng-switch on=\"displayBy\" class=\"text-holder\"> \r" +
     "\n" +
     "\t<span ng-switch-when=\"Last Modified\">\r" +
     "\n" +
-    "\t\t<span ng-if=\"!test\" bind-once>{{item.auditInfo.lastUpdatedOn | timeago }}</span>\r" +
+    "\t\t<span ng-if=\"!test\" bo-bind=\"item.auditInfo.lastUpdatedOn | timeago\"></span>\r" +
     "\n" +
-    "\t\t<span ng-if=\"test\">{{item.auditInfo.lastUpdatedOn}}</span>\r" +
+    "\t\t<span ng-if=\"test\" bo-bind=\"item.auditInfo.lastUpdatedOn\"></span>\r" +
     "\n" +
     "\t</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Modified By\" bind-once>{{item.auditInfo.lastUpdatedBy.name}}</span> \r" +
+    "\t<span ng-switch-when=\"Modified By\" bo-bind=\"item.auditInfo.lastUpdatedBy.name\"></span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Type\" bind-once>{{item.template.type}}</span> \r" +
+    "\t<span ng-switch-when=\"Type\" bo-bind=\"item.template.type\"></span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Creator\" bind-once>{{item.auditInfo.createdBy.name}}</span> \r" +
+    "\t<span ng-switch-when=\"Creator\" bo-bind=\"item.auditInfo.createdBy.name\"></span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Created Date\" bind-once>\r" +
+    "\t<span ng-switch-when=\"Created Date\" bo-bind=\"\">\r" +
     "\n" +
-    "\t\t<span ng-if=\"!test\" bind-once>{{item.auditInfo.createdOn | date: 'longDate' }}</span>\r" +
+    "\t\t<span ng-if=\"!test\" bo-bind=\"item.auditInfo.createdOn | date: 'longDate'\"></span>\r" +
     "\n" +
-    "\t\t<span ng-if=\"test\">{{item.auditInfo.createdOn}}</span>\r" +
+    "\t\t<span ng-if=\"test\" bo-bind=\"item.auditInfo.createdOn\"></span>\r" +
     "\n" +
     "\t</span> \r" +
     "\n" +
@@ -882,9 +1104,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<accordion-group ng-repeat=\"project in scenarioList | filterProjects: searchText\" is-open=\"project.open\">\r" +
+    "\t\t\t\t\t\t\t<accordion-group bindonce ng-repeat=\"project in scenarioList | filterProjects: searchText\" is-open=\"project.open\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<accordion-heading>{{project.name}}</accordion-heading>\r" +
+    "\t\t\t\t\t\t\t\t<accordion-heading bo-bind=\"project.name\"></accordion-heading>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t<div>\r" +
     "\n" +
@@ -912,7 +1134,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<div ng-repeat=\"scenario in getScenarios(project, searchText)\">\r" +
+    "\t\t\t\t\t\t\t\t<div bindonce ng-repeat=\"scenario in getScenarios(project, searchText)\">\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t<div class=\"row\" ng-click=\"setScenario(scenario)\">\r" +
     "\n" +
@@ -924,13 +1146,13 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-title\">{{scenario.name}}</span>\r" +
+    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-title\" bo-bind=\"scenario.name\"></span>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-5\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-type\">{{scenario.type}}</span>\r" +
+    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-type\" bo-bind=\"scenario.type\"></span>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\r" +
     "\n" +

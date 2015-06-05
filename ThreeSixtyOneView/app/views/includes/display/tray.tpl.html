@@ -18,11 +18,11 @@
 		</ul>
 	</div>
 
-	<div class="well meta" ng-if="selectedItem">
+	<div class="well meta" ng-if="selectedItem" bindonce>
 		<div class="inlineDescription-holder">
 			<p class="description-label ms-label">Description</p>
 			<span ng-switch="selectedItem.isMaster || ! selectedItem">
-				<span ng-switch-when="true" class="description">{{item.description}}</span>
+				<span ng-switch-when="true" class="description" bo-bind="item.description"></span>
 				<span ng-switch-default>
 					<inline-edit template="inline_description" focusTarget="textarea" item="selectedItem" test="e2e" submitAction="CONFIG.editAction"></inline-edit>
 				</span>
@@ -38,10 +38,10 @@
 		</span>
 	</div>
 
-	<div class="well meta" ng-if="selectedItem.referenceScenario.name">
+	<div class="well meta" ng-if="selectedItem.referenceScenario.name" bindonce>
 		<div class="referenceScenario-holder">
 			<p class="ms-label">Base Scenario</p>
-			<p class="reference-label"><a data-ms-id="ScenarioListing:baseScenario" ng-click="gotoBaseScenario(selectedItem.referenceScenario)">{{selectedItem.referenceScenario.name}}</a></p>
+			<p class="reference-label"><a data-ms-id="ScenarioListing:baseScenario" ng-click="gotoBaseScenario(selectedItem.referenceScenario)" bo-bind="selectedItem.referenceScenario.name">{{selectedItem.referenceScenario.name}}</a></p>
 			<p class="text-holder template {{selectedItem.template.type | lowercase}}"><span>{{selectedItem.template.name}}</span></p>
 		</div>
 	</div>
@@ -51,8 +51,8 @@
 			<p class="ms-label">Contains</p>
 			<p class='field-label'>Total&nbsp;<span>{{selectedItem.scenarios.length}}</span>&nbsp;scenarios</p>
 			<div class="item-holder">
-				<p class="item hide-overflow" ng-repeat="scenario in selectedItem.scenarios | limitTo: limit">
-					<a ng-click="goto($event, 'gotoScenarioEdit', scenario)">{{scenario.name}}</a>
+				<p class="item hide-overflow" bindonce ng-repeat="scenario in selectedItem.scenarios | limitTo: limit">
+					<a ng-click="goto($event, 'gotoScenarioEdit', scenario)" bo-bind="scenario.name">{{scenario.name}}</a>
 				</p>
 			</div>
 			<div class="item-expand" ng-if="selectedItem.scenarios.length > 3" ng-click="setLimit(3, false)">
@@ -65,9 +65,9 @@
 		<div class="relatedItems-holder">
 			<p class="ms-label">Scenario Elements</p>
 			<div class="item-holder" >
-				<div class="item" ng-repeat="element in selectedItem.scenarioElements | orderBy:['group','name'] | limitTo: limit">
-					<div class="element-title">{{element.cubeMeta.label}}</div>
-					<p class="element-name hide-overflow clickable"><a ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)">{{element.name}}</a></p>
+				<div class="item" bindonce ng-repeat="element in selectedItem.scenarioElements | orderBy:['group','name'] | limitTo: limit">
+					<div class="element-title" bo-bind="element.cubeMeta.label">{{element.cubeMeta.label}}</div>
+					<p class="element-name hide-overflow clickable"><a ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)" bo-bind="element.name">{{element.name}}</a></p>
 				</div>
 			</div>
 			<div class="item-expand" ng-if="selectedItem.scenarioElements.length > 3" ng-click="setLimit(3, false)">
