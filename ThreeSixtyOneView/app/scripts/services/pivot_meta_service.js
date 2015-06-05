@@ -312,8 +312,12 @@
 	};
 
 	// create an empty view with no rows and columns and ALL for filters
-	this.createEmptyView = function(dimensions, cubeMeta, spendViewId) {
+	this.createEmptyView = function(dimensions, cubeMeta, spendViewId, isDraft) {
 		var newView = self.formEmptyView(dimensions, cubeMeta);
+
+		if(typeof isDraft !== 'undefined') {
+			newView.isDraft = isDraft;
+		}
 
 		return ManageAnalysisViewsService.createView(newView, cubeMeta.id, spendViewId).then(function(view) {
 			return view;

@@ -76,10 +76,20 @@ angular.module('ThreeSixtyOneView.services')
 		};
 
 		this.defaultView = function(cubeId, viewId, isDefault) {
-			self.getView(viewId, cubeId).then(function(view) {
+			return self.getView(viewId, cubeId).then(function(view) {
 				view.isDefault = isDefault;
-				self.updateView(view, cubeId);
+				return self.updateView(view, cubeId);
 			});
 		};
 
+		this.deleteAllDrafts = function(cubeId) {
+			return self.getViewsList(cubeId).then(function(views) {
+				views.forEach(function(view) {
+					if(view.isDraft) {
+						return self.deleteView(view.id, cubeId);
+					}
+				});
+				return;
+			});
+		};
 }]);
