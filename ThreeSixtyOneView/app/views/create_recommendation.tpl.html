@@ -14,17 +14,17 @@
 				</div>
 			</div>
 			<div class="section">
-				<div ng-click="">
+				<div>
 					Constraints
 					<icon type="caret-right" cname="constraint-link"></icon>
 					<icon type="info-circle" cname="info right"></icon>
 				</div>
 				<div class="item-container">
 					<ul>
-						<li ng-repeat="constraint in constraints" ng-click=""><class="item" a href="">{{constraint.label}}</a></li>
+						<li ng-repeat="constraint in constraints"><a class="item">{{constraint.label}}</a></li>
 					</ul>
 				</div>
-				<div class="item-container add-link" ng-click="">
+				<div class="item-container add-link">
 					<icon type="plus-circle"></icon>
 					add
 				</div>
@@ -34,10 +34,10 @@
 				<icon type="info-circle" cname="info right"></icon>
 				<div class="item-container">
 					<ul>
-						<li class="sub-section" ng-repeat="assumption in assumptions" ng-click="">
+						<li class="sub-section" ng-repeat="assumption in assumptions">
 							<div class="item-container">
 								{{assumption.field}}:
-								<a class="item" href="">{{assumption.label}}</a>
+								<a class="item">{{assumption.label}}</a>
 							</div>
 						</li>
 					</ul>
