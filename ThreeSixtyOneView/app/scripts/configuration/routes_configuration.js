@@ -15,7 +15,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
       url: "/createrecommendation/:projectId",
       templateUrl: "views/create_recommendation.tpl.html",
       controller: "CreateRecommendationCtrl",
-      breadcrumb: "<li class='single'>Create Recommendation</li>"
+      breadcrumb: "<li class='parent'><a goto='projects'>All Projects</a></li><br><li>{{project.name}}</li>"
     })
     .state('ScenarioTemplates', {
       url: "/scenariotemplates/:type",
