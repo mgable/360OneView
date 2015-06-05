@@ -258,23 +258,21 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/ms_filter_dropdown.tpl.html',
-    "<div>\r" +
+    "<div class=\"filter-holder\" ng-click=\"toggle()\" data-ms-id=\"filterBy\">\r" +
     "\n" +
-    "\t<h4 class=\"filter-holder\" ng-click=\"toggle()\" data-ms-id=\"filterBy\"><span class=\"title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;(<span data-ms-id='itemCount'>{{SortAndFilterService.getCount()}}</span>)<span  class=\"filterToggle\"><icon type=\"caret-down\"></icon></span></span>\r" +
+    "    <span class=\"title hide-overflow\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;(<span data-ms-id='itemCount'>{{SortAndFilterService.getCount()}}</span>)<span  class=\"filterToggle\"><icon type=\"caret-down\"></icon></span></span>\r" +
     "\n" +
     "\r" +
     "\n" +
-    "\t\t<ul ms-link-group selected-item=\"{{CONFIG.filterMenu.items[0].label}}\" radio=\"true\" class='filterDropdown dropdownshadow title hide menu'>\r" +
+    "\t<ul ms-link-group selected-item=\"{{CONFIG.filterMenu.items[0].label}}\" radio=\"true\" class='filterDropdown dropdownshadow title hide menu'>\r" +
     "\n" +
-    "\t\t\t<li ng-repeat=\"item in CONFIG.filterMenu.items\" class=\"header\" ms-link=\"{{item.label}}\" ng-click=\"setFilter(item.filterType, item, true)\" data-ms-id=\"{{item.label}}\">\r" +
+    "\t\t<li ng-repeat=\"item in CONFIG.filterMenu.items\" class=\"header\" ms-link=\"{{item.label}}\" ng-click=\"setFilter(item.filterType, item, true)\" data-ms-id=\"{{item.label}}\">\r" +
     "\n" +
-    "\t\t\t\t <a>{{item.label}}</a>\r" +
+    "\t\t\t <a>{{item.label}}</a>\r" +
     "\n" +
-    "\t\t\t</li>\r" +
+    "\t\t</li>\r" +
     "\n" +
-    "\t    </ul>\r" +
-    "\n" +
-    "\t</h4>\r" +
+    "    </ul>\r" +
     "\n" +
     "</div>"
   );

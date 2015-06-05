@@ -1,20 +1,14 @@
 @import "variables";
 
 .display-actions {
-	position: relative;
-	padding: 7px 20px;
-	height: 50px;
-	background-color: $ms-mediumLightBlue;
-	box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
-
 	.filter-holder {
-		width: 180px;
+		width: 120px;
 		margin-right: 10px;
 		float:left;
+		@include vertical-align;
 		.title {
-			color: $ms-pureWhite;
-			font-weight: 300;
-			font-size: 19px;
+			color: $ms-lightGray;
+			font-size: 14px;
 			text-transform: capitalize;
 			cursor: pointer;
 		}
@@ -54,27 +48,35 @@
 		}
 	}
 	.input-holder {
-		@include vertical-align;
 		float:left;
-		color: $ms-mediumGray;
+		@include vertical-align;
+	   	color: $ms-lightGray;
 		i {
 			position: relative;
-			left: 26px;
+			left: 25px;
+  			line-height: 25px;
 		}
 		.search-input {
-			padding: 6px 8px 6px 30px;
-			width: 200px;
-			border: 0;
-			border-radius: 3px;
+		    width: 100px;
+		    height: 25px;
+		    padding: 4px 8px 4px 25px;
+		    background: rgba(255,255,255,0);
+		    border: none;
+		    float: right;
+		    -webkit-transition: all ease-in-out .3s;
+		    &:focus {
+			    color: $ms-darkGray;
+			    width: 165px;
+			    outline: none;
+			    background: $ms-white;
+			    border-radius: 3px;
+			}
 		}
 	}
 	.button-holder {
 		position:absolute;
 		top: -50px;
 		right: 0;
-		&.hasAlerts {
-			top: -142px;
-		}
 		height: 50px;
 		width: auto;
 		button {
