@@ -31,6 +31,7 @@
 
 	</head>
 	<body ng-app="ThreeSixtyOneView" ng-controller="MainCtrl">
+		<div ng-performance param="performance"></div>
 		<!--[if lt IE 9]>
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
@@ -71,6 +72,7 @@
 		<script src="scripts/vendor/jquery.wijmo.wijspread.all.min.js"></script>
 		<script src="scripts/vendor/angular.wijmo.wijspread.3.20142.11.js"></script>
 		<script src="scripts/vendor/dialogs.js"></script>
+		<script src="scripts/vendor/ng-performance.js"></script>
 		<script src="scripts/configuration/server_configuration.js"></script>
 		<script src="scripts/configuration/app_configuration.js"></script>
 		<script src="scripts/configuration/routes_configuration.js"></script>
@@ -188,5 +190,6 @@
 				try{Typekit.load();}catch(e){}
 			});
 		</script>
+
 	</body>
 </html>
