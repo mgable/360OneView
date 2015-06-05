@@ -8,8 +8,8 @@
  * Controller of the threeSixtOneViewApp
  */
 angular.module('ThreeSixtyOneView')
-.controller('CreateRecommendationSelectCtrl', ['$scope', '$q', 'EVENTS', 'PivotMetaService', 'DialogService', 'ManageScenariosService', 'ManageAnalysisViewsService', 'ReportsService',
-function ($scope, $q, EVENTS, PivotMetaService, DialogService, ManageScenariosService, ManageAnalysisViewsService, ReportsService) {
+.controller('CreateRecommendationSelectCtrl', ['$scope', '$rootScope', '$q', 'EVENTS', 'PivotMetaService', 'DialogService', 'ManageScenariosService', 'ManageAnalysisViewsService', 'ReportsService',
+function ($scope, $rootScope, $q, EVENTS, PivotMetaService, DialogService, ManageScenariosService, ManageAnalysisViewsService, ReportsService) {
 	var baseScenario,
 		spendCubeId,
 		spendDimensions,
@@ -31,9 +31,13 @@ function ($scope, $q, EVENTS, PivotMetaService, DialogService, ManageScenariosSe
 				$scope.viewData = view;
 				// set the view in the parent controller for removal upon cancellation of the create recommendation workflow
 				$scope.setSpendView(view);
+
 				$scope.addedFilters = PivotMetaService.getAddedFilters($scope.viewData.filters, spendDimensions);
 				$scope.membersList = PivotMetaService.generateMembersList(spendDimensions);
 				$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, spendDimensions, $scope.viewData);
+				
+				// broadcast the spend view to kpi (define) controller to create the related by view there
+				$rootScope.$broadcast(EVENTS.spendViewCreated, view);
 				return view;
 			});
 		},

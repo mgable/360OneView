@@ -15,6 +15,7 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 		spendCubeId,
 		spendDimensions,
 		spendView,
+		outcomeCubeId,
 		outcomeDimensions,
 		outcomeSpecificDimensions,
 		isSpendCubeLoaded = false,
@@ -76,8 +77,9 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 			// get list of KPIs and their required property
 			promises.push(ManageTemplatesService.getAllKpis(templateId));
 
-			ManageTemplatesService.getTemplateCubesByType(templateId, 'Outcome').then(function(outcomeCubeId) {
-				promises.push(MetaDataService.buildDimensionsTree(outcomeCubeId[0]));
+			ManageTemplatesService.getTemplateCubesByType(templateId, 'Outcome').then(function(_outcomeCubeId) {
+				outcomeCubeId = _outcomeCubeId[0];
+				promises.push(MetaDataService.buildDimensionsTree(_outcomeCubeId[0]));
 
 				$q.all(promises).then(function(responses) {
 					$scope.kpis = responses[0];
@@ -132,7 +134,7 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 				$scope.newRecommendation.goal.label = $scope.kpis[0].label;
 			}
 
-			$scope.$broadcast(EVENTS.outcomeDimensionsReady, outcomeSpecificDimensions);
+			$scope.$broadcast(EVENTS.outcomeDimensionsReady, outcomeCubeId, outcomeDimensions, outcomeSpecificDimensions);
 		};
 
 	$scope.getBaseScenario = function() {
@@ -141,6 +143,10 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 
 	$scope.getSpendCubeId = function() {
 		return spendCubeId;
+	};
+
+	$scope.getOutcomeCubeId = function() {
+		return outcomeCubeId;
 	};
 
 	$scope.setSpendView = function(view) {

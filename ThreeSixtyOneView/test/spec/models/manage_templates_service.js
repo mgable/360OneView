@@ -23,6 +23,7 @@ describe('Service: ManageTemplatesService', function () {
 		backend.when('GET', manageTemplatesUrl.replace(/:templateId/, scenarioMockData.templateId) + '/cube/ids?type=Standard').respond([1,2,3]);
 		backend.when('GET', manageTemplatesUrl.replace(/:templateId/, scenarioMockData.templateId) + '/dimension/1/hierarchy').respond([1,2,3]);
 		backend.when('GET', manageTemplatesUrl.replace(/:templateId/, scenarioMockData.templateId) + '/dimension/1/hierarchy/2/level/3/members?children=true').respond([1,2,3]);
+		backend.when('GET', manageTemplatesUrl.replace(/:templateId/, scenarioMockData.templateId) + '/kpis').respond([1,2,3]);
 	}));
 
 	// Initialize the controller and a mock scope
@@ -113,6 +114,12 @@ describe('Service: ManageTemplatesService', function () {
 
 		it('should get members in a level in a dimension in scenario template', function() {
 			ManageTemplatesService.getMembers(templateMockData.templateId, 1, 2, 3).then(function(response) {
+				expect(response).toEqual([1,2,3]);
+			});
+		});
+
+		it('should get all the selected kpis in a scenario template', function() {
+			ManageTemplatesService.getAllKpis(templateMockData.templateId).then(function(response) {
 				expect(response).toEqual([1,2,3]);
 			});
 		});

@@ -38,7 +38,11 @@
 			</ul>
 		</form>
 	</div>
-<!-- 	<div class="row filters">
-		Filters Section
-	</div> -->
+	<div class="editor">
+		<div class="filters-list">
+			<div class="list">
+				<dimension-filter ng-repeat="dimension in getOutcomeDimensions()" ng-if="addedFilters[dimension.label] && isOutcomeDimensionVisible(dimension)" dimension="dimension" categorized-values="categorizedValue[$index]" action="filtersModal(dimension)" list-view="true"></dimension-filter>				
+			</div>
+		</div>
+	</div>
 </div>
