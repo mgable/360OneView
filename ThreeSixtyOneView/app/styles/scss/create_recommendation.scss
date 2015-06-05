@@ -6,7 +6,7 @@
 	// Bootstrap Overrides
 	.row {
 		width: 100%;
-		
+
 		margin: {
 			left: 0px;
 			right: 0px;
@@ -115,6 +115,31 @@
 
 	.left-column{
 		padding: 0 40px 0 40px;
+		.slideInContainer {
+			height: 100%;
+			background: $ms-lightGray;
+			position: absolute;
+		  	top: 0;
+		  	right: 0;
+		  	z-index: 2;
+		  	&.ms-animation-slideIn {
+		  		width: 100%;
+		  		&.ng-enter {
+					@include transition($d:"0.5s", $s:"ease-in-out", $c:"all");
+					width:0;
+		  			&.ng-enter-active {
+			  			width:100%;
+		  			}
+		  		}
+		  		&.ng-leave {
+					@include transition($d:"0.5s", $s:"ease-in-out", $c:"all");
+					width:100%;
+		  			&.ng-leave-active {
+			  			width:0;
+		  			}
+		  		}
+		  	}
+		}
 		.sub-view {
 			margin: 25px 0 0 0;
 

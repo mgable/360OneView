@@ -29,6 +29,7 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 			$scope.timeDimension = {};
 			$scope.spendDimensions = [];
 			$scope.kpis = [];
+			$scope.slideIn = false;
 
 			// get all scenario for the base scenario functionality
 			if(ProjectsService.getProjects().length === 0) {
@@ -80,7 +81,7 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 
 				$q.all(promises).then(function(responses) {
 					$scope.kpis = responses[0];
-					
+
 					outcomeDimensions = responses[1];
 
 					// kpis list should be formed after both spend and kpi cubes are loaded
@@ -106,7 +107,7 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 		formKpiDimensions = function formKpiDimensions(_outcomeDimensions) {
 			var spendDimensionIds = _.pluck(spendDimensions, 'id'),
 				requiredKpis;
-			
+
 			outcomeSpecificDimensions = [];
 			// filter out time, measure, and common standard dimensions with spend cube
 			outcomeDimensions.forEach(function(dimension) {
