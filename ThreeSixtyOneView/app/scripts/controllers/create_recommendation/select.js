@@ -27,15 +27,21 @@ function ($scope, $rootScope, $q, EVENTS, PivotMetaService, DialogService, Manag
 			});
 		},
 		setUpSpendView = function setUpSpendView(spendDimensions, spendCubeId) {
-			return PivotMetaService.createEmptyView(spendDimensions, {id: spendCubeId, label: 'Recommendation ' + Date.now()}).then(function(view) {
+			ManageAnalysisViewsService.deleteAllDrafts(spendCubeId);
+			return PivotMetaService.createEmptyView(spendDimensions, {id: spendCubeId, label: 'Recommendation ' + Date.now()}, undefined, true).then(function(view) {
+				// created view should not be the default view
+				view.isDefault = false;
+				ManageAnalysisViewsService.defaultView(spendCubeId, view.id, false);
+
 				$scope.viewData = view;
+
 				// set the view in the parent controller for removal upon cancellation of the create recommendation workflow
 				$scope.setSpendView(view);
 
 				$scope.addedFilters = PivotMetaService.getAddedFilters($scope.viewData.filters, spendDimensions);
 				$scope.membersList = PivotMetaService.generateMembersList(spendDimensions);
 				$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure($scope.addedFilters, spendDimensions, $scope.viewData);
-				
+
 				// broadcast the spend view to kpi (define) controller to create the related by view there
 				$rootScope.$broadcast(EVENTS.spendViewCreated, view);
 				return view;
