@@ -382,17 +382,17 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/sortable_columns.tpl.html',
-    "<div ng-switch on=\"displayBy\" class=\"text-holder\"> \n" +
+    "<div bindonce ng-switch on=\"displayBy\" class=\"text-holder\"> \n" +
     "\t<span ng-switch-when=\"Last Modified\">\n" +
-    "\t\t<span ng-if=\"!test\" bind-once>{{item.auditInfo.lastUpdatedOn | timeago }}</span>\n" +
-    "\t\t<span ng-if=\"test\">{{item.auditInfo.lastUpdatedOn}}</span>\n" +
+    "\t\t<span ng-if=\"!test\" bo-bind=\"item.auditInfo.lastUpdatedOn | timeago\"></span>\n" +
+    "\t\t<span ng-if=\"test\" bo-bind=\"item.auditInfo.lastUpdatedOn\"></span>\n" +
     "\t</span> \n" +
-    "\t<span ng-switch-when=\"Modified By\" bind-once>{{item.auditInfo.lastUpdatedBy.name}}</span> \n" +
-    "\t<span ng-switch-when=\"Type\" bind-once>{{item.template.type}}</span> \n" +
-    "\t<span ng-switch-when=\"Creator\" bind-once>{{item.auditInfo.createdBy.name}}</span> \n" +
-    "\t<span ng-switch-when=\"Created Date\" bind-once>\n" +
-    "\t\t<span ng-if=\"!test\" bind-once>{{item.auditInfo.createdOn | date: 'longDate' }}</span>\n" +
-    "\t\t<span ng-if=\"test\">{{item.auditInfo.createdOn}}</span>\n" +
+    "\t<span ng-switch-when=\"Modified By\" bo-bind=\"item.auditInfo.lastUpdatedBy.name\"></span> \n" +
+    "\t<span ng-switch-when=\"Type\" bo-bind=\"item.template.type\"></span> \n" +
+    "\t<span ng-switch-when=\"Creator\" bo-bind=\"item.auditInfo.createdBy.name\"></span> \n" +
+    "\t<span ng-switch-when=\"Created Date\" bo-bind=\"\">\n" +
+    "\t\t<span ng-if=\"!test\" bo-bind=\"item.auditInfo.createdOn | date: 'longDate'\"></span>\n" +
+    "\t\t<span ng-if=\"test\" bo-bind=\"item.auditInfo.createdOn\"></span>\n" +
     "\t</span> \n" +
     "\t<span ng-switch-default>FAIL</span> \n" +
     "</div>"
@@ -600,8 +600,8 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t<accordion close-others=\"false\">\n" +
     "\t\t\t\t\t\t\n" +
-    "\t\t\t\t\t\t\t<accordion-group ng-repeat=\"project in scenarioList | filterProjects: searchText\" is-open=\"project.open\">\n" +
-    "\t\t\t\t\t\t\t\t<accordion-heading>{{project.name}}</accordion-heading>\n" +
+    "\t\t\t\t\t\t\t<accordion-group bindonce ng-repeat=\"project in scenarioList | filterProjects: searchText\" is-open=\"project.open\">\n" +
+    "\t\t\t\t\t\t\t\t<accordion-heading bo-bind=\"project.name\"></accordion-heading>\n" +
     "\t\t\t\t\t\t\t\t<div>\n" +
     "\t\t\t\t\t\t\t\t\t<div class=\"row\">\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-1\">\n" +
@@ -615,16 +615,16 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t</div>\n" +
-    "\t\t\t\t\t\t\t\t<div ng-repeat=\"scenario in getScenarios(project, searchText)\">\n" +
+    "\t\t\t\t\t\t\t\t<div bindonce ng-repeat=\"scenario in getScenarios(project, searchText)\">\n" +
     "\t\t\t\t\t\t\t\t\t<div class=\"row\" ng-click=\"setScenario(scenario)\">\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-1\">\n" +
     "\t\t\t\t\t\t\t\t\t\t\t<span ng-show=\"showRow(scenario)\"><icon type=\"check-circle\" cname=\"ok-sign\"></icon></span>\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-title\">{{scenario.name}}</span>\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-title\" bo-bind=\"scenario.name\"></span>\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-5\">\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-type\">{{scenario.type}}</span>\n" +
+    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-type\" bo-bind=\"scenario.type\"></span>\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t</div>\n" +

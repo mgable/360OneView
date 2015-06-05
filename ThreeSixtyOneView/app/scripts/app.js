@@ -19,5 +19,6 @@ angular.module('ThreeSixtyOneView', [
     'ThreeSixtyOneView.config',
     'wijspread',
     'sf.virtualScroll',
-    'blndspt.ngPerformance'
+    'blndspt.ngPerformance',
+    'pasvaz.bindonce'
 ]);
