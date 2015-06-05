@@ -45,5 +45,6 @@ angular.module('ThreeSixtyOneView.config').constant('EVENTS', {
     // PLAN OF RECORD
     planOfRecordCreated: 'planOfRecordCreated',
     // CREATE RECOMMENDATION
+    spendViewCreated: 'spendViewCreated',
     outcomeDimensionsReady: 'outcomeDimensionsReady'
 });
