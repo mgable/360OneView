@@ -278,4 +278,152 @@
 			}
 		}
 	}
+
+	.base-scenario-view {
+		padding: 40px 20px;
+
+		svg {
+			display: inline-block;
+			vertical-align: text-bottom;
+			width: 45px;
+			color: $ms-mediumBlue;
+			margin-right: 5px;
+		}
+
+		.main-header {
+			font-size: 32px;
+			margin-bottom: 10px;
+			display: inline-block;
+		}
+
+		.sub-header {
+			font-size: 14px;
+			color: $ms-darkGray;
+			margin-bottom: 35px;
+		}
+
+		.base-scenario-info {
+			display: inline-block;
+			width: 440px;
+			background-color: $ms-green;
+			color: $ms-white;
+			padding: 20px;
+			border-radius: 3px;
+			margin-bottom: 30px;
+
+			.header {
+				font-size: 18px;
+				margin-bottom: 5px;
+			}
+
+			.name {
+				font-size: 28px;
+				margin-bottom: 5px;
+			}
+
+			.options {
+				margin-bottom: 20px;
+
+				.type {
+					display: inline-block;
+					float: left;
+
+					.type-logo {}
+
+					.type-text {}
+				}
+
+				.change {
+					display: inline-block;
+					float: right;
+
+					.change-icon {
+						margin-right: 5px;
+					}
+				}
+			}
+		}
+
+		.plan-summary {
+			.title {
+				font-size: 18px;
+				font-weight: bold;
+				margin-bottom: 5px;
+			}
+
+			.header {
+				border-top: 1px solid $ms-lightGray;
+				background-color: $ms-veryLightGray;
+				padding: 10px 20px;
+				margin-bottom: 20px;
+
+				.filters {
+					font-weight: bold;
+					margin-right: 20px;
+
+					.filter-icon {
+						margin-right: 5px;
+					}
+				}
+
+				.time {}
+			}
+
+			.kpis {
+				display: table;
+				margin-bottom: 20px;
+
+				.kpi-info {
+					display: table-cell;
+					padding: 0 20px;
+
+					.kpi-name {
+						text-align: center;
+					}
+
+					.kpi-value {
+						font-size: 32px;
+					}
+				}
+			}
+
+			.summary-table-options {
+				color: $ms-darkGray;
+
+				.breakdown {
+					color: $ms-black;
+					margin-left: 10px;
+
+					.caret-icon {
+						margin-left: 5px;
+					}
+				}
+			}
+
+			.summary-table {
+
+				.table-header {
+					padding-bottom: 15px;
+					border-bottom: 1px solid $ms-lightGray;
+
+					th {
+						padding: 10px 20px;
+						font-weight: normal;
+						font-size: 12px;
+					}
+				}
+
+				.table-row {
+
+					&:nth-child(even) {
+						background-color: $ms-veryLightGray;
+					}
+
+					td {
+						padding: 15px 20px;
+					}
+				}
+			}
+		}
+	}
 }
