@@ -18,11 +18,11 @@
 		</ul>
 	</div>
 
-	<div class="well meta" ng-if="selectedItem">
+	<div class="well meta" ng-if="selectedItem" bindonce>
 		<div class="inlineDescription-holder">
 			<p class="description-label ms-label">Description</p>
 			<span ng-switch="selectedItem.isMaster || ! selectedItem">
-				<span ng-switch-when="true" class="description">{{item.description}}</span>
+				<span ng-switch-when="true" class="description" bo-bind="item.description"></span>
 				<span ng-switch-default>
 					<inline-edit template="inline_description" focusTarget="textarea" item="selectedItem" test="e2e" submitAction="CONFIG.editAction"></inline-edit>
 				</span>
@@ -38,9 +38,9 @@
 		</span>
 	</div>
 
-	<div class="well meta" ng-if="selectedItem.referenceScenario.name">
+	<div class="well meta" ng-if="selectedItem.referenceScenario.name" bindonce>
 		<p class="ms-label">Base Scenario</p>
-		<p><a data-ms-id="ScenarioListing:baseScenario" ng-click="gotoBaseScenario(selectedItem.referenceScenario)">{{selectedItem.referenceScenario.name}}</a></p>
+		<p><a data-ms-id="ScenarioListing:baseScenario" ng-click="gotoBaseScenario(selectedItem.referenceScenario)" bo-bind="selectedItem.referenceScenario.name"></a></p>
 		<p class="text-holder"><span class="template {{selectedItem.template.type | lowercase}}">{{selectedItem.template.name}}</span></p>
 	</div>
 
@@ -49,8 +49,8 @@
 			<p class="ms-label">Contains</p>
 			<p class='field-label'>Total&nbsp;<span>{{selectedItem.scenarios.length}}</span>&nbsp;scenarios</p>
 			<div class="item-holder" >
-				<div class="item" ng-repeat="scenario in selectedItem.scenarios">
-					<span ng-click="goto($event, 'gotoScenarioEdit', scenario)">{{scenario.name}}</span>
+				<div class="item" bindonce ng-repeat="scenario in selectedItem.scenarios">
+					<span ng-click="goto($event, 'gotoScenarioEdit', scenario)" bo-bind="scenario.name"></span>
 				</div>
 			</div>
 		</div>
@@ -60,9 +60,9 @@
 		<div class="relatedItems-holder">
 			<p class="ms-label">Scenario Elements</p>
 			<div class="item-holder" >
-				<div class="item" ng-repeat="element in selectedItem.scenarioElements | orderBy:['group','name']">
-					<div class="element-name clickable" ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)">{{element.name}}</div>
-					<div class="element-title">{{element.cubeMeta.label}}</div>
+				<div class="item" bindonce ng-repeat="element in selectedItem.scenarioElements | orderBy:['group','name']">
+					<div class="element-name clickable" ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)" bo-bind="element.name"></div>
+					<div class="element-title" bo-bind="element.cubeMeta.label"></div>
 				</div>
 			</div>
 		</div>
