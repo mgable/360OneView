@@ -374,8 +374,7 @@
 
 		.plan-summary {
 			.title {
-				font-size: 18px;
-				font-weight: bold;
+				font-size: 22px;
 				margin-bottom: 5px;
 			}
 
@@ -400,6 +399,7 @@
 			.kpis {
 				display: table;
 				margin-bottom: 20px;
+				width: 100%;
 
 				.kpi-info {
 					display: table-cell;
@@ -407,16 +407,19 @@
 
 					.kpi-name {
 						text-align: center;
+						color: $ms-darkGray;
 					}
 
 					.kpi-value {
-						font-size: 32px;
+						font-size: 40px;
+						text-align: center;
 					}
 				}
 			}
 
 			.summary-table-options {
 				color: $ms-darkGray;
+				margin-bottom: 10px;
 
 				.breakdown {
 					color: $ms-black;
@@ -429,6 +432,7 @@
 			}
 
 			.summary-table {
+				width: 100%;
 
 				.table-header {
 					padding-bottom: 15px;
