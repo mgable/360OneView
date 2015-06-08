@@ -672,27 +672,27 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/sortable_columns.tpl.html',
-    "<div bindonce ng-switch on=\"displayBy\" class=\"text-holder\"> \r" +
+    "<div ng-switch on=\"displayBy\" class=\"text-holder\"> \r" +
     "\n" +
     "\t<span ng-switch-when=\"Last Modified\">\r" +
     "\n" +
-    "\t\t<span ng-if=\"!test\" bo-bind=\"item.auditInfo.lastUpdatedOn | timeago\"></span>\r" +
+    "\t\t<span ng-if=\"!test\">{{::item.auditInfo.lastUpdatedOn | timeago}}</span>\r" +
     "\n" +
-    "\t\t<span ng-if=\"test\" bo-bind=\"item.auditInfo.lastUpdatedOn\"></span>\r" +
+    "\t\t<span ng-if=\"test\">{{::item.auditInfo.lastUpdatedOn}}</span>\r" +
     "\n" +
     "\t</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Modified By\" bo-bind=\"item.auditInfo.lastUpdatedBy.name\"></span> \r" +
+    "\t<span ng-switch-when=\"Modified By\">{{::item.auditInfo.lastUpdatedBy.name}}</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Type\" bo-bind=\"item.template.type\"></span> \r" +
+    "\t<span ng-switch-when=\"Type\">{{::item.template.type}}</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Creator\" bo-bind=\"item.auditInfo.createdBy.name\"></span> \r" +
+    "\t<span ng-switch-when=\"Creator\">{{::item.auditInfo.createdBy.name}}</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Created Date\" bo-bind=\"\">\r" +
+    "\t<span ng-switch-when=\"Created Date\">\r" +
     "\n" +
-    "\t\t<span ng-if=\"!test\" bo-bind=\"item.auditInfo.createdOn | date: 'longDate'\"></span>\r" +
+    "\t\t<span ng-if=\"!test\">{{::item.auditInfo.createdOn | date: 'longDate'}}</span>\r" +
     "\n" +
-    "\t\t<span ng-if=\"test\" bo-bind=\"item.auditInfo.createdOn\"></span>\r" +
+    "\t\t<span ng-if=\"test\">{{::item.auditInfo.createdOn}}</span>\r" +
     "\n" +
     "\t</span> \r" +
     "\n" +
@@ -1083,9 +1083,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<accordion-group bindonce ng-repeat=\"project in scenarioList | filterProjects: searchText\" is-open=\"project.open\">\r" +
+    "\t\t\t\t\t\t\t<accordion-group ng-repeat=\"project in scenarioList | filterProjects: searchText\" is-open=\"project.open\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<accordion-heading bo-bind=\"project.name\"></accordion-heading>\r" +
+    "\t\t\t\t\t\t\t\t<accordion-heading>{{::project.name}}</accordion-heading>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t<div>\r" +
     "\n" +
@@ -1113,7 +1113,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<div bindonce ng-repeat=\"scenario in getScenarios(project, searchText)\">\r" +
+    "\t\t\t\t\t\t\t\t<div ng-repeat=\"scenario in getScenarios(project, searchText)\">\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t<div class=\"row\" ng-click=\"setScenario(scenario)\">\r" +
     "\n" +
@@ -1125,13 +1125,13 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-title\" bo-bind=\"scenario.name\"></span>\r" +
+    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-title\">{{::scenario.name}}</span>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-5\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-type\" bo-bind=\"scenario.type\"></span>\r" +
+    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-type\">{{::scenario.type}}</span>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\r" +
     "\n" +
