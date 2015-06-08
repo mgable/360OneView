@@ -297,6 +297,7 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
         $scope.draftView = false;
         $scope.isSynced = true;
         $scope.isViewLoaded = false;
+        $scope.toggleIcon = false;
 
         $scope.spendAdded = {};
         $scope.spendAddedFilters = {};

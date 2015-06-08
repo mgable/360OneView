@@ -21,7 +21,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t{{dimension.label}}\r" +
     "\n" +
-    "\t\t\t<span class=\"filter-stats\">({{categorizedValues.selected}}/{{categorizedValues.total}})</span>\r" +
+    "\t\t\t<span class=\"filter-stats\">({{categorizedValues.selected}}/{{categorizedValues.total}}):</span>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
@@ -53,7 +53,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t{{dimension.label}}\r" +
     "\n" +
-    "\t\t\t<span class=\"filter-stats\">({{categorizedValues.selected}}/{{categorizedValues.total}})</span>\r" +
+    "\t\t\t<span class=\"filter-stats\">({{categorizedValues.selected}}/{{categorizedValues.total}}):</span>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
@@ -221,7 +221,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/ms_dropdown.tpl.html',
-    "<div class=\"ms-dropdown\" id=\"{{id}}\"> \r" +
+    "<div class=\"ms-dropdown\" id=\"{{id}}\">\r" +
     "\n" +
     "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.isActive(id)}\" data-ms-id=\"{{id}}\">\r" +
     "\n" +
@@ -229,9 +229,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<span class=\"toggle\" ng-click=\"toggle()\" data-ms-id=\"column_2SortOptions\"><icon type=\"caret-down\"></icon></span>\r" +
     "\n" +
-    "\t</h6> \r" +
+    "\t</h6>\r" +
     "\n" +
-    "\t<ul class=\"ms-select-list dropdownshadow hide\"> \r" +
+    "\t<ul class=\"ms-select-list dropdownshadow hide\">\r" +
     "\n" +
     "\t\t<li class=\"list-label\">Sort Order</li>\r" +
     "\n" +
@@ -247,34 +247,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<ul>\r" +
     "\n" +
-    "\t\t\t<li class=\"ms-item selectSort\" ng-repeat=\"item in items\" ng-class=\"{disabled:item.label === selectedItem.label}\" ng-click=\"selectSort(item)\" data-ms-id=\"{{item.label}}\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{item.label}}</li>  \r" +
+    "\t\t\t<li class=\"ms-item selectSort\" ng-repeat=\"item in items\" ng-class=\"{disabled:item.label === selectedItem.label}\" ng-click=\"selectSort(item)\" data-ms-id=\"{{item.label}}\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{item.label}}</li>\r" +
     "\n" +
     "\t\t</ul>\r" +
     "\n" +
-    "\t</ul> \r" +
-    "\n" +
-    "</div>"
-  );
-
-
-  $templateCache.put('views/directives/ms_filter_dropdown.tpl.html',
-    "<div>\r" +
-    "\n" +
-    "\t<h4 class=\"filter-holder\" ng-click=\"toggle()\" data-ms-id=\"filterBy\"><span class=\"title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;(<span data-ms-id='itemCount'>{{SortAndFilterService.getCount()}}</span>)<span  class=\"filterToggle\"><icon type=\"caret-down\"></icon></span></span>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "\t\t<ul ms-link-group selected-item=\"{{CONFIG.filterMenu.items[0].label}}\" radio=\"true\" class='filterDropdown dropdownshadow title hide menu'>\r" +
-    "\n" +
-    "\t\t\t<li ng-repeat=\"item in CONFIG.filterMenu.items\" class=\"header\" ms-link=\"{{item.label}}\" ng-click=\"setFilter(item.filterType, item, true)\" data-ms-id=\"{{item.label}}\">\r" +
-    "\n" +
-    "\t\t\t\t <a>{{item.label}}</a>\r" +
-    "\n" +
-    "\t\t\t</li>\r" +
-    "\n" +
-    "\t    </ul>\r" +
-    "\n" +
-    "\t</h4>\r" +
+    "\t</ul>\r" +
     "\n" +
     "</div>"
   );

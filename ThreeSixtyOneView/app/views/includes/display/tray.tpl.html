@@ -8,10 +8,10 @@
 				</span>
 			</span>
 		</div>
-		
+
 		<ul class="button-group" ng-show="CONFIG.trayButtons.length > 0" ng-if="selectedItem && !project.isMaster">
 			<li class="button-holder" ng-repeat="button in CONFIG.trayButtons">
-				<button class="pull-left btn btn-default" ng-disabled="selectedItem.isMaster || !selectedItem" ng-click="action(button.action, selectedItem)" data-ms-id="trayActions.copy">
+				<button class="pull-left" ng-disabled="selectedItem.isMaster || !selectedItem" ng-click="action(button.action, selectedItem)" data-ms-id="trayActions.copy">
 					<icon type="{{button.icon}}"></icon>&nbsp;{{button.label}}
 				</button>
 			</li>
@@ -28,30 +28,35 @@
 				</span>
 			</span>
 		</div>
-		<span ng-if="selectedItem.auditInfo.createdBy">
+		<span class="createdBy-holder" ng-if="selectedItem.auditInfo.createdBy">
 			<p class="ms-label">Created By</p>
 			 <p class="name" data-ms-id="tray.createdBy">{{selectedItem.auditInfo.createdBy.name}},&nbsp;{{selectedItem.auditInfo.createdOn | date}}</p>
 		</span>
-		<span ng-if="selectedItem.auditInfo.lastUpdatedBy" >
-			 <p class="ms-label">Modified by</p>
+		<span class="modifiedBy-holder" ng-if="selectedItem.auditInfo.lastUpdatedBy" >
+			 <p class="ms-label">Modified By</p>
 			 <p class="name" data-ms-id="tray.modifiedBy">{{selectedItem.auditInfo.lastUpdatedBy.name}},&nbsp;{{selectedItem.auditInfo.lastUpdatedOn | date}}</p>
 		</span>
 	</div>
 
 	<div class="well meta" ng-if="selectedItem.referenceScenario.name">
-		<p class="ms-label">Base Scenario</p>
-		<p><a data-ms-id="ScenarioListing:baseScenario" ng-click="gotoBaseScenario(selectedItem.referenceScenario)">{{selectedItem.referenceScenario.name}}</a></p>
-		<p class="text-holder"><span class="template {{selectedItem.template.type | lowercase}}">{{selectedItem.template.name}}</span></p>
+		<div class="referenceScenario-holder">
+			<p class="ms-label">Base Scenario</p>
+			<p class="reference-label"><a data-ms-id="ScenarioListing:baseScenario" ng-click="gotoBaseScenario(selectedItem.referenceScenario)">{{selectedItem.referenceScenario.name}}</a></p>
+			<p class="text-holder template {{selectedItem.template.type | lowercase}}"><span>{{selectedItem.template.name}}</span></p>
+		</div>
 	</div>
 
 	<div class="well relatedItems" ng-if="selectedItem.scenarios.length">
 		<div class="relatedItems-holder">
 			<p class="ms-label">Contains</p>
 			<p class='field-label'>Total&nbsp;<span>{{::selectedItem.scenarios.length}}</span>&nbsp;scenarios</p>
-			<div class="item-holder" >
-				<div class="item" ng-repeat="scenario in selectedItem.scenarios">
-					<span ng-click="goto($event, 'gotoScenarioEdit', scenario)">{{::scenario.name}}</span>
-				</div>
+			<div class="item-holder">
+				<p class="item hide-overflow" ng-repeat="scenario in selectedItem.scenarios | limitTo: limit">
+					<a ng-click="goto($event, 'gotoScenarioEdit', scenario)">{{::scenario.name}}</a>
+				</p>
+			</div>
+			<div class="item-expand" ng-if="selectedItem.scenarios.length > 3" ng-click="setLimit(3, false)">
+				<span>View {{limitText}}</span>
 			</div>
 		</div>
 	</div>
@@ -60,10 +65,13 @@
 		<div class="relatedItems-holder">
 			<p class="ms-label">Scenario Elements</p>
 			<div class="item-holder" >
-				<div class="item" ng-repeat="element in selectedItem.scenarioElements | orderBy:['group','name']">
-					<div class="element-name clickable" ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)">{{::element.name}}</div>
+				<div class="item" ng-repeat="element in selectedItem.scenarioElements | orderBy:['group','name'] | limitTo: limit">
 					<div class="element-title">{{::element.cubeMeta.label}}</div>
+					<p class="element-name hide-overflow clickable"><a ng-click="goto($event, 'gotoScenarioEdit', selectedItem, element.id)">{{::element.name}}</a></p>
 				</div>
+			</div>
+			<div class="item-expand" ng-if="selectedItem.scenarioElements.length > 3" ng-click="setLimit(3, false)">
+				<span>View {{limitText}}</span>
 			</div>
 		</div>
 	</div>

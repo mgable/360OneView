@@ -22,15 +22,18 @@ angular.module('ThreeSixtyOneView.directives')
                 label: "@",
                 icon: "@",
                 type: "@",
+                shape: "@",
                 action: "&"
             },
-            template: '<button class="btn btn-default ms-btn-{{type}}" ng-click="action()"><icon ng-if="hasIcon" type="{{icon}}"></icon>{{label}}</button>',
+            template: '<button class="btn btn-default ms-btn-{{type}} ms-btn-{{shape}}" ng-click="action()"><icon ng-if="hasIcon" type="{{icon}}"></icon>{{label}}</button>',
             link: function($scope) {
                 $scope.label = $scope.label || "Submit";
 
                 $scope.hasIcon = $scope.icon || false;
 
                 $scope.type = $scope.type || "submit";
+
+                $scope.shape = $scope.shape || "normal";
             }
         };
     }]);

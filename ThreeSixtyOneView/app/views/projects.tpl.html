@@ -1,4 +1,35 @@
 <div class="listingView">
+	<div class="row display-actions">
+		<div class="filter-holder dropdown" data-ms-id="filterBy">
+		    <span class="dropdown-toggle clickable filter-title">
+		        {{SortAndFilterService.getSelectedLabel()}}&nbsp;(
+	        	<span data-ms-id='itemCount'>{{SortAndFilterService.getCount()}}</span>
+		        )
+	        	<span class="filterToggle">
+	        		<icon type="caret-down"></icon>
+	        	</span>
+		    </span>
+		    <ul ms-link-group class='dropdown-menu'>
+		        <li ng-repeat="item in CONFIG.filterMenu.items" class="menu-item" ng-click="setFilter(item.filterType, item, true)" data-ms-id="{{item.label}}">{{::item.label}}</li>
+		    </ul>
+		</div>
+
+	    <ms-filter-input></ms-filter-input>
+
+	    <div class="button-holder">
+	        <ms-button type="submit" action="createTemplate()" label="New Template" ng-show="project.isMaster"></ms-button>
+	        <ms-button type='submit' action='create(CONFIG.displayActionsCreate)' label='New Project' data-ms-id='createButton' ng-hide="project.isMaster" ng-if="!project"></ms-button>
+	        <div class="dropdown scenarioTypeSelector" ng-if="!!project">
+	            <span class="ms-button dropdown-toggle dropdown-button clickable">
+	                <ms-button type='submit' label='New Scenario' data-ms-id='createButton' ng-hide="project.isMaster"></ms-button>
+	            </span>
+	            <ul class="dropdown-menu">
+	                <li class="menu-item" ng-click="create(CONFIG.displayActionsCreateSimulation)">Simulation</li>
+	                <li class="menu-item" ng-click="create(CONFIG.displayActionsCreateOptimization)">Optimization</li>
+	            </ul>
+	        </div>
+	    </div>
+	</div>
 	<div class="row alert-area">
 		<ng-include src="'views/includes/display/display.tpl.html'"></ng-include>
 	</div>

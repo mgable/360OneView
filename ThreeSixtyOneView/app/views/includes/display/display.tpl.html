@@ -1,22 +1,2 @@
 <!-- alerts -->
 <div class="alerts" ng-show="hasAlerts"><ng-include src="hasAlerts"></ng-include></div>
-
-<!-- display actions -->
-<div class="display-actions">
-	<ms-filter-dropdown></ms-filter-dropdown>
-	<ms-filter-input></ms-filter-input>
-
-	<div class="button-holder" ng-class="{hasAlerts: hasAlerts}">
-        <ms-button type="submit" action="createTemplate()" label="New Template" ng-show="project.isMaster"></ms-button>
-        <ms-button type='submit' action='create(CONFIG.displayActionsCreate)' label='New Project' data-ms-id='createButton' ng-disabled="project.isMaster" ng-if="!project"></ms-button>
-        <div class="dropdown scenarioTypeSelector" ng-if="!!project">
-            <span class="ms-button dropdown-toggle dropdown-button clickable">
-                <ms-button type='submit' label='New Scenario' data-ms-id='createButton' ng-disabled="project.isMaster"></ms-button>
-            </span>
-            <ul class="dropdown-menu">
-                <li class="menu-item" ng-click="create(CONFIG.displayActionsCreateSimulation)">Simulation</li>
-                <li class="menu-item" ng-click="create(CONFIG.displayActionsCreateOptimization)">Optimization</li>
-            </ul>
-        </div>
-	</div>
-</div>

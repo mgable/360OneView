@@ -5,6 +5,7 @@
 	width: 330px;
 	height: 590px;
 	text-align: center;
+	color: $ms-white;
 	.title {
 		margin-bottom: 10px;
 		font-size: 26px;
@@ -36,16 +37,17 @@
 		text-align: left;
 		li {
 			margin: 10px 0 10px 60px;
-			color: #808080;
+			color: $ms-white;
 			&.completed {
-				color: #333;
+				color: $ms-mediumGreen;
 				span.number-circle {
+					color: $ms-white;
 					background-color: $ms-mediumGreen;
 				}
-				i.fa-check {
+				span.check {
 					color: $ms-mediumGreen;
 				}
-				i.fa-failed {
+				span.failed {
 					color: $ms-orange;
 				}
 			}
@@ -56,8 +58,8 @@
 				width: 22px;
 				height: 22px;
 				padding: 4px;
-				background: $ms-mediumLightGray;
-				color: $ms-pureWhite;
+				background: $ms-lightGray;
+				color: $ms-black;
 				text-align: center;
 				font-size: 14px;
 				line-height: 14px;
@@ -80,8 +82,7 @@
 				text-transform: uppercase;
 				background-color: $ms-lightGray;
 				&:hover, &:active {
-					color: $ms-black;
-					background-color: $ms-mediumLightGray;
+					background-color: darken($ms-lightGray, 5%);
 				}
 			}
 		}

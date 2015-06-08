@@ -47,6 +47,8 @@ angular.module('ThreeSixtyOneView')
         $scope.selectItem = function(item){
             // the return is for unit tests, it does nothing in the UI
             $scope.showDetails(item);
+            $scope.limit = 3;
+            $scope.limitText = 'All';
             return $scope.getDetails(item.id, getScenarioElements).then(function(data){
                 item.scenarioElements = data;
             });
@@ -141,6 +143,7 @@ angular.module('ThreeSixtyOneView')
         $scope.selectItem = function(item){
             // the return is for unit tests, it does nothing in the UI
             $scope.showDetails(item);
+            $scope.setLimit(3, true);
             return $scope.getDetails(item.uuid, getScenarios).then(function(data){
                 item.scenarios = data;
             });
@@ -184,6 +187,7 @@ angular.module('ThreeSixtyOneView')
             $scope.data = _data_;
             $scope.selectedItem = null;
             $scope.getProject = fn;
+            $scope.setLimit(3, true);
 
             // tray variables
             $scope.trayActions = CONFIG.view[$state.current.name].trayActions;
@@ -286,6 +290,16 @@ angular.module('ThreeSixtyOneView')
 
         $scope.isScenarioTitleUnique = function(scenarioName) {
             return !_.findWhere($scope.scenarios, {name: scenarioName});
+        };
+
+        $scope.setLimit = function(limit, reset) {
+            if (reset) {
+                $scope.limit = limit;
+                $scope.limitText = 'All';
+            } else {
+                $scope.limit = $scope.limit === limit ? Infinity : limit;
+                $scope.limitText = $scope.limit === limit ? 'All' : 'Less';
+            }
         };
 
         // tray event listeners

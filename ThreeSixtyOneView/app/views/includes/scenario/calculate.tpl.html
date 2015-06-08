@@ -14,7 +14,7 @@
             <li ng-repeat="state in getStates()" ng-class="{completed: styleState($index)}">
                 <span class="number-circle">{{state.id}}</span>
                 {{state.label}}
-                <icon type="{{state.iconType}}"></icon>&nbsp;{{state.iconText}}
+                <span class="{{state.iconType}}"><icon type="{{state.iconType}}"></icon>&nbsp;{{state.iconText}}</span>
             </li>
         </ul>
     </div>
