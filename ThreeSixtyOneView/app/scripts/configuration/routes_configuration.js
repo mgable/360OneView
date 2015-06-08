@@ -16,6 +16,20 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
       templateUrl: "views/create_recommendation.tpl.html",
       controller: "CreateRecommendationCtrl",
       breadcrumb: "<li class='single'>Create Recommendation</li>"
+    }).
+    state('CreateRecommendation.base',{
+        views: {
+          'recommend': {
+            templateUrl:"views/includes/create_recommendation/base_scenario.tpl.html"
+          }
+      }
+    })
+    .state('CreateRecommendation.assumptions',{
+        views: {
+          'recommend': {
+            templateUrl:"views/includes/create_recommendation/assumptions.tpl.html"
+          }
+      }
     })
     .state('ScenarioTemplates', {
       url: "/scenariotemplates/:type",

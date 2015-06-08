@@ -30,7 +30,6 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 			$scope.timeDimension = {};
 			$scope.spendDimensions = [];
 			$scope.kpis = [];
-			$scope.slideIn = false;
 
 			// get all scenario for the base scenario functionality
 			if(ProjectsService.getProjects().length === 0) {
@@ -151,6 +150,29 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 
 	$scope.setSpendView = function(view) {
 		spendView = view;
+	};
+
+	var drawerContent;
+	$scope.animation = {slideIn:false}
+
+	$scope.openDrawer = function(which){
+		console.info(drawerContent, which);
+		if (!$scope.animation.slideIn && (drawerContent === which)){
+			$scope.animation.slideIn = !$scope.animation.slideIn;
+		}
+		drawerContent = which;
+		switch(which){
+			case "base": $scope.openCreateRecommendationChooseBaseScenario();break;
+			case "assumptions": $scope.openCreateRecommendationAssumptions();break;
+		}
+	}
+
+	$scope.openCreateRecommendationChooseBaseScenario = function(){
+		GotoService.createRecommendationChooseBaseScenario();
+	};
+
+	$scope.openCreateRecommendationAssumptions = function(){
+		GotoService.createRecommendationAssumptions();
 	};
 
 	$scope.cancel = function() {
