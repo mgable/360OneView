@@ -20,6 +20,7 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 		outcomeSpecificDimensions,
 		isSpendCubeLoaded = false,
 		isOutcomeCubeLoaded = false,
+		drawerSource,
 
 		init = function init() {
 			$scope.newRecommendation = {
@@ -151,6 +152,14 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 
 	$scope.setSpendView = function(view) {
 		spendView = view;
+	};
+
+	$scope.switchDrawer = function(drawerView) {
+		drawerSource = '/views/includes/create_recommendation/drawer/' + drawerView + '.tpl.html'
+	};
+
+	$scope.getDrawerSource = function() {
+		return drawerSource;
 	};
 
 	$scope.cancel = function() {

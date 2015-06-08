@@ -271,6 +271,8 @@
 		padding: 0 25px 25px;
 		background-color: $ms-veryLightGray;
 		box-shadow: -5px 0px 3px -2px $ms-lightGray;
+		z-index: 99;
+		
 		.section {
 			margin: 25px 0 0 0;
 			font-size: 14px;
