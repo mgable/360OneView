@@ -1,33 +1,5 @@
 <div ng-controller="CreateRecommendationSelectCtrl" class="sub-view bottom-border">
-	<svg class="icon" version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-	 x="0px" y="0px" viewBox="-223 25 512 512" xml:space="preserve" height="50px" width="50px">
-		<g>
-			<g>
-				<path fill="#689F38" d="M33,25c-141.4,0-256,114.6-256,256s114.6,256,256,256s256-114.6,256-256S174.4,25,33,25z M33,497
-					c-119.3,0-216-96.7-216-216S-86.3,65,33,65s216,96.7,216,216S152.3,497,33,497z"/>
-				<path fill="#689F38" d="M-47,353c0,13.3-10.8,24-24,24s-24-10.8-24-24s10.8-24,24-24S-47,339.8-47,353z"/>
-				<path fill="#689F38" d="M161,305c0,13.3-10.8,24-24,24s-24-10.8-24-24s10.8-24,24-24S161,291.8,161,305z"/>
-				<path fill="#689F38" d="M17,209c0,13.3-10.8,24-24,24s-24-10.8-24-24s10.8-24,24-24S17,195.8,17,209z"/>
-				<g>
-					<path fill="#689F38" d="M-15,248.2V409H1V248.2c-2.6,0.5-5.3,0.8-8,0.8S-12.4,248.7-15,248.2z"/>
-					<path fill="#689F38" d="M1,169.8V153h-16v16.8c2.6-0.5,5.3-0.8,8-0.8S-1.6,169.3,1,169.8z"/>
-				</g>
-				<g>
-					<path fill="#689F38" d="M129,344.2V409h16v-64.8c-2.6,0.5-5.3,0.8-8,0.8S131.6,344.7,129,344.2z"/>
-					<path fill="#689F38" d="M145,265.8V153h-16v112.8c2.6-0.5,5.3-0.8,8-0.8S142.4,265.3,145,265.8z"/>
-				</g>
-				<g>
-					<path fill="#689F38" d="M-79,392.2V409h16v-16.8c-2.6,0.5-5.3,0.8-8,0.8S-76.4,392.7-79,392.2z"/>
-					<path fill="#689F38" d="M-63,313.8V153h-16v160.8c2.6-0.5,5.3-0.8,8-0.8S-65.6,313.3-63,313.8z"/>
-				</g>
-				<path fill="#689F38" d="M97,249c0,13.3-10.8,24-24,24s-24-10.7-24-24c0-13.3,10.8-24,24-24S97,235.8,97,249z"/>
-				<g>
-					<path fill="#689F38" d="M81,209.8V153H65v56.8c2.6-0.5,5.3-0.8,8-0.8S78.4,209.3,81,209.8z"/>
-					<path fill="#689F38" d="M65,288.2V409h16V288.2c-2.6,0.5-5.3,0.8-8,0.8S67.6,288.7,65,288.2z"/>
-				</g>
-			</g>
-		</g>
-	</svg>
+	<svg-icon type="optimize" class="sub-view-icon"></svg-icon>
 	<div class="prompt">
 		Select the budget to optimize
 		<icon type="info-circle" cname="info"></icon>
@@ -59,22 +31,16 @@
 			<div class="editor">
 				<div class="filters-list">
 					<div class="list">
-						<dimension-filter ng-repeat="dimension in getSpendDimensions()" ng-if="addedFilters[dimension.label] && dimension.type !== 'TimeDimension'" dimension="dimension" categorized-values="categorizedValue[$index]" action="filtersModal(dimension)" list-view="true"></dimension-filter>				
+						<dimension-filter ng-repeat="dimension in getSpendDimensions()" ng-if="addedFilters[dimension.label] && dimension.type !== 'TimeDimension'" dimension="dimension" categorized-values="categorizedValue[$index]" action="filtersModal(dimension)" list-view="true"></dimension-filter>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-md-5 budget-column">
-			<svg xmlns="http://www.w3.org/2000/svg" class="budget-block">
-				<rect rx="5" ry="5" width="270" height="225" fill="#689F38"></rect>
-				<text y="85" transform="translate(135)" fill="white" >
-					<tspan x="0" font-size="20" text-anchor="middle">Budget based on scope</tspan>
-					<tspan x="0" dy="40" font-size="30" text-anchor="middle">{{totalBudget | currency}}</tspan>
-				</text>
-			</svg>
-			<svg xmlns="http://www.w3.org/2000/svg" class="budget-caret">
-				<path d="M0.002,8.000 C0.002,8.000 15.998,15.998 15.998,15.998 C15.998,15.998 15.998,0.002 15.998,0.002 C15.998,0.002 0.002,8.000 0.002,8.000" fill-rule="evenodd" fill="#689F38"/>
-			</svg>
+	</div>
+	<div class="budget-box">
+		<div class="budget-text">
+			<p class="budget-description">Budget based on scope</p>
+			<p class="budget-number">{{totalBudget | currency}}</p>
 		</div>
 	</div>
 </div>
