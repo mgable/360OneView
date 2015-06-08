@@ -141,6 +141,7 @@
 		  	}
 		}
 		.sub-view {
+			position: relative;
 			margin: 25px 0 0 0;
 
 			svg {
@@ -151,20 +152,47 @@
 					stroke-width: 1px;
 				}
 
-				&.icon {
+				&.sub-view-icon {
 					float: left;
 					margin: 0 15px 0 0;
+					width: 50px;
+					height: 50px;
 				}
+			}
 
-				&.budget-block {
-					height: 225px;
-					width: 271px;
+			.budget-box {
+				position: absolute;
+				top: 97px;
+				right: 0;
+				background-color: $ms-darkGreen;
+				height: 222px;
+				width: 266px;
+				border-radius: 3px;
+				&:before {
+					right: 100%;
+					top: 50%;
+					border: solid transparent;
+					content: " ";
+					height: 0;
+					width: 0;
+					position: absolute;
+					pointer-events: none;
+					border-right-color: $ms-darkGreen;
+					border-width: 5px 12px;
+  					margin-top: -12px;
 				}
-				&.budget-caret {
-					width: 16px;
-					height: 225px;
-					float: left;
-					padding: 97px 0 0 0;
+				.budget-text {
+					@include vertical-align;
+					color: $ms-pureWhite;
+					text-align: center;
+					.budget-description {
+						font-size: 20px;
+						line-height: 22px;
+					}
+					.budget-number {
+						font-size: 30px;
+						line-height: 32px;
+					}
 				}
 			}
 
@@ -190,6 +218,11 @@
 			.prompt {
 				margin: 15px 0 15px 0 ;
 				font-size: 24px;
+			}
+			.input-title {
+				font-size: 16px;
+				margin-top: 25px;
+				margin-bottom: 10px;
 			}
 			.prompt-small {
 				margin: 0 0 15px 0
@@ -270,6 +303,158 @@
 			}
 			.constraint-link {
 				margin: 0 0 0 5px;
+			}
+		}
+	}
+
+	.base-scenario-view {
+		padding: 40px 20px;
+
+		svg {
+			display: inline-block;
+			vertical-align: text-bottom;
+			width: 45px;
+			color: $ms-mediumBlue;
+			margin-right: 5px;
+		}
+
+		.main-header {
+			font-size: 32px;
+			margin-bottom: 10px;
+			display: inline-block;
+		}
+
+		.sub-header {
+			font-size: 14px;
+			color: $ms-darkGray;
+			margin-bottom: 35px;
+		}
+
+		.base-scenario-info {
+			display: inline-block;
+			width: 440px;
+			background-color: $ms-green;
+			color: $ms-white;
+			padding: 20px;
+			border-radius: 3px;
+			margin-bottom: 30px;
+
+			.header {
+				font-size: 18px;
+				margin-bottom: 5px;
+			}
+
+			.name {
+				font-size: 28px;
+				margin-bottom: 5px;
+			}
+
+			.options {
+				margin-bottom: 20px;
+
+				.type {
+					display: inline-block;
+					float: left;
+
+					.type-logo {}
+
+					.type-text {}
+				}
+
+				.change {
+					display: inline-block;
+					float: right;
+
+					.change-icon {
+						margin-right: 5px;
+					}
+				}
+			}
+		}
+
+		.plan-summary {
+			.title {
+				font-size: 22px;
+				margin-bottom: 5px;
+			}
+
+			.header {
+				border-top: 1px solid $ms-lightGray;
+				background-color: $ms-veryLightGray;
+				padding: 10px 20px;
+				margin-bottom: 20px;
+
+				.filters {
+					font-weight: bold;
+					margin-right: 20px;
+
+					.filter-icon {
+						margin-right: 5px;
+					}
+				}
+
+				.time {}
+			}
+
+			.kpis {
+				display: table;
+				margin-bottom: 20px;
+				width: 100%;
+
+				.kpi-info {
+					display: table-cell;
+					padding: 0 20px;
+
+					.kpi-name {
+						text-align: center;
+						color: $ms-darkGray;
+					}
+
+					.kpi-value {
+						font-size: 40px;
+						text-align: center;
+					}
+				}
+			}
+
+			.summary-table-options {
+				color: $ms-darkGray;
+				margin-bottom: 10px;
+
+				.breakdown {
+					color: $ms-black;
+					margin-left: 10px;
+
+					.caret-icon {
+						margin-left: 5px;
+					}
+				}
+			}
+
+			.summary-table {
+				width: 100%;
+
+				.table-header {
+					padding-bottom: 15px;
+					border-bottom: 1px solid $ms-lightGray;
+
+					th {
+						padding: 10px 20px;
+						font-weight: normal;
+						font-size: 12px;
+					}
+				}
+
+				.table-row {
+
+					&:nth-child(even) {
+						background-color: $ms-veryLightGray;
+					}
+
+					td {
+						padding: 15px 20px;
+					}
+				}
 			}
 		}
 	}
