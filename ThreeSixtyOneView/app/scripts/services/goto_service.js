@@ -30,4 +30,12 @@ angular.module('ThreeSixtyOneView.services')
 	this.createRecommendation = function(){
 		$state.go("CreateRecommendation");
 	};
+
+	this.createRecommendationChooseBaseScenario = function(){
+		$state.go("CreateRecommendation.base");
+	};
+
+	this.createRecommendationAssumptions = function(){
+		$state.go("CreateRecommendation.assumptions");
+	}
 }]);
