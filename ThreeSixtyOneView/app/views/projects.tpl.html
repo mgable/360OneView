@@ -1,6 +1,19 @@
 <div class="listingView">
 	<div class="row display-actions">
-	    <ms-filter-dropdown></ms-filter-dropdown>
+		<div class="filter-holder dropdown" data-ms-id="filterBy">
+		    <span class="dropdown-toggle clickable filter-title">
+		        {{SortAndFilterService.getSelectedLabel()}}&nbsp;(
+	        	<span data-ms-id='itemCount'>{{SortAndFilterService.getCount()}}</span>
+		        )
+	        	<span class="filterToggle">
+	        		<icon type="caret-down"></icon>
+	        	</span>
+		    </span>
+		    <ul ms-link-group class='dropdown-menu'>
+		        <li ng-repeat="item in CONFIG.filterMenu.items" class="menu-item" ng-click="setFilter(item.filterType, item, true)" data-ms-id="{{item.label}}">{{::item.label}}</li>
+		    </ul>
+		</div>
+
 	    <ms-filter-input></ms-filter-input>
 
 	    <div class="button-holder">

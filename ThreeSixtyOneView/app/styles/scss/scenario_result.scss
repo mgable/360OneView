@@ -16,19 +16,19 @@
                 color: $ms-orange;
             }
             .dropdown-menu {
-                left: 78px;
+                left: 60px;
             }
         }
         .filters-selector {
             float: right;
             margin-right: 30px;
             .dropdown-menu {
-                left: -251px;
+                left: -280px;
                 width: 510px !important;
                 padding: 0;
                 &::before {
                     background-color: $ms-veryLightGray;
-                    left: 318px;
+                    left: 338px;
                 }
                 .header {
                     background-color: $ms-veryLightGray;

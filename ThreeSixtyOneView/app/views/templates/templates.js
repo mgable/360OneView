@@ -257,27 +257,6 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
-  $templateCache.put('views/directives/ms_filter_dropdown.tpl.html',
-    "<div class=\"filter-holder\" ng-click=\"toggle()\" data-ms-id=\"filterBy\">\r" +
-    "\n" +
-    "    <span class=\"title hide-overflow\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;(<span data-ms-id='itemCount'>{{SortAndFilterService.getCount()}}</span>)<span  class=\"filterToggle\"><icon type=\"caret-down\"></icon></span></span>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "\t<ul ms-link-group selected-item=\"{{CONFIG.filterMenu.items[0].label}}\" radio=\"true\" class='filterDropdown dropdownshadow title hide menu'>\r" +
-    "\n" +
-    "\t\t<li ng-repeat=\"item in CONFIG.filterMenu.items\" class=\"header\" ms-link=\"{{item.label}}\" ng-click=\"setFilter(item.filterType, item, true)\" data-ms-id=\"{{item.label}}\">\r" +
-    "\n" +
-    "\t\t\t <a>{{item.label}}</a>\r" +
-    "\n" +
-    "\t\t</li>\r" +
-    "\n" +
-    "    </ul>\r" +
-    "\n" +
-    "</div>"
-  );
-
-
   $templateCache.put('views/directives/ms_filter_input.tpl.html',
     "<div class=\"input-holder\">\r" +
     "\n" +

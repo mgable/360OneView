@@ -2,49 +2,23 @@
 
 .display-actions {
 	.filter-holder {
-		width: 120px;
+		width: 140px;
 		margin-right: 10px;
 		float:left;
 		@include vertical-align;
-		.title {
+		.filter-title {
 			color: $ms-lightGray;
 			font-size: 14px;
 			text-transform: capitalize;
 			cursor: pointer;
 		}
-		.filterDropdown {
-			position: absolute;
-			top: 45px;
-			left: 5px;
-			border:1px solid $ms-mediumBlue;
-			margin: 5px 0 0 0;
-			padding:15px;
-			min-width:160px;
-			background-color:$ms-white;
-			li {
-				padding: 6px 0;
-				margin-bottom: 5px;
-
-				&:last-child {
-					margin: 0;
-				}
-			}
-			.selected {
-				font-weight: bold;
-			}
-
-			a {
-				font-size: 18px;
-				color: $ms-black;
-				&:hover {
-					color: $ms-mediumBlue;
-					text-decoration: none;
-				}
-			}
-		}
 		.filterToggle {
 			font-size: 12px;
-			padding: 0 5px;
+		}
+		.dropdown-menu {
+			top: 30px;
+			left: 0;
+			.menu-item { text-transform: capitalize; }
 		}
 	}
 	.input-holder {
