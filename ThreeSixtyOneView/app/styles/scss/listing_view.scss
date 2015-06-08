@@ -2,17 +2,26 @@
 
 
 .listingView {
-	background-color: $ms-pureWhite;
 	margin: 0;
 	.row {
 		position: relative;
 		margin: 0;
+		&.display-actions {
+			position: relative;
+			margin-bottom: 20px;
+			height: 50px;
+			border-top: 1px solid $ms-darkGray;
+			z-index: 3;
+		}
 		&.alert-area {
-			z-index: 20;
+			z-index: 2;
 		}
 		&.display-area {
+			background-color: $ms-pureWhite;
 			top: -4px;
 			height: 100%;
+			border-radius: 3px;
+			z-index: 1;
 		}
 	}
 	.display{
@@ -29,6 +38,7 @@
 				min-height: 117px
 			}
 			table {
+				margin-top: 10px;
 				padding: 20px 8px 5px 8px;
 				width: 100%;
 				th {
@@ -41,27 +51,37 @@
 				}
 				tr {
 					&.active {
-						span {
-							color: $ms-white;
-						}
 						td {
-							background-color:$ms-blue;
+							background-color:$ms-lightGray;
+							.text-holder {
+								.favorites {
+									a {
+										&:after { color: $ms-mediumGray; }
+										&:hover {
+											&:after { color: $ms-darkGray; }
+										}
+										&.favorite:after { color: $ms-gold; }
+									}
+								}
+							}
 						}
 					}
 				}
 				td {
+					color: $ms-black;
 					white-space: nowrap;
-					padding: 13px 8px;
 					border-top: 1px solid $ms-lightGray;
+					vertical-align: middle;
+					height: 50px;
 
 					&:first-child {
-						padding: 13px 0;
+						// padding: 13px 0;
 
 						.text-holder {
 							cursor: pointer;
 						}
 					}
-					
+
 					&.master {
 						font: {
 							weight:bold;
@@ -73,6 +93,12 @@
 					}
 
 					.text-holder {
+						&.template {
+							padding: 3px 5px;
+							color: $ms-white;
+							text-transform: uppercase;
+							font-size: 10px;
+						}
 						&.strategy {
 							background-color: $ms-lightBlue;
 						}
@@ -86,7 +112,7 @@
 						float: left;
 						max-width:400px;
 						margin-right: 10px;
-						padding: 3px;
+						padding: 5px;
 						a {
 							color: inherit;
 						}
@@ -129,16 +155,17 @@
 				thead {
 					.heading.active a{
 						color: $ms-orange;
-						font-weight: bold;
+						font-weight: 500;
 					}
 					th {
 						border: 0 none;
-						border-bottom:1px solid $ms-mediumGray;
+						border-bottom:1px solid $ms-mediumLightGray;
 						line-height: normal;
 						a {
-							color: $ms-black;
+							color: $ms-gray;
 							text-decoration: none;
-							font-weight: bold;
+							font-weight: 500;
+							font-size: 11px;
 							text-transform: uppercase;
 							white-space: nowrap;
 						}
@@ -149,7 +176,7 @@
 	}
 	.tray {
 		width: 360px;
-		padding:0 10px;
+		padding: 10px;
 		background-color: $ms-lightGray;
 		overflow-x: hidden;
 		overflow-y: auto;
@@ -157,8 +184,9 @@
 		right:0;
 		top: 0;
 		bottom: 0;
+		border-radius: 3px;
 
-		@include drop-shadow(-2px, 0, 6px, 0, 0.3);
+		@include drop-shadow(-1px, 0, 8px, 0, 0.2);
 
 		.tray-holder {
 			margin: 15px 10px 10px;
@@ -166,50 +194,46 @@
 			.ms-label {
 				margin: 5px 0 2px 0;
 				color: $ms-mediumGray;
-				font-weight: bold;
+				// font-weight: bold;
 				clear:both;
 			}
 			.details {
 				margin:0 0 10px;
 
 				.title-holder {
-					border-bottom: 1px solid $ms-gray;
 
 					.title {
-						font-size:18px;
+						font-size: 20px;
 						max-width: 280px;
 					}
 				}
 				.button-group {
+					border-top: 1px solid $ms-mediumLightGray;
+					border-bottom: 1px solid $ms-mediumLightGray;
 					height: 50px;
 					margin: 0;
 
 					.button-holder {
 						display: inline-block;
-						margin: 10px 6px 10px 0;
+						margin: 0;
 						background-color:transparent;
-
-						&:last-child {
-							margin: 10px 0;
-							a {
-								padding: 6px 8px;
-							}
-						}
+						height: 48px;
 						button {
+							@include vertical-align;
+							background-color: inherit;
 							cursor: pointer;
 							display: block;
 							float: none;
 							width: 100%;
-							padding: 6px 13px;
+							padding: 10px 15px;
 							color: $ms-mediumGray;
 							text-align: center;
-							height:32px;
-							border: 1px solid $ms-mediumGray;
-
+							border: 0;
 							&:hover {
-								border: 1px solid $ms-mediumBlue;
-								text-decoration: none;
-								color: $ms-black;
+								color: #333;
+							}
+							&:focus {
+								outline: 0 !important;
 							}
 						}
 					}
@@ -219,9 +243,41 @@
 				padding: 10px;
 				margin-bottom: 10px;
 				background-color: $ms-pureWhite;
-				@include drop-shadow(1px, 1px, 5px, 0, 0.3);
-				border-radius: 0;
+				// @include drop-shadow(1px, 1px, 5px, 0, 0.3);
+				border-radius: 3px;
 
+				.ms-label {
+				  	font-weight: 700;
+				}
+				p { margin: 0; }
+				.inlineDescription-holder, .createdBy-holder, .modifiedBy-holder {
+					display: block;
+				}
+				.createdBy-holder, .modifiedBy-holder {
+					margin-top: 10px;
+				}
+				.referenceScenario-holder {
+					.reference-label {
+						display: inline-block;
+						margin-right: 5px;
+						margin-bottom: 5px;
+					}
+					.text-holder {
+						display: inline;
+					  	&.template {
+						  	padding: 3px 5px;
+						  	color: #fafafa;
+						  	text-transform: uppercase;
+						  	font-size: 10px;
+					  	}
+						&.strategy {
+							background-color: $ms-lightBlue;
+						}
+						&.action {
+							background-color: $ms-green;
+						}
+					}
+				}
 				&.meta {
 					.description-label {
 						float: left;
@@ -244,45 +300,50 @@
 					padding: 0;
 
 					.relatedItems-holder {
+						position: relative;
+						.item-holder {
+							.item {
+								&:nth-of-type(1) { margin: 10px 0 5px; }
+								margin:0 0 5px;
+								padding: 0;
+
+								.element-name {
+									color: $ms-black;
+								}
+								.element-title {
+									color: $ms-mediumGray;
+								}
+							}
+						}
+						.item-expand {
+							margin-bottom: -30px;
+							cursor: pointer;
+							position: absolute;
+							bottom: 0;
+							left: 0;
+							height: 30px;
+							width: 100%;
+							background-color: $ms-white;
+							text-align: center;
+							border-bottom-right-radius: 3px;
+							border-bottom-left-radius: 3px;
+							&:hover { background-color: darken($ms-white, 1%); }
+							span {
+								color: $ms-gray;
+								line-height: 30px;
+								vertical-align: middle;
+							}
+						}
 						height: auto;
 						padding: 10px;
 						.field-label {
 							margin: 0 0 5px;
-							font-weight: bold;
 						}
 					}
 					.description-label {
 						display: inline-block;
 						margin-bottom: 15px;
 						font-weight: bold;
-					}
-					.item-holder {
-						.item {
-							margin:0 0 5px;
-							padding: 0;
-							span {
-								word-break: break-all;
-								cursor: pointer;
-								// text-transform: capitalize;
-								color: $ms-lightBlue;
-
-								&:hover {
-									text-decoration: none;
-								}
-							}
-
-							.element-name {
-								color: $ms-black;
-								font-weight: 700;
-								margin-top: 10px;
-								overflow: hidden;
-								white-space: nowrap;
-								text-overflow: ellipsis;
-							}
-							.element-title {
-								color: $ms-mediumGray;
-							}
-						}
 					}
 				}
 				.viewAll{

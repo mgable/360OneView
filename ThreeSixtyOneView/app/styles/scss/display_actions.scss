@@ -1,97 +1,65 @@
 @import "variables";
 
 .display-actions {
-	position: relative;
-	padding: 7px 20px;
-	height: 50px;
-	background-color: $ms-white;
-	box-shadow: 0px 0px 8px $ms-mediumGray;
-
 	.filter-holder {
-		width: 180px;
+		width: 140px;
 		margin-right: 10px;
 		float:left;
-		.title {
-			font-weight: 300;
+		@include vertical-align;
+		.filter-title {
+			color: $ms-lightGray;
+			font-size: 14px;
 			text-transform: capitalize;
 			cursor: pointer;
-			&:hover {
-				color: $ms-mediumBlue;
-			}
-		}
-		.filterDropdown {
-			position: absolute;
-			top: 45px;
-			left: 5px;
-			border:1px solid $ms-mediumBlue;
-			margin: 5px 0 0 0;
-			padding:15px;
-			min-width:160px;
-			background-color:$ms-white;
-			li {
-				padding: 6px 0;
-				margin-bottom: 5px;
-
-				&:last-child {
-					margin: 0;
-				}
-			}
-			.selected {
-				font-weight: bold;
-			}
-
-			a {
-				font-size: 18px;
-				color: $ms-black;
-				&:hover {
-					color: $ms-mediumBlue;
-					text-decoration: none;
-				}
-			}
 		}
 		.filterToggle {
 			font-size: 12px;
-			padding: 0 5px;
+		}
+		.dropdown-menu {
+			top: 30px;
+			left: 0;
+			.menu-item { text-transform: capitalize; }
 		}
 	}
 	.input-holder {
 		float:left;
+		@include vertical-align;
+	   	color: $ms-lightGray;
 		i {
 			position: relative;
-			left: 26px;
-			color: $ms-orange;
+			left: 25px;
+  			line-height: 25px;
 		}
 		.search-input {
-			padding: 6px 8px 6px 30px;
-			margin-top: 2px;
-			width: 200px;
-			border: 1px solid $ms-mediumGray;
-
-			&:hover,
-			&:focus {
-				border: 1px solid $ms-mediumBlue;
+		    width: 100px;
+		    height: 25px;
+		    padding: 4px 8px 4px 25px;
+		    background: rgba(255,255,255,0);
+		    border: none;
+		    float: right;
+		    -webkit-transition: all ease-in-out .3s;
+		    &:focus {
+			    color: $ms-darkGray;
+			    width: 165px;
+			    outline: none;
+			    background: $ms-white;
+			    border-radius: 3px;
 			}
 		}
 	}
 	.button-holder {
-		// float:right;
 		position:absolute;
 		top: -50px;
 		right: 0;
-		&.hasAlerts {
-			top: -142px;
-		}
 		height: 50px;
 		width: auto;
 		button {
-			margin-top: 1px;
-			/*padding: 7px 18px 6px;*/
+			padding: 5px 15px;
+			font-size: 16px;
+			text-transform: uppercase;
 			background-color: $ms-orange;
-
-
 			color: $ms-white;
 			cursor: pointer;
-			box-shadow: 0px 3px 5px $ms-mediumGray;
 			&:hover {
 				background-color: darken($ms-orange, 5%);
 			}
@@ -104,7 +72,7 @@
 			display: inline-block;
 			.dropdown-menu {
 				top: 45px;
-				left: -24px;
+				left: -15px;
 			}
 		}
 	}

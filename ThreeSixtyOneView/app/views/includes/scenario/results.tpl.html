@@ -1,9 +1,26 @@
 <div class="scenario_results">
     <ng-include src="'views/includes/scenario/results/scenario_dropdown.tpl.html'"></ng-include>
 
-    <ng-include src="'views/includes/scenario/results/pivot_toolbar.tpl.html'"></ng-include>
+    <!-- <ng-include src="'views/includes/scenario/results/pivot_toolbar.tpl.html'"></ng-include> -->
 
-    <ng-include src="'views/includes/scenario/results/kpi_summary.tpl.html'"></ng-include>
-    
-    <ng-include src="'views/includes/scenario/results/spend_summary.tpl.html'"></ng-include>
+    <div class="row results-content">
+        <div class="left-content">
+            <ul class="nav-menu" ms-link-group selected-item="1" radio="true">
+                <li ms-link="1">Summary</li>
+                <li ms-link="2">Opportunities</li>
+                <li ms-link="3">Marketing Performance</li>
+                <li ms-link="4">Projections</li>
+                <li ms-link="5">Alerts</li>
+            </ul>
+        </div>
+        <div class="right-content">
+            <div class="results-card">
+                <ng-include src="'views/includes/scenario/results/kpi_summary.tpl.html'"></ng-include>
+            </div>
+            <div class="results-card">
+                <ng-include src="'views/includes/scenario/results/spend_summary.tpl.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+
 </div>

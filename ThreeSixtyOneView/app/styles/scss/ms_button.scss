@@ -5,6 +5,7 @@
 	color: white;
 	background-color: #f45724;
 	border: none;
+	border-radius: 3px;
 
 	&.ms-btn-submit:hover,
 	&.ms-btn-submit:focus {
@@ -24,6 +25,7 @@
 	color: white;
 	background-color: #808080;
 	border: none;
+	border-radius: 3px;
 
 	&.ms-btn-cancel:hover,
 	&.ms-btn-cancel:focus {
@@ -36,4 +38,11 @@
 	fieldset[disabled] .ms-btn-cancel {
 	  	background-color: #808080;
 	}
+}
+
+.ms-btn-circle {
+	border-radius: 50%;
+	display: table-cell;
+    vertical-align: middle;
+    text-align: center;
 }
