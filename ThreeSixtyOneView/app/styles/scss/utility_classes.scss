@@ -20,6 +20,14 @@
 	margin-bottom: 20px;
 }
 
+.vrule {
+  border-right:1px solid;
+  display:inline-block;
+  margin: 0 20px;
+  vertical-align: middle;
+  height: 30px;
+}
+
 .no-background-color {
 	background-color:transparent;
 }

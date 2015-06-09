@@ -120,7 +120,7 @@
 		.slideInContainer {
 			height: 100%;
 			width: 100%;
-			background: $ms-lightGray;
+			background: $ms-white;
 			position: absolute;
 		  	top: 0;
 		  	left: 0;
@@ -303,6 +303,10 @@
 			width: 45px;
 			color: $ms-mediumBlue;
 			margin-right: 5px;
+		}
+
+		.sub-view-icon {
+			vertical-align: top;
 		}
 
 		.main-header {
