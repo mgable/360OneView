@@ -2,7 +2,7 @@
 	<div class="header">
 		Tell us more about your scenario template
 	</div>
-	<div class="prompt">
+	<div class="prompt animated fadeIn">
 		<span>Please choose the time granularity for this template</span>
 		<form>
 			<span ng-repeat="time in times">
@@ -17,17 +17,17 @@
 			</span>
 		</form>
 	</div>
-	<div class="confirmation reveal animated fadeIn" ng-show="selectedTime">
+	<div class="confirmation animated" ng-show="selectedTime" ng-class="{fadeIn: selectedTime}">
 		Got it!
 	</div>
-	<div class="prompt reveal animated fadeIn delay" ng-show="selectedTime">
+	<div class="prompt animated fadeIn" ng-show="selectedTime">
 		Now, choose your dimensions &amp; KPIs
 		<div class="confirmation">
 			The dimensions &amp; KPIs selected will be available for scenario planning.
 		</div>
 	</div>
 
-	<div class="dimensions reveal animated fadeIn delay-long" ng-show="selectedTime">
+	<div class="dimensions animated" ng-show="selectedTime" ng-class="{fadeIn: selectedTime}">
 		<div class="row dimensionContainer">
 			<div class="col-md-4" ng-repeat="standardDimension in standardDimensions">
 				<ms-dimension-card dimension-data="standardDimension" all-dimensions-data="standardDimensions" all-dimensions-schema="standardDimensionsSchema" dimension-index="$index" filters-data="addedFilters" categorized-data="categorizedValue[$index]" dimension-type="standard" template-type="templateType.label" filter-update-callback="updateMembers(addedMembers)"></ms-dimension-card>
