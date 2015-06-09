@@ -2,6 +2,7 @@
 
 .CreateRecommendation {
 	background-color: $ms-pureWhite;
+	overflow: hidden;
 
 	// Bootstrap Overrides
 	.row {
@@ -115,30 +116,15 @@
 
 	.left-column{
 		padding: 0 40px 0 40px;
+		z-index: 1;
 		.slideInContainer {
 			height: 100%;
+			width: 100%;
 			background: $ms-lightGray;
 			position: absolute;
 		  	top: 0;
-		  	right: 0;
+		  	left: 0;
 		  	z-index: 2;
-		  	&.ms-animation-slideIn {
-		  		width: 100%;
-		  		&.ng-enter {
-					@include transition($d:"0.5s", $s:"ease-in-out", $c:"all");
-					width:0;
-		  			&.ng-enter-active {
-			  			width:100%;
-		  			}
-		  		}
-		  		&.ng-leave {
-					@include transition($d:"0.5s", $s:"ease-in-out", $c:"all");
-					width:100%;
-		  			&.ng-leave-active {
-			  			width:0;
-		  			}
-		  		}
-		  	}
 		}
 		.sub-view {
 			position: relative;
@@ -271,6 +257,7 @@
 		padding: 0 25px 25px;
 		background-color: $ms-veryLightGray;
 		box-shadow: -5px 0px 3px -2px $ms-lightGray;
+		z-index: 3;
 		.section {
 			margin: 25px 0 0 0;
 			font-size: 14px;
