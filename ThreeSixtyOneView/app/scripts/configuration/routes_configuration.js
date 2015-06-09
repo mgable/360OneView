@@ -29,7 +29,7 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
     .state('CreateRecommendation.assumptions',{
       views: {
         'recommend': {
-          templateUrl:"views/includes/create_recommendation/assumptions.tpl.html"
+          templateUrl:"views/includes/create_recommendation/drawer/assumptions.tpl.html"
         }
       },
       breadcrumb: "<li class='single'>Create Budget Optimzation</li>"
