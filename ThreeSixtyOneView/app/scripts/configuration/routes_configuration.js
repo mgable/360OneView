@@ -21,7 +21,8 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
     state('CreateRecommendation.base',{
       views: {
         'recommend': {
-          templateUrl:"views/includes/create_recommendation/drawer/choose.tpl.html"
+          templateUrl:"views/includes/create_recommendation/drawer/choose.tpl.html",
+          controller: 'ChooseBaseScenarioCtrl'
         },
       },
       breadcrumb: "<li class='single'>Create Budget Optimzation</li>"
