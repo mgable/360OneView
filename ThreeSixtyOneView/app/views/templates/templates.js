@@ -1222,7 +1222,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t<input type=\"radio\" id=\"radio{{$index}}\" name=\"selectModule\" />\r" +
     "\n" +
-    "\t\t\t\t\t<label class=\"animated fadeIn\" for=\"radio{{$index}}\">\r" +
+    "\t\t\t\t\t<label class=\"animated bounceIn\" for=\"radio{{$index}}\">\r" +
     "\n" +
     "\t\t\t\t\t\t{{module.label}}\r" +
     "\n" +
