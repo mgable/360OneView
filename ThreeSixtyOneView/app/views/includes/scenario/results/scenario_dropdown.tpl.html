@@ -1,14 +1,59 @@
-<div class="scenario-type-dropdown">
-	<div class="dropdown">
-		<span>Results compared to </span>
-		<span class="dropdown-toggle clickable">
+<section class="scenario-settings row">
+    <div class="dropdown scenario-selector">
+        <icon type="bar-chart"></icon>&nbsp;<span>Compared to:</span>
+        <span class="dropdown-toggle clickable">
 			{{selectedScenario.title}}&nbsp;<icon type="caret-down"></icon>
 		</span>
-		<ul class="dropdown-menu" ms-link-group selected-item="selectedScenario.id" radio="true">
-			<li ng-repeat="scenario in scenariosList | orderBy:'-auditInfo.createdOn' | limitTo:5" ms-link="{{scenario.id}}" class="menu-item" ng-click="loadComparedScenarios(scenario.id)" title="{{scenario.title}}">{{scenario.title}}
-			</li>
-			<hr>
-			<li class="menu-item" ng-click="openAllComparedScenariossModal()"><icon type="folder-open-o"></icon>All Scenarios</li>
-		</ul>
-	</div>
-</div>
+        <ul class="dropdown-menu" ms-link-group selected-item="selectedScenario.id" radio="true">
+            <li ng-repeat="scenario in scenariosList | orderBy:'-auditInfo.createdOn' | limitTo:5" ms-link="{{scenario.id}}" class="menu-item" ng-click="loadComparedScenarios(scenario.id)" title="{{scenario.title}}">{{scenario.title}}
+            </li>
+            <hr>
+            <li class="menu-item" ng-click="openAllComparedScenariossModal()">
+                <icon type="folder-open-o"></icon>All Scenarios</li>
+        </ul>
+    </div>
+    <div class="time-selector">
+        <icon type="calendar"></icon>&nbsp;2015 Q3 - 2015 Q4
+    </div>
+    <div class="dropdown filters-selector">
+        <icon type="filter"></icon>&nbsp;
+        <span class="dropdown-toggle clickable">
+			Filters&nbsp;<icon type="caret-down"></icon>
+		</span>
+        <div class="dropdown-menu" ng-click="$event.stopPropagation()">
+            <div class="header">
+                <div class="title">
+                    <p>Filter view:
+                        <span ng-class="{draft: draftView}">{{spendViewData.name}}</span>
+                    </p>
+                </div>
+                <li class="icon open-icon">
+                    <ms-button type="cancel" action="openAllViewsModal()" label="" icon="folder-open-o" shape="circle"></ms-button>
+                </li>
+                <li class="icon save-icon">
+                    <ms-button type="cancel" action="toggleIcon=!toggleIcon" label="" icon="floppy-o" shape="circle" ng-show="!toggleIcon"></ms-button>
+                    <ms-button type="cancel" action="toggleIcon=!toggleIcon" label="" icon="times" shape="circle" ng-show="toggleIcon"></ms-button>
+                </li>
+                <ul class="floating-container" ng-show="toggleIcon">
+                    <li class="sub-icon save-sub-icon" ng-click="saveView()">
+                        <p class="floating-text"><span class="floating-text-BG">Save</span></p>
+                        <ms-button type="submit" action="" label="" icon="floppy-o" shape="circle"></ms-button>
+                    </li>
+                    <li class="sub-icon save-as-sub-icon">
+                        <p class="floating-text"><span class="floating-text-BG">Save As</span></p>
+                        <ms-button type="submit" action="" label="" icon="floppy-o" shape="circle"></ms-button>
+                    </li>
+                </ul>
+            </div>
+	        <div class="content">
+	            <div class="editor">
+	                <div class="filters-list">
+	                    <div class="list">
+	                        <dimension-filter ng-repeat="dimension in spendDimensions" ng-if="spendAddedFilters[dimension.label] && dimension.type !== 'TimeDimension'" dimension="dimension" categorized-values="spendCategorizedValue[$index]" action="filtersModal('spend', dimension)" list-view="true"></dimension-filter>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+    	</div>
+    </div>
+</section>

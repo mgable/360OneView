@@ -1,8 +1,15 @@
 <div class="scenario">
 	<div class="toggle-header">
-		<div class="tabs-holder">
+		<ul class="toggle-btn-group">
+			<li data-ms-id="scenario.edit.button" ui-sref="Scenario.edit" class="toggle-btn" ng-show="location==='/results'">
+				<ms-button type="submit" action="" label="" icon="pencil" ng-hide="isImportStarted" shape="circle"></ms-button>
+			</li>
+			<li data-ms-id="scenario.results.button" ng-click="gotoResults()" class="toggle-btn" ng-show="location==='/edit'">
+				<ms-button type="submit" action="" label="" icon="bar-chart" ng-hide="isImportStarted" shape="circle"></ms-button>
+			</li>
+		</ul>
+		<!-- <div class="tabs-holder">
 			<ul ms-link-group radio="true" selected-item="{{location}}">
-				<!-- for now changed disabled to xdisabled to make sure functionality is correct -->
 				<li data-ms-id="scenario.edit.button" ms-link="/edit" ui-sref="Scenario.edit" ng-class="{xdisabled: scenarioState.message === scenarioStates.IN_PROGRESS.message || scenarioState.message === scenarioStates.FAILED.message}">
 					<a><icon type="pencil"></icon>Editor</a>
 				</li>
@@ -14,7 +21,7 @@
 		</div>
 		<div class="button-holder">
 			<span data-ms-id="scenario.simulate.button" ui-sref="Scenario.calculate" ng-click="setState('IN_PROGRESS')" ng-class="{disabled: disableSimulateButton()}"><icon type="tachometer"></icon>simulate</span>
-		</div>
+		</div> -->
 	</div>
 
 	<div class="display">

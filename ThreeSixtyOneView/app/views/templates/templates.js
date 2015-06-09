@@ -21,7 +21,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t{{dimension.label}}\r" +
     "\n" +
-    "\t\t\t<span class=\"filter-stats\">({{categorizedValues.selected}}/{{categorizedValues.total}})</span>\r" +
+    "\t\t\t<span class=\"filter-stats\">({{categorizedValues.selected}}/{{categorizedValues.total}}):</span>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
@@ -53,7 +53,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t{{dimension.label}}\r" +
     "\n" +
-    "\t\t\t<span class=\"filter-stats\">({{categorizedValues.selected}}/{{categorizedValues.total}})</span>\r" +
+    "\t\t\t<span class=\"filter-stats\">({{categorizedValues.selected}}/{{categorizedValues.total}}):</span>\r" +
     "\n" +
     "\t\t</div>\r" +
     "\n" +
@@ -221,7 +221,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/ms_dropdown.tpl.html',
-    "<div class=\"ms-dropdown\" id=\"{{id}}\"> \r" +
+    "<div class=\"ms-dropdown\" id=\"{{id}}\">\r" +
     "\n" +
     "\t<h6 class=\"ms-label\" ng-class=\"{active: DropdownService.isActive(id)}\" data-ms-id=\"{{id}}\">\r" +
     "\n" +
@@ -229,9 +229,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<span class=\"toggle\" ng-click=\"toggle()\" data-ms-id=\"column_2SortOptions\"><icon type=\"caret-down\"></icon></span>\r" +
     "\n" +
-    "\t</h6> \r" +
+    "\t</h6>\r" +
     "\n" +
-    "\t<ul class=\"ms-select-list dropdownshadow hide\"> \r" +
+    "\t<ul class=\"ms-select-list dropdownshadow hide\">\r" +
     "\n" +
     "\t\t<li class=\"list-label\">Sort Order</li>\r" +
     "\n" +
@@ -247,34 +247,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t<ul>\r" +
     "\n" +
-    "\t\t\t<li class=\"ms-item selectSort\" ng-repeat=\"item in items\" ng-class=\"{disabled:item.label === selectedItem.label}\" ng-click=\"selectSort(item)\" data-ms-id=\"{{item.label}}\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{item.label}}</li>  \r" +
+    "\t\t\t<li class=\"ms-item selectSort\" ng-repeat=\"item in items\" ng-class=\"{disabled:item.label === selectedItem.label}\" ng-click=\"selectSort(item)\" data-ms-id=\"{{item.label}}\"><icon type=\"check\" cname=\"ms-ok\"></icon>{{item.label}}</li>\r" +
     "\n" +
     "\t\t</ul>\r" +
     "\n" +
-    "\t</ul> \r" +
-    "\n" +
-    "</div>"
-  );
-
-
-  $templateCache.put('views/directives/ms_filter_dropdown.tpl.html',
-    "<div>\r" +
-    "\n" +
-    "\t<h4 class=\"filter-holder\" ng-click=\"toggle()\" data-ms-id=\"filterBy\"><span class=\"title\">{{SortAndFilterService.getSelectedLabel()}}&nbsp;(<span data-ms-id='itemCount'>{{SortAndFilterService.getCount()}}</span>)<span  class=\"filterToggle\"><icon type=\"caret-down\"></icon></span></span>\r" +
-    "\n" +
-    "\r" +
-    "\n" +
-    "\t\t<ul ms-link-group selected-item=\"{{CONFIG.filterMenu.items[0].label}}\" radio=\"true\" class='filterDropdown dropdownshadow title hide menu'>\r" +
-    "\n" +
-    "\t\t\t<li ng-repeat=\"item in CONFIG.filterMenu.items\" class=\"header\" ms-link=\"{{item.label}}\" ng-click=\"setFilter(item.filterType, item, true)\" data-ms-id=\"{{item.label}}\">\r" +
-    "\n" +
-    "\t\t\t\t <a>{{item.label}}</a>\r" +
-    "\n" +
-    "\t\t\t</li>\r" +
-    "\n" +
-    "\t    </ul>\r" +
-    "\n" +
-    "\t</h4>\r" +
+    "\t</ul>\r" +
     "\n" +
     "</div>"
   );
@@ -695,27 +672,27 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/sortable_columns.tpl.html',
-    "<div bindonce ng-switch on=\"displayBy\" class=\"text-holder\"> \r" +
+    "<div ng-switch on=\"displayBy\" class=\"text-holder\"> \r" +
     "\n" +
     "\t<span ng-switch-when=\"Last Modified\">\r" +
     "\n" +
-    "\t\t<span ng-if=\"!test\" bo-bind=\"item.auditInfo.lastUpdatedOn | timeago\"></span>\r" +
+    "\t\t<span ng-if=\"!test\">{{::item.auditInfo.lastUpdatedOn | timeago}}</span>\r" +
     "\n" +
-    "\t\t<span ng-if=\"test\" bo-bind=\"item.auditInfo.lastUpdatedOn\"></span>\r" +
+    "\t\t<span ng-if=\"test\">{{::item.auditInfo.lastUpdatedOn}}</span>\r" +
     "\n" +
     "\t</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Modified By\" bo-bind=\"item.auditInfo.lastUpdatedBy.name\"></span> \r" +
+    "\t<span ng-switch-when=\"Modified By\">{{::item.auditInfo.lastUpdatedBy.name}}</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Type\" bo-bind=\"item.template.type\"></span> \r" +
+    "\t<span ng-switch-when=\"Type\">{{::item.template.type}}</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Creator\" bo-bind=\"item.auditInfo.createdBy.name\"></span> \r" +
+    "\t<span ng-switch-when=\"Creator\">{{::item.auditInfo.createdBy.name}}</span> \r" +
     "\n" +
-    "\t<span ng-switch-when=\"Created Date\" bo-bind=\"\">\r" +
+    "\t<span ng-switch-when=\"Created Date\">\r" +
     "\n" +
-    "\t\t<span ng-if=\"!test\" bo-bind=\"item.auditInfo.createdOn | date: 'longDate'\"></span>\r" +
+    "\t\t<span ng-if=\"!test\">{{::item.auditInfo.createdOn | date: 'longDate'}}</span>\r" +
     "\n" +
-    "\t\t<span ng-if=\"test\" bo-bind=\"item.auditInfo.createdOn\"></span>\r" +
+    "\t\t<span ng-if=\"test\">{{::item.auditInfo.createdOn}}</span>\r" +
     "\n" +
     "\t</span> \r" +
     "\n" +
@@ -1106,9 +1083,9 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<accordion-group bindonce ng-repeat=\"project in scenarioList | filterProjects: searchText\" is-open=\"project.open\">\r" +
+    "\t\t\t\t\t\t\t<accordion-group ng-repeat=\"project in scenarioList | filterProjects: searchText\" is-open=\"project.open\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<accordion-heading bo-bind=\"project.name\"></accordion-heading>\r" +
+    "\t\t\t\t\t\t\t\t<accordion-heading>{{::project.name}}</accordion-heading>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t<div>\r" +
     "\n" +
@@ -1136,7 +1113,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<div bindonce ng-repeat=\"scenario in getScenarios(project, searchText)\">\r" +
+    "\t\t\t\t\t\t\t\t<div ng-repeat=\"scenario in getScenarios(project, searchText)\">\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t<div class=\"row\" ng-click=\"setScenario(scenario)\">\r" +
     "\n" +
@@ -1148,13 +1125,13 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-title\" bo-bind=\"scenario.name\"></span>\r" +
+    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-title\">{{::scenario.name}}</span>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-5\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-type\" bo-bind=\"scenario.type\"></span>\r" +
+    "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-type\">{{::scenario.type}}</span>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\r" +
     "\n" +
