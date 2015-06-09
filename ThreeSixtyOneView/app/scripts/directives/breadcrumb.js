@@ -28,6 +28,7 @@ angular.module('ThreeSixtyOneView.directives')
 						scope.breadcrumbs = breadcrumbs;
 					});
 				} else {
+					console.info($state.current);
 					breadcrumbs = $sce.trustAsHtml($interpolate($state.current.breadcrumb)(scope));
 					scope.breadcrumbs = breadcrumbs;
 				}

@@ -31,7 +31,6 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 			$scope.timeDimension = {};
 			$scope.spendDimensions = [];
 			$scope.kpis = [];
-			$scope.slideIn = false;
 
 			// get all scenario for the base scenario functionality
 			if(ProjectsService.getProjects().length === 0) {
@@ -154,12 +153,30 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 		spendView = view;
 	};
 
-	$scope.switchDrawer = function(drawerView) {
-		drawerSource = '/views/includes/create_recommendation/drawer/' + drawerView + '.tpl.html'
+	var drawerContent;
+	$scope.animation = {slideIn:false}
+
+	$scope.openDrawer = function(which){
+		// open drawer
+		if (!drawerContent || drawerContent === which || !$scope.animation.slideIn){
+			$scope.animation.slideIn = !$scope.animation.slideIn;
+		}
+
+		drawerContent = which;
+
+		switch(which){
+			case "base": $scope.openCreateRecommendationChooseBaseScenario();break;
+			case "assumptions": $scope.openCreateRecommendationAssumptions();break;
+			default: $scope.animation.slideIn = !$scope.animation.slideIn
+		}
+	}
+
+	$scope.openCreateRecommendationChooseBaseScenario = function(){
+		GotoService.createRecommendationChooseBaseScenario();
 	};
 
-	$scope.getDrawerSource = function() {
-		return drawerSource;
+	$scope.openCreateRecommendationAssumptions = function(){
+		GotoService.createRecommendationAssumptions();
 	};
 
 	$scope.cancel = function() {

@@ -28,7 +28,7 @@ angular.module('ThreeSixtyOneView')
 
 		// convenience methods
 		$scope.console = function console(msg) {
-			console.info(msg);
+			window.console.info(msg);
 		};
 
 		$scope.alert = function alert(msg, evt) {
