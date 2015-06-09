@@ -1,0 +1,30 @@
+@import "variables";
+
+.lightbox {
+	.modal-content {
+		.choose-base-scenario {
+			background-color: $ms-white;
+			padding: 40px 20px;
+			
+			.header {
+				.title {
+					font-size: 32px;
+					margin-bottom: 10px;
+					display: inline-block;
+				}
+			}
+
+			.body {
+				.content {
+					.main-content {
+
+					}
+				}
+
+				.action-buttons {
+
+				}
+			}
+		}
+	}
+}
