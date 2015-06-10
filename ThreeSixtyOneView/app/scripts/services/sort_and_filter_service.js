@@ -163,7 +163,7 @@ angular.module('ThreeSixtyOneView.services')
         this.searchText = searchText;
 
         this.setFilter = function(which, toWhat, filter) {
-            set [which].call(this, toWhat);
+            set[which].call(this, toWhat);
 
             if (filter) {
                 this.filter();

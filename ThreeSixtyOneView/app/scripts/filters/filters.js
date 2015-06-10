@@ -37,7 +37,8 @@ angular.module('ThreeSixtyOneView.filters')
 			var results = [];
 			if (FavoritesService.getFavorites().length > 0) {
 				_.each(input, function(e, i, a) {
-					if (FavoritesService.isFavorite(e.uuid)) {
+					console.info(e);
+					if (FavoritesService.isFavorite(e.uuid || e.id)) {
 						results.push(e);
 					}
 				});

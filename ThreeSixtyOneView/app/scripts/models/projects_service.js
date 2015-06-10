@@ -6,7 +6,7 @@ angular.module('ThreeSixtyOneView.services')
 	.service('ProjectsService',  ["$rootScope", "ProjectsModel", "Model", "EVENTS", function ($rootScope, ProjectsModel, Model, EVENTS) {
 		var MyProjectModel, myprojects, self = this,
 			findMasterProject = function(projects) {
-				return _.find(projects, function(project) {return project.isMaster});
+				return _.find(projects, function(project) {return project.isMaster;});
 			};
 
 		MyProjectModel = new Model();

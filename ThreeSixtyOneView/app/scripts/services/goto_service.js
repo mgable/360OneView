@@ -37,5 +37,5 @@ angular.module('ThreeSixtyOneView.services')
 
 	this.createRecommendationAssumptions = function(){
 		$state.go("CreateRecommendation.assumptions");
-	}
+	};
 }]);
