@@ -2,14 +2,14 @@
 	<div class="header">
 		Just one final step!
 	</div>
-	<div class="prompt">
+	<div class="prompt animated fadeIn">
 		What's the default view of your template?
 		<div class="confirmation">
 			This will apply anytime a user first opens a scenario using this template. Users will be able to create their own views once the template is created.
 		</div>
 	</div>
 
-	<div class="editor" ng-if="spendCubeLoaded">
+	<div class="editor animated" ng-if="spendCubeLoaded" ng-class="{fadeIn: spendCubeLoaded}">
 		<div id="dragDropArea">
 			<div ng-repeat="pivotBuilderItem in getPivotBuilderItems()" class="dimensions-list">
 				<div class="title">{{pivotBuilderItem.label}}</div>
@@ -34,7 +34,7 @@
 		<span class="loading"></span>Loading default view ...
 	</div>
 
-	<div class="modeling-period" ng-if="isDatePickerVisible()">
+	<div class="modeling-period animated" ng-if="isDatePickerVisible()" ng-class="{fadeIn: isDatePickerVisible()}">
 		<div class="prompt">
 		What historical period would you like to use to measure marketing performance?
 			<div class="confirmation">
