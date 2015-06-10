@@ -1218,11 +1218,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t<div class=\"dropdown\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\"><span class=\"text\">{{scenarioTypeItems[currentScenarioType]}}</span><icon type=\"caret-down\"></icon></div>\r" +
+    "\t\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\"><span class=\"text\">{{currentScenarioType}}</span><icon type=\"caret-down\"></icon></div>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{currentScenarioType.id}}\" radio=\"true\">\r" +
+    "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{currentScenarioType}}\" radio=\"true\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<li ng-repeat=\"item in scenarioTypeItems\" ng-click=\"changeScenarioType($index)\" class=\"menu-item\" ms-link=\"{{$index}}\">{{::item}}</li>\r" +
+    "\t\t\t\t\t\t\t\t<li ng-repeat=\"item in scenarioTypeItems\" ng-click=\"changeScenarioType(item)\" class=\"menu-item\" ms-link=\"{{currentScenarioType}}\">{{::item}}</li>\r" +
     "\n" +
     "\t\t\t\t\t\t\t</ul>\r" +
     "\n" +
@@ -1234,11 +1234,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t<div class=\"dropdown\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\"><span class=\"text\">{{templateTypeItems[currentTemplateType]}}</span><icon type=\"caret-down\"></icon></div>\r" +
+    "\t\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\"><span class=\"text\">{{currentTemplateType.label}}</span><icon type=\"caret-down\"></icon></div>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{currentTemplateType.id}}\" radio=\"true\">\r" +
+    "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{currentTemplateType.name}}\" radio=\"true\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<li ng-repeat=\"item in templateTypeItems\" ng-click=\"changeTemplateType($index)\" class=\"menu-item\" ms-link=\"{{$index}}\">{{::item}}</li>\r" +
+    "\t\t\t\t\t\t\t\t<li ng-repeat=\"item in templateTypeItems\" ng-click=\"changeTemplateType($index)\" class=\"menu-item\" ms-link=\"{{item.name}}\">{{::item.label}}</li>\r" +
     "\n" +
     "\t\t\t\t\t\t\t</ul>\r" +
     "\n" +
@@ -1264,23 +1264,23 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\t<div class=\"project-name text-holder\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<icon type=\"caret-right\" cname=\"caret\"></icon><icon type=\"caret-down\" cname=\"caret\"></icon>{{::item.name}}\r" +
+    "\t\t\t\t\t\t\t\t<icon type=\"caret-right\" cname=\"collapsed\"></icon><icon type=\"caret-down\" cname=\"expanded\"></icon>{{::project.name}}\r" +
     "\n" +
     "\t\t\t\t\t\t\t</div>\r" +
     "\n" +
     "\t\t\t\t\t\t\t<div ng-repeat=\"scenario in getScenarios(project) | filter:searchTerm | orderBy:'auditInfo[lastUpdatedOn]':true\" class=\"scenario clickable\" ng-class=\"{'selected': isScenarioSelected(scenario)}\" ng-click=\"selectScenario(scenario)\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"radio{{scenario.id}}\" model=\"selectedScenario\" value=\"{{scenario.id}}\">\r" +
+    "\t\t\t\t\t\t\t\t<input type=\"radio\" name=\"baseScenario\" id=\"radio{{scenario.id}}\" model=\"selectedScenario\" value=\"{{scenario.id}}\">\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t<label class=\"scenario-item\" for=\"radio{{scenario.id}}\">\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t<div class=\"radio-button\"></div>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t<div class=\"scenario-info\"></div>\r" +
+    "\t\t\t\t\t\t\t\t\t<div class=\"scenario-info\"><span>{{::scenario.name}}</span></div>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t<div class=\"scenario-meta\"></div>\r" +
+    "\t\t\t\t\t\t\t\t\t<div class=\"scenario-meta\">{{scenario.auditInfo.lastUpdatedOn}}, {{scenario.auditInfo.createdBy.name}}</div>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t<div class=\"scenario-template-type\"></div>\r" +
+    "\t\t\t\t\t\t\t\t\t<div class=\"scenario-template-type\"><span>{{getScenarioType(scenario)}}</span><span>{{scenario.template.name}}<span></div>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t</label>\r" +
     "\n" +
