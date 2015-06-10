@@ -23,12 +23,12 @@
             float: right;
             margin-right: 30px;
             .dropdown-menu {
-                left: -280px;
+                left: -366px;
                 width: 510px !important;
                 padding: 0;
                 &::before {
                     background-color: $ms-veryLightGray;
-                    left: 338px;
+                    left: 424px;
                 }
                 .header {
                     background-color: $ms-veryLightGray;
@@ -108,8 +108,39 @@
                 }
                 .content {
                     padding: 10px 20px;
-                    .filter-values {
-                        max-width: 300px;
+                    .editor {
+                        .toggle-switch {
+                            display: inline-block;
+
+                            .toggle-switch-title {
+                                float: left;
+                                margin-right: 10px;
+                                line-height: 24px;
+                            }
+                            .switch {
+                                font-size: 14px;
+                                padding: 2px 8px;
+                                width: 40px;
+                                text-align: center;
+                            }
+                        }
+                        .filter-content {
+                            margin-top: 20px;
+                            .filter-category-list {
+                                .filter-values {
+                                    margin-left: 0;
+                                    max-width: 200px;
+                                }
+                                &.disabled {
+                                    .filter-label {
+                                        color: $ms-gray;
+                                    }
+                                    .filter-values {
+                                        color: $ms-gray;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -264,37 +295,4 @@
             }
         }
     }
-	.editor {
-        .save-menu {
-            margin-left: 0;
-        }
-
-        .toggle-switch {
-            display: inline-block;
-            margin-left: 20px;
-
-            .toggle-switch-title {
-                float: left;
-                margin-right: 10px;
-                line-height: 24px;
-            }
-            .switch {
-                font-size: 14px;
-                padding: 2px 8px;
-                width: 40px;
-                text-align: center;
-            }
-        }
-
-        .filter-category {
-            &.disabled {
-                .filter-label {
-                    color: $ms-gray;
-                }
-                .filter-values {
-                    color: $ms-gray;
-                }
-            }
-        }
-	}
 }
