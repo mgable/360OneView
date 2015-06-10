@@ -17,7 +17,6 @@ angular.module('ThreeSixtyOneView.services')
                         data.currentState = {completed: false, name: "not_calculated", label: "not calculated", state: "not_calculated"};
                     }
                 }
-                console.log(data);
                 return data;
             };
 
