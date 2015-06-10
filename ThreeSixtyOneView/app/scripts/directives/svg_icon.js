@@ -12,8 +12,7 @@ angular.module('ThreeSixtyOneView.directives')
         restrict: 'E',
         replace: true,
         templateUrl: function(element, attrs) {
-            console.log(attrs['type']);
-            return 'images/svgs/' + attrs['type'] + '.svg';
+            return 'images/svgs/' + attrs.type + '.svg';
         }
     };
 }]);
