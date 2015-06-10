@@ -8,7 +8,7 @@ function ($scope, DialogService) {
 	$scope.openAllViewsModal = function() {
 		var dialog = DialogService.openLightbox('views/modal/select_base_scenario.tpl.html', 'AllViewsCtrl',
 			{currentBaseScenario: $scope.getBaseScenario(), e2e: $scope.e2e},
-			{windowSize: 'lg', windowClass: 'list-lightbox'});
+			{windowSize: 'lg', windowClass: 'base-scenario-modal'});
 
 		dialog.result.then(function(data) {
 			console.log(data);

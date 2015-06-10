@@ -1,14 +1,14 @@
 @import "variables";
 
-.lightbox {
+.lightbox.base-scenario-modal {
 	.modal-content {
 		.choose-base-scenario {
 			background-color: $ms-white;
 			padding: 40px 20px;
-			
+
 			.header {
 				.title {
-					font-size: 32px;
+					font-size: 34px;
 					margin-bottom: 10px;
 					display: inline-block;
 				}
@@ -17,7 +17,43 @@
 			.body {
 				.content {
 					.main-content {
+						background-color: inherit;
+						border: none;
 
+						.toolbar {
+							background-color: inherit;
+							div {
+								display: inline-block;
+								padding: 1px 5px;
+							}
+
+							.dropdown-box {
+								border-right: 1px solid $ms-mediumLightGray;
+								width: inherit;
+
+								i.fa {
+									font-size: 14px;
+								}
+
+								&.scenario-type {
+									.dropdown-toggle.text {
+										font-size: 22px;
+									}
+								}
+
+								&.template-type {}
+							}
+
+							.search-box {
+								border: none;
+								background-color: inherit;
+								font-size: 16px;
+
+								input {
+									background-color: inherit;
+								}
+							}
+						}
 					}
 				}
 

@@ -8,7 +8,7 @@
 				<div class="toolbar">
 					<div class="dropdown-box scenario-type">
 						<div class="dropdown">
-							<div class="dropdown-toggle clickable">{{scenarioTypeItems[currentScenarioType]}}<icon type="caret-down"></icon></div>
+							<div class="dropdown-toggle clickable"><span class="text">{{scenarioTypeItems[currentScenarioType]}}</span><icon type="caret-down"></icon></div>
 							<ul class="dropdown-menu" ms-link-group selected-item="{{currentScenarioType.id}}" radio="true">
 								<li ng-repeat="item in scenarioTypeItems" ng-click="changeScenarioType($index)" class="menu-item" ms-link="{{$index}}">{{::item}}</li>
 							</ul>
@@ -16,7 +16,7 @@
 					</div>
 					<div class="dropdown-box template-type">
 						<div class="dropdown">
-							<div class="dropdown-toggle clickable">{{templateTypeItems[currentTemplateType]}}<icon type="caret-down"></icon></div>
+							<div class="dropdown-toggle clickable"><span class="text">{{templateTypeItems[currentTemplateType]}}</span><icon type="caret-down"></icon></div>
 							<ul class="dropdown-menu" ms-link-group selected-item="{{currentTemplateType.id}}" radio="true">
 								<li ng-repeat="item in templateTypeItems" ng-click="changeTemplateType($index)" class="menu-item" ms-link="{{$index}}">{{::item}}</li>
 							</ul>
