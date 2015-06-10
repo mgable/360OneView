@@ -153,45 +153,10 @@ $content_min_width: 1080px;
   }
 }
 
-@mixin reveal-animation($time:0.5) {
-  $delayTime: #{$time / 2}s;
-  $longDelayTime: #{$delayTime / 2}s;
-  &.animated {
-	-webkit-animation-duration: #{$time}s;
-	animation-duration: #{$time}s;
-	-webkit-animation-fill-mode: both;
-	animation-fill-mode: both;
-  }
-
-  &.delay {
-	-webkit-animation-delay: #{$delayTime}s;
-	  animation-delay: #{$delayTime}s;
-  }
-
-  &.delay-long {
-	-webkit-animation-delay: #{$longDelayTime}s;
-	  animation-delay: #{$longDelayTime}s;
-  }
-
-  @-webkit-keyframes fadeIn {
-	0% {opacity: 0;}
-	100% {opacity: 1;}
-  }
-  @keyframes fadeIn {
-	0% {opacity: 0;}
-	100% {opacity: 1;}
-  }
-  &.fadeIn {
-	-webkit-animation-name: fadeIn;
-	animation-name: fadeIn;
-  }
-}
-
 @mixin product-btn($btn-type, $color, $logo-image) {
 	input[type="radio"] {
 		display: none;
 		&:checked + label {
-			@include reveal-animation();
 			color: $ms-pureWhite;
 			background-image: url(../images/ms-logo-01.png);
 			background-color: $color;
@@ -239,7 +204,6 @@ $content_min_width: 1080px;
 	input[type="radio"] {
 		display: none;
 		&:checked + label {
-			@include reveal-animation();
 			background-color: $ms-pureWhite;
 			border-color: $color;
 			border: 2px solid $color;

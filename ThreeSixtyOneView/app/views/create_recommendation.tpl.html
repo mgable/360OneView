@@ -1,7 +1,7 @@
 <div class="CreateRecommendation">
 	<div class="row main">
 		<div class="col-sm-9 left-column column-fix">
-			<div class="slideInContainer ms-animation-slideIn" ng-if="animation.slideIn">
+			<div class="slideInContainer animated" ng-class="{slideInRight: animation.slideIn, slideOutRight: !animation.slideIn}" ng-show="animation.slideIn">
 				<div ui-view="recommend"></div>
 			</div>
 			<ng-include src="'views/includes/create_recommendation/name_and_describe.tpl.html'"></ng-include>
