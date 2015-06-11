@@ -258,11 +258,13 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/ms_filter_input.tpl.html',
-    "<div class=\"ms-filter-input-container\">\r" +
+    "<div class=\"search\">\r" +
     "\n" +
-    "\t<input type=\"text\" class=\"ms-filter-input-box\" ng-model=\"SortAndFilterService.searchText\" ng-change=\"SortAndFilterService.filter()\" ng-maxlength=\"1000\" placeholder=\"Filter List\" />&nbsp;\r" +
+    "    <input type=\"text\" class=\"list-filter\" ng-model=\"SortAndFilterService.searchText\" ng-change=\"SortAndFilterService.filter()\" ng-maxlength=\"1000\" placeholder=\"Filter List\">\r" +
     "\n" +
-    "    <label for=\"ms-filter-input-box\"><icon type=\"search\" class=\"ms-filter-input-icon\"></icon></label>\r" +
+    "    <icon type=\"search\" class=\"search\"></icon>\r" +
+    "\n" +
+    "    <icon type=\"times\" class=\"clear\" ng-click=\"SortAndFilterService.resetFilter()\" ng-show=\"SortAndFilterService.searchText.length\"></icon>\r" +
     "\n" +
     "</div>"
   );

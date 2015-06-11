@@ -1,4 +1,5 @@
-<div class="ms-filter-input-container">
-	<input type="text" class="ms-filter-input-box" ng-model="SortAndFilterService.searchText" ng-change="SortAndFilterService.filter()" ng-maxlength="1000" placeholder="Filter List" />&nbsp;
-    <label for="ms-filter-input-box"><icon type="search" class="ms-filter-input-icon"></icon></label>
+<div class="search">
+    <input type="text" class="list-filter" ng-model="SortAndFilterService.searchText" ng-change="SortAndFilterService.filter()" ng-maxlength="1000" placeholder="Filter List">
+    <icon type="search" class="search"></icon>
+    <icon type="times" class="clear" ng-click="SortAndFilterService.resetFilter()" ng-show="SortAndFilterService.searchText.length"></icon>
 </div>

@@ -8,7 +8,7 @@
 		margin: 0;
 		&.display-actions {
 			position: relative;
-			margin-bottom: 20px;
+			margin-bottom: 14px;
 			height: 50px;
 			border-top: 1px solid $ms-darkGray;
 			z-index: 3;
@@ -52,39 +52,51 @@
 					.menu-item { text-transform: capitalize; }
 				}
 			}
-			.ms-filter-input-container {
-				position: relative;
+			.search {
 				float:left;
 				@include vertical-align;
-				font-size: 20px;
-				color: $ms-mediumLightGray;
-				.ms-filter-input-box {
-					width: 40px;
-					height: 40px;
-					border: none;
-					border-bottom: 1px solid transparent;
-					cursor: pointer;
-					transition: all ease-in-out .4s;
-					& + label .ms-filter-input-icon {
-						position: relative;
-						left: -30px;
-						color: $ms-mediumLightGray;
-						cursor: pointer;
-					}
-					&:hover {
-						color: $ms-black;
-						& + label .ms-filter-input-icon { color: $ms-black; }
-					}
-					&:focus {
-						transition: all ease-in-out .4s;
-						border-bottom: 1px solid $ms-black;
-						outline: none;
-						cursor: text;
-						color: $ms-black;
-						width: 250px;
-						& + label .ms-filter-input-icon { color: $ms-black; }
-					}
-					&:not(:focus) { text-indent:-5000px; }
+  				width: 286px;
+  				input.list-filter {
+  					float: left;
+  					border: 0;
+  					background: 0 0;
+  					font-size: 14px;
+  					-webkit-font-smoothing: antialiased;
+  					border-bottom: 1px solid transparent;
+  					border-radius: 0;
+  					line-height: 40px;
+  					padding: 0 28px 1px;
+  					position: relative;
+  					box-shadow: none;
+  					width: 150px;
+  					-webkit-transition: width 300ms ease,border-color 300ms ease;
+  					transition: width 300ms ease,border-color 300ms ease;
+  					height: 40px;
+  					cursor: pointer;
+  					&:focus {
+  						border-color: #529fd2;
+  						outline: 0;
+  						color: #1f2532;
+  						box-shadow: none;
+  						cursor: text;
+  						width: 230px;
+  					}
+  				}
+				i {
+					position: absolute;
+					color: $ms-mediumLightGray;
+					line-height: 40px;
+					width: 28px;
+				  	cursor: pointer;
+  					&.search {
+						left: 0;
+	  					font-size: 18px;
+						text-align: left;
+  					}
+  					&.clear {
+  						right: 56px;
+						text-align: right;
+  					}
 				}
 			}
 		}
