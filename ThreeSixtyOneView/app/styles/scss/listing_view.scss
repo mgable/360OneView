@@ -74,9 +74,9 @@
   					height: 40px;
   					cursor: pointer;
   					&:focus {
-  						border-color: #529fd2;
+  						border-color: $ms-mediumLightGray;
   						outline: 0;
-  						color: #1f2532;
+  						color: $ms-black;
   						box-shadow: none;
   						cursor: text;
   						width: 230px;
@@ -90,7 +90,7 @@
 				  	cursor: pointer;
   					&.search {
 						left: 0;
-	  					font-size: 18px;
+	  					font-size: 22px;
 						text-align: left;
   					}
   					&.clear {
