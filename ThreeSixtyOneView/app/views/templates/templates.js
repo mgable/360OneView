@@ -1274,7 +1274,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\t\t<label class=\"scenario-item\" for=\"radio{{scenario.id}}\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t<div class=\"radio-button\"></div>\r" +
+    "\t\t\t\t\t\t\t\t\t<div class=\"radio-button\"><icon type=\"circle-o\" class=\"selected\"></icon><icon type=\"dot-circle-o\" class=\"not-selected\"></icon></div>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t<div class=\"scenario-info\"><span>{{::scenario.name}}</span></div>\r" +
     "\n" +

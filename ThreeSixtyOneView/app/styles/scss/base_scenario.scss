@@ -2,9 +2,11 @@
 
 .lightbox.base-scenario-modal {
 	.modal-content {
+		box-shadow: 0 5px 10px rgba(0, 0, 0, .5);
+
 		.choose-base-scenario {
 			background-color: $ms-white;
-			padding: 40px 20px;
+			padding: 20px 20px;
 
 			.header {
 				.title {
@@ -17,14 +19,16 @@
 			.body {
 				.content {
 					.main-content {
+						width: 100%;
 						background-color: inherit;
 						border: none;
 
 						.toolbar {
 							background-color: inherit;
+							margin-bottom: 10px;
+
 							div {
 								display: inline-block;
-								padding: 1px 5px;
 							}
 
 							.dropdown-box {
@@ -33,24 +37,98 @@
 
 								i.fa {
 									font-size: 14px;
+									margin-left: 5px;
 								}
 
 								&.scenario-type {
-									.dropdown-toggle.text {
-										font-size: 22px;
+									padding-right: 15px;
+
+									.dropdown-toggle {
+										margin: 5px 0;
+
+										.text {
+											font-size: 18px;
+										}
 									}
 								}
 
-								&.template-type {}
+								&.template-type {
+									padding-right: 15px;
+									padding-left: 15px;
+
+									.dropdown-toggle {
+										margin: 5px 0;
+
+										.text {
+											font-size: 14px;
+										}
+									}
+								}
 							}
 
 							.search-box {
 								border: none;
 								background-color: inherit;
 								font-size: 16px;
+								padding-left: 4px;
 
 								input {
 									background-color: inherit;
+								}
+							}
+						}
+
+						.list-box {
+							overflow-y: auto;
+							overflow-x: none;
+							height: calc(100% - 280px);
+
+							.project {
+								.project-name {
+									font-size: 18px;
+									margin: 10px 0;
+
+									i {
+										margin-right: 5px;
+									}
+								}
+
+								.scenario {
+									input {
+										display: none;
+									}
+
+									input[type="radio"]:checked + label {
+										background-color: $ms-lightGray;
+
+										.not-selected {
+											display: inline-block;
+										}
+
+										.selected {
+											display: none;
+										}
+									}
+
+									label {
+										display: table-row;
+										width: 100%;
+										text-align: left;
+										font-weight: normal;
+
+										.radio-button {
+											padding-left: 30px;
+											padding-right: 10px;
+
+											.not-selected {
+												display: none;
+											}
+										}
+
+										div {
+											display: table-cell;
+										}
+									}
 								}
 							}
 						}
@@ -58,7 +136,8 @@
 				}
 
 				.action-buttons {
-
+					float: none;
+					text-align: right;
 				}
 			}
 		}
