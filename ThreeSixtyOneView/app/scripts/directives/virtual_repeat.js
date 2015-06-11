@@ -15,7 +15,6 @@ angular.module('ThreeSixtyOneView.directives')
 				displayBuffer = 50,
 				list = [],
 				multiLevel = false,
-				setMultiLevel = angular.noop,
 				heightWatch = angular.noop,
 				init = function() {
 

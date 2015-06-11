@@ -127,7 +127,7 @@ angular.module('ThreeSixtyOneView')
             ProjectsService.getMasterProject().then(function(master) {
                 if (master) {
                     // add it to even queue to keep it from getting in before the all other favorites
-                    $timeout(function() {FavoritesService.addFavorite(master.uuid);})
+                    $timeout(function() {FavoritesService.addFavorite(master.uuid);});
                 }
             });
         },
@@ -248,7 +248,6 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.create = function(action, _data_) {
-            console.info("here!!!!!!");
             var data = _data_ || {};
             $rootScope.$broadcast(EVENTS[action], data);
         };
