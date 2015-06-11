@@ -1,0 +1,4 @@
+app/bower_components/**/*.js
+app/scripts/vendor/*.js
+app/scripts/external/*.js
+./*.js

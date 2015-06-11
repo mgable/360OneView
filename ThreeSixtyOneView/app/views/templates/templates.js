@@ -1197,6 +1197,121 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
+  $templateCache.put('views/modal/select_base_scenario.tpl.html',
+    "<div class=\"choose-base-scenario\" data-ms-id=\"chooseBaseScenario\">\r" +
+    "\n" +
+    "\t<div class=\"header\">\r" +
+    "\n" +
+    "\t\t<div class=\"title\">Select recommendation base scenario</div>\r" +
+    "\n" +
+    "\t</div>\r" +
+    "\n" +
+    "\t<div class=\"body\">\r" +
+    "\n" +
+    "\t\t<div class=\"content\">\r" +
+    "\n" +
+    "\t\t\t<div class=\"main-content\">\r" +
+    "\n" +
+    "\t\t\t\t<div class=\"toolbar\">\r" +
+    "\n" +
+    "\t\t\t\t\t<div class=\"dropdown-box scenario-type\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t<div class=\"dropdown\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\"><span class=\"text\">{{currentScenarioType}}</span><icon type=\"caret-down\"></icon></div>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{currentScenarioType}}\" radio=\"true\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t<li ng-repeat=\"item in scenarioTypeItems\" ng-click=\"changeScenarioType(item)\" class=\"menu-item\" ms-link=\"{{currentScenarioType}}\">{{::item}}</li>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t</ul>\r" +
+    "\n" +
+    "\t\t\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t\t<div class=\"dropdown-box template-type\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t<div class=\"dropdown\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\"><span class=\"text\">{{currentTemplateType.label}}</span><icon type=\"caret-down\"></icon></div>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{currentTemplateType.name}}\" radio=\"true\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t<li ng-repeat=\"item in templateTypeItems\" ng-click=\"changeTemplateType($index)\" class=\"menu-item\" ms-link=\"{{item.name}}\">{{::item.label}}</li>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t</ul>\r" +
+    "\n" +
+    "\t\t\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t\t<div class=\"search-box\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t<icon type=\"search\"></icon>\r" +
+    "\n" +
+    "\t\t\t\t\t\t<input type=\"text\" ng-model=\"searchTerm.name\" placeholder=\"Search\">\r" +
+    "\n" +
+    "\t\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t<div class=\"list-box\">\r" +
+    "\n" +
+    "\t\t\t\t\t<form>\r" +
+    "\n" +
+    "\t\t\t\t\t\t<div ng-repeat=\"project in getProjects() | filter:searchTerm | orderBy:'auditInfo[lastUpdatedOn]':true\" class=\"project clickable\" ng-class=\"{'expanded': isProjectExpanded(project)}\" ng-click=\"toggleProject(project)\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t<div class=\"project-name text-holder\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t<icon type=\"caret-right\" cname=\"collapsed\"></icon><icon type=\"caret-down\" cname=\"expanded\"></icon>{{::project.name}}\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t<div ng-repeat=\"scenario in getScenarios(project) | filter:searchTerm | orderBy:'auditInfo[lastUpdatedOn]':true\" class=\"scenario clickable\" ng-class=\"{'selected': isScenarioSelected(scenario)}\" ng-click=\"selectScenario(scenario)\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t<input type=\"radio\" name=\"baseScenario\" id=\"radio{{scenario.id}}\" model=\"selectedScenario\" value=\"{{scenario.id}}\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t<label class=\"scenario-item\" for=\"radio{{scenario.id}}\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t\t<div class=\"radio-button\"></div>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t\t<div class=\"scenario-info\"><span>{{::scenario.name}}</span></div>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t\t<div class=\"scenario-meta\">{{scenario.auditInfo.lastUpdatedOn}}, {{scenario.auditInfo.createdBy.name}}</div>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t\t<div class=\"scenario-template-type\"><span>{{getScenarioType(scenario)}}</span><span>{{scenario.template.name}}<span></div>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t</label>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t\t</form>\r" +
+    "\n" +
+    "\t\t\t\t\t<div ng-hide=\"isListLoaded\" class=\"status-message\"><icon type=\"refresh\" class=\"fa-spin\"></icon>Loading data ...</div>\r" +
+    "\n" +
+    "\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t</div>\r" +
+    "\n" +
+    "\t\t</div>\r" +
+    "\n" +
+    "\t\t<div class=\"action-buttons\">\r" +
+    "\n" +
+    "\t\t\t<ms-button type=\"cancel\" action=\"cancel()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\r" +
+    "\n" +
+    "\t\t\t<ms-button type=\"submit\" action=\"submit()\" label=\"Confirm\" data-dismiss=\"modal\"></ms-button>\r" +
+    "\n" +
+    "\t\t</div>\r" +
+    "\n" +
+    "\t</div>\r" +
+    "\n" +
+    "</div>"
+  );
+
+
   $templateCache.put('views/modal/select_module.tpl.html',
     "<div class=\"scenarioTemplates light-box\" data-ms-id=\"simpleModal\">\r" +
     "\n" +
