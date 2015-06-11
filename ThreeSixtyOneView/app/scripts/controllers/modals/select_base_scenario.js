@@ -17,7 +17,6 @@ function($scope, $controller, $modalInstance, CONFIG, data, ScenarioService) {
 
 			ScenarioService.getAll().then(function(_projects) {
 				$scope.isListLoaded = true;
-				console.log(_projects);
 				projects = _projects;
 			});
 		};
