@@ -2,10 +2,10 @@
 	<div class="toggle-header">
 		<ul class="toggle-btn-group">
 			<li data-ms-id="scenario.edit.button" ui-sref="Scenario.edit" class="toggle-btn" ng-show="location==='/results'">
-				<ms-button type="submit" action="" label="" icon="pencil" ng-hide="isImportStarted" shape="circle"></ms-button>
+				<ms-button type="cancel" action="" label="" icon="pencil" ng-hide="isImportStarted" shape="circle"></ms-button>
 			</li>
 			<li data-ms-id="scenario.results.button" ng-click="gotoResults()" class="toggle-btn" ng-show="location==='/edit'">
-				<ms-button type="submit" action="" label="" icon="bar-chart" ng-hide="isImportStarted" shape="circle"></ms-button>
+				<ms-button type="cancel" action="" label="" icon="bar-chart" ng-hide="isImportStarted" shape="circle"></ms-button>
 			</li>
 		</ul>
 		<!-- <div class="tabs-holder">

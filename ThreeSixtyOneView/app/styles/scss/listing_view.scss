@@ -28,10 +28,66 @@
 		width: calc(100% - 360px);
 		overflow-y: auto;
 		overflow-x: hidden;
-		padding-right: 0;
-		padding-left: 15px;
+		padding: 25px;
 		height: 100%;
 
+		.display-title {
+		  	height: 20px;
+			.filter-holder {
+				max-width: 250px;
+				float:left;
+				@include vertical-align;
+				margin-right: 20px;
+				.filter-title {
+					font-size: 24px;
+					text-transform: capitalize;
+					cursor: pointer;
+				}
+				.filterToggle {
+					font-size: 18px;
+				}
+				.dropdown-menu {
+					top: 40px;
+					left: 0;
+					.menu-item { text-transform: capitalize; }
+				}
+			}
+			.ms-filter-input-container {
+				position: relative;
+				float:left;
+				@include vertical-align;
+				font-size: 20px;
+				color: $ms-mediumLightGray;
+				.ms-filter-input-box {
+					width: 40px;
+					height: 40px;
+					border: none;
+					border-bottom: 1px solid transparent;
+					cursor: pointer;
+					transition: all ease-in-out .4s;
+					& + label .ms-filter-input-icon {
+						position: relative;
+						left: -30px;
+						color: $ms-mediumLightGray;
+						cursor: pointer;
+					}
+					&:hover {
+						color: $ms-black;
+						& + label .ms-filter-input-icon { color: $ms-black; }
+					}
+					&:focus {
+						transition: all ease-in-out .4s;
+						border-bottom: 1px solid $ms-black;
+						outline: none;
+						cursor: text;
+						color: $ms-black;
+						width: 250px;
+						& + label .ms-filter-input-icon { color: $ms-black; }
+					}
+					&:not(:focus) { text-indent:-5000px; }
+				}
+			}
+		}
 		.display-table {
 			&.viewport {
 				max-height: 890px;
@@ -175,7 +231,7 @@
 		}
 	}
 	.tray {
-		width: 360px;
+		width: $app_tray_width;
 		padding: 10px;
 		background-color: $ms-lightGray;
 		overflow-x: hidden;
