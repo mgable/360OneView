@@ -1236,11 +1236,21 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t<div class=\"dropdown\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\"><span class=\"text\">{{currentTemplateType.label}}</span><icon type=\"caret-down\"></icon></div>\r" +
+    "\t\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{currentTemplateType.name}}\" radio=\"true\">\r" +
+    "\t\t\t\t\t\t\t\t<span class=\"icon\">{{getCurrentTemplate().icon}}</span>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<li ng-repeat=\"item in templateTypeItems\" ng-click=\"changeTemplateType($index)\" class=\"menu-item\" ms-link=\"{{item.name}}\">{{::item.label}}</li>\r" +
+    "\t\t\t\t\t\t\t\t<span class=\"text\">{{getCurrentTemplate().text}}</span>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t<icon type=\"caret-down\"></icon>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t</div>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{getCurrentTemplate().text}}\" radio=\"true\">\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t<li ng-click=\"changeTemplate('ALL')\" class=\"menu-item\" ms-link=\"All\">All</li>\r" +
+    "\n" +
+    "\t\t\t\t\t\t\t\t<li ng-repeat=\"template in getTemplates()\" ng-click=\"changeTemplate(template)\" class=\"menu-item\" ms-link=\"{{template.name}}\">{{::template.name}}</li>\r" +
     "\n" +
     "\t\t\t\t\t\t\t</ul>\r" +
     "\n" +

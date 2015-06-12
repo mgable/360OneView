@@ -16,9 +16,14 @@
 					</div>
 					<div class="dropdown-box template-type">
 						<div class="dropdown">
-							<div class="dropdown-toggle clickable"><span class="text">{{currentTemplateType.label}}</span><icon type="caret-down"></icon></div>
-							<ul class="dropdown-menu" ms-link-group selected-item="{{currentTemplateType.name}}" radio="true">
-								<li ng-repeat="item in templateTypeItems" ng-click="changeTemplateType($index)" class="menu-item" ms-link="{{item.name}}">{{::item.label}}</li>
+							<div class="dropdown-toggle clickable">
+								<span class="icon">{{getCurrentTemplate().icon}}</span>
+								<span class="text">{{getCurrentTemplate().text}}</span>
+								<icon type="caret-down"></icon>
+							</div>
+							<ul class="dropdown-menu" ms-link-group selected-item="{{getCurrentTemplate().text}}" radio="true">
+								<li ng-click="changeTemplate('ALL')" class="menu-item" ms-link="All">All</li>
+								<li ng-repeat="template in getTemplates()" ng-click="changeTemplate(template)" class="menu-item" ms-link="{{template.name}}">{{::template.name}}</li>
 							</ul>
 						</div>
 					</div>

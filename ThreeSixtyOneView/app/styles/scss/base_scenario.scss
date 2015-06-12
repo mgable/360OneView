@@ -80,7 +80,7 @@
 
 						.list-box {
 							overflow-y: auto;
-							overflow-x: none;
+							overflow-x: hidden;
 							height: calc(100% - 280px);
 
 							.project {
@@ -123,6 +123,11 @@
 											.not-selected {
 												display: none;
 											}
+										}
+
+										.scenario-template-type {
+											width: 150px;
+											padding: 0 10px;
 										}
 
 										div {
