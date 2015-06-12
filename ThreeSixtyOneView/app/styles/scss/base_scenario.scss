@@ -32,7 +32,6 @@
 							}
 
 							.dropdown-box {
-								border-right: 1px solid $ms-mediumLightGray;
 								width: inherit;
 
 								i.fa {
@@ -47,7 +46,7 @@
 										margin: 5px 0;
 
 										.text {
-											font-size: 18px;
+											font-size: 14px;
 										}
 									}
 								}
@@ -56,11 +55,30 @@
 									padding-right: 15px;
 									padding-left: 15px;
 
-									.dropdown-toggle {
-										margin: 5px 0;
+									.dropdown {
+										.dropdown-toggle {
+											margin: 5px 0;
 
-										.text {
-											font-size: 14px;
+											.icon {
+												font-size: 14px;
+												background-color: $ms-lightGreen;
+												border-radius: 3px;
+												margin-right: 2px;
+												height: 17px;
+												width: 17px;
+												text-align: center;
+												display: inline-block;
+											}
+
+											.text {
+												font-size: 14px;
+											}
+										}
+
+										.dropdown-menu {
+											width: 300px;
+											max-height: 400px;
+											overflow-y: auto;
 										}
 									}
 								}
@@ -85,53 +103,61 @@
 
 							.project {
 								.project-name {
-									font-size: 18px;
+									font-size: 14px;
 									margin: 10px 0;
+									background-color: $ms-lightGray;
+									padding: 0 20px;
 
 									i {
 										margin-right: 5px;
 									}
 								}
 
-								.scenario {
-									input {
+								.scenarios-list {
+									&.collapsed {
 										display: none;
 									}
 
-									input[type="radio"]:checked + label {
-										background-color: $ms-lightGray;
-
-										.not-selected {
-											display: inline-block;
-										}
-
-										.selected {
+									.scenario {
+										input {
 											display: none;
 										}
-									}
 
-									label {
-										display: table-row;
-										width: 100%;
-										text-align: left;
-										font-weight: normal;
-
-										.radio-button {
-											padding-left: 30px;
-											padding-right: 10px;
+										input[type="radio"]:checked + label {
+											background-color: $ms-lightGray;
 
 											.not-selected {
+												display: inline-block;
+											}
+
+											.selected {
 												display: none;
 											}
 										}
 
-										.scenario-template-type {
-											width: 150px;
-											padding: 0 10px;
-										}
+										label {
+											display: table-row;
+											width: 100%;
+											text-align: left;
+											font-weight: normal;
 
-										div {
-											display: table-cell;
+											.radio-button {
+												padding-left: 30px;
+												padding-right: 10px;
+
+												.not-selected {
+													display: none;
+												}
+											}
+
+											.scenario-template-type {
+												width: 150px;
+												padding: 0 10px;
+											}
+
+											div {
+												display: table-cell;
+											}
 										}
 									}
 								}

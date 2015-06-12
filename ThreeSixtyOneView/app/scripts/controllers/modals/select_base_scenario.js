@@ -8,6 +8,7 @@ function($scope, $controller, $modalInstance, CONFIG, data, ScenarioService, Man
 	var projects = [],
 		templates = [],
 		templateFilter = false,
+		projectCollapsed = {},
 
 		init = function() {
 			$scope.isListLoaded = false;
@@ -46,11 +47,13 @@ function($scope, $controller, $modalInstance, CONFIG, data, ScenarioService, Man
 		if(!templateFilter) {
 			return {
 				icon: '',
+				isIconVisible: false,
 				text: 'All'
 			};
 		} else {
 			return {
 				icon: templateFilter.name[0].toUpperCase(),
+				isIconVisible: true,
 				text: templateFilter.name
 			};
 		}
@@ -58,6 +61,14 @@ function($scope, $controller, $modalInstance, CONFIG, data, ScenarioService, Man
 
 	$scope.getProjects = function() {
 		return projects;
+	};
+
+	$scope.isProjectCollapsed = function(project) {
+		return projectCollapsed[project.name];
+	};
+
+	$scope.toggleProject = function(project) {
+		projectCollapsed[project.name] = !projectCollapsed[project.name];
 	};
 
 	$scope.getScenarios = function(project) {

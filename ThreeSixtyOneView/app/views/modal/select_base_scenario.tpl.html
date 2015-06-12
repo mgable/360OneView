@@ -17,7 +17,7 @@
 					<div class="dropdown-box template-type">
 						<div class="dropdown">
 							<div class="dropdown-toggle clickable">
-								<span class="icon">{{getCurrentTemplate().icon}}</span>
+								<span class="icon" ng-if="getCurrentTemplate().isIconVisible">{{getCurrentTemplate().icon}}</span>
 								<span class="text">{{getCurrentTemplate().text}}</span>
 								<icon type="caret-down"></icon>
 							</div>
@@ -34,18 +34,20 @@
 				</div>
 				<div class="list-box">
 					<form>
-						<div ng-repeat="project in getProjects() | filter:searchTerm | orderBy:'auditInfo[lastUpdatedOn]':true" class="project clickable" ng-class="{'expanded': isProjectExpanded(project)}" ng-click="toggleProject(project)">
-							<div class="project-name text-holder">
-								<icon type="caret-right" cname="collapsed"></icon><icon type="caret-down" cname="expanded"></icon>{{::project.name}}
+						<div ng-repeat="project in getProjects() | filter:searchTerm | orderBy:'auditInfo[lastUpdatedOn]':true" class="project clickable">
+							<div class="project-name text-holder" ng-click="toggleProject(project)">
+								<icon type="caret-right" cname="collapsed-icon"></icon><icon type="caret-down" cname="expanded-icon"></icon>{{::project.name}}
 							</div>
-							<div ng-repeat="scenario in getScenarios(project) | filter:searchTerm | orderBy:'auditInfo[lastUpdatedOn]':true" class="scenario clickable" ng-class="{'selected': isScenarioSelected(scenario)}" ng-click="selectScenario(scenario)">
-								<input type="radio" name="baseScenario" id="radio{{scenario.id}}" model="selectedScenario" value="{{scenario.id}}">
-								<label class="scenario-item" for="radio{{scenario.id}}">
-									<div class="radio-button"><icon type="circle-o" class="selected"></icon><icon type="dot-circle-o" class="not-selected"></icon></div>
-									<div class="scenario-info"><span>{{::scenario.name}}</span></div>
-									<div class="scenario-meta">{{scenario.auditInfo.lastUpdatedOn}}, {{scenario.auditInfo.createdBy.name}}</div>
-									<div class="scenario-template-type"><span>{{getScenarioType(scenario)}}</span><span>{{scenario.template.name}}<span></div>
-								</label>
+							<div class="scenarios-list" ng-class="{'collapsed': isProjectCollapsed(project)}">
+								<div ng-repeat="scenario in getScenarios(project) | filter:searchTerm | orderBy:'auditInfo[lastUpdatedOn]':true" class="scenario clickable" ng-class="{'selected': isScenarioSelected(scenario)}" ng-click="selectScenario(scenario)">
+									<input type="radio" name="baseScenario" id="radio{{scenario.id}}" model="selectedScenario" value="{{scenario.id}}">
+									<label class="scenario-item" for="radio{{scenario.id}}">
+										<div class="radio-button"><icon type="circle-o" class="selected"></icon><icon type="dot-circle-o" class="not-selected"></icon></div>
+										<div class="scenario-info"><span>{{::scenario.name}}</span></div>
+										<div class="scenario-meta">{{scenario.auditInfo.lastUpdatedOn}}, {{scenario.auditInfo.createdBy.name}}</div>
+										<div class="scenario-template-type"><span>{{getScenarioType(scenario)}}</span><span>{{scenario.template.name}}<span></div>
+									</label>
+								</div>
 							</div>
 						</div>
 					</form>
