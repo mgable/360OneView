@@ -1,27 +1,16 @@
 <div class="scenario">
 	<div class="toggle-header">
 		<ul class="toggle-btn-group">
-			<li data-ms-id="scenario.edit.button" ui-sref="Scenario.edit" class="toggle-btn" ng-show="location==='/results'">
-				<ms-button type="cancel" action="" label="" icon="pencil" ng-hide="isImportStarted" shape="circle"></ms-button>
+			<li data-ms-id="scenario.edit.button" class="toggle-btn" ng-show="location==='/results'">
+				<ms-button type="submit" ui-sref="Scenario.edit" label="EDIT" ng-hide="isImportStarted" ng-disabled="scenarioState.message === scenarioStates.IN_PROGRESS.message || scenarioState.message === scenarioStates.FAILED.message"></ms-button>
 			</li>
-			<li data-ms-id="scenario.results.button" ng-click="gotoResults()" class="toggle-btn" ng-show="location==='/edit'">
-				<ms-button type="cancel" action="" label="" icon="bar-chart" ng-hide="isImportStarted" shape="circle"></ms-button>
+			<li data-ms-id="scenario.results.button" class="toggle-btn" ng-show="location==='/edit'">
+				<ms-button type="cancel" action="gotoResults()" label="CANCEL" ng-hide="isImportStarted" ng-disabled="scenarioState.message === scenarioStates.NOT_CALCULATED.message || scenarioState.message === scenarioStates.FAILED.message"></ms-button>
+			</li>
+			<li data-ms-id="scenario.simulate.button" class="toggle-btn" ng-show="location==='/edit'">
+				<ms-button type="submit" action="setState('IN_PROGRESS')" ui-sref="Scenario.calculate" label="SIMULATE" ng-hide="isImportStarted" ng-class="{disabled: disableSimulateButton()}"></ms-button>
 			</li>
 		</ul>
-		<!-- <div class="tabs-holder">
-			<ul ms-link-group radio="true" selected-item="{{location}}">
-				<li data-ms-id="scenario.edit.button" ms-link="/edit" ui-sref="Scenario.edit" ng-class="{xdisabled: scenarioState.message === scenarioStates.IN_PROGRESS.message || scenarioState.message === scenarioStates.FAILED.message}">
-					<a><icon type="pencil"></icon>Editor</a>
-				</li>
-				<li data-ms-id="scenario.results.button" ms-link="/results" ng-click="gotoResults()" ng-class="{disabled: scenarioState.message === scenarioStates.NOT_CALCULATED.message || scenarioState.message === scenarioStates.FAILED.message}">
-					<a><icon type="check-square-o"></icon>Results</a>
-
-				</li>
-			</ul>
-		</div>
-		<div class="button-holder">
-			<span data-ms-id="scenario.simulate.button" ui-sref="Scenario.calculate" ng-click="setState('IN_PROGRESS')" ng-class="{disabled: disableSimulateButton()}"><icon type="tachometer"></icon>simulate</span>
-		</div> -->
 	</div>
 
 	<div class="display">

@@ -173,71 +173,83 @@
             float: left;
             padding: 0;
             width: calc(100% - 300px);
-            .results-card {
-                border-radius: 3px;
-                background-color: $ms-white;
-                margin-bottom: 30px;
-                padding: 20px;
-                .results-panel {
-                    .results-panel-title {
-                        font-weight: 500;
-                        font-size: 30px;
-                        margin: 0 0 15px 0;
-                    }
-                    .result-panel-body {
-                        .kpi-container {
-                            text-align: center;
-                            .kpi-title {
-                                color: $ms-darkGray;
-                                font-size: 20px;
-                                white-space: nowrap;
-                                text-overflow: ellipsis;
-                                overflow: hidden;
-                                font-weight: 700;
-                                text-transform: capitalize;
-                                margin: 0 0;
-                            }
-                            .kpi-incremental {
-                                font-size: 40px;
-                                font-weight: 700;
-                                margin: 13px 0 5px;
-                                line-height: 32px;
-                                i.kpi-arrow {
-                                    font-size: 25px;
-                                    font-weight: 400;
-                                    vertical-align: middle;
-                                    line-height: 22px;
-                                    margin: 0 5px 10px 0;
-                                }
-                            }
-                            .kpi-total, .kpi-percent {
-                                font-size: 16px;
+            .ms-card {
+                .ms-card-content {
+                    .kpi-summary {
+                        text-align: center;
+                        .kpi-title {
+                            color: $ms-darkGray;
+                            font-size: 20px;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                            font-weight: 700;
+                            text-transform: capitalize;
+                            margin: 0 0;
+                        }
+                        .kpi-incremental {
+                            font-size: 40px;
+                            font-weight: 700;
+                            margin: 13px 0 5px;
+                            line-height: 32px;
+                            i.kpi-arrow {
+                                font-size: 25px;
+                                font-weight: 400;
+                                vertical-align: middle;
                                 line-height: 22px;
-                            }
-                            .kpi-total {
-                                color: $ms-darkGray;
-                                margin-right: 10px;
-                            }
-                            .kpi-increase {
-                                color: #068700;
-                            }
-                            .kpi-decrease {
-                                color: #c71f04;
+                                margin: 0 5px 10px 0;
                             }
                         }
-                        .spend-container{
-                            .spend-table {
-                                width: 100%;
-                                thead {
-                                    background: transparent;
-                                    border-bottom: 1px solid #ccc;
-                                    th {
+                        .kpi-total, .kpi-percent {
+                            font-size: 16px;
+                            line-height: 22px;
+                        }
+                        .kpi-total {
+                            color: $ms-darkGray;
+                            margin-right: 10px;
+                        }
+                        .kpi-increase {
+                            color: #068700;
+                        }
+                        .kpi-decrease {
+                            color: #c71f04;
+                        }
+                    }
+                    .spend-summary{
+                        .spend-table {
+                            width: 100%;
+                            thead {
+                                background: transparent;
+                                border-bottom: 1px solid #ccc;
+                                th {
+                                    color: #333;
+                                    text-transform: capitalize;
+                                    padding: 10px 0;
+                                    font-size: 20px;
+                                    line-height: 22px;
+                                    font-weight: 700;
+                                    padding: 5px;
+                                    &.spend-increase {
+                                        color: #068700;
+                                    }
+                                    &.spend-decrease {
+                                        color: #c71f04;
+                                    }
+                                }
+                            }
+                            tbody {
+                                tr {
+                                    &:first-child { height: 20px; }
+                                    -webkit-transition:0.15s linear all;
+                                    -moz-transition:0.15s linear all;
+                                    -o-transition:0.15s linear all;
+                                    transition:0.15s linear all;
+                                    td {
                                         color: #333;
                                         text-transform: capitalize;
-                                        padding: 10px 0;
-                                        font-size: 20px;
+                                        font-size: 16px;
                                         line-height: 22px;
-                                        font-weight: 700;
+                                        font-weight: 400;
                                         padding: 5px;
                                         &.spend-increase {
                                             color: #068700;
@@ -245,46 +257,23 @@
                                         &.spend-decrease {
                                             color: #c71f04;
                                         }
-                                    }
-                                }
-                                tbody {
-                                    tr {
-                                        &:first-child { height: 20px; }
                                         -webkit-transition:0.15s linear all;
                                         -moz-transition:0.15s linear all;
                                         -o-transition:0.15s linear all;
                                         transition:0.15s linear all;
+                                    }
+                                    &:not(:first-child):hover ,&.highlight {
+                                        -webkit-transition:0.15s linear all;
+                                        -moz-transition:0.15s linear all;
+                                        -o-transition:0.15s linear all;
+                                        transition:0.15s linear all;
+                                        background-color: $ms-blue;
                                         td {
-                                            color: #333;
-                                            text-transform: capitalize;
-                                            font-size: 16px;
-                                            line-height: 22px;
-                                            font-weight: 400;
-                                            padding: 5px;
-                                            &.spend-increase {
-                                                color: #068700;
-                                            }
-                                            &.spend-decrease {
-                                                color: #c71f04;
-                                            }
                                             -webkit-transition:0.15s linear all;
                                             -moz-transition:0.15s linear all;
                                             -o-transition:0.15s linear all;
                                             transition:0.15s linear all;
-                                        }
-                                        &:not(:first-child):hover ,&.highlight {
-                                            -webkit-transition:0.15s linear all;
-                                            -moz-transition:0.15s linear all;
-                                            -o-transition:0.15s linear all;
-                                            transition:0.15s linear all;
-                                            background-color: $ms-blue;
-                                            td {
-                                                -webkit-transition:0.15s linear all;
-                                                -moz-transition:0.15s linear all;
-                                                -o-transition:0.15s linear all;
-                                                transition:0.15s linear all;
-                                                color:$ms-pureWhite;
-                                            }
+                                            color:$ms-pureWhite;
                                         }
                                     }
                                 }

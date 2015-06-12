@@ -2,17 +2,14 @@
 
 .scenario {
 	.toggle-header {
-		height: 56px;
+		height: 50px;
 		border-bottom: 1px solid $ms-darkGray;
-		margin-top: -56px;
+		margin-top: -50px;
 		.toggle-btn-group {
 			float: right;
 			.toggle-btn {
 				display: inline-block;
-				button {
-				    height: 40px;
-				    width: 40px;
-				}
+				margin-left: 10px;
 			}
 		}
 	}

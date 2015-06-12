@@ -14,11 +14,31 @@
             </ul>
         </div>
         <div class="right-content">
-            <div class="results-card">
-                <ng-include src="'views/includes/scenario/results/kpi_summary.tpl.html'"></ng-include>
+            <div class="ms-card">
+                <div class="ms-card-title">Spend Summary
+                    <span class="ms-card-info"><icon type="info-circle"></icon></span>
+                </div>
+                <div class="ms-card-subtitle">This is the subtitle for Spend Summary</div>
+                <div class="ms-card-setting fa-stack">
+                    <icon class="ms-card-setting fa-stack-1x" type="cog"></icon>
+                    <icon class="ms-card-setting fa-stack-2x" type="circle-thin"></icon>
+                </div>
+                <div class="ms-card-content row">
+                    <ng-include src="'views/includes/scenario/results/kpi_summary.tpl.html'"></ng-include>
+                </div>
             </div>
-            <div class="results-card">
-                <ng-include src="'views/includes/scenario/results/spend_summary.tpl.html'"></ng-include>
+            <div class="ms-card">
+                <div class="ms-card-title">KPI Summary
+                    <span class="ms-card-info"><icon type="info-circle"></icon></span>
+                </div>
+                <div class="ms-card-subtitle">This is the subtitle for KPI Summary</div>
+                <div class="ms-card-setting fa-stack">
+                    <icon class="ms-card-setting fa-stack-1x" type="cog"></icon>
+                    <icon class="ms-card-setting fa-stack-2x" type="circle-thin"></icon>
+                </div>
+                <div class="ms-card-content row">
+                    <ng-include src="'views/includes/scenario/results/spend_summary.tpl.html'"></ng-include>
+                </div>
             </div>
         </div>
     </div>

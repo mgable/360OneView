@@ -1,0 +1,30 @@
+@import "variables";
+
+.ms-card {
+    position: relative;
+    border-radius: 3px;
+    background-color: $ms-white;
+    padding: 20px;
+    margin-bottom: 20px;
+    .ms-card-title {
+        font-weight: 500;
+        font-size: 30px;
+        .ms-card-info {
+            margin-left: 15px;
+            color: $ms-mediumLightGray;
+            font-size: 18px;
+        }
+    }
+    .ms-card-subtitle {
+        color: $ms-mediumGray;
+    }
+    .ms-card-setting {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        color: $ms-mediumLightGray;
+    }
+    .ms-card-content {
+        margin-top: 20px;
+    }
+}
