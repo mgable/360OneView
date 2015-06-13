@@ -23,6 +23,17 @@
 						background-color: inherit;
 						border: none;
 
+						.template-icon {
+							font-size: 14px;
+							background-color: $ms-lightGreen;
+							border-radius: 3px;
+							margin-right: 2px;
+							height: 17px;
+							width: 17px;
+							text-align: center;
+							display: inline-block;
+						}
+
 						.toolbar {
 							background-color: inherit;
 							margin-bottom: 10px;
@@ -59,17 +70,6 @@
 										.dropdown-toggle {
 											margin: 5px 0;
 
-											.icon {
-												font-size: 14px;
-												background-color: $ms-lightGreen;
-												border-radius: 3px;
-												margin-right: 2px;
-												height: 17px;
-												width: 17px;
-												text-align: center;
-												display: inline-block;
-											}
-
 											.text {
 												font-size: 14px;
 											}
@@ -104,9 +104,9 @@
 							.project {
 								.project-name {
 									font-size: 14px;
-									margin: 10px 0;
+									margin: 1px 0 0 0;
 									background-color: $ms-lightGray;
-									padding: 0 20px;
+									padding: 5px 20px;
 
 									i {
 										margin-right: 5px;
@@ -114,8 +114,12 @@
 								}
 
 								.scenarios-list {
+									height: inherit;
+									transition: height linear 0.2s;
+
 									&.collapsed {
-										display: none;
+										height: 0;
+										/*display: none;*/
 									}
 
 									.scenario {
@@ -124,7 +128,10 @@
 										}
 
 										input[type="radio"]:checked + label {
-											background-color: $ms-lightGray;
+											background-color: $ms-lightBlue;
+											border-top: 1px solid $ms-blue;
+											border-bottom: 1px solid $ms-blue;
+											color: $ms-white;
 
 											.not-selected {
 												display: inline-block;
@@ -136,10 +143,20 @@
 										}
 
 										label {
-											display: table-row;
+											display: block;
 											width: 100%;
 											text-align: left;
 											font-weight: normal;
+											padding: 10px 20px;
+											border-top: 1px solid rgba(0,0,0,0);
+											border-bottom: 1px solid rgba(0,0,0,0);
+											margin: 1px 0;
+
+											&:hover {
+												background-color: $ms-veryLightGray;
+												border-top: 1px solid $ms-lightGray;
+												border-bottom: 1px solid $ms-lightGray;
+											}
 
 											.radio-button {
 												padding-left: 30px;
@@ -150,17 +167,32 @@
 												}
 											}
 
+											.scenario-info {
+												width: 40%;
+											}
+
+											.scenario-meta {
+												width: 20%;
+											}
+
 											.scenario-template-type {
-												width: 150px;
+												width: 30%;
 												padding: 0 10px;
 											}
 
 											div {
-												display: table-cell;
+												display: inline-block;
+												padding: 0 5px;
+												vertical-align: middle;
 											}
 										}
 									}
 								}
+							}
+
+							.status-message {
+								text-align: center;
+								font-size: 32px;
 							}
 						}
 					}

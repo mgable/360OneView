@@ -667,13 +667,16 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t\t<div class=\"dropdown-box template-type\">\n" +
     "\t\t\t\t\t\t<div class=\"dropdown\">\n" +
     "\t\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\">\n" +
-    "\t\t\t\t\t\t\t\t<span class=\"icon\" ng-if=\"getCurrentTemplate().isIconVisible\">{{getCurrentTemplate().icon}}</span>\n" +
+    "\t\t\t\t\t\t\t\t<span class=\"template-icon\" ng-if=\"getCurrentTemplate().isIconVisible\">{{getCurrentTemplate().icon}}</span>\n" +
     "\t\t\t\t\t\t\t\t<span class=\"text\">{{getCurrentTemplate().text}}</span>\n" +
     "\t\t\t\t\t\t\t\t<icon type=\"caret-down\"></icon>\n" +
     "\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{getCurrentTemplate().text}}\" radio=\"true\">\n" +
     "\t\t\t\t\t\t\t\t<li ng-click=\"changeTemplate('ALL')\" class=\"menu-item\" ms-link=\"All\">All</li>\n" +
-    "\t\t\t\t\t\t\t\t<li ng-repeat=\"template in getTemplates()\" ng-click=\"changeTemplate(template)\" class=\"menu-item\" ms-link=\"{{template.name}}\">{{::template.name}}</li>\n" +
+    "\t\t\t\t\t\t\t\t<li ng-repeat=\"template in getTemplates()\" ng-click=\"changeTemplate(template)\" class=\"menu-item\" ms-link=\"{{template.name}}\">\n" +
+    "\t\t\t\t\t\t\t\t\t<span class=\"template-icon\">{{::getTemplateIcon(template)}}</span>\n" +
+    "\t\t\t\t\t\t\t\t\t<span class=\"\">{{::template.name}}</span>\n" +
+    "\t\t\t\t\t\t\t\t</li>\n" +
     "\t\t\t\t\t\t\t</ul>\n" +
     "\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t</div>\n" +
@@ -686,16 +689,16 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t\t<form>\n" +
     "\t\t\t\t\t\t<div ng-repeat=\"project in getProjects() | filter:searchTerm | orderBy:'auditInfo[lastUpdatedOn]':true\" class=\"project clickable\">\n" +
     "\t\t\t\t\t\t\t<div class=\"project-name text-holder\" ng-click=\"toggleProject(project)\">\n" +
-    "\t\t\t\t\t\t\t\t<icon type=\"caret-right\" cname=\"collapsed-icon\"></icon><icon type=\"caret-down\" cname=\"expanded-icon\"></icon>{{::project.name}}\n" +
+    "\t\t\t\t\t\t\t\t<icon type=\"caret-right\" ng-if=\"isProjectCollapsed(project)\"></icon><icon type=\"caret-down\" ng-if=\"!isProjectCollapsed(project)\"></icon>{{::project.name}}\n" +
     "\t\t\t\t\t\t\t</div>\n" +
-    "\t\t\t\t\t\t\t<div class=\"scenarios-list\" ng-class=\"{'collapsed': isProjectCollapsed(project)}\">\n" +
+    "\t\t\t\t\t\t\t<div class=\"scenarios-list\" ng-class=\"{'collapse': isProjectCollapsed(project)}\">\n" +
     "\t\t\t\t\t\t\t\t<div ng-repeat=\"scenario in getScenarios(project) | filter:searchTerm | orderBy:'auditInfo[lastUpdatedOn]':true\" class=\"scenario clickable\" ng-class=\"{'selected': isScenarioSelected(scenario)}\" ng-click=\"selectScenario(scenario)\">\n" +
     "\t\t\t\t\t\t\t\t\t<input type=\"radio\" name=\"baseScenario\" id=\"radio{{scenario.id}}\" model=\"selectedScenario\" value=\"{{scenario.id}}\">\n" +
     "\t\t\t\t\t\t\t\t\t<label class=\"scenario-item\" for=\"radio{{scenario.id}}\">\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"radio-button\"><icon type=\"circle-o\" class=\"selected\"></icon><icon type=\"dot-circle-o\" class=\"not-selected\"></icon></div>\n" +
-    "\t\t\t\t\t\t\t\t\t\t<div class=\"scenario-info\"><span>{{::scenario.name}}</span></div>\n" +
-    "\t\t\t\t\t\t\t\t\t\t<div class=\"scenario-meta\">{{scenario.auditInfo.lastUpdatedOn}}, {{scenario.auditInfo.createdBy.name}}</div>\n" +
-    "\t\t\t\t\t\t\t\t\t\t<div class=\"scenario-template-type\"><span>{{getScenarioType(scenario)}}</span><span>{{scenario.template.name}}<span></div>\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"scenario-info text-holder\"><span>{{::scenario.name}}</span></div>\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"scenario-meta text-holder\">{{scenario.auditInfo.lastUpdatedOn | timeago}}, {{scenario.auditInfo.createdBy.name}}</div>\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"scenario-template-type text-holder\"><span class=\"template-icon\">{{::getTemplateIcon(scenario.template)}}</span><span>{{scenario.template.name}}<span></div>\n" +
     "\t\t\t\t\t\t\t\t\t</label>\n" +
     "\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t</div>\n" +

@@ -35,6 +35,10 @@ function($scope, $controller, $modalInstance, CONFIG, data, ScenarioService, Man
 		return templates;
 	};
 
+	$scope.getTemplateIcon = function(template) {
+		return template.name[0].toUpperCase();
+	};
+
 	$scope.changeTemplate = function(template) {
 		if(template === 'ALL') {
 			templateFilter = false;
