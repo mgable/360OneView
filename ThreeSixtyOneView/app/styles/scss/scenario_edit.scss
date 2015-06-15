@@ -1,82 +1,85 @@
 @import "variables";
 
 .scenario_edit {
-    .save-status {
-        float: right;
-        font-size: 14px;
-        color: $ms-black;
-    }
     .scenario-settings {
-        .dropdown {
-            display: inline-block;
+        .dropdown-menu {
+            width: 320px;
 
-            .dropdown-menu {
-                width: 320px;
-
-                div {
-                    .group-title {
-                        margin: 10px 15px 3px 20px;
-                        color: $ms-gray;
-                        border-bottom: 1px solid $ms-mediumGray;
-                        font-weight: 700;
-                        text-transform: uppercase;
-                        font-size: 12px;
-                    }
-                }
-
-                &::before {
-                    left: 92px;
+            div {
+                .group-title {
+                    margin: 10px 15px 3px 20px;
+                    color: $ms-gray;
+                    border-bottom: 1px solid $ms-mediumGray;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    font-size: 12px;
                 }
             }
 
-            .filename {
-                font-size: 16px;
-                margin-left: 15px;
-                vertical-align: bottom;
-                display: inline-block;
-                max-width: 370px;
-
-                i {
-                    margin-right: 5px;
-                }
-            }
-
-            .filename-option {
-                font-size: 14px;
-                margin-left: 20px;
-                border-bottom: 1px solid #000;
-
-                i {
-                    margin-right: 5px;
-                }
+            &::before {
+                left: 92px;
             }
         }
-        .scenario-modeling-period {
-            .title {
+
+        .filename {
+            font-size: 16px;
+            margin-left: 15px;
+            vertical-align: bottom;
+            display: inline-block;
+            max-width: 370px;
+
+            i {
+                margin-right: 5px;
+            }
+        }
+
+        .filename-option {
+            font-size: 14px;
+            margin-left: 20px;
+            border-bottom: 1px solid #000;
+
+            i {
+                margin-right: 5px;
+            }
+        }
+    }
+    .scenario-modeling-period {
+        .title {
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        .period-pickers {
+            display: inline-block;
+
+            .period-range {
                 display: inline-block;
                 margin-right: 20px;
-            }
 
-            .period-pickers {
-                display: inline-block;
-
-                .period-range {
+                .subtitle {
                     display: inline-block;
-                    margin-right: 20px;
+                    margin-right: 10px;
+                }
 
-                    .subtitle {
+                .dropdown {
+                    .dropdown-toggle {
                         display: inline-block;
-                        margin-right: 10px;
+                        color: $ms-gray;
                     }
-
-                    .dropdown {
-                        .dropdown-toggle {
-                            display: inline-block;
-                            color: $ms-gray;
+                    .dropdown-menu {
+                        width: 100px;
+                        left: -50px;
+                        &:before {
+                            left: 46%;
                         }
                     }
                 }
             }
         }
+    }
+    .save-status {
+        float: right;
+        font-size: 14px;
+        color: $ms-black;
     }
 }

@@ -10,9 +10,13 @@
         font-weight: 500;
         font-size: 30px;
         .ms-card-info {
+            cursor: pointer;
             margin-left: 15px;
             color: $ms-mediumLightGray;
             font-size: 18px;
+            &:hover {
+                color: darken($ms-mediumLightGray, 5%);
+            }
         }
     }
     .ms-card-subtitle {
