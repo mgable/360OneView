@@ -1268,7 +1268,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t<icon type=\"search\"></icon>\r" +
     "\n" +
-    "\t\t\t\t\t\t<input type=\"text\" ng-model=\"searchTerm.name\" placeholder=\"Search\">\r" +
+    "\t\t\t\t\t\t<input type=\"text\" ng-model=\"searchTerm\" ng-keyup=\"filterProjects(searchTerm)\" placeholder=\"Search\">\r" +
     "\n" +
     "\t\t\t\t\t</div>\r" +
     "\n" +
@@ -1278,19 +1278,19 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t<form>\r" +
     "\n" +
-    "\t\t\t\t\t\t<div ng-repeat=\"project in getProjects() | filter:searchTerm | orderBy:'auditInfo[lastUpdatedOn]':true\" class=\"project clickable\">\r" +
+    "\t\t\t\t\t\t<div ng-repeat=\"project in getProjects() | orderBy:'auditInfo[lastUpdatedOn]':true\" class=\"project clickable\">\r" +
     "\n" +
     "\t\t\t\t\t\t\t<div class=\"project-name text-holder\" ng-click=\"toggleProject(project)\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<icon type=\"caret-right\" ng-if=\"isProjectCollapsed(project)\"></icon><icon type=\"caret-down\" ng-if=\"!isProjectCollapsed(project)\"></icon>{{::project.name}}\r" +
+    "\t\t\t\t\t\t\t\t<icon type=\"caret-right\" ng-if=\"!isProjectExpanded(project)\"></icon><icon type=\"caret-down\" ng-if=\"isProjectExpanded(project)\"></icon>{{::project.name}}\r" +
     "\n" +
     "\t\t\t\t\t\t\t</div>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t<div class=\"scenarios-list\" ng-class=\"{'collapse': isProjectCollapsed(project)}\">\r" +
+    "\t\t\t\t\t\t\t<div class=\"scenarios-list\" ng-class=\"{'collapse': !isProjectExpanded(project)}\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<div ng-repeat=\"scenario in getScenarios(project) | filter:searchTerm | orderBy:'auditInfo[lastUpdatedOn]':true\" class=\"scenario clickable\" ng-class=\"{'selected': isScenarioSelected(scenario)}\" ng-click=\"selectScenario(scenario)\">\r" +
+    "\t\t\t\t\t\t\t\t<div ng-repeat=\"scenario in getScenarios(project) | orderBy:'auditInfo[lastUpdatedOn]':true\" class=\"scenario clickable\" ng-click=\"selectScenario(scenario)\">\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t<input type=\"radio\" name=\"baseScenario\" id=\"radio{{scenario.id}}\" model=\"selectedScenario\" value=\"{{scenario.id}}\">\r" +
+    "\t\t\t\t\t\t\t\t\t<input type=\"radio\" name=\"baseScenario\" id=\"radio{{scenario.id}}\" ng-model=\"selectedScenario.id\" value=\"{{scenario.id}}\">\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t<label class=\"scenario-item\" for=\"radio{{scenario.id}}\">\r" +
     "\n" +
@@ -1298,7 +1298,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"scenario-info text-holder\"><span>{{::scenario.name}}</span></div>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t\t\t<div class=\"scenario-meta text-holder\">{{scenario.auditInfo.lastUpdatedOn | timeago}}, {{scenario.auditInfo.createdBy.name}}</div>\r" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"scenario-meta text-holder\">{{::scenario.auditInfo.lastUpdatedOn | timeago}}, {{::scenario.auditInfo.createdBy.name}}</div>\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"scenario-template-type text-holder\"><span class=\"template-icon\">{{::getTemplateIcon(scenario.template)}}</span><span>{{scenario.template.name}}<span></div>\r" +
     "\n" +

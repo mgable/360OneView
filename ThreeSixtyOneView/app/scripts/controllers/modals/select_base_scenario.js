@@ -6,12 +6,26 @@ function($scope, $controller, $modalInstance, CONFIG, data, ScenarioService, Man
 	angular.extend(this, $controller('ListLightboxBaseCtrl', {$scope: $scope, $controller: $controller, $modalInstance: $modalInstance, CONFIG: CONFIG}));
 
 	var projects = [],
+		filteredProjects =[],
 		templates = [],
 		templateFilter = false,
 		projectCollapsed = {},
 
-		init = function() {
+		findScenarioProject = function findScenarioProject(_projects, _scenario) {
+			_projects.forEach(function(project) {
+				project.data.forEach(function(scenario) {
+					if(scenario.id === _scenario.id) {
+						projectCollapsed[project.name] = true;
+					}
+				});
+			});
+		},
+
+		init = function init() {
+			$scope.selectedScenario = data.currentBaseScenario;
+
 			$scope.isListLoaded = false;
+			$scope.searchTerm = '';
 
 			$scope.scenarioTypeItems = ['All Scenarios'];
 			$scope.currentScenarioType = $scope.scenarioTypeItems[0];
@@ -19,10 +33,11 @@ function($scope, $controller, $modalInstance, CONFIG, data, ScenarioService, Man
 			ScenarioService.getAll().then(function(_projects) {
 				$scope.isListLoaded = true;
 				projects = _projects;
+				filteredProjects = _projects;
+				findScenarioProject(_projects, $scope.selectedScenario);
 			});
 
 			ManageTemplatesService.getAll().then(function(_templates) {
-				console.log(_templates);
 				templates = _templates;
 			});
 		};
@@ -45,6 +60,8 @@ function($scope, $controller, $modalInstance, CONFIG, data, ScenarioService, Man
 		} else {
 			templateFilter = template;
 		}
+
+		$scope.filterProjects($scope.searchTerm);
 	};
 
 	$scope.getCurrentTemplate = function() {
@@ -63,11 +80,49 @@ function($scope, $controller, $modalInstance, CONFIG, data, ScenarioService, Man
 		}
 	};
 
-	$scope.getProjects = function() {
-		return projects;
+	$scope.filterProjects = function(searchTerm) {
+		var output = [],
+			filteredProject,
+			projectNameMatch = false;
+
+		if(searchTerm || templateFilter) {
+			projects.forEach(function(project) {
+				projectNameMatch = false;
+
+				filteredProject = {
+					name: project.name,
+					data: []
+				};
+
+				// if project name matches the search term
+				if(project.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1) {
+					projectNameMatch = true;
+				}
+
+				project.data.forEach(function(scenario) {
+					if(scenario.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1 || projectNameMatch) {
+						if(!templateFilter || templateFilter.id === scenario.template.id) {
+							filteredProject.data.push(scenario);
+						}
+					}
+				});
+
+				if(filteredProject.data.length > 0) {
+					output.push(filteredProject);
+				}
+			});
+		} else {
+			output = projects;
+		}
+
+		filteredProjects = output;
 	};
 
-	$scope.isProjectCollapsed = function(project) {
+	$scope.getProjects = function() {
+		return filteredProjects;
+	};
+
+	$scope.isProjectExpanded = function(project) {
 		return projectCollapsed[project.name];
 	};
 
@@ -83,11 +138,13 @@ function($scope, $controller, $modalInstance, CONFIG, data, ScenarioService, Man
 		return scenario.type[0];
 	};
 
+	$scope.selectScenario = function(scenario) {
+		$scope.selectedScenario = scenario;
+	};
 
 	// pass back the selected base scenario and dismiss the modal
 	$scope.submit = function() {
-		var selectedBaseScenario = {};
-		$modalInstance.close(selectedBaseScenario);
+		$modalInstance.close($scope.selectedScenario);
 	};
 
 	init();
