@@ -14,7 +14,11 @@
                 color: $ms-orange;
             }
             .dropdown-menu {
-                left: 60px;
+                left: 0;
+                width: 300px;
+                &::before {
+                    left: 206px;
+                }
             }
         }
         .filters-selector {
@@ -265,14 +269,7 @@
                                         -moz-transition:0.15s linear all;
                                         -o-transition:0.15s linear all;
                                         transition:0.15s linear all;
-                                        background-color: $ms-blue;
-                                        td {
-                                            -webkit-transition:0.15s linear all;
-                                            -moz-transition:0.15s linear all;
-                                            -o-transition:0.15s linear all;
-                                            transition:0.15s linear all;
-                                            color:$ms-pureWhite;
-                                        }
+                                        background-color:darken($ms-white, 5%);
                                     }
                                 }
                             }

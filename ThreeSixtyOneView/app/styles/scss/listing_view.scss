@@ -161,18 +161,7 @@
 					}
 
 					.text-holder {
-						&.template {
-							padding: 3px 5px;
-							color: $ms-white;
-							text-transform: uppercase;
-							font-size: 10px;
-						}
-						&.strategy {
-							background-color: $ms-lightBlue;
-						}
-						&.action {
-							background-color: $ms-green;
-						}
+						display:inline;
 						&.favorites-holder {
 							width:25px;
 						}
@@ -234,7 +223,7 @@
 							text-decoration: none;
 							font-weight: 500;
 							font-size: 11px;
-							text-transform: uppercase;
+							text-transform: capitalize;
 							white-space: nowrap;
 						}
 					}
@@ -262,7 +251,6 @@
 			.ms-label {
 				margin: 5px 0 2px 0;
 				color: $ms-mediumGray;
-				// font-weight: bold;
 				clear:both;
 			}
 			.details {
@@ -330,21 +318,6 @@
 						margin-right: 5px;
 						margin-bottom: 5px;
 					}
-					.text-holder {
-						display: inline;
-					  	&.template {
-						  	padding: 3px 5px;
-						  	color: #fafafa;
-						  	text-transform: uppercase;
-						  	font-size: 10px;
-					  	}
-						&.strategy {
-							background-color: $ms-lightBlue;
-						}
-						&.action {
-							background-color: $ms-green;
-						}
-					}
 				}
 				&.meta {
 					.description-label {
@@ -356,13 +329,13 @@
 						word-wrap: break-word;
 						width: 100%;
 					}
-					.text-holder {
-						.template.strategy {
-							padding: 3px;
-							display: inline-block;
-							background-color: $ms-green;
-						}
-					}
+					// .text-holder {
+					// 	.template.strategy {
+					// 		padding: 3px;
+					// 		display: inline-block;
+					// 		background-color: $ms-green;
+					// 	}
+					// }
 				}
 				&.relatedItems {
 					padding: 0;
@@ -435,4 +408,28 @@
 			}
 		}
 	}
+  	.template {
+	  	color: #333;
+	  	.template-icon {
+			display: inline-block;
+			font-size: 14px;
+			color: $ms-white;
+			border-radius: 3px;
+			margin-right: 2px;
+			height: 17px;
+			width: 17px;
+			line-height: 17px;
+			text-align: center;
+			text-transform: uppercase;
+	  	}
+	  	.template-name {
+	  		text-transform: capitalize;
+	  	}
+		&.strategy {
+			.template-icon { background-color: $ms-lightBlue; };
+		}
+		&.action {
+			.template-icon { background-color: $ms-green; };
+		}
+  	}
 }
