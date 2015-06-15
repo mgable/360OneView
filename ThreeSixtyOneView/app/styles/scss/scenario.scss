@@ -35,85 +35,8 @@
 
 		.scenario-settings {
 			margin: 20px 0 30px 0;
-
-			.dropdown {
-				display: inline-block;
-
-				.dropdown-menu {
-					width: 320px;
-
-					div {
-						.group-title {
-							margin: 10px 15px 3px 20px;
-							color: $ms-gray;
-							border-bottom: 1px solid $ms-mediumGray;
-							font-weight: 700;
-							text-transform: uppercase;
-							font-size: 12px;
-						}
-					}
-
-					&::before {
-						// left: 50px;
-					}
-				}
-
-				.filename {
-					font-size: 16px;
-					margin-left: 15px;
-					vertical-align: bottom;
-					display: inline-block;
-					max-width: 370px;
-
-					i {
-						margin-right: 5px;
-					}
-				}
-
-				.filename-option {
-					font-size: 14px;
-					margin-left: 20px;
-					border-bottom: 1px solid #000;
-
-					i {
-						margin-right: 5px;
-					}
-				}
-			}
-		}
-
-		.scenario-modeling-period {
-			.title {
-				display: inline-block;
-				margin-right: 20px;
-			}
-
-			.period-pickers {
-				display: inline-block;
-
-				.period-range {
-					display: inline-block;
-					margin-right: 20px;
-
-					.subtitle {
-						display: inline-block;
-						margin-right: 10px;
-					}
-
-					.dropdown {
-						.dropdown-toggle {
-							display: inline-block;
-							color: $ms-gray;
-						}
-					}
-				}
-			}
-		}
-
-		.save-status {
-			float: right;
-			margin-top: -40px;
-			color: $ms-mediumGray;
+        	color: $ms-lightGray;
+        	font-size: 14px;
 		}
 
 		.tableHolder {

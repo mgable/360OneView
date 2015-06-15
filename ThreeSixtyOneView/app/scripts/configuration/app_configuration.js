@@ -266,6 +266,7 @@ angular.module('ThreeSixtyOneView.config')
 				},
 				"color": {
 					"msPureWhite": "#fff",
+					"msWhite": "#fafafa",
 					"msLightGray": "#e6e6e6",
 					"msMediumLightGray": "#cdcdcd",
 					"msMediumGray": "#999",

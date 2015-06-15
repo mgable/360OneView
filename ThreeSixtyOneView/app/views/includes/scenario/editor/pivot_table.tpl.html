@@ -1,41 +1,39 @@
-<div>
-    <div class="pivot-table-container">
-        <wij-spread id="pivotTable" class="pivot-table" ng-hide="spread.sheet.empty"
-            newtabvisible           = "false"
-            tabstripvisible         = "false"
-            allowUserResize         = "false"
-            allowUserZoom           = "true"
-            canUserDragFill         = "false"
-            canUserDragDrop         = "false"
-            showVerticalScrollbar   = "true"
-            showHorizontalScrollbar = "true"
-            useWijmoTheme           = "false">
-            <sheets>
-                <sheet datasource="data" name="data"></sheet>
-            </sheets>
-        </wij-spread>
-        <div ng-show="spread.sheet.loading" class="spinner-container">
-            <div class="spinner">
-              <div class="spinner-circle group1">
-                <div class="circle1"></div>
-                <div class="circle2"></div>
-                <div class="circle3"></div>
-                <div class="circle4"></div>
-              </div>
-              <div class="spinner-circle group2">
-                <div class="circle1"></div>
-                <div class="circle2"></div>
-                <div class="circle3"></div>
-                <div class="circle4"></div>
-              </div>
-              <div class="spinner-circle group3">
-                <div class="circle1"></div>
-                <div class="circle2"></div>
-                <div class="circle3"></div>
-                <div class="circle4"></div>
-              </div>
-            </div>
+<div class="pivot-table-container col-md-12 col-xs-12">
+    <wij-spread id="pivotTable" class="pivot-table" ng-hide="spread.sheet.empty"
+        newtabvisible           = "false"
+        tabstripvisible         = "false"
+        allowUserResize         = "false"
+        allowUserZoom           = "true"
+        canUserDragFill         = "false"
+        canUserDragDrop         = "false"
+        showVerticalScrollbar   = "false"
+        showHorizontalScrollbar = "false"
+        useWijmoTheme           = "false">
+        <sheets>
+            <sheet datasource="data" name="data"></sheet>
+        </sheets>
+    </wij-spread>
+    <div ng-show="spread.sheet.loading" class="spinner-container">
+        <div class="spinner">
+          <div class="spinner-circle group1">
+            <div class="circle1"></div>
+            <div class="circle2"></div>
+            <div class="circle3"></div>
+            <div class="circle4"></div>
+          </div>
+          <div class="spinner-circle group2">
+            <div class="circle1"></div>
+            <div class="circle2"></div>
+            <div class="circle3"></div>
+            <div class="circle4"></div>
+          </div>
+          <div class="spinner-circle group3">
+            <div class="circle1"></div>
+            <div class="circle2"></div>
+            <div class="circle3"></div>
+            <div class="circle4"></div>
+          </div>
         </div>
-        <div class="empty-message" ng-show="spread.sheet.empty">No data for selected filters.</div>
     </div>
+    <div class="empty-message" ng-show="spread.sheet.empty">No data for selected filters.</div>
 </div>
