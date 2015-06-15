@@ -689,11 +689,11 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t\t<form>\n" +
     "\t\t\t\t\t\t<div ng-repeat=\"project in getProjects() | filter:searchTerm | orderBy:'auditInfo[lastUpdatedOn]':true\" class=\"project clickable\">\n" +
     "\t\t\t\t\t\t\t<div class=\"project-name text-holder\" ng-click=\"toggleProject(project)\">\n" +
-    "\t\t\t\t\t\t\t\t<icon type=\"caret-right\" ng-if=\"isProjectCollapsed(project)\"></icon><icon type=\"caret-down\" ng-if=\"!isProjectCollapsed(project)\"></icon>{{::project.name}}\n" +
+    "\t\t\t\t\t\t\t\t<icon type=\"caret-right\" ng-if=\"!isProjectExpanded(project)\"></icon><icon type=\"caret-down\" ng-if=\"isProjectExpanded(project)\"></icon>{{::project.name}}\n" +
     "\t\t\t\t\t\t\t</div>\n" +
-    "\t\t\t\t\t\t\t<div class=\"scenarios-list\" ng-class=\"{'collapse': isProjectCollapsed(project)}\">\n" +
-    "\t\t\t\t\t\t\t\t<div ng-repeat=\"scenario in getScenarios(project) | filter:searchTerm | orderBy:'auditInfo[lastUpdatedOn]':true\" class=\"scenario clickable\" ng-class=\"{'selected': isScenarioSelected(scenario)}\" ng-click=\"selectScenario(scenario)\">\n" +
-    "\t\t\t\t\t\t\t\t\t<input type=\"radio\" name=\"baseScenario\" id=\"radio{{scenario.id}}\" model=\"selectedScenario\" value=\"{{scenario.id}}\">\n" +
+    "\t\t\t\t\t\t\t<div class=\"scenarios-list\" ng-class=\"{'collapse': !isProjectExpanded(project)}\">\n" +
+    "\t\t\t\t\t\t\t\t<div ng-repeat=\"scenario in getScenarios(project) | filter:searchTerm | orderBy:'auditInfo[lastUpdatedOn]':true\" class=\"scenario clickable\" ng-click=\"selectScenario(scenario)\">\n" +
+    "\t\t\t\t\t\t\t\t\t<input type=\"radio\" name=\"baseScenario\" id=\"radio{{scenario.id}}\" ng-model=\"selectedScenario.id\" value=\"{{scenario.id}}\">\n" +
     "\t\t\t\t\t\t\t\t\t<label class=\"scenario-item\" for=\"radio{{scenario.id}}\">\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"radio-button\"><icon type=\"circle-o\" class=\"selected\"></icon><icon type=\"dot-circle-o\" class=\"not-selected\"></icon></div>\n" +
     "\t\t\t\t\t\t\t\t\t\t<div class=\"scenario-info text-holder\"><span>{{::scenario.name}}</span></div>\n" +

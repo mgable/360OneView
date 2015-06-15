@@ -39,11 +39,11 @@
 					<form>
 						<div ng-repeat="project in getProjects() | filter:searchTerm | orderBy:'auditInfo[lastUpdatedOn]':true" class="project clickable">
 							<div class="project-name text-holder" ng-click="toggleProject(project)">
-								<icon type="caret-right" ng-if="isProjectCollapsed(project)"></icon><icon type="caret-down" ng-if="!isProjectCollapsed(project)"></icon>{{::project.name}}
+								<icon type="caret-right" ng-if="!isProjectExpanded(project)"></icon><icon type="caret-down" ng-if="isProjectExpanded(project)"></icon>{{::project.name}}
 							</div>
-							<div class="scenarios-list" ng-class="{'collapse': isProjectCollapsed(project)}">
-								<div ng-repeat="scenario in getScenarios(project) | filter:searchTerm | orderBy:'auditInfo[lastUpdatedOn]':true" class="scenario clickable" ng-class="{'selected': isScenarioSelected(scenario)}" ng-click="selectScenario(scenario)">
-									<input type="radio" name="baseScenario" id="radio{{scenario.id}}" model="selectedScenario" value="{{scenario.id}}">
+							<div class="scenarios-list" ng-class="{'collapse': !isProjectExpanded(project)}">
+								<div ng-repeat="scenario in getScenarios(project) | filter:searchTerm | orderBy:'auditInfo[lastUpdatedOn]':true" class="scenario clickable" ng-click="selectScenario(scenario)">
+									<input type="radio" name="baseScenario" id="radio{{scenario.id}}" ng-model="selectedScenario.id" value="{{scenario.id}}">
 									<label class="scenario-item" for="radio{{scenario.id}}">
 										<div class="radio-button"><icon type="circle-o" class="selected"></icon><icon type="dot-circle-o" class="not-selected"></icon></div>
 										<div class="scenario-info text-holder"><span>{{::scenario.name}}</span></div>

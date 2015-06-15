@@ -10,7 +10,19 @@ function($scope, $controller, $modalInstance, CONFIG, data, ScenarioService, Man
 		templateFilter = false,
 		projectCollapsed = {},
 
-		init = function() {
+		findScenarioProject = function findScenarioProject(_projects, _scenario) {
+			_projects.forEach(function(project) {
+				project.data.forEach(function(scenario) {
+					if(scenario.id === _scenario.id) {
+						projectCollapsed[project.name] = true;
+					}
+				});
+			});
+		},
+
+		init = function init() {
+			$scope.selectedScenario = data.currentBaseScenario;
+
 			$scope.isListLoaded = false;
 
 			$scope.scenarioTypeItems = ['All Scenarios'];
@@ -19,10 +31,10 @@ function($scope, $controller, $modalInstance, CONFIG, data, ScenarioService, Man
 			ScenarioService.getAll().then(function(_projects) {
 				$scope.isListLoaded = true;
 				projects = _projects;
+				findScenarioProject(_projects, $scope.selectedScenario);
 			});
 
 			ManageTemplatesService.getAll().then(function(_templates) {
-				console.log(_templates);
 				templates = _templates;
 			});
 		};
@@ -67,7 +79,7 @@ function($scope, $controller, $modalInstance, CONFIG, data, ScenarioService, Man
 		return projects;
 	};
 
-	$scope.isProjectCollapsed = function(project) {
+	$scope.isProjectExpanded = function(project) {
 		return projectCollapsed[project.name];
 	};
 
@@ -83,6 +95,11 @@ function($scope, $controller, $modalInstance, CONFIG, data, ScenarioService, Man
 		return scenario.type[0];
 	};
 
+	$scope.selectScenario = function(scenario) {
+		console.log(scenario);
+		console.log($scope.selectedScenario);
+		$scope.selectedScenario = scenario;
+	};
 
 	// pass back the selected base scenario and dismiss the modal
 	$scope.submit = function() {
