@@ -32,18 +32,159 @@
 	}
 	.display {
 		width: 100%;
-
 		.scenario-settings {
 			margin: 20px 0 30px 0;
         	color: $ms-lightGray;
         	font-size: 14px;
-        	.dropdown {
-            	display: inline-block;
-            }
 	        .dropdown-menu {
 	            color: $ms-black;
 	            border-radius: 3px;
 	        }
+	        .filters-selector {
+	            float: right;
+	            margin-right: 30px;
+	            .dropdown-menu {
+	                left: -366px;
+	                width: 510px !important;
+	                padding: 0;
+	                &::before {
+	                    background-color: $ms-veryLightGray;
+	                    left: 424px;
+	                }
+	                .header {
+	                    background-color: $ms-veryLightGray;
+	                    border-top-left-radius: 2px;
+	                    border-top-right-radius: 2px;
+	                    padding: 20px;
+	                    .title {
+	                        p {
+	                            margin: 0;
+	                            span {
+	                                display: block;
+	                                font-size: 16px;
+	                                font-weight: 700;
+	                                &.draft {
+	                                    font-style: italic;
+	                                }
+	                            }
+	                        }
+	                    }
+	                    .icon {
+	                        position: absolute;
+	                        button {
+	                            height: 35px;
+	                            width: 35px;
+	                            i {
+	                                font-size: 12px;
+	                            }
+	                        }
+	                        &.open-icon {
+	                            top: 28px;
+	                            right: 60px;
+	                        }
+	                        &.save-icon {
+	                            top:28px;
+	                            right: 20px;
+	                        }
+
+	                    }
+	                    .floating-container {
+	                        position: absolute;
+	                        top: 68px;
+	                        right: 20px;
+	                        .sub-icon {
+	                            position: relative;
+	                            margin-bottom: 5px;
+	                            &:hover {
+	                                .floating-text {
+	                                    transition: opacity 0.4s;
+	                                    opacity: 1;
+	                                }
+	                            }
+	                            button {
+	                                width: 35px;
+	                                height: 35px;
+	                                i {
+	                                    font-size: 12px;
+	                                }
+	                            }
+	                            .floating-text{
+	                                opacity: 0;
+	                                transition: opacity 0.4s;
+	                                position: absolute;
+	                                top: 0;
+	                                right: 40px;
+	                                line-height: 35px;
+	                                color:$ms-white;
+	                                text-align:right;
+	                                min-width: 100px;
+	                                .floating-text-BG{
+	                                    padding: 5px 10px;
+	                                    background-color:rgba(33, 33, 33, 0.8);
+	                                    border-radius: 3px;
+	                                }
+	                            }
+	                        }
+	                    }
+	                }
+	                .content {
+	                    padding: 10px 20px;
+	                    .editor {
+	                        .toggle-switch {
+	                            display: inline-block;
+
+	                            .toggle-switch-title {
+	                                float: left;
+	                                margin-right: 10px;
+	                                line-height: 24px;
+	                            }
+	                            .switch {
+	                                font-size: 14px;
+	                                padding: 2px 8px;
+	                                width: 40px;
+	                                text-align: center;
+	                            }
+	                        }
+	                        .filter-content {
+	                            margin-top: 20px;
+	                            .filter-category-list {
+	                                .filter-values {
+	                                    margin-left: 0;
+	                                    max-width: 200px;
+	                                }
+	                                &.disabled {
+	                                    .filter-label {
+	                                        color: $ms-gray;
+	                                    }
+	                                    .filter-values {
+	                                        color: $ms-gray;
+	                                    }
+	                                }
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	        .time-selector {
+	        	display: inline-block;
+	            float: right;
+	        	i { margin-right: 5px; }
+	        }
+		}
+
+		.scenario-content {
+        	margin: 0;
+        	.left-content {
+	            float: left;
+	            padding: 0 30px 0 0;
+	            width: 300px;
+        	}
+        	.right-content {
+	            float: left;
+	            padding: 0;
+	            width: calc(100% - 300px);
+        	}
 		}
 
 		.tableHolder {

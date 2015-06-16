@@ -1,43 +1,34 @@
 <div class="scenario-settings row" data-ms-id="ScenarioEdit.analysisElements" ng-controller="AnalysisElementCtrl">
-	<div class="dropdown" ng-show="isScenarioStrategy()">
-		<span class="dropdown-toggle">
-			<icon type="line-chart"></icon>&nbsp;{{selectedScenarioElement.cubeMeta.label}}&nbsp;<icon type="caret-down"></icon>
-		</span>
+	<div class="replace" ng-show="isScenarioStrategy()">
 		<span ng-hide="isHiddenElement(selectedScenarioElement)" data-ms-id="ScenarioEdit.copyReplaceElementHolder">
-			<!-- <span class="filename text-holder" title="{{selectedScenarioElementsFile}}"><icon type="file-text-o"></icon>{{selectedScenarioElementsFile}}</span> -->
 			<span data-ms-id="ScenarioEdit.replaceElement" ng-click="openScenarioElementFileModal(scenario.id, selectedScenarioElement, e2e)" class="filename-option clickable" ng-class="{disabled: readOnlyMode}"><icon type="folder-open-o"></icon>Replace</span>
 			<span data-ms-id="ScenarioEdit.copyElement" ng-click="openScenarioElementCopyModal(scenario.id, selectedScenarioElement)" class="filename-option clickable" ng-class="{disabled: readOnlyMode}"><icon type="folder-open-o"></icon>Copy &amp; Replace</span>
 		</span>
-		<ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenarioElement.cubeMeta.id}}" radio="true">
-			<div ng-repeat="(groupLabel, group) in getGroupedScenarioElements()">
-				<div class="group-title">{{groupLabel}}</div>
-				<li class="menu-item" ng-repeat="element in group | orderBy:'cubeMeta.label'" ms-link="{{element.cubeMeta.id}}" ng-click="setScenarioElement(element, true)">
-					<span class="clickable">{{element.cubeMeta.label}}</span>
-				</li>
-			</div>
-		</ul>
 	</div>
 	<div class="scenario-modeling-period" ng-show="!isScenarioStrategy()">
 		<div class="title">Historical performance period</div>
 		<div class="period-pickers">
 			<div class="period-range">
-				<div class="subtitle">From</div>
-				<div class="dropdown">
-					<div class="dropdown-toggle">{{fromDate.label}}</div>
+				<span class="subtitle">From</span>
+				<span class="dropdown">
+					<span class="dropdown-toggle">{{fromDate.label}}</span>
 					<ul class="dropdown-menu" ng-if="!readOnlyMode" ms-link-group selected-item="{{fromDate.id}}" radio="true">
 						<li class="menu-item" ng-repeat="item in modelingPeriod" ms-link="{{item.id}}" ng-hide="item.label > toDate.label" ng-click="setFromDate(item)">{{item.label}}</li>
 					</ul>
-				</div>
+				</span>
 			</div>
 			<div class="period-range">
-				<div class="subtitle">To</div>
-				<div class="dropdown">
-					<div class="dropdown-toggle">{{toDate.label}}</div>
+				<span class="subtitle">To</span>
+				<span class="dropdown">
+					<span class="dropdown-toggle">{{toDate.label}}</span>
 					<ul class="dropdown-menu" ng-if="!readOnlyMode" ms-link-group selected-item="{{toDate.id}}" radio="true">
 						<li class="menu-item" ng-repeat="item in modelingPeriod" ms-link="{{item.id}}" ng-hide="item.label < fromDate.label" ng-click="setToDate(item)">{{item.label}}</li>
 					</ul>
-				</div>
+				</span>
 			</div>
 		</div>
 	</div>
+    <div class="time-selector">
+        <icon type="calendar"></icon>&nbsp;Date
+    </div>
 </div>

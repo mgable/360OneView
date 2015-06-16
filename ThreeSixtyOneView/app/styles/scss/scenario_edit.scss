@@ -2,84 +2,105 @@
 
 .scenario_edit {
     .scenario-settings {
-        .dropdown-menu {
-            width: 320px;
+        .replace {
+            display: inline-block;
+        }
+        .scenario-modeling-period {
+            display: inline-block;
+            .title {
+                display: inline;
+                margin-right: 20px;
+            }
 
-            div {
-                .group-title {
-                    margin: 10px 15px 3px 20px;
-                    color: $ms-gray;
-                    border-bottom: 1px solid $ms-mediumGray;
-                    font-weight: 700;
-                    text-transform: uppercase;
-                    font-size: 12px;
+            .period-pickers {
+                display: inline;
+
+                .period-range {
+                    display: inline;
+                    margin-right: 20px;
+
+                    .subtitle {
+                        margin-right: 10px;
+                    }
+
+                    .dropdown {
+                        .dropdown-toggle {
+                            color: $ms-gray;
+                        }
+                        .dropdown-menu {
+                            width: 100px;
+                            left: -50px;
+                            &:before {
+                                left: 46%;
+                            }
+                        }
+                    }
                 }
             }
-
-            &::before {
-                left: 92px;
-            }
         }
-
         .filename {
             font-size: 16px;
             margin-left: 15px;
             vertical-align: bottom;
             display: inline-block;
             max-width: 370px;
-
             i {
                 margin-right: 5px;
             }
         }
-
         .filename-option {
             font-size: 14px;
-            margin-left: 20px;
+            margin-right: 20px;
             border-bottom: 1px solid #000;
-
             i {
                 margin-right: 5px;
             }
         }
     }
-    .scenario-modeling-period {
-        .title {
-            display: inline-block;
-            margin-right: 20px;
-        }
-
-        .period-pickers {
-            display: inline-block;
-
-            .period-range {
-                display: inline-block;
-                margin-right: 20px;
-
-                .subtitle {
-                    display: inline-block;
-                    margin-right: 10px;
+    .scenario-content {
+        .left-content {
+            .group {
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+                border-bottom: 1px solid $ms-lightGray;
+                &:last-child {
+                    padding-bottom: 0;
+                    margin-bottom: 0;
+                    border-bottom: 1px solid transparent;
                 }
-
-                .dropdown {
-                    .dropdown-toggle {
-                        display: inline-block;
-                        color: $ms-gray;
-                    }
-                    .dropdown-menu {
-                        width: 100px;
-                        left: -50px;
-                        &:before {
-                            left: 46%;
+                .group-title {
+                    color: $ms-mediumGray;
+                    .group-info {
+                        color: $ms-lightGray;
+                        float: right;
+                        cursor: pointer;
+                        &:hover {
+                            color: darken($ms-lightGray,5%);
                         }
                     }
                 }
+                .group-item {
+                    padding: 5px 30px;
+                    margin-left: -30px;
+                    margin-right: -30px;
+                    font-size: 16px;
+                    color: $ms-blue;
+                    cursor:pointer;
+                    &:hover {
+                        background-color: $ms-lightGray;
+                    }
+                    &.selected {
+                        background-color: darken($ms-lightGray,5%);
+                    }
+                }
             }
         }
-    }
-    .save-status {
-        float: right;
-        font-size: 14px;
-        color: $ms-black;
+        .right-content {
+            .save-status {
+                float: right;
+                font-size: 14px;
+                color: $ms-black;
+            }
+        }
     }
 }

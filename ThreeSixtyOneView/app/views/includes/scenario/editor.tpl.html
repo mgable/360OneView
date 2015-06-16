@@ -1,13 +1,29 @@
 <div class="scenario_edit">
     <ng-include src="'views/includes/scenario/editor/analysis_element_toolbar.tpl.html'"></ng-include>
-    <div class="ms-card">
-        <div class="ms-card-title">{{selectedScenarioElementsFile}}
-            <span class="ms-card-info"><icon type="info-circle"></icon></span>
-            <span class="save-status">{{pivotTableSaveStatus}}</span>
+    <div class="row scenario-content">
+        <div class="left-content">
+            <div class="ms-card" ng-controller="AnalysisElementCtrl">
+                <ul ms-link-group selected-item="{{selectedScenarioElement.cubeMeta.id}}" radio="true">
+                    <section class="group" ng-repeat="(groupLabel, group) in getGroupedScenarioElements()">
+                        <div class="group-title">{{groupLabel}}<span class="group-info"><icon type="info-circle"></icon></span></div>
+                        <li class="group-item" ng-repeat="element in group | orderBy:'cubeMeta.label'" ms-link="{{element.cubeMeta.id}}" ng-click="setScenarioElement(element, true)">
+                            <span class="clickable">{{element.cubeMeta.label}}</span>
+                        </li>
+                    </section>
+                </ul>
+            </div>
         </div>
-        <div class="ms-card-content row">
-            <ng-include src="'views/includes/scenario/editor/pivot_toolbar.tpl.html'"></ng-include>
-            <ng-include src="'views/includes/scenario/editor/pivot_table.tpl.html'" ng-controller="PivotTableCtrl" onload="init()"></ng-include>
+        <div class="right-content">
+            <div class="ms-card animated slideInUp">
+                <div class="ms-card-title">{{selectedScenarioElementsFile}}
+                    <span class="ms-card-info"><icon type="info-circle"></icon></span>
+                    <span class="save-status">{{pivotTableSaveStatus}}</span>
+                </div>
+                <div class="ms-card-content row">
+                    <ng-include src="'views/includes/scenario/editor/pivot_toolbar.tpl.html'"></ng-include>
+                    <ng-include src="'views/includes/scenario/editor/pivot_table.tpl.html'" ng-controller="PivotTableCtrl" onload="init()"></ng-include>
+                </div>
+            </div>
         </div>
     </div>
 </div>

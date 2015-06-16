@@ -210,6 +210,13 @@
 							  }
 							}
 						}
+
+						.name {
+							display: inline-block;
+							color: $ms-mediumGray;
+							text-transform: capitalize;
+							margin-left: 10px;
+						}
 					}
 				}
 				thead {
