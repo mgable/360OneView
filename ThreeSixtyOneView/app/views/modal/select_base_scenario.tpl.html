@@ -23,7 +23,7 @@
 							</div>
 							<ul class="dropdown-menu" ms-link-group selected-item="{{getCurrentTemplate().text}}" radio="true">
 								<li ng-click="changeTemplate('ALL')" class="menu-item" ms-link="All">All</li>
-								<li ng-repeat="template in getTemplates()" ng-click="changeTemplate(template)" class="menu-item" ms-link="{{template.name}}">
+								<li ng-repeat="template in getTemplates() | orderBy:'name'" ng-click="changeTemplate(template)" class="menu-item" ms-link="{{template.name}}">
 									<span class="template-icon">{{::getTemplateIcon(template)}}</span>
 									<span class="">{{::template.name}}</span>
 								</li>

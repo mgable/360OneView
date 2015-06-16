@@ -347,9 +347,40 @@
 					display: inline-block;
 					float: left;
 
-					.type-logo {}
+					.type-logo {
+						background-color: $ms-white;
+						margin-right: 5px;
+						padding: 1px 3px ;
 
-					.type-text {}
+						.marketshare-logo {
+							width: 13px;
+							vertical-align: middle;
+							fill: $ms-blue;
+							stroke: $ms-blue;
+						}
+
+						.type-initial {
+							margin-left: -3px;
+							color: $ms-blue;
+						}
+
+						&.action {
+							.marketshare-logo {
+								fill: $ms-green;
+								stroke: $ms-green;
+							}
+
+							.type-initial {
+								color: $ms-green;
+							}
+						}
+					}
+
+					.type-text {
+						width: 280px;
+						display: inline-block;
+						vertical-align: bottom;
+					}
 				}
 
 				.change {

@@ -1250,7 +1250,7 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t\t\t\t\t\t\t\t<li ng-click=\"changeTemplate('ALL')\" class=\"menu-item\" ms-link=\"All\">All</li>\r" +
     "\n" +
-    "\t\t\t\t\t\t\t\t<li ng-repeat=\"template in getTemplates()\" ng-click=\"changeTemplate(template)\" class=\"menu-item\" ms-link=\"{{template.name}}\">\r" +
+    "\t\t\t\t\t\t\t\t<li ng-repeat=\"template in getTemplates() | orderBy:'name'\" ng-click=\"changeTemplate(template)\" class=\"menu-item\" ms-link=\"{{template.name}}\">\r" +
     "\n" +
     "\t\t\t\t\t\t\t\t\t<span class=\"template-icon\">{{::getTemplateIcon(template)}}</span>\r" +
     "\n" +

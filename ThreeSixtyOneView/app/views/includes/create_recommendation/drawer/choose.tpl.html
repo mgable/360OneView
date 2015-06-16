@@ -7,11 +7,15 @@
 
 		<div class="base-scenario-info">
 			<div class="header">Base Scenario</div>
-			<div class="name">Plan of Record</div>
+			<div class="name text-holder">{{baseScenario.name}}</div>
 			<div class="options">
 				<div class="type">
-					<span class="type-logo">S</span>
-					<span class="type-text">Portfolio</span>
+					<span class="type-logo" ng-class="{'action': isTemplateTypeAction(baseScenario)}">
+						<svg-icon type="logo-white" class="marketshare-logo"></svg-icon>
+						<span class="type-initial" ng-hide="isTemplateTypeAction(baseScenario)">S</span>
+						<span class="type-initial" ng-show="isTemplateTypeAction(baseScenario)">A</span>
+					</span>
+					<span class="type-text text-holder">{{baseScenario.template.name}}</span>
 				</div>
 				<span class="change clickable" ng-click="openBaseScenarioModal()"><icon type="folder-open-o" cname="change-icon"></icon>Change</span>
 			</div>
