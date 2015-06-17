@@ -8,8 +8,8 @@
  * Controller of the threeSixtOneViewApp
  */
 angular.module('ThreeSixtyOneView')
-.controller('CreateRecommendationCtrl', ['$scope', '$stateParams', '$q', 'EVENTS', 'ScenarioService', 'ProjectsService', 'ManageTemplatesService', 'MetaDataService', 'ManageAnalysisViewsService', 'GotoService', 'ManageOptimizationService', 'PivotMetaService',
-function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, ManageTemplatesService, MetaDataService, ManageAnalysisViewsService, GotoService, ManageOptimizationService, PivotMetaService) {
+.controller('CreateRecommendationCtrl', ['$scope', '$stateParams', '$q', 'EVENTS', 'ScenarioService', 'ProjectsService', 'ManageTemplatesService', 'MetaDataService', 'ManageAnalysisViewsService', 'GotoService', 'ManageOptimizationService',
+function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, ManageTemplatesService, MetaDataService, ManageAnalysisViewsService, GotoService, ManageOptimizationService) {
 	var baseScenario,
 		masterProject,
 		spendCubeId,
@@ -219,46 +219,43 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 		GotoService.createRecommendationAssumptions();
 	};
 
-	// $scope.setUpDimensions = function(dimensions, addedMembers) {
-	// 	// empty the default view if previously created, to avoid conflicts if used dimensions are modified
-	// 	$scope.newRecommendation.dimensions = [];
-	// 	_.each(dimensions, function(_dimension, _dimensionIndex) {
-	// 		if(_dimension.type === 'TimeDimension') {
-	// 			return;
-	// 		}
+	$scope.setUpDimensions = function(filters, dimensions) {
+		var newDimension,
+			addedDimensions = [];
 
-	// 		var dimension = {
-	// 				id: _dimension.id,
-	// 				label: _dimension.label,
-	// 				type: _dimension.type,
-	// 				attributes: []
-	// 			};
+		// empty the default view if previously created, to avoid conflicts if used dimensions are modified
+		$scope.newRecommendation.dimensions = [];
 
-	// 		_.each(_dimension.members,function(_attribute, _attributeIndex) {
-	// 			var attribute = {
-	// 					id: _attribute.id,
-	// 					specification: {}
-	// 				},
-	// 				members = [];
+		filters.forEach(function(filter) {
+			newDimension = dimensions.filter(function(dimension) {
+				return dimension.id === filter.scope.dimension.id;
+			})[0];
 
-	// 			members = PivotMetaService.getCategorizeValues(_dimension, addedMembers[_dimension.label], _attributeIndex);
+			if(newDimension.type === 'TimeDimension' || addedDimensions.indexOf(newDimension.id) > -1) {
+				return;
+			}
 
-	// 			if(members.selected === members.total) {
-	// 				attribute.specification.type = 'All';
-	// 			} else {
-	// 				attribute.specification.type = 'Include';
-	// 				attribute.specification.members = [];
-	// 				_.each(members.id, function(_id) {
-	// 					attribute.specification.members.push({id: _id});
-	// 				})
-	// 			}
+			addedDimensions.push(newDimension.id);
 
-	// 			dimension.attributes.push(attribute);
-	// 		});
-	// 		$scope.newRecommendation.dimensions.push(dimension);
-	// 	});
-	// 	// addTimeDimension(addedMembers);
-	// };
+			newDimension = {
+				id: newDimension.id,
+				type: newDimension.type,
+				label: newDimension.label,
+				attribute: {
+					id: filter.scope.level.id
+				}
+			};
+
+			newDimension.attribute.specification = filter.value.specification;
+			if(newDimension.attribute.specification.type === 'Absolute') {
+				newDimension.attribute.specification.type = 'Include';
+			}
+
+			$scope.newRecommendation.dimensions.push(newDimension);
+		});
+
+		// addTimeDimension(addedMembers);
+	};
 
 	$scope.cancel = function() {
 		// delete the temporary spend view created
@@ -270,22 +267,19 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 	};
 
 	$scope.submit = function() {
-		// PivotMetaService.getAddedFilters($scope.viewData.filters, $scope.spendCube);
-		// console.log(spendDimensions.concat(outcomeSpecificDimensions));
-		// console.log($scope.timeDimension);
-		// $scope.setUpDimensions();
 		var allFilters = [];
+
 		if(baseScenario.template.type === 'Strategy') {
 			allFilters = [].concat(spendView.filters, outcomeView.filters);
 		} else {
 			allFilters = [].concat(spendView.filters);
 		}
-		console.log(allFilters);
-		
+		$scope.setUpDimensions(allFilters, [].concat(spendDimensions, outcomeDimensions));
+
 		console.log($scope.newScenario);
 		console.log($scope.newRecommendation);
-		return;
-		ScenarioService.create($stateParams.projectId, scenario).then(function(_newScenario){
+		// return;
+		ScenarioService.create($stateParams.projectId, $scope.newScenario).then(function(_newScenario){
 			console.log('created scenario', _newScenario);
 			ManageOptimizationService.create(_newScenario.id, $scope.newRecommendation).then(function(_newRecommendation) {
 				console.log('created recommendation', _newRecommendation);
