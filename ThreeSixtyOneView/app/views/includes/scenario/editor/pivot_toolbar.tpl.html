@@ -1,86 +1,5 @@
 <div class="editor col-md-12 col-xs-12">
 	<tabset tabs-control>
-		<!-- <tab ng-controller="PivotBuilderCtrl" expand-collapse-control-disabled="{{saveAs}}" expand-collapse-control="#pivotBuilder">
-			<tab-heading>
-				<div class="ms-title">
-					<icon type="eye"></icon>
-					<div class="text" ng-hide="saveAs" title="{{viewData.name}}">{{viewData.name}}</div>
-				</div>
-				<div class="saveAsBox" ng-show="saveAs">
-					<form name="newViewName" novalidate>
-						<input type="text" ng-pattern="CONFIG.application.inputRestrictions.characterRestrictions" required ng-maxlength="256" ng-minlength="2" ng-model="saveAsName" ui-keyup="{'esc': 'cancelSaveAs()', 'enter': 'submitSaveAs()'}">
-						<button class="btn btn-xs submit" ng-click="submitSaveAs($event)" ng-disabled="(newViewName.$dirty && newViewName.$invalid) || newViewName.$pristine"><icon type="check"></icon></button>
-						<button class="btn btn-xs cancel" ng-click="cancelSaveAs($event)"><icon type="remove"></icon></button>
-					</form>
-				</div>
-			</tab-heading>
-			<div id="pivotBuilder" class="content">
-				<div class="slider">
-					<div class="toolbar">
-						<div class="toggle-switch clickable" ms-link-group selected-item="table" radio="true">
-							<div class="switch" ng-click="showTable(false);" ms-link="table"><icon type="table"></icon></div>
-							<div class="switch" ng-click="showTable(true);" ms-link="filters"><icon type="filter"></icon></div>
-						</div>
-
-						<div class="save-menu">
-							<div class="dropdown">
-								<span class="ms-button clickable" ng-click="saveView()" >
-									<icon type="save"></icon>Save View
-								</span>
-								<span class="dropdown-toggle dropdown-button clickable">
-									<icon type="caret-down"></icon>
-								</span>
-								<ul class="dropdown-menu">
-									<li class="menu-item" ng-click="startSaveAs(viewData.name)"><icon type="save"></icon>Save As</li>
-									<li class="menu-item" ng-click="revertView()"><icon type="undo"></icon>Revert</li>
-									<li class="menu-item" ng-click="startRename()"><icon type="pencil"></icon>Rename</li>
-								</ul>
-							</div>
-						</div>
-
-						<div class="recent-items">
-							<div class="dropdown">
-								<span class="dropdown-toggle clickable">
-									<icon type="eye"></icon>Recent Views<icon type="caret-down"></icon>
-								</span>
-								<ul class="dropdown-menu" ms-link-group selected-item="{{viewData.id}}" radio="true">
-									<li ng-repeat="view in getViewsList() | orderBy:'-auditInfo.createdOn' | limitTo:5" ms-link="{{view.id}}" class="menu-item" ng-click="loadView(cubeId, view.id);">
-										<icon type="eye"></icon>{{view.name}}
-									</li>
-									<hr>
-									<li class="menu-item" ng-click="openAllViewsModal()"><icon type="folder-open-o"></icon>All Views</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-
-					<div id="dragDropArea" ng-hide="isFiltersVisible">
-						<div ng-repeat="pivotBuilderItem in getPivotBuilderItems()" class="dimensions-list" ng-if="viewData">
-							<div class="title">{{pivotBuilderItem.label}}</div>
-							<div class="list" data-as-sortable="dragOptions" ng-model="viewData[pivotBuilderItem.name]" tabindex="-1">
-								<div class="" data-as-sortable-item style="display:inline-block;width:5px;height:26px;vertical-align:top;margin:0;" ng-if="isDragging">
-									<span data-as-sortable-item-handle></span>
-								</div>
-								<draggable-dimension ng-repeat="item in getViewData(pivotBuilderItem.name)" row-or-col="{{pivotBuilderItem.name}}" template="draggable_dimension"></draggable-dimension>
-								<draggable-dimension row-or-col="{{pivotBuilderItem.name}}" template="add_dimension_button" ng-hide="isDragging"></draggable-dimension>
-							</div>
-						</div>
-					</div>
-
-					<div class="dimensions-list filters-list" ng-show="isFiltersVisible">
-						<div class="title">Filters</div>
-						<div class="list">
-							<dimension-filter ng-repeat="dimension in getDimensions()" ng-if="addedFilters[dimension.label]" dimension="dimension" categorized-values="categorizedValue[$index]" action="filtersModal(dimension)"></dimension-filter>
-						</div>
-					</div>
-					<div class="collapse-handle">
-						<span class="clickable" ng-click="cancelSaveAs();" collapse-control target-area="#pivotBuilder">
-							<icon type="chevron-up"></icon>Collapse
-						</span>
-					</div>
-				</div>
-			</div>
-		</tab> -->
 		<tab expand-collapse-control="#dragDropArea" ng-controller="PivotBuilderCtrl">
 			<tab-heading>
 				<div class="header">
@@ -101,16 +20,16 @@
 				</div>
 			</div>
 		</tab>
-		<tab expand-collapse-control="#replace" ng-controller="AnalysisElementCtrl">
+		<tab expand-collapse-control="#replaceBody" ng-controller="AnalysisElementCtrl">
 			<tab-heading>
 				<div class="header">
 					<icon type="exchange"></icon>&nbsp;Replace with another file
 				</div>
 			</tab-heading>
-			<div class="content slider import-export">
+			<div id="replaceBody" class="content hidden slider import-export">
 				<div class="slider-title">Replace with another file</div>
-				<div id="replace" class="replace" ng-show="isScenarioStrategy()">
-					<span ng-hide="isHiddenElement(selectedScenarioElement)" data-ms-id="ScenarioEdit.copyReplaceElementHolder">
+				<div class="replace" ng-hide="isHiddenElement(selectedScenarioElement)" >
+					<span data-ms-id="ScenarioEdit.copyReplaceElementHolder">
 						<span data-ms-id="ScenarioEdit.replaceElement" ng-click="openScenarioElementFileModal(scenario.id, selectedScenarioElement, e2e)" class="filename-option clickable" ng-class="{disabled: readOnlyMode}"><icon type="folder-open-o"></icon>Replace</span>
 						<span data-ms-id="ScenarioEdit.copyElement" ng-click="openScenarioElementCopyModal(scenario.id, selectedScenarioElement)" class="filename-option clickable" ng-class="{disabled: readOnlyMode}"><icon type="folder-open-o"></icon>Copy &amp; Replace</span>
 					</span>
