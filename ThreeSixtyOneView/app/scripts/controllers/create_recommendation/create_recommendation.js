@@ -8,8 +8,8 @@
  * Controller of the threeSixtOneViewApp
  */
 angular.module('ThreeSixtyOneView')
-.controller('CreateRecommendationCtrl', ['$scope', '$stateParams', '$q', 'EVENTS', 'ScenarioService', 'ProjectsService', 'ManageTemplatesService', 'MetaDataService', 'ManageAnalysisViewsService', 'GotoService',
-function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, ManageTemplatesService, MetaDataService, ManageAnalysisViewsService, GotoService) {
+.controller('CreateRecommendationCtrl', ['$scope', '$stateParams', '$q', 'EVENTS', 'ScenarioService', 'ProjectsService', 'ManageTemplatesService', 'MetaDataService', 'ManageAnalysisViewsService', 'GotoService', 'ManageOptimizationService', 'PivotMetaService',
+function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, ManageTemplatesService, MetaDataService, ManageAnalysisViewsService, GotoService, ManageOptimizationService, PivotMetaService) {
 	var baseScenario,
 		masterProject,
 		spendCubeId,
@@ -18,15 +18,32 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 		outcomeCubeId,
 		outcomeDimensions,
 		outcomeSpecificDimensions,
+		outcomeView,
 		isSpendCubeLoaded = false,
 		isOutcomeCubeLoaded = false,
 		drawerSource,
 
 		init = function init() {
+			$scope.newScenario = {
+				name: '',
+				description: '',
+				prediction: {
+					type: 'Optimization'
+				},
+				type: '',
+				isPlanOfRecord: false,
+				referenceScenario: {},
+				template: {}
+			};
+
 			$scope.newRecommendation = {
-					name: '',
-					description: '',
-					goal: {}
+					dimensions: [],
+					kpi: {
+						id: 0,
+						name: '',
+						label: ''
+					},
+					spendValue: 0
 				};
 			$scope.timeDimension = {};
 			$scope.spendDimensions = [];
@@ -44,7 +61,10 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 		getAllScenarios = function getAllScenarios() {
 			ScenarioService.getAll().then(function(projects) {
 				masterProject = getMasterProject(projects);
+
 				baseScenario = masterProject.data[masterProject.data.length  - 1];
+				$scope.setBaseScenario(baseScenario);
+
 				getSpendCube(baseScenario.template.id);
 				getOutcomeCube(baseScenario.template.id);
 			});
@@ -124,14 +144,14 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 
 			if(requiredKpis.length > 0) {
 				// select one of the required kpis by default
-				$scope.newRecommendation.goal.id = requiredKpis[0].id;
-				$scope.newRecommendation.goal.name = requiredKpis[0].name;
-				$scope.newRecommendation.goal.label = requiredKpis[0].label;
+				$scope.newRecommendation.kpi.id = requiredKpis[0].id;
+				$scope.newRecommendation.kpi.name = requiredKpis[0].name;
+				$scope.newRecommendation.kpi.label = requiredKpis[0].label;
 			} else {
 				// select the first kpi by default
-				$scope.newRecommendation.goal.id = $scope.kpis[0].id;
-				$scope.newRecommendation.goal.name = $scope.kpis[0].name;
-				$scope.newRecommendation.goal.label = $scope.kpis[0].label;
+				$scope.newRecommendation.kpi.id = $scope.kpis[0].id;
+				$scope.newRecommendation.kpi.name = $scope.kpis[0].name;
+				$scope.newRecommendation.kpi.label = $scope.kpis[0].label;
 			}
 
 			$scope.$broadcast(EVENTS.outcomeDimensionsReady, outcomeCubeId, outcomeDimensions, outcomeSpecificDimensions);
@@ -139,6 +159,22 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 
 	$scope.getBaseScenario = function() {
 		return baseScenario;
+	};
+
+	$scope.setBaseScenario = function(_baseScenario) {
+		$scope.newScenario.type = _baseScenario.type;
+
+		$scope.newScenario.referenceScenario = {
+			id: _baseScenario.id,
+			name: _baseScenario.name,
+			type: _baseScenario.type
+		};
+
+		$scope.newScenario.template = {
+			id: _baseScenario.template.id,
+			name: _baseScenario.template.name,
+			type: _baseScenario.template.type
+		};
 	};
 
 	$scope.getSpendCubeId = function() {
@@ -151,6 +187,10 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 
 	$scope.setSpendView = function(view) {
 		spendView = view;
+	};
+
+	$scope.setOutcomeView = function(view) {
+		outcomeView = view;
 	};
 
 	var drawerContent;
@@ -179,6 +219,47 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 		GotoService.createRecommendationAssumptions();
 	};
 
+	// $scope.setUpDimensions = function(dimensions, addedMembers) {
+	// 	// empty the default view if previously created, to avoid conflicts if used dimensions are modified
+	// 	$scope.newRecommendation.dimensions = [];
+	// 	_.each(dimensions, function(_dimension, _dimensionIndex) {
+	// 		if(_dimension.type === 'TimeDimension') {
+	// 			return;
+	// 		}
+
+	// 		var dimension = {
+	// 				id: _dimension.id,
+	// 				label: _dimension.label,
+	// 				type: _dimension.type,
+	// 				attributes: []
+	// 			};
+
+	// 		_.each(_dimension.members,function(_attribute, _attributeIndex) {
+	// 			var attribute = {
+	// 					id: _attribute.id,
+	// 					specification: {}
+	// 				},
+	// 				members = [];
+
+	// 			members = PivotMetaService.getCategorizeValues(_dimension, addedMembers[_dimension.label], _attributeIndex);
+
+	// 			if(members.selected === members.total) {
+	// 				attribute.specification.type = 'All';
+	// 			} else {
+	// 				attribute.specification.type = 'Include';
+	// 				attribute.specification.members = [];
+	// 				_.each(members.id, function(_id) {
+	// 					attribute.specification.members.push({id: _id});
+	// 				})
+	// 			}
+
+	// 			dimension.attributes.push(attribute);
+	// 		});
+	// 		$scope.newRecommendation.dimensions.push(dimension);
+	// 	});
+	// 	// addTimeDimension(addedMembers);
+	// };
+
 	$scope.cancel = function() {
 		// delete the temporary spend view created
 		if(spendView) {
@@ -186,6 +267,31 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 		}
 
 		GotoService.dashboard($stateParams.projectId);
+	};
+
+	$scope.submit = function() {
+		// PivotMetaService.getAddedFilters($scope.viewData.filters, $scope.spendCube);
+		// console.log(spendDimensions.concat(outcomeSpecificDimensions));
+		// console.log($scope.timeDimension);
+		// $scope.setUpDimensions();
+		var allFilters = [];
+		if(baseScenario.template.type === 'Strategy') {
+			allFilters = [].concat(spendView.filters, outcomeView.filters);
+		} else {
+			allFilters = [].concat(spendView.filters);
+		}
+		console.log(allFilters);
+		
+		console.log($scope.newScenario);
+		console.log($scope.newRecommendation);
+		return;
+		ScenarioService.create($stateParams.projectId, scenario).then(function(_newScenario){
+			console.log('created scenario', _newScenario);
+			ManageOptimizationService.create(_newScenario.id, $scope.newRecommendation).then(function(_newRecommendation) {
+				console.log('created recommendation', _newRecommendation);
+				GotoService.scenarioEdit($stateParams.projectId, _newScenario.id);
+			});
+		});
 	};
 
 	init();
