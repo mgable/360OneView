@@ -2,9 +2,6 @@
 
 .scenario_edit {
     .scenario-settings {
-        .replace {
-            display: inline-block;
-        }
         .scenario-modeling-period {
             display: inline-block;
             .title {
@@ -36,24 +33,6 @@
                         }
                     }
                 }
-            }
-        }
-        .filename {
-            font-size: 16px;
-            margin-left: 15px;
-            vertical-align: bottom;
-            display: inline-block;
-            max-width: 370px;
-            i {
-                margin-right: 5px;
-            }
-        }
-        .filename-option {
-            font-size: 14px;
-            margin-right: 20px;
-            border-bottom: 1px solid #000;
-            i {
-                margin-right: 5px;
             }
         }
     }

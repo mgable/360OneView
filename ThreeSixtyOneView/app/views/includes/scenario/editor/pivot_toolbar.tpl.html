@@ -101,7 +101,7 @@
 				</div>
 			</div>
 		</tab>
-		<tab expand-collapse-control="#" ng-controller="PivotBuilderCtrl">
+		<tab expand-collapse-control="#replace" ng-controller="AnalysisElementCtrl">
 			<tab-heading>
 				<div class="header">
 					<icon type="exchange"></icon>&nbsp;Replace with another file
@@ -109,6 +109,12 @@
 			</tab-heading>
 			<div class="content slider import-export">
 				<div class="slider-title">Replace with another file</div>
+				<div id="replace" class="replace" ng-show="isScenarioStrategy()">
+					<span ng-hide="isHiddenElement(selectedScenarioElement)" data-ms-id="ScenarioEdit.copyReplaceElementHolder">
+						<span data-ms-id="ScenarioEdit.replaceElement" ng-click="openScenarioElementFileModal(scenario.id, selectedScenarioElement, e2e)" class="filename-option clickable" ng-class="{disabled: readOnlyMode}"><icon type="folder-open-o"></icon>Replace</span>
+						<span data-ms-id="ScenarioEdit.copyElement" ng-click="openScenarioElementCopyModal(scenario.id, selectedScenarioElement)" class="filename-option clickable" ng-class="{disabled: readOnlyMode}"><icon type="folder-open-o"></icon>Copy &amp; Replace</span>
+					</span>
+				</div>
 			</div>
 		</tab>
 		<tab expand-collapse-control="#importBody" ng-controller="ImportCtrl">
