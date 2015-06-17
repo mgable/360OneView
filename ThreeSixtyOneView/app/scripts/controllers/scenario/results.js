@@ -63,8 +63,6 @@ angular.module('ThreeSixtyOneView').controller('scenarioResultsCtrl',
                 $scope.selectedScenario = _.find($scope.scenariosList, function(scenario) { return scenario.id === $scope.scenario.referenceScenario.id; });
             }
 
-            console.log($scope.selectedScenario);
-
         });
     },
 

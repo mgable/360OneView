@@ -79,6 +79,7 @@
                     }
                     .spend-summary{
                         .spend-table {
+                            table-layout: fixed;
                             width: 100%;
                             thead {
                                 background: transparent;

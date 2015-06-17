@@ -1,6 +1,6 @@
 <div class="editor col-md-12 col-xs-12">
 	<tabset tabs-control>
-		<tab ng-controller="PivotBuilderCtrl" expand-collapse-control-disabled="{{saveAs}}" expand-collapse-control="#pivotBuilder">
+		<!-- <tab ng-controller="PivotBuilderCtrl" expand-collapse-control-disabled="{{saveAs}}" expand-collapse-control="#pivotBuilder">
 			<tab-heading>
 				<div class="ms-title">
 					<icon type="eye"></icon>
@@ -80,19 +80,49 @@
 					</div>
 				</div>
 			</div>
-		</tab>
-		<tab expand-collapse-control="#importBody">
+		</tab> -->
+		<tab expand-collapse-control="#dragDropArea" ng-controller="PivotBuilderCtrl">
 			<tab-heading>
 				<div class="header">
-					<icon type="download"></icon>&nbsp;Import
+					<icon type="table"></icon>&nbsp;Rows & Columns
 				</div>
 			</tab-heading>
-			<ng-include src="'views/includes/scenario/editor/import.tpl.html'" ng-controller="ImportCtrl"></ng-include>
+			<div id="dragDropArea" class="content slider import-export">
+				<div class="slider-title">Rows & Columns</div>
+				<div ng-repeat="pivotBuilderItem in getPivotBuilderItems()" class="dimensions-list" ng-if="viewData">
+					<div class="title">{{pivotBuilderItem.label}}</div>
+					<div class="list" data-as-sortable="dragOptions" ng-model="viewData[pivotBuilderItem.name]" tabindex="-1">
+						<div class="" data-as-sortable-item style="display:inline-block;width:5px;height:26px;vertical-align:top;margin:0;" ng-if="isDragging">
+							<span data-as-sortable-item-handle></span>
+						</div>
+						<draggable-dimension ng-repeat="item in getViewData(pivotBuilderItem.name)" row-or-col="{{pivotBuilderItem.name}}" template="draggable_dimension"></draggable-dimension>
+						<draggable-dimension row-or-col="{{pivotBuilderItem.name}}" template="add_dimension_button" ng-hide="isDragging"></draggable-dimension>
+					</div>
+				</div>
+			</div>
+		</tab>
+		<tab expand-collapse-control="#" ng-controller="PivotBuilderCtrl">
+			<tab-heading>
+				<div class="header">
+					<icon type="exchange"></icon>&nbsp;Replace with another file
+				</div>
+			</tab-heading>
+			<div class="content slider import-export">
+				<div class="slider-title">Replace with another file</div>
+			</div>
+		</tab>
+		<tab expand-collapse-control="#importBody" ng-controller="ImportCtrl">
+			<tab-heading>
+				<div class="header">
+					<icon type="cloud-download"></icon>&nbsp;Import
+				</div>
+			</tab-heading>
+			<ng-include src="'views/includes/scenario/editor/import.tpl.html'"></ng-include>
 		</tab>
 		<tab expand-collapse-control="#exportBody" ng-controller="ExportCtrl">
 			<tab-heading>
 				<div class="header" ng-click="setupExportView()" id="exportHeader">
-					<icon type="upload"></icon>&nbsp;Export
+					<icon type="cloud-upload"></icon>&nbsp;Export
 				</div>
 			</tab-heading>
 			<ng-include src="'views/includes/scenario/editor/export.tpl.html'"></ng-include>
