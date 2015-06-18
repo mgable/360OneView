@@ -97,7 +97,6 @@ function ($scope, $rootScope, $q, EVENTS, PivotMetaService, DialogService, Manag
 	$scope.$on(EVENTS.dimensionsReady, function(event, dimensions) {
 		spendDimensions = dimensions;
 		baseScenario = $scope.getBaseScenario(),
-		// spendCubeId = $scope.getSpendCubeId();
 
 		getTotalSpend(baseScenario, $scope.getSpendCubeId(), dimensions);
 	});
