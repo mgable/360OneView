@@ -1,4 +1,4 @@
-<div class="kpi-summary col-md-5ths col-xs-5ths animated fadeIn" ng-repeat="kpiSummaryDatum in kpiSummaryData">
+<div class="kpi-summary col-md-5ths col-xs-5ths" ng-repeat="kpiSummaryDatum in kpiSummaryData">
 	<div class="kpi-title" title="{{kpiSummaryDatum.title}}">{{kpiSummaryDatum.title}}</div>
 	<div class="kpi-incremental kpi-{{kpiSummaryDatum.direction}}">
 		<icon class="kpi-arrow" type="{{addPrefix(kpiSummaryDatum.direction, kpiSummaryDatum.incremental, 'arrow')}}"></icon>{{kpiSummaryDatum.currency}}{{kpiSummaryDatum.incremental | nrFormat}}
