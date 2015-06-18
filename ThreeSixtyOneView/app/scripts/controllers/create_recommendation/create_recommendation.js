@@ -61,12 +61,8 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 		getAllScenarios = function getAllScenarios() {
 			ScenarioService.getAll().then(function(projects) {
 				masterProject = getMasterProject(projects);
-
-				baseScenario = masterProject.data[masterProject.data.length  - 1];
-				$scope.setBaseScenario(baseScenario);
-
-				getSpendCube(baseScenario.template.id);
-				getOutcomeCube(baseScenario.template.id);
+				// by default, make the last scenario in master project the base scenario
+				$scope.setBaseScenario(masterProject.data[masterProject.data.length  - 1]);
 			});
 		},
 		getMasterProject = function getMasterProject(projects) {
@@ -162,6 +158,8 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 	};
 
 	$scope.setBaseScenario = function(_baseScenario) {
+		baseScenario = _baseScenario;
+
 		$scope.newScenario.type = _baseScenario.type;
 
 		$scope.newScenario.referenceScenario = {
@@ -175,6 +173,9 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 			name: _baseScenario.template.name,
 			type: _baseScenario.template.type
 		};
+
+		getSpendCube(baseScenario.template.id);
+		getOutcomeCube(baseScenario.template.id);
 	};
 
 	$scope.getSpendCubeId = function() {
