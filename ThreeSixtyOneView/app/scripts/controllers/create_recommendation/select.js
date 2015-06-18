@@ -71,6 +71,7 @@ function ($scope, $rootScope, $q, EVENTS, PivotMetaService, DialogService, Manag
 		updateTotalSpend = function updateTotalSpend(analysisElementId, spendViewId) {
 			ReportsService.getSummary(analysisElementId, spendViewId).then(function(spendSummary) {
 				$scope.totalBudget = spendSummary[0].Spend ? spendSummary[0].Spend.value : spendSummary[0].SPEND.value;
+				$scope.newRecommendation.spendValue = $scope.totalBudget;
 			});
 		};
 	$scope.getSpendDimensions = function() {
@@ -85,6 +86,7 @@ function ($scope, $rootScope, $q, EVENTS, PivotMetaService, DialogService, Manag
 			PivotMetaService.updateView(spendCubeId, $scope.viewData).then(function(view) {
 				updateTotalSpend(spendElement.id, $scope.viewData.id);
 			});
+			$scope.setSpendView($scope.viewData);
 		};
 
 		DialogService.filtersModal(category, $scope.addedFilters, $scope.viewData.rows.concat($scope.viewData.columns), $scope.spendDimensions, filtersModalCallback);

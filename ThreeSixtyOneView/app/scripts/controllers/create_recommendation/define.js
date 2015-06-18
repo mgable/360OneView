@@ -24,6 +24,7 @@ function ($scope, EVENTS, DialogService, ManageAnalysisViewsService, PivotMetaSe
 		createOutcomeView = function createOutcomeView(_spendView, _outcomeCubeId, _outcomeDimensions) {
 			PivotMetaService.createEmptyView(_outcomeDimensions, {id: _outcomeCubeId, label: 'Recommendation ' + Date.now()}, _spendView.id).then(function(_outcomeView) {
 				outcomeView = _outcomeView;
+				$scope.setOutcomeView(_outcomeView);
 
 				$scope.addedFilters = PivotMetaService.getAddedFilters(_outcomeView.filters, _outcomeDimensions);
 				membersList = PivotMetaService.generateMembersList(_outcomeDimensions);
@@ -32,9 +33,9 @@ function ($scope, EVENTS, DialogService, ManageAnalysisViewsService, PivotMetaSe
 		};
 
 	$scope.selectKpi = function(kpi) {
-		$scope.newRecommendation.goal.id = kpi.id;
-		$scope.newRecommendation.goal.name = kpi.name;
-		$scope.newRecommendation.goal.label = kpi.label;
+		$scope.newRecommendation.kpi.id = kpi.id;
+		$scope.newRecommendation.kpi.name = kpi.name;
+		$scope.newRecommendation.kpi.label = kpi.label;
 	};
 
 	$scope.getOutcomeDimensions = function() {
@@ -53,6 +54,8 @@ function ($scope, EVENTS, DialogService, ManageAnalysisViewsService, PivotMetaSe
 			$scope.addedFilters = newFilterData;
 			outcomeView.filters = PivotMetaService.updateFilters(outcomeDimensions, newFilterData, membersList, outcomeView.filters);
 			$scope.categorizedValue = PivotMetaService.generateCategorizeValueStructure(newFilterData, outcomeDimensions, outcomeView);
+
+			$scope.setOutcomeView(outcomeView);
 		};
 
 		DialogService.filtersModal(category, $scope.addedFilters, outcomeView.rows.concat(outcomeView.columns), outcomeSpecificDimensions, filtersModalCallback);

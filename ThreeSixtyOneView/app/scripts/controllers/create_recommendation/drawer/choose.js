@@ -18,6 +18,7 @@ function ($scope, DialogService) {
 
 		dialog.result.then(function(data) {
 			$scope.baseScenario = data;
+			$scope.setBaseScenario(data);
 		});
 	};
 
