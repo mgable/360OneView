@@ -38,41 +38,6 @@
     }
     .scenario-content {
         .left-content {
-            .group {
-                padding-bottom: 10px;
-                margin-bottom: 20px;
-                border-bottom: 1px solid $ms-lightGray;
-                &:last-child {
-                    padding-bottom: 0;
-                    margin-bottom: 0;
-                    border-bottom: 1px solid transparent;
-                }
-                .group-title {
-                    color: $ms-mediumGray;
-                    .group-info {
-                        color: $ms-lightGray;
-                        float: right;
-                        cursor: pointer;
-                        &:hover {
-                            color: darken($ms-lightGray,5%);
-                        }
-                    }
-                }
-                .group-item {
-                    padding: 5px 30px;
-                    margin-left: -30px;
-                    margin-right: -30px;
-                    font-size: 16px;
-                    color: $ms-blue;
-                    cursor:pointer;
-                    &:hover {
-                        background-color: $ms-lightGray;
-                    }
-                    &.selected {
-                        background-color: darken($ms-lightGray,5%);
-                    }
-                }
-            }
         }
         .right-content {
             .save-status {

@@ -2,7 +2,7 @@
     <ng-include src="'views/includes/scenario/editor/analysis_element_toolbar.tpl.html'"></ng-include>
     <div class="row scenario-content">
         <div class="left-content">
-            <div class="ms-card" ng-controller="AnalysisElementCtrl">
+            <div class="ms-card animated bounceInLeft" ng-controller="AnalysisElementCtrl">
                 <ul ms-link-group selected-item="{{selectedScenarioElement.cubeMeta.id}}" radio="true">
                     <section class="group" ng-repeat="(groupLabel, group) in getGroupedScenarioElements()">
                         <div class="group-title">{{groupLabel}}<span class="group-info"><icon type="info-circle"></icon></span></div>
@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="right-content">
-            <div class="ms-card animated slideInUp">
+            <div class="ms-card animated slideInUp" style="animation-delay: 1s;">
                 <div class="ms-card-title">{{selectedScenarioElementsFile}}
                     <span class="ms-card-info"><icon type="info-circle"></icon></span>
                     <span class="save-status">{{pivotTableSaveStatus}}</span>

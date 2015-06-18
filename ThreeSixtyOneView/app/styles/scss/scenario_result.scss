@@ -20,19 +20,6 @@
     }
     .scenario-content {
         .left-content {
-            ul.nav-menu {
-                border-radius: 3px;
-                background-color: $ms-white;
-                padding: 10px 0;
-                font-size: 18px;
-                li {
-                    padding: 10px 20px;
-                    cursor: pointer;
-                    &:hover, &.selected {
-                        background-color: darken($ms-white, 5%);
-                    }
-                }
-            }
         }
         .right-content {
             .ms-card {

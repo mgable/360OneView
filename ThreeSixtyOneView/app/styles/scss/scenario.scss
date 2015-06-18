@@ -1,7 +1,7 @@
 @import "variables";
 
 .scenario {
-	.toggle-header {
+	.scenario-header {
 		height: 50px;
 		border-bottom: 1px solid $ms-darkGray;
 		margin-top: -50px;
@@ -10,23 +10,6 @@
 			.toggle-btn {
 				display: inline-block;
 				margin-left: 10px;
-			}
-		}
-	}
-	.details {
-		margin: 0 0 20px 0;
-		.media {
-			margin: 0 0 20px 0;
-		}
-		form {
-			display:inline-block;
-		}
-		.results {
-			display:inline-block;
-			margin:0 0 0 10px;
-			cursor:pointer;
-			&.disabled {
-				color:$ms-gray;
 			}
 		}
 	}
@@ -180,6 +163,41 @@
 	            float: left;
 	            padding: 0 30px 0 0;
 	            width: 300px;
+	            .group {
+	                padding-bottom: 10px;
+	                margin-bottom: 20px;
+	                border-bottom: 1px solid $ms-lightGray;
+	                &:last-child {
+	                    padding-bottom: 0;
+	                    margin-bottom: 0;
+	                    border-bottom: 1px solid transparent;
+	                }
+	                .group-title {
+	                    color: $ms-mediumGray;
+	                    .group-info {
+	                        color: $ms-lightGray;
+	                        float: right;
+	                        cursor: pointer;
+	                        &:hover {
+	                            color: darken($ms-lightGray,5%);
+	                        }
+	                    }
+	                }
+	                .group-item {
+	                    padding: 5px 30px;
+	                    margin-left: -30px;
+	                    margin-right: -30px;
+	                    font-size: 16px;
+	                    color: $ms-blue;
+	                    cursor:pointer;
+	                    &:hover {
+	                        background-color: $ms-lightGray;
+	                    }
+	                    &.selected {
+	                        background-color: darken($ms-lightGray,5%);
+	                    }
+	                }
+	            }
         	}
         	.right-content {
 	            float: left;

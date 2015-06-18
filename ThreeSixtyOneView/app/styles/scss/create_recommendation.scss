@@ -84,11 +84,10 @@
 
 	.main {
 		display: table;
-
 		.column-fix {
-		display: table-cell;
-		float: none;
-	}
+			display: table-cell;
+			float: none;
+		}
 	}
 
 	.buttons {
