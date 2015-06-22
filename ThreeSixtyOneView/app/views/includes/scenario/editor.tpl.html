@@ -7,7 +7,8 @@
                     <section class="group" ng-repeat="(groupLabel, group) in getGroupedScenarioElements()">
                         <div class="group-title">{{groupLabel}}<span class="group-info"><icon type="info-circle"></icon></span></div>
                         <li class="group-item" ng-repeat="element in group | orderBy:'cubeMeta.label'" ms-link="{{element.cubeMeta.id}}" ng-click="setScenarioElement(element, true)">
-                            <span class="clickable">{{element.cubeMeta.label}}</span>
+                            <span class="clickable hide-overflow item-category" title="{{element.cubeMeta.label}}">{{element.cubeMeta.label}}:</span>
+                            <span class="clickable hide-overflow item-name" title="{{element.name}}">{{element.name}}</span>
                         </li>
                     </section>
                 </ul>

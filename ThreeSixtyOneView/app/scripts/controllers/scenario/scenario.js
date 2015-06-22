@@ -49,7 +49,11 @@ angular.module('ThreeSixtyOneView')
 			}
 		},
 		getGroupedScenarioElements = function(){
-			return  _.groupBy($scope.scenarioElements, function(element) {return element.group;});
+			var tmpGroup = _.groupBy($scope.scenarioElements, function(element) {return element.group;}),
+				returnGroup = {};
+			returnGroup = _.omit( tmpGroup, 'Cost Assumption', 'Non-Marketing Drivers' );
+			returnGroup.Assumptions = _.union( tmpGroup['Cost Assumption'], tmpGroup['Non-Marketing Drivers'] );
+			return returnGroup;
 		};
 
 		$scope.setScenarioElement = function(element, cubeChanged) {
