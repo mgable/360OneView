@@ -64,6 +64,7 @@ function ($scope, EVENTS, DialogService, ManageAnalysisViewsService, PivotMetaSe
 	$scope.$on(EVENTS.outcomeDimensionsReady, function(event, _outcomeCubeId, _outcomeDimensions, _outcomeSpecificDimensions) {
 		// only for strategy scenarios
 		if($scope.getBaseScenario().template.type !== 'Strategy') {
+			outcomeSpecificDimensions = false;
 			return;
 		}
 
@@ -80,6 +81,7 @@ function ($scope, EVENTS, DialogService, ManageAnalysisViewsService, PivotMetaSe
 	$scope.$on(EVENTS.spendViewCreated, function(event, _spendView) {
 		// only for strategy scenarios
 		if($scope.getBaseScenario().template.type !== 'Strategy') {
+			outcomeSpecificDimensions = false;
 			return;
 		}
 
