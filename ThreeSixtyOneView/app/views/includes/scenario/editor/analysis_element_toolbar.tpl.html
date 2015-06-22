@@ -26,9 +26,15 @@
         <icon type="calendar"></icon>&nbsp;Date
     </div>
     <div class="dropdown filters-selector" ng-controller="PivotBuilderCtrl">
-        <icon type="filter"></icon>&nbsp;
         <span class="dropdown-toggle clickable">
-			Filters&nbsp;<icon type="caret-down"></icon>
+            <div class="editor">
+                <icon class="filters-icon" type="filter"></icon>&nbsp;
+                <span class="filters-list">
+                    <span class="list">
+                        <dimension-filter ng-repeat="dimension in getDimensions()" ng-if="addedFilters[dimension.label]" dimension="dimension" categorized-values="categorizedValue[$index]" view="inline"></dimension-filter>&nbsp;<icon type="caret-down"></icon>
+                    </span>
+                </span>
+            </div>
 		</span>
         <div class="dropdown-menu" ng-click="$event.stopPropagation()">
             <div class="header">
@@ -76,7 +82,7 @@
                         <div class="col-md-12">
                             <div class="dimensions-list filters-list">
                                 <div class="list">
-									<dimension-filter ng-repeat="dimension in getDimensions()" ng-if="addedFilters[dimension.label]" dimension="dimension" categorized-values="categorizedValue[$index]" action="filtersModal(dimension)" list-view="true"></dimension-filter>
+									<dimension-filter ng-repeat="dimension in getDimensions()" ng-if="addedFilters[dimension.label]" dimension="dimension" categorized-values="categorizedValue[$index]" action="filtersModal(dimension)" view="list"></dimension-filter>
                                 </div>
                             </div>
                         </div>

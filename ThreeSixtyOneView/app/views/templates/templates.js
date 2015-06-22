@@ -44,6 +44,21 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
+  $templateCache.put('views/directives/dimension_filter_inline.tpl.html',
+    "<div class=\"filter-category-inline clickable\" title=\"{{getFormattedLabels(categorizedValues.label)}}\">\r" +
+    "\n" +
+    "    <span class=\"filter-label\" ng-if=\"categorizedValues.selected < categorizedValues.total\">\r" +
+    "\n" +
+    "        {{dimension.label}}\r" +
+    "\n" +
+    "        <span class=\"filter-stats\">({{categorizedValues.selected}}/{{categorizedValues.total}})</span>\r" +
+    "\n" +
+    "    </span>\r" +
+    "\n" +
+    "</div>"
+  );
+
+
   $templateCache.put('views/directives/dimension_filter_list.tpl.html',
     "<div class=\"filter-category-list clickable\" ng-click=\"callAction(dimension)\">\r" +
     "\n" +

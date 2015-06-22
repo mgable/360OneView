@@ -16,9 +16,15 @@
         <icon type="calendar"></icon>&nbsp;Date
     </div>
     <div class="dropdown filters-selector">
-        <icon type="filter"></icon>&nbsp;
         <span class="dropdown-toggle clickable">
-			Filters&nbsp;<icon type="caret-down"></icon>
+            <div class="editor">
+                <icon class="filters-icon" type="filter"></icon>&nbsp;
+                <span class="filters-list">
+                    <span class="list">
+                        <dimension-filter ng-repeat="dimension in spendDimensions" ng-if="spendAddedFilters[dimension.label]" dimension="dimension" categorized-values="spendCategorizedValue[$index]" view="inline"></dimension-filter>&nbsp;<icon type="caret-down"></icon>
+                    </span>
+                </span>
+            </div>
 		</span>
         <div class="dropdown-menu" ng-click="$event.stopPropagation()">
             <div class="header">

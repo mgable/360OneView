@@ -270,6 +270,13 @@
 					}
 				}
 			}
+
+			.filter-category-inline {
+				display: inline;
+				.filter-label:hover {
+					text-decoration: underline;
+				}
+			}
 		}
 	}
 

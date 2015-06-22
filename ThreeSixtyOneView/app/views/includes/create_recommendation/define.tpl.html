@@ -22,7 +22,7 @@
 	<div class="editor">
 		<div class="filters-list">
 			<div class="list">
-				<dimension-filter ng-repeat="dimension in getOutcomeDimensions()" ng-if="addedFilters[dimension.label] && isOutcomeDimensionVisible(dimension)" dimension="dimension" categorized-values="categorizedValue[$index]" action="filtersModal(dimension)" list-view="true"></dimension-filter>
+				<dimension-filter ng-repeat="dimension in getOutcomeDimensions()" ng-if="addedFilters[dimension.label] && isOutcomeDimensionVisible(dimension)" dimension="dimension" categorized-values="categorizedValue[$index]" action="filtersModal(dimension)" view="list"></dimension-filter>
 			</div>
 		</div>
 	</div>
