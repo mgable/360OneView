@@ -49,10 +49,20 @@ angular.module('ThreeSixtyOneView')
 			}
 		},
 		getGroupedScenarioElements = function(){
-			var tmpGroup = _.groupBy($scope.scenarioElements, function(element) {return element.group;}),
+			var tmpGroup = _.groupBy( $scope.scenarioElements, function(element) {return element.group;} ),
 				returnGroup = {};
-			returnGroup = _.omit( tmpGroup, 'Cost Assumption', 'Non-Marketing Drivers' );
-			returnGroup.Assumptions = _.union( tmpGroup['Cost Assumption'], tmpGroup['Non-Marketing Drivers'] );
+			if ( _.has(tmpGroup, 'Cost Assumption') && _.has(tmpGroup, 'Non-Marketing Drivers') ) {
+				returnGroup = _.omit( tmpGroup, 'Cost Assumption', 'Non-Marketing Drivers' );
+				returnGroup.Assumptions = _.union( tmpGroup['Cost Assumption'], tmpGroup['Non-Marketing Drivers'] );
+			} else if ( _.has(tmpGroup, 'Cost Assumption') ) {
+				returnGroup = _.omit( tmpGroup, 'Cost Assumption' );
+				returnGroup.Assumptions = tmpGroup['Cost Assumption'];
+			} else if ( _.has(tmpGroup, 'Non-Marketing Drivers') ) {
+				returnGroup = _.omit( tmpGroup, 'Non-Marketing Drivers' );
+				returnGroup.Assumptions = tmpGroup['Non-Marketing Drivers'];
+			} else {
+				returnGroup = tmpGroup;
+			}
 			return returnGroup;
 		};
 

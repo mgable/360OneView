@@ -27,12 +27,13 @@
 	            float: right;
 	            margin-right: 30px;
 	            .dropdown-menu {
-	                left: -366px;
+				  	right: -80px;
+				  	left: inherit;
 	                width: 510px !important;
 	                padding: 0;
 	                &::before {
 	                    background-color: $ms-veryLightGray;
-	                    left: 448px;
+	                    left: 420px;
 	                }
 	                .header {
 	                    background-color: $ms-veryLightGray;
