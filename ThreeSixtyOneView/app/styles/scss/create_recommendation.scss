@@ -26,58 +26,64 @@
 			}
 			.sub-view {
 				position: relative;
-				margin: 25px 0 0 0;
-
-				svg {
-					text-align: center;
-
-					&.line-stroke {
-						stroke: white;
-						stroke-width: 1px;
-					}
-
-					&.sub-view-icon {
-						float: left;
-						margin: 0 15px 0 0;
-						width: 50px;
-						height: 50px;
-					}
-				}
 
 				.budget-box {
-					position: absolute;
-					bottom: 40px;
-					right: 0;
-					background-color: $ms-darkGreen;
-					height: 222px;
-					width: 266px;
-					border-radius: 3px;
-					&:before {
-						right: 100%;
-						top: 50%;
-						border: solid transparent;
-						content: " ";
-						height: 0;
-						width: 0;
-						position: absolute;
-						pointer-events: none;
-						border-right-color: $ms-darkGreen;
-						border-width: 5px 12px;
-	  					margin-top: -12px;
-					}
-					.budget-text {
-						@include vertical-align;
-						color: $ms-pureWhite;
-						text-align: center;
-						.budget-description {
-							font-size: 20px;
-							line-height: 22px;
-						}
-						.budget-number {
-							font-size: 30px;
-							line-height: 32px;
-						}
-					}
+				    position: absolute;
+				    bottom: 20px;
+				    right: 0;
+				    width: 378px;
+				    height: 200px;
+				    border-radius: 3px 3px 3px 3px;
+				    background-color: #78909c;
+				    .icon-container {
+				        position: relative;
+				        float: left;
+				        width: 30%;
+				        height: 100%;
+				        background-color: #4f6e7e;
+				        border-radius: 3px 0px 0px 3px;
+				        display: table;
+				        .budget-icon {
+				        	width: 54px;
+				        	height: 64px;
+				        	path {
+				        		fill: #a3becc;
+				        	}
+				        }
+				    }
+				    .number-container {
+				        position: relative;
+				        float: right;
+				        width: 70%;
+				        height: 100%;
+				        color: $ms-white;
+				        display: table;
+				        .description {
+				        	font-size: 20px;
+				        	line-height: 32px;
+				        }
+				        .number {
+				            margin: 10px 0 30px 0;
+				        	font-size: 32px;
+				        	line-height: 32px;
+				        }
+				        .action {
+				        	font-size: 14px;
+				        	line-height: 32px;
+				            a {
+				            	text-decoration: none;
+				            	color: $ms-white;
+				                border-bottom-width: 1px;
+				                border-bottom-style: solid;
+				                padding-bottom: 1px;
+				            }
+				        }
+				    }
+				    .budget-wrapper {
+				        display: table-cell;
+				        text-align: center;
+				        vertical-align: middle;
+				    }
 				}
 
 				.date-container {
@@ -85,7 +91,7 @@
 					margin-bottom: 15px;
 				}
 
-				.budget-column{
+				.budget-column {
 					width: 287px;
 					float: right;
 				}
@@ -108,10 +114,6 @@
 				.header {
 					font-size: 35px;
 					line-height: 35px;
-				}
-
-				.register{
-					margin: 50px 0 0 0;
 				}
 
 				.filters {

@@ -89,7 +89,6 @@ $app_tray_width: 360px;
 @mixin transition($d:"0.3s", $s:"linear", $c:"all") {
   -webkit-transition: #{$d} #{$s} #{$c};
   transition: #{$d} #{$s} #{$c};
-  display: block !important;
 }
 
 @mixin placeholder {
@@ -211,12 +210,12 @@ $app_tray_width: 360px;
 			color: $color;
 			font-weight: bold;
 			outline: none;
+            @include transition($d:"0.4s", $s:"ease-in-out", $c:"all");
 		}
 	}
 	label {
 		width: 160px;
 		height: 75px;
-		/*padding: 23px 0 0 0;*/
 		text-align: center;
 		color: $ms-mediumLightGray;
 		font-size: 18px;
@@ -224,11 +223,13 @@ $app_tray_width: 360px;
 		background-color: $ms-pureWhite;
 		border: 1px solid $ms-lightGray;
 		border-radius: 5px;
+        @include transition($d:"0.4s", $s:"ease-in-out", $c:"all");
 
 		&:hover {
 			cursor: pointer;
 			color: $ms-pureWhite;
 			background-color: $ms-lightGray;
+            @include transition($d:"0.4s", $s:"ease-in-out", $c:"all");
 		}
 	}
 }

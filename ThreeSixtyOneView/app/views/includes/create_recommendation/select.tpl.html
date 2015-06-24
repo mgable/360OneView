@@ -1,5 +1,5 @@
 <div ng-controller="CreateRecommendationSelectCtrl" class="sub-view">
-	<div class="row register">
+	<div class="row">
 		<div class="col-md-7">
 			<div class="row date-container">
 				<div class="col-md-5">
@@ -30,9 +30,17 @@
 		</div>
 	</div>
 	<div class="budget-box">
-		<div class="budget-text">
-			<p class="budget-description">Budget based on scope</p>
-			<p class="budget-number">{{totalBudget | currency}}</p>
-		</div>
+	  <div class="icon-container">
+	    <div class="budget-wrapper">
+	      <svg-icon class="budget-icon" type="budget"></svg-icon>
+	    </div>
+	  </div>
+	  <div class="number-container">
+	    <div class="budget-wrapper">
+	      <div class="description">Budget based on scope</div>
+	      <div class="number hide-overflow" title="{{totalBudget | currency}}">{{totalBudget | currency}}</div>
+	      <div class="action"><a href="">Change?</a></div>
+	    </div>
+	  </div>
 	</div>
 </div>
