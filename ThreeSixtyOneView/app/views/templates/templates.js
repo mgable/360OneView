@@ -647,6 +647,76 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
+  $templateCache.put('views/modal/select_base_scenario.tpl.html',
+    "<div class=\"choose-base-scenario\" data-ms-id=\"chooseBaseScenario\">\n" +
+    "\t<div class=\"header\">\n" +
+    "\t\t<div class=\"title\">Select recommendation base scenario</div>\n" +
+    "\t</div>\n" +
+    "\t<div class=\"body\">\n" +
+    "\t\t<div class=\"content\">\n" +
+    "\t\t\t<div class=\"main-content\">\n" +
+    "\t\t\t\t<div class=\"toolbar\">\n" +
+    "\t\t\t\t\t<div class=\"dropdown-box scenario-type\">\n" +
+    "\t\t\t\t\t\t<div class=\"dropdown\">\n" +
+    "\t\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\"><span class=\"text\">{{currentScenarioType}}</span><icon type=\"caret-down\"></icon></div>\n" +
+    "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{currentScenarioType}}\" radio=\"true\">\n" +
+    "\t\t\t\t\t\t\t\t<li ng-repeat=\"item in scenarioTypeItems\" ng-click=\"changeScenarioType(item)\" class=\"menu-item\" ms-link=\"{{currentScenarioType}}\">{{::item}}</li>\n" +
+    "\t\t\t\t\t\t\t</ul>\n" +
+    "\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t<div class=\"dropdown-box template-type\">\n" +
+    "\t\t\t\t\t\t<div class=\"dropdown\">\n" +
+    "\t\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\">\n" +
+    "\t\t\t\t\t\t\t\t<span class=\"template-icon\" ng-if=\"getCurrentTemplate().isIconVisible\">{{getCurrentTemplate().icon}}</span>\n" +
+    "\t\t\t\t\t\t\t\t<span class=\"text\">{{getCurrentTemplate().text}}</span>\n" +
+    "\t\t\t\t\t\t\t\t<icon type=\"caret-down\"></icon>\n" +
+    "\t\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{getCurrentTemplate().text}}\" radio=\"true\">\n" +
+    "\t\t\t\t\t\t\t\t<li ng-click=\"changeTemplate('ALL')\" class=\"menu-item\" ms-link=\"All\">All</li>\n" +
+    "\t\t\t\t\t\t\t\t<li ng-repeat=\"template in getTemplates() | orderBy:'name'\" ng-click=\"changeTemplate(template)\" class=\"menu-item\" ms-link=\"{{template.name}}\">\n" +
+    "\t\t\t\t\t\t\t\t\t<span class=\"template-icon\">{{::getTemplateIcon(template)}}</span>\n" +
+    "\t\t\t\t\t\t\t\t\t<span class=\"\">{{::template.name}}</span>\n" +
+    "\t\t\t\t\t\t\t\t</li>\n" +
+    "\t\t\t\t\t\t\t</ul>\n" +
+    "\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t<div class=\"search-box\">\n" +
+    "\t\t\t\t\t\t<icon type=\"search\"></icon>\n" +
+    "\t\t\t\t\t\t<input type=\"text\" ng-model=\"searchTerm\" ng-keyup=\"filterProjects(searchTerm)\" placeholder=\"Search\">\n" +
+    "\t\t\t\t\t</div>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t\t<div class=\"list-box\">\n" +
+    "\t\t\t\t\t<form>\n" +
+    "\t\t\t\t\t\t<div ng-repeat=\"project in getProjects() | orderBy:'auditInfo[lastUpdatedOn]':true\" class=\"project clickable\">\n" +
+    "\t\t\t\t\t\t\t<div class=\"project-name text-holder\" ng-click=\"toggleProject(project)\">\n" +
+    "\t\t\t\t\t\t\t\t<icon type=\"caret-right\" ng-if=\"!isProjectExpanded(project)\"></icon><icon type=\"caret-down\" ng-if=\"isProjectExpanded(project)\"></icon>{{::project.name}}\n" +
+    "\t\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t\t<div class=\"scenarios-list\" ng-class=\"{'collapse': !isProjectExpanded(project)}\">\n" +
+    "\t\t\t\t\t\t\t\t<div ng-repeat=\"scenario in getScenarios(project) | orderBy:'auditInfo[lastUpdatedOn]':true\" class=\"scenario clickable\" ng-click=\"selectScenario(scenario)\">\n" +
+    "\t\t\t\t\t\t\t\t\t<input type=\"radio\" name=\"baseScenario\" id=\"radio{{scenario.id}}\" ng-model=\"selectedScenario.id\" value=\"{{scenario.id}}\">\n" +
+    "\t\t\t\t\t\t\t\t\t<label class=\"scenario-item\" for=\"radio{{scenario.id}}\">\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"radio-button\"><icon type=\"circle-o\" class=\"selected\"></icon><icon type=\"dot-circle-o\" class=\"not-selected\"></icon></div>\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"scenario-info text-holder\"><span>{{::scenario.name}}</span></div>\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"scenario-meta text-holder\">{{::scenario.auditInfo.lastUpdatedOn | timeago}}, {{::scenario.auditInfo.createdBy.name}}</div>\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"scenario-template-type text-holder\"><span class=\"template-icon\">{{::getTemplateIcon(scenario.template)}}</span><span>{{scenario.template.name}}<span></div>\n" +
+    "\t\t\t\t\t\t\t\t\t</label>\n" +
+    "\t\t\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t</form>\n" +
+    "\t\t\t\t\t<div ng-hide=\"isListLoaded\" class=\"status-message\"><icon type=\"refresh\" class=\"fa-spin\"></icon>Loading data ...</div>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\t\t</div>\n" +
+    "\t\t<div class=\"action-buttons\">\n" +
+    "\t\t\t<ms-button type=\"cancel\" action=\"cancel()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\n" +
+    "\t\t\t<ms-button type=\"submit\" action=\"submit()\" label=\"Confirm\" data-dismiss=\"modal\"></ms-button>\n" +
+    "\t\t</div>\n" +
+    "\t</div>\n" +
+    "</div>"
+  );
+
+
   $templateCache.put('views/modal/select_module.tpl.html',
     "<div class=\"scenarioTemplates light-box\" data-ms-id=\"simpleModal\">\n" +
     "\t<div class=\"header\">\n" +

@@ -7,7 +7,7 @@
 * # flipbook
 */
 angular.module('ThreeSixtyOneView.directives')
-.directive('flipbook', ['EVENTS', '$window', function (EVENTS, $window) {
+.directive('flipbook', ['EVENTS', function (EVENTS) {
 	return {
 		templateUrl: function(element, attrs) {
 			return attrs.templateUrl;

@@ -6,14 +6,16 @@ angular.module('ThreeSixtyOneView.services')
         var resource = new Resource(ServerService.get($location.host()) + CONFIG.application.api.scenarioAnalytics),
             transformResponse = function(data) {
                 if(!_.has(data, 'errorMessage')) {
-                    angular.forEach(data.runningStates, function(value, index) {
-                        value.id = index + 1;
-                        value.name = value.name.trim();
-                        value.name = value.label.trim();
-                    });
-
-                    data.currentState.name = data.currentState.name.trim();
-                    data.currentState.label = data.currentState.label.trim();
+                    if(_.has(data, 'runningStates')) {
+                        angular.forEach(data.runningStates, function(value, index) {
+                            value.id = index + 1;
+                            value.name = value.name.trim();
+                            value.name = value.label.trim();
+                        });
+                    }
+                    if(!_.has(data, 'currentState')) {
+                        data.currentState = {completed: false, name: "not_calculated", label: "not calculated", state: "not_calculated"};
+                    }
                 }
                 return data;
             };

@@ -16,23 +16,25 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
       url: "/createrecommendation/:projectId",
       templateUrl: "views/create_recommendation.tpl.html",
       controller: "CreateRecommendationCtrl",
-      breadcrumb: "<li class='single'>Create Budget Optimzation</li>"
+      resolve: {
+        'Project' : function(ProjectsService, $stateParams){return ProjectsService.getProjectItemById($stateParams.projectId);}
+      },
+      breadcrumb: "<li class='parent'><a goto='dashboard' params='{{project.uuid}}'>{{project.name}}</a></li><br><li>Create Budget Optimization</li>"
     }).
     state('CreateRecommendation.base',{
       views: {
         'recommend': {
-          templateUrl:"views/includes/create_recommendation/drawer/choose.tpl.html"
-        },
-      },
-      breadcrumb: "<li class='single'>Create Budget Optimzation</li>"
+          templateUrl:"views/includes/create_recommendation/drawer/choose.tpl.html",
+          controller: 'ChooseBaseScenarioCtrl'
+        }
+      }
     })
     .state('CreateRecommendation.assumptions',{
       views: {
         'recommend': {
           templateUrl:"views/includes/create_recommendation/drawer/assumptions.tpl.html"
         }
-      },
-      breadcrumb: "<li class='single'>Create Budget Optimzation</li>"
+      }
     })
     .state('ScenarioTemplates', {
       url: "/scenariotemplates/:type",
