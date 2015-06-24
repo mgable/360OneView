@@ -1,12 +1,4 @@
-<div ng-controller="CreateRecommendationSelectCtrl" class="sub-view bottom-border">
-	<svg-icon type="optimize" class="sub-view-icon"></svg-icon>
-	<div class="prompt">
-		Select the budget to optimize
-		<icon type="info-circle" cname="info"></icon>
-	</div>
-	<div class="sub-header">
-		Narrow down to only the area of the plan you would like to get recommendations for
-	</div>
+<div ng-controller="CreateRecommendationSelectCtrl" class="sub-view">
 	<div class="row register">
 		<div class="col-md-7">
 			<div class="row date-container">
@@ -31,7 +23,7 @@
 			<div class="editor">
 				<div class="filters-list">
 					<div class="list">
-						<dimension-filter ng-repeat="dimension in getSpendDimensions()" ng-if="addedFilters[dimension.label] && dimension.type !== 'TimeDimension'" dimension="dimension" categorized-values="categorizedValue[$index]" action="filtersModal(dimension)" list-view="true"></dimension-filter>
+						<dimension-filter ng-repeat="dimension in getSpendDimensions()" ng-if="addedFilters[dimension.label] && dimension.type !== 'TimeDimension'" dimension="dimension" categorized-values="categorizedValue[$index]" action="filtersModal(dimension)" view="list"></dimension-filter>
 					</div>
 				</div>
 			</div>

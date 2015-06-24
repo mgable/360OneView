@@ -16,7 +16,7 @@
 	.display {
 		width: 100%;
 		.scenario-settings {
-			margin: 20px 0 30px 0;
+			margin: 20px 0;
         	color: $ms-lightGray;
         	font-size: 14px;
 	        .dropdown-menu {
@@ -176,12 +176,13 @@
 	                .group-title {
 	                    color: $ms-mediumGray;
 	                    margin-bottom: 10px;
+	                    font-weight: 700;
 	                    .group-info {
-	                        color: $ms-lightGray;
+	                        color: $ms-mediumGray;
 	                        float: right;
 	                        cursor: pointer;
 	                        &:hover {
-	                            color: darken($ms-lightGray,5%);
+	                            color: darken($ms-mediumGray,5%);
 	                        }
 	                    }
 	                }
@@ -194,7 +195,10 @@
 	                    cursor:pointer;
 	                    span {
 	                    	display: block;
-	                    	&.item-category { font-size: 14px; }
+	                    	&.item-category {
+	                    		font-size: 14px;
+	                    		color: $ms-mediumGray;
+	                    	}
 	                    }
 	                    &:hover {
 	                        background-color: $ms-lightGray;
@@ -209,6 +213,8 @@
 	            float: left;
 	            padding: 0;
 	            width: calc(100% - 300px);
+	            overflow: hidden;
+				position: relative;
         	}
 		}
 

@@ -225,6 +225,11 @@
 				width: 22.39%;
 				min-width: 215px;
 				margin-right: 25px;
+				&.disabled {
+					.filter-label, .filter-values {
+						color: $ms-mediumLightGray;
+					}
+				}
 
 				.filter-label {
 					color: $ms-darkGray;

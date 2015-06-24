@@ -63,7 +63,7 @@
                             <div class="dimensions-list filters-list">
                                 <div class="title">Spend Filters</div>
                                 <div class="list">
-                                    <dimension-filter ng-repeat="dimension in spendDimensions" ng-if="spendAddedFilters[dimension.label]" dimension="dimension" categorized-values="spendCategorizedValue[$index]" action="filtersModal('spend', dimension)" list-view="true"></dimension-filter>
+                                    <dimension-filter ng-repeat="dimension in spendDimensions" ng-if="spendAddedFilters[dimension.label]" dimension="dimension" categorized-values="spendCategorizedValue[$index]" action="filtersModal('spend', dimension)" view="list"></dimension-filter>
                                 </div>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                             <div class="dimensions-list filters-list">
                                 <div class="title">KPI Filters</div>
                                 <div class="list">
-                                    <dimension-filter ng-repeat="dimension in kpiDimensions" ng-if="kpiAddedFilters[dimension.label]" dimension="dimension" categorized-values="kpiCategorizedValue[$index]" action="filtersModal('kpi', dimension)" ng-class="{'clickable': !isSynced || !isInSyncedDimensions(dimension), 'disabled': isSynced && isInSyncedDimensions(dimension)}" list-view="true"></dimension-filter>
+                                    <dimension-filter ng-repeat="dimension in kpiDimensions" ng-if="kpiAddedFilters[dimension.label]" dimension="dimension" categorized-values="kpiCategorizedValue[$index]" action="filtersModal('kpi', dimension)" ng-class="{'clickable': !isSynced || !isInSyncedDimensions(dimension), 'disabled': isSynced && isInSyncedDimensions(dimension)}" view="list"></dimension-filter>
                                 </div>
                             </div>
                         </div>
