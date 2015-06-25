@@ -693,9 +693,41 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\n" +
     "\t<span ng-switch-when=\"Last Modified\">\r" +
     "\n" +
-    "\t\t<span ng-if=\"!test\">{{::item.auditInfo.lastUpdatedOn | timeago}}<span class=\"name\">{{::item.auditInfo.lastUpdatedBy.name}}</span></span>\r" +
+    "\t\t<span ng-if=\"!test\">\r" +
     "\n" +
-    "\t\t<span ng-if=\"test\">{{::item.auditInfo.lastUpdatedOn}}<span class=\"name\">{{::item.auditInfo.lastUpdatedBy.name}}</span></span>\r" +
+    "\t\t\t<span class=\"time\">{{::item.auditInfo.lastUpdatedOn | timeago}}</span>\r" +
+    "\n" +
+    "\t\t\t<span class=\"name\">{{item.auditInfo.lastUpdatedBy.name}}</span>\r" +
+    "\n" +
+    "\t\t</span>\r" +
+    "\n" +
+    "\t\t<span ng-if=\"test\">\r" +
+    "\n" +
+    "\t\t\t<span class=\"time\">{{::item.auditInfo.lastUpdatedOn}}</span>\r" +
+    "\n" +
+    "\t\t\t<span class=\"name\">{{item.auditInfo.lastUpdatedBy.name}}</span>\r" +
+    "\n" +
+    "\t\t</span>\r" +
+    "\n" +
+    "\t</span>\r" +
+    "\n" +
+    "\t<span ng-switch-when=\"Created Date\">\r" +
+    "\n" +
+    "\t\t<span ng-if=\"!test\">\r" +
+    "\n" +
+    "\t\t\t<span class=\"time\">{{::item.auditInfo.createdOn | date: 'longDate'}}</span>\r" +
+    "\n" +
+    "\t\t\t<span class=\"name\">{{item.auditInfo.createdBy.name}}</span>\r" +
+    "\n" +
+    "\t\t</span>\r" +
+    "\n" +
+    "\t\t<span ng-if=\"test\">\r" +
+    "\n" +
+    "\t\t\t<span class=\"time\">{{::item.auditInfo.createdOn}}</span>\r" +
+    "\n" +
+    "\t\t\t<span class=\"name\">{{item.auditInfo.createdBy.name}}</span>\r" +
+    "\n" +
+    "\t\t</span>\r" +
     "\n" +
     "\t</span>\r" +
     "\n" +
@@ -704,14 +736,6 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t<span ng-switch-when=\"Type\">{{::item.template.type}}</span>\r" +
     "\n" +
     "\t<span ng-switch-when=\"Creator\">{{::item.auditInfo.createdBy.name}}</span>\r" +
-    "\n" +
-    "\t<span ng-switch-when=\"Created Date\">\r" +
-    "\n" +
-    "\t\t<span ng-if=\"!test\">{{::item.auditInfo.createdOn | date: 'longDate'}}<span class=\"name\">{{::item.auditInfo.createdBy.name}}</span></span>\r" +
-    "\n" +
-    "\t\t<span ng-if=\"test\">{{::item.auditInfo.createdOn}}<span class=\"name\">{{::item.auditInfo.createdBy.name}}</span></span>\r" +
-    "\n" +
-    "\t</span>\r" +
     "\n" +
     "\t<span ng-switch-default>FAIL</span>\r" +
     "\n" +
