@@ -7,10 +7,6 @@
 
 	.scenario-content {
 		.left-content {
-			.date-picker {
-				margin: 10px 0;
-				font-size: 14px;
-			}
 		}
 		.right-content {
 			z-index: 1;
@@ -150,61 +146,6 @@
 						}
 					}
 				}
-			}
-		}
-	}
-
-	input:focus {
-		outline: none
-	}
-	input {
-		width: calc(100% - 2px);
-	}
-	input,
-	.underlined {
-		margin-left: 1px;
-		padding: 0 0 2px 15px;
-		font-size: 18px;
-
-		&.right {
-			display: inline;
-			padding: 0 0 2px 25px;
-			&.end {
-				padding: {
-					left: 29px;
-				}
-			}
-		}
-	}
-	input[type=text] {
-		border: 0;
-		cursor: text;
-		background-color: $ms-white;
-	}
-	input:focus ~ .underline {
-		background-color: $ms-blue;
-	}
-	.input-underline-wrapper {
-		display: inline-block;
-		width: 700px;
-	}
-	.underline {
-		background-color: $ms-mediumLightGray;
-		transition: color 0.3s, background 0.3s, border 0.3s, text-shadow 0.3s;
-		z-index: 0;
-		height: 10px;
-		margin-top: -9px;
-		width: 100%;
-
-		&.non-input {
-			background-color: transparent;
-			width: 206px;
-			border: 1px solid $ms-mediumLightGray;
-			border-top: none;
-
-			&.right {
-				margin: -8px 0 0 75px;
-				width: 150px;
 			}
 		}
 	}
@@ -395,4 +336,34 @@
 			}
 		}
 	}
+
+	.input-underline-wrapper {
+		display: inline-block;
+		width: 700px;
+		input[type=text] {
+			width: calc(100% - 2px);
+			margin-left: 1px;
+			padding: 0 0 2px 15px;
+			font-size: 18px;
+			border: 0;
+			cursor: text;
+			background-color: $ms-white;
+			&.right {
+				display: inline;
+				padding: 0 0 2px 25px;
+				&.end {
+					padding: {
+						left: 29px;
+					}
+				}
+			}
+			&:focus {
+				outline: none;
+				& + .underline {
+					background-color: $ms-blue;
+				}
+			}
+		}
+	}
+
 }

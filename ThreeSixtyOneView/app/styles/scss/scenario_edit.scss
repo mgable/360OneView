@@ -2,39 +2,6 @@
 
 .scenario_edit {
     .scenario-settings {
-        .scenario-modeling-period {
-            display: inline-block;
-            .title {
-                display: inline;
-                margin-right: 20px;
-            }
-
-            .period-pickers {
-                display: inline;
-
-                .period-range {
-                    display: inline;
-                    margin-right: 20px;
-
-                    .subtitle {
-                        margin-right: 10px;
-                    }
-
-                    .dropdown {
-                        .dropdown-toggle {
-                            color: $ms-gray;
-                        }
-                        .dropdown-menu {
-                            width: 100px;
-                            left: -50px;
-                            &:before {
-                                left: 46%;
-                            }
-                        }
-                    }
-                }
-            }
-        }
         .dropdown-menu {
             .header {
                 .title {

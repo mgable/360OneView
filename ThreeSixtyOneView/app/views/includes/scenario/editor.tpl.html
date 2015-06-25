@@ -3,15 +3,48 @@
     <div class="row scenario-content">
         <div class="left-content">
             <div class="ms-card animated bounceInLeft" ng-controller="AnalysisElementCtrl">
-                <ul ms-link-group selected-item="{{selectedScenarioElement.cubeMeta.id}}" radio="true">
-                    <section class="group" ng-repeat="(groupLabel, group) in getGroupedScenarioElements()">
+                <section class="group" ng-repeat="(groupLabel, group) in getGroupedScenarioElements()">
+                    <ul ms-link-group selected-item="{{selectedScenarioElement.cubeMeta.id}}" radio="true">
                         <div class="group-title">{{groupLabel}}<span class="group-info"><icon type="info-circle"></icon></span></div>
                         <li class="group-item" ng-repeat="element in group | orderBy:'cubeMeta.label'" ms-link="{{element.cubeMeta.id}}" ng-click="setScenarioElement(element, true)">
                             <span class="clickable hide-overflow item-category" title="{{element.cubeMeta.label}}">{{element.cubeMeta.label}}:</span>
                             <span class="clickable hide-overflow item-name" title="{{element.name}}"><a>{{element.name}}</a></span>
                         </li>
-                    </section>
-                </ul>
+                    </ul>
+                </section>
+                <section class="group" ng-if="!isScenarioStrategy()">
+                    <div class="group-title">Historical Performance Period
+                        <span class="group-info"><icon type="info-circle"></icon></span>
+                    </div>
+                    <div class="date-picker">
+                        <span>Start Date</span>
+                        <span>
+                            <div class="underlined right">
+                                <span class="dropdown">
+                                    <span class="dropdown-toggle">{{fromDate.label}}</span>
+                                    <ul class="dropdown-menu" ng-if="!readOnlyMode" ms-link-group selected-item="{{fromDate.id}}" radio="true">
+                                        <li class="menu-item" ng-repeat="item in modelingPeriod" ms-link="{{item.id}}" ng-hide="item.label > toDate.label" ng-click="setFromDate(item)">{{item.label}}</li>
+                                    </ul>
+                                </span>
+                            </div>
+                            <div class="underline non-input right"></div>
+                        </span>
+                    </div>
+                    <div class="date-picker">
+                        <span>End Date</span>
+                        <span>
+                            <div class="underlined right end">
+                                <span class="dropdown">
+                                    <span class="dropdown-toggle">{{toDate.label}}</span>
+                                    <ul class="dropdown-menu" ng-if="!readOnlyMode" ms-link-group selected-item="{{toDate.id}}" radio="true">
+                                        <li class="menu-item" ng-repeat="item in modelingPeriod" ms-link="{{item.id}}" ng-hide="item.label < fromDate.label" ng-click="setToDate(item)">{{item.label}}</li>
+                                    </ul>
+                                </span>
+                            </div>
+                            <div class="underline non-input right"></div>
+                        </span>
+                    </div>
+                </section>
             </div>
         </div>
         <div class="right-content">
