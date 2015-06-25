@@ -91,7 +91,7 @@ function ($scope, $rootScope, $q, EVENTS, PivotMetaService, DialogService, Manag
 			$scope.setSpendView($scope.viewData);
 		};
 
-		DialogService.filtersModal(category, $scope.addedFilters, $scope.viewData.rows.concat($scope.viewData.columns), $scope.spendDimensions, filtersModalCallback);
+		DialogService.filtersModal(category, $scope.addedFilters, $scope.viewData.rows.concat($scope.viewData.columns), spendDimensions, filtersModalCallback);
 	};
 
 	$scope.$on(EVENTS.dimensionsReady, function(event, dimensions) {

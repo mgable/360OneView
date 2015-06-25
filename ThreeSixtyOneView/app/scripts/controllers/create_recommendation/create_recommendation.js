@@ -112,6 +112,8 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 			});
 		},
 		formSpendDimensions = function formSpendDimensions(_spendDimensions) {
+			$scope.spendDimensions = [];
+			
 			_spendDimensions.forEach(function(dimension) {
 				if(dimension.type === 'TimeDimension') {
 					$scope.timeDimension = dimension;
