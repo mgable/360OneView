@@ -16,7 +16,7 @@ describe('Directives:', function() {
         beforeEach(inject(function($rootScope, $compile, $httpBackend){
             scope = $rootScope.$new();
             scope.item = {
-                auditInfo : { 
+                auditInfo : {
                     lastUpdatedOn: new Date(),
                     createdBy: {name: "me"},
                     lastUpdatedBy: {name: "you"}
@@ -30,7 +30,8 @@ describe('Directives:', function() {
             scope.displayBy = 'Last Modified';
             element = $compile(element)(scope);
             scope.$digest();
-            expect(element.find("span:eq(0)").text().trim()).toBe('less than a minute ago');
+            expect(element.find("span:eq(0) .time").text().trim()).toBe('less than a minute ago');
+            expect(element.find("span:eq(0) .name").text().trim()).toBe('you');
         }));
 
         it("should display Creator correctly", inject(function($compile){

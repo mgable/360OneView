@@ -1,45 +1,94 @@
-<div class="scenario-type-dropdown" data-ms-id="ScenarioEdit.analysisElements" ng-controller="AnalysisElementCtrl">
-	<div class="dropdown" ng-show="isScenarioStrategy()">
-		<span class="dropdown-toggle">
-			{{selectedScenarioElement.cubeMeta.label}}<icon type="caret-down"></icon>
-		</span>
-		<span ng-hide="isHiddenElement(selectedScenarioElement)" data-ms-id="ScenarioEdit.copyReplaceElementHolder">
-			<span class="filename text-holder" title="{{selectedScenarioElementsFile}}"><icon type="file-text-o"></icon>{{selectedScenarioElementsFile}}</span>
-			<span data-ms-id="ScenarioEdit.replaceElement" ng-click="openScenarioElementFileModal(scenario.id, selectedScenarioElement, e2e)" class="filename-option clickable" ng-class="{disabled: readOnlyMode}"><icon type="folder-open-o"></icon>Replace</span>
-			<span data-ms-id="ScenarioEdit.copyElement" ng-click="openScenarioElementCopyModal(scenario.id, selectedScenarioElement)" class="filename-option clickable" ng-class="{disabled: readOnlyMode}"><icon type="folder-open-o"></icon>Copy &amp; Replace</span>
-		</span>
-		<ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenarioElement.cubeMeta.id}}" radio="true">
-			<div ng-repeat="(groupLabel, group) in getGroupedScenarioElements()">
-				<div class="group-title">{{groupLabel}}</div>
-				<li class="menu-item" ng-repeat="element in group | orderBy:'cubeMeta.label'" ms-link="{{element.cubeMeta.id}}" ng-click="setScenarioElement(element, true)">
-					<span class="clickable">{{element.cubeMeta.label}}</span>
-				</li>
-			</div>
-		</ul>
-	</div>
-	<div class="scenario-modeling-period" ng-show="!isScenarioStrategy()">
+<div class="scenario-settings row" data-ms-id="ScenarioEdit.analysisElements">
+	<div class="scenario-modeling-period" ng-show="!isScenarioStrategy()" ng-controller="AnalysisElementCtrl">
 		<div class="title">Historical performance period</div>
 		<div class="period-pickers">
 			<div class="period-range">
-				<div class="subtitle">From</div>
-				<div class="dropdown">
-					<div class="dropdown-toggle">{{fromDate.label}}</div>
+				<span class="subtitle">From</span>
+				<span class="dropdown">
+					<span class="dropdown-toggle">{{fromDate.label}}</span>
 					<ul class="dropdown-menu" ng-if="!readOnlyMode" ms-link-group selected-item="{{fromDate.id}}" radio="true">
 						<li class="menu-item" ng-repeat="item in modelingPeriod" ms-link="{{item.id}}" ng-hide="item.label > toDate.label" ng-click="setFromDate(item)">{{item.label}}</li>
 					</ul>
-				</div>
+				</span>
 			</div>
 			<div class="period-range">
-				<div class="subtitle">To</div>
-				<div class="dropdown">
-					<div class="dropdown-toggle">{{toDate.label}}</div>
+				<span class="subtitle">To</span>
+				<span class="dropdown">
+					<span class="dropdown-toggle">{{toDate.label}}</span>
 					<ul class="dropdown-menu" ng-if="!readOnlyMode" ms-link-group selected-item="{{toDate.id}}" radio="true">
 						<li class="menu-item" ng-repeat="item in modelingPeriod" ms-link="{{item.id}}" ng-hide="item.label < fromDate.label" ng-click="setToDate(item)">{{item.label}}</li>
 					</ul>
-				</div>
+				</span>
 			</div>
 		</div>
 	</div>
+    <div class="time-selector">
+        <icon type="calendar"></icon>&nbsp;Date
+    </div>
+    <div class="dropdown filters-selector" ng-controller="PivotBuilderCtrl">
+        <span class="dropdown-toggle clickable">
+            <div class="editor">
+                <icon class="filters-icon" type="filter"></icon>&nbsp;
+                <span class="filters-list">
+                    <span class="list">
+                        <dimension-filter ng-repeat="dimension in getDimensions()" ng-if="addedFilters[dimension.label]" dimension="dimension" categorized-values="categorizedValue[$index]" view="inline"></dimension-filter>&nbsp;<icon type="caret-down"></icon>
+                    </span>
+                </span>
+            </div>
+		</span>
+        <div class="dropdown-menu" ng-click="$event.stopPropagation()">
+            <div class="header">
+                <div class="title">
+                    <p>Filter view:
+                        <span ng-class="{draft: draftView}" ng-hide="saveAs" title="{{viewData.name}}">{{viewData.name}}</span>
+                    </p>
+					<div class="saveAsBox" ng-show="saveAs">
+						<form name="newViewName" novalidate>
+							<input type="text" ng-pattern="CONFIG.application.inputRestrictions.characterRestrictions" required ng-maxlength="256" ng-minlength="2" ng-model="saveAsName" ui-keyup="{'esc': 'cancelSaveAs()', 'enter': 'submitSaveAs()'}">
+							<button class="btn btn-xs submit" ng-click="submitSaveAs($event)" ng-disabled="(newViewName.$dirty && newViewName.$invalid) || newViewName.$pristine"><icon type="check"></icon></button>
+							<button class="btn btn-xs cancel" ng-click="cancelSaveAs($event)"><icon type="remove"></icon></button>
+						</form>
+					</div>
+                </div>
+                <li class="icon open-icon">
+                    <ms-button type="cancel" action="openAllViewsModal()" label="" icon="folder-open-o" shape="circle"></ms-button>
+                </li>
+                <li class="icon save-icon">
+                    <ms-button type="cancel" action="toggleIcon=!toggleIcon" label="" icon="floppy-o" shape="circle" ng-show="!toggleIcon"></ms-button>
+                    <ms-button type="cancel" action="toggleIcon=!toggleIcon" label="" icon="times" shape="circle" ng-show="toggleIcon"></ms-button>
+                </li>
+                <ul class="floating-container" ng-show="toggleIcon">
+                    <li class="sub-icon save-sub-icon" ng-click="saveView()">
+                        <p class="floating-text"><span class="floating-text-BG">Save</span></p>
+                        <ms-button type="submit" action="" label="" icon="floppy-o" shape="circle"></ms-button>
+                    </li>
+                    <li class="sub-icon save-sub-icon" ng-click="startSaveAs(viewData.name)">
+                        <p class="floating-text"><span class="floating-text-BG">Save As</span></p>
+                        <ms-button type="submit" action="" label="" icon="floppy-o" shape="circle"></ms-button>
+                    </li>
+                    <li class="sub-icon save-as-sub-icon">
+                        <p class="floating-text"><span class="floating-text-BG">Revert</span></p>
+                        <ms-button type="submit" action="revertView()" label="" icon="undo" shape="circle"></ms-button>
+                    </li>
+                    <li class="sub-icon save-as-sub-icon">
+                        <p class="floating-text"><span class="floating-text-BG">Rename</span></p>
+                        <ms-button type="submit" action="startRename()" label="" icon="pencil" shape="circle"></ms-button>
+                    </li>
+                </ul>
+            </div>
+	        <div class="content">
+	            <div class="editor">
+					<div class="row filter-content">
+                        <div class="col-md-12">
+                            <div class="dimensions-list filters-list">
+                                <div class="list">
+									<dimension-filter ng-repeat="dimension in getDimensions()" ng-if="addedFilters[dimension.label]" dimension="dimension" categorized-values="categorizedValue[$index]" action="filtersModal(dimension)" view="list"></dimension-filter>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+	            </div>
+	        </div>
+    	</div>
+    </div>
 </div>
-
-<div class="save-status">{{pivotTableSaveStatus}}</div>

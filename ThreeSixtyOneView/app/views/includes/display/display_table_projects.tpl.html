@@ -2,8 +2,8 @@
 	<div>
 		<table class="table table-hover">
 			<colgroup>
-			    <col width="490">
-			    <col width="315">
+			    <col width="80%">
+			    <col width="20%">
 			</colgroup>
 			<thead>
 				<th><sorting-options value="name" label="Name" msid="column_1"></sorting-options></th>
@@ -21,7 +21,7 @@
 		                        <a ng-if="e2e" data-ms-id="{{item.uuid}}" class="default"  ng-click="goto($event, gotoScenarioCalculate(CONFIG.nameClickAction, item), item)">{{::item.name}}</a>
 		                        &nbsp;<icon ng-if="item.isMaster" type="marketshare"></icon>
 	                    	</span>
-	                    	<span class="status"><icon type="{{item.currentState.icon}}"></icon></span>
+	                    	<!-- <span class="status"><icon type="{{item.currentState.icon}}"></icon></span> -->
 	                	</div>
 					</td>
 					<td ng-click="showDetails(item)">

@@ -1,24 +1,60 @@
 <div class="scenario_results">
+
     <ng-include src="'views/includes/scenario/results/scenario_dropdown.tpl.html'"></ng-include>
 
     <!-- <ng-include src="'views/includes/scenario/results/pivot_toolbar.tpl.html'"></ng-include> -->
 
-    <div class="row results-content">
+    <div class="row scenario-content">
         <div class="left-content">
-            <ul class="nav-menu" ms-link-group selected-item="1" radio="true">
-                <li ms-link="1">Summary</li>
-                <li ms-link="2">Opportunities</li>
-                <li ms-link="3">Marketing Performance</li>
-                <li ms-link="4">Projections</li>
-                <li ms-link="5">Alerts</li>
-            </ul>
+            <div class="ms-card animated bounceInLeft">
+                <ul ms-link-group selected-item="1" radio="true">
+                    <section class="group">
+                        <!-- <div class="group-title">Reports Category<span class="group-info"><icon type="info-circle"></icon></span></div> -->
+                        <li class="group-item" ms-link="1" radio="true">
+                            <span class="clickable">Summary</span>
+                        </li>
+                        <li class="group-item" ms-link="2" radio="true">
+                            <span class="clickable">Opportunities</span>
+                        </li>
+                        <li class="group-item" ms-link="3" radio="true">
+                            <span class="clickable">Marketing Performance</span>
+                        </li>
+                        <li class="group-item" ms-link="4" radio="true">
+                            <span class="clickable">Projections</span>
+                        </li>
+                        <li class="group-item" ms-link="5" radio="true">
+                            <span class="clickable">Alerts</span>
+                        </li>
+                    </section>
+                </ul>
+            </div>
         </div>
         <div class="right-content">
-            <div class="results-card">
-                <ng-include src="'views/includes/scenario/results/kpi_summary.tpl.html'"></ng-include>
+            <div class="ms-card animated slideInRight" style="animation-delay: 1s;">
+                <div class="ms-card-title">KPI Summary
+                    <span class="ms-card-info"><icon type="info-circle"></icon></span>
+                </div>
+                <div class="ms-card-subtitle">This is the subtitle for Spend Summary</div>
+                <div class="ms-card-setting fa-stack">
+                    <icon class="ms-card-setting fa-stack-1x" type="cog"></icon>
+                    <icon class="ms-card-setting fa-stack-2x" type="circle-thin"></icon>
+                </div>
+                <div class="ms-card-content row animated fadeIn" style="animation-delay: 2s;">
+                    <ng-include src="'views/includes/scenario/results/kpi_summary.tpl.html'"></ng-include>
+                </div>
             </div>
-            <div class="results-card">
-                <ng-include src="'views/includes/scenario/results/spend_summary.tpl.html'"></ng-include>
+            <div class="ms-card animated slideInRight" style="animation-delay: 1.4s;">
+                <div class="ms-card-title">Spend Summary
+                    <span class="ms-card-info"><icon type="info-circle"></icon></span>
+                </div>
+                <div class="ms-card-subtitle">This is the subtitle for KPI Summary</div>
+                <div class="ms-card-setting fa-stack">
+                    <icon class="ms-card-setting fa-stack-1x" type="cog"></icon>
+                    <icon class="ms-card-setting fa-stack-2x" type="circle-thin"></icon>
+                </div>
+                <div class="ms-card-content row animated fadeIn" style="animation-delay: 2.4s;">
+                    <ng-include src="'views/includes/scenario/results/spend_summary.tpl.html'"></ng-include>
+                </div>
             </div>
         </div>
     </div>
