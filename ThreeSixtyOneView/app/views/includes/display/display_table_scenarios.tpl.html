@@ -2,10 +2,10 @@
 	<div>
 		<table class="table table-hover">
 			<colgroup>
-			    <col width="360"></col>
-			    <col width="180"></col>
-			    <col width="180"></col>
-			    <col width="180"></col>
+			    <col width="30%"></col>
+			    <col width="30%"></col>
+			    <col width="20%"></col>
+			    <col width="20%"></col>
 			</colgroup>
 			<thead>
 				<th><sorting-options label="Name" value="name" msid="column_1"></sorting-options></th>
@@ -14,7 +14,7 @@
 				<th><ms-dropdown reverse=true is-active=true msid="column_2"></ms-dropdown></th>
 			</thead>
 			<tbody>
-				<tr ng-repeat="item in getData()" ng-class="{active: isActiveItem(item)}" ng-click="selectItem(item)">
+				<tr ng-repeat="item in getData()" ng-class="{active: isActiveItem(item)}" ng-click="selectItem(item)" ng-if="getData().length">
 					<td ng-class="{master: item.isMaster}">
 						<div class="text-holder">
 							<span class="favorites-holder">
@@ -29,7 +29,10 @@
 	                	</div>
 					</td>
 					<td ng-click="showDetails(item)">
-						<div class="text-holder template {{item.template.type | lowercase}}"><span>{{::item.template.name}}</span></div>
+						<div class="text-holder template {{item.template.type | lowercase}}">
+							<span class="template-icon">{{::item.template.name[0]}}</span>
+							<span class="template-name">{{::item.template.name}}</span>
+						</div>
 					</td>
 					<td ng-click="showDetails(item)">
 						<div class="text-holder"><span class="type">{{::item.prediction.type}}</span></div>
@@ -38,6 +41,7 @@
 						<sortable-columns item=item display-by="getSorter('column_2')" test="e2e"></sortable-columns>
 					</td>
 				</tr>
+				<tr ng-if="!getData().length"><td>No data for selected filters.</td></tr>
 			</tbody>
 		</table>
 	</div>

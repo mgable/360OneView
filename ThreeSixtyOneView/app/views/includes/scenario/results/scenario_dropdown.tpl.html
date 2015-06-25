@@ -2,10 +2,10 @@
     <div class="dropdown scenario-selector">
         <icon type="bar-chart"></icon>&nbsp;<span>Compared to:</span>
         <span class="dropdown-toggle clickable">
-			{{selectedScenario.title}}&nbsp;<icon type="caret-down"></icon>
+			{{::selectedScenario.title}}&nbsp;<icon type="caret-down"></icon>
 		</span>
-        <ul class="dropdown-menu" ms-link-group selected-item="selectedScenario.id" radio="true">
-            <li ng-repeat="scenario in scenariosList | orderBy:'-auditInfo.createdOn' | limitTo:5" ms-link="{{scenario.id}}" class="menu-item" ng-click="loadComparedScenarios(scenario.id)" title="{{scenario.title}}">{{scenario.title}}
+        <ul class="dropdown-menu" ms-link-group selected-item="{{::selectedScenario.id}}" radio="true">
+            <li ng-repeat="scenario in scenariosList | orderBy:'-auditInfo.createdOn' | limitTo:5" ms-link="{{::scenario.id}}" class="menu-item" ng-click="loadComparedScenarios(scenario.id)" title="{{::scenario.title}}">{{::scenario.title}}
             </li>
             <hr>
             <li class="menu-item" ng-click="openAllComparedScenariossModal()">
@@ -13,12 +13,18 @@
         </ul>
     </div>
     <div class="time-selector">
-        <icon type="calendar"></icon>&nbsp;2015 Q3 - 2015 Q4
+        <icon type="calendar"></icon>&nbsp;Date
     </div>
     <div class="dropdown filters-selector">
-        <icon type="filter"></icon>&nbsp;
         <span class="dropdown-toggle clickable">
-			Filters&nbsp;<icon type="caret-down"></icon>
+            <div class="editor">
+                <icon class="filters-icon" type="filter"></icon>&nbsp;
+                <span class="filters-list">
+                    <span class="list">
+                        <dimension-filter ng-repeat="dimension in spendDimensions" ng-if="spendAddedFilters[dimension.label]" dimension="dimension" categorized-values="spendCategorizedValue[$index]" view="inline"></dimension-filter>&nbsp;<icon type="caret-down"></icon>
+                    </span>
+                </span>
+            </div>
 		</span>
         <div class="dropdown-menu" ng-click="$event.stopPropagation()">
             <div class="header">
@@ -40,18 +46,36 @@
                         <ms-button type="submit" action="" label="" icon="floppy-o" shape="circle"></ms-button>
                     </li>
                     <li class="sub-icon save-as-sub-icon">
-                        <p class="floating-text"><span class="floating-text-BG">Save As</span></p>
-                        <ms-button type="submit" action="" label="" icon="floppy-o" shape="circle"></ms-button>
+                        <p class="floating-text"><span class="floating-text-BG">Revert</span></p>
+                        <ms-button type="submit" action="revertView()" label="" icon="undo" shape="circle"></ms-button>
                     </li>
                 </ul>
             </div>
 	        <div class="content">
 	            <div class="editor">
-	                <div class="filters-list">
-	                    <div class="list">
-	                        <dimension-filter ng-repeat="dimension in spendDimensions" ng-if="spendAddedFilters[dimension.label] && dimension.type !== 'TimeDimension'" dimension="dimension" categorized-values="spendCategorizedValue[$index]" action="filtersModal('spend', dimension)" list-view="true"></dimension-filter>
-	                    </div>
-	                </div>
+                    <div class="toggle-switch clickable" ms-link-group selected-item="{{isSynced}}">
+                        <div class="toggle-switch-title">Sync KPI with Spend</div>
+                        <div class="switch" ng-click="setToggleSwitch(true)" ms-link="true">ON</div>
+                        <div class="switch" ng-click="setToggleSwitch(false)" ms-link="false">OFF</div>
+                    </div>
+                    <div class="row filter-content">
+                        <div class="col-md-6">
+                            <div class="dimensions-list filters-list">
+                                <div class="title">Spend Filters</div>
+                                <div class="list">
+                                    <dimension-filter ng-repeat="dimension in spendDimensions" ng-if="spendAddedFilters[dimension.label]" dimension="dimension" categorized-values="spendCategorizedValue[$index]" action="filtersModal('spend', dimension)" view="list"></dimension-filter>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="dimensions-list filters-list">
+                                <div class="title">KPI Filters</div>
+                                <div class="list">
+                                    <dimension-filter ng-repeat="dimension in kpiDimensions" ng-if="kpiAddedFilters[dimension.label]" dimension="dimension" categorized-values="kpiCategorizedValue[$index]" action="filtersModal('kpi', dimension)" ng-class="{'clickable': !isSynced || !isInSyncedDimensions(dimension), 'disabled': isSynced && isInSyncedDimensions(dimension)}" view="list"></dimension-filter>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 	            </div>
 	        </div>
     	</div>

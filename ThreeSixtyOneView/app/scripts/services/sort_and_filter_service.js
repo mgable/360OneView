@@ -170,6 +170,11 @@ angular.module('ThreeSixtyOneView.services')
             }
         };
 
+        this.resetFilter = function() {
+            this.resetSearchText();
+            this.filter();
+        };
+
         this.init = function(config) {
             data = config.data;
             display = angular.copy(data);

@@ -1,34 +1,165 @@
 @import "variables";
 
-.CreateRecommendation {
-	background-color: $ms-pureWhite;
-	overflow: hidden;
+.create_recommendations {
+	.scenario-settings {
+		height: 20px;
+	}
 
-	// Bootstrap Overrides
-	.row {
-		width: 100%;
+	.scenario-content {
+		.left-content {
+			.date-picker {
+				margin: 10px 0;
+				font-size: 14px;
+			}
+		}
+		.right-content {
+			z-index: 1;
+			.slideInContainerBg {
+		  	  	position: absolute;
+		  	  	width: 100%;
+				height: 100%;
+				background-color: rgba(0,0,0,0.7);
+				z-index:2;
+			}
+			.slideInContainer {
+			  	z-index: 3;
+		  	  	position: absolute;
+		  	  	width: 99%;
+				box-shadow: 0 2px 4px -1px rgba(0,0,0,.14),0 4px 5px 0 rgba(0,0,0,.098),0 1px 10px 0 rgba(0,0,0,.084);
+			}
+			.sub-view {
+				position: relative;
 
-		margin: {
-			left: 0px;
-			right: 0px;
+				.budget-box {
+				    position: absolute;
+				    bottom: 20px;
+				    right: 0;
+				    width: 378px;
+				    height: 200px;
+				    border-radius: 3px 3px 3px 3px;
+				    background-color: #78909c;
+				    .icon-container {
+				        position: relative;
+				        float: left;
+				        width: 30%;
+				        height: 100%;
+				        background-color: #4f6e7e;
+				        border-radius: 3px 0px 0px 3px;
+				        display: table;
+				        .budget-icon {
+				        	width: 54px;
+				        	height: 64px;
+				        	path {
+				        		fill: #a3becc;
+				        	}
+				        }
+				    }
+				    .number-container {
+				        position: relative;
+				        float: right;
+				        width: 70%;
+				        height: 100%;
+				        color: $ms-white;
+				        display: table;
+				        .description {
+				        	font-size: 20px;
+				        	line-height: 32px;
+				        }
+				        .number {
+				            margin: 10px 0 30px 0;
+				        	font-size: 32px;
+				        	line-height: 32px;
+				        }
+				        .action {
+				        	font-size: 14px;
+				        	line-height: 32px;
+				            a {
+				            	text-decoration: none;
+				            	color: $ms-white;
+				                border-bottom-width: 1px;
+				                border-bottom-style: solid;
+				                padding-bottom: 1px;
+				            }
+				        }
+				    }
+				    .budget-wrapper {
+				        display: table-cell;
+				        text-align: center;
+				        vertical-align: middle;
+				    }
+				}
+
+				.date-container {
+					width: 536px;
+					margin-bottom: 15px;
+				}
+
+				.budget-column {
+					width: 287px;
+					float: right;
+				}
+
+				.prompt {
+					margin: 15px 0 15px 0 ;
+					font-size: 24px;
+				}
+
+				.input-title {
+					font-size: 16px;
+					margin-top: 25px;
+					margin-bottom: 10px;
+				}
+
+				.prompt-small {
+					margin: 0 0 15px 0
+				}
+
+				.header {
+					font-size: 35px;
+					line-height: 35px;
+				}
+
+				.filters {
+					margin: 25px 0 50px 0;
+				}
+
+				.hyphen {
+					font-size: 20px;
+					margin: {
+						top: 32px;
+					}
+					padding: 0 10px;
+				}
+
+				.kpi-buttons {
+					.kpi-btn {
+						@include ms-radio-btn($ms-mediumBlue);
+						display: inline-block;
+						list-style-type: none;
+						padding-right: 20px;
+
+						label {
+							font-weight: normal;
+							height: 75px;
+							display: table;
+
+							.label-text {
+								vertical-align: middle;
+								display: table-cell;
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 
-	.col-md-5,
-	.col-md-1 {
-		padding: 0;
-	}
-	// Bootstrap Overrides END
-
-	//Possible input Mixin
 	input:focus {
 		outline: none
 	}
-
 	input {
 		width: calc(100% - 2px);
 	}
-
 	input,
 	.underlined {
 		margin-left: 1px;
@@ -45,21 +176,18 @@
 			}
 		}
 	}
-
 	input[type=text] {
 		border: 0;
 		cursor: text;
+		background-color: $ms-white;
 	}
-
 	input:focus ~ .underline {
 		background-color: $ms-blue;
 	}
-
 	.input-underline-wrapper {
 		display: inline-block;
 		width: 700px;
 	}
-
 	.underline {
 		background-color: $ms-mediumLightGray;
 		transition: color 0.3s, background 0.3s, border 0.3s, text-shadow 0.3s;
@@ -77,219 +205,6 @@
 			&.right {
 				margin: -8px 0 0 75px;
 				width: 150px;
-			}
-		}
-	}
-	//Possible input Mixin END
-
-	.main {
-		display: table;
-
-		.column-fix {
-		display: table-cell;
-		float: none;
-	}
-	}
-
-	.buttons {
-		text-align: right;
-		padding: 15px 0;
-		border:{
-			top: {
-				style: solid;
-				width: 1px;
-				color: $ms-mediumLightGray;
-			}
-		}
-		.btn {
-			margin: 0 15px 0 0;
-		}
-	}
-
-	.info {
-			color: $ms-mediumLightGray;
-			font-size: 18px;
-			&.right{
-				float: right;
-			}
-		}
-
-	.left-column{
-		padding: 0 40px 0 40px;
-		z-index: 1;
-		.slideInContainer {
-			height: 100%;
-			width: 100%;
-			background: $ms-white;
-			position: absolute;
-		  	top: 0;
-		  	left: 0;
-		  	z-index: 2;
-		}
-		.sub-view {
-			position: relative;
-			margin: 25px 0 0 0;
-
-			svg {
-				text-align: center;
-
-				&.line-stroke {
-					stroke: white;
-					stroke-width: 1px;
-				}
-
-				&.sub-view-icon {
-					float: left;
-					margin: 0 15px 0 0;
-					width: 50px;
-					height: 50px;
-				}
-			}
-
-			.budget-box {
-				position: absolute;
-				top: 97px;
-				right: 0;
-				background-color: $ms-darkGreen;
-				height: 222px;
-				width: 266px;
-				border-radius: 3px;
-				&:before {
-					right: 100%;
-					top: 50%;
-					border: solid transparent;
-					content: " ";
-					height: 0;
-					width: 0;
-					position: absolute;
-					pointer-events: none;
-					border-right-color: $ms-darkGreen;
-					border-width: 5px 12px;
-  					margin-top: -12px;
-				}
-				.budget-text {
-					@include vertical-align;
-					color: $ms-pureWhite;
-					text-align: center;
-					.budget-description {
-						font-size: 20px;
-						line-height: 22px;
-					}
-					.budget-number {
-						font-size: 30px;
-						line-height: 32px;
-					}
-				}
-			}
-
-			.date-container {
-				width: 536px;
-				margin-bottom: 15px;
-			}
-
-			.budget-column{
-				width: 287px;
-				float: right;
-			}
-
-			&.bottom-border {
-				padding: 0 0 25px 0;
-				border: {
-					bottom-style: dotted;
-					width: 2px;
-					color: $ms-mediumLightGray;
-				}
-			}
-
-			.prompt {
-				margin: 15px 0 15px 0 ;
-				font-size: 24px;
-			}
-			.input-title {
-				font-size: 16px;
-				margin-top: 25px;
-				margin-bottom: 10px;
-			}
-			.prompt-small {
-				margin: 0 0 15px 0
-			}
-			.header {
-				font-size: 35px;
-				line-height: 35px;
-			}
-			.register{
-				margin: 50px 0 0 0;
-			}
-			.filters {
-				margin: 25px 0 50px 0;
-			}
-			.hyphen {
-				font-size: 20px;
-				margin: {
-					top: 32px;
-				}
-				padding: 0 10px;
-			}
-
-			.kpi-buttons {
-				.kpi-btn {
-					@include ms-radio-btn($ms-mediumBlue);
-					display: inline-block;
-					list-style-type: none;
-					padding-right: 20px;
-
-					label {
-						font-weight: normal;
-						height: 75px;
-						display: table;
-
-						.label-text {
-							vertical-align: middle;
-							display: table-cell;
-						}
-					}
-				}
-			}
-		}
-	}
-
-	.right-column {
-		padding: 0 25px 25px;
-		background-color: $ms-veryLightGray;
-		box-shadow: -5px 0px 3px -2px $ms-lightGray;
-		z-index: 3;
-		.section {
-			margin: 25px 0 0 0;
-			font-size: 14px;
-			color: $ms-gray;
-			border: {
-				bottom: {
-					style: solid;
-					color: $ms-mediumLightGray;
-					width: 1px;
-				}
-			}
-			&.end {
-				border: none;
-			}
-			a {
-				display: block;
-			}
-			.sub-section {
-				color: $ms-mediumBlue;
-			}
-			.item-container {
-				margin: 10px 0;
-				&.add-link{
-					color: $ms-mediumGray;
-				}
-			}
-			.item {
-				font-size: 18px;
-				color: $ms-mediumBlue;
-			}
-			.constraint-link {
-				margin: 0 0 0 5px;
 			}
 		}
 	}

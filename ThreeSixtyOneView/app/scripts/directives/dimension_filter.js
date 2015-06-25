@@ -18,8 +18,10 @@ angular.module('ThreeSixtyOneView.directives').directive('dimensionFilter', [fun
 		},
 		// templateUrl: 'views/directives/dimension_filter.tpl.html',
 		templateUrl: function(element, attrs) {
-			if(attrs.listView) {
+			if(attrs.view === 'list') {
 				return 'views/directives/dimension_filter_list.tpl.html';
+			} else if (attrs.view === 'inline') {
+				return 'views/directives/dimension_filter_inline.tpl.html';
 			} else {
 				return 'views/directives/dimension_filter.tpl.html';
 			}

@@ -1,14 +1,26 @@
-<div ng-switch on="displayBy" class="text-holder"> 
+<div ng-switch on="displayBy" class="text-holder">
 	<span ng-switch-when="Last Modified">
-		<span ng-if="!test">{{::item.auditInfo.lastUpdatedOn | timeago}}</span>
-		<span ng-if="test">{{::item.auditInfo.lastUpdatedOn}}</span>
-	</span> 
-	<span ng-switch-when="Modified By">{{::item.auditInfo.lastUpdatedBy.name}}</span> 
-	<span ng-switch-when="Type">{{::item.template.type}}</span> 
-	<span ng-switch-when="Creator">{{::item.auditInfo.createdBy.name}}</span> 
+		<span ng-if="!test">
+			<span class="time">{{::item.auditInfo.lastUpdatedOn | timeago}}</span>
+			<span class="name">{{item.auditInfo.lastUpdatedBy.name}}</span>
+		</span>
+		<span ng-if="test">
+			<span class="time">{{::item.auditInfo.lastUpdatedOn}}</span>
+			<span class="name">{{item.auditInfo.lastUpdatedBy.name}}</span>
+		</span>
+	</span>
 	<span ng-switch-when="Created Date">
-		<span ng-if="!test">{{::item.auditInfo.createdOn | date: 'longDate'}}</span>
-		<span ng-if="test">{{::item.auditInfo.createdOn}}</span>
-	</span> 
-	<span ng-switch-default>FAIL</span> 
+		<span ng-if="!test">
+			<span class="time">{{::item.auditInfo.createdOn | date: 'longDate'}}</span>
+			<span class="name">{{item.auditInfo.createdBy.name}}</span>
+		</span>
+		<span ng-if="test">
+			<span class="time">{{::item.auditInfo.createdOn}}</span>
+			<span class="name">{{item.auditInfo.createdBy.name}}</span>
+		</span>
+	</span>
+	<span ng-switch-when="Modified By">{{::item.auditInfo.lastUpdatedBy.name}}</span>
+	<span ng-switch-when="Type">{{::item.template.type}}</span>
+	<span ng-switch-when="Creator">{{::item.auditInfo.createdBy.name}}</span>
+	<span ng-switch-default>FAIL</span>
 </div>

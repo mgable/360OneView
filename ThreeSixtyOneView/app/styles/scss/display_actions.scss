@@ -1,52 +1,6 @@
 @import "variables";
 
 .display-actions {
-	.filter-holder {
-		width: 140px;
-		margin-right: 10px;
-		float:left;
-		@include vertical-align;
-		.filter-title {
-			color: $ms-lightGray;
-			font-size: 14px;
-			text-transform: capitalize;
-			cursor: pointer;
-		}
-		.filterToggle {
-			font-size: 12px;
-		}
-		.dropdown-menu {
-			top: 30px;
-			left: 0;
-			.menu-item { text-transform: capitalize; }
-		}
-	}
-	.input-holder {
-		float:left;
-		@include vertical-align;
-	   	color: $ms-lightGray;
-		i {
-			position: relative;
-			left: 25px;
-  			line-height: 25px;
-		}
-		.search-input {
-		    width: 100px;
-		    height: 25px;
-		    padding: 4px 8px 4px 25px;
-		    background: rgba(255,255,255,0);
-		    border: none;
-		    float: right;
-		    -webkit-transition: all ease-in-out .3s;
-		    &:focus {
-			    color: $ms-darkGray;
-			    width: 165px;
-			    outline: none;
-			    background: $ms-white;
-			    border-radius: 3px;
-			}
-		}
-	}
 	.button-holder {
 		position:absolute;
 		top: -50px;
