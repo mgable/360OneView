@@ -38,10 +38,8 @@
 		<![endif]-->
 		<div class="wrapper">
 			<div class="ms-header" ng-include src="'views/includes/header.tpl.html'"></div>
-			<div class="ms-breadcrumb"><div class="header-wrapper"><breadcrumb></breadcrumb></div></div>
-			<div class="app">
-				<div ui-view></div>
-			</div> <!-- end app -->
+			<div class="ms-breadcrumb" ng-include src="'views/includes/breadcrumb.tpl.html'"></div>
+			<div class="app"><div ui-view></div></div><!-- end app -->
 		</div>
 		<div class="ms-footer" ng-include src="'views/includes/footer.tpl.html'"></div>
 		<!--[if lt IE 9]>

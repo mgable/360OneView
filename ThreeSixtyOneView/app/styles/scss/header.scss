@@ -86,11 +86,14 @@
 }
 
 .ms-breadcrumb {
+    position: relative;
     color: $ms-white;
     font-size: 34px;
     line-height: 40px;
     font-weight: 100;
     .breadcrumb {
+        position: relative;
+        z-index: 1;
         background: transparent;
         padding: 8px 0px;
         margin: 0 auto;
@@ -119,6 +122,15 @@
         .single {
             padding-top: 45px;
         }
+    }
+    .edit-mode-background {
+        background-color: #295da7;
+        width: 100%;
+        height: 84px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 0;
     }
 }
 

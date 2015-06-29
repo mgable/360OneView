@@ -2,6 +2,8 @@
 
 .scenario {
 	.scenario-header {
+		position: relative;
+		z-index: 1;
 		height: 50px;
 		border-bottom: 1px solid $ms-darkGray;
 		margin-top: -50px;
