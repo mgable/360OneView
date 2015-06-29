@@ -220,7 +220,7 @@ describe('Controllers: ', function() {
             expect(scope.gotoScenarioCalculate(action, item2)).toBe('gotoScenarioCalculate');
             expect(scope.gotoScenarioCalculate(action, item3)).toBe('gotoScenarioCalculate');
             expect(scope.gotoScenarioCalculate(action, item4)).toBe(action);
-            expect(scope.gotoScenarioCalculate(action, item5)).toBe(action);
+            expect(scope.gotoScenarioCalculate(action, item5)).toBe('gotoScenarioResults');
         });
 
 

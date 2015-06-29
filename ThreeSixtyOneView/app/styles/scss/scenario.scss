@@ -200,6 +200,7 @@
 	                    font-size: 16px;
 	                    color: $ms-blue;
 	                    cursor:pointer;
+	                    @include transition($d:"0.4s", $s:"ease-in-out", $c:"all");
 	                    span {
 	                    	display: block;
 	                    	&.item-category {
@@ -208,6 +209,7 @@
 	                    	}
 	                    }
 	                    &:hover {
+	                    	@include transition($d:"0.4s", $s:"ease-in-out", $c:"all");
 	                        background-color: $ms-lightGray;
 	                    }
 	                    &.selected {
