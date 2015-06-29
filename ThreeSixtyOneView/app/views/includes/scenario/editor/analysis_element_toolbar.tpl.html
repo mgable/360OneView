@@ -1,27 +1,4 @@
 <div class="scenario-settings row" data-ms-id="ScenarioEdit.analysisElements">
-	<div class="scenario-modeling-period" ng-show="!isScenarioStrategy()" ng-controller="AnalysisElementCtrl">
-		<div class="title">Historical performance period</div>
-		<div class="period-pickers">
-			<div class="period-range">
-				<span class="subtitle">From</span>
-				<span class="dropdown">
-					<span class="dropdown-toggle">{{fromDate.label}}</span>
-					<ul class="dropdown-menu" ng-if="!readOnlyMode" ms-link-group selected-item="{{fromDate.id}}" radio="true">
-						<li class="menu-item" ng-repeat="item in modelingPeriod" ms-link="{{item.id}}" ng-hide="item.label > toDate.label" ng-click="setFromDate(item)">{{item.label}}</li>
-					</ul>
-				</span>
-			</div>
-			<div class="period-range">
-				<span class="subtitle">To</span>
-				<span class="dropdown">
-					<span class="dropdown-toggle">{{toDate.label}}</span>
-					<ul class="dropdown-menu" ng-if="!readOnlyMode" ms-link-group selected-item="{{toDate.id}}" radio="true">
-						<li class="menu-item" ng-repeat="item in modelingPeriod" ms-link="{{item.id}}" ng-hide="item.label < fromDate.label" ng-click="setToDate(item)">{{item.label}}</li>
-					</ul>
-				</span>
-			</div>
-		</div>
-	</div>
     <div class="time-selector">
         <icon type="calendar"></icon>&nbsp;Date
     </div>

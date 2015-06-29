@@ -27,14 +27,16 @@ angular.module('ThreeSixtyOneView.config').config(["$stateProvider", "$urlRouter
           templateUrl:"views/includes/create_recommendation/drawer/choose.tpl.html",
           controller: 'ChooseBaseScenarioCtrl'
         }
-      }
+      },
+      breadcrumb: "<li class='parent'><a goto='dashboard' params='{{project.uuid}}'>{{project.name}}</a></li><br><li>Create Budget Optimization</li>"
     })
     .state('CreateRecommendation.assumptions',{
       views: {
         'recommend': {
           templateUrl:"views/includes/create_recommendation/drawer/assumptions.tpl.html"
         }
-      }
+      },
+      breadcrumb: "<li class='parent'><a goto='dashboard' params='{{project.uuid}}'>{{project.name}}</a></li><br><li>Create Budget Optimization</li>"
     })
     .state('ScenarioTemplates', {
       url: "/scenariotemplates/:type",

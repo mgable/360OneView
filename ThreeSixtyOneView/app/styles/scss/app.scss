@@ -15,7 +15,6 @@ html {
 body {
 	@extend .baseFont;
 	background-color: transparent;
-	/*position: relative;*/
 	height: 100%;
 	width: 100%;
 	overflow-y: auto;
@@ -24,24 +23,20 @@ body {
 
 .wrapper {
 	min-height: 100%;
-	position: relative;
+	margin-bottom: -$footer_height;
 	background-color: $background-shade;
 	min-width: $app_min_width + 2*$app_padding;
+	&:after {
+		content: "";
+  		display: block;
+  		height: $footer_height;
+	}
 
 	.app {
-		/*width: calc(100% - 40px);*/
 		box-sizing: content-box;
 		max-width: $app_max_width;
 		min-width: $app_min_width;
-		margin: 100px auto 0;
+		margin: 0 auto;
 		padding: 0 $app_padding 80px;
-	}
-
-	.footer {
-		position: absolute;
-		clear: both;
-		bottom: 0;
-		padding: 0;
-		margin: 0 0 1px 0;
 	}
 }

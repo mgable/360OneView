@@ -2,6 +2,8 @@
 
 .scenario {
 	.scenario-header {
+		position: relative;
+		z-index: 1;
 		height: 50px;
 		border-bottom: 1px solid $ms-darkGray;
 		margin-top: -50px;
@@ -164,6 +166,13 @@
 	            float: left;
 	            padding: 0 30px 0 0;
 	            width: 300px;
+				.date-picker {
+					margin: 10px 0;
+					font-size: 14px;
+					.underlined {
+						.dropdown-menu { left: -20px; }
+					}
+				}
 	            .group {
 	                padding-bottom: 10px;
 	                margin-bottom: 20px;
@@ -193,6 +202,7 @@
 	                    font-size: 16px;
 	                    color: $ms-blue;
 	                    cursor:pointer;
+	                    @include transition($d:"0.4s", $s:"ease-in-out", $c:"all");
 	                    span {
 	                    	display: block;
 	                    	&.item-category {
@@ -201,6 +211,7 @@
 	                    	}
 	                    }
 	                    &:hover {
+	                    	@include transition($d:"0.4s", $s:"ease-in-out", $c:"all");
 	                        background-color: $ms-lightGray;
 	                    }
 	                    &.selected {
@@ -216,6 +227,41 @@
 	            overflow: hidden;
 				position: relative;
         	}
+			.underline {
+				background-color: $ms-mediumLightGray;
+				transition: color 0.3s, background 0.3s, border 0.3s, text-shadow 0.3s;
+				z-index: 0;
+				height: 10px;
+				margin-top: -9px;
+				width: 100%;
+
+				&.non-input {
+					background-color: transparent;
+					width: 206px;
+					border: 1px solid $ms-mediumLightGray;
+					border-top: none;
+
+					&.right {
+						margin: -8px 0 0 75px;
+						width: 150px;
+					}
+				}
+			}
+			.underlined {
+				margin-left: 1px;
+				padding: 0 0 2px 15px;
+				font-size: 18px;
+
+				&.right {
+					display: inline;
+					padding: 0 0 2px 25px;
+					&.end {
+						padding: {
+							left: 29px;
+						}
+					}
+				}
+			}
 		}
 
 		.tableHolder {

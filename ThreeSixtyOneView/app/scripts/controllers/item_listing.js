@@ -215,6 +215,7 @@ angular.module('ThreeSixtyOneView')
             if (evt && evt.stopPropagation){ evt.stopPropagation(); }
             switch(where){
                 case "gotoScenarioEdit": GotoService.scenarioEdit(getUuid($scope.getProject()), item.id, id); break;
+                case "gotoScenarioResults": GotoService.scenarioResults(getUuid($scope.getProject()), item.id); break;
                 case "gotoScenarioCalculate": GotoService.scenarioCalculate(getUuid($scope.getProject()), item.id); break;
                 case "gotoDashboard": GotoService.dashboard(item.uuid); break;
                 case "gotoProjects": GotoService.projects(); break;
@@ -277,8 +278,10 @@ angular.module('ThreeSixtyOneView')
 
         $scope.gotoScenarioCalculate = function(action, item) {
             if(!_.has(item, 'isMaster')) {
-                if(AnalyticCalculationsService.isInProgress(item.currentState.message) || AnalyticCalculationsService.isFailed(item.currentState.message)) {
+                if ( AnalyticCalculationsService.isInProgress(item.currentState.message) || AnalyticCalculationsService.isFailed(item.currentState.message) ) {
                     return 'gotoScenarioCalculate';
+                } else if ( AnalyticCalculationsService.isSuccess(item.currentState.message) ) {
+                    return 'gotoScenarioResults';
                 } else {
                     return action;
                 }
