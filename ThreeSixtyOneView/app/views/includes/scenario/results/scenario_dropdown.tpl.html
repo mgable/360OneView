@@ -2,9 +2,9 @@
     <div class="dropdown scenario-selector">
         <icon type="bar-chart"></icon>&nbsp;<span>Compared to:</span>
         <span class="dropdown-toggle clickable">
-			{{::selectedScenario.title}}&nbsp;<icon type="caret-down"></icon>
+			{{selectedScenario.title}}&nbsp;<icon type="caret-down"></icon>
 		</span>
-        <ul class="dropdown-menu" ms-link-group selected-item="{{::selectedScenario.id}}" radio="true">
+        <ul class="dropdown-menu" ms-link-group selected-item="{{selectedScenario.id}}" radio="true">
             <li ng-repeat="scenario in scenariosList | orderBy:'-auditInfo.createdOn' | limitTo:5" ms-link="{{::scenario.id}}" class="menu-item" ng-click="loadComparedScenarios(scenario.id)" title="{{::scenario.title}}">{{::scenario.title}}
             </li>
             <hr>
