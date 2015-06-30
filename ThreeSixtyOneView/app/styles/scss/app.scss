@@ -25,7 +25,7 @@ body {
 	min-height: 100%;
 	margin-bottom: -$footer_height;
 	background-color: $background-shade;
-	min-width: $app_min_width + 2*$app_padding;
+	min-width: $app_min_width + 2 * $app_padding;
 	&:after {
 		content: "";
   		display: block;
@@ -34,9 +34,13 @@ body {
 
 	.app {
 		box-sizing: content-box;
-		max-width: $app_max_width;
-		min-width: $app_min_width;
-		margin: 0 auto;
-		padding: 0 $app_padding 80px;
+		padding: 0 0 80px;
 	}
+}
+
+.ms-wrapper {
+    max-width: $app_max_width;
+    min-width: $app_min_width;
+    margin: 0 auto;
+    padding: 0 $app_padding;
 }

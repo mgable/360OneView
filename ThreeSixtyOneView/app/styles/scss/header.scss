@@ -3,7 +3,6 @@
     width: 100%;
     background-color: $header-background;
     height: $cap_height;
-    padding: 0 $app_padding;
     .ms-navigation {
         position: relative;
         height: 100%;
@@ -132,10 +131,4 @@
         left: 0;
         z-index: 0;
     }
-}
-
-.header-wrapper {
-    max-width: $app_max_width;
-    min-width: $content_min_width;
-    margin: 0 auto;
 }

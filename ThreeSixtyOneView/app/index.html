@@ -15,6 +15,7 @@
 		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
 		<link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.css" />
 		<link rel="stylesheet" href="bower_components/ng-sortable/dist/ng-sortable.css" />
+		<link rel="stylesheet" href="bower_components/ng-sortable/dist/ng-sortable.style.css" />
 		<link rel="stylesheet" href="bower_components/animate.css/animate.css" />
 		<!-- endbower -->
 		<!-- endbuild -->
@@ -39,7 +40,7 @@
 		<div class="wrapper">
 			<div class="ms-header" ng-include src="'views/includes/header.tpl.html'"></div>
 			<div class="ms-breadcrumb" ng-include src="'views/includes/breadcrumb.tpl.html'"></div>
-			<div class="app"><div ui-view></div></div><!-- end app -->
+			<div class="app"><div class="ms-wrapper"><div ui-view></div></div></div><!-- end app -->
 		</div>
 		<div class="ms-footer" ng-include src="'views/includes/footer.tpl.html'"></div>
 		<!--[if lt IE 9]>

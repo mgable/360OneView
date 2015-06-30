@@ -4,10 +4,7 @@
     background-color: $footer-background;
     width: 100%;
     height: $footer_height;
-    .footer-wrapper {
-        max-width: $app_max_width;
-        min-width: $content_min_width;
-        margin: 0 auto;
+    .ms-wrapper {
         .footer-left, .footer-center, .footer-right {
             display: table;
             height: $footer_height;
