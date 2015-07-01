@@ -59,7 +59,8 @@ angular.module('ThreeSixtyOneView')
         };
 
         $scope.gotoCreateRecommendation = function(){
-             $state.go('CreateRecommendation', {projectId: $scope.project.uuid});
+            DialogService.openCreateOptimizationScenario($scope.project, $scope.scenarios);
+            // $state.go('CreateRecommendation', {projectId: $scope.project.uuid});
         };
 
         // $scope.isScenarioTitleUnique = function(scenarioName) {
