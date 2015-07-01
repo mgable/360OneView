@@ -23,6 +23,13 @@ angular.module('ThreeSixtyOneView.services')
             },{size:'md', windowClass: 'lightbox form-lightbox', backdrop: 'static'});
         };
 
+        this.openCreateOptimizationScenario = function(_project_, _scenarios_) {
+            dialogs.create('views/modal/optimization_scenario_create.tpl.html','OptimizationScenarioCreateCtrl',{
+                project: _project_,
+                scenarios: _scenarios_
+            },{size:'md', windowClass: 'lightbox scenario-create-modal', backdrop: 'static'});
+        };
+
         this.openLightbox = function(templateAddress, controllerName, sharedObjects, options) {
             return dialogs.create(templateAddress, controllerName, sharedObjects, {size: options.windowSize, windowClass: options.windowClass + ' lightbox', backdrop: 'static'});
         };
