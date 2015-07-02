@@ -94,6 +94,7 @@ angular.module('ThreeSixtyOneView')
 	};
 
 	$scope.submit = function submit(scenario){
+		ScenarioService.setTemporaryScenario($scope.parentProject, $scope.newScenario, baseScenario, $scope.selectedType);
 		$state.go('CreateRecommendation', {projectId: $scope.parentProject.uuid});
 		$scope.close();
 	};

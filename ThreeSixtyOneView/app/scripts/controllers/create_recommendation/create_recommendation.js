@@ -11,7 +11,6 @@ angular.module('ThreeSixtyOneView')
 .controller('CreateRecommendationCtrl', ['$scope', '$stateParams', '$q', 'EVENTS', 'ScenarioService', 'ProjectsService', 'ManageTemplatesService', 'MetaDataService', 'ManageAnalysisViewsService', 'GotoService', 'ManageOptimizationService', 'AnalyticCalculationsService',
 function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, ManageTemplatesService, MetaDataService, ManageAnalysisViewsService, GotoService, ManageOptimizationService, AnalyticCalculationsService) {
 	var baseScenario,
-		masterProject,
 		spendCubeId,
 		spendDimensions,
 		spendView,
@@ -24,17 +23,8 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 		drawerSource,
 
 		init = function init() {
-			// $scope.newScenario = {
-			// 	name: '',
-			// 	description: '',
-			// 	prediction: {
-			// 		type: 'Optimization'
-			// 	},
-			// 	type: '',
-			// 	isPlanOfRecord: false,
-			// 	referenceScenario: {},
-			// 	template: {}
-			// };
+			$scope.newScenario = ScenarioService.getTemporaryScenario().scenario;
+			baseScenario = ScenarioService.getTemporaryScenario().baseScenario;
 
 			$scope.newRecommendation = {
 					dimensions: [],
@@ -49,18 +39,22 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 			$scope.spendDimensions = [];
 			$scope.kpis = [];
 
+			// this is commented out for now as this operation is moved to the scenario create modal
 			// get all scenario for the base scenario functionality
 			if(ProjectsService.getProjects().length === 0) {
 				ProjectsService.get().then(function() {
-					getAllScenarios();
+					// getAllScenarios();
 				});
 			} else {
-				getAllScenarios();
+				// getAllScenarios();
 			}
+
+			getSpendCube($scope.newScenario.template.id);
+			getOutcomeCube($scope.newScenario.template.id);
 		},
 		getAllScenarios = function getAllScenarios() {
 			ScenarioService.getAll().then(function(projects) {
-				masterProject = getMasterProject(projects);
+				var masterProject = getMasterProject(projects);
 				// by default, make the last scenario in master project the base scenario
 				$scope.setBaseScenario(masterProject.data[masterProject.data.length  - 1]);
 			});
@@ -261,6 +255,9 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 	};
 
 	$scope.cancel = function() {
+		// delete the temporary scenario created
+		ScenarioService.removeTemporaryScenario();
+
 		// delete the temporary spend view created
 		if(spendView) {
 			ManageAnalysisViewsService.deleteView(spendView.id, spendCubeId);
@@ -270,6 +267,9 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 	};
 
 	$scope.submit = function() {
+		// delete the temporary scenario created
+		ScenarioService.removeTemporaryScenario();
+
 		var allFilters = [];
 
 		if(baseScenario.template.type === 'Strategy') {
