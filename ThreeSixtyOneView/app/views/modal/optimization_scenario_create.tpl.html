@@ -4,68 +4,70 @@
 	</div>
 	
 	<div class="form">
-		<div class="form-row">
-			<div class="input-label">Based on</div>
-			<div class="input-value">
-				<span class="input-underline-wrapper">
-				<div class="menu-field blue clickable" ng-click="openBaseScenarioModal()">{{newScenario.referenceScenario.name}}</div>
-					<div class="underline"></div>
-				</span>
+		<form name="scenarioCreateForm" novalidate>
+			<div class="form-row">
+				<div class="input-label">Based on</div>
+				<div class="input-value">
+					<span class="input-underline-wrapper">
+					<div class="menu-field blue clickable" ng-click="openBaseScenarioModal()">{{newScenario.referenceScenario.name}}</div>
+						<div class="underline"></div>
+					</span>
+				</div>
 			</div>
-		</div>
 
-		<div class="form-row">
-			<div class="input-label">Project</div>
-			<div class="input-value">
-				<span class="dropdown input-underline-wrapper">
-					<div class="dropdown-toggle menu-field blue clickable">{{parentProject.name}}</div>
-					<div class="underline"></div>
-					<div class="dropdown-menu" ms-link-group radio="true" selected-item="{{parentProject.name}}">
-						<ul>
-							<li class="menu-item" ng-repeat="project in getProjects()" ng-click="changeProject(project)" ms-link="{{project.name}}">{{project.name}}</li>
-						</ul>
-					</div>
-				</span>
+			<div class="form-row">
+				<div class="input-label">Project</div>
+				<div class="input-value">
+					<span class="dropdown input-underline-wrapper">
+						<div class="dropdown-toggle menu-field blue clickable">{{parentProject.name}}</div>
+						<div class="underline"></div>
+						<div class="dropdown-menu" ms-link-group radio="true" selected-item="{{parentProject.name}}">
+							<ul>
+								<li class="menu-item" ng-repeat="project in getProjects()" ng-click="changeProject(project)" ms-link="{{project.name}}">{{project.name}}</li>
+							</ul>
+						</div>
+					</span>
+				</div>
 			</div>
-		</div>
 
-		<div class="form-row">
-			<div class="input-label">Type</div>
-			<div class="input-value">
-				<ul class="type-buttons">
-					<li class="type-btn" ng-repeat="type in types" ng-click="selectType(type)">
-						<input type="radio" name="type" id="radio{{$index}}" ng-model="selectedType" value="{{type.label}}" ng-disabled="type.disabled" />
-						<label class="label-holder" for="radio{{$index}}">
-							<span class="label-text">{{type.label}}</span>
-						</label>
-					</li>
-				</ul>
+			<div class="form-row">
+				<div class="input-label">Type</div>
+				<div class="input-value">
+					<ul class="type-buttons">
+						<li class="type-btn" ng-repeat="type in types" ng-click="selectType(type)">
+							<input type="radio" name="type" id="radio{{$index}}" ng-model="selectedType" value="{{type.label}}" ng-disabled="type.disabled" />
+							<label class="label-holder" for="radio{{$index}}">
+								<span class="label-text">{{type.label}}</span>
+							</label>
+						</li>
+					</ul>
+				</div>
 			</div>
-		</div>
 
-		<div class="form-row">
-			<div class="input-label">Name</div>
-			<div class="input-value">
-				<span class="input-underline-wrapper">
-					<input placeholder="Write a name" type="text" ng-model="newScenario.name">
-					<div class="underline"></div>
-				</span>
+			<div class="form-row">
+				<div class="input-label">Name</div>
+				<div class="input-value">
+					<span class="input-underline-wrapper">
+						<input placeholder="Write a name" type="text" ng-model="newScenario.name" ng-required="true">
+						<div class="underline"></div>
+					</span>
+				</div>
 			</div>
-		</div>
 
-		<div class="form-row">
-			<div class="input-label">Description</div>
-			<div class="input-value">
-				<span class="input-underline-wrapper">
-					<input placeholder="Write a description in 250 characters or less" type="text" ng-model="newScenario.description">
-					<div class="underline"></div>
-				</span>
+			<div class="form-row">
+				<div class="input-label">Description</div>
+				<div class="input-value">
+					<span class="input-underline-wrapper">
+						<input placeholder="Write a description in 250 characters or less" type="text" ng-model="newScenario.description">
+						<div class="underline"></div>
+					</span>
+				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 
 	<div class="action-buttons">
 		<ms-button type="cancel" action="close()" label="Cancel" data-ms-id="ScenarioCreate.cancelBaseScenario"></ms-button>
-		<ms-button type="submit" action="submit()" label="Next" data-ms-id="ScenarioCreate.confirmBaseScenario"></ms-button>
+		<ms-button type="submit" action="submit()" label="Next" data-ms-id="ScenarioCreate.confirmBaseScenario" ng-disabled="!scenarioCreateForm.$valid"></ms-button>
 	</div>
 </div>
