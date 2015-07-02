@@ -8,7 +8,7 @@
 			<div class="input-label">Based on</div>
 			<div class="input-value">
 				<span class="input-underline-wrapper">
-					<input placeholder="Write a name" type="text" class="blue" ng-model="newScenario.referenceScenario.name">
+				<div class="menu-field blue clickable" ng-click="openBaseScenarioModal()">{{newScenario.referenceScenario.name}}</div>
 					<div class="underline"></div>
 				</span>
 			</div>
@@ -17,9 +17,14 @@
 		<div class="form-row">
 			<div class="input-label">Project</div>
 			<div class="input-value">
-				<span class="input-underline-wrapper">
-					<input placeholder="Write a name" type="text" class="blue" ng-model="parentProject">
+				<span class="dropdown input-underline-wrapper">
+					<div class="dropdown-toggle menu-field blue clickable">{{parentProject.name}}</div>
 					<div class="underline"></div>
+					<div class="dropdown-menu" ms-link-group radio="true" selected-item="{{parentProject.name}}">
+						<ul>
+							<li class="menu-item" ng-repeat="project in getProjects()" ng-click="changeProject(project)" ms-link="{{project.name}}">{{project.name}}</li>
+						</ul>
+					</div>
 				</span>
 			</div>
 		</div>
@@ -29,7 +34,7 @@
 			<div class="input-value">
 				<ul class="type-buttons">
 					<li class="type-btn" ng-repeat="type in types" ng-click="selectType(type)">
-						<input type="radio" name="type" id="radio{{$index}}" ng-model="selectedType" value="{{type.label}}" />
+						<input type="radio" name="type" id="radio{{$index}}" ng-model="selectedType" value="{{type.label}}" ng-disabled="type.disabled" />
 						<label class="label-holder" for="radio{{$index}}">
 							<span class="label-text">{{type.label}}</span>
 						</label>
@@ -60,7 +65,7 @@
 	</div>
 
 	<div class="action-buttons">
-		<ms-button type="cancel" action="cancel()" label="Cancel" data-ms-id="ScenarioCreate.cancelBaseScenario"></ms-button>
+		<ms-button type="cancel" action="close()" label="Cancel" data-ms-id="ScenarioCreate.cancelBaseScenario"></ms-button>
 		<ms-button type="submit" action="submit()" label="Next" data-ms-id="ScenarioCreate.confirmBaseScenario"></ms-button>
 	</div>
 </div>

@@ -24,17 +24,17 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 		drawerSource,
 
 		init = function init() {
-			$scope.newScenario = {
-				name: '',
-				description: '',
-				prediction: {
-					type: 'Optimization'
-				},
-				type: '',
-				isPlanOfRecord: false,
-				referenceScenario: {},
-				template: {}
-			};
+			// $scope.newScenario = {
+			// 	name: '',
+			// 	description: '',
+			// 	prediction: {
+			// 		type: 'Optimization'
+			// 	},
+			// 	type: '',
+			// 	isPlanOfRecord: false,
+			// 	referenceScenario: {},
+			// 	template: {}
+			// };
 
 			$scope.newRecommendation = {
 					dimensions: [],

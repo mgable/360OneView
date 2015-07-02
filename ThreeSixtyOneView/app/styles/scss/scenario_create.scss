@@ -398,10 +398,14 @@
 										border-color: $ms-blue;
 									}
 								}
+							}
 
-								&.blue {
-									color: $ms-blue;
-								}
+							.blue {
+								color: $ms-blue;
+							}
+
+							.menu-field {
+								margin-left: 15px;
 							}
 
 							.underline {
@@ -409,6 +413,16 @@
 								border-top: 0;
 								height: 10px;
 								margin-top: -7px;
+							}
+
+							&.dropdown {
+								.dropdown-menu {
+									width: 300px;
+
+									&::before {
+										left: 15%;
+									}
+								}
 							}
 						}
 
