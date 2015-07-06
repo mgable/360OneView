@@ -544,6 +544,83 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
+  $templateCache.put('views/modal/optimization_scenario_create.tpl.html',
+    "<div data-ms-id=\"scenarioCreateModal\" class=\"optimization-scenario-create\">\n" +
+    "\t<div class=\"header\">\n" +
+    "\t\t<h4 class=\"title\">Create New Optimization</h4>\n" +
+    "\t</div>\n" +
+    "\t\n" +
+    "\t<div class=\"form\">\n" +
+    "\t\t<form name=\"scenarioCreateForm\" novalidate>\n" +
+    "\t\t\t<div class=\"form-row\">\n" +
+    "\t\t\t\t<div class=\"input-label\">Based on</div>\n" +
+    "\t\t\t\t<div class=\"input-value\">\n" +
+    "\t\t\t\t\t<span class=\"input-underline-wrapper\">\n" +
+    "\t\t\t\t\t<div class=\"menu-field blue clickable\" ng-click=\"openBaseScenarioModal()\">{{newScenario.referenceScenario.name}}</div>\n" +
+    "\t\t\t\t\t\t<div class=\"underline\"></div>\n" +
+    "\t\t\t\t\t</span>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\n" +
+    "\t\t\t<div class=\"form-row\">\n" +
+    "\t\t\t\t<div class=\"input-label\">Project</div>\n" +
+    "\t\t\t\t<div class=\"input-value\">\n" +
+    "\t\t\t\t\t<span class=\"dropdown input-underline-wrapper\">\n" +
+    "\t\t\t\t\t\t<div class=\"dropdown-toggle menu-field blue clickable\">{{parentProject.name}}</div>\n" +
+    "\t\t\t\t\t\t<div class=\"underline\"></div>\n" +
+    "\t\t\t\t\t\t<div class=\"dropdown-menu\" ms-link-group radio=\"true\" selected-item=\"{{parentProject.name}}\">\n" +
+    "\t\t\t\t\t\t\t<ul>\n" +
+    "\t\t\t\t\t\t\t\t<li class=\"menu-item\" ng-repeat=\"project in getProjects()\" ng-click=\"changeProject(project)\" ms-link=\"{{project.name}}\">{{project.name}}</li>\n" +
+    "\t\t\t\t\t\t\t</ul>\n" +
+    "\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t</span>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\n" +
+    "\t\t\t<div class=\"form-row\">\n" +
+    "\t\t\t\t<div class=\"input-label\">Type</div>\n" +
+    "\t\t\t\t<div class=\"input-value\">\n" +
+    "\t\t\t\t\t<ul class=\"type-buttons\">\n" +
+    "\t\t\t\t\t\t<li class=\"type-btn\" ng-repeat=\"type in types\" ng-click=\"selectType(type)\">\n" +
+    "\t\t\t\t\t\t\t<input type=\"radio\" name=\"type\" id=\"radio{{$index}}\" ng-model=\"selectedType\" value=\"{{type.label}}\" ng-disabled=\"type.disabled\" />\n" +
+    "\t\t\t\t\t\t\t<label class=\"label-holder\" for=\"radio{{$index}}\">\n" +
+    "\t\t\t\t\t\t\t\t<span class=\"label-text\">{{type.label}}</span>\n" +
+    "\t\t\t\t\t\t\t</label>\n" +
+    "\t\t\t\t\t\t</li>\n" +
+    "\t\t\t\t\t</ul>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\n" +
+    "\t\t\t<div class=\"form-row\">\n" +
+    "\t\t\t\t<div class=\"input-label\">Name</div>\n" +
+    "\t\t\t\t<div class=\"input-value\">\n" +
+    "\t\t\t\t\t<span class=\"input-underline-wrapper\">\n" +
+    "\t\t\t\t\t\t<input placeholder=\"Write a name\" type=\"text\" ng-model=\"newScenario.name\" ng-required=\"true\">\n" +
+    "\t\t\t\t\t\t<div class=\"underline\"></div>\n" +
+    "\t\t\t\t\t</span>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\n" +
+    "\t\t\t<div class=\"form-row\">\n" +
+    "\t\t\t\t<div class=\"input-label\">Description</div>\n" +
+    "\t\t\t\t<div class=\"input-value\">\n" +
+    "\t\t\t\t\t<span class=\"input-underline-wrapper\">\n" +
+    "\t\t\t\t\t\t<input placeholder=\"Write a description in 250 characters or less\" type=\"text\" ng-model=\"newScenario.description\">\n" +
+    "\t\t\t\t\t\t<div class=\"underline\"></div>\n" +
+    "\t\t\t\t\t</span>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\t\t</form>\n" +
+    "\t</div>\n" +
+    "\n" +
+    "\t<div class=\"action-buttons\">\n" +
+    "\t\t<ms-button type=\"cancel\" action=\"close()\" label=\"Cancel\" data-ms-id=\"ScenarioCreate.cancelBaseScenario\"></ms-button>\n" +
+    "\t\t<ms-button type=\"submit\" action=\"submit()\" label=\"Next\" data-ms-id=\"ScenarioCreate.confirmBaseScenario\" ng-disabled=\"!scenarioCreateForm.$valid\"></ms-button>\n" +
+    "\t</div>\n" +
+    "</div>"
+  );
+
+
   $templateCache.put('views/modal/scenario_analysis_element_copy.tpl.html',
     "<div data-ms-id=\"analysisElementCopy\">\n" +
     "\t<div class=\"header\">\n" +
