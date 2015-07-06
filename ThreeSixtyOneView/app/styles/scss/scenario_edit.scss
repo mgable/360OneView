@@ -1,0 +1,27 @@
+@import "variables";
+
+.scenario_edit {
+    .scenario-settings {
+        .dropdown-menu {
+            .header {
+                .title {
+                    span { line-height: 26px; }
+                    .saveAsBox {
+                        form { margin-bottom: 0; }
+                    }
+                }
+            }
+        }
+    }
+    .scenario-content {
+        .left-content {
+        }
+        .right-content {
+            .save-status {
+                float: right;
+                font-size: 14px;
+                color: $ms-black;
+            }
+        }
+    }
+}

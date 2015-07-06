@@ -8,8 +8,8 @@
  * Controller of the threeSixtOneViewApp
  */
 angular.module('ThreeSixtyOneView')
-.controller('CreateRecommendationCtrl', ['$scope', '$stateParams', '$q', 'EVENTS', 'ScenarioService', 'ProjectsService', 'ManageTemplatesService', 'MetaDataService', 'ManageAnalysisViewsService', 'GotoService', 'ManageOptimizationService',
-function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, ManageTemplatesService, MetaDataService, ManageAnalysisViewsService, GotoService, ManageOptimizationService) {
+.controller('CreateRecommendationCtrl', ['$scope', '$stateParams', '$q', 'EVENTS', 'ScenarioService', 'ProjectsService', 'ManageTemplatesService', 'MetaDataService', 'ManageAnalysisViewsService', 'GotoService', 'ManageOptimizationService', 'AnalyticCalculationsService',
+function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, ManageTemplatesService, MetaDataService, ManageAnalysisViewsService, GotoService, ManageOptimizationService, AnalyticCalculationsService) {
 	var baseScenario,
 		masterProject,
 		spendCubeId,
@@ -112,6 +112,8 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 			});
 		},
 		formSpendDimensions = function formSpendDimensions(_spendDimensions) {
+			$scope.spendDimensions = [];
+
 			_spendDimensions.forEach(function(dimension) {
 				if(dimension.type === 'TimeDimension') {
 					$scope.timeDimension = dimension;
@@ -277,14 +279,14 @@ function ($scope, $stateParams, $q, EVENTS, ScenarioService, ProjectsService, Ma
 		}
 		$scope.setUpDimensions(allFilters, [].concat(spendDimensions, outcomeDimensions));
 
-		console.log($scope.newScenario);
-		console.log($scope.newRecommendation);
-		// return;
 		ScenarioService.create($stateParams.projectId, $scope.newScenario).then(function(_newScenario){
 			console.log('created scenario', _newScenario);
 			ManageOptimizationService.create(_newScenario.id, $scope.newRecommendation).then(function(_newRecommendation) {
 				console.log('created recommendation', _newRecommendation);
-				GotoService.scenarioEdit($stateParams.projectId, _newScenario.id);
+				AnalyticCalculationsService.post(_newScenario.id).then(function(calculate) {
+					console.log('initiated the optimization calculation');
+					GotoService.scenarioEdit($stateParams.projectId, _newScenario.id);
+				});
 			});
 		});
 	};

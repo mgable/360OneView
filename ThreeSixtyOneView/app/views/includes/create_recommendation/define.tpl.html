@@ -1,28 +1,18 @@
 <div ng-controller="CreateRecommendationDefineCtrl" class="sub-view">
-	<svg-icon type="goal" class="sub-view-icon"></svg-icon>
-	<div class="prompt">
-		Define your goals
-		<icon type="info-circle" cname="info"></icon>
-	</div>
-	<div class="sub-header">
-		What KPI do you want to optimize for?
-	</div>
-	<div class="register">
-		<form>
-			<ul class="kpi-buttons">
-				<li class="kpi-btn" ng-repeat="kpi in kpis" ng-click="selectKpi(kpi)">
-					<input type="radio" id="radio{{$index}}" ng-model="newRecommendation.kpi.label" value="{{kpi.label}}" />
-					<label class="animated fadeIn label-holder" for="radio{{$index}}">
-						<span class="label-text">{{kpi.label}}</span>
-					</label>
-				</li>
-			</ul>
-		</form>
-	</div>
+	<form>
+		<ul class="kpi-buttons">
+			<li class="kpi-btn" ng-repeat="kpi in kpis" ng-click="selectKpi(kpi)">
+				<input type="radio" id="radio{{$index}}" ng-model="newRecommendation.kpi.label" value="{{kpi.label}}" />
+				<label class="label-holder" for="radio{{$index}}">
+					<span class="label-text">{{kpi.label}}</span>
+				</label>
+			</li>
+		</ul>
+	</form>
 	<div class="editor">
 		<div class="filters-list">
 			<div class="list">
-				<dimension-filter ng-repeat="dimension in getOutcomeDimensions()" ng-if="addedFilters[dimension.label] && isOutcomeDimensionVisible(dimension)" dimension="dimension" categorized-values="categorizedValue[$index]" action="filtersModal(dimension)" list-view="true"></dimension-filter>
+				<dimension-filter ng-repeat="dimension in getOutcomeDimensions()" ng-if="addedFilters[dimension.label] && isOutcomeDimensionVisible(dimension)" dimension="dimension" categorized-values="categorizedValue[$index]" action="filtersModal(dimension)" view="list"></dimension-filter>
 			</div>
 		</div>
 	</div>

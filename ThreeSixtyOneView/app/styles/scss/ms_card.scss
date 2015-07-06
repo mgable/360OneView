@@ -1,0 +1,34 @@
+@import "variables";
+
+.ms-card {
+    position: relative;
+    border-radius: 3px;
+    background-color: $ms-white;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+    .ms-card-title {
+        font-weight: 500;
+        font-size: 30px;
+        .ms-card-info {
+            cursor: pointer;
+            margin-left: 15px;
+            color: $ms-mediumLightGray;
+            font-size: 18px;
+            &:hover {
+                color: darken($ms-mediumLightGray, 5%);
+            }
+        }
+    }
+    .ms-card-subtitle {
+        color: $ms-mediumGray;
+    }
+    .ms-card-setting {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        color: $ms-mediumLightGray;
+    }
+    .ms-card-content {
+        margin-top: 30px;
+    }
+}

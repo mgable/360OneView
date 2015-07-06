@@ -1,20 +1,5 @@
 <div class="listingView">
 	<div class="row display-actions">
-		<div class="filter-holder dropdown" data-ms-id="filterBy">
-		    <span class="dropdown-toggle clickable filter-title">
-		        {{SortAndFilterService.getSelectedLabel()}}&nbsp;(
-	        	<span data-ms-id='itemCount'>{{SortAndFilterService.getCount()}}</span>
-		        )
-	        	<span class="filterToggle">
-	        		<icon type="caret-down"></icon>
-	        	</span>
-		    </span>
-		    <ul ms-link-group class='dropdown-menu'>
-		        <li ng-repeat="item in CONFIG.filterMenu.items" class="menu-item" ng-click="setFilter(item.filterType, item, true)" data-ms-id="{{item.label}}">{{::item.label}}</li>
-		    </ul>
-		</div>
-
-	    <ms-filter-input></ms-filter-input>
 
 	    <div class="button-holder">
 	        <ms-button type="submit" action="createTemplate()" label="New Template" ng-show="project.isMaster"></ms-button>
@@ -35,6 +20,22 @@
 	</div>
 	<div class="row display-area">
 		<div class="display" ng-switch="{{!!scenarios}}">
+			<div class="display-title">
+				<div class="filter-holder dropdown" data-ms-id="filterBy">
+				    <span class="dropdown-toggle clickable filter-title hide-overflow">
+				        {{SortAndFilterService.getSelectedLabel()}}&nbsp;(
+			        	<span data-ms-id='itemCount'>{{SortAndFilterService.getCount()}}</span>
+				        )
+			        	<span class="filterToggle">
+			        		<icon type="caret-down"></icon>
+			        	</span>
+				    </span>
+				    <ul ms-link-group class='dropdown-menu'>
+				        <li ng-repeat="item in CONFIG.filterMenu.items" class="menu-item" ng-click="setFilter(item.filterType, item, true)" data-ms-id="{{item.label}}">{{::item.label}}</li>
+				    </ul>
+				</div>
+				<ms-filter-input></ms-filter-input>
+			</div>
 			<div ng-switch-when="true"><ng-include src="'views/includes/display/display_table_scenarios.tpl.html'"></ng-include></div>
 			<div ng-switch-default><ng-include src="'views/includes/display/display_table_projects.tpl.html'"></ng-include></div>
 		</div>

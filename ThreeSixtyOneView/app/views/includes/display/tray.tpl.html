@@ -42,7 +42,10 @@
 		<div class="referenceScenario-holder">
 			<p class="ms-label">Base Scenario</p>
 			<p class="reference-label"><a data-ms-id="ScenarioListing:baseScenario" ng-click="gotoBaseScenario(selectedItem.referenceScenario)">{{selectedItem.referenceScenario.name}}</a></p>
-			<p class="text-holder template {{selectedItem.template.type | lowercase}}"><span>{{selectedItem.template.name}}</span></p>
+			<p class="text-holder template {{selectedItem.template.type | lowercase}}">
+				<span class="template-icon">{{::selectedItem.template.name[0]}}</span>
+				<span class="template-name">{{::selectedItem.template.name}}</span>
+			</p>
 		</div>
 	</div>
 
