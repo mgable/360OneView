@@ -1,77 +1,111 @@
-<div class="CreateRecommendation">
-	<div class="row main">
-		<div class="col-sm-9 left-column column-fix">
-			<div class="slideInContainer animated" ng-class="{slideInRight: animation.slideIn, slideOutRight: !animation.slideIn}" ng-show="animation.slideIn">
-				<div ui-view="recommend"></div>
-			</div>
-			<ng-include src="'views/includes/create_recommendation/name_and_describe.tpl.html'"></ng-include>
-			<ng-include src="'views/includes/create_recommendation/select.tpl.html'"></ng-include>
-			<ng-include src="'views/includes/create_recommendation/define.tpl.html'"></ng-include>
-		</div>
-		<div class="col-sm-3 right-column column-fix">
-			<div class="section">
-				Base Scenario
-				<div class="item-container">
-					<a class="item" ng-click="openDrawer('base')">Plan of Record</a>
-				</div>
-			</div>
-			<div class="section">
-				<div>
-					Constraints
-					<icon type="caret-right" cname="constraint-link"></icon>
-					<icon type="info-circle" cname="info right"></icon>
-				</div>
-				<div class="item-container">
-					<ul>
-						<li ng-repeat="constraint in constraints"><a class="item">{{constraint.label}}</a></li>
-					</ul>
-				</div>
-				<div class="item-container add-link">
-					<icon type="plus-circle"></icon>
-					add
-				</div>
-			</div>
-			<div class="section end" ng-if="isRecommendTypeStrategy">
-				Assumptions
-				<icon type="info-circle" cname="info right"></icon>
-				<div class="item-container">
-					<ul>
-						<li class="sub-section" ng-repeat="assumption in assumptions">
-							<div class="item-container">
-								{{assumption.field}}:
-								<a class="item">{{assumption.label}}</a>
-							</div>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div class="section end" ng-if="!isRecommendTypeStrategy">
-				<div class="item-container">
-					<a class="item" ng-click="openDrawer('assumptions')">Assumptions</a>
-				</div>
-				<icon type="info-circle" cname="info right"></icon>
-				<div class="item-container">
-					Historical Performance Period
-					<div class="item-container">
-						<span>Start Date</span>
-						<span>
-							<div class="underlined right">date</div>
-							<div class="underline non-input right"></div>
-						</span>
-					</div>
-					<div class="item-container">
-						<span>End Date</span>
-						<span>
-							<div class="underlined right end">date</div>
-							<div class="underline non-input right"></div>
-						</span>
-					</div>
-				</div>
-			</div>
-		</div>
+<div class="scenario">
+	<div class="scenario-header">
+		<ul class="toggle-btn-group">
+			<li data-ms-id="create.recommendations.cancel.button" class="toggle-btn">
+				<ms-button type="cancel" label="Cancel" action="cancel()"></ms-button>
+			</li>
+			<li data-ms-id="create.recommendations.cancel.button" class="toggle-btn">
+				<ms-button type="submit" label="Generate" action="submit()"></ms-button>
+			</li>
+		</ul>
 	</div>
-	<div class="row buttons">
-		<ms-button type="cancel" label="Cancel" action="cancel()"></ms-button>
-		<ms-button type="submit" label="Generate"></ms-button>
+	<div class="display">
+		<div class="create_recommendations">
+			<div class="scenario-settings row"></div>
+			<div class="row scenario-content">
+				<div class="left-content">
+					<div class="ms-card animated bounceInLeft">
+						<section class="group">
+							<div class="group-title">Base Scenario<span class="group-info"><icon type="info-circle"></icon></span></div>
+							<div class="group-item">
+								<a class="item" ng-click="openDrawer('base')">{{newScenario.referenceScenario.name}}</a>
+							</div>
+						</section>
+						<section class="group">
+							<div class="group-title">Constraints&nbsp;<icon type="caret-right"></icon>
+								<span class="group-info"><icon type="info-circle"></icon></span>
+							</div>
+							<ul>
+								<li class="group-item" ng-repeat="constraint in constraints">
+									<a class="item">{{constraint.label}}</a>
+								</li>
+							</ul>
+							<div class="group-item">
+								<icon type="plus-circle"></icon>&nbsp;<a>add</a>
+							</div>
+						</section>
+						<section class="group" ng-if="isRecommendTypeStrategy">
+							<div class="group-title">Assumptions
+								<span class="group-info"><icon type="info-circle"></icon></span>
+							</div>
+							<ul>
+								<li class="group-item" ng-repeat="assumption in assumptions">
+									<span class="clickable hide-overflow item-category" title="{{assumption.field}}">{{assumption.field}}:</span>
+									<span class="clickable hide-overflow item-name" title="{{assumption.label}}"><a ng-click="openDrawer('assumptions')">{{assumption.label}}</a></span>
+								</li>
+							</ul>
+						</section>
+						<section class="group" ng-if="!isRecommendTypeStrategy">
+							<div class="group-title">Assumptions
+								<span class="group-info"><icon type="info-circle"></icon></span>
+							</div>
+							<ul>
+								<!-- <li class="group-item" ng-repeat="assumption in assumptions">
+									<span class="clickable hide-overflow item-category" title="{{assumption.field}}">{{assumption.field}}:</span>
+									<span class="clickable hide-overflow item-name" title="{{assumption.label}}"><a ng-click="openDrawer('assumptions')">{{assumption.label}}</a></span>
+								</li> -->
+								<li class="group-item">
+									<span class="clickable hide-overflow item-category" title="{{assumption.field}}">Assumption-Field:</span>
+									<span class="clickable hide-overflow item-name" title="{{assumption.label}}"><a ng-click="openDrawer('assumptions')">Assumption-Label</a></span>
+								</li>
+							</ul>
+						</section>
+						<section class="group" ng-if="!isRecommendTypeStrategy">
+							<div class="group-title">Historical Performance Period
+								<span class="group-info"><icon type="info-circle"></icon></span>
+							</div>
+							<div class="date-picker">
+								<span>Start Date</span>
+								<span>
+									<div class="underlined right">date</div>
+									<div class="underline non-input right"></div>
+								</span>
+							</div>
+							<div class="date-picker">
+								<span>End Date</span>
+								<span>
+									<div class="underlined right end">date</div>
+									<div class="underline non-input right"></div>
+								</span>
+							</div>
+						</section>
+					</div>
+				</div>
+				<div class="right-content">
+					<div class="slideInContainerBg animated" ng-class="{fadeIn: animation.slideIn, fadeOut: !animation.slideIn}" ng-show="animation.slideIn"></div>
+					<div class="ms-card slideInContainer animated" ng-class="{bounceInLeft: animation.slideIn, bounceOutLeft: !animation.slideIn}" ng-show="animation.slideIn">
+						<div ui-view="recommend"></div>
+					</div>
+					<div class="ms-card animated slideInRight" style="animation-delay: 1.4s;">
+						<div class="ms-card-title">Select the budget to optimize
+							<span class="ms-card-info"><icon type="info-circle"></icon></span>
+						</div>
+						<div class="ms-card-subtitle">Narrow down to only the area of the plan you would like to get recommendations for</div>
+						<div class="ms-card-content animated fadeIn" style="animation-delay: 2.4s;">
+							<ng-include src="'views/includes/create_recommendation/select.tpl.html'"></ng-include>
+						</div>
+					</div>
+					<div class="ms-card animated slideInRight" style="animation-delay: 1.8s;">
+						<div class="ms-card-title">Define your goals
+							<span class="ms-card-info"><icon type="info-circle"></icon></span>
+						</div>
+						<div class="ms-card-subtitle">What KPI do you want to optimize for?</div>
+						<div class="ms-card-content animated fadeIn" style="animation-delay: 2.8s;">
+							<ng-include src="'views/includes/create_recommendation/define.tpl.html'"></ng-include>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

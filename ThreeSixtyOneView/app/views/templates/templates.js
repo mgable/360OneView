@@ -27,6 +27,16 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
+  $templateCache.put('views/directives/dimension_filter_inline.tpl.html',
+    "<div class=\"filter-category-inline clickable\" title=\"{{getFormattedLabels(categorizedValues.label)}}\">\n" +
+    "    <span class=\"filter-label\" ng-if=\"categorizedValues.selected < categorizedValues.total\">\n" +
+    "        {{dimension.label}}\n" +
+    "        <span class=\"filter-stats\">({{categorizedValues.selected}}/{{categorizedValues.total}})</span>\n" +
+    "    </span>\n" +
+    "</div>"
+  );
+
+
   $templateCache.put('views/directives/dimension_filter_list.tpl.html',
     "<div class=\"filter-category-list clickable\" ng-click=\"callAction(dimension)\">\n" +
     "\t<span title=\"{{getFormattedLabels(categorizedValues.label)}}\">\n" +
@@ -149,9 +159,10 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/ms_filter_input.tpl.html',
-    "<div class=\"input-holder\">\n" +
-    "\t<icon type=\"filter\"></icon>\n" +
-    "\t<input type=\"text\" class=\"search-input\" ng-model=\"SortAndFilterService.searchText\" ng-change=\"SortAndFilterService.filter()\" placeholder=\"Filter List\" ng-maxlength=\"1000\" />&nbsp;\n" +
+    "<div class=\"search\">\n" +
+    "    <input type=\"text\" class=\"list-filter\" ng-model=\"SortAndFilterService.searchText\" ng-change=\"SortAndFilterService.filter()\" ng-maxlength=\"1000\" placeholder=\"Filter List\">\n" +
+    "    <icon type=\"search\" class=\"search\"></icon>\n" +
+    "    <icon type=\"times\" class=\"clear\" ng-click=\"SortAndFilterService.resetFilter()\" ng-show=\"SortAndFilterService.searchText.length\"></icon>\n" +
     "</div>"
   );
 
@@ -368,19 +379,31 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
 
 
   $templateCache.put('views/directives/sortable_columns.tpl.html',
-    "<div ng-switch on=\"displayBy\" class=\"text-holder\"> \n" +
+    "<div ng-switch on=\"displayBy\" class=\"text-holder\">\n" +
     "\t<span ng-switch-when=\"Last Modified\">\n" +
-    "\t\t<span ng-if=\"!test\">{{::item.auditInfo.lastUpdatedOn | timeago}}</span>\n" +
-    "\t\t<span ng-if=\"test\">{{::item.auditInfo.lastUpdatedOn}}</span>\n" +
-    "\t</span> \n" +
-    "\t<span ng-switch-when=\"Modified By\">{{::item.auditInfo.lastUpdatedBy.name}}</span> \n" +
-    "\t<span ng-switch-when=\"Type\">{{::item.template.type}}</span> \n" +
-    "\t<span ng-switch-when=\"Creator\">{{::item.auditInfo.createdBy.name}}</span> \n" +
+    "\t\t<span ng-if=\"!test\">\n" +
+    "\t\t\t<span class=\"time\">{{::item.auditInfo.lastUpdatedOn | timeago}}</span>\n" +
+    "\t\t\t<span class=\"name\">{{item.auditInfo.lastUpdatedBy.name}}</span>\n" +
+    "\t\t</span>\n" +
+    "\t\t<span ng-if=\"test\">\n" +
+    "\t\t\t<span class=\"time\">{{::item.auditInfo.lastUpdatedOn}}</span>\n" +
+    "\t\t\t<span class=\"name\">{{item.auditInfo.lastUpdatedBy.name}}</span>\n" +
+    "\t\t</span>\n" +
+    "\t</span>\n" +
     "\t<span ng-switch-when=\"Created Date\">\n" +
-    "\t\t<span ng-if=\"!test\">{{::item.auditInfo.createdOn | date: 'longDate'}}</span>\n" +
-    "\t\t<span ng-if=\"test\">{{::item.auditInfo.createdOn}}</span>\n" +
-    "\t</span> \n" +
-    "\t<span ng-switch-default>FAIL</span> \n" +
+    "\t\t<span ng-if=\"!test\">\n" +
+    "\t\t\t<span class=\"time\">{{::item.auditInfo.createdOn | date: 'longDate'}}</span>\n" +
+    "\t\t\t<span class=\"name\">{{item.auditInfo.createdBy.name}}</span>\n" +
+    "\t\t</span>\n" +
+    "\t\t<span ng-if=\"test\">\n" +
+    "\t\t\t<span class=\"time\">{{::item.auditInfo.createdOn}}</span>\n" +
+    "\t\t\t<span class=\"name\">{{item.auditInfo.createdBy.name}}</span>\n" +
+    "\t\t</span>\n" +
+    "\t</span>\n" +
+    "\t<span ng-switch-when=\"Modified By\">{{::item.auditInfo.lastUpdatedBy.name}}</span>\n" +
+    "\t<span ng-switch-when=\"Type\">{{::item.template.type}}</span>\n" +
+    "\t<span ng-switch-when=\"Creator\">{{::item.auditInfo.createdBy.name}}</span>\n" +
+    "\t<span ng-switch-default>FAIL</span>\n" +
     "</div>"
   );
 
@@ -521,6 +544,83 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
   );
 
 
+  $templateCache.put('views/modal/optimization_scenario_create.tpl.html',
+    "<div data-ms-id=\"scenarioCreateModal\" class=\"optimization-scenario-create\">\n" +
+    "\t<div class=\"header\">\n" +
+    "\t\t<h4 class=\"title\">Create New Optimization</h4>\n" +
+    "\t</div>\n" +
+    "\t\n" +
+    "\t<div class=\"form\">\n" +
+    "\t\t<form name=\"scenarioCreateForm\" novalidate>\n" +
+    "\t\t\t<div class=\"form-row\">\n" +
+    "\t\t\t\t<div class=\"input-label\">Based on</div>\n" +
+    "\t\t\t\t<div class=\"input-value\">\n" +
+    "\t\t\t\t\t<span class=\"input-underline-wrapper\">\n" +
+    "\t\t\t\t\t<div class=\"menu-field blue clickable\" ng-click=\"openBaseScenarioModal()\">{{newScenario.referenceScenario.name}}</div>\n" +
+    "\t\t\t\t\t\t<div class=\"underline\"></div>\n" +
+    "\t\t\t\t\t</span>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\n" +
+    "\t\t\t<div class=\"form-row\">\n" +
+    "\t\t\t\t<div class=\"input-label\">Project</div>\n" +
+    "\t\t\t\t<div class=\"input-value\">\n" +
+    "\t\t\t\t\t<span class=\"dropdown input-underline-wrapper\">\n" +
+    "\t\t\t\t\t\t<div class=\"dropdown-toggle menu-field blue clickable\">{{parentProject.name}}</div>\n" +
+    "\t\t\t\t\t\t<div class=\"underline\"></div>\n" +
+    "\t\t\t\t\t\t<div class=\"dropdown-menu\" ms-link-group radio=\"true\" selected-item=\"{{parentProject.name}}\">\n" +
+    "\t\t\t\t\t\t\t<ul>\n" +
+    "\t\t\t\t\t\t\t\t<li class=\"menu-item\" ng-repeat=\"project in getProjects()\" ng-click=\"changeProject(project)\" ms-link=\"{{project.name}}\">{{project.name}}</li>\n" +
+    "\t\t\t\t\t\t\t</ul>\n" +
+    "\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t</span>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\n" +
+    "\t\t\t<div class=\"form-row\">\n" +
+    "\t\t\t\t<div class=\"input-label\">Type</div>\n" +
+    "\t\t\t\t<div class=\"input-value\">\n" +
+    "\t\t\t\t\t<ul class=\"type-buttons\">\n" +
+    "\t\t\t\t\t\t<li class=\"type-btn\" ng-repeat=\"type in types\" ng-click=\"selectType(type)\">\n" +
+    "\t\t\t\t\t\t\t<input type=\"radio\" name=\"type\" id=\"radio{{$index}}\" ng-model=\"selectedType\" value=\"{{type.label}}\" ng-disabled=\"type.disabled\" />\n" +
+    "\t\t\t\t\t\t\t<label class=\"label-holder\" for=\"radio{{$index}}\">\n" +
+    "\t\t\t\t\t\t\t\t<span class=\"label-text\">{{type.label}}</span>\n" +
+    "\t\t\t\t\t\t\t</label>\n" +
+    "\t\t\t\t\t\t</li>\n" +
+    "\t\t\t\t\t</ul>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\n" +
+    "\t\t\t<div class=\"form-row\">\n" +
+    "\t\t\t\t<div class=\"input-label\">Name</div>\n" +
+    "\t\t\t\t<div class=\"input-value\">\n" +
+    "\t\t\t\t\t<span class=\"input-underline-wrapper\">\n" +
+    "\t\t\t\t\t\t<input placeholder=\"Write a name\" type=\"text\" ng-model=\"newScenario.name\" ng-required=\"true\">\n" +
+    "\t\t\t\t\t\t<div class=\"underline\"></div>\n" +
+    "\t\t\t\t\t</span>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\n" +
+    "\t\t\t<div class=\"form-row\">\n" +
+    "\t\t\t\t<div class=\"input-label\">Description</div>\n" +
+    "\t\t\t\t<div class=\"input-value\">\n" +
+    "\t\t\t\t\t<span class=\"input-underline-wrapper\">\n" +
+    "\t\t\t\t\t\t<input placeholder=\"Write a description in 250 characters or less\" type=\"text\" ng-model=\"newScenario.description\">\n" +
+    "\t\t\t\t\t\t<div class=\"underline\"></div>\n" +
+    "\t\t\t\t\t</span>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\t\t</form>\n" +
+    "\t</div>\n" +
+    "\n" +
+    "\t<div class=\"action-buttons\">\n" +
+    "\t\t<ms-button type=\"cancel\" action=\"close()\" label=\"Cancel\" data-ms-id=\"ScenarioCreate.cancelBaseScenario\"></ms-button>\n" +
+    "\t\t<ms-button type=\"submit\" action=\"submit()\" label=\"Next\" data-ms-id=\"ScenarioCreate.confirmBaseScenario\" ng-disabled=\"!scenarioCreateForm.$valid\"></ms-button>\n" +
+    "\t</div>\n" +
+    "</div>"
+  );
+
+
   $templateCache.put('views/modal/scenario_analysis_element_copy.tpl.html',
     "<div data-ms-id=\"analysisElementCopy\">\n" +
     "\t<div class=\"header\">\n" +
@@ -593,10 +693,10 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-1\">\n" +
     "\t\t\t\t\t\t\t\t\t\t\t&nbsp;\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\n" +
-    "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-8\">\n" +
     "\t\t\t\t\t\t\t\t\t\t\t<span><strong>Name</strong></span>\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\n" +
-    "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-5\">\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-3\">\n" +
     "\t\t\t\t\t\t\t\t\t\t\t<span><strong>Type</strong></span>\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t\t</div>\n" +
@@ -606,10 +706,10 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-1\">\n" +
     "\t\t\t\t\t\t\t\t\t\t\t<span ng-show=\"showRow(scenario)\"><icon type=\"check-circle\" cname=\"ok-sign\"></icon></span>\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\n" +
-    "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-8 hide-overflow\">\n" +
     "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-title\">{{::scenario.name}}</span>\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\n" +
-    "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-5\">\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-3\">\n" +
     "\t\t\t\t\t\t\t\t\t\t\t<span class=\"clickable\" data-ms-id=\"scenario-type\">{{::scenario.type}}</span>\n" +
     "\t\t\t\t\t\t\t\t\t\t</div>\n" +
     "\t\t\t\t\t\t\t\t\t</div>\n" +
@@ -644,6 +744,76 @@ angular.module('ThreeSixtyOneView').run(['$templateCache', function($templateCac
     "\t\t\t<ng-include src=\"url\"></ng-include>\n" +
     "\t</flipbook>\n" +
     "</div>\n"
+  );
+
+
+  $templateCache.put('views/modal/select_base_scenario.tpl.html',
+    "<div class=\"choose-base-scenario\" data-ms-id=\"chooseBaseScenario\">\n" +
+    "\t<div class=\"header\">\n" +
+    "\t\t<div class=\"title\">Select recommendation base scenario</div>\n" +
+    "\t</div>\n" +
+    "\t<div class=\"body\">\n" +
+    "\t\t<div class=\"content\">\n" +
+    "\t\t\t<div class=\"main-content\">\n" +
+    "\t\t\t\t<div class=\"toolbar\">\n" +
+    "\t\t\t\t\t<div class=\"dropdown-box scenario-type\">\n" +
+    "\t\t\t\t\t\t<div class=\"dropdown\">\n" +
+    "\t\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\"><span class=\"text\">{{currentScenarioType}}</span><icon type=\"caret-down\"></icon></div>\n" +
+    "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{currentScenarioType}}\" radio=\"true\">\n" +
+    "\t\t\t\t\t\t\t\t<li ng-repeat=\"item in scenarioTypeItems\" ng-click=\"changeScenarioType(item)\" class=\"menu-item\" ms-link=\"{{currentScenarioType}}\">{{::item}}</li>\n" +
+    "\t\t\t\t\t\t\t</ul>\n" +
+    "\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t<div class=\"dropdown-box template-type\">\n" +
+    "\t\t\t\t\t\t<div class=\"dropdown\">\n" +
+    "\t\t\t\t\t\t\t<div class=\"dropdown-toggle clickable\">\n" +
+    "\t\t\t\t\t\t\t\t<span class=\"template-icon\" ng-if=\"getCurrentTemplate().isIconVisible\">{{getCurrentTemplate().icon}}</span>\n" +
+    "\t\t\t\t\t\t\t\t<span class=\"text\">{{getCurrentTemplate().text}}</span>\n" +
+    "\t\t\t\t\t\t\t\t<icon type=\"caret-down\"></icon>\n" +
+    "\t\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t\t<ul class=\"dropdown-menu\" ms-link-group selected-item=\"{{getCurrentTemplate().text}}\" radio=\"true\">\n" +
+    "\t\t\t\t\t\t\t\t<li ng-click=\"changeTemplate('ALL')\" class=\"menu-item\" ms-link=\"All\">All</li>\n" +
+    "\t\t\t\t\t\t\t\t<li ng-repeat=\"template in getTemplates() | orderBy:'name'\" ng-click=\"changeTemplate(template)\" class=\"menu-item\" ms-link=\"{{template.name}}\">\n" +
+    "\t\t\t\t\t\t\t\t\t<span class=\"template-icon\">{{::getTemplateIcon(template)}}</span>\n" +
+    "\t\t\t\t\t\t\t\t\t<span class=\"\">{{::template.name}}</span>\n" +
+    "\t\t\t\t\t\t\t\t</li>\n" +
+    "\t\t\t\t\t\t\t</ul>\n" +
+    "\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t<div class=\"search-box\">\n" +
+    "\t\t\t\t\t\t<icon type=\"search\"></icon>\n" +
+    "\t\t\t\t\t\t<input type=\"text\" ng-model=\"searchTerm\" ng-keyup=\"filterProjects(searchTerm)\" placeholder=\"Search\">\n" +
+    "\t\t\t\t\t</div>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t\t<div class=\"list-box\">\n" +
+    "\t\t\t\t\t<form>\n" +
+    "\t\t\t\t\t\t<div ng-repeat=\"project in getProjects() | orderBy:'auditInfo[lastUpdatedOn]':true\" class=\"project clickable\">\n" +
+    "\t\t\t\t\t\t\t<div class=\"project-name text-holder\" ng-click=\"toggleProject(project)\">\n" +
+    "\t\t\t\t\t\t\t\t<icon type=\"caret-right\" ng-if=\"!isProjectExpanded(project)\"></icon><icon type=\"caret-down\" ng-if=\"isProjectExpanded(project)\"></icon>{{::project.name}}\n" +
+    "\t\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t\t<div class=\"scenarios-list\" ng-class=\"{'collapse': !isProjectExpanded(project)}\">\n" +
+    "\t\t\t\t\t\t\t\t<div ng-repeat=\"scenario in getScenarios(project) | orderBy:'auditInfo[lastUpdatedOn]':true\" class=\"scenario clickable\" ng-click=\"selectScenario(scenario)\">\n" +
+    "\t\t\t\t\t\t\t\t\t<input type=\"radio\" name=\"baseScenario\" id=\"radio{{scenario.id}}\" ng-model=\"selectedScenario.id\" value=\"{{scenario.id}}\">\n" +
+    "\t\t\t\t\t\t\t\t\t<label class=\"scenario-item\" for=\"radio{{scenario.id}}\">\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"radio-button\"><icon type=\"circle-o\" class=\"selected\"></icon><icon type=\"dot-circle-o\" class=\"not-selected\"></icon></div>\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"scenario-info text-holder\"><span>{{::scenario.name}}</span></div>\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"scenario-meta text-holder\">{{::scenario.auditInfo.lastUpdatedOn | timeago}}, {{::scenario.auditInfo.createdBy.name}}</div>\n" +
+    "\t\t\t\t\t\t\t\t\t\t<div class=\"scenario-template-type text-holder\"><span class=\"template-icon\">{{::getTemplateIcon(scenario.template)}}</span><span>{{scenario.template.name}}<span></div>\n" +
+    "\t\t\t\t\t\t\t\t\t</label>\n" +
+    "\t\t\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t\t</div>\n" +
+    "\t\t\t\t\t</form>\n" +
+    "\t\t\t\t\t<div ng-hide=\"isListLoaded\" class=\"status-message\"><icon type=\"refresh\" class=\"fa-spin\"></icon>Loading data ...</div>\n" +
+    "\t\t\t\t</div>\n" +
+    "\t\t\t</div>\n" +
+    "\t\t</div>\n" +
+    "\t\t<div class=\"action-buttons\">\n" +
+    "\t\t\t<ms-button type=\"cancel\" action=\"cancel()\" label=\"Cancel\" data-dismiss=\"modal\"></ms-button>\n" +
+    "\t\t\t<ms-button type=\"submit\" action=\"submit()\" label=\"Confirm\" data-dismiss=\"modal\"></ms-button>\n" +
+    "\t\t</div>\n" +
+    "\t</div>\n" +
+    "</div>"
   );
 
 

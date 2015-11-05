@@ -343,3 +343,121 @@
 		}
 	}
 }
+
+.scenario-create-modal.lightbox {
+	.modal-content {
+		box-shadow: 0 5px 10px rgba(0, 0, 0, .5);
+		width: 760px;
+
+		.optimization-scenario-create {
+			padding: 10px 20px;
+			background-color: $ms-white;
+
+			.header {
+				margin-bottom: 40px;
+
+				.title {
+					font-size: 26px;
+					font-weight: normal;
+				}
+			}
+
+			.form {
+				.form-row {
+					margin-bottom: 40px;
+
+					.input-label {
+						display: inline-block;
+						width: 110px;
+						font-size: 16px;
+						color: $ms-darkGray;
+						vertical-align: top;
+					}
+
+					.input-value {
+						display: inline-block;
+						width: calc(100% - 130px);
+
+						.input-underline-wrapper {
+							display: inline-block;
+							width: 100%;
+
+							input[type=text] {
+								width: calc(100% - 2px);
+								margin-left: 1px;
+								padding: 0 0 2px 15px;
+								font-size: 14px;
+								border: 0;
+								cursor: text;
+								background-color: $ms-white;
+
+								&:focus {
+									outline: none;
+
+									& + .underline {
+										border-color: $ms-blue;
+									}
+								}
+							}
+
+							.blue {
+								color: $ms-blue;
+							}
+
+							.menu-field {
+								margin-left: 15px;
+							}
+
+							.underline {
+								border: 1px solid $ms-mediumLightGray;
+								border-top: 0;
+								height: 10px;
+								margin-top: -7px;
+							}
+
+							&.dropdown {
+								.dropdown-menu {
+									width: 300px;
+
+									&::before {
+										left: 15%;
+									}
+								}
+							}
+						}
+
+						.type-buttons {
+							.type-btn {
+								@include ms-radio-btn($ms-mediumBlue);
+								display: inline-block;
+								list-style-type: none;
+								padding-right: 20px;
+
+								label {
+									font-weight: normal;
+									height: 75px;
+									display: table;
+									background-color: transparent;
+
+									.label-text {
+										vertical-align: middle;
+										display: table-cell;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			.action-buttons {
+				padding-top: 20px;
+				text-align: right;
+
+				button {
+					margin-left: 10px;
+				}
+			}
+		}
+	}
+}

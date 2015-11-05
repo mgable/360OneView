@@ -7,6 +7,10 @@ angular.module('ThreeSixtyOneView.services')
 		$state.go("Scenario.edit", {"projectId": projectId, "scenarioId": scenarioId, "scenarioElementId": scenarioElementId});
 	};
 
+	this.scenarioResults = function (projectId, scenarioId){
+		$state.go("Scenario.results", {"projectId": projectId, "scenarioId": scenarioId});
+	};
+
 	this.scenarioCalculate = function (projectId, scenarioId){
 		$state.go("Scenario.calculate", {"projectId": projectId, "scenarioId": scenarioId});
 	};

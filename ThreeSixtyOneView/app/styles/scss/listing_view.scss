@@ -8,7 +8,7 @@
 		margin: 0;
 		&.display-actions {
 			position: relative;
-			margin-bottom: 20px;
+			margin-bottom: 14px;
 			height: 50px;
 			border-top: 1px solid $ms-darkGray;
 			z-index: 3;
@@ -28,10 +28,81 @@
 		width: calc(100% - 360px);
 		overflow-y: auto;
 		overflow-x: hidden;
-		padding-right: 0;
-		padding-left: 15px;
+		padding: 25px;
 		height: 100%;
 
+		.display-title {
+		  	height: 20px;
+			.filter-holder {
+				width: 200px;
+				float:left;
+				@include vertical-align;
+				margin-right: 30px;
+				.filter-title {
+					font-size: 24px;
+					text-transform: capitalize;
+					cursor: pointer;
+				}
+				.filterToggle {
+					font-size: 18px;
+				}
+				.dropdown-menu {
+					top: 40px;
+					left: 0;
+					.menu-item { text-transform: capitalize; }
+				}
+			}
+			.search {
+				float:left;
+				@include vertical-align;
+  				width: 286px;
+  				input.list-filter {
+  					float: left;
+  					border: 0;
+  					background: 0 0;
+  					font-size: 14px;
+  					-webkit-font-smoothing: antialiased;
+  					border-bottom: 1px solid transparent;
+  					border-radius: 0;
+  					line-height: 40px;
+  					padding: 0 28px 1px;
+  					position: relative;
+  					box-shadow: none;
+  					width: 0;
+  					-webkit-transition: width .4s ease-in-out,border-color .4s ease-in-out;
+  					transition: width .4s ease-in-out,border-color .4s ease-in-out;
+  					height: 40px;
+  					cursor: pointer;
+  					z-index: 1;
+  					&:focus {
+  						border-color: $ms-mediumLightGray;
+  						outline: 0;
+  						color: $ms-black;
+  						box-shadow: none;
+  						cursor: text;
+  						width: 230px;
+  					}
+  				}
+				i {
+					position: absolute;
+					color: $ms-mediumLightGray;
+					line-height: 40px;
+					width: 28px;
+				  	cursor: pointer;
+  					&.search {
+  						z-index: 0;
+						left: 0;
+	  					font-size: 22px;
+						text-align: left;
+  					}
+  					&.clear {
+  						z-index: 2;
+  						right: 56px;
+						text-align: right;
+  					}
+				}
+			}
+		}
 		.display-table {
 			&.viewport {
 				max-height: 890px;
@@ -41,6 +112,7 @@
 				margin-top: 10px;
 				padding: 20px 8px 5px 8px;
 				width: 100%;
+				table-layout: fixed;
 				th {
 					.title {
 						margin: 0 0 0 20px;
@@ -93,26 +165,14 @@
 					}
 
 					.text-holder {
-						&.template {
-							padding: 3px 5px;
-							color: $ms-white;
-							text-transform: uppercase;
-							font-size: 10px;
-						}
-						&.strategy {
-							background-color: $ms-lightBlue;
-						}
-						&.action {
-							background-color: $ms-green;
-						}
+						max-width: 99%;
+					  	padding: 5px;
+					  	overflow: hidden;
+					  	text-overflow: ellipsis;
+					  	white-space: nowrap;
 						&.favorites-holder {
 							width:25px;
 						}
-						display: inline-block;
-						float: left;
-						max-width:400px;
-						margin-right: 10px;
-						padding: 5px;
 						a {
 							color: inherit;
 						}
@@ -150,6 +210,13 @@
 							  }
 							}
 						}
+
+						.name {
+							display: inline-block;
+							color: $ms-mediumGray;
+							text-transform: capitalize;
+							margin-left: 10px;
+						}
 					}
 				}
 				thead {
@@ -166,7 +233,7 @@
 							text-decoration: none;
 							font-weight: 500;
 							font-size: 11px;
-							text-transform: uppercase;
+							text-transform: capitalize;
 							white-space: nowrap;
 						}
 					}
@@ -175,7 +242,7 @@
 		}
 	}
 	.tray {
-		width: 360px;
+		width: $app_tray_width;
 		padding: 10px;
 		background-color: $ms-lightGray;
 		overflow-x: hidden;
@@ -194,7 +261,6 @@
 			.ms-label {
 				margin: 5px 0 2px 0;
 				color: $ms-mediumGray;
-				// font-weight: bold;
 				clear:both;
 			}
 			.details {
@@ -262,21 +328,6 @@
 						margin-right: 5px;
 						margin-bottom: 5px;
 					}
-					.text-holder {
-						display: inline;
-					  	&.template {
-						  	padding: 3px 5px;
-						  	color: #fafafa;
-						  	text-transform: uppercase;
-						  	font-size: 10px;
-					  	}
-						&.strategy {
-							background-color: $ms-lightBlue;
-						}
-						&.action {
-							background-color: $ms-green;
-						}
-					}
 				}
 				&.meta {
 					.description-label {
@@ -287,13 +338,6 @@
 						min-height: 26px;
 						word-wrap: break-word;
 						width: 100%;
-					}
-					.text-holder {
-						.template.strategy {
-							padding: 3px;
-							display: inline-block;
-							background-color: $ms-green;
-						}
 					}
 				}
 				&.relatedItems {
@@ -367,4 +411,28 @@
 			}
 		}
 	}
+  	.template {
+	  	color: #333;
+	  	.template-icon {
+			display: inline-block;
+			font-size: 14px;
+			color: $ms-white;
+			border-radius: 3px;
+			margin-right: 2px;
+			height: 17px;
+			width: 17px;
+			line-height: 17px;
+			text-align: center;
+			text-transform: uppercase;
+	  	}
+	  	.template-name {
+	  		text-transform: capitalize;
+	  	}
+		&.strategy {
+			.template-icon { background-color: $ms-lightBlue; };
+		}
+		&.action {
+			.template-icon { background-color: $ms-green; };
+		}
+  	}
 }

@@ -43,9 +43,10 @@ angular.module("ThreeSixtyOneView").controller("PivotTableCtrl", ["$scope", "$ro
 				addDefaultStyles = function(){
 					var spreadjs = $.wijmo.wijspread,
 						style = sheet.getDefaultStyle();
-					style.borderLeft = new spreadjs.LineBorder(pivotTableConfig.color.msPureWhite, $.wijmo.wijspread.LineStyle.empty);
+					style.backColor = pivotTableConfig.color.msWhite;
+					style.borderLeft = new spreadjs.LineBorder(pivotTableConfig.color.msWhite, $.wijmo.wijspread.LineStyle.empty);
 					style.borderTop = new spreadjs.LineBorder(pivotTableConfig.color.msLightGray, $.wijmo.wijspread.LineStyle.thin);
-					style.borderRight = new spreadjs.LineBorder(pivotTableConfig.color.msPureWhite, $.wijmo.wijspread.LineStyle.empty);
+					style.borderRight = new spreadjs.LineBorder(pivotTableConfig.color.msWhite, $.wijmo.wijspread.LineStyle.empty);
 					style.borderBottom = new spreadjs.LineBorder(pivotTableConfig.color.msLightGray, $.wijmo.wijspread.LineStyle.thin);
 				},
 				addColumnStyle = function(){
@@ -202,7 +203,7 @@ angular.module("ThreeSixtyOneView").controller("PivotTableCtrl", ["$scope", "$ro
 					$rootScope.$broadcast(EVENTS.pivotTableStatusChange, CONFIG.application.models.PivotServiceModel.pivotDataStatus.saving);
 					savingCellsCount++;
 					PivotService.updateCell($scope.selectedScenarioElement.id, $scope.viewData.id, cellObject).then(function() {
-						sheet.getCell(dirtyCell.row, dirtyCell.col).backColor(pivotTableConfig.color.msPureWhite).locked(false);
+						sheet.getCell(dirtyCell.row, dirtyCell.col).backColor(pivotTableConfig.color.msWhite).locked(false);
 						if(--savingCellsCount == 0) {
 							$rootScope.$broadcast(EVENTS.pivotTableStatusChange, CONFIG.application.models.PivotServiceModel.pivotDataStatus.saved);
 						}
@@ -217,8 +218,8 @@ angular.module("ThreeSixtyOneView").controller("PivotTableCtrl", ["$scope", "$ro
 				if(spread) {                    // get active sheet
 					sheet = spread.getActiveSheet();
 
-					spread.grayAreaBackColor("Transparent");
 					spread.scrollbarMaxAlign(true);
+					spread.grayAreaBackColor(pivotTableConfig.color.msWhite);
 					sheet.setColumnHeaderVisible(false);
 					sheet.setRowHeaderVisible(false);
 					sheet.setColumnHeaderVisible(false);

@@ -2,12 +2,6 @@
 
 .scenario_results {
     .scenario-settings {
-        color: $ms-lightGray;
-        font-size: 14px;
-        .dropdown-menu {
-            color: #333 !important;
-            border-radius: 3px;
-        }
         .scenario-selector {
             float: left;
             .dropdown-toggle {
@@ -16,197 +10,96 @@
                 color: $ms-orange;
             }
             .dropdown-menu {
-                left: 60px;
-            }
-        }
-        .filters-selector {
-            float: right;
-            margin-right: 30px;
-            .dropdown-menu {
-                left: -280px;
-                width: 510px !important;
-                padding: 0;
+                left: 0;
+                width: 300px;
                 &::before {
-                    background-color: $ms-veryLightGray;
-                    left: 338px;
-                }
-                .header {
-                    background-color: $ms-veryLightGray;
-                    border-top-left-radius: 2px;
-                    border-top-right-radius: 2px;
-                    padding: 20px;
-                    .title {
-                        p {
-                            margin: 0;
-                            span {
-                                display: block;
-                                font-size: 16px;
-                                font-weight: 700;
-                                &.draft {
-                                    font-style: italic;
-                                }
-                            }
-                        }
-                    }
-                    .icon {
-                        position: absolute;
-                        button {
-                            height: 35px;
-                            width: 35px;
-                            i {
-                                font-size: 12px;
-                            }
-                        }
-                        &.open-icon {
-                            top: 28px;
-                            right: 60px;
-                        }
-                        &.save-icon {
-                            top:28px;
-                            right: 20px;
-                        }
-
-                    }
-                    .floating-container {
-                        position: absolute;
-                        top: 68px;
-                        right: 20px;
-                        .sub-icon {
-                            position: relative;
-                            margin-bottom: 5px;
-                            &:hover {
-                                .floating-text {
-                                    transition: opacity 0.4s;
-                                    opacity: 1;
-                                }
-                            }
-                            button {
-                                width: 35px;
-                                height: 35px;
-                                i {
-                                    font-size: 12px;
-                                }
-                            }
-                            .floating-text{
-                                opacity: 0;
-                                transition: opacity 0.4s;
-                                position: absolute;
-                                top: 0;
-                                right: 40px;
-                                line-height: 35px;
-                                color:$ms-white;
-                                text-align:right;
-                                min-width: 100px;
-                                .floating-text-BG{
-                                    padding: 5px 10px;
-                                    background-color:rgba(33, 33, 33, 0.8);
-                                    border-radius: 3px;
-                                }
-                            }
-                        }
-                    }
-                }
-                .content {
-                    padding: 10px 20px;
-                    .filter-values {
-                        max-width: 300px;
-                    }
+                    left: 206px;
                 }
             }
-        }
-        .time-selector {
-            float: right;
         }
     }
-    .results-content {
-        margin: 0;
+    .scenario-content {
         .left-content {
-            float: left;
-            padding: 0 30px 0 0;
-            width: 300px;
-            ul.nav-menu {
-                border-radius: 3px;
-                background-color: $ms-white;
-                padding: 10px 0;
-                font-size: 18px;
-                li {
-                    padding: 10px 20px;
-                    cursor: pointer;
-                    &:hover, &.selected {
-                        background-color: darken($ms-white, 5%);
-                    }
-                }
-            }
         }
         .right-content {
-            float: left;
-            padding: 0;
-            width: calc(100% - 300px);
-            .results-card {
-                border-radius: 3px;
-                background-color: $ms-white;
-                margin-bottom: 30px;
-                padding: 20px;
-                .results-panel {
-                    .results-panel-title {
-                        font-weight: 500;
-                        font-size: 30px;
-                        margin: 0 0 15px 0;
-                    }
-                    .result-panel-body {
-                        .kpi-container {
-                            text-align: center;
-                            .kpi-title {
-                                color: $ms-darkGray;
-                                font-size: 20px;
-                                white-space: nowrap;
-                                text-overflow: ellipsis;
-                                overflow: hidden;
-                                font-weight: 700;
-                                text-transform: capitalize;
-                                margin: 0 0;
-                            }
-                            .kpi-incremental {
-                                font-size: 40px;
-                                font-weight: 700;
-                                margin: 13px 0 5px;
-                                line-height: 32px;
-                                i.kpi-arrow {
-                                    font-size: 25px;
-                                    font-weight: 400;
-                                    vertical-align: middle;
-                                    line-height: 22px;
-                                    margin: 0 5px 10px 0;
-                                }
-                            }
-                            .kpi-total, .kpi-percent {
-                                font-size: 16px;
+            .ms-card {
+                .ms-card-content {
+                    .kpi-summary {
+                        text-align: center;
+                        .kpi-title {
+                            color: $ms-darkGray;
+                            font-size: 20px;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                            font-weight: 700;
+                            text-transform: capitalize;
+                            margin: 0 0;
+                        }
+                        .kpi-incremental {
+                            font-size: 36px;
+                            font-weight: 700;
+                            margin: 13px 0 5px;
+                            line-height: 32px;
+                            i.kpi-arrow {
+                                font-size: 25px;
+                                font-weight: 400;
+                                vertical-align: middle;
                                 line-height: 22px;
-                            }
-                            .kpi-total {
-                                color: $ms-darkGray;
-                                margin-right: 10px;
-                            }
-                            .kpi-increase {
-                                color: #068700;
-                            }
-                            .kpi-decrease {
-                                color: #c71f04;
+                                margin: 0 5px 10px 0;
                             }
                         }
-                        .spend-container{
-                            .spend-table {
-                                width: 100%;
-                                thead {
-                                    background: transparent;
-                                    border-bottom: 1px solid #ccc;
-                                    th {
+                        .kpi-total, .kpi-percent {
+                            font-size: 16px;
+                            line-height: 22px;
+                        }
+                        .kpi-total {
+                            color: $ms-darkGray;
+                            margin-right: 10px;
+                        }
+                        .kpi-increase {
+                            color: #068700;
+                        }
+                        .kpi-decrease {
+                            color: #c71f04;
+                        }
+                    }
+                    .spend-summary{
+                        .spend-table {
+                            table-layout: fixed;
+                            width: 100%;
+                            thead {
+                                background: transparent;
+                                border-bottom: 1px solid #ccc;
+                                th {
+                                    color: #333;
+                                    text-transform: capitalize;
+                                    padding: 10px 0;
+                                    font-size: 20px;
+                                    line-height: 22px;
+                                    font-weight: 700;
+                                    padding: 5px;
+                                    &.spend-increase {
+                                        color: #068700;
+                                    }
+                                    &.spend-decrease {
+                                        color: #c71f04;
+                                    }
+                                }
+                            }
+                            tbody {
+                                tr {
+                                    &:first-child { height: 20px; }
+                                    -webkit-transition:0.15s linear all;
+                                    -moz-transition:0.15s linear all;
+                                    -o-transition:0.15s linear all;
+                                    transition:0.15s linear all;
+                                    td {
                                         color: #333;
                                         text-transform: capitalize;
-                                        padding: 10px 0;
-                                        font-size: 20px;
+                                        font-size: 16px;
                                         line-height: 22px;
-                                        font-weight: 700;
+                                        font-weight: 400;
                                         padding: 5px;
                                         &.spend-increase {
                                             color: #068700;
@@ -214,47 +107,17 @@
                                         &.spend-decrease {
                                             color: #c71f04;
                                         }
-                                    }
-                                }
-                                tbody {
-                                    tr {
-                                        &:first-child { height: 20px; }
                                         -webkit-transition:0.15s linear all;
                                         -moz-transition:0.15s linear all;
                                         -o-transition:0.15s linear all;
                                         transition:0.15s linear all;
-                                        td {
-                                            color: #333;
-                                            text-transform: capitalize;
-                                            font-size: 16px;
-                                            line-height: 22px;
-                                            font-weight: 400;
-                                            padding: 5px;
-                                            &.spend-increase {
-                                                color: #068700;
-                                            }
-                                            &.spend-decrease {
-                                                color: #c71f04;
-                                            }
-                                            -webkit-transition:0.15s linear all;
-                                            -moz-transition:0.15s linear all;
-                                            -o-transition:0.15s linear all;
-                                            transition:0.15s linear all;
-                                        }
-                                        &:not(:first-child):hover ,&.highlight {
-                                            -webkit-transition:0.15s linear all;
-                                            -moz-transition:0.15s linear all;
-                                            -o-transition:0.15s linear all;
-                                            transition:0.15s linear all;
-                                            background-color: $ms-blue;
-                                            td {
-                                                -webkit-transition:0.15s linear all;
-                                                -moz-transition:0.15s linear all;
-                                                -o-transition:0.15s linear all;
-                                                transition:0.15s linear all;
-                                                color:$ms-pureWhite;
-                                            }
-                                        }
+                                    }
+                                    &:not(:first-child):hover ,&.highlight {
+                                        -webkit-transition:0.15s linear all;
+                                        -moz-transition:0.15s linear all;
+                                        -o-transition:0.15s linear all;
+                                        transition:0.15s linear all;
+                                        background-color:darken($ms-white, 5%);
                                     }
                                 }
                             }
@@ -264,37 +127,4 @@
             }
         }
     }
-	.editor {
-        .save-menu {
-            margin-left: 0;
-        }
-
-        .toggle-switch {
-            display: inline-block;
-            margin-left: 20px;
-
-            .toggle-switch-title {
-                float: left;
-                margin-right: 10px;
-                line-height: 24px;
-            }
-            .switch {
-                font-size: 14px;
-                padding: 2px 8px;
-                width: 40px;
-                text-align: center;
-            }
-        }
-
-        .filter-category {
-            &.disabled {
-                .filter-label {
-                    color: $ms-gray;
-                }
-                .filter-values {
-                    color: $ms-gray;
-                }
-            }
-        }
-	}
 }

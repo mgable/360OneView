@@ -1,0 +1,213 @@
+@import "variables";
+
+.lightbox.base-scenario-modal {
+	.modal-content {
+		box-shadow: 0 5px 10px rgba(0, 0, 0, .5);
+
+		.choose-base-scenario {
+			background-color: $ms-white;
+			padding: 20px 20px;
+
+			.header {
+				.title {
+					font-size: 34px;
+					margin-bottom: 10px;
+					display: inline-block;
+				}
+			}
+
+			.body {
+				.content {
+					.main-content {
+						width: 100%;
+						background-color: inherit;
+						border: none;
+
+						.template-icon {
+							font-size: 14px;
+							background-color: $ms-lightGreen;
+							border-radius: 3px;
+							margin-right: 2px;
+							height: 17px;
+							width: 17px;
+							text-align: center;
+							display: inline-block;
+						}
+
+						.toolbar {
+							background-color: inherit;
+							margin-bottom: 10px;
+
+							div {
+								display: inline-block;
+							}
+
+							.dropdown-box {
+								width: inherit;
+
+								i.fa {
+									font-size: 14px;
+									margin-left: 5px;
+								}
+
+								&.scenario-type {
+									padding-right: 15px;
+
+									.dropdown-toggle {
+										margin: 5px 0;
+
+										.text {
+											font-size: 14px;
+										}
+									}
+								}
+
+								&.template-type {
+									padding-right: 15px;
+									padding-left: 15px;
+
+									.dropdown {
+										.dropdown-toggle {
+											margin: 5px 0;
+
+											.text {
+												font-size: 14px;
+											}
+										}
+
+										.dropdown-menu {
+											width: 300px;
+											max-height: 400px;
+											overflow-y: auto;
+										}
+									}
+								}
+							}
+
+							.search-box {
+								border: none;
+								background-color: inherit;
+								font-size: 16px;
+								padding-left: 4px;
+
+								input {
+									background-color: inherit;
+								}
+							}
+						}
+
+						.list-box {
+							overflow-y: auto;
+							overflow-x: hidden;
+							height: calc(100% - 280px);
+
+							.project {
+								.project-name {
+									font-size: 14px;
+									margin: 1px 0 0 0;
+									background-color: $ms-lightGray;
+									padding: 5px 20px;
+
+									i {
+										margin-right: 5px;
+									}
+								}
+
+								.scenarios-list {
+									height: inherit;
+									transition: height linear 0.2s;
+
+									&.collapsed {
+										height: 0;
+										/*display: none;*/
+									}
+
+									.scenario {
+										input {
+											display: none;
+										}
+
+										input[type="radio"]:checked + label {
+											background-color: $ms-lightBlue;
+											border-top: 1px solid $ms-blue;
+											border-bottom: 1px solid $ms-blue;
+											color: $ms-white;
+
+											.not-selected {
+												display: inline-block;
+											}
+
+											.selected {
+												display: none;
+											}
+										}
+
+										label {
+											display: block;
+											width: 100%;
+											text-align: left;
+											font-weight: normal;
+											padding: 10px 20px;
+											border-top: 1px solid rgba(0,0,0,0);
+											border-bottom: 1px solid rgba(0,0,0,0);
+											margin: 1px 0;
+
+											&:hover {
+												background-color: $ms-veryLightGray;
+												border-top: 1px solid $ms-lightGray;
+												border-bottom: 1px solid $ms-lightGray;
+											}
+
+											.radio-button {
+												padding-left: 30px;
+												padding-right: 10px;
+
+												.not-selected {
+													display: none;
+												}
+											}
+
+											.scenario-info {
+												width: 40%;
+											}
+
+											.scenario-meta {
+												width: 20%;
+											}
+
+											.scenario-template-type {
+												width: 30%;
+												padding: 0 10px;
+											}
+
+											div {
+												display: inline-block;
+												padding: 0 5px;
+												vertical-align: middle;
+											}
+										}
+									}
+								}
+							}
+
+							.status-message {
+								text-align: center;
+								font-size: 32px;
+								padding-top: 100px;
+
+								i {
+									margin-right: 15px;
+								}
+							}
+						}
+					}
+				}
+
+				.action-buttons {
+					float: none;
+					text-align: right;
+				}
+			}
+		}
+	}
+}

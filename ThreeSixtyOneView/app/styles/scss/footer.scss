@@ -1,0 +1,71 @@
+@import "variables";
+
+.ms-footer {
+    background-color: $footer-background;
+    width: 100%;
+    height: $footer_height;
+    .ms-wrapper {
+        .footer-left, .footer-center, .footer-right {
+            display: table;
+            height: $footer_height;
+        }
+        .footer-left {
+            .icon-container {
+                display: table-cell;
+                vertical-align: middle;
+                .icon {
+                    width: 200px;
+                    height: 40px;
+                }
+            }
+        }
+        .footer-center {
+            ul {
+                width: 350px;
+                font-size: 14px;
+                float: none;
+                text-align: center;
+                display: table-cell;
+                vertical-align: middle;
+                li {
+                    float: none;
+                    display: inline-block;
+                    &:after {
+                        content: '';
+                        position: absolute;
+                        bottom: 3px;
+                        right: 0;
+                        height: 14px;
+                        border-right: 1px solid $ms-gray;
+                    }
+                    &:last-child:after {
+                        border-right: none;
+                    }
+                    a {
+                        padding: 0 15px;
+                        color: $ms-gray;
+                        &:hover {
+                            background-color: transparent;
+                            text-decoration: underline;
+                            color: $ms-white;
+                        }
+                    }
+                }
+            }
+        }
+        .footer-right {
+            text-align: right;
+            a {
+                display: table-cell;
+                vertical-align: middle;
+                color: $ms-gray;
+                &:hover { color: $ms-white; }
+                i {
+                    font-size: 25px;
+                    margin-right: 6px;
+                    line-height: 17px;
+                }
+            }
+        }
+    }
+}

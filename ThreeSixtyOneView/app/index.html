@@ -37,14 +37,11 @@
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
 		<div class="wrapper">
-			<div class="cap" ng-include src="'views/includes/navigation.tpl.html'"></div>
-
-			<div class="app">
-				<div ui-view></div>
-			</div> <!-- end app -->
-
-			<div class="footer" ng-include src="'views/includes/footer.tpl.html'"></div>
+			<div class="ms-header" ng-include src="'views/includes/header.tpl.html'"></div>
+			<div class="ms-breadcrumb" ng-include src="'views/includes/breadcrumb.tpl.html'"></div>
+			<div class="app"><div class="ms-wrapper"><div ui-view></div></div></div><!-- end app -->
 		</div>
+		<div class="ms-footer" ng-include src="'views/includes/footer.tpl.html'"></div>
 		<!--[if lt IE 9]>
 			<script src="bower_components/es5-shim/es5-shim.js"></script>
 			<script src="bower_components/json3/lib/json3.min.js"></script>
@@ -86,12 +83,14 @@
 		<script src="scripts/controllers/modals/list_lightbox_base.js"></script>
 		<script src="scripts/controllers/modals/modal_base.js"></script>
 		<script src="scripts/controllers/modals/select_module.js"></script>
+		<script src="scripts/controllers/modals/optimization_scenario_create.js"></script>
 		<script src="scripts/controllers/modals/project_create.js"></script>
 		<script src="scripts/controllers/modals/scenario_analysis_element_copy.js"></script>
 		<script src="scripts/controllers/modals/scenario_analysis_element_files.js"></script>
 		<script src="scripts/controllers/modals/scenario_copy.js"></script>
 		<script src="scripts/controllers/modals/scenario_create.js"></script>
 		<script src="scripts/controllers/modals/scenario_templates_views.js"></script>
+		<script src="scripts/controllers/modals/select_base_scenario.js"></script>
 		<script src="scripts/controllers/scenario/scenario.js"></script>
 		<script src="scripts/controllers/scenario/editor.js"></script>
 		<script src="scripts/controllers/scenario/analysis_element_toolbar.js"></script>
@@ -105,6 +104,10 @@
 		<script src="scripts/controllers/scenario_templates/choose_defaults.js"></script>
 		<script src="scripts/controllers/scenario_templates/choose_dimensions.js"></script>
 		<script src="scripts/controllers/scenario_templates/name_and_describe.js"></script>
+		<script src="scripts/controllers/create_recommendation/create_recommendation.js"></script>
+		<script src="scripts/controllers/create_recommendation/select.js"></script>
+		<script src="scripts/controllers/create_recommendation/define.js"></script>
+		<script src="scripts/controllers/create_recommendation/drawer/choose.js"></script>
 		<script src="scripts/directives/breadcrumb.js"></script>
 		<script src="scripts/directives/dimension_filter.js"></script>
 		<script src="scripts/directives/draggable_dimension.js"></script>
@@ -152,6 +155,8 @@
 		<script src="scripts/models/import_resource_service.js"></script>
 		<script src="scripts/models/manage_analysis_views_model.js"></script>
 		<script src="scripts/models/manage_analysis_views_service.js"></script>
+		<script src="scripts/models/manage_optimization_model.js"></script>
+		<script src="scripts/models/manage_optimization_service.js"></script>
 		<script src="scripts/models/manage_scenarios_model.js"></script>
 		<script src="scripts/models/manage_scenarios_service.js"></script>
 		<script src="scripts/models/manage_templates_model.js"></script>
@@ -167,10 +172,8 @@
 		<script src="scripts/models/scenario_model.js"></script>
 		<script src="scripts/models/scenario_service.js"></script>
 		<script src="views/templates/templates.js"></script>
-		<script src="scripts/controllers/create_recommendation/create_recommendation.js"></script>
-		<script src="scripts/controllers/create_recommendation/select.js"></script>
-		<script src="scripts/controllers/create_recommendation/define.js"></script>
 		<!-- endbuild -->
+
 
 		<script>
 			var url = "//use.typekit.net/##.js",

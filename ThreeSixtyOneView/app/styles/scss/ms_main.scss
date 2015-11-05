@@ -5,13 +5,15 @@
 @import "lightbox";
 @import "dropdown";
 @import "app";
-@import "cap";
+@import "header";
+@import "footer";
 @import "icons";
 @import "listing_view";
 @import "scenario";
 @import "editor";
 @import "scenario_create";
 @import "scenario_result";
+@import "scenario_edit";
 @import "scenario_calculation";
 @import "filter_selection";
 @import "pivot_table";
@@ -26,3 +28,5 @@
 @import "ms_dimension_card";
 @import "playground";
 @import "create_recommendation";
+@import "base_scenario";
+@import "ms_card";

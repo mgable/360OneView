@@ -20,10 +20,10 @@ function ($scope, $rootScope, $q, EVENTS, PivotMetaService, DialogService, Manag
 			$scope.totalBudget = 0;
 			$scope.viewData = {};
 		},
-		deleteSpendView = function deleteSpendView(viewId, spendCubeId, spendDimensions) {
-			return ManageAnalysisViewsService.deleteView(viewId, spendCubeId).then(function() {
+		deleteSpendView = function deleteSpendView(oldViewId, oldSpendCubeId, newSpendCubeId, spendDimensions) {
+			return ManageAnalysisViewsService.deleteView(oldViewId, oldSpendCubeId).then(function() {
 				$scope.viewData = {};
-				return setUpSpendView(spendDimensions, spendCubeId);
+				return setUpSpendView(spendDimensions, newSpendCubeId);
 			});
 		},
 		setUpSpendView = function setUpSpendView(spendDimensions, spendCubeId) {
@@ -53,16 +53,18 @@ function ($scope, $rootScope, $q, EVENTS, PivotMetaService, DialogService, Manag
 				return spendElement;
 			});
 		},
-		getTotalSpend = function getTotalSpend(baseScenario, spendCubeId, spendDimensions) {
+		getTotalSpend = function getTotalSpend(baseScenario, newSpendCubeId, spendDimensions) {
 			var promises = [];
 
-			promises.push(getAnalysisElement(baseScenario, spendCubeId));
+			promises.push(getAnalysisElement(baseScenario, newSpendCubeId));
 			// if viewData.id exists, first remove the old view and then create a new one (in case base scenario is changed)
 			if($scope.viewData.id) {
-				promises.push(deleteSpendView($scope.viewData.id, spendCubeId, spendDimensions));
+				promises.push(deleteSpendView($scope.viewData.id, spendCubeId, newSpendCubeId, spendDimensions));
 			} else {
-				promises.push(setUpSpendView(spendDimensions, spendCubeId));
+				promises.push(setUpSpendView(spendDimensions, newSpendCubeId));
 			}
+
+			spendCubeId = newSpendCubeId;
 
 			$q.all(promises).then(function(responses) {
 				updateTotalSpend(responses[0].id, responses[1].id);
@@ -71,6 +73,7 @@ function ($scope, $rootScope, $q, EVENTS, PivotMetaService, DialogService, Manag
 		updateTotalSpend = function updateTotalSpend(analysisElementId, spendViewId) {
 			ReportsService.getSummary(analysisElementId, spendViewId).then(function(spendSummary) {
 				$scope.totalBudget = spendSummary[0].Spend ? spendSummary[0].Spend.value : spendSummary[0].SPEND.value;
+				$scope.newRecommendation.spendValue = $scope.totalBudget;
 			});
 		};
 	$scope.getSpendDimensions = function() {
@@ -85,17 +88,17 @@ function ($scope, $rootScope, $q, EVENTS, PivotMetaService, DialogService, Manag
 			PivotMetaService.updateView(spendCubeId, $scope.viewData).then(function(view) {
 				updateTotalSpend(spendElement.id, $scope.viewData.id);
 			});
+			$scope.setSpendView($scope.viewData);
 		};
 
-		DialogService.filtersModal(category, $scope.addedFilters, $scope.viewData.rows.concat($scope.viewData.columns), $scope.spendDimensions, filtersModalCallback);
+		DialogService.filtersModal(category, $scope.addedFilters, $scope.viewData.rows.concat($scope.viewData.columns), spendDimensions, filtersModalCallback);
 	};
 
 	$scope.$on(EVENTS.dimensionsReady, function(event, dimensions) {
 		spendDimensions = dimensions;
 		baseScenario = $scope.getBaseScenario(),
-		spendCubeId = $scope.getSpendCubeId();
 
-		getTotalSpend(baseScenario, spendCubeId, dimensions);
+		getTotalSpend(baseScenario, $scope.getSpendCubeId(), dimensions);
 	});
 
 	init();

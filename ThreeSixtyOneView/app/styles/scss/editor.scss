@@ -225,6 +225,11 @@
 				width: 22.39%;
 				min-width: 215px;
 				margin-right: 25px;
+				&.disabled {
+					.filter-label, .filter-values {
+						color: $ms-mediumLightGray;
+					}
+				}
 
 				.filter-label {
 					color: $ms-darkGray;
@@ -270,6 +275,37 @@
 					}
 				}
 			}
+
+			.filter-category-inline {
+				display: inline;
+				.filter-label:hover {
+					text-decoration: underline;
+				}
+			}
 		}
 	}
+
+    .replace {
+        padding: 0px 0 20px 0;
+        .filename {
+            font-size: 16px;
+            margin-left: 15px;
+            vertical-align: bottom;
+            display: inline-block;
+            max-width: 370px;
+            i {
+                margin-right: 5px;
+            }
+        }
+        .filename-option {
+            font-size: 14px;
+            margin-right: 20px;
+            &:hover {
+            	border-bottom: 1px solid #000;
+            }
+            i {
+                margin-right: 5px;
+            }
+        }
+    }
 }

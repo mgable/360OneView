@@ -11,7 +11,7 @@
 			background-color: $ms-lightGray;
 			font-size: 16px;
 			padding: 10px 0;
-			@include vendor(max-height, calc(100% - 157px));;
+			@include vendor(max-height, calc(100vh - 157px));;
 			overflow: auto;
 
 			.menu-item {
@@ -149,7 +149,7 @@
 				.list-box {
 					border-top: 1px solid $ms-mediumLightGray;
 					padding: 5px;
-					@include vendor(height, calc(100% - 235px));
+					@include vendor(height, calc(100vh - 235px));
 
 					.list {
 						margin: 5px 10px;

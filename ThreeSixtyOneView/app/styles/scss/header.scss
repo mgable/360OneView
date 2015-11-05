@@ -1,0 +1,134 @@
+@import "variables";
+.ms-header {
+    width: 100%;
+    background-color: $header-background;
+    height: $cap_height;
+    .ms-navigation {
+        position: relative;
+        height: 100%;
+        .ms-logo {
+            padding-top: 12.5px;
+            height: 62.5px;
+            .logo {
+                display: inline-block;
+                background: transparent url($client_logo) 0px 0px no-repeat;
+                height: 50px;
+                width: 100px;
+                text-indent: -9999px;
+                @include transition($d:"0.4s", $s:"ease-in-out", $c:"all");
+                &:hover {
+                    @include transition($d:"0.4s", $s:"ease-in-out", $c:"all");
+                    opacity: 0.7;
+                }
+            }
+        }
+        .ms-nav {
+            ul.navbar-nav {
+                font-size: 16px;
+                float: right;
+                li {
+                    a.link, a.icon {
+                        display: inline-block;
+                        color: $ms-gray;
+                        text-align: center;
+                        cursor: pointer;
+                        line-height: 75px;
+                        @include transition($d:"0.4s", $s:"ease-in-out", $c:"all");
+                        &:hover {
+                            @include transition($d:"0.4s", $s:"ease-in-out", $c:"all");
+                            background-color: darken(#223d62, 10%);
+                            color: $ms-white;
+                        }
+                    }
+                    a.link {
+                        padding: 0 30px;
+                    }
+                    a.icon {
+                        font-size: 24px;
+                        padding: 0 20px;
+                        i {
+                            display: inline-block;
+                            line-height: 75px;
+                            text-align: center;
+                        }
+                        .user-status {
+                            display: block;
+                            float: right;
+                            position: relative;
+                            top: 40px;
+                            right: 5px;
+                            height: 14px;
+                            width: 14px;
+                            text-align: center;
+                            border-radius: 50%;
+                            background-color: $ms-orange;
+                            font-size: 0.5em;
+                            color: $ms-white;
+                            .notification {
+                                position: absolute;
+                                top: -1px;
+                                left: 3px;
+                                line-height: 18px;
+                            }
+                        }
+                    }
+                    &.active {
+                        a {
+                            color: $ms-white;
+                            background-color: darken(#223d62, 10%);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.ms-breadcrumb {
+    position: relative;
+    color: $ms-white;
+    font-size: 34px;
+    line-height: 40px;
+    font-weight: 100;
+    .breadcrumb {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+        padding: 8px 0px;
+        margin: 0 auto;
+        min-width: $app_min_width;
+        text-transform: uppercase;
+        white-space: nowrap;
+        li {
+            text-overflow: ellipsis;
+            max-width: 50%;
+            overflow: hidden;
+            a {
+                color: $ms-white;
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+        }
+        .parent {
+            padding-top: 20px;
+            font-size: 14px;
+            line-height: 25px;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+        .single {
+            padding-top: 45px;
+        }
+    }
+    .edit-mode-background {
+        background-color: #295da7;
+        width: 100%;
+        height: 84px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 0;
+    }
+}
